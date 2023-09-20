@@ -19,7 +19,6 @@
 package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import okhttp3.HttpUrl;
 import org.eclipse.edc.spi.types.domain.edr.EndpointDataReference;
 import org.eclipse.tractusx.irs.edc.client.ContractNegotiationService;
 import org.eclipse.tractusx.irs.edc.client.EDCCatalogFacade;
@@ -27,10 +26,15 @@ import org.eclipse.tractusx.irs.edc.client.EndpointDataReferenceStorage;
 import org.eclipse.tractusx.irs.edc.client.model.CatalogItem;
 import org.eclipse.tractusx.irs.edc.client.model.NegotiationResponse;
 import org.eclipse.tractusx.irs.edc.client.policy.PolicyCheckerService;
-import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
+import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.ContractNegotiationException;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.NoCatalogItemException;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.SendNotificationException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.HttpCallService;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.InvestigationsEDCFacade;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -91,7 +95,6 @@ class InvestigationsEDCFacadeTest {
         when(endpointDataReference.getAuthCode()).thenReturn("authCode");
         when(endpointDataReference.getAuthKey()).thenReturn("authKey");
         when(endpointDataReference.getEndpoint()).thenReturn(dataReferenceEndpoint);
-        when(httpCallService.getUrl(dataReferenceEndpoint, null, null)).thenReturn(HttpUrl.parse(dataReferenceEndpoint));
         when(endpointDataReferenceStorage.remove(agreementId)).thenReturn(Optional.ofNullable(endpointDataReference));
         when(objectMapper.writeValueAsString(any())).thenReturn("{body}");
 
@@ -126,7 +129,6 @@ class InvestigationsEDCFacadeTest {
         when(endpointDataReference.getAuthCode()).thenReturn("authCode");
         when(endpointDataReference.getAuthKey()).thenReturn("authKey");
         when(endpointDataReference.getEndpoint()).thenReturn(dataReferenceEndpoint);
-        when(httpCallService.getUrl(dataReferenceEndpoint, null, null)).thenReturn(HttpUrl.parse(dataReferenceEndpoint));
         when(endpointDataReferenceStorage.remove(agreementId)).thenReturn(Optional.ofNullable(endpointDataReference));
         when(objectMapper.writeValueAsString(any())).thenReturn("{body}");
         doThrow(new RuntimeException()).when(httpCallService).sendRequest(any());

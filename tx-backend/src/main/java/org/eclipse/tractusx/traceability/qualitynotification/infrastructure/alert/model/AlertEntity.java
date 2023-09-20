@@ -44,6 +44,8 @@ import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.mode
 
 import java.util.List;
 
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+
 @NoArgsConstructor
 @Getter
 @Setter
@@ -72,7 +74,7 @@ public class AlertEntity extends NotificationBaseEntity {
     private List<AlertNotificationEntity> notifications;
 
     public static QualityNotification toDomain(AlertEntity alertNotificationEntity) {
-        List<QualityNotificationMessage> notifications = alertNotificationEntity.getNotifications().stream()
+        List<QualityNotificationMessage> notifications = emptyIfNull(alertNotificationEntity.getNotifications()).stream()
                 .map(AlertNotificationEntity::toDomain)
                 .toList();
 
@@ -98,7 +100,6 @@ public class AlertEntity extends NotificationBaseEntity {
 
     public static AlertEntity from(QualityNotification qualityNotification, List<AssetAsBuiltEntity> assetEntities) {
         return AlertEntity.builder()
-                // TODO clarify how to handle assetsAsPlanned
                 .assets(assetEntities)
                 .bpn(qualityNotification.getBpn())
                 .description(qualityNotification.getDescription())
