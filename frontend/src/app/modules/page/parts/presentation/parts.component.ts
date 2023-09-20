@@ -22,8 +22,14 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { Pagination } from '@core/model/pagination.model';
 import { PartsFacade } from '@page/parts/core/parts.facade';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Part } from '@page/parts/model/parts.model';
-import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
+import {
+  CreateHeaderFromColumns,
+  TableConfig,
+  TableEventConfig,
+  TableHeaderSort,
+} from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { StaticIdService } from '@shared/service/staticId.service';
@@ -75,24 +81,36 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public readonly sortableColumnsAsBuilt: Record<string, boolean> = {
     id: true,
-    semanticDataModel: true,
+    idShort: true,
     name: true,
     manufacturer: true,
-    partNumber: true,
+    partId: true,
+    manufacturerPartId: true,
+    customerPartId: true,
+    classification: true,
+    nameAtCustomer: true,
     semanticModelId: true,
-    productionDate: true,
-    productionCountry: true,
+    semanticDataModel: true,
+    manufacturingDate: true,
+    manufacturingCountry: true,
+
   };
 
   public readonly sortableColumnsAsPlanned: Record<string, boolean> = {
     id: true,
-    semanticDataModel: true,
+    idShort: true,
     name: true,
     manufacturer: true,
-    partNumber: true,
+    manufacturerPartId: true,
+    classification: true,
+    semanticDataModel: true,
     semanticModelId: true,
-    productionDate: true,
-    productionCountry: true,
+    validityPeriodFrom: true,
+    validityPeriodTo: true,
+    psFunction: true,
+    catenaXSiteId: true,
+    functionValidFrom: true,
+    functionValidUntil: true,
   };
 
   public readonly titleId = this.staticIdService.generateId('PartsComponent.title');
@@ -105,8 +123,13 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   public readonly addPartTrigger$ = new Subject<Part>();
   public readonly currentSelectedItems$ = new BehaviorSubject<Part[]>([]);
 
+  public tableAsBuiltSortList: TableHeaderSort[];
+  public tableAsPlannedSortList: TableHeaderSort[];
+
   public tableConfigAsBuilt: TableConfig;
   public tableConfigAsPlanned: TableConfig;
+
+  private ctrlKeyState = false;
 
   constructor(
     private readonly partsFacade: PartsFacade,
@@ -115,6 +138,15 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   ) {
     this.partsAsBuilt$ = this.partsFacade.partsAsBuilt$;
     this.partsAsPlanned$ = this.partsFacade.partsAsPlanned$;
+    this.tableAsBuiltSortList = [];
+    this.tableAsPlannedSortList = [];
+
+    window.addEventListener('keydown', (event) => {
+      this.ctrlKeyState = event.ctrlKey;
+    });
+    window.addEventListener('keyup', (event) => {
+      this.ctrlKeyState = event.ctrlKey;
+    });
   }
 
   public ngOnInit(): void {
@@ -143,8 +175,60 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.partDetailsFacade.selectedPart = $event as unknown as Part;
   }
 
-  public onTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
-    this.partsFacade.setPartsAsBuilt(page, pageSize, sorting);
-    this.partsFacade.setPartsAsPlanned(page, pageSize, sorting);
+  public onAsBuiltTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
+    this.setTableSortingList(sorting,MainAspectType.AS_BUILT);
+    this.partsFacade.setPartsAsBuilt(page, pageSize, this.tableAsBuiltSortList);
   }
+
+  public onAsPlannedTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
+    this.setTableSortingList(sorting,MainAspectType.AS_PLANNED);
+    this.partsFacade.setPartsAsPlanned(page, pageSize, this.tableAsPlannedSortList);
+  }
+
+  private setTableSortingList(sorting: TableHeaderSort, partTable: MainAspectType): void {
+      // if a sorting Columnlist exists but a column gets resetted:
+      if(!sorting && (this.tableAsBuiltSortList || this.tableAsPlannedSortList)) {
+        this.resetTableSortingList(partTable);
+        return;
+      }
+
+      // if CTRL is pressed at to sortList
+      if(this.ctrlKeyState) {
+        const [columnName] = sorting;
+        const tableSortList = partTable === MainAspectType.AS_BUILT ? this.tableAsBuiltSortList : this.tableAsPlannedSortList
+
+        // Find the index of the existing entry with the same first item
+        const index = tableSortList.findIndex(
+            ([itemColumnName]) => itemColumnName === columnName
+        );
+
+        if (index !== -1) {
+          // Replace the existing entry
+          tableSortList[index] = sorting;
+        } else {
+          // Add the new entry if it doesn't exist
+          tableSortList.push(sorting);
+        }
+        if(partTable === MainAspectType.AS_BUILT) {
+          this.tableAsBuiltSortList = tableSortList
+        } else {
+          this.tableAsPlannedSortList = tableSortList
+        }
+      }
+      // If CTRL is not pressed just add a list with one entry
+      else if(partTable === MainAspectType.AS_BUILT) {
+          this.tableAsBuiltSortList = [sorting];
+        } else {
+          this.tableAsPlannedSortList = [sorting]
+        }
+  }
+
+  private resetTableSortingList(partTable: MainAspectType): void {
+    if(partTable === MainAspectType.AS_BUILT) {
+      this.tableAsBuiltSortList = [];
+    } else {
+      this.tableAsPlannedSortList= [];
+    }
+  }
+
 }

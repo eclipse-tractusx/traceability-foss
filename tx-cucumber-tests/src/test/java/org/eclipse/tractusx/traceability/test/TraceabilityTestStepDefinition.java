@@ -108,7 +108,7 @@ public class TraceabilityTestStepDefinition {
         await()
                 .atMost(Duration.TWO_MINUTES)
                 .pollInterval(1, TimeUnit.SECONDS)
-                .catchUncaughtExceptions()
+                .ignoreExceptions()
                 .until(() -> {
                     try {
                         QualityNotificationResponse result = restProvider.getNotification(getNotificationIdBasedOnEnv(), INVESTIGATION);

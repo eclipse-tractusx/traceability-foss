@@ -22,6 +22,10 @@ package org.eclipse.tractusx.traceability.common.config;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
+import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractRequest;
+import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.NotificationMethod;
+import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.NotificationType;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.EdcNotificationContractService;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
@@ -29,10 +33,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.CreateNotificationContractRequest;
-import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.NotificationMethod;
-import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.NotificationType;
-import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.EdcNotificationContractService;
+import java.util.concurrent.Executors;
 
 import static org.eclipse.tractusx.traceability.common.config.ApplicationProfiles.NOT_INTEGRATION_TESTS;
 
@@ -65,6 +66,7 @@ public class ApplicationStartupConfig {
 
         executor.shutdown();
     }
+
     @EventListener(ApplicationReadyEvent.class)
     public void createNotificationContracts() {
         ExecutorService executor = Executors.newSingleThreadExecutor();

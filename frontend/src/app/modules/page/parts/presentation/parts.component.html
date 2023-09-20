@@ -33,10 +33,11 @@ SPDX-License-Identifier: Apache-2.0
       [deselectTrigger]="deselectPartTrigger$ | async"
       [addTrigger]="addPartTrigger$ | async"
       (selected)="onSelectItem($event)"
-      (configChanged)="onTableConfigChange($event)"
+      (configChanged)="onAsBuiltTableConfigChange($event)"
       (multiSelect)="currentSelectedItems$.next($event)"
       (clickSelectAction)="isAlertOpen$.next(true)"
       [tableHeader]="'page.asBuiltParts'"
+      [multiSortList]="tableAsBuiltSortList"
     ></app-table>
   </ng-template>
   <ng-template #myTmp let-parts="view">
@@ -50,10 +51,11 @@ SPDX-License-Identifier: Apache-2.0
       [deselectTrigger]="deselectPartTrigger$ | async"
       [addTrigger]="addPartTrigger$ | async"
       (selected)="onSelectItem($event)"
-      (configChanged)="onTableConfigChange($event)"
+      (configChanged)="onAsPlannedTableConfigChange($event)"
       (multiSelect)="currentSelectedItems$.next($event)"
       (clickSelectAction)="isAlertOpen$.next(true)"
       [tableHeader]="'page.asPlannedParts'"
+      [multiSortList]="tableAsPlannedSortList"
     ></app-table>
     <app-part-detail></app-part-detail>
   </ng-template>

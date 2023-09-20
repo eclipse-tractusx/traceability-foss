@@ -41,6 +41,7 @@ SPDX-License-Identifier: Apache-2.0
     (configChanged)="onTableConfigChange($event)"
     (multiSelect)="onMultiSelect($event)"
     (clickSelectAction)="isInvestigationOpen$.next(true)"
+    [multiSortList]="tableSupplierSortList"
   ></app-table>
 </ng-template>
 

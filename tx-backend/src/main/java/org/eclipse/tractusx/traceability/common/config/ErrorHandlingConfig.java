@@ -34,7 +34,7 @@ import org.eclipse.tractusx.traceability.bpn.mapping.domain.model.BpnEdcMappingN
 import org.eclipse.tractusx.traceability.common.request.InvalidSortException;
 import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
 import org.eclipse.tractusx.traceability.common.security.TechnicalUserAuthorizationException;
-import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.CreateNotificationContractException;
+import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractException;
 import org.eclipse.tractusx.traceability.qualitynotification.application.validation.UpdateQualityNotificationValidationException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.AlertNotFoundException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationIllegalUpdate;

@@ -22,7 +22,7 @@ import org.eclipse.tractusx.traceability.bpn.mapping.domain.model.BpnEdcMapping;
 import org.eclipse.tractusx.traceability.bpn.mapping.domain.ports.BpnEdcMappingRepository;
 import org.eclipse.tractusx.traceability.discovery.domain.model.Discovery;
 import org.eclipse.tractusx.traceability.discovery.domain.repository.DiscoveryRepository;
-import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
+import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

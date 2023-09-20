@@ -20,6 +20,8 @@ name: "[BE][BUILT][RELEASE] Docker Image on Main"
 on:
   push:
     branches: main
+  workflow_dispatch:
+
 
 env:
   GHCR_REGISTRY: ghcr.io
