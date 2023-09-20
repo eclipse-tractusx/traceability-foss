@@ -110,9 +110,14 @@ public class TraceabilityTestStepDefinition {
                 .pollInterval(1, TimeUnit.SECONDS)
                 .ignoreExceptions()
                 .until(() -> {
-                    QualityNotificationResponse result = restProvider.getNotification(getNotificationIdBasedOnEnv(), INVESTIGATION);
-                    NotificationValidator.assertHasFields(result, normalize(dataTable.asMap()));
-                            return true;
+                    try {
+                        QualityNotificationResponse result = restProvider.getNotification(getNotificationIdBasedOnEnv(), INVESTIGATION);
+                        NotificationValidator.assertHasFields(result, normalize(dataTable.asMap()));
+                        return true;
+                    } catch (AssertionError assertionError) {
+                        assertionError.printStackTrace();
+                        return false;
+                    }
                         }
                 );
     }
@@ -215,7 +220,6 @@ public class TraceabilityTestStepDefinition {
     }
 
 
-
     @And("I request assets with {string}")
     public void iRequestAssetsWith(String ownerFilter) {
         requestedAssets = restProvider.getAssets(ownerFilter);
@@ -308,9 +312,14 @@ public class TraceabilityTestStepDefinition {
                 .pollInterval(1, TimeUnit.SECONDS)
                 .ignoreExceptions()
                 .until(() -> {
-                            QualityNotificationResponse result = restProvider.getNotification(getNotificationIdBasedOnEnv(), ALERT);
-                            NotificationValidator.assertHasFields(result, normalize(dataTable.asMap()));
-                            return true;
+                    try {
+                        QualityNotificationResponse result = restProvider.getNotification(getNotificationIdBasedOnEnv(), ALERT);
+                        NotificationValidator.assertHasFields(result, normalize(dataTable.asMap()));
+                        return true;
+                    } catch (AssertionError assertionError) {
+                        assertionError.printStackTrace();
+                        return false;
+                    }
                         }
                 );
     }

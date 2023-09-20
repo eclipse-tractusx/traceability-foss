@@ -178,7 +178,7 @@ Feature: ⭐ [BE][QUALITY_ALERTS] Create (POST) quality alerts (Rest API)
     Then I check, if quality alert has proper values
       | "status" | "DECLINED" |
     And I check, if quality alert has proper values
-      | "description" | "declined in TRACEFOSS-1545" |
+      | "declineReason" | "declined in TRACEFOSS-1545" |
 
 	#Check if *ACCEPTANCE* of quality alerts is processed correctly which contains following checks:
 	#* correct ACCEPTANCE on receiver side
