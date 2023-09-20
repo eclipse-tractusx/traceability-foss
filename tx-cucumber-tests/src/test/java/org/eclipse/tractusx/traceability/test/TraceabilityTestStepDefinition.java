@@ -115,6 +115,7 @@ public class TraceabilityTestStepDefinition {
                         NotificationValidator.assertHasFields(result, normalize(dataTable.asMap()));
                         return true;
                     } catch (AssertionError assertionError) {
+                        assertionError.printStackTrace();
                         return false;
                     }
                         }
@@ -316,6 +317,7 @@ public class TraceabilityTestStepDefinition {
                         NotificationValidator.assertHasFields(result, normalize(dataTable.asMap()));
                         return true;
                     } catch (AssertionError assertionError) {
+                        assertionError.printStackTrace();
                         return false;
                     }
                         }
