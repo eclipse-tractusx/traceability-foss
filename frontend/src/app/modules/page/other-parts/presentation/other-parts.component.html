@@ -44,7 +44,9 @@ SPDX-License-Identifier: Apache-2.0
         <span [id]="customerTabLabelId">{{ 'pageOtherParts.tab.customer' | i18n }} </span>
       </ng-template>
 
-      <app-customer-parts></app-customer-parts>
+      <app-customer-parts
+      [bomLifecycle]="'asBuilt'"
+      ></app-customer-parts>
     </mat-tab>
   </mat-tab-group>
     </as-split-area>
@@ -71,7 +73,9 @@ SPDX-License-Identifier: Apache-2.0
         <span [id]="customerTabLabelId">{{ 'pageOtherParts.tab.customer' | i18n }} </span>
       </ng-template>
 
-      <app-customer-parts></app-customer-parts>
+      <app-customer-parts
+        [bomLifecycle]="'asPlanned'"
+      ></app-customer-parts>
     </mat-tab>
   </mat-tab-group>
     </as-split-area>

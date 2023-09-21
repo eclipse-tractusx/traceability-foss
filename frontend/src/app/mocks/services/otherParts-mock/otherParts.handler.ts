@@ -68,7 +68,7 @@ export const otherPartsAsPlannedHandlers = [
         return res(ctx.status(200), ctx.json(applyPagination(supplierPartsAsPlannedAssets, pagination)));
 
       case 'CUSTOMER':
-        return res(ctx.status(200), ctx.json(customerPartsAsPlannedModel));
+        return res(ctx.status(200), ctx.json(applyPagination(customerPartsAsPlannedModel, pagination)));
     }
 
   }),

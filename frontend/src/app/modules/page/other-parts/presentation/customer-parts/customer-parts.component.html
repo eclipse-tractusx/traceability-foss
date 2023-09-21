@@ -16,28 +16,54 @@ under the License.
 
 SPDX-License-Identifier: Apache-2.0
 -->
-
-<ng-container
-  *viewContainer="
-          customerParts$ | async;
+<div class="customer-parts-asBuilt-table-wrapper" *ngIf="bomLifecycle === 'asBuilt'">
+  <ng-container
+    *viewContainer="
+          customerPartsAsBuilt$ | async;
           main: mainTmp;
           error: errorTmp;
           loading: loaderTmp;
           customContext: { labelId: customerTabLabelId }
         "
-></ng-container>
+  ></ng-container>
 
-<ng-template #mainTmp let-parts="view" let-customContext="customContext">
-  <app-table
-    [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
-    [tableConfig]="tableConfig"
-    [noShadow]="true"
-    [labelId]="customContext.labelId"
-    (selected)="onSelectItem($event)"
-    (configChanged)="onTableConfigChange($event)"
-    [multiSortList]="tableCustomerSortList"
-  ></app-table>
-</ng-template>
+  <ng-template #mainTmp let-parts="view" let-customContext="customContext">
+    <app-table
+      [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
+      [tableConfig]="tableConfigAsBuilt"
+      [noShadow]="true"
+      [labelId]="customContext.labelId"
+      (selected)="onSelectItem($event)"
+      (configChanged)="onAsBuiltTableConfigChange($event)"
+      [multiSortList]="tableCustomerAsBuiltSortList"
+    ></app-table>
+  </ng-template>
+</div>
+
+<div class="customer-parts-asPlanned-table-wrapper" *ngIf="bomLifecycle === 'asPlanned'">
+  <ng-container
+    *viewContainer="
+          customerPartsAsPlanned$ | async;
+          main: myTmp;
+          error: errorTmp;
+          loading: loaderTmp;
+          customContext: { labelId: customerTabLabelId }
+        "
+  ></ng-container>
+
+  <ng-template #myTmp let-parts="view" let-customContext="customContext">
+    <app-table
+      [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
+      [tableConfig]="tableConfigAsPlanned"
+      [noShadow]="true"
+      [labelId]="customContext.labelId"
+      (selected)="onSelectItem($event)"
+      (configChanged)="onAsPlannedTableConfigChange($event)"
+      [multiSortList]="tableCustomerAsPlannedSortList"
+    ></app-table>
+  </ng-template>
+</div>
+
 
 <ng-template #errorTmp let-parts="view">
   <app-data-loading-error [error]="parts.error"></app-data-loading-error>

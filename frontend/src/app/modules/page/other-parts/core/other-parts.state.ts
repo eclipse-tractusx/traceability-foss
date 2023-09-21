@@ -28,12 +28,18 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class OtherPartsState {
-  private readonly _customerParts$: State<View<Pagination<Part>>> = new State<View<Pagination<Part>>>({ loader: true });
+  private readonly _customerPartsAsBuilt$: State<View<Pagination<Part>>> = new State<View<Pagination<Part>>>({ loader: true });
+  private readonly _customerPartsAsPlanned$: State<View<Pagination<Part>>> = new State<View<Pagination<Part>>>({ loader: true });
+
 
   private readonly _supplierPartsAsBuilt$: State<View<Pagination<Part>>> = new State<View<Pagination<Part>>>({ loader: true });
   private readonly _supplierPartsAsPlanned$: State<View<Pagination<Part>>> = new State<View<Pagination<Part>>>({ loader: true });
-  public get customerParts$(): Observable<View<Pagination<Part>>> {
-    return this._customerParts$.observable;
+  public get customerPartsAsBuilt$(): Observable<View<Pagination<Part>>> {
+    return this._customerPartsAsBuilt$.observable;
+  }
+
+  public get customerPartsAsPlanned$(): Observable<View<Pagination<Part>>> {
+    return this._customerPartsAsPlanned$.observable;
   }
 
   public get supplierPartsAsBuilt$(): Observable<View<Pagination<Part>>> {
@@ -44,9 +50,14 @@ export class OtherPartsState {
     return this._supplierPartsAsPlanned$.observable;
   }
 
-  public set customerParts({ data, loader, error }: View<Pagination<Part>>) {
+  public set customerPartsAsBuilt({ data, loader, error }: View<Pagination<Part>>) {
     const partsView: View<Pagination<Part>> = { data, loader, error };
-    this._customerParts$.update(partsView);
+    this._customerPartsAsBuilt$.update(partsView);
+  }
+
+  public set customerPartsAsPlanned({ data, loader, error }: View<Pagination<Part>>) {
+    const partsView: View<Pagination<Part>> = { data, loader, error };
+    this._customerPartsAsPlanned$.update(partsView);
   }
 
   public set supplierPartsAsBuilt({ data, loader, error }: View<Pagination<Part>>) {

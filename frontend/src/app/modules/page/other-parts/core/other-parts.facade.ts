@@ -32,7 +32,8 @@ import { Observable, Subscription } from 'rxjs';
 
 @Injectable()
 export class OtherPartsFacade {
-  private customerPartsSubscription: Subscription;
+  private customerPartsAsBuiltSubscription: Subscription;
+  private customerPartsAsPlannedSubscription: Subscription;
 
   private supplierPartsAsBuiltSubscription: Subscription;
   private supplierPartsAsPlannedSubscription: Subscription;
@@ -43,8 +44,12 @@ export class OtherPartsFacade {
     private readonly otherPartsState: OtherPartsState,
   ) {}
 
-  public get customerParts$(): Observable<View<Pagination<Part>>> {
-    return this.otherPartsState.customerParts$;
+  public get customerPartsAsBuilt$(): Observable<View<Pagination<Part>>> {
+    return this.otherPartsState.customerPartsAsBuilt$;
+  }
+
+  public get customerPartsAsPlanned$(): Observable<View<Pagination<Part>>> {
+    return this.otherPartsState.customerPartsAsPlanned$;
   }
 
   public get supplierPartsAsBuilt$(): Observable<View<Pagination<Part>>> {
@@ -56,11 +61,19 @@ export class OtherPartsFacade {
   }
 
 // TODO: remove OtherPartsService and integrate in PartService
-  public setCustomerParts(page = 0, pageSize = 50, sorting: TableHeaderSort[] = []): void {
-    this.customerPartsSubscription?.unsubscribe();
-    this.customerPartsSubscription = this.otherPartsService.getOtherPartsAsBuilt(page, pageSize, sorting, Owner.CUSTOMER).subscribe({
-      next: data => (this.otherPartsState.customerParts = { data }),
-      error: error => (this.otherPartsState.customerParts = { error }),
+  public setCustomerPartsAsBuilt(page = 0, pageSize = 50, sorting: TableHeaderSort[] = []): void {
+    this.customerPartsAsBuiltSubscription?.unsubscribe();
+    this.customerPartsAsBuiltSubscription = this.otherPartsService.getOtherPartsAsBuilt(page, pageSize, sorting, Owner.CUSTOMER).subscribe({
+      next: data => (this.otherPartsState.customerPartsAsBuilt = { data }),
+      error: error => (this.otherPartsState.customerPartsAsBuilt = { error }),
+    });
+  }
+
+  public setCustomerPartsAsPlanned(page = 0, pageSize = 50, sorting: TableHeaderSort[] = []): void {
+    this.customerPartsAsPlannedSubscription?.unsubscribe();
+    this.customerPartsAsPlannedSubscription = this.otherPartsService.getOtherPartsAsPlanned(page, pageSize, sorting, Owner.CUSTOMER).subscribe({
+      next: data => (this.otherPartsState.customerPartsAsPlanned = { data }),
+      error: error => (this.otherPartsState.customerPartsAsPlanned = { error }),
     });
   }
 
@@ -83,7 +96,8 @@ export class OtherPartsFacade {
 
 
   public unsubscribeParts(): void {
-    this.customerPartsSubscription?.unsubscribe();
+    this.customerPartsAsBuiltSubscription?.unsubscribe();
+    this.customerPartsAsPlannedSubscription?.unsubscribe();
     this.supplierPartsAsBuiltSubscription?.unsubscribe();
     this.supplierPartsAsPlannedSubscription?.unsubscribe();
   }
