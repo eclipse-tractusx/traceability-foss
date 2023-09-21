@@ -36,22 +36,12 @@ export class BomLifecycleActivatorComponent {
     }
 
     toggleAsPlanned() {
-
-        // If the other button is also inactive, prevent this one from being deactivated
-        if (!this.bomLifecycleConfig.asBuiltActive && this.bomLifecycleConfig.asPlannedActive) {
-            return;
-        }
-
         this.bomLifecycleConfig.asPlannedActive = !this.bomLifecycleConfig.asPlannedActive;
-
         this.emitBomLifecycleState();
     }
 
     toggleAsBuilt() {
         // If the other button is also inactive, prevent this one from being deactivated
-        if (!this.bomLifecycleConfig.asBuiltActive && this.bomLifecycleConfig.asBuiltActive) {
-            return;
-        }
         this.bomLifecycleConfig.asBuiltActive = !this.bomLifecycleConfig.asBuiltActive;
         this.emitBomLifecycleState();
     }

@@ -19,10 +19,10 @@ SPDX-License-Identifier: Apache-2.0
 <!--[isDisabled]="!bomLifecycleConfig.asPlannedActive"-->
 <!--[isDisabled]="!bomLifecycleConfig.asBuiltActive"-->
 <div>
-  <app-button [isSelected]=bomLifecycleConfig.asBuiltActive variant="raised" color="accent" (click)="toggleAsBuilt()" >
+  <app-button [isDisabled]="!bomLifecycleConfig.asPlannedActive" [isSelected]=bomLifecycleConfig.asBuiltActive variant="raised" color="accent" (click)="toggleAsBuilt()" >
     {{ 'bomLifecycleActivator.asBuilt' | i18n }}
   </app-button>
-<app-button [isSelected]="bomLifecycleConfig.asPlannedActive"  variant="raised" color="accent" (click)="toggleAsPlanned()" >
+<app-button [isDisabled]="!bomLifecycleConfig.asBuiltActive" [isSelected]="bomLifecycleConfig.asPlannedActive"  variant="raised" color="accent" (click)="toggleAsPlanned()" >
   {{ 'bomLifecycleActivator.asPlanned' | i18n }}
 </app-button>
   </div>
