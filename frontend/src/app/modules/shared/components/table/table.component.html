@@ -19,7 +19,7 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<div [class.mat-elevation-z8]="!noShadow" class="table-wrapper">
+<div *ngIf="isDisplayed" [class.mat-elevation-z8]="!noShadow" class="table-wrapper">
   <ng-container *ngIf="tableHeader"><p class="large-text table--header">{{tableHeader | i18n }}</p></ng-container>
   <ng-container *ngIf="selectedPartsInfoLabel">
     <div *appHasRole="tableConfig.columnRoles?.['select'] ?? 'user'" class="table--selected__container">

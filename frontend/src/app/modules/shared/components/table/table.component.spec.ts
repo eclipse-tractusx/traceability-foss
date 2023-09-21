@@ -35,13 +35,13 @@ describe('TableComponent', () => {
     displayedColumns = ['name'],
     header = { name: 'Name' },
     selected = jasmine.createSpy(),
+    isDisplayed?: boolean
   ) => {
     const content = generateTableContent(size);
     const data = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
-
     const tableConfig: TableConfig = { displayedColumns, header };
     return renderComponent(
-      `<app-table [paginationData]='data' [tableConfig]='tableConfig' (selected)='selected($event)'></app-table>`,
+      `<app-table [isDisplayed]='isDisplayed' [paginationData]='data' [tableConfig]='tableConfig' (selected)='selected($event)'></app-table>`,
       {
         declarations: [TableComponent],
         imports: [SharedModule],
@@ -49,10 +49,20 @@ describe('TableComponent', () => {
           data,
           tableConfig,
           selected,
+          isDisplayed
         },
       },
     );
   };
+
+  it('should not render the table', async () => {
+    const tableSize = 1;
+    await renderTable(tableSize, ['name'],{ name: 'Name' }, jasmine.createSpy(), false);
+
+    const tableElement = screen.queryByTestId('table-component--test-id');
+    expect(tableElement).toBeNull();
+
+  });
 
   it('should render table', async () => {
     const tableSize = 7;
