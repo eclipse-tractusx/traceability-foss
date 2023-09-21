@@ -41,11 +41,13 @@ SPDX-License-Identifier: Apache-2.0
     </div>
   </nav>
 
-  <div class="header--breadcrumb-container">
+  <!-- TODO clarify with business side if we can get rid of the breadcrumbs - because it is already in the menu described-->
+  <div class="header&#45;&#45;breadcrumb-container">
     <app-breadcrumbs></app-breadcrumbs>
   </div>
 
-  <div *ngIf="activeMenu" class="header--app-header">
+  <!-- TODO clarify with business side if we can get rid of the title - because it is already in the menu described-->
+  <div *ngIf="activeMenu" class="header&#45;&#45;app-header">
     <h3>{{ 'pageTitle.' + activeMenu | i18n }}</h3>
   </div>
 
