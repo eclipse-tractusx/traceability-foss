@@ -1328,6 +1328,389 @@
           ]
         }
       ]
+    },
+    {
+      "catenaXId" : "urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca98",
+      "bpnl" : "BPNL00000003CML1",
+      "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned" : [
+        {
+          "catenaXId" : "urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca98",
+          "sites" : [
+            {
+              "functionValidUntil" : "2031-11-21T03:24:27.000Z",
+              "catenaXsiteId" : "BPNS000004711DMY",
+              "function" : "production",
+              "functionValidFrom" : "2020-06-07T07:30:47.000Z"
+            }
+          ]
+        }
+      ],
+      "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
+        {
+          "validityPeriod" : {
+            "validFrom" : "2018-01-25T08:42:58.000Z",
+            "validTo" : "2029-02-10T03:24:30.000Z"
+          },
+          "catenaXId" : "urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca98",
+          "partTypeInformation" : {
+            "manufacturerPartId" : "8840838-04",
+            "classification" : "product",
+            "nameAtManufacturer" : "a/dev HV Modul"
+          }
+        }
+      ],
+      "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned" : [
+        {
+          "catenaXId" : "urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca98",
+          "childItems" : [
+            {
+              "validityPeriod" : {
+                "validFrom" : "2023-03-21T08:17:29.187+01:00",
+                "validTo" : "2024-07-01T16:10:00.000+01:00"
+              },
+              "catenaXId" : "urn:uuid:c7a2b803-f8fe-4b79-b6fc-967ce847c9a1",
+              "quantity" : {
+                "quantityNumber" : 10,
+                "measurementUnit" : "unit:litre"
+              },
+              "businessPartner" : "BPNL00000003CNKC",
+              "createdOn" : "2022-02-03T14:48:54.709Z",
+              "lastModifiedOn" : "2022-02-03T14:48:54.709Z"
+            }
+          ]
+        }
+      ],
+      "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned" : [
+        {
+          "parentParts" : [
+            {
+              "validityPeriod" : {
+                "validFrom" : "2023-03-21T08:47:14.438+01:00",
+                "validTo" : "2024-08-02T09:00:00.000+01:00"
+              },
+              "parentCatenaXId" : "urn:uuid:aad27ddb-43aa-4e42-98c2-01e529ef128z",
+              "quantity" : {
+                "quantityNumber" : 2.5,
+                "measurementUnit" : "unit:litre"
+              },
+              "createdOn" : "2022-02-03T14:48:54.709Z",
+              "lastModifiedOn" : "2022-02-03T14:48:54.709Z"
+            }
+          ],
+          "businessPartner" : "BPNL00000003CNKC",
+          "catenaXId" : "urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca98"
+        }
+      ]
+    },
+    {
+      "catenaXId" : "urn:uuid:c7a2b803-f8fe-4b79-b6fc-967ce847c9a1",
+      "bpnl" : "BPNL00000003CNKC",
+      "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned" : [
+        {
+          "catenaXId" : "urn:uuid:c7a2b803-f8fe-4b79-b6fc-967ce847c9a1",
+          "sites" : [
+            {
+              "functionValidUntil" : "2028-04-27T13:34:20.000Z",
+              "catenaXsiteId" : "BPNS000004711DMY",
+              "function" : "production",
+              "functionValidFrom" : "2017-05-03T09:10:04.000Z"
+            }
+          ]
+        }
+      ],
+      "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
+        {
+          "validityPeriod" : {
+            "validFrom" : "2016-04-28T20:00:55.000Z",
+            "validTo" : "2027-04-27T00:59:41.000Z"
+          },
+          "catenaXId" : "urn:uuid:c7a2b803-f8fe-4b79-b6fc-967ce847c9a1",
+          "partTypeInformation" : {
+            "manufacturerPartId" : "8840374-09",
+            "classification" : "product",
+            "nameAtManufacturer" : "b/test ZB ZELLE"
+          }
+        }
+      ],
+      "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned" : [
+        {
+          "parentParts" : [
+            {
+              "validityPeriod" : {
+                "validFrom" : "2023-03-21T08:47:14.438+01:00",
+                "validTo" : "2024-08-02T09:00:00.000+01:00"
+              },
+              "parentCatenaXId" : "urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca98",
+              "quantity" : {
+                "quantityNumber" : 2.5,
+                "measurementUnit" : "unit:litre"
+              },
+              "createdOn" : "2022-02-03T14:48:54.709Z",
+              "lastModifiedOn" : "2022-02-03T14:48:54.709Z"
+            }
+          ],
+          "catenaXId" : "urn:uuid:c7a2b803-f8fe-4b79-b6fc-967ce847c9a1"
+        }
+      ]
+    },
+    {
+      "catenaXId" : "urn:uuid:aad27ddb-43aa-4e42-98c2-01e529ef128z",
+      "bpnl" : "BPNL00000003CNKC",
+      "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned" : [
+        {
+          "catenaXId" : "urn:uuid:aad27ddb-43aa-4e42-98c2-01e529ef128z",
+          "sites" : [
+            {
+              "functionValidUntil" : "2027-05-23T09:16:30.000Z",
+              "catenaXsiteId" : "BPNS000004711DMY",
+              "function" : "production",
+              "functionValidFrom" : "2013-11-17T23:59:54.000Z"
+            }
+          ]
+        }
+      ],
+      "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
+        {
+          "validityPeriod" : {
+            "validFrom" : "2015-05-18T23:10:44.000Z",
+            "validTo" : "2025-10-23T14:46:01.000Z"
+          },
+          "catenaXId" : "urn:uuid:aad27ddb-43aa-4e42-98c2-01e529ef128z",
+          "partTypeInformation" : {
+            "manufacturerPartId" : "38049661-08",
+            "classification" : "product",
+            "nameAtManufacturer" : "b/test OEM A High Voltage Battery"
+          }
+        }
+      ],
+      "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned" : [
+        {
+          "catenaXId" : "urn:uuid:aad27ddb-43aa-4e42-98c2-01e529ef128z",
+          "childItems" : [
+            {
+              "validityPeriod" : {
+                "validFrom" : "2023-03-21T08:17:29.187+01:00",
+                "validTo" : "2024-07-01T16:10:00.000+01:00"
+              },
+              "catenaXId" : "urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca98",
+              "quantity" : {
+                "quantityNumber" : 6,
+                "measurementUnit" : "unit:litre"
+              },
+              "businessPartner" : "BPNL00000003CML1",
+              "createdOn" : "2022-02-03T14:48:54.709Z",
+              "lastModifiedOn" : "2022-02-03T14:48:54.709Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "catenaXId" : "urn:uuid:4f7b1cf2-a598-4027-bc78-63f6d8e55699",
+      "bpnl" : "BPNL00000003CML1",
+      "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned" : [
+        {
+          "catenaXId" : "urn:uuid:4f7b1cf2-a598-4027-bc78-63f6d8e55699",
+          "sites" : [
+            {
+              "functionValidUntil" : "2025-03-05T00:33:55.000Z",
+              "catenaXsiteId" : "BPNS00000003B0Q0",
+              "function" : "production",
+              "functionValidFrom" : "2019-09-10T14:41:50.000Z"
+            }
+          ]
+        }
+      ],
+      "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
+        {
+          "validityPeriod" : {
+            "validFrom" : "2013-11-24T00:27:33.000Z",
+            "validTo" : "2025-08-16T09:18:35.000Z"
+          },
+          "catenaXId" : "urn:uuid:4f7b1cf2-a598-4027-bc78-63f6d8e55699",
+          "partTypeInformation" : {
+            "manufacturerPartId" : "7A047C7-01",
+            "classification" : "product",
+            "nameAtManufacturer" : "a/dev N Tier A CathodeMaterial"
+          }
+        }
+      ]
+    },
+    {
+      "catenaXId" : "urn:uuid:2c57b0e9-a653-411d-bdcd-64787e9fd3a7",
+      "bpnl" : "BPNL00000003CNKC",
+      "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned" : [
+        {
+          "catenaXId" : "urn:uuid:2c57b0e9-a653-411d-bdcd-64787e9fd3a7",
+          "sites" : [
+            {
+              "functionValidUntil" : "2031-10-27T21:24:04.000Z",
+              "catenaXsiteId" : "BPNS00000003B2OM",
+              "function" : "production",
+              "functionValidFrom" : "2016-01-29T21:44:37.000Z"
+            }
+          ]
+        }
+      ],
+      "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
+        {
+          "validityPeriod" : {
+            "validFrom" : "2017-07-03T05:23:01.000Z",
+            "validTo" : "2032-09-25T10:26:27.000Z"
+          },
+          "catenaXId" : "urn:uuid:2c57b0e9-a653-411d-bdcd-64787e9fd3a7",
+          "partTypeInformation" : {
+            "manufacturerPartId" : "32494586-73",
+            "classification" : "product",
+            "nameAtManufacturer" : "b/test Tier A Gearbox"
+          }
+        }
+      ],
+      "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned" : [
+        {
+          "catenaXId" : "urn:uuid:2c57b0e9-a653-411d-bdcd-64787e9fd3a7",
+          "childItems" : [
+            {
+              "validityPeriod" : {
+                "validFrom" : "2023-03-21T08:17:29.187+01:00",
+                "validTo" : "2024-07-01T16:10:00.000+01:00"
+              },
+              "catenaXId" : "urn:uuid:bee5614f-9e46-4c98-9209-61a6f2b2a7fc",
+              "quantity" : {
+                "quantityNumber" : 1,
+                "measurementUnit" : "unit:litre"
+              },
+              "businessPartner" : "BPNL00000003CML1",
+              "createdOn" : "2022-02-03T14:48:54.709Z",
+              "lastModifiedOn" : "2022-02-03T14:48:54.709Z"
+            },
+            {
+              "validityPeriod" : {
+                "validFrom" : "2023-03-21T08:17:29.187+01:00",
+                "validTo" : "2024-07-01T16:10:00.000+01:00"
+              },
+              "catenaXId" : "urn:uuid:4518c080-14fb-4252-b8de-4362d615868d",
+              "quantity" : {
+                "quantityNumber" : 1,
+                "measurementUnit" : "unit:litre"
+              },
+              "businessPartner" : "BPNL00000003CML1",
+              "createdOn" : "2022-02-03T14:48:54.709Z",
+              "lastModifiedOn" : "2022-02-03T14:48:54.709Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "catenaXId" : "urn:uuid:bee5614f-9e46-4c98-9209-61a6f2b2a7fc",
+      "bpnl" : "BPNL00000003CML1",
+      "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned" : [
+        {
+          "catenaXId" : "urn:uuid:bee5614f-9e46-4c98-9209-61a6f2b2a7fc",
+          "sites" : [
+            {
+              "functionValidUntil" : "2031-04-16T11:07:09.000Z",
+              "catenaXsiteId" : "BPNS00000003B3NX",
+              "function" : "production",
+              "functionValidFrom" : "2013-12-07T09:33:50.000Z"
+            }
+          ]
+        }
+      ],
+      "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
+        {
+          "validityPeriod" : {
+            "validFrom" : "2013-06-18T03:47:22.000Z",
+            "validTo" : "2030-12-31T23:33:25.000Z"
+          },
+          "catenaXId" : "urn:uuid:bee5614f-9e46-4c98-9209-61a6f2b2a7fc",
+          "partTypeInformation" : {
+            "manufacturerPartId" : "6740244-02",
+            "classification" : "product",
+            "nameAtManufacturer" : "a/dev Sub Tier A Sensor"
+          }
+        }
+      ],
+      "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned" : [
+        {
+          "parentParts" : [
+            {
+              "validityPeriod" : {
+                "validFrom" : "2023-03-21T08:47:14.438+01:00",
+                "validTo" : "2024-08-02T09:00:00.000+01:00"
+              },
+              "parentCatenaXId" : "urn:uuid:2c57b0e9-a653-411d-bdcd-64787e9fd3a7",
+              "quantity" : {
+                "quantityNumber" : 2.5,
+                "measurementUnit" : "unit:litre"
+              },
+              "createdOn" : "2022-02-03T14:48:54.709Z",
+              "lastModifiedOn" : "2022-02-03T14:48:54.709Z"
+            }
+          ],
+          "businessPartner" : "BPNL00000003CNKC",
+          "catenaXId" : "urn:uuid:bee5614f-9e46-4c98-9209-61a6f2b2a7fc"
+        }
+      ]
+    },
+    {
+      "catenaXId" : "urn:uuid:4518c080-14fb-4252-b8de-4362d615868d",
+      "bpnl" : "BPNL00000003CML1",
+      "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned" : [
+        {
+          "catenaXId" : "urn:uuid:4518c080-14fb-4252-b8de-4362d615868d",
+          "sites" : [
+            {
+              "functionValidUntil" : "2030-01-29T19:43:54.000Z",
+              "catenaXsiteId" : "BPNS00000003B0Q0",
+              "function" : "production",
+              "functionValidFrom" : "2015-11-17T18:35:23.000Z"
+            }
+          ]
+        }
+      ],
+      "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
+        {
+          "validityPeriod" : {
+            "validFrom" : "2015-01-23T16:24:59.000Z",
+            "validTo" : "2031-05-04T12:01:38.000Z"
+          },
+          "catenaXId" : "urn:uuid:4518c080-14fb-4252-b8de-4362d615868d",
+          "partTypeInformation" : {
+            "manufacturerPartId" : "7A987KK-04",
+            "classification" : "product",
+            "nameAtManufacturer" : "a/dev N Tier A Plastics"
+          }
+        }
+      ],
+      "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned" : [
+        {
+          "catenaXId" : "urn:uuid:4518c080-14fb-4252-b8de-4362d615868d",
+          "childItems" : []
+        }
+      ],
+      "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned" : [
+        {
+          "parentParts" : [
+            {
+              "validityPeriod" : {
+                "validFrom" : "2023-03-21T08:47:14.438+01:00",
+                "validTo" : "2024-08-02T09:00:00.000+01:00"
+              },
+              "parentCatenaXId" : "urn:uuid:2c57b0e9-a653-411d-bdcd-64787e9fd3a7",
+              "quantity" : {
+                "quantityNumber" : 2.5,
+                "measurementUnit" : "unit:litre"
+              },
+              "createdOn" : "2022-02-03T14:48:54.709Z",
+              "lastModifiedOn" : "2022-02-03T14:48:54.709Z"
+            }
+          ],
+          "businessPartner" : "BPNL00000003CNKC",
+          "catenaXId" : "urn:uuid:4518c080-14fb-4252-b8de-4362d615868d"
+        }
+      ]
     }
   ]
 }
