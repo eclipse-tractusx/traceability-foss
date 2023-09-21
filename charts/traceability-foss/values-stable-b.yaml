@@ -31,14 +31,14 @@ frontend:
   image:
     repository: ghcr.io/catenax-ng/tx-traceability-foss
     tag: $ARGOCD_APP_REVISION
-    CATENAX_PORTAL_API_URL: 'https://traceability-int-bmw.int.demo.catena-x.net/api'
-    CATENAX_PORTAL_CLIENT_ID: 'app398'
-    CATENAX_PORTAL_KEYCLOAK_URL: 'https://centralidp.int.demo.catena-x.net/auth'
-    CATENAX_PORTAL_BACKEND_DOMAIN: 'catena-x.net'
-    CATENAX_PORTAL_URL: 'https://portal.int.demo.catena-x.net/'
+    CATENAX_PORTAL_API_URL: '<path:traceability-foss/data/stable-b/frontend#catenax_portal_api_url>'
+    CATENAX_PORTAL_KEYCLOAK_URL: '<path:traceability-foss/data/stable-b/frontend#catenax_portal_keycloak_url>'
+    CATENAX_PORTAL_BACKEND_DOMAIN: '<path:traceability-foss/data/stable-b/frontend#catenax_portal_backend_domain>'
+    CATENAX_PORTAL_URL: '<path:traceability-foss/data/stable-b/frontend#catenax_portal_url>'
+    CATENAX_PORTAL_CLIENT_ID: '<path:traceability-foss/data/stable-b/frontend#catenax_portal_client_id>'
 
-  nameOverride: "tx-frontend-int-bmw"
-  fullnameOverride: "tx-frontend-int-bmw"
+  nameOverride: "tx-frontend-stable-b"
+  fullnameOverride: "tx-frontend-stable-b"
 
   ingress:
     enabled: true
@@ -46,14 +46,14 @@ frontend:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
     hosts:
-      - host: "traceability-portal-int-bmw.int.demo.catena-x.net"
+      - host: "traceability-portal-stable-b.stable.demo.catena-x.net"
         paths:
           - path: /
             pathType: ImplementationSpecific
     tls:
       - hosts:
-          - "traceability-portal-int-bmw.int.demo.catena-x.net"
-        secretName: "traceability-portal-int-bmw.int.demo.catena-x.net-tls"
+          - "traceability-portal-stable-b.stable.demo.catena-x.net"
+        secretName: "traceability-portal-stable-b.stable.demo.catena-x.net-tls"
 
 #########################
 # Backend Chart Values configuration     #
@@ -63,8 +63,8 @@ backend:
     repository: ghcr.io/catenax-ng/tx-traceability-foss
     tag: $ARGOCD_APP_REVISION
 
-  nameOverride: "tx-backend-int-bmw"
-  fullnameOverride: "tx-backend-int-bmw"
+  nameOverride: "tx-backend-stable-b"
+  fullnameOverride: "tx-backend-stable-b"
 
   podSecurityContext:
     runAsUser: 10001
@@ -93,7 +93,7 @@ backend:
       cpu: 100m
       memory: 512Mi
 
-  springprofile: int
+  springprofile: stable
 
   ingress:
     enabled: true
@@ -101,65 +101,63 @@ backend:
     annotations:
       nginx.ingress.kubernetes.io/backend-protocol: HTTP
     hosts:
-      - host: "traceability-int-bmw.int.demo.catena-x.net"
+      - host: "traceability-stable-b.stable.demo.catena-x.net"
         paths:
           - path: /
             pathType: ImplementationSpecific
     tls:
       - hosts:
-          - "traceability-int-bmw.int.demo.catena-x.net"
+          - "traceability-stable-b.stable.demo.catena-x.net"
         secretName: tls-secret
 
   traceability:
-    bpn: "BPNL00000003AYRE"
-    url: "https://traceability-int-bmw.int.demo.catena-x.net"
+    bpn: "CHANGE_ME"  # PROVIDE PROPER BPN
+    url: "https://traceability-stable-b.stable.demo.catena-x.net"
 
   datasource:
-    url: jdbc:postgresql://tx-backend-postgresql-int-bmw:5432/trace
+    url: jdbc:postgresql://tx-backend-postgresql-stable-b:5432/trace
     username: trace
-    password: <path:traceability-foss/data/int-bmw/database#tracePassword>
+    password: <path:traceability-foss/data/stable-b/database#tracePassword>
 
   oauth2:
-    clientId: <path:traceability-foss/data/int-bmw/keycloak/oauth2#clientId>
-    clientSecret: <path:traceability-foss/data/int-bmw/keycloak/oauth2#clientSecret>
-    clientTokenUri: "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
-    jwkSetUri: "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs"
-    resourceClient: "app398"
+    clientId: <path:traceability-foss/data/stable-b/keycloak/oauth2#clientId>
+    clientSecret: <path:traceability-foss/data/stable-b/keycloak/oauth2#clientSecret>
+    clientTokenUri: "https://centralidp.stable.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"  # check stable environment centralidp url
+    jwkSetUri: "https://centralidp.stable.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs"  # check stable environment centralidp url
+    resourceClient: "CHANGE_ME"  # provide instance resource client
 
   edc:
-    apiKey: "<path:traceability-foss/data/int-bmw/edc/controlplane#edc.api.control.auth.apikey.value>"
-    providerUrl: "https://tx-edc-consumer-int-bmw-controlplane.int.demo.catena-x.net"
-    callbackUrl: "http://tx-irs-int-bmw:8181/internal/endpoint-data-reference"
-    callbackUrlEdcClient: "https://traceability-int-bmw.int.demo.catena-x.net/api/internal/endpoint-data-reference"
-    dataEndpointUrl: "https://tx-edc-consumer-int-bmw-controlplane.int.demo.catena-x.net/management"
+    apiKey: "<path:traceability-foss/data/stable-b/edc/controlplane#edc.api.control.auth.apikey.value>"
+    providerUrl: "https://tx-edc-consumer-stable-b-controlplane.stable.demo.catena-x.net"
+    callbackUrl: "http://tx-irs-stable-b:8181/internal/endpoint-data-reference"
+    callbackUrlEdcClient: "https://traceability-stable-b.stable.demo.catena-x.net/api/internal/endpoint-data-reference"
+    dataEndpointUrl: "https://tx-edc-consumer-stable-b-controlplane.stable.demo.catena-x.net/management"
 
   discoveryfinder:
-    baseUrl: "https://semantics.int.demo.catena-x.net/discoveryfinder/api/administration/connectors/discovery/search"
-
-  irs:
-    baseUrl: "https://tx-irs-int-bmw.int.demo.catena-x.net"
-
-# DEPRECATED
-  registry:
-    urlWithPath: "https://trace-x-registry.int.demo.catena-x.net"
-  portal:
-    baseUrl: "https://portal-backend.int.demo.catena-x.net/api"
+    baseUrl: "https://semantics.stable.demo.catena-x.net/discoveryfinder/api/administration/connectors/discovery/search"  # check DF url when provided
 
   config:
     allowedCorsOriginFirst: "http://localhost:4200/"
-    allowedCorsOriginSecond: "https://traceability-portal-int-bmw.int.demo.catena-x.net/"
+    allowedCorsOriginSecond: "https://traceability-portal-stable-b.stable.demo.catena-x.net/"
+
+  irs:
+    baseUrl: "https://tx-irs-stable-b.stable.demo.catena-x.net"
+  registry:
+    urlWithPath: "https://trace-x-registry-stable-b.stable.demo.catena-x.net/semantics/registry/api/v3.0"
+  portal:
+    baseUrl: "https://portal-backend.stable.demo.catena-x.net/api"  # check portal backend
 
   dependencies:
     enabled: true
-    irs: "tx-irs-int-bmw"  # <irs-helm.nameOverride>
-    edc: "tx-edc-consumer-int-bmw"  # <tractusx-connector.nameOverride
+    irs: "tx-irs-stable-b"  # <irs-helm.nameOverride>
+    edc: "tx-edc-consumer-stable-b"  # <tractusx-connector.nameOverride>
 
 #########################
 # PG Admin configuration     #
 #########################
 pgadmin4:
-  nameOverride: "tx-pgadmin-int-bmw"
-  fullnameOverride: "tx-pgadmin-int-bmw"
+  nameOverride: "tx-pgadmin-stable-b"
+  fullnameOverride: "tx-pgadmin-stable-b"
   enabled: true
   strategy:
     type: Recreate
@@ -171,17 +169,17 @@ pgadmin4:
       kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/backend-protocol: HTTP
     hosts:
-      - host: tx-pgadmin-int-bmw.int.demo.catena-x.net
+      - host: tx-pgadmin-stable-b.stable.demo.catena-x.net
         paths:
           - path: /
             pathType: Prefix
     tls:
       - hosts:
-          - tx-pgadmin-int-bmw.int.demo.catena-x.net
+          - tx-pgadmin-stable-b.stable.demo.catena-x.net
         secretName: tls-secret
   env:
     email: pgadmin4@trace.foss
-    password: "<path:traceability-foss/data/int-bmw/database#pgadminPassword>"
+    password: "<path:traceability-foss/data/stable-b/database#pgadminPassword>"
     variables:
       - name: PGADMIN_CONFIG_UPGRADE_CHECK_ENABLED
         value: "False"
@@ -199,12 +197,12 @@ pgadmin4:
 postgresql:
   enabled: true
 
-  nameOverride: "tx-backend-postgresql-int-bmw"
-  fullnameOverride: "tx-backend-postgresql-int-bmw"
+  nameOverride: "tx-backend-postgresql-stable-b"
+  fullnameOverride: "tx-backend-postgresql-stable-b"
 
   auth:
-    postgresPassword: "<path:traceability-foss/data/int-bmw/database#postgresPassword>"
-    password: "<path:traceability-foss/data/int-bmw/database#tracePassword>"
+    postgresPassword: "<path:traceability-foss/data/stable-b/database#postgresPassword>"
+    password: "<path:traceability-foss/data/stable-b/database#tracePassword>"
     database: "trace"
     username: "trace"
 
@@ -213,86 +211,88 @@ postgresql:
 #########################
 irs-helm:
   enabled: true
-  bpn: BPNL00000003AYRE
+  bpn: CHANGE_ME   # PROVIDE PROPER BPN
 
-  nameOverride: "tx-irs-int-bmw"
-  fullnameOverride: "tx-irs-int-bmw"
+  nameOverride: "tx-irs-stable-b"
+  fullnameOverride: "tx-irs-stable-b"
 
   namespace: product-traceability-foss
 
   springprofile: dev
 
-  irsUrl: "https://tx-irs-int-bmw.int.demo.catena-x.net"
+  irsUrl: "https://tx-irs-stable-b.stable.demo.catena-x.net"
 
   ingress:
     enabled: true
     hosts:
-      - host: "tx-irs-int-bmw.int.demo.catena-x.net"
+      - host: "tx-irs-stable-b.stable.demo.catena-x.net"
         paths:
           - path: /
             pathType: ImplementationSpecific
     tls:
       - hosts:
-          - "tx-irs-int-bmw.int.demo.catena-x.net"
+          - "tx-irs-stable-b.stable.demo.catena-x.net"
         secretName: tls-secret
+  # is dtr url correct ?
   digitalTwinRegistry:
     type: decentral
-    discoveryFinderUrl: https://semantics.int.demo.catena-x.net/discoveryfinder/api/administration/connectors/discovery/search
+    descriptorEndpoint: https://trace-x-registry-stable-b.stable.demo.catena-x.net/semantics/registry/api/v3.0/shell-descriptors/{aasIdentifier}
+    shellLookupEndpoint: https://trace-x-registry-stable-b.stable.demo.catena-x.net/semantics/registry/api/v3.0/lookup/shells?assetIds={assetIds}
+    discoveryFinderUrl: https://semantics.stable.demo.catena-x.net/discoveryfinder/api/administration/connectors/discovery/search  # check DF url when provided
 
   semanticshub:
-    url: https://semantics.int.demo.catena-x.net/hub/api/v1/models
+    url: https://semantics.stable.demo.catena-x.net/hub/api/v1/models  # check DF url when provided
   bpdm:
-    url: https://partners-pool.int.demo.catena-x.net
+    url: https://partners-pool.stable.demo.catena-x.net  # check url when provided
 
-  minioUser: <path:traceability-foss/data/int-bmw/minio#user>
-  minioPassword: <path:traceability-foss/data/int-bmw/minio#password>
-  minioUrl: http://tx-irs-minio-int-bmw:9000
+  minioUser: <path:traceability-foss/data/stable-b/minio#user>
+  minioPassword: <path:traceability-foss/data/stable-b/minio#password>
+  minioUrl: http://tx-irs-minio-stable-b:9000
 
   keycloak:
     oauth2:
-      clientId: <path:traceability-foss/data/int-bmw/keycloak/oauth2#clientId>
-      clientSecret: <path:traceability-foss/data/int-bmw/keycloak/oauth2#clientSecret>
-      clientTokenUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
-      jwkSetUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
+      clientId: <path:traceability-foss/data/stable-b/keycloak/oauth2#clientId>
+      clientSecret: <path:traceability-foss/data/stable-b/keycloak/oauth2#clientSecret>
+      clientTokenUri: https://centralidp.stable.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token  # check stable environment centralidp url
+      jwkSetUri: https://centralidp.stable.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs  # check stable environment centralidp url
 
   edc:
-    callbackurl: http://tx-irs-int-bmw:8181/internal/endpoint-data-reference
+    callbackurl: http://tx-irs-stable-b:8181/internal/endpoint-data-reference
     catalog:
       cache:
         enabled: "false"
     controlplane:
       endpoint:
         statesuffix: /state
-        data: https://tx-edc-consumer-int-bmw-controlplane.int.demo.catena-x.net/management
+        data: https://tx-edc-consumer-stable-b-controlplane.stable.demo.catena-x.net/management
       apikey:
-        secret: <path:traceability-foss/data/int-bmw/edc/controlplane#edc.api.control.auth.apikey.value>
+        secret: <path:traceability-foss/data/stable-b/edc/controlplane#edc.api.control.auth.apikey.value>
 
   minio:
-    nameOverride: "tx-irs-minio-int-bmw"
-    fullnameOverride: "tx-irs-minio-int-bmw"
+    nameOverride: "tx-irs-minio-stable-b"
+    fullnameOverride: "tx-irs-minio-stable-b"
     serviceAccount:
       create: false
-    rootUser: <path:traceability-foss/data/int-bmw/minio#user>
-    rootPassword: <path:traceability-foss/data/int-bmw/minio#password>
-
+    rootUser: <path:traceability-foss/data/stable-b/minio#user>
+    rootPassword: <path:traceability-foss/data/stable-b/minio#password>
 
 ###################################
 # EDC Consumer configuration  #
 ###################################
 tractusx-connector:
-  nameOverride: "tx-edc-consumer-int-bmw"
-  fullnameOverride: "tx-edc-consumer-int-bmw"
+  nameOverride: "tx-edc-consumer-stable-b"
+  fullnameOverride: "tx-edc-consumer-stable-b"
   enabled: true
   install:
     postgresql: false
     vault: false
   participant:
-    id: BPNL00000003AYRE
+    id: BPNL00000003CML1
 
   controlplane:
     ingresses:
       - enabled: true
-        hostname: "tx-edc-consumer-int-bmw-controlplane.int.demo.catena-x.net"
+        hostname: "tx-edc-consumer-stable-b-controlplane.stable.demo.catena-x.net"
         annotations:
           nginx.ingress.kubernetes.io/ssl-passthrough: "false"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
@@ -305,13 +305,13 @@ tractusx-connector:
           secretName: tls-secret
     ssi:
       miw:
-        url: <path:traceability-foss/data/int-bmw/edc/wallet#ssi.miw.url>
-        authorityId: <path:traceability-foss/data/int-bmw/edc/wallet#ssi.miw.authorityId>
+        url: <path:traceability-foss/data/stable-b/edc/wallet#ssi.miw.url>
+        authorityId: <path:traceability-foss/data/stable-b/edc/wallet#ssi.miw.authorityId>
       oauth:
-        tokenurl: <path:traceability-foss/data/int-bmw/edc/wallet#ssi.oauth.tokenurl>
+        tokenurl: <path:traceability-foss/data/stable-b/edc/wallet#ssi.oauth.tokenurl>
         client:
-          id: <path:traceability-foss/data/int-bmw/edc/wallet#ssi.oauth.client.id>
-          secretAlias: edc-miw-keycloak-secret-int-bmw
+          id: <path:traceability-foss/data/stable-b/edc/wallet#ssi.oauth.client.id>
+          secretAlias: edc-miw-keycloak-secret-stable-b
 
     endpoints:
       # -- default api for health checks, should not be added to any ingress
@@ -323,7 +323,7 @@ tractusx-connector:
         port: 8081
         path: /management
         # -- authentication key, must be attached to each 'X-Api-Key' request header
-        authKey: <path:traceability-foss/data/int-bmw/edc/controlplane#edc.api.control.auth.apikey.value>
+        authKey: <path:traceability-foss/data/stable-b/edc/controlplane#edc.api.control.auth.apikey.value>
       # -- control api, used for internal control calls. can be added to the internal ingress, but should probably not
       control:
         port: 8083
@@ -367,7 +367,7 @@ tractusx-connector:
   dataplane:
     ingresses:
       - enabled: true
-        hostname: "tx-edc-consumer-int-bmw-dataplane.int.demo.catena-x.net"
+        hostname: "tx-edc-consumer-stable-b-dataplane.stable.demo.catena-x.net"
         annotations:
           nginx.ingress.kubernetes.io/ssl-passthrough: "false"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
@@ -410,7 +410,7 @@ tractusx-connector:
   ## currently we need to provide a url but is not used anywhere
   # URL where the EndpointDataReference callback will be sent to
   backendService:
-    httpProxyTokenReceiverUrl: "https://traceability-int-bmw.int.demo.catena-x.net/api/callback/endpoint-data-reference"
+    httpProxyTokenReceiverUrl: "https://traceability-stable-b.stable.demo.catena-x.net/api/callback/endpoint-data-reference"
     # Files system has to be set to writeable for now since controlplane relies on temporary files to write SSI related things to
   securityContext:
     readOnlyRootFilesystem: false
@@ -420,7 +420,7 @@ tractusx-connector:
   vault:
     hashicorp:
       url: "https://vault.demo.catena-x.net"
-      token: "<path:traceability-foss/data/int-bmw/edc#edc.vault.hashicorp.token>"
+      token: "<path:traceability-foss/data/stable-b/edc#edc.vault.hashicorp.token>"
       timeout: 30
       healthCheck:
         enabled: true
@@ -429,8 +429,8 @@ tractusx-connector:
         secret: /v1/traceability-foss
         health: /v1/sys/health
     secretNames:
-      transferProxyTokenSignerPrivateKey: daps-cert-key-int-bmw
-      transferProxyTokenSignerPublicKey: daps-cert-int-bmw
+      transferProxyTokenSignerPrivateKey: daps-cert-key-stable-b
+      transferProxyTokenSignerPublicKey: daps-cert-stable-b
       transferProxyTokenEncryptionAesKey: token-signer-aes-key
 
   ##################################
@@ -440,11 +440,11 @@ tractusx-connector:
     enabled: true
     size: 1Gi
     auth:
-      username: "<path:traceability-foss/data/int-bmw/edc/database#user>"
-      password: "<path:traceability-foss/data/int-bmw/edc/database#password>"
-    username: "<path:traceability-foss/data/int-bmw/edc/database#user>"
-    password: "<path:traceability-foss/data/int-bmw/edc/database#password>"
-    jdbcUrl: "jdbc:postgresql://tx-edc-consumer-postgresql-int-bmw-hl:5432/edc"
+      username: "<path:traceability-foss/data/stable-b/edc/database#user>"
+      password: "<path:traceability-foss/data/stable-b/edc/database#password>"
+    username: "<path:traceability-foss/data/stable-b/edc/database#user>"
+    password: "<path:traceability-foss/data/stable-b/edc/database#password>"
+    jdbcUrl: "jdbc:postgresql://tx-edc-consumer-postgresql-stable-b-hl:5432/edc"
 
 ###################################
 # EDC Postgres Configuration #
@@ -458,11 +458,12 @@ edc-postgresql:
       requests:
         cpu: 100m
         memory: 1Gi
-  nameOverride: "tx-edc-consumer-postgresql-int-bmw"
-  fullnameOverride: "tx-edc-consumer-postgresql-int-bmw"
+  nameOverride: "tx-edc-consumer-postgresql-stable-b"
+  fullnameOverride: "tx-edc-consumer-postgresql-stable-b"
   enabled: true
   auth:
     database: edc
-    username: <path:traceability-foss/data/int-bmw/edc/database#user>
-    postgresPassword: <path:traceability-foss/data/int-bmw/edc/database#password>
-    password: <path:traceability-foss/data/int-bmw/edc/database#password>
+    username: <path:traceability-foss/data/stable-b/edc/database#user>
+    postgresPassword: <path:traceability-foss/data/stable-b/edc/database#password>
+    password: <path:traceability-foss/data/stable-b/edc/database#password>
+

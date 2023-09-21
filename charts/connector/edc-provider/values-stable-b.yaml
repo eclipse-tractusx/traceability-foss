@@ -1,0 +1,110 @@
+tractusx-connector:
+  enabled: true
+  nameOverride: "tx-edc-provider-stable-b"
+  fullnameOverride: "tx-edc-provider-stable-b"
+  participant:
+    id: CHANGE_ME  # provide bpn when specified
+  controlplane:
+    ingresses:
+      - enabled: true
+        hostname: "trace-x-edc-stable-b.stable.demo.catena-x.net"
+        annotations:
+          nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+        endpoints:
+          - protocol
+          - management
+        tls:
+          enabled: true
+          secretName: tls-secret
+    ssi:
+      miw:
+        url: <path:traceability-foss/data/stable-b/edc/wallet#ssi.miw.url>
+        authorityId: <path:traceability-foss/data/stable-b/edc/wallet#ssi.miw.authorityId>
+      oauth:
+        tokenurl: <path:traceability-foss/data/stable-b/edc/wallet#ssi.oauth.tokenurl>
+        client:
+          id: <path:traceability-foss/data/stable-b/edc/wallet#ssi.oauth.client.id>
+          secretAlias: edc-miw-keycloak-secret-stable-b
+    endpoints:
+      management:
+        authKey: <path:traceability-foss/data/stable-b/edc/controlplane#edc.api.control.auth.apikey.value>
+
+    resources:
+      limits:
+        cpu: 400m
+        memory: 1.5Gi
+      requests:
+        cpu: 200m
+        memory: 1.5Gi
+
+  dataplane:
+    ingresses:
+      - enabled: true
+        hostname: "trace-x-edc-stable-b-dataplane.stable.demo.catena-x.net"
+        annotations:
+          nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+        endpoints:
+          - public
+        className: "nginx"
+        tls:
+          enabled: true
+          secretName: tls-secret
+
+    resources:
+      limits:
+        cpu: 200m
+        memory: 512Mi
+      requests:
+        cpu: 100m
+        memory: 512Mi
+
+  backendService:
+    httpProxyTokenReceiverUrl: "https://traceability-stable-b.stable.demo.catena-x.net/api/callback/endpoint-data-reference"
+
+  postgresql:
+    enabled: true
+    auth:
+      username: "<path:traceability-foss/data/stable-b/edc/database#user>"
+      password: "<path:traceability-foss/data/stable-b/edc/database#password>"
+    username: "<path:traceability-foss/data/stable-b/edc/database#user>"
+    password: "<path:traceability-foss/data/stable-b/edc/database#password>"
+    jdbcUrl: "jdbc:postgresql://tx-edc-provider-postgresql-stable-b-hl:5432/edc"
+
+  vault:
+    hashicorp:
+      url: "https://vault.demo.catena-x.net"
+      token: "<path:traceability-foss/data/stable-b/edc#edc.vault.hashicorp.token>"
+      timeout: 30
+      healthCheck:
+        enabled: true
+        standbyOk: true
+      paths:
+        secret: /v1/traceability-foss
+        health: /v1/sys/health
+    secretNames:
+      transferProxyTokenSignerPrivateKey: daps-cert-key-stable-b
+      transferProxyTokenSignerPublicKey: daps-cert-stable-b
+      transferProxyTokenEncryptionAesKey: token-signer-aes-key
+
+edc-postgresql:
+  nameOverride: "tx-edc-provider-postgresql-stable-b"
+  fullnameOverride: "tx-edc-provider-postgresql-stable-b"
+  enabled: true
+
+  primary:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 1Gi
+      limits:
+        cpu: 200m
+        memory: 1Gi
+  auth:
+    database: edc
+    username: <path:traceability-foss/data/stable-b/edc/database#user>
+    postgresPassword: <path:traceability-foss/data/stable-b/edc/database#password>
+    password: <path:traceability-foss/data/stable-b/edc/database#password>

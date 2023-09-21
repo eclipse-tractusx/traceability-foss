@@ -120,7 +120,7 @@ backend:
       cpu: 100m
       memory: 256Mi
 
-  springprofile: test
+  springprofile: dev
 
   ingress:
     enabled: true

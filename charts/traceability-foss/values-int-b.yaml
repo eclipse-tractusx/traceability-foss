@@ -93,7 +93,7 @@ backend:
       cpu: 100m
       memory: 512Mi
 
-  springprofile: int-b
+  springprofile: int
 
   ingress:
     enabled: true
