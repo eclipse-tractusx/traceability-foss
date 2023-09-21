@@ -38,6 +38,9 @@ describe('SupplierPartsComponent', () => {
       imports: [OtherPartsModule],
       providers: [{ provide: OtherPartsState, useFactory: () => otherPartsState }, { provide: PartsState }],
       roles,
+      componentInputs: {
+        bomLifecycle: 'asBuilt'
+      }
     });
 
   it('should render part table', async () => {
@@ -112,7 +115,7 @@ describe('SupplierPartsComponent', () => {
     let nameHeader = await screen.findByText('table.column.name');
     fireEvent.click(nameHeader);
 
-    expect(supplierPartsComponent['tableSupplierSortList']).toEqual([["name", "asc"]]);
+    expect(supplierPartsComponent['tableSupplierAsBuiltSortList']).toEqual([["name", "asc"]]);
 
   });
 
@@ -139,7 +142,7 @@ describe('SupplierPartsComponent', () => {
     })})
 
     await waitFor(() => {fireEvent.click(semanticModelIdHeader)});
-    expect(supplierPartsComponent['tableSupplierSortList']).toEqual([["name", "asc"], ["semanticModelId", "desc"]]);
+    expect(supplierPartsComponent['tableSupplierAsBuiltSortList']).toEqual([["name", "asc"], ["semanticModelId", "desc"]]);
   });
 
   it('should reset sorting on third click', async () => {
@@ -166,7 +169,7 @@ describe('SupplierPartsComponent', () => {
 
     await waitFor(() => {fireEvent.click(semanticModelIdHeader)});
     await waitFor(() => {fireEvent.click(semanticModelIdHeader)});
-    expect(supplierPartsComponent['tableSupplierSortList']).toEqual([]);
+    expect(supplierPartsComponent['tableSupplierAsBuiltSortList']).toEqual([]);
   });
 
 });

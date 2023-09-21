@@ -23,7 +23,6 @@ import { environment } from '@env';
 import { rest } from 'msw';
 import { applyPagination, extractPagination } from '../pagination.helper';
 import { customerPartsAsPlannedModel } from './customerPartsAsPlanned.model';
-import { otherPartsAssets } from './otherParts.model';
 import { mockCustomerAssets, mockSupplierAssets } from './otherParts.test.model';
 import { supplierPartsAsPlannedAssets } from './supplierPartsAsPlanned.model';
 
@@ -34,7 +33,7 @@ export const otherPartsAsBuiltHandlers = [
 
     switch (owner) {
       case 'SUPPLIER':
-        return res(ctx.status(200), ctx.json(applyPagination(otherPartsAssets, pagination)));
+        return res(ctx.status(200), ctx.json(mockSupplierAssets));
 
       case 'CUSTOMER':
         return res(ctx.status(200), ctx.json(mockCustomerAssets));
@@ -76,6 +75,7 @@ export const otherPartsAsPlannedHandlers = [
 
 export const otherPartsAsPlannedHandlersTest = [
   rest.get(`*${environment.apiUrl}/assets/as-planned`, (req, res, ctx) => {
+    const pagination = extractPagination(req);
     const owner = req.url.searchParams.get('owner');
 
     switch (owner) {
@@ -83,7 +83,7 @@ export const otherPartsAsPlannedHandlersTest = [
         return res(ctx.status(200), ctx.json(supplierPartsAsPlannedAssets));
 
       case 'CUSTOMER':
-        return res(ctx.status(200), ctx.json(customerPartsAsPlannedModel));
+        return res(ctx.status(200), ctx.json(applyPagination(customerPartsAsPlannedModel, pagination)));
     }
 
   }),
