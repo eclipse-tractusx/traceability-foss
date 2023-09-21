@@ -34,7 +34,7 @@ SPDX-License-Identifier: Apache-2.0
 </ng-template>
 
 <ng-template #flat>
-  <button [ngClass]="{'selected-background': isSelected}" [disabled]="isDisabled" [color]="color" mat-flat-button>
+  <button [disabled]="isDisabled" [color]="color" mat-flat-button>
     <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
   </button>
 </ng-template>

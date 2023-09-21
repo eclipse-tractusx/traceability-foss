@@ -21,7 +21,9 @@ SPDX-License-Identifier: Apache-2.0
 
 
 <div class="parts-table-container">
-  <app-bom-lifecycle-activator (buttonClickEvent)="handleTableActivationEvent($event)"></app-bom-lifecycle-activator>
+  <div class="app-bom-lifecycle-activator-container">
+    <app-bom-lifecycle-activator (buttonClickEvent)="handleTableActivationEvent($event)"></app-bom-lifecycle-activator>
+  </div>
   <ng-container *viewContainer="partsAsBuilt$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
   <ng-container *viewContainer="partsAsPlanned$ | async; main: myTmp; error: errorTmp; loading: loaderTmp"></ng-container>
   <ng-template #mainTmp let-parts="view">

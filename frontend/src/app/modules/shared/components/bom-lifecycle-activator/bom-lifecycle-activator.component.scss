@@ -18,3 +18,10 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+.button-container {
+  display: flex;
+}
+
+.button-container app-button {
+  flex: 1; /* this will make each button take up 50% of the container's width */
+}

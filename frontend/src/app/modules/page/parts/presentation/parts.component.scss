@@ -29,6 +29,12 @@
   grid-gap: 30px;
 }
 
+
+.app-bom-lifecycle-activator-container {
+  grid-column: 1 / span 2; /* This will make it span both columns */
+  width: 100%;
+}
+
 /* Apply the side-by-side layout for wider screens */
 @media (max-width: 800px) {
   .parts-table-container {
