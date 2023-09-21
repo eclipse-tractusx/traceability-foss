@@ -1203,6 +1203,131 @@
           }
         }
       ]
+    },
+    {
+      "catenaXId" : "urn:uuid:aad27ddb-43aa-4e42-98c2-01e529ef127c",
+      "bpnl" : "BPNL00000003CML1",
+      "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned" : [
+        {
+          "catenaXId" : "urn:uuid:aad27ddb-43aa-4e42-98c2-01e529ef127c",
+          "sites" : [
+            {
+              "functionValidUntil" : "2027-05-23T09:16:30.000Z",
+              "catenaXsiteId" : "BPNS000004711DMY",
+              "function" : "production",
+              "functionValidFrom" : "2013-11-17T23:59:54.000Z"
+            }
+          ]
+        }
+      ],
+      "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
+        {
+          "validityPeriod" : {
+            "validFrom" : "2015-05-18T23:10:44.000Z",
+            "validTo" : "2025-10-23T14:46:01.000Z"
+          },
+          "catenaXId" : "urn:uuid:aad27ddb-43aa-4e42-98c2-01e529ef127c",
+          "partTypeInformation" : {
+            "manufacturerPartId" : "38049661-08",
+            "classification" : "product",
+            "nameAtManufacturer" : "a/dev OEM A High Voltage Battery"
+          }
+        }
+      ],
+      "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned" : [
+        {
+          "catenaXId" : "urn:uuid:aad27ddb-43aa-4e42-98c2-01e529ef127c",
+          "childItems" : [
+            {
+              "validityPeriod" : {
+                "validFrom" : "2023-03-21T08:17:29.187+01:00",
+                "validTo" : "2024-07-01T16:10:00.000+01:00"
+              },
+              "catenaXId" : "urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca97",
+              "quantity" : {
+                "quantityNumber" : 6,
+                "measurementUnit" : "unit:litre"
+              },
+              "businessPartner" : "BPNL00000003CML1",
+              "createdOn" : "2022-02-03T14:48:54.709Z",
+              "lastModifiedOn" : "2022-02-03T14:48:54.709Z"
+            }
+          ]
+        }
+      ],
+      "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned" : [
+        {
+          "parentParts" : [
+            {
+              "validityPeriod" : {
+                "validFrom" : "2023-03-21T08:47:14.438+01:00",
+                "validTo" : "2024-08-02T09:00:00.000+01:00"
+              },
+              "parentCatenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4c79e",
+              "quantity" : {
+                "quantityNumber" : 2.5,
+                "measurementUnit" : "unit:litre"
+              },
+              "createdOn" : "2022-02-03T14:48:54.709Z",
+              "lastModifiedOn" : "2022-02-03T14:48:54.709Z"
+            }
+          ],
+          "businessPartner" : "BPNL00000003CNKC",
+          "catenaXId" : "urn:uuid:aad27ddb-43aa-4e42-98c2-01e529ef127c"
+        }
+      ]
+    },
+    {
+      "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4c79e",
+      "bpnl" : "BPNL00000003CNKC",
+      "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned" : [
+        {
+          "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4c79e",
+          "sites" : [
+            {
+              "functionValidUntil" : "2025-04-04T04:14:11.000Z",
+              "catenaXsiteId" : "BPNS000004711DMY",
+              "function" : "production",
+              "functionValidFrom" : "2018-03-24T13:38:32.000Z"
+            }
+          ]
+        }
+      ],
+      "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
+        {
+          "validityPeriod" : {
+            "validFrom" : "2017-01-03T07:45:04.000Z",
+            "validTo" : "2029-11-15T11:57:45.000Z"
+          },
+          "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4c79e",
+          "partTypeInformation" : {
+            "manufacturerPartId" : "ZX-55",
+            "classification" : "product",
+            "nameAtManufacturer" : "b/test Vehicle Model A"
+          }
+        }
+      ],
+      "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned" : [
+        {
+          "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4c79e",
+          "childItems" : [
+            {
+              "validityPeriod" : {
+                "validFrom" : "2023-03-21T08:17:29.187+01:00",
+                "validTo" : "2024-07-01T16:10:00.000+01:00"
+              },
+              "catenaXId" : "urn:uuid:aad27ddb-43aa-4e42-98c2-01e529ef127c",
+              "quantity" : {
+                "quantityNumber" : 1,
+                "measurementUnit" : "unit:litre"
+              },
+              "businessPartner" : "BPNL00000003AYRE",
+              "createdOn" : "2022-02-03T14:48:54.709Z",
+              "lastModifiedOn" : "2022-02-03T14:48:54.709Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
