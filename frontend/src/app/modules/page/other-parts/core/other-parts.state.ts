@@ -29,14 +29,19 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class OtherPartsState {
   private readonly _customerParts$: State<View<Pagination<Part>>> = new State<View<Pagination<Part>>>({ loader: true });
-  private readonly _supplierParts$: State<View<Pagination<Part>>> = new State<View<Pagination<Part>>>({ loader: true });
 
+  private readonly _supplierPartsAsBuilt$: State<View<Pagination<Part>>> = new State<View<Pagination<Part>>>({ loader: true });
+  private readonly _supplierPartsAsPlanned$: State<View<Pagination<Part>>> = new State<View<Pagination<Part>>>({ loader: true });
   public get customerParts$(): Observable<View<Pagination<Part>>> {
     return this._customerParts$.observable;
   }
 
-  public get supplierParts$(): Observable<View<Pagination<Part>>> {
-    return this._supplierParts$.observable;
+  public get supplierPartsAsBuilt$(): Observable<View<Pagination<Part>>> {
+    return this._supplierPartsAsBuilt$.observable;
+  }
+
+  public get supplierPartsAsPlanned$(): Observable<View<Pagination<Part>>> {
+    return this._supplierPartsAsPlanned$.observable;
   }
 
   public set customerParts({ data, loader, error }: View<Pagination<Part>>) {
@@ -44,12 +49,22 @@ export class OtherPartsState {
     this._customerParts$.update(partsView);
   }
 
-  public set supplierParts({ data, loader, error }: View<Pagination<Part>>) {
+  public set supplierPartsAsBuilt({ data, loader, error }: View<Pagination<Part>>) {
     const partsView: View<Pagination<Part>> = { data, loader, error };
-    this._supplierParts$.update(partsView);
+    this._supplierPartsAsBuilt$.update(partsView);
   }
 
-  public get supplierParts(): View<Pagination<Part>> {
-    return this._supplierParts$.snapshot;
+  public set supplierPartsAsPlanned({ data, loader, error }: View<Pagination<Part>>) {
+    const partsView: View<Pagination<Part>> = { data, loader, error };
+    this._supplierPartsAsPlanned$.update(partsView);
   }
+
+  public get supplierPartsAsBuilt(): View<Pagination<Part>> {
+    return this._supplierPartsAsBuilt$.snapshot;
+  }
+
+  public get supplierPartsAsPlanned(): View<Pagination<Part>> {
+    return this._supplierPartsAsPlanned$.snapshot;
+  }
+
 }

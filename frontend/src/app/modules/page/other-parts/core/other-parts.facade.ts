@@ -28,13 +28,14 @@ import { Part } from '@page/parts/model/parts.model';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
 import { PartsService } from '@shared/service/parts.service';
-import _deepClone from 'lodash-es/cloneDeep';
 import { Observable, Subscription } from 'rxjs';
 
 @Injectable()
 export class OtherPartsFacade {
   private customerPartsSubscription: Subscription;
-  private supplierPartsSubscription: Subscription;
+
+  private supplierPartsAsBuiltSubscription: Subscription;
+  private supplierPartsAsPlannedSubscription: Subscription;
 
   constructor(
     private readonly otherPartsService: OtherPartsService,
@@ -46,42 +47,44 @@ export class OtherPartsFacade {
     return this.otherPartsState.customerParts$;
   }
 
-  public get supplierParts$(): Observable<View<Pagination<Part>>> {
-    return this.otherPartsState.supplierParts$;
+  public get supplierPartsAsBuilt$(): Observable<View<Pagination<Part>>> {
+    return this.otherPartsState.supplierPartsAsBuilt$;
   }
+
+  public get supplierPartsAsPlanned$(): Observable<View<Pagination<Part>>> {
+    return this.otherPartsState.supplierPartsAsPlanned$;
+  }
+
 // TODO: remove OtherPartsService and integrate in PartService
   public setCustomerParts(page = 0, pageSize = 50, sorting: TableHeaderSort[] = []): void {
     this.customerPartsSubscription?.unsubscribe();
-    this.customerPartsSubscription = this.otherPartsService.getOtherParts(page, pageSize, sorting, Owner.CUSTOMER).subscribe({
+    this.customerPartsSubscription = this.otherPartsService.getOtherPartsAsBuilt(page, pageSize, sorting, Owner.CUSTOMER).subscribe({
       next: data => (this.otherPartsState.customerParts = { data }),
       error: error => (this.otherPartsState.customerParts = { error }),
     });
   }
 
-  public setSupplierParts(page = 0, pageSize = 50, sorting: TableHeaderSort[] = []): void {
-    this.supplierPartsSubscription?.unsubscribe();
-    this.supplierPartsSubscription = this.otherPartsService.getOtherParts(page, pageSize, sorting, Owner.SUPPLIER).subscribe({
-      next: data => (this.otherPartsState.supplierParts = { data }),
-      error: error => (this.otherPartsState.supplierParts = { error }),
+  public setSupplierPartsAsBuilt(page = 0, pageSize = 50, sorting: TableHeaderSort[] = []): void {
+    this.supplierPartsAsBuiltSubscription?.unsubscribe();
+    this.supplierPartsAsBuiltSubscription = this.otherPartsService.getOtherPartsAsBuilt(page, pageSize, sorting, Owner.SUPPLIER).subscribe({
+      next: data => (this.otherPartsState.supplierPartsAsBuilt = { data }),
+      error: error => (this.otherPartsState.supplierPartsAsBuilt = { error }),
     });
   }
 
-  public setActiveInvestigationForParts(parts: Part[]): void {
-    const { data } = _deepClone(this.otherPartsState.supplierParts);
-    if (!data) {
-      return;
-    }
-
-    data.content = data.content.map(part => {
-      const activeInvestigation = parts.some(currentPart => currentPart.id === part.id);
-      return { ...part, activeInvestigation };
+  public setSupplierPartsAsPlanned(page = 0, pageSize = 50, sorting: TableHeaderSort[] = []): void {
+    this.supplierPartsAsPlannedSubscription?.unsubscribe();
+    this.supplierPartsAsPlannedSubscription = this.otherPartsService.getOtherPartsAsPlanned(page, pageSize, sorting, Owner.SUPPLIER).subscribe({
+      next: data => (this.otherPartsState.supplierPartsAsPlanned = { data }),
+      error: error => (this.otherPartsState.supplierPartsAsPlanned = { error }),
     });
-
-    this.otherPartsState.supplierParts = { data };
   }
+
+
 
   public unsubscribeParts(): void {
     this.customerPartsSubscription?.unsubscribe();
-    this.supplierPartsSubscription?.unsubscribe();
+    this.supplierPartsAsBuiltSubscription?.unsubscribe();
+    this.supplierPartsAsPlannedSubscription?.unsubscribe();
   }
 }

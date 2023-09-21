@@ -21,4 +21,20 @@
 
 .about-container {
   @apply flex flex-col;
+  height: 65vh;
 }
+
+.other-parts-table-container::-webkit-scrollbar {
+display: none;
+}
+
+.supplier-parts-asBuilt-table-wrapper {
+  height: 58vh;
+  overflow: auto;
+}
+
+.supplier-parts-asBuilt-table-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+

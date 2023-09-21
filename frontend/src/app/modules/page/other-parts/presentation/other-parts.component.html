@@ -18,8 +18,11 @@ under the License.
 
 SPDX-License-Identifier: Apache-2.0
 -->
-
+<!-- TODO Change class -->
 <div class="about-container">
+  <as-split direction="horizontal">
+    <as-split-area [size]="50">
+      <p class="large-text">{{'page.asBuiltParts' | i18n }}</p>
   <mat-tab-group
     (selectedTabChange)="onTabChange($event)"
     appTabAsPanel
@@ -31,7 +34,9 @@ SPDX-License-Identifier: Apache-2.0
         <span [id]="supplierTabLabelId">{{ 'pageOtherParts.tab.supplier' | i18n }} </span>
       </ng-template>
 
-      <app-supplier-parts></app-supplier-parts>
+      <app-supplier-parts
+      [bomLifecycle]="'asBuilt'"
+      ></app-supplier-parts>
     </mat-tab>
 
     <mat-tab>
@@ -42,6 +47,35 @@ SPDX-License-Identifier: Apache-2.0
       <app-customer-parts></app-customer-parts>
     </mat-tab>
   </mat-tab-group>
+    </as-split-area>
+    <as-split-area [size]="50">
+      <p class="large-text">{{'page.asPlannedParts' | i18n }}</p>
+  <mat-tab-group
+    (selectedTabChange)="onTabChange($event)"
+    appTabAsPanel
+    mat-stretch-tabs="false"
+    mat-align-tabs="start"
+  >
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <span [id]="supplierTabLabelId">{{ 'pageOtherParts.tab.supplier' | i18n }} </span>
+      </ng-template>
+
+      <app-supplier-parts
+        [bomLifecycle]="'asPlanned'"
+      ></app-supplier-parts>
+    </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <span [id]="customerTabLabelId">{{ 'pageOtherParts.tab.customer' | i18n }} </span>
+      </ng-template>
+
+      <app-customer-parts></app-customer-parts>
+    </mat-tab>
+  </mat-tab-group>
+    </as-split-area>
+  </as-split>
 
   <app-part-detail [showRelation]="false" [showStartInvestigation]="showStartInvestigationArray[selectedTab]"></app-part-detail>
 </div>

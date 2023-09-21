@@ -24,26 +24,20 @@
 }
 
 .parts-table-container {
-  display: grid;
-  grid-template-columns: minmax(300px, 1fr) minmax(300px, 1fr);
-  grid-gap: 30px;
+  width: 100%;
+  height: 65vh;
 }
 
-/* Apply the side-by-side layout for wider screens */
-@media (max-width: 800px) {
-  .parts-table-container {
-    grid-template-columns: repeat(1, minmax(300px, 1fr));
-  }
-}
 
 .parts-asPlanned-table {
-  overflow-x: auto;
-  overflow-y: auto;
-  height: 65vh;
+  overflow: auto;
 }
 
 .parts-asBuilt-table {
-  overflow-x: auto;
-  overflow-y: auto;
-  height: 65vh;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.parts-asBuilt-table::-webkit-scrollbar {
+  display: none;
 }

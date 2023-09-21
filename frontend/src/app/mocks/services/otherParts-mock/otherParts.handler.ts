@@ -22,10 +22,12 @@
 import { environment } from '@env';
 import { rest } from 'msw';
 import { applyPagination, extractPagination } from '../pagination.helper';
+import { customerPartsAsPlannedModel } from './customerPartsAsPlanned.model';
 import { otherPartsAssets } from './otherParts.model';
 import { mockCustomerAssets, mockSupplierAssets } from './otherParts.test.model';
+import { supplierPartsAsPlannedAssets } from './supplierPartsAsPlanned.model';
 
-export const otherPartsHandlers = [
+export const otherPartsAsBuiltHandlers = [
   rest.get(`*${environment.apiUrl}/assets/as-built`, (req, res, ctx) => {
     const pagination = extractPagination(req);
     const owner = req.url.searchParams.get('owner');
@@ -41,7 +43,7 @@ export const otherPartsHandlers = [
   }),
 ];
 
-export const otherPartsHandlersTest = [
+export const otherPartsAsBuiltHandlersTest = [
   rest.get(`*${environment.apiUrl}/assets/as-built`, (req, res, ctx) => {
     const owner = req.url.searchParams.get('owner');
 
@@ -51,6 +53,37 @@ export const otherPartsHandlersTest = [
 
       case 'CUSTOMER':
         return res(ctx.status(200), ctx.json(mockCustomerAssets));
+    }
+
+  }),
+];
+
+export const otherPartsAsPlannedHandlers = [
+  rest.get(`*${environment.apiUrl}/assets/as-planned`, (req, res, ctx) => {
+    const pagination = extractPagination(req);
+    const owner = req.url.searchParams.get('owner');
+
+    switch (owner) {
+      case 'SUPPLIER':
+        return res(ctx.status(200), ctx.json(applyPagination(supplierPartsAsPlannedAssets, pagination)));
+
+      case 'CUSTOMER':
+        return res(ctx.status(200), ctx.json(customerPartsAsPlannedModel));
+    }
+
+  }),
+];
+
+export const otherPartsAsPlannedHandlersTest = [
+  rest.get(`*${environment.apiUrl}/assets/as-planned`, (req, res, ctx) => {
+    const owner = req.url.searchParams.get('owner');
+
+    switch (owner) {
+      case 'SUPPLIER':
+        return res(ctx.status(200), ctx.json(supplierPartsAsPlannedAssets));
+
+      case 'CUSTOMER':
+        return res(ctx.status(200), ctx.json(customerPartsAsPlannedModel));
     }
 
   }),
