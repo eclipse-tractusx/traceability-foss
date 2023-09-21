@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 ### Added
+- Splitscreen View with sliders on parts and otherParts View
 ### Removed
 - Old edc code not necessary anymore
 
