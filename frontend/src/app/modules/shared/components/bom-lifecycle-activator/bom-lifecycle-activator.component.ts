@@ -18,8 +18,8 @@
  ********************************************************************************/
 import {Component, EventEmitter, Output} from '@angular/core';
 import {
-    BomLifecycleState,
-    BomLifecycleConfig
+    BomLifecycleConfig,
+    BomLifecycleState
 } from "@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model";
 
 @Component({
@@ -32,7 +32,7 @@ export class BomLifecycleActivatorComponent {
 
     bomLifecycleConfig: BomLifecycleConfig = {
         asBuiltActive: true,
-        asPlannedActive: true
+        asPlannedActive: true,
     }
 
     toggleAsPlanned() {

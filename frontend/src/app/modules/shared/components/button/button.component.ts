@@ -26,8 +26,10 @@ type ButtonVariant = 'button' | 'raised' | 'flat' | 'stroked' | 'icon' | 'fab' |
 @Component({
   selector: 'app-button',
   templateUrl: './button.component.html',
+  styleUrls: ['./button.component.scss']
 })
 export class ButtonComponent {
+
   @HostBinding('style.pointer-events') get pEvents(): string {
     return this.isDisabled ? 'none' : 'auto';
   }
@@ -39,4 +41,6 @@ export class ButtonComponent {
   @Input() label: string;
   @Input() iconName: string;
   @Input() isDisabled: boolean = false;
+  @Input() isSelected: boolean;
+
 }
