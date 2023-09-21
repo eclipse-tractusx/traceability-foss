@@ -1053,7 +1053,7 @@
           "partTypeInformation" : {
             "manufacturerPartId" : "ZX-55",
             "classification" : "product",
-            "nameAtManufacturer" : "Vehicle Model A"
+            "nameAtManufacturer" : "a/dev Vehicle Model A"
           }
         }
       ],
@@ -1105,7 +1105,7 @@
           "partTypeInformation" : {
             "manufacturerPartId" : "ZX-55",
             "classification" : "product",
-            "nameAtManufacturer" : "Vehicle Model B"
+            "nameAtManufacturer" : "b/test Vehicle Model B"
           }
         }
       ],
@@ -1169,7 +1169,7 @@
             "customerPartId" : "PRT-12345",
             "classification" : "product",
             "nameAtManufacturer" : "Mirror left",
-            "nameAtCustomer" : "side element A"
+            "nameAtCustomer" : "b/test side element A"
           }
         }
       ]
@@ -1199,7 +1199,7 @@
             "customerPartId" : "PRT-12345",
             "classification" : "product",
             "nameAtManufacturer" : "Mirror left",
-            "nameAtCustomer" : "side element A"
+            "nameAtCustomer" : "a/dev side element A"
           }
         }
       ]
@@ -1709,6 +1709,214 @@
           ],
           "businessPartner" : "BPNL00000003CNKC",
           "catenaXId" : "urn:uuid:4518c080-14fb-4252-b8de-4362d615868d"
+        }
+      ]
+    },
+    {
+      "catenaXId" : "urn:uuid:07cb071f-8716-45fe-89f1-f2f77a1ce93b",
+      "bpnl" : "BPNL00000003CNKC",
+      "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned" : [
+        {
+          "catenaXId" : "urn:uuid:07cb071f-8716-45fe-89f1-f2f77a1ce93b",
+          "sites" : [
+            {
+              "functionValidUntil" : "2028-09-29T13:56:09.000Z",
+              "catenaXsiteId" : "BPNS00000003B5MJ",
+              "function" : "production",
+              "functionValidFrom" : "2017-01-30T12:55:30.000Z"
+            }
+          ]
+        }
+      ],
+      "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
+        {
+          "validityPeriod" : {
+            "validFrom" : "2016-04-24T08:26:56.000Z",
+            "validTo" : "2031-12-17T23:55:04.000Z"
+          },
+          "catenaXId" : "urn:uuid:07cb071f-8716-45fe-89f1-f2f77a1ce93b",
+          "partTypeInformation" : {
+            "manufacturerPartId" : "ZX-55",
+            "classification" : "product",
+            "nameAtManufacturer" : "b/test Tier B ECU1"
+          }
+        }
+      ],
+      "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned" : [
+        {
+          "catenaXId" : "urn:uuid:07cb071f-8716-45fe-89f1-f2f77a1ce93b",
+          "childItems" : [
+            {
+              "validityPeriod" : {
+                "validFrom" : "2023-03-21T08:17:29.187+01:00",
+                "validTo" : "2024-07-01T16:10:00.000+01:00"
+              },
+              "catenaXId" : "urn:uuid:3cdd2826-5df0-4c7b-b540-9eeccecb2301",
+              "quantity" : {
+                "quantityNumber" : 0.3301,
+                "measurementUnit" : "unit:kilogram"
+              },
+              "businessPartner" : "BPNL00000003CML1",
+              "createdOn" : "2022-02-03T14:48:54.709Z",
+              "lastModifiedOn" : "2022-02-03T14:48:54.709Z"
+            }
+          ]
+        }
+      ],
+      "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned" : [
+        {
+          "parentParts" : [
+            {
+              "validityPeriod" : {
+                "validFrom" : "2023-03-21T08:47:14.438+01:00",
+                "validTo" : "2024-08-02T09:00:00.000+01:00"
+              },
+              "parentCatenaXId" : "urn:uuid:68904173-ad59-4a77-8412-3e73fcafbd8b",
+              "quantity" : {
+                "quantityNumber" : 2.5,
+                "measurementUnit" : "unit:litre"
+              },
+              "businessPartner" : "BPNL00000003CML1",
+              "createdOn" : "2022-02-03T14:48:54.709Z",
+              "lastModifiedOn" : "2022-02-03T14:48:54.709Z"
+            }
+          ],
+          "catenaXId" : "urn:uuid:07cb071f-8716-45fe-89f1-f2f77a1ce93b"
+        }
+      ]
+    },
+    {
+      "catenaXId" : "urn:uuid:3cdd2826-5df0-4c7b-b540-9eeccecb2301",
+      "bpnl" : "BPNL00000003CML1",
+      "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned" : [
+        {
+          "catenaXId" : "urn:uuid:3cdd2826-5df0-4c7b-b540-9eeccecb2301",
+          "sites" : [
+            {
+              "functionValidUntil" : "2032-01-21T11:22:57.000Z",
+              "catenaXsiteId" : "BPNS00000003AXS3",
+              "function" : "production",
+              "functionValidFrom" : "2017-05-27T13:54:13.000Z"
+            }
+          ]
+        }
+      ],
+      "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
+        {
+          "validityPeriod" : {
+            "validFrom" : "2019-08-17T14:14:30.000Z",
+            "validTo" : "2032-08-30T04:32:28.000Z"
+          },
+          "catenaXId" : "urn:uuid:3cdd2826-5df0-4c7b-b540-9eeccecb2301",
+          "partTypeInformation" : {
+            "manufacturerPartId" : "6775244-06",
+            "classification" : "product",
+            "nameAtManufacturer" : "a/dev Sub Tier B Glue"
+          }
+        }
+      ],
+      "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned" : [
+        {
+          "parentParts" : [
+            {
+              "validityPeriod" : {
+                "validFrom" : "2023-03-21T08:47:14.438+01:00",
+                "validTo" : "2024-08-02T09:00:00.000+01:00"
+              },
+              "parentCatenaXId" : "urn:uuid:07cb071f-8716-45fe-89f1-f2f77a1ce93b",
+              "quantity" : {
+                "quantityNumber" : 2.5,
+                "measurementUnit" : "unit:litre"
+              },
+              "createdOn" : "2022-02-03T14:48:54.709Z",
+              "lastModifiedOn" : "2022-02-03T14:48:54.709Z"
+            }
+          ],
+          "businessPartner" : "BPNL00000003CML1",
+          "catenaXId" : "urn:uuid:3cdd2826-5df0-4c7b-b540-9eeccecb2301"
+        }
+      ]
+    },
+    {
+      "catenaXId" : "urn:uuid:68904173-ad59-4a77-8412-3e73fcafbd8b",
+      "bpnl" : "BPNL00000003CML1",
+      "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned" : [
+        {
+          "catenaXId" : "urn:uuid:68904173-ad59-4a77-8412-3e73fcafbd8b",
+          "sites" : [
+            {
+              "functionValidUntil" : "2030-05-16T19:21:46.000Z",
+              "catenaXsiteId" : "BPNS000000815DMY",
+              "function" : "production",
+              "functionValidFrom" : "2019-10-17T03:16:09.000Z"
+            }
+          ]
+        }
+      ],
+      "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
+        {
+          "validityPeriod" : {
+            "validFrom" : "2016-04-09T20:41:14.000Z",
+            "validTo" : "2023-12-09T04:46:33.000Z"
+          },
+          "catenaXId" : "urn:uuid:68904173-ad59-4a77-8412-3e73fcafbd8b",
+          "partTypeInformation" : {
+            "manufacturerPartId" : "FJ-87",
+            "classification" : "product",
+            "nameAtManufacturer" : "a/dev Vehicle Model B"
+          }
+        }
+      ],
+      "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned" : [
+        {
+          "catenaXId" : "urn:uuid:68904173-ad59-4a77-8412-3e73fcafbd8b",
+          "childItems" : [
+            {
+              "validityPeriod" : {
+                "validFrom" : "2023-03-21T08:17:29.187+01:00",
+                "validTo" : "2024-07-01T16:10:00.000+01:00"
+              },
+              "catenaXId" : "urn:uuid:07cb071f-8716-45fe-89f1-f2f77a1ce93b",
+              "quantity" : {
+                "quantityNumber" : 1,
+                "measurementUnit" : "unit:litre"
+              },
+              "businessPartner" : "BPNL00000003CNKC",
+              "createdOn" : "2022-02-03T14:48:54.709Z",
+              "lastModifiedOn" : "2022-02-03T14:48:54.709Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "catenaXId" : "urn:uuid:e8c48a8e-d2d7-43d9-a867-65c70c85f5b8",
+      "bpnl" : "BPNL00000003CNKC",
+      "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned" : [
+        {
+          "catenaXId" : "urn:uuid:e8c48a8e-d2d7-43d9-a867-65c70c85f5b8",
+          "sites" : [
+            {
+              "functionValidUntil" : "2028-02-14T21:42:45.000Z",
+              "catenaXsiteId" : "BPNS00000003B2OM",
+              "function" : "production",
+              "functionValidFrom" : "2015-07-21T06:33:16.000Z"
+            }
+          ]
+        }
+      ],
+      "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
+        {
+          "validityPeriod" : {
+            "validFrom" : "2019-11-02T11:14:15.000Z",
+            "validTo" : "2024-07-17T02:07:07.000Z"
+          },
+          "catenaXId" : "urn:uuid:e8c48a8e-d2d7-43d9-a867-65c70c85f5b8",
+          "partTypeInformation" : {
+            "manufacturerPartId" : "123564887-01",
+            "classification" : "product",
+            "nameAtManufacturer" : "b/test Tire Model A"
+          }
         }
       ]
     }
