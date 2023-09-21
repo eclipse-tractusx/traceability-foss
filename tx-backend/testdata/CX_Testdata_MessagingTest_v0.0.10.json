@@ -91,7 +91,7 @@
           "partTypeInformation" : {
             "manufacturerPartId" : "IF-53",
             "classification" : "product",
-            "nameAtManufacturer" : "Vehicle Hybrid"
+            "nameAtManufacturer" : "a/dev Vehicle Hybrid"
           }
         }
       ]
@@ -142,7 +142,7 @@
             "customerPartId" : "22782277-50",
             "classification" : "component",
             "nameAtManufacturer" : "Door f-l",
-            "nameAtCustomer" : "Door front-left"
+            "nameAtCustomer" : "b/test Door front-left"
           }
         }
       ],
@@ -263,7 +263,7 @@
           "partTypeInformation" : {
             "manufacturerPartId" : "JQ-87",
             "classification" : "product",
-            "nameAtManufacturer" : "Vehicle Hybrid"
+            "nameAtManufacturer" : "a/dev Vehicle Hybrid"
           }
         }
       ]
@@ -313,7 +313,7 @@
             "manufacturerPartId" : "22782277-50",
             "customerPartId" : "22782277-50",
             "classification" : "component",
-            "nameAtManufacturer" : "Door f-l",
+            "nameAtManufacturer" : "b/test Door f-l",
             "nameAtCustomer" : "Door front-left"
           }
         }
@@ -485,7 +485,7 @@
             "manufacturerPartId" : "22782277-50",
             "customerPartId" : "22782277-50",
             "classification" : "component",
-            "nameAtManufacturer" : "Door f-l",
+            "nameAtManufacturer" : "b/test Door f-l",
             "nameAtCustomer" : "Door front-left"
           }
         }
@@ -536,7 +536,7 @@
             "manufacturerPartId" : "95657762-59",
             "customerPartId" : "95657762-59",
             "classification" : "component",
-            "nameAtManufacturer" : "Door Key",
+            "nameAtManufacturer" : "a/dev Door Key",
             "nameAtCustomer" : "Door Key"
           }
         }
@@ -657,7 +657,7 @@
             "manufacturerPartId" : "22782277-50",
             "customerPartId" : "22782277-50",
             "classification" : "component",
-            "nameAtManufacturer" : "Door f-l",
+            "nameAtManufacturer" : "b/test Door f-l",
             "nameAtCustomer" : "Door front-left"
           }
         }
@@ -708,7 +708,7 @@
             "manufacturerPartId" : "95657762-59",
             "customerPartId" : "95657762-59",
             "classification" : "component",
-            "nameAtManufacturer" : "Door Key",
+            "nameAtManufacturer" : "a/dev Door Key",
             "nameAtCustomer" : "Door Key"
           }
         }
@@ -758,7 +758,7 @@
           "partTypeInformation" : {
             "manufacturerPartId" : "95657762-59",
             "classification" : "component",
-            "nameAtManufacturer" : "Door Key"
+            "nameAtManufacturer" : "a/dev Door Key"
           }
         }
       ],
@@ -807,7 +807,7 @@
           "partTypeInformation" : {
             "manufacturerPartId" : "95657762-59",
             "classification" : "component",
-            "nameAtManufacturer" : "Door Key"
+            "nameAtManufacturer" : "a/dev Door Key"
           }
         }
       ]
@@ -839,7 +839,7 @@
           "partTypeInformation" : {
             "manufacturerPartId" : "95657762-59",
             "classification" : "component",
-            "nameAtManufacturer" : "Door Key"
+            "nameAtManufacturer" : "a/dev Door Key"
           }
         }
       ],
@@ -888,7 +888,7 @@
           "partTypeInformation" : {
             "manufacturerPartId" : "95657762-59",
             "classification" : "component",
-            "nameAtManufacturer" : "Door Key"
+            "nameAtManufacturer" : "b/test Door Key"
           }
         }
       ],
@@ -937,7 +937,7 @@
           "partTypeInformation" : {
             "manufacturerPartId" : "95657762-59",
             "classification" : "component",
-            "nameAtManufacturer" : "Door Key"
+            "nameAtManufacturer" : "b/test Door Key"
           }
         }
       ],
@@ -986,7 +986,7 @@
           "partTypeInformation" : {
             "manufacturerPartId" : "95657762-59",
             "classification" : "component",
-            "nameAtManufacturer" : "Door Key"
+            "nameAtManufacturer" : "a/dev Door Key"
           }
         }
       ],
@@ -1035,7 +1035,7 @@
           "partTypeInformation" : {
             "manufacturerPartId" : "95657762-59",
             "classification" : "component",
-            "nameAtManufacturer" : "Door Key"
+            "nameAtManufacturer" : "b/test Door Key"
           }
         }
       ]
@@ -1916,6 +1916,256 @@
             "manufacturerPartId" : "123564887-01",
             "classification" : "product",
             "nameAtManufacturer" : "b/test Tire Model A"
+          }
+        }
+      ]
+    },
+    {
+      "catenaXId" : "urn:uuid:44347dec-21d1-47aa-b2a7-f959bf9d424b",
+      "bpnl" : "BPNL00000003CML1",
+      "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart" : [
+        {
+          "localIdentifiers" : [
+            {
+              "value" : "BPNL00000003CML1",
+              "key" : "manufacturerId"
+            },
+            {
+              "value" : "8840837-48",
+              "key" : "manufacturerPartId"
+            },
+            {
+              "value" : "NO-282209222605524629600815",
+              "key" : "partInstanceId"
+            }
+          ],
+          "manufacturingInformation" : {
+            "date" : "2022-02-04T14:48:54",
+            "country" : "DEU"
+          },
+          "catenaXId" : "urn:uuid:44347dec-21d1-47aa-b2a7-f959bf9d424b",
+          "partTypeInformation" : {
+            "manufacturerPartId" : "8840838-04",
+            "customerPartId" : "8840838-04",
+            "classification" : "component",
+            "nameAtManufacturer" : "a/dev HV MODUL",
+            "nameAtCustomer" : "HV MODUL"
+          }
+        }
+      ],
+      "urn:bamm:io.catenax.traction_battery_code:1.0.0#TractionBatteryCode" : [
+        {
+          "tractionBatteryCode" : "X12MCPM27KLPCLX2M2382320",
+          "subcomponents" : [
+            {
+              "tractionBatteryCode" : "X12MCPM27KLPCLX2M2382320",
+              "productType" : "module"
+            }
+          ],
+          "productType" : "module"
+        }
+      ]
+    },
+    {
+      "catenaXId" : "urn:uuid:b0acf3e1-3fbe-46c0-aa0b-0724caae7772",
+      "bpnl" : "BPNL00000003CNKC",
+      "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart" : [
+        {
+          "localIdentifiers" : [
+            {
+              "value" : "BPNL00000003CNKC",
+              "key" : "manufacturerId"
+            },
+            {
+              "value" : "8840838-04",
+              "key" : "manufacturerPartId"
+            },
+            {
+              "value" : "NO-917923082133064161014067",
+              "key" : "partInstanceId"
+            }
+          ],
+          "manufacturingInformation" : {
+            "date" : "2022-02-04T14:48:54",
+            "country" : "DEU"
+          },
+          "catenaXId" : "urn:uuid:b0acf3e1-3fbe-46c0-aa0b-0724caae7772",
+          "partTypeInformation" : {
+            "manufacturerPartId" : "8840374-09",
+            "customerPartId" : "8840374-09",
+            "classification" : "component",
+            "nameAtManufacturer" : "b/test ZB ZELLE",
+            "nameAtCustomer" : "ZB ZELLE"
+          }
+        }
+      ],
+      "urn:bamm:io.catenax.traction_battery_code:1.0.0#TractionBatteryCode" : [
+        {
+          "tractionBatteryCode" : "X12MCPM27KLPCLX2M2382320",
+          "subcomponents" : [
+            {
+              "tractionBatteryCode" : "X12MCPM27KLPCLX2M2382320",
+              "productType" : "cell"
+            }
+          ],
+          "productType" : "cell"
+        }
+      ]
+    },
+    {
+      "catenaXId" : "urn:uuid:1233b405-5ac8-4867-93f8-6fdf37733737",
+      "bpnl" : "BPNL00000003CML1",
+      "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart" : [
+        {
+          "localIdentifiers" : [
+            {
+              "value" : "BPNL00000003CML1",
+              "key" : "manufacturerId"
+            },
+            {
+              "value" : "8840838-04",
+              "key" : "manufacturerPartId"
+            },
+            {
+              "value" : "NO-135342108157438763234738",
+              "key" : "partInstanceId"
+            }
+          ],
+          "manufacturingInformation" : {
+            "date" : "2022-02-04T14:48:54",
+            "country" : "DEU"
+          },
+          "catenaXId" : "urn:uuid:1233b405-5ac8-4867-93f8-6fdf37733737",
+          "partTypeInformation" : {
+            "manufacturerPartId" : "8840374-09",
+            "customerPartId" : "8840374-09",
+            "classification" : "component",
+            "nameAtManufacturer" : "a/dev ZB ZELLE",
+            "nameAtCustomer" : "ZB ZELLE"
+          }
+        }
+      ],
+      "urn:bamm:io.catenax.traction_battery_code:1.0.0#TractionBatteryCode" : [
+        {
+          "tractionBatteryCode" : "X12MCPM27KLPCLX2M2382320",
+          "subcomponents" : [
+            {
+              "tractionBatteryCode" : "X12MCPM27KLPCLX2M2382320",
+              "productType" : "cell"
+            }
+          ],
+          "productType" : "cell"
+        }
+      ]
+    },
+    {
+      "catenaXId" : "urn:uuid:da978a30-4dde-4d76-808a-b7946763ff0d",
+      "bpnl" : "BPNL00000003CNKC",
+      "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart" : [
+        {
+          "localIdentifiers" : [
+            {
+              "value" : "BPNL00000003CNKC",
+              "key" : "manufacturerId"
+            },
+            {
+              "value" : "95657762-59",
+              "key" : "manufacturerPartId"
+            },
+            {
+              "value" : "NO-655858074471261486971940",
+              "key" : "partInstanceId"
+            }
+          ],
+          "manufacturingInformation" : {
+            "date" : "2022-02-04T14:48:54",
+            "country" : "DEU"
+          },
+          "catenaXId" : "urn:uuid:da978a30-4dde-4d76-808a-b7946763ff0d",
+          "partTypeInformation" : {
+            "manufacturerPartId" : "95657762-59",
+            "customerPartId" : "95657762-59",
+            "classification" : "component",
+            "nameAtManufacturer" : "b/test Door Key",
+            "nameAtCustomer" : "Door Key"
+          }
+        }
+      ],
+      "urn:bamm:io.catenax.just_in_sequence_part:1.0.0#JustInSequencePart" : [
+        {
+          "localIdentifiers" : [
+            {
+              "value" : "92879626SFC",
+              "key" : "jisNumber"
+            }
+          ],
+          "manufacturingInformation" : {
+            "date" : "2022-02-04T14:48:54",
+            "country" : "HUR"
+          },
+          "catenaXId" : "urn:uuid:da978a30-4dde-4d76-808a-b7946763ff0d",
+          "partTypeInformation" : {
+            "manufacturerPartId" : "123-0.740-3434-A",
+            "customerPartId" : "PRT-12345",
+            "classification" : "product",
+            "nameAtManufacturer" : "b/test Door Key",
+            "nameAtCustomer" : "Door Key"
+          }
+        }
+      ]
+    },
+    {
+      "catenaXId" : "urn:uuid:bcfae197-40fa-4be0-821d-5c1873a1b7c2",
+      "bpnl" : "BPNL00000003CML1",
+      "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart" : [
+        {
+          "localIdentifiers" : [
+            {
+              "value" : "BPNL00000003CML1",
+              "key" : "manufacturerId"
+            },
+            {
+              "value" : "95657762-59",
+              "key" : "manufacturerPartId"
+            },
+            {
+              "value" : "NO-200738629800530338038454",
+              "key" : "partInstanceId"
+            }
+          ],
+          "manufacturingInformation" : {
+            "date" : "2022-02-04T14:48:54",
+            "country" : "DEU"
+          },
+          "catenaXId" : "urn:uuid:bcfae197-40fa-4be0-821d-5c1873a1b7c2",
+          "partTypeInformation" : {
+            "manufacturerPartId" : "95657762-59",
+            "customerPartId" : "95657762-59",
+            "classification" : "component",
+            "nameAtManufacturer" : "a/dev Door Key",
+            "nameAtCustomer" : "Door Key"
+          }
+        }
+      ],
+      "urn:bamm:io.catenax.just_in_sequence_part:1.0.0#JustInSequencePart" : [
+        {
+          "localIdentifiers" : [
+            {
+              "value" : "85851549CBX",
+              "key" : "jisNumber"
+            }
+          ],
+          "manufacturingInformation" : {
+            "date" : "2022-02-04T14:48:54",
+            "country" : "HUR"
+          },
+          "catenaXId" : "urn:uuid:bcfae197-40fa-4be0-821d-5c1873a1b7c2",
+          "partTypeInformation" : {
+            "manufacturerPartId" : "123-0.740-3434-A",
+            "customerPartId" : "PRT-12345",
+            "classification" : "product",
+            "nameAtManufacturer" : "a/dev Door Key",
+            "nameAtCustomer" : "Door Key"
           }
         }
       ]
