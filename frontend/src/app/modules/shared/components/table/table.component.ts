@@ -73,8 +73,6 @@ export class TableComponent {
   @Input() tableHeader: string;
   @Input() multiSortList: TableHeaderSort[];
 
-  @Input() isDisplayed: boolean = true;
-
   @Input() set paginationData({ page, pageSize, totalItems, content }: Pagination<unknown>) {
     this.totalItems = totalItems;
     this.pageSize = pageSize;

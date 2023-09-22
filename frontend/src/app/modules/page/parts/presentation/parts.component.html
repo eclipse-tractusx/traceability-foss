@@ -25,7 +25,7 @@ SPDX-License-Identifier: Apache-2.0
   </div>
   <div class="split-container-wrapper">
   <as-split direction="horizontal" class="split-container">
-    <as-split-area [size]="50" >
+    <as-split-area *ngIf="displayAsBuilt()" [size]="50" >
       <div class="parts-as-built-table-wrapper">
       <ng-container *viewContainer="partsAsBuilt$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
       <ng-template #mainTmp let-parts="view">
@@ -44,12 +44,11 @@ SPDX-License-Identifier: Apache-2.0
                    (clickSelectAction)="isAlertOpen$.next(true)"
                    [tableHeader]="'page.asBuiltParts'"
                    [multiSortList]="tableAsBuiltSortList"
-                   [isDisplayed]="displayAsBuilt()"
         ></app-table>
       </ng-template>
       </div>
     </as-split-area>
-    <as-split-area [size]="50">
+    <as-split-area *ngIf="displayAsPlanned()" [size]="50">
       <div class="parts-as-planned-table-wrapper">
       <ng-container *viewContainer="partsAsPlanned$ | async; main: myTmp; error: errorTmp; loading: loaderTmp"></ng-container>
       <ng-template #myTmp let-parts="view">
@@ -68,7 +67,6 @@ SPDX-License-Identifier: Apache-2.0
                    (clickSelectAction)="isAlertOpen$.next(true)"
                    [tableHeader]="'page.asPlannedParts'"
                    [multiSortList]="tableAsPlannedSortList"
-                   [isDisplayed]="displayAsPlanned()"
         ></app-table>
 
       </ng-template>

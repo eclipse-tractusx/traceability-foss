@@ -19,9 +19,14 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-.about-container {
+.other-parts-container {
   @apply flex flex-col;
   height: 65vh;
+}
+
+.app-bom-lifecycle-activator-container {
+  grid-column: 1 / span 2; /* This will make it span both columns */
+  width: 100%;
 }
 
 .split-container {
