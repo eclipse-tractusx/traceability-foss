@@ -65,6 +65,17 @@ Sample invocation (INT B)
 python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.9.json -s https://tracex-submodel-server-int-b.int.demo.catena-x.net -edc https://trace-x-edc-int-b.int.demo.catena-x.net -a https://trace-x-registry-int-b.int.demo.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-edc-int-b-dataplane.int.demo.catena-x.net -p id-3.0-trace -k <apiKey> --aas3 --allowedBPNs BPNL00000003CML1 BPNL00000003CNKC BPNL00000003AZQP BPNL00000003CSGV
 ```
 
+Sample invocation (STABLE A)
+
+```
+python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.9.json -s https://tx-submodel-server-stable-a.stable.demo.catena-x.net -edc https://trace-x-edc-stable-a.stable.demo.catena-x.net -a https://tx-registry-stable-a.stable.demo.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-edc-int-a-dataplane.int.demo.catena-x.net -p id-3.0-trace -k <apiKey> --aas3 --allowedBPNs BPNL00000003CML1 BPNL00000003CNKC BPNL00000003AZQP BPNL00000003CSGV
+```
+
+Sample invocation (STABLE B)
+
+```
+python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.9.json -s https://tx-submodel-server-stable-b.stable.demo.catena-x.net -edc https://trace-x-edc-stable-b.stable.demo.catena-x.net -a https://tx-registry-stable-b.stable.demo.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-edc-int-b-dataplane.int.demo.catena-x.net -p id-3.0-trace -k <apiKey> --aas3 --allowedBPNs BPNL00000003CML1 BPNL00000003CNKC BPNL00000003AZQP BPNL00000003CSGV
+```
 where:
 
 * -f file to be used for data provisioning /tx-backend/testdata/CX_Testdata_MessagingTest_vx.x.x.json
