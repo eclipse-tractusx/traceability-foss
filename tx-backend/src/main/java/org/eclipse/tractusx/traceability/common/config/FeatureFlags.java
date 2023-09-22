@@ -26,12 +26,8 @@ public class FeatureFlags {
             ApplicationProfiles.INTEGRATION_SPRING_BOOT + " | " +
             ApplicationProfiles.TESTS + " | " +
             ApplicationProfiles.DEV + " | " +
-            ApplicationProfiles.TEST + " | " +
-            ApplicationProfiles.INT + " | " +
-            ApplicationProfiles.E2E_A + " | " +
-            ApplicationProfiles.E2E_B + " | " +
-            ApplicationProfiles.INT_A + " | " +
-            ApplicationProfiles.INT_B;
+            ApplicationProfiles.STABLE + " | " +
+            ApplicationProfiles.INT;
 
     private FeatureFlags() {
     }
