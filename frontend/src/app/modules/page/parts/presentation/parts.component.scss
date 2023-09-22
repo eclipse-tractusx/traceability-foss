@@ -20,11 +20,12 @@
  ********************************************************************************/
 
 .parts-table-container {
-  width: 100%;
+  @apply flex flex-col;
+  height: 100%;
 }
 
-.split-container-wrapper {
-  height: 65vh;
+.split-container {
+  height: auto;
 }
 
 .parts-as-built-table-wrapper {
