@@ -24,6 +24,9 @@
       "info_one": "{{count}} Part selected for this page.",
       "info_other": "{{count}} Parts selected for this page.",
       "action": "Start investigation"
-    }
+    },
+    "asBuiltParts": "AsBuilt Lifecycle",
+    "asPlannedParts": "AsPlanned Lifecycle"
   }
+
 }

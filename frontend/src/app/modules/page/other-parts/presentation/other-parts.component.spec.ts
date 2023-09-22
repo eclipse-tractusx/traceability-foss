@@ -76,7 +76,7 @@ describe('Other Parts', () => {
     await renderOtherParts();
     const tabElements = await screen.findAllByRole('tab');
 
-    expect(tabElements.length).toEqual(2);
+    expect(tabElements.length).toEqual(4);
   });
 
   it('should render selected parts information', async () => {
@@ -109,12 +109,12 @@ describe('Other Parts', () => {
     })
     it('should request supplier parts if first tab is selected', async () => {
       await renderOtherParts({ roles: ['user'] });
-      fireEvent.click(screen.getByText('pageOtherParts.tab.supplier'));
+      fireEvent.click(screen.getAllByText('pageOtherParts.tab.supplier')[0]);
 
       await waitFor(() => expect(screen.getByText('table.column.manufacturer')).toBeInTheDocument());
       fireEvent.click(screen.getByText('table.column.manufacturer'));
 
-      const supplierParts = await firstValueFrom(otherPartsState.supplierParts$);
+      const supplierParts = await firstValueFrom(otherPartsState.supplierPartsAsBuilt$);
       await waitFor(() =>
         expect(supplierParts).toEqual({
           data: {
@@ -137,13 +137,13 @@ describe('Other Parts', () => {
 
     it('should request customer parts if second tab is selected', async () => {
       const fixture = await renderOtherParts({ roles: ['user'] });
-
-      fireEvent.click(screen.getByText('pageOtherParts.tab.customer'));
+      let tabs = screen.getAllByText('pageOtherParts.tab.customer');
+      fireEvent.click(tabs[0]);
 
       await waitFor(() => expect(screen.getByText('table.column.manufacturer')).toBeInTheDocument());
       fireEvent.click(screen.getByText('table.column.manufacturer'));
 
-      const customerParts = await firstValueFrom(otherPartsState.customerParts$);
+      const customerParts = await firstValueFrom(otherPartsState.customerPartsAsBuilt$);
       await waitFor(() =>
         expect(customerParts).toEqual({
           data: {
