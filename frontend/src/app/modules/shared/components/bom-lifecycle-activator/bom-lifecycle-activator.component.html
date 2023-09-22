@@ -17,12 +17,12 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 <div class="button-container">
-    <app-view-selector [isDisabled]="!bomLifecycleConfig.asPlannedActive" [isSelected]=bomLifecycleConfig.asBuiltActive
-                variant="flat" color="accent" (click)="toggleAsBuilt()">
+    <app-view-selector data-testid="as-built-button" [isDisabled]="!bomLifecycleConfig.asPlannedActive" [isSelected]=bomLifecycleConfig.asBuiltActive
+                       label="As Built Toggle" variant="flat" color="accent" (click)="toggleAsBuilt()">
         {{ 'bomLifecycleActivator.asBuilt' | i18n }}
     </app-view-selector>
-    <app-view-selector [isDisabled]="!bomLifecycleConfig.asBuiltActive" [isSelected]=bomLifecycleConfig.asPlannedActive
-                variant="flat" color="accent" (click)="toggleAsPlanned()">
+    <app-view-selector data-testid="as-planned-button" [isDisabled]="!bomLifecycleConfig.asBuiltActive" [isSelected]=bomLifecycleConfig.asPlannedActive
+               label="As Planned Toggle" variant="flat" color="accent" (click)="toggleAsPlanned()">
         {{ 'bomLifecycleActivator.asPlanned' | i18n }}
     </app-view-selector>
 </div>

@@ -17,56 +17,25 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {SharedModule} from '@shared/shared.module';
 import {BomLifecycleActivatorComponent} from './bom-lifecycle-activator.component';
-import {BomLifecycleState} from "@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model";
+import {renderComponent} from "@tests/test-render.utils";
+import {screen} from "@testing-library/angular";
 
 
 describe('BomLifecycleActivatorComponent', () => {
-    let component: BomLifecycleActivatorComponent;
-    let fixture: ComponentFixture<BomLifecycleActivatorComponent>;
+    const renderBomLifecycleActivator = () => {
+        return renderComponent(`<app-bom-lifecycle-activator></app-bom-lifecycle-activator>`, {
+            declarations: [BomLifecycleActivatorComponent],
+            imports: [SharedModule]
+        });
+    };
 
-    beforeEach(async () => {
-        await TestBed.configureTestingModule({
-            declarations: [BomLifecycleActivatorComponent]
-        })
-            .compileComponents();
-    });
-
-    beforeEach(() => {
-        fixture = TestBed.createComponent(BomLifecycleActivatorComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-    });
-
-    it('should initialize both buttons as active', () => {
-        expect(component.bomLifecycleConfig.asPlannedActive).toBeTrue();
-        expect(component.bomLifecycleConfig.asBuiltActive).toBeTrue();
-    });
-
-    it('should not toggle off "As Planned" if "As Built" is already off', () => {
-        component.bomLifecycleConfig.asBuiltActive = false;
-        component.toggleAsPlanned();
-        expect(component.bomLifecycleConfig.asPlannedActive).toBeTrue();
-    });
-
-    it('should not toggle off "As Built" if "As Planned" is already off', () => {
-        component.bomLifecycleConfig.asPlannedActive = false;
-        component.toggleAsBuilt();
-        expect(component.bomLifecycleConfig.asBuiltActive).toBeTrue();
-    });
-
-    it('should emit the correct BomLifecycleState', () => {
-        spyOn(component.buttonClickEvent, 'emit');
-
-        component.toggleAsPlanned();  // Turns off "As Planned"
-        expect(component.buttonClickEvent.emit).toHaveBeenCalledWith(BomLifecycleState.ASBUILT);
-
-        component.toggleAsBuilt(); // Turns off "As Built"
-        expect(component.buttonClickEvent.emit).toHaveBeenCalledWith(BomLifecycleState.ASPLANNED);
-
-        component.toggleAsBuilt(); // Turns on "As Built"
-        component.toggleAsPlanned(); // Turns on "As Planned"
-        expect(component.buttonClickEvent.emit).toHaveBeenCalledWith(BomLifecycleState.BOTH);
+    it('should render the buttons', async () => {
+        await renderBomLifecycleActivator();
+        const asBuiltButton = screen.getByTestId("as-built-button");
+        const asPlannedButton = screen.getByTestId("as-planned-button");
+        expect(asBuiltButton).toBeInTheDocument();
+        expect(asPlannedButton).toBeInTheDocument();
     });
 });

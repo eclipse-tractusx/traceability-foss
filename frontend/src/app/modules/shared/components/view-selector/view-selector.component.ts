@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -35,8 +33,7 @@ export class ViewSelectorComponent {
 
   @ViewChild('ButtonElement') buttonElement: ElementRef;
   @Input() color: 'primary' | 'accent' | 'warn';
-  @Input() variant: ButtonVariant = 'raised';
-  @Input() iconName: string;
+  @Input() variant: ButtonVariant = 'flat';
   @Input() label: string;
   @Input() isDisabled: boolean = false;
   @Input() isSelected: boolean;
