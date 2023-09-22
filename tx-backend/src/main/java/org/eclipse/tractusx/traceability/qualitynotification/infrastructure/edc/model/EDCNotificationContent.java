@@ -22,10 +22,26 @@ package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record EDCNotificationContent(
         String information,
         List<String> listOfAffectedItems) {
+
+    @Override
+    public String toString() {
+        String cleanInformation = information.replaceAll("\r\n|\r|\n", " ");
+        List<String> cleanListOfAffectedItems = new ArrayList<>();
+        for (String AffectedItems : listOfAffectedItems) {
+            String cleanAffectedItem = AffectedItems.replaceAll("\r\n|\r|\n", " ");
+            cleanListOfAffectedItems.add(cleanAffectedItem);
+        }
+        return "EDCNotificationContent{" +
+                "information='" + cleanInformation + '\'' +
+                ", listOfAffectedItems=" + cleanListOfAffectedItems +
+                '}';
+    }
+
 }
