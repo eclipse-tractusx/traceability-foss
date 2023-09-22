@@ -24,32 +24,28 @@
   height: 65vh;
 }
 
-.other-parts-table-container::-webkit-scrollbar {
-display: none;
+.split-container {
+  height: auto;
+}
+
+.split-container > as-split-area {
+  overflow: hidden;
 }
 
 .supplier-parts-as-built-table-wrapper {
   max-height: 58vh;
-  overflow: auto;
 }
 
 .supplier-parts-as-planned-table-wrapper {
   max-height: 58vh;
-  overflow: auto;
-}
-
-.supplier-parts-as-built-table-wrapper::-webkit-scrollbar {
-  display: none;
 }
 
 .customer-parts-as-built-table-wrapper {
   max-height: 58vh;
-  overflow: auto;
 }
 
 .customer-parts-as-planned-table-wrapper {
   max-height: 58vh;
-  overflow: auto;
 }
 
 

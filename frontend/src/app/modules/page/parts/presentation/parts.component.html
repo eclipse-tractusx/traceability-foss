@@ -20,9 +20,10 @@ SPDX-License-Identifier: Apache-2.0
 -->
 
 <div class="parts-table-container">
-  <as-split direction="horizontal">
+  <div class="split-container-wrapper">
+  <as-split direction="horizontal" class="split-container">
     <as-split-area [size]="50" >
-
+      <div class="parts-as-built-table-wrapper">
       <ng-container *viewContainer="partsAsBuilt$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
       <ng-template #mainTmp let-parts="view">
         <!-- asBuilt Parts Table-->
@@ -42,8 +43,10 @@ SPDX-License-Identifier: Apache-2.0
                    [multiSortList]="tableAsBuiltSortList"
         ></app-table>
       </ng-template>
+      </div>
     </as-split-area>
     <as-split-area [size]="50">
+      <div class="parts-as-planned-table-wrapper">
       <ng-container *viewContainer="partsAsPlanned$ | async; main: myTmp; error: errorTmp; loading: loaderTmp"></ng-container>
       <ng-template #myTmp let-parts="view">
         <!-- asPlanned Parts Table-->
@@ -64,9 +67,11 @@ SPDX-License-Identifier: Apache-2.0
         ></app-table>
 
       </ng-template>
+      </div>
     </as-split-area>
 
   </as-split>
+  </div>
 
   <app-part-detail></app-part-detail>
 

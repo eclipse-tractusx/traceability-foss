@@ -19,25 +19,18 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-.about-container {
-  @apply flex flex-col;
-}
-
 .parts-table-container {
   width: 100%;
+}
+
+.split-container-wrapper {
   height: 65vh;
 }
 
-
-.parts-asPlanned-table {
-  overflow: auto;
+.parts-as-built-table-wrapper {
+  max-height: 58vh;
 }
 
-.parts-asBuilt-table {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-}
-
-.parts-asBuilt-table::-webkit-scrollbar {
-  display: none;
+.parts-as-planned-table-wrapper {
+  max-height: 58vh;
 }
