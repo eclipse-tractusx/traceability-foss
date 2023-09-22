@@ -35,8 +35,8 @@ public record EDCNotificationContent(
         String cleanInformation = information.replaceAll("\r\n|\r|\n", " ");
         List<String> cleanListOfAffectedItems = new ArrayList<>();
         for (String AffectedItems : listOfAffectedItems) {
-            AffectedItems.replaceAll("\r\n|\r|\n", " ");
-            cleanListOfAffectedItems.add(AffectedItems);
+            String cleanAffectedItem = AffectedItems.replaceAll("\r\n|\r|\n", " ");
+            cleanListOfAffectedItems.add(cleanAffectedItem);
         }
         return "EDCNotificationContent{" +
                 "information='" + cleanInformation + '\'' +
