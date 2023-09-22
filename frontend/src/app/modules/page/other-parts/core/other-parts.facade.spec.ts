@@ -59,7 +59,6 @@ describe('OtherPartsFacade', () => {
 
       const otherParts = PartsAssembler.assembleOtherParts(mockAssets, MainAspectType.AS_BUILT);
       otherPartsState.supplierPartsAsBuilt = { data: otherParts};
-      //otherPartsFacade.setActiveInvestigationForParts(otherParts.content);
 
       otherParts.content = otherParts.content.map(part => {
         const activeInvestigation = otherParts.content.some(currentPart => currentPart.id === part.id);

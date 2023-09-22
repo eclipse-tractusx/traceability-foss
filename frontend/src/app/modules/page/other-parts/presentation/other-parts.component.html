@@ -18,7 +18,7 @@ under the License.
 
 SPDX-License-Identifier: Apache-2.0
 -->
-<!-- TODO Change class -->
+<!-- TODO Change class name because about-container already exists and was pasted in here - suggestion: other-parts-container -->
 <div class="about-container">
   <as-split direction="horizontal">
     <as-split-area [size]="50">
@@ -35,7 +35,7 @@ SPDX-License-Identifier: Apache-2.0
       </ng-template>
 
       <app-supplier-parts
-      [bomLifecycle]="'asBuilt'"
+      [bomLifecycle]="MainAspectType.AS_BUILT"
       ></app-supplier-parts>
     </mat-tab>
 
@@ -45,7 +45,7 @@ SPDX-License-Identifier: Apache-2.0
       </ng-template>
 
       <app-customer-parts
-      [bomLifecycle]="'asBuilt'"
+      [bomLifecycle]="MainAspectType.AS_BUILT"
       ></app-customer-parts>
     </mat-tab>
   </mat-tab-group>
@@ -64,7 +64,7 @@ SPDX-License-Identifier: Apache-2.0
       </ng-template>
 
       <app-supplier-parts
-        [bomLifecycle]="'asPlanned'"
+        [bomLifecycle]="MainAspectType.AS_PLANNED"
       ></app-supplier-parts>
     </mat-tab>
 
@@ -74,7 +74,7 @@ SPDX-License-Identifier: Apache-2.0
       </ng-template>
 
       <app-customer-parts
-        [bomLifecycle]="'asPlanned'"
+        [bomLifecycle]="MainAspectType.AS_PLANNED"
       ></app-customer-parts>
     </mat-tab>
   </mat-tab-group>

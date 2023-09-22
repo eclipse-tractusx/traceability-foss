@@ -97,7 +97,7 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
   private ctrlKeyState = false;
 
   @Input()
-  public bomLifecycle: 'asBuilt' | 'asPlanned';
+  public bomLifecycle: MainAspectType;
 
   constructor(
     private readonly otherPartsFacade: OtherPartsFacade,
@@ -126,11 +126,11 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    if(this.bomLifecycle === "asBuilt") {
+    if(this.bomLifecycle === MainAspectType.AS_BUILT) {
       this.supplierPartsAsBuilt$ = this.otherPartsFacade.supplierPartsAsBuilt$;
       this.tableSupplierAsBuiltSortList = [];
       this.otherPartsFacade.setSupplierPartsAsBuilt();
-    } else {
+    } else if(this.bomLifecycle === MainAspectType.AS_PLANNED) {
       this.supplierPartsAsPlanned$ = this.otherPartsFacade.supplierPartsAsPlanned$;
       this.tableSupplierAsPlannedSortList = [];
       this.otherPartsFacade.setSupplierPartsAsPlanned();
@@ -139,14 +139,14 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
 
   public ngAfterViewInit(): void {
 
-    if(this.bomLifecycle === "asBuilt") {
+    if(this.bomLifecycle === MainAspectType.AS_BUILT) {
       this.tableConfigAsBuilt = {
         displayedColumns: this.displayedColumnsAsBuilt,
         header: CreateHeaderFromColumns(this.displayedColumnsAsBuilt, 'table.column'),
         sortableColumns: this.sortableColumnsAsBuilt,
       };
 
-    } else {
+    } else if(this.bomLifecycle === MainAspectType.AS_PLANNED) {
       this.tableConfigAsPlanned = {
         displayedColumns: this.displayedColumnsAsPlanned,
         header: CreateHeaderFromColumns(this.displayedColumnsAsPlanned, 'table.column'),
@@ -244,4 +244,5 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
     }
   }
 
+  protected readonly MainAspectType = MainAspectType;
 }

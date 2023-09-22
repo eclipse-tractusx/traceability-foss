@@ -37,7 +37,7 @@ import {AngularSplitModule} from "angular-split";
 
 @NgModule({
   declarations: [OtherPartsComponent, SupplierPartsComponent, CustomerPartsComponent],
-    imports: [CommonModule, TemplateModule, SharedModule, OtherPartsRoutingModule, PartDetailsModule, AngularSplitModule],
+  imports: [CommonModule, TemplateModule, SharedModule, OtherPartsRoutingModule, PartDetailsModule, AngularSplitModule],
   providers: [
     OtherPartsState,
     OtherPartsFacade,

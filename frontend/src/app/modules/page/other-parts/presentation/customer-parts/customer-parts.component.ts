@@ -88,7 +88,7 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
   private ctrlKeyState = false;
 
   @Input()
-  public bomLifecycle: 'asBuilt' | 'asPlanned';
+  public bomLifecycle: MainAspectType;
   constructor(
     private readonly otherPartsFacade: OtherPartsFacade,
     private readonly partDetailsFacade: PartDetailsFacade,
@@ -105,11 +105,11 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    if(this.bomLifecycle === 'asBuilt') {
+    if(this.bomLifecycle === MainAspectType.AS_BUILT) {
       this.customerPartsAsBuilt$ = this.otherPartsFacade.customerPartsAsBuilt$;
       this.tableCustomerAsBuiltSortList = [];
       this.otherPartsFacade.setCustomerPartsAsBuilt();
-    } else {
+    } else if(this.bomLifecycle === MainAspectType.AS_PLANNED) {
       this.customerPartsAsPlanned$ = this.otherPartsFacade.customerPartsAsPlanned$;
       this.tableCustomerAsPlannedSortList = [];
       this.otherPartsFacade.setCustomerPartsAsPlanned();
@@ -117,20 +117,19 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
   }
 
   public ngAfterViewInit(): void {
-    if(this.bomLifecycle === "asBuilt") {
+    if(this.bomLifecycle === MainAspectType.AS_BUILT) {
       this.tableConfigAsBuilt = {
         displayedColumns: this.displayedColumnsAsBuilt,
         header: CreateHeaderFromColumns(this.displayedColumnsAsBuilt, 'table.column'),
         sortableColumns: this.sortableColumnsAsBuilt,
       }
-      } else {
+    } else if(this.bomLifecycle === MainAspectType.AS_PLANNED) {
       this.tableConfigAsPlanned = {
         displayedColumns: this.displayedColumnsAsPlanned,
         header: CreateHeaderFromColumns(this.displayedColumnsAsPlanned, 'table.column'),
         sortableColumns: this.sortableColumnsAsPlanned,
       }
     }
-
   }
 
   public ngOnDestroy(): void {
@@ -196,4 +195,6 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
       this.tableCustomerAsPlannedSortList= [];
     }
   }
+
+  protected readonly MainAspectType = MainAspectType;
 }

@@ -20,6 +20,7 @@
 import { OtherPartsState } from '@page/other-parts/core/other-parts.state';
 import { OtherPartsModule } from '@page/other-parts/other-parts.module';
 import { PartsState } from '@page/parts/core/parts.state';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 
@@ -35,7 +36,7 @@ describe('CustomerPartsComponent', () => {
       providers: [{ provide: OtherPartsState, useFactory: () => otherPartsState }, { provide: PartsState }],
       roles: ['admin', 'wip'],
       componentInputs: {
-        bomLifecycle: 'asBuilt'
+        bomLifecycle: MainAspectType.AS_BUILT
       }
     });
 
@@ -92,7 +93,7 @@ describe('CustomerPartsComponent', () => {
   it('should reset sorting on third click', async () => {
     const {fixture} = await renderCustomerParts();
     const customerPartsComponent = fixture.componentInstance;
-    customerPartsComponent.bomLifecycle = 'asBuilt';
+    customerPartsComponent.bomLifecycle = MainAspectType.AS_BUILT;
     fixture.detectChanges();
 
     let nameHeader = await screen.findByText('table.column.name');

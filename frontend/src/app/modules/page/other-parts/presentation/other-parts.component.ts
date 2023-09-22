@@ -24,6 +24,7 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { StaticIdService } from '@shared/service/staticId.service';
+import {MainAspectType} from "@page/parts/model/mainAspectType.enum";
 
 @Component({
   selector: 'app-other-parts',
@@ -53,4 +54,6 @@ export class OtherPartsComponent implements OnDestroy {
     this.selectedTab = index;
     this.partDetailsFacade.selectedPart = null;
   }
+
+    protected readonly MainAspectType = MainAspectType;
 }

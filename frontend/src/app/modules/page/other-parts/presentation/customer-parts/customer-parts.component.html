@@ -16,7 +16,7 @@ under the License.
 
 SPDX-License-Identifier: Apache-2.0
 -->
-<div class="customer-parts-asBuilt-table-wrapper" *ngIf="bomLifecycle === 'asBuilt'">
+<div class="customer-parts-asBuilt-table-wrapper" *ngIf="bomLifecycle === MainAspectType.AS_BUILT">
   <ng-container
     *viewContainer="
           customerPartsAsBuilt$ | async;
@@ -40,7 +40,7 @@ SPDX-License-Identifier: Apache-2.0
   </ng-template>
 </div>
 
-<div class="customer-parts-asPlanned-table-wrapper" *ngIf="bomLifecycle === 'asPlanned'">
+<div class="customer-parts-asPlanned-table-wrapper" *ngIf="bomLifecycle === MainAspectType.AS_PLANNED">
   <ng-container
     *viewContainer="
           customerPartsAsPlanned$ | async;

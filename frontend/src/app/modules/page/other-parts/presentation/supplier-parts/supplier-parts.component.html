@@ -17,7 +17,7 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<div class="supplier-parts-asBuilt-table-wrapper" *ngIf="bomLifecycle === 'asBuilt'">
+<div class="supplier-parts-as-built-table-wrapper" *ngIf="bomLifecycle === MainAspectType.AS_BUILT">
   <ng-container
     *viewContainer="
           supplierPartsAsBuilt$ | async;
@@ -28,7 +28,7 @@ SPDX-License-Identifier: Apache-2.0
         "
   ></ng-container>
   <ng-template #mainTmp let-parts="view" let-customContext="customContext">
-    <app-table class="supplier-parts-asBuilt-table"
+    <app-table class="supplier-parts-as-built-table"
                [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
                [tableConfig]="tableConfigAsBuilt"
                [selectedPartsInfoLabel]="'page.selectedParts.info'"
@@ -45,7 +45,7 @@ SPDX-License-Identifier: Apache-2.0
     ></app-table>
   </ng-template>
 </div>
-<div class="supplier-parts-asPlanned-table-wrapper" *ngIf="bomLifecycle === 'asPlanned'">
+<div class="supplier-parts-as-planned-table-wrapper" *ngIf="bomLifecycle === MainAspectType.AS_PLANNED">
   <ng-container
     *viewContainer="
           supplierPartsAsPlanned$ | async;
@@ -57,7 +57,7 @@ SPDX-License-Identifier: Apache-2.0
   ></ng-container>
 
   <ng-template #myTmp let-parts="view" let-customContext="customContext">
-    <app-table class="supplier-parts-asPlanned-table"
+    <app-table class="supplier-parts-as-planned-table"
                [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
                [tableConfig]="tableConfigAsPlanned"
                [selectedPartsInfoLabel]="'page.selectedParts.info'"

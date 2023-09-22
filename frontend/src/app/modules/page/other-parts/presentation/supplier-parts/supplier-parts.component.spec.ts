@@ -39,7 +39,7 @@ describe('SupplierPartsComponent', () => {
       providers: [{ provide: OtherPartsState, useFactory: () => otherPartsState }, { provide: PartsState }],
       roles,
       componentInputs: {
-        bomLifecycle: 'asBuilt'
+        bomLifecycle: MainAspectType.AS_BUILT
       }
     });
 
