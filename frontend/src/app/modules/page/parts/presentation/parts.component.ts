@@ -35,8 +35,8 @@ import {PartDetailsFacade} from '@shared/modules/part-details/core/partDetails.f
 import {StaticIdService} from '@shared/service/staticId.service';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {
-    BomLifecycleState,
-    initialBomLifecycleState
+    BomLifecycleSize,
+    initialBomLifecycleSize
 } from "@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model";
 
 
@@ -136,7 +136,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private ctrlKeyState = false;
 
-    public bomLifecycleState: BomLifecycleState = initialBomLifecycleState();
+    public bomLifecycleSize: BomLifecycleSize = initialBomLifecycleSize();
 
     constructor(
         private readonly partsFacade: PartsFacade,
@@ -192,16 +192,8 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
         this.partsFacade.setPartsAsPlanned(page, pageSize, this.tableAsPlannedSortList);
     }
 
-    public handleTableActivationEvent(newState: BomLifecycleState) {
-        this.bomLifecycleState = newState;
-    }
-
-    public displayAsPlanned(): boolean {
-        return this.bomLifecycleState === BomLifecycleState.BOTH || this.bomLifecycleState === BomLifecycleState.ASPLANNED;
-    }
-
-    public displayAsBuilt(): boolean {
-        return this.bomLifecycleState === BomLifecycleState.BOTH || this.bomLifecycleState === BomLifecycleState.ASBUILT;
+    public handleTableActivationEvent(bomLifecycleSize: BomLifecycleSize) {
+        this.bomLifecycleSize = bomLifecycleSize;
     }
 
     private setTableSortingList(sorting: TableHeaderSort, partTable: MainAspectType): void {

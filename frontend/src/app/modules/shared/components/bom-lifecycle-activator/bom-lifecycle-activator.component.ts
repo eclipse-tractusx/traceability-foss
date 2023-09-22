@@ -19,7 +19,7 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import {
     BomLifecycleConfig,
-    BomLifecycleState
+    BomLifecycleSize
 } from "@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model";
 
 @Component({
@@ -28,12 +28,13 @@ import {
     styleUrls: ['./bom-lifecycle-activator.component.scss']
 })
 export class BomLifecycleActivatorComponent {
-    @Output() buttonClickEvent = new EventEmitter<BomLifecycleState>();
+    @Output() buttonClickEvent = new EventEmitter<BomLifecycleSize>();
 
     bomLifecycleConfig: BomLifecycleConfig = {
         asBuiltActive: true,
         asPlannedActive: true,
     }
+
 
     toggleAsPlanned() {
         this.bomLifecycleConfig.asPlannedActive = !this.bomLifecycleConfig.asPlannedActive;
@@ -47,14 +48,23 @@ export class BomLifecycleActivatorComponent {
     }
 
     emitBomLifecycleState() {
-        let newState: BomLifecycleState;
+        let size: BomLifecycleSize;
         if (this.bomLifecycleConfig.asPlannedActive && this.bomLifecycleConfig.asBuiltActive) {
-            newState = BomLifecycleState.BOTH;
+            size = {
+                asBuiltSize: 50,
+                asPlannedSize: 50
+            }
         } else if (this.bomLifecycleConfig.asPlannedActive) {
-            newState = BomLifecycleState.ASPLANNED;
+            size = {
+                asBuiltSize: 0,
+                asPlannedSize: 100
+            }
         } else {
-            newState = BomLifecycleState.ASBUILT;
+            size = {
+                asBuiltSize: 100,
+                asPlannedSize: 0
+            }
         }
-        this.buttonClickEvent.emit(newState);
+        this.buttonClickEvent.emit(size);
     }
 }

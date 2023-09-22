@@ -23,7 +23,7 @@ SPDX-License-Identifier: Apache-2.0
     <app-bom-lifecycle-activator (buttonClickEvent)="handleTableActivationEvent($event)"></app-bom-lifecycle-activator>
   </div>
   <as-split direction="horizontal" class="split-container">
-    <as-split-area *ngIf="displayAsBuilt()" [size]="50">
+    <as-split-area [size]="this.bomLifecycleSize.asBuiltSize">
       <p class="large-text">{{'page.asBuiltParts' | i18n }}</p>
   <mat-tab-group
     (selectedTabChange)="onTabChange($event)"
@@ -52,7 +52,7 @@ SPDX-License-Identifier: Apache-2.0
     </mat-tab>
   </mat-tab-group>
     </as-split-area>
-    <as-split-area *ngIf="displayAsPlanned()" [size]="50">
+    <as-split-area [size]="this.bomLifecycleSize.asPlannedSize">
       <p class="large-text">{{'page.asPlannedParts' | i18n }}</p>
   <mat-tab-group
     (selectedTabChange)="onTabChange($event)"

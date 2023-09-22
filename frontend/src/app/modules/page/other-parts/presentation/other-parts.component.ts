@@ -19,59 +19,52 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, OnDestroy } from '@angular/core';
-import { MatTabChangeEvent } from '@angular/material/tabs';
-import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
-import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
-import { StaticIdService } from '@shared/service/staticId.service';
+import {Component, OnDestroy} from '@angular/core';
+import {MatTabChangeEvent} from '@angular/material/tabs';
+import {OtherPartsFacade} from '@page/other-parts/core/other-parts.facade';
+import {PartDetailsFacade} from '@shared/modules/part-details/core/partDetails.facade';
+import {StaticIdService} from '@shared/service/staticId.service';
 import {MainAspectType} from "@page/parts/model/mainAspectType.enum";
 import {
-  BomLifecycleState,
-  initialBomLifecycleState
+    BomLifecycleSize,
+    initialBomLifecycleSize,
 } from "@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model";
 
 @Component({
-  selector: 'app-other-parts',
-  templateUrl: './other-parts.component.html',
-  styleUrls: ['./other-parts.component.scss'],
+    selector: 'app-other-parts',
+    templateUrl: './other-parts.component.html',
+    styleUrls: ['./other-parts.component.scss'],
 })
 export class OtherPartsComponent implements OnDestroy {
 
-  public selectedTab = 0;
-  public showStartInvestigationArray = [true, false];
+    public selectedTab = 0;
+    public showStartInvestigationArray = [true, false];
 
-  public readonly supplierTabLabelId = this.staticIdService.generateId('OtherParts.supplierTabLabel');
-  public readonly customerTabLabelId = this.staticIdService.generateId('OtherParts.customerTabLabel');
+    public readonly supplierTabLabelId = this.staticIdService.generateId('OtherParts.supplierTabLabel');
+    public readonly customerTabLabelId = this.staticIdService.generateId('OtherParts.customerTabLabel');
 
-  public bomLifecycleState: BomLifecycleState = initialBomLifecycleState();
+    public bomLifecycleSize: BomLifecycleSize = initialBomLifecycleSize();
 
-  protected readonly mainAspectType = MainAspectType;
+    protected readonly mainAspectType = MainAspectType;
 
-  constructor(
-    private readonly otherPartsFacade: OtherPartsFacade,
-    private readonly partDetailsFacade: PartDetailsFacade,
-    private readonly staticIdService: StaticIdService,
-  ) {
-  }
+    constructor(
+        private readonly otherPartsFacade: OtherPartsFacade,
+        private readonly partDetailsFacade: PartDetailsFacade,
+        private readonly staticIdService: StaticIdService,
+    ) {
+    }
 
-  public ngOnDestroy(): void {
-    this.otherPartsFacade.unsubscribeParts();
-  }
+    public ngOnDestroy(): void {
+        this.otherPartsFacade.unsubscribeParts();
+    }
 
-  public onTabChange({ index }: MatTabChangeEvent): void {
-    this.selectedTab = index;
-    this.partDetailsFacade.selectedPart = null;
-  }
+    public onTabChange({index}: MatTabChangeEvent): void {
+        this.selectedTab = index;
+        this.partDetailsFacade.selectedPart = null;
+    }
 
-  public handleTableActivationEvent(newState: BomLifecycleState) {
-    this.bomLifecycleState = newState;
-  }
-
-  public displayAsPlanned(): boolean {
-    return this.bomLifecycleState === BomLifecycleState.BOTH || this.bomLifecycleState === BomLifecycleState.ASPLANNED;
-  }
-
-  public displayAsBuilt(): boolean {
-    return this.bomLifecycleState === BomLifecycleState.BOTH || this.bomLifecycleState === BomLifecycleState.ASBUILT;
-  }
+    public handleTableActivationEvent(bomLifecycleSize: BomLifecycleSize) {
+        this.bomLifecycleSize = bomLifecycleSize;
+        console.log(this.bomLifecycleSize, "size");
+    }
 }

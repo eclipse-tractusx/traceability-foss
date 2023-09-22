@@ -17,8 +17,9 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-export enum BomLifecycleState {
-    BOTH, ASPLANNED, ASBUILT
+export interface BomLifecycleSize {
+    asPlannedSize: number,
+    asBuiltSize: number
 }
 
 export interface BomLifecycleConfig {
@@ -26,6 +27,10 @@ export interface BomLifecycleConfig {
     asBuiltActive: boolean
 }
 
-export function initialBomLifecycleState(): BomLifecycleState{
-    return BomLifecycleState.BOTH;
+
+export function initialBomLifecycleSize(): BomLifecycleSize{
+    return {
+        asPlannedSize: 50,
+        asBuiltSize: 50
+    };
 }
