@@ -25,8 +25,6 @@ package org.eclipse.tractusx.traceability.common.model;
 public class EDC {
 
     public static String sanitizer(String unsanitizedInput) {
-        String sanitizedString = "";
-        sanitizedString = unsanitizedInput.replaceAll("\r\n|\r|\n", " ");
-        return sanitizedString;
+        return unsanitizedInput.replaceAll("\r\n|\r|\n", " ");
     }
 }
