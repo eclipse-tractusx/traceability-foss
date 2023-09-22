@@ -48,6 +48,7 @@
     "@angular/router": "15.2.8",
     "@types/lodash-es": "4.17.7",
     "angular-i18next": "15.0.5",
+    "angular-split": "15.0.0",
     "autoprefixer": "10.4.14",
     "d3": "7.8.4",
     "esbuild": "^0.17.18",
