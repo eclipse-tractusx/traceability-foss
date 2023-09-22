@@ -18,36 +18,21 @@ under the License.
 
 SPDX-License-Identifier: Apache-2.0
 -->
-
-<ng-container [ngTemplateOutlet]="{button, flat}[this.variant]"></ng-container>
-
-<ng-template #button>
-    <button [disabled]="isDisabled" [color]="color" mat-button>
-        <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
-    </button>
-</ng-template>
-
-
+<div class="view-selector-container">
+<ng-container [ngTemplateOutlet]="{flat}[this.variant]"></ng-container>
 <ng-template #flat>
-    <button [ngClass]="{'selected': isSelected}"  [disabled]="isDisabled" [color]="color" mat-flat-button>
-        <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
-    </button>
-</ng-template>
-
-<ng-template #iconElement>
-    <div class="flex items-center">
-        <mat-icon>{{ this.iconName }}</mat-icon>
-        <ng-container [ngTemplateOutlet]="content"></ng-container>
-    </div>
+  <button [ngClass]="{'selected': isSelected}" [disabled]="isDisabled" [color]="color" mat-flat-button>
+    <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
+  </button>
 </ng-template>
 
 <ng-template #buttonContent>
-    <ng-container *ngIf="!this.iconName; else iconElement">
-        <ng-container [ngTemplateOutlet]="content"></ng-container>
-    </ng-container>
+  <ng-container>
+    <ng-container [ngTemplateOutlet]="content"></ng-container>
+  </ng-container>
 </ng-template>
 
 <ng-template #content>
-    <ng-content></ng-content>
+  <ng-content></ng-content>
 </ng-template>
-
+</div>

@@ -1,17 +1,22 @@
-button.selected {
-  color: rgb(13, 85, 175) !important;
-  background-color: rgb(212, 227, 254) !important;
-}
+.view-selector-container{
+  padding-bottom: 16px;
 
-button:hover {
-  background-color: rgb(212, 227, 254) !important;
-}
+  button.selected {
+    color: rgb(13, 85, 175) !important;
+    background-color: rgb(212, 227, 254) !important;
+  }
 
-button {
-  color: rgb(15, 113, 203);
-  text-transform: uppercase;
-  border-radius: 50px !important;
-  padding: 10px 18px !important;
-  margin-right: 16px;
-  background-color: unset!important;
+  button:hover {
+    background-color: rgb(212, 227, 254) !important;
+  }
+
+  button {
+    color: rgb(15, 113, 203);
+    text-transform: uppercase;
+    border-radius: 50px !important;
+    padding: 10px 18px !important;
+    margin-right: 16px;
+    background-color: unset!important;
+  }
+
 }
