@@ -21,43 +21,30 @@
 package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.eclipse.tractusx.traceability.common.model.EDC;
+
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record EDCNotificationHeader(String notificationId, String senderBPN, String senderAddress, String recipientBPN,
                                     String classification, String severity, String relatedNotificationId,
                                     String status, String targetDate, String messageId) {
 
+
     @Override
     public String toString() {
-        String[] stringsToClean = {
-                notificationId,
-                senderBPN,
-                senderAddress,
-                recipientBPN,
-                classification,
-                severity,
-                relatedNotificationId,
-                status,
-                targetDate,
-                messageId
-        };
-
-        for (int i = 0; i < stringsToClean.length; i++) {
-            stringsToClean[i] = stringsToClean[i].replaceAll("\r\n|\r|\n", " ");
-        }
-
         return "EDCNotificationHeader{" +
-                "notificationId='" + notificationId + '\'' +
-                ", senderBPN='" + senderBPN + '\'' +
-                ", senderAddress='" + senderAddress + '\'' +
-                ", recipientBPN='" + recipientBPN + '\'' +
-                ", classification='" + classification + '\'' +
-                ", severity='" + severity + '\'' +
-                ", relatedNotificationId='" + relatedNotificationId + '\'' +
-                ", status='" + status + '\'' +
-                ", targetDate='" + targetDate + '\'' +
-                ", messageId='" + messageId + '\'' +
+                "notificationId='" + EDC.sanitizer(notificationId) + '\'' +
+                ", senderBPN='" + EDC.sanitizer(senderBPN) + '\'' +
+                ", senderAddress='" + EDC.sanitizer(senderAddress) + '\'' +
+                ", recipientBPN='" + EDC.sanitizer(recipientBPN) + '\'' +
+                ", classification='" + EDC.sanitizer(classification) + '\'' +
+                ", severity='" + EDC.sanitizer(severity) + '\'' +
+                ", relatedNotificationId='" + EDC.sanitizer(relatedNotificationId) + '\'' +
+                ", status='" + EDC.sanitizer(status) + '\'' +
+                ", targetDate='" + EDC.sanitizer(targetDate) + '\'' +
+                ", messageId='" + EDC.sanitizer(messageId) + '\'' +
                 '}';
     }
-
 }
+
+
