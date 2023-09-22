@@ -37,6 +37,7 @@ import { FormatPaginationSemanticDataModelToCamelCasePipe } from '@shared/pipes/
 import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
 import { FormatPartlistSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-partlist-semantic-data-model-to-camelcase.pipe';
 import { I18NextModule } from 'angular-i18next';
+import { AngularSplitModule } from 'angular-split';
 import { BaseInputComponent } from './abstraction/baseInput/baseInput.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
@@ -116,7 +117,7 @@ import { RequestAlertComponent } from '@shared/components/request-notification/r
     NotificationUserComponent,
     InputComponent,
   ],
-  imports: [TemplateModule, RouterModule, I18NextModule],
+  imports: [TemplateModule, RouterModule, I18NextModule, AngularSplitModule],
     exports: [
         ToastContainerComponent,
         ToastMessageComponent,

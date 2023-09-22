@@ -39,8 +39,8 @@ export class OtherPartsService {
   constructor(private readonly apiService: ApiService) {}
 
 
-  public getOtherParts(page: number, pageSize: number, sorting: TableHeaderSort[], owner: Owner): Observable<Pagination<Part>> {
-    let  sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
+  public getOtherPartsAsBuilt(page: number, pageSize: number, sorting: TableHeaderSort[], owner: Owner): Observable<Pagination<Part>> {
+    let sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
     let params = new HttpParams()
       .set('page', page)
       .set('size', pageSize)
@@ -54,4 +54,21 @@ export class OtherPartsService {
       .getBy<PartsResponse>(`${this.url}/assets/as-built`, params)
       .pipe(map(parts => PartsAssembler.assembleOtherParts(parts, MainAspectType.AS_BUILT)));
   }
+
+  public getOtherPartsAsPlanned(page: number, pageSize: number, sorting: TableHeaderSort[], owner: Owner): Observable<Pagination<Part>> {
+    let sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
+    let params = new HttpParams()
+      .set('page', page)
+      .set('size', pageSize)
+      .set('owner', owner);
+
+    sort.forEach(sortingItem => {
+      params = params.append('sort', sortingItem);
+    })
+
+    return this.apiService
+      .getBy<PartsResponse>(`${this.url}/assets/as-planned`, params)
+      .pipe(map(parts => PartsAssembler.assembleOtherParts(parts, MainAspectType.AS_BUILT)));
+  }
+
 }

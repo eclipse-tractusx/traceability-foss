@@ -20,45 +20,61 @@ SPDX-License-Identifier: Apache-2.0
 -->
 
 <div class="parts-table-container">
-  <ng-container *viewContainer="partsAsBuilt$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
-  <ng-container *viewContainer="partsAsPlanned$ | async; main: myTmp; error: errorTmp; loading: loaderTmp"></ng-container>
-  <ng-template #mainTmp let-parts="view">
-    <!-- asBuilt Parts Table-->
-    <app-table class="parts-asBuilt-table"
-      [PartsPaginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
-      [labelId]="titleId"
-      [tableConfig]="tableConfigAsBuilt"
-      [selectedPartsInfoLabel]="'page.selectedParts.info'"
-      [selectedPartsActionLabel]="'page.selectedParts.action'"
-      [deselectTrigger]="deselectPartTrigger$ | async"
-      [addTrigger]="addPartTrigger$ | async"
-      (selected)="onSelectItem($event)"
-      (configChanged)="onAsBuiltTableConfigChange($event)"
-      (multiSelect)="currentSelectedItems$.next($event)"
-      (clickSelectAction)="isAlertOpen$.next(true)"
-      [tableHeader]="'page.asBuiltParts'"
-      [multiSortList]="tableAsBuiltSortList"
-    ></app-table>
-  </ng-template>
-  <ng-template #myTmp let-parts="view">
-    <!-- asPlanned Parts Table-->
-    <app-table class="parts-asPlanned-table"
-      [PartsPaginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
-      [labelId]="titleId"
-      [tableConfig]="tableConfigAsPlanned"
-      [selectedPartsInfoLabel]="'page.selectedParts.info'"
-      [selectedPartsActionLabel]="'page.selectedParts.action'"
-      [deselectTrigger]="deselectPartTrigger$ | async"
-      [addTrigger]="addPartTrigger$ | async"
-      (selected)="onSelectItem($event)"
-      (configChanged)="onAsPlannedTableConfigChange($event)"
-      (multiSelect)="currentSelectedItems$.next($event)"
-      (clickSelectAction)="isAlertOpen$.next(true)"
-      [tableHeader]="'page.asPlannedParts'"
-      [multiSortList]="tableAsPlannedSortList"
-    ></app-table>
-    <app-part-detail></app-part-detail>
-  </ng-template>
+  <div class="split-container-wrapper">
+  <as-split direction="horizontal" class="split-container">
+    <as-split-area [size]="50" >
+      <div class="parts-as-built-table-wrapper">
+      <ng-container *viewContainer="partsAsBuilt$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
+      <ng-template #mainTmp let-parts="view">
+        <!-- asBuilt Parts Table-->
+        <app-table class="parts-asBuilt-table"
+                   [PartsPaginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
+                   [labelId]="titleId"
+                   [tableConfig]="tableConfigAsBuilt"
+                   [selectedPartsInfoLabel]="'page.selectedParts.info'"
+                   [selectedPartsActionLabel]="'page.selectedParts.action'"
+                   [deselectTrigger]="deselectPartTrigger$ | async"
+                   [addTrigger]="addPartTrigger$ | async"
+                   (selected)="onSelectItem($event)"
+                   (configChanged)="onAsBuiltTableConfigChange($event)"
+                   (multiSelect)="currentSelectedItems$.next($event)"
+                   (clickSelectAction)="isAlertOpen$.next(true)"
+                   [tableHeader]="'page.asBuiltParts'"
+                   [multiSortList]="tableAsBuiltSortList"
+        ></app-table>
+      </ng-template>
+      </div>
+    </as-split-area>
+    <as-split-area [size]="50">
+      <div class="parts-as-planned-table-wrapper">
+      <ng-container *viewContainer="partsAsPlanned$ | async; main: myTmp; error: errorTmp; loading: loaderTmp"></ng-container>
+      <ng-template #myTmp let-parts="view">
+        <!-- asPlanned Parts Table-->
+        <app-table class="parts-asPlanned-table"
+                   [PartsPaginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
+                   [labelId]="titleId"
+                   [tableConfig]="tableConfigAsPlanned"
+                   [selectedPartsInfoLabel]="'page.selectedParts.info'"
+                   [selectedPartsActionLabel]="'page.selectedParts.action'"
+                   [deselectTrigger]="deselectPartTrigger$ | async"
+                   [addTrigger]="addPartTrigger$ | async"
+                   (selected)="onSelectItem($event)"
+                   (configChanged)="onAsPlannedTableConfigChange($event)"
+                   (multiSelect)="currentSelectedItems$.next($event)"
+                   (clickSelectAction)="isAlertOpen$.next(true)"
+                   [tableHeader]="'page.asPlannedParts'"
+                   [multiSortList]="tableAsPlannedSortList"
+        ></app-table>
+
+      </ng-template>
+      </div>
+    </as-split-area>
+
+  </as-split>
+  </div>
+
+  <app-part-detail></app-part-detail>
+
     <app-sidenav-wrapper [isOpen]="isAlertOpen$ | async" (sidenavAction)="isAlertOpen$.next($event)">
       <app-request-alert
         *ngIf="isAlertOpen$ | async"
