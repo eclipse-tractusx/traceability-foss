@@ -24,6 +24,40 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record EDCNotificationHeader(String notificationId, String senderBPN, String senderAddress, String recipientBPN,
-									String classification, String severity, String relatedNotificationId,
-									String status, String targetDate, String messageId) {
+                                    String classification, String severity, String relatedNotificationId,
+                                    String status, String targetDate, String messageId) {
+
+    @Override
+    public String toString() {
+        String[] stringsToClean = {
+                notificationId,
+                senderBPN,
+                senderAddress,
+                recipientBPN,
+                classification,
+                severity,
+                relatedNotificationId,
+                status,
+                targetDate,
+                messageId
+        };
+
+        for (int i = 0; i < stringsToClean.length; i++) {
+            stringsToClean[i] = stringsToClean[i].replaceAll("\r\n|\r|\n", " ");
+        }
+
+        return "EDCNotificationHeader{" +
+                "notificationId='" + notificationId + '\'' +
+                ", senderBPN='" + senderBPN + '\'' +
+                ", senderAddress='" + senderAddress + '\'' +
+                ", recipientBPN='" + recipientBPN + '\'' +
+                ", classification='" + classification + '\'' +
+                ", severity='" + severity + '\'' +
+                ", relatedNotificationId='" + relatedNotificationId + '\'' +
+                ", status='" + status + '\'' +
+                ", targetDate='" + targetDate + '\'' +
+                ", messageId='" + messageId + '\'' +
+                '}';
+    }
+
 }
