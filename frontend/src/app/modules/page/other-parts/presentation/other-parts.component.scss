@@ -29,12 +29,27 @@ display: none;
 }
 
 .supplier-parts-as-built-table-wrapper {
-  height: 58vh;
+  max-height: 58vh;
+  overflow: auto;
+}
+
+.supplier-parts-as-planned-table-wrapper {
+  max-height: 58vh;
   overflow: auto;
 }
 
 .supplier-parts-as-built-table-wrapper::-webkit-scrollbar {
   display: none;
+}
+
+.customer-parts-as-built-table-wrapper {
+  max-height: 58vh;
+  overflow: auto;
+}
+
+.customer-parts-as-planned-table-wrapper {
+  max-height: 58vh;
+  overflow: auto;
 }
 
 
