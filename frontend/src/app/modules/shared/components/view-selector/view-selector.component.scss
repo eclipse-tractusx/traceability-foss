@@ -1,0 +1,18 @@
+.selected-background {
+  background-color: #b9dcf9 !important;
+box-shadow: rgba(15, 113, 203, 0.4) 0px 0px 0px 3px;
+}
+
+button:hover{
+background-color: rgb(212, 227, 254);
+  color: rgb(13, 85, 175);
+}
+
+button{
+  text-transform: uppercase;
+  color: rgb(15, 113, 203);
+background-color:rgb(234, 241, 254)!important;
+  border-radius: 50px!important;
+  padding: 10px 18px!important;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms!important;
+}

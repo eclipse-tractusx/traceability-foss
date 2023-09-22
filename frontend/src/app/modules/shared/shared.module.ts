@@ -81,6 +81,7 @@ import {I18nPipe} from './pipes/i18n.pipe';
 import {PartsService} from './service/parts.service';
 import {StaticIdService} from './service/staticId.service';
 import {TemplateModule} from './template.module';
+import {ViewSelectorComponent} from "@shared/components/view-selector/view-selector.component";
 
 @NgModule({
     declarations: [
@@ -127,6 +128,7 @@ import {TemplateModule} from './template.module';
         NotificationUserComponent,
         InputComponent,
         BomLifecycleActivatorComponent,
+        ViewSelectorComponent
     ],
     imports: [TemplateModule, RouterModule, I18NextModule],
     exports: [
@@ -171,6 +173,7 @@ import {TemplateModule} from './template.module';
         FormatPartSemanticDataModelToCamelCasePipe,
         FormatPartlistSemanticDataModelToCamelCasePipe,
         BomLifecycleActivatorComponent,
+        ViewSelectorComponent
     ],
     providers: [
         FormatDatePipe,

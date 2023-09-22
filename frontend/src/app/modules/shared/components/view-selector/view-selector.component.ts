@@ -18,11 +18,27 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-.button-container {
-  display: flex;
-  flex-direction: row;
-}
 
-.button-container app-button {
-  /* this will make each button take up 50% of the container's width */
+import { Component, ElementRef, HostBinding, Input, ViewChild } from '@angular/core';
+
+type ButtonVariant = 'button' | 'raised' | 'flat' | 'stroked' | 'icon' | 'fab' | 'miniFab';
+@Component({
+  selector: 'app-view-selector',
+  templateUrl: './view-selector.component.html',
+  styleUrls: ['./view-selector.component.scss']
+})
+export class ViewSelectorComponent {
+
+  @HostBinding('style.pointer-events') get pEvents(): string {
+    return this.isDisabled ? 'none' : 'auto';
+  }
+
+  @ViewChild('ButtonElement') buttonElement: ElementRef;
+  @Input() color: 'primary' | 'accent' | 'warn';
+  @Input() variant: ButtonVariant = 'raised';
+  @Input() iconName: string;
+  @Input() label: string;
+  @Input() isDisabled: boolean = false;
+  @Input() isSelected: boolean;
+
 }
