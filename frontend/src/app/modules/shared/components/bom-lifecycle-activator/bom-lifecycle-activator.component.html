@@ -21,7 +21,7 @@ SPDX-License-Identifier: Apache-2.0
                 variant="flat" color="accent" (click)="toggleAsBuilt()">
         {{ 'bomLifecycleActivator.asBuilt' | i18n }}
     </app-view-selector>
-    <app-view-selector [isDisabled]="!bomLifecycleConfig.asBuiltActive" [isSelected]="bomLifecycleConfig.asPlannedActive"
+    <app-view-selector [isDisabled]="!bomLifecycleConfig.asBuiltActive" [isSelected]=bomLifecycleConfig.asPlannedActive
                 variant="flat" color="accent" (click)="toggleAsPlanned()">
         {{ 'bomLifecycleActivator.asPlanned' | i18n }}
     </app-view-selector>

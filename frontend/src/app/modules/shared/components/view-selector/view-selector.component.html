@@ -27,38 +27,9 @@ SPDX-License-Identifier: Apache-2.0
     </button>
 </ng-template>
 
-<ng-template #raised>
-    <button [ngClass]="{'selected-background': isSelected}" [disabled]="isDisabled" [color]="color" mat-raised-button>
-        <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
-    </button>
-</ng-template>
 
 <ng-template #flat>
-    <button [disabled]="isDisabled" [color]="color" mat-flat-button>
-        <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
-    </button>
-</ng-template>
-
-<ng-template #stroked>
-    <button [disabled]="isDisabled" [color]="color" mat-stroked-button>
-        <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
-    </button>
-</ng-template>
-
-<ng-template #icon>
-    <button [disabled]="isDisabled" [color]="color" [attr.aria-label]="this.label" mat-icon-button>
-        <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
-    </button>
-</ng-template>
-
-<ng-template #fab>
-    <button [disabled]="isDisabled" [color]="color" [attr.aria-label]="this.label" mat-fab>
-        <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
-    </button>
-</ng-template>
-
-<ng-template #miniFab>
-    <button [disabled]="isDisabled" [color]="color" [attr.aria-label]="this.label" mat-mini-fab>
+    <button [ngClass]="{'selected': isSelected}"  [disabled]="isDisabled" [color]="color" mat-flat-button>
         <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
     </button>
 </ng-template>
