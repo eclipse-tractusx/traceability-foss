@@ -34,10 +34,9 @@ import {View} from '@shared/model/view.model';
 import {PartDetailsFacade} from '@shared/modules/part-details/core/partDetails.facade';
 import {StaticIdService} from '@shared/service/staticId.service';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
-import {
-    BomLifecycleSize,
-    initialBomLifecycleSize
-} from "@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model";
+import {BomLifecycleSize} from "@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model";
+import {BomLifecycleSettingsService, UserSettingView} from "@shared/service/bom-lifecycle-settings.service";
+
 
 
 @Component({
@@ -136,12 +135,12 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private ctrlKeyState = false;
 
-    public bomLifecycleSize: BomLifecycleSize = initialBomLifecycleSize();
 
     constructor(
         private readonly partsFacade: PartsFacade,
         private readonly partDetailsFacade: PartDetailsFacade,
         private readonly staticIdService: StaticIdService,
+        private readonly userSettingService: BomLifecycleSettingsService
     ) {
         this.partsAsBuilt$ = this.partsFacade.partsAsBuilt$;
         this.partsAsPlanned$ = this.partsFacade.partsAsPlanned$;
@@ -155,6 +154,9 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
             this.ctrlKeyState = event.ctrlKey;
         });
     }
+
+    public bomLifecycleSize: BomLifecycleSize = this.userSettingService.getSize(UserSettingView.PARTS);
+
 
     public ngOnInit(): void {
         this.partsFacade.setPartsAsBuilt();
@@ -172,6 +174,8 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
             header: CreateHeaderFromColumns(this.displayedColumnsAsPlanned, 'table.column'),
             sortableColumns: this.sortableColumnsAsPlanned,
         }
+
+        this.handleTableActivationEvent(this.bomLifecycleSize);
     }
 
     public ngOnDestroy(): void {
@@ -242,4 +246,5 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
         }
     }
 
+    protected readonly UserSettingView = UserSettingView;
 }
