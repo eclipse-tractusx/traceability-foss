@@ -26,11 +26,3 @@ export interface BomLifecycleConfig {
     asPlannedActive: boolean,
     asBuiltActive: boolean
 }
-
-
-export function initialBomLifecycleSize(): BomLifecycleSize{
-    return {
-        asPlannedSize: 50,
-        asBuiltSize: 50
-    };
-}

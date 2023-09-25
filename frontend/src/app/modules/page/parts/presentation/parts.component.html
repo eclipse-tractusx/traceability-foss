@@ -21,7 +21,7 @@ SPDX-License-Identifier: Apache-2.0
 
 <div class="parts-table-container">
   <div class="app-bom-lifecycle-activator-container">
-    <app-bom-lifecycle-activator (buttonClickEvent)="handleTableActivationEvent($event)"></app-bom-lifecycle-activator>
+    <app-bom-lifecycle-activator [view]=UserSettingView.PARTS (buttonClickEvent)="handleTableActivationEvent($event)"></app-bom-lifecycle-activator>
   </div>
   <div class="split-container-wrapper">
   <as-split direction="horizontal" class="split-container">
