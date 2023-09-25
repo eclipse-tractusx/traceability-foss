@@ -12,12 +12,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - LocalStorage to be used for saving view setting
 
 ### Changed
-- irs helm updated from 6.5.0 to 6.6.1
-
-### Changed
 - added sorting for /api/investigations received and created endpoints
 - added sorting for /api/alerts received and created endpoints
 - integration tests uses flyway now rather than hibernate schema auto creation
+- irs helm updated from 6.5.0 to 6.6.1
 
 ### Removed
 - Old edc code not necessary anymore
