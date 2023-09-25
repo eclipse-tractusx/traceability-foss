@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - Splitscreen View with sliders on parts and otherParts View
 - New test data for as planned assets aswell as JustInSequence and TractionBatteryCode
+- Toggle for parts and other parts to switch views asPlanned/asBuilt
 
 ### Removed
 - Old edc code not necessary anymore

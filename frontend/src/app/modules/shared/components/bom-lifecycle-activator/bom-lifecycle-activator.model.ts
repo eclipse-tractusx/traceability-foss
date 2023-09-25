@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,38 +17,20 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-.other-parts-container {
-  @apply flex flex-col;
-  height: 65vh;
+export interface BomLifecycleSize {
+    asPlannedSize: number,
+    asBuiltSize: number
 }
 
-.app-bom-lifecycle-activator-container {
-  grid-column: 1 / span 2; /* This will make it span both columns */
-  width: 100%;
-}
-
-.split-container {
-  height: auto;
-}
-
-.split-container > as-split-area {
-  overflow: hidden;
-}
-
-.supplier-parts-as-built-table-wrapper {
-  max-height: 58vh;
-}
-
-.supplier-parts-as-planned-table-wrapper {
-  max-height: 58vh;
-}
-
-.customer-parts-as-built-table-wrapper {
-  max-height: 58vh;
-}
-
-.customer-parts-as-planned-table-wrapper {
-  max-height: 58vh;
+export interface BomLifecycleConfig {
+    asPlannedActive: boolean,
+    asBuiltActive: boolean
 }
 
 
+export function initialBomLifecycleSize(): BomLifecycleSize{
+    return {
+        asPlannedSize: 50,
+        asBuiltSize: 50
+    };
+}

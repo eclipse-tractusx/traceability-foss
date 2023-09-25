@@ -23,6 +23,11 @@
   width: 100%;
 }
 
+.app-bom-lifecycle-activator-container {
+  grid-column: 1 / span 2; /* This will make it span both columns */
+  width: 100%;
+}
+
 .split-container-wrapper {
   height: 65vh;
 }

@@ -18,10 +18,12 @@ under the License.
 
 SPDX-License-Identifier: Apache-2.0
 -->
-<!-- TODO Change class name because about-container already exists and was pasted in here - suggestion: other-parts-container -->
-<div class="about-container">
+<div class="other-parts-container">
+  <div class="app-bom-lifecycle-activator-container">
+    <app-bom-lifecycle-activator (buttonClickEvent)="handleTableActivationEvent($event)"></app-bom-lifecycle-activator>
+  </div>
   <as-split direction="horizontal" class="split-container">
-    <as-split-area [size]="50">
+    <as-split-area [size]="this.bomLifecycleSize.asBuiltSize">
       <p class="large-text">{{'page.asBuiltParts' | i18n }}</p>
   <mat-tab-group
     (selectedTabChange)="onTabChange($event)"
@@ -29,28 +31,28 @@ SPDX-License-Identifier: Apache-2.0
     mat-stretch-tabs="false"
     mat-align-tabs="start"
   >
-    <mat-tab>
+    <mat-tab >
       <ng-template mat-tab-label>
         <span [id]="supplierTabLabelId">{{ 'pageOtherParts.tab.supplier' | i18n }} </span>
       </ng-template>
 
       <app-supplier-parts
-      [bomLifecycle]="MainAspectType.AS_BUILT"
+      [bomLifecycle]="mainAspectType.AS_BUILT"
       ></app-supplier-parts>
     </mat-tab>
 
-    <mat-tab>
+    <mat-tab >
       <ng-template mat-tab-label>
         <span [id]="customerTabLabelId">{{ 'pageOtherParts.tab.customer' | i18n }} </span>
       </ng-template>
 
       <app-customer-parts
-      [bomLifecycle]="MainAspectType.AS_BUILT"
+      [bomLifecycle]="mainAspectType.AS_BUILT"
       ></app-customer-parts>
     </mat-tab>
   </mat-tab-group>
     </as-split-area>
-    <as-split-area [size]="50">
+    <as-split-area [size]="this.bomLifecycleSize.asPlannedSize">
       <p class="large-text">{{'page.asPlannedParts' | i18n }}</p>
   <mat-tab-group
     (selectedTabChange)="onTabChange($event)"
@@ -64,7 +66,7 @@ SPDX-License-Identifier: Apache-2.0
       </ng-template>
 
       <app-supplier-parts
-        [bomLifecycle]="MainAspectType.AS_PLANNED"
+        [bomLifecycle]="mainAspectType.AS_PLANNED"
       ></app-supplier-parts>
     </mat-tab>
 
@@ -74,7 +76,7 @@ SPDX-License-Identifier: Apache-2.0
       </ng-template>
 
       <app-customer-parts
-        [bomLifecycle]="MainAspectType.AS_PLANNED"
+        [bomLifecycle]="mainAspectType.AS_PLANNED"
       ></app-customer-parts>
     </mat-tab>
   </mat-tab-group>

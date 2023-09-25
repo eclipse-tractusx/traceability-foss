@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -18,39 +16,25 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+.view-selector-container{
+  padding-bottom: 16px;
 
-.other-parts-container {
-  @apply flex flex-col;
-  height: 65vh;
+  button.selected {
+    color: rgb(13, 85, 175) !important;
+    background-color: rgb(212, 227, 254) !important;
+  }
+
+  button:hover {
+    background-color: rgb(212, 227, 254) !important;
+  }
+
+  button {
+    color: rgb(15, 113, 203);
+    text-transform: uppercase;
+    border-radius: 50px !important;
+    padding: 10px 18px !important;
+    margin-right: 16px;
+    background-color: unset!important;
+  }
+
 }
-
-.app-bom-lifecycle-activator-container {
-  grid-column: 1 / span 2; /* This will make it span both columns */
-  width: 100%;
-}
-
-.split-container {
-  height: auto;
-}
-
-.split-container > as-split-area {
-  overflow: hidden;
-}
-
-.supplier-parts-as-built-table-wrapper {
-  max-height: 58vh;
-}
-
-.supplier-parts-as-planned-table-wrapper {
-  max-height: 58vh;
-}
-
-.customer-parts-as-built-table-wrapper {
-  max-height: 58vh;
-}
-
-.customer-parts-as-planned-table-wrapper {
-  max-height: 58vh;
-}
-
-
