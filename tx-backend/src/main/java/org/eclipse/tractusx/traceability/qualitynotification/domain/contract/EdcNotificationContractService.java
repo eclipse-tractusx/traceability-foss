@@ -28,7 +28,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.application.contrac
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractResponse;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.NotificationMethod;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.asset.model.CreateEdcAssetException;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.asset.service.EdcNotitifcationAssetService;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.asset.service.EdcNotificationAssetService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.contract.model.CreateEdcContractDefinitionException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.contract.service.EdcContractDefinitionService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.policy.model.CreateEdcPolicyDefinitionException;
@@ -40,7 +40,7 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class EdcNotificationContractService {
 
-    private final EdcNotitifcationAssetService edcNotitifcationAssetService;
+    private final EdcNotificationAssetService edcNotificationAssetService;
     private final EdcPolicyDefinitionService edcPolicyDefinitionService;
     private final EdcContractDefinitionService edcContractDefinitionService;
 
@@ -52,7 +52,7 @@ public class EdcNotificationContractService {
 
         String notificationAssetId = "";
         try {
-            notificationAssetId = edcNotitifcationAssetService.createNotificationAsset(notificationMethod, request.notificationType());
+            notificationAssetId = edcNotificationAssetService.createNotificationAsset(notificationMethod, request.notificationType());
         } catch (CreateEdcAssetException e) {
             throw new CreateNotificationContractException(e);
         } catch (JsonProcessingException e2) {
@@ -100,6 +100,6 @@ public class EdcNotificationContractService {
     private void revertNotificationAsset(String notificationAssetId) {
         log.info("Removing {} notification asset", notificationAssetId);
 
-        edcNotitifcationAssetService.deleteNotificationAsset(notificationAssetId);
+        edcNotificationAssetService.deleteNotificationAsset(notificationAssetId);
     }
 }
