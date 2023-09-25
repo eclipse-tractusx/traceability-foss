@@ -105,7 +105,7 @@ backend:
       cpu: 100m
       memory: 256Mi
 
-  springprofile: e2e-a
+  springprofile: dev
 
   ingress:
     enabled: true
