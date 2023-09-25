@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { RelationComponentState } from '@shared/modules/relations/core/component.state';
 import { LoadedElementsFacade } from '@shared/modules/relations/core/loaded-elements.facade';
@@ -32,9 +33,8 @@ import { debounceTime, map } from 'rxjs/operators';
 import {
   MOCK_part_1,
   MOCK_part_2,
-  MOCK_part_3,
   mockAssetList,
-} from '../../../../../mocks/services/parts-mock/parts.test.model';
+} from '../../../../../mocks/services/parts-mock/partsAsBuilt/partsAsBuilt.test.model';
 
 describe('Relations facade', () => {
   const childDescriptionsToChild = children => children.map(({ id }) => id);
@@ -45,9 +45,9 @@ describe('Relations facade', () => {
 
   beforeEach(() => {
     const partsServiceMok = {
-      getPart: id => of(mockAssetList[id]).pipe(map(part => PartsAssembler.assemblePart(part))),
+      getPart: id => of(mockAssetList[id]).pipe(map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_BUILT))),
       getPartDetailOfIds: assetIds =>
-        of(assetIds.map(id => mockAssetList[id])).pipe(map(parts => PartsAssembler.assemblePartList(parts))),
+        of(assetIds.map(id => mockAssetList[id])).pipe(map(parts => PartsAssembler.assemblePartList(parts, MainAspectType.AS_BUILT))),
     } as PartsService;
 
     loadedElementsFacade = new LoadedElementsFacade(new LoadedElementsState());
@@ -67,9 +67,7 @@ describe('Relations facade', () => {
       const expected = {
         [MOCK_part_1.id]: childDescriptionsToChild(MOCK_part_1.childRelations),
         [MOCK_part_2.id]: childDescriptionsToChild(MOCK_part_2.childRelations),
-        [MOCK_part_3.id]: childDescriptionsToChild(MOCK_part_3.childRelations),
       };
-
       relationsFacade.openElementWithChildren(mockTreeElement);
       expect(await getOpenElements()).toEqual(expected);
     });
@@ -91,7 +89,7 @@ describe('Relations facade', () => {
       const { id, childRelations } = MOCK_part_1;
       const children = childDescriptionsToChild(childRelations);
       const mockTreeElement = { id, children } as TreeElement;
-      const expected = { MOCK_part_1: ['MOCK_part_2', 'MOCK_part_3'], MOCK_part_3: ['MOCK_part_5'] };
+      const expected = { MOCK_part_1: ['MOCK_part_2']};
 
       relationsFacade.openElementWithChildren(mockTreeElement);
       relationsFacade.deleteOpenElement(children[0]);
@@ -104,8 +102,7 @@ describe('Relations facade', () => {
       const mockTreeElement = { id, children: childDescriptionsToChild(childRelations) } as TreeElement;
       const expected_all = {
         [MOCK_part_1.id]: childDescriptionsToChild(MOCK_part_1.childRelations),
-        [MOCK_part_2.id]: childDescriptionsToChild(MOCK_part_2.childRelations),
-        [MOCK_part_3.id]: childDescriptionsToChild(MOCK_part_3.childRelations),
+        [MOCK_part_2.id]: childDescriptionsToChild(MOCK_part_2.childRelations)
       };
 
       relationsFacade.openElementWithChildren(mockTreeElement);
@@ -116,7 +113,6 @@ describe('Relations facade', () => {
 
       const expected_deleted = {
         [MOCK_part_1.id]: childDescriptionsToChild(MOCK_part_1.childRelations),
-        [MOCK_part_3.id]: childDescriptionsToChild(MOCK_part_3.childRelations),
       };
 
       const deletedOpenElements = await getOpenElements();
@@ -135,30 +131,15 @@ describe('Relations facade', () => {
             id: 'MOCK_part_2',
             relations: [
               {
-                children: null,
-                id: 'MOCK_part_4',
-                state: 'loading',
-                title: 'MOCK_part_4',
-              },
+              id: "MOCK_part_4",
+              title: "MOCK_part_4",
+              state: "loading",
+              children: null,
+            }
             ],
-            state: 'SERIALPART',
-            text: 'BMW 520d Touring',
-            title: 'BMW 520d Touring | mysemanticmodelId2',
-          },
-          {
-            children: [],
-            id: 'MOCK_part_3',
-            relations: [
-              {
-                children: null,
-                id: 'MOCK_part_5',
-                state: 'loading',
-                title: 'MOCK_part_5',
-              },
-            ],
-            state: 'SERIALPART',
-            text: 'A 180 Limousine',
-            title: 'A 180 Limousine | mysemanticModelId3',
+            state: 'BATCH',
+            text: 'MyAsBuiltPartName',
+            title: 'MyAsBuiltPartName | MOCK_part_2',
           },
         ],
         relations: [
@@ -167,12 +148,6 @@ describe('Relations facade', () => {
             id: 'MOCK_part_2',
             state: 'loading',
             title: 'MOCK_part_2',
-          },
-          {
-            children: null,
-            id: 'MOCK_part_3',
-            state: 'loading',
-            title: 'MOCK_part_3',
           },
         ],
       } as TreeStructure;

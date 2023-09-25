@@ -18,40 +18,49 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.application.base.mapper;
 
-import assets.response.base.*;
+import assets.response.asbuilt.DetailAspectDataAsBuiltResponse;
+import assets.response.asplanned.DetailAspectDataAsPlannedResponse;
+import assets.response.asplanned.PartSiteInformationAsPlannedResponse;
+import assets.response.base.DescriptionsResponse;
+import assets.response.base.DetailAspectDataResponse;
+import assets.response.base.DetailAspectModelResponse;
+import assets.response.base.DetailAspectTypeResponse;
+import assets.response.base.OwnerResponse;
+import assets.response.base.QualityTypeResponse;
+import assets.response.base.SemanticDataModelResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.application.asplanned.mapper.AssetAsPlannedResponseMapper;
-import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.PartSiteInformationAsPlanned;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.*;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataAsBuilt;
+import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataAsPlanned;
+import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataPartSiteInformationAsPlanned;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectData;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 
 import java.util.List;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 @AllArgsConstructor
+@Slf4j
 @Data
 @SuperBuilder
 public class AssetBaseResponseMapper {
-    public static SemanticModelResponse from(final SemanticModel semanticModel) {
-        return SemanticModelResponse.builder()
-                .customerPartId(semanticModel.getCustomerPartId())
-                .manufacturerPartId(semanticModel.getManufacturerPartId())
-                .manufacturingCountry(semanticModel.getManufacturingCountry())
-                .manufacturingDate(semanticModel.getManufacturingDate())
-                .nameAtCustomer(semanticModel.getNameAtCustomer())
-                .nameAtManufacturer(semanticModel.getNameAtManufacturer())
-                .build();
-    }
 
     public static List<DetailAspectModelResponse> fromList(List<DetailAspectModel> detailAspectModels) {
-        return emptyIfNull(detailAspectModels).stream()
+        List<DetailAspectModelResponse> list = emptyIfNull(detailAspectModels).stream()
                 .map(AssetAsPlannedResponseMapper::from)
                 .toList();
+        log.info(list.toString());
+        return list;
     }
 
     public static DetailAspectModelResponse from(DetailAspectModel detailAspectModel) {
@@ -66,15 +75,32 @@ public class AssetBaseResponseMapper {
     }
 
     public static DetailAspectDataResponse from(DetailAspectData detailAspectData) {
-        if (detailAspectData instanceof PartSiteInformationAsPlanned partSiteInformationAsPlanned) {
-            return PartSiteInformationAsPlannedResponse.builder().catenaXSiteId(partSiteInformationAsPlanned.getCatenaXSiteId())
-                    .function(partSiteInformationAsPlanned.getFunction())
-                    .functionValidFrom(partSiteInformationAsPlanned.getFunctionValidFrom())
-                    .functionValidUntil(partSiteInformationAsPlanned.getFunctionValidUntil())
+
+        if (detailAspectData instanceof DetailAspectDataPartSiteInformationAsPlanned detailAspectDataPartSiteInformationAsPlanned) {
+            return PartSiteInformationAsPlannedResponse.builder().catenaXSiteId(detailAspectDataPartSiteInformationAsPlanned.getCatenaXSiteId())
+                    .function(detailAspectDataPartSiteInformationAsPlanned.getFunction())
+                    .functionValidFrom(detailAspectDataPartSiteInformationAsPlanned.getFunctionValidFrom())
+                    .functionValidUntil(detailAspectDataPartSiteInformationAsPlanned.getFunctionValidUntil())
                     .build();
-        } else {
-            return null;
         }
+
+        if (detailAspectData instanceof DetailAspectDataAsBuilt detailAspectDataAsBuilt) {
+            return DetailAspectDataAsBuiltResponse.builder()
+                    .partId(detailAspectDataAsBuilt.getPartId())
+                    .customerPartId(detailAspectDataAsBuilt.getCustomerPartId())
+                    .nameAtCustomer(detailAspectDataAsBuilt.getNameAtCustomer())
+                    .manufacturingCountry(detailAspectDataAsBuilt.getManufacturingCountry())
+                    .manufacturingDate(detailAspectDataAsBuilt.getManufacturingDate().toString())
+                    .build();
+        }
+
+        if (detailAspectData instanceof DetailAspectDataAsPlanned detailAspectDataAsPlanned) {
+            return DetailAspectDataAsPlannedResponse.builder()
+                    .validityPeriodTo(detailAspectDataAsPlanned.getValidityPeriodTo())
+                    .validityPeriodFrom(detailAspectDataAsPlanned.getValidityPeriodFrom())
+                    .build();
+        }
+        return null;
     }
 
     public static OwnerResponse from(final Owner owner) {
@@ -92,11 +118,16 @@ public class AssetBaseResponseMapper {
         return QualityTypeResponse.valueOf(qualityType.name());
     }
 
-
     public static SemanticDataModelResponse from(final SemanticDataModel semanticDataModel) {
         if (semanticDataModel == null) {
             return SemanticDataModelResponse.UNKNOWN;
         }
         return SemanticDataModelResponse.valueOf(semanticDataModel.name());
+    }
+
+    protected static Integer countNotificationsInActiveState(List<QualityNotification> notifications) {
+        return emptyIfNull(notifications).stream()
+                .filter(QualityNotification::isActiveState)
+                .toList().size();
     }
 }

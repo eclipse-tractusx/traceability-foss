@@ -20,26 +20,34 @@
 import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { OtherPartsService } from '@page/other-parts/core/other-parts.service';
 import { OtherPartsState } from '@page/other-parts/core/other-parts.state';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { PartsService } from '@shared/service/parts.service';
 import { waitFor } from '@testing-library/angular';
 import { BehaviorSubject, firstValueFrom, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { mockAssetList, mockAssets } from '../../../../mocks/services/parts-mock/parts.test.model';
+import {
+  mockAssetList,
+  mockAssets,
+} from '../../../../mocks/services/parts-mock/partsAsPlanned/partsAsPlanned.test.model';
 
 describe('OtherPartsFacade', () => {
   let otherPartsFacade: OtherPartsFacade, otherPartsState: OtherPartsState, partsServiceMok: PartsService, otherPartsServiceMock: OtherPartsService;
 
   beforeEach(() => {
     partsServiceMok = {
-      getPart: id => new BehaviorSubject(mockAssetList[id]).pipe(map(part => PartsAssembler.assemblePart(part))),
-      getMyParts: (_page, _pageSize, _sorting) =>
-        of(mockAssets).pipe(map(parts => PartsAssembler.assembleParts(parts))),
+      getPart: id => new BehaviorSubject(mockAssetList[id]).pipe(map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_BUILT))),
+      getPartsAsBuilt: (_page, _pageSize, _sorting) =>
+        of(mockAssets).pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_BUILT))),
+      getPartsAsPlanned: (_page, _pageSize, _sorting) =>
+        of(mockAssets).pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_PLANNED))),
     } as PartsService;
 
     otherPartsServiceMock  = {
-      getSupplierParts: (_page, _pageSize, _sorting) =>
-        of(mockAssets).pipe(map(parts => PartsAssembler.assembleParts(parts))),
+      getOtherPartsAsBuilt: (_page, _pageSize, _sorting, _owner) =>
+        of(mockAssets).pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_BUILT))),
+      getOtherPartsAsPlanned: (_page, _pageSize, _sorting, _owner) =>
+      of(mockAssets).pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_PLANNED))),
     } as OtherPartsService;
 
     otherPartsState = new OtherPartsState();
@@ -49,16 +57,15 @@ describe('OtherPartsFacade', () => {
   describe('setActiveInvestigationForParts', () => {
     it('should set parts if request is successful', async () => {
 
-      const otherParts = PartsAssembler.assembleOtherParts(mockAssets);
-      otherPartsState.supplierParts = { data: otherParts};
-      otherPartsFacade.setActiveInvestigationForParts(otherParts.content);
+      const otherParts = PartsAssembler.assembleOtherParts(mockAssets, MainAspectType.AS_BUILT);
+      otherPartsState.supplierPartsAsBuilt = { data: otherParts};
 
       otherParts.content = otherParts.content.map(part => {
         const activeInvestigation = otherParts.content.some(currentPart => currentPart.id === part.id);
         return { ...part, activeInvestigation };
       });
 
-      const parts = await firstValueFrom(otherPartsState.supplierParts$);
+      const parts = await firstValueFrom(otherPartsState.supplierPartsAsBuilt$);
       await waitFor(() =>
         expect(parts).toEqual({
           error: undefined,
@@ -70,10 +77,7 @@ describe('OtherPartsFacade', () => {
 
     it('should not set parts if no data in state', async () => {
 
-      const otherParts = PartsAssembler.assembleOtherParts(mockAssets);
-      otherPartsFacade.setActiveInvestigationForParts(otherParts.content);
-
-      const parts = await firstValueFrom(otherPartsState.supplierParts$);
+      const parts = await firstValueFrom(otherPartsState.supplierPartsAsBuilt$);
       await waitFor(() =>
         expect(parts).toEqual({
           loader: true,

@@ -21,12 +21,13 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { InvestigationDetailFacade } from '@page/investigations/core/investigation-detail.facade';
 import { InvestigationDetailState } from '@page/investigations/core/investigation-detail.state';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Part } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { FormatPartlistSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-partlist-semantic-data-model-to-camelcase.pipe';
 import { PartsService } from '@shared/service/parts.service';
 import { KeycloakService } from 'keycloak-angular';
-import { MOCK_part_1 } from '../../../../mocks/services/parts-mock/parts.test.model';
+import { MOCK_part_1 } from '../../../../mocks/services/parts-mock/partsAsBuilt/partsAsBuilt.test.model';
 
 describe('InvestigationDetailFacade', () => {
   let investigationDetailFacade: InvestigationDetailFacade;
@@ -73,7 +74,7 @@ describe('InvestigationDetailFacade', () => {
 
       beforeEach(function() {
 
-        part = PartsAssembler.assemblePart(MOCK_part_1);
+        part = PartsAssembler.assemblePart(MOCK_part_1, MainAspectType.AS_BUILT);
 
         this.spy = spyOn(partService, 'sortParts').and.callFake(() => [ part ]);
       });

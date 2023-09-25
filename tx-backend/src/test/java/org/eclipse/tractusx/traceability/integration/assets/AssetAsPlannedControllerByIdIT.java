@@ -19,8 +19,13 @@
 package org.eclipse.tractusx.traceability.integration.assets;
 
 import io.restassured.http.ContentType;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.repository.JpaAssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
+import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.InvestigationsSupport;
 import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
@@ -29,18 +34,37 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
 import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
+import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.ACCEPTED;
+import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.ACKNOWLEDGED;
+import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.CANCELED;
+import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.CLOSED;
+import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.CREATED;
+import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.DECLINED;
+import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.RECEIVED;
+import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.SENT;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 class AssetAsPlannedControllerByIdIT extends IntegrationTestSpecification {
 
     @Autowired
     AssetsSupport assetsSupport;
+
+    @Autowired
+    JpaAssetAsPlannedRepository jpaAssetAsPlannedRepository;
+
+    @Autowired
+    AlertsSupport alertsSupport;
+
+    @Autowired
+    InvestigationsSupport investigationsSupport;
 
     private static Stream<Arguments> requests() {
         return Stream.of(
@@ -49,6 +73,58 @@ class AssetAsPlannedControllerByIdIT extends IntegrationTestSpecification {
                 arguments(Map.of("qualityType", ""), "Failed to deserialize request body."),
                 arguments(Map.of("qualityType", " "), "Failed to deserialize request body.")
         );
+    }
+
+    @Test
+    void givenAlertsForAsset_whenCallAssetById_thenReturnProperCount() throws JoseException {
+        // Given
+        assetsSupport.defaultAssetsAsPlannedStored();
+        AssetAsPlannedEntity asset = jpaAssetAsPlannedRepository.findById("urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01").orElseThrow();
+        alertsSupport.storeAlertWithStatusAndAssets(CREATED, null, List.of(asset));
+        alertsSupport.storeAlertWithStatusAndAssets(SENT, null, List.of(asset));
+        alertsSupport.storeAlertWithStatusAndAssets(RECEIVED, null, List.of(asset));
+        alertsSupport.storeAlertWithStatusAndAssets(ACKNOWLEDGED, null, List.of(asset));
+        alertsSupport.storeAlertWithStatusAndAssets(ACCEPTED, null, List.of(asset));
+        alertsSupport.storeAlertWithStatusAndAssets(DECLINED, null, List.of(asset));
+        alertsSupport.storeAlertWithStatusAndAssets(CANCELED, null, List.of(asset));
+        alertsSupport.storeAlertWithStatusAndAssets(CLOSED, null, List.of(asset));
+
+        // When
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/assets/as-planned/urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01")
+                .then()
+                .statusCode(200)
+                .assertThat()
+                .body("qualityAlertsInStatusActive", is(6));
+    }
+
+    @Test
+    void givenInvestigationsForAsset_whenCallAssetById_thenReturnProperCount() throws JoseException {
+        // Given
+        assetsSupport.defaultAssetsAsPlannedStored();
+        AssetAsPlannedEntity asset = jpaAssetAsPlannedRepository.findById("urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01").orElseThrow();
+        investigationsSupport.storeInvestigationWithStatusAndAssets(CREATED, null, List.of(asset));
+        investigationsSupport.storeInvestigationWithStatusAndAssets(SENT, null, List.of(asset));
+        investigationsSupport.storeInvestigationWithStatusAndAssets(RECEIVED, null, List.of(asset));
+        investigationsSupport.storeInvestigationWithStatusAndAssets(ACKNOWLEDGED, null, List.of(asset));
+        investigationsSupport.storeInvestigationWithStatusAndAssets(ACCEPTED, null, List.of(asset));
+        investigationsSupport.storeInvestigationWithStatusAndAssets(DECLINED, null, List.of(asset));
+        investigationsSupport.storeInvestigationWithStatusAndAssets(CANCELED, null, List.of(asset));
+        investigationsSupport.storeInvestigationWithStatusAndAssets(CLOSED, null, List.of(asset));
+
+        // When
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/assets/as-planned/urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01")
+                .then()
+                .statusCode(200)
+                .assertThat()
+                .body("qualityInvestigationsInStatusActive", is(6));
     }
 
     @Test

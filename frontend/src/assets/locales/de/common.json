@@ -67,13 +67,21 @@
     },
     "column": {
       "id": "ID",
+      "idShort": "Kurz-ID",
       "name": "Name",
       "manufacturer": "Hersteller",
-      "partNumber": "Produktnummer",
+      "partId": "Produktnummer",
+      "manufacturerPartId": "Hersteller produktnummer",
+      "customerPartId": "Kunden produktnummer",
+      "classification": "Klassifizierung",
+      "nameAtCustomer": "Kunden produktname",
+      "nameAtManufacturer": "Hersteller produktname",
       "semanticModelId": "Semantische Modellnummer",
       "qualityType": "Qualitätsstufe",
-      "productionDate": "Produktionsdatum",
-      "productionCountry": "Produktionsland",
+      "manufacturingDate": "Produktionsdatum",
+      "manufacturingCountry": "Produktionsland",
+      "validityPeriodFrom": "Gültigkeit von",
+      "validityPeriodTo": "Gültigkeit bis",
       "childInvestigation": "Qualitätsprüfung",
       "description": "Beschreibung",
       "status": "Status",
@@ -82,7 +90,11 @@
       "createdBy": "Erstellt von",
       "sendTo": "Gesendet an",
       "severity": "Gefahrenstufe",
-      "semanticDataModel": "Semantisches Datenmodell"
+      "semanticDataModel": "Semantisches Datenmodell",
+      "catenaXSiteId": "Standort ID",
+      "psFunction": "Funktion",
+      "functionValidFrom": "Funktion gültig von",
+      "functionValidUntil": "Funktion gültig bis"
     }
   },
   "dataLoading": {

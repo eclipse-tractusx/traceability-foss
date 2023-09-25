@@ -25,15 +25,19 @@ import {
   dashboardHandler,
   errorHandler,
   investigationsHandlers,
-  otherPartsHandlers,
-  partsHandlers,
+  otherPartsAsBuiltHandlers,
+  otherPartsAsPlannedHandlers,
+  partsAsBuiltHandlers,
+  partsAsPlannedHandlers,
 } from './services';
 import { alertsHandlers } from './services/alerts-mock/alerts.handler';
 
 const handlers = [
   ...dashboardHandler,
-  ...otherPartsHandlers,
-  ...partsHandlers,
+  ...otherPartsAsBuiltHandlers,
+  ...otherPartsAsPlannedHandlers,
+  ...partsAsBuiltHandlers,
+  ...partsAsPlannedHandlers,
   ...investigationsHandlers,
   ...alertsHandlers,
   ...adminHandler,

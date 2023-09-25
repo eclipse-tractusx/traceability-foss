@@ -18,10 +18,11 @@
  ********************************************************************************/
 
 import { TestBed } from '@angular/core/testing';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { SemanticDataModel } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { FormatPartlistSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-partlist-semantic-data-model-to-camelcase.pipe';
-import { MOCK_part_1, MOCK_part_2 } from '../../../mocks/services/parts-mock/parts.test.model';
+import { MOCK_part_1, MOCK_part_2 } from '../../../mocks/services/parts-mock/partsAsBuilt/partsAsBuilt.test.model';
 
 describe('FormatPartlistSemanticDataModelToCamelCasePipe', () => {
   let formatPartlistSemanticDataModelToCamelCasePipe: FormatPartlistSemanticDataModelToCamelCasePipe;
@@ -51,7 +52,7 @@ describe('FormatPartlistSemanticDataModelToCamelCasePipe', () => {
   ].forEach(object => {
 
     it(`should transform semanticDataModel from ${object.option} to ${object.expected}`, function()  {
-      let partList = [PartsAssembler.assemblePart(MOCK_part_1), PartsAssembler.assemblePart(MOCK_part_2)];
+      let partList = [PartsAssembler.assemblePart(MOCK_part_1, MainAspectType.AS_BUILT), PartsAssembler.assemblePart(MOCK_part_2, MainAspectType.AS_BUILT)];
 
       partList.forEach(part => {
         part.semanticDataModel = object.option

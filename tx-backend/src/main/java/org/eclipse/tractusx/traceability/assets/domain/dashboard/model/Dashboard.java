@@ -21,8 +21,17 @@
 
 package org.eclipse.tractusx.traceability.assets.domain.dashboard.model;
 
-public record Dashboard(
-        Long myItems,
-        Long otherParts,
-        Long investigations) {
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
+public class Dashboard {
+    Long myParts;
+    Long otherParts;
+    Long investigationsReceived;
+    Long alertsReceived;
+    Long alertsSent;
+    Long myPartsWithOpenAlerts;
+    Long supplierPartsWithOpenAlerts;
 }

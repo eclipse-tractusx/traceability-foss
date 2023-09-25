@@ -23,19 +23,20 @@ import { LayoutModule } from '@layout/layout.module';
 import { SidenavComponent } from '@layout/sidenav/sidenav.component';
 import { SidenavService } from '@layout/sidenav/sidenav.service';
 import { PartsState } from '@page/parts/core/parts.state';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { PartDetailsState } from '@shared/modules/part-details/core/partDetails.state';
 import { PartDetailsModule } from '@shared/modules/part-details/partDetails.module';
 import { screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
-import { MOCK_part_1 } from '../../../../../mocks/services/parts-mock/parts.test.model';
+import { MOCK_part_1 } from '../../../../../mocks/services/parts-mock/partsAsBuilt/partsAsBuilt.test.model';
 import { PartDetailComponent } from './part-detail.component';
 
 let PartsStateMock: PartsState;
 let PartDetailsStateMock: PartDetailsState;
 
-const part = PartsAssembler.assemblePart(MOCK_part_1);
+const part = PartsAssembler.assemblePart(MOCK_part_1, MainAspectType.AS_BUILT);
 
 describe('PartDetailComponent', () => {
   beforeEach(() => {
@@ -70,8 +71,8 @@ describe('PartDetailComponent', () => {
     await renderPartDetailComponent();
 
     const sideNavElement = await waitFor(() => screen.getByTestId('sidenav--test-id'));
-    const nameElement = await screen.findByText(part.name);
-    const productionDateElement = await screen.findByText('5/30/97');
+    const nameElement = await screen.findByText("BMW AG");
+    const productionDateElement = await screen.findByText('2022-02-04T13:48:54');
 
     expect(sideNavElement).toBeInTheDocument();
     await waitFor(() => expect(sideNavElement).toHaveClass('sidenav--container__open'));

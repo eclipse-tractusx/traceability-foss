@@ -21,12 +21,14 @@
 
 package org.eclipse.tractusx.traceability.assets.domain.base.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Singular;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 
 import java.util.List;
 
@@ -40,7 +42,8 @@ public class AssetBase {
     private String semanticModelId;
     private final String manufacturerId;
     private String manufacturerName;
-    private SemanticModel semanticModel;
+    private String nameAtManufacturer;
+    private String manufacturerPartId;
     private Owner owner;
     @Singular
     private List<Descriptions> childRelations;
@@ -53,4 +56,6 @@ public class AssetBase {
     private SemanticDataModel semanticDataModel;
     private String classification;
     private List<DetailAspectModel> detailAspectModels;
+    private List<QualityNotification> qualityAlerts;
+    private List<QualityNotification> qualityInvestigations;
 }

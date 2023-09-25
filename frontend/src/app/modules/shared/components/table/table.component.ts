@@ -20,18 +20,20 @@
  ********************************************************************************/
 
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Pagination } from '@core/model/pagination.model';
 import { RoleService } from '@core/user/role.service';
 import { MenuActionConfig, TableConfig, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
+import { FlattenObjectPipe } from '@shared/pipes/flatten-object.pipe';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['table.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class TableComponent {
   @ViewChild(MatSort) sort: MatSort;
@@ -68,6 +70,9 @@ export class TableComponent {
   @Input() selectedPartsInfoLabel: string;
   @Input() selectedPartsActionLabel: string;
 
+  @Input() tableHeader: string;
+  @Input() multiSortList: TableHeaderSort[];
+
   @Input() set paginationData({ page, pageSize, totalItems, content }: Pagination<unknown>) {
     this.totalItems = totalItems;
     this.pageSize = pageSize;
@@ -76,7 +81,19 @@ export class TableComponent {
     this.pageIndex = page;
   }
 
+  @Input() set PartsPaginationData({page, pageSize, totalItems, content}: Pagination<unknown>) {
+    let flatter = new FlattenObjectPipe();
+    // modify the content of the partlist so that there are no subobjects
+    let newContent = content.map(part => flatter.transform(part))
+    this.totalItems = totalItems;
+    this.pageSize = pageSize;
+    this.dataSource.data = newContent;
+    this.isDataLoading = false;
+    this.pageIndex = page;
+  }
+
   @Input() set data(content: unknown[]) {
+
     this.dataSource.data = content;
     this.isDataLoading = false;
   }

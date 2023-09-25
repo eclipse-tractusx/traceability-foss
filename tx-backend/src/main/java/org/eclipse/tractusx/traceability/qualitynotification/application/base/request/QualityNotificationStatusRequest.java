@@ -20,7 +20,7 @@ package org.eclipse.tractusx.traceability.qualitynotification.application.base.r
 
 import io.swagger.annotations.ApiModel;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
-
+// TODO move to tx-models
 @ApiModel(description = "Describes status for closed action")
 public enum QualityNotificationStatusRequest {
     CLOSED;

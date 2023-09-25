@@ -35,7 +35,10 @@ import java.util.stream.Stream;
 
 import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.everyItem;
+import static org.hamcrest.Matchers.hasEntry;
+import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
@@ -126,17 +129,16 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
                 .body("content[0]", hasEntry("id", "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb"))
                 .body("content[0]", hasEntry("idShort", "vehicle_hybrid.asm"))
                 .body("content[0]", hasEntry("semanticModelId", "OMA-TGFAYUHXFLHHUQQMPLTE"))
-                .body("content[0]", hasEntry("manufacturerId", "BPNL00000003AYRE"))
+                .body("content[0]", hasEntry("businessPartner", "BPNL00000003AYRE"))
                 .body("content[0]", hasEntry("manufacturerName", "Manufacturer Name 1"))
                 .body("content[0]", hasEntry("underInvestigation", false))
                 .body("content[0]", hasEntry("qualityType", "Ok"))
                 .body("content[0]", hasEntry("van", "OMA-TGFAYUHXFLHHUQQMPLTE"))
-                .body("content[0].semanticModel", hasEntry("manufacturingCountry", "DEU"))
-                .body("content[0].semanticModel", hasEntry("manufacturingDate", "2014-11-18T08:23:55Z"))
-                .body("content[0].semanticModel", hasEntry("nameAtManufacturer", "Vehicle Hybrid"))
-                .body("content[0].semanticModel", hasEntry("manufacturerPartId", assetsSupport.emptyText()))
-                .body("content[0].semanticModel", hasEntry("nameAtCustomer", assetsSupport.emptyText()))
-                .body("content[0].semanticModel", hasEntry("customerPartId", assetsSupport.emptyText()));
+                .body("content[0].detailAspectModels[0].data", hasEntry("manufacturingCountry", "DEU"))
+                .body("content[0].detailAspectModels[0].data", hasEntry("manufacturingDate", "2014-11-18T09:23:55"))
+                .body("content[0].detailAspectModels[0].data", hasEntry("partId", assetsSupport.emptyText()))
+                .body("content[0].detailAspectModels[0].data", hasEntry("nameAtCustomer", assetsSupport.emptyText()))
+                .body("content[0].detailAspectModels[0].data", hasEntry("customerPartId", assetsSupport.emptyText()));
 
     }
 

@@ -19,7 +19,8 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<div [class.mat-elevation-z8]="!noShadow">
+<div [class.mat-elevation-z8]="!noShadow" class="table-wrapper">
+  <ng-container *ngIf="tableHeader"><p class="large-text table--header">{{tableHeader | i18n }}</p></ng-container>
   <ng-container *ngIf="selectedPartsInfoLabel">
     <div *appHasRole="tableConfig.columnRoles?.['select'] ?? 'user'" class="table--selected__container">
       <p class="regular-text">{{ selectedPartsInfoLabel | i18n : { count: selection?.selected?.length || 0 } }}</p>
@@ -49,6 +50,7 @@ SPDX-License-Identifier: Apache-2.0
       multiTemplateDataRows
       data-testid="table-component--test-id"
     >
+      <!-- TODO: Make Header fixed to top when scrolling -->
       <tr *matHeaderRowDef="tableConfig.displayedColumns" mat-header-row data-testid="table-component--head-row"></tr>
 
       <tr
@@ -186,6 +188,13 @@ SPDX-License-Identifier: Apache-2.0
         <ng-container matColumnDef="{{ column }}">
           <th
             *matHeaderCellDef
+            matTooltip="First click: sort in ascending order ↑
+Second click: sort in descending order ↓
+Third click:  reset sorting"
+            matTooltipClass="table--header--tooltip"
+            matTooltipPosition="above"
+            [class.mdc-tooltip--multiline]="true"
+            [matTooltipShowDelay]="1000"
             [mat-sort-header]="tableConfig.sortableColumns?.[column] ? '' : null"
             [disabled]="!tableConfig.sortableColumns?.[column]"
             mat-header-cell
@@ -193,8 +202,19 @@ SPDX-License-Identifier: Apache-2.0
           >
             <ng-container
               *ngIf="tableConfig?.header?.[column]; else pureColumn"
-              >{{ tableConfig?.header?.[column] | i18n }}</ng-container
+              >{{ tableConfig?.header?.[column] | i18n }}
+              <ng-container *ngIf="multiSortList && multiSortList.length >1">
+              <ng-container *ngFor="let item of multiSortList; let i = index">
+                <!-- Replace 'columnToMatch' with the specific column name you want to match -->
+                <div class="table--header--sort--indicator" *ngIf="item[0] === column">
+                  <!-- Display the array entry when it matches the column name -->
+                  {{ (i+1) + "." }}{{ item[1] === 'asc' ? '↑' : item[1] === 'desc' ? '↓' : '' }}
+                </div>
+              </ng-container>
+            </ng-container
             >
+            </ng-container>
+
           </th>
           <td *matCellDef="let element" mat-cell class="table--cell" data-testid="table-component--cell-data">
             <ng-container
@@ -208,7 +228,7 @@ SPDX-License-Identifier: Apache-2.0
     </table>
   </app-scroll-with-shadow>
 
-  <mat-paginator
+  <mat-paginator class="table-paginator-menu"
     *ngIf="tableConfig.hasPagination"
     [length]="totalItems"
     [pageIndex]="pageIndex"

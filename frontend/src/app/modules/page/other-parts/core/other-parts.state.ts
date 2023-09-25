@@ -28,28 +28,54 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class OtherPartsState {
-  private readonly _customerParts$: State<View<Pagination<Part>>> = new State<View<Pagination<Part>>>({ loader: true });
-  private readonly _supplierParts$: State<View<Pagination<Part>>> = new State<View<Pagination<Part>>>({ loader: true });
+  private readonly _customerPartsAsBuilt$: State<View<Pagination<Part>>> = new State<View<Pagination<Part>>>({ loader: true });
+  private readonly _customerPartsAsPlanned$: State<View<Pagination<Part>>> = new State<View<Pagination<Part>>>({ loader: true });
 
-  public get customerParts$(): Observable<View<Pagination<Part>>> {
-    return this._customerParts$.observable;
+
+  private readonly _supplierPartsAsBuilt$: State<View<Pagination<Part>>> = new State<View<Pagination<Part>>>({ loader: true });
+  private readonly _supplierPartsAsPlanned$: State<View<Pagination<Part>>> = new State<View<Pagination<Part>>>({ loader: true });
+  public get customerPartsAsBuilt$(): Observable<View<Pagination<Part>>> {
+    return this._customerPartsAsBuilt$.observable;
   }
 
-  public get supplierParts$(): Observable<View<Pagination<Part>>> {
-    return this._supplierParts$.observable;
+  public get customerPartsAsPlanned$(): Observable<View<Pagination<Part>>> {
+    return this._customerPartsAsPlanned$.observable;
   }
 
-  public set customerParts({ data, loader, error }: View<Pagination<Part>>) {
+  public get supplierPartsAsBuilt$(): Observable<View<Pagination<Part>>> {
+    return this._supplierPartsAsBuilt$.observable;
+  }
+
+  public get supplierPartsAsPlanned$(): Observable<View<Pagination<Part>>> {
+    return this._supplierPartsAsPlanned$.observable;
+  }
+
+  public set customerPartsAsBuilt({ data, loader, error }: View<Pagination<Part>>) {
     const partsView: View<Pagination<Part>> = { data, loader, error };
-    this._customerParts$.update(partsView);
+    this._customerPartsAsBuilt$.update(partsView);
   }
 
-  public set supplierParts({ data, loader, error }: View<Pagination<Part>>) {
+  public set customerPartsAsPlanned({ data, loader, error }: View<Pagination<Part>>) {
     const partsView: View<Pagination<Part>> = { data, loader, error };
-    this._supplierParts$.update(partsView);
+    this._customerPartsAsPlanned$.update(partsView);
   }
 
-  public get supplierParts(): View<Pagination<Part>> {
-    return this._supplierParts$.snapshot;
+  public set supplierPartsAsBuilt({ data, loader, error }: View<Pagination<Part>>) {
+    const partsView: View<Pagination<Part>> = { data, loader, error };
+    this._supplierPartsAsBuilt$.update(partsView);
   }
+
+  public set supplierPartsAsPlanned({ data, loader, error }: View<Pagination<Part>>) {
+    const partsView: View<Pagination<Part>> = { data, loader, error };
+    this._supplierPartsAsPlanned$.update(partsView);
+  }
+
+  public get supplierPartsAsBuilt(): View<Pagination<Part>> {
+    return this._supplierPartsAsBuilt$.snapshot;
+  }
+
+  public get supplierPartsAsPlanned(): View<Pagination<Part>> {
+    return this._supplierPartsAsPlanned$.snapshot;
+  }
+
 }

@@ -22,8 +22,11 @@ import assets.response.asbuilt.AssetAsBuiltResponse;
 import org.eclipse.tractusx.traceability.assets.application.base.mapper.AssetBaseResponseMapper;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 
 import java.util.List;
+
+import static java.util.Objects.isNull;
 
 public class AssetAsBuiltResponseMapper extends AssetBaseResponseMapper {
 
@@ -33,9 +36,10 @@ public class AssetAsBuiltResponseMapper extends AssetBaseResponseMapper {
                 .idShort(asset.getIdShort())
                 .classification(asset.getClassification())
                 .semanticModelId(asset.getSemanticModelId())
-                .manufacturerId(asset.getManufacturerId())
+                .businessPartner(asset.getManufacturerId())
                 .manufacturerName(asset.getManufacturerName())
-                .semanticModel(from(asset.getSemanticModel()))
+                .nameAtManufacturer(asset.getNameAtManufacturer())
+                .manufacturerPartId(asset.getManufacturerPartId())
                 .owner(from(asset.getOwner()))
                 .childRelations(
                         asset.getChildRelations().stream()
@@ -53,6 +57,8 @@ public class AssetAsBuiltResponseMapper extends AssetBaseResponseMapper {
                 .van(asset.getVan())
                 .semanticDataModel(from(asset.getSemanticDataModel()))
                 .detailAspectModels(fromList(asset.getDetailAspectModels()))
+                .qualityAlertsInStatusActive(countNotificationsInActiveState(asset.getQualityAlerts()))
+                .qualityInvestigationsInStatusActive(countNotificationsInActiveState(asset.getQualityInvestigations()))
                 .build();
     }
 

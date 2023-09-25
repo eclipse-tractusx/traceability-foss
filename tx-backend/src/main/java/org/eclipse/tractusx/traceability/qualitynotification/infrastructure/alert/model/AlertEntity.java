@@ -38,11 +38,13 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationBaseEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationSideBaseEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationStatusBaseEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationBaseEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
 
 import java.util.List;
+
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 @NoArgsConstructor
 @Getter
@@ -50,7 +52,7 @@ import java.util.List;
 @Entity
 @SuperBuilder
 @Table(name = "alert")
-public class AlertEntity extends QualityNotificationBaseEntity {
+public class AlertEntity extends NotificationBaseEntity {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
@@ -72,7 +74,7 @@ public class AlertEntity extends QualityNotificationBaseEntity {
     private List<AlertNotificationEntity> notifications;
 
     public static QualityNotification toDomain(AlertEntity alertNotificationEntity) {
-        List<QualityNotificationMessage> notifications = alertNotificationEntity.getNotifications().stream()
+        List<QualityNotificationMessage> notifications = emptyIfNull(alertNotificationEntity.getNotifications()).stream()
                 .map(AlertNotificationEntity::toDomain)
                 .toList();
 
@@ -98,12 +100,11 @@ public class AlertEntity extends QualityNotificationBaseEntity {
 
     public static AlertEntity from(QualityNotification qualityNotification, List<AssetAsBuiltEntity> assetEntities) {
         return AlertEntity.builder()
-                // TODO clarify how to handle assetsAsPlanned
                 .assets(assetEntities)
                 .bpn(qualityNotification.getBpn())
                 .description(qualityNotification.getDescription())
-                .status(QualityNotificationStatusBaseEntity.fromStringValue(qualityNotification.getNotificationStatus().name()))
-                .side(QualityNotificationSideBaseEntity.valueOf(qualityNotification.getNotificationSide().name()))
+                .status(NotificationStatusBaseEntity.fromStringValue(qualityNotification.getNotificationStatus().name()))
+                .side(NotificationSideBaseEntity.valueOf(qualityNotification.getNotificationSide().name()))
                 .createdDate(qualityNotification.getCreatedAt())
                 .errorMessage(qualityNotification.getErrorMessage())
                 .build();

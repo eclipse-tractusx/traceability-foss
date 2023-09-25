@@ -32,6 +32,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.application.base.re
 import java.time.Instant;
 import java.util.List;
 
+// TODO move to tx-models
 @Data
 @Builder
 @NoArgsConstructor

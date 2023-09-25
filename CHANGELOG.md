@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 ### Added
+- Splitscreen View with sliders on parts and otherParts View
+- New test data for as planned assets aswell as JustInSequence and TractionBatteryCode
+
+### Removed
+- Old edc code not necessary anymore
+
+## [7.0.0 - 18.09.2023]
+### Added
 
 - OAuth2 client credentials rest template interceptor
 - Configuration for left and right policies to use registry client library
@@ -19,6 +27,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - NEW API DELETE /api/registry
 - NEW API GET /api/shelldescriptors
 - cascading sorting functionality by allowing multiple sort query parameters on APIs
+- cascading sorting functionality for Parts and OtherParts tables in FE
+- NEW API GET /api/assets/as-planned/distinctFilterValues
+- NEW API GET /api/assets/as-built/distinctFilterValues
+- Added Batch 2.0.0 support
+- Updated some patch version for used dependencies.
+
 
 ### Changed
 - API BREAKING CHANGE: /api/assets changed to /api/assets/as-built
@@ -35,10 +49,43 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Updated owasp:dependency-check from 8.3.1 to 8.4.0
 - Updated commons-io from 2.11.0 to 2.13.0
 - Updated snakeyaml from 2.0 to 2.1
+- Split up Parts View in Frontend to parts asBUilt and asPlanned
 - Replaced own implementation of getCatalog, negotiateAgreement, and validatePolicy with irs-client-library implementation.
 - Updated irs-registry-client from 1.1.0-SNAPSHOT to 1.2.0-SNAPSHOT
 - Updated irs-helm from 6.4.1 to 6.5.0
 - Migrated groovy integration tests to SpringBootTests
+- API GET/api/assets/as-built allow Search criteria to be provided
+- API GET/api/assets/as-planned allow Search criteria to be provided
+- Upgraded aquasecurity/trivy-action from 0.11.2 to 0.12.0
+- Upgraded actions/checkout from 3 to 4
+- Upgraded maven-checkstyle-plugin from 3.2.1 to 3.3.0
+- Upgraded swagger-annotations from 1.6.10 to 1.6.11
+- Upgraded spring-boot-maven-plugin from 3.0.2 to 3.1.3
+- Upgraded shedlock.version from 5.5.0 to 5.7.0
+- Upgraded mikefarah/yq from 4.34.2 to 4.35.1
+- Upgraded snakeyaml from 2.0 to 2.2
+- Upgraded docker/login-action from 2 to 3
+- Upgraded cypress-io/github-action 6.0.0 to 6.5.0
+-
+### Known knowns
+
+- Backend [TRACEFOSS-1458]: AdminView: No validation of BPN for BPN  EDC URL mapping
+- Backend [TRACEFOSS-589]: Backend API access without login returns incorrect HTTP status code (500 instead of 401)
+- Backend [TRACEFOSS-2148]: Endpoints for parts and notifications returns unsorted list
+---
+- Frontend [TRACEFOSS-2149]: Sorting on empty table causes unhandled error view
+---
+- Security [TRACEFOSS-829]: CVE Strict-Transport-Security header - The HSTS Warning and Error may allow attackers to bypass HSTS
+- Security [TRACEFOSS-830]: CVE one stack trace disclosure (Java) in the target web server's HTTP response
+- Security [TRACEFOSS-919]: Authorization Bypass Through User-Controlled SQL Primary Key CWE ID 566
+- Security [TRACEFOSS-984]: Improper Output Neutralization for Logs CWE ID 117
+- Security [TRACEFOSS-1313]: Using components with known vulnerabilities
+- Security [TRACEFOSS-1314]: Open Redirect - host header injection
+- Security [TRACEFOSS-1315]: No additional authentication component (MFA) during login process
+---
+- Environment [TRACEFOSS-2164]: HTTP Requests for syncing the submodel server inoperable~~
+
+
 
 ### Removed
 

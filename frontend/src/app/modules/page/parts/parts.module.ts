@@ -32,10 +32,11 @@ import { TemplateModule } from '@shared/template.module';
 import { PartsRoutingModule } from './parts.routing';
 import { PartsComponent } from './presentation/parts.component';
 import { RelationComponent } from './presentation/relation/relation.component';
+import {AngularSplitModule} from "angular-split";
 
 @NgModule({
   declarations: [PartsComponent, RelationComponent],
-  imports: [CommonModule, TemplateModule, SharedModule, PartsRoutingModule, RelationsModule, PartDetailsModule],
+    imports: [CommonModule, TemplateModule, SharedModule, PartsRoutingModule, RelationsModule, PartDetailsModule, AngularSplitModule],
   providers: [PartsState, PartsFacade, FormatPartSemanticDataModelToCamelCasePipe, ...getI18nPageProvider(['page.parts', 'partDetail'])],
 })
 export class PartsModule {}

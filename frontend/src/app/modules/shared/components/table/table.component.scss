@@ -18,7 +18,6 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-
 table {
   width: 100%;
   @apply font-light;
@@ -79,6 +78,9 @@ table {
 }
 
 .table--selected__container {
+  position: sticky;
+  top: 0;
+  z-index: 1;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -168,3 +170,34 @@ tr.error {
   height: 0;
   min-height: 0;
 }
+
+.table-paginator-menu {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+}
+
+.table--header {
+  padding-bottom: 8px;
+}
+
+.table--header--sort--indicator {
+  margin-left: 5px;
+}
+
+.table--header--tooltip {
+  .mdc-tooltip__surface {
+    background-color: rgb(48,48,48);
+    @apply font-medium;
+    color: white;
+    max-width: 300px;
+    padding: 15px;
+    font-size: 14px;
+    line-height: 20px;
+
+  }
+  .mdc-tooltip--multiline {
+    white-space: pre-line;
+  }
+}
+

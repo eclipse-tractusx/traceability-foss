@@ -47,6 +47,7 @@ class SemanticDataModelTest {
             "urn:bamm:com.catenax.batch:1.0.0#Batch",
             "urn:bamm:io.catenax.batch:1.0.0#Batch",
             "urn:bamm:io.catenax.batch:1.0.2#Batch",
+            "urn:samm:io.catenax.batch:2.0.0#Batch",
             "urn:samm:io.catenax.serial_part:1.0.0#SerialPart",
             "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart",
             "urn:bamm:io.catenax.serial_part:1.1.0#SerialPart",

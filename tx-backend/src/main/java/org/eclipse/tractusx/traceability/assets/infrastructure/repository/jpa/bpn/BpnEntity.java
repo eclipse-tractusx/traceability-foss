@@ -24,7 +24,7 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.repository.jpa.b
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-
+// TODO merge this entity into the bpn edc mapping
 @Entity
 @Table(name = "bpn_storage")
 public class BpnEntity {

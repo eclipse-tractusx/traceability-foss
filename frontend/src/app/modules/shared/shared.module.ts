@@ -32,10 +32,12 @@ import { SeveritySelectComponent } from '@shared/components/severity-select/seve
 import { SeverityComponent } from '@shared/components/severity/severity.component';
 import { TextWithIconComponent } from '@shared/components/text-with-icon/text-with-icon.component';
 import { NotificationModalContentComponent } from '@shared/modules/notification/modal/content/notification-modal-content.component';
+import { FlattenObjectPipe } from '@shared/pipes/flatten-object.pipe';
 import { FormatPaginationSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-pagination-semantic-data-model-to-camelcase.pipe';
 import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
 import { FormatPartlistSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-partlist-semantic-data-model-to-camelcase.pipe';
 import { I18NextModule } from 'angular-i18next';
+import { AngularSplitModule } from 'angular-split';
 import { BaseInputComponent } from './abstraction/baseInput/baseInput.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
@@ -86,6 +88,7 @@ import { RequestAlertComponent } from '@shared/components/request-notification/r
     FormatPaginationSemanticDataModelToCamelCasePipe,
     FormatPartSemanticDataModelToCamelCasePipe,
     FormatPartlistSemanticDataModelToCamelCasePipe,
+    FlattenObjectPipe,
     ViewContainerDirective,
     AvatarComponent,
     LanguageSelectorComponent,
@@ -114,7 +117,7 @@ import { RequestAlertComponent } from '@shared/components/request-notification/r
     NotificationUserComponent,
     InputComponent,
   ],
-  imports: [TemplateModule, RouterModule, I18NextModule],
+  imports: [TemplateModule, RouterModule, I18NextModule, AngularSplitModule],
     exports: [
         ToastContainerComponent,
         ToastMessageComponent,
@@ -153,6 +156,7 @@ import { RequestAlertComponent } from '@shared/components/request-notification/r
         NotificationUserComponent,
         InputComponent,
         FormatPaginationSemanticDataModelToCamelCasePipe,
+        FlattenObjectPipe,
         FormatPartSemanticDataModelToCamelCasePipe,
         FormatPartlistSemanticDataModelToCamelCasePipe,
     ],

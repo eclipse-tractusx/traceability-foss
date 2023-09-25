@@ -21,6 +21,8 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.eclipse.edc.spi.types.domain.asset.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobDetailResponse;
@@ -29,19 +31,20 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class JobDetailResponseTest {
 
+    ObjectMapper mapper = new ObjectMapper()
+            .registerModule(new JavaTimeModule())
+            .configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE, true)
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
     @Test
     void testAssetConverterAddsParentAssets() throws IOException {
-        // Given
-        ObjectMapper mapper = new ObjectMapper()
-                .configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE, true)
-                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
         InputStream file = JobDetailResponseTest.class.getResourceAsStream("/data/irs_assets_v3_singleUsageAsBuilt.json");
         JobDetailResponse response = mapper.readValue(file, JobDetailResponse.class);
         // when
@@ -66,11 +69,6 @@ class JobDetailResponseTest {
 
     @Test
     void testAssetConverterWithNullManufacturerNames() throws IOException {
-        // Given
-        ObjectMapper mapper = new ObjectMapper()
-                .configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE, true)
-                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
         InputStream file = JobDetailResponseTest.class.getResourceAsStream("/data/irs_job_response_with_null_manufacturer_names.json");
 
         // when

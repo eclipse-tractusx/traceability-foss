@@ -19,9 +19,74 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import type { CalendarDateModel } from '@core/model/calendar-date.model';
 import type { PaginationResponse } from '@core/model/pagination.model';
-import { Owner, SemanticModel } from '@page/parts/model/semanticModel.model';
+import { SemanticModel } from '@page/parts/model/aspectModels.model';
+import { DetailAspectModel } from '@page/parts/model/detailAspectModel.model';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
+import { Owner } from '@page/parts/model/owner.enum';
+
+export interface Part {
+  id: string;
+  idShort: string;
+  name: string;
+  manufacturer: string;
+  manufacturerPartId: string;
+  nameAtManufacturer: string;
+  businessPartner: string
+  semanticModel?: SemanticModel;
+  semanticModelId: string;
+  qualityType: QualityType;
+  children: string[];
+  parents?: string[];
+  error?: boolean;
+  activeInvestigation?: boolean;
+  activeAlert: boolean;
+  van: string;
+  semanticDataModel: SemanticDataModel;
+  classification: string;
+
+  mainAspectType: MainAspectType;
+
+  // aspectmodel props are temporarely hardcoded here because Tables and Views only accept root level prop array
+  // as built
+  partId?: string;
+  customerPartId?: string;
+  nameAtCustomer?: string;
+  manufacturingDate?: string;
+  manufacturingCountry?: string;
+
+  // as planned
+  validityPeriodFrom?: string;
+  validityPeriodTo?: string;
+  //partSiteInformationAsPlanned
+  catenaXSiteId: string;
+  psFunction: string;
+  functionValidFrom?: string;
+  functionValidUntil?: string;
+}
+
+export interface PartResponse {
+  id: string;
+  idShort: string;
+  semanticModelId: string;
+  manufacturerPartId: string;
+  businessPartner: string;
+  manufacturerName: string;
+  nameAtManufacturer: string;
+  owner: Owner;
+  childRelations: Relation[];
+  parentRelations: Relation[];
+  activeAlert: boolean;
+  underInvestigation: boolean;
+  qualityType: QualityType;
+  van: string;
+  semanticDataModel: SemanticDataModel;
+  classification: string;
+  detailAspectModels: DetailAspectModel[]
+
+}
+
+export type PartsResponse = PaginationResponse<PartResponse>;
 
 // TODO: needs to be aligned with Severity in the future in terms of coding standards and use
 export enum QualityType {
@@ -35,51 +100,20 @@ export enum QualityType {
 export enum SemanticDataModel {
   BATCH = 'BATCH',
   SERIALPART = 'SERIALPART',
-  PARTASPLANNED = 'PARTASPLANNED'
+  PARTASPLANNED = 'PARTASPLANNED',
+  JUSTINSEQUENCEPART = 'JUSTINSEQUENCEPART',
+  UNKNOWN = 'UNKNOWN'
 }
 
 export enum SemanticDataModelInCamelCase {
   BATCH = "Batch",
   SERIALPART = 'SerialPart',
   PARTASPLANNED = 'PartAsPlanned',
+  JUSTINSEQUENCEPART = 'JustInSequencePart',
   UNKNOWN = 'Unknown'
 }
 
-export interface Part {
-  id: string;
-  name: string;
-  manufacturer: string;
-  semanticModelId: string;
-  partNumber: string;
-  productionCountry: string;
-  qualityType: QualityType;
-  productionDate: CalendarDateModel;
-  children: string[];
-  parents?: string[];
-  nameAtCustomer?: string;
-  customerPartId?: string;
-  error?: boolean;
-  activeInvestigation?: boolean;
-  activeAlert: boolean;
-  van?: string;
-  semanticDataModel: SemanticDataModel;
-}
-
-export interface PartResponse {
+export interface Relation {
   id: string;
   idShort: string;
-  semanticModelId: string;
-  manufacturerId: string;
-  manufacturerName: string;
-  semanticModel: SemanticModel;
-  owner: Owner;
-  childRelations: Array<{ id: string; idShort: string }>;
-  parentRelations?: Array<{ id: string; idShort: string }>;
-  activeAlert: boolean;
-  underInvestigation?: boolean;
-  qualityType: QualityType;
-  van?: string;
-  semanticDataModel: SemanticDataModel;
 }
-
-export type PartsResponse = PaginationResponse<PartResponse>;
