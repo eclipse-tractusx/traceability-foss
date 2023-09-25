@@ -20,7 +20,7 @@ SPDX-License-Identifier: Apache-2.0
 -->
 <div class="other-parts-container">
   <div class="app-bom-lifecycle-activator-container">
-    <app-bom-lifecycle-activator (buttonClickEvent)="handleTableActivationEvent($event)"></app-bom-lifecycle-activator>
+    <app-bom-lifecycle-activator [view]="UserSettingView.OTHER_PARTS" (buttonClickEvent)="handleTableActivationEvent($event)"></app-bom-lifecycle-activator>
   </div>
   <as-split direction="horizontal" class="split-container">
     <as-split-area [size]="this.bomLifecycleSize.asBuiltSize">
@@ -37,7 +37,7 @@ SPDX-License-Identifier: Apache-2.0
       </ng-template>
 
       <app-supplier-parts
-      [bomLifecycle]="mainAspectType.AS_BUILT"
+      [bomLifecycle]="MainAspectType.AS_BUILT"
       ></app-supplier-parts>
     </mat-tab>
 
@@ -47,7 +47,7 @@ SPDX-License-Identifier: Apache-2.0
       </ng-template>
 
       <app-customer-parts
-      [bomLifecycle]="mainAspectType.AS_BUILT"
+      [bomLifecycle]="MainAspectType.AS_BUILT"
       ></app-customer-parts>
     </mat-tab>
   </mat-tab-group>
@@ -66,7 +66,7 @@ SPDX-License-Identifier: Apache-2.0
       </ng-template>
 
       <app-supplier-parts
-        [bomLifecycle]="mainAspectType.AS_PLANNED"
+        [bomLifecycle]="MainAspectType.AS_PLANNED"
       ></app-supplier-parts>
     </mat-tab>
 
@@ -76,7 +76,7 @@ SPDX-License-Identifier: Apache-2.0
       </ng-template>
 
       <app-customer-parts
-        [bomLifecycle]="mainAspectType.AS_PLANNED"
+        [bomLifecycle]="MainAspectType.AS_PLANNED"
       ></app-customer-parts>
     </mat-tab>
   </mat-tab-group>

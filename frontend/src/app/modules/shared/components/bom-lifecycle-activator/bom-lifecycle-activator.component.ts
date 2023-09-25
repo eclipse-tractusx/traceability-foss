@@ -16,24 +16,39 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {
     BomLifecycleConfig,
     BomLifecycleSize
 } from "@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model";
+import {
+    BomLifecycleConfigUserSetting,
+    UserSettingView
+} from "@shared/service/bom-lifecycle-config-user-setting.service";
 
 @Component({
     selector: 'app-bom-lifecycle-activator',
     templateUrl: './bom-lifecycle-activator.component.html',
     styleUrls: ['./bom-lifecycle-activator.component.scss']
 })
-export class BomLifecycleActivatorComponent {
-    @Output() buttonClickEvent = new EventEmitter<BomLifecycleSize>();
+export class BomLifecycleActivatorComponent implements OnInit{
 
-    bomLifecycleConfig: BomLifecycleConfig = {
-        asBuiltActive: true,
-        asPlannedActive: true,
+    @Input() view: UserSettingView;
+    public bomLifecycleConfig: BomLifecycleConfig;
+
+    constructor(public bomLifeCycleUserSetting: BomLifecycleConfigUserSetting) {
+
     }
+
+    ngOnInit(){
+        if (this.view) {
+            this.bomLifecycleConfig = this.bomLifeCycleUserSetting.getUserSettings(this.view);
+        } else {
+            throw new DOMException("Unsupported view", "BomLifecycleActivatorComponent");
+        }
+    }
+
+    @Output() buttonClickEvent = new EventEmitter<BomLifecycleSize>();
 
 
     toggleAsPlanned() {
@@ -48,23 +63,10 @@ export class BomLifecycleActivatorComponent {
     }
 
     emitBomLifecycleState() {
-        let size: BomLifecycleSize;
-        if (this.bomLifecycleConfig.asPlannedActive && this.bomLifecycleConfig.asBuiltActive) {
-            size = {
-                asBuiltSize: 50,
-                asPlannedSize: 50
-            }
-        } else if (this.bomLifecycleConfig.asPlannedActive) {
-            size = {
-                asBuiltSize: 0,
-                asPlannedSize: 100
-            }
-        } else {
-            size = {
-                asBuiltSize: 100,
-                asPlannedSize: 0
-            }
-        }
-        this.buttonClickEvent.emit(size);
+        this.bomLifeCycleUserSetting.setUserSettings({
+            asBuiltActive: this.bomLifecycleConfig.asBuiltActive,
+            asPlannedActive: this.bomLifecycleConfig.asPlannedActive
+        }, this.view);
+        this.buttonClickEvent.emit(this.bomLifeCycleUserSetting.getSize(this.view));
     }
 }

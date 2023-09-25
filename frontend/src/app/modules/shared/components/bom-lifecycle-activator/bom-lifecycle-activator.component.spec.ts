@@ -63,27 +63,4 @@ describe('BomLifecycleActivatorComponent', () => {
         component.toggleAsBuilt();
         expect(component.bomLifecycleConfig.asBuiltActive).toBe(true);
     });
-
-
-    it('should emit the correct size when only asPlannedActive is active', () => {
-        let emittedSize: any;
-        component.buttonClickEvent.subscribe((size) => {
-            emittedSize = size;
-        });
-
-        component.toggleAsBuilt();
-
-        expect(emittedSize).toEqual({asBuiltSize: 0, asPlannedSize: 100});
-    });
-
-    it('should emit the correct size when only asBuiltActive is active', () => {
-        let emittedSize: any;
-        component.buttonClickEvent.subscribe((size) => {
-            emittedSize = size;
-        });
-
-        component.toggleAsPlanned();
-
-        expect(emittedSize).toEqual({asBuiltSize: 100, asPlannedSize: 0});
-    });
 });
