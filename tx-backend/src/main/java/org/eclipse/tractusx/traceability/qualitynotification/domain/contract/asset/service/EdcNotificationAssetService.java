@@ -43,7 +43,7 @@ import static org.eclipse.tractusx.traceability.common.config.EdcRestTemplateCon
 
 @Slf4j
 @Component
-public class EdcNotitifcationAssetService {
+public class EdcNotificationAssetService {
 
     private static final String DEFAULT_CONTENT_TYPE = "application/json";
     private static final String DEFAULT_POLICY_ID = "use-eu";
@@ -57,7 +57,7 @@ public class EdcNotitifcationAssetService {
     private final EdcProperties edcProperties;
 
     @Autowired
-    public EdcNotitifcationAssetService(TraceabilityProperties traceabilityProperties, @Qualifier(EDC_REST_TEMPLATE) RestTemplate edcRestTemplate, EdcProperties edcProperties) {
+    public EdcNotificationAssetService(TraceabilityProperties traceabilityProperties, @Qualifier(EDC_REST_TEMPLATE) RestTemplate edcRestTemplate, EdcProperties edcProperties) {
         this.traceabilityProperties = traceabilityProperties;
         this.restTemplate = edcRestTemplate;
         this.edcProperties = edcProperties;

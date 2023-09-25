@@ -35,7 +35,7 @@ import java.util.Optional;
 @Repository
 public interface JpaAlertRepository extends JpaRepository<AlertEntity, Long> {
 
-    Page<AlertEntity> findAllBySideEqualsOrderByCreatedDateDesc(NotificationSideBaseEntity investigationSide, Pageable pageable);
+    Page<AlertEntity> findAllBySideEquals(NotificationSideBaseEntity investigationSide, Pageable pageable);
 
     long countAllByStatusEquals(NotificationStatusBaseEntity status);
 

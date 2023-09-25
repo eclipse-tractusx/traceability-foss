@@ -40,12 +40,8 @@ spring:
     url: jdbc:postgresql://localhost:5432/trace
     password: docker
     username: postgres
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
-  #    show-sql: true
   flyway:
-    enabled: false
+    enabled: true
 
 jwt:
   resource-client: "Integration-Test"
