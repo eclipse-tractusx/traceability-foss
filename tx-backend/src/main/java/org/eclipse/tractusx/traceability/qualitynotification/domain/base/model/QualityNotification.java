@@ -39,20 +39,6 @@ import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
 @Data
 @Builder
 public class QualityNotification {
-    public static final Comparator<QualityNotification> COMPARE_BY_NEWEST_QUALITY_NOTIFICATION_CREATION_TIME = (o1, o2) -> { // generic names here
-        Instant o1CreationTime = o1.createdAt;
-        Instant o2CreationTime = o2.createdAt;
-
-        if (o1CreationTime.equals(o2CreationTime)) {
-            return 0;
-        }
-
-        if (o1CreationTime.isBefore(o2CreationTime)) {
-            return 1;
-        }
-
-        return -1;
-    };
     private BPN bpn;
     private QualityNotificationId notificationId;
     private QualityNotificationStatus notificationStatus;
