@@ -20,25 +20,21 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.common.mapper;
 
-import org.eclipse.tractusx.traceability.assets.domain.base.BpnRepository;
+import lombok.RequiredArgsConstructor;
+import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Component
-public class NotificationMapper { // rename to QualityNotificationMessageMapper
+@RequiredArgsConstructor
+public class NotificationMessageMapper { // rename to QualityNotificationMessageMapper
 
     private final BpnRepository bpnRepository;
-
-    @Autowired
-    public NotificationMapper(BpnRepository bpnRepository) {
-        this.bpnRepository = bpnRepository;
-    }
 
     /**
      * Creates a Notification object representing the notification received by the receiver for a given EDCNotification.

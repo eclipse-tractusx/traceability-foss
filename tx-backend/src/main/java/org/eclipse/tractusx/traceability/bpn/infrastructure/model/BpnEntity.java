@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,40 +17,47 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.infrastructure.repository.jpa.bpn;
+package org.eclipse.tractusx.traceability.bpn.infrastructure.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
-// TODO merge this entity into the bpn edc mapping
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "bpn_storage")
+@Setter
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class BpnEntity {
-	@Id
-	private String manufacturerId;
-	private String manufacturerName;
 
-	public BpnEntity() {
-	}
+    @Id
+    private String manufacturerId;
 
-	public BpnEntity(String manufacturerId, String manufacturerName) {
-		this.manufacturerId = manufacturerId;
-		this.manufacturerName = manufacturerName;
-	}
+    private String manufacturerName;
 
-	public String getManufacturerId() {
-		return manufacturerId;
-	}
+    private String url;
 
-	public void setManufacturerId(String manufacturerId) {
-		this.manufacturerId = manufacturerId;
-	}
+    private LocalDateTime created;
+    private LocalDateTime updated;
 
-	public String getManufacturerName() {
-		return manufacturerName;
-	}
+    @PreUpdate
+    public void preUpdate() {
+        this.updated = LocalDateTime.now();
+    }
 
-	public void setManufacturerName(String manufacturerName) {
-		this.manufacturerName = manufacturerName;
-	}
+    @PrePersist
+    public void preCreate() {
+        this.created = LocalDateTime.now();
+    }
 }

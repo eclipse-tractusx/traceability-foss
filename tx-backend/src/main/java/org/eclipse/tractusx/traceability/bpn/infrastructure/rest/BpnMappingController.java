@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.bpn.mapping.infrastructure.adapters.rest;
+package org.eclipse.tractusx.traceability.bpn.infrastructure.rest;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -30,8 +30,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Size;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.bpn.mapping.domain.model.BpnEdcMapping;
-import org.eclipse.tractusx.traceability.bpn.mapping.domain.service.BpnEdcMappingService;
+import org.eclipse.tractusx.traceability.bpn.domain.model.BpnEdcMapping;
+import org.eclipse.tractusx.traceability.bpn.domain.service.BpnService;
 import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -54,11 +54,11 @@ import java.util.List;
 @Tag(name = "BpnEdcMapping")
 @RequestMapping(path = "/bpn-config")
 @Validated
-public class BpnEdcMappingController {
+public class BpnMappingController {
 
-    private final BpnEdcMappingService service;
+    private final BpnService service;
 
-    public BpnEdcMappingController(BpnEdcMappingService service) {
+    public BpnMappingController(BpnService service) {
         this.service = service;
     }
 
@@ -114,8 +114,8 @@ public class BpnEdcMappingController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("")
-    public List<BpnEdcMapping> getBpnEdcs() {
-        return service.findAllBpnEdcMappings();
+    public List<BpnEdcMapping> getBpnMappings() {
+        return service.findAllBpnMappings();
     }
 
     @Operation(operationId = "createBpnEdcUrlMappings",
@@ -170,7 +170,7 @@ public class BpnEdcMappingController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("")
-    public List<BpnEdcMapping> createBpnEdcUrlMapping(@RequestBody @Valid @Size(max = 1000) List<BpnEdcMappingRequest> bpnEdcMappings) {
+    public List<BpnEdcMapping> createBpnUrlMapping(@RequestBody @Valid @Size(max = 1000) List<BpnMappingRequest> bpnEdcMappings) {
         log.info("BpnEdcController [createBpnEdcUrlMappings]");
         return service.saveAllBpnEdcMappings(bpnEdcMappings);
     }
@@ -229,9 +229,9 @@ public class BpnEdcMappingController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PutMapping("")
-    public List<BpnEdcMapping> updateBpnEdcUrlMapping(@RequestBody @Valid @Size(max = 1000) List<BpnEdcMappingRequest> bpnEdcMappings) {
+    public List<BpnEdcMapping> updateBpnEdcUrlMapping(@RequestBody @Valid @Size(max = 1000) List<BpnMappingRequest> bpnMappings) {
         log.info("BpnEdcController [createBpnEdcUrlMappings]");
-        return service.updateAllBpnEdcMappings(bpnEdcMappings);
+        return service.updateAllBpnMappings(bpnMappings);
     }
 
     @Operation(operationId = "deleteBpnEdcUrlMappings",
@@ -285,7 +285,7 @@ public class BpnEdcMappingController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteBpnEdcUrlMapping(@PathVariable String bpn) {
         log.info("BpnEdcController [deleteBpnEdcUrlMapping]");
-        service.deleteBpnEdcMapping(bpn);
+        service.deleteBpnMapping(bpn);
     }
 
 }

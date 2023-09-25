@@ -17,37 +17,22 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.bpn.mapping.infrastructure.adapters.rest;
+package org.eclipse.tractusx.traceability.bpn.domain.model;
 
-import jakarta.validation.ConstraintValidator;
-import jakarta.validation.ConstraintValidatorContext;
-import org.apache.commons.lang3.StringUtils;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Schema;
 
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
+@ArraySchema(arraySchema = @Schema(description = "BPN Mappings", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
+public record BpnEdcMapping(@ApiModelProperty(example = "BPNL00000003CSGV") String bpn,
+                            @ApiModelProperty(example = "https://trace-x-test-edc.dev.demo.catena-x.net/a1") String url) {
 
-public class ValidUrlParameterValidator implements ConstraintValidator<ValidUrlParameter, String> {
-
-    @Override
-    public void initialize(ValidUrlParameter constraintAnnotation) {
-        // nothing to do
+    public String getBpn() {
+        return bpn;
     }
 
-    @Override
-    public boolean isValid(String url, ConstraintValidatorContext context) {
-
-        // do not validate notNull
-        if (StringUtils.isBlank(url)) {
-            return true;
-        }
-
-        try {
-            new URL(url).toURI();
-            return true;
-        } catch (MalformedURLException | URISyntaxException e) {
-            return false;
-        }
+    public String getUrl() {
+        return url;
     }
 
 }
