@@ -44,8 +44,10 @@ describe('OtherPartsFacade', () => {
     } as PartsService;
 
     otherPartsServiceMock  = {
-      getOtherParts: (_page, _pageSize, _sorting, _owner) =>
+      getOtherPartsAsBuilt: (_page, _pageSize, _sorting, _owner) =>
         of(mockAssets).pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_BUILT))),
+      getOtherPartsAsPlanned: (_page, _pageSize, _sorting, _owner) =>
+      of(mockAssets).pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_PLANNED))),
     } as OtherPartsService;
 
     otherPartsState = new OtherPartsState();
@@ -56,15 +58,14 @@ describe('OtherPartsFacade', () => {
     it('should set parts if request is successful', async () => {
 
       const otherParts = PartsAssembler.assembleOtherParts(mockAssets, MainAspectType.AS_BUILT);
-      otherPartsState.supplierParts = { data: otherParts};
-      otherPartsFacade.setActiveInvestigationForParts(otherParts.content);
+      otherPartsState.supplierPartsAsBuilt = { data: otherParts};
 
       otherParts.content = otherParts.content.map(part => {
         const activeInvestigation = otherParts.content.some(currentPart => currentPart.id === part.id);
         return { ...part, activeInvestigation };
       });
 
-      const parts = await firstValueFrom(otherPartsState.supplierParts$);
+      const parts = await firstValueFrom(otherPartsState.supplierPartsAsBuilt$);
       await waitFor(() =>
         expect(parts).toEqual({
           error: undefined,
@@ -76,10 +77,7 @@ describe('OtherPartsFacade', () => {
 
     it('should not set parts if no data in state', async () => {
 
-      const otherParts = PartsAssembler.assembleOtherParts(mockAssets, MainAspectType.AS_BUILT);
-      otherPartsFacade.setActiveInvestigationForParts(otherParts.content);
-
-      const parts = await firstValueFrom(otherPartsState.supplierParts$);
+      const parts = await firstValueFrom(otherPartsState.supplierPartsAsBuilt$);
       await waitFor(() =>
         expect(parts).toEqual({
           loader: true,

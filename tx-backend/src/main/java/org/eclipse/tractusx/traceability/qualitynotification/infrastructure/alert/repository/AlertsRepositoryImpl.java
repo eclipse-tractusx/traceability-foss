@@ -111,7 +111,7 @@ public class AlertsRepositoryImpl implements AlertRepository {
 
     @Override
     public PageResult<QualityNotification> findQualityNotificationsBySide(QualityNotificationSide alertSide, Pageable pageable) {
-        Page<AlertEntity> entities = jpaAlertRepository.findAllBySideEqualsOrderByCreatedDateDesc(NotificationSideBaseEntity.valueOf(alertSide.name()), pageable);
+        Page<AlertEntity> entities = jpaAlertRepository.findAllBySideEquals(NotificationSideBaseEntity.valueOf(alertSide.name()), pageable);
         return new PageResult<>(entities, AlertEntity::toDomain);
     }
 

@@ -76,10 +76,7 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
 
     private PageResult<QualityNotification> getQualityNotificationsPageResult(Pageable pageable, QualityNotificationSide alertSide) {
         List<QualityNotification> alertData = getQualityNotificationRepository().findQualityNotificationsBySide(alertSide, pageable)
-                .content()
-                .stream()
-                .sorted(QualityNotification.COMPARE_BY_NEWEST_QUALITY_NOTIFICATION_CREATION_TIME)
-                .toList();
+                .content();
         Page<QualityNotification> alertDataPage = new PageImpl<>(alertData, pageable, getQualityNotificationRepository().countQualityNotificationEntitiesBySide(alertSide));
         return new PageResult<>(alertDataPage);
     }

@@ -33,14 +33,17 @@ import { OtherPartsRoutingModule } from './other-parts.routing';
 import { OtherPartsComponent } from './presentation/other-parts.component';
 import { SupplierPartsComponent } from '@page/other-parts/presentation/supplier-parts/supplier-parts.component';
 import { CustomerPartsComponent } from './presentation/customer-parts/customer-parts.component';
+import {AngularSplitModule} from "angular-split";
+import {BomLifecycleSettingsService} from "@shared/service/bom-lifecycle-settings.service";
 
 @NgModule({
   declarations: [OtherPartsComponent, SupplierPartsComponent, CustomerPartsComponent],
-  imports: [CommonModule, TemplateModule, SharedModule, OtherPartsRoutingModule, PartDetailsModule],
+  imports: [CommonModule, TemplateModule, SharedModule, OtherPartsRoutingModule, PartDetailsModule, AngularSplitModule],
   providers: [
     OtherPartsState,
     OtherPartsFacade,
     OtherPartsService,
+    BomLifecycleSettingsService,
     FormatPartSemanticDataModelToCamelCasePipe,
     ...getI18nPageProvider(['page.otherParts', 'partDetail']),
   ],
