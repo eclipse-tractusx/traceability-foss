@@ -21,7 +21,7 @@
 
 .about-container {
   @apply flex flex-col;
-  height: 65vh;
+  height: 68vh;
 }
 
 .split-container {
@@ -46,6 +46,10 @@
 
 .customer-parts-as-planned-table-wrapper {
   max-height: 58vh;
+}
+
+.other-parts-mat-tab-group {
+  margin: 16px;
 }
 
 
