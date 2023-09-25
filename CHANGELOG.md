@@ -9,6 +9,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Splitscreen View with sliders on parts and otherParts View
 - New test data for as planned assets aswell as JustInSequence and TractionBatteryCode
 
+### Changed
+- irs helm updated from 6.5.0 to 6.6.1
+
 ### Removed
 - Old edc code not necessary anymore
 
