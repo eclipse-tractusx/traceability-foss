@@ -11,6 +11,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Toggle for parts and other parts to switch views asPlanned/asBuilt
 - LocalStorage to be used for saving view setting
 
+### Changed
+- irs helm updated from 6.5.0 to 6.6.1
+
 ### Removed
 - Old edc code not necessary anymore
 
