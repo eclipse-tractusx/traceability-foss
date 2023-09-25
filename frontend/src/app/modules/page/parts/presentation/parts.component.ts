@@ -161,7 +161,6 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     public ngOnInit(): void {
         this.partsFacade.setPartsAsBuilt();
         this.partsFacade.setPartsAsPlanned();
-        console.log(this.bomLifecycleSize, "SIZE");
     }
 
     public ngAfterViewInit(): void {
