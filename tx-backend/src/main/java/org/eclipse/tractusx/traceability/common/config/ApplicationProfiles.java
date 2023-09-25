@@ -29,12 +29,6 @@ public class ApplicationProfiles {
     public static final String NOT_TESTS = "!" + TESTS;
     public static final String NOT_INTEGRATION_TESTS = "!" + INTEGRATION_SPRING_BOOT;
     public static final String DEV = "dev";
-    public static final String TEST = "test";
-    public static final String INT = "int";
-    public static final String INT_A = "int-a";
-    public static final String INT_B = "int-b";
-    public static final String E2E_A = "e2e-a";
-    public static final String E2E_B = "e2e-b";
 
     private ApplicationProfiles() {
     }
