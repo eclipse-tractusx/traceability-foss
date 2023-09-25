@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -34,7 +32,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class EdcNotificationModelTest {
 
     @Test
-    public void testToStringWithRegex() {
+    public void testToStringEDCNotificationHeader() {
+
+        //GIVEN
         EDCNotificationHeader header = new EDCNotificationHeader(
                 "12345", "SenderBPN", "Sender\nAddress", "RecipientBPN",
                 "Classification", "Severity", "Related\nNotificationId",
@@ -53,13 +53,17 @@ public class EdcNotificationModelTest {
                 "targetDate='2023-09-22', " +
                 "messageId='MessageId'}";
 
+        //WHEN
         String actual = header.toString();
 
+        //THEN
         assertEquals(expected, actual);
     }
 
     @Test
-    public void testToString() {
+    public void testToStringEDCNotificationContent() {
+
+        //GIVEN
         List<String> listOfAffectedItems = new ArrayList<>(Arrays.asList("Item1\nItem2", "Item3", "Item4\r\nItem5"));
 
         EDCNotificationContent content = new EDCNotificationContent(
@@ -71,8 +75,10 @@ public class EdcNotificationModelTest {
                 "listOfAffectedItems=[Item1 Item2, Item3, Item4 Item5]" +
                 "}";
 
+        //WHEN
         String actual = content.toString();
 
+        //THEN
         assertEquals(expected, actual);
     }
 }

@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -21,8 +19,8 @@
 package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.eclipse.tractusx.traceability.common.model.EDC;
 
+import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitize;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record EDCNotificationHeader(String notificationId, String senderBPN, String senderAddress, String recipientBPN,
@@ -33,16 +31,16 @@ public record EDCNotificationHeader(String notificationId, String senderBPN, Str
     @Override
     public String toString() {
         return "EDCNotificationHeader{" +
-                "notificationId='" + EDC.sanitizer(notificationId) + '\'' +
-                ", senderBPN='" + EDC.sanitizer(senderBPN) + '\'' +
-                ", senderAddress='" + EDC.sanitizer(senderAddress) + '\'' +
-                ", recipientBPN='" + EDC.sanitizer(recipientBPN) + '\'' +
-                ", classification='" + EDC.sanitizer(classification) + '\'' +
-                ", severity='" + EDC.sanitizer(severity) + '\'' +
-                ", relatedNotificationId='" + EDC.sanitizer(relatedNotificationId) + '\'' +
-                ", status='" + EDC.sanitizer(status) + '\'' +
-                ", targetDate='" + EDC.sanitizer(targetDate) + '\'' +
-                ", messageId='" + EDC.sanitizer(messageId) + '\'' +
+                "notificationId='" + sanitize(notificationId) + '\'' +
+                ", senderBPN='" + sanitize(senderBPN) + '\'' +
+                ", senderAddress='" + sanitize(senderAddress) + '\'' +
+                ", recipientBPN='" + sanitize(recipientBPN) + '\'' +
+                ", classification='" + sanitize(classification) + '\'' +
+                ", severity='" + sanitize(severity) + '\'' +
+                ", relatedNotificationId='" + sanitize(relatedNotificationId) + '\'' +
+                ", status='" + sanitize(status) + '\'' +
+                ", targetDate='" + sanitize(targetDate) + '\'' +
+                ", messageId='" + sanitize(messageId) + '\'' +
                 '}';
     }
 }

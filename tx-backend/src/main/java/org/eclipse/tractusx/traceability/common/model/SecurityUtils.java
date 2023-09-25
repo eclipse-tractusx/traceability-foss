@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -22,9 +20,21 @@
 package org.eclipse.tractusx.traceability.common.model;
 
 
-public class EDC {
+import java.util.ArrayList;
+import java.util.List;
 
-    public static String sanitizer(String unsanitizedInput) {
-        return unsanitizedInput.replaceAll("\r\n|\r|\n", " ");
+public class SecurityUtils {
+
+    public static String sanitize(String unSanitizedInput) {
+        return unSanitizedInput.replaceAll("\r\n|\r|\n", " ");
+    }
+
+    public static List<String> sanitizeList(List<String> unSanitizedList) {
+        List<String> cleanListOfAffectedItems = new ArrayList<>();
+        for (String affectedItems : unSanitizedList) {
+            String cleanAffectedItem = sanitize(affectedItems);
+            cleanListOfAffectedItems.add(cleanAffectedItem);
+        }
+        return cleanListOfAffectedItems;
     }
 }

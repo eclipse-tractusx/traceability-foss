@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -21,10 +19,12 @@
 package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.eclipse.tractusx.traceability.common.model.EDC;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitize;
+import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitizeList;
+
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record EDCNotificationContent(
@@ -33,12 +33,9 @@ public record EDCNotificationContent(
 
     @Override
     public String toString() {
-        String cleanInformation = EDC.sanitizer(information);
-        List<String> cleanListOfAffectedItems = new ArrayList<>();
-        for (String AffectedItems : listOfAffectedItems) {
-            String cleanAffectedItem = EDC.sanitizer(AffectedItems);
-            cleanListOfAffectedItems.add(cleanAffectedItem);
-        }
+        String cleanInformation = sanitize(information);
+        List<String> cleanListOfAffectedItems = sanitizeList(listOfAffectedItems);
+
         return "EDCNotificationContent{" +
                 "information='" + cleanInformation + '\'' +
                 ", listOfAffectedItems=" + cleanListOfAffectedItems +
