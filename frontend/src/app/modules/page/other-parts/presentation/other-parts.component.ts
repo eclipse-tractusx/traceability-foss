@@ -26,10 +26,8 @@ import {PartDetailsFacade} from '@shared/modules/part-details/core/partDetails.f
 import {StaticIdService} from '@shared/service/staticId.service';
 import {MainAspectType} from "@page/parts/model/mainAspectType.enum";
 import {BomLifecycleSize} from "@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model";
-import {
-    BomLifecycleConfigUserSetting,
-    UserSettingView
-} from "@shared/service/bom-lifecycle-config-user-setting.service";
+import {BomLifecycleSettingsService, UserSettingView} from "@shared/service/bom-lifecycle-settings.service";
+
 
 @Component({
     selector: 'app-other-parts',
@@ -49,7 +47,7 @@ export class OtherPartsComponent implements OnDestroy {
         private readonly otherPartsFacade: OtherPartsFacade,
         private readonly partDetailsFacade: PartDetailsFacade,
         private readonly staticIdService: StaticIdService,
-        public userSettings: BomLifecycleConfigUserSetting
+        public userSettings: BomLifecycleSettingsService
     ) {
 
     }

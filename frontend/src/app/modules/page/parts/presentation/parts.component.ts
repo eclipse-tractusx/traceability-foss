@@ -35,10 +35,8 @@ import {PartDetailsFacade} from '@shared/modules/part-details/core/partDetails.f
 import {StaticIdService} from '@shared/service/staticId.service';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {BomLifecycleSize} from "@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model";
-import {
-    BomLifecycleConfigUserSetting,
-    UserSettingView
-} from "@shared/service/bom-lifecycle-config-user-setting.service";
+import {BomLifecycleSettingsService, UserSettingView} from "@shared/service/bom-lifecycle-settings.service";
+
 
 
 @Component({
@@ -142,7 +140,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
         private readonly partsFacade: PartsFacade,
         private readonly partDetailsFacade: PartDetailsFacade,
         private readonly staticIdService: StaticIdService,
-        private readonly userSettingService: BomLifecycleConfigUserSetting
+        private readonly userSettingService: BomLifecycleSettingsService
     ) {
         this.partsAsBuilt$ = this.partsFacade.partsAsBuilt$;
         this.partsAsPlanned$ = this.partsFacade.partsAsPlanned$;

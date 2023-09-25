@@ -18,16 +18,15 @@
  ********************************************************************************/
 
 import {TestBed} from '@angular/core/testing';
-import {BomLifecycleConfigUserSetting, UserSettingView} from './bom-lifecycle-config-user-setting.service';
-
+import {BomLifecycleSettingsService, UserSettingView} from "@shared/service/bom-lifecycle-settings.service";
 
 describe('BomLifecycleConfigUserSetting', () => {
 
-    let service: BomLifecycleConfigUserSetting;
+    let service: BomLifecycleSettingsService;
 
     beforeEach(() => {
         TestBed.configureTestingModule({});
-        service = TestBed.inject(BomLifecycleConfigUserSetting);
+        service = TestBed.inject(BomLifecycleSettingsService);
     });
 
     it('should be created', () => {

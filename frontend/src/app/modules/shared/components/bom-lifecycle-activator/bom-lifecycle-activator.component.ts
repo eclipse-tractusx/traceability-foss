@@ -21,10 +21,8 @@ import {
     BomLifecycleConfig,
     BomLifecycleSize
 } from "@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model";
-import {
-    BomLifecycleConfigUserSetting,
-    UserSettingView
-} from "@shared/service/bom-lifecycle-config-user-setting.service";
+import {BomLifecycleSettingsService, UserSettingView} from "@shared/service/bom-lifecycle-settings.service";
+
 
 @Component({
     selector: 'app-bom-lifecycle-activator',
@@ -36,7 +34,7 @@ export class BomLifecycleActivatorComponent implements OnInit{
     @Input() view: UserSettingView;
     public bomLifecycleConfig: BomLifecycleConfig;
 
-    constructor(public bomLifeCycleUserSetting: BomLifecycleConfigUserSetting) {
+    constructor(public bomLifeCycleUserSetting: BomLifecycleSettingsService) {
 
     }
 

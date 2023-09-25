@@ -26,7 +26,7 @@ import {
 @Injectable({
     providedIn: 'root',
 })
-export class BomLifecycleConfigUserSetting {
+export class BomLifecycleSettingsService {
     private readonly DEFAULT: BomLifecycleConfig = {
         asBuiltActive: true,
         asPlannedActive: true
