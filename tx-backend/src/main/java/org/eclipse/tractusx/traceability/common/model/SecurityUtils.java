@@ -16,28 +16,25 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+package org.eclipse.tractusx.traceability.common.model;
 
+
+import java.util.ArrayList;
 import java.util.List;
 
-import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitize;
+public class SecurityUtils {
 
-
-
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public record EDCNotificationContent(
-        String information,
-        List<String> listOfAffectedItems) {
-
-    @Override
-    public String toString() {
-
-        return "EDCNotificationContent{" +
-                "information='" + sanitize(information) + '\'' +
-                ", listOfAffectedItems=" + sanitize(listOfAffectedItems) +
-                '}';
+    public static String sanitize(String unSanitizedInput) {
+        return unSanitizedInput.replaceAll("\r\n|\r|\n", " ");
     }
 
+    public static List<String> sanitize(List<String> unSanitizedList) {
+        List<String> cleanListOfAffectedItems = new ArrayList<>();
+        for (String affectedItem : unSanitizedList) {
+            String cleanAffectedItem = sanitize(affectedItem);
+            cleanListOfAffectedItems.add(cleanAffectedItem);
+        }
+        return cleanListOfAffectedItems;
+    }
 }
