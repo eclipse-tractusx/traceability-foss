@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.List;
 
 import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitize;
-import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitizeList;
+
 
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -33,12 +33,10 @@ public record EDCNotificationContent(
 
     @Override
     public String toString() {
-        String cleanInformation = sanitize(information);
-        List<String> cleanListOfAffectedItems = sanitizeList(listOfAffectedItems);
 
         return "EDCNotificationContent{" +
-                "information='" + cleanInformation + '\'' +
-                ", listOfAffectedItems=" + cleanListOfAffectedItems +
+                "information='" + sanitize(information) + '\'' +
+                ", listOfAffectedItems=" + sanitize(listOfAffectedItems) +
                 '}';
     }
 

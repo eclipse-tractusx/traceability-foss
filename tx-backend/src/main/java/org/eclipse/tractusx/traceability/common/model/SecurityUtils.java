@@ -29,10 +29,10 @@ public class SecurityUtils {
         return unSanitizedInput.replaceAll("\r\n|\r|\n", " ");
     }
 
-    public static List<String> sanitizeList(List<String> unSanitizedList) {
+    public static List<String> sanitize(List<String> unSanitizedList) {
         List<String> cleanListOfAffectedItems = new ArrayList<>();
-        for (String affectedItems : unSanitizedList) {
-            String cleanAffectedItem = sanitize(affectedItems);
+        for (String affectedItem : unSanitizedList) {
+            String cleanAffectedItem = sanitize(affectedItem);
             cleanListOfAffectedItems.add(cleanAffectedItem);
         }
         return cleanListOfAffectedItems;
