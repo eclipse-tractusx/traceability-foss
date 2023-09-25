@@ -29,6 +29,11 @@ describe('BomLifecycleConfigUserSetting', () => {
         service = TestBed.inject(BomLifecycleSettingsService);
     });
 
+    afterEach(() => {
+        service.clearUserSettings(UserSettingView.PARTS);
+        service.clearUserSettings(UserSettingView.OTHER_PARTS);
+    })
+
     it('should be created', () => {
         expect(service).toBeTruthy();
     });
