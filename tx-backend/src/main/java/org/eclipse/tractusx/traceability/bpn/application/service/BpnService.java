@@ -16,24 +16,20 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.bpn.application.service;
 
-package org.eclipse.tractusx.traceability.bpn.infrastructure.rest;
+import bpn.request.BpnMappingRequest;
+import org.eclipse.tractusx.traceability.bpn.domain.model.BpnEdcMapping;
 
-import io.swagger.annotations.ApiModelProperty;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
-public record BpnMappingRequest(
-        @NotNull(message = "BPN must be present")
-        @NotEmpty(message = "BPN must be present")
-        @ApiModelProperty(example = "BPNL00000003CSGV")
-        @Size(max = 255)
-        String bpn,
-        @ValidUrlParameter
-        @NotNull(message = "A valid URL must be present")
-        @NotEmpty(message = "A valid URL must be present")
-        @Size(max = 255)
-        String url
-) {
+import java.util.List;
+
+public interface BpnService {
+    List<BpnEdcMapping> findAllBpnMappings();
+
+    List<BpnEdcMapping> saveAllBpnEdcMappings(List<BpnMappingRequest> bpnEdcMappings);
+
+    List<BpnEdcMapping> updateAllBpnMappings(List<BpnMappingRequest> bpnEdcMappings);
+
+    void deleteBpnMapping(String bpn);
 }

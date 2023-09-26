@@ -21,9 +21,8 @@ package org.eclipse.tractusx.traceability.infrastructure.jpa.bpn_edc;
 
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnNotFoundException;
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
-import org.eclipse.tractusx.traceability.bpn.infrastructure.model.BpnEntity;
 import org.eclipse.tractusx.traceability.bpn.infrastructure.repository.JpaBpnRepository;
-import org.eclipse.tractusx.traceability.bpn.infrastructure.repository.PersistentBpnRepository;
+import org.eclipse.tractusx.traceability.bpn.infrastructure.repository.BpnRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,7 +36,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class PersistentBpnRepositoryTest {
+class BpnRepositoryImplTest {
 
     @Mock
     private JpaBpnRepository jpaBpnRepository;
@@ -46,7 +45,7 @@ class PersistentBpnRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        bpnRepository = new PersistentBpnRepository(jpaBpnRepository);
+        bpnRepository = new BpnRepositoryImpl(jpaBpnRepository);
     }
 
     @Test

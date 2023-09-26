@@ -19,9 +19,10 @@
 
 package org.eclipse.tractusx.traceability.bpn.domain.service;
 
+import bpn.request.BpnMappingRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.bpn.application.service.BpnService;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnNotFoundException;
-import org.eclipse.tractusx.traceability.bpn.infrastructure.rest.BpnMappingRequest;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnEdcMapping;
 import org.springframework.stereotype.Component;
 
@@ -29,11 +30,11 @@ import java.util.List;
 
 @Slf4j
 @Component
-public class BpnService {
+public class BpnServiceImpl implements BpnService {
 
     private final BpnRepository bpnRepository;
 
-    public BpnService(BpnRepository bpnRepository) {
+    public BpnServiceImpl(BpnRepository bpnRepository) {
         this.bpnRepository = bpnRepository;
     }
 
