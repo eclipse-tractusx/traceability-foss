@@ -19,13 +19,14 @@
 
 package org.eclipse.tractusx.traceability.bpn.infrastructure.repository;
 
+import bpn.request.BpnMappingRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnEdcMapping;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnNotFoundException;
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
 import org.eclipse.tractusx.traceability.bpn.infrastructure.model.BpnEntity;
-import org.eclipse.tractusx.traceability.bpn.application.rest.BpnMappingRequest;
+
 import org.springframework.stereotype.Component;
 
 import java.util.List;
