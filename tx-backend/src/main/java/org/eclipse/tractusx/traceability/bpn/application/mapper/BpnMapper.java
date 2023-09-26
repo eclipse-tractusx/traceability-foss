@@ -16,27 +16,21 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.bpn.application.mapper;
 
-package org.eclipse.tractusx.traceability.bpn.infrastructure.rest;
+import bpn.response.BpnEdcMappingResponse;
+import org.eclipse.tractusx.traceability.bpn.domain.model.BpnEdcMapping;
 
-import jakarta.validation.Constraint;
-import jakarta.validation.Payload;
+import java.util.List;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+public class BpnMapper {
 
-@Target({ElementType.FIELD, ElementType.PARAMETER})
-@Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ValidUrlParameterValidator.class)
-@Documented
-public @interface ValidUrlParameter {
+    public static BpnEdcMappingResponse from(BpnEdcMapping bpnEdcMapping) {
+        return new BpnEdcMappingResponse(bpnEdcMapping.bpn(), bpnEdcMapping.url());
+    }
 
-    String message() default "The URL must contain the protocol and a valid domain name.";
+    public static List<BpnEdcMappingResponse> from(List<BpnEdcMapping> bpnEdcMappingList) {
+        return bpnEdcMappingList.stream().map(bpnEdcMapping -> new BpnEdcMappingResponse(bpnEdcMapping.bpn(), bpnEdcMapping.url())).toList();
+    }
 
-    Class<?>[] groups() default {};
-
-    Class<? extends Payload>[] payload() default {};
 }

@@ -25,7 +25,7 @@ import org.eclipse.tractusx.traceability.bpn.domain.model.BpnEdcMapping;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnNotFoundException;
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
 import org.eclipse.tractusx.traceability.bpn.infrastructure.model.BpnEntity;
-import org.eclipse.tractusx.traceability.bpn.infrastructure.rest.BpnMappingRequest;
+import org.eclipse.tractusx.traceability.bpn.application.rest.BpnMappingRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -35,7 +35,7 @@ import java.util.Optional;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class PersistentBpnRepository implements BpnRepository {
+public class BpnRepositoryImpl implements BpnRepository {
 
     private final JpaBpnRepository repository;
 

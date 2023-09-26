@@ -20,7 +20,7 @@
 package org.eclipse.tractusx.traceability.integration.bpn.mapping;
 
 import io.restassured.http.ContentType;
-import org.eclipse.tractusx.traceability.bpn.infrastructure.rest.BpnMappingRequest;
+import org.eclipse.tractusx.traceability.bpn.application.rest.BpnMappingRequest;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.BpnEdcMappingSupport;
 import org.hamcrest.Matchers;

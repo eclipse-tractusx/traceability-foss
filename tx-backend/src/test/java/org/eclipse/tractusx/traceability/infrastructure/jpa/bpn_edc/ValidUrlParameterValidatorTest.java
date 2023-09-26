@@ -18,7 +18,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.infrastructure.jpa.bpn_edc;
 
-import org.eclipse.tractusx.traceability.bpn.infrastructure.rest.ValidUrlParameterValidator;
+import org.eclipse.tractusx.traceability.bpn.application.rest.ValidUrlParameterValidator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
