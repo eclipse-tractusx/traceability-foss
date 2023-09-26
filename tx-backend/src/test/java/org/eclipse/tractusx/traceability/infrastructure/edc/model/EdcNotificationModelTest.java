@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitizeEDCNotification;
+import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
@@ -55,7 +55,7 @@ public class EdcNotificationModelTest {
 
 
         //WHEN
-        EDCNotification actual = sanitizeEDCNotification(edcNotification);
+        EDCNotification actual = sanitize(edcNotification);
 
         //THEN
         assertEquals("Sender Address", actual.getSenderAddress());

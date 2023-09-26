@@ -36,7 +36,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitizeEDCNotification;
+import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitize;
 
 @Slf4j
 @Profile(FeatureFlags.NOTIFICATIONS_ENABLED_PROFILES)
@@ -54,7 +54,7 @@ public class EdcController {
      */
     @PostMapping("/qualitynotifications/receive")
     public void qualityNotificationInvestigationReceive(final @ValidEDCNotification @Valid @RequestBody EDCNotification edcNotification) {
-        EDCNotification cleanEdcNotification = sanitizeEDCNotification(edcNotification);
+        EDCNotification cleanEdcNotification = sanitize(edcNotification);
         log.info("EdcController [qualityNotificationReceive] notificationId:{}", cleanEdcNotification);
         validateIsQualityInvestigation(cleanEdcNotification);
         investigationsReceiverService.handleNotificationReceive(cleanEdcNotification);
@@ -65,7 +65,7 @@ public class EdcController {
      */
     @PostMapping("/qualitynotifications/update")
     public void qualityNotificationInvestigationUpdate(final @ValidEDCNotification @Valid @RequestBody EDCNotification edcNotification) {
-        EDCNotification cleanEdcNotification = sanitizeEDCNotification(edcNotification);
+        EDCNotification cleanEdcNotification = sanitize(edcNotification);
         log.info("EdcController [qualityNotificationUpdate] notificationId:{}", cleanEdcNotification);
         validateIsQualityInvestigation(cleanEdcNotification);
         investigationsReceiverService.handleNotificationUpdate(cleanEdcNotification);
@@ -76,7 +76,7 @@ public class EdcController {
      */
     @PostMapping("/qualityalerts/receive")
     public void qualityNotificationAlertReceive(final @ValidEDCNotification @Valid @RequestBody EDCNotification edcNotification) {
-        EDCNotification cleanEdcNotification = sanitizeEDCNotification(edcNotification);
+        EDCNotification cleanEdcNotification = sanitize(edcNotification);
         log.info("EdcController [qualityalertReceive] notificationId:{}", cleanEdcNotification);
         validateIsAlert(cleanEdcNotification);
         alertsReceiverService.handleNotificationReceive(cleanEdcNotification);
@@ -87,7 +87,7 @@ public class EdcController {
      */
     @PostMapping("/qualityalerts/update")
     public void qualityNotificationAlertUpdate(final @ValidEDCNotification @Valid @RequestBody EDCNotification edcNotification) {
-        EDCNotification cleanEdcNotification = sanitizeEDCNotification(edcNotification);
+        EDCNotification cleanEdcNotification = sanitize(edcNotification);
         log.info("EdcController [qualityalertUpdate] notificationId:{}", cleanEdcNotification);
         validateIsAlert(cleanEdcNotification);
         alertsReceiverService.handleNotificationUpdate(cleanEdcNotification);

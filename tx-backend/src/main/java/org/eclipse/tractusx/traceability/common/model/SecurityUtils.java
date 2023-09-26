@@ -20,20 +20,20 @@
 package org.eclipse.tractusx.traceability.common.model;
 
 
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationAffectedPart;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotificationContent;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotificationHeader;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 public class SecurityUtils {
-
+    private static final List<String> unwantedStrings = Arrays.asList("\r\n", "\r", "\n");
     public static String sanitize(String unSanitizedInput) {
         if (unSanitizedInput != null) {
-            return unSanitizedInput.replaceAll("\r\n|\r|\n", " ");
+            return unSanitizedInput.replaceAll(unwantedStrings.toString(), " ");
         }
         return null;
     }
@@ -51,38 +51,32 @@ public class SecurityUtils {
     }
 
 
-    public static EDCNotification sanitizeEDCNotification(EDCNotification edcNotification) {
+    public static EDCNotification sanitize(EDCNotification edcNotification) {
         if (edcNotification != null) {
-            EDCNotificationHeader cleanEDCNotificationHeader = sanitizeEDCNotificationHeader(edcNotification);
-            EDCNotificationContent cleanEDCNotificationContent = sanitizeEDCNotificationContent(edcNotification);
+            EDCNotificationHeader cleanEDCNotificationHeader = sanitize(edcNotification.header());
+            EDCNotificationContent cleanEDCNotificationContent = sanitize(edcNotification.content());
             return new EDCNotification(cleanEDCNotificationHeader, cleanEDCNotificationContent);
         }
         return null;
     }
 
-    public static EDCNotificationHeader sanitizeEDCNotificationHeader(EDCNotification edcNotification) {
-        String cleanRecipientBPN = sanitize(edcNotification.getRecipientBPN());
-        String cleanNotificationId = sanitize(edcNotification.getNotificationId());
-        String cleanSenderBPN = sanitize(edcNotification.getSenderBPN());
-        String cleanSenderAddress = sanitize(edcNotification.getSenderAddress());
-        String cleanTargetDate = sanitize(Objects.requireNonNull(edcNotification.getTargetDate()).toString());
-        String cleanStatus = edcNotification.convertNotificationStatus().name();
-        String cleanClassification = edcNotification.convertNotificationType().getValue();
-        String cleanSeverity = sanitize(edcNotification.getSeverity());
-        String cleanMessageId = sanitize(edcNotification.getMessageId());
-        String cleanRelatedNotificationId = sanitize(edcNotification.getRelatedNotificationId());
+    private static EDCNotificationHeader sanitize(EDCNotificationHeader edcNotificationHeader) {
+        String cleanRecipientBPN = sanitize(edcNotificationHeader.recipientBPN());
+        String cleanNotificationId = sanitize(edcNotificationHeader.notificationId());
+        String cleanSenderBPN = sanitize(edcNotificationHeader.senderBPN());
+        String cleanSenderAddress = sanitize(edcNotificationHeader.senderAddress());
+        String cleanTargetDate = sanitize(Objects.requireNonNull(edcNotificationHeader.targetDate()));
+        String cleanStatus = edcNotificationHeader.status();
+        String cleanClassification = edcNotificationHeader.classification();
+        String cleanSeverity = sanitize(edcNotificationHeader.severity());
+        String cleanMessageId = sanitize(edcNotificationHeader.messageId());
+        String cleanRelatedNotificationId = sanitize(edcNotificationHeader.relatedNotificationId());
         return new EDCNotificationHeader(cleanNotificationId, cleanSenderBPN, cleanSenderAddress, cleanRecipientBPN, cleanClassification, cleanSeverity, cleanRelatedNotificationId, cleanStatus, cleanTargetDate, cleanMessageId);
     }
 
-    public static EDCNotificationContent sanitizeEDCNotificationContent(EDCNotification edcNotification) {
-        String cleanInformation = sanitize(edcNotification.getInformation());
-        List<String> StringListOfAffectedItems = new ArrayList<>();
-        List<QualityNotificationAffectedPart> ListOfAffectedItems = edcNotification.getListOfAffectedItems();
-        for (QualityNotificationAffectedPart qualityNotificationAffectedPart : ListOfAffectedItems) {
-            String assetId = qualityNotificationAffectedPart.assetId();
-            StringListOfAffectedItems.add(assetId);
-        }
-        List<String> cleanStringListOfAffectedItems = sanitize(StringListOfAffectedItems);
+    private static EDCNotificationContent sanitize(EDCNotificationContent edcNotificationContent) {
+        String cleanInformation = sanitize(edcNotificationContent.information());
+        List<String> cleanStringListOfAffectedItems = sanitize(edcNotificationContent.listOfAffectedItems());
         return new EDCNotificationContent(cleanInformation, cleanStringListOfAffectedItems);
     }
 }
