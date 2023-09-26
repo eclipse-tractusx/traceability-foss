@@ -26,12 +26,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -61,7 +63,29 @@ class ShellDescriptorsServiceImplTest {
         shellDescriptorsService.determineExistingShellDescriptorsAndUpdate(ownShellDescriptors);
 
         // Then
-        verify(shellDescriptorRepository, times(1)).saveAll(List.of(newDescriptor));
+        verify(shellDescriptorRepository, times(1)).save(newDescriptor);
+        verify(shellDescriptorRepository, times(1)).removeDescriptorsByUpdatedBefore(any(ZonedDateTime.class));
+        verify(shellDescriptorRepository, times(1)).update(existingDescriptor);
+    }
+
+    @Test
+    void testHandleDataIntegrityViolationException() {
+        // Given
+        List<ShellDescriptor> ownShellDescriptors = new ArrayList<>();
+        ShellDescriptor existingDescriptor = ShellDescriptor.builder().globalAssetId("existing-id").build();
+        ownShellDescriptors.add(existingDescriptor);
+        ShellDescriptor newDescriptor = ShellDescriptor.builder().globalAssetId("new-id").build();
+        ownShellDescriptors.add(newDescriptor);
+
+        when(shellDescriptorRepository.findAll()).thenReturn(List.of(existingDescriptor));
+        doThrow(new DataIntegrityViolationException("test")).when(shellDescriptorRepository).save(newDescriptor);
+
+
+        // When
+        shellDescriptorsService.determineExistingShellDescriptorsAndUpdate(ownShellDescriptors);
+
+        // Then
+        verify(shellDescriptorRepository, times(1)).save(newDescriptor);
         verify(shellDescriptorRepository, times(1)).removeDescriptorsByUpdatedBefore(any(ZonedDateTime.class));
         verify(shellDescriptorRepository, times(1)).update(existingDescriptor);
     }
