@@ -107,7 +107,7 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
 
     @Override
     public PageResult<QualityNotification> findQualityNotificationsBySide(QualityNotificationSide investigationSide, Pageable pageable) {
-        Page<InvestigationEntity> entities = jpaInvestigationRepository.findAllBySideEqualsOrderByCreatedDateDesc(NotificationSideBaseEntity.valueOf(investigationSide.name()), pageable);
+        Page<InvestigationEntity> entities = jpaInvestigationRepository.findAllBySideEquals(NotificationSideBaseEntity.valueOf(investigationSide.name()), pageable);
         return new PageResult<>(entities, InvestigationEntity::toDomain);
     }
 

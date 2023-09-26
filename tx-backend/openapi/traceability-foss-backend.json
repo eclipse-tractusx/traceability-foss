@@ -41,6 +41,56 @@
         "description" : "The endpoint returns a result of BPN EDC URL mappings.",
         "operationId" : "getBpnEdcs",
         "responses" : {
+          "404" : {
+            "description" : "Not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad request.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "415" : {
+            "description" : "Unsupported media type",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Authorization failed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "200" : {
             "description" : "Returns the paged result found",
             "content" : {
@@ -63,18 +113,8 @@
               }
             }
           },
-          "401" : {
-            "description" : "Authorization failed.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "403" : {
-            "description" : "Forbidden.",
+          "500" : {
+            "description" : "Internal server error.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -115,28 +155,30 @@
           "required" : true
         },
         "responses" : {
+          "404" : {
+            "description" : "Not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Returns the paged result found for BpnEdcMapping",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "minItems" : 0,
+                  "type" : "array"
+                }
+              }
+            }
+          },
           "400" : {
             "description" : "Bad request.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "429" : {
-            "description" : "Too many requests.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Authorization failed.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -155,6 +197,16 @@
               }
             }
           },
+          "401" : {
+            "description" : "Authorization failed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "403" : {
             "description" : "Forbidden.",
             "content" : {
@@ -165,14 +217,12 @@
               }
             }
           },
-          "200" : {
-            "description" : "Returns the paged result found for BpnEdcMapping",
+          "429" : {
+            "description" : "Too many requests.",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "maxItems" : 2147483647,
-                  "minItems" : 0,
-                  "type" : "array"
+                  "$ref" : "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -219,28 +269,30 @@
           "required" : true
         },
         "responses" : {
+          "404" : {
+            "description" : "Not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Returns the paged result found for BpnEdcMapping",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "minItems" : 0,
+                  "type" : "array"
+                }
+              }
+            }
+          },
           "400" : {
             "description" : "Bad request.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "429" : {
-            "description" : "Too many requests.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Authorization failed.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -259,6 +311,16 @@
               }
             }
           },
+          "401" : {
+            "description" : "Authorization failed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "403" : {
             "description" : "Forbidden.",
             "content" : {
@@ -269,14 +331,12 @@
               }
             }
           },
-          "200" : {
-            "description" : "Returns the paged result found for BpnEdcMapping",
+          "429" : {
+            "description" : "Too many requests.",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "maxItems" : 2147483647,
-                  "minItems" : 0,
-                  "type" : "array"
+                  "$ref" : "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -320,28 +380,18 @@
           "required" : true
         },
         "responses" : {
+          "404" : {
+            "description" : "Not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "400" : {
             "description" : "Bad request.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "429" : {
-            "description" : "Too many requests.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Authorization failed.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -360,8 +410,8 @@
               }
             }
           },
-          "403" : {
-            "description" : "Forbidden.",
+          "401" : {
+            "description" : "Authorization failed.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -370,8 +420,8 @@
               }
             }
           },
-          "500" : {
-            "description" : "Internal server error.",
+          "403" : {
+            "description" : "Forbidden.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -386,6 +436,26 @@
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/QualityNotificationIdResponse"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "Too many requests.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -430,28 +500,18 @@
           "required" : true
         },
         "responses" : {
+          "404" : {
+            "description" : "Not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "400" : {
             "description" : "Bad request.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "429" : {
-            "description" : "Too many requests.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Authorization failed.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -470,8 +530,31 @@
               }
             }
           },
+          "204" : {
+            "description" : "No content."
+          },
+          "401" : {
+            "description" : "Authorization failed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "403" : {
             "description" : "Forbidden.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "Too many requests.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -489,9 +572,6 @@
                 }
               }
             }
-          },
-          "204" : {
-            "description" : "No content."
           }
         },
         "security" : [
@@ -533,28 +613,18 @@
           "required" : true
         },
         "responses" : {
+          "404" : {
+            "description" : "Not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "400" : {
             "description" : "Bad request.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "429" : {
-            "description" : "Too many requests.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Authorization failed.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -573,8 +643,31 @@
               }
             }
           },
+          "204" : {
+            "description" : "No content."
+          },
+          "401" : {
+            "description" : "Authorization failed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "403" : {
             "description" : "Forbidden.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "Too many requests.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -592,9 +685,6 @@
                 }
               }
             }
-          },
-          "204" : {
-            "description" : "No content."
           }
         },
         "security" : [
@@ -626,28 +716,18 @@
           }
         ],
         "responses" : {
+          "404" : {
+            "description" : "Not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "400" : {
             "description" : "Bad request.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "429" : {
-            "description" : "Too many requests.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Authorization failed.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -666,6 +746,19 @@
               }
             }
           },
+          "204" : {
+            "description" : "No content."
+          },
+          "401" : {
+            "description" : "Authorization failed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "403" : {
             "description" : "Forbidden.",
             "content" : {
@@ -676,8 +769,15 @@
               }
             }
           },
-          "204" : {
-            "description" : "No content."
+          "429" : {
+            "description" : "Too many requests.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           },
           "500" : {
             "description" : "Internal server error.",
@@ -719,28 +819,18 @@
           }
         ],
         "responses" : {
+          "404" : {
+            "description" : "Not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "400" : {
             "description" : "Bad request.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "429" : {
-            "description" : "Too many requests.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Authorization failed.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -759,8 +849,31 @@
               }
             }
           },
+          "204" : {
+            "description" : "No content."
+          },
+          "401" : {
+            "description" : "Authorization failed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "403" : {
             "description" : "Forbidden.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "Too many requests.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -778,9 +891,6 @@
                 }
               }
             }
-          },
-          "204" : {
-            "description" : "No content."
           }
         },
         "security" : [
@@ -811,28 +921,18 @@
           "required" : true
         },
         "responses" : {
+          "404" : {
+            "description" : "Not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "400" : {
             "description" : "Bad request.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "429" : {
-            "description" : "Too many requests.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Authorization failed.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -851,8 +951,8 @@
               }
             }
           },
-          "403" : {
-            "description" : "Forbidden.",
+          "401" : {
+            "description" : "Authorization failed.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -861,8 +961,8 @@
               }
             }
           },
-          "500" : {
-            "description" : "Internal server error.",
+          "403" : {
+            "description" : "Forbidden.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -880,6 +980,26 @@
                 }
               }
             }
+          },
+          "429" : {
+            "description" : "Too many requests.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           }
         },
         "security" : [
@@ -894,7 +1014,7 @@
     "/assets/as-planned/sync" : {
       "post" : {
         "tags" : [
-          "Assets"
+          "AssetsAsPlanned"
         ],
         "summary" : "Synchronizes assets from IRS",
         "description" : "The endpoint synchronizes the assets from irs.",
@@ -910,6 +1030,16 @@
           "required" : true
         },
         "responses" : {
+          "404" : {
+            "description" : "Not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "400" : {
             "description" : "Bad request.",
             "content" : {
@@ -920,8 +1050,8 @@
               }
             }
           },
-          "429" : {
-            "description" : "Too many requests.",
+          "415" : {
+            "description" : "Unsupported media type",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -932,16 +1062,6 @@
           },
           "401" : {
             "description" : "Authorization failed.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "415" : {
-            "description" : "Unsupported media type",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -960,6 +1080,19 @@
               }
             }
           },
+          "201" : {
+            "description" : "Created."
+          },
+          "429" : {
+            "description" : "Too many requests.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "500" : {
             "description" : "Internal server error.",
             "content" : {
@@ -969,9 +1102,6 @@
                 }
               }
             }
-          },
-          "201" : {
-            "description" : "Created."
           }
         },
         "security" : [
@@ -986,7 +1116,7 @@
     "/assets/as-planned/detail-information" : {
       "post" : {
         "tags" : [
-          "Assets"
+          "AssetsAsPlanned"
         ],
         "summary" : "Searches for assets by ids.",
         "description" : "The endpoint searchs for assets by id and returns a list of them.",
@@ -1002,6 +1132,16 @@
           "required" : true
         },
         "responses" : {
+          "404" : {
+            "description" : "Not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "400" : {
             "description" : "Bad request.",
             "content" : {
@@ -1012,8 +1152,8 @@
               }
             }
           },
-          "429" : {
-            "description" : "Too many requests.",
+          "415" : {
+            "description" : "Unsupported media type",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -1032,8 +1172,8 @@
               }
             }
           },
-          "415" : {
-            "description" : "Unsupported media type",
+          "403" : {
+            "description" : "Forbidden.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -1054,8 +1194,8 @@
               }
             }
           },
-          "403" : {
-            "description" : "Forbidden.",
+          "429" : {
+            "description" : "Too many requests.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -1087,7 +1227,7 @@
     "/assets/as-built/sync" : {
       "post" : {
         "tags" : [
-          "Assets"
+          "AssetsAsBuilt"
         ],
         "summary" : "Synchronizes assets from IRS",
         "description" : "The endpoint synchronizes the assets from irs.",
@@ -1103,28 +1243,18 @@
           "required" : true
         },
         "responses" : {
+          "404" : {
+            "description" : "Not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "400" : {
             "description" : "Bad request.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "429" : {
-            "description" : "Too many requests.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Authorization failed.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -1143,8 +1273,31 @@
               }
             }
           },
+          "401" : {
+            "description" : "Authorization failed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "403" : {
             "description" : "Forbidden.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "201" : {
+            "description" : "Created."
+          },
+          "429" : {
+            "description" : "Too many requests.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -1162,9 +1315,6 @@
                 }
               }
             }
-          },
-          "201" : {
-            "description" : "Created."
           }
         },
         "security" : [
@@ -1179,7 +1329,7 @@
     "/assets/as-built/detail-information" : {
       "post" : {
         "tags" : [
-          "Assets"
+          "AssetsAsBuilt"
         ],
         "summary" : "Searches for assets by ids.",
         "description" : "The endpoint searchs for assets by id and returns a list of them.",
@@ -1195,28 +1345,18 @@
           "required" : true
         },
         "responses" : {
+          "404" : {
+            "description" : "Not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "400" : {
             "description" : "Bad request.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "429" : {
-            "description" : "Too many requests.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Authorization failed.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -1235,8 +1375,38 @@
               }
             }
           },
+          "401" : {
+            "description" : "Authorization failed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "403" : {
             "description" : "Forbidden.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "Too many requests.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -1253,16 +1423,6 @@
                   "maxItems" : 2147483647,
                   "minItems" : 0,
                   "type" : "array"
-                }
-              }
-            }
-          },
-          "500" : {
-            "description" : "Internal server error.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -1316,8 +1476,8 @@
               }
             }
           },
-          "429" : {
-            "description" : "Too many requests.",
+          "415" : {
+            "description" : "Unsupported media type",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -1336,28 +1496,8 @@
               }
             }
           },
-          "415" : {
-            "description" : "Unsupported media type",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
           "403" : {
             "description" : "Forbidden.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "500" : {
-            "description" : "Internal server error.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -1372,6 +1512,26 @@
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/QualityNotificationIdResponse"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "Too many requests.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -1436,8 +1596,8 @@
               }
             }
           },
-          "429" : {
-            "description" : "Too many requests.",
+          "415" : {
+            "description" : "Unsupported media type",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -1445,19 +1605,12 @@
                 }
               }
             }
+          },
+          "204" : {
+            "description" : "No content."
           },
           "401" : {
             "description" : "Authorization failed.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "415" : {
-            "description" : "Unsupported media type",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -1476,6 +1629,16 @@
               }
             }
           },
+          "429" : {
+            "description" : "Too many requests.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "500" : {
             "description" : "Internal server error.",
             "content" : {
@@ -1485,9 +1648,6 @@
                 }
               }
             }
-          },
-          "204" : {
-            "description" : "No content."
           }
         },
         "security" : [
@@ -1549,8 +1709,8 @@
               }
             }
           },
-          "429" : {
-            "description" : "Too many requests.",
+          "415" : {
+            "description" : "Unsupported media type",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -1558,19 +1718,12 @@
                 }
               }
             }
+          },
+          "204" : {
+            "description" : "No content."
           },
           "401" : {
             "description" : "Authorization failed.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "415" : {
-            "description" : "Unsupported media type",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -1589,6 +1742,16 @@
               }
             }
           },
+          "429" : {
+            "description" : "Too many requests.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "500" : {
             "description" : "Internal server error.",
             "content" : {
@@ -1598,9 +1761,6 @@
                 }
               }
             }
-          },
-          "204" : {
-            "description" : "No content."
           }
         },
         "security" : [
@@ -1652,8 +1812,8 @@
               }
             }
           },
-          "429" : {
-            "description" : "Too many requests.",
+          "415" : {
+            "description" : "Unsupported media type",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -1661,19 +1821,12 @@
                 }
               }
             }
+          },
+          "204" : {
+            "description" : "No content."
           },
           "401" : {
             "description" : "Authorization failed.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "415" : {
-            "description" : "Unsupported media type",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -1692,6 +1845,16 @@
               }
             }
           },
+          "429" : {
+            "description" : "Too many requests.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "500" : {
             "description" : "Internal server error.",
             "content" : {
@@ -1701,9 +1864,6 @@
                 }
               }
             }
-          },
-          "204" : {
-            "description" : "No content."
           }
         },
         "security" : [
@@ -1755,8 +1915,8 @@
               }
             }
           },
-          "429" : {
-            "description" : "Too many requests.",
+          "415" : {
+            "description" : "Unsupported media type",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -1764,19 +1924,12 @@
                 }
               }
             }
+          },
+          "204" : {
+            "description" : "No content."
           },
           "401" : {
             "description" : "Authorization failed.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "415" : {
-            "description" : "Unsupported media type",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -1795,8 +1948,15 @@
               }
             }
           },
-          "204" : {
-            "description" : "No content."
+          "429" : {
+            "description" : "Too many requests.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           },
           "500" : {
             "description" : "Internal server error.",
@@ -1821,7 +1981,7 @@
     "/assets/as-planned/{assetId}" : {
       "get" : {
         "tags" : [
-          "Assets"
+          "AssetsAsPlanned"
         ],
         "summary" : "Get asset by id",
         "description" : "The endpoint returns an asset filtered by id .",
@@ -1837,6 +1997,16 @@
           }
         ],
         "responses" : {
+          "404" : {
+            "description" : "Not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "200" : {
             "description" : "Returns the assets found",
             "content" : {
@@ -1949,6 +2119,14 @@
                         "items" : {
                           "$ref" : "#/components/schemas/DetailAspectModelResponse"
                         }
+                      },
+                      "qualityAlertsInStatusActive" : {
+                        "type" : "integer",
+                        "format" : "int32"
+                      },
+                      "qualityInvestigationsInStatusActive" : {
+                        "type" : "integer",
+                        "format" : "int32"
                       }
                     }
                   }
@@ -1966,8 +2144,8 @@
               }
             }
           },
-          "429" : {
-            "description" : "Too many requests.",
+          "415" : {
+            "description" : "Unsupported media type",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -1988,6 +2166,16 @@
           },
           "403" : {
             "description" : "Forbidden.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "Too many requests.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -2017,7 +2205,7 @@
       },
       "patch" : {
         "tags" : [
-          "Assets"
+          "AssetsAsPlanned"
         ],
         "summary" : "Updates asset",
         "description" : "The endpoint updates asset by provided quality type.",
@@ -2043,28 +2231,18 @@
           "required" : true
         },
         "responses" : {
+          "404" : {
+            "description" : "Not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "400" : {
             "description" : "Bad request.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "429" : {
-            "description" : "Too many requests.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Authorization failed.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -2195,6 +2373,14 @@
                         "items" : {
                           "$ref" : "#/components/schemas/DetailAspectModelResponse"
                         }
+                      },
+                      "qualityAlertsInStatusActive" : {
+                        "type" : "integer",
+                        "format" : "int32"
+                      },
+                      "qualityInvestigationsInStatusActive" : {
+                        "type" : "integer",
+                        "format" : "int32"
                       }
                     }
                   }
@@ -2202,8 +2388,28 @@
               }
             }
           },
+          "401" : {
+            "description" : "Authorization failed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "403" : {
             "description" : "Forbidden.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "Too many requests.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -2235,7 +2441,7 @@
     "/assets/as-built/{assetId}" : {
       "get" : {
         "tags" : [
-          "Assets"
+          "AssetsAsBuilt"
         ],
         "summary" : "Get asset by id",
         "description" : "The endpoint returns an asset filtered by id .",
@@ -2251,46 +2457,6 @@
           }
         ],
         "responses" : {
-          "400" : {
-            "description" : "Bad request.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "429" : {
-            "description" : "Too many requests.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Authorization failed.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "403" : {
-            "description" : "Forbidden.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
           "200" : {
             "description" : "Returns the assets found",
             "content" : {
@@ -2403,9 +2569,77 @@
                         "items" : {
                           "$ref" : "#/components/schemas/DetailAspectModelResponse"
                         }
+                      },
+                      "qualityAlertsInStatusActive" : {
+                        "type" : "integer",
+                        "format" : "int32"
+                      },
+                      "qualityInvestigationsInStatusActive" : {
+                        "type" : "integer",
+                        "format" : "int32"
                       }
                     }
                   }
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad request.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "415" : {
+            "description" : "Unsupported media type",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Authorization failed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "Too many requests.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -2431,7 +2665,7 @@
       },
       "patch" : {
         "tags" : [
-          "Assets"
+          "AssetsAsBuilt"
         ],
         "summary" : "Updates asset",
         "description" : "The endpoint updates asset by provided quality type.",
@@ -2457,6 +2691,16 @@
           "required" : true
         },
         "responses" : {
+          "404" : {
+            "description" : "Not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "400" : {
             "description" : "Bad request.",
             "content" : {
@@ -2467,8 +2711,8 @@
               }
             }
           },
-          "429" : {
-            "description" : "Too many requests.",
+          "415" : {
+            "description" : "Unsupported media type",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -2589,6 +2833,14 @@
                         "items" : {
                           "$ref" : "#/components/schemas/DetailAspectModelResponse"
                         }
+                      },
+                      "qualityAlertsInStatusActive" : {
+                        "type" : "integer",
+                        "format" : "int32"
+                      },
+                      "qualityInvestigationsInStatusActive" : {
+                        "type" : "integer",
+                        "format" : "int32"
                       }
                     }
                   }
@@ -2606,8 +2858,8 @@
               }
             }
           },
-          "415" : {
-            "description" : "Unsupported media type",
+          "403" : {
+            "description" : "Forbidden.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -2616,8 +2868,8 @@
               }
             }
           },
-          "403" : {
-            "description" : "Forbidden.",
+          "429" : {
+            "description" : "Too many requests.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -2694,6 +2946,16 @@
         "description" : "The endpoint returns all shell descriptors.",
         "operationId" : "findAll",
         "responses" : {
+          "404" : {
+            "description" : "Not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "400" : {
             "description" : "Bad request.",
             "content" : {
@@ -2704,18 +2966,8 @@
               }
             }
           },
-          "429" : {
-            "description" : "Too many requests.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Authorization failed.",
+          "415" : {
+            "description" : "Unsupported media type",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -2737,8 +2989,28 @@
               }
             }
           },
+          "401" : {
+            "description" : "Authorization failed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "403" : {
             "description" : "Forbidden.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "Too many requests.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -2775,6 +3047,16 @@
         "description" : "The endpoint deletes all shell descriptors.",
         "operationId" : "deleteAll",
         "responses" : {
+          "404" : {
+            "description" : "Not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "400" : {
             "description" : "Bad request.",
             "content" : {
@@ -2788,8 +3070,8 @@
           "204" : {
             "description" : "Deleted."
           },
-          "429" : {
-            "description" : "Too many requests.",
+          "415" : {
+            "description" : "Unsupported media type",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -2810,6 +3092,16 @@
           },
           "403" : {
             "description" : "Forbidden.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "Too many requests.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -2847,6 +3139,16 @@
         "description" : "The endpoint Triggers reload of shell descriptors.",
         "operationId" : "reload",
         "responses" : {
+          "404" : {
+            "description" : "Not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "400" : {
             "description" : "Bad request.",
             "content" : {
@@ -2857,8 +3159,8 @@
               }
             }
           },
-          "429" : {
-            "description" : "Too many requests.",
+          "415" : {
+            "description" : "Unsupported media type",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -2882,6 +3184,16 @@
           },
           "403" : {
             "description" : "Forbidden.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "Too many requests.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -2969,6 +3281,16 @@
           }
         ],
         "responses" : {
+          "404" : {
+            "description" : "Not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "400" : {
             "description" : "Bad request.",
             "content" : {
@@ -2995,8 +3317,8 @@
               }
             }
           },
-          "429" : {
-            "description" : "Too many requests.",
+          "415" : {
+            "description" : "Unsupported media type",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -3017,6 +3339,16 @@
           },
           "403" : {
             "description" : "Forbidden.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "Too many requests.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -3064,6 +3396,16 @@
           }
         ],
         "responses" : {
+          "404" : {
+            "description" : "Not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "400" : {
             "description" : "Bad request.",
             "content" : {
@@ -3074,8 +3416,8 @@
               }
             }
           },
-          "429" : {
-            "description" : "Too many requests.",
+          "415" : {
+            "description" : "Unsupported media type",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -3104,16 +3446,6 @@
               }
             }
           },
-          "500" : {
-            "description" : "Internal server error.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
           "200" : {
             "description" : "Returns the paged result found for Asset",
             "content" : {
@@ -3122,6 +3454,26 @@
                   "maxItems" : 2147483647,
                   "minItems" : 0,
                   "type" : "array"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "Too many requests.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -3155,6 +3507,16 @@
           }
         ],
         "responses" : {
+          "404" : {
+            "description" : "Not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "400" : {
             "description" : "Bad request.",
             "content" : {
@@ -3165,8 +3527,20 @@
               }
             }
           },
-          "429" : {
-            "description" : "Too many requests.",
+          "200" : {
+            "description" : "Returns the paged result found for Asset",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "minItems" : 0,
+                  "type" : "array"
+                }
+              }
+            }
+          },
+          "415" : {
+            "description" : "Unsupported media type",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -3195,8 +3569,8 @@
               }
             }
           },
-          "500" : {
-            "description" : "Internal server error.",
+          "429" : {
+            "description" : "Too many requests.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -3205,14 +3579,12 @@
               }
             }
           },
-          "200" : {
-            "description" : "Returns the paged result found for Asset",
+          "500" : {
+            "description" : "Internal server error.",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "maxItems" : 2147483647,
-                  "minItems" : 0,
-                  "type" : "array"
+                  "$ref" : "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -3327,6 +3699,16 @@
         "description" : "The endpoint can return limited data based on the user role",
         "operationId" : "dashboard",
         "responses" : {
+          "404" : {
+            "description" : "Not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "400" : {
             "description" : "Bad request.",
             "content" : {
@@ -3337,8 +3719,8 @@
               }
             }
           },
-          "429" : {
-            "description" : "Too many requests.",
+          "415" : {
+            "description" : "Unsupported media type",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -3367,8 +3749,18 @@
               }
             }
           },
-          "500" : {
-            "description" : "Internal server error.",
+          "200" : {
+            "description" : "Returns dashboard data",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DashboardResponse"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "Too many requests.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -3377,12 +3769,12 @@
               }
             }
           },
-          "200" : {
-            "description" : "Returns dashboard data",
+          "500" : {
+            "description" : "Internal server error.",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DashboardResponse"
+                  "$ref" : "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -3452,7 +3844,615 @@
     "/assets/as-planned" : {
       "get" : {
         "tags" : [
-          "Assets"
+          "AssetsAsPlanned"
+        ],
+        "summary" : "Get assets by pagination",
+        "description" : "The endpoint returns a paged result of assets.",
+        "operationId" : "AssetsAsPlanned",
+        "parameters" : [
+          {
+            "name" : "pageable",
+            "in" : "query",
+            "required" : true,
+            "schema" : {
+              "$ref" : "#/components/schemas/OwnPageable"
+            }
+          },
+          {
+            "name" : "owner",
+            "in" : "query",
+            "required" : true,
+            "schema" : {
+              "type" : "string",
+              "enum" : [
+                "SUPPLIER",
+                "CUSTOMER",
+                "OWN",
+                "UNKNOWN"
+              ]
+            }
+          },
+          {
+            "name" : "filter",
+            "in" : "query",
+            "required" : true,
+            "schema" : {
+              "$ref" : "#/components/schemas/SearchCriteriaRequestParam"
+            }
+          }
+        ],
+        "responses" : {
+          "404" : {
+            "description" : "Not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Returns the paged result found for Asset",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "minItems" : 0,
+                  "type" : "array",
+                  "items" : {
+                    "maxItems" : 2147483647,
+                    "type" : "array",
+                    "description" : "Assets",
+                    "items" : {
+                      "type" : "object",
+                      "properties" : {
+                        "id" : {
+                          "maxLength" : 255,
+                          "minLength" : 0,
+                          "type" : "string"
+                        },
+                        "idShort" : {
+                          "maxLength" : 255,
+                          "minLength" : 0,
+                          "type" : "string"
+                        },
+                        "semanticModelId" : {
+                          "maxLength" : 255,
+                          "minLength" : 0,
+                          "type" : "string"
+                        },
+                        "businessPartner" : {
+                          "maxLength" : 255,
+                          "minLength" : 0,
+                          "type" : "string"
+                        },
+                        "manufacturerName" : {
+                          "maxLength" : 255,
+                          "minLength" : 0,
+                          "type" : "string"
+                        },
+                        "nameAtManufacturer" : {
+                          "maxLength" : 255,
+                          "minLength" : 0,
+                          "type" : "string"
+                        },
+                        "manufacturerPartId" : {
+                          "maxLength" : 255,
+                          "minLength" : 0,
+                          "type" : "string"
+                        },
+                        "owner" : {
+                          "type" : "string",
+                          "enum" : [
+                            "SUPPLIER",
+                            "CUSTOMER",
+                            "OWN",
+                            "UNKNOWN"
+                          ]
+                        },
+                        "childRelations" : {
+                          "maxItems" : 2147483647,
+                          "type" : "array",
+                          "description" : "Child relationships",
+                          "items" : {
+                            "$ref" : "#/components/schemas/DescriptionsResponse"
+                          }
+                        },
+                        "parentRelations" : {
+                          "maxItems" : 2147483647,
+                          "type" : "array",
+                          "description" : "Parent relationships",
+                          "items" : {
+                            "$ref" : "#/components/schemas/DescriptionsResponse"
+                          }
+                        },
+                        "activeAlert" : {
+                          "type" : "boolean"
+                        },
+                        "underInvestigation" : {
+                          "type" : "boolean"
+                        },
+                        "qualityType" : {
+                          "type" : "string",
+                          "enum" : [
+                            "Ok",
+                            "Minor",
+                            "Major",
+                            "Critical",
+                            "LifeThreatening"
+                          ]
+                        },
+                        "van" : {
+                          "maxLength" : 255,
+                          "minLength" : 0,
+                          "type" : "string"
+                        },
+                        "semanticDataModel" : {
+                          "type" : "string",
+                          "enum" : [
+                            "BATCH",
+                            "SERIALPART",
+                            "UNKNOWN",
+                            "PARTASPLANNED",
+                            "JUSTINSEQUENCE"
+                          ]
+                        },
+                        "classification" : {
+                          "maxLength" : 255,
+                          "minLength" : 0,
+                          "type" : "string"
+                        },
+                        "detailAspectModels" : {
+                          "type" : "array",
+                          "items" : {
+                            "$ref" : "#/components/schemas/DetailAspectModelResponse"
+                          }
+                        },
+                        "qualityAlertsInStatusActive" : {
+                          "type" : "integer",
+                          "format" : "int32"
+                        },
+                        "qualityInvestigationsInStatusActive" : {
+                          "type" : "integer",
+                          "format" : "int32"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad request.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "415" : {
+            "description" : "Unsupported media type",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Authorization failed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "Too many requests.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [
+          {
+            "oAuth2" : [
+              "profile email"
+            ]
+          }
+        ]
+      }
+    },
+    "/assets/as-planned/{assetId}/children/{childId}" : {
+      "get" : {
+        "tags" : [
+          "AssetsAsPlanned"
+        ],
+        "summary" : "Get asset by child id",
+        "description" : "The endpoint returns an asset filtered by child id.",
+        "operationId" : "assetByChildId",
+        "parameters" : [
+          {
+            "name" : "assetId",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string"
+            }
+          },
+          {
+            "name" : "childId",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string"
+            }
+          }
+        ],
+        "responses" : {
+          "404" : {
+            "description" : "Not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad request.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Returns the asset by childId",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array",
+                  "description" : "Assets",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "id" : {
+                        "maxLength" : 255,
+                        "minLength" : 0,
+                        "type" : "string"
+                      },
+                      "idShort" : {
+                        "maxLength" : 255,
+                        "minLength" : 0,
+                        "type" : "string"
+                      },
+                      "semanticModelId" : {
+                        "maxLength" : 255,
+                        "minLength" : 0,
+                        "type" : "string"
+                      },
+                      "businessPartner" : {
+                        "maxLength" : 255,
+                        "minLength" : 0,
+                        "type" : "string"
+                      },
+                      "manufacturerName" : {
+                        "maxLength" : 255,
+                        "minLength" : 0,
+                        "type" : "string"
+                      },
+                      "nameAtManufacturer" : {
+                        "maxLength" : 255,
+                        "minLength" : 0,
+                        "type" : "string"
+                      },
+                      "manufacturerPartId" : {
+                        "maxLength" : 255,
+                        "minLength" : 0,
+                        "type" : "string"
+                      },
+                      "owner" : {
+                        "type" : "string",
+                        "enum" : [
+                          "SUPPLIER",
+                          "CUSTOMER",
+                          "OWN",
+                          "UNKNOWN"
+                        ]
+                      },
+                      "childRelations" : {
+                        "maxItems" : 2147483647,
+                        "type" : "array",
+                        "description" : "Child relationships",
+                        "items" : {
+                          "$ref" : "#/components/schemas/DescriptionsResponse"
+                        }
+                      },
+                      "parentRelations" : {
+                        "maxItems" : 2147483647,
+                        "type" : "array",
+                        "description" : "Parent relationships",
+                        "items" : {
+                          "$ref" : "#/components/schemas/DescriptionsResponse"
+                        }
+                      },
+                      "activeAlert" : {
+                        "type" : "boolean"
+                      },
+                      "underInvestigation" : {
+                        "type" : "boolean"
+                      },
+                      "qualityType" : {
+                        "type" : "string",
+                        "enum" : [
+                          "Ok",
+                          "Minor",
+                          "Major",
+                          "Critical",
+                          "LifeThreatening"
+                        ]
+                      },
+                      "van" : {
+                        "maxLength" : 255,
+                        "minLength" : 0,
+                        "type" : "string"
+                      },
+                      "semanticDataModel" : {
+                        "type" : "string",
+                        "enum" : [
+                          "BATCH",
+                          "SERIALPART",
+                          "UNKNOWN",
+                          "PARTASPLANNED",
+                          "JUSTINSEQUENCE"
+                        ]
+                      },
+                      "classification" : {
+                        "maxLength" : 255,
+                        "minLength" : 0,
+                        "type" : "string"
+                      },
+                      "detailAspectModels" : {
+                        "type" : "array",
+                        "items" : {
+                          "$ref" : "#/components/schemas/DetailAspectModelResponse"
+                        }
+                      },
+                      "qualityAlertsInStatusActive" : {
+                        "type" : "integer",
+                        "format" : "int32"
+                      },
+                      "qualityInvestigationsInStatusActive" : {
+                        "type" : "integer",
+                        "format" : "int32"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "415" : {
+            "description" : "Unsupported media type",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Authorization failed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "Too many requests.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [
+          {
+            "oAuth2" : [
+              "profile email"
+            ]
+          }
+        ]
+      }
+    },
+    "/assets/as-planned/distinctFilterValues" : {
+      "get" : {
+        "tags" : [
+          "Assets",
+          "AssetsAsPlanned"
+        ],
+        "summary" : "getDistinctFilterValues",
+        "description" : "The endpoint returns a distinct filter values for given fieldName.",
+        "operationId" : "distinctFilterValues",
+        "parameters" : [
+          {
+            "name" : "fieldName",
+            "in" : "query",
+            "required" : true,
+            "schema" : {
+              "type" : "string"
+            }
+          },
+          {
+            "name" : "size",
+            "in" : "query",
+            "required" : true,
+            "schema" : {
+              "type" : "integer",
+              "format" : "int64"
+            }
+          }
+        ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns a distinct filter values for given fieldName.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "minItems" : 0,
+                  "type" : "array"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad request.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "415" : {
+            "description" : "Unsupported media type",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Authorization failed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "Too many requests.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [
+          {
+            "oAuth2" : [
+              "profile email"
+            ]
+          }
+        ]
+      }
+    },
+    "/assets/as-built" : {
+      "get" : {
+        "tags" : [
+          "AssetsAsBuilt"
         ],
         "summary" : "Get assets by pagination",
         "description" : "The endpoint returns a paged result of assets.",
@@ -3490,28 +4490,18 @@
           }
         ],
         "responses" : {
+          "404" : {
+            "description" : "Not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "400" : {
             "description" : "Bad request.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "429" : {
-            "description" : "Too many requests.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Authorization failed.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -3527,189 +4517,123 @@
                 "schema" : {
                   "maxItems" : 2147483647,
                   "minItems" : 0,
-                  "type" : "array"
-                }
-              }
-            }
-          },
-          "403" : {
-            "description" : "Forbidden.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "500" : {
-            "description" : "Internal server error.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          }
-        },
-        "security" : [
-          {
-            "oAuth2" : [
-              "profile email"
-            ]
-          }
-        ]
-      }
-    },
-    "/assets/as-planned/{assetId}/children/{childId}" : {
-      "get" : {
-        "tags" : [
-          "Assets"
-        ],
-        "summary" : "Get asset by child id",
-        "description" : "The endpoint returns an asset filtered by child id.",
-        "operationId" : "assetByChildId",
-        "parameters" : [
-          {
-            "name" : "assetId",
-            "in" : "path",
-            "required" : true,
-            "schema" : {
-              "type" : "string"
-            }
-          },
-          {
-            "name" : "childId",
-            "in" : "path",
-            "required" : true,
-            "schema" : {
-              "type" : "string"
-            }
-          }
-        ],
-        "responses" : {
-          "400" : {
-            "description" : "Bad request.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "200" : {
-            "description" : "Returns the asset by childId",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "maxItems" : 2147483647,
                   "type" : "array",
-                  "description" : "Assets",
                   "items" : {
-                    "type" : "object",
-                    "properties" : {
-                      "id" : {
-                        "maxLength" : 255,
-                        "minLength" : 0,
-                        "type" : "string"
-                      },
-                      "idShort" : {
-                        "maxLength" : 255,
-                        "minLength" : 0,
-                        "type" : "string"
-                      },
-                      "semanticModelId" : {
-                        "maxLength" : 255,
-                        "minLength" : 0,
-                        "type" : "string"
-                      },
-                      "businessPartner" : {
-                        "maxLength" : 255,
-                        "minLength" : 0,
-                        "type" : "string"
-                      },
-                      "manufacturerName" : {
-                        "maxLength" : 255,
-                        "minLength" : 0,
-                        "type" : "string"
-                      },
-                      "nameAtManufacturer" : {
-                        "maxLength" : 255,
-                        "minLength" : 0,
-                        "type" : "string"
-                      },
-                      "manufacturerPartId" : {
-                        "maxLength" : 255,
-                        "minLength" : 0,
-                        "type" : "string"
-                      },
-                      "owner" : {
-                        "type" : "string",
-                        "enum" : [
-                          "SUPPLIER",
-                          "CUSTOMER",
-                          "OWN",
-                          "UNKNOWN"
-                        ]
-                      },
-                      "childRelations" : {
-                        "maxItems" : 2147483647,
-                        "type" : "array",
-                        "description" : "Child relationships",
-                        "items" : {
-                          "$ref" : "#/components/schemas/DescriptionsResponse"
-                        }
-                      },
-                      "parentRelations" : {
-                        "maxItems" : 2147483647,
-                        "type" : "array",
-                        "description" : "Parent relationships",
-                        "items" : {
-                          "$ref" : "#/components/schemas/DescriptionsResponse"
-                        }
-                      },
-                      "activeAlert" : {
-                        "type" : "boolean"
-                      },
-                      "underInvestigation" : {
-                        "type" : "boolean"
-                      },
-                      "qualityType" : {
-                        "type" : "string",
-                        "enum" : [
-                          "Ok",
-                          "Minor",
-                          "Major",
-                          "Critical",
-                          "LifeThreatening"
-                        ]
-                      },
-                      "van" : {
-                        "maxLength" : 255,
-                        "minLength" : 0,
-                        "type" : "string"
-                      },
-                      "semanticDataModel" : {
-                        "type" : "string",
-                        "enum" : [
-                          "BATCH",
-                          "SERIALPART",
-                          "UNKNOWN",
-                          "PARTASPLANNED",
-                          "JUSTINSEQUENCE"
-                        ]
-                      },
-                      "classification" : {
-                        "maxLength" : 255,
-                        "minLength" : 0,
-                        "type" : "string"
-                      },
-                      "detailAspectModels" : {
-                        "type" : "array",
-                        "items" : {
-                          "$ref" : "#/components/schemas/DetailAspectModelResponse"
+                    "maxItems" : 2147483647,
+                    "type" : "array",
+                    "description" : "Assets",
+                    "items" : {
+                      "type" : "object",
+                      "properties" : {
+                        "id" : {
+                          "maxLength" : 255,
+                          "minLength" : 0,
+                          "type" : "string"
+                        },
+                        "idShort" : {
+                          "maxLength" : 255,
+                          "minLength" : 0,
+                          "type" : "string"
+                        },
+                        "semanticModelId" : {
+                          "maxLength" : 255,
+                          "minLength" : 0,
+                          "type" : "string"
+                        },
+                        "businessPartner" : {
+                          "maxLength" : 255,
+                          "minLength" : 0,
+                          "type" : "string"
+                        },
+                        "manufacturerName" : {
+                          "maxLength" : 255,
+                          "minLength" : 0,
+                          "type" : "string"
+                        },
+                        "nameAtManufacturer" : {
+                          "maxLength" : 255,
+                          "minLength" : 0,
+                          "type" : "string"
+                        },
+                        "manufacturerPartId" : {
+                          "maxLength" : 255,
+                          "minLength" : 0,
+                          "type" : "string"
+                        },
+                        "owner" : {
+                          "type" : "string",
+                          "enum" : [
+                            "SUPPLIER",
+                            "CUSTOMER",
+                            "OWN",
+                            "UNKNOWN"
+                          ]
+                        },
+                        "childRelations" : {
+                          "maxItems" : 2147483647,
+                          "type" : "array",
+                          "description" : "Child relationships",
+                          "items" : {
+                            "$ref" : "#/components/schemas/DescriptionsResponse"
+                          }
+                        },
+                        "parentRelations" : {
+                          "maxItems" : 2147483647,
+                          "type" : "array",
+                          "description" : "Parent relationships",
+                          "items" : {
+                            "$ref" : "#/components/schemas/DescriptionsResponse"
+                          }
+                        },
+                        "activeAlert" : {
+                          "type" : "boolean"
+                        },
+                        "underInvestigation" : {
+                          "type" : "boolean"
+                        },
+                        "qualityType" : {
+                          "type" : "string",
+                          "enum" : [
+                            "Ok",
+                            "Minor",
+                            "Major",
+                            "Critical",
+                            "LifeThreatening"
+                          ]
+                        },
+                        "van" : {
+                          "maxLength" : 255,
+                          "minLength" : 0,
+                          "type" : "string"
+                        },
+                        "semanticDataModel" : {
+                          "type" : "string",
+                          "enum" : [
+                            "BATCH",
+                            "SERIALPART",
+                            "UNKNOWN",
+                            "PARTASPLANNED",
+                            "JUSTINSEQUENCE"
+                          ]
+                        },
+                        "classification" : {
+                          "maxLength" : 255,
+                          "minLength" : 0,
+                          "type" : "string"
+                        },
+                        "detailAspectModels" : {
+                          "type" : "array",
+                          "items" : {
+                            "$ref" : "#/components/schemas/DetailAspectModelResponse"
+                          }
+                        },
+                        "qualityAlertsInStatusActive" : {
+                          "type" : "integer",
+                          "format" : "int32"
+                        },
+                        "qualityInvestigationsInStatusActive" : {
+                          "type" : "integer",
+                          "format" : "int32"
                         }
                       }
                     }
@@ -3718,8 +4642,8 @@
               }
             }
           },
-          "429" : {
-            "description" : "Too many requests.",
+          "415" : {
+            "description" : "Unsupported media type",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -3748,215 +4672,12 @@
               }
             }
           },
-          "500" : {
-            "description" : "Internal server error.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          }
-        },
-        "security" : [
-          {
-            "oAuth2" : [
-              "profile email"
-            ]
-          }
-        ]
-      }
-    },
-    "/assets/as-planned/distinctFilterValues" : {
-      "get" : {
-        "tags" : [
-          "Assets"
-        ],
-        "summary" : "getDistinctFilterValues",
-        "description" : "The endpoint returns a distinct filter values for given fieldName.",
-        "operationId" : "distinctFilterValues",
-        "parameters" : [
-          {
-            "name" : "fieldName",
-            "in" : "query",
-            "required" : true,
-            "schema" : {
-              "type" : "string"
-            }
-          },
-          {
-            "name" : "size",
-            "in" : "query",
-            "required" : true,
-            "schema" : {
-              "type" : "integer",
-              "format" : "int64"
-            }
-          }
-        ],
-        "responses" : {
-          "400" : {
-            "description" : "Bad request.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
           "429" : {
             "description" : "Too many requests.",
             "content" : {
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Authorization failed.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "403" : {
-            "description" : "Forbidden.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "500" : {
-            "description" : "Internal server error.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "200" : {
-            "description" : "Returns a distinct filter values for given fieldName.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "maxItems" : 2147483647,
-                  "minItems" : 0,
-                  "type" : "array"
-                }
-              }
-            }
-          }
-        },
-        "security" : [
-          {
-            "oAuth2" : [
-              "profile email"
-            ]
-          }
-        ]
-      }
-    },
-    "/assets/as-built" : {
-      "get" : {
-        "tags" : [
-          "Assets"
-        ],
-        "summary" : "Get assets by pagination",
-        "description" : "The endpoint returns a paged result of assets.",
-        "operationId" : "assets_1",
-        "parameters" : [
-          {
-            "name" : "pageable",
-            "in" : "query",
-            "required" : true,
-            "schema" : {
-              "$ref" : "#/components/schemas/OwnPageable"
-            }
-          },
-          {
-            "name" : "owner",
-            "in" : "query",
-            "required" : true,
-            "schema" : {
-              "type" : "string",
-              "enum" : [
-                "SUPPLIER",
-                "CUSTOMER",
-                "OWN",
-                "UNKNOWN"
-              ]
-            }
-          },
-          {
-            "name" : "filter",
-            "in" : "query",
-            "required" : true,
-            "schema" : {
-              "$ref" : "#/components/schemas/SearchCriteriaRequestParam"
-            }
-          }
-        ],
-        "responses" : {
-          "400" : {
-            "description" : "Bad request.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "429" : {
-            "description" : "Too many requests.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Authorization failed.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "403" : {
-            "description" : "Forbidden.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "200" : {
-            "description" : "Returns the paged result found for Asset",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "maxItems" : 2147483647,
-                  "minItems" : 0,
-                  "type" : "array"
                 }
               }
             }
@@ -3984,7 +4705,7 @@
     "/assets/as-built/{assetId}/children/{childId}" : {
       "get" : {
         "tags" : [
-          "Assets"
+          "AssetsAsBuilt"
         ],
         "summary" : "Get asset by child id",
         "description" : "The endpoint returns an asset filtered by child id.",
@@ -4008,8 +4729,28 @@
           }
         ],
         "responses" : {
+          "404" : {
+            "description" : "Not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "400" : {
             "description" : "Bad request.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "415" : {
+            "description" : "Unsupported media type",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -4130,19 +4871,17 @@
                         "items" : {
                           "$ref" : "#/components/schemas/DetailAspectModelResponse"
                         }
+                      },
+                      "qualityAlertsInStatusActive" : {
+                        "type" : "integer",
+                        "format" : "int32"
+                      },
+                      "qualityInvestigationsInStatusActive" : {
+                        "type" : "integer",
+                        "format" : "int32"
                       }
                     }
                   }
-                }
-              }
-            }
-          },
-          "429" : {
-            "description" : "Too many requests.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -4159,6 +4898,16 @@
           },
           "403" : {
             "description" : "Forbidden.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "Too many requests.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -4190,6 +4939,7 @@
     "/assets/as-built/distinctFilterValues" : {
       "get" : {
         "tags" : [
+          "AssetsAsBuilt",
           "Assets"
         ],
         "summary" : "getDistinctFilterValues",
@@ -4215,6 +4965,28 @@
           }
         ],
         "responses" : {
+          "200" : {
+            "description" : "Returns a distinct filter values for given fieldName.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "minItems" : 0,
+                  "type" : "array"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "400" : {
             "description" : "Bad request.",
             "content" : {
@@ -4225,8 +4997,8 @@
               }
             }
           },
-          "429" : {
-            "description" : "Too many requests.",
+          "415" : {
+            "description" : "Unsupported media type",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -4255,8 +5027,8 @@
               }
             }
           },
-          "500" : {
-            "description" : "Internal server error.",
+          "429" : {
+            "description" : "Too many requests.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -4265,14 +5037,12 @@
               }
             }
           },
-          "200" : {
-            "description" : "Returns a distinct filter values for given fieldName.",
+          "500" : {
+            "description" : "Internal server error.",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "maxItems" : 2147483647,
-                  "minItems" : 0,
-                  "type" : "array"
+                  "$ref" : "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -4290,12 +5060,22 @@
     "/assets/as-built/countries" : {
       "get" : {
         "tags" : [
-          "Assets"
+          "AssetsAsBuilt"
         ],
         "summary" : "Get map of assets",
         "description" : "The endpoint returns a map for assets consumed by the map.",
         "operationId" : "assetsCountryMap",
         "responses" : {
+          "404" : {
+            "description" : "Not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "400" : {
             "description" : "Bad request.",
             "content" : {
@@ -4320,8 +5100,8 @@
               }
             }
           },
-          "429" : {
-            "description" : "Too many requests.",
+          "415" : {
+            "description" : "Unsupported media type",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -4342,6 +5122,16 @@
           },
           "403" : {
             "description" : "Forbidden.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "Too many requests.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -4438,8 +5228,8 @@
               }
             }
           },
-          "429" : {
-            "description" : "Too many requests.",
+          "415" : {
+            "description" : "Unsupported media type",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -4460,6 +5250,16 @@
           },
           "403" : {
             "description" : "Forbidden.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "Too many requests.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -4507,16 +5307,6 @@
           }
         ],
         "responses" : {
-          "404" : {
-            "description" : "Not found.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
           "200" : {
             "description" : "Returns the paged result found for Asset",
             "content" : {
@@ -4524,6 +5314,16 @@
                 "schema" : {
                   "maxItems" : 2147483647,
                   "type" : "array"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -4538,8 +5338,8 @@
               }
             }
           },
-          "429" : {
-            "description" : "Too many requests.",
+          "415" : {
+            "description" : "Unsupported media type",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -4560,6 +5360,16 @@
           },
           "403" : {
             "description" : "Forbidden.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "Too many requests.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -4607,16 +5417,6 @@
           }
         ],
         "responses" : {
-          "404" : {
-            "description" : "Not found.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
           "200" : {
             "description" : "Returns the paged result found for Asset",
             "content" : {
@@ -4624,6 +5424,16 @@
                 "schema" : {
                   "maxItems" : 2147483647,
                   "type" : "array"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -4638,8 +5448,8 @@
               }
             }
           },
-          "429" : {
-            "description" : "Too many requests.",
+          "415" : {
+            "description" : "Unsupported media type",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -4660,6 +5470,16 @@
           },
           "403" : {
             "description" : "Forbidden.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "Too many requests.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -4720,6 +5540,16 @@
           }
         ],
         "responses" : {
+          "404" : {
+            "description" : "Not found.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "400" : {
             "description" : "Bad request.",
             "content" : {
@@ -4729,19 +5559,6 @@
                 }
               }
             }
-          },
-          "429" : {
-            "description" : "Too many requests.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "204" : {
-            "description" : "Deleted."
           },
           "401" : {
             "description" : "Authorization failed.",
@@ -4755,6 +5572,19 @@
           },
           "403" : {
             "description" : "Forbidden.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "204" : {
+            "description" : "Deleted."
+          },
+          "429" : {
+            "description" : "Too many requests.",
             "content" : {
               "application/json" : {
                 "schema" : {

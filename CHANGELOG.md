@@ -7,8 +7,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 ### Added
 - Splitscreen View with sliders on parts and otherParts View
+- New test data for as planned assets aswell as JustInSequence and TractionBatteryCode
+- Toggle for parts and other parts to switch views asPlanned/asBuilt
+- LocalStorage to be used for saving view setting
+- archunit tests as preparation for good quality architecture checks
+- safety and security doc including roles matrix
+
+### Changed
+- added sorting for /api/investigations received and created endpoints
+- added sorting for /api/alerts received and created endpoints
+- integration tests uses flyway now rather than hibernate schema auto creation
+- irs helm updated from 6.5.0 to 6.6.1
+- BpnEntity now contains BpnEdcMappingEntity fields
+- Directories of bpnEntity to match architecture
+
+
 ### Removed
 - Old edc code not necessary anymore
+- BpnEdcMappingEntity removed with related repository
 
 ## [7.0.0 - 18.09.2023]
 ### Added
@@ -64,7 +80,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Upgraded snakeyaml from 2.0 to 2.2
 - Upgraded docker/login-action from 2 to 3
 - Upgraded cypress-io/github-action 6.0.0 to 6.5.0
--
+
 ### Known knowns
 
 - Backend [TRACEFOSS-1458]: AdminView: No validation of BPN for BPN  EDC URL mapping

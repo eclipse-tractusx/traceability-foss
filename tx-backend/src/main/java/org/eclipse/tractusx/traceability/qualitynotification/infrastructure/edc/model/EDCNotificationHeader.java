@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -22,8 +20,29 @@ package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitize;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record EDCNotificationHeader(String notificationId, String senderBPN, String senderAddress, String recipientBPN,
-									String classification, String severity, String relatedNotificationId,
-									String status, String targetDate, String messageId) {
+                                    String classification, String severity, String relatedNotificationId,
+                                    String status, String targetDate, String messageId) {
+
+
+    @Override
+    public String toString() {
+        return "EDCNotificationHeader{" +
+                "notificationId='" + sanitize(notificationId) + '\'' +
+                ", senderBPN='" + sanitize(senderBPN) + '\'' +
+                ", senderAddress='" + sanitize(senderAddress) + '\'' +
+                ", recipientBPN='" + sanitize(recipientBPN) + '\'' +
+                ", classification='" + sanitize(classification) + '\'' +
+                ", severity='" + sanitize(severity) + '\'' +
+                ", relatedNotificationId='" + sanitize(relatedNotificationId) + '\'' +
+                ", status='" + sanitize(status) + '\'' +
+                ", targetDate='" + sanitize(targetDate) + '\'' +
+                ", messageId='" + sanitize(messageId) + '\'' +
+                '}';
+    }
 }
+
+

@@ -46,8 +46,7 @@ public class DatabaseSupport {
             "shell_descriptor",
             "bpn_storage",
             "investigation_notification",
-            "investigation",
-            "bpn_edc_mappings"
+            "investigation"
     });
 
 

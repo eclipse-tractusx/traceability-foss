@@ -25,13 +25,7 @@ public class FeatureFlags {
     public static final String NOTIFICATIONS_ENABLED_PROFILES = ApplicationProfiles.LOCAL + " | " +
             ApplicationProfiles.INTEGRATION_SPRING_BOOT + " | " +
             ApplicationProfiles.TESTS + " | " +
-            ApplicationProfiles.DEV + " | " +
-            ApplicationProfiles.TEST + " | " +
-            ApplicationProfiles.INT + " | " +
-            ApplicationProfiles.E2E_A + " | " +
-            ApplicationProfiles.E2E_B + " | " +
-            ApplicationProfiles.INT_A + " | " +
-            ApplicationProfiles.INT_B;
+            ApplicationProfiles.DEV;
 
     private FeatureFlags() {
     }

@@ -19,8 +19,8 @@
 
 package org.eclipse.tractusx.traceability.integration.common.support;
 
-import org.eclipse.tractusx.traceability.bpn.mapping.domain.ports.BpnEdcMappingRepository;
-import org.eclipse.tractusx.traceability.bpn.mapping.infrastructure.adapters.rest.BpnEdcMappingRequest;
+import bpn.request.BpnMappingRequest;
+import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -29,10 +29,10 @@ import java.util.List;
 @Component
 public class BpnEdcMappingSupport {
     @Autowired
-    BpnEdcMappingRepository bpnEdcMappingRepository;
+    BpnRepository bpnRepository;
 
     public void defaultBpnEdcMappingStored() {
-        var bpnEdcMappingRequests = List.of(new BpnEdcMappingRequest("BPN123", "https://test123.de"), new BpnEdcMappingRequest("BPN456", "https://test456.de"));
-        bpnEdcMappingRepository.saveAll(bpnEdcMappingRequests);
+        var bpnEdcMappingRequests = List.of(new BpnMappingRequest("BPN123", "https://test123.de"), new BpnMappingRequest("BPN456", "https://test456.de"));
+        bpnRepository.saveAll(bpnEdcMappingRequests);
     }
 }

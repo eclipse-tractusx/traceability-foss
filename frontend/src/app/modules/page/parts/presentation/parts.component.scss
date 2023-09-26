@@ -20,18 +20,25 @@
  ********************************************************************************/
 
 .parts-table-container {
-  @apply flex flex-col;
-  height: 100%;
+  width: 100%;
 }
 
-.split-container {
-  height: auto;
+.app-bom-lifecycle-activator-container {
+  grid-column: 1 / span 2; /* This will make it span both columns */
+  width: 100%;
 }
 
+.split-container-wrapper {
+  height: 68vh;
+}
+
+// TODO: fix bottom shadow of parts Table
 .parts-as-built-table-wrapper {
   max-height: 58vh;
+  margin: 16px;
 }
 
 .parts-as-planned-table-wrapper {
   max-height: 58vh;
+  margin: 16px;
 }

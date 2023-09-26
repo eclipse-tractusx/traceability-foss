@@ -20,13 +20,18 @@ SPDX-License-Identifier: Apache-2.0
 -->
 
 <div class="parts-table-container">
+  <div class="app-bom-lifecycle-activator-container">
+    <app-bom-lifecycle-activator [view]=UserSettingView.PARTS (buttonClickEvent)="handleTableActivationEvent($event)"></app-bom-lifecycle-activator>
+  </div>
+  <div class="split-container-wrapper">
   <as-split direction="horizontal" class="split-container">
-    <as-split-area [size]="50" >
+    <as-split-area [size]="bomLifecycleSize.asBuiltSize" >
       <div class="parts-as-built-table-wrapper">
       <ng-container *viewContainer="partsAsBuilt$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
       <ng-template #mainTmp let-parts="view">
+        <div class="large-text">{{"page.asBuiltParts" | i18n}}</div>
         <!-- asBuilt Parts Table-->
-        <app-table class="parts-as-built-table"
+        <app-table class="parts-asBuilt-table"
                    [PartsPaginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
                    [labelId]="titleId"
                    [tableConfig]="tableConfigAsBuilt"
@@ -44,12 +49,13 @@ SPDX-License-Identifier: Apache-2.0
       </ng-template>
       </div>
     </as-split-area>
-    <as-split-area [size]="50">
+    <as-split-area [size]="bomLifecycleSize.asPlannedSize">
       <div class="parts-as-planned-table-wrapper">
       <ng-container *viewContainer="partsAsPlanned$ | async; main: myTmp; error: errorTmp; loading: loaderTmp"></ng-container>
       <ng-template #myTmp let-parts="view">
+        <div class="large-text">{{"page.asPlannedParts" | i18n}}</div>
         <!-- asPlanned Parts Table-->
-        <app-table class="parts-as-planned-table"
+        <app-table class="parts-asPlanned-table"
                    [PartsPaginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
                    [labelId]="titleId"
                    [tableConfig]="tableConfigAsPlanned"
@@ -94,4 +100,4 @@ SPDX-License-Identifier: Apache-2.0
   <ng-template #loaderTmp let-parts="view">
     <mat-spinner></mat-spinner>
   </ng-template>
-
+</div>

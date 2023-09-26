@@ -21,7 +21,7 @@ package org.eclipse.tractusx.traceability.discovery.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.bpn.mapping.domain.ports.BpnEdcMappingRepository;
+import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
 import org.eclipse.tractusx.traceability.discovery.domain.model.Discovery;
 import org.eclipse.tractusx.traceability.discovery.domain.repository.DiscoveryRepository;
 import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
@@ -42,7 +42,7 @@ public class DiscoveryServiceImpl implements DiscoveryService {
 
     private final DiscoveryRepository discoveryRepository;
 
-    private final BpnEdcMappingRepository bpnEdcMappingRepository;
+    private final BpnRepository bpnRepository;
 
     private final EdcProperties edcProperties;
 
@@ -81,8 +81,8 @@ public class DiscoveryServiceImpl implements DiscoveryService {
 
     @NotNull
     private Optional<Discovery> getOptionalDiscoveryFromBpnDatabase(String bpn) {
-        if (bpnEdcMappingRepository.exists(bpn)) {
-            String receiverUrl = bpnEdcMappingRepository.findByIdOrThrowNotFoundException(bpn).url();
+        if (bpnRepository.existsWhereUrlNotNull(bpn)) {
+            String receiverUrl = bpnRepository.findByIdOrThrowNotFoundException(bpn).url();
             Discovery discovery = toDiscovery(receiverUrl, edcProperties.getProviderEdcUrl());
             return Optional.of(discovery);
         }
