@@ -29,8 +29,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
-import org.eclipse.tractusx.traceability.bpn.mapping.domain.model.BpnEdcMappingException;
-import org.eclipse.tractusx.traceability.bpn.mapping.domain.model.BpnEdcMappingNotFoundException;
+import org.eclipse.tractusx.traceability.bpn.domain.model.BpnNotFoundException;
 import org.eclipse.tractusx.traceability.common.request.InvalidSortException;
 import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
 import org.eclipse.tractusx.traceability.common.security.TechnicalUserAuthorizationException;
@@ -125,15 +124,8 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
-    @ExceptionHandler(BpnEdcMappingException.class)
-    ResponseEntity<ErrorResponse> handleBpnEdcMappingException(BpnEdcMappingException exception) {
-        log.warn("BpnEdcMappingException", exception);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ErrorResponse(exception.getMessage()));
-    }
-
-    @ExceptionHandler(BpnEdcMappingNotFoundException.class)
-    ResponseEntity<ErrorResponse> handleBpnEdcMappingNotFoundException(BpnEdcMappingNotFoundException exception) {
+    @ExceptionHandler(BpnNotFoundException.class)
+    ResponseEntity<ErrorResponse> handleBpnEdcMappingNotFoundException(BpnNotFoundException exception) {
         log.warn("handleBpnEdcMappingNotFoundException", exception);
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse(exception.getMessage()));

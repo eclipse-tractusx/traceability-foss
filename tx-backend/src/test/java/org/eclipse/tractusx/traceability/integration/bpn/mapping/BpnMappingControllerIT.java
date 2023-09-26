@@ -20,7 +20,7 @@
 package org.eclipse.tractusx.traceability.integration.bpn.mapping;
 
 import io.restassured.http.ContentType;
-import org.eclipse.tractusx.traceability.bpn.mapping.infrastructure.adapters.rest.BpnEdcMappingRequest;
+import org.eclipse.tractusx.traceability.bpn.infrastructure.rest.BpnMappingRequest;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.BpnEdcMappingSupport;
 import org.hamcrest.Matchers;
@@ -34,7 +34,7 @@ import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.USER;
 
-class BpnEdcMappingControllerIT extends IntegrationTestSpecification {
+class BpnMappingControllerIT extends IntegrationTestSpecification {
 
     @Autowired
     BpnEdcMappingSupport bpnEdcMappingSupport;
@@ -42,7 +42,7 @@ class BpnEdcMappingControllerIT extends IntegrationTestSpecification {
     @Test
     void givenBpnMappingRequest_whenCreateBpnMapping_thenCreateIt() throws JoseException {
         // given
-        BpnEdcMappingRequest mappings = new BpnEdcMappingRequest("BPNL00000003CSGV", "http://localhost:12345/abc");
+        BpnMappingRequest mappings = new BpnMappingRequest("BPNL00000003CSGV", "http://localhost:12345/abc");
 
         // when
         given()
@@ -71,7 +71,7 @@ class BpnEdcMappingControllerIT extends IntegrationTestSpecification {
     void givenBpnMappingRequest_whenUpdate_thenUpdateIt() throws JoseException {
         {
             // given
-            BpnEdcMappingRequest mappings = new BpnEdcMappingRequest("BPN123", "https://newurl.com");
+            BpnMappingRequest mappings = new BpnMappingRequest("BPN123", "https://newurl.com");
             bpnEdcMappingSupport.defaultBpnEdcMappingStored();
 
             // when
@@ -164,7 +164,7 @@ class BpnEdcMappingControllerIT extends IntegrationTestSpecification {
     @Test
     void givenUserRole_whenCreateBpnMapping_thenReturn403() throws JoseException {
         // given
-        BpnEdcMappingRequest request = new BpnEdcMappingRequest("BPN123", "https://newurl.com");
+        BpnMappingRequest request = new BpnMappingRequest("BPN123", "https://newurl.com");
 
         // when/then
         given()

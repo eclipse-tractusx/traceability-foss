@@ -20,7 +20,7 @@
 package org.eclipse.tractusx.traceability.qualitynotification.domain.service;
 
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
-import org.eclipse.tractusx.traceability.common.mapper.NotificationMapper;
+import org.eclipse.tractusx.traceability.common.mapper.NotificationMessageMapper;
 import org.eclipse.tractusx.traceability.common.mapper.QualityNotificationMapper;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
@@ -59,7 +59,7 @@ class InvestigationsReceiverServiceTest {
     private InvestigationRepository mockRepository;
 
     @Mock
-    private NotificationMapper mockNotificationMapper;
+    private NotificationMessageMapper mockNotificationMapper;
 
     @Mock
     private QualityNotificationMapper mockQualityNotificationMapper;

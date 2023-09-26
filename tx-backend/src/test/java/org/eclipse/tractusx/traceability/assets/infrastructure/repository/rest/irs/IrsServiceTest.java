@@ -19,7 +19,6 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs;
 
-import org.eclipse.tractusx.traceability.assets.domain.base.BpnRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.IRSApiClient;
@@ -46,6 +45,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.Site;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.ValidityPeriod;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.IrsPolicy;
+import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
