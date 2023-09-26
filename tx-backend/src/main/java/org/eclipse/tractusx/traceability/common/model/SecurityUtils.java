@@ -24,28 +24,26 @@ import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotificationContent;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotificationHeader;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class SecurityUtils {
-    private static final List<String> unwantedStrings = Arrays.asList("\r\n", "\r", "\n");
+    private static final List<String> UNWANTED_STRINGS = Arrays.asList("\r\n", "\r", "\n");
     public static String sanitize(String unSanitizedInput) {
         if (unSanitizedInput != null) {
-            return unSanitizedInput.replaceAll(unwantedStrings.toString(), " ");
+            return unSanitizedInput.replaceAll(UNWANTED_STRINGS.toString(), " ");
         }
         return null;
     }
 
     public static List<String> sanitize(List<String> unSanitizedList) {
-        if (unSanitizedList != null) {
-            List<String> cleanListOfAffectedItems = new ArrayList<>();
-            for (String affectedItem : unSanitizedList) {
-                String cleanAffectedItem = sanitize(affectedItem);
-                cleanListOfAffectedItems.add(cleanAffectedItem);
-            }
-            return cleanListOfAffectedItems;
+        if (!unSanitizedList.isEmpty()) {
+            return unSanitizedList.stream()
+                    .filter(Objects::nonNull)
+                    .map(SecurityUtils::sanitize)
+                    .collect(Collectors.toList());
         }
         return null;
     }
