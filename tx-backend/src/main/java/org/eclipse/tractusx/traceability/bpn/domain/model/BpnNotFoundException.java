@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,12 +17,12 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.domain.base;
+package org.eclipse.tractusx.traceability.bpn.domain.model;
 
-import java.util.Map;
-import java.util.Optional;
+public class BpnNotFoundException extends RuntimeException {
 
-public interface BpnRepository {
-	Optional<String> findManufacturerName(String manufacturerId);
-	void updateManufacturers(Map<String, String> bpns);
+    public BpnNotFoundException(String message) {
+        super(message);
+    }
+
 }
