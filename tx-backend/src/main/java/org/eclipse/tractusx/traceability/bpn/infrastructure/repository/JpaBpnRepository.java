@@ -16,18 +16,17 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.integration.common.support;
 
-import org.eclipse.tractusx.traceability.assets.domain.base.BpnRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+package org.eclipse.tractusx.traceability.bpn.infrastructure.repository;
 
-@Component
-public class BpnRepositoryProvider {
-    @Autowired
-    BpnRepository bpnRepository = null;
+import org.eclipse.tractusx.traceability.bpn.infrastructure.model.BpnEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-    public BpnRepository bpnRepository() {
-        return bpnRepository;
-    }
+import java.util.List;
+
+@Repository
+public interface JpaBpnRepository extends JpaRepository<BpnEntity, String> {
+    List<BpnEntity> findAllByUrlNotNull();
+    Boolean existsByManufacturerIdAndUrlIsNotNull(String manufacturerId);
 }

@@ -19,11 +19,11 @@
 
 package org.eclipse.tractusx.traceability.infrastructure.jpa.bpn_edc;
 
-import org.eclipse.tractusx.traceability.bpn.mapping.domain.model.BpnEdcMappingNotFoundException;
-import org.eclipse.tractusx.traceability.bpn.mapping.domain.ports.BpnEdcMappingRepository;
-import org.eclipse.tractusx.traceability.bpn.mapping.infrastructure.adapters.jpa.BpnEdcMappingEntity;
-import org.eclipse.tractusx.traceability.bpn.mapping.infrastructure.adapters.jpa.JpaBpnEdcRepository;
-import org.eclipse.tractusx.traceability.bpn.mapping.infrastructure.adapters.jpa.PersistentBpnEdcMappingRepository;
+import org.eclipse.tractusx.traceability.bpn.domain.model.BpnNotFoundException;
+import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
+import org.eclipse.tractusx.traceability.bpn.infrastructure.model.BpnEntity;
+import org.eclipse.tractusx.traceability.bpn.infrastructure.repository.JpaBpnRepository;
+import org.eclipse.tractusx.traceability.bpn.infrastructure.repository.PersistentBpnRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,51 +37,34 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class PersistentBpnEdcMappingRepositoryTest {
+class PersistentBpnRepositoryTest {
 
     @Mock
-    private JpaBpnEdcRepository jpaBpnEdcRepository;
+    private JpaBpnRepository jpaBpnRepository;
 
-    private BpnEdcMappingRepository mappingRepository;
+    private BpnRepository bpnRepository;
 
     @BeforeEach
     void setUp() {
-        mappingRepository = new PersistentBpnEdcMappingRepository(jpaBpnEdcRepository);
+        bpnRepository = new PersistentBpnRepository(jpaBpnRepository);
     }
 
     @Test
     void findById_shouldThrowExceptionIfMappingNotFound() {
         String bpn = "123";
-        when(jpaBpnEdcRepository.findById(bpn)).thenReturn(Optional.empty());
+        when(jpaBpnRepository.findById(bpn)).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> mappingRepository.findByIdOrThrowNotFoundException(bpn))
-                .isInstanceOf(BpnEdcMappingNotFoundException.class)
+        assertThatThrownBy(() -> bpnRepository.findByIdOrThrowNotFoundException(bpn))
+                .isInstanceOf(BpnNotFoundException.class)
                 .hasMessage("EDC URL mapping with BPN %s was not found.", bpn);
-    }
-
-    @Test
-    void exists_shouldReturnTrueIfMappingExists() {
-        String bpn = "123";
-        when(jpaBpnEdcRepository.findById(bpn)).thenReturn(
-                Optional.of(
-                        BpnEdcMappingEntity.builder()
-                                .bpn(bpn)
-                                .url("http://example.com")
-                                .build()
-                )
-        );
-
-        boolean result = mappingRepository.exists(bpn);
-
-        assertThat(result).isTrue();
     }
 
     @Test
     void exists_shouldReturnFalseIfMappingDoesNotExist() {
         String bpn = "123";
-        when(jpaBpnEdcRepository.findById(bpn)).thenReturn(Optional.empty());
+        when(jpaBpnRepository.existsByManufacturerIdAndUrlIsNotNull(bpn)).thenReturn(false);
 
-        boolean result = mappingRepository.exists(bpn);
+        boolean result = bpnRepository.existsWhereUrlNotNull(bpn);
 
         assertThat(result).isFalse();
     }

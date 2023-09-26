@@ -29,13 +29,16 @@
 }
 
 .split-container-wrapper {
-  height: 65vh;
+  height: 68vh;
 }
 
+// TODO: fix bottom shadow of parts Table
 .parts-as-built-table-wrapper {
   max-height: 58vh;
+  margin: 16px;
 }
 
 .parts-as-planned-table-wrapper {
   max-height: 58vh;
+  margin: 16px;
 }

@@ -17,12 +17,37 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.bpn.mapping.domain.model;
+package org.eclipse.tractusx.traceability.bpn.infrastructure.rest;
 
-public class BpnEdcMappingNotFoundException extends RuntimeException {
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import org.apache.commons.lang3.StringUtils;
 
-    public BpnEdcMappingNotFoundException(String message) {
-        super(message);
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
+
+public class ValidUrlParameterValidator implements ConstraintValidator<ValidUrlParameter, String> {
+
+    @Override
+    public void initialize(ValidUrlParameter constraintAnnotation) {
+        // nothing to do
+    }
+
+    @Override
+    public boolean isValid(String url, ConstraintValidatorContext context) {
+
+        // do not validate notNull
+        if (StringUtils.isBlank(url)) {
+            return true;
+        }
+
+        try {
+            new URL(url).toURI();
+            return true;
+        } catch (MalformedURLException | URISyntaxException e) {
+            return false;
+        }
     }
 
 }

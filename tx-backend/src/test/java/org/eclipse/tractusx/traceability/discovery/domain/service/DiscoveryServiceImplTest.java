@@ -18,8 +18,8 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.discovery.domain.service;
 
-import org.eclipse.tractusx.traceability.bpn.mapping.domain.model.BpnEdcMapping;
-import org.eclipse.tractusx.traceability.bpn.mapping.domain.ports.BpnEdcMappingRepository;
+import org.eclipse.tractusx.traceability.bpn.domain.model.BpnEdcMapping;
+import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
 import org.eclipse.tractusx.traceability.discovery.domain.model.Discovery;
 import org.eclipse.tractusx.traceability.discovery.domain.repository.DiscoveryRepository;
 import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
@@ -46,7 +46,7 @@ class DiscoveryServiceImplTest {
     private DiscoveryRepository discoveryRepository;
 
     @Mock
-    private BpnEdcMappingRepository bpnEdcMappingRepository;
+    private BpnRepository bpnRepository;
 
     @Mock
     private EdcProperties edcProperties;
@@ -57,8 +57,8 @@ class DiscoveryServiceImplTest {
         // given
         Discovery discoveryByService = Discovery.builder().receiverUrls(List.of("receiver2.de")).senderUrl("sender2.de").build();
         BpnEdcMapping bpnEdcMapping = new BpnEdcMapping("bpn", "receiver.de");
-        when(bpnEdcMappingRepository.exists(any())).thenReturn(true);
-        when(bpnEdcMappingRepository.findByIdOrThrowNotFoundException(any())).thenReturn(bpnEdcMapping);
+        when(bpnRepository.existsWhereUrlNotNull(any())).thenReturn(true);
+        when(bpnRepository.findByIdOrThrowNotFoundException(any())).thenReturn(bpnEdcMapping);
         when(discoveryRepository.retrieveDiscoveryByFinderAndEdcDiscoveryService(any())).thenReturn(Optional.of(discoveryByService));
         when(edcProperties.getProviderEdcUrl()).thenReturn("sender2.de");
         // when
@@ -73,8 +73,8 @@ class DiscoveryServiceImplTest {
         // given
         Discovery discoveryByService = Discovery.builder().receiverUrls(List.of("receiver2.de/")).senderUrl("sender2.de").build();
         BpnEdcMapping bpnEdcMapping = new BpnEdcMapping("bpn", "receiver.de");
-        when(bpnEdcMappingRepository.exists(any())).thenReturn(true);
-        when(bpnEdcMappingRepository.findByIdOrThrowNotFoundException(any())).thenReturn(bpnEdcMapping);
+        when(bpnRepository.existsWhereUrlNotNull(any())).thenReturn(true);
+        when(bpnRepository.findByIdOrThrowNotFoundException(any())).thenReturn(bpnEdcMapping);
         when(discoveryRepository.retrieveDiscoveryByFinderAndEdcDiscoveryService(any())).thenReturn(Optional.of(discoveryByService));
         when(edcProperties.getProviderEdcUrl()).thenReturn("sender2.de");
 
@@ -92,7 +92,7 @@ class DiscoveryServiceImplTest {
         // given
         Discovery discoveryByService = Discovery.builder().receiverUrls(List.of("receiver2.de")).senderUrl("sender2.de").build();
 
-        when(bpnEdcMappingRepository.exists(any())).thenReturn(false);
+        when(bpnRepository.existsWhereUrlNotNull(any())).thenReturn(false);
         when(discoveryRepository.retrieveDiscoveryByFinderAndEdcDiscoveryService(any())).thenReturn(Optional.of(discoveryByService));
 
         // when

@@ -17,23 +17,28 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.bpn.mapping.infrastructure.adapters.rest;
+package org.eclipse.tractusx.traceability.bpn.domain.service;
 
-import io.swagger.annotations.ApiModelProperty;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import org.eclipse.tractusx.traceability.bpn.infrastructure.rest.BpnMappingRequest;
+import org.eclipse.tractusx.traceability.bpn.domain.model.BpnEdcMapping;
 
-public record BpnEdcMappingRequest(
-        @NotNull(message = "BPN must be present")
-        @NotEmpty(message = "BPN must be present")
-        @ApiModelProperty(example = "BPNL00000003CSGV")
-        @Size(max = 255)
-        String bpn,
-        @ValidUrlParameter
-        @NotNull(message = "A valid URL must be present")
-        @NotEmpty(message = "A valid URL must be present")
-        @Size(max = 255)
-        String url
-) {
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+public interface BpnRepository {
+
+    BpnEdcMapping findByIdOrThrowNotFoundException(String bpn);
+
+    List<BpnEdcMapping> findAllWhereUrlNotNull();
+
+    boolean existsWhereUrlNotNull(String bpn);
+
+    List<BpnEdcMapping> saveAll(List<BpnMappingRequest> bpnEdcMappings);
+
+    void deleteById(String bpn);
+
+    Optional<String> findManufacturerName(String manufacturerId);
+    void updateManufacturers(Map<String, String> bpns);
+
 }

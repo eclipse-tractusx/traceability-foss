@@ -19,10 +19,10 @@
 
 package org.eclipse.tractusx.traceability.infrastructure.jpa.bpn_edc;
 
-import org.eclipse.tractusx.traceability.bpn.mapping.domain.model.BpnEdcMappingNotFoundException;
-import org.eclipse.tractusx.traceability.bpn.mapping.domain.ports.BpnEdcMappingRepository;
-import org.eclipse.tractusx.traceability.bpn.mapping.domain.service.BpnEdcMappingService;
-import org.eclipse.tractusx.traceability.bpn.mapping.infrastructure.adapters.rest.BpnEdcMappingRequest;
+import org.eclipse.tractusx.traceability.bpn.domain.model.BpnNotFoundException;
+import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
+import org.eclipse.tractusx.traceability.bpn.domain.service.BpnService;
+import org.eclipse.tractusx.traceability.bpn.infrastructure.rest.BpnMappingRequest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,20 +39,20 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class BpnEdcMappingServiceTest {
+class BpnServiceTest {
 
     @Mock
-    private BpnEdcMappingRepository bpnEdcMappingRepositoryMock;
+    private BpnRepository bpnRepositoryMock;
 
     @InjectMocks
-    private BpnEdcMappingService bpnEdcMappingService;
+    private BpnService bpnService;
 
 
     @Test
     @DisplayName("Test getBpnEdcMappings")
     void testGetBpnEdcMappings() {
-        bpnEdcMappingService.findAllBpnEdcMappings();
-        verify(bpnEdcMappingRepositoryMock, times(1)).findAll();
+        bpnService.findAllBpnMappings();
+        verify(bpnRepositoryMock, times(1)).findAllWhereUrlNotNull();
     }
 
     @Test
@@ -60,9 +60,9 @@ class BpnEdcMappingServiceTest {
     void testCreateBpnEdcMapping() {
         String bpn = "12345";
         String url = "https://example.com/12345";
-        List<BpnEdcMappingRequest> bpnEdcMappingRequests = List.of(new BpnEdcMappingRequest(bpn, url));
-        bpnEdcMappingService.saveAllBpnEdcMappings(bpnEdcMappingRequests);
-        verify(bpnEdcMappingRepositoryMock, times(1)).saveAll(bpnEdcMappingRequests);
+        List<BpnMappingRequest> bpnMappingRequests = List.of(new BpnMappingRequest(bpn, url));
+        bpnService.saveAllBpnEdcMappings(bpnMappingRequests);
+        verify(bpnRepositoryMock, times(1)).saveAll(bpnMappingRequests);
     }
 
 
@@ -71,29 +71,29 @@ class BpnEdcMappingServiceTest {
     void testUpdateBpnEdcMapping() {
         String bpn = "12345";
         String url = "https://example.com/12345";
-        List<BpnEdcMappingRequest> bpnEdcMappingRequests = List.of(new BpnEdcMappingRequest(bpn, url));
-        bpnEdcMappingService.updateAllBpnEdcMappings(bpnEdcMappingRequests);
-        verify(bpnEdcMappingRepositoryMock, times(1)).saveAll(bpnEdcMappingRequests);
+        List<BpnMappingRequest> bpnMappingRequests = List.of(new BpnMappingRequest(bpn, url));
+        bpnService.updateAllBpnMappings(bpnMappingRequests);
+        verify(bpnRepositoryMock, times(1)).saveAll(bpnMappingRequests);
     }
 
     @Test
     @DisplayName("Test deleteBpnEdcMapping")
     void testDeleteBpnEdcMapping() {
         String bpn = "12345";
-        when(bpnEdcMappingRepositoryMock.exists(bpn)).thenReturn(true);
-        bpnEdcMappingService.deleteBpnEdcMapping(bpn);
-        verify(bpnEdcMappingRepositoryMock, times(1)).deleteById(bpn);
+        when(bpnRepositoryMock.existsWhereUrlNotNull(bpn)).thenReturn(true);
+        bpnService.deleteBpnMapping(bpn);
+        verify(bpnRepositoryMock, times(1)).deleteById(bpn);
     }
 
     @Test
     @DisplayName("Test deleteBpnEdcMapping with missing mapping")
     void testDeleteBpnEdcMappingWithMissingMapping() {
         String bpn = "12345";
-        when(bpnEdcMappingRepositoryMock.exists(bpn)).thenReturn(false);
-        Assertions.assertThrows(BpnEdcMappingNotFoundException.class, () -> {
-            bpnEdcMappingService.deleteBpnEdcMapping(bpn);
+        when(bpnRepositoryMock.existsWhereUrlNotNull(bpn)).thenReturn(false);
+        Assertions.assertThrows(BpnNotFoundException.class, () -> {
+            bpnService.deleteBpnMapping(bpn);
         });
-        verify(bpnEdcMappingRepositoryMock, never()).deleteById(bpn);
+        verify(bpnRepositoryMock, never()).deleteById(bpn);
     }
 }
 
