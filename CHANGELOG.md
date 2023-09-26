@@ -9,9 +9,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Splitscreen View with sliders on parts and otherParts View
 - New test data for as planned assets aswell as JustInSequence and TractionBatteryCode
 - Toggle for parts and other parts to switch views asPlanned/asBuilt
+- archunit tests as preparation for good quality architecture checks
+
+### Changed
+- BpnEntity now contains BpnEdcMappingEntity fields
 
 ### Removed
 - Old edc code not necessary anymore
+- BpnEdcMappingEntity removed with related repository
 
 ## [7.0.0 - 18.09.2023]
 ### Added
