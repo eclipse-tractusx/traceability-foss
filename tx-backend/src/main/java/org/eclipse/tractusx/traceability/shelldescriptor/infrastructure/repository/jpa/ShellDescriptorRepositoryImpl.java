@@ -22,7 +22,6 @@
 package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.jpa;
 
 import lombok.RequiredArgsConstructor;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Shell;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.ShellDescriptorRepository;
 import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.model.ShellDescriptorEntity;
