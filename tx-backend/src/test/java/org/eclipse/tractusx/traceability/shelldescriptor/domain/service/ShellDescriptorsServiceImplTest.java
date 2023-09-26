@@ -61,7 +61,7 @@ class ShellDescriptorsServiceImplTest {
         shellDescriptorsService.determineExistingShellDescriptorsAndUpdate(ownShellDescriptors);
 
         // Then
-        verify(shellDescriptorRepository, times(1)).saveAll(List.of(newDescriptor));
+        verify(shellDescriptorRepository, times(1)).save(newDescriptor);
         verify(shellDescriptorRepository, times(1)).removeDescriptorsByUpdatedBefore(any(ZonedDateTime.class));
         verify(shellDescriptorRepository, times(1)).update(existingDescriptor);
     }
