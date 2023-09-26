@@ -57,6 +57,9 @@ class Submodel {
             }),
             @Type(value = SemanticDataModel.class, names = {
                     "urn:bamm:io.catenax.just_in_sequence_part:1.0.0#JustInSequencePart"
+            }),
+            @Type(value = SemanticDataModel.class, names = {
+                    "urn:bamm:io.catenax.traction_battery_code:1.0.0#TractionBatteryCode"
             })
     })
     private Object payload;

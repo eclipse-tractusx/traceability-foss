@@ -62,6 +62,13 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
     private String manufacturerId;
     private String nameAtCustomer;
     private String customerPartId;
+    private String productType;
+    private String tractionBatteryCode;
+
+    @ElementCollection
+    @CollectionTable(name = "traction_battery_code_subcomponent", joinColumns = {@JoinColumn(name = "traction_battery_code")})
+    private List<AssetAsBuiltEntity.tbcsub> subcomponents;
+
 
     @ElementCollection
     @CollectionTable(name = "assets_as_built_childs", joinColumns = {@JoinColumn(name = "asset_as_built_id")})
@@ -79,6 +86,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
 
     public static AssetAsBuiltEntity from(AssetBase asset) {
         ManufacturingInfo manufacturingInfo = ManufacturingInfo.from(asset.getDetailAspectModels());
+        TractionBatteryCode tractionBatteryCodeObj = TractionBatteryCode.from(asset.getDetailAspectModels());
 
         return AssetAsBuiltEntity.builder()
                 .id(asset.getId())
@@ -105,6 +113,9 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                 .classification(asset.getClassification())
                 .inInvestigation(asset.isUnderInvestigation())
                 .semanticDataModel(SemanticDataModelEntity.from(asset.getSemanticDataModel()))
+                .productType(tractionBatteryCodeObj.getProductType())
+                .tractionBatteryCode(tractionBatteryCodeObj.getTractionBatteryCode())
+                .subcomponents(tractionBatteryCodeObj.getSubcomponents())
                 .build();
     }
 
@@ -133,6 +144,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                 .detailAspectModels(DetailAspectModel.from(entity))
                 .qualityAlerts(emptyIfNull(entity.alerts).stream().map(AlertEntity::toDomain).toList())
                 .qualityInvestigations(emptyIfNull(entity.investigations).stream().map(InvestigationEntity::toDomain).toList())
+
                 .build();
     }
 
@@ -167,5 +179,16 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
     public static class ParentDescription {
         private String id;
         private String idShort;
+    }
+
+
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Data
+    @Embeddable
+    public static class tbcsub {
+        private String subcomponentTractionBatteryCode;
+        private String productType;
     }
 }

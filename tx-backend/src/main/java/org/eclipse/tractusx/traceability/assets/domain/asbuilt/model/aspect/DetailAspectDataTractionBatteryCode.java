@@ -16,16 +16,26 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package assets.response.base;
+package org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect;
 
-import assets.response.asbuilt.DetailAspectDataAsBuiltResponse;
-import assets.response.asbuilt.DetailAspectDataTractionBatteryCodeResponse;
-import assets.response.asplanned.DetailAspectDataAsPlannedResponse;
-import assets.response.asplanned.PartSiteInformationAsPlannedResponse;
-import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
+import lombok.Getter;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectData;
 
-@Schema(oneOf = {DetailAspectDataAsBuiltResponse.class, DetailAspectDataAsPlannedResponse.class,
-        PartSiteInformationAsPlannedResponse.class, DetailAspectDataTractionBatteryCodeResponse.class})
-public interface DetailAspectDataResponse {
+import java.util.List;
+
+@Builder
+@Getter
+public class DetailAspectDataTractionBatteryCode implements DetailAspectData {
+    private String productType;
+    private String tractionBatteryCode;
+    private List<DetailAspectDataTractionBatteryCodeSubcomponent> subcomponents;
+
+    @Builder
+    @Getter
+    public static class DetailAspectDataTractionBatteryCodeSubcomponent {
+        private String productType;
+        private String tractionBatteryCode;
+    }
 
 }

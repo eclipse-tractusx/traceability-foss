@@ -28,9 +28,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataAsBuilt;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataTractionBatteryCode;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataAsPlanned;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataPartSiteInformationAsPlanned;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.TractionBatteryCode;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.ManufacturingInformation;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.PartTypeInformation;
@@ -97,7 +99,7 @@ public class DetailAspectModel {
 
     public static List<DetailAspectModel> from(AssetAsBuiltEntity entity) {
 
-        DetailAspectModel detailAspectModel = DetailAspectModel.builder()
+        DetailAspectModel detailAspectModelAsBuilt = DetailAspectModel.builder()
                 .type(DetailAspectType.AS_BUILT)
                 .data(DetailAspectDataAsBuilt.builder()
                         .partId(entity.getManufacturerPartId())
@@ -107,8 +109,23 @@ public class DetailAspectModel {
                         .manufacturingDate(entity.getManufacturingDate() != null ? entity.getManufacturingDate() : null)
                         .build())
                 .build();
+        List<DetailAspectModel> detailAspectModels = new ArrayList<>(List.of(detailAspectModelAsBuilt));
 
-        return List.of(detailAspectModel);
+        if (!entity.getTractionBatteryCode().isEmpty()) {
+            DetailAspectModel detailAspectModelTractionBatteryCode = DetailAspectModel.
+                    builder()
+                    .type(DetailAspectType.TRACTION_BATTERY_CODE)
+                    .data(DetailAspectDataTractionBatteryCode.builder()
+                            .tractionBatteryCode(entity.getTractionBatteryCode())
+                            .productType(entity.getProductType())
+                            .subcomponents(TractionBatteryCode.toDomain(entity))
+                            .build()
+                    ).build();
+
+            detailAspectModels.add(detailAspectModelTractionBatteryCode);
+        }
+
+        return detailAspectModels;
     }
 
     public static List<DetailAspectModel> from(AssetAsPlannedEntity entity) {
@@ -168,5 +185,13 @@ public class DetailAspectModel {
                 .partId(partTypeInformation.manufacturerPartId())
                 .build();
         return DetailAspectModel.builder().data(detailAspectDataAsBuilt).type(DetailAspectType.AS_BUILT).build();
+    }
+
+    public static DetailAspectModel extractDetailAspectDataTractionBatteryCode(DetailAspectDataTractionBatteryCode detailAspectDataTractionBatteryCode) {
+        DetailAspectDataTractionBatteryCode tractionBatteryCode = DetailAspectDataTractionBatteryCode.builder().tractionBatteryCode(detailAspectDataTractionBatteryCode.getTractionBatteryCode())
+                .productType(detailAspectDataTractionBatteryCode.getProductType())
+                .subcomponents(detailAspectDataTractionBatteryCode.getSubcomponents()).build();
+
+        return DetailAspectModel.builder().data(tractionBatteryCode).type(DetailAspectType.TRACTION_BATTERY_CODE).build();
     }
 }
