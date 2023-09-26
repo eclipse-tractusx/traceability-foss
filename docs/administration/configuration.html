@@ -936,6 +936,12 @@ You can define the URLs as well as most of the secrets yourself.</p>
     <span class="na">allowedCorsOriginFirst</span><span class="pi">:</span> <span class="s2">"</span><span class="s">https://replace.me"</span>
     <span class="na">allowedCorsOriginSecond</span><span class="pi">:</span> <span class="s2">"</span><span class="s">https://replace.me"</span>
 
+  <span class="c1">#  required for init containers checking for dependant pod readiness before starting up backend</span>
+  <span class="na">dependencies</span><span class="pi">:</span>
+    <span class="na">enabled</span><span class="pi">:</span> <span class="no">false</span>  <span class="c1"># enable dependency check init containers</span>
+    <span class="na">irs</span><span class="pi">:</span> <span class="s2">"</span><span class="s">CHANGEME"</span>  <span class="c1"># &lt;irs-helm.nameOverride&gt;</span>
+    <span class="na">edc</span><span class="pi">:</span> <span class="s2">"</span><span class="s">CHANGEME"</span>  <span class="c1"># &lt;tractusx-connector.nameOverride</span>
+
 <span class="c1">#########################</span>
 <span class="c1"># PG Admin configuration     #</span>
 <span class="c1">#########################</span>
@@ -1184,7 +1190,7 @@ and <a href="https://cloud.google.com/blog/products/containers-kubernetes/kubern
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-09-15 06:57:12 UTC
+Last updated 2023-09-26 08:21:11 UTC
 </div>
 </div>
 </body>
