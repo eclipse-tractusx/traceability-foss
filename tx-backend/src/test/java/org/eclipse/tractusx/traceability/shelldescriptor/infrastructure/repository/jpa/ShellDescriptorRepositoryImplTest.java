@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -98,6 +99,19 @@ class ShellDescriptorRepositoryImplTest {
 
         // Then
         verify(repository, times(1)).saveAll(anyList());
+    }
+
+    @Test
+    void testSave() {
+        // Given
+        ShellDescriptor descriptors = ShellDescriptor.builder().build();
+        shellDescriptorRepository = new ShellDescriptorRepositoryImpl(repository);
+
+        // When
+        shellDescriptorRepository.save(descriptors);
+
+        // Then
+        verify(repository, times(1)).save(any());
     }
 
     @Test
