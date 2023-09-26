@@ -18,67 +18,54 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.infrastructure.edc.model;
 
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotificationContent;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotificationHeader;
 import org.junit.jupiter.api.Test;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class EdcNotificationModelTest {
 
+
     @Test
-    public void testToStringEDCNotificationHeader() {
+    public void testSanitizeEDCNotification() {
 
         //GIVEN
         EDCNotificationHeader header = new EDCNotificationHeader(
                 "12345", "SenderBPN", "Sender\nAddress", "RecipientBPN",
-                "Classification", "Severity", "Related\nNotificationId",
-                "Status", "2023-09-22", "MessageId"
+                "QM-Investigation", "Severity", "Related\nNotificationId",
+                "CREATED", "2023-09-22T14:30:00Z", "MessageId"
         );
 
-        String expected = "EDCNotificationHeader{" +
-                "notificationId='12345', " +
-                "senderBPN='SenderBPN', " +
-                "senderAddress='Sender Address', " +
-                "recipientBPN='RecipientBPN', " +
-                "classification='Classification', " +
-                "severity='Severity', " +
-                "relatedNotificationId='Related NotificationId', " +
-                "status='Status', " +
-                "targetDate='2023-09-22', " +
-                "messageId='MessageId'}";
-
-        //WHEN
-        String actual = header.toString();
-
-        //THEN
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    public void testToStringEDCNotificationContent() {
-
-        //GIVEN
         List<String> listOfAffectedItems = new ArrayList<>(Arrays.asList("Item1\nItem2", "Item3", "Item4\r\nItem5"));
 
         EDCNotificationContent content = new EDCNotificationContent(
                 "Information\nwith\nline\nbreaks", listOfAffectedItems
         );
 
-        String expected = "EDCNotificationContent{" +
-                "information='Information with line breaks', " +
-                "listOfAffectedItems=[Item1 Item2, Item3, Item4 Item5]" +
-                "}";
+        EDCNotification edcNotification = new EDCNotification(header, content);
+
 
         //WHEN
-        String actual = content.toString();
+        EDCNotification actual = sanitize(edcNotification);
 
         //THEN
-        assertEquals(expected, actual);
+        assertEquals("Sender Address", actual.getSenderAddress());
+        assertEquals("12345", actual.getNotificationId());
+        assertEquals("Related NotificationId", actual.getRelatedNotificationId());
+        assertEquals("Severity", actual.getSeverity());
+        assertEquals("QM-Investigation", actual.convertNotificationType().getValue());
+        assertEquals("CREATED", actual.convertNotificationStatus().name());
+        assertEquals(Instant.parse("2023-09-22T14:30:00Z"), actual.getTargetDate());
+
+
     }
 }
