@@ -28,6 +28,7 @@ import { FormErrorMessageComponent } from '@shared/components/formErrorMessage/f
 import { NotificationOverviewComponent } from '@shared/components/notification-overview/notification-overview.component';
 import { NotificationReasonComponent } from '@shared/components/notification-reason/notification-reason.component';
 import { NotificationUserComponent } from '@shared/components/notification-user/notification-user.component';
+import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
 import { SeveritySelectComponent } from '@shared/components/severity-select/severity-select.component';
 import { SeverityComponent } from '@shared/components/severity/severity.component';
 import { TextWithIconComponent } from '@shared/components/text-with-icon/text-with-icon.component';
@@ -78,6 +79,7 @@ import {ViewSelectorComponent} from "@shared/components/view-selector/view-selec
 @NgModule({
   declarations: [
     ToastContainerComponent,
+    PartsTableComponent,
     ToastMessageComponent,
     BreadcrumbsComponent,
     ButtonComponent,
@@ -165,7 +167,8 @@ import {ViewSelectorComponent} from "@shared/components/view-selector/view-selec
         FormatPartSemanticDataModelToCamelCasePipe,
         FormatPartlistSemanticDataModelToCamelCasePipe,
         BomLifecycleActivatorComponent,
-        ViewSelectorComponent
+        ViewSelectorComponent,
+      PartsTableComponent
     ],
   providers: [
     FormatDatePipe,

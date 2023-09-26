@@ -31,7 +31,7 @@ SPDX-License-Identifier: Apache-2.0
       <ng-container *viewContainer="partsAsBuilt$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
       <ng-template #mainTmp let-parts="view">
         <!-- asBuilt Parts Table-->
-        <app-table class="parts-asBuilt-table"
+        <app-parts-table class="parts-asBuilt-table"
                    [PartsPaginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
                    [labelId]="titleId"
                    [tableConfig]="tableConfigAsBuilt"
@@ -44,7 +44,7 @@ SPDX-License-Identifier: Apache-2.0
                    (multiSelect)="currentSelectedItems$.next($event)"
                    (clickSelectAction)="isAlertOpen$.next(true)"
                    [multiSortList]="tableAsBuiltSortList"
-        ></app-table>
+        ></app-parts-table>
       </ng-template>
       </div>
     </as-split-area>
@@ -54,7 +54,7 @@ SPDX-License-Identifier: Apache-2.0
       <ng-container *viewContainer="partsAsPlanned$ | async; main: myTmp; error: errorTmp; loading: loaderTmp"></ng-container>
       <ng-template #myTmp let-parts="view">
         <!-- asPlanned Parts Table-->
-        <app-table class="parts-asPlanned-table"
+        <app-parts-table class="parts-asPlanned-table"
                    [PartsPaginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
                    [labelId]="titleId"
                    [tableConfig]="tableConfigAsPlanned"
@@ -67,7 +67,7 @@ SPDX-License-Identifier: Apache-2.0
                    (multiSelect)="currentSelectedItems$.next($event)"
                    (clickSelectAction)="isAlertOpen$.next(true)"
                    [multiSortList]="tableAsPlannedSortList"
-        ></app-table>
+        ></app-parts-table>
 
       </ng-template>
       </div>
