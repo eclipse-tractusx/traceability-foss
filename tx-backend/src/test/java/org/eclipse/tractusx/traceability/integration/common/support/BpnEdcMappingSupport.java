@@ -19,8 +19,8 @@
 
 package org.eclipse.tractusx.traceability.integration.common.support;
 
+import bpn.request.BpnMappingRequest;
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
-import org.eclipse.tractusx.traceability.bpn.infrastructure.rest.BpnMappingRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
