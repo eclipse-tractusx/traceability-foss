@@ -62,6 +62,11 @@ public class ShellDescriptorRepositoryImpl implements ShellDescriptorRepository 
     }
 
     @Override
+    public void save(ShellDescriptor descriptor) {
+        repository.save(ShellDescriptorEntity.newEntityFrom(descriptor));
+    }
+
+    @Override
     public void removeDescriptorsByUpdatedBefore(ZonedDateTime now) {
         repository.deleteAllByUpdatedBefore(now);
     }
