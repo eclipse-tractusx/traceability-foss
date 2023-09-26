@@ -19,6 +19,38 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-.about-container {
+.other-parts-container {
   @apply flex flex-col;
+  height: 65vh;
 }
+
+.app-bom-lifecycle-activator-container {
+  grid-column: 1 / span 2; /* This will make it span both columns */
+  width: 100%;
+}
+
+.split-container {
+  height: auto;
+}
+
+.split-container > as-split-area {
+  overflow: hidden;
+}
+
+.supplier-parts-as-built-table-wrapper {
+  max-height: 58vh;
+}
+
+.supplier-parts-as-planned-table-wrapper {
+  max-height: 58vh;
+}
+
+.customer-parts-as-built-table-wrapper {
+  max-height: 58vh;
+}
+
+.customer-parts-as-planned-table-wrapper {
+  max-height: 58vh;
+}
+
+

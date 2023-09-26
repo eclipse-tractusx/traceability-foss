@@ -36,7 +36,7 @@ import java.util.Optional;
 @Repository
 public interface JpaInvestigationRepository extends JpaRepository<InvestigationEntity, Long> {
 
-    Page<InvestigationEntity> findAllBySideEqualsOrderByCreatedDateDesc(NotificationSideBaseEntity investigationSide, Pageable pageable);
+    Page<InvestigationEntity> findAllBySideEquals(NotificationSideBaseEntity investigationSide, Pageable pageable);
 
     long countAllByStatusEquals(NotificationStatusBaseEntity status);
 

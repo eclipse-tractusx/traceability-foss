@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -18,15 +16,26 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.common.config;
 
-public class FeatureFlags {
+import { Component, ElementRef, HostBinding, Input, ViewChild } from '@angular/core';
 
-    public static final String NOTIFICATIONS_ENABLED_PROFILES = ApplicationProfiles.LOCAL + " | " +
-            ApplicationProfiles.INTEGRATION_SPRING_BOOT + " | " +
-            ApplicationProfiles.TESTS + " | " +
-            ApplicationProfiles.DEV;
+type ButtonVariant = 'button' | 'raised' | 'flat' | 'stroked' | 'icon' | 'fab' | 'miniFab';
+@Component({
+  selector: 'app-view-selector',
+  templateUrl: './view-selector.component.html',
+  styleUrls: ['./view-selector.component.scss']
+})
+export class ViewSelectorComponent {
 
-    private FeatureFlags() {
-    }
+  @HostBinding('style.pointer-events') get pEvents(): string {
+    return this.isDisabled ? 'none' : 'auto';
+  }
+
+  @ViewChild('ButtonElement') buttonElement: ElementRef;
+  @Input() color: 'primary' | 'accent' | 'warn';
+  @Input() variant: ButtonVariant = 'flat';
+  @Input() label: string;
+  @Input() isDisabled: boolean = false;
+  @Input() isSelected: boolean;
+
 }

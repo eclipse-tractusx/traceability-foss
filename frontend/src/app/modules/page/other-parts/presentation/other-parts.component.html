@@ -18,8 +18,42 @@ under the License.
 
 SPDX-License-Identifier: Apache-2.0
 -->
+<div class="other-parts-container">
+  <div class="app-bom-lifecycle-activator-container">
+    <app-bom-lifecycle-activator (buttonClickEvent)="handleTableActivationEvent($event)"></app-bom-lifecycle-activator>
+  </div>
+  <as-split direction="horizontal" class="split-container">
+    <as-split-area [size]="this.bomLifecycleSize.asBuiltSize">
+      <p class="large-text">{{'page.asBuiltParts' | i18n }}</p>
+  <mat-tab-group
+    (selectedTabChange)="onTabChange($event)"
+    appTabAsPanel
+    mat-stretch-tabs="false"
+    mat-align-tabs="start"
+  >
+    <mat-tab >
+      <ng-template mat-tab-label>
+        <span [id]="supplierTabLabelId">{{ 'pageOtherParts.tab.supplier' | i18n }} </span>
+      </ng-template>
 
-<div class="about-container">
+      <app-supplier-parts
+      [bomLifecycle]="mainAspectType.AS_BUILT"
+      ></app-supplier-parts>
+    </mat-tab>
+
+    <mat-tab >
+      <ng-template mat-tab-label>
+        <span [id]="customerTabLabelId">{{ 'pageOtherParts.tab.customer' | i18n }} </span>
+      </ng-template>
+
+      <app-customer-parts
+      [bomLifecycle]="mainAspectType.AS_BUILT"
+      ></app-customer-parts>
+    </mat-tab>
+  </mat-tab-group>
+    </as-split-area>
+    <as-split-area [size]="this.bomLifecycleSize.asPlannedSize">
+      <p class="large-text">{{'page.asPlannedParts' | i18n }}</p>
   <mat-tab-group
     (selectedTabChange)="onTabChange($event)"
     appTabAsPanel
@@ -31,7 +65,9 @@ SPDX-License-Identifier: Apache-2.0
         <span [id]="supplierTabLabelId">{{ 'pageOtherParts.tab.supplier' | i18n }} </span>
       </ng-template>
 
-      <app-supplier-parts></app-supplier-parts>
+      <app-supplier-parts
+        [bomLifecycle]="mainAspectType.AS_PLANNED"
+      ></app-supplier-parts>
     </mat-tab>
 
     <mat-tab>
@@ -39,9 +75,13 @@ SPDX-License-Identifier: Apache-2.0
         <span [id]="customerTabLabelId">{{ 'pageOtherParts.tab.customer' | i18n }} </span>
       </ng-template>
 
-      <app-customer-parts></app-customer-parts>
+      <app-customer-parts
+        [bomLifecycle]="mainAspectType.AS_PLANNED"
+      ></app-customer-parts>
     </mat-tab>
   </mat-tab-group>
+    </as-split-area>
+  </as-split>
 
   <app-part-detail [showRelation]="false" [showStartInvestigation]="showStartInvestigationArray[selectedTab]"></app-part-detail>
 </div>

@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -18,15 +16,21 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.common.config;
 
-public class FeatureFlags {
+export interface BomLifecycleSize {
+    asPlannedSize: number,
+    asBuiltSize: number
+}
 
-    public static final String NOTIFICATIONS_ENABLED_PROFILES = ApplicationProfiles.LOCAL + " | " +
-            ApplicationProfiles.INTEGRATION_SPRING_BOOT + " | " +
-            ApplicationProfiles.TESTS + " | " +
-            ApplicationProfiles.DEV;
+export interface BomLifecycleConfig {
+    asPlannedActive: boolean,
+    asBuiltActive: boolean
+}
 
-    private FeatureFlags() {
-    }
+
+export function initialBomLifecycleSize(): BomLifecycleSize{
+    return {
+        asPlannedSize: 50,
+        asBuiltSize: 50
+    };
 }

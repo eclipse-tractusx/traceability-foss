@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -18,15 +16,25 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.common.config;
+.view-selector-container{
+  padding-bottom: 16px;
 
-public class FeatureFlags {
+  button.selected {
+    color: rgb(13, 85, 175) !important;
+    background-color: rgb(212, 227, 254) !important;
+  }
 
-    public static final String NOTIFICATIONS_ENABLED_PROFILES = ApplicationProfiles.LOCAL + " | " +
-            ApplicationProfiles.INTEGRATION_SPRING_BOOT + " | " +
-            ApplicationProfiles.TESTS + " | " +
-            ApplicationProfiles.DEV;
+  button:hover {
+    background-color: rgb(212, 227, 254) !important;
+  }
 
-    private FeatureFlags() {
-    }
+  button {
+    color: rgb(15, 113, 203);
+    text-transform: uppercase;
+    border-radius: 50px !important;
+    padding: 10px 18px !important;
+    margin-right: 16px;
+    background-color: unset!important;
+  }
+
 }

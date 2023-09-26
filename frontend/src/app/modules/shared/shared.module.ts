@@ -37,6 +37,9 @@ import { FormatPaginationSemanticDataModelToCamelCasePipe } from '@shared/pipes/
 import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
 import { FormatPartlistSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-partlist-semantic-data-model-to-camelcase.pipe';
 import { I18NextModule } from 'angular-i18next';
+import {
+  BomLifecycleActivatorComponent
+} from "@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.component";
 import { BaseInputComponent } from './abstraction/baseInput/baseInput.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
@@ -70,6 +73,7 @@ import { StaticIdService } from './service/staticId.service';
 import { TemplateModule } from './template.module';
 import { InputComponent } from '@shared/components/input/input.component';
 import { RequestAlertComponent } from '@shared/components/request-notification/request-alert.component';
+import {ViewSelectorComponent} from "@shared/components/view-selector/view-selector.component";
 
 @NgModule({
   declarations: [
@@ -115,6 +119,8 @@ import { RequestAlertComponent } from '@shared/components/request-notification/r
     SeveritySelectComponent,
     NotificationUserComponent,
     InputComponent,
+    BomLifecycleActivatorComponent,
+    ViewSelectorComponent
   ],
   imports: [TemplateModule, RouterModule, I18NextModule],
     exports: [
@@ -158,6 +164,8 @@ import { RequestAlertComponent } from '@shared/components/request-notification/r
         FlattenObjectPipe,
         FormatPartSemanticDataModelToCamelCasePipe,
         FormatPartlistSemanticDataModelToCamelCasePipe,
+        BomLifecycleActivatorComponent,
+        ViewSelectorComponent
     ],
   providers: [
     FormatDatePipe,
