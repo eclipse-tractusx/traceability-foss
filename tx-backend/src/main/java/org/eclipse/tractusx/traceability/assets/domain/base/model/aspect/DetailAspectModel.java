@@ -27,6 +27,7 @@ import assets.response.base.DetailAspectTypeResponse;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.logging.log4j.util.Strings;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataAsBuilt;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataTractionBatteryCode;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataAsPlanned;
@@ -111,7 +112,7 @@ public class DetailAspectModel {
                 .build();
         List<DetailAspectModel> detailAspectModels = new ArrayList<>(List.of(detailAspectModelAsBuilt));
 
-        if (!entity.getTractionBatteryCode().isEmpty()) {
+        if (!Strings.isEmpty(entity.getTractionBatteryCode())) {
             DetailAspectModel detailAspectModelTractionBatteryCode = DetailAspectModel.
                     builder()
                     .type(DetailAspectType.TRACTION_BATTERY_CODE)
@@ -188,7 +189,9 @@ public class DetailAspectModel {
     }
 
     public static DetailAspectModel extractDetailAspectDataTractionBatteryCode(DetailAspectDataTractionBatteryCode detailAspectDataTractionBatteryCode) {
-        DetailAspectDataTractionBatteryCode tractionBatteryCode = DetailAspectDataTractionBatteryCode.builder().tractionBatteryCode(detailAspectDataTractionBatteryCode.getTractionBatteryCode())
+        DetailAspectDataTractionBatteryCode tractionBatteryCode = DetailAspectDataTractionBatteryCode
+                .builder()
+                .tractionBatteryCode(detailAspectDataTractionBatteryCode.getTractionBatteryCode())
                 .productType(detailAspectDataTractionBatteryCode.getProductType())
                 .subcomponents(detailAspectDataTractionBatteryCode.getSubcomponents()).build();
 

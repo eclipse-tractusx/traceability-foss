@@ -121,14 +121,17 @@ public class SemanticDataModel {
             semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.UNKNOWN);
         }
 
-        DetailAspectModel detailAspectModel = extractDetailAspectModelsAsBuilt(manufacturingInformation, partTypeInformation);
-        DetailAspectModel tractionBatteryCodeAsceptModel = extractDetailAspectDataTractionBatteryCode(detailAspectDataTractionBatteryCode);
+        ArrayList<DetailAspectModel> detailAspectModels = new ArrayList<>();
+        detailAspectModels.add(extractDetailAspectModelsAsBuilt(manufacturingInformation, partTypeInformation));
+        if (detailAspectDataTractionBatteryCode != null) {
+            detailAspectModels.add(extractDetailAspectDataTractionBatteryCode(detailAspectDataTractionBatteryCode));
+        }
 
         return AssetBase.builder()
                 .id(catenaXId())
                 .idShort(defaultValue(shortIds.get(catenaXId())))
                 .semanticModelId(semanticModelId.get())
-                .detailAspectModels(List.of(detailAspectModel, tractionBatteryCodeAsceptModel))
+                .detailAspectModels(detailAspectModels)
                 .manufacturerId(manufacturerId())
                 .manufacturerName(defaultValue(manufacturerName))
                 .nameAtManufacturer(partTypeInformation.nameAtManufacturer())
