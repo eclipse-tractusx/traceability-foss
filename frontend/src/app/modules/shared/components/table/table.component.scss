@@ -177,6 +177,10 @@ tr.error {
   z-index: 1;
 }
 
+.table--header--row {
+  white-space: nowrap;
+}
+
 .table--header {
   padding-bottom: 8px;
 }

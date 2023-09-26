@@ -251,5 +251,9 @@
       "failedClose": "Die Qualitätswarnung konnte nicht abgeschlossen werden, bitte versuchen Sie es erneut.",
       "failedDecline": "Qualitätswarnung konnte nicht abgelehnt werden, bitte versuchen Sie es erneut."
     }
+  },
+  "bomLifecycleActivator": {
+    "asBuilt": "As Built",
+    "asPlanned": "As Planned"
   }
 }

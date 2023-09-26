@@ -254,5 +254,9 @@
       "failedClose": "Alert failed to close, please try again.",
       "failedDecline": "Alert failed to decline, please try again."
     }
+  },
+  "bomLifecycleActivator": {
+    "asBuilt": "As Built",
+    "asPlanned": "As Planned"
   }
 }
