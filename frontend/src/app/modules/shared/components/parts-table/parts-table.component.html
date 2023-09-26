@@ -52,7 +52,15 @@ SPDX-License-Identifier: Apache-2.0
     >
       <!-- TODO: Make Header fixed to top when scrolling -->
       <tr *matHeaderRowDef="tableConfig.displayedColumns" mat-header-row data-testid="table-component--head-row" class="table--header--row"></tr>
+      <tr mat-header-row *matHeaderRowDef=filterConfig></tr>
 
+
+      <ng-container matColumnDef="{{ filter }}" *ngFor="let filter of filterConfig">
+        <th mat-header-cell *matHeaderCellDef>
+          <input *ngIf="filter!=='Filter'" [placeholder]="filter">
+          <span *ngIf="filter==='Filter'">Filter</span>
+        </th>
+      </ng-container>
       <tr
         *matRowDef="let row; columns: tableConfig.displayedColumns"
         [class.loading]="isDataLoading"

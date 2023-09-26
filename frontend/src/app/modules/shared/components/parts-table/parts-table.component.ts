@@ -84,6 +84,24 @@ export class PartsTableComponent {
   @Input() tableHeader: string;
   @Input() multiSortList: TableHeaderSort[];
 
+  public readonly filterConfig: string[] = [
+    'Filter',
+    'b',
+    'c',
+    'd', // nameAtManufacturer
+    'e',
+    'f', // Part number / Batch Number / JIS Number
+    'g',
+    'ga', // --> semanticModel.customerPartId
+    'gb',
+    //'nameAtManufacturer', --> already in name
+    'bd', // --> semanticModel.nameAtCustomer
+    'de',
+    'ff',
+    'aa',
+    'gg',
+  ];
+
   @Input() set paginationData({ page, pageSize, totalItems, content }: Pagination<unknown>) {
     this.totalItems = totalItems;
     this.pageSize = pageSize;
