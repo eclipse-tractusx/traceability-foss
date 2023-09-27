@@ -22,11 +22,11 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.contract.as
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.NotificationMethod;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.NotificationType;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.asset.model.*;
-import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatusCode;
@@ -38,8 +38,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.UUID;
 
-import static org.eclipse.tractusx.traceability.common.config.JsonLdConfigurationTraceX.NAMESPACE_EDC;
 import static org.eclipse.tractusx.traceability.common.config.EdcRestTemplateConfiguration.EDC_REST_TEMPLATE;
+import static org.eclipse.tractusx.traceability.common.config.JsonLdConfigurationTraceX.NAMESPACE_EDC;
+import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitize;
 
 @Slf4j
 @Component
@@ -131,7 +132,7 @@ public class EdcNotificationAssetService {
             return notificationAssetId;
         }
 
-        log.error("Failed to create EDC notification asset for {} method. Body: {}, status: {}", notificationMethodValue, createEdcDataAssetResponse.getBody(), createEdcDataAssetResponse.getStatusCode());
+        log.error("Failed to create EDC notification asset for {} method. Body: {}, status: {}", sanitize(notificationMethodValue), sanitize(createEdcDataAssetResponse.getBody()), sanitize(createEdcDataAssetResponse.getStatusCode().toString()));
 
         throw new CreateEdcAssetException("Failed to create EEC notification asset for %s method".formatted(notificationMethodValue));
     }
