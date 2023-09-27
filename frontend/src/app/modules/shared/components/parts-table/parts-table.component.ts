@@ -28,12 +28,16 @@ import { Pagination } from '@core/model/pagination.model';
 import { RoleService } from '@core/user/role.service';
 import { MenuActionConfig, TableConfig, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
 import { FlattenObjectPipe } from '@shared/pipes/flatten-object.pipe';
+import {
+  MultiSelectAutocompleteComponent
+} from "@shared/components/multi-select-autocomplete/multi-select-autocomplete.component";
+import {FormControl, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-parts-table',
   templateUrl: './parts-table.component.html',
-  styleUrls: ['parts-table.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: [ 'parts-table.component.scss' ],
+  encapsulation: ViewEncapsulation.None,
 })
 export class PartsTableComponent {
   @ViewChild(MatSort) sort: MatSort;
@@ -55,7 +59,7 @@ export class PartsTableComponent {
       action: (data: Record<string, unknown>) => this.selected.emit(data),
     };
 
-    const menuActionsConfig = menuActions ? [viewDetailsMenuAction, ...menuActions] : null;
+    const menuActionsConfig = menuActions ? [ viewDetailsMenuAction, ...menuActions ] : null;
     this._tableConfig = { ...tableConfig, displayedColumns, hasPagination, menuActionsConfig };
   }
 
@@ -84,6 +88,7 @@ export class PartsTableComponent {
   @Input() tableHeader: string;
   @Input() multiSortList: TableHeaderSort[];
 
+
   public readonly filterConfig: string[] = [
     'Filter',
     'b',
@@ -110,10 +115,10 @@ export class PartsTableComponent {
     this.pageIndex = page;
   }
 
-  @Input() set PartsPaginationData({page, pageSize, totalItems, content}: Pagination<unknown>) {
+  @Input() set PartsPaginationData({ page, pageSize, totalItems, content }: Pagination<unknown>) {
     let flatter = new FlattenObjectPipe();
     // modify the content of the partlist so that there are no subobjects
-    let newContent = content.map(part => flatter.transform(part))
+    let newContent = content.map(part => flatter.transform(part));
     this.totalItems = totalItems;
     this.pageSize = pageSize;
     this.dataSource.data = newContent;
@@ -158,14 +163,47 @@ export class PartsTableComponent {
   public isDataLoading: boolean;
   public selectedRow: Record<string, unknown>;
   public isMenuOpen: boolean;
+  public displayedFilter: boolean;
 
   private pageSize: number;
   private sorting: TableHeaderSort;
 
   private _tableConfig: TableConfig;
 
-  constructor(private readonly roleService: RoleService) {}
+  constructor(private readonly roleService: RoleService) {
+  }
 
+  @ViewChild(MultiSelectAutocompleteComponent) multiSelection: MultiSelectAutocompleteComponent;
+
+  options = [
+    {
+      display: 'One',
+      value: '1'
+    }, {
+      display: 'Two',
+      value: '2'
+    }, {
+      display: 'Three',
+      value: '3'
+    }, {
+      display: 'Four',
+      value: '4'
+    }, {
+      display: 'Five',
+      value: '5'
+    }, {
+      display: 'Six',
+      value: '6'
+    }
+  ];
+  profileForm = new FormGroup({
+    selected: new FormControl(['1', '2', '3'])
+  });
+
+
+  onToggleDropdown() {
+    this.multiSelection.toggleDropdown();
+  }
   public areAllRowsSelected(): boolean {
     return this.dataSource.data.every(data => this.isSelected(data));
   }
@@ -197,13 +235,13 @@ export class PartsTableComponent {
   public updateSortingOfData({ active, direction }: Sort): void {
     this.selection.clear();
     this.emitMultiSelect();
-    this.sorting = !direction ? null : ([active, direction] as TableHeaderSort);
+    this.sorting = !direction ? null : ([ active, direction ] as TableHeaderSort);
     this.isDataLoading = true;
     this.configChanged.emit({ page: 0, pageSize: this.pageSize, sorting: this.sorting });
   }
 
   public toggleSelection(row: unknown): void {
-    this.isSelected(row) ? this.removeSelectedValues([row]) : this.addSelectedValues([row]);
+    this.isSelected(row) ? this.removeSelectedValues([ row ]) : this.addSelectedValues([ row ]);
     this.emitMultiSelect();
   }
 
@@ -217,6 +255,11 @@ export class PartsTableComponent {
 
   private emitMultiSelect(): void {
     this.multiSelect.emit(this.selection.selected);
+  }
+
+  public toggleFilter(): void {
+    this.displayedFilter = !this.displayedFilter;
+    console.log(this.displayedFilter);
   }
 
   public isSelected(row: unknown): boolean {

@@ -57,6 +57,7 @@
     "menuDescription": "Aktionsmenü",
     "clearPage": "Markierungen auf dieser Seite aufheben",
     "clearAll": "Alle Markierungen aufheben",
+    "filterTitle": "Filter",,
     "adminColumn": {
       "startDate": "Startdatum",
       "registryLookupStatus": "Status",

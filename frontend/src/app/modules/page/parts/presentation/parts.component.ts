@@ -19,7 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Pagination} from '@core/model/pagination.model';
 import {PartsFacade} from '@page/parts/core/parts.facade';
 import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
@@ -36,7 +36,10 @@ import {StaticIdService} from '@shared/service/staticId.service';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {BomLifecycleSize} from "@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model";
 import {BomLifecycleSettingsService, UserSettingView} from "@shared/service/bom-lifecycle-settings.service";
-
+import {
+    MultiSelectAutocompleteComponent
+} from "@shared/components/multi-select-autocomplete/multi-select-autocomplete.component";
+import {FormControl, FormGroup} from "@angular/forms";
 
 
 @Component({
@@ -45,6 +48,7 @@ import {BomLifecycleSettingsService, UserSettingView} from "@shared/service/bom-
     styleUrls: ['./parts.component.scss'],
 })
 export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
+
 
     public readonly displayedColumnsAsBuilt: string[] = [
         'select',

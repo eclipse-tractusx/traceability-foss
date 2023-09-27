@@ -23,6 +23,13 @@ table {
   @apply font-light;
 }
 
+.filter-row{
+  background-color: red;
+  th{
+    width: 10px!important;
+  }
+}
+
 .table--select-all {
   display: inline-flex;
   align-items: center;
