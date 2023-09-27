@@ -26,7 +26,7 @@ import { InvestigationsService } from '@shared/service/investigations.service';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 
-fdescribe('InvestigationsComponent', () => {
+describe('InvestigationsComponent', () => {
   const renderInvestigations = async () => {
     return await renderComponent(InvestigationsComponent, {
       imports: [InvestigationsModule],
