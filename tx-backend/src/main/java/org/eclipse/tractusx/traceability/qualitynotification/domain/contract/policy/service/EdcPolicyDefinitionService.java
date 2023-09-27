@@ -23,16 +23,11 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.contract.po
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.asset.model.CreateEdcAssetException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.asset.model.OdrlContext;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.contract.model.EdcOperator;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.policy.model.CreateEdcPolicyDefinitionException;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.policy.model.EdcCreatePolicyDefinitionRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.policy.model.EdcPolicy;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.policy.model.EdcPolicyPermission;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.policy.model.EdcPolicyPermissionConstraint;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.policy.model.EdcPolicyPermissionConstraintExpression;
-import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.policy.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatusCode;
@@ -45,8 +40,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 import java.util.UUID;
 
-import static org.eclipse.tractusx.traceability.common.config.JsonLdConfigurationTraceX.NAMESPACE_ODRL;
 import static org.eclipse.tractusx.traceability.common.config.EdcRestTemplateConfiguration.EDC_REST_TEMPLATE;
+import static org.eclipse.tractusx.traceability.common.config.JsonLdConfigurationTraceX.NAMESPACE_ODRL;
+import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitize;
 
 @Slf4j
 @Component
@@ -124,22 +120,22 @@ public class EdcPolicyDefinitionService {
         if (responseCode.value() == 200) {
             return accessPolicyId;
         }
-
-        log.error("Failed to create EDC notification policy definition for notification asset. Body: {}, status: {}", createPolicyDefinitionResponse.getBody(), createPolicyDefinitionResponse.getStatusCode());
+        log.error("Failed to create EDC notification policy definition for notification asset. Body: {}, status: {}", sanitize(createPolicyDefinitionResponse.getBody()), createPolicyDefinitionResponse.getStatusCode());
 
         throw new CreateEdcAssetException("Failed to create EDC notification policy definition for asset");
     }
 
     public void deleteAccessPolicy(String accessPolicyId) {
+        String cleanAccessPolicyId = sanitize(accessPolicyId);
         String deleteUri = UriComponentsBuilder.fromPath(edcProperties.getPolicyDefinitionsPath())
                 .pathSegment("{accessPolicyId}")
-                .buildAndExpand(accessPolicyId)
+                .buildAndExpand(cleanAccessPolicyId)
                 .toUriString();
 
         try {
             restTemplate.delete(deleteUri);
         } catch (RestClientException e) {
-            log.error("Failed to delete EDC notification asset policy {}. Reason: ", accessPolicyId, e);
+            log.error("Failed to delete EDC notification asset policy {}. Reason: ", cleanAccessPolicyId, e);
         }
     }
 }

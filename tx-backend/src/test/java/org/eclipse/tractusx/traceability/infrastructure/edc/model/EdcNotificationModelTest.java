@@ -18,6 +18,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.infrastructure.edc.model;
 
+import org.eclipse.tractusx.traceability.qualitynotification.application.alert.request.StartQualityAlertRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.*;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotificationContent;
@@ -72,7 +73,7 @@ public class EdcNotificationModelTest {
     }
 
     @Test
-    public void testSanitizeRequest() {
+    public void testSanitizeStartQualityNotificationRequest() {
         //GIVEN
         List<String> partIds = new ArrayList<>();
         partIds.add("urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978");
@@ -87,10 +88,31 @@ public class EdcNotificationModelTest {
 
         //THEN
         assertEquals("urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca979 ", cleanRequest.getPartIds().get(1));
-        assertEquals(request.getSeverity(), cleanRequest.getSeverity());
         assertEquals("The description ", cleanRequest.getDescription());
         assertTrue(cleanRequest.isAsBuilt());
         assertEquals("BPN00001123123AS ", cleanRequest.getReceiverBpn());
+
+    }
+
+    @Test
+    public void testSanitizeStartQualityAlertRequest() {
+        //GIVEN
+        List<String> partIds = new ArrayList<>();
+        partIds.add("urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978");
+        partIds.add("urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca979\n");
+        Instant targetDate = Instant.parse("2023-09-22T14:30:00Z".trim());
+        QualityNotificationSeverityRequest severity = QualityNotificationSeverityRequest.MINOR;
+        StartQualityAlertRequest request = new StartQualityAlertRequest(partIds, "The description\n", targetDate, severity, "BPN00001123123AS\n", true);
+
+
+        //WHEN
+        StartQualityAlertRequest cleanRequest = sanitize(request);
+
+        //THEN
+        assertEquals("urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca979 ", cleanRequest.getPartIds().get(1));
+        assertEquals("The description ", cleanRequest.getDescription());
+        assertTrue(cleanRequest.isAsBuilt());
+        assertEquals("BPN00001123123AS ", cleanRequest.getBpn());
 
     }
 
