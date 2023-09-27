@@ -20,8 +20,6 @@ SPDX-License-Identifier: Apache-2.0
 -->
 
 
-<!-- TODO apply styling and positioning on that filter toggle - might be good to use a filter icon somewhere-->
-
 <div [class.mat-elevation-z8]="!noShadow" class="table-wrapper">
     <app-button [variant]="'raised'"
                 [color]="'accent'" (click)="toggleFilter()">{{ 'table.filterTitle' | i18n }}
@@ -66,10 +64,10 @@ SPDX-License-Identifier: Apache-2.0
                 <th class="multi-select-header-cell" mat-header-cell *matHeaderCellDef>
                     <app-multiselect *ngIf="filter!=='Filter'"
                                      [placeholder]="'All'"
-                                     [options]="options"
+                                     [options]="semanticDataModelOptions"
                                      [multiple]='true'
                                      ngDefaultControl
-                                     [formControl]="profileForm.controls['selected']"></app-multiselect>
+                                     [formControl]="filterFormGroup.controls['semanticDataModel']"></app-multiselect>
                     <span class="filter-title" *ngIf="filter==='Filter'">{{ 'table.filterTitle' | i18n }}</span>
                 </th>
             </ng-container>
