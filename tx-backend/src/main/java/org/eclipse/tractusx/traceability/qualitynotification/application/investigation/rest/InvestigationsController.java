@@ -47,16 +47,11 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import qualitynotification.base.response.QualityNotificationIdResponse;
 import qualitynotification.investigation.response.InvestigationResponse;
 
+import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitize;
 import static org.eclipse.tractusx.traceability.qualitynotification.application.validation.UpdateQualityNotificationValidator.validate;
 
 @Profile(FeatureFlags.NOTIFICATIONS_ENABLED_PROFILES)
@@ -128,14 +123,15 @@ public class InvestigationsController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public QualityNotificationIdResponse investigateAssets(@RequestBody @Valid StartQualityNotificationRequest request) {
-        log.info(API_LOG_START + " with params: {}", request);
+        StartQualityNotificationRequest cleanRequest = sanitize(request);
+        log.info(API_LOG_START + " with params: {}", cleanRequest);
         return new QualityNotificationIdResponse(investigationService.start(
-                        request.getPartIds(),
-                        request.getDescription(),
-                        request.getTargetDate(),
-                        request.getSeverity().toDomain(),
-                        request.getReceiverBpn(),
-                        request.isAsBuilt())
+                        cleanRequest.getPartIds(),
+                        cleanRequest.getDescription(),
+                        cleanRequest.getTargetDate(),
+                        cleanRequest.getSeverity().toDomain(),
+                        cleanRequest.getReceiverBpn(),
+                        cleanRequest.isAsBuilt())
                 .value());
     }
 
@@ -486,8 +482,9 @@ public class InvestigationsController {
     @PostMapping("/{investigationId}/close")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void closeInvestigation(@PathVariable Long investigationId, @Valid @RequestBody CloseQualityNotificationRequest closeInvestigationRequest) {
-        log.info(API_LOG_START + "/{}/close with params {}", investigationId, closeInvestigationRequest);
-        investigationService.update(investigationId, QualityNotificationStatusRequest.toDomain(QualityNotificationStatusRequest.CLOSED), closeInvestigationRequest.getReason());
+        CloseQualityNotificationRequest cleanCloseQualityNotificationRequest = sanitize(closeInvestigationRequest);
+        log.info(API_LOG_START + "/{}/close with params {}", investigationId, cleanCloseQualityNotificationRequest);
+        investigationService.update(investigationId, QualityNotificationStatusRequest.toDomain(QualityNotificationStatusRequest.CLOSED), cleanCloseQualityNotificationRequest.getReason());
     }
 
     @Operation(operationId = "updateInvestigation",
@@ -547,9 +544,10 @@ public class InvestigationsController {
     @PostMapping("/{investigationId}/update")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateInvestigation(@PathVariable Long investigationId, @Valid @RequestBody UpdateQualityNotificationRequest updateInvestigationRequest) {
-        validate(updateInvestigationRequest);
-        log.info(API_LOG_START + "/{}/update with params {}", investigationId, updateInvestigationRequest);
-        investigationService.update(investigationId, updateInvestigationRequest.getStatus().toDomain(), updateInvestigationRequest.getReason());
+        UpdateQualityNotificationRequest cleanUpdateQualityNotificationRequest = sanitize(updateInvestigationRequest);
+        validate(cleanUpdateQualityNotificationRequest);
+        log.info(API_LOG_START + "/{}/update with params {}", investigationId, cleanUpdateQualityNotificationRequest);
+        investigationService.update(investigationId, cleanUpdateQualityNotificationRequest.getStatus().toDomain(), cleanUpdateQualityNotificationRequest.getReason());
     }
 }
 
