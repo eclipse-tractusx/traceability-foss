@@ -120,7 +120,7 @@ public class EdcPolicyDefinitionService {
         if (responseCode.value() == 200) {
             return accessPolicyId;
         }
-        log.error("Failed to create EDC notification policy definition for notification asset. Body: {}, status: {}", sanitize(createPolicyDefinitionResponse.getBody()), createPolicyDefinitionResponse.getStatusCode());
+        log.error("Failed to create EDC notification policy definition for notification asset. Body: {}, status: {}", sanitize(createPolicyDefinitionResponse.getBody()), sanitize(createPolicyDefinitionResponse.getStatusCode().toString()));
 
         throw new CreateEdcAssetException("Failed to create EDC notification policy definition for asset");
     }
