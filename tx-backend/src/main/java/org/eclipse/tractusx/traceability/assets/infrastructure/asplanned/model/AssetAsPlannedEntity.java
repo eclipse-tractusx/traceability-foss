@@ -57,6 +57,7 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
     private String functionValidUntil;
     private String function;
     private String functionValidFrom;
+    private String catenaxSiteId;
 
 
     @ElementCollection
@@ -100,12 +101,13 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                 .owner(asset.getOwner())
                 .classification(asset.getClassification())
                 .childDescriptors(asset.getChildRelations().stream()
-                        .map(child -> new AssetAsPlannedEntity.ChildDescription(child.id(), child.idShort()))
+                        .map(child -> new ChildDescription(child.id(), child.idShort()))
                         .toList())
                 .qualityType(asset.getQualityType())
                 .activeAlert(asset.isActiveAlert())
                 .inInvestigation(asset.isUnderInvestigation())
                 .semanticDataModel(SemanticDataModelEntity.from(asset.getSemanticDataModel()))
+                .catenaxSiteId(asPlannedInfo.getCatenaxSiteId())
                 .build();
     }
 
