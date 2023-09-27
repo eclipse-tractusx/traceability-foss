@@ -30,10 +30,12 @@ import type { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
   Notification,
-  NotificationCreateResponse, NotificationResponse,
+  NotificationCreateResponse,
+  NotificationResponse,
   Notifications,
   NotificationsResponse,
   NotificationStatus,
+  NotificationType,
 } from '../model/notification.model';
 
 @Injectable({
@@ -51,7 +53,7 @@ export class AlertsService {
 
     return this.apiService
       .getBy<NotificationsResponse>(`${this.url}/alerts/created`, params)
-      .pipe(map(alerts => NotificationAssembler.assembleNotifications(alerts)));
+      .pipe(map(alerts => NotificationAssembler.assembleNotifications(alerts, NotificationType.ALERT)));
   }
 
   public getReceivedAlerts(page: number, pageSize: number, sorting: TableHeaderSort): Observable<Notifications> {
@@ -60,13 +62,13 @@ export class AlertsService {
 
     return this.apiService
       .getBy<NotificationsResponse>(`${this.url}/alerts/received`, params)
-      .pipe(map(alerts => NotificationAssembler.assembleNotifications(alerts)));
+      .pipe(map(alerts => NotificationAssembler.assembleNotifications(alerts, NotificationType.ALERT)));
   }
 
   public getAlert(id: string): Observable<Notification> {
     return this.apiService
       .get<NotificationResponse>(`${this.url}/alerts/${id}`)
-      .pipe(map(notification => NotificationAssembler.assembleNotification(notification)));
+      .pipe(map(notification => NotificationAssembler.assembleNotification(notification, NotificationType.ALERT)));
   }
 
   public postAlert(partIds: string[], description: string, severity: Severity, bpn: string, isAsBuilt: boolean): Observable<string> {

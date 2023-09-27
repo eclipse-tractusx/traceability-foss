@@ -19,19 +19,19 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {ChangeDetectorRef, Component, ViewChild} from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { getRoute, INVESTIGATION_BASE_ROUTE } from '@core/known-route';
 import { InvestigationDetailFacade } from '@page/investigations/core/investigation-detail.facade';
 import { InvestigationHelperService } from '@page/investigations/core/investigation-helper.service';
+import { NotificationMenuActionsAssembler } from '@shared/assembler/notificationMenuActions.assembler';
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
-import { MenuActionConfig, TableEventConfig } from '@shared/components/table/table.model';
+import { MenuActionConfig, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
 import { NotificationTabInformation } from '@shared/model/notification-tab-information';
-import { Notification } from '@shared/model/notification.model';
+import { Notification, NotificationStatusGroup } from '@shared/model/notification.model';
 import { TranslationContext } from '@shared/model/translation-context.model';
 import { Subscription } from 'rxjs';
 import { InvestigationsFacade } from '../core/investigations.facade';
-import {NotificationMenuActionsAssembler} from "@shared/assembler/notificationMenuActions.assembler";
 
 @Component({
   selector: 'app-investigations',
@@ -44,6 +44,10 @@ export class InvestigationsComponent {
   public readonly investigationsQueuedAndRequested$;
 
   public menuActionsConfig: MenuActionConfig<Notification>[];
+
+  public investigationReceivedSortList: TableHeaderSort[] = [];
+  public investigationQueuedAndRequestedSortList: TableHeaderSort[] = [];
+  private ctrlKeyState: boolean = false;
 
   private paramSubscription: Subscription;
 
@@ -59,13 +63,21 @@ export class InvestigationsComponent {
   ) {
     this.investigationsReceived$ = this.investigationsFacade.investigationsReceived$;
     this.investigationsQueuedAndRequested$ = this.investigationsFacade.investigationsQueuedAndRequested$;
+
+    window.addEventListener('keydown', (event) => {
+      this.ctrlKeyState = event.ctrlKey;
+    });
+    window.addEventListener('keyup', (event) => {
+      this.ctrlKeyState = event.ctrlKey;
+    });
+
   }
 
   public ngOnInit(): void {
     this.paramSubscription = this.route.queryParams.subscribe(params => {
       this.pagination.page = params?.pageNumber;
-      this.investigationsFacade.setReceivedInvestigation(this.pagination.page, this.pagination.pageSize, this.pagination.sorting);
-      this.investigationsFacade.setQueuedAndRequestedInvestigations(this.pagination.page, this.pagination.pageSize, this.pagination.sorting);
+      this.investigationsFacade.setReceivedInvestigation(this.pagination.page, this.pagination.pageSize, this.investigationReceivedSortList);
+      this.investigationsFacade.setQueuedAndRequestedInvestigations(this.pagination.page, this.pagination.pageSize, this.investigationQueuedAndRequestedSortList);
     })
   }
 
@@ -81,12 +93,14 @@ export class InvestigationsComponent {
 
   public onReceivedTableConfigChanged(pagination: TableEventConfig) {
     this.pagination = pagination;
-    this.investigationsFacade.setReceivedInvestigation(this.pagination.page, this.pagination.pageSize, this.pagination.sorting);
+    this.setTableSortingList(pagination.sorting, NotificationStatusGroup.RECEIVED);
+    this.investigationsFacade.setReceivedInvestigation(this.pagination.page, this.pagination.pageSize, this.investigationReceivedSortList);
   }
 
   public onQueuedAndRequestedTableConfigChanged(pagination: TableEventConfig) {
     this.pagination = pagination;
-    this.investigationsFacade.setQueuedAndRequestedInvestigations(this.pagination.page, this.pagination.pageSize, this.pagination.sorting);
+    this.setTableSortingList(pagination.sorting, NotificationStatusGroup.QUEUED_AND_REQUESTED);
+    this.investigationsFacade.setQueuedAndRequestedInvestigations(this.pagination.page, this.pagination.pageSize, this.investigationQueuedAndRequestedSortList);
   }
 
   public openDetailPage(notification: Notification): void {
@@ -100,6 +114,52 @@ export class InvestigationsComponent {
   public handleConfirmActionCompletedEvent() {
     this.ngOnInit();
   }
+
+  private setTableSortingList(sorting: TableHeaderSort, notificationTable: NotificationStatusGroup): void {
+    if(!sorting && (this.investigationReceivedSortList || this.investigationQueuedAndRequestedSortList)) {
+      this.resetTableSortingList(notificationTable);
+      return;
+    }
+
+    if(this.ctrlKeyState) {
+      const [columnName] = sorting;
+      const tableSortList = notificationTable === NotificationStatusGroup.RECEIVED ? this.investigationReceivedSortList : this.investigationQueuedAndRequestedSortList;
+
+      // Find the index of the existing entry with the same first item
+      const index = tableSortList.findIndex(
+        ([itemColumnName]) => itemColumnName === columnName
+      );
+
+      if (index !== -1) {
+        // Replace the existing entry
+        tableSortList[index] = sorting;
+      } else {
+        // Add the new entry if it doesn't exist
+        tableSortList.push(sorting);
+      }
+
+      if(notificationTable === NotificationStatusGroup.RECEIVED) {
+        this.investigationReceivedSortList = tableSortList
+      } else {
+        this.investigationQueuedAndRequestedSortList = tableSortList
+      }
+    }
+    // If CTRL is not pressed just add a list with one entry
+    else if(notificationTable === NotificationStatusGroup.RECEIVED) {
+      this.investigationReceivedSortList = [sorting];
+    } else {
+      this.investigationQueuedAndRequestedSortList = [sorting]
+    }
+  }
+
+  private resetTableSortingList(notificationTable: NotificationStatusGroup): void {
+    if(notificationTable === NotificationStatusGroup.RECEIVED) {
+      this.investigationReceivedSortList = [];
+    } else {
+      this.investigationQueuedAndRequestedSortList= [];
+    }
+  }
+
 
   protected readonly TranslationContext = TranslationContext;
 }

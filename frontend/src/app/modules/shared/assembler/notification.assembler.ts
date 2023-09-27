@@ -27,15 +27,15 @@ import {
   NotificationResponse,
   Notifications,
   NotificationsResponse,
-  NotificationStatus,
+  NotificationStatus, NotificationType,
 } from '../model/notification.model';
 
 export class NotificationAssembler {
-  public static assembleNotifications(response: NotificationsResponse): Notifications {
+  public static assembleNotifications(response: NotificationsResponse, notificationType: NotificationType): Notifications {
     return PaginationAssembler.assemblePagination(NotificationAssembler.assembleNotification, response);
   }
 
-  public static assembleNotification(response: NotificationResponse): Notification {
+  public static assembleNotification(response: NotificationResponse, notificationType: NotificationType): Notification {
     const {
       id = null,
       assetIds = null,
@@ -77,6 +77,7 @@ export class NotificationAssembler {
       createdDate,
       targetDate,
       bpn,
+      notificationType
     };
 
     return errorMessage ? {...assembled, errorMessage: errorMessage} : assembled;
