@@ -23,7 +23,7 @@ import { FormControl } from '@angular/forms';
 @Component({
   selector: 'app-multiselect',
   template: `
-    <mat-form-field>
+   <mat-form-field>
       <mat-select #selectElem [disabled]="disabled" [placeholder]="placeholder" [formControl]="formControl"
                   [multiple]="multiple"
                   [(ngModel)]="selectedValue" (selectionChange)="onSelectionChange($event)">
@@ -46,7 +46,7 @@ import { FormControl } from '@angular/forms';
         </mat-option>
       </mat-select>
       <mat-hint style="color:red" *ngIf="showErrorMsg">{{errorMsg}}</mat-hint>
-    </mat-form-field>
+   </mat-form-field>
   `,
   styles: [
     `

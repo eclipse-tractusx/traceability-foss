@@ -22,11 +22,28 @@ table {
   width: 100%;
   @apply font-light;
 }
+/* Remove grey background of filter selection */
+.mdc-text-field--filled:not(.mdc-text-field--disabled){
+  background-color: unset!important;
+}
+/* Empty block below multi select */
+.mat-mdc-form-field-subscript-wrapper{
+  display:none;
+}
 
+/* Remove border*/
+.mdc-line-ripple::before{
+  border-bottom-width: 0!important;
+}
+
+.mdc-line-ripple::after{
+  border-bottom-width: 0!important;
+
+}
 .filter-row{
-  background-color: red;
+
   th{
-    width: 10px!important;
+
   }
 }
 
