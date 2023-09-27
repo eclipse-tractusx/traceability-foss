@@ -62,9 +62,11 @@ SPDX-License-Identifier: Apache-2.0
 
             <ng-container matColumnDef="{{ filter }}" *ngFor="let filter of displayedColumnsAsBuilt">
                 <th class="multi-select-header-cell" mat-header-cell *matHeaderCellDef>
+                    <!-- todo check how to provide options for text search-->
                     <app-multiselect *ngIf="filter!=='Filter'"
                                      [placeholder]="'All'"
 
+                                     [options]="option"
                                      [multiple]='true'
                                      ngDefaultControl
                                      [formControl]="filterFormGroup.controls[filter]"></app-multiselect>
