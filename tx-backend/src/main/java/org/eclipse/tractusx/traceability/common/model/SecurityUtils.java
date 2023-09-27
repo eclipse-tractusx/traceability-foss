@@ -20,6 +20,7 @@
 package org.eclipse.tractusx.traceability.common.model;
 
 
+import org.eclipse.tractusx.traceability.qualitynotification.application.alert.request.StartQualityAlertRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.CloseQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.StartQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.UpdateQualityNotificationRequest;
@@ -61,6 +62,20 @@ public class SecurityUtils {
                     .receiverBpn(cleanReceiverBpn)
                     .partIds(cleanPartIds)
                     .build();
+    }
+
+    public static StartQualityAlertRequest sanitize(StartQualityAlertRequest request) {
+        String cleanDescription = sanitize(request.getDescription());
+        List<String> cleanPartIds = sanitize(request.getPartIds());
+        String cleanBpn = sanitize(request.getBpn());
+        return StartQualityAlertRequest.builder()
+                .partIds(cleanPartIds)
+                .description(cleanDescription)
+                .targetDate(request.getTargetDate())
+                .severity(request.getSeverity())
+                .bpn(cleanBpn)
+                .isAsBuilt(request.isAsBuilt())
+                .build();
     }
 
     public static CloseQualityNotificationRequest sanitize(CloseQualityNotificationRequest closeInvestigationRequest) {
