@@ -172,21 +172,64 @@ export class PartsTableComponent {
     private _tableConfig: TableConfig;
 
     filterFormGroup = new FormGroup({
-        id: new FormControl([""]),
-        semanticDataModel: new FormControl([SemanticDataModel.BATCH, SemanticDataModel.JUSTINSEQUENCEPART, SemanticDataModel.SERIALPART, SemanticDataModel.PARTASPLANNED, SemanticDataModel.UNKNOWN]),
+        filterId: new FormControl([]),
+        filterIdShort: new FormControl([]),
+        filterName: new FormControl([]),
+        filterManufacturer: new FormControl([]),
+        filterPartId: new FormControl([]),
+        filterManufacturerPartId: new FormControl([]),
+        filterCustomerPartId: new FormControl([]),
+        filterClassification: new FormControl([]),
+        filterNameAtCustomer: new FormControl([]),
+        filterSemanticModelId: new FormControl([]),
+        filterSemanticDataModel: new FormControl([SemanticDataModel.BATCH, SemanticDataModel.JUSTINSEQUENCEPART, SemanticDataModel.SERIALPART, SemanticDataModel.PARTASPLANNED, SemanticDataModel.UNKNOWN]),
+        filterManufacturingDate: new FormControl([]),
+        filterManufacturingCountry: new FormControl([]),
     });
 
-    constructor(private readonly roleService: RoleService) {
-        this.filterFormGroup.get('semanticDataModel').valueChanges.subscribe((selectedValues) => {
-            // This function will be called whenever the 'selected' control's value changes
-            console.log('Selected values changed:', selectedValues);
+    public readonly displayedColumnsAsBuilt: string[] = [
+        'Filter',
+        'filterId',
+        'filterIdShort',
+        'filterName', // nameAtManufacturer
+        'filterManufacturer',
+        'filterPartId', // Part number / Batch Number / JIS Number
+        'filterManufacturerPartId',
+        'filterCustomerPartId', // --> semanticModel.customerPartId
+        'filterClassification',
+        //'nameAtManufacturer', --> already in name
+        'filterNameAtCustomer', // --> semanticModel.nameAtCustomer
+        'filterSemanticModelId',
+        'filterSemanticDataModel',
+        'filterManufacturingDate',
+        'filterManufacturingCountry',
+    ];
 
-            // You can perform any actions you want here based on the new values.
+    constructor(private readonly roleService: RoleService) {
+        this.filterFormGroup.valueChanges.subscribe((formValues) => {
+            // This function will be called whenever any control's value changes within the FormGroup
+            console.log('Form values changed:', formValues);
+
+            // Get both keys and values
+            const keys = Object.keys(formValues);
+            keys.forEach((key) => {
+                const value = formValues[key];
+                console.log('Key:', key, 'Value:', value);
+
+                // You can perform any actions you want here based on the key and value.
+            });
         });
     }
 
     @ViewChild(MultiSelectAutocompleteComponent) multiSelection: MultiSelectAutocompleteComponent;
 
+    option = [
+        {
+            display: '',
+            value: ''
+        }
+
+    ];
     semanticDataModelOptions = [
         {
             display: 'Batch',
