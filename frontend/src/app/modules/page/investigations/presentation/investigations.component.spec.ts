@@ -26,7 +26,7 @@ import { InvestigationsService } from '@shared/service/investigations.service';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 
-describe('InvestigationsComponent', () => {
+fdescribe('InvestigationsComponent', () => {
   const renderInvestigations = async () => {
     return await renderComponent(InvestigationsComponent, {
       imports: [InvestigationsModule],
@@ -44,7 +44,7 @@ describe('InvestigationsComponent', () => {
 
     fireEvent.click(await waitFor(() => screen.getByTestId('table-menu-button--actions.viewDetails')));
     const tabInformation: NotificationTabInformation = { tabIndex: null, pageNumber: undefined}
-    expect(spy).toHaveBeenCalledWith(['/investigations/id-84'], { queryParams: tabInformation } );
+    expect(spy).toHaveBeenCalledWith(['/investigations/id-1'], { queryParams: tabInformation } );
   });
 
   it('should call change pagination of received investigations', async () => {

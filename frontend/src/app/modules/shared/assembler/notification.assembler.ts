@@ -32,10 +32,10 @@ import {
 
 export class NotificationAssembler {
   public static assembleNotifications(response: NotificationsResponse, notificationType: NotificationType): Notifications {
-    return PaginationAssembler.assemblePagination(NotificationAssembler.assembleNotification, response);
+    return PaginationAssembler.assemblePagination(NotificationAssembler.assembleNotification, response, notificationType);
   }
 
-  public static assembleNotification(response: NotificationResponse, notificationType: NotificationType): Notification {
+  public static assembleNotification(response: NotificationResponse, myNotificationType: NotificationType): Notification {
     const {
       id = null,
       assetIds = null,
@@ -63,6 +63,7 @@ export class NotificationAssembler {
     const createdBy = { bpn: _createdBy, name: _createdByName };
     const sendTo = { bpn: _sendTo, name: _sendToName };
     const errorMessage = _errorMessage || undefined;
+    const notificationType = myNotificationType || undefined;
 
     let assembled = {
       id,
