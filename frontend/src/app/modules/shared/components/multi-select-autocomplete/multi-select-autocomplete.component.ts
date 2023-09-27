@@ -196,8 +196,10 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
             this.displayString += displayOption[i][this.display] + ',';
           }
           this.displayString = this.displayString.slice(0, -1);
-          if (this.selectedValue.length > 1) {
-            this.displayString += ` (+${ this.selectedValue.length - this.labelCount } others)`;
+          if (this.selectedValue.length === this.options.length) {
+            this.displayString = 'All';
+          } else if (this.selectedValue.length > 1) {
+            this.displayString += ` (+${this.selectedValue.length - this.labelCount} others)`;
           }
         }
       } else {
