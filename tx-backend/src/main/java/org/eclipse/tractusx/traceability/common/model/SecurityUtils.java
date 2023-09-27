@@ -50,7 +50,6 @@ public class SecurityUtils {
     }
 
     public static StartQualityNotificationRequest sanitize(StartQualityNotificationRequest request) {
-        if (request != null) {
             String cleanDescription = sanitize(request.getDescription());
             String cleanReceiverBpn = sanitize(request.getReceiverBpn());
             List<String> cleanPartIds = sanitize(request.getPartIds());
@@ -62,30 +61,21 @@ public class SecurityUtils {
                     .receiverBpn(cleanReceiverBpn)
                     .partIds(cleanPartIds)
                     .build();
-        }
-        return null;
     }
 
     public static CloseQualityNotificationRequest sanitize(CloseQualityNotificationRequest closeInvestigationRequest) {
-        if (closeInvestigationRequest != null) {
             String cleanReason = sanitize(closeInvestigationRequest.getReason());
             CloseQualityNotificationRequest cleanCloseInvestigationRequest = new CloseQualityNotificationRequest();
             cleanCloseInvestigationRequest.setReason(cleanReason);
             return cleanCloseInvestigationRequest;
-        }
-        return null;
     }
 
     public static UpdateQualityNotificationRequest sanitize(UpdateQualityNotificationRequest updateInvestigationRequest) {
-        if (updateInvestigationRequest != null) {
             String cleanReason = sanitize(updateInvestigationRequest.getReason());
             UpdateQualityNotificationRequest cleanUpdateInvestigationRequest = new UpdateQualityNotificationRequest();
             cleanUpdateInvestigationRequest.setStatus(updateInvestigationRequest.getStatus());
             cleanUpdateInvestigationRequest.setReason(cleanReason);
             return cleanUpdateInvestigationRequest;
-        }
-
-        return null;
     }
 
     public static EDCNotification sanitize(EDCNotification edcNotification) {
