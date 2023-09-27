@@ -131,8 +131,8 @@ public class EdcNotificationAssetService {
         if (responseCode.value() == 200) {
             return notificationAssetId;
         }
-
-        log.error("Failed to create EDC notification asset for {} method. Body: {}, status: {}", notificationMethodValue, sanitize(createEdcDataAssetResponse.getBody()), sanitize(createEdcDataAssetResponse.getStatusCode().toString()));
+        String cleanBody = sanitize(createEdcDataAssetResponse.getBody());
+        log.error("Failed to create EDC notification asset for {} method. Body: {}, status: {}", notificationMethodValue, cleanBody, createEdcDataAssetResponse.getStatusCode());
 
         throw new CreateEdcAssetException("Failed to create EEC notification asset for %s method".formatted(notificationMethodValue));
     }

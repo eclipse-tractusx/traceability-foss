@@ -101,8 +101,8 @@ public class EdcContractDefinitionService {
         if (responseCode.value() == 200) {
             return accessPolicyId;
         }
-
-        log.error("Failed to create EDC contract definition for {} notification asset id. Body: {}, status: {}", notificationAssetId, sanitize(createContractDefinitionResponse.getBody()), sanitize(createContractDefinitionResponse.getStatusCode().toString()));
+        String cleanBody = sanitize(createContractDefinitionResponse.getBody());
+        log.error("Failed to create EDC contract definition for {} notification asset id. Body: {}, status: {}", notificationAssetId, cleanBody, createContractDefinitionResponse.getStatusCode());
 
         throw new CreateEdcAssetException("Failed to create EDC contract definition for %s notification asset id".formatted(notificationAssetId));
     }
