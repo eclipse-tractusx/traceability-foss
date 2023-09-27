@@ -54,16 +54,14 @@ public class SecurityUtils {
             String cleanDescription = sanitize(request.getDescription());
             String cleanReceiverBpn = sanitize(request.getReceiverBpn());
             List<String> cleanPartIds = sanitize(request.getPartIds());
-
-
-            StartQualityNotificationRequest cleanStartQualityNotificationRequest = new StartQualityNotificationRequest();
-            cleanStartQualityNotificationRequest.setDescription(cleanDescription);
-            cleanStartQualityNotificationRequest.setTargetDate(request.getTargetDate());
-            cleanStartQualityNotificationRequest.setSeverity(request.getSeverity());
-            cleanStartQualityNotificationRequest.setAsBuilt(request.isAsBuilt());
-            cleanStartQualityNotificationRequest.setReceiverBpn(cleanReceiverBpn);
-            cleanStartQualityNotificationRequest.setPartIds(cleanPartIds);
-            return cleanStartQualityNotificationRequest;
+            return StartQualityNotificationRequest.builder()
+                    .description(cleanDescription)
+                    .targetDate(request.getTargetDate())
+                    .severity(request.getSeverity())
+                    .isAsBuilt(request.isAsBuilt())
+                    .receiverBpn(cleanReceiverBpn)
+                    .partIds(cleanPartIds)
+                    .build();
         }
         return null;
     }
