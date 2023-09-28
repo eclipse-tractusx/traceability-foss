@@ -60,9 +60,7 @@ export class PartsService {
     let params = new HttpParams()
         .set('page', page)
         .set('size', pageSize)
-        /* TODO backend needs to fix that*/
-     /*   .set('owner', 'OWN')*/
-        .set('filter', 'id,STARTS_WITH,' + filter);
+        .set('filter', 'owner,EQUAL,OWN&filter=id,STARTS_WITH,' + filter);
 
     sort.forEach(sortingItem => {
       params = params.append('sort', sortingItem);

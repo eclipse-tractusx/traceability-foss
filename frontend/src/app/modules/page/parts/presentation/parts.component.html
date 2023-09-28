@@ -67,7 +67,7 @@ SPDX-License-Identifier: Apache-2.0
                    (configChanged)="onAsPlannedTableConfigChange($event)"
                    (multiSelect)="currentSelectedItems$.next($event)"
                    (clickSelectAction)="isAlertOpen$.next(true)"
-                   (filterActivated)="filterActivatedAsPlanned($event)"
+                   (filterActivatedAsPlanned)="filterActivatedAsPlanned($event)"
                    [multiSortList]="tableAsPlannedSortList"
         ></app-parts-table>
 

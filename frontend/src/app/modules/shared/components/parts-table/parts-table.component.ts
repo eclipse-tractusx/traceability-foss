@@ -200,20 +200,20 @@ export class PartsTableComponent {
     ];
 
     public readonly filterConfigurations: any[] = [
-        { name: 'Filter', isTextSearch: true, option: this.optionTextSearch },
-        { name: 'filterId', isTextSearch: true, option: this.optionTextSearch },
-        { name: 'filterIdShort', isTextSearch: true, option: this.optionTextSearch },
-        { name: 'filterName', isTextSearch: true, option: this.optionTextSearch }, // nameAtManufacturer
-        { name: 'filterManufacturer', isTextSearch: true, option: this.optionTextSearch },
-        { name: 'filterPartId', isTextSearch: true, option: this.optionTextSearch }, // Part number / Batch Number / JIS Number
-        { name: 'filterManufacturerPartId', isTextSearch: true, option: this.optionTextSearch },
-        { name: 'filterCustomerPartId', isTextSearch: true, option: this.optionTextSearch }, // --> semanticModel.customerPartId
-        { name: 'filterClassification', isTextSearch: true, option: this.optionTextSearch },
-        { name: 'filterNameAtCustomer', isTextSearch: true, option: this.optionTextSearch }, // --> semanticModel.nameAtCustomer
-        { name: 'filterSemanticModelId', isTextSearch: true, option: this.optionTextSearch },
-        { name: 'filterSemanticDataModel', isTextSearch: false, option: this.semanticDataModelOptions },
-        { name: 'filterManufacturingDate', isTextSearch: true, option: this.optionTextSearch },
-        { name: 'filterManufacturingCountry', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: '', headerKey: 'Filter', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'id', headerKey: 'filterId', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'idShort', headerKey: 'filterIdShort', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'name', headerKey: 'filterName', isTextSearch: true, option: this.optionTextSearch }, // nameAtManufacturer
+        { filterKey: 'manufacturer', headerKey: 'filterManufacturer', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'partId', headerKey: 'filterPartId', isTextSearch: true, option: this.optionTextSearch }, // Part number / Batch Number / JIS Number
+        { filterKey: 'manufacturerPartId', headerKey: 'filterManufacturerPartId', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'customerPartId', headerKey: 'filterCustomerPartId', isTextSearch: true, option: this.optionTextSearch }, // --> semanticModel.customerPartId
+        { filterKey: 'classification', headerKey: 'filterClassification', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'nameAtCustomer', headerKey: 'filterNameAtCustomer', isTextSearch: true, option: this.optionTextSearch }, // --> semanticModel.nameAtCustomer
+        { filterKey: 'semanticModelId', headerKey: 'filterSemanticModelId', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'semanticDataModel', headerKey: 'filterSemanticDataModel', isTextSearch: false, option: this.semanticDataModelOptions },
+        { filterKey: 'manufacturingDate', headerKey: 'filterManufacturingDate', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'manufacturingCountry', headerKey: 'filterManufacturingCountry', isTextSearch: true, option: this.optionTextSearch },
     ];
 
 

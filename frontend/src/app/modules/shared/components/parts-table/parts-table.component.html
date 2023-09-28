@@ -60,18 +60,18 @@ SPDX-License-Identifier: Apache-2.0
                 class="table--header--row"></tr>
             <tr class="filter-row" mat-header-row *matHeaderRowDef="displayedColumnsAsBuilt" [hidden]="displayedFilter"></tr>
 
-            <ng-container matColumnDef="{{ filter.name }}" *ngFor="let filter of filterConfigurations">
+            <ng-container matColumnDef="{{ filter.headerKey }}" *ngFor="let filter of filterConfigurations">
                 <th class="multi-select-header-cell" mat-header-cell *matHeaderCellDef>
                     <!-- todo check how to provide options for text search-->
-                    <app-multiselect *ngIf="filter.name!=='Filter'"
+                    <app-multiselect *ngIf="filter.headerKey!=='Filter'"
                                      [placeholder]="'All'"
-                                     [name]="filter.name"
+                                     [name]="filter.filterKey"
                                      [options]="filter.option"
                                      [multiple]='!filter.isTextSearch'
                                      [textSearch]='filter.isTextSearch'
                                      ngDefaultControl
-                                     [formControl]="filterFormGroup.controls[filter.name]"></app-multiselect>
-                    <span class="filter-title" *ngIf="filter.name==='Filter'">{{ 'table.filterTitle' | i18n }}</span>
+                                     [formControl]="filterFormGroup.controls[filter.headerKey]"></app-multiselect>
+                    <span class="filter-title" *ngIf="filter.headerKey==='Filter'">{{ 'table.filterTitle' | i18n }}</span>
                 </th>
             </ng-container>
 

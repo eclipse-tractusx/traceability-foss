@@ -173,6 +173,8 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
             console.log($event, "filter");
             console.log("received");
             this.partsFacade.setPartsAsBuiltWithFilter(0, 50,[], $event);
+        } else {
+            this.partsFacade.setPartsAsBuilt();
         }
 
     }
