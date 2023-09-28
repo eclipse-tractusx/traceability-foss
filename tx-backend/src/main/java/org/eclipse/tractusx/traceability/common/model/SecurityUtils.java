@@ -20,6 +20,7 @@
 package org.eclipse.tractusx.traceability.common.model;
 
 
+import org.apache.commons.text.StringEscapeUtils;
 import org.eclipse.tractusx.traceability.qualitynotification.application.alert.request.StartQualityAlertRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.CloseQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.StartQualityNotificationRequest;
@@ -32,6 +33,10 @@ import java.util.List;
 import java.util.Objects;
 
 public class SecurityUtils {
+
+    public static String sanitizeHtml(String str) {
+        return StringEscapeUtils.escapeHtml4(str);
+    }
     private static final String UNWANTED_REGEX = "\r\n|\r|\n";
     public static String sanitize(String unSanitizedInput) {
         if (unSanitizedInput != null) {

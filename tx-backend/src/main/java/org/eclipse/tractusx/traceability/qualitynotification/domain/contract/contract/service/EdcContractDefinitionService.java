@@ -40,6 +40,8 @@ import org.springframework.web.client.RestTemplate;
 import static org.eclipse.tractusx.traceability.common.config.EdcRestTemplateConfiguration.EDC_REST_TEMPLATE;
 import static org.eclipse.tractusx.traceability.common.config.JsonLdConfigurationTraceX.NAMESPACE_EDC;
 import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitize;
+import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitizeHtml;
+
 @Slf4j
 @Component
 public class EdcContractDefinitionService {
@@ -101,9 +103,9 @@ public class EdcContractDefinitionService {
         if (responseCode.value() == 200) {
             return accessPolicyId;
         }
-        String cleanBody = sanitize(createContractDefinitionResponse.getBody());
-        String cleanStatus = sanitize(createContractDefinitionResponse.getStatusCode().toString());
-        log.error("Failed to create EDC contract definition for {} notification asset id. Body: {}, status: {}", notificationAssetId, cleanBody, cleanStatus);
+        String bodyWithoutLineBreaks = sanitize(createContractDefinitionResponse.getBody());
+        String cleanBody = sanitizeHtml(bodyWithoutLineBreaks);
+        log.error("Failed to create EDC contract definition for {} notification asset id. Body: {}, status: {}", notificationAssetId, cleanBody, createContractDefinitionResponse.getStatusCode());
 
         throw new CreateEdcAssetException("Failed to create EDC contract definition for %s notification asset id".formatted(notificationAssetId));
     }
