@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {Component, ElementRef, EventEmitter, Input, OnChanges, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
 import {FormControl} from '@angular/forms';
 
 @Component({
@@ -26,7 +26,7 @@ import {FormControl} from '@angular/forms';
     styleUrls: ['multi-select-autocomplete.component.scss']
 })
 
-export class MultiSelectAutocompleteComponent implements OnChanges {
+export class MultiSelectAutocompleteComponent implements OnChanges, OnInit {
 
     @Input()
     placeholder;
@@ -60,15 +60,14 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     @Input()
     appearance = 'standard';
 
-    @ViewChild('searchInput') searchInput: ElementRef;
-
+    @ViewChild('searchInput', {static: true}) searchInput: any;
 
     theSearchElement: string = '';
 
     @Output()
     selectionChange: EventEmitter<any> = new EventEmitter();
 
-    @ViewChild('selectElem') selectElem;
+    @ViewChild('selectElem', {static: true}) selectElem: any;
 
     filteredOptions: Array<any> = [];
     selectedValue: Array<any> = [];
@@ -76,6 +75,28 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     displayString = '';
 
     constructor() {
+    }
+
+    ngOnInit() {
+        console.log("INIT");
+        this.selectElem._handleKeydown = (event: KeyboardEvent) => {
+            console.log("now select");
+
+            if (event.code === "32") {
+                console.log(event.code)
+                return;
+            }
+
+        };
+
+        this.searchInput._handleKeydown = (event: KeyboardEvent) => {
+            console.log("now search");
+            if (event.code === "32") {
+                console.log(event.code)
+                return;
+            }
+
+        };
     }
 
     ngOnChanges() {
@@ -144,11 +165,24 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
         return filteredValues;
     }
 
-    onDisplayString() {
-        //console.log("Name: " + this.name + " isTextSearch " + this.textSearch);
-        if (this.textSearch) {
+    changeSearchTextOption($event) {
+        console.log($event, "event");
+        console.log(this.displayString, "display");
+        console.log(this.theSearchElement, "the search");
+        console.log(this.selectedValue, "the selected value");
+        this.selectedValue = this.theSearchElement as unknown as [];
+    }
 
-            this.displayString = this.theSearchElement;
+    clickClear() {
+        this.searchInput.value = '';
+        this.theSearchElement = '';
+        this.selectedValue = [];
+    }
+
+    onDisplayString() {
+        if (this.textSearch) {
+            this.displayString = '';
+            this.displayString = this.theSearchElement || 'All';
             return this.displayString;
         }
 
