@@ -207,13 +207,7 @@ export class PartsTableComponent {
         filterManufacturingCountry: new FormControl([]),
     });
 
-    optionTextSearch = [
-        {
-            display: 'a',
-            value: 1,
-        }
-
-    ];
+    optionTextSearch = [];
     semanticDataModelOptions = [
         {
             display: 'Batch',

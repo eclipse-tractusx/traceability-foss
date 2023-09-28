@@ -77,6 +77,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     } else if (this.formControl.value) {
       this.selectedValue = this.formControl.value;
     }
+
   }
 
   toggleDropdown() {
