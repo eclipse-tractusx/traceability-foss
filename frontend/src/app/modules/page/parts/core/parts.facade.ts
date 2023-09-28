@@ -52,6 +52,14 @@ export class PartsFacade {
     });
   }
 
+  public setPartsAsBuiltWithFilter(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter: string): void {
+    this.partsAsBuiltSubscription?.unsubscribe();
+    this.partsAsBuiltSubscription = this.partsService.getPartsAsBuiltWithFilter(page, pageSize, sorting, filter).subscribe({
+      next: data => (this.partsState.partsAsBuilt = { data }),
+      error: error => (this.partsState.partsAsBuilt = { error }),
+    });
+  }
+
   public setPartsAsPlanned(page = 0, pageSize = 50, sorting: TableHeaderSort[] = []): void {
     this.partsAsPlannedSubscription?.unsubscribe();
     this.partsAsPlannedSubscription = this.partsService.getPartsAsPlanned(page, pageSize, sorting).subscribe({

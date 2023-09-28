@@ -65,17 +65,6 @@ export class PartsTableComponent {
         this._tableConfig = {...tableConfig, displayedColumns, hasPagination, menuActionsConfig};
     }
 
-    applyFilter(): void {
-        let data = this.dataSource.data.slice(); // Copy the data array
-        for (const key in this.filterValues) {
-            if (this.filterValues.hasOwnProperty(key)) {
-                const filterValue = this.filterValues[key].toLowerCase();
-                data = data.filter((item) => item[key].toLowerCase().includes(filterValue));
-            }
-        }
-        this.dataSource.data = data; // Update the table with filtered data
-    }
-
     get tableConfig(): TableConfig {
         return this._tableConfig;
     }
@@ -90,24 +79,6 @@ export class PartsTableComponent {
     @Input() tableHeader: string;
     @Input() multiSortList: TableHeaderSort[];
 
-
-    public readonly filterConfig: string[] = [
-        'Filter',
-        'b',
-        'c',
-        'd', // nameAtManufacturer
-        'e',
-        'f', // Part number / Batch Number / JIS Number
-        'g',
-        'ga', // --> semanticModel.customerPartId
-        'gb',
-        //'nameAtManufacturer', --> already in name
-        'bd', // --> semanticModel.nameAtCustomer
-        'de',
-        'ff',
-        'aa',
-        'gg',
-    ];
 
     public readonly displayedColumnsAsBuilt: string[] = [
         'Filter',
@@ -174,6 +145,8 @@ export class PartsTableComponent {
     @Output() configChanged = new EventEmitter<TableEventConfig>();
     @Output() multiSelect = new EventEmitter<any[]>();
     @Output() clickSelectAction = new EventEmitter<void>();
+    @Output() filterActivatedAsBuilt = new EventEmitter<any>();
+    @Output() filterActivatedAsPlanned = new EventEmitter<any>();
 
     public readonly dataSource = new MatTableDataSource<unknown>();
     public readonly selection = new SelectionModel<unknown>(true, []);
@@ -201,7 +174,6 @@ export class PartsTableComponent {
         filterClassification: new FormControl([]),
         filterNameAtCustomer: new FormControl([]),
         filterSemanticModelId: new FormControl([]),
-        // SemanticDataModel.BATCH, SemanticDataModel.JUSTINSEQUENCEPART, SemanticDataModel.SERIALPART, SemanticDataModel.PARTASPLANNED, SemanticDataModel.UNKNOWN
         filterSemanticDataModel: new FormControl([]),
         filterManufacturingDate: new FormControl([]),
         filterManufacturingCountry: new FormControl([]),
@@ -248,16 +220,15 @@ export class PartsTableComponent {
 
     constructor(private readonly roleService: RoleService) {
         this.filterFormGroup.valueChanges.subscribe((formValues) => {
-            // This function will be called whenever any control's value changes within the FormGroup
-            console.log('Form values changed:', formValues);
-
-            // Get both keys and values
+                   // Get both keys and values
             const keys = Object.keys(formValues);
             keys.forEach((key) => {
                 const value = formValues[key];
-                console.log('Key:', key, 'Value:', value);
+                if (key === 'filterId' && value){
+                    console.log("EVENT EMITTED with value", value);
+                    this.filterActivatedAsBuilt.emit(value);
+                }
 
-                // You can perform any actions you want here based on the key and value.
             });
         });
     }

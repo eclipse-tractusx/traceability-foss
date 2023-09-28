@@ -55,6 +55,25 @@ export class PartsService {
       .pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_BUILT)));
   }
 
+  public getPartsAsBuiltWithFilter(page: number, pageSize: number, sorting: TableHeaderSort[], filter: string): Observable<Pagination<Part>> {
+    let  sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
+    let params = new HttpParams()
+        .set('page', page)
+        .set('size', pageSize)
+        /* TODO backend needs to fix that*/
+     /*   .set('owner', 'OWN')*/
+        .set('filter', 'id,STARTS_WITH,' + filter);
+
+    sort.forEach(sortingItem => {
+      params = params.append('sort', sortingItem);
+    })
+
+    return this.apiService
+        .getBy<PartsResponse>(`${this.url}/assets/as-built`, params)
+        .pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_BUILT)));
+  }
+
+
   public getPartsAsPlanned(page: number, pageSize: number, sorting: TableHeaderSort[]): Observable<Pagination<Part>> {
     let sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
     let params = new HttpParams()

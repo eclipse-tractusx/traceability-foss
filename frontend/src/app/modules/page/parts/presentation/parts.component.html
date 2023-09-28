@@ -43,6 +43,7 @@ SPDX-License-Identifier: Apache-2.0
                    (configChanged)="onAsBuiltTableConfigChange($event)"
                    (multiSelect)="currentSelectedItems$.next($event)"
                    (clickSelectAction)="isAlertOpen$.next(true)"
+                         (filterActivatedAsBuilt)="filterActivatedAsBuilt($event)"
                    [multiSortList]="tableAsBuiltSortList"
         ></app-parts-table>
       </ng-template>
@@ -66,6 +67,7 @@ SPDX-License-Identifier: Apache-2.0
                    (configChanged)="onAsPlannedTableConfigChange($event)"
                    (multiSelect)="currentSelectedItems$.next($event)"
                    (clickSelectAction)="isAlertOpen$.next(true)"
+                   (filterActivated)="filterActivatedAsPlanned($event)"
                    [multiSortList]="tableAsPlannedSortList"
         ></app-parts-table>
 

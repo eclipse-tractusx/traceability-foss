@@ -140,6 +140,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     private ctrlKeyState = false;
 
 
+
     constructor(
         private readonly partsFacade: PartsFacade,
         private readonly partDetailsFacade: PartDetailsFacade,
@@ -167,6 +168,17 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
         this.partsFacade.setPartsAsPlanned();
     }
 
+    filterActivatedAsBuilt($event: any){
+        if ($event.length > 0){
+            console.log($event, "filter");
+            console.log("received");
+            this.partsFacade.setPartsAsBuiltWithFilter(0, 50,[], $event);
+        }
+
+    }
+    filterActivatedAsPlanned($event: any){
+   // todo
+    }
     public ngAfterViewInit(): void {
         this.tableConfigAsBuilt = {
             displayedColumns: this.displayedColumnsAsBuilt,
