@@ -27,7 +27,7 @@ import {MatSort, Sort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import {Pagination} from '@core/model/pagination.model';
 import {RoleService} from '@core/user/role.service';
-import {SemanticDataModel} from '@page/parts/model/parts.model';
+import {AssetAsBuiltFilter, SemanticDataModel} from '@page/parts/model/parts.model';
 import {
     MultiSelectAutocompleteComponent
 } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
@@ -145,7 +145,7 @@ export class PartsTableComponent {
     @Output() configChanged = new EventEmitter<TableEventConfig>();
     @Output() multiSelect = new EventEmitter<any[]>();
     @Output() clickSelectAction = new EventEmitter<void>();
-    @Output() filterActivatedAsBuilt = new EventEmitter<any>();
+    @Output() filterActivatedAsBuilt = new EventEmitter<AssetAsBuiltFilter>();
     @Output() filterActivatedAsPlanned = new EventEmitter<any>();
 
     public readonly dataSource = new MatTableDataSource<unknown>();
@@ -164,19 +164,19 @@ export class PartsTableComponent {
     private _tableConfig: TableConfig;
 
     filterFormGroup = new FormGroup({
-        filterId: new FormControl([]),
-        filterIdShort: new FormControl([]),
-        filterName: new FormControl([]),
-        filterManufacturer: new FormControl([]),
-        filterPartId: new FormControl([]),
-        filterManufacturerPartId: new FormControl([]),
-        filterCustomerPartId: new FormControl([]),
-        filterClassification: new FormControl([]),
-        filterNameAtCustomer: new FormControl([]),
-        filterSemanticModelId: new FormControl([]),
-        filterSemanticDataModel: new FormControl([]),
-        filterManufacturingDate: new FormControl([]),
-        filterManufacturingCountry: new FormControl([]),
+        id: new FormControl([]),
+        idShort: new FormControl([]),
+        name: new FormControl([]),
+        manufacturer: new FormControl([]),
+        partId: new FormControl([]),
+        manufacturerPartId: new FormControl([]),
+        customerPartId: new FormControl([]),
+        classification: new FormControl([]),
+        nameAtCustomer: new FormControl([]),
+        semanticModelId: new FormControl([]),
+        semanticDataModel: new FormControl([]),
+        manufacturingDate: new FormControl([]),
+        manufacturingCountry: new FormControl([]),
     });
 
     optionTextSearch = [];
@@ -200,42 +200,46 @@ export class PartsTableComponent {
     ];
 
     public readonly filterConfigurations: any[] = [
-        { filterKey: '', headerKey: 'Filter', isTextSearch: true, option: this.optionTextSearch },
-        { filterKey: 'id', headerKey: 'filterId', isTextSearch: true, option: this.optionTextSearch },
-        { filterKey: 'idShort', headerKey: 'filterIdShort', isTextSearch: true, option: this.optionTextSearch },
-        { filterKey: 'name', headerKey: 'filterName', isTextSearch: true, option: this.optionTextSearch }, // nameAtManufacturer
-        { filterKey: 'manufacturer', headerKey: 'filterManufacturer', isTextSearch: true, option: this.optionTextSearch },
-        { filterKey: 'partId', headerKey: 'filterPartId', isTextSearch: true, option: this.optionTextSearch }, // Part number / Batch Number / JIS Number
-        { filterKey: 'manufacturerPartId', headerKey: 'filterManufacturerPartId', isTextSearch: true, option: this.optionTextSearch },
-        { filterKey: 'customerPartId', headerKey: 'filterCustomerPartId', isTextSearch: true, option: this.optionTextSearch }, // --> semanticModel.customerPartId
-        { filterKey: 'classification', headerKey: 'filterClassification', isTextSearch: true, option: this.optionTextSearch },
-        { filterKey: 'nameAtCustomer', headerKey: 'filterNameAtCustomer', isTextSearch: true, option: this.optionTextSearch }, // --> semanticModel.nameAtCustomer
-        { filterKey: 'semanticModelId', headerKey: 'filterSemanticModelId', isTextSearch: true, option: this.optionTextSearch },
-        { filterKey: 'semanticDataModel', headerKey: 'filterSemanticDataModel', isTextSearch: false, option: this.semanticDataModelOptions },
-        { filterKey: 'manufacturingDate', headerKey: 'filterManufacturingDate', isTextSearch: true, option: this.optionTextSearch },
-        { filterKey: 'manufacturingCountry', headerKey: 'filterManufacturingCountry', isTextSearch: true, option: this.optionTextSearch },
+        {filterKey: '', headerKey: 'Filter', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'id', headerKey: 'filterId', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'idShort', headerKey: 'filterIdShort', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'nameAtManufacturer', headerKey: 'filterName', isTextSearch: true, option: this.optionTextSearch}, // nameAtManufacturer
+        {filterKey: 'businessPartner', headerKey: 'filterManufacturer', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'manufacturerPartId', headerKey: 'filterPartId', isTextSearch: true, option: this.optionTextSearch}, // Part number / Batch Number / JIS Number
+        {filterKey: 'manufacturerPartId', headerKey: 'filterManufacturerPartId', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'customerPartId', headerKey: 'filterCustomerPartId', isTextSearch: true, option: this.optionTextSearch}, // --> semanticModel.customerPartId
+        {filterKey: 'classification', headerKey: 'filterClassification', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'nameAtCustomer', headerKey: 'filterNameAtCustomer', isTextSearch: true, option: this.optionTextSearch}, // --> semanticModel.nameAtCustomer
+        {filterKey: 'semanticModelId', headerKey: 'filterSemanticModelId', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'semanticDataModel', headerKey: 'filterSemanticDataModel', isTextSearch: false, option: this.semanticDataModelOptions},
+        {filterKey: 'manufacturingDate', headerKey: 'filterManufacturingDate', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'manufacturingCountry', headerKey: 'filterManufacturingCountry', isTextSearch: true, option: this.optionTextSearch},
     ];
-
 
 
     constructor(private readonly roleService: RoleService) {
         this.filterFormGroup.valueChanges.subscribe((formValues) => {
-                   // Get both keys and values
-            const keys = Object.keys(formValues);
-            keys.forEach((key) => {
-                const value = formValues[key];
-                if (key === 'filterId' && value){
-                    console.log("EVENT EMITTED with value", value);
-                    this.filterActivatedAsBuilt.emit(value);
-                }
+            const transformedFilter: AssetAsBuiltFilter = {};
 
-            });
+            // Loop through each form control and add it to the transformedFilter if it has a non-null and non-undefined value
+            for (const key in formValues) {
+                if (formValues[key] !== null && formValues[key] !== undefined) {
+                    transformedFilter[key] = formValues[key];
+                }
+            }
+
+            // Default value for semanticDataModel if not provided
+            if (!transformedFilter.semanticDataModel) {
+                transformedFilter.semanticDataModel = SemanticDataModel.UNKNOWN;
+            }
+
+
+            this.filterActivatedAsBuilt.emit(transformedFilter);
+
         });
     }
 
     @ViewChild(MultiSelectAutocompleteComponent) multiSelection: MultiSelectAutocompleteComponent;
-
-
 
 
     onToggleDropdown() {

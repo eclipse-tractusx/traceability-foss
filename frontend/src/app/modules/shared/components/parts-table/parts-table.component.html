@@ -58,7 +58,8 @@ SPDX-License-Identifier: Apache-2.0
             <!-- TODO: Make Header fixed to top when scrolling -->
             <tr *matHeaderRowDef="tableConfig.displayedColumns" mat-header-row data-testid="table-component--head-row"
                 class="table--header--row"></tr>
-            <tr class="filter-row" mat-header-row *matHeaderRowDef="displayedColumnsAsBuilt" [hidden]="displayedFilter"></tr>
+            <tr class="filter-row" mat-header-row *matHeaderRowDef="displayedColumnsAsBuilt"
+                [hidden]="displayedFilter"></tr>
 
             <ng-container matColumnDef="{{ filter.headerKey }}" *ngFor="let filter of filterConfigurations">
                 <th class="multi-select-header-cell" mat-header-cell *matHeaderCellDef>
@@ -70,8 +71,9 @@ SPDX-License-Identifier: Apache-2.0
                                      [multiple]='!filter.isTextSearch'
                                      [textSearch]='filter.isTextSearch'
                                      ngDefaultControl
-                                     [formControl]="filterFormGroup.controls[filter.headerKey]"></app-multiselect>
-                    <span class="filter-title" *ngIf="filter.headerKey==='Filter'">{{ 'table.filterTitle' | i18n }}</span>
+                                     [formControl]="filterFormGroup.controls[filter.filterKey]"></app-multiselect>
+                    <span class="filter-title"
+                          *ngIf="filter.headerKey==='Filter'">{{ 'table.filterTitle' | i18n }}</span>
                 </th>
             </ng-container>
 

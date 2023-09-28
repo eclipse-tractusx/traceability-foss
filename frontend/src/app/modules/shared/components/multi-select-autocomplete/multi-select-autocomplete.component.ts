@@ -74,44 +74,22 @@ export class MultiSelectAutocompleteComponent implements OnChanges, OnInit {
     selectAllChecked = false;
     displayString = '';
 
-    constructor() {
-    }
-
     ngOnInit() {
-        console.log("INIT");
         this.selectElem._handleKeydown = (event: KeyboardEvent) => {
-            console.log("now select");
-
             if (event.code === "32") {
                 console.log(event.code)
                 return;
             }
-
-        };
-
-        this.searchInput._handleKeydown = (event: KeyboardEvent) => {
-            console.log("now search");
-            if (event.code === "32") {
-                console.log(event.code)
-                return;
-            }
-
         };
     }
 
     ngOnChanges() {
-        console.log("trigger on change");
-
         this.filteredOptions = this.options;
-        if (!this.filteredOptions) {
-            console.log("options empty");
-        }
         if (this.selectedOptions) {
             this.selectedValue = this.selectedOptions;
         } else if (this.formControl.value) {
             this.selectedValue = this.formControl.value;
         }
-
     }
 
     toggleDropdown() {
@@ -165,11 +143,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges, OnInit {
         return filteredValues;
     }
 
-    changeSearchTextOption($event) {
-        console.log($event, "event");
-        console.log(this.displayString, "display");
-        console.log(this.theSearchElement, "the search");
-        console.log(this.selectedValue, "the selected value");
+    changeSearchTextOption() {
         this.selectedValue = this.theSearchElement as unknown as [];
     }
 
@@ -225,7 +199,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges, OnInit {
 
     onSelectionChange(val, textSearch) {
 
-        console.log("selection change");
         const filteredValues = this.getFilteredOptionsValues();
         let count = 0;
         if (this.multiple) {

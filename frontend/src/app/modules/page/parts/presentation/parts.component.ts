@@ -19,11 +19,11 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import {Pagination} from '@core/model/pagination.model';
 import {PartsFacade} from '@page/parts/core/parts.facade';
 import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
-import {Part} from '@page/parts/model/parts.model';
+import {AssetAsBuiltFilter, Part} from '@page/parts/model/parts.model';
 import {
     CreateHeaderFromColumns,
     TableConfig,
@@ -36,10 +36,6 @@ import {StaticIdService} from '@shared/service/staticId.service';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {BomLifecycleSize} from "@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model";
 import {BomLifecycleSettingsService, UserSettingView} from "@shared/service/bom-lifecycle-settings.service";
-import {
-    MultiSelectAutocompleteComponent
-} from "@shared/components/multi-select-autocomplete/multi-select-autocomplete.component";
-import {FormControl, FormGroup} from "@angular/forms";
 
 
 @Component({
@@ -140,7 +136,6 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     private ctrlKeyState = false;
 
 
-
     constructor(
         private readonly partsFacade: PartsFacade,
         private readonly partDetailsFacade: PartDetailsFacade,
@@ -168,19 +163,25 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
         this.partsFacade.setPartsAsPlanned();
     }
 
-    filterActivatedAsBuilt($event: any){
-        if ($event.length > 0){
-            console.log($event, "filter");
-            console.log("received");
-            this.partsFacade.setPartsAsBuiltWithFilter(0, 50,[], $event);
+    filterActivatedAsBuilt(assetAsBuiltFilter: AssetAsBuiltFilter) {
+        // Check if any property in the filter object has a value
+        const filterIsSet = Object.values(assetAsBuiltFilter).some(value => value !== undefined && value !== null);
+
+        if (filterIsSet) {
+            console.log("Filter is set");
+            // Your logic when the filter is set
+            this.partsFacade.setPartsAsBuiltWithFilter(0, 50, [], assetAsBuiltFilter);
         } else {
+            console.log("Filter is not set");
+            // Your logic when the filter is not set
             this.partsFacade.setPartsAsBuilt();
         }
+    }
 
+    filterActivatedAsPlanned($event: any) {
+        // todo
     }
-    filterActivatedAsPlanned($event: any){
-   // todo
-    }
+
     public ngAfterViewInit(): void {
         this.tableConfigAsBuilt = {
             displayedColumns: this.displayedColumnsAsBuilt,
