@@ -49,7 +49,6 @@ export class InvestigationsService {
 
   public getCreatedInvestigations(page: number, pageSize: number, sorting: TableHeaderSort[]): Observable<Notifications> {
     let sort = sorting.length ? sorting : ['createdDate,desc'];
-    console.log(sort);
     let params = new HttpParams()
       .set('page', page)
       .set('size', pageSize)
@@ -57,9 +56,6 @@ export class InvestigationsService {
     sort.forEach(sortingItem => {
       params = params.append('sort', sortingItem);
     })
-
-    console.log(params);
-
 
     return this.apiService
       .getBy<NotificationsResponse>(`${this.url}/investigations/created`, params)
