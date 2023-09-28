@@ -65,9 +65,10 @@ SPDX-License-Identifier: Apache-2.0
                     <!-- todo check how to provide options for text search-->
                     <app-multiselect *ngIf="filter.name!=='Filter'"
                                      [placeholder]="'All'"
+                                     [name]="filter.name"
                                      [options]="filter.option"
-                                     [multiple]='true'
-                                     [textSearch]='true'
+                                     [multiple]='!filter.isTextSearch'
+                                     [textSearch]='filter.isTextSearch'
                                      ngDefaultControl
                                      [formControl]="filterFormGroup.controls[filter.name]"></app-multiselect>
                     <span class="filter-title" *ngIf="filter.name==='Filter'">{{ 'table.filterTitle' | i18n }}</span>
