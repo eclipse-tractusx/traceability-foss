@@ -23,8 +23,6 @@ import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBu
 import org.eclipse.tractusx.traceability.common.mapper.NotificationMessageMapper;
 import org.eclipse.tractusx.traceability.common.mapper.QualityNotificationMapper;
 import org.eclipse.tractusx.traceability.common.model.BPN;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotificationFactory;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationAffectedPart;
@@ -33,6 +31,8 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.service.InvestigationsReceiverService;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotificationFactory;
 import org.eclipse.tractusx.traceability.testdata.InvestigationTestDataFactory;
 import org.eclipse.tractusx.traceability.testdata.NotificationTestDataFactory;
 import org.junit.jupiter.api.DisplayName;
@@ -80,10 +80,10 @@ class InvestigationsReceiverServiceTest {
         QualityNotificationMessage notification = QualityNotificationMessage.builder()
                 .id("123")
                 .notificationReferenceId("id123")
-                .senderBpnNumber("senderBPN")
-                .senderManufacturerName("senderManufacturerName")
-                .receiverBpnNumber("recipientBPN")
-                .receiverManufacturerName("receiverManufacturerName")
+                .createdBy("senderBPN")
+                .createdByName("senderManufacturerName")
+                .sendTo("recipientBPN")
+                .sendToName("receiverManufacturerName")
                 .edcUrl("senderAddress")
                 .contractAgreementId("agreement")
                 .description("123")
@@ -123,10 +123,10 @@ class InvestigationsReceiverServiceTest {
         QualityNotificationMessage notification = QualityNotificationMessage.builder()
                 .id("123")
                 .notificationReferenceId("id123")
-                .senderBpnNumber("senderBPN")
-                .senderManufacturerName("senderManufacturerName")
-                .receiverBpnNumber("recipientBPN")
-                .receiverManufacturerName("receiverManufacturerName")
+                .createdBy("senderBPN")
+                .createdByName("senderManufacturerName")
+                .sendTo("recipientBPN")
+                .sendToName("receiverManufacturerName")
                 .edcUrl("senderAddress")
                 .contractAgreementId("agreement")
                 .description("123")
@@ -165,10 +165,10 @@ class InvestigationsReceiverServiceTest {
         QualityNotificationMessage notification = QualityNotificationMessage.builder()
                 .id("123")
                 .notificationReferenceId("id123")
-                .senderBpnNumber("senderBPN")
-                .senderManufacturerName("senderManufacturerName")
-                .receiverBpnNumber("recipientBPN")
-                .receiverManufacturerName("receiverManufacturerName")
+                .createdBy("senderBPN")
+                .createdByName("senderManufacturerName")
+                .sendTo("recipientBPN")
+                .sendToName("receiverManufacturerName")
                 .edcUrl("senderAddress")
                 .contractAgreementId("agreement")
                 .description("123")
@@ -206,10 +206,10 @@ class InvestigationsReceiverServiceTest {
         QualityNotificationMessage notification = QualityNotificationMessage.builder()
                 .id("123")
                 .notificationReferenceId("id123")
-                .senderBpnNumber("senderBPN")
-                .senderManufacturerName("senderManufacturerName")
-                .receiverBpnNumber("recipientBPN")
-                .receiverManufacturerName("receiverManufacturerName")
+                .createdBy("senderBPN")
+                .createdByName("senderManufacturerName")
+                .sendTo("recipientBPN")
+                .sendToName("receiverManufacturerName")
                 .edcUrl("senderAddress")
                 .contractAgreementId("agreement")
                 .description("123")
@@ -247,10 +247,10 @@ class InvestigationsReceiverServiceTest {
         QualityNotificationMessage notification = QualityNotificationMessage.builder()
                 .id("123")
                 .notificationReferenceId("id123")
-                .senderBpnNumber("senderBPN")
-                .senderManufacturerName("senderManufacturerName")
-                .receiverBpnNumber("recipientBPN")
-                .receiverManufacturerName("receiverManufacturerName")
+                .createdBy("senderBPN")
+                .createdByName("senderManufacturerName")
+                .sendTo("recipientBPN")
+                .sendToName("receiverManufacturerName")
                 .edcUrl("senderAddress")
                 .contractAgreementId("agreement")
                 .description("123")
