@@ -44,7 +44,7 @@ describe('InvestigationsComponent', () => {
 
     fireEvent.click(await waitFor(() => screen.getByTestId('table-menu-button--actions.viewDetails')));
     const tabInformation: NotificationTabInformation = { tabIndex: null, pageNumber: undefined}
-    expect(spy).toHaveBeenCalledWith(['/investigations/id-1'], { queryParams: tabInformation } );
+    expect(spy).toHaveBeenCalledWith(['/investigations/id-84'], { queryParams: tabInformation } );
   });
 
   it('should call change pagination of received investigations', async () => {

@@ -47,7 +47,7 @@ export class AlertsService {
   constructor(private readonly apiService: ApiService) {}
 
   public getCreatedAlerts(page: number, pageSize: number, sorting: TableHeaderSort[]): Observable<Notifications> {
-    let sort = sorting ? sorting : ['createdDate','desc'];
+    let sort = sorting.length ? sorting : ['createdDate,desc'];
     let params = new HttpParams()
       .set('page', page)
       .set('size', pageSize)
@@ -62,7 +62,7 @@ export class AlertsService {
   }
 
   public getReceivedAlerts(page: number, pageSize: number, sorting: TableHeaderSort[]): Observable<Notifications> {
-    let sort = sorting ? sorting : ['createdDate','desc'];
+    let sort = sorting.length ? sorting : ['createdDate,desc'];
     let params = new HttpParams()
       .set('page', page)
       .set('size', pageSize)
