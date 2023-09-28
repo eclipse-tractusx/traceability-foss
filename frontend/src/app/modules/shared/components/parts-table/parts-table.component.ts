@@ -34,6 +34,7 @@ import {
 import {MenuActionConfig, TableConfig, TableEventConfig, TableHeaderSort} from '@shared/components/table/table.model';
 import {FlattenObjectPipe} from '@shared/pipes/flatten-object.pipe';
 
+
 @Component({
     selector: 'app-parts-table',
     templateUrl: './parts-table.component.html',
@@ -106,6 +107,24 @@ export class PartsTableComponent {
         'ff',
         'aa',
         'gg',
+    ];
+
+    public readonly displayedColumnsAsBuilt: string[] = [
+        'Filter',
+        'filterId',
+        'filterIdShort',
+        'filterName', // nameAtManufacturer
+        'filterManufacturer',
+        'filterPartId', // Part number / Batch Number / JIS Number
+        'filterManufacturerPartId',
+        'filterCustomerPartId', // --> semanticModel.customerPartId
+        'filterClassification',
+        //'nameAtManufacturer', --> already in name
+        'filterNameAtCustomer', // --> semanticModel.nameAtCustomer
+        'filterSemanticModelId',
+        'filterSemanticDataModel',
+        'filterManufacturingDate',
+        'filterManufacturingCountry',
     ];
 
     @Input() set paginationData({page, pageSize, totalItems, content}: Pagination<unknown>) {
@@ -182,51 +201,16 @@ export class PartsTableComponent {
         filterClassification: new FormControl([]),
         filterNameAtCustomer: new FormControl([]),
         filterSemanticModelId: new FormControl([]),
-        filterSemanticDataModel: new FormControl([SemanticDataModel.BATCH, SemanticDataModel.JUSTINSEQUENCEPART, SemanticDataModel.SERIALPART, SemanticDataModel.PARTASPLANNED, SemanticDataModel.UNKNOWN]),
+        // SemanticDataModel.BATCH, SemanticDataModel.JUSTINSEQUENCEPART, SemanticDataModel.SERIALPART, SemanticDataModel.PARTASPLANNED, SemanticDataModel.UNKNOWN
+        filterSemanticDataModel: new FormControl([]),
         filterManufacturingDate: new FormControl([]),
         filterManufacturingCountry: new FormControl([]),
     });
 
-    public readonly displayedColumnsAsBuilt: string[] = [
-        'Filter',
-        'filterId',
-        'filterIdShort',
-        'filterName', // nameAtManufacturer
-        'filterManufacturer',
-        'filterPartId', // Part number / Batch Number / JIS Number
-        'filterManufacturerPartId',
-        'filterCustomerPartId', // --> semanticModel.customerPartId
-        'filterClassification',
-        //'nameAtManufacturer', --> already in name
-        'filterNameAtCustomer', // --> semanticModel.nameAtCustomer
-        'filterSemanticModelId',
-        'filterSemanticDataModel',
-        'filterManufacturingDate',
-        'filterManufacturingCountry',
-    ];
-
-    constructor(private readonly roleService: RoleService) {
-        this.filterFormGroup.valueChanges.subscribe((formValues) => {
-            // This function will be called whenever any control's value changes within the FormGroup
-            console.log('Form values changed:', formValues);
-
-            // Get both keys and values
-            const keys = Object.keys(formValues);
-            keys.forEach((key) => {
-                const value = formValues[key];
-                console.log('Key:', key, 'Value:', value);
-
-                // You can perform any actions you want here based on the key and value.
-            });
-        });
-    }
-
-    @ViewChild(MultiSelectAutocompleteComponent) multiSelection: MultiSelectAutocompleteComponent;
-
-    option = [
+    optionTextSearch = [
         {
-            display: '',
-            value: ''
+            display: 'a',
+            value: 1,
         }
 
     ];
@@ -248,6 +232,45 @@ export class PartsTableComponent {
             value: SemanticDataModel.PARTASPLANNED,
         },
     ];
+
+    public readonly filterConfigurations: any[] = [
+        { name: 'Filter', isTextSearch: true, option: this.optionTextSearch },
+        { name: 'filterId', isTextSearch: true, option: this.optionTextSearch },
+        { name: 'filterIdShort', isTextSearch: true, option: this.optionTextSearch },
+        { name: 'filterName', isTextSearch: true, option: this.optionTextSearch }, // nameAtManufacturer
+        { name: 'filterManufacturer', isTextSearch: true, option: this.optionTextSearch },
+        { name: 'filterPartId', isTextSearch: true, option: this.optionTextSearch }, // Part number / Batch Number / JIS Number
+        { name: 'filterManufacturerPartId', isTextSearch: true, option: this.optionTextSearch },
+        { name: 'filterCustomerPartId', isTextSearch: true, option: this.optionTextSearch }, // --> semanticModel.customerPartId
+        { name: 'filterClassification', isTextSearch: true, option: this.optionTextSearch },
+        { name: 'filterNameAtCustomer', isTextSearch: true, option: this.optionTextSearch }, // --> semanticModel.nameAtCustomer
+        { name: 'filterSemanticModelId', isTextSearch: true, option: this.optionTextSearch },
+        { name: 'filterSemanticDataModel', isTextSearch: false, option: this.semanticDataModelOptions },
+        { name: 'filterManufacturingDate', isTextSearch: true, option: this.optionTextSearch },
+        { name: 'filterManufacturingCountry', isTextSearch: true, option: this.optionTextSearch },
+    ];
+
+
+
+    constructor(private readonly roleService: RoleService) {
+        this.filterFormGroup.valueChanges.subscribe((formValues) => {
+            // This function will be called whenever any control's value changes within the FormGroup
+            console.log('Form values changed:', formValues);
+
+            // Get both keys and values
+            const keys = Object.keys(formValues);
+            keys.forEach((key) => {
+                const value = formValues[key];
+                console.log('Key:', key, 'Value:', value);
+
+                // You can perform any actions you want here based on the key and value.
+            });
+        });
+    }
+
+    @ViewChild(MultiSelectAutocompleteComponent) multiSelection: MultiSelectAutocompleteComponent;
+
+
 
 
     onToggleDropdown() {
@@ -328,4 +351,6 @@ export class PartsTableComponent {
 
         this.selection.deselect(...rowsToDelete);
     }
+
+    protected readonly name = name;
 }
