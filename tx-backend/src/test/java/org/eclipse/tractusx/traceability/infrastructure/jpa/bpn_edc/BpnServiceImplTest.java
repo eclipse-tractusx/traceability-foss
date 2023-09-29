@@ -19,10 +19,11 @@
 
 package org.eclipse.tractusx.traceability.infrastructure.jpa.bpn_edc;
 
+import bpn.request.BpnMappingRequest;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnNotFoundException;
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
-import org.eclipse.tractusx.traceability.bpn.domain.service.BpnService;
-import org.eclipse.tractusx.traceability.bpn.infrastructure.rest.BpnMappingRequest;
+import org.eclipse.tractusx.traceability.bpn.domain.service.BpnServiceImpl;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,19 +40,19 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class BpnServiceTest {
+class BpnServiceImplTest {
 
     @Mock
     private BpnRepository bpnRepositoryMock;
 
     @InjectMocks
-    private BpnService bpnService;
+    private BpnServiceImpl bpnServiceImpl;
 
 
     @Test
     @DisplayName("Test getBpnEdcMappings")
     void testGetBpnEdcMappings() {
-        bpnService.findAllBpnMappings();
+        bpnServiceImpl.findAllBpnMappings();
         verify(bpnRepositoryMock, times(1)).findAllWhereUrlNotNull();
     }
 
@@ -61,7 +62,7 @@ class BpnServiceTest {
         String bpn = "12345";
         String url = "https://example.com/12345";
         List<BpnMappingRequest> bpnMappingRequests = List.of(new BpnMappingRequest(bpn, url));
-        bpnService.saveAllBpnEdcMappings(bpnMappingRequests);
+        bpnServiceImpl.saveAllBpnEdcMappings(bpnMappingRequests);
         verify(bpnRepositoryMock, times(1)).saveAll(bpnMappingRequests);
     }
 
@@ -72,7 +73,7 @@ class BpnServiceTest {
         String bpn = "12345";
         String url = "https://example.com/12345";
         List<BpnMappingRequest> bpnMappingRequests = List.of(new BpnMappingRequest(bpn, url));
-        bpnService.updateAllBpnMappings(bpnMappingRequests);
+        bpnServiceImpl.updateAllBpnMappings(bpnMappingRequests);
         verify(bpnRepositoryMock, times(1)).saveAll(bpnMappingRequests);
     }
 
@@ -81,7 +82,7 @@ class BpnServiceTest {
     void testDeleteBpnEdcMapping() {
         String bpn = "12345";
         when(bpnRepositoryMock.existsWhereUrlNotNull(bpn)).thenReturn(true);
-        bpnService.deleteBpnMapping(bpn);
+        bpnServiceImpl.deleteBpnMapping(bpn);
         verify(bpnRepositoryMock, times(1)).deleteById(bpn);
     }
 
@@ -91,7 +92,7 @@ class BpnServiceTest {
         String bpn = "12345";
         when(bpnRepositoryMock.existsWhereUrlNotNull(bpn)).thenReturn(false);
         Assertions.assertThrows(BpnNotFoundException.class, () -> {
-            bpnService.deleteBpnMapping(bpn);
+            bpnServiceImpl.deleteBpnMapping(bpn);
         });
         verify(bpnRepositoryMock, never()).deleteById(bpn);
     }

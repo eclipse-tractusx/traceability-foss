@@ -19,7 +19,8 @@
 
 package org.eclipse.tractusx.traceability.bpn.domain.service;
 
-import org.eclipse.tractusx.traceability.bpn.infrastructure.rest.BpnMappingRequest;
+
+import bpn.request.BpnMappingRequest;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnEdcMapping;
 
 import java.util.List;

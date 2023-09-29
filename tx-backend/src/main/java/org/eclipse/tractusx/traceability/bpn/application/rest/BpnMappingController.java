@@ -17,8 +17,10 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.bpn.infrastructure.rest;
+package org.eclipse.tractusx.traceability.bpn.application.rest;
 
+import bpn.request.BpnMappingRequest;
+import bpn.response.BpnEdcMappingResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -29,22 +31,15 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Size;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.bpn.domain.model.BpnEdcMapping;
-import org.eclipse.tractusx.traceability.bpn.domain.service.BpnService;
+import org.eclipse.tractusx.traceability.bpn.application.mapper.BpnMapper;
+import org.eclipse.tractusx.traceability.bpn.domain.service.BpnServiceImpl;
 import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -54,13 +49,10 @@ import java.util.List;
 @Tag(name = "BpnEdcMapping")
 @RequestMapping(path = "/bpn-config")
 @Validated
+@RequiredArgsConstructor
 public class BpnMappingController {
 
-    private final BpnService service;
-
-    public BpnMappingController(BpnService service) {
-        this.service = service;
-    }
+    private final BpnServiceImpl service;
 
     @Operation(operationId = "getBpnEdcs",
             summary = "Get BPN EDC URL mappings",
@@ -69,7 +61,7 @@ public class BpnMappingController {
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found", content = @Content(
             mediaType = "application/json",
-            array = @ArraySchema(arraySchema = @Schema(description = "BPN Mappings", implementation = BpnEdcMapping.class, additionalProperties = Schema.AdditionalPropertiesValue.FALSE), minItems = 0, maxItems = Integer.MAX_VALUE)
+            array = @ArraySchema(arraySchema = @Schema(description = "BPN Mappings", implementation = BpnEdcMappingResponse.class, additionalProperties = Schema.AdditionalPropertiesValue.FALSE), minItems = 0, maxItems = Integer.MAX_VALUE)
     )),
             @ApiResponse(
                     responseCode = "400",
@@ -114,8 +106,8 @@ public class BpnMappingController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("")
-    public List<BpnEdcMapping> getBpnMappings() {
-        return service.findAllBpnMappings();
+    public List<BpnEdcMappingResponse> getBpnMappings() {
+        return BpnMapper.from(service.findAllBpnMappings());
     }
 
     @Operation(operationId = "createBpnEdcUrlMappings",
@@ -125,7 +117,7 @@ public class BpnMappingController {
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found for BpnEdcMapping", content = @Content(
             mediaType = "application/json",
-            array = @ArraySchema(arraySchema = @Schema(description = "BpnEdcMapping", implementation = BpnEdcMapping.class, additionalProperties = Schema.AdditionalPropertiesValue.FALSE), minItems = 0, maxItems = Integer.MAX_VALUE)
+            array = @ArraySchema(arraySchema = @Schema(description = "BpnEdcMapping", implementation = BpnEdcMappingResponse.class, additionalProperties = Schema.AdditionalPropertiesValue.FALSE), minItems = 0, maxItems = Integer.MAX_VALUE)
     )),
             @ApiResponse(
                     responseCode = "400",
@@ -170,9 +162,9 @@ public class BpnMappingController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("")
-    public List<BpnEdcMapping> createBpnUrlMapping(@RequestBody @Valid @Size(max = 1000) List<BpnMappingRequest> bpnEdcMappings) {
+    public List<BpnEdcMappingResponse> createBpnUrlMapping(@RequestBody @Valid @Size(max = 1000) List<BpnMappingRequest> bpnEdcMappings) {
         log.info("BpnEdcController [createBpnEdcUrlMappings]");
-        return service.saveAllBpnEdcMappings(bpnEdcMappings);
+        return BpnMapper.from(service.saveAllBpnEdcMappings(bpnEdcMappings));
     }
 
     @Operation(operationId = "updateBpnEdcMappings",
@@ -183,7 +175,7 @@ public class BpnMappingController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Returns the paged result found for BpnEdcMapping", content = @Content(
                     mediaType = "application/json",
-                    array = @ArraySchema(arraySchema = @Schema(description = "BpnEdcMapping", implementation = BpnEdcMapping.class, additionalProperties = Schema.AdditionalPropertiesValue.FALSE), minItems = 0, maxItems = Integer.MAX_VALUE)
+                    array = @ArraySchema(arraySchema = @Schema(description = "BpnEdcMapping", implementation = BpnEdcMappingResponse.class, additionalProperties = Schema.AdditionalPropertiesValue.FALSE), minItems = 0, maxItems = Integer.MAX_VALUE)
             )),
             @ApiResponse(
                     responseCode = "400",
@@ -229,9 +221,9 @@ public class BpnMappingController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PutMapping("")
-    public List<BpnEdcMapping> updateBpnEdcUrlMapping(@RequestBody @Valid @Size(max = 1000) List<BpnMappingRequest> bpnMappings) {
+    public List<BpnEdcMappingResponse> updateBpnEdcUrlMapping(@RequestBody @Valid @Size(max = 1000) List<BpnMappingRequest> bpnMappings) {
         log.info("BpnEdcController [createBpnEdcUrlMappings]");
-        return service.updateAllBpnMappings(bpnMappings);
+        return BpnMapper.from(service.updateAllBpnMappings(bpnMappings));
     }
 
     @Operation(operationId = "deleteBpnEdcUrlMappings",

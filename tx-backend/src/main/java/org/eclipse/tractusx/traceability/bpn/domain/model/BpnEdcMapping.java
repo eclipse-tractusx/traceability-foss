@@ -19,13 +19,7 @@
 
 package org.eclipse.tractusx.traceability.bpn.domain.model;
 
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Schema;
-
-@ArraySchema(arraySchema = @Schema(description = "BPN Mappings", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
-public record BpnEdcMapping(@ApiModelProperty(example = "BPNL00000003CSGV") String bpn,
-                            @ApiModelProperty(example = "https://trace-x-test-edc.dev.demo.catena-x.net/a1") String url) {
+public record BpnEdcMapping(String bpn, String url) {
 
     public String getBpn() {
         return bpn;

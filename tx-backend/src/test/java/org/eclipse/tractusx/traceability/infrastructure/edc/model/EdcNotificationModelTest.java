@@ -18,67 +18,144 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.infrastructure.edc.model;
 
+import org.eclipse.tractusx.traceability.qualitynotification.application.alert.request.StartQualityAlertRequest;
+import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.*;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotificationContent;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotificationHeader;
 import org.junit.jupiter.api.Test;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitize;
+import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitizeHtml;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class EdcNotificationModelTest {
 
+
     @Test
-    public void testToStringEDCNotificationHeader() {
+    public void testSanitizeEDCNotification() {
 
         //GIVEN
         EDCNotificationHeader header = new EDCNotificationHeader(
                 "12345", "SenderBPN", "Sender\nAddress", "RecipientBPN",
-                "Classification", "Severity", "Related\nNotificationId",
-                "Status", "2023-09-22", "MessageId"
+                "QM-Investigation", "Severity", "Related\nNotificationId",
+                "CREATED", "2023-09-22T14:30:00Z", "MessageId"
         );
 
-        String expected = "EDCNotificationHeader{" +
-                "notificationId='12345', " +
-                "senderBPN='SenderBPN', " +
-                "senderAddress='Sender Address', " +
-                "recipientBPN='RecipientBPN', " +
-                "classification='Classification', " +
-                "severity='Severity', " +
-                "relatedNotificationId='Related NotificationId', " +
-                "status='Status', " +
-                "targetDate='2023-09-22', " +
-                "messageId='MessageId'}";
-
-        //WHEN
-        String actual = header.toString();
-
-        //THEN
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    public void testToStringEDCNotificationContent() {
-
-        //GIVEN
         List<String> listOfAffectedItems = new ArrayList<>(Arrays.asList("Item1\nItem2", "Item3", "Item4\r\nItem5"));
 
         EDCNotificationContent content = new EDCNotificationContent(
                 "Information\nwith\nline\nbreaks", listOfAffectedItems
         );
 
-        String expected = "EDCNotificationContent{" +
-                "information='Information with line breaks', " +
-                "listOfAffectedItems=[Item1 Item2, Item3, Item4 Item5]" +
-                "}";
+        EDCNotification edcNotification = new EDCNotification(header, content);
+
 
         //WHEN
-        String actual = content.toString();
+        EDCNotification actual = sanitize(edcNotification);
 
         //THEN
-        assertEquals(expected, actual);
+        assertEquals("Sender Address", actual.getSenderAddress());
+        assertEquals("12345", actual.getNotificationId());
+        assertEquals("Related NotificationId", actual.getRelatedNotificationId());
+        assertEquals("Severity", actual.getSeverity());
+        assertEquals("QM-Investigation", actual.convertNotificationType().getValue());
+        assertEquals("CREATED", actual.convertNotificationStatus().name());
+        assertEquals(Instant.parse("2023-09-22T14:30:00Z"), actual.getTargetDate());
+
+
+    }
+
+    @Test
+    public void testSanitizeStartQualityNotificationRequest() {
+        //GIVEN
+        List<String> partIds = new ArrayList<>();
+        partIds.add("urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978");
+        partIds.add("urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca979\n");
+        Instant targetDate = Instant.parse("2023-09-22T14:30:00Z".trim());
+        QualityNotificationSeverityRequest severity = QualityNotificationSeverityRequest.MINOR;
+        StartQualityNotificationRequest request = new StartQualityNotificationRequest(partIds, "The description\n", targetDate, severity, true, "BPN00001123123AS\n");
+
+
+        //WHEN
+        StartQualityNotificationRequest cleanRequest = sanitize(request);
+
+        //THEN
+        assertEquals("urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca979 ", cleanRequest.getPartIds().get(1));
+        assertEquals("The description ", cleanRequest.getDescription());
+        assertTrue(cleanRequest.isAsBuilt());
+        assertEquals("BPN00001123123AS ", cleanRequest.getReceiverBpn());
+
+    }
+
+    @Test
+    public void testSanitizeStartQualityAlertRequest() {
+        //GIVEN
+        List<String> partIds = new ArrayList<>();
+        partIds.add("urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978");
+        partIds.add("urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca979\n");
+        Instant targetDate = Instant.parse("2023-09-22T14:30:00Z".trim());
+        QualityNotificationSeverityRequest severity = QualityNotificationSeverityRequest.MINOR;
+        StartQualityAlertRequest request = new StartQualityAlertRequest(partIds, "The description\n", targetDate, severity, "BPN00001123123AS\n", true);
+
+
+        //WHEN
+        StartQualityAlertRequest cleanRequest = sanitize(request);
+
+        //THEN
+        assertEquals("urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca979 ", cleanRequest.getPartIds().get(1));
+        assertEquals("The description ", cleanRequest.getDescription());
+        assertTrue(cleanRequest.isAsBuilt());
+        assertEquals("BPN00001123123AS ", cleanRequest.getBpn());
+
+    }
+
+    @Test
+    public void testSanitizeCloseInvestigationRequest() {
+        //GIVEN
+        CloseQualityNotificationRequest closeQualityNotificationRequest = new CloseQualityNotificationRequest();
+        closeQualityNotificationRequest.setReason("Reason\n");
+
+        //WHEN
+        CloseQualityNotificationRequest cleanCloseQualityNotificationRequest = sanitize(closeQualityNotificationRequest);
+
+        //THEN
+        assertEquals("Reason ", cleanCloseQualityNotificationRequest.getReason());
+
+    }
+
+
+    @Test
+    public void testSanitizeUpdateQualityNotificationRequest() {
+        //GIVEN
+        UpdateQualityNotificationRequest updateQualityNotificationRequest = new UpdateQualityNotificationRequest();
+        updateQualityNotificationRequest.setReason("Reason\n");
+        updateQualityNotificationRequest.setStatus(UpdateQualityNotificationStatusRequest.ACCEPTED);
+
+        //WHEN
+        UpdateQualityNotificationRequest cleanUpdateQualityNotificationRequest = sanitize(updateQualityNotificationRequest);
+
+        //THEN
+        assertEquals("Reason ", cleanUpdateQualityNotificationRequest.getReason());
+    }
+
+    @Test
+    public void testSanitizeHtml() {
+        //GIVEN
+        String html = "\n<oohlook&atme>";
+
+        //WHEN
+        String stringWithoutLineBreaks = sanitize(html);
+        String cleanString = sanitizeHtml(stringWithoutLineBreaks);
+
+        //THEN
+        assertEquals(" &lt;oohlook&amp;atme&gt;", cleanString);
     }
 }

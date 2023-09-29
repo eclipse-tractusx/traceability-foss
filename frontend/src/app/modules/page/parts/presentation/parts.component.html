@@ -25,11 +25,11 @@ SPDX-License-Identifier: Apache-2.0
   </div>
   <div class="split-container-wrapper">
   <as-split direction="horizontal" class="split-container">
-    <as-split-area [size]="bomLifecycleSize.asBuiltSize" >
+    <as-split-area [size]="bomLifecycleSize.asBuiltSize" class="split-area">
+      <div class="large-text table--header--text">{{"page.asBuiltParts" | i18n}}</div>
       <div class="parts-as-built-table-wrapper">
       <ng-container *viewContainer="partsAsBuilt$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
       <ng-template #mainTmp let-parts="view">
-        <div class="large-text">{{"page.asBuiltParts" | i18n}}</div>
         <!-- asBuilt Parts Table-->
         <app-table class="parts-asBuilt-table"
                    [PartsPaginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
@@ -48,11 +48,11 @@ SPDX-License-Identifier: Apache-2.0
       </ng-template>
       </div>
     </as-split-area>
-    <as-split-area [size]="bomLifecycleSize.asPlannedSize">
+    <as-split-area [size]="bomLifecycleSize.asPlannedSize" class="split-area">
+      <div class="large-text table--header--text">{{"page.asPlannedParts" | i18n}}</div>
       <div class="parts-as-planned-table-wrapper">
       <ng-container *viewContainer="partsAsPlanned$ | async; main: myTmp; error: errorTmp; loading: loaderTmp"></ng-container>
       <ng-template #myTmp let-parts="view">
-        <div class="large-text">{{"page.asPlannedParts" | i18n}}</div>
         <!-- asPlanned Parts Table-->
         <app-table class="parts-asPlanned-table"
                    [PartsPaginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
