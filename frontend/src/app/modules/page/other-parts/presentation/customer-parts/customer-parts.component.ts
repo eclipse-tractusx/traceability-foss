@@ -37,7 +37,7 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-customer-parts',
-  templateUrl: './customer-parts.component.html'
+  templateUrl: './customer-parts.component.html',
 })
 export class CustomerPartsComponent implements OnInit, OnDestroy {
   public readonly displayedColumnsAsBuilt: string[] = [
@@ -90,6 +90,7 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
 
   @Input()
   public bomLifecycle: MainAspectType;
+
   constructor(
     private readonly otherPartsFacade: OtherPartsFacade,
     private readonly partDetailsFacade: PartDetailsFacade,
@@ -106,11 +107,11 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    if(this.bomLifecycle === MainAspectType.AS_BUILT) {
+    if (this.bomLifecycle === MainAspectType.AS_BUILT) {
       this.customerPartsAsBuilt$ = this.otherPartsFacade.customerPartsAsBuilt$;
       this.tableCustomerAsBuiltSortList = [];
       this.otherPartsFacade.setCustomerPartsAsBuilt();
-    } else if(this.bomLifecycle === MainAspectType.AS_PLANNED) {
+    } else if (this.bomLifecycle === MainAspectType.AS_PLANNED) {
       this.customerPartsAsPlanned$ = this.otherPartsFacade.customerPartsAsPlanned$;
       this.tableCustomerAsPlannedSortList = [];
       this.otherPartsFacade.setCustomerPartsAsPlanned();
@@ -118,18 +119,18 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
   }
 
   public ngAfterViewInit(): void {
-    if(this.bomLifecycle === MainAspectType.AS_BUILT) {
+    if (this.bomLifecycle === MainAspectType.AS_BUILT) {
       this.tableConfigAsBuilt = {
         displayedColumns: this.displayedColumnsAsBuilt,
         header: CreateHeaderFromColumns(this.displayedColumnsAsBuilt, 'table.column'),
         sortableColumns: this.sortableColumnsAsBuilt,
-      }
-    } else if(this.bomLifecycle === MainAspectType.AS_PLANNED) {
+      };
+    } else if (this.bomLifecycle === MainAspectType.AS_PLANNED) {
       this.tableConfigAsPlanned = {
         displayedColumns: this.displayedColumnsAsPlanned,
         header: CreateHeaderFromColumns(this.displayedColumnsAsPlanned, 'table.column'),
         sortableColumns: this.sortableColumnsAsPlanned,
-      }
+      };
     }
   }
 
@@ -142,8 +143,8 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
   }
 
   public onAsBuiltTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
-      this.setTableSortingList(sorting, MainAspectType.AS_BUILT);
-      this.otherPartsFacade.setCustomerPartsAsBuilt(page, pageSize, this.tableCustomerAsBuiltSortList);
+    this.setTableSortingList(sorting, MainAspectType.AS_BUILT);
+    this.otherPartsFacade.setCustomerPartsAsBuilt(page, pageSize, this.tableCustomerAsBuiltSortList);
   }
 
   public onAsPlannedTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
@@ -153,7 +154,7 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
 
   private setTableSortingList(sorting: TableHeaderSort, partTable: MainAspectType): void {
     const tableSortList = partTable === MainAspectType.AS_BUILT ? this.tableCustomerAsBuiltSortList : this.tableCustomerAsPlannedSortList;
-    TableSortingUtil.setTableSortingList(sorting,tableSortList, this.ctrlKeyState);
+    TableSortingUtil.setTableSortingList(sorting, tableSortList, this.ctrlKeyState);
   }
 
   protected readonly MainAspectType = MainAspectType;

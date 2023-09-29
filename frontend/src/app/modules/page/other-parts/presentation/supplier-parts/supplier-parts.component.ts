@@ -38,7 +38,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 @Component({
   selector: 'app-supplier-parts',
   templateUrl: './supplier-parts.component.html',
-  styleUrls: ['../other-parts.component.scss']
+  styleUrls: [ '../other-parts.component.scss' ],
 })
 export class SupplierPartsComponent implements OnInit, OnDestroy {
   public readonly displayedColumnsAsBuilt: string[] = [
@@ -81,8 +81,8 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
   public tableConfigAsBuilt: TableConfig;
   public tableConfigAsPlanned: TableConfig;
 
-  public  supplierPartsAsBuilt$: Observable<View<Pagination<Part>>>;
-  public  supplierPartsAsPlanned$: Observable<View<Pagination<Part>>>;
+  public supplierPartsAsBuilt$: Observable<View<Pagination<Part>>>;
+  public supplierPartsAsPlanned$: Observable<View<Pagination<Part>>>;
 
   public readonly deselectPartTrigger$ = new Subject<Part[]>();
   public readonly addPartTrigger$ = new Subject<Part>();
@@ -117,8 +117,11 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
   public get currentSelectedItems(): Part[] {
 
     this.selectedItems = this.selectedItems.map(part => {
-      return {...part, semanticDataModel: SemanticDataModel[part.semanticDataModel.toUpperCase() as keyof typeof SemanticDataModel]}
-    })
+      return {
+        ...part,
+        semanticDataModel: SemanticDataModel[part.semanticDataModel.toUpperCase() as keyof typeof SemanticDataModel],
+      };
+    });
     return this.selectedItems || [];
   }
 
@@ -127,11 +130,11 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    if(this.bomLifecycle === MainAspectType.AS_BUILT) {
+    if (this.bomLifecycle === MainAspectType.AS_BUILT) {
       this.supplierPartsAsBuilt$ = this.otherPartsFacade.supplierPartsAsBuilt$;
       this.tableSupplierAsBuiltSortList = [];
       this.otherPartsFacade.setSupplierPartsAsBuilt();
-    } else if(this.bomLifecycle === MainAspectType.AS_PLANNED) {
+    } else if (this.bomLifecycle === MainAspectType.AS_PLANNED) {
       this.supplierPartsAsPlanned$ = this.otherPartsFacade.supplierPartsAsPlanned$;
       this.tableSupplierAsPlannedSortList = [];
       this.otherPartsFacade.setSupplierPartsAsPlanned();
@@ -140,14 +143,14 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
 
   public ngAfterViewInit(): void {
 
-    if(this.bomLifecycle === MainAspectType.AS_BUILT) {
+    if (this.bomLifecycle === MainAspectType.AS_BUILT) {
       this.tableConfigAsBuilt = {
         displayedColumns: this.displayedColumnsAsBuilt,
         header: CreateHeaderFromColumns(this.displayedColumnsAsBuilt, 'table.column'),
         sortableColumns: this.sortableColumnsAsBuilt,
       };
 
-    } else if(this.bomLifecycle === MainAspectType.AS_PLANNED) {
+    } else if (this.bomLifecycle === MainAspectType.AS_PLANNED) {
       this.tableConfigAsPlanned = {
         displayedColumns: this.displayedColumnsAsPlanned,
         header: CreateHeaderFromColumns(this.displayedColumnsAsPlanned, 'table.column'),
@@ -167,8 +170,8 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
   }
 
   public onAsBuiltTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
-      this.setTableSortingList(sorting, MainAspectType.AS_BUILT);
-      this.otherPartsFacade.setSupplierPartsAsBuilt(page, pageSize, this.tableSupplierAsBuiltSortList);
+    this.setTableSortingList(sorting, MainAspectType.AS_BUILT);
+    this.otherPartsFacade.setSupplierPartsAsBuilt(page, pageSize, this.tableSupplierAsBuiltSortList);
   }
 
   public onAsPlannedTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
@@ -181,7 +184,7 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
   }
 
   public removeItemFromSelection(part: Part): void {
-    this.deselectPartTrigger$.next([part]);
+    this.deselectPartTrigger$.next([ part ]);
     this.currentSelectedItems = this.currentSelectedItems.filter(({ id }) => id !== part.id);
   }
 
@@ -192,7 +195,7 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
 
   public addItemToSelection(part: Part): void {
     this.addPartTrigger$.next(part);
-    this.currentSelectedItems = [...this.currentSelectedItems, part];
+    this.currentSelectedItems = [ ...this.currentSelectedItems, part ];
   }
 
   public submit(): void {
@@ -202,7 +205,7 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
 
   private setTableSortingList(sorting: TableHeaderSort, partTable: MainAspectType): void {
     const tableSortList = partTable === MainAspectType.AS_BUILT ? this.tableSupplierAsBuiltSortList : this.tableSupplierAsPlannedSortList;
-    TableSortingUtil.setTableSortingList(sorting,tableSortList, this.ctrlKeyState);
+    TableSortingUtil.setTableSortingList(sorting, tableSortList, this.ctrlKeyState);
   }
 
   protected readonly MainAspectType = MainAspectType;

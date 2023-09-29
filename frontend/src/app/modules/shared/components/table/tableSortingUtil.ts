@@ -21,7 +21,7 @@ import { TableHeaderSort } from '@shared/components/table/table.model';
 export class TableSortingUtil {
 
   static setTableSortingList(sorting: TableHeaderSort, tableSortList: TableHeaderSort[], ctrlKeyState: boolean) {
-    if(!sorting && tableSortList) {
+    if (!sorting && tableSortList) {
       tableSortList.length = 0;
       return;
     }
@@ -33,8 +33,8 @@ export class TableSortingUtil {
       return;
     }
 
-    const [columnName] = sorting;
-    const index = tableSortList.findIndex(([itemColumnName]) => itemColumnName === columnName);
+    const [ columnName ] = sorting;
+    const index = tableSortList.findIndex(([ itemColumnName ]) => itemColumnName === columnName);
 
     if (index !== -1) {
       // Replace the existing entry

@@ -52,7 +52,7 @@ export class InvestigationsComponent {
 
   private paramSubscription: Subscription;
 
-  private pagination: TableEventConfig = { page: 0, pageSize: 50, sorting: ['createdDate' , 'desc']  };
+  private pagination: TableEventConfig = { page: 0, pageSize: 50, sorting: [ 'createdDate', 'desc' ] };
 
   constructor(
     public readonly helperService: InvestigationHelperService,
@@ -60,7 +60,7 @@ export class InvestigationsComponent {
     private readonly investigationDetailFacade: InvestigationDetailFacade,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
-    private readonly cd: ChangeDetectorRef
+    private readonly cd: ChangeDetectorRef,
   ) {
     this.investigationsReceived$ = this.investigationsFacade.investigationsReceived$;
     this.investigationsQueuedAndRequested$ = this.investigationsFacade.investigationsQueuedAndRequested$;
@@ -79,7 +79,7 @@ export class InvestigationsComponent {
       this.pagination.page = params?.pageNumber;
       this.investigationsFacade.setReceivedInvestigation(this.pagination.page, this.pagination.pageSize, this.investigationReceivedSortList);
       this.investigationsFacade.setQueuedAndRequestedInvestigations(this.pagination.page, this.pagination.pageSize, this.investigationQueuedAndRequestedSortList);
-    })
+    });
   }
 
   public ngAfterViewInit(): void {
@@ -108,8 +108,8 @@ export class InvestigationsComponent {
     this.investigationDetailFacade.selected = { data: notification };
     const { link } = getRoute(INVESTIGATION_BASE_ROUTE);
     const tabIndex = this.route.snapshot.queryParamMap.get('tabIndex');
-    const tabInformation: NotificationTabInformation = {tabIndex: tabIndex, pageNumber: this.pagination.page}
-    this.router.navigate([`/${link}/${notification.id}`], { queryParams: tabInformation });
+    const tabInformation: NotificationTabInformation = { tabIndex: tabIndex, pageNumber: this.pagination.page };
+    this.router.navigate([ `/${ link }/${ notification.id }` ], { queryParams: tabInformation });
   }
 
   public handleConfirmActionCompletedEvent() {
@@ -119,7 +119,7 @@ export class InvestigationsComponent {
   private setTableSortingList(sorting: TableHeaderSort, notificationTable: NotificationStatusGroup): void {
     const tableSortList = notificationTable === NotificationStatusGroup.RECEIVED ?
       this.investigationReceivedSortList : this.investigationQueuedAndRequestedSortList;
-      TableSortingUtil.setTableSortingList(sorting,tableSortList, this.ctrlKeyState);
+    TableSortingUtil.setTableSortingList(sorting, tableSortList, this.ctrlKeyState);
   }
 
   protected readonly TranslationContext = TranslationContext;
