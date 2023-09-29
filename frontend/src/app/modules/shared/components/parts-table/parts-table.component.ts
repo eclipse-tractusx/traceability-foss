@@ -77,6 +77,7 @@ export class PartsTableComponent {
     @Input() tableHeader: string;
     @Input() multiSortList: TableHeaderSort[];
 
+    filterKey = 'Filter';
 
     public readonly displayedColumnsAsBuilt: string[] = [
         'Filter',

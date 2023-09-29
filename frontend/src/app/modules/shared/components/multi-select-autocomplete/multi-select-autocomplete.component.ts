@@ -40,19 +40,13 @@ export class MultiSelectAutocompleteComponent implements OnChanges, OnInit {
     value = 'value';
     @Input()
     formControl = new FormControl();
-    @Input()
-    errorMsg = 'Field is required';
-    @Input()
-    showErrorMsg = false;
+
     @Input()
     selectedOptions;
     @Input()
     multiple = true;
     @Input()
     textSearch = true;
-
-    @Input()
-    name = '';
 
     // New Options
     @Input()
@@ -74,7 +68,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges, OnInit {
     selectAllChecked = false;
     displayString = '';
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.selectElem._handleKeydown = (event: KeyboardEvent) => {
             if (event.code === "32") {
                 console.log(event.code)
@@ -83,7 +77,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges, OnInit {
         };
     }
 
-    ngOnChanges() {
+    ngOnChanges(): void {
         this.filteredOptions = this.options;
         if (this.selectedOptions) {
             this.selectedValue = this.selectedOptions;
@@ -92,11 +86,11 @@ export class MultiSelectAutocompleteComponent implements OnChanges, OnInit {
         }
     }
 
-    toggleDropdown() {
+    toggleDropdown(): void {
         this.selectElem.toggle();
     }
 
-    toggleSelectAll = function (val) {
+    toggleSelectAll = function (val: any): void {
         if (val.checked) {
             this.filteredOptions.forEach(option => {
                 if (!this.selectedValue.includes(option[this.value])) {
@@ -112,7 +106,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges, OnInit {
         this.selectionChange.emit(this.selectedValue);
     };
 
-    filterItem(value) {
+    filterItem(value: any): void {
         if (this.textSearch) {
 
         } else {
@@ -130,12 +124,12 @@ export class MultiSelectAutocompleteComponent implements OnChanges, OnInit {
 
     }
 
-    hideOption(option) {
+    hideOption(option): boolean {
         return !(this.filteredOptions.indexOf(option) > -1);
     }
 
     // Returns plain strings array of filtered values
-    getFilteredOptionsValues() {
+    getFilteredOptionsValues(): any[] {
         const filteredValues = [];
         this.filteredOptions.forEach(option => {
             filteredValues.push(option.value);
@@ -143,17 +137,17 @@ export class MultiSelectAutocompleteComponent implements OnChanges, OnInit {
         return filteredValues;
     }
 
-    changeSearchTextOption() {
+    changeSearchTextOption(): void {
         this.selectedValue = this.theSearchElement as unknown as [];
     }
 
-    clickClear() {
+    clickClear(): void {
         this.searchInput.value = '';
         this.theSearchElement = '';
         this.selectedValue = [];
     }
 
-    onDisplayString() {
+    onDisplayString(): string {
         if (this.textSearch) {
             this.displayString = '';
             this.displayString = this.theSearchElement || 'All';
@@ -197,7 +191,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges, OnInit {
         return this.displayString;
     }
 
-    onSelectionChange(val, textSearch) {
+    onSelectionChange(val: any) {
 
         const filteredValues = this.getFilteredOptionsValues();
         let count = 0;
