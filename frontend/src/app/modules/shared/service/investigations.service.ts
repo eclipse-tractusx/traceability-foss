@@ -36,6 +36,7 @@ import {
   Notifications,
   NotificationsResponse,
   NotificationStatus,
+  NotificationType,
 } from '../model/notification.model';
 
 @Injectable({
@@ -46,28 +47,40 @@ export class InvestigationsService {
 
   constructor(private readonly apiService: ApiService) {}
 
-  public getCreatedInvestigations(page: number, pageSize: number, sorting: TableHeaderSort): Observable<Notifications> {
-    const sort = sorting ? `${sorting[0]},${sorting[1]}` : 'createdDate,desc';
-    const params = new HttpParams().set('page', page).set('size', pageSize).set('sort', sort);
+  public getCreatedInvestigations(page: number, pageSize: number, sorting: TableHeaderSort[]): Observable<Notifications> {
+    let sort = sorting.length ? sorting : ['createdDate,desc'];
+    let params = new HttpParams()
+      .set('page', page)
+      .set('size', pageSize)
+
+    sort.forEach(sortingItem => {
+      params = params.append('sort', sortingItem);
+    })
 
     return this.apiService
       .getBy<NotificationsResponse>(`${this.url}/investigations/created`, params)
-      .pipe(map(investigations => NotificationAssembler.assembleNotifications(investigations)));
+      .pipe(map(investigations => NotificationAssembler.assembleNotifications(investigations, NotificationType.INVESTIGATION)));
   }
 
-  public getReceivedInvestigations(page: number, pageSize: number, sorting: TableHeaderSort): Observable<Notifications> {
-    const sort = sorting ? `${sorting[0]},${sorting[1]}` : 'createdDate,desc';
-    const params = new HttpParams().set('page', page).set('size', pageSize).set('sort', sort);
+  public getReceivedInvestigations(page: number, pageSize: number, sorting: TableHeaderSort[]): Observable<Notifications> {
+    let sort = sorting.length ? sorting : ['createdDate,desc'];
+    let params = new HttpParams()
+      .set('page', page)
+      .set('size', pageSize)
+
+    sort.forEach(sortingItem => {
+      params = params.append('sort', sortingItem);
+    })
 
     return this.apiService
       .getBy<NotificationsResponse>(`${this.url}/investigations/received`, params)
-      .pipe(map(investigations => NotificationAssembler.assembleNotifications(investigations)));
+      .pipe(map(investigations => NotificationAssembler.assembleNotifications(investigations, NotificationType.INVESTIGATION)));
   }
 
   public getInvestigation(id: string): Observable<Notification> {
     return this.apiService
       .get<NotificationResponse>(`${this.url}/investigations/${id}`)
-      .pipe(map(notification => NotificationAssembler.assembleNotification(notification)));
+      .pipe(map(notification => NotificationAssembler.assembleNotification(notification, NotificationType.INVESTIGATION)));
   }
 
   public postInvestigation(

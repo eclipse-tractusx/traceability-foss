@@ -38,9 +38,9 @@ public class EDCNotificationFactory {
         }
         EDCNotificationHeader header = new EDCNotificationHeader(
                 notification.getEdcNotificationId(),
-                notification.getSenderBpnNumber(),
+                notification.getCreatedBy(),
                 senderEDC,
-                notification.getReceiverBpnNumber(),
+                notification.getSendTo(),
                 NotificationType.from(notification.getType()).getValue(),
                 notification.getSeverity() != null ? notification.getSeverity().getRealName() : QualityNotificationSeverity.MINOR.getRealName(),
                 notification.getNotificationReferenceId(),

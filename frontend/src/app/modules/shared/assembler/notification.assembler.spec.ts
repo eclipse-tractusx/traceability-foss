@@ -20,15 +20,20 @@
  ********************************************************************************/
 
 import { CalendarDateModel } from '@core/model/calendar-date.model';
-import { Notification, NotificationResponse, NotificationStatus } from '@shared/model/notification.model';
+import {
+  Notification,
+  NotificationResponse,
+  NotificationStatus,
+  NotificationType,
+} from '@shared/model/notification.model';
 import { Severity } from '@shared/model/severity.model';
 import { NotificationAssembler } from './notification.assembler';
 
 describe('InvestigationsAssembler', () => {
   it('should handle null response', () => {
     const emptyPage = { content: [], page: 0, pageCount: 0, pageSize: 0, totalItems: 0 };
-    expect(NotificationAssembler.assembleNotifications(null)).toEqual(emptyPage);
-    expect(NotificationAssembler.assembleNotifications(undefined)).toEqual(emptyPage);
+    expect(NotificationAssembler.assembleNotifications(null, NotificationType.INVESTIGATION)).toEqual(emptyPage);
+    expect(NotificationAssembler.assembleNotifications(undefined, NotificationType.INVESTIGATION)).toEqual(emptyPage);
   });
 
   it('should handle empty values', () => {
@@ -45,9 +50,10 @@ describe('InvestigationsAssembler', () => {
       createdDate: new CalendarDateModel(null),
       targetDate: new CalendarDateModel(null),
       bpn: '',
+      notificationType: NotificationType.INVESTIGATION
     };
 
-    expect(NotificationAssembler.assembleNotification({} as NotificationResponse)).toEqual(expected);
+    expect(NotificationAssembler.assembleNotification({} as NotificationResponse, NotificationType.INVESTIGATION)).toEqual(expected);
   });
 
   it('should map properly response', () => {
@@ -88,7 +94,7 @@ describe('InvestigationsAssembler', () => {
             assetIds: [],
           },
         ],
-      }),
+      }, NotificationType.INVESTIGATION),
     ).toEqual({
       page: 0,
       pageCount: 1,
@@ -108,6 +114,7 @@ describe('InvestigationsAssembler', () => {
           reason: { close: '', accept: '', decline: '' },
           isFromSender: true,
           assetIds: [],
+          notificationType: NotificationType.INVESTIGATION
         },
         {
           id: 'test-2',
@@ -122,6 +129,7 @@ describe('InvestigationsAssembler', () => {
           reason: { close: '', accept: '', decline: '' },
           isFromSender: true,
           assetIds: [],
+          notificationType: NotificationType.INVESTIGATION
         },
       ],
     });

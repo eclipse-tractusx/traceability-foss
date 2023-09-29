@@ -47,7 +47,7 @@ export class AlertsFacade {
     return this.alertsService.getAlert(id);
   }
 
-  public setReceivedAlerts(page = 0, pageSize = 50, sorting: TableHeaderSort = null): void {
+  public setReceivedAlerts(page = 0, pageSize = 50, sorting: TableHeaderSort[] = []): void {
     this.alertReceivedSubscription?.unsubscribe();
     this.alertReceivedSubscription = this.alertsService
       .getReceivedAlerts(page, pageSize, sorting)
@@ -57,7 +57,7 @@ export class AlertsFacade {
       });
   }
 
-  public setQueuedAndRequestedAlerts(page = 0, pageSize = 50, sorting: TableHeaderSort = null): void {
+  public setQueuedAndRequestedAlerts(page = 0, pageSize = 50, sorting: TableHeaderSort[] = []): void {
     this.alertQueuedAndRequestedSubscription?.unsubscribe();
     this.alertQueuedAndRequestedSubscription = this.alertsService
       .getCreatedAlerts(page, pageSize, sorting)
