@@ -19,24 +19,24 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
-import {Pagination} from '@core/model/pagination.model';
-import {PartsFacade} from '@page/parts/core/parts.facade';
-import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
-import {Part} from '@page/parts/model/parts.model';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { Pagination } from '@core/model/pagination.model';
+import { PartsFacade } from '@page/parts/core/parts.facade';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
+import { Part } from '@page/parts/model/parts.model';
+import { BomLifecycleSize } from '@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model';
 import {
-    CreateHeaderFromColumns,
-    TableConfig,
-    TableEventConfig,
-    TableHeaderSort,
+  CreateHeaderFromColumns,
+  TableConfig,
+  TableEventConfig,
+  TableHeaderSort,
 } from '@shared/components/table/table.model';
-import {View} from '@shared/model/view.model';
-import {PartDetailsFacade} from '@shared/modules/part-details/core/partDetails.facade';
-import {StaticIdService} from '@shared/service/staticId.service';
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
-import {BomLifecycleSize} from "@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model";
-import {BomLifecycleSettingsService, UserSettingView} from "@shared/service/bom-lifecycle-settings.service";
-
+import { TableSortingUtil } from '@shared/components/table/tableSortingUtil';
+import { View } from '@shared/model/view.model';
+import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
+import { BomLifecycleSettingsService, UserSettingView } from '@shared/service/bom-lifecycle-settings.service';
+import { StaticIdService } from '@shared/service/staticId.service';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 
 @Component({
@@ -201,49 +201,10 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     private setTableSortingList(sorting: TableHeaderSort, partTable: MainAspectType): void {
-        // if a sorting Columnlist exists but a column gets resetted:
-        if (!sorting && (this.tableAsBuiltSortList || this.tableAsPlannedSortList)) {
-            this.resetTableSortingList(partTable);
-            return;
-        }
+      const tableSortingList = partTable === MainAspectType.AS_BUILT ?
+        this.tableAsBuiltSortList : this.tableAsPlannedSortList;
+      TableSortingUtil.setTableSortingList(sorting, tableSortingList, this.ctrlKeyState);
 
-        // if CTRL is pressed at to sortList
-        if (this.ctrlKeyState) {
-            const [columnName] = sorting;
-            const tableSortList = partTable === MainAspectType.AS_BUILT ? this.tableAsBuiltSortList : this.tableAsPlannedSortList
-
-            // Find the index of the existing entry with the same first item
-            const index = tableSortList.findIndex(
-                ([itemColumnName]) => itemColumnName === columnName
-            );
-
-            if (index !== -1) {
-                // Replace the existing entry
-                tableSortList[index] = sorting;
-            } else {
-                // Add the new entry if it doesn't exist
-                tableSortList.push(sorting);
-            }
-            if (partTable === MainAspectType.AS_BUILT) {
-                this.tableAsBuiltSortList = tableSortList
-            } else {
-                this.tableAsPlannedSortList = tableSortList
-            }
-        }
-        // If CTRL is not pressed just add a list with one entry
-        else if (partTable === MainAspectType.AS_BUILT) {
-            this.tableAsBuiltSortList = [sorting];
-        } else {
-            this.tableAsPlannedSortList = [sorting]
-        }
-    }
-
-    private resetTableSortingList(partTable: MainAspectType): void {
-        if (partTable === MainAspectType.AS_BUILT) {
-            this.tableAsBuiltSortList = [];
-        } else {
-            this.tableAsPlannedSortList = [];
-        }
     }
 
     protected readonly UserSettingView = UserSettingView;

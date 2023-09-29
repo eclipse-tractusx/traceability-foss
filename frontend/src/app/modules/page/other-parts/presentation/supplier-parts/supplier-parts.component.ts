@@ -29,6 +29,7 @@ import {
   TableEventConfig,
   TableHeaderSort,
 } from '@shared/components/table/table.model';
+import { TableSortingUtil } from '@shared/components/table/tableSortingUtil';
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { StaticIdService } from '@shared/service/staticId.service';
@@ -200,48 +201,8 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
 
 
   private setTableSortingList(sorting: TableHeaderSort, partTable: MainAspectType): void {
-    if(!sorting && (this.tableSupplierAsBuiltSortList || this.tableSupplierAsPlannedSortList)) {
-      this.resetTableSortingList(partTable);
-      return;
-    }
-
-    if(this.ctrlKeyState) {
-      const [columnName] = sorting;
-      const tableSortList = partTable === MainAspectType.AS_BUILT ? this.tableSupplierAsBuiltSortList : this.tableSupplierAsPlannedSortList;
-
-      // Find the index of the existing entry with the same first item
-      const index = tableSortList.findIndex(
-          ([itemColumnName]) => itemColumnName === columnName
-      );
-
-      if (index !== -1) {
-        // Replace the existing entry
-        tableSortList[index] = sorting;
-      } else {
-        // Add the new entry if it doesn't exist
-        tableSortList.push(sorting);
-      }
-
-      if(partTable === MainAspectType.AS_BUILT) {
-        this.tableSupplierAsBuiltSortList = tableSortList
-      } else {
-        this.tableSupplierAsPlannedSortList = tableSortList
-      }
-    }
-    // If CTRL is not pressed just add a list with one entry
-    else if(partTable === MainAspectType.AS_BUILT) {
-      this.tableSupplierAsBuiltSortList = [sorting];
-    } else {
-      this.tableSupplierAsPlannedSortList = [sorting]
-    }
-  }
-
-  private resetTableSortingList(partTable: MainAspectType): void {
-    if(partTable === MainAspectType.AS_BUILT) {
-      this.tableSupplierAsBuiltSortList = [];
-    } else {
-      this.tableSupplierAsPlannedSortList= [];
-    }
+    const tableSortList = partTable === MainAspectType.AS_BUILT ? this.tableSupplierAsBuiltSortList : this.tableSupplierAsPlannedSortList;
+    TableSortingUtil.setTableSortingList(sorting,tableSortList, this.ctrlKeyState);
   }
 
   protected readonly MainAspectType = MainAspectType;

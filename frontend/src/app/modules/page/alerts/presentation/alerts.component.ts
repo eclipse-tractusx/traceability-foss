@@ -17,19 +17,20 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {ChangeDetectorRef, Component, ViewChild} from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ALERT_BASE_ROUTE, getRoute } from '@core/known-route';
 import { AlertDetailFacade } from '@page/alerts/core/alert-detail.facade';
 import { AlertHelperService } from '@page/alerts/core/alert-helper.service';
 import { AlertsFacade } from '@page/alerts/core/alerts.facade';
+import { NotificationMenuActionsAssembler } from '@shared/assembler/notificationMenuActions.assembler';
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
 import { MenuActionConfig, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
+import { TableSortingUtil } from '@shared/components/table/tableSortingUtil';
 import { NotificationTabInformation } from '@shared/model/notification-tab-information';
 import { Notification, NotificationStatusGroup } from '@shared/model/notification.model';
 import { TranslationContext } from '@shared/model/translation-context.model';
 import { Subscription } from 'rxjs';
-import {NotificationMenuActionsAssembler} from "@shared/assembler/notificationMenuActions.assembler";
 
 @Component({
   selector: 'app-alerts',
@@ -117,56 +118,10 @@ export class AlertsComponent {
   }
 
   private setTableSortingList(sorting: TableHeaderSort, notificationTable: NotificationStatusGroup): void {
-    if(!sorting && (this.alertReceivedSortList || this.alertQueuedAndRequestedSortList)) {
-      this.resetTableSortingList(notificationTable);
-      return;
-    }
-
-    if(this.ctrlKeyState) {
-      const [columnName] = sorting;
-      let tableSortList: TableHeaderSort[];
-
-      if(notificationTable === NotificationStatusGroup.RECEIVED) {
-        tableSortList = this.alertReceivedSortList;
-      } else if(notificationTable === NotificationStatusGroup.QUEUED_AND_REQUESTED) {
-        tableSortList = this.alertQueuedAndRequestedSortList;
-      }
-
-      // Find the index of the existing entry with the same first item
-      const index = tableSortList.findIndex(
-        ([itemColumnName]) => itemColumnName === columnName
-      );
-
-      if (index !== -1) {
-        // Replace the existing entry
-        tableSortList[index] = sorting;
-      } else {
-        // Add the new entry if it doesn't exist
-        tableSortList.push(sorting);
-      }
-
-      if(notificationTable === NotificationStatusGroup.RECEIVED) {
-        this.alertReceivedSortList = tableSortList
-      } else if(notificationTable === NotificationStatusGroup.QUEUED_AND_REQUESTED) {
-        this.alertQueuedAndRequestedSortList = tableSortList
-      }
-    }
-    // If CTRL is not pressed just add a list with one entry
-    else if(notificationTable === NotificationStatusGroup.RECEIVED) {
-      this.alertReceivedSortList = [sorting];
-    } else if(NotificationStatusGroup.QUEUED_AND_REQUESTED) {
-      this.alertQueuedAndRequestedSortList = [sorting]
-    }
+    const tableSortList = notificationTable === NotificationStatusGroup.RECEIVED ?
+      this.alertReceivedSortList : this.alertQueuedAndRequestedSortList;
+    TableSortingUtil.setTableSortingList(sorting, tableSortList, this.ctrlKeyState);
   }
-
-  private resetTableSortingList(notificationTable: NotificationStatusGroup): void {
-    if(notificationTable === NotificationStatusGroup.RECEIVED) {
-      this.alertReceivedSortList = [];
-    } else if(NotificationStatusGroup.QUEUED_AND_REQUESTED) {
-      this.alertQueuedAndRequestedSortList= [];
-    }
-  }
-
 
   protected readonly TranslationContext = TranslationContext;
 }

@@ -27,6 +27,7 @@ import { InvestigationHelperService } from '@page/investigations/core/investigat
 import { NotificationMenuActionsAssembler } from '@shared/assembler/notificationMenuActions.assembler';
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
 import { MenuActionConfig, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
+import { TableSortingUtil } from '@shared/components/table/tableSortingUtil';
 import { NotificationTabInformation } from '@shared/model/notification-tab-information';
 import { Notification, NotificationStatusGroup } from '@shared/model/notification.model';
 import { TranslationContext } from '@shared/model/translation-context.model';
@@ -116,56 +117,10 @@ export class InvestigationsComponent {
   }
 
   private setTableSortingList(sorting: TableHeaderSort, notificationTable: NotificationStatusGroup): void {
-    if(!sorting && (this.investigationReceivedSortList || this.investigationQueuedAndRequestedSortList)) {
-      this.resetTableSortingList(notificationTable);
-      return;
-    }
-
-    if(this.ctrlKeyState) {
-      const [columnName] = sorting;
-      let tableSortList: TableHeaderSort[];
-
-      if(notificationTable === NotificationStatusGroup.RECEIVED) {
-        tableSortList = this.investigationReceivedSortList;
-      } else if(notificationTable === NotificationStatusGroup.QUEUED_AND_REQUESTED) {
-        tableSortList = this.investigationQueuedAndRequestedSortList;
-      }
-
-      // Find the index of the existing entry with the same first item
-      const index = tableSortList.findIndex(
-        ([itemColumnName]) => itemColumnName === columnName
-      );
-
-      if (index !== -1) {
-        // Replace the existing entry
-        tableSortList[index] = sorting;
-      } else {
-        // Add the new entry if it doesn't exist
-        tableSortList.push(sorting);
-      }
-
-      if(notificationTable === NotificationStatusGroup.RECEIVED) {
-        this.investigationReceivedSortList = tableSortList
-      } else if(notificationTable === NotificationStatusGroup.QUEUED_AND_REQUESTED) {
-        this.investigationQueuedAndRequestedSortList = tableSortList
-      }
-    }
-    // If CTRL is not pressed just add a list with one entry
-    else if(notificationTable === NotificationStatusGroup.RECEIVED) {
-      this.investigationReceivedSortList = [sorting];
-    } else if(NotificationStatusGroup.QUEUED_AND_REQUESTED) {
-      this.investigationQueuedAndRequestedSortList = [sorting]
-    }
+    const tableSortList = notificationTable === NotificationStatusGroup.RECEIVED ?
+      this.investigationReceivedSortList : this.investigationQueuedAndRequestedSortList;
+      TableSortingUtil.setTableSortingList(sorting,tableSortList, this.ctrlKeyState);
   }
-
-  private resetTableSortingList(notificationTable: NotificationStatusGroup): void {
-    if(notificationTable === NotificationStatusGroup.RECEIVED) {
-      this.investigationReceivedSortList = [];
-    } else if(NotificationStatusGroup.QUEUED_AND_REQUESTED) {
-      this.investigationQueuedAndRequestedSortList= [];
-    }
-  }
-
 
   protected readonly TranslationContext = TranslationContext;
 }
