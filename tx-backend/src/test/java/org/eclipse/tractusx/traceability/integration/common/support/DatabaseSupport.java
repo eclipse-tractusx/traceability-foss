@@ -46,7 +46,8 @@ public class DatabaseSupport {
             "shell_descriptor",
             "bpn_storage",
             "investigation_notification",
-            "investigation"
+            "investigation",
+            "traction_battery_code_subcomponent"
     });
 
 
