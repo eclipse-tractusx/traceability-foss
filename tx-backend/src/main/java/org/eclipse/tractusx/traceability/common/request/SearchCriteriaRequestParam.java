@@ -23,7 +23,6 @@ import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.common.model.SearchOperation;
 
@@ -32,7 +31,6 @@ import java.util.Collections;
 import java.util.List;
 
 import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
 
 @Data
 @AllArgsConstructor
@@ -64,12 +62,4 @@ public class SearchCriteriaRequestParam {
         return filters;
     }
 
-    public void addOwnerCriteria(Owner owner) {
-        if (nonNull(owner) && isNull(filter)) {
-            filter = new ArrayList<>();
-            filter.add("owner,EQUAL," + owner.name());
-        } else if (nonNull(owner) && nonNull(filter)) {
-            filter.add("owner,EQUAL," + owner.name());
-        }
-    }
 }

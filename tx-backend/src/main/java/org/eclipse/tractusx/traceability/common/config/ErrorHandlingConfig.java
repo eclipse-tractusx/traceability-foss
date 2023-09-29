@@ -30,6 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnNotFoundException;
+import org.eclipse.tractusx.traceability.common.request.InvalidFilterException;
 import org.eclipse.tractusx.traceability.common.request.InvalidSortException;
 import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
 import org.eclipse.tractusx.traceability.common.security.TechnicalUserAuthorizationException;
@@ -190,6 +191,13 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
     @ExceptionHandler(UpdateQualityNotificationValidationException.class)
     ResponseEntity<ErrorResponse> handleUpdateQualityNotificationValidationException(UpdateQualityNotificationValidationException exception) {
         log.warn("handleUpdateQualityNotificationValidationException", exception);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(exception.getMessage()));
+    }
+
+    @ExceptionHandler(InvalidFilterException.class)
+    ResponseEntity<ErrorResponse> handleInvalidFilterException(InvalidFilterException exception) {
+        log.warn("handleInvalidFilterException", exception);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
