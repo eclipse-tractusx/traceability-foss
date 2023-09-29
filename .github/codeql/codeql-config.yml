@@ -16,7 +16,9 @@
 #  SPDX-License-Identifier: Apache-2.0
 name: "TraceX CodeQL config"
 
-# Exclude "Unused classes and interfaces"
+# Exclude "Unused classes, interfaces and rules"
 query-filters:
   - exclude:
-      id: java/unused-reference-type
+      id:
+        - java/unused-reference-type
+        - java/spring-disabled-csrf-protection

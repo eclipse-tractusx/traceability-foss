@@ -41,6 +41,7 @@ import java.util.UUID;
 import static org.eclipse.tractusx.traceability.common.config.EdcRestTemplateConfiguration.EDC_REST_TEMPLATE;
 import static org.eclipse.tractusx.traceability.common.config.JsonLdConfigurationTraceX.NAMESPACE_EDC;
 import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitize;
+import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitizeHtml;
 
 @Slf4j
 @Component
@@ -131,8 +132,9 @@ public class EdcNotificationAssetService {
         if (responseCode.value() == 200) {
             return notificationAssetId;
         }
-
-        log.error("Failed to create EDC notification asset for {} method. Body: {}, status: {}", notificationMethodValue, sanitize(createEdcDataAssetResponse.getBody()), sanitize(createEdcDataAssetResponse.getStatusCode().toString()));
+        String bodyWithoutLineBreaks = sanitize(createEdcDataAssetResponse.getBody());
+        String cleanBody = sanitizeHtml(bodyWithoutLineBreaks);
+        log.error("Failed to create EDC notification asset for {} method. Body: {}, status: {}", notificationMethodValue, cleanBody, createEdcDataAssetResponse.getStatusCode());
 
         throw new CreateEdcAssetException("Failed to create EEC notification asset for %s method".formatted(notificationMethodValue));
     }
