@@ -31,6 +31,7 @@ import java.util.List;
 public interface ShellDescriptorRepository {
 	List<ShellDescriptor> findAll();
 	void update(ShellDescriptor shellDescriptor);
+    void save(ShellDescriptor shellDescriptor);
 	void saveAll(Collection<ShellDescriptor> values);
 	void removeDescriptorsByUpdatedBefore(ZonedDateTime now);
 }

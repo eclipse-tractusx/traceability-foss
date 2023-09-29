@@ -24,6 +24,7 @@ package org.eclipse.tractusx.traceability.shelldescriptor.domain.service;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.ShellDescriptorRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,12 +61,20 @@ public class ShellDescriptorsService {
             }
         }
 
-        shellDescriptorRepository.saveAll(descriptorsToSync);
+        descriptorsToSync.forEach(this::persistDescriptor);
         shellDescriptorRepository.removeDescriptorsByUpdatedBefore(now);
 
         log.info("Finished update of {} shell ownShellDescriptors.", ownShellDescriptors.size());
         log.info("Updated needed for {} ownShellDescriptors.", descriptorsToSync.size());
 
         return descriptorsToSync;
+    }
+
+    private void persistDescriptor(ShellDescriptor shellDescriptor){
+        try {
+            shellDescriptorRepository.save(shellDescriptor);
+        } catch (DataIntegrityViolationException exception) {
+            log.warn("Failed to persist shellDescriptor with Id: {} With cause: {}", shellDescriptor.getShellDescriptorId(), exception.getMessage());
+        }
     }
 }

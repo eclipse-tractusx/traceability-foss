@@ -54,6 +54,11 @@ public class PersistentShellDescriptorsRepository implements ShellDescriptorRepo
     }
 
     @Override
+    public void save(ShellDescriptor shellDescriptor) {
+        repository.save(ShellDescriptorEntity.newEntityFrom(shellDescriptor));
+    }
+
+    @Override
     public void saveAll(Collection<ShellDescriptor> values) {
         repository.saveAll(values.stream()
                 .map(ShellDescriptorEntity::newEntityFrom)
