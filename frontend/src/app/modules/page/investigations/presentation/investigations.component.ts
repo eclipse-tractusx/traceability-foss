@@ -123,7 +123,13 @@ export class InvestigationsComponent {
 
     if(this.ctrlKeyState) {
       const [columnName] = sorting;
-      const tableSortList = notificationTable === NotificationStatusGroup.RECEIVED ? this.investigationReceivedSortList : this.investigationQueuedAndRequestedSortList;
+      let tableSortList: TableHeaderSort[];
+
+      if(notificationTable === NotificationStatusGroup.RECEIVED) {
+        tableSortList = this.investigationReceivedSortList;
+      } else if(notificationTable === NotificationStatusGroup.QUEUED_AND_REQUESTED) {
+        tableSortList = this.investigationQueuedAndRequestedSortList;
+      }
 
       // Find the index of the existing entry with the same first item
       const index = tableSortList.findIndex(
@@ -140,14 +146,14 @@ export class InvestigationsComponent {
 
       if(notificationTable === NotificationStatusGroup.RECEIVED) {
         this.investigationReceivedSortList = tableSortList
-      } else {
+      } else if(notificationTable === NotificationStatusGroup.QUEUED_AND_REQUESTED) {
         this.investigationQueuedAndRequestedSortList = tableSortList
       }
     }
     // If CTRL is not pressed just add a list with one entry
     else if(notificationTable === NotificationStatusGroup.RECEIVED) {
       this.investigationReceivedSortList = [sorting];
-    } else {
+    } else if(NotificationStatusGroup.QUEUED_AND_REQUESTED) {
       this.investigationQueuedAndRequestedSortList = [sorting]
     }
   }
@@ -155,7 +161,7 @@ export class InvestigationsComponent {
   private resetTableSortingList(notificationTable: NotificationStatusGroup): void {
     if(notificationTable === NotificationStatusGroup.RECEIVED) {
       this.investigationReceivedSortList = [];
-    } else {
+    } else if(NotificationStatusGroup.QUEUED_AND_REQUESTED) {
       this.investigationQueuedAndRequestedSortList= [];
     }
   }

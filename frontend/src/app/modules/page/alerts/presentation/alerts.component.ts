@@ -124,7 +124,13 @@ export class AlertsComponent {
 
     if(this.ctrlKeyState) {
       const [columnName] = sorting;
-      const tableSortList = notificationTable === NotificationStatusGroup.RECEIVED ? this.alertReceivedSortList : this.alertQueuedAndRequestedSortList;
+      let tableSortList: TableHeaderSort[];
+
+      if(notificationTable === NotificationStatusGroup.RECEIVED) {
+        tableSortList = this.alertReceivedSortList;
+      } else if(notificationTable === NotificationStatusGroup.QUEUED_AND_REQUESTED) {
+        tableSortList = this.alertQueuedAndRequestedSortList;
+      }
 
       // Find the index of the existing entry with the same first item
       const index = tableSortList.findIndex(
@@ -141,14 +147,14 @@ export class AlertsComponent {
 
       if(notificationTable === NotificationStatusGroup.RECEIVED) {
         this.alertReceivedSortList = tableSortList
-      } else {
+      } else if(notificationTable === NotificationStatusGroup.QUEUED_AND_REQUESTED) {
         this.alertQueuedAndRequestedSortList = tableSortList
       }
     }
     // If CTRL is not pressed just add a list with one entry
     else if(notificationTable === NotificationStatusGroup.RECEIVED) {
       this.alertReceivedSortList = [sorting];
-    } else {
+    } else if(NotificationStatusGroup.QUEUED_AND_REQUESTED) {
       this.alertQueuedAndRequestedSortList = [sorting]
     }
   }
@@ -156,10 +162,11 @@ export class AlertsComponent {
   private resetTableSortingList(notificationTable: NotificationStatusGroup): void {
     if(notificationTable === NotificationStatusGroup.RECEIVED) {
       this.alertReceivedSortList = [];
-    } else {
+    } else if(NotificationStatusGroup.QUEUED_AND_REQUESTED) {
       this.alertQueuedAndRequestedSortList= [];
     }
   }
+
 
   protected readonly TranslationContext = TranslationContext;
 }
