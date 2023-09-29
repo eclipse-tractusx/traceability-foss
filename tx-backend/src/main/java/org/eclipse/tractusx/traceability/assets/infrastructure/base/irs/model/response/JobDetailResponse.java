@@ -80,16 +80,14 @@ public record JobDetailResponse(
         List<SemanticDataModel> semanticDataModels = submodels.stream()
                 .filter(submodel -> submodel.getPayload() instanceof SemanticDataModel || submodel.getPayload() instanceof DetailAspectDataTractionBatteryCode)
                 .map(submodel -> {
-                    if (submodel.getPayload() instanceof DetailAspectDataTractionBatteryCode) {
-                        SemanticDataModel payload = (DetailAspectDataTractionBatteryCode) submodel.getPayload();
-                        payload.setAspectType(submodel.getAspectType());
-                        return payload;
-                    } else if (submodel.getPayload() instanceof SemanticDataModel) {
+                    if (submodel.getPayload() instanceof DetailAspectDataTractionBatteryCode detailAspectDataTractionBatteryCode) {
+                        detailAspectDataTractionBatteryCode.setAspectType(submodel.getAspectType());
+                        return detailAspectDataTractionBatteryCode;
+                    } else {
                         SemanticDataModel payload = (SemanticDataModel) submodel.getPayload();
                         payload.setAspectType(submodel.getAspectType());
                         return payload;
                     }
-                    return null;
                 }).toList();
 
         return new JobDetailResponse(
@@ -249,8 +247,8 @@ public record JobDetailResponse(
                 .collect(Collectors.groupingBy(Relationship::childCatenaXId, Collectors.toList()));
 
         Optional<DetailAspectDataTractionBatteryCode> tractionBatteryCodeOptional = semanticDataModels.stream()
-                .filter(dataModel -> dataModel instanceof DetailAspectDataTractionBatteryCode)
-                .map(optional -> (DetailAspectDataTractionBatteryCode) optional).findFirst();
+                .filter(DetailAspectDataTractionBatteryCode.class::isInstance)
+                .map(DetailAspectDataTractionBatteryCode.class::cast).findFirst();
 
         final List<AssetBase> assets = ownParts
                 .stream()

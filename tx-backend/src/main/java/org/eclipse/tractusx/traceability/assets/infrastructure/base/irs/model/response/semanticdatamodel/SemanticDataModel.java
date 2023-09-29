@@ -86,7 +86,6 @@ public class SemanticDataModel {
     }
 
 
-
     public Optional<String> getLocalIdByInput(LocalIdKey key, List<LocalId> localIds) {
         return localIds.stream()
                 .filter(localId -> localId.key() == key)
@@ -106,9 +105,7 @@ public class SemanticDataModel {
         getLocalIdByInput(LocalIdKey.PART_INSTANCE_ID, localIds).ifPresent(s -> {
             semanticModelId.set(s);
             semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.SERIALPART);
-            tractionBatteryCodeOptional.ifPresent(tbc -> {
-                detailAspectModels.add(extractDetailAspectModelTractionBatteryCode(tbc));
-            });
+            tractionBatteryCodeOptional.ifPresent(tbc -> detailAspectModels.add(extractDetailAspectModelTractionBatteryCode(tbc)));
         });
 
         getLocalIdByInput(LocalIdKey.BATCH_ID, localIds).ifPresent(s -> {

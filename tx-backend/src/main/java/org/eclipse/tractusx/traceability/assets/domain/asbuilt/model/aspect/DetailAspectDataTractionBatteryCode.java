@@ -27,6 +27,7 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailA
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.SemanticDataModel;
 
 import java.util.List;
+import java.util.Objects;
 
 @Builder
 @Setter
@@ -48,4 +49,17 @@ public class DetailAspectDataTractionBatteryCode extends SemanticDataModel imple
         String tractionBatteryCode;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        DetailAspectDataTractionBatteryCode that = (DetailAspectDataTractionBatteryCode) o;
+        return Objects.equals(productType, that.productType) && Objects.equals(tractionBatteryCode, that.tractionBatteryCode) && Objects.equals(subcomponents, that.subcomponents);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), productType, tractionBatteryCode, subcomponents);
+    }
 }
