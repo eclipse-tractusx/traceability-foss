@@ -57,6 +57,7 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
     private String functionValidUntil;
     private String function;
     private String functionValidFrom;
+    private String catenaxSiteId;
 
 
     @ElementCollection
@@ -80,7 +81,6 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
     }
 
     public static AssetAsPlannedEntity from(AssetBase asset) {
-        ManufacturingInfo manufacturingInfo = ManufacturingInfo.from(asset.getDetailAspectModels());
         List<DetailAspectModel> detailAspectModels = asset.getDetailAspectModels();
         AsPlannedInfo asPlannedInfo = AsPlannedInfo.from(detailAspectModels);
 
@@ -88,7 +88,7 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                 .id(asset.getId())
                 .idShort(asset.getIdShort())
                 .nameAtManufacturer(asset.getNameAtManufacturer())
-                .manufacturerPartId(manufacturingInfo.getManufacturerPartId())
+                .manufacturerPartId(asset.getManufacturerPartId())
                 .manufacturerName(asset.getManufacturerName())
                 .semanticModelId(asset.getSemanticModelId())
                 .van(asset.getVan())
@@ -100,12 +100,13 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                 .owner(asset.getOwner())
                 .classification(asset.getClassification())
                 .childDescriptors(asset.getChildRelations().stream()
-                        .map(child -> new AssetAsPlannedEntity.ChildDescription(child.id(), child.idShort()))
+                        .map(child -> new ChildDescription(child.id(), child.idShort()))
                         .toList())
                 .qualityType(asset.getQualityType())
                 .activeAlert(asset.isActiveAlert())
                 .inInvestigation(asset.isUnderInvestigation())
                 .semanticDataModel(SemanticDataModelEntity.from(asset.getSemanticDataModel()))
+                .catenaxSiteId(asPlannedInfo.getCatenaxSiteId())
                 .build();
     }
 
