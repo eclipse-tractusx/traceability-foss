@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - archunit tests as preparation for good quality architecture checks
 - safety and security doc including roles matrix
 - handling for duplicate shellDescriptor ids when refreshing registry
+- Extendend testdata to reflect better overview of assets
 
 ### Changed
 - added sorting for /api/investigations received and created endpoints
@@ -21,6 +22,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - irs helm updated from 6.5.0 to 6.6.1
 - BpnEntity now contains BpnEdcMappingEntity fields
 - Directories of bpnEntity to match architecture
+- Mapping logic of catena-x site id and manufacturerPartId for AssetsAsPlanned
 
 
 ### Removed
