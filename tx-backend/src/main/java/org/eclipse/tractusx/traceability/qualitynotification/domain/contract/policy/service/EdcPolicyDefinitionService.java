@@ -43,6 +43,7 @@ import java.util.UUID;
 import static org.eclipse.tractusx.traceability.common.config.EdcRestTemplateConfiguration.EDC_REST_TEMPLATE;
 import static org.eclipse.tractusx.traceability.common.config.JsonLdConfigurationTraceX.NAMESPACE_ODRL;
 import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitize;
+import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitizeHtml;
 
 @Slf4j
 @Component
@@ -120,9 +121,9 @@ public class EdcPolicyDefinitionService {
         if (responseCode.value() == 200) {
             return accessPolicyId;
         }
-        String cleanBody = sanitize(createPolicyDefinitionResponse.getBody());
-        String cleanStatus = sanitize(createPolicyDefinitionResponse.getStatusCode().toString());
-        log.error("Failed to create EDC notification policy definition for notification asset. Body: {}, status: {}", cleanBody, cleanStatus);
+        String bodyWithoutLineBreaks = sanitize(createPolicyDefinitionResponse.getBody());
+        String cleanBody = sanitizeHtml(bodyWithoutLineBreaks);
+        log.error("Failed to create EDC notification policy definition for notification asset. Body: {}, status: {}", cleanBody, createPolicyDefinitionResponse.getStatusCode());
 
         throw new CreateEdcAssetException("Failed to create EDC notification policy definition for asset");
     }
