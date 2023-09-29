@@ -22,11 +22,11 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.contract.as
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.NotificationMethod;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.NotificationType;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.asset.model.*;
-import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatusCode;
@@ -38,8 +38,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.UUID;
 
-import static org.eclipse.tractusx.traceability.common.config.JsonLdConfigurationTraceX.NAMESPACE_EDC;
 import static org.eclipse.tractusx.traceability.common.config.EdcRestTemplateConfiguration.EDC_REST_TEMPLATE;
+import static org.eclipse.tractusx.traceability.common.config.JsonLdConfigurationTraceX.NAMESPACE_EDC;
+import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitize;
+import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitizeHtml;
 
 @Slf4j
 @Component
@@ -130,8 +132,9 @@ public class EdcNotificationAssetService {
         if (responseCode.value() == 200) {
             return notificationAssetId;
         }
-
-        log.error("Failed to create EDC notification asset for {} method. Body: {}, status: {}", notificationMethodValue, createEdcDataAssetResponse.getBody(), createEdcDataAssetResponse.getStatusCode());
+        String bodyWithoutLineBreaks = sanitize(createEdcDataAssetResponse.getBody());
+        String cleanBody = sanitizeHtml(bodyWithoutLineBreaks);
+        log.error("Failed to create EDC notification asset for {} method. Body: {}, status: {}", notificationMethodValue, cleanBody, createEdcDataAssetResponse.getStatusCode());
 
         throw new CreateEdcAssetException("Failed to create EEC notification asset for %s method".formatted(notificationMethodValue));
     }

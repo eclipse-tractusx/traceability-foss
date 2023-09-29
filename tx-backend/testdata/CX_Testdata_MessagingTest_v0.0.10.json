@@ -1388,7 +1388,7 @@
                 "validFrom" : "2023-03-21T08:47:14.438+01:00",
                 "validTo" : "2024-08-02T09:00:00.000+01:00"
               },
-              "parentCatenaXId" : "urn:uuid:aad27ddb-43aa-4e42-98c2-01e529ef128z",
+              "parentCatenaXId" : "urn:uuid:aad27ddb-43aa-4e42-98c2-01e529ef128c",
               "quantity" : {
                 "quantityNumber" : 2.5,
                 "measurementUnit" : "unit:litre"
@@ -1454,11 +1454,11 @@
       ]
     },
     {
-      "catenaXId" : "urn:uuid:aad27ddb-43aa-4e42-98c2-01e529ef128z",
+      "catenaXId" : "urn:uuid:aad27ddb-43aa-4e42-98c2-01e529ef128c",
       "bpnl" : "BPNL00000003CNKC",
       "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned" : [
         {
-          "catenaXId" : "urn:uuid:aad27ddb-43aa-4e42-98c2-01e529ef128z",
+          "catenaXId" : "urn:uuid:aad27ddb-43aa-4e42-98c2-01e529ef128c",
           "sites" : [
             {
               "functionValidUntil" : "2027-05-23T09:16:30.000Z",
@@ -1475,7 +1475,7 @@
             "validFrom" : "2015-05-18T23:10:44.000Z",
             "validTo" : "2025-10-23T14:46:01.000Z"
           },
-          "catenaXId" : "urn:uuid:aad27ddb-43aa-4e42-98c2-01e529ef128z",
+          "catenaXId" : "urn:uuid:aad27ddb-43aa-4e42-98c2-01e529ef128c",
           "partTypeInformation" : {
             "manufacturerPartId" : "38049661-08",
             "classification" : "product",
@@ -1485,7 +1485,7 @@
       ],
       "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned" : [
         {
-          "catenaXId" : "urn:uuid:aad27ddb-43aa-4e42-98c2-01e529ef128z",
+          "catenaXId" : "urn:uuid:aad27ddb-43aa-4e42-98c2-01e529ef128c",
           "childItems" : [
             {
               "validityPeriod" : {

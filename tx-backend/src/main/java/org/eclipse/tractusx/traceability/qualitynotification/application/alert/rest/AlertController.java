@@ -45,16 +45,11 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import qualitynotification.alert.response.AlertResponse;
 import qualitynotification.base.response.QualityNotificationIdResponse;
 
+import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitize;
 import static org.eclipse.tractusx.traceability.qualitynotification.application.validation.UpdateQualityNotificationValidator.validate;
 
 @Profile(FeatureFlags.NOTIFICATIONS_ENABLED_PROFILES)
@@ -125,15 +120,16 @@ public class AlertController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public QualityNotificationIdResponse alertAssets(@RequestBody @Valid StartQualityAlertRequest request) {
-        log.info(API_LOG_START + " with params: {}", request);
+        StartQualityAlertRequest cleanStartQualityAlertRequest = sanitize(request);
+        log.info(API_LOG_START + " with params: {}", cleanStartQualityAlertRequest);
         //TODO refactor this method to only take request as parameter
         return new QualityNotificationIdResponse(alertService.start(
-                request.getPartIds(),
-                request.getDescription(),
-                request.getTargetDate(),
-                request.getSeverity().toDomain(),
-                request.getBpn(),
-                request.isAsBuilt()
+                cleanStartQualityAlertRequest.getPartIds(),
+                cleanStartQualityAlertRequest.getDescription(),
+                cleanStartQualityAlertRequest.getTargetDate(),
+                cleanStartQualityAlertRequest.getSeverity().toDomain(),
+                cleanStartQualityAlertRequest.getBpn(),
+                cleanStartQualityAlertRequest.isAsBuilt()
         ).value());
     }
 
@@ -491,8 +487,9 @@ public class AlertController {
     public void closeAlert(
             @PathVariable @ApiParam Long alertId,
             @Valid @RequestBody CloseQualityNotificationRequest closeAlertRequest) {
-        log.info(API_LOG_START + "/{}/close with params {}", alertId, closeAlertRequest);
-        alertService.update(alertId, QualityNotificationStatusRequest.toDomain(QualityNotificationStatusRequest.CLOSED), closeAlertRequest.getReason());
+        CloseQualityNotificationRequest cleanCloseAlertRequest = sanitize(closeAlertRequest);
+        log.info(API_LOG_START + "/{}/close with params {}", alertId, cleanCloseAlertRequest);
+        alertService.update(alertId, QualityNotificationStatusRequest.toDomain(QualityNotificationStatusRequest.CLOSED), cleanCloseAlertRequest.getReason());
     }
 
     @Operation(operationId = "updateAlert",
@@ -554,9 +551,10 @@ public class AlertController {
     public void updateAlert(
             @PathVariable Long alertId,
             @Valid @RequestBody UpdateQualityNotificationRequest updateAlertRequest) {
-        validate(updateAlertRequest);
-        log.info(API_LOG_START + "/{}/update with params {}", alertId, updateAlertRequest);
-        alertService.update(alertId, updateAlertRequest.getStatus().toDomain(), updateAlertRequest.getReason());
+        UpdateQualityNotificationRequest cleanUpdateAlertRequest = sanitize(updateAlertRequest);
+        validate(cleanUpdateAlertRequest);
+        log.info(API_LOG_START + "/{}/update with params {}", alertId, cleanUpdateAlertRequest);
+        alertService.update(alertId, cleanUpdateAlertRequest.getStatus().toDomain(), cleanUpdateAlertRequest.getReason());
     }
 }
 
