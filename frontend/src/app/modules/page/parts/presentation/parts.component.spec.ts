@@ -29,10 +29,16 @@ import { SharedModule } from '@shared/shared.module';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 import { PartsModule } from '../parts.module';
+import {PartsTableComponent} from "@shared/components/parts-table/parts-table.component";
+import {
+  MultiSelectAutocompleteComponent
+} from "@shared/components/multi-select-autocomplete/multi-select-autocomplete.component";
 
 describe('Parts', () => {
   const renderParts = () => {
-    return renderComponent(`<app-sidenav></app-sidenav><app-parts></app-parts>`, {
+    return renderComponent(`
+      <app-sidenav></app-sidenav>
+      <app-parts></app-parts>`, {
       declarations: [SidenavComponent, PartsComponent],
       imports: [PartsModule, SharedModule, LayoutModule, OtherPartsModule],
       providers: [{ provide: SidenavService }],
@@ -40,18 +46,10 @@ describe('Parts', () => {
     });
   };
 
-  it('should render part table', async () => {
+  it('should render split areas', async () => {
     await renderParts();
-
-    expect(await waitFor(() => screen.getByTestId('table-component--test-id'))).toBeInTheDocument();
-  });
-
-  it('should render table and display correct amount of rows', async () => {
-    await renderParts();
-
-    const tableElement = await waitFor(() => screen.getByTestId('table-component--test-id'));
-    expect(tableElement).toBeInTheDocument();
-    expect(tableElement.children[1].childElementCount).toEqual(5);
+    expect(await waitFor(() => screen.getByTestId('as-split-area-1-component--test-id'))).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByTestId('as-split-area-2-component--test-id'))).toBeInTheDocument();
   });
 
   it('should render parts with closed sidenav', async () => {
@@ -60,88 +58,6 @@ describe('Parts', () => {
     const sideNavElement = await waitFor(() => screen.getByTestId('sidenav--test-id'));
     expect(sideNavElement).toBeInTheDocument();
     expect(sideNavElement).not.toHaveClass('sidenav--container__open');
-  });
-
-  it('should render selected parts information', async () => {
-    await renderParts();
-    await screen.findByTestId('table-component--test-id');
-    const selectedPartsInfo = await screen.getByText('page.selectedParts.info');
-
-    expect(selectedPartsInfo).toBeInTheDocument();
-  });
-
-  it('should sort asBuilt after column id', async () => {
-    const { fixture } = await renderParts();
-    const partsComponent =  await fixture.debugElement.query(By.directive(PartsComponent)).componentInstance;
-
-    let setTableFunctionSpy = spyOn<any>(partsComponent, "setTableSortingList").and.callThrough();
-    let idColumnHeader = await screen.findByText('table.column.id');
-    await waitFor(() => {fireEvent.click(idColumnHeader);}, {timeout: 3000});
-
-
-    expect(setTableFunctionSpy).toHaveBeenCalledWith(['id', 'asc'], "as_built" );
-
-    expect(partsComponent['tableAsBuiltSortList']).toEqual([["id", "asc"]]);
-  });
-
-  it('should multisort after column id and idShort', async () => {
-    const { fixture } = await renderParts();
-    const partsComponent =  await fixture.debugElement.query(By.directive(PartsComponent)).componentInstance;
-
-    let setTableFunctionSpy = spyOn<any>(partsComponent, "setTableSortingList").and.callThrough();
-    let idColumnHeader = await screen.findByText('table.column.id');
-    await waitFor(() => {fireEvent.click(idColumnHeader);}, {timeout: 3000});
-    let idShortHeader = await screen.findByText('table.column.idShort')
-
-    await waitFor(() => {fireEvent.keyDown(idShortHeader, {
-      ctrlKey: true,
-      charCode: 17
-    })})
-    expect(partsComponent['ctrlKeyState']).toBeTruthy();
-    await waitFor(() => {
-      fireEvent.click(idShortHeader)
-    });
-
-    await waitFor(() => {fireEvent.keyUp(idShortHeader, {
-      ctrlKey: true,
-      charCode: 17
-    })})
-
-    await waitFor(() => {fireEvent.click(idShortHeader)});
-
-
-    expect(setTableFunctionSpy).toHaveBeenCalledWith(['id', 'asc'], "as_built" );
-    expect(setTableFunctionSpy).toHaveBeenCalledWith(['idShort', 'asc'], "as_built" );
-    expect(partsComponent['tableAsBuiltSortList']).toEqual([["id", "asc"], ["idShort", "desc"]]);
-  });
-
-  it('should reset sorting after third click', async () => {
-    const { fixture } = await renderParts();
-    const partsComponent =  await fixture.debugElement.query(By.directive(PartsComponent)).componentInstance;
-
-    let idColumnHeader = await screen.findByText('table.column.id');
-    await waitFor(() => {fireEvent.click(idColumnHeader);}, {timeout: 3000});
-    let idShortHeader = await screen.findByText('table.column.idShort')
-
-    await waitFor(() => {fireEvent.keyDown(idShortHeader, {
-      ctrlKey: true,
-      charCode: 17
-    })})
-
-    await waitFor(() => {
-      fireEvent.click(idShortHeader)
-    });
-
-    await waitFor(() => {fireEvent.keyUp(idShortHeader, {
-      ctrlKey: true,
-      charCode: 17
-    })})
-
-    await waitFor(() => {fireEvent.click(idShortHeader)});
-
-    await waitFor(() => {fireEvent.click(idShortHeader)});
-
-    expect(partsComponent['tableAsBuiltSortList']).toEqual([]);
   });
 
 });
