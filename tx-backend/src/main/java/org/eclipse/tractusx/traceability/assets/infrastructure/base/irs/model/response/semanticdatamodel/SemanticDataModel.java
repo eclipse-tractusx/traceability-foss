@@ -25,6 +25,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataTractionBatteryCode;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
@@ -41,6 +42,7 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+import static org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel.extractDetailAspectModelTractionBatteryCode;
 import static org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel.extractDetailAspectModelsAsBuilt;
 import static org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel.extractDetailAspectModelsAsPlanned;
 import static org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel.extractDetailAspectModelsPartSiteInformationAsPlanned;
@@ -57,7 +59,7 @@ public class SemanticDataModel {
     ValidityPeriod validityPeriod;
     List<Site> sites;
     String aspectType;
-    private String catenaXId;
+    String catenaXId;
 
     public SemanticDataModel(
             String catenaXId,
@@ -84,7 +86,6 @@ public class SemanticDataModel {
     }
 
 
-
     public Optional<String> getLocalIdByInput(LocalIdKey key, List<LocalId> localIds) {
         return localIds.stream()
                 .filter(localId -> localId.key() == key)
@@ -92,8 +93,11 @@ public class SemanticDataModel {
                 .map(LocalId::value);
     }
 
-    public AssetBase toDomainAsBuilt(List<LocalId> localIds, Map<String, String> shortIds, Owner owner, Map<String, String> bpns, List<Descriptions> parentRelations, List<Descriptions> childRelations) {
+    public AssetBase toDomainAsBuilt(List<LocalId> localIds, Map<String, String> shortIds, Owner owner, Map<String,
+            String> bpns, List<Descriptions> parentRelations, List<Descriptions> childRelations,
+                                     Optional<DetailAspectDataTractionBatteryCode> tractionBatteryCodeOptional) {
         final String manufacturerName = bpns.get(manufacturerId());
+        ArrayList<DetailAspectModel> detailAspectModels = new ArrayList<>();
 
         final AtomicReference<String> semanticModelId = new AtomicReference<>();
         final AtomicReference<org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel> semanticDataModel = new AtomicReference<>();
@@ -101,6 +105,7 @@ public class SemanticDataModel {
         getLocalIdByInput(LocalIdKey.PART_INSTANCE_ID, localIds).ifPresent(s -> {
             semanticModelId.set(s);
             semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.SERIALPART);
+            tractionBatteryCodeOptional.ifPresent(tbc -> detailAspectModels.add(extractDetailAspectModelTractionBatteryCode(tbc)));
         });
 
         getLocalIdByInput(LocalIdKey.BATCH_ID, localIds).ifPresent(s -> {
@@ -118,13 +123,13 @@ public class SemanticDataModel {
             semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.UNKNOWN);
         }
 
-        DetailAspectModel detailAspectModel = extractDetailAspectModelsAsBuilt(manufacturingInformation, partTypeInformation);
+        detailAspectModels.add(extractDetailAspectModelsAsBuilt(manufacturingInformation, partTypeInformation));
 
         return AssetBase.builder()
                 .id(catenaXId())
                 .idShort(defaultValue(shortIds.get(catenaXId())))
                 .semanticModelId(semanticModelId.get())
-                .detailAspectModels(List.of(detailAspectModel))
+                .detailAspectModels(detailAspectModels)
                 .manufacturerId(manufacturerId())
                 .manufacturerName(defaultValue(manufacturerName))
                 .nameAtManufacturer(partTypeInformation.nameAtManufacturer())
@@ -140,6 +145,7 @@ public class SemanticDataModel {
                 .van(van())
                 .build();
     }
+
 
     public AssetBase toDomainAsPlanned(Map<String, String> shortIds, Owner owner, Map<String, String> bpns, List<Descriptions> parentRelations, List<Descriptions> childRelations) {
         final String manufacturerName = bpns.get(manufacturerId());

@@ -26,6 +26,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataTractionBatteryCode;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
@@ -34,8 +35,14 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Relationship;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.SemanticDataModel;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.TRACTION_BATTERY_CODE;
 
 @Slf4j
 public record JobDetailResponse(
@@ -73,11 +80,16 @@ public record JobDetailResponse(
         // E.g. import the schema for JustInSequencePart https://github.com/eclipse-tractusx/sldt-semantic-models/blob/main/io.catenax.just_in_sequence_part/1.0.0/gen/JustInSequencePart-schema.json
         // and generate a Java class
         List<SemanticDataModel> semanticDataModels = submodels.stream()
-                .filter(submodel -> submodel.getPayload() instanceof SemanticDataModel)
+                .filter(submodel -> submodel.getPayload() instanceof SemanticDataModel || submodel.getPayload() instanceof DetailAspectDataTractionBatteryCode)
                 .map(submodel -> {
-                    SemanticDataModel payload = (SemanticDataModel) submodel.getPayload();
-                    payload.setAspectType(submodel.getAspectType());
-                    return payload;
+                    if (submodel.getPayload() instanceof DetailAspectDataTractionBatteryCode detailAspectDataTractionBatteryCode) {
+                        detailAspectDataTractionBatteryCode.setAspectType(submodel.getAspectType());
+                        return detailAspectDataTractionBatteryCode;
+                    } else {
+                        SemanticDataModel payload = (SemanticDataModel) submodel.getPayload();
+                        payload.setAspectType(submodel.getAspectType());
+                        return payload;
+                    }
                 }).toList();
 
         return new JobDetailResponse(
@@ -142,7 +154,9 @@ public record JobDetailResponse(
     }
 
     private List<AssetBase> mapToOtherPartsAsBuilt(Map<String, String> shortIds, Owner owner, Map<String, String> bpnMapping) {
-        List<SemanticDataModel> otherParts = semanticDataModels().stream().filter(semanticDataModel -> !isOwnPart(semanticDataModel, jobStatus)).toList();
+        List<SemanticDataModel> otherParts = semanticDataModels().stream()
+                .filter(semanticDataModel -> !(semanticDataModel instanceof DetailAspectDataTractionBatteryCode)).filter(semanticDataModel -> !isOwnPart(semanticDataModel, jobStatus))
+                .toList();
 
         log.info(":: mapToOtherPartsAsBuilt()");
         log.info(":: otherParts: {}", otherParts);
@@ -150,7 +164,7 @@ public record JobDetailResponse(
                 .stream()
                 .map(semanticDataModel -> semanticDataModel.toDomainAsBuilt(semanticDataModel.localIdentifiers(), shortIds, owner, bpnMapping,
                         Collections.emptyList(),
-                        Collections.emptyList()))
+                        Collections.emptyList(), Optional.empty()))
                 .toList();
         log.info(":: mapped assets: {}", assets);
         return assets;
@@ -218,7 +232,10 @@ public record JobDetailResponse(
     }
 
     private List<AssetBase> mapToOwnPartsAsBuilt(Map<String, String> shortIds, Map<String, String> bpnMapping) {
-        List<SemanticDataModel> ownParts = semanticDataModels().stream().filter(semanticDataModel -> isOwnPart(semanticDataModel, jobStatus)).toList();
+        List<SemanticDataModel> ownParts = semanticDataModels().stream()
+                .filter(semanticDataModel -> Aspect.isMasterAspect(semanticDataModel.getAspectType()))
+                .filter(semanticDataModel -> isOwnPart(semanticDataModel, jobStatus))
+                .toList();
         log.info(":: mapToOwnPartsAsBuilt()");
         log.info(":: ownParts: {}", ownParts);
         // The Relationship on supplierPart catenaXId contains the id of the asset which has a relationship
@@ -231,11 +248,18 @@ public record JobDetailResponse(
                 .filter(relationship -> SINGLE_LEVEL_USAGE_AS_BUILT.equals(relationship.aspectType().getAspectName()))
                 .collect(Collectors.groupingBy(Relationship::childCatenaXId, Collectors.toList()));
 
+        //TRACEFOSS-2333: A tractionBatteryCode has no catenaxId. If a tractionBatteryCode is present for the requested
+        // global_asset_id, then it can be automatically mapped to the own SerialPart
+        Optional<DetailAspectDataTractionBatteryCode> tractionBatteryCodeOptional = semanticDataModels.stream()
+                .filter(semanticDataModel -> semanticDataModel.getAspectType().contains(TRACTION_BATTERY_CODE.getAspectName()))
+                .map(DetailAspectDataTractionBatteryCode.class::cast).findFirst();
+
         final List<AssetBase> assets = ownParts
                 .stream()
                 .map(semanticDataModel -> semanticDataModel.toDomainAsBuilt(semanticDataModel.localIdentifiers(), shortIds, Owner.OWN, bpnMapping,
                         getParentParts(customerPartsMap, shortIds, semanticDataModel.catenaXId()),
-                        getChildParts(supplierPartsMap, shortIds, semanticDataModel.catenaXId())))
+                        getChildParts(supplierPartsMap, shortIds, semanticDataModel.catenaXId()),
+                        tractionBatteryCodeOptional))
                 .toList();
         log.info(":: mapped assets: {}", assets);
         return assets;

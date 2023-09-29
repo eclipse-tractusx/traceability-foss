@@ -16,6 +16,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Filter for each assetAsBuilt table attribute
 - Filter for each assetAsPlanned table attribute
 - Extended testdata to reflect better overview of assets
+- Extended testdata to reflect better overview of assets
+- Support for TractionBatteryCode
 
 ### Changed
 - added sorting for /api/investigations received and created endpoints
