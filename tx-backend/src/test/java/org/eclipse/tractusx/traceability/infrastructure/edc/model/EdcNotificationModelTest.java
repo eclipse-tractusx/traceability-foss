@@ -31,6 +31,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitize;
+import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitizeHtml;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -143,5 +144,18 @@ public class EdcNotificationModelTest {
 
         //THEN
         assertEquals("Reason ", cleanUpdateQualityNotificationRequest.getReason());
+    }
+
+    @Test
+    public void testSanitizeHtml() {
+        //GIVEN
+        String html = "\n<oohlook&atme>";
+
+        //WHEN
+        String stringWithoutLineBreaks = sanitize(html);
+        String cleanString = sanitizeHtml(stringWithoutLineBreaks);
+
+        //THEN
+        assertEquals(" &lt;oohlook&amp;atme&gt;", cleanString);
     }
 }
