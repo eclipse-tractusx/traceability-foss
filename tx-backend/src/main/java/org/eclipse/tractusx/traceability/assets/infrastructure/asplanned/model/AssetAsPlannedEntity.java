@@ -81,7 +81,6 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
     }
 
     public static AssetAsPlannedEntity from(AssetBase asset) {
-        ManufacturingInfo manufacturingInfo = ManufacturingInfo.from(asset.getDetailAspectModels());
         List<DetailAspectModel> detailAspectModels = asset.getDetailAspectModels();
         AsPlannedInfo asPlannedInfo = AsPlannedInfo.from(detailAspectModels);
 
@@ -89,7 +88,7 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                 .id(asset.getId())
                 .idShort(asset.getIdShort())
                 .nameAtManufacturer(asset.getNameAtManufacturer())
-                .manufacturerPartId(manufacturingInfo.getManufacturerPartId())
+                .manufacturerPartId(asset.getManufacturerPartId())
                 .manufacturerName(asset.getManufacturerName())
                 .semanticModelId(asset.getSemanticModelId())
                 .van(asset.getVan())
