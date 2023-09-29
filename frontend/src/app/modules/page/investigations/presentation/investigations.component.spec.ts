@@ -80,6 +80,22 @@ describe('InvestigationsComponent', () => {
     expect(investigationComponent['investigationReceivedSortList']).toEqual([["status", "asc"]]);
   });
 
+  it('should sort queued and requested investigations after column status', async () => {
+    const { fixture } = await renderInvestigations();
+    const investigationComponent =  fixture.componentInstance;
+
+    fireEvent.click(await waitFor(() => screen.getByText('commonInvestigation.tabs.queuedAndRequested')));
+
+    let setTableFunctionSpy = spyOn<any>(investigationComponent, "setTableSortingList").and.callThrough();
+    let statusColumnHeader = await screen.findByText('table.column.status');
+    await waitFor(() => {fireEvent.click(statusColumnHeader);}, {timeout: 3000});
+
+
+    expect(setTableFunctionSpy).toHaveBeenCalledWith(['status', 'asc'], "queued-and-requested" );
+
+    expect(investigationComponent['investigationQueuedAndRequestedSortList']).toEqual([["status", "asc"]]);
+  });
+
 
   it('should multisort after column description and status', async () => {
     const { fixture } = await renderInvestigations();

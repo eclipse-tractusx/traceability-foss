@@ -66,7 +66,7 @@ describe('AlertsComponent', () => {
     expect(await waitFor(() => screen.getByText('Alert No 84'))).toBeInTheDocument();
   });
 
-  it('should sort received investigations after column status', async () => {
+  it('should sort received alerts after column status', async () => {
     const { fixture } = await renderAlerts();
     const alertsComponent =  fixture.componentInstance;
 
@@ -78,6 +78,22 @@ describe('AlertsComponent', () => {
     expect(setTableFunctionSpy).toHaveBeenCalledWith(['status', 'asc'], "received" );
 
     expect(alertsComponent['alertReceivedSortList']).toEqual([["status", "asc"]]);
+  });
+
+  it('should sort queued and requested alerts after column status', async () => {
+    const { fixture } = await renderAlerts();
+    const alertsComponent =  fixture.componentInstance;
+
+    fireEvent.click(await waitFor(() => screen.getByText('commonAlert.tabs.queuedAndRequested')));
+
+    let setTableFunctionSpy = spyOn<any>(alertsComponent, "setTableSortingList").and.callThrough();
+    let statusColumnHeader = await screen.findByText('table.column.status');
+    await waitFor(() => {fireEvent.click(statusColumnHeader);}, {timeout: 3000});
+
+
+    expect(setTableFunctionSpy).toHaveBeenCalledWith(['status', 'asc'], "queued-and-requested" );
+
+    expect(alertsComponent['alertQueuedAndRequestedSortList']).toEqual([["status", "asc"]]);
   });
 
 
