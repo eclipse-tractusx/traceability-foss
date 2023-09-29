@@ -32,7 +32,8 @@ public enum Aspect {
     SINGLE_LEVEL_BOM_AS_PLANNED("SingleLevelBomAsPlanned"),
     PART_SITE_INFORMATION_AS_PLANNED("PartSiteInformationAsPlanned"),
     PART_AS_PLANNED("PartAsPlanned"),
-    JUST_IN_SEQUENCE_PART("JustInSequencePart");
+    JUST_IN_SEQUENCE_PART("JustInSequencePart"),
+    TRACTION_BATTERY_CODE("TractionBatteryCode");
 
     private final String aspectName;
 
