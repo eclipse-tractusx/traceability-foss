@@ -42,6 +42,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.TRACTION_BATTERY_CODE;
+
 @Slf4j
 public record JobDetailResponse(
         JobStatus jobStatus,
@@ -231,7 +233,7 @@ public record JobDetailResponse(
 
     private List<AssetBase> mapToOwnPartsAsBuilt(Map<String, String> shortIds, Map<String, String> bpnMapping) {
         List<SemanticDataModel> ownParts = semanticDataModels().stream()
-                .filter(semanticDataModel -> !(semanticDataModel instanceof DetailAspectDataTractionBatteryCode))
+                .filter(semanticDataModel -> Aspect.isMasterAspect(semanticDataModel.getAspectType()))
                 .filter(semanticDataModel -> isOwnPart(semanticDataModel, jobStatus))
                 .toList();
         log.info(":: mapToOwnPartsAsBuilt()");
@@ -246,8 +248,10 @@ public record JobDetailResponse(
                 .filter(relationship -> SINGLE_LEVEL_USAGE_AS_BUILT.equals(relationship.aspectType().getAspectName()))
                 .collect(Collectors.groupingBy(Relationship::childCatenaXId, Collectors.toList()));
 
+        //TRACEFOSS-2333: A tractionBatteryCode has no catenaxId. If a tractionBatteryCode is present for the requested
+        // global_asset_id, then it can be automatically mapped to the own SerialPart
         Optional<DetailAspectDataTractionBatteryCode> tractionBatteryCodeOptional = semanticDataModels.stream()
-                .filter(DetailAspectDataTractionBatteryCode.class::isInstance)
+                .filter(semanticDataModel -> semanticDataModel.getAspectType().contains(TRACTION_BATTERY_CODE.getAspectName()))
                 .map(DetailAspectDataTractionBatteryCode.class::cast).findFirst();
 
         final List<AssetBase> assets = ownParts
