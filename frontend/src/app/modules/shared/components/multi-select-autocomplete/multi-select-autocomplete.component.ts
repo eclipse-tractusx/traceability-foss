@@ -29,9 +29,9 @@ import {FormControl} from '@angular/forms';
 export class MultiSelectAutocompleteComponent implements OnChanges, OnInit {
 
     @Input()
-    placeholder;
+    placeholder: string;
     @Input()
-    options;
+    options: any;
     @Input()
     disabled = false;
     @Input()
@@ -124,7 +124,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges, OnInit {
 
     }
 
-    hideOption(option): boolean {
+    hideOption(option: any): boolean {
         return !(this.filteredOptions.indexOf(option) > -1);
     }
 
