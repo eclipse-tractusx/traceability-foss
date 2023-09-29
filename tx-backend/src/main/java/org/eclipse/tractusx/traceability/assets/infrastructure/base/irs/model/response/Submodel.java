@@ -26,6 +26,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataTractionBatteryCode;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.SemanticDataModel;
 
 class Submodel {
@@ -57,6 +58,9 @@ class Submodel {
             }),
             @Type(value = SemanticDataModel.class, names = {
                     "urn:bamm:io.catenax.just_in_sequence_part:1.0.0#JustInSequencePart"
+            }),
+            @Type(value = DetailAspectDataTractionBatteryCode.class, names = {
+                    "urn:bamm:io.catenax.traction_battery_code:1.0.0#TractionBatteryCode"
             })
     })
     private Object payload;

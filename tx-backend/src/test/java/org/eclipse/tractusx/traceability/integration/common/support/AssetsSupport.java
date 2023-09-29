@@ -50,6 +50,10 @@ public class AssetsSupport {
         assetRepositoryProvider.assetAsBuiltRepository().saveAll(assetRepositoryProvider.assetsConverter().readAndConvertAssetsForTests());
     }
 
+    public void tractionBatteryCodeAssetsStored() {
+        assetRepositoryProvider.assetAsBuiltRepository().saveAll(assetRepositoryProvider.assetsConverter().readAndConvertTractionBatteryCodeAssetsForTests());
+    }
+
     public void defaultAssetsAsPlannedStored() {
         assetRepositoryProvider.assetAsPlannedRepository().saveAll(assetRepositoryProvider.assetsConverter().readAndConvertAssetsAsPlannedForTests());
     }

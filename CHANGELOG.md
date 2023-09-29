@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 ### Added
+
+### Changed
+
+### Removed
+
+## [7.1.0 - 29.09.2023]
+### Added
 - Splitscreen View with sliders on parts and otherParts View
 - New test data for as planned assets aswell as JustInSequence and TractionBatteryCode
 - Toggle for parts and other parts to switch views asPlanned/asBuilt
@@ -14,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - safety and security doc including roles matrix
 - handling for duplicate shellDescriptor ids when refreshing registry
 - Extendend testdata to reflect better overview of assets
+- Support for TractionBatteryCode
 
 ### Changed
 - added sorting for /api/investigations received and created endpoints

@@ -19,11 +19,13 @@
 package assets.response.base;
 
 import assets.response.asbuilt.DetailAspectDataAsBuiltResponse;
+import assets.response.asbuilt.DetailAspectDataTractionBatteryCodeResponse;
 import assets.response.asplanned.DetailAspectDataAsPlannedResponse;
 import assets.response.asplanned.PartSiteInformationAsPlannedResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@Schema(oneOf = {DetailAspectDataAsBuiltResponse.class, DetailAspectDataAsPlannedResponse.class, PartSiteInformationAsPlannedResponse.class})
+@Schema(oneOf = {DetailAspectDataAsBuiltResponse.class, DetailAspectDataAsPlannedResponse.class,
+        PartSiteInformationAsPlannedResponse.class, DetailAspectDataTractionBatteryCodeResponse.class})
 public interface DetailAspectDataResponse {
 
 }

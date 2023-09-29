@@ -51,6 +51,16 @@ public class AssetTestData {
         }
     }
 
+    List<AssetBase> readAndConvertTractionBatteryCodeAssetsForTests() {
+        try {
+            InputStream file = AssetTestData.class.getResourceAsStream("/data/irs_assets_tractionbatterycode.json");
+            JobDetailResponse response = mapper.readValue(file, JobDetailResponse.class);
+            return response.convertAssets();
+        } catch (IOException e) {
+            return Collections.emptyList();
+        }
+    }
+
     List<AssetBase> readAndConvertAssetsAsPlannedForTests() {
         try {
             InputStream file = AssetTestData.class.getResourceAsStream("/data/irs_assets_as_planned_v4.json");
