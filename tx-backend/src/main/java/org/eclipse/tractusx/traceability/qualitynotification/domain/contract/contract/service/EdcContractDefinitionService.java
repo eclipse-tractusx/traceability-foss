@@ -23,12 +23,12 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.contract.co
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.asset.model.CreateEdcAssetException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.asset.model.EdcContext;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.contract.model.CreateEdcContractDefinitionException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.contract.model.EdcContractDefinitionCriteria;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.contract.model.EdcCreateContractDefinitionRequest;
-import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatusCode;
@@ -37,8 +37,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import static org.eclipse.tractusx.traceability.common.config.JsonLdConfigurationTraceX.NAMESPACE_EDC;
 import static org.eclipse.tractusx.traceability.common.config.EdcRestTemplateConfiguration.EDC_REST_TEMPLATE;
+import static org.eclipse.tractusx.traceability.common.config.JsonLdConfigurationTraceX.NAMESPACE_EDC;
+import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitize;
+import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitizeHtml;
 
 @Slf4j
 @Component
@@ -101,8 +103,9 @@ public class EdcContractDefinitionService {
         if (responseCode.value() == 200) {
             return accessPolicyId;
         }
-
-        log.error("Failed to create EDC contract definition for {} notification asset id. Body: {}, status: {}", notificationAssetId, createContractDefinitionResponse.getBody(), createContractDefinitionResponse.getStatusCode());
+        String bodyWithoutLineBreaks = sanitize(createContractDefinitionResponse.getBody());
+        String cleanBody = sanitizeHtml(bodyWithoutLineBreaks);
+        log.error("Failed to create EDC contract definition for {} notification asset id. Body: {}, status: {}", notificationAssetId, cleanBody, createContractDefinitionResponse.getStatusCode());
 
         throw new CreateEdcAssetException("Failed to create EDC contract definition for %s notification asset id".formatted(notificationAssetId));
     }
