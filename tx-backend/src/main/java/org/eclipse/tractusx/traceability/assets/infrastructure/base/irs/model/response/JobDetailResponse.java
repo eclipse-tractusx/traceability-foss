@@ -281,7 +281,6 @@ public record JobDetailResponse(
     }
 
     private boolean isOwnPart(SemanticDataModel semanticDataModel, JobStatus jobStatus) {
-        log.info(":: semanticDataModel {}", semanticDataModel);
         final boolean result = semanticDataModel.getCatenaXId().equals(jobStatus.globalAssetId());
         log.info(":: isOwnPart() {}", semanticDataModel);
         log.info(":: result: {}", result);

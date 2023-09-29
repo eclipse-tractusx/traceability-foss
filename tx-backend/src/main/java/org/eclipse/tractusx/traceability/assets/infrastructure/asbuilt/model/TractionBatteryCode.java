@@ -35,7 +35,7 @@ public class TractionBatteryCode {
     private String productType;
     private String tractionBatteryCode;
 
-    private List<AssetAsBuiltEntity.tbcsub> subcomponents;
+    private List<AssetAsBuiltEntity.TractionBatteryCodeSubcomponents> subcomponents;
 
 
     public static TractionBatteryCode from(List<DetailAspectModel> detailAspectModels) {
@@ -50,7 +50,7 @@ public class TractionBatteryCode {
         String productType = tractionBatteryCodeAspectModel.map(detailAspectModel -> (DetailAspectDataTractionBatteryCode) detailAspectModel.getData())
                 .map(DetailAspectDataTractionBatteryCode::getProductType).orElse("");
 
-        List<AssetAsBuiltEntity.tbcsub> subcomponents = tractionBatteryCodeAspectModel.map(detailAspectModel -> (DetailAspectDataTractionBatteryCode) detailAspectModel.getData())
+        List<AssetAsBuiltEntity.TractionBatteryCodeSubcomponents> subcomponents = tractionBatteryCodeAspectModel.map(detailAspectModel -> (DetailAspectDataTractionBatteryCode) detailAspectModel.getData())
                 .map(DetailAspectDataTractionBatteryCode::getSubcomponents)
                 .orElse(Collections.emptyList())
                 .stream()
@@ -60,8 +60,8 @@ public class TractionBatteryCode {
 
     }
 
-    private static AssetAsBuiltEntity.tbcsub convertSubcomponents(DetailAspectDataTractionBatteryCodeSubcomponent detailAspectDataTractionBatteryCode) {
-        return AssetAsBuiltEntity.tbcsub.builder().subcomponentTractionBatteryCode(detailAspectDataTractionBatteryCode.getTractionBatteryCode())
+    private static AssetAsBuiltEntity.TractionBatteryCodeSubcomponents convertSubcomponents(DetailAspectDataTractionBatteryCodeSubcomponent detailAspectDataTractionBatteryCode) {
+        return AssetAsBuiltEntity.TractionBatteryCodeSubcomponents.builder().subcomponentTractionBatteryCode(detailAspectDataTractionBatteryCode.getTractionBatteryCode())
                 .productType(detailAspectDataTractionBatteryCode.getProductType()).build();
     }
 

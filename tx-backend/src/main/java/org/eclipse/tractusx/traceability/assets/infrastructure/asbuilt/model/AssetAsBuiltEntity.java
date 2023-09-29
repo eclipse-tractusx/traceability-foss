@@ -67,7 +67,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
 
     @ElementCollection
     @CollectionTable(name = "traction_battery_code_subcomponent", joinColumns = {@JoinColumn(name = "traction_battery_code")})
-    private List<AssetAsBuiltEntity.tbcsub> subcomponents;
+    private List<TractionBatteryCodeSubcomponents> subcomponents;
 
 
     @ElementCollection
@@ -187,7 +187,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
     @AllArgsConstructor
     @Data
     @Embeddable
-    public static class tbcsub {
+    public static class TractionBatteryCodeSubcomponents {
         private String subcomponentTractionBatteryCode;
         private String productType;
     }

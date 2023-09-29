@@ -36,6 +36,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 
 import static org.eclipse.tractusx.traceability.common.repository.EntityNameMapper.toDatabaseName;
 
@@ -79,8 +80,8 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
     public PageResult<AssetBase> getAssets(Pageable pageable, List<SearchCriteria> filter) {
         return new PageResult<>(
                 jpaAssetAsBuiltRepository.findAll(
-                        AssetAsBuildSpecification.toSpecification(
-                                filter.stream().map(AssetAsBuildSpecification::new).toList()),
+                        Objects.requireNonNull(AssetAsBuildSpecification.toSpecification(
+                                filter.stream().map(AssetAsBuildSpecification::new).toList())),
                         pageable),
                 AssetAsBuiltEntity::toDomain);
     }
