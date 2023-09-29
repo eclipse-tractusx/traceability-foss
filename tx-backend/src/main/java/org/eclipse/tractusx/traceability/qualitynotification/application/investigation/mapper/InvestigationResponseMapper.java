@@ -78,28 +78,28 @@ public class InvestigationResponseMapper {
     private static String getSenderBPN(Collection<QualityNotificationMessage> notifications) {
         return notifications.stream()
                 .findFirst()
-                .map(QualityNotificationMessage::getSenderBpnNumber)
+                .map(QualityNotificationMessage::getCreatedBy)
                 .orElse(null);
     }
 
     private static String getReceiverBPN(Collection<QualityNotificationMessage> notifications) {
         return notifications.stream()
                 .findFirst()
-                .map(QualityNotificationMessage::getReceiverBpnNumber)
+                .map(QualityNotificationMessage::getSendTo)
                 .orElse(null);
     }
 
     private static String getSenderName(Collection<QualityNotificationMessage> notifications) {
         return notifications.stream()
                 .findFirst()
-                .map(QualityNotificationMessage::getSenderManufacturerName)
+                .map(QualityNotificationMessage::getCreatedByName)
                 .orElse(null);
     }
 
     private static String getReceiverName(Collection<QualityNotificationMessage> notifications) {
         return notifications.stream()
                 .findFirst()
-                .map(QualityNotificationMessage::getReceiverManufacturerName)
+                .map(QualityNotificationMessage::getSendToName)
                 .orElse(null);
     }
 }
