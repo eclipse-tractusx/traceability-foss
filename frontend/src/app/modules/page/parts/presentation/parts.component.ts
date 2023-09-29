@@ -38,13 +38,13 @@ import {BomLifecycleSize} from "@shared/components/bom-lifecycle-activator/bom-l
 import {BomLifecycleSettingsService, UserSettingView} from "@shared/service/bom-lifecycle-settings.service";
 
 
+
 @Component({
     selector: 'app-parts',
     templateUrl: './parts.component.html',
     styleUrls: ['./parts.component.scss'],
 })
 export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
-
 
     public readonly displayedColumnsAsBuilt: string[] = [
         'select',

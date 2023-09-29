@@ -19,56 +19,57 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { ApiService } from '@core/api/api.service';
-import { Pagination } from '@core/model/pagination.model';
-import { environment } from '@env';
-import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import { Owner } from '@page/parts/model/owner.enum';
-import { Part, PartsResponse } from '@page/parts/model/parts.model';
-import { PartsAssembler } from '@shared/assembler/parts.assembler';
-import { TableHeaderSort } from '@shared/components/table/table.model';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {HttpParams} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {ApiService} from '@core/api/api.service';
+import {Pagination} from '@core/model/pagination.model';
+import {environment} from '@env';
+import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
+import {Owner} from '@page/parts/model/owner.enum';
+import {Part, PartsResponse} from '@page/parts/model/parts.model';
+import {PartsAssembler} from '@shared/assembler/parts.assembler';
+import {TableHeaderSort} from '@shared/components/table/table.model';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Injectable()
 export class OtherPartsService {
-  private url = environment.apiUrl;
+    private url = environment.apiUrl;
 
-  constructor(private readonly apiService: ApiService) {}
+    constructor(private readonly apiService: ApiService) {
+    }
 
 
-  public getOtherPartsAsBuilt(page: number, pageSize: number, sorting: TableHeaderSort[], owner: Owner): Observable<Pagination<Part>> {
-    let sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
-    let params = new HttpParams()
-      .set('page', page)
-      .set('size', pageSize)
-      .set('owner', owner);
+    public getOtherPartsAsBuilt(page: number, pageSize: number, sorting: TableHeaderSort[], owner: Owner): Observable<Pagination<Part>> {
+        let sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
+        let params = new HttpParams()
+            .set('page', page)
+            .set('size', pageSize)
+            .set('filter', "owner,EQUAL," + owner);
 
-    sort.forEach(sortingItem => {
-      params = params.append('sort', sortingItem);
-    })
+        sort.forEach(sortingItem => {
+            params = params.append('sort', sortingItem);
+        })
 
-    return this.apiService
-      .getBy<PartsResponse>(`${this.url}/assets/as-built`, params)
-      .pipe(map(parts => PartsAssembler.assembleOtherParts(parts, MainAspectType.AS_BUILT)));
-  }
+        return this.apiService
+            .getBy<PartsResponse>(`${this.url}/assets/as-built`, params)
+            .pipe(map(parts => PartsAssembler.assembleOtherParts(parts, MainAspectType.AS_BUILT)));
+    }
 
-  public getOtherPartsAsPlanned(page: number, pageSize: number, sorting: TableHeaderSort[], owner: Owner): Observable<Pagination<Part>> {
-    let sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
-    let params = new HttpParams()
-      .set('page', page)
-      .set('size', pageSize)
-      .set('owner', owner);
+    public getOtherPartsAsPlanned(page: number, pageSize: number, sorting: TableHeaderSort[], owner: Owner): Observable<Pagination<Part>> {
+        let sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
+        let params = new HttpParams()
+            .set('page', page)
+            .set('size', pageSize)
+            .set('filter', "owner,EQUAL," + owner);
 
-    sort.forEach(sortingItem => {
-      params = params.append('sort', sortingItem);
-    })
+        sort.forEach(sortingItem => {
+            params = params.append('sort', sortingItem);
+        })
 
-    return this.apiService
-      .getBy<PartsResponse>(`${this.url}/assets/as-planned`, params)
-      .pipe(map(parts => PartsAssembler.assembleOtherParts(parts, MainAspectType.AS_BUILT)));
-  }
+        return this.apiService
+            .getBy<PartsResponse>(`${this.url}/assets/as-planned`, params)
+            .pipe(map(parts => PartsAssembler.assembleOtherParts(parts, MainAspectType.AS_BUILT)));
+    }
 
 }

@@ -84,11 +84,11 @@ class AssetAsPlannedControllerAllIT extends IntegrationTestSpecification {
         //GIVEN
         assetsSupport.defaultAssetsAsPlannedStored();
 
-        //THEN
+        //THEN filter=owner,EQUAL,OWN
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
-                .queryParam("owner", ownerValue)
+                .queryParam("filter", "owner,EQUAL," + ownerValue)
                 .when()
                 .get("/api/assets/as-planned")
                 .then()
