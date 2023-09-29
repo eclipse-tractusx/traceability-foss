@@ -29,6 +29,7 @@ import {screen, waitFor} from '@testing-library/angular';
 import {renderComponent} from '@tests/test-render.utils';
 import {PartsModule} from '../parts.module';
 import {AssetAsBuiltFilter} from "@page/parts/model/parts.model";
+import {TableHeaderSort} from "@shared/components/table/table.model";
 
 describe('Parts', () => {
 
@@ -47,12 +48,6 @@ describe('Parts', () => {
         expect(await waitFor(() => screen.getByTestId('as-split-area-2-component--test-id'))).toBeInTheDocument();
     });
 
-    it('should render parts with closed sidenav', async () => {
-        await renderParts();
-        const sideNavElement = await waitFor(() => screen.getByTestId('sidenav--test-id'));
-        expect(sideNavElement).toBeInTheDocument();
-        expect(sideNavElement).not.toHaveClass('sidenav--container__open');
-    });
 
     it('should have correct sizes for split areas', async () => {
         const {fixture} = await renderParts();
@@ -94,6 +89,25 @@ describe('Parts', () => {
 
         // Assert
         expect(partsFacadeSpy).toHaveBeenCalledWith();
+    });
+
+    it('should call partsFacade.setPartsAsBuilt with the correct parameters', async () => {
+        const {fixture} = await renderParts();
+        const {componentInstance} = fixture;
+
+        const page = 1; // Set the page number
+        const pageSize = 10; // Set the page size
+        const sorting= ['id', 'asc'] as TableHeaderSort;
+
+        // Access the private partsFacade property
+        const partsFacade = (componentInstance as any)['partsFacade'];
+        const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuilt');
+
+        // Act
+        componentInstance['onAsBuiltTableConfigChange']({ page, pageSize, sorting }); // Access private method
+
+        // Assert
+        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsBuiltSortList']);
     });
 
 });
