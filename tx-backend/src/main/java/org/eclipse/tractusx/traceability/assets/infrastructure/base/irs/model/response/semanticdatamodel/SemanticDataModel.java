@@ -42,7 +42,7 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
-import static org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel.extractDetailAspectDataTractionBatteryCode;
+import static org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel.extractDetailAspectModelTractionBatteryCode;
 import static org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel.extractDetailAspectModelsAsBuilt;
 import static org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel.extractDetailAspectModelsAsPlanned;
 import static org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel.extractDetailAspectModelsPartSiteInformationAsPlanned;
@@ -55,12 +55,11 @@ public class SemanticDataModel {
 
     PartTypeInformation partTypeInformation;
     ManufacturingInformation manufacturingInformation;
-    DetailAspectDataTractionBatteryCode detailAspectDataTractionBatteryCode;
     List<LocalId> localIdentifiers;
     ValidityPeriod validityPeriod;
     List<Site> sites;
     String aspectType;
-    private String catenaXId;
+    String catenaXId;
 
     public SemanticDataModel(
             String catenaXId,
@@ -95,8 +94,11 @@ public class SemanticDataModel {
                 .map(LocalId::value);
     }
 
-    public AssetBase toDomainAsBuilt(List<LocalId> localIds, Map<String, String> shortIds, Owner owner, Map<String, String> bpns, List<Descriptions> parentRelations, List<Descriptions> childRelations) {
+    public AssetBase toDomainAsBuilt(List<LocalId> localIds, Map<String, String> shortIds, Owner owner, Map<String,
+            String> bpns, List<Descriptions> parentRelations, List<Descriptions> childRelations,
+                                     Optional<DetailAspectDataTractionBatteryCode> tractionBatteryCodeOptional) {
         final String manufacturerName = bpns.get(manufacturerId());
+        ArrayList<DetailAspectModel> detailAspectModels = new ArrayList<>();
 
         final AtomicReference<String> semanticModelId = new AtomicReference<>();
         final AtomicReference<org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel> semanticDataModel = new AtomicReference<>();
@@ -104,6 +106,9 @@ public class SemanticDataModel {
         getLocalIdByInput(LocalIdKey.PART_INSTANCE_ID, localIds).ifPresent(s -> {
             semanticModelId.set(s);
             semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.SERIALPART);
+            tractionBatteryCodeOptional.ifPresent(tbc -> {
+                detailAspectModels.add(extractDetailAspectModelTractionBatteryCode(tbc));
+            });
         });
 
         getLocalIdByInput(LocalIdKey.BATCH_ID, localIds).ifPresent(s -> {
@@ -121,11 +126,7 @@ public class SemanticDataModel {
             semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.UNKNOWN);
         }
 
-        ArrayList<DetailAspectModel> detailAspectModels = new ArrayList<>();
         detailAspectModels.add(extractDetailAspectModelsAsBuilt(manufacturingInformation, partTypeInformation));
-        if (detailAspectDataTractionBatteryCode != null) {
-            detailAspectModels.add(extractDetailAspectDataTractionBatteryCode(detailAspectDataTractionBatteryCode));
-        }
 
         return AssetBase.builder()
                 .id(catenaXId())

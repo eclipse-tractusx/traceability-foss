@@ -179,4 +179,26 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
                 .body("pageSize", Matchers.is(2));
     }
 
+    @Test
+    void shouldGetTractionBatteryCodeAsset() throws JoseException {
+        //GIVEN
+        assetsSupport.tractionBatteryCodeAssetsStored();
+
+        //THEN
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .param("page", "0")
+                .param("size", "10")
+                .when()
+                .log().all()
+                .get("/api/assets/as-built")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(10))
+                .body("content[0].detailAspectModels[1]", hasEntry("type", "TRACTION_BATTERY_CODE"));
+    }
+
 }

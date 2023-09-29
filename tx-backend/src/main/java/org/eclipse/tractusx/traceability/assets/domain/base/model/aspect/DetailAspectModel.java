@@ -43,7 +43,6 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
@@ -60,7 +59,6 @@ public class DetailAspectModel {
         return DetailAspectModel.builder()
                 .type(DetailAspectType.valueOf(detailAspectType.name()))
                 .data(from(detailAspectData)).build();
-
     }
 
     public static DetailAspectData from(DetailAspectDataResponse detailAspectDataResponse) {
@@ -90,12 +88,6 @@ public class DetailAspectModel {
                     .build();
         }
         return DetailAspectDataPartSiteInformationAsPlanned.builder().build();
-    }
-
-    public static Optional<DetailAspectModel> getDetailAspectDataByType(List<DetailAspectModel> detailAspectModels, DetailAspectType type) {
-        return detailAspectModels.stream()
-                .filter(detailAspectModel -> detailAspectModel.getType().equals(type))
-                .findFirst();
     }
 
     public static List<DetailAspectModel> from(AssetAsBuiltEntity entity) {
@@ -151,7 +143,6 @@ public class DetailAspectModel {
         return List.of(asPlannedInfo, partSiteInfo);
     }
 
-
     public static List<DetailAspectModel> extractDetailAspectModelsPartSiteInformationAsPlanned(List<Site> sites) {
         List<DetailAspectModel> detailAspectModels = new ArrayList<>();
         emptyIfNull(sites).forEach(site -> {
@@ -188,13 +179,7 @@ public class DetailAspectModel {
         return DetailAspectModel.builder().data(detailAspectDataAsBuilt).type(DetailAspectType.AS_BUILT).build();
     }
 
-    public static DetailAspectModel extractDetailAspectDataTractionBatteryCode(DetailAspectDataTractionBatteryCode detailAspectDataTractionBatteryCode) {
-        DetailAspectDataTractionBatteryCode tractionBatteryCode = DetailAspectDataTractionBatteryCode
-                .builder()
-                .tractionBatteryCode(detailAspectDataTractionBatteryCode.getTractionBatteryCode())
-                .productType(detailAspectDataTractionBatteryCode.getProductType())
-                .subcomponents(detailAspectDataTractionBatteryCode.getSubcomponents()).build();
-
-        return DetailAspectModel.builder().data(tractionBatteryCode).type(DetailAspectType.TRACTION_BATTERY_CODE).build();
+    public static DetailAspectModel extractDetailAspectModelTractionBatteryCode(DetailAspectDataTractionBatteryCode detailAspectDataTractionBatteryCode) {
+        return DetailAspectModel.builder().data(detailAspectDataTractionBatteryCode).type(DetailAspectType.TRACTION_BATTERY_CODE).build();
     }
 }

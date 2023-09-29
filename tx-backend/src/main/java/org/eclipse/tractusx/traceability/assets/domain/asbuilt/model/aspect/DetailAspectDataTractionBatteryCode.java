@@ -18,24 +18,34 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectData;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.SemanticDataModel;
 
 import java.util.List;
 
 @Builder
+@Setter
 @Getter
-public class DetailAspectDataTractionBatteryCode implements DetailAspectData {
-    private String productType;
-    private String tractionBatteryCode;
-    private List<DetailAspectDataTractionBatteryCodeSubcomponent> subcomponents;
+@AllArgsConstructor
+@NoArgsConstructor
+public class DetailAspectDataTractionBatteryCode extends SemanticDataModel implements DetailAspectData {
+    String productType;
+    String tractionBatteryCode;
+    List<DetailAspectDataTractionBatteryCodeSubcomponent> subcomponents;
 
     @Builder
+    @Setter
     @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class DetailAspectDataTractionBatteryCodeSubcomponent {
-        private String productType;
-        private String tractionBatteryCode;
+        String productType;
+        String tractionBatteryCode;
     }
 
 }
