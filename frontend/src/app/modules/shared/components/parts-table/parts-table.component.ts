@@ -79,6 +79,7 @@ export class PartsTableComponent {
 
     filterKey = 'Filter';
 
+
     public readonly displayedColumnsAsBuilt: string[] = [
         'Filter',
         'filterId',
@@ -236,6 +237,8 @@ export class PartsTableComponent {
             this.filterActivatedAsBuilt.emit(transformedFilter);
 
         });
+
+
     }
 
     @ViewChild(MultiSelectAutocompleteComponent) multiSelection: MultiSelectAutocompleteComponent;

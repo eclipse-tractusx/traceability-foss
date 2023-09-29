@@ -61,9 +61,8 @@ SPDX-License-Identifier: Apache-2.0
 
             <ng-container matColumnDef="{{ filter.headerKey }}" *ngFor="let filter of filterConfigurations">
                 <th class="multi-select-header-cell" mat-header-cell *matHeaderCellDef>
-                    <!-- todo check how to provide options for text search-->
                     <app-multiselect *ngIf="filter.headerKey!==filterKey"
-                                     [placeholder]="'multiSelect.placeholder' | i18n"
+                                     [placeholder]="'All'"
                                      [options]="filter.option"
                                      [multiple]='!filter.isTextSearch'
                                      [textSearch]='filter.isTextSearch'
