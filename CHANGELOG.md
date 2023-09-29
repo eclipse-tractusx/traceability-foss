@@ -13,6 +13,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - archunit tests as preparation for good quality architecture checks
 - safety and security doc including roles matrix
 - handling for duplicate shellDescriptor ids when refreshing registry
+- Filter for each assetAsBuilt table attribute
+- Filter for each assetAsPlanned table attribute
 
 ### Changed
 - added sorting for /api/investigations received and created endpoints
