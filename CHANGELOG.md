@@ -12,6 +12,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Removed
 
+- Owner filter and replaced it with the new filter query param
+
 ## [7.1.0 - 29.09.2023]
 ### Added
 - Splitscreen View with sliders on parts and otherParts View
