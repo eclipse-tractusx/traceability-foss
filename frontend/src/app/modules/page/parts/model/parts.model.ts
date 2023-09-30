@@ -133,3 +133,20 @@ export interface AssetAsBuiltFilter {
     manufacturingDate?: string,
     manufacturingCountry?: string
 }
+
+export interface AssetAsPlannedFilter {
+    id?: string,
+    idShort?: string,
+    name?: string,
+    manufacturer?: string,
+    manufacturerPartId?: string,
+    classification?: string,
+    semanticDataModel?: string,
+    semanticModelId?: string,
+    validityPeriodFrom?: string,
+    validityPeriodTo?: string,
+    psFunction?: string,
+    catenaXSiteId?: string,
+    functionValidFrom?: string,
+    functionValidUntil?: string,
+}

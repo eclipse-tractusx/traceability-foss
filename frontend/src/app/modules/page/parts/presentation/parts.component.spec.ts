@@ -69,7 +69,7 @@ describe('Parts', () => {
         const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuiltWithFilter');
 
 
-        componentInstance.filterActivatedAsBuilt(assetAsBuiltFilter);
+        componentInstance.filterActivated(true, assetAsBuiltFilter);
 
 
         expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], assetAsBuiltFilter);
@@ -85,7 +85,7 @@ describe('Parts', () => {
         const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuilt');
 
         // Act
-        componentInstance.filterActivatedAsBuilt(assetAsBuiltFilter);
+        componentInstance.filterActivated(true, assetAsBuiltFilter);
 
         // Assert
         expect(partsFacadeSpy).toHaveBeenCalledWith();
@@ -97,14 +97,14 @@ describe('Parts', () => {
 
         const page = 1; // Set the page number
         const pageSize = 10; // Set the page size
-        const sorting= ['id', 'asc'] as TableHeaderSort;
+        const sorting = ['id', 'asc'] as TableHeaderSort;
 
         // Access the private partsFacade property
         const partsFacade = (componentInstance as any)['partsFacade'];
         const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuilt');
 
         // Act
-        componentInstance['onAsBuiltTableConfigChange']({ page, pageSize, sorting }); // Access private method
+        componentInstance['onAsBuiltTableConfigChange']({page, pageSize, sorting}); // Access private method
 
         // Assert
         expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsBuiltSortList']);

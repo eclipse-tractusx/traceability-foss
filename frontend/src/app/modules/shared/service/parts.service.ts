@@ -25,7 +25,13 @@ import {ApiService} from '@core/api/api.service';
 import {Pagination} from '@core/model/pagination.model';
 import {environment} from '@env';
 import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
-import {AssetAsBuiltFilter, Part, PartResponse, PartsResponse} from '@page/parts/model/parts.model';
+import {
+    AssetAsBuiltFilter,
+    AssetAsPlannedFilter,
+    Part,
+    PartResponse,
+    PartsResponse
+} from '@page/parts/model/parts.model';
 import {PartsAssembler} from '@shared/assembler/parts.assembler';
 import {TableHeaderSort} from '@shared/components/table/table.model';
 import _deepClone from 'lodash-es/cloneDeep';
@@ -72,12 +78,7 @@ export class PartsService {
 
         for (const key in assetAsBuiltFilter) {
             const value = assetAsBuiltFilter[key];
-            console.log(value !== undefined, "value");
-            console.log(value !== null, "value");
-            console.log(value.length !== 0, "value");
-            console.log(value !== '', "value");
             if (value.length !== 0) {
-
                 console.log(value, "value after");
                 // Modify this line to format the filter
                 params = params.append('filter', `${key},STARTS_WITH,${value}`);
@@ -101,6 +102,30 @@ export class PartsService {
         sort.forEach(sortingItem => {
             params = params.append('sort', sortingItem);
         })
+
+        return this.apiService
+            .getBy<PartsResponse>(`${this.url}/assets/as-planned`, params)
+            .pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_PLANNED)));
+    }
+
+    public getPartsAsPlannedWithFilter(page: number, pageSize: number, sorting: TableHeaderSort[], assetAsPlannedFilter: AssetAsPlannedFilter): Observable<Pagination<Part>> {
+        let sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
+        let params = new HttpParams()
+            .set('page', page)
+            .set('size', pageSize)
+            .append('filter', 'owner,EQUAL,OWN');
+
+        sort.forEach(sortingItem => {
+            params = params.append('sort', sortingItem);
+        })
+
+        for (const key in assetAsPlannedFilter) {
+            const value = assetAsPlannedFilter[key];
+            if (value.length !== 0) {
+                // Modify this line to format the filter
+                params = params.append('filter', `${key},STARTS_WITH,${value}`);
+            }
+        }
 
         return this.apiService
             .getBy<PartsResponse>(`${this.url}/assets/as-planned`, params)

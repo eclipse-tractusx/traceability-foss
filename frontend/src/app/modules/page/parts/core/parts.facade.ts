@@ -22,7 +22,7 @@
 import {Injectable} from '@angular/core';
 import {Pagination} from '@core/model/pagination.model';
 import {PartsState} from '@page/parts/core/parts.state';
-import {AssetAsBuiltFilter, Part} from '@page/parts/model/parts.model';
+import {AssetAsBuiltFilter, AssetAsPlannedFilter, Part} from '@page/parts/model/parts.model';
 import {TableHeaderSort} from '@shared/components/table/table.model';
 import {View} from '@shared/model/view.model';
 import {PartsService} from '@shared/service/parts.service';
@@ -64,6 +64,14 @@ export class PartsFacade {
     public setPartsAsPlanned(page = 0, pageSize = 50, sorting: TableHeaderSort[] = []): void {
         this.partsAsPlannedSubscription?.unsubscribe();
         this.partsAsPlannedSubscription = this.partsService.getPartsAsPlanned(page, pageSize, sorting).subscribe({
+            next: data => (this.partsState.partsAsPlanned = {data}),
+            error: error => (this.partsState.partsAsPlanned = {error}),
+        });
+    }
+
+    public setPartsAsPlannedWithFilter(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], assetAsPlannedFilter: AssetAsPlannedFilter): void {
+        this.partsAsPlannedSubscription?.unsubscribe();
+        this.partsAsPlannedSubscription = this.partsService.getPartsAsPlannedWithFilter(page, pageSize, sorting, assetAsPlannedFilter).subscribe({
             next: data => (this.partsState.partsAsPlanned = {data}),
             error: error => (this.partsState.partsAsPlanned = {error}),
         });

@@ -56,8 +56,11 @@ SPDX-License-Identifier: Apache-2.0
             <!-- TODO: Make Header fixed to top when scrolling -->
             <tr *matHeaderRowDef="tableConfig.displayedColumns" mat-header-row data-testid="table-component--head-row"
                 class="table--header--row"></tr>
+
+            <ng-container *ngIf="multiSelectActive">
             <tr class="filter-row" mat-header-row *matHeaderRowDef="displayedColumnsAsBuilt"
                 [hidden]="displayedFilter"></tr>
+
 
             <ng-container matColumnDef="{{ filter.headerKey }}" *ngFor="let filter of filterConfigurations">
                 <th class="multi-select-header-cell" mat-header-cell *matHeaderCellDef>
@@ -72,7 +75,7 @@ SPDX-License-Identifier: Apache-2.0
                           *ngIf="filter.headerKey==='Filter'">{{ 'table.filterTitle' | i18n }}</span>
                 </th>
             </ng-container>
-
+            </ng-container>
             <tr
                     *matRowDef="let row; columns: tableConfig.displayedColumns"
                     [class.loading]="isDataLoading"

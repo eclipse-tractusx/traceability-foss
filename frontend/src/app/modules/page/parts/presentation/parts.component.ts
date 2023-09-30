@@ -23,13 +23,8 @@ import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import {Pagination} from '@core/model/pagination.model';
 import {PartsFacade} from '@page/parts/core/parts.facade';
 import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
-import {AssetAsBuiltFilter, Part} from '@page/parts/model/parts.model';
-import {
-    CreateHeaderFromColumns,
-    TableConfig,
-    TableEventConfig,
-    TableHeaderSort,
-} from '@shared/components/table/table.model';
+import {AssetAsBuiltFilter, AssetAsPlannedFilter, Part} from '@page/parts/model/parts.model';
+import {TableEventConfig, TableHeaderSort,} from '@shared/components/table/table.model';
 import {View} from '@shared/model/view.model';
 import {PartDetailsFacade} from '@shared/modules/part-details/core/partDetails.facade';
 import {StaticIdService} from '@shared/service/staticId.service';
@@ -38,84 +33,12 @@ import {BomLifecycleSize} from "@shared/components/bom-lifecycle-activator/bom-l
 import {BomLifecycleSettingsService, UserSettingView} from "@shared/service/bom-lifecycle-settings.service";
 
 
-
 @Component({
     selector: 'app-parts',
     templateUrl: './parts.component.html',
     styleUrls: ['./parts.component.scss'],
 })
 export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
-
-    public readonly displayedColumnsAsBuilt: string[] = [
-        'select',
-        'id',
-        'idShort',
-        'name', // nameAtManufacturer
-        'manufacturer',
-        'partId', // Part number / Batch Number / JIS Number
-        'manufacturerPartId',
-        'customerPartId', // --> semanticModel.customerPartId
-        'classification',
-        //'nameAtManufacturer', --> already in name
-        'nameAtCustomer', // --> semanticModel.nameAtCustomer
-        'semanticModelId',
-        'semanticDataModel',
-        'manufacturingDate',
-        'manufacturingCountry',
-    ];
-
-
-    public readonly displayedColumnsAsPlanned: string[] = [
-        'select',
-        'id',
-        'idShort',
-        'name',
-        'manufacturer',
-        'manufacturerPartId',
-        'classification',
-        'semanticDataModel',
-        'semanticModelId',
-        'validityPeriodFrom',
-        'validityPeriodTo',
-        'psFunction',
-        'catenaXSiteId',
-        'functionValidFrom',
-        'functionValidUntil',
-    ];
-
-    public readonly sortableColumnsAsBuilt: Record<string, boolean> = {
-        id: true,
-        idShort: true,
-        name: true,
-        manufacturer: true,
-        partId: true,
-        manufacturerPartId: true,
-        customerPartId: true,
-        classification: true,
-        nameAtCustomer: true,
-        semanticModelId: true,
-        semanticDataModel: true,
-        manufacturingDate: true,
-        manufacturingCountry: true,
-
-    };
-
-    public readonly sortableColumnsAsPlanned: Record<string, boolean> = {
-        id: true,
-        idShort: true,
-        name: true,
-        manufacturer: true,
-        manufacturerPartId: true,
-        classification: true,
-        semanticDataModel: true,
-        semanticModelId: true,
-        validityPeriodFrom: true,
-        validityPeriodTo: true,
-        psFunction: true,
-        catenaXSiteId: true,
-        functionValidFrom: true,
-        functionValidUntil: true,
-    };
 
     public readonly titleId = this.staticIdService.generateId('PartsComponent.title');
     public readonly partsAsBuilt$: Observable<View<Pagination<Part>>>;
@@ -130,8 +53,6 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     public tableAsBuiltSortList: TableHeaderSort[];
     public tableAsPlannedSortList: TableHeaderSort[];
 
-    public tableConfigAsBuilt: TableConfig;
-    public tableConfigAsPlanned: TableConfig;
 
     private ctrlKeyState = false;
 
@@ -163,36 +84,30 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
         this.partsFacade.setPartsAsPlanned();
     }
 
-    filterActivatedAsBuilt(assetAsBuiltFilter: AssetAsBuiltFilter) {
-        // Check if any property in the filter object has a value
-        const filterIsSet = Object.values(assetAsBuiltFilter).some(value => value !== undefined && value !== null);
+    filterActivated(isAsBuilt: boolean, assetFilter: any): void {
+
+        const filterIsSet = Object.values(assetFilter).some(value => value !== undefined && value !== null);
+        let filter: AssetAsPlannedFilter | AssetAsBuiltFilter;
 
         if (filterIsSet) {
-            console.log("Filter is set");
-            // Your logic when the filter is set
-            this.partsFacade.setPartsAsBuiltWithFilter(0, 50, [], assetAsBuiltFilter);
+            if (isAsBuilt) {
+                filter = assetFilter as AssetAsBuiltFilter;
+                this.partsFacade.setPartsAsBuiltWithFilter(0, 50, [], filter);
+            } else {
+                filter = assetFilter as AssetAsPlannedFilter;
+                this.partsFacade.setPartsAsPlannedWithFilter(0, 50, [], filter);
+            }
         } else {
-            console.log("Filter is not set");
-            // Your logic when the filter is not set
-            this.partsFacade.setPartsAsBuilt();
+            if (isAsBuilt) {
+                this.partsFacade.setPartsAsBuilt();
+            } else {
+                this.partsFacade.setPartsAsPlanned();
+            }
         }
     }
-
-    filterActivatedAsPlanned($event: any) {
-        // todo
-    }
-
+    
     public ngAfterViewInit(): void {
-        this.tableConfigAsBuilt = {
-            displayedColumns: this.displayedColumnsAsBuilt,
-            header: CreateHeaderFromColumns(this.displayedColumnsAsBuilt, 'table.column'),
-            sortableColumns: this.sortableColumnsAsBuilt,
-        };
-        this.tableConfigAsPlanned = {
-            displayedColumns: this.displayedColumnsAsPlanned,
-            header: CreateHeaderFromColumns(this.displayedColumnsAsPlanned, 'table.column'),
-            sortableColumns: this.sortableColumnsAsPlanned,
-        }
+
 
         this.handleTableActivationEvent(this.bomLifecycleSize);
     }
@@ -219,6 +134,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
         this.bomLifecycleSize = bomLifecycleSize;
     }
 
+    // TODO this logic should be inside parts-table and not in parts.component
     private setTableSortingList(sorting: TableHeaderSort, partTable: MainAspectType): void {
         // if a sorting Columnlist exists but a column gets resetted:
         if (!sorting && (this.tableAsBuiltSortList || this.tableAsPlannedSortList)) {
