@@ -128,6 +128,11 @@ export class PartsTableComponent implements OnInit {
     public isMenuOpen: boolean;
     public displayedFilter: boolean;
 
+    public filterConfiguration: any[];
+    public displayedColumns: string[];
+
+    filterFormGroup = new FormGroup({});
+
 
     public readonly displayedColumnsAsBuilt: string[] = [
         'Filter',
@@ -145,6 +150,24 @@ export class PartsTableComponent implements OnInit {
         'filterSemanticDataModel',
         'filterManufacturingDate',
         'filterManufacturingCountry',
+    ];
+
+    public readonly displayedColumnsAsPlanned: string[] = [
+        'Filter',
+        'filterId',
+        'filterIdShort',
+        'filterName',
+        'filterManufacturer',
+        'filterManufacturerPartId',
+        'filterClassification',
+        'filterSemanticDataModel',
+        'filterSemanticModelId',
+        'filterValidityPeriodFrom',
+        'filterValidityPeriodTo',
+        'filterPsFunction',
+        'filterCatenaXSiteId',
+        'filterFunctionValidFrom',
+        'filterFunctionValidUntil',
     ];
 
     public readonly displayedColumnsAsBuiltForTable: string[] = [
@@ -166,7 +189,7 @@ export class PartsTableComponent implements OnInit {
     ];
 
 
-    public readonly displayedColumnsAsPlanned: string[] = [
+    public readonly displayedColumnsAsPlannedForTable: string[] = [
         'select',
         'id',
         'idShort',
@@ -221,9 +244,8 @@ export class PartsTableComponent implements OnInit {
     private pageSize: number;
     private sorting: TableHeaderSort;
 
-    private _tableConfig: TableConfig;
-
     ngOnInit() {
+
         this.filterFormGroup.valueChanges.subscribe((formValues) => {
             if (this.isAsBuilt) {
                 this.filterActivated.emit(this.toAssetAsBuiltFilter(formValues));
@@ -237,11 +259,25 @@ export class PartsTableComponent implements OnInit {
                 header: CreateHeaderFromColumns(this.displayedColumnsAsBuiltForTable, 'table.column'),
                 sortableColumns: this.sortableColumnsAsBuilt,
             };
+            this.filterConfiguration = this.assetAsBuiltFilterConfiguration;
+            this.displayedColumns = this.displayedColumnsAsBuilt;
+            for (const controlName in this.assetAsBuiltFilterFormGroup) {
+                if (this.assetAsBuiltFilterFormGroup.hasOwnProperty(controlName)) {
+                    this.filterFormGroup.addControl(controlName, this.assetAsBuiltFilterFormGroup[controlName]);
+                }
+            }
         } else {
             this.tableConfig = {
-                displayedColumns: this.displayedColumnsAsPlanned,
-                header: CreateHeaderFromColumns(this.displayedColumnsAsPlanned, 'table.column'),
+                displayedColumns: this.displayedColumnsAsPlannedForTable,
+                header: CreateHeaderFromColumns(this.displayedColumnsAsPlannedForTable, 'table.column'),
                 sortableColumns: this.sortableColumnsAsPlanned,
+            }
+            this.filterConfiguration = this.assetAsPlannedFilterConfiguration;
+            this.displayedColumns = this.displayedColumnsAsPlanned;
+            for (const controlName in this.assetAsPlannedFilterFormGroup) {
+                if (this.assetAsPlannedFilterFormGroup.hasOwnProperty(controlName)) {
+                    this.filterFormGroup.addControl(controlName, this.assetAsPlannedFilterFormGroup[controlName]);
+                }
             }
         }
     }
@@ -301,7 +337,7 @@ export class PartsTableComponent implements OnInit {
         },
     ];
 
-    public readonly filterConfigurations: any[] = [
+    public readonly assetAsBuiltFilterConfiguration: any[] = [
         {filterKey: 'Filter', headerKey: 'Filter', isTextSearch: true, option: this.optionTextSearch},
         {filterKey: 'id', headerKey: 'filterId', isTextSearch: true, option: this.optionTextSearch},
         {filterKey: 'idShort', headerKey: 'filterIdShort', isTextSearch: true, option: this.optionTextSearch},
@@ -319,7 +355,7 @@ export class PartsTableComponent implements OnInit {
     ];
 
 
-    filterFormGroup = new FormGroup({
+    assetAsBuiltFilterFormGroup = {
         id: new FormControl([]),
         idShort: new FormControl([]),
         nameAtManufacturer: new FormControl([]),
@@ -333,14 +369,47 @@ export class PartsTableComponent implements OnInit {
         semanticDataModel: new FormControl([]),
         manufacturingDate: new FormControl([]),
         manufacturingCountry: new FormControl([]),
-    });
+    };
+
+    assetAsPlannedFilterFormGroup = {
+        id: new FormControl([]),
+        idShort: new FormControl([]),
+        nameAtManufacturer: new FormControl([]),
+        manufacturerName: new FormControl([]),
+        manufacturerPartId: new FormControl([]),
+        classification: new FormControl([]),
+        semanticDataModel: new FormControl([]),
+        semanticModelId: new FormControl([]),
+        validityPeriodFrom: new FormControl([]),
+        validityPeriodTo: new FormControl([]),
+        function: new FormControl([]),
+        catenaxSiteId: new FormControl([]),
+        functionValidFrom: new FormControl([]),
+        functionValidUntil: new FormControl([])
+    };
+
+    public readonly assetAsPlannedFilterConfiguration: any[] = [
+        {filterKey: 'Filter', headerKey: 'Filter', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'id', headerKey: 'filterId', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'idShort', headerKey: 'filterIdShort', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'nameAtManufacturer', headerKey: 'filterName', isTextSearch: true, option: this.optionTextSearch}, // nameAtManufacturer
+        {filterKey: 'manufacturerName', headerKey: 'filterManufacturer', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'manufacturerPartId', headerKey: 'filterManufacturerPartId', isTextSearch: true, option: this.optionTextSearch}, // Part number / Batch Number / JIS Number
+        {filterKey: 'classification', headerKey: 'filterClassification', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'semanticDataModel', headerKey: 'filterSemanticDataModel', isTextSearch: false, option: this.semanticDataModelOptions},
+        {filterKey: 'semanticModelId', headerKey: 'filterSemanticModelId', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'validityPeriodFrom', headerKey: 'filterValidityPeriodFrom', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'validityPeriodTo', headerKey: 'filterValidityPeriodTo', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'function', headerKey: 'filterPsFunction', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'catenaxSiteId', headerKey: 'filterCatenaXSiteId', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'functionValidFrom', headerKey: 'filterFunctionValidFrom', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'functionValidUntil', headerKey: 'filterFunctionValidUntil', isTextSearch: true, option: this.optionTextSearch}
+    ];
+
+
+
 
     @ViewChild(MultiSelectAutocompleteComponent) multiSelection: MultiSelectAutocompleteComponent;
-
-
-    onToggleDropdown() {
-        this.multiSelection.toggleDropdown();
-    }
 
     public areAllRowsSelected(): boolean {
         return this.dataSource.data.every(data => this.isSelected(data));
@@ -398,7 +467,6 @@ export class PartsTableComponent implements OnInit {
 
     public toggleFilter(): void {
         this.displayedFilter = !this.displayedFilter;
-        console.log(this.displayedFilter);
     }
 
     public isSelected(row: unknown): boolean {

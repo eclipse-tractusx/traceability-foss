@@ -58,11 +58,11 @@ SPDX-License-Identifier: Apache-2.0
                 class="table--header--row"></tr>
 
             <ng-container *ngIf="multiSelectActive">
-            <tr class="filter-row" mat-header-row *matHeaderRowDef="displayedColumnsAsBuilt"
+            <tr class="filter-row" mat-header-row *matHeaderRowDef="displayedColumns"
                 [hidden]="displayedFilter"></tr>
 
 
-            <ng-container matColumnDef="{{ filter.headerKey }}" *ngFor="let filter of filterConfigurations">
+            <ng-container matColumnDef="{{ filter.headerKey }}" *ngFor="let filter of filterConfiguration">
                 <th class="multi-select-header-cell" mat-header-cell *matHeaderCellDef>
                    <app-multiselect *ngIf="filter.headerKey!==filterKey"
                                      [placeholder]="'All'"
