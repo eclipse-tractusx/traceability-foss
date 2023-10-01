@@ -86,10 +86,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges, OnInit {
         }
     }
 
-    toggleDropdown(): void {
-        this.selectElem.toggle();
-    }
-
     toggleSelectAll = function (val: any): void {
         if (val.checked) {
             this.filteredOptions.forEach(option => {
@@ -108,7 +104,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges, OnInit {
 
     filterItem(value: any): void {
         if (this.textSearch) {
-
+            return;
         } else {
 
             this.filteredOptions = this.options.filter(
