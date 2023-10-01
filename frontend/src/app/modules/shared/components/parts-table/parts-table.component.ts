@@ -280,21 +280,6 @@ export class PartsTableComponent implements OnInit {
         return transformedFilter;
     }
 
-    filterFormGroup = new FormGroup({
-        id: new FormControl([]),
-        idShort: new FormControl([]),
-        name: new FormControl([]),
-        manufacturer: new FormControl([]),
-        partId: new FormControl([]),
-        manufacturerPartId: new FormControl([]),
-        customerPartId: new FormControl([]),
-        classification: new FormControl([]),
-        nameAtCustomer: new FormControl([]),
-        semanticModelId: new FormControl([]),
-        semanticDataModel: new FormControl([]),
-        manufacturingDate: new FormControl([]),
-        manufacturingCountry: new FormControl([]),
-    });
 
     optionTextSearch = [];
     semanticDataModelOptions = [
@@ -317,12 +302,12 @@ export class PartsTableComponent implements OnInit {
     ];
 
     public readonly filterConfigurations: any[] = [
-        {filterKey: '', headerKey: 'Filter', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'Filter', headerKey: 'Filter', isTextSearch: true, option: this.optionTextSearch},
         {filterKey: 'id', headerKey: 'filterId', isTextSearch: true, option: this.optionTextSearch},
         {filterKey: 'idShort', headerKey: 'filterIdShort', isTextSearch: true, option: this.optionTextSearch},
         {filterKey: 'nameAtManufacturer', headerKey: 'filterName', isTextSearch: true, option: this.optionTextSearch}, // nameAtManufacturer
-        {filterKey: 'businessPartner', headerKey: 'filterManufacturer', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'manufacturerPartId', headerKey: 'filterPartId', isTextSearch: true, option: this.optionTextSearch}, // Part number / Batch Number / JIS Number
+        {filterKey: 'manufacturerName', headerKey: 'filterManufacturer', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'partId', headerKey: 'filterPartId', isTextSearch: true, option: this.optionTextSearch}, // Part number / Batch Number / JIS Number
         {filterKey: 'manufacturerPartId', headerKey: 'filterManufacturerPartId', isTextSearch: true, option: this.optionTextSearch},
         {filterKey: 'customerPartId', headerKey: 'filterCustomerPartId', isTextSearch: true, option: this.optionTextSearch}, // --> semanticModel.customerPartId
         {filterKey: 'classification', headerKey: 'filterClassification', isTextSearch: true, option: this.optionTextSearch},
@@ -333,6 +318,22 @@ export class PartsTableComponent implements OnInit {
         {filterKey: 'manufacturingCountry', headerKey: 'filterManufacturingCountry', isTextSearch: true, option: this.optionTextSearch},
     ];
 
+
+    filterFormGroup = new FormGroup({
+        id: new FormControl([]),
+        idShort: new FormControl([]),
+        nameAtManufacturer: new FormControl([]),
+        manufacturerName: new FormControl([]),
+        partId: new FormControl([]),
+        manufacturerPartId: new FormControl([]),
+        customerPartId: new FormControl([]),
+        classification: new FormControl([]),
+        nameAtCustomer: new FormControl([]),
+        semanticModelId: new FormControl([]),
+        semanticDataModel: new FormControl([]),
+        manufacturingDate: new FormControl([]),
+        manufacturingCountry: new FormControl([]),
+    });
 
     @ViewChild(MultiSelectAutocompleteComponent) multiSelection: MultiSelectAutocompleteComponent;
 

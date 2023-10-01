@@ -64,7 +64,6 @@ export class PartsService {
 
     public getPartsAsBuiltWithFilter(page: number, pageSize: number, sorting: TableHeaderSort[], assetAsBuiltFilter: AssetAsBuiltFilter): Observable<Pagination<Part>> {
 
-
         let sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
         let params = new HttpParams()
             .set('page', page)
@@ -81,7 +80,13 @@ export class PartsService {
             if (value.length !== 0) {
                 console.log(value, "value after");
                 // Modify this line to format the filter
-                params = params.append('filter', `${key},STARTS_WITH,${value}`);
+                let operator;
+                if (key === "semanticDataModel"){
+                    operator = 'EQUAL';
+                } else {
+                    operator = 'STARTS_WITH';
+                }
+                params = params.append('filter', `${key},${operator},${value}`);
             }
         }
 
@@ -123,7 +128,13 @@ export class PartsService {
             const value = assetAsPlannedFilter[key];
             if (value.length !== 0) {
                 // Modify this line to format the filter
-                params = params.append('filter', `${key},STARTS_WITH,${value}`);
+                let operator;
+                if (key === "semanticDataModel"){
+                    operator = 'EQUAL';
+                } else {
+                    operator = 'STARTS_WITH';
+                }
+                params = params.append('filter', `${key},${operator},${value}`);
             }
         }
 

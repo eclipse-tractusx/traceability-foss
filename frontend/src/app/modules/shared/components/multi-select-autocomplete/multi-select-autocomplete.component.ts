@@ -81,7 +81,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges, OnInit {
         this.filteredOptions = this.options;
         if (this.selectedOptions) {
             this.selectedValue = this.selectedOptions;
-        } else if (this.formControl.value) {
+        } else if (this.formControl && this.formControl.value) {
             this.selectedValue = this.formControl.value;
         }
     }

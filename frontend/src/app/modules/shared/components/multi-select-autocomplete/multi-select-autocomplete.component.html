@@ -17,16 +17,16 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 <mat-form-field>
-    <mat-select #selectElem [disabled]="disabled" [placeholder]="placeholder" [formControl]="formControl"
+    <mat-select #selectElem [placeholder]="placeholder" [formControl]="formControl"
                 [multiple]="multiple"
                 [(ngModel)]="selectedValue" (selectionChange)="onSelectionChange($event)">
 
         <div class="box-search">
             <mat-checkbox *ngIf="multiple" color="primary" class="box-select-all" [(ngModel)]="selectAllChecked"
                           (change)="toggleSelectAll($event)"></mat-checkbox>
-            <input #searchInput [(ngModel)]="theSearchElement" type="text" [ngClass]="{'pl-1': !multiple}"
+            <input [disabled]="!textSearch" #searchInput [(ngModel)]="theSearchElement" type="text" [ngClass]="{'pl-1': !multiple}"
                    (input)="filterItem(searchInput.value)"
-                   placeholder="Search...">
+                   [placeholder]="textSearch ? 'Search..': 'Choose..'">
             <div class="box-search-icon" (click)="filterItem(''); clickClear()">
                 <button mat-icon-button class="search-button">
                     <mat-icon class="mat-24" aria-label="Search icon">clear</mat-icon>
