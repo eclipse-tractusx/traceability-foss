@@ -52,7 +52,6 @@ export class PartsService {
             .set('page', page)
             .set('size', pageSize)
             .set('filter', 'owner,EQUAL,OWN');
-
         sort.forEach(sortingItem => {
             params = params.append('sort', sortingItem);
         })
