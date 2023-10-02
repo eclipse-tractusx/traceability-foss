@@ -190,14 +190,9 @@ export class MultiSelectAutocompleteComponent implements OnChanges, OnInit {
     onSelectionChange(val: any) {
 
         const filteredValues = this.getFilteredOptionsValues();
-        let count = 0;
         if (this.multiple) {
-            this.selectedValue.filter(item => {
-                if (filteredValues.includes(item)) {
-                    count++;
-                }
-            });
-            this.selectAllChecked = count === this.filteredOptions.length;
+            const selectedCount = this.selectedValue.filter(item => filteredValues.includes(item)).length;
+            this.selectAllChecked = selectedCount === this.filteredOptions.length;
         }
         this.selectedValue = val.value;
         this.selectionChange.emit(this.selectedValue);
