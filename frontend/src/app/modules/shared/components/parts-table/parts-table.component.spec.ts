@@ -261,5 +261,40 @@ describe('PartsTableComponent', () => {
         expect(multiSelectSpy).toHaveBeenCalledWith([{id: 1}]);
     });
 
+    it('should toggle all rows correctly', async () => {
+
+        const {fixture} = await renderPartsTableComponent(1, false);
+        const {componentInstance} = fixture;
+
+        componentInstance.selection.select({id: 1}, {id: 2}, {id: 3});
+
+        componentInstance.toggleAllRows();
+
+        expect(componentInstance.selection.selected).toEqual([{id: 1}, {id: 2}, {id: 3}, {name: 'name_0', test: 'test'}]);
+    });
+
+    it('should clear all rows correctly', async () => {
+
+        const {fixture} = await renderPartsTableComponent(1, false);
+        const {componentInstance} = fixture;
+        componentInstance.selection.select({id: 1}, {id: 2}, {id: 3});
+
+        componentInstance.clearAllRows();
+
+        expect(componentInstance.selection.selected).toEqual([]);
+    });
+
+    it('should clear current rows correctly', async () => {
+        const {fixture} = await renderPartsTableComponent(1, false);
+        const {componentInstance} = fixture;
+
+        const emitMultiSelectSpy = spyOn(componentInstance.multiSelect, 'emit');
+
+        componentInstance.clearCurrentRows();
+
+        expect(emitMultiSelectSpy).toHaveBeenCalled();
+        expect(componentInstance.selection.selected).toEqual([]);
+    });
+
 })
 
