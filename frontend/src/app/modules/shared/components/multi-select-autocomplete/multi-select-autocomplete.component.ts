@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, ViewChild} from '@angular/core';
 import {FormControl} from '@angular/forms';
 
 @Component({
@@ -26,7 +26,7 @@ import {FormControl} from '@angular/forms';
     styleUrls: ['multi-select-autocomplete.component.scss']
 })
 
-export class MultiSelectAutocompleteComponent implements OnChanges, OnInit {
+export class MultiSelectAutocompleteComponent implements OnChanges {
 
     @Input()
     placeholder: string;
@@ -67,15 +67,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges, OnInit {
     selectedValue: Array<any> = [];
     selectAllChecked = false;
     displayString = '';
-
-    ngOnInit(): void {
-        this.selectElem._handleKeydown = (event: KeyboardEvent) => {
-            if (event.code === "32") {
-                console.log(event.code)
-                return;
-            }
-        };
-    }
 
     ngOnChanges(): void {
         this.filteredOptions = this.options;

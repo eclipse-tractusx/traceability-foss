@@ -150,3 +150,13 @@ export interface AssetAsPlannedFilter {
     functionValidFrom?: string,
     functionValidUntil?: string,
 }
+
+export enum FilterOperator {
+    EQUAL = 'EQUAL',
+    AT_LOCAL_DATE = 'AT_LOCAL_DATE',
+    STARTS_WITH = 'STARTS_WITH'
+}
+
+export function getFilterOperatorValue(operator: FilterOperator) {
+    return operator as string;
+}

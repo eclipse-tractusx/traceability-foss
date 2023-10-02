@@ -16,7 +16,12 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import {AssetAsBuiltFilter, AssetAsPlannedFilter} from "@page/parts/model/parts.model";
+import {
+    AssetAsBuiltFilter,
+    AssetAsPlannedFilter,
+    FilterOperator,
+    getFilterOperatorValue
+} from "@page/parts/model/parts.model";
 import {HttpParams} from "@angular/common/http";
 
 
@@ -24,17 +29,16 @@ export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, para
     for (const key in filter) {
         const value = filter[key];
         if (value.length !== 0) {
-            console.log(value, "value after");
             // Modify this line to format the filter
-            let operator;
+            let operator: string;
             if (key === "semanticDataModel") {
-                operator = 'EQUAL';
+                operator = getFilterOperatorValue(FilterOperator.EQUAL);
             } else if (key.toLowerCase().includes('date')) {
-                operator = 'AT_LOCAL_DATE';
+                operator = getFilterOperatorValue(FilterOperator.AT_LOCAL_DATE);
             } else {
-                operator = 'STARTS_WITH';
+                operator = getFilterOperatorValue(FilterOperator.STARTS_WITH);
             }
-            return params = params.append('filter', `${key},${operator},${value}`);
+            return params.append('filter', `${key},${operator},${value}`);
         }
     }
 }
@@ -51,8 +55,6 @@ export function toAssetAsBuiltFilter(formValues: any): AssetAsBuiltFilter {
     }
 
     const filterIsSet = Object.values(transformedFilter).some(value => value !== undefined && value !== null);
-    console.log(transformedFilter, "filter");
-    console.log(filterIsSet, "set?");
     if (filterIsSet) {
         return transformedFilter;
     } else {

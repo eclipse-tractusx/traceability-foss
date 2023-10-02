@@ -19,20 +19,6 @@
 import {Pagination} from "@core/model/pagination.model";
 import {FlattenObjectPipe} from "@shared/pipes/flatten-object.pipe";
 
-export function getPartsPaginationData(page: number, pageSize: number, totalItems: number, content: any): Pagination<unknown>{
-    const flatter = new FlattenObjectPipe();
-    const newContent = content.map(part => flatter.transform(part));
-
-    return {
-        page: page,
-        pageCount: null,
-        pageSize: pageSize,
-        totalItems: totalItems,
-        content: newContent
-    }
-
-}
-
 export function removeSelectedValues(selection: any, itemsToRemove: unknown[]): void {
     const shouldDelete = (row: unknown) => !!itemsToRemove.find(data => JSON.stringify(data) === JSON.stringify(row));
     const rowsToDelete = selection.selected.filter(data => shouldDelete(data));

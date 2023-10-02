@@ -23,7 +23,7 @@ import {Pagination} from '@core/model/pagination.model';
 import {OtherPartsFacade} from '@page/other-parts/core/other-parts.facade';
 import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
 import {Part} from '@page/parts/model/parts.model';
-import {PartTableType, TableConfig, TableEventConfig, TableHeaderSort,} from '@shared/components/table/table.model';
+import {PartTableType, TableEventConfig, TableHeaderSort,} from '@shared/components/table/table.model';
 import {TableSortingUtil} from '@shared/components/table/tableSortingUtil';
 import {View} from '@shared/model/view.model';
 import {PartDetailsFacade} from '@shared/modules/part-details/core/partDetails.facade';
@@ -83,11 +83,6 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
         } else {
             this.otherPartsFacade.setCustomerPartsAsPlanned(0, 50, [], toAssetAsPlannedFilter(assetFilter))
         }
-    }
-
-
-    public ngAfterViewInit(): void {
-
     }
 
     public ngOnDestroy(): void {
