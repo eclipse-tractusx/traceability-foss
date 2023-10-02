@@ -228,7 +228,7 @@ export class PartsTableComponent implements OnInit {
         functionValidFrom: true,
         functionValidUntil: true,
     };
-// todo assign
+
     private readonly displayedColumnsAsPlannedCustomer: string[] = [
         'Filter',
         'filterSemanticDataModel',
@@ -527,8 +527,8 @@ export class PartsTableComponent implements OnInit {
     assetAsPlannedSupplierFilterFormGroup = {
         select: new FormControl([]),
         semanticDataModel: new FormControl([]),
-        name: new FormControl([]),
-        manufacturer: new FormControl([]),
+        nameAtManufacturer: new FormControl([]),
+        manufacturerName: new FormControl([]),
         manufacturerPartId: new FormControl([]),
         semanticModelId: new FormControl([])
     };
@@ -536,8 +536,8 @@ export class PartsTableComponent implements OnInit {
     assetAsPlannedCustomerFilterFormGroup = {
         select: new FormControl([]),
         semanticDataModel: new FormControl([]),
-        name: new FormControl([]),
-        manufacturer: new FormControl([]),
+        nameAtManufacturer: new FormControl([]),
+        manufacturerName: new FormControl([]),
         semanticModelId: new FormControl([]),
         manufacturerPartId: new FormControl([])
     };
@@ -546,9 +546,9 @@ export class PartsTableComponent implements OnInit {
     assetAsBuiltSupplierFilterFormGroup = {
         select: new FormControl([]),
         semanticDataModel: new FormControl([]),
-        name: new FormControl([]),
-        manufacturer: new FormControl([]),
-        partId: new FormControl([]),
+        nameAtManufacturer: new FormControl([]),
+        manufacturerName: new FormControl([]),
+        manufacturerPartId: new FormControl([]),
         semanticModelId: new FormControl([]),
         manufacturingDate: new FormControl([])
     };
@@ -556,9 +556,9 @@ export class PartsTableComponent implements OnInit {
     assetAsBuiltCustomerFilterFormGroup = {
         select: new FormControl([]),
         semanticDataModel: new FormControl([]),
-        name: new FormControl([]),
-        manufacturer: new FormControl([]),
-        partId: new FormControl([]),
+        nameAtManufacturer: new FormControl([]),
+        manufacturerName: new FormControl([]),
+        manufacturerPartId: new FormControl([]),
         semanticModelId: new FormControl([]),
         manufacturingDate: new FormControl([])
     };
@@ -566,8 +566,8 @@ export class PartsTableComponent implements OnInit {
     private readonly assetAsPlannedCustomerFilterConfiguration: any[] = [
         {filterKey: 'Filter', headerKey: 'Filter', isTextSearch: true, option: this.optionTextSearch},
         {filterKey: 'semanticDataModel', headerKey: 'filterSemanticDataModel', isTextSearch: false, option: this.semanticDataModelOptions},
-        {filterKey: 'name', headerKey: 'filterName', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'manufacturer', headerKey: 'filterManufacturer', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'nameAtManufacturer', headerKey: 'filterName', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'manufacturerName', headerKey: 'filterManufacturer', isTextSearch: true, option: this.optionTextSearch},
         {filterKey: 'manufacturerPartId', headerKey: 'filterManufacturerPartId', isTextSearch: true, option: this.optionTextSearch},
         {filterKey: 'semanticModelId', headerKey: 'filterSemanticModelId', isTextSearch: true, option: this.optionTextSearch}
     ];
@@ -575,8 +575,8 @@ export class PartsTableComponent implements OnInit {
     private readonly assetAsPlannedSupplierFilterConfiguration: any[] = [
         {filterKey: 'Filter', headerKey: 'Filter', isTextSearch: true, option: this.optionTextSearch},
         {filterKey: 'semanticDataModel', headerKey: 'filterSemanticDataModel', isTextSearch: false, option: this.semanticDataModelOptions},
-        {filterKey: 'name', headerKey: 'filterName', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'manufacturer', headerKey: 'filterManufacturer', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'nameAtManufacturer', headerKey: 'filterName', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'manufacturerName', headerKey: 'filterManufacturer', isTextSearch: true, option: this.optionTextSearch},
         {filterKey: 'manufacturerPartId', headerKey: 'filterManufacturerPartId', isTextSearch: true, option: this.optionTextSearch},
         {filterKey: 'semanticModelId', headerKey: 'filterSemanticModelId', isTextSearch: true, option: this.optionTextSearch}
     ];
@@ -585,9 +585,9 @@ export class PartsTableComponent implements OnInit {
     private readonly assetAsBuiltCustomerFilterConfiguration: any[] = [
         {filterKey: 'Filter', headerKey: 'Filter', isTextSearch: true, option: this.optionTextSearch},
         {filterKey: 'semanticDataModel', headerKey: 'filterSemanticDataModel', isTextSearch: false, option: this.semanticDataModelOptions},
-        {filterKey: 'name', headerKey: 'filterName', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'manufacturer', headerKey: 'filterManufacturer', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'partId', headerKey: 'filterPartId', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'nameAtManufacturer', headerKey: 'filterName', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'manufacturerName', headerKey: 'filterManufacturer', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'manufacturerPartId', headerKey: 'filterPartId', isTextSearch: true, option: this.optionTextSearch},
         {filterKey: 'semanticModelId', headerKey: 'filterSemanticModelId', isTextSearch: true, option: this.optionTextSearch},
         {filterKey: 'manufacturingDate', headerKey: 'filterManufacturingDate', isTextSearch: true, option: this.optionTextSearch},
     ];
@@ -596,9 +596,9 @@ export class PartsTableComponent implements OnInit {
     private readonly assetAsBuiltSupplierFilterConfiguration: any[] = [
         {filterKey: 'Filter', headerKey: 'Filter', isTextSearch: true, option: this.optionTextSearch},
         {filterKey: 'semanticDataModel', headerKey: 'filterSemanticDataModel', isTextSearch: false, option: this.semanticDataModelOptions},
-        {filterKey: 'name', headerKey: 'filterName', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'manufacturer', headerKey: 'filterManufacturer', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'partId', headerKey: 'filterPartId', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'nameAtManufacturer', headerKey: 'filterName', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'manufacturerName', headerKey: 'filterManufacturer', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'manufacturerPartId', headerKey: 'filterPartId', isTextSearch: true, option: this.optionTextSearch},
         {filterKey: 'semanticModelId', headerKey: 'filterSemanticModelId', isTextSearch: true, option: this.optionTextSearch},
         {filterKey: 'manufacturingDate', headerKey: 'filterManufacturingDate', isTextSearch: true, option: this.optionTextSearch}];
 

@@ -76,7 +76,7 @@ export class OtherPartsService {
 
         return this.apiService
             .getBy<PartsResponse>(`${this.url}/assets/as-planned`, params)
-            .pipe(map(parts => PartsAssembler.assembleOtherParts(parts, MainAspectType.AS_BUILT)));
+            .pipe(map(parts => PartsAssembler.assembleOtherParts(parts, MainAspectType.AS_PLANNED)));
     }
 
 }

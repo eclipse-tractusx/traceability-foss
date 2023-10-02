@@ -62,7 +62,7 @@ export class OtherPartsFacade {
 // TODO: remove OtherPartsService and integrate in PartService
     public setCustomerPartsAsBuilt(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: AssetAsBuiltFilter): void {
         this.customerPartsAsBuiltSubscription?.unsubscribe();
-        this.customerPartsAsBuiltSubscription = this.otherPartsService.getOtherPartsAsBuilt(page, pageSize, sorting, Owner.CUSTOMER).subscribe({
+        this.customerPartsAsBuiltSubscription = this.otherPartsService.getOtherPartsAsBuilt(page, pageSize, sorting, Owner.CUSTOMER, filter).subscribe({
             next: data => (this.otherPartsState.customerPartsAsBuilt = {data}),
             error: error => (this.otherPartsState.customerPartsAsBuilt = {error}),
         });
@@ -70,7 +70,7 @@ export class OtherPartsFacade {
 
     public setCustomerPartsAsPlanned(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: AssetAsPlannedFilter): void {
         this.customerPartsAsPlannedSubscription?.unsubscribe();
-        this.customerPartsAsPlannedSubscription = this.otherPartsService.getOtherPartsAsPlanned(page, pageSize, sorting, Owner.CUSTOMER).subscribe({
+        this.customerPartsAsPlannedSubscription = this.otherPartsService.getOtherPartsAsPlanned(page, pageSize, sorting, Owner.CUSTOMER, filter).subscribe({
             next: data => (this.otherPartsState.customerPartsAsPlanned = {data}),
             error: error => (this.otherPartsState.customerPartsAsPlanned = {error}),
         });
@@ -78,7 +78,7 @@ export class OtherPartsFacade {
 
     public setSupplierPartsAsBuilt(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: AssetAsBuiltFilter): void {
         this.supplierPartsAsBuiltSubscription?.unsubscribe();
-        this.supplierPartsAsBuiltSubscription = this.otherPartsService.getOtherPartsAsBuilt(page, pageSize, sorting, Owner.SUPPLIER).subscribe({
+        this.supplierPartsAsBuiltSubscription = this.otherPartsService.getOtherPartsAsBuilt(page, pageSize, sorting, Owner.SUPPLIER, filter).subscribe({
             next: data => (this.otherPartsState.supplierPartsAsBuilt = {data}),
             error: error => (this.otherPartsState.supplierPartsAsBuilt = {error}),
         });
@@ -86,7 +86,7 @@ export class OtherPartsFacade {
 
     public setSupplierPartsAsPlanned(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: AssetAsPlannedFilter): void {
         this.supplierPartsAsPlannedSubscription?.unsubscribe();
-        this.supplierPartsAsPlannedSubscription = this.otherPartsService.getOtherPartsAsPlanned(page, pageSize, sorting, Owner.SUPPLIER).subscribe({
+        this.supplierPartsAsPlannedSubscription = this.otherPartsService.getOtherPartsAsPlanned(page, pageSize, sorting, Owner.SUPPLIER, filter).subscribe({
             next: data => (this.otherPartsState.supplierPartsAsPlanned = {data}),
             error: error => (this.otherPartsState.supplierPartsAsPlanned = {error}),
         });

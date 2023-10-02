@@ -25,9 +25,11 @@ import {
 import {HttpParams} from "@angular/common/http";
 
 
-export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, params: any): HttpParams {
+export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, params: HttpParams): HttpParams {
     for (const key in filter) {
+
         const value = filter[key];
+        console.log(key, value);
         if (value.length !== 0) {
             // Modify this line to format the filter
             let operator: string;
@@ -38,9 +40,12 @@ export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, para
             } else {
                 operator = getFilterOperatorValue(FilterOperator.STARTS_WITH);
             }
-            return params.append('filter', `${key},${operator},${value}`);
+           params =  params.append('filter', `${key},${operator},${value}`);
+
         }
     }
+    console.log("http params", params);
+    return params;
 }
 
 

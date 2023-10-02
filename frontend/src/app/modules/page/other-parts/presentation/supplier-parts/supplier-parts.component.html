@@ -73,7 +73,7 @@ SPDX-License-Identifier: Apache-2.0
                (clickSelectAction)="isInvestigationOpen$.next(true)"
                [multiSortList]="tableSupplierAsPlannedSortList"
                      [multiSelectActive]="true"
-                     (filterActivated)="filterActivated(true, $event )"
+                     (filterActivated)="filterActivated(false, $event )"
                      [tableType]="PartTableType.AS_PLANNED_SUPPLIER"
     ></app-parts-table>
   </ng-template>

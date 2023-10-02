@@ -27,7 +27,6 @@ import {PartsFacade} from "@page/parts/core/parts.facade";
 import {Sort} from "@angular/material/sort";
 
 describe('PartsTableComponent', () => {
-
     const renderPartsTableComponent = (
         size: number,
         tableType: PartTableType = PartTableType.AS_BUILT_OWN

@@ -121,7 +121,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
 
-    // TODO: NewFilter -> Multiple Values not filtered together, OtherParts not filtered at all
+    // TODO: NewFilter -> Pagination missing
     private setTableSortingList(sorting: TableHeaderSort, partTable: MainAspectType): void {
         // if a sorting Columnlist exists but a column gets resetted:
         if (!sorting && (this.tableAsBuiltSortList || this.tableAsPlannedSortList)) {
