@@ -42,6 +42,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.investigatio
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationReceiverBpnMismatchException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationStatusTransitionNotAllowed;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.NotificationStatusTransitionNotAllowed;
+import org.eclipse.tractusx.traceability.submodel.domain.model.SubmodelNotFoundException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -233,5 +234,14 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
+    }
+
+    @ExceptionHandler(SubmodelNotFoundException.class)
+    ResponseEntity<ErrorResponse> handleSubmodelNotFoundException(SubmodelNotFoundException exception) {
+        String errorMessage = exception
+                .getMessage();
+        log.warn("handleSubmodelNotFoundException", exception);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ErrorResponse(errorMessage));
     }
 }
