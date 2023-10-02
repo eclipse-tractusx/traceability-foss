@@ -34,7 +34,7 @@ import {
     TableEventConfig,
     TableHeaderSort
 } from '@shared/components/table/table.model';
-import {FlattenObjectPipe} from '@shared/pipes/flatten-object.pipe';
+import {getPartsPaginationData} from "@shared/helper/table-helper";
 
 
 @Component({
@@ -77,14 +77,14 @@ export class PartsTableComponent implements OnInit {
     }
 
     @Input() set PartsPaginationData({page, pageSize, totalItems, content}: Pagination<unknown>) {
-        let flatter = new FlattenObjectPipe();
-        // modify the content of the partlist so that there are no subobjects
-        let newContent = content.map(part => flatter.transform(part));
-        this.totalItems = totalItems;
-        this.pageSize = pageSize;
-        this.dataSource.data = newContent;
+
+        const partsPaginationData = getPartsPaginationData(page, pageSize, totalItems, content);
+
+        this.totalItems = partsPaginationData.totalItems;
+        this.pageSize = partsPaginationData.pageSize;
+        this.dataSource.data = partsPaginationData.content;
         this.isDataLoading = false;
-        this.pageIndex = page;
+        this.pageIndex = partsPaginationData.page;
     }
 
     @Input() set data(content: unknown[]) {
