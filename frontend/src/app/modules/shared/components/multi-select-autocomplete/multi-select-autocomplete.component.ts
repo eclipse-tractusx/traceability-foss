@@ -72,7 +72,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
         this.filteredOptions = this.options;
         if (this.selectedOptions) {
             this.selectedValue = this.selectedOptions;
-        } else if (this.formControl && this.formControl.value) {
+        } else if (this.formControl?.value) {
             this.selectedValue = this.formControl.value;
         }
     }
@@ -135,14 +135,13 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     }
 
     onDisplayString(): string {
+        this.displayString = '';
         if (this.textSearch) {
-            this.displayString = '';
             this.displayString = this.theSearchElement || 'All';
             return this.displayString;
         }
 
-        this.displayString = '';
-        if (this.selectedValue && this.selectedValue.length) {
+        if (this.selectedValue?.length) {
             let displayOption = [];
             if (this.multiple) {
                 // Multi select display

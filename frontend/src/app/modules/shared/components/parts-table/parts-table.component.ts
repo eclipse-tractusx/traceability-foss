@@ -349,14 +349,62 @@ export class PartsTableComponent implements OnInit {
     private sorting: TableHeaderSort;
 
     ngOnInit() {
-        this.handleTableType();
+        this.handleAsBuiltTableType();
+        this.handleAsPlannedTableType();
         this.filterFormGroup.valueChanges.subscribe((formValues) => {
             this.filterActivated.emit(formValues);
         });
     }
 
+    private handleAsPlannedTableType(): void {
+        const headerKey = 'table.column';
+        switch (this.tableType) {
+            case PartTableType.AS_PLANNED_CUSTOMER:
+                this.tableConfig = {
+                    displayedColumns: this.displayedColumnsAsPlannedCustomerForTable,
+                    header: CreateHeaderFromColumns(this.displayedColumnsAsPlannedCustomerForTable, headerKey),
+                    sortableColumns: this.sortableColumnsAsPlannedCustomer,
+                };
+                this.filterConfiguration = this.assetAsPlannedCustomerFilterConfiguration;
+                this.displayedColumns = this.displayedColumnsAsPlannedCustomer;
+                for (const controlName in this.assetAsPlannedCustomerFilterFormGroup) {
+                    if (this.assetAsPlannedCustomerFilterFormGroup.hasOwnProperty(controlName)) {
+                        this.filterFormGroup.addControl(controlName, this.assetAsPlannedCustomerFilterFormGroup[controlName]);
+                    }
+                }
+                break;
+            case PartTableType.AS_PLANNED_OWN:
+                this.tableConfig = {
+                    displayedColumns: this.displayedColumnsAsPlannedForTable,
+                    header: CreateHeaderFromColumns(this.displayedColumnsAsPlannedForTable, headerKey),
+                    sortableColumns: this.sortableColumnsAsPlanned,
+                };
+                this.filterConfiguration = this.assetAsPlannedFilterConfiguration;
+                this.displayedColumns = this.displayedColumnsAsPlanned;
+                for (const controlName in this.assetAsPlannedFilterFormGroup) {
+                    if (this.assetAsPlannedFilterFormGroup.hasOwnProperty(controlName)) {
+                        this.filterFormGroup.addControl(controlName, this.assetAsPlannedFilterFormGroup[controlName]);
+                    }
+                }
+                break;
+            case PartTableType.AS_PLANNED_SUPPLIER:
+                this.tableConfig = {
+                    displayedColumns: this.displayedColumnsAsPlannedSupplierForTable,
+                    header: CreateHeaderFromColumns(this.displayedColumnsAsPlannedSupplierForTable, headerKey),
+                    sortableColumns: this.sortableColumnsAsPlannedSupplier,
+                };
+                this.filterConfiguration = this.assetAsPlannedSupplierFilterConfiguration;
+                this.displayedColumns = this.displayedColumnsAsPlannedSupplier;
+                for (const controlName in this.assetAsPlannedSupplierFilterFormGroup) {
+                    if (this.assetAsPlannedSupplierFilterFormGroup.hasOwnProperty(controlName)) {
+                        this.filterFormGroup.addControl(controlName, this.assetAsPlannedSupplierFilterFormGroup[controlName]);
+                    }
+                }
+                break;
+        }
+    }
 
-    private handleTableType() {
+    private handleAsBuiltTableType(): void {
         const headerKey = 'table.column';
         switch (this.tableType) {
             case PartTableType.AS_BUILT_OWN:
@@ -398,48 +446,6 @@ export class PartsTableComponent implements OnInit {
                 for (const controlName in this.assetAsBuiltSupplierFilterFormGroup) {
                     if (this.assetAsBuiltSupplierFilterFormGroup.hasOwnProperty(controlName)) {
                         this.filterFormGroup.addControl(controlName, this.assetAsBuiltSupplierFilterFormGroup[controlName]);
-                    }
-                }
-                break;
-            case PartTableType.AS_PLANNED_CUSTOMER:
-                this.tableConfig = {
-                    displayedColumns: this.displayedColumnsAsPlannedCustomerForTable,
-                    header: CreateHeaderFromColumns(this.displayedColumnsAsPlannedCustomerForTable, headerKey),
-                    sortableColumns: this.sortableColumnsAsPlannedCustomer,
-                };
-                this.filterConfiguration = this.assetAsPlannedCustomerFilterConfiguration;
-                this.displayedColumns = this.displayedColumnsAsPlannedCustomer;
-                for (const controlName in this.assetAsPlannedCustomerFilterFormGroup) {
-                    if (this.assetAsPlannedCustomerFilterFormGroup.hasOwnProperty(controlName)) {
-                        this.filterFormGroup.addControl(controlName, this.assetAsPlannedCustomerFilterFormGroup[controlName]);
-                    }
-                }
-                break;
-            case PartTableType.AS_PLANNED_OWN:
-                this.tableConfig = {
-                    displayedColumns: this.displayedColumnsAsPlannedForTable,
-                    header: CreateHeaderFromColumns(this.displayedColumnsAsPlannedForTable, headerKey),
-                    sortableColumns: this.sortableColumnsAsPlanned,
-                };
-                this.filterConfiguration = this.assetAsPlannedFilterConfiguration;
-                this.displayedColumns = this.displayedColumnsAsPlanned;
-                for (const controlName in this.assetAsPlannedFilterFormGroup) {
-                    if (this.assetAsPlannedFilterFormGroup.hasOwnProperty(controlName)) {
-                        this.filterFormGroup.addControl(controlName, this.assetAsPlannedFilterFormGroup[controlName]);
-                    }
-                }
-                break;
-            case PartTableType.AS_PLANNED_SUPPLIER:
-                this.tableConfig = {
-                    displayedColumns: this.displayedColumnsAsPlannedSupplierForTable,
-                    header: CreateHeaderFromColumns(this.displayedColumnsAsPlannedSupplierForTable, headerKey),
-                    sortableColumns: this.sortableColumnsAsPlannedSupplier,
-                };
-                this.filterConfiguration = this.assetAsPlannedSupplierFilterConfiguration;
-                this.displayedColumns = this.displayedColumnsAsPlannedSupplier;
-                for (const controlName in this.assetAsPlannedSupplierFilterFormGroup) {
-                    if (this.assetAsPlannedSupplierFilterFormGroup.hasOwnProperty(controlName)) {
-                        this.filterFormGroup.addControl(controlName, this.assetAsPlannedSupplierFilterFormGroup[controlName]);
                     }
                 }
                 break;
