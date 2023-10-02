@@ -16,8 +16,6 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import {Pagination} from "@core/model/pagination.model";
-import {FlattenObjectPipe} from "@shared/pipes/flatten-object.pipe";
 
 export function removeSelectedValues(selection: any, itemsToRemove: unknown[]): void {
     const shouldDelete = (row: unknown) => !!itemsToRemove.find(data => JSON.stringify(data) === JSON.stringify(row));
@@ -32,12 +30,12 @@ export function addSelectedValues(selection: any, newData: unknown[]): void {
 }
 
 
-export function clearAllRows(selection: any, multiSelect:any): void {
+export function clearAllRows(selection: any, multiSelect: any): void {
     selection.clear();
     multiSelect.emit(this.selection.selected);
 }
 
-export function clearCurrentRows(selection: any, dataSourceData: unknown[], multiSelect:any): void {
+export function clearCurrentRows(selection: any, dataSourceData: unknown[], multiSelect: any): void {
     this.removeSelectedValues(selection, dataSourceData);
 
     multiSelect.emit(this.selection.selected);

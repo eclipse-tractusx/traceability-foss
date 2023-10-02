@@ -688,5 +688,4 @@ export class PartsTableComponent implements OnInit {
         removeSelectedValues(this.selection, itemsToRemove);
     }
 
-    protected readonly name = name;
 }

@@ -120,7 +120,8 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
         this.bomLifecycleSize = bomLifecycleSize;
     }
 
-    // TODO this logic should be inside parts-table and not in parts.component
+
+    // TODO: NewFilter -> Multiple Values not filtered together, OtherParts not filtered at all
     private setTableSortingList(sorting: TableHeaderSort, partTable: MainAspectType): void {
         // if a sorting Columnlist exists but a column gets resetted:
         if (!sorting && (this.tableAsBuiltSortList || this.tableAsPlannedSortList)) {
