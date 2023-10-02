@@ -28,16 +28,18 @@ import {SharedModule} from '@shared/shared.module';
 import {screen, waitFor} from '@testing-library/angular';
 import {renderComponent} from '@tests/test-render.utils';
 import {PartsModule} from '../parts.module';
-import {AssetAsBuiltFilter} from "@page/parts/model/parts.model";
+import {AssetAsBuiltFilter, AssetAsPlannedFilter, Part} from "@page/parts/model/parts.model";
 import {TableHeaderSort} from "@shared/components/table/table.model";
+import {PartDetailsFacade} from "@shared/modules/part-details/core/partDetails.facade";
 
 describe('Parts', () => {
 
     const renderParts = () => {
+
         return renderComponent(PartsComponent, {
             declarations: [SidenavComponent],
             imports: [PartsModule, SharedModule, LayoutModule, OtherPartsModule],
-            providers: [{provide: SidenavService}],
+            providers: [{provide: SidenavService}, {provide: PartDetailsFacade}],
             roles: ['admin', 'wip'],
         });
     };
@@ -68,11 +70,28 @@ describe('Parts', () => {
         const partsFacade = (componentInstance as any)['partsFacade'];
         const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuiltWithFilter');
 
-
         componentInstance.filterActivated(true, assetAsBuiltFilter);
 
 
         expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], assetAsBuiltFilter);
+    });
+
+    it('should call partsFacade.setPartsAsPlannedWithFilter when filter is set', async () => {
+
+        const {fixture} = await renderParts();
+        const {componentInstance} = fixture;
+        // Arrange
+        const assetAsPlannedFilter: AssetAsPlannedFilter = {
+            id: "123"
+        };
+        const partsFacade = (componentInstance as any)['partsFacade'];
+        const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsPlannedWithFilter');
+
+
+        componentInstance.filterActivated(false, assetAsPlannedFilter);
+
+
+        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], assetAsPlannedFilter);
     });
 
     it('should call partsFacade.setPartsAsBuilt when filter is not set', async () => {
@@ -98,6 +117,98 @@ describe('Parts', () => {
         const page = 1; // Set the page number
         const pageSize = 10; // Set the page size
         const sorting = ['id', 'asc'] as TableHeaderSort;
+        componentInstance.ctrlKeyState = true;
+
+        // Access the private partsFacade property
+        const partsFacade = (componentInstance as any)['partsFacade'];
+        const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuilt');
+
+        // Act
+        componentInstance['onAsBuiltTableConfigChange']({page, pageSize, sorting}); // Access private method
+
+        // Assert
+        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsBuiltSortList']);
+    });
+
+    it('should call partsFacade.setPartsAsBuilt with the correct parameters no ctrlkey pressed', async () => {
+        const {fixture} = await renderParts();
+        const {componentInstance} = fixture;
+
+        const page = 1; // Set the page number
+        const pageSize = 10; // Set the page size
+        const sorting = ['id', 'asc'] as TableHeaderSort;
+        componentInstance.ctrlKeyState = false;
+
+        // Access the private partsFacade property
+        const partsFacade = (componentInstance as any)['partsFacade'];
+        const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuilt');
+
+        // Act
+        componentInstance['onAsBuiltTableConfigChange']({page, pageSize, sorting}); // Access private method
+
+        // Assert
+        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsBuiltSortList']);
+    });
+
+
+    it('should call partsFacade.setPartsAsPlanned with the correct parameters', async () => {
+        const {fixture} = await renderParts();
+        const {componentInstance} = fixture;
+
+        const page = 1; // Set the page number
+        const pageSize = 10; // Set the page size
+        const sorting = ['id', 'asc'] as TableHeaderSort;
+        componentInstance.ctrlKeyState = true;
+
+        // Access the private partsFacade property
+        const partsFacade = (componentInstance as any)['partsFacade'];
+        const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsPlanned');
+
+        // Act
+        componentInstance['onAsPlannedTableConfigChange']({page, pageSize, sorting}); // Access private method
+
+        // Assert
+        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsPlannedSortList']);
+    });
+
+    it('should call partsFacade.setPartsAsPlanned with the correct parameters  and ctrlkey not pressed', async () => {
+        const {fixture} = await renderParts();
+        const {componentInstance} = fixture;
+
+        const page = 1; // Set the page number
+        const pageSize = 10; // Set the page size
+        const sorting = ['id', 'asc'] as TableHeaderSort;
+        componentInstance.ctrlKeyState = false;
+
+        // Access the private partsFacade property
+        const partsFacade = (componentInstance as any)['partsFacade'];
+        const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsPlanned');
+
+        // Act
+        componentInstance['onAsPlannedTableConfigChange']({page, pageSize, sorting}); // Access private method
+
+        // Assert
+        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsPlannedSortList']);
+    });
+
+
+    it('should set selectedPart in PartDetailsFacade correctly',async () => {
+        const {fixture} = await renderParts();
+        const {componentInstance} = fixture;
+        const sampleEvent: Record<string, unknown> = { id: 123, name: 'Sample Part' };
+
+        componentInstance.onSelectItem(sampleEvent);
+        const partDetailsFacade = (componentInstance as any)['partDetailsFacade'];
+        expect(partDetailsFacade.selectedPart).toEqual(sampleEvent);
+    });
+
+    it('should resetTableSortingList on correct values', async () => {
+        const {fixture} = await renderParts();
+        const {componentInstance} = fixture;
+
+        const page = 1; // Set the page number
+        const pageSize = 10; // Set the page size
+        const sorting = null;
 
         // Access the private partsFacade property
         const partsFacade = (componentInstance as any)['partsFacade'];

@@ -54,7 +54,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     public tableAsPlannedSortList: TableHeaderSort[];
 
 
-    private ctrlKeyState = false;
+    public ctrlKeyState = false;
 
 
     constructor(
@@ -105,7 +105,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
             }
         }
     }
-    
+
     public ngAfterViewInit(): void {
 
 

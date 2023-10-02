@@ -83,7 +83,10 @@ export class PartsService {
                 let operator;
                 if (key === "semanticDataModel"){
                     operator = 'EQUAL';
-                } else {
+                } else if (key.toLowerCase().includes('date')){
+                    operator = 'AT_LOCAL_DATE';
+                }
+                else {
                     operator = 'STARTS_WITH';
                 }
                 params = params.append('filter', `${key},${operator},${value}`);
@@ -131,7 +134,10 @@ export class PartsService {
                 let operator;
                 if (key === "semanticDataModel"){
                     operator = 'EQUAL';
-                } else {
+                } else if (key.toLowerCase().includes('date')){
+                    operator = 'AT_LOCAL_DATE';
+                }
+                else {
                     operator = 'STARTS_WITH';
                 }
                 params = params.append('filter', `${key},${operator},${value}`);
