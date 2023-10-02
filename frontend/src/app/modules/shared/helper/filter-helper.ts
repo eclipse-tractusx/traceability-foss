@@ -16,7 +16,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import {AssetAsBuiltFilter, AssetAsPlannedFilter, SemanticDataModel} from "@page/parts/model/parts.model";
+import {AssetAsBuiltFilter, AssetAsPlannedFilter} from "@page/parts/model/parts.model";
 import {HttpParams} from "@angular/common/http";
 
 
@@ -34,7 +34,7 @@ export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, para
             } else {
                 operator = 'STARTS_WITH';
             }
-           return params = params.append('filter', `${key},${operator},${value}`);
+            return params = params.append('filter', `${key},${operator},${value}`);
         }
     }
 }
@@ -50,10 +50,6 @@ export function toAssetAsBuiltFilter(formValues: any): AssetAsBuiltFilter {
         }
     }
 
-    // Default value for semanticDataModel if not provided
-    if (!transformedFilter.semanticDataModel) {
-        transformedFilter.semanticDataModel = SemanticDataModel.UNKNOWN;
-    }
     const filterIsSet = Object.values(transformedFilter).some(value => value !== undefined && value !== null);
     console.log(transformedFilter, "filter");
     console.log(filterIsSet, "set?");
@@ -75,10 +71,6 @@ export function toAssetAsPlannedFilter(formValues: any): AssetAsPlannedFilter {
         }
     }
 
-    // Default value for semanticDataModel if not provided
-    if (!transformedFilter.semanticDataModel) {
-        transformedFilter.semanticDataModel = SemanticDataModel.UNKNOWN;
-    }
     const filterIsSet = Object.values(transformedFilter).some(value => value !== undefined && value !== null);
     if (filterIsSet) {
         return transformedFilter;

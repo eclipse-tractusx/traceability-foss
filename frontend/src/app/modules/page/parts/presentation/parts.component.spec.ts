@@ -68,7 +68,7 @@ describe('Parts', () => {
             id: "123"
         };
         const partsFacade = (componentInstance as any)['partsFacade'];
-        const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuiltWithFilter');
+        const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuilt');
 
         componentInstance.filterActivated(true, assetAsBuiltFilter);
 
@@ -85,7 +85,7 @@ describe('Parts', () => {
             id: "123"
         };
         const partsFacade = (componentInstance as any)['partsFacade'];
-        const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsPlannedWithFilter');
+        const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsPlanned');
 
 
         componentInstance.filterActivated(false, assetAsPlannedFilter);
@@ -107,7 +107,7 @@ describe('Parts', () => {
         componentInstance.filterActivated(true, assetAsBuiltFilter);
 
         // Assert
-        expect(partsFacadeSpy).toHaveBeenCalledWith();
+        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], null);
     });
 
     it('should call partsFacade.setPartsAsBuilt with the correct parameters', async () => {

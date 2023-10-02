@@ -60,8 +60,6 @@ export class PartsTableComponent implements OnInit {
     @Input() tableHeader: string;
     @Input() multiSortList: TableHeaderSort[];
 
-    @Input() isAsBuilt: boolean;
-
     @Input() tableType: PartTableType;
 
 
