@@ -27,7 +27,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Pagination } from '@core/model/pagination.model';
 import { RoleService } from '@core/user/role.service';
 import { MenuActionConfig, TableConfig, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
-import {addSelectedValues, removeSelectedValues} from '@shared/helper/table-helper';
+import {addSelectedValues, clearAllRows, clearCurrentRows, removeSelectedValues} from '@shared/helper/table-helper';
 import { FlattenObjectPipe } from '@shared/pipes/flatten-object.pipe';
 
 @Component({
@@ -143,13 +143,11 @@ export class TableComponent {
   }
 
   public clearAllRows(): void {
-    this.selection.clear();
-    this.emitMultiSelect();
+    clearAllRows(this.selection, this.multiSelect);
   }
 
   public clearCurrentRows(): void {
-    this.removeSelectedValues(this.dataSource.data);
-    this.emitMultiSelect();
+    clearCurrentRows(this.selection, this.dataSource.data, this.multiSelect);
   }
 
   public toggleAllRows(): void {

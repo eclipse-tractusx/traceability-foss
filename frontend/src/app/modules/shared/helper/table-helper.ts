@@ -44,3 +44,16 @@ export function addSelectedValues(selection: any, newData: unknown[]): void {
     const newValues = newData.filter(data => !selection.isSelected(data));
     selection.select(...newValues);
 }
+
+
+export function clearAllRows(selection: any, multiSelect:any): void {
+    selection.clear();
+    multiSelect.emit(this.selection.selected);
+}
+
+export function clearCurrentRows(selection: any, dataSourceData: unknown[], multiSelect:any): void {
+    this.removeSelectedValues(selection, dataSourceData);
+
+    multiSelect.emit(this.selection.selected);
+}
+
