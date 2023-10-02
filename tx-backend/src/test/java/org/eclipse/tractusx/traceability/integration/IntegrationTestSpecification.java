@@ -19,6 +19,8 @@
 package org.eclipse.tractusx.traceability.integration;
 
 import groovy.json.JsonBuilder;
+import io.restassured.RestAssured;
+import io.restassured.config.RestAssuredConfig;
 import org.awaitility.Awaitility;
 import org.eclipse.tractusx.traceability.integration.common.config.PostgreSQLConfig;
 import org.eclipse.tractusx.traceability.integration.common.config.RestitoConfig;

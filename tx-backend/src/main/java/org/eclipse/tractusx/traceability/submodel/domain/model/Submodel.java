@@ -17,12 +17,14 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.submodel.infrastructure;
+package org.eclipse.tractusx.traceability.submodel.domain.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import lombok.Builder;
+import lombok.Data;
 
-@Entity
-@Table(name = "submodel")
-public class SubmodelEntity {
+@Data
+@Builder
+public class Submodel {
+    private final String id;
+    private final String payload;
 }

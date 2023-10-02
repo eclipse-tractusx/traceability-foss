@@ -17,12 +17,18 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.submodel.application.service;
+package org.eclipse.tractusx.traceability.integration;
 
-import org.eclipse.tractusx.traceability.submodel.domain.model.Submodel;
+import io.restassured.RestAssured;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.web.context.WebServerInitializedEvent;
+import org.springframework.context.event.EventListener;
 
-public interface SubmodelService {
-    Submodel getById(String submodelId);
-    void save(Submodel submodelId);
-    void deleteAll();
+@TestConfiguration
+class RestAssuredConfig {
+
+    @EventListener(WebServerInitializedEvent.class)
+    void onServletContainerInitialized(WebServerInitializedEvent event) {
+        RestAssured.port = event.getWebServer().getPort();
+    }
 }

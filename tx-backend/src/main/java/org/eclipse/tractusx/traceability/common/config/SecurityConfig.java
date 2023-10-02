@@ -56,6 +56,7 @@ public class SecurityConfig {
             "/internal/endpoint-data-reference",
             "/actuator/**",
             "/registry/reload",
+            "/submodel/data/**",
             "/submodel/data"
     };
 

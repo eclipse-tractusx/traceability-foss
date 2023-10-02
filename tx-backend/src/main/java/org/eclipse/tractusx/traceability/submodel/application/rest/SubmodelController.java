@@ -19,9 +19,19 @@
 
 package org.eclipse.tractusx.traceability.submodel.application.rest;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.eclipse.tractusx.traceability.bpn.mapping.domain.model.BpnEdcMapping;
+import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
 import org.eclipse.tractusx.traceability.submodel.application.service.SubmodelService;
+import org.eclipse.tractusx.traceability.submodel.domain.model.Submodel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,21 +50,51 @@ public class SubmodelController {
 
     private final SubmodelService submodelService;
 
+    @Operation(operationId = "getSubmodelById",
+            summary = "Gets Submodel by its id",
+            tags = {"Submodel"},
+            description = "The endpoint returns Submodel for given id. Used for data providing functionality",
+            security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found", content = @Content(
+            mediaType = "application/json",
+            array = @ArraySchema(arraySchema = @Schema(description = "BPN Mappings", implementation = BpnEdcMapping.class, additionalProperties = Schema.AdditionalPropertiesValue.FALSE), minItems = 0, maxItems = Integer.MAX_VALUE)
+    )),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authorization failed.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "429",
+                    description = "Too many requests.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/{submodelId}")
     public String getSubmodel(@PathVariable String submodelId) {
-        return submodelService.getSubmodel(submodelId);
+        return submodelService.getById(submodelId).getPayload();
     }
 
     @PostMapping("/{submodelId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void saveSubmodel(@PathVariable String submodelId, @RequestBody String submodelPayload) {
-        submodelService.saveSubmodel(submodelId);
+        submodelService.save(Submodel.builder()
+                        .id(submodelId)
+                        .payload(submodelPayload)
+                .build());
     }
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteSubmodels() {
-        submodelService.deleteAllSubmodels();
+        submodelService.deleteAll();
     }
 
 }

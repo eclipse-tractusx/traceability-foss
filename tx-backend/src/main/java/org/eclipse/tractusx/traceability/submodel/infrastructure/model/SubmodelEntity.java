@@ -17,12 +17,40 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.submodel.application.service;
+package org.eclipse.tractusx.traceability.submodel.infrastructure.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.eclipse.tractusx.traceability.submodel.domain.model.Submodel;
 
-public interface SubmodelService {
-    Submodel getById(String submodelId);
-    void save(Submodel submodelId);
-    void deleteAll();
+@Entity
+@Table(name = "submodel")
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class SubmodelEntity {
+    @Id
+    private String id;
+
+    private String submodel;
+
+    public static SubmodelEntity from(Submodel submodel) {
+        return SubmodelEntity.builder()
+                .id(submodel.getId())
+                .submodel(submodel.getPayload())
+                .build();
+    }
+
+    public Submodel toDomain() {
+        return Submodel.builder()
+                .id(getId())
+                .payload(getSubmodel())
+                .build();
+    }
 }

@@ -17,12 +17,11 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.submodel.application.service;
+package org.eclipse.tractusx.traceability.submodel.domain.model;
 
-import org.eclipse.tractusx.traceability.submodel.domain.model.Submodel;
+public class SubmodelNotFoundException extends RuntimeException {
 
-public interface SubmodelService {
-    Submodel getById(String submodelId);
-    void save(Submodel submodelId);
-    void deleteAll();
+    public SubmodelNotFoundException(final String submodelId) {
+        super("Submodel with id %s not found".formatted(submodelId));
+    }
 }
