@@ -23,7 +23,7 @@ import { Pagination } from '@core/model/pagination.model';
 import { PartsFacade } from '@page/parts/core/parts.facade';
 import { PartsState } from '@page/parts/core/parts.state';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import { Part } from '@page/parts/model/parts.model';
+import {AssetAsBuiltFilter, AssetAsPlannedFilter, Part} from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { PartsService } from '@shared/service/parts.service';
 import { waitFor } from '@testing-library/angular';
@@ -39,6 +39,10 @@ describe('Parts facade', () => {
       getPart: id => new BehaviorSubject(mockAssetList[id]).pipe(map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_BUILT))),
       getPartsAsBuilt: (_page, _pageSize, _sorting) =>
         of(mockAssets).pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_BUILT))),
+      getPartsAsBuiltWithFilter: (_page, _pageSize, _sorting, filter) =>
+          of(mockAssets).pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_BUILT))),
+      getPartsAsPlannedWithFilter: (_page, _pageSize, _sorting, filter) =>
+          of(mockAssets).pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_PLANNED))),
       getPartsAsPlanned: (_page, _pageSize, _sorting) =>
         of(mockAssets).pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_PLANNED))),
     } as PartsService;
@@ -64,6 +68,46 @@ describe('Parts facade', () => {
           loader: undefined,
           data: PartsAssembler.assembleParts(mockAssets, MainAspectType.AS_BUILT),
         }),
+      );
+    });
+
+    it('should set parts including filter if request is successful', async () => {
+      const serviceSpy = spyOn(partsServiceMok, 'getPartsAsBuiltWithFilter').and.returnValue(
+          of<Pagination<Part>>(PartsAssembler.assembleParts(mockAssets, MainAspectType.AS_BUILT)),
+      );
+      const filter = {id : '123'} as AssetAsBuiltFilter;
+      partsFacade.setPartsAsBuiltWithFilter(0, 10, [], filter);
+
+      await waitFor(() => expect(serviceSpy).toHaveBeenCalledTimes(1));
+      await waitFor(() => expect(serviceSpy).toHaveBeenCalledWith(0, 10, [], filter));
+
+      const parts = await firstValueFrom(partsState.partsAsBuilt$);
+      await waitFor(() =>
+          expect(parts).toEqual({
+            error: undefined,
+            loader: undefined,
+            data: PartsAssembler.assembleParts(mockAssets, MainAspectType.AS_BUILT),
+          }),
+      );
+    });
+
+    it('should set partsasplanned including filter if request is successful', async () => {
+      const serviceSpy = spyOn(partsServiceMok, 'getPartsAsPlannedWithFilter').and.returnValue(
+          of<Pagination<Part>>(PartsAssembler.assembleParts(mockAssets, MainAspectType.AS_PLANNED)),
+      );
+      const filter = {id : '123'} as AssetAsPlannedFilter;
+      partsFacade.setPartsAsPlannedWithFilter(0, 10, [], filter);
+
+      await waitFor(() => expect(serviceSpy).toHaveBeenCalledTimes(1));
+      await waitFor(() => expect(serviceSpy).toHaveBeenCalledWith(0, 10, [], filter));
+
+      const parts = await firstValueFrom(partsState.partsAsPlanned$);
+      await waitFor(() =>
+          expect(parts).toEqual({
+            error: undefined,
+            loader: undefined,
+            data: PartsAssembler.assembleParts(mockAssets, MainAspectType.AS_PLANNED),
+          }),
       );
     });
 
