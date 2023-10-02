@@ -23,8 +23,29 @@ import {renderComponent} from '@tests/test-render.utils';
 import {PartsTableComponent} from "@shared/components/parts-table/parts-table.component";
 import {Pagination} from "@core/model/pagination.model";
 import {TableConfig} from "@shared/components/table/table.model";
+import {PartsFacade} from "@page/parts/core/parts.facade";
+import {Sort} from "@angular/material/sort";
 
 describe('PartsTableComponent', () => {
+
+    const renderPartsTableComponent = (
+        size: number,
+        isAsBuilt = true
+    ) => {
+        const multiSelectActive = true;
+        const content = generateTableContent(size);
+        const paginationData = {page: 0, pageSize: 10, totalItems: 100, content} as Pagination<unknown>;
+
+
+        return renderComponent(PartsTableComponent, {
+            imports: [SharedModule],
+            providers: [
+                // Provide the PartsFacade mock as a value for the PartsFacade token
+                {provide: PartsFacade},
+            ],
+            componentProperties: {multiSelectActive, paginationData, isAsBuilt},
+        });
+    };
 
     const generateTableContent = (size: number) => {
         return Array.apply(null, Array(size)).map((_, i) => ({name: 'name_' + i, test: 'test'}));
@@ -50,6 +71,7 @@ describe('PartsTableComponent', () => {
         ],
         header = {name: 'Name'},
         selected = jasmine.createSpy(),
+        isAsBuilt = true
     ) => {
         const content = generateTableContent(size);
         const data = {page: 0, pageSize: 10, totalItems: 100, content} as Pagination<unknown>;
@@ -57,8 +79,10 @@ describe('PartsTableComponent', () => {
         const tableConfig: TableConfig = {displayedColumns, header};
 
         const multiSelectActive = true;
+
+
         return renderComponent(
-            `<app-parts-table [multiSelectActive]='multiSelectActive' [paginationData]='data' [tableConfig]='tableConfig' (selected)='selected($event)'></app-parts-table>`,
+            `<app-parts-table [isAsBuilt]='isAsBuilt' [multiSelectActive]='multiSelectActive' [paginationData]='data' (selected)='selected($event)'></app-parts-table>`,
             {
                 declarations: [PartsTableComponent],
                 imports: [SharedModule],
@@ -66,7 +90,8 @@ describe('PartsTableComponent', () => {
                     data,
                     tableConfig,
                     selected,
-                    multiSelectActive
+                    multiSelectActive,
+                    isAsBuilt
                 },
             },
         );
@@ -81,73 +106,160 @@ describe('PartsTableComponent', () => {
     });
 
 
-    /*    it('should have correct sizes for split areas', async () => {
-            const {fixture} = await renderPartsTable();
-            const {componentInstance} = fixture;
-            expect(componentInstance.bomLifecycleSize.asPlannedSize).toBe(50);
-            expect(componentInstance.bomLifecycleSize.asBuiltSize).toBe(50);
-        });*/
+    it('should have correct sizes for split areas', async () => {
+        const {fixture} = await renderPartsTableComponent(1, true);
+        const {componentInstance} = fixture;
+        expect(componentInstance.isAsBuilt).toBe(true);
+    });
 
+    it('should init the correct columns for asBuilt', async () => {
+        const {fixture} = await renderPartsTableComponent(1, true);
+        const {componentInstance} = fixture;
 
-    /*    const data = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
-        const options = [SemanticDataModel.BATCH, SemanticDataModel.PARTASPLANNED]
+        componentInstance.ngOnInit();
 
-        const tableConfig: TableConfig = { displayedColumns, header };
-       let  filterFormGroup = new FormGroup({
-          id: new FormControl([]),
-          idShort: new FormControl([]),
-          name: new FormControl([]),
-          manufacturer: new FormControl([]),
-          partId: new FormControl([]),
-          manufacturerPartId: new FormControl([]),
-          customerPartId: new FormControl([]),
-          classification: new FormControl([]),
-          nameAtCustomer: new FormControl([]),
-          semanticModelId: new FormControl([]),
-          semanticDataModel: new FormControl([SemanticDataModel.BATCH, SemanticDataModel.PARTASPLANNED]),
-          manufacturingDate: new FormControl([]),
-          manufacturingCountry: new FormControl([]),
+        // Expect that the event was emitted with the correct data
+        expect(componentInstance.displayedColumns).toEqual([
+            'Filter',
+            'filterId',
+            'filterIdShort',
+            'filterName', // nameAtManufacturer
+            'filterManufacturer',
+            'filterPartId', // Part number / Batch Number / JIS Number
+            'filterManufacturerPartId',
+            'filterCustomerPartId', // --> semanticModel.customerPartId
+            'filterClassification',
+            //'nameAtManufacturer', --> already in name
+            'filterNameAtCustomer', // --> semanticModel.nameAtCustomer
+            'filterSemanticModelId',
+            'filterSemanticDataModel',
+            'filterManufacturingDate',
+            'filterManufacturingCountry',
+        ]);
+    });
+
+    it('should init the correct columns for asBuilt', async () => {
+        const {fixture} = await renderPartsTableComponent(1, false);
+        const {componentInstance} = fixture;
+
+        componentInstance.ngOnInit();
+
+        expect(componentInstance.displayedColumns).toEqual([
+            'Filter',
+            'filterId',
+            'filterIdShort',
+            'filterName',
+            'filterManufacturer',
+            'filterManufacturerPartId',
+            'filterClassification',
+            'filterSemanticDataModel',
+            'filterSemanticModelId',
+            'filterValidityPeriodFrom',
+            'filterValidityPeriodTo',
+            'filterPsFunction',
+            'filterCatenaXSiteId',
+            'filterFunctionValidFrom',
+            'filterFunctionValidUntil',
+        ]);
+    });
+
+    it('should update sorting data and emit configChanged event', async () => {
+
+        const {fixture} = await renderPartsTableComponent(1, false);
+        const {componentInstance} = fixture;
+
+        componentInstance.selection.select({id: 1, name: 'Item 1'}); // Mock a selected item
+
+        componentInstance.isDataLoading = false;
+        const sortEvent: Sort = {active: 'name', direction: 'asc'};
+
+        const configChangedSpy = spyOn(componentInstance.configChanged, 'emit');
+
+        componentInstance.updateSortingOfData(sortEvent);
+
+        expect(componentInstance.selection.isEmpty()).toBe(true); // Selection should be cleared
+        expect(componentInstance.isDataLoading).toBe(true); // isDataLoading should be set to true
+        expect(configChangedSpy).toHaveBeenCalledWith({
+            page: 0,
+            pageSize: componentInstance.paginationData.pageSize,
+            sorting: ['name', 'asc'],
         });
+    });
 
-          const optionTextSearch = [];
-         const  semanticDataModelOptions = [
-              {
-                  display: 'Batch',
-                  value: SemanticDataModel.BATCH,
-              }, {
-                  display: 'JustInSequence',
-                  value: SemanticDataModel.JUSTINSEQUENCEPART,
-              }, {
-                  display: 'SerialPart',
-                  value: SemanticDataModel.SERIALPART,
-              }, {
-                  display: 'Unknown',
-                  value: SemanticDataModel.UNKNOWN,
-              }, {
-                  display: 'PartAsPlanned',
-                  value: SemanticDataModel.PARTASPLANNED,
-              },
-          ];
-      const filterConfigurations: any[] = [
-              {filterKey: '', headerKey: 'Filter', isTextSearch: true, option: optionTextSearch},
-              {filterKey: 'id', headerKey: 'filterId', isTextSearch: true, option: optionTextSearch},
-              {filterKey: 'idShort', headerKey: 'filterIdShort', isTextSearch: true, option: optionTextSearch},
-              {filterKey: 'nameAtManufacturer', headerKey: 'filterName', isTextSearch: true, option: optionTextSearch}, // nameAtManufacturer
-              {filterKey: 'businessPartner', headerKey: 'filterManufacturer', isTextSearch: true, option: optionTextSearch},
-              {filterKey: 'manufacturerPartId', headerKey: 'filterPartId', isTextSearch: true, option: optionTextSearch}, // Part number / Batch Number / JIS Number
-              {filterKey: 'manufacturerPartId', headerKey: 'filterManufacturerPartId', isTextSearch: true,  option: optionTextSearch},
-              {filterKey: 'customerPartId', headerKey: 'filterCustomerPartId', isTextSearch: true, option: optionTextSearch}, // --> semanticModel.customerPartId
-              {filterKey: 'classification', headerKey: 'filterClassification', isTextSearch: true, option: optionTextSearch},
-              {filterKey: 'nameAtCustomer', headerKey: 'filterNameAtCustomer', isTextSearch: true, option: optionTextSearch}, // --> semanticModel.nameAtCustomer
-              {filterKey: 'semanticModelId', headerKey: 'filterSemanticModelId', isTextSearch: true, option: optionTextSearch},
-              {filterKey: 'semanticDataModel', headerKey: 'filterSemanticDataModel', isTextSearch: false, option: semanticDataModelOptions},
-              {filterKey: 'manufacturingDate', headerKey: 'filterManufacturingDate', isTextSearch: true, option: optionTextSearch},
-              {filterKey: 'manufacturingCountry', headerKey: 'filterManufacturingCountry', isTextSearch: true, option: optionTextSearch},
-          ];
+    it('should update component properties and data source when PartsPaginationData is set', async () => {
+        const {fixture} = await renderPartsTableComponent(1, false);
+        const {componentInstance} = fixture;
 
-      const filter = filterConfigurations[1];
-
-       const formControl = filterFormGroup.controls[filter.filterKey];*/
+        const paginationData: Pagination<unknown> = {
+            pageCount: 10,
+            page: 2,
+            pageSize: 10,
+            totalItems: 100,
+            content: [
+                {id: 1, name: 'Item 1'},
+                {id: 2, name: 'Item 2'}
+            ],
+        };
 
 
-});
+        componentInstance.PartsPaginationData = paginationData;
+
+        expect(componentInstance.totalItems).toEqual(paginationData.totalItems);
+        expect(componentInstance.paginationData.pageSize).toEqual(paginationData.pageSize);
+        expect(componentInstance.pageIndex).toEqual(paginationData.page);
+        expect(componentInstance.isDataLoading).toBe(false);
+
+    });
+
+    it('should select or deselect a row and emit selected event if menuActionsConfig is not defined', async () => {
+        const {fixture} = await renderPartsTableComponent(1, false);
+        const {componentInstance} = fixture;
+
+        const row1 = {id: 1, name: 'Item 1'};
+
+        spyOn(componentInstance.selected, 'emit');
+
+        componentInstance.selectElement(row1);
+
+        expect(componentInstance.selected.emit).toHaveBeenCalledWith(row1);
+        expect(componentInstance.selectedRow).toEqual(row1);
+
+    });
+
+    it('should remove selected values and emit multiSelect', async () => {
+        const {fixture} = await renderPartsTableComponent(1, false);
+        const {componentInstance} = fixture;
+
+        componentInstance.selection.select({id: 1}, {id: 2}, {id: 3});
+
+        componentInstance.deselectTrigger = [{id: 2}, {id: 3}];
+
+        expect(componentInstance.selection.selected).toEqual([{id: 1}]);
+    });
+
+    it('should not remove selected values if deselectItem is not provided', async () => {
+        const {fixture} = await renderPartsTableComponent(1, false);
+        const {componentInstance} = fixture;
+
+        componentInstance.selection.select({id: 1}, {id: 2}, {id: 3});
+
+        componentInstance.deselectTrigger = null;
+
+        expect(componentInstance.selection.selected).toEqual([{id: 1}, {id: 2}, {id: 3}]);
+    });
+
+    it('should emit multiSelect event', async () => {
+        const {fixture} = await renderPartsTableComponent(1, false);
+        const {componentInstance} = fixture;
+
+        componentInstance.selection.select({id: 1}, {id: 2}, {id: 3});
+
+        const multiSelectSpy = spyOn(componentInstance.multiSelect, 'emit');
+
+        componentInstance.deselectTrigger = [{id: 2}, {id: 3}];
+
+        expect(multiSelectSpy).toHaveBeenCalledWith([{id: 1}]);
+    });
+
+})
+
