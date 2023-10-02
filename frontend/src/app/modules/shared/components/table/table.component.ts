@@ -27,6 +27,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Pagination } from '@core/model/pagination.model';
 import { RoleService } from '@core/user/role.service';
 import { MenuActionConfig, TableConfig, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
+import {addSelectedValues, removeSelectedValues} from '@shared/helper/table-helper';
 import { FlattenObjectPipe } from '@shared/pipes/flatten-object.pipe';
 
 @Component({
@@ -195,14 +196,10 @@ export class TableComponent {
   }
 
   private addSelectedValues(newData: unknown[]): void {
-    const newValues = newData.filter(data => !this.isSelected(data));
-    this.selection.select(...newValues);
+    addSelectedValues(this.selection, newData);
   }
 
   private removeSelectedValues(itemsToRemove: unknown[]): void {
-    const shouldDelete = (row: unknown) => !!itemsToRemove.find(data => JSON.stringify(data) === JSON.stringify(row));
-    const rowsToDelete = this.selection.selected.filter(data => shouldDelete(data));
-
-    this.selection.deselect(...rowsToDelete);
+    removeSelectedValues(this.selection, itemsToRemove);
   }
 }

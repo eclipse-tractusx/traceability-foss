@@ -35,6 +35,7 @@ import {
     TableEventConfig,
     TableHeaderSort
 } from '@shared/components/table/table.model';
+import {addSelectedValues, removeSelectedValues} from "@shared/helper/table-helper";
 
 
 @Component({
@@ -680,15 +681,11 @@ export class PartsTableComponent implements OnInit {
     }
 
     private addSelectedValues(newData: unknown[]): void {
-        const newValues = newData.filter(data => !this.isSelected(data));
-        this.selection.select(...newValues);
+        addSelectedValues(this.selection, newData);
     }
 
     private removeSelectedValues(itemsToRemove: unknown[]): void {
-        const shouldDelete = (row: unknown) => !!itemsToRemove.find(data => JSON.stringify(data) === JSON.stringify(row));
-        const rowsToDelete = this.selection.selected.filter(data => shouldDelete(data));
-
-        this.selection.deselect(...rowsToDelete);
+        removeSelectedValues(this.selection, itemsToRemove);
     }
 
     protected readonly name = name;

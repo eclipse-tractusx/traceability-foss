@@ -30,4 +30,17 @@ export function getPartsPaginationData(page: number, pageSize: number, totalItem
         totalItems: totalItems,
         content: newContent
     }
+
+}
+
+export function removeSelectedValues(selection: any, itemsToRemove: unknown[]): void {
+    const shouldDelete = (row: unknown) => !!itemsToRemove.find(data => JSON.stringify(data) === JSON.stringify(row));
+    const rowsToDelete = selection.selected.filter(data => shouldDelete(data));
+
+    selection.deselect(...rowsToDelete);
+};
+
+export function addSelectedValues(selection: any, newData: unknown[]): void {
+    const newValues = newData.filter(data => !selection.isSelected(data));
+    selection.select(...newValues);
 }
