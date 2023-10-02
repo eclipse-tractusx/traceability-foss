@@ -24,9 +24,11 @@ package org.eclipse.tractusx.traceability.common.config
 import io.restassured.RestAssured
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.boot.web.context.WebServerInitializedEvent
+import org.springframework.context.annotation.Profile
 import org.springframework.context.event.EventListener
 
 @TestConfiguration
+@Profile(ApplicationProfiles.TESTS)
 class RestAssuredConfig {
 
 	@EventListener(WebServerInitializedEvent.class)
