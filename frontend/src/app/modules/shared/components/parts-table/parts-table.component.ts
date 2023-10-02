@@ -407,8 +407,6 @@ export class PartsTableComponent implements OnInit {
     ];
 
 
-
-
     @ViewChild(MultiSelectAutocompleteComponent) multiSelection: MultiSelectAutocompleteComponent;
 
     public areAllRowsSelected(): boolean {
