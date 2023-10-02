@@ -35,14 +35,6 @@ describe('OtherPartsFacade', () => {
   let otherPartsFacade: OtherPartsFacade, otherPartsState: OtherPartsState, partsServiceMok: PartsService, otherPartsServiceMock: OtherPartsService;
 
   beforeEach(() => {
-    partsServiceMok = {
-      getPart: id => new BehaviorSubject(mockAssetList[id]).pipe(map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_BUILT))),
-      getPartsAsBuilt: (_page, _pageSize, _sorting) =>
-        of(mockAssets).pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_BUILT))),
-      getPartsAsPlanned: (_page, _pageSize, _sorting) =>
-        of(mockAssets).pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_PLANNED))),
-    } as PartsService;
-
     otherPartsServiceMock  = {
       getOtherPartsAsBuilt: (_page, _pageSize, _sorting, _owner) =>
         of(mockAssets).pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_BUILT))),
@@ -51,7 +43,7 @@ describe('OtherPartsFacade', () => {
     } as OtherPartsService;
 
     otherPartsState = new OtherPartsState();
-    otherPartsFacade = new OtherPartsFacade(otherPartsServiceMock, partsServiceMok, otherPartsState);
+    otherPartsFacade = new OtherPartsFacade(otherPartsServiceMock, otherPartsState);
   });
 
   describe('setActiveInvestigationForParts', () => {

@@ -18,144 +18,101 @@
  ********************************************************************************/
 
 
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Pagination } from '@core/model/pagination.model';
-import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
-import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import { Part } from '@page/parts/model/parts.model';
-import {
-  CreateHeaderFromColumns,
-  TableConfig,
-  TableEventConfig,
-  TableHeaderSort,
-} from '@shared/components/table/table.model';
-import { TableSortingUtil } from '@shared/components/table/tableSortingUtil';
-import { View } from '@shared/model/view.model';
-import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
-import { StaticIdService } from '@shared/service/staticId.service';
-import { Observable } from 'rxjs';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Pagination} from '@core/model/pagination.model';
+import {OtherPartsFacade} from '@page/other-parts/core/other-parts.facade';
+import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
+import {Part} from '@page/parts/model/parts.model';
+import {PartTableType, TableConfig, TableEventConfig, TableHeaderSort,} from '@shared/components/table/table.model';
+import {TableSortingUtil} from '@shared/components/table/tableSortingUtil';
+import {View} from '@shared/model/view.model';
+import {PartDetailsFacade} from '@shared/modules/part-details/core/partDetails.facade';
+import {StaticIdService} from '@shared/service/staticId.service';
+import {Observable} from 'rxjs';
+import {toAssetAsBuiltFilter, toAssetAsPlannedFilter} from "@shared/helper/filter-helper";
 
 @Component({
-  selector: 'app-customer-parts',
-  templateUrl: './customer-parts.component.html',
+    selector: 'app-customer-parts',
+    templateUrl: './customer-parts.component.html',
 })
 export class CustomerPartsComponent implements OnInit, OnDestroy {
-  public readonly displayedColumnsAsBuilt: string[] = [
-    'semanticDataModel',
-    'name',
-    'manufacturer',
-    'partId',
-    'semanticModelId',
-    'manufacturingDate',
-  ];
 
-  public readonly sortableColumnsAsBuilt: Record<string, boolean> = {
-    semanticDataModel: true,
-    name: true,
-    manufacturer: true,
-    partId: true,
-    semanticModelId: true,
-  };
+    public customerPartsAsBuilt$: Observable<View<Pagination<Part>>>;
+    public customerPartsAsPlanned$: Observable<View<Pagination<Part>>>;
 
-  public readonly displayedColumnsAsPlanned: string[] = [
-    'semanticDataModel',
-    'name',
-    'manufacturer',
-    'manufacturerPartId',
-    'semanticModelId',
-  ];
+    public readonly customerTabLabelId = this.staticIdService.generateId('OtherParts.customerTabLabel');
 
-  public readonly sortableColumnsAsPlanned: Record<string, boolean> = {
-    semanticDataModel: true,
-    name: true,
-    manufacturer: true,
-    manufacturerPartId: true,
-    semanticModelId: true,
-    manufacturingDate: true,
-  };
+    public tableCustomerAsBuiltSortList: TableHeaderSort[];
+    public tableCustomerAsPlannedSortList: TableHeaderSort[];
 
-  public tableConfigAsBuilt: TableConfig;
-  public tableConfigAsPlanned: TableConfig;
+    private ctrlKeyState = false;
+
+    @Input()
+    public bomLifecycle: MainAspectType;
+
+    constructor(
+        private readonly otherPartsFacade: OtherPartsFacade,
+        private readonly partDetailsFacade: PartDetailsFacade,
+        private readonly staticIdService: StaticIdService,
+    ) {
 
 
-  public customerPartsAsBuilt$: Observable<View<Pagination<Part>>>;
-  public customerPartsAsPlanned$: Observable<View<Pagination<Part>>>;
-
-  public readonly customerTabLabelId = this.staticIdService.generateId('OtherParts.customerTabLabel');
-
-  public tableCustomerAsBuiltSortList: TableHeaderSort[];
-  public tableCustomerAsPlannedSortList: TableHeaderSort[];
-
-  private ctrlKeyState = false;
-
-  @Input()
-  public bomLifecycle: MainAspectType;
-
-  constructor(
-    private readonly otherPartsFacade: OtherPartsFacade,
-    private readonly partDetailsFacade: PartDetailsFacade,
-    private readonly staticIdService: StaticIdService,
-  ) {
-
-
-    window.addEventListener('keydown', (event) => {
-      this.ctrlKeyState = event.ctrlKey;
-    });
-    window.addEventListener('keyup', (event) => {
-      this.ctrlKeyState = event.ctrlKey;
-    });
-  }
-
-  public ngOnInit(): void {
-    if (this.bomLifecycle === MainAspectType.AS_BUILT) {
-      this.customerPartsAsBuilt$ = this.otherPartsFacade.customerPartsAsBuilt$;
-      this.tableCustomerAsBuiltSortList = [];
-      this.otherPartsFacade.setCustomerPartsAsBuilt();
-    } else if (this.bomLifecycle === MainAspectType.AS_PLANNED) {
-      this.customerPartsAsPlanned$ = this.otherPartsFacade.customerPartsAsPlanned$;
-      this.tableCustomerAsPlannedSortList = [];
-      this.otherPartsFacade.setCustomerPartsAsPlanned();
+        window.addEventListener('keydown', (event) => {
+            this.ctrlKeyState = event.ctrlKey;
+        });
+        window.addEventListener('keyup', (event) => {
+            this.ctrlKeyState = event.ctrlKey;
+        });
     }
-  }
 
-  public ngAfterViewInit(): void {
-    if (this.bomLifecycle === MainAspectType.AS_BUILT) {
-      this.tableConfigAsBuilt = {
-        displayedColumns: this.displayedColumnsAsBuilt,
-        header: CreateHeaderFromColumns(this.displayedColumnsAsBuilt, 'table.column'),
-        sortableColumns: this.sortableColumnsAsBuilt,
-      };
-    } else if (this.bomLifecycle === MainAspectType.AS_PLANNED) {
-      this.tableConfigAsPlanned = {
-        displayedColumns: this.displayedColumnsAsPlanned,
-        header: CreateHeaderFromColumns(this.displayedColumnsAsPlanned, 'table.column'),
-        sortableColumns: this.sortableColumnsAsPlanned,
-      };
+    public ngOnInit(): void {
+        if (this.bomLifecycle === MainAspectType.AS_BUILT) {
+            this.customerPartsAsBuilt$ = this.otherPartsFacade.customerPartsAsBuilt$;
+            this.tableCustomerAsBuiltSortList = [];
+            this.otherPartsFacade.setCustomerPartsAsBuilt();
+        } else if (this.bomLifecycle === MainAspectType.AS_PLANNED) {
+            this.customerPartsAsPlanned$ = this.otherPartsFacade.customerPartsAsPlanned$;
+            this.tableCustomerAsPlannedSortList = [];
+            this.otherPartsFacade.setCustomerPartsAsPlanned();
+        }
     }
-  }
 
-  public ngOnDestroy(): void {
-    this.otherPartsFacade.unsubscribeParts();
-  }
+    filterActivated(isAsBuilt: boolean, assetFilter: any): void {
+        if (isAsBuilt) {
+            this.otherPartsFacade.setCustomerPartsAsBuilt(0, 50, [], toAssetAsBuiltFilter(assetFilter))
+        } else {
+            this.otherPartsFacade.setCustomerPartsAsPlanned(0, 50, [], toAssetAsPlannedFilter(assetFilter))
+        }
+    }
 
-  public onSelectItem(event: Record<string, unknown>): void {
-    this.partDetailsFacade.selectedPart = event as unknown as Part;
-  }
 
-  public onAsBuiltTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
-    this.setTableSortingList(sorting, MainAspectType.AS_BUILT);
-    this.otherPartsFacade.setCustomerPartsAsBuilt(page, pageSize, this.tableCustomerAsBuiltSortList);
-  }
+    public ngAfterViewInit(): void {
 
-  public onAsPlannedTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
-    this.setTableSortingList(sorting, MainAspectType.AS_PLANNED);
-    this.otherPartsFacade.setCustomerPartsAsPlanned(page, pageSize, this.tableCustomerAsPlannedSortList);
-  }
+    }
 
-  private setTableSortingList(sorting: TableHeaderSort, partTable: MainAspectType): void {
-    const tableSortList = partTable === MainAspectType.AS_BUILT ? this.tableCustomerAsBuiltSortList : this.tableCustomerAsPlannedSortList;
-    TableSortingUtil.setTableSortingList(sorting, tableSortList, this.ctrlKeyState);
-  }
+    public ngOnDestroy(): void {
+        this.otherPartsFacade.unsubscribeParts();
+    }
 
-  protected readonly MainAspectType = MainAspectType;
+    public onSelectItem(event: Record<string, unknown>): void {
+        this.partDetailsFacade.selectedPart = event as unknown as Part;
+    }
+
+    public onAsBuiltTableConfigChange({page, pageSize, sorting}: TableEventConfig): void {
+        this.setTableSortingList(sorting, MainAspectType.AS_BUILT);
+        this.otherPartsFacade.setCustomerPartsAsBuilt(page, pageSize, this.tableCustomerAsBuiltSortList);
+    }
+
+    public onAsPlannedTableConfigChange({page, pageSize, sorting}: TableEventConfig): void {
+        this.setTableSortingList(sorting, MainAspectType.AS_PLANNED);
+        this.otherPartsFacade.setCustomerPartsAsPlanned(page, pageSize, this.tableCustomerAsPlannedSortList);
+    }
+
+    private setTableSortingList(sorting: TableHeaderSort, partTable: MainAspectType): void {
+        const tableSortList = partTable === MainAspectType.AS_BUILT ? this.tableCustomerAsBuiltSortList : this.tableCustomerAsPlannedSortList;
+        TableSortingUtil.setTableSortingList(sorting, tableSortList, this.ctrlKeyState);
+    }
+
+    protected readonly MainAspectType = MainAspectType;
+    protected readonly PartTableType = PartTableType;
 }

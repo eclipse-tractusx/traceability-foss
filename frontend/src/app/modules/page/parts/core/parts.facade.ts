@@ -45,38 +45,21 @@ export class PartsFacade {
         return this.partsState.partsAsPlanned$;
     }
 
-    public setPartsAsBuilt(page = 0, pageSize = 50, sorting: TableHeaderSort[] = []): void {
+    public setPartsAsBuilt(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], assetAsBuiltFilter?: AssetAsBuiltFilter): void {
         this.partsAsBuiltSubscription?.unsubscribe();
-        this.partsAsBuiltSubscription = this.partsService.getPartsAsBuilt(page, pageSize, sorting).subscribe({
+        this.partsAsBuiltSubscription = this.partsService.getPartsAsBuilt(page, pageSize, sorting, assetAsBuiltFilter).subscribe({
             next: data => (this.partsState.partsAsBuilt = {data}),
             error: error => (this.partsState.partsAsBuilt = {error}),
         });
     }
 
-    public setPartsAsBuiltWithFilter(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], assetAsBuiltFilter: AssetAsBuiltFilter): void {
-        this.partsAsBuiltSubscription?.unsubscribe();
-        this.partsAsBuiltSubscription = this.partsService.getPartsAsBuiltWithFilter(page, pageSize, sorting, assetAsBuiltFilter).subscribe({
-            next: data => (this.partsState.partsAsBuilt = {data}),
-            error: error => (this.partsState.partsAsBuilt = {error}),
-        });
-    }
-
-    public setPartsAsPlanned(page = 0, pageSize = 50, sorting: TableHeaderSort[] = []): void {
+    public setPartsAsPlanned(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], assetAsPlannedFilter?: AssetAsPlannedFilter): void {
         this.partsAsPlannedSubscription?.unsubscribe();
-        this.partsAsPlannedSubscription = this.partsService.getPartsAsPlanned(page, pageSize, sorting).subscribe({
+        this.partsAsPlannedSubscription = this.partsService.getPartsAsPlanned(page, pageSize, sorting, assetAsPlannedFilter).subscribe({
             next: data => (this.partsState.partsAsPlanned = {data}),
             error: error => (this.partsState.partsAsPlanned = {error}),
         });
     }
-
-    public setPartsAsPlannedWithFilter(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], assetAsPlannedFilter: AssetAsPlannedFilter): void {
-        this.partsAsPlannedSubscription?.unsubscribe();
-        this.partsAsPlannedSubscription = this.partsService.getPartsAsPlannedWithFilter(page, pageSize, sorting, assetAsPlannedFilter).subscribe({
-            next: data => (this.partsState.partsAsPlanned = {data}),
-            error: error => (this.partsState.partsAsPlanned = {error}),
-        });
-    }
-
 
     public unsubscribeParts(): void {
         this.partsAsBuiltSubscription?.unsubscribe();

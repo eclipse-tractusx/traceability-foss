@@ -24,7 +24,7 @@ import { Pagination } from '@core/model/pagination.model';
 import { OtherPartsService } from '@page/other-parts/core/other-parts.service';
 import { OtherPartsState } from '@page/other-parts/core/other-parts.state';
 import { Owner } from '@page/parts/model/owner.enum';
-import { Part } from '@page/parts/model/parts.model';
+import {AssetAsBuiltFilter, AssetAsPlannedFilter, Part} from '@page/parts/model/parts.model';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
 import { PartsService } from '@shared/service/parts.service';
@@ -40,7 +40,6 @@ export class OtherPartsFacade {
 
   constructor(
     private readonly otherPartsService: OtherPartsService,
-    private readonly partsService: PartsService,
     private readonly otherPartsState: OtherPartsState,
   ) {}
 
@@ -61,7 +60,7 @@ export class OtherPartsFacade {
   }
 
 // TODO: remove OtherPartsService and integrate in PartService
-  public setCustomerPartsAsBuilt(page = 0, pageSize = 50, sorting: TableHeaderSort[] = []): void {
+  public setCustomerPartsAsBuilt(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: AssetAsBuiltFilter): void {
     this.customerPartsAsBuiltSubscription?.unsubscribe();
     this.customerPartsAsBuiltSubscription = this.otherPartsService.getOtherPartsAsBuilt(page, pageSize, sorting, Owner.CUSTOMER).subscribe({
       next: data => (this.otherPartsState.customerPartsAsBuilt = { data }),
@@ -69,7 +68,7 @@ export class OtherPartsFacade {
     });
   }
 
-  public setCustomerPartsAsPlanned(page = 0, pageSize = 50, sorting: TableHeaderSort[] = []): void {
+  public setCustomerPartsAsPlanned(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: AssetAsPlannedFilter): void {
     this.customerPartsAsPlannedSubscription?.unsubscribe();
     this.customerPartsAsPlannedSubscription = this.otherPartsService.getOtherPartsAsPlanned(page, pageSize, sorting, Owner.CUSTOMER).subscribe({
       next: data => (this.otherPartsState.customerPartsAsPlanned = { data }),
@@ -77,7 +76,7 @@ export class OtherPartsFacade {
     });
   }
 
-  public setSupplierPartsAsBuilt(page = 0, pageSize = 50, sorting: TableHeaderSort[] = []): void {
+  public setSupplierPartsAsBuilt(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: AssetAsBuiltFilter): void {
     this.supplierPartsAsBuiltSubscription?.unsubscribe();
     this.supplierPartsAsBuiltSubscription = this.otherPartsService.getOtherPartsAsBuilt(page, pageSize, sorting, Owner.SUPPLIER).subscribe({
       next: data => (this.otherPartsState.supplierPartsAsBuilt = { data }),
@@ -85,7 +84,7 @@ export class OtherPartsFacade {
     });
   }
 
-  public setSupplierPartsAsPlanned(page = 0, pageSize = 50, sorting: TableHeaderSort[] = []): void {
+  public setSupplierPartsAsPlanned(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: AssetAsPlannedFilter): void {
     this.supplierPartsAsPlannedSubscription?.unsubscribe();
     this.supplierPartsAsPlannedSubscription = this.otherPartsService.getOtherPartsAsPlanned(page, pageSize, sorting, Owner.SUPPLIER).subscribe({
       next: data => (this.otherPartsState.supplierPartsAsPlanned = { data }),

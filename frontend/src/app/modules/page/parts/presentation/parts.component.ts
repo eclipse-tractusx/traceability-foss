@@ -23,14 +23,15 @@ import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import {Pagination} from '@core/model/pagination.model';
 import {PartsFacade} from '@page/parts/core/parts.facade';
 import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
-import {AssetAsBuiltFilter, AssetAsPlannedFilter, Part} from '@page/parts/model/parts.model';
-import {TableEventConfig, TableHeaderSort,} from '@shared/components/table/table.model';
+import {Part} from '@page/parts/model/parts.model';
+import {PartTableType, TableEventConfig, TableHeaderSort,} from '@shared/components/table/table.model';
 import {View} from '@shared/model/view.model';
 import {PartDetailsFacade} from '@shared/modules/part-details/core/partDetails.facade';
 import {StaticIdService} from '@shared/service/staticId.service';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {BomLifecycleSize} from "@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model";
 import {BomLifecycleSettingsService, UserSettingView} from "@shared/service/bom-lifecycle-settings.service";
+import {toAssetAsBuiltFilter, toAssetAsPlannedFilter} from "@shared/helper/filter-helper";
 
 
 @Component({
@@ -85,30 +86,15 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     filterActivated(isAsBuilt: boolean, assetFilter: any): void {
-
-        const filterIsSet = Object.values(assetFilter).some(value => value !== undefined && value !== null);
-        let filter: AssetAsPlannedFilter | AssetAsBuiltFilter;
-
-        if (filterIsSet) {
-            if (isAsBuilt) {
-                filter = assetFilter as AssetAsBuiltFilter;
-                this.partsFacade.setPartsAsBuiltWithFilter(0, 50, [], filter);
-            } else {
-                filter = assetFilter as AssetAsPlannedFilter;
-                this.partsFacade.setPartsAsPlannedWithFilter(0, 50, [], filter);
-            }
+        if (isAsBuilt) {
+            this.partsFacade.setPartsAsBuilt(0, 50, [], toAssetAsBuiltFilter(assetFilter));
         } else {
-            if (isAsBuilt) {
-                this.partsFacade.setPartsAsBuilt();
-            } else {
-                this.partsFacade.setPartsAsPlanned();
-            }
+            this.partsFacade.setPartsAsPlanned(0, 50, [], toAssetAsPlannedFilter(assetFilter));
         }
     }
 
+
     public ngAfterViewInit(): void {
-
-
         this.handleTableActivationEvent(this.bomLifecycleSize);
     }
 
@@ -182,4 +168,5 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     protected readonly UserSettingView = UserSettingView;
+    protected readonly PartTableType = PartTableType;
 }

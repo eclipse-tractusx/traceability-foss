@@ -35,7 +35,7 @@ SPDX-License-Identifier: Apache-2.0
                     <ng-template #mainTmp let-parts="view">
                         <!-- asBuilt Parts Table-->
                         <app-parts-table class="parts-asBuilt-table"
-                                         [PartsPaginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
+                                         [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
                                          [labelId]="titleId"
                                          [isAsBuilt]="true"
                                          [multiSelectActive]="true"
@@ -49,6 +49,7 @@ SPDX-License-Identifier: Apache-2.0
                                          (clickSelectAction)="isAlertOpen$.next(true)"
                                          (filterActivated)="filterActivated(true, $event )"
                                          [multiSortList]="tableAsBuiltSortList"
+                                         [tableType]="PartTableType.AS_BUILT_OWN"
                         ></app-parts-table>
                     </ng-template>
                 </div>
@@ -62,7 +63,7 @@ SPDX-License-Identifier: Apache-2.0
                     <ng-template #myTmp let-parts="view">
                         <!-- asPlanned Parts Table-->
                         <app-parts-table class="parts-asPlanned-table"
-                                         [PartsPaginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
+                                         [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
                                          [labelId]="titleId"
                                          [isAsBuilt]="false"
                                          [multiSelectActive]="true"
@@ -76,6 +77,7 @@ SPDX-License-Identifier: Apache-2.0
                                          (clickSelectAction)="isAlertOpen$.next(true)"
                                          (filterActivated)="filterActivated(false, $event)"
                                          [multiSortList]="tableAsPlannedSortList"
+                                         [tableType]="PartTableType.AS_PLANNED_OWN"
                         ></app-parts-table>
 
                     </ng-template>

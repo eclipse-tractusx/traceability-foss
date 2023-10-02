@@ -89,7 +89,7 @@ describe('PartsService', () => {
         ];
         const filter = {id: "123"} as AssetAsBuiltFilter;
 
-        service.getPartsAsBuiltWithFilter(page, pageSize, multiSort, filter).subscribe((parts: Pagination<Part>) => {
+        service.getPartsAsBuilt(page, pageSize, multiSort, filter).subscribe((parts: Pagination<Part>) => {
             expect(parts).toBeTruthy();
         });
 
@@ -142,7 +142,7 @@ describe('PartsService', () => {
         ];
         const filter = {id: "123"} as AssetAsPlannedFilter;
 
-        service.getPartsAsPlannedWithFilter(page, pageSize, multiSort, filter).subscribe((parts: Pagination<Part>) => {
+        service.getPartsAsPlanned(page, pageSize, multiSort, filter).subscribe((parts: Pagination<Part>) => {
             expect(parts).toBeTruthy();
         });
 

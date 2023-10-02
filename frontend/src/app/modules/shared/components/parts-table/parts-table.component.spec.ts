@@ -202,7 +202,7 @@ describe('PartsTableComponent', () => {
         };
 
 
-        componentInstance.PartsPaginationData = paginationData;
+        componentInstance.paginationData = paginationData;
 
         expect(componentInstance.totalItems).toEqual(paginationData.totalItems);
         expect(componentInstance.paginationData.pageSize).toEqual(paginationData.pageSize);

@@ -38,6 +38,7 @@ import _deepClone from 'lodash-es/cloneDeep';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {SortDirection} from '../../../mocks/services/pagination.helper';
+import {enrichFilterAndGetUpdatedParams} from "@shared/helper/filter-helper";
 
 @Injectable()
 export class PartsService {
@@ -46,7 +47,8 @@ export class PartsService {
     constructor(private readonly apiService: ApiService) {
     }
 
-    public getPartsAsBuilt(page: number, pageSize: number, sorting: TableHeaderSort[]): Observable<Pagination<Part>> {
+    public getPartsAsBuilt(page: number, pageSize: number, sorting: TableHeaderSort[], assetAsBuiltFilter?: AssetAsBuiltFilter): Observable<Pagination<Part>> {
+
         let sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
         let params = new HttpParams()
             .set('page', page)
@@ -56,50 +58,17 @@ export class PartsService {
             params = params.append('sort', sortingItem);
         })
 
-        return this.apiService
-            .getBy<PartsResponse>(`${this.url}/assets/as-built`, params)
-            .pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_BUILT)));
-    }
-
-    public getPartsAsBuiltWithFilter(page: number, pageSize: number, sorting: TableHeaderSort[], assetAsBuiltFilter: AssetAsBuiltFilter): Observable<Pagination<Part>> {
-
-        let sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
-        let params = new HttpParams()
-            .set('page', page)
-            .set('size', pageSize)
-            .append('filter', 'owner,EQUAL,OWN');
-
-        sort.forEach(sortingItem => {
-            params = params.append('sort', sortingItem);
-        })
-
-
-        for (const key in assetAsBuiltFilter) {
-            const value = assetAsBuiltFilter[key];
-            if (value.length !== 0) {
-                console.log(value, "value after");
-                // Modify this line to format the filter
-                let operator;
-                if (key === "semanticDataModel"){
-                    operator = 'EQUAL';
-                } else if (key.toLowerCase().includes('date')){
-                    operator = 'AT_LOCAL_DATE';
-                }
-                else {
-                    operator = 'STARTS_WITH';
-                }
-                params = params.append('filter', `${key},${operator},${value}`);
-            }
+        if (assetAsBuiltFilter) {
+            params = enrichFilterAndGetUpdatedParams(assetAsBuiltFilter, params);
         }
 
-
         return this.apiService
             .getBy<PartsResponse>(`${this.url}/assets/as-built`, params)
             .pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_BUILT)));
     }
 
 
-    public getPartsAsPlanned(page: number, pageSize: number, sorting: TableHeaderSort[]): Observable<Pagination<Part>> {
+    public getPartsAsPlanned(page: number, pageSize: number, sorting: TableHeaderSort[], assetAsPlannedFilter?: AssetAsPlannedFilter): Observable<Pagination<Part>> {
         let sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
         let params = new HttpParams()
             .set('page', page)
@@ -110,37 +79,8 @@ export class PartsService {
             params = params.append('sort', sortingItem);
         })
 
-        return this.apiService
-            .getBy<PartsResponse>(`${this.url}/assets/as-planned`, params)
-            .pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_PLANNED)));
-    }
-
-    public getPartsAsPlannedWithFilter(page: number, pageSize: number, sorting: TableHeaderSort[], assetAsPlannedFilter: AssetAsPlannedFilter): Observable<Pagination<Part>> {
-        let sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
-        let params = new HttpParams()
-            .set('page', page)
-            .set('size', pageSize)
-            .append('filter', 'owner,EQUAL,OWN');
-
-        sort.forEach(sortingItem => {
-            params = params.append('sort', sortingItem);
-        })
-
-        for (const key in assetAsPlannedFilter) {
-            const value = assetAsPlannedFilter[key];
-            if (value.length !== 0) {
-                // Modify this line to format the filter
-                let operator;
-                if (key === "semanticDataModel"){
-                    operator = 'EQUAL';
-                } else if (key.toLowerCase().includes('date')){
-                    operator = 'AT_LOCAL_DATE';
-                }
-                else {
-                    operator = 'STARTS_WITH';
-                }
-                params = params.append('filter', `${key},${operator},${value}`);
-            }
+        if (assetAsPlannedFilter) {
+            params = enrichFilterAndGetUpdatedParams(assetAsPlannedFilter, params);
         }
 
         return this.apiService
