@@ -17,11 +17,7 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-
 <div [class.mat-elevation-z8]="!noShadow" class="table-wrapper">
-    <app-button [variant]="'raised'"
-                [color]="'accent'" (click)="toggleFilter()">{{ 'table.filterTitle' | i18n }}
-    </app-button>
 
     <ng-container *ngIf="tableHeader"><p class="large-text table--header">{{tableHeader | i18n }}</p></ng-container>
     <ng-container *ngIf="selectedPartsInfoLabel">
@@ -201,7 +197,6 @@ Third click:  reset sorting"
     </app-scroll-with-shadow>
 
     <mat-paginator class="table-paginator-menu"
-                   *ngIf="tableConfig.hasPagination"
                    [length]="totalItems"
                    [pageIndex]="pageIndex"
                    [pageSizeOptions]="[50, 100, 200]"
