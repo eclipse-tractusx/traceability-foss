@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,20 +17,14 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.common.config
+package org.eclipse.tractusx.traceability.submodel.domain.model;
 
-import io.restassured.RestAssured
-import org.springframework.boot.test.context.TestConfiguration
-import org.springframework.boot.web.context.WebServerInitializedEvent
-import org.springframework.context.annotation.Profile
-import org.springframework.context.event.EventListener
+import lombok.Builder;
+import lombok.Data;
 
-@TestConfiguration
-@Profile(ApplicationProfiles.TESTS)
-class RestAssuredConfig {
-
-	@EventListener(WebServerInitializedEvent.class)
-	void onServletContainerInitialized(WebServerInitializedEvent event) {
-		RestAssured.port = event.webServer.port
-	}
+@Data
+@Builder
+public class Submodel {
+    private final String id;
+    private final String payload;
 }

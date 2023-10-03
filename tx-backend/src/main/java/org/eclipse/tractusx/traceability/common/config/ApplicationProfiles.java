@@ -25,6 +25,8 @@ public class ApplicationProfiles {
 
     public static final String LOCAL = "local";
     public static final String TESTS = "integration";
+
+    public static final String SPRING_INTEGRATION_TESTS = "integration-spring-boot";
     public static final String NOT_TESTS = "!" + TESTS;
     public static final String DEV = "dev";
     public static final String TEST = "test";

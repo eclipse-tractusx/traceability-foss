@@ -55,7 +55,9 @@ public class SecurityConfig {
             "/callback/endpoint-data-reference",
             "/internal/endpoint-data-reference",
             "/actuator/**",
-            "/registry/reload"
+            "/registry/reload",
+            "/submodel/data/**",
+            "/submodel/data"
     };
 
     @Value("${jwt.resource-client}")
