@@ -174,11 +174,12 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     }
 
     private handleSingleSelectDisplay(displayOption: any) {
-        displayOption = this.options.filter(
+        let options = displayOption;
+        options = this.options.filter(
             option => option[this.value] === this.selectedValue,
         );
-        if (displayOption.length) {
-            this.displayString = displayOption[0][this.display];
+        if (options.length) {
+            this.displayString = options[0][this.display];
         }
     }
 
