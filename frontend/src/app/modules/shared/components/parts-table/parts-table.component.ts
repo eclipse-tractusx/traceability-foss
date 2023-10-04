@@ -577,6 +577,11 @@ export class PartsTableComponent implements OnInit {
         return this.dataSource.data.every(data => this.isSelected(data));
     }
 
+    public triggerMultiSelectFilterReset(){
+        this.filterFormGroup.addControl("reset", new FormControl(true));
+        this.multiSelection.clickClear();
+    }
+
     public clearAllRows(): void {
         this.selection.clear();
         this.emitMultiSelect();

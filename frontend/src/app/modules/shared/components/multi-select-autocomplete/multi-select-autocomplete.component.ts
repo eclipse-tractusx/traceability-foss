@@ -134,6 +134,10 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
         this.selectedValue = [];
     }
 
+    resetFilter(): void{
+        this.searchInput.value = '';
+    }
+
     onDisplayString(): string {
         this.displayString = '';
         if (this.textSearch) {

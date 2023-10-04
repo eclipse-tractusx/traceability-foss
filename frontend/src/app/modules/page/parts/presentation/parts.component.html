@@ -24,11 +24,14 @@ SPDX-License-Identifier: Apache-2.0
     <app-input
             [label]="'parts.input.global-search.placeholder' | i18n"
             [suffixIconHover]="true"
+            [displayClearButton]="true"
             (suffixIconClick)="triggerPartSearch()"
             [onEnterActive]="true"
             [suffixIcon]="'search'"
             class="parts-search-input"
             formControlName="partSearch"
+            [parentFormGroup]="searchFormGroup"
+            [parentControlName]="'partSearch'"
             suffixIconColor="primary"
     ></app-input>
     </div>
