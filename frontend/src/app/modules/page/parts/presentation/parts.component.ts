@@ -31,7 +31,7 @@ import {StaticIdService} from '@shared/service/staticId.service';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {BomLifecycleSize} from "@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model";
 import {BomLifecycleSettingsService, UserSettingView} from "@shared/service/bom-lifecycle-settings.service";
-import {toAssetAsBuiltFilter, toAssetAsPlannedFilter} from "@shared/helper/filter-helper";
+import {toAssetFilter} from "@shared/helper/filter-helper";
 
 
 @Component({
@@ -87,9 +87,9 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     filterActivated(isAsBuilt: boolean, assetFilter: any): void {
         if (isAsBuilt) {
-            this.partsFacade.setPartsAsBuilt(0, 50, [], toAssetAsBuiltFilter(assetFilter));
+            this.partsFacade.setPartsAsBuilt(0, 50, [], toAssetFilter(assetFilter, true));
         } else {
-            this.partsFacade.setPartsAsPlanned(0, 50, [], toAssetAsPlannedFilter(assetFilter));
+            this.partsFacade.setPartsAsPlanned(0, 50, [], toAssetFilter(assetFilter, false));
         }
     }
 

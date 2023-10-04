@@ -29,7 +29,8 @@ import {View} from '@shared/model/view.model';
 import {PartDetailsFacade} from '@shared/modules/part-details/core/partDetails.facade';
 import {StaticIdService} from '@shared/service/staticId.service';
 import {Observable} from 'rxjs';
-import {toAssetAsBuiltFilter, toAssetAsPlannedFilter} from "@shared/helper/filter-helper";
+import {toAssetFilter} from "@shared/helper/filter-helper";
+
 
 @Component({
     selector: 'app-customer-parts',
@@ -79,9 +80,9 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
 
     filterActivated(isAsBuilt: boolean, assetFilter: any): void {
         if (isAsBuilt) {
-            this.otherPartsFacade.setCustomerPartsAsBuilt(0, 50, [], toAssetAsBuiltFilter(assetFilter))
+            this.otherPartsFacade.setCustomerPartsAsBuilt(0, 50, [], toAssetFilter(assetFilter, true))
         } else {
-            this.otherPartsFacade.setCustomerPartsAsPlanned(0, 50, [], toAssetAsPlannedFilter(assetFilter))
+            this.otherPartsFacade.setCustomerPartsAsPlanned(0, 50, [], toAssetFilter(assetFilter, false))
         }
     }
 

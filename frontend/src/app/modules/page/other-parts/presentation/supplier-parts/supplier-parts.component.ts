@@ -29,7 +29,7 @@ import {View} from '@shared/model/view.model';
 import {PartDetailsFacade} from '@shared/modules/part-details/core/partDetails.facade';
 import {StaticIdService} from '@shared/service/staticId.service';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
-import {toAssetAsBuiltFilter, toAssetAsPlannedFilter} from "@shared/helper/filter-helper";
+import {toAssetFilter} from "@shared/helper/filter-helper";
 
 @Component({
     selector: 'app-supplier-parts',
@@ -100,9 +100,9 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
 
     filterActivated(isAsBuilt: boolean, assetFilter: any): void {
         if (isAsBuilt) {
-            this.otherPartsFacade.setSupplierPartsAsBuilt(0, 50, [], toAssetAsBuiltFilter(assetFilter))
+            this.otherPartsFacade.setSupplierPartsAsBuilt(0, 50, [], toAssetFilter(assetFilter, true))
         } else {
-            this.otherPartsFacade.setSupplierPartsAsPlanned(0, 50, [], toAssetAsPlannedFilter(assetFilter))
+            this.otherPartsFacade.setSupplierPartsAsPlanned(0, 50, [], toAssetFilter(assetFilter, false))
         }
     }
 
