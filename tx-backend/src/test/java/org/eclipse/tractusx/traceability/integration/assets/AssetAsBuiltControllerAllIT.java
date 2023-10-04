@@ -81,12 +81,13 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
     void shoulReturnSupplierAssets() throws JoseException {
         //GIVEN
         assetsSupport.defaultAssetsStored();
-        final String filterOperator = "&filterOperator=AND";
+        final String filterOperator = "AND";
         //THEN
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
-                .queryParam("filter", "owner,EQUAL,SUPPLIER" + filterOperator)
+                .queryParam("filter", "owner,EQUAL,SUPPLIER")
+                .queryParam("filterOperator", filterOperator)
                 .when()
                 .get("/api/assets/as-built")
                 .then()
@@ -99,12 +100,13 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
     void shouldReturnOwnAssets() throws JoseException {
         //GIVEN
         assetsSupport.defaultAssetsStored();
-        final String filterOperator = "&filterOperator=AND";
+        final String filterOperator = "AND";
         //THEN
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
-                .queryParam("filter", "owner,EQUAL,OWN" + filterOperator)
+                .queryParam("filter", "owner,EQUAL,OWN")
+                .queryParam("filterOperator", filterOperator)
                 .when()
                 .get("/api/assets/as-built")
                 .then()
@@ -147,12 +149,13 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
     void shouldReturnAssetsByOwnerFiltering(String ownerValue, int totalItemsValue) throws JoseException {
         //GIVEN
         assetsSupport.defaultAssetsStored();
-        final String filterOperator = "&filterOperator=AND";
+        final String filterOperator = "AND";
         //THEN
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
-                .queryParam("filter", "owner,EQUAL," + ownerValue + filterOperator)
+                .queryParam("filter", "owner,EQUAL," + ownerValue)
+                .queryParam("filterOperator", filterOperator)
                 .when()
                 .get("/api/assets/as-built")
                 .then()
