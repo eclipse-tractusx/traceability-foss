@@ -81,12 +81,12 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
     void shoulReturnSupplierAssets() throws JoseException {
         //GIVEN
         assetsSupport.defaultAssetsStored();
-
+        final String filterOperator = "filterOperator=AND";
         //THEN
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
-                .queryParam("filter", "owner,EQUAL,SUPPLIER")
+                .queryParam("filter", "owner,EQUAL,SUPPLIER" + filterOperator)
                 .when()
                 .get("/api/assets/as-built")
                 .then()
@@ -99,12 +99,12 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
     void shouldReturnOwnAssets() throws JoseException {
         //GIVEN
         assetsSupport.defaultAssetsStored();
-
+        final String filterOperator = "filterOperator=AND";
         //THEN
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
-                .queryParam("filter", "owner,EQUAL,OWN")
+                .queryParam("filter", "owner,EQUAL,OWN" + filterOperator)
                 .when()
                 .get("/api/assets/as-built")
                 .then()
@@ -147,12 +147,12 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
     void shouldReturnAssetsByOwnerFiltering(String ownerValue, int totalItemsValue) throws JoseException {
         //GIVEN
         assetsSupport.defaultAssetsStored();
-
+        final String filterOperator = "filterOperator=AND";
         //THEN
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
-                .queryParam("filter", "owner,EQUAL," + ownerValue)
+                .queryParam("filter", "owner,EQUAL," + ownerValue + filterOperator)
                 .when()
                 .get("/api/assets/as-built")
                 .then()
