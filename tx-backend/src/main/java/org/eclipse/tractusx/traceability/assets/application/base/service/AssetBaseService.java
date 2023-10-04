@@ -46,7 +46,7 @@ public interface AssetBaseService {
 
     AssetBase getAssetByChildId(String assetId, String childId);
 
-    PageResult<AssetBase> getAssets(Pageable pageable, List<SearchCriteria> searchCriteria);
+    PageResult<AssetBase> getAssets(Pageable pageable, SearchCriteria searchCriteria);
 
     AssetBase updateQualityType(String assetId, QualityType qualityType);
 

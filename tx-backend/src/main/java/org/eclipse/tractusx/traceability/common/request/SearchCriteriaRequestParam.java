@@ -49,9 +49,12 @@ public class SearchCriteriaRequestParam {
         if (isNull(this.filter)) {
             inputFilters = Collections.emptyList();
         }
-        if (isNull(this.filterOperator)) {
+        if (!isNull(this.filter) && isNull(this.filterOperator)) {
             throw new InvalidFilterException(
                     "No filter operator found. Please add param filterOperator=AND or filterOperator=OR");
+        }
+        if (isNull(this.filter) && isNull(this.filterOperator)) {
+            return SearchCriteria.builder().build();
         }
 
         for (String filter : inputFilters) {

@@ -39,6 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Objects;
 
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 import static org.eclipse.tractusx.traceability.common.repository.EntityNameMapper.toDatabaseName;
 
 @RequiredArgsConstructor
@@ -77,7 +78,7 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository {
 
     @Override
     public PageResult<AssetBase> getAssets(Pageable pageable, SearchCriteria searchCriteria) {
-        List<AssetAsPlannedSpecification> assetAsPlannedSpecifications = searchCriteria.getSearchCriteriaFilterList().stream().map(AssetAsPlannedSpecification::new).toList();
+        List<AssetAsPlannedSpecification> assetAsPlannedSpecifications = emptyIfNull(searchCriteria.getSearchCriteriaFilterList()).stream().map(AssetAsPlannedSpecification::new).toList();
         Specification<AssetAsPlannedEntity> specification = AssetAsPlannedSpecification.toSpecification(assetAsPlannedSpecifications, searchCriteria.getSearchCriteriaOperator());
         return new PageResult<>(jpaAssetAsPlannedRepository.findAll(specification, pageable), AssetAsPlannedEntity::toDomain);
     }

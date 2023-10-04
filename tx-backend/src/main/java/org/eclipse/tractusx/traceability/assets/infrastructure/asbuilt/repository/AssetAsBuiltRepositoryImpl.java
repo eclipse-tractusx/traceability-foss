@@ -38,6 +38,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 import static org.eclipse.tractusx.traceability.common.repository.EntityNameMapper.toDatabaseName;
 
 @RequiredArgsConstructor
@@ -78,7 +79,7 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
 
     @Override
     public PageResult<AssetBase> getAssets(Pageable pageable, SearchCriteria searchCriteria) {
-        List<AssetAsBuildSpecification> assetAsBuildSpecifications = searchCriteria.getSearchCriteriaFilterList().stream().map(AssetAsBuildSpecification::new).toList();
+        List<AssetAsBuildSpecification> assetAsBuildSpecifications = emptyIfNull(searchCriteria.getSearchCriteriaFilterList()).stream().map(AssetAsBuildSpecification::new).toList();
         Specification<AssetAsBuiltEntity> specification = AssetAsBuildSpecification.toSpecification(assetAsBuildSpecifications, searchCriteria.getSearchCriteriaOperator());
         return new PageResult<>(jpaAssetAsBuiltRepository.findAll(specification, pageable), AssetAsBuiltEntity::toDomain);
     }
