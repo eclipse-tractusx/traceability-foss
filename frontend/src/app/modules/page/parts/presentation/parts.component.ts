@@ -19,7 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {Pagination} from '@core/model/pagination.model';
 import {PartsFacade} from '@page/parts/core/parts.facade';
 import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
@@ -35,6 +35,10 @@ import {toAssetFilter, toGlobalSearchAssetFilter} from "@shared/helper/filter-he
 import {FormControl, FormGroup} from "@angular/forms";
 import {ToastService} from "@shared/components/toasts/toast.service";
 import {PartsTableComponent} from "@shared/components/parts-table/parts-table.component";
+import {
+    MultiSelectAutocompleteComponent
+} from "@shared/components/multi-select-autocomplete/multi-select-autocomplete.component";
+import {forEach} from "lodash-es";
 
 
 @Component({
@@ -59,7 +63,8 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public ctrlKeyState = false;
 
-    @ViewChild(PartsTableComponent) partsTableComponent: PartsTableComponent;
+    @ViewChildren(PartsTableComponent) partsTableComponents: QueryList<PartsTableComponent>;
+    @ViewChildren(MultiSelectAutocompleteComponent) multiSelectionComponents: QueryList<MultiSelectAutocompleteComponent>;
     constructor(
         private readonly partsFacade: PartsFacade,
         private readonly partDetailsFacade: PartDetailsFacade,
@@ -104,16 +109,24 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     triggerPartSearch() {
-        this.partsTableComponent.triggerMultiSelectFilterReset();
-        this.toastService.info("parts.input.global-search.toastInfo");
+       let filterSet = false;
+       for (const partTableComponent of this.partsTableComponents){
+           if (partTableComponent.multiCompo.theSearchElement){
+               filterSet = true;
+               partTableComponent.multiCompo.theSearchElement = null;
+           }
+       }
+       if (filterSet){
+           this.toastService.info("parts.input.global-search.toastInfo");
+       }
         const searchValue = this.searchFormGroup.get("partSearch").value;
-        console.log(searchValue, "searchvalue");
+
         if (searchValue && searchValue !== ""){
             console.log(searchValue, "in if");
             this.partsFacade.setPartsAsPlanned(0, 50, [], toGlobalSearchAssetFilter(searchValue, false), true);
             this.partsFacade.setPartsAsBuilt(0, 50, [], toGlobalSearchAssetFilter(searchValue, true), true);
         } else {
-            console.log(searchValue, "in else");
+
             this.partsFacade.setPartsAsBuilt();
             this.partsFacade.setPartsAsPlanned();
         }

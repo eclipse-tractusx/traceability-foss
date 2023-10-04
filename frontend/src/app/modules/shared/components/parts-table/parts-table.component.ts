@@ -18,7 +18,10 @@
  ********************************************************************************/
 
 import {SelectionModel} from '@angular/cdk/collections';
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation} from '@angular/core';
+import {
+    AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, ViewChild,
+    ViewChildren, ViewEncapsulation
+} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {MatSort, Sort} from '@angular/material/sort';
@@ -48,6 +51,8 @@ export class PartsTableComponent implements OnInit {
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild('tableElement', {read: ElementRef}) tableElementRef: ElementRef<HTMLElement>;
+
+    @ViewChild(MultiSelectAutocompleteComponent) multiCompo: MultiSelectAutocompleteComponent;
 
     @Input() multiSelectActive = false;
 
@@ -571,15 +576,12 @@ export class PartsTableComponent implements OnInit {
     ];
 
 
-    @ViewChild(MultiSelectAutocompleteComponent) multiSelection: MultiSelectAutocompleteComponent;
-
     public areAllRowsSelected(): boolean {
         return this.dataSource.data.every(data => this.isSelected(data));
     }
 
     public triggerMultiSelectFilterReset(){
-        this.filterFormGroup.addControl("reset", new FormControl(true));
-        this.multiSelection.clickClear();
+
     }
 
     public clearAllRows(): void {
