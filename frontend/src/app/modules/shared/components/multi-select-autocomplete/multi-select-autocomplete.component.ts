@@ -153,16 +153,16 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     }
 
     private handleMultipleSelectDisplay(displayOption: any) {
+        const options = displayOption;
         // Multi select display
         for (let i = 0; i < this.labelCount; i++) {
-
-            displayOption[i] = this.options.filter(
+            options[i] = this.options.filter(
                 option => option.value === this.selectedValue[i],
             )[0];
         }
-        if (displayOption.length) {
-            for (let i = 0; i < displayOption.length; i++) {
-                this.displayString += displayOption[i][this.display] + ',';
+        if (options.length) {
+            for (let i = 0; i < options.length; i++) {
+                this.displayString += options[i][this.display] + ',';
             }
             this.displayString = this.displayString.slice(0, -1);
             if (this.selectedValue.length === this.options.length) {
