@@ -29,7 +29,6 @@ export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, para
     for (const key in filter) {
 
         const value = filter[key];
-        console.log(key, value);
         if (value.length !== 0) {
             // Modify this line to format the filter
             let operator: string;
@@ -44,7 +43,6 @@ export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, para
 
         }
     }
-    console.log("http params", params);
     return params;
 }
 
