@@ -6,12 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 ### Added
-
 - added multisorting in FE for notifications
+- new submodelserver related API endpoints for data provisioning /api/submodel/data/{id}
+
 ### Changed
+- updated IRS helm chart from 6.6.1 to 6.7.1
 
 ### Removed
-
 - Owner filter and replaced it with the new filter query param
 
 ## [7.1.0 - 29.09.2023]
