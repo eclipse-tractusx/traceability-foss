@@ -85,7 +85,7 @@ class AssetAsPlannedControllerAllIT extends IntegrationTestSpecification {
         assetsSupport.defaultAssetsAsPlannedStored();
 
         //THEN filter=owner,EQUAL,OWN
-        final String filterOperator = "filterOperator=AND";
+        final String filterOperator = "&filterOperator=AND";
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)

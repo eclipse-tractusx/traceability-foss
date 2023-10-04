@@ -81,7 +81,7 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
     void shoulReturnSupplierAssets() throws JoseException {
         //GIVEN
         assetsSupport.defaultAssetsStored();
-        final String filterOperator = "filterOperator=AND";
+        final String filterOperator = "&filterOperator=AND";
         //THEN
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
@@ -99,7 +99,7 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
     void shouldReturnOwnAssets() throws JoseException {
         //GIVEN
         assetsSupport.defaultAssetsStored();
-        final String filterOperator = "filterOperator=AND";
+        final String filterOperator = "&filterOperator=AND";
         //THEN
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
@@ -147,7 +147,7 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
     void shouldReturnAssetsByOwnerFiltering(String ownerValue, int totalItemsValue) throws JoseException {
         //GIVEN
         assetsSupport.defaultAssetsStored();
-        final String filterOperator = "filterOperator=AND";
+        final String filterOperator = "&filterOperator=AND";
         //THEN
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
