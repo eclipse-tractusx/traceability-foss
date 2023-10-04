@@ -17,18 +17,27 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package qualitynotification.investigation.response;
+export function removeSelectedValues(selection: any, itemsToRemove: unknown[]): void {
+    const shouldDelete = (row: unknown) => !!itemsToRemove.find(data => JSON.stringify(data) === JSON.stringify(row));
+    const rowsToDelete = selection.selected.filter(data => shouldDelete(data));
 
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-import lombok.experimental.SuperBuilder;
-import qualitynotification.base.response.QualityNotificationResponse;
+    selection.deselect(...rowsToDelete);
+};
 
-
-@Data
-@SuperBuilder
-@ArraySchema(arraySchema = @Schema(description = "Investigations", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), minItems = Integer.MIN_VALUE, maxItems = Integer.MAX_VALUE)
-public class InvestigationResponse extends QualityNotificationResponse {
-
+export function addSelectedValues(selection: any, newData: unknown[]): void {
+    const newValues = newData.filter(data => !selection.isSelected(data));
+    selection.select(...newValues);
 }
+
+
+export function clearAllRows(selection: any, multiSelect: any): void {
+    selection.clear();
+    multiSelect.emit(this.selection.selected);
+}
+
+export function clearCurrentRows(selection: any, dataSourceData: unknown[], multiSelect: any): void {
+    this.removeSelectedValues(selection, dataSourceData);
+
+    multiSelect.emit(this.selection.selected);
+}
+

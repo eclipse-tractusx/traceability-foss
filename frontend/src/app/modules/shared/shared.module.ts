@@ -25,9 +25,11 @@ import { MatPaginatorIntl } from '@angular/material/paginator';
 import { RouterModule } from '@angular/router';
 import { DateTimeComponent } from '@shared/components/dateTime/dateTime.component';
 import { FormErrorMessageComponent } from '@shared/components/formErrorMessage/formErrorMessage.component';
+import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
 import { NotificationOverviewComponent } from '@shared/components/notification-overview/notification-overview.component';
 import { NotificationReasonComponent } from '@shared/components/notification-reason/notification-reason.component';
 import { NotificationUserComponent } from '@shared/components/notification-user/notification-user.component';
+import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
 import { SeveritySelectComponent } from '@shared/components/severity-select/severity-select.component';
 import { SeverityComponent } from '@shared/components/severity/severity.component';
 import { TextWithIconComponent } from '@shared/components/text-with-icon/text-with-icon.component';
@@ -78,6 +80,7 @@ import {ViewSelectorComponent} from "@shared/components/view-selector/view-selec
 @NgModule({
   declarations: [
     ToastContainerComponent,
+    PartsTableComponent,
     ToastMessageComponent,
     BreadcrumbsComponent,
     ButtonComponent,
@@ -120,7 +123,8 @@ import {ViewSelectorComponent} from "@shared/components/view-selector/view-selec
     NotificationUserComponent,
     InputComponent,
     BomLifecycleActivatorComponent,
-    ViewSelectorComponent
+    ViewSelectorComponent,
+    MultiSelectAutocompleteComponent
   ],
   imports: [TemplateModule, RouterModule, I18NextModule],
     exports: [
@@ -165,7 +169,9 @@ import {ViewSelectorComponent} from "@shared/components/view-selector/view-selec
         FormatPartSemanticDataModelToCamelCasePipe,
         FormatPartlistSemanticDataModelToCamelCasePipe,
         BomLifecycleActivatorComponent,
-        ViewSelectorComponent
+        ViewSelectorComponent,
+      PartsTableComponent,
+      MultiSelectAutocompleteComponent
     ],
   providers: [
     FormatDatePipe,
