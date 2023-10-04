@@ -83,5 +83,3 @@ feign:
 cors:
   origins: >
     "https://localhost:4200"
-springdoc:
-  packagesToScan: org.eclipse.tractusx.traceability.assets, org.eclipse.tractusx.traceability.bpn, org.eclipse.tractusx.traceability.discovery, org.eclipse.tractusx.traceability.qualitynotification, org.eclipse.tractusx.traceability.shelldescriptor, org.eclipse.tractusx.traceability.submodel
