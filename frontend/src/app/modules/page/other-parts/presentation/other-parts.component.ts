@@ -28,7 +28,6 @@ import {MainAspectType} from "@page/parts/model/mainAspectType.enum";
 import {BomLifecycleSize} from "@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model";
 import {BomLifecycleSettingsService, UserSettingView} from "@shared/service/bom-lifecycle-settings.service";
 
-
 @Component({
     selector: 'app-other-parts',
     templateUrl: './other-parts.component.html',
