@@ -144,37 +144,42 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
         if (this.selectedValue?.length) {
             let displayOption = [];
             if (this.multiple) {
-                // Multi select display
-                for (let i = 0; i < this.labelCount; i++) {
-
-                    displayOption[i] = this.options.filter(
-                        option => option.value === this.selectedValue[i],
-                    )[0];
-                }
-                if (displayOption.length) {
-                    for (let i = 0; i < displayOption.length; i++) {
-
-                        this.displayString += displayOption[i][this.display] + ',';
-                    }
-                    this.displayString = this.displayString.slice(0, -1);
-                    if (this.selectedValue.length === this.options.length) {
-                        this.displayString = 'All';
-                    } else if (this.selectedValue.length > 1) {
-                        this.displayString += ` (+${this.selectedValue.length - this.labelCount} others)`;
-                    }
-                }
+                this.handleMultipleSelectDisplay(displayOption);
             } else {
-                // Single select display
-                displayOption = this.options.filter(
-                    option => option[this.value] === this.selectedValue,
-                );
-                if (displayOption.length) {
-                    this.displayString = displayOption[0][this.display];
-                }
+                this.handleSingleSelectDisplay(displayOption);
             }
         }
-
         return this.displayString;
+    }
+
+    private handleMultipleSelectDisplay(displayOption: any) {
+        // Multi select display
+        for (let i = 0; i < this.labelCount; i++) {
+
+            displayOption[i] = this.options.filter(
+                option => option.value === this.selectedValue[i],
+            )[0];
+        }
+        if (displayOption.length) {
+            for (let i = 0; i < displayOption.length; i++) {
+                this.displayString += displayOption[i][this.display] + ',';
+            }
+            this.displayString = this.displayString.slice(0, -1);
+            if (this.selectedValue.length === this.options.length) {
+                this.displayString = 'All';
+            } else if (this.selectedValue.length > 1) {
+                this.displayString += ` (+${this.selectedValue.length - this.labelCount} others)`;
+            }
+        }
+    }
+
+    private handleSingleSelectDisplay(displayOption: any) {
+        displayOption = this.options.filter(
+            option => option[this.value] === this.selectedValue,
+        );
+        if (displayOption.length) {
+            this.displayString = displayOption[0][this.display];
+        }
     }
 
     onSelectionChange(val: any) {
