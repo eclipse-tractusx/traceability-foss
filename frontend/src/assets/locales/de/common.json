@@ -260,5 +260,13 @@
   "multiSelect": {
     "filterLabel": "Filter",
     "placeholder": "Alle"
+  },
+  "parts": {
+    "input": {
+      "global-search": {
+        "placeholder": "Suche nach C-X ID, partInstanceId or partNumber / BPN"
+      }
+    }
+
   }
 }

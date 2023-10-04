@@ -19,7 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, EventEmitter, Inject, Injector, Input, Output } from '@angular/core';
+import {Component, EventEmitter, HostListener, Inject, Injector, Input, Output} from '@angular/core';
 import { BaseInputComponent } from '@shared/abstraction/baseInput/baseInput.component';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { ThemePalette } from '@angular/material/core';
@@ -37,5 +37,13 @@ export class InputComponent extends BaseInputComponent<string> {
 
   constructor(@Inject(Injector) injector: Injector, staticIdService: StaticIdService) {
     super(injector, staticIdService);
+  }
+  @HostListener('keydown.enter', ['$event'])
+  onEnterKey(event: KeyboardEvent): void {
+    // Check if the Enter key was pressed
+    if (event.key === 'Enter') {
+      // Trigger the suffixIconClick output event
+      this.suffixIconClick.emit();
+    }
   }
 }

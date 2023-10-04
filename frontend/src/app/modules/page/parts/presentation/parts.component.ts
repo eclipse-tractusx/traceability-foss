@@ -32,6 +32,7 @@ import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {BomLifecycleSize} from "@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model";
 import {BomLifecycleSettingsService, UserSettingView} from "@shared/service/bom-lifecycle-settings.service";
 import {toAssetAsBuiltFilter, toAssetAsPlannedFilter} from "@shared/helper/filter-helper";
+import {FormControl, FormGroup} from "@angular/forms";
 
 
 @Component({
@@ -53,6 +54,8 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public tableAsBuiltSortList: TableHeaderSort[];
     public tableAsPlannedSortList: TableHeaderSort[];
+
+    searchFormGroup = new FormGroup({});
 
 
     public ctrlKeyState = false;
@@ -83,6 +86,10 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     public ngOnInit(): void {
         this.partsFacade.setPartsAsBuilt();
         this.partsFacade.setPartsAsPlanned();
+        this.searchFormGroup.addControl("partSearch", new FormControl([]))
+        this.searchFormGroup.valueChanges.subscribe((formValues) => {
+          console.log(formValues, "FormValues");
+        });
     }
 
     filterActivated(isAsBuilt: boolean, assetFilter: any): void {
@@ -120,6 +127,10 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
         this.bomLifecycleSize = bomLifecycleSize;
     }
 
+    public triggerPartSearch(){
+        console.log("Part search triggered", this.searchFormGroup.get('partSearch').value);
+
+    }
 
     // TODO: NewFilter -> Pagination missing
     private setTableSortingList(sorting: TableHeaderSort, partTable: MainAspectType): void {
