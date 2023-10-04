@@ -31,8 +31,7 @@ import {StaticIdService} from '@shared/service/staticId.service';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {BomLifecycleSize} from "@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model";
 import {BomLifecycleSettingsService, UserSettingView} from "@shared/service/bom-lifecycle-settings.service";
-import {toAssetAsBuiltFilter, toAssetAsPlannedFilter} from "@shared/helper/filter-helper";
-import {FormControl, FormGroup} from "@angular/forms";
+import {toAssetFilter} from "@shared/helper/filter-helper";
 
 
 @Component({
@@ -54,8 +53,6 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public tableAsBuiltSortList: TableHeaderSort[];
     public tableAsPlannedSortList: TableHeaderSort[];
-
-    searchFormGroup = new FormGroup({});
 
 
     public ctrlKeyState = false;
@@ -86,17 +83,13 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     public ngOnInit(): void {
         this.partsFacade.setPartsAsBuilt();
         this.partsFacade.setPartsAsPlanned();
-        this.searchFormGroup.addControl("partSearch", new FormControl([]))
-        this.searchFormGroup.valueChanges.subscribe((formValues) => {
-          console.log(formValues, "FormValues");
-        });
     }
 
     filterActivated(isAsBuilt: boolean, assetFilter: any): void {
         if (isAsBuilt) {
-            this.partsFacade.setPartsAsBuilt(0, 50, [], toAssetAsBuiltFilter(assetFilter));
+            this.partsFacade.setPartsAsBuilt(0, 50, [], toAssetFilter(assetFilter, true));
         } else {
-            this.partsFacade.setPartsAsPlanned(0, 50, [], toAssetAsPlannedFilter(assetFilter));
+            this.partsFacade.setPartsAsPlanned(0, 50, [], toAssetFilter(assetFilter, false));
         }
     }
 
@@ -127,12 +120,6 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
         this.bomLifecycleSize = bomLifecycleSize;
     }
 
-    public triggerPartSearch(){
-        console.log("Part search triggered", this.searchFormGroup.get('partSearch').value);
-
-    }
-
-    // TODO: NewFilter -> Pagination missing
     private setTableSortingList(sorting: TableHeaderSort, partTable: MainAspectType): void {
         // if a sorting Columnlist exists but a column gets resetted:
         if (!sorting && (this.tableAsBuiltSortList || this.tableAsPlannedSortList)) {

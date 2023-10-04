@@ -39,35 +39,16 @@ export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, para
             } else {
                 operator = getFilterOperatorValue(FilterOperator.STARTS_WITH);
             }
-           params =  params.append('filter', `${key},${operator},${value}`);
+            params = params.append('filter', `${key},${operator},${value}`);
 
         }
     }
     return params;
 }
 
+export function toAssetFilter(formValues: any, isAsBuilt: boolean): AssetAsPlannedFilter | AssetAsBuiltFilter {
 
-export function toAssetAsBuiltFilter(formValues: any): AssetAsBuiltFilter {
-    const transformedFilter: AssetAsBuiltFilter = {};
-
-    // Loop through each form control and add it to the transformedFilter if it has a non-null and non-undefined value
-    for (const key in formValues) {
-        if (formValues[key] !== null && formValues[key] !== undefined) {
-            transformedFilter[key] = formValues[key];
-        }
-    }
-
-    const filterIsSet = Object.values(transformedFilter).some(value => value !== undefined && value !== null);
-    if (filterIsSet) {
-        return transformedFilter;
-    } else {
-        return null;
-    }
-}
-
-export function toAssetAsPlannedFilter(formValues: any): AssetAsPlannedFilter {
-
-    const transformedFilter: AssetAsPlannedFilter = {};
+    const transformedFilter: any = {};
 
     // Loop through each form control and add it to the transformedFilter if it has a non-null and non-undefined value
     for (const key in formValues) {
@@ -78,7 +59,11 @@ export function toAssetAsPlannedFilter(formValues: any): AssetAsPlannedFilter {
 
     const filterIsSet = Object.values(transformedFilter).some(value => value !== undefined && value !== null);
     if (filterIsSet) {
-        return transformedFilter;
+        if (isAsBuilt) {
+            return transformedFilter as AssetAsBuiltFilter;
+        } else {
+            return transformedFilter as AssetAsPlannedFilter;
+        }
     } else {
         return null;
     }
