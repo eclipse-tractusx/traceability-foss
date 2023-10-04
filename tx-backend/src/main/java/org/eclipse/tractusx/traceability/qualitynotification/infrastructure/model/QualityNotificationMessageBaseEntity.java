@@ -36,10 +36,10 @@ import java.time.LocalDateTime;
 public class QualityNotificationMessageBaseEntity {
     @Id
     private String id;
-    private String senderBpnNumber;
-    private String senderManufacturerName;
-    private String receiverBpnNumber;
-    private String receiverManufacturerName;
+    private String createdBy;
+    private String createdByName;
+    private String sendTo;
+    private String sendToName;
     private String edcUrl;
     private String contractAgreementId;
     private String notificationReferenceId;

@@ -22,9 +22,9 @@ package org.eclipse.tractusx.traceability.common.mapper;
 
 import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -48,10 +48,10 @@ public class NotificationMessageMapper { // rename to QualityNotificationMessage
                 .id(notificationId)
                 .created(LocalDateTime.now())
                 .notificationReferenceId(edcNotification.getNotificationId())
-                .senderBpnNumber(edcNotification.getSenderBPN())
-                .senderManufacturerName(getManufacturerName(edcNotification.getSenderBPN()))
-                .receiverBpnNumber(edcNotification.getRecipientBPN())
-                .receiverManufacturerName(getManufacturerName(edcNotification.getRecipientBPN()))
+                .createdBy(edcNotification.getSenderBPN())
+                .createdByName(getManufacturerName(edcNotification.getSenderBPN()))
+                .sendTo(edcNotification.getRecipientBPN())
+                .sendToName(getManufacturerName(edcNotification.getRecipientBPN()))
                 .edcUrl(edcNotification.getSenderAddress())
                 .description(edcNotification.getInformation())
                 .notificationStatus(edcNotification.convertNotificationStatus())

@@ -37,13 +37,13 @@ import java.util.UUID;
 @Data
 public class QualityNotificationMessage {
     private final String id;
-    private final String senderManufacturerName;
-    private final String receiverManufacturerName;
+    private final String createdByName;
+    private final String sendToName;
     @Builder.Default
     private final List<QualityNotificationAffectedPart> affectedParts = new ArrayList<>();
     private String notificationReferenceId;
-    private String senderBpnNumber;
-    private String receiverBpnNumber;
+    private String createdBy;
+    private String sendTo;
     private String edcUrl;
     private String contractAgreementId;
     private String description;
@@ -71,28 +71,28 @@ public class QualityNotificationMessage {
     // Important - receiver and sender will be saved in switched order
     public QualityNotificationMessage copyAndSwitchSenderAndReceiver(BPN applicationBpn) {
         final String notificationId = UUID.randomUUID().toString();
-        String receiverBPN = receiverBpnNumber;
-        String senderBPN = senderBpnNumber;
+        String receiverBPN = sendTo;
+        String senderBPN = createdBy;
         String receiverName;
         String senderName;
 
         // This is needed to make sure that the app can send a message to the receiver and not addresses itself
-        if (applicationBpn.value().equals(receiverBpnNumber)) {
-            receiverBPN = senderBpnNumber;
-            senderBPN = receiverBpnNumber;
-            receiverName = senderManufacturerName;
-            senderName = receiverManufacturerName;
+        if (applicationBpn.value().equals(sendTo)) {
+            receiverBPN = createdBy;
+            senderBPN = sendTo;
+            receiverName = createdByName;
+            senderName = sendToName;
         } else {
-            receiverName = receiverManufacturerName;
-            senderName = senderManufacturerName;
+            receiverName = sendToName;
+            senderName = createdByName;
         }
         return QualityNotificationMessage.builder()
                 .created(LocalDateTime.now())
                 .id(notificationId)
-                .senderBpnNumber(senderBPN)
-                .senderManufacturerName(senderName)
-                .receiverBpnNumber(receiverBPN)
-                .receiverManufacturerName(receiverName)
+                .createdBy(senderBPN)
+                .createdByName(senderName)
+                .sendTo(receiverBPN)
+                .sendToName(receiverName)
                 .edcUrl(edcUrl)
                 .contractAgreementId(contractAgreementId)
                 .description(description)

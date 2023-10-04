@@ -121,7 +121,7 @@ class NotificationPublisherServiceTest {
                 .containsExactly(QualityNotificationSeverity.MINOR);
         assertThat(result.getNotifications()).hasSize(1)
                 .first()
-                .hasFieldOrPropertyWithValue("receiverBpnNumber", receiverBPN);
+                .hasFieldOrPropertyWithValue("sendTo", receiverBPN);
         verify(assetRepository).getAssetsById(Arrays.asList("asset-1", "asset-2"));
 
     }
