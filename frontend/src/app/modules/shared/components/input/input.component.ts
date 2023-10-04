@@ -33,6 +33,7 @@ export class InputComponent extends BaseInputComponent<string> {
   @Input() suffixIcon: string;
   @Input() suffixIconColor: ThemePalette;
   @Input() suffixIconHover: boolean = false;
+  @Input() onEnterActive: boolean = false;
   @Output() suffixIconClick = new EventEmitter<void>();
 
   constructor(@Inject(Injector) injector: Injector, staticIdService: StaticIdService) {
@@ -43,7 +44,9 @@ export class InputComponent extends BaseInputComponent<string> {
     // Check if the Enter key was pressed
     if (event.key === 'Enter') {
       // Trigger the suffixIconClick output event
-      this.suffixIconClick.emit();
+      if (this.onEnterActive){
+        this.suffixIconClick.emit();
+      }
     }
   }
 }

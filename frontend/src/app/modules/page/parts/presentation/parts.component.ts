@@ -31,7 +31,8 @@ import {StaticIdService} from '@shared/service/staticId.service';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {BomLifecycleSize} from "@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model";
 import {BomLifecycleSettingsService, UserSettingView} from "@shared/service/bom-lifecycle-settings.service";
-import {toAssetFilter} from "@shared/helper/filter-helper";
+import {toAssetFilter, toGlobalSearchAssetFilter} from "@shared/helper/filter-helper";
+import {FormControl, FormGroup} from "@angular/forms";
 
 
 @Component({
@@ -53,7 +54,6 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public tableAsBuiltSortList: TableHeaderSort[];
     public tableAsPlannedSortList: TableHeaderSort[];
-
 
     public ctrlKeyState = false;
 
@@ -79,18 +79,30 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public bomLifecycleSize: BomLifecycleSize = this.userSettingService.getSize(UserSettingView.PARTS);
 
+    public searchFormGroup = new FormGroup({});
 
     public ngOnInit(): void {
         this.partsFacade.setPartsAsBuilt();
         this.partsFacade.setPartsAsPlanned();
+        this.searchFormGroup.addControl("partSearch", new FormControl([]));
+        this.searchFormGroup.valueChanges.subscribe((formValues) => {
+            console.log("Change", formValues);
+        });
+
     }
 
     filterActivated(isAsBuilt: boolean, assetFilter: any): void {
         if (isAsBuilt) {
-            this.partsFacade.setPartsAsBuilt(0, 50, [], toAssetFilter(assetFilter, true));
+            this.partsFacade.setPartsAsBuilt(0, 50, [], toAssetFilter(assetFilter, true), true);
         } else {
             this.partsFacade.setPartsAsPlanned(0, 50, [], toAssetFilter(assetFilter, false));
         }
+    }
+
+    triggerPartSearch() {
+        const searchValue = this.searchFormGroup.get("partSearch").value;
+        this.partsFacade.setPartsAsPlanned(0, 50, [], toGlobalSearchAssetFilter(searchValue, false), true);
+        this.partsFacade.setPartsAsBuilt(0, 50, [], toGlobalSearchAssetFilter(searchValue, true), true);
     }
 
 
