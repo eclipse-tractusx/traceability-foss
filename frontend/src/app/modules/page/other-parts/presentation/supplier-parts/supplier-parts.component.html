@@ -28,9 +28,8 @@ SPDX-License-Identifier: Apache-2.0
         "
   ></ng-container>
   <ng-template #mainTmp let-parts="view" let-customContext="customContext">
-    <app-table class="supplier-parts-as-built-table"
+    <app-parts-table class="supplier-parts-as-built-table"
                [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
-               [tableConfig]="tableConfigAsBuilt"
                [selectedPartsInfoLabel]="'page.selectedParts.info'"
                [selectedPartsActionLabel]="'page.selectedParts.action'"
                [deselectTrigger]="deselectPartTrigger$ | async"
@@ -42,7 +41,10 @@ SPDX-License-Identifier: Apache-2.0
                (multiSelect)="onMultiSelect($event)"
                (clickSelectAction)="isInvestigationOpen$.next(true)"
                [multiSortList]="tableSupplierAsBuiltSortList"
-    ></app-table>
+               [multiSelectActive]="true"
+               (filterActivated)="filterActivated(true, $event )"
+               [tableType]="PartTableType.AS_BUILT_SUPPLIER"
+    ></app-parts-table>
   </ng-template>
 </div>
 <div class="supplier-parts-as-planned-table-wrapper" *ngIf="bomLifecycle === MainAspectType.AS_PLANNED">
@@ -57,9 +59,8 @@ SPDX-License-Identifier: Apache-2.0
   ></ng-container>
 
   <ng-template #myTmp let-parts="view" let-customContext="customContext">
-    <app-table class="supplier-parts-as-planned-table"
+    <app-parts-table class="supplier-parts-as-planned-table"
                [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
-               [tableConfig]="tableConfigAsPlanned"
                [selectedPartsInfoLabel]="'page.selectedParts.info'"
                [selectedPartsActionLabel]="'page.selectedParts.action'"
                [deselectTrigger]="deselectPartTrigger$ | async"
@@ -71,7 +72,10 @@ SPDX-License-Identifier: Apache-2.0
                (multiSelect)="onMultiSelect($event)"
                (clickSelectAction)="isInvestigationOpen$.next(true)"
                [multiSortList]="tableSupplierAsPlannedSortList"
-    ></app-table>
+                     [multiSelectActive]="true"
+                     (filterActivated)="filterActivated(false, $event )"
+                     [tableType]="PartTableType.AS_PLANNED_SUPPLIER"
+    ></app-parts-table>
   </ng-template>
 </div>
 

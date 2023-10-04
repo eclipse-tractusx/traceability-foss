@@ -17,18 +17,31 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package qualitynotification.investigation.response;
+.box-search {
+  margin: 8px;
+  border-radius: 2px;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+}
 
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-import lombok.experimental.SuperBuilder;
-import qualitynotification.base.response.QualityNotificationResponse;
+.box-search input {
+  flex: 1;
+  border: none;
+  outline: none;
+}
 
+.box-select-all {
+  width: 36px;
+  line-height: 33px;
+  color: #808080;
+  text-align: center;
+}
 
-@Data
-@SuperBuilder
-@ArraySchema(arraySchema = @Schema(description = "Investigations", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), minItems = Integer.MIN_VALUE, maxItems = Integer.MAX_VALUE)
-public class InvestigationResponse extends QualityNotificationResponse {
+.search-button {
+  color: #808080;
+}
 
+.pl-1 {
+  padding-left: 1rem;
 }

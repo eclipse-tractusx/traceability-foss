@@ -57,6 +57,7 @@
     "menuDescription": "Action menu",
     "clearPage": "Clear page selections",
     "clearAll": "Clear all selections",
+    "filterTitle": "Filter",
     "adminColumn": {
       "startDate": "Start date",
       "registryLookupStatus": "Status",
@@ -258,5 +259,9 @@
   "bomLifecycleActivator": {
     "asBuilt": "As Built",
     "asPlanned": "As Planned"
+  },
+  "multiSelect": {
+    "filterLabel": "Filter",
+    "placeHolder": "All"
   }
 }
