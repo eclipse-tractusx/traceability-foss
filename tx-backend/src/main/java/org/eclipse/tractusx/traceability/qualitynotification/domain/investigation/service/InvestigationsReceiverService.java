@@ -24,7 +24,7 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.investigati
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
-import org.eclipse.tractusx.traceability.common.mapper.NotificationMapper;
+import org.eclipse.tractusx.traceability.common.mapper.NotificationMessageMapper;
 import org.eclipse.tractusx.traceability.common.mapper.QualityNotificationMapper;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
@@ -42,7 +42,7 @@ import org.springframework.stereotype.Component;
 public class InvestigationsReceiverService {
 
     private final InvestigationRepository investigationsRepository;
-    private final NotificationMapper notificationMapper;
+    private final NotificationMessageMapper notificationMapper;
     private final AssetAsBuiltServiceImpl assetService;
     private final QualityNotificationMapper qualityNotificationMapper;
 

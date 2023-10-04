@@ -19,6 +19,7 @@
 package org.eclipse.tractusx.traceability.integration.common.support;
 
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -31,7 +32,7 @@ import java.util.Map;
 public class BpnSupport {
 
     @Autowired
-    BpnRepositoryProvider bpnRepositoryProvider;
+    BpnRepository bpnRepository;
     @Autowired
     AssetRepositoryProvider assetRepositoryProvider;
 
@@ -46,7 +47,7 @@ public class BpnSupport {
             bpnMappings.put(assetId, "Manufacturer Name $i");
         }
 
-        bpnRepositoryProvider.bpnRepository().updateManufacturers(bpnMappings);
+        bpnRepository.updateManufacturers(bpnMappings);
     }
 
     public void cachedBpnsForAsPlannedAssets() {
@@ -57,7 +58,7 @@ public class BpnSupport {
             bpnMappings.put(assetId, "Manufacturer Name $i");
         }
 
-        bpnRepositoryProvider.bpnRepository().updateManufacturers(bpnMappings);
+        bpnRepository.updateManufacturers(bpnMappings);
     }
 
     public String testBpn() {

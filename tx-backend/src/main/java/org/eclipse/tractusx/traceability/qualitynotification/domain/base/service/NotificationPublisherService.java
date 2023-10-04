@@ -27,8 +27,8 @@ import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetA
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.service.AssetAsPlannedServiceImpl;
-import org.eclipse.tractusx.traceability.assets.domain.base.BpnRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
@@ -146,10 +146,10 @@ public class NotificationPublisherService {
         return QualityNotificationMessage.builder()
                 .id(notificationId)
                 .created(LocalDateTime.now())
-                .senderBpnNumber(applicationBpn.value())
-                .senderManufacturerName(getManufacturerName(applicationBpn.value()))
-                .receiverBpnNumber(StringUtils.isBlank(receiverBpn) ? asset.getKey() : receiverBpn)
-                .receiverManufacturerName(getManufacturerName(asset.getKey()))
+                .createdBy(applicationBpn.value())
+                .createdByName(getManufacturerName(applicationBpn.value()))
+                .sendTo(StringUtils.isBlank(receiverBpn) ? asset.getKey() : receiverBpn)
+                .sendToName(getManufacturerName(asset.getKey()))
                 .description(description)
                 .notificationStatus(QualityNotificationStatus.CREATED)
                 .affectedParts(asset.getValue().stream().map(AssetBase::getId).map(QualityNotificationAffectedPart::new).toList())
@@ -167,10 +167,10 @@ public class NotificationPublisherService {
         return QualityNotificationMessage.builder()
                 .id(notificationId)
                 .created(LocalDateTime.now())
-                .senderBpnNumber(applicationBpn.value())
-                .senderManufacturerName(getManufacturerName(applicationBpn.value()))
-                .receiverBpnNumber(targetBpn)
-                .receiverManufacturerName(getManufacturerName(targetBpn))
+                .createdBy(applicationBpn.value())
+                .createdByName(getManufacturerName(applicationBpn.value()))
+                .sendTo(targetBpn)
+                .sendToName(getManufacturerName(targetBpn))
                 .description(description)
                 .notificationStatus(QualityNotificationStatus.CREATED)
                 .affectedParts(affectedAssets.stream().map(AssetBase::getId).map(QualityNotificationAffectedPart::new).toList())

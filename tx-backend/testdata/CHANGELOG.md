@@ -1,3 +1,13 @@
+## [2023-08-25]
+CX_Testdata_MessagingTest_v0.0.11.json
+
+### Added
+
+### Changed
+- SingleLevelUsageAsBuilt changed to 2.0.0 version
+
+### Removed
+
 ## [2023-08-04]
 CX_Testdata_MessagingTest_v0.0.7.json
 

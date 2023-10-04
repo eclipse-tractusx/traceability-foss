@@ -49,7 +49,7 @@ export class InvestigationsFacade {
     return this.investigationsService.getInvestigation(id);
   }
 
-  public setReceivedInvestigation(page = 0, pageSize = 50, sorting: TableHeaderSort = null): void {
+  public setReceivedInvestigation(page = 0, pageSize = 50, sorting: TableHeaderSort[] = []): void {
     this.investigationReceivedSubscription?.unsubscribe();
     this.investigationReceivedSubscription = this.investigationsService
       .getReceivedInvestigations(page, pageSize, sorting)
@@ -59,10 +59,10 @@ export class InvestigationsFacade {
       });
   }
 
-  public setQueuedAndRequestedInvestigations(page = 0, pageSize = 50, sorting: TableHeaderSort = null): void {
+  public setQueuedAndRequestedInvestigations(page = 0, pageSize = 50, sorting: TableHeaderSort[] = []): void {
     this.investigationQueuedAndRequestedSubscription?.unsubscribe();
     this.investigationQueuedAndRequestedSubscription = this.investigationsService
-      .getCreatedInvestigations(page, pageSize, sorting)
+      .getCreatedInvestigations(page, pageSize, sorting, )
       .subscribe({
         next: data => (this.investigationsState.investigationsQueuedAndRequested = { data }),
         error: (error: Error) => (this.investigationsState.investigationsQueuedAndRequested = { error }),

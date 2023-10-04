@@ -47,7 +47,7 @@ public class DatabaseSupport {
             "bpn_storage",
             "investigation_notification",
             "investigation",
-            "bpn_edc_mappings"
+            "traction_battery_code_subcomponent"
     });
 
 

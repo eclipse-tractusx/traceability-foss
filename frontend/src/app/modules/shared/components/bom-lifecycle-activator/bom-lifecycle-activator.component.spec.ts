@@ -1,89 +1,49 @@
 import {BomLifecycleActivatorComponent} from './bom-lifecycle-activator.component';
 import {SharedModule} from '@shared/shared.module';
-import {ComponentFixture, TestBed} from "@angular/core/testing";
-import {I18NEXT_SERVICE, I18NextModule, ITranslationService} from "angular-i18next";
-import {KeycloakService} from "keycloak-angular";
-import {MockedKeycloakService} from "@core/auth/mocked-keycloak.service";
-import {APP_INITIALIZER} from "@angular/core";
+import {BomLifecycleSettingsService, UserSettingView} from "@shared/service/bom-lifecycle-settings.service";
+import {renderComponent} from "@tests/test-render.utils";
 
 describe('BomLifecycleActivatorComponent', () => {
 
-
-    let component: BomLifecycleActivatorComponent;
-    let fixture: ComponentFixture<BomLifecycleActivatorComponent>;
-
-    beforeEach(() => {
-        TestBed.configureTestingModule({
-            declarations: [BomLifecycleActivatorComponent],
-            imports: [I18NextModule.forRoot(), SharedModule],
-            providers: [
-                {
-                    provide: KeycloakService,
-                    useClass: MockedKeycloakService,
-                },
-                {
-                    provide: APP_INITIALIZER,
-                    useFactory: (i18next: ITranslationService) => {
-                        return () =>
-                            i18next.init({
-                                lng: 'en',
-                                supportedLngs: ['en', 'de'],
-                                resources: {},
-                            });
-                    },
-                    deps: [I18NEXT_SERVICE],
-                    multi: true,
-                }]
+    const renderBomLifecycleActivator = (view: UserSettingView = UserSettingView.PARTS) => {
+        return renderComponent(BomLifecycleActivatorComponent, {
+            imports: [SharedModule],
+            providers: [BomLifecycleSettingsService],
+            componentProperties: {view},
         });
-        fixture = TestBed.createComponent(BomLifecycleActivatorComponent);
-        component = fixture.componentInstance;
+    };
+
+    it('should create the component', async () => {
+        const {fixture} = await renderBomLifecycleActivator(UserSettingView.PARTS);
+        const {componentInstance} = fixture;
+        expect(componentInstance).toBeTruthy();
     });
 
-    it('should create the component', () => {
-        expect(component).toBeTruthy();
+    it('should initialize bomLifecycleConfig correctly', async () => {
+        const {fixture} = await renderBomLifecycleActivator(UserSettingView.PARTS);
+        const {componentInstance} = fixture;
+        expect(componentInstance.bomLifecycleConfig.asBuiltActive).toBe(true);
+        expect(componentInstance.bomLifecycleConfig.asPlannedActive).toBe(true);
     });
 
-    it('should initialize bomLifecycleConfig correctly', () => {
-        expect(component.bomLifecycleConfig.asBuiltActive).toBe(true);
-        expect(component.bomLifecycleConfig.asPlannedActive).toBe(true);
+    it('should toggle asPlannedActive when toggleAsPlanned is called', async () => {
+        const {fixture} = await renderBomLifecycleActivator(UserSettingView.PARTS);
+        const {componentInstance} = fixture;
+
+        componentInstance.toggleAsPlanned();
+        expect(componentInstance.bomLifecycleConfig.asPlannedActive).toBe(false);
+
+        componentInstance.toggleAsPlanned();
+        expect(componentInstance.bomLifecycleConfig.asPlannedActive).toBe(true);
     });
 
-    it('should toggle asPlannedActive when toggleAsPlanned is called', () => {
-        component.toggleAsPlanned();
-        expect(component.bomLifecycleConfig.asPlannedActive).toBe(false);
+    it('should toggle asBuiltActive when toggleAsBuilt is called', async () => {
+        const {fixture} = await renderBomLifecycleActivator(UserSettingView.PARTS);
+        const {componentInstance} = fixture;
+        componentInstance.toggleAsBuilt();
+        expect(componentInstance.bomLifecycleConfig.asBuiltActive).toBe(false);
 
-        component.toggleAsPlanned();
-        expect(component.bomLifecycleConfig.asPlannedActive).toBe(true);
-    });
-
-    it('should toggle asBuiltActive when toggleAsBuilt is called', () => {
-        component.toggleAsBuilt();
-        expect(component.bomLifecycleConfig.asBuiltActive).toBe(false);
-
-        component.toggleAsBuilt();
-        expect(component.bomLifecycleConfig.asBuiltActive).toBe(true);
-    });
-
-
-    it('should emit the correct size when only asPlannedActive is active', () => {
-        let emittedSize: any;
-        component.buttonClickEvent.subscribe((size) => {
-            emittedSize = size;
-        });
-
-        component.toggleAsBuilt();
-
-        expect(emittedSize).toEqual({asBuiltSize: 0, asPlannedSize: 100});
-    });
-
-    it('should emit the correct size when only asBuiltActive is active', () => {
-        let emittedSize: any;
-        component.buttonClickEvent.subscribe((size) => {
-            emittedSize = size;
-        });
-
-        component.toggleAsPlanned();
-
-        expect(emittedSize).toEqual({asBuiltSize: 100, asPlannedSize: 0});
+        componentInstance.toggleAsBuilt();
+        expect(componentInstance.bomLifecycleConfig.asBuiltActive).toBe(true);
     });
 });

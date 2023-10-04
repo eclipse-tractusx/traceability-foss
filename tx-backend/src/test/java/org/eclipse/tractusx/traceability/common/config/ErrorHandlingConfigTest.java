@@ -25,8 +25,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.ValidationException;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
-import org.eclipse.tractusx.traceability.bpn.mapping.domain.model.BpnEdcMappingException;
-import org.eclipse.tractusx.traceability.bpn.mapping.domain.model.BpnEdcMappingNotFoundException;
+import org.eclipse.tractusx.traceability.bpn.domain.model.BpnNotFoundException;
 import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
 import org.eclipse.tractusx.traceability.common.security.TechnicalUserAuthorizationException;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractException;
@@ -110,12 +109,6 @@ class ErrorHandlingConfigTest {
     @Test
     void givenInvestigationStatusTransitionNotAllowed_handler_respondsBadRequest() throws Exception {
         mockMvc.perform(get("/investigationStatusTransitionNotAllowed"))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    void givenBpnEdcMappingException_handler_respondsBadRequest() throws Exception {
-        mockMvc.perform(get("/bpnEdcMappingException"))
                 .andExpect(status().isBadRequest());
     }
 
@@ -265,14 +258,9 @@ class ErrorHandlingConfigTest {
             );
         }
 
-        @GetMapping("/bpnEdcMappingException")
-        public void bpnEdcMappingException() {
-            throw new BpnEdcMappingException("");
-        }
-
         @GetMapping("/bpnEdcMappingNotFoundException")
         public void bpnEdcMappingNotFoundException() {
-            throw new BpnEdcMappingNotFoundException("");
+            throw new BpnNotFoundException("");
         }
 
         @GetMapping("/investigationReceiverBpnMismatchException")

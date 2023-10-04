@@ -1,1 +1,62 @@
 = Safety and security concepts
+
+== Authentication / Authorization
+
+=== Trace-X API
+
+The Trace-X is secured using OAuth2.0 / Open ID Connect.
+Every request to the Trace-X API requires a valid bearer token.
+JWT token should also contain two claims:
+
+- 'bpn' which is equal to the configuration value from `API_ALLOWED_BPN` property
+- 'resource_access' with the specific key for C-X environments.
+The list of values will be converted to roles by Trace-X.
+Currently, Trace-X API handles three roles: **'User'** and **'Supervisor'** and **'Admin'.**
+
+The behavior is shown in the table below.
+
+==== Rights and Roles Matrix of Trace-X
+
+|===
+| Category         | Action                         | User       | Supervisor   | Admin
+| View             | View Dashboard                 | x          | x            | x
+|                  | View Parts                     | x          | x            | x
+|                  | View Other parts               | x          | x            | x
+|                  | View Quality investigations    | x          | x            | x
+|                  | View Quality alerts            | x          | x            | x
+|                  | View Administration            |            |              | x
+
+| Investigation    | Create                         | x          | x            |
+|                  | Send                           |            | x            |
+|                  | Read                           | x          | x            | x
+|                  | Update                         | x          | x            |
+|                  | Delete All                     |            | x            |
+|                  | Delete Own                     | (x)        | x            |
+
+| Alert            | Create                         | x          | x            |
+|                  | Send                           |            | x            |
+|                  | Read                           | x          | x            | x
+|                  | Update                         | x          | x            |
+|                  | Delete All                     |            | x            |
+|                  | Delete Own                     | (x)        | x            |
+
+| Administration Panel  | Access "BPN EDC config panel"    |          |            | x
+|                       | Access "Registry lookup Panel"   |          |            | x
+
+|===
+
+Legend: x = full access to all resources, (x) = access to the resources he owns
+
+=== Trace-X as EDC client
+
+The Trace-X accesses the Catena-X network via the EDC consumer connector.
+This component requires authentication via a Verifiable Credential (VC), which is provided to the EDC via the Managed Identity Wallet.
+
+The VC identifies and authenticates the EDC and is used to acquire access permissions for the data transferred via EDC.
+
+== Credentials
+
+Credentials must never be stored in Git!
+
+
+

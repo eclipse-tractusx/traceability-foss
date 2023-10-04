@@ -27,10 +27,13 @@ import assets.response.base.DetailAspectTypeResponse;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.logging.log4j.util.Strings;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataAsBuilt;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataTractionBatteryCode;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataAsPlanned;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataPartSiteInformationAsPlanned;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.TractionBatteryCode;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.ManufacturingInformation;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.PartTypeInformation;
@@ -40,7 +43,6 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
@@ -57,7 +59,6 @@ public class DetailAspectModel {
         return DetailAspectModel.builder()
                 .type(DetailAspectType.valueOf(detailAspectType.name()))
                 .data(from(detailAspectData)).build();
-
     }
 
     public static DetailAspectData from(DetailAspectDataResponse detailAspectDataResponse) {
@@ -89,15 +90,9 @@ public class DetailAspectModel {
         return DetailAspectDataPartSiteInformationAsPlanned.builder().build();
     }
 
-    public static Optional<DetailAspectModel> getDetailAspectDataByType(List<DetailAspectModel> detailAspectModels, DetailAspectType type) {
-        return detailAspectModels.stream()
-                .filter(detailAspectModel -> detailAspectModel.getType().equals(type))
-                .findFirst();
-    }
-
     public static List<DetailAspectModel> from(AssetAsBuiltEntity entity) {
 
-        DetailAspectModel detailAspectModel = DetailAspectModel.builder()
+        DetailAspectModel detailAspectModelAsBuilt = DetailAspectModel.builder()
                 .type(DetailAspectType.AS_BUILT)
                 .data(DetailAspectDataAsBuilt.builder()
                         .partId(entity.getManufacturerPartId())
@@ -107,8 +102,23 @@ public class DetailAspectModel {
                         .manufacturingDate(entity.getManufacturingDate() != null ? entity.getManufacturingDate() : null)
                         .build())
                 .build();
+        List<DetailAspectModel> detailAspectModels = new ArrayList<>(List.of(detailAspectModelAsBuilt));
 
-        return List.of(detailAspectModel);
+        if (!Strings.isEmpty(entity.getTractionBatteryCode())) {
+            DetailAspectModel detailAspectModelTractionBatteryCode = DetailAspectModel.
+                    builder()
+                    .type(DetailAspectType.TRACTION_BATTERY_CODE)
+                    .data(DetailAspectDataTractionBatteryCode.builder()
+                            .tractionBatteryCode(entity.getTractionBatteryCode())
+                            .productType(entity.getProductType())
+                            .subcomponents(TractionBatteryCode.toDomain(entity))
+                            .build()
+                    ).build();
+
+            detailAspectModels.add(detailAspectModelTractionBatteryCode);
+        }
+
+        return detailAspectModels;
     }
 
     public static List<DetailAspectModel> from(AssetAsPlannedEntity entity) {
@@ -123,7 +133,7 @@ public class DetailAspectModel {
         DetailAspectModel partSiteInfo = DetailAspectModel.builder()
                 .type(DetailAspectType.PART_SITE_INFORMATION_AS_PLANNED)
                 .data(DetailAspectDataPartSiteInformationAsPlanned.builder()
-                        .catenaXSiteId(entity.getId())
+                        .catenaXSiteId(entity.getCatenaxSiteId())
                         .functionValidFrom(entity.getFunctionValidFrom())
                         .function(entity.getFunction())
                         .functionValidUntil(entity.getFunctionValidUntil())
@@ -132,7 +142,6 @@ public class DetailAspectModel {
 
         return List.of(asPlannedInfo, partSiteInfo);
     }
-
 
     public static List<DetailAspectModel> extractDetailAspectModelsPartSiteInformationAsPlanned(List<Site> sites) {
         List<DetailAspectModel> detailAspectModels = new ArrayList<>();
@@ -168,5 +177,9 @@ public class DetailAspectModel {
                 .partId(partTypeInformation.manufacturerPartId())
                 .build();
         return DetailAspectModel.builder().data(detailAspectDataAsBuilt).type(DetailAspectType.AS_BUILT).build();
+    }
+
+    public static DetailAspectModel extractDetailAspectModelTractionBatteryCode(DetailAspectDataTractionBatteryCode detailAspectDataTractionBatteryCode) {
+        return DetailAspectModel.builder().data(detailAspectDataTractionBatteryCode).type(DetailAspectType.TRACTION_BATTERY_CODE).build();
     }
 }

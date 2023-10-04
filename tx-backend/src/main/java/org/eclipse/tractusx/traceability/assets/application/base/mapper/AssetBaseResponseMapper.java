@@ -19,6 +19,8 @@
 package org.eclipse.tractusx.traceability.assets.application.base.mapper;
 
 import assets.response.asbuilt.DetailAspectDataAsBuiltResponse;
+import assets.response.asbuilt.DetailAspectDataTractionBatteryCodeResponse;
+import assets.response.asbuilt.DetailAspectDataTractionBatteryCodeResponse.DetailAspectDataTractionBatteryCodeSubcomponentResponse;
 import assets.response.asplanned.DetailAspectDataAsPlannedResponse;
 import assets.response.asplanned.PartSiteInformationAsPlannedResponse;
 import assets.response.base.DescriptionsResponse;
@@ -32,8 +34,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.application.asplanned.mapper.AssetAsPlannedResponseMapper;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataAsBuilt;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataTractionBatteryCode;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataTractionBatteryCode.DetailAspectDataTractionBatteryCodeSubcomponent;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataAsPlanned;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataPartSiteInformationAsPlanned;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
@@ -57,7 +60,7 @@ public class AssetBaseResponseMapper {
 
     public static List<DetailAspectModelResponse> fromList(List<DetailAspectModel> detailAspectModels) {
         List<DetailAspectModelResponse> list = emptyIfNull(detailAspectModels).stream()
-                .map(AssetAsPlannedResponseMapper::from)
+                .map(AssetBaseResponseMapper::from)
                 .toList();
         log.info(list.toString());
         return list;
@@ -75,6 +78,14 @@ public class AssetBaseResponseMapper {
     }
 
     public static DetailAspectDataResponse from(DetailAspectData detailAspectData) {
+
+        if (detailAspectData instanceof DetailAspectDataTractionBatteryCode detailAspectDataTractionBatteryCode) {
+            return DetailAspectDataTractionBatteryCodeResponse.builder()
+                    .tractionBatteryCode(detailAspectDataTractionBatteryCode.getTractionBatteryCode())
+                    .productType(detailAspectDataTractionBatteryCode.getProductType())
+                    .subcomponents(from(detailAspectDataTractionBatteryCode.getSubcomponents()))
+                    .build();
+        }
 
         if (detailAspectData instanceof DetailAspectDataPartSiteInformationAsPlanned detailAspectDataPartSiteInformationAsPlanned) {
             return PartSiteInformationAsPlannedResponse.builder().catenaXSiteId(detailAspectDataPartSiteInformationAsPlanned.getCatenaXSiteId())
@@ -129,5 +140,10 @@ public class AssetBaseResponseMapper {
         return emptyIfNull(notifications).stream()
                 .filter(QualityNotification::isActiveState)
                 .toList().size();
+    }
+
+    private static List<DetailAspectDataTractionBatteryCodeSubcomponentResponse> from(List<DetailAspectDataTractionBatteryCodeSubcomponent> subcomponents) {
+        return subcomponents.stream().map(entry -> DetailAspectDataTractionBatteryCodeSubcomponentResponse.builder().tractionBatteryCode(entry.getTractionBatteryCode())
+                .productType(entry.getProductType()).build()).toList();
     }
 }

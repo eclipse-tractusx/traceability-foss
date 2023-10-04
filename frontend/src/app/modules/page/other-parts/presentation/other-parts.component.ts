@@ -25,10 +25,9 @@ import {OtherPartsFacade} from '@page/other-parts/core/other-parts.facade';
 import {PartDetailsFacade} from '@shared/modules/part-details/core/partDetails.facade';
 import {StaticIdService} from '@shared/service/staticId.service';
 import {MainAspectType} from "@page/parts/model/mainAspectType.enum";
-import {
-    BomLifecycleSize,
-    initialBomLifecycleSize,
-} from "@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model";
+import {BomLifecycleSize} from "@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model";
+import {BomLifecycleSettingsService, UserSettingView} from "@shared/service/bom-lifecycle-settings.service";
+
 
 @Component({
     selector: 'app-other-parts',
@@ -43,16 +42,17 @@ export class OtherPartsComponent implements OnDestroy {
     public readonly supplierTabLabelId = this.staticIdService.generateId('OtherParts.supplierTabLabel');
     public readonly customerTabLabelId = this.staticIdService.generateId('OtherParts.customerTabLabel');
 
-    public bomLifecycleSize: BomLifecycleSize = initialBomLifecycleSize();
-
-    protected readonly mainAspectType = MainAspectType;
 
     constructor(
         private readonly otherPartsFacade: OtherPartsFacade,
         private readonly partDetailsFacade: PartDetailsFacade,
         private readonly staticIdService: StaticIdService,
+        public userSettings: BomLifecycleSettingsService
     ) {
+
     }
+
+    public bomLifecycleSize: BomLifecycleSize = this.userSettings.getSize(UserSettingView.OTHER_PARTS);
 
     public ngOnDestroy(): void {
         this.otherPartsFacade.unsubscribeParts();
@@ -65,6 +65,8 @@ export class OtherPartsComponent implements OnDestroy {
 
     public handleTableActivationEvent(bomLifecycleSize: BomLifecycleSize) {
         this.bomLifecycleSize = bomLifecycleSize;
-        console.log(this.bomLifecycleSize, "size");
     }
+
+    protected readonly MainAspectType = MainAspectType;
+    protected readonly UserSettingView = UserSettingView;
 }
