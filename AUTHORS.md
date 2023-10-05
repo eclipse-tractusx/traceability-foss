@@ -21,3 +21,4 @@ The following people have contributed to this repository:
 - Martin Maul, doubleSlash Net-Business GmbH, https://github.com/ds-mmaul
 - Lucas Capellino, doubleSlash Net-Business GmbH, https://github.com/ds-lcapellino
 - Abilash Shanmugavel, doubleSlash Net-Business GmbH, https://github.com/abi231002
+- Sebastian Ceronik, doubleSlash Net-Business GmbH, https://github.com/ds-ext-sceronik
