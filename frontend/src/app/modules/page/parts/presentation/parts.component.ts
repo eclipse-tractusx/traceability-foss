@@ -91,10 +91,6 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
         this.partsFacade.setPartsAsPlanned();
         this.searchFormGroup.addControl("partSearch", new FormControl([]));
         this.searchControl = this.searchFormGroup.get('partSearch') as unknown as FormControl;
-        this.searchFormGroup.valueChanges.subscribe((formValues) => {
-            console.log("Change", formValues);
-        });
-
     }
 
     filterActivated(isAsBuilt: boolean, assetFilter: any): void {
@@ -127,7 +123,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private resetLocalFilters(filterIsSet: boolean) {
         for (const partTableComponent of this.partsTableComponents) {
-            if (partTableComponent.multiCompo.theSearchElement) {
+            if (partTableComponent.multiSelectAutocompleteComponent.theSearchElement) {
                 filterIsSet = true;
                 partTableComponent.filterFormGroup.reset();
             }

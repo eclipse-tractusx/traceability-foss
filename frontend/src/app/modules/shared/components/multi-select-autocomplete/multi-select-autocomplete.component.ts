@@ -204,7 +204,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
         this.formControl.patchValue(val.value);
         this.selectionChange.emit(this.selectedValue);
         this.theSearchElement = val.value;
-        console.log("selection change");
     }
 
 }

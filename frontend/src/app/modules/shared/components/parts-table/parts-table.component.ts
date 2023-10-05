@@ -49,7 +49,7 @@ export class PartsTableComponent implements OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild('tableElement', {read: ElementRef}) tableElementRef: ElementRef<HTMLElement>;
 
-    @ViewChild(MultiSelectAutocompleteComponent) multiCompo: MultiSelectAutocompleteComponent;
+    @ViewChild(MultiSelectAutocompleteComponent) multiSelectAutocompleteComponent: MultiSelectAutocompleteComponent;
 
     @Input() multiSelectActive = false;
 
