@@ -42,6 +42,6 @@ public class StartQualityNotification {
 
     private String bpn;
 
-    private boolean isAsBuilt = true;
+    private boolean isAsBuilt;
 
 }

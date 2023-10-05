@@ -111,6 +111,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         investigationNotificationsSupport.assertNotificationsSize(1);
     }
 
+    @Test
     void shouldStartInvestigation() throws JsonProcessingException, JoseException {
         // given
         List<String> partIds = List.of(
