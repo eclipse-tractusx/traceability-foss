@@ -38,7 +38,6 @@ public class AssetAsPlannedSpecification extends BaseSpecification implements Sp
 
     private SearchCriteriaFilter criteria;
 
-
     @Override
     public Predicate toPredicate(Root<AssetAsPlannedEntity> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
         return createPredicate(criteria, root, builder);
@@ -49,13 +48,25 @@ public class AssetAsPlannedSpecification extends BaseSpecification implements Sp
         if (specifications.isEmpty()) {
             return Specification.allOf();
         }
-
         Specification<AssetAsPlannedEntity> result = specifications.get(0);
 
         if (searchCriteriaOperator.equals(SearchCriteriaOperator.OR)) {
-            for (int i = 1; i < specifications.size(); i++) {
-                result = Specification.where(result).or(specifications.get(i));
+            List<AssetAsPlannedSpecification> ownerSpecifications = specifications.stream()
+                    .filter(spec -> spec.isOwnerSpecification(spec)).toList();
+
+            List<AssetAsPlannedSpecification> otherSpecifications = specifications.stream()
+                    .filter(spec -> !spec.isOwnerSpecification(spec)).toList();
+            for (int i = 1; i < ownerSpecifications.size(); i++) {
+                result = Specification.where(result).and(ownerSpecifications.get(i));
             }
+            if (otherSpecifications.size() == 1) {
+                result = Specification.where(result).and(otherSpecifications.get(0));
+            } else {
+                for (int i = 1; i < otherSpecifications.size(); i++) {
+                    result = Specification.where(result).or(otherSpecifications.get(i));
+                }
+            }
+
         } else {
             for (int i = 1; i < specifications.size(); i++) {
                 result = Specification.where(result).and(specifications.get(i));
@@ -63,5 +74,9 @@ public class AssetAsPlannedSpecification extends BaseSpecification implements Sp
         }
 
         return result;
+    }
+
+    private boolean isOwnerSpecification(AssetAsPlannedSpecification specification) {
+        return "owner".equals(specification.criteria.getKey());
     }
 }

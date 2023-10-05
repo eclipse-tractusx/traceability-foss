@@ -50,10 +50,23 @@ public class AssetAsBuildSpecification extends BaseSpecification implements Spec
         }
         Specification<AssetAsBuiltEntity> result = specifications.get(0);
 
-        if (searchCriteriaOperator.equals(SearchCriteriaOperator.OR)){
-            for (int i = 1; i < specifications.size(); i++) {
-                result = Specification.where(result).or(specifications.get(i));
+        if (searchCriteriaOperator.equals(SearchCriteriaOperator.OR)) {
+            List<AssetAsBuildSpecification> ownerSpecifications = specifications.stream()
+                    .filter(spec -> spec.isOwnerSpecification(spec)).toList();
+
+            List<AssetAsBuildSpecification> otherSpecifications = specifications.stream()
+                    .filter(spec -> !spec.isOwnerSpecification(spec)).toList();
+            for (int i = 1; i < ownerSpecifications.size(); i++) {
+                result = Specification.where(result).and(ownerSpecifications.get(i));
             }
+            if (otherSpecifications.size() == 1){
+                result = Specification.where(result).and(otherSpecifications.get(0));
+            } else {
+                for (int i = 1; i < otherSpecifications.size(); i++) {
+                    result = Specification.where(result).or(otherSpecifications.get(i));
+                }
+            }
+
         } else {
             for (int i = 1; i < specifications.size(); i++) {
                 result = Specification.where(result).and(specifications.get(i));
@@ -61,5 +74,9 @@ public class AssetAsBuildSpecification extends BaseSpecification implements Spec
         }
 
         return result;
+    }
+
+    private boolean isOwnerSpecification(AssetAsBuildSpecification specification) {
+        return "owner".equals(specification.criteria.getKey());
     }
 }

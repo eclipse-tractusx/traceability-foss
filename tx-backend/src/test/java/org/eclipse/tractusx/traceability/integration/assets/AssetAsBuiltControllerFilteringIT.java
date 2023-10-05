@@ -253,4 +253,24 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
                 .statusCode(200)
                 .body("totalItems", equalTo(13));
     }
+
+    @Test
+    void givenSemanticDataModelAndOwnerOR_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
+        // given
+        assetsSupport.defaultAssetsStored();
+        final String filter = "?filter=owner,EQUAL,SUPPLIER&filter=id,STARTS_WITH,urn:uuid:f7cf62fe-9e25-472b-9148-66";
+        final String filterOperator = "&filterOperator=OR";
+
+        // then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .get("/api/assets/as-built" + filter + filterOperator)
+                .then()
+                .log().all()
+                .statusCode(200)
+                .body("totalItems", equalTo(1));
+    }
 }
