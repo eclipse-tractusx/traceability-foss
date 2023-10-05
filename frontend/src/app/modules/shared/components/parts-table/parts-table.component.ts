@@ -49,6 +49,8 @@ export class PartsTableComponent implements OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild('tableElement', {read: ElementRef}) tableElementRef: ElementRef<HTMLElement>;
 
+    @ViewChild(MultiSelectAutocompleteComponent) multiSelectAutocompleteComponent: MultiSelectAutocompleteComponent;
+
     @Input() multiSelectActive = false;
 
     @Input() labelId: string;
@@ -570,8 +572,6 @@ export class PartsTableComponent implements OnInit {
         {filterKey: 'functionValidUntil', headerKey: 'filterFunctionValidUntil', isTextSearch: true, option: this.optionTextSearch}
     ];
 
-
-    @ViewChild(MultiSelectAutocompleteComponent) multiSelection: MultiSelectAutocompleteComponent;
 
     public areAllRowsSelected(): boolean {
         return this.dataSource.data.every(data => this.isSelected(data));

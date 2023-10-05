@@ -28,9 +28,10 @@ import {SharedModule} from '@shared/shared.module';
 import {screen, waitFor} from '@testing-library/angular';
 import {renderComponent} from '@tests/test-render.utils';
 import {PartsModule} from '../parts.module';
-import {AssetAsBuiltFilter, AssetAsPlannedFilter, Part} from "@page/parts/model/parts.model";
+import {AssetAsBuiltFilter, AssetAsPlannedFilter} from "@page/parts/model/parts.model";
 import {TableHeaderSort} from "@shared/components/table/table.model";
 import {PartDetailsFacade} from "@shared/modules/part-details/core/partDetails.facade";
+import {toGlobalSearchAssetFilter} from "@shared/helper/filter-helper";
 
 describe('Parts', () => {
 
@@ -192,10 +193,10 @@ describe('Parts', () => {
     });
 
 
-    it('should set selectedPart in PartDetailsFacade correctly',async () => {
+    it('should set selectedPart in PartDetailsFacade correctly', async () => {
         const {fixture} = await renderParts();
         const {componentInstance} = fixture;
-        const sampleEvent: Record<string, unknown> = { id: 123, name: 'Sample Part' };
+        const sampleEvent: Record<string, unknown> = {id: 123, name: 'Sample Part'};
 
         componentInstance.onSelectItem(sampleEvent);
         const partDetailsFacade = (componentInstance as any)['partDetailsFacade'];
@@ -219,6 +220,48 @@ describe('Parts', () => {
 
         // Assert
         expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsBuiltSortList']);
+    });
+
+    it('should clear filters and call partsFacade methods with search value', async () => {
+
+        const {fixture} = await renderParts();
+        const {componentInstance} = fixture;
+        // Arrange
+        const searchValue = 'searchTerm';
+
+        const partsFacade = (componentInstance as any)['partsFacade'];
+        const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuilt');
+        const partsFacadeAsPlannedSpy = spyOn(partsFacade, 'setPartsAsPlanned');
+        componentInstance.searchControl.setValue(searchValue);
+
+
+        // Act
+        componentInstance.triggerPartSearch();
+
+        // Assert
+        expect(partsFacadeAsPlannedSpy).toHaveBeenCalledWith(0, 50, [], toGlobalSearchAssetFilter(searchValue, false), true);
+        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], toGlobalSearchAssetFilter(searchValue, true), true);
+    });
+
+    it('should not filter if filter search is unset', async () => {
+
+        const {fixture} = await renderParts();
+        const {componentInstance} = fixture;
+        // Arrange
+        const searchValue = '';
+
+        const partsFacade = (componentInstance as any)['partsFacade'];
+        const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuilt');
+        const partsFacadeAsPlannedSpy = spyOn(partsFacade, 'setPartsAsPlanned');
+        componentInstance.searchControl.setValue(searchValue);
+
+
+        // Act
+        componentInstance.triggerPartSearch();
+
+        // Assert
+        expect(partsFacadeAsPlannedSpy).toHaveBeenCalledWith();
+        expect(partsFacadeSpy).toHaveBeenCalledWith();
     });
 
 });

@@ -72,8 +72,10 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
         this.filteredOptions = this.options;
         if (this.selectedOptions) {
             this.selectedValue = this.selectedOptions;
+            this.formControl.patchValue(this.selectedValue);
         } else if (this.formControl?.value) {
             this.selectedValue = this.formControl.value;
+            this.formControl.patchValue(this.selectedValue);
         }
     }
 
@@ -90,6 +92,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
                 item => !filteredValues.includes(item),
             );
         }
+        this.formControl.patchValue(this.selectedValue);
         this.selectionChange.emit(this.selectedValue);
     };
 
@@ -125,13 +128,20 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     }
 
     changeSearchTextOption(): void {
+        this.formControl.patchValue(this.theSearchElement);
         this.selectedValue = this.theSearchElement as unknown as [];
     }
 
     clickClear(): void {
+        this.formControl.patchValue("");
         this.searchInput.value = '';
         this.theSearchElement = '';
         this.selectedValue = [];
+
+    }
+
+    resetFilter(): void{
+        this.searchInput.value = '';
     }
 
     onDisplayString(): string {
@@ -191,7 +201,9 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
             this.selectAllChecked = selectedCount === this.filteredOptions.length;
         }
         this.selectedValue = val.value;
+        this.formControl.patchValue(val.value);
         this.selectionChange.emit(this.selectedValue);
+        this.theSearchElement = val.value;
     }
 
 }
