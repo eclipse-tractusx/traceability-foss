@@ -69,3 +69,25 @@ export function toAssetFilter(formValues: any, isAsBuilt: boolean): AssetAsPlann
     }
 
 }
+
+export function toGlobalSearchAssetFilter(formValues: string, isAsBuilt: boolean) {
+    let filter;
+    if (isAsBuilt) {
+        filter = {
+            id: formValues,
+            semanticModelId: formValues,
+            idShort: formValues,
+            customerPartId: formValues,
+            manufacturerPartId: formValues
+        } as AssetAsBuiltFilter;
+    } else {
+        filter = {
+            id: formValues,
+            idShort: formValues,
+            semanticModelId: formValues,
+            manufacturerPartId: formValues
+        } as AssetAsPlannedFilter;
+    }
+
+    return filter;
+}

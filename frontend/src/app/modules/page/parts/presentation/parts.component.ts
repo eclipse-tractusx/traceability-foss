@@ -19,7 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {Pagination} from '@core/model/pagination.model';
 import {PartsFacade} from '@page/parts/core/parts.facade';
 import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
@@ -31,7 +31,10 @@ import {StaticIdService} from '@shared/service/staticId.service';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {BomLifecycleSize} from "@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model";
 import {BomLifecycleSettingsService, UserSettingView} from "@shared/service/bom-lifecycle-settings.service";
-import {toAssetFilter} from "@shared/helper/filter-helper";
+import {toAssetFilter, toGlobalSearchAssetFilter} from "@shared/helper/filter-helper";
+import {FormControl, FormGroup} from "@angular/forms";
+import {ToastService} from "@shared/components/toasts/toast.service";
+import {PartsTableComponent} from "@shared/components/parts-table/parts-table.component";
 
 
 @Component({
@@ -54,15 +57,16 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     public tableAsBuiltSortList: TableHeaderSort[];
     public tableAsPlannedSortList: TableHeaderSort[];
 
-
     public ctrlKeyState = false;
 
+    @ViewChildren(PartsTableComponent) partsTableComponents: QueryList<PartsTableComponent>;
 
     constructor(
         private readonly partsFacade: PartsFacade,
         private readonly partDetailsFacade: PartDetailsFacade,
         private readonly staticIdService: StaticIdService,
-        private readonly userSettingService: BomLifecycleSettingsService
+        private readonly userSettingService: BomLifecycleSettingsService,
+        public toastService: ToastService
     ) {
         this.partsAsBuilt$ = this.partsFacade.partsAsBuilt$;
         this.partsAsPlanned$ = this.partsFacade.partsAsPlanned$;
@@ -79,10 +83,14 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public bomLifecycleSize: BomLifecycleSize = this.userSettingService.getSize(UserSettingView.PARTS);
 
+    public searchFormGroup = new FormGroup({});
+    public searchControl: FormControl;
 
     public ngOnInit(): void {
         this.partsFacade.setPartsAsBuilt();
         this.partsFacade.setPartsAsPlanned();
+        this.searchFormGroup.addControl("partSearch", new FormControl([]));
+        this.searchControl = this.searchFormGroup.get('partSearch') as unknown as FormControl;
     }
 
     filterActivated(isAsBuilt: boolean, assetFilter: any): void {
@@ -93,6 +101,34 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
         }
     }
 
+    triggerPartSearch() {
+
+        let filterSet = false;
+        this.resetLocalFilters(filterSet);
+        if (filterSet) {
+            this.toastService.info("parts.input.global-search.toastInfo");
+        }
+        const searchValue = this.searchFormGroup.get("partSearch").value;
+
+        if (searchValue && searchValue !== "") {
+            this.partsFacade.setPartsAsPlanned(0, 50, [], toGlobalSearchAssetFilter(searchValue, false), true);
+            this.partsFacade.setPartsAsBuilt(0, 50, [], toGlobalSearchAssetFilter(searchValue, true), true);
+        } else {
+            this.partsFacade.setPartsAsBuilt();
+            this.partsFacade.setPartsAsPlanned();
+        }
+
+    }
+
+
+    private resetLocalFilters(filterIsSet: boolean) {
+        for (const partTableComponent of this.partsTableComponents) {
+            if (partTableComponent.multiSelectAutocompleteComponent.theSearchElement) {
+                filterIsSet = true;
+                partTableComponent.filterFormGroup.reset();
+            }
+        }
+    }
 
     public ngAfterViewInit(): void {
         this.handleTableActivationEvent(this.bomLifecycleSize);

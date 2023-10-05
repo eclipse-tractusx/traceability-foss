@@ -28,6 +28,7 @@ import {environment} from "@env";
 import {KeycloakService} from "keycloak-angular";
 import {AuthService} from "@core/auth/auth.service";
 import {mockAssets} from "../../../mocks/services/parts-mock/partsAsPlanned/partsAsPlanned.test.model";
+import {MOCK_part_1} from "../../../mocks/services/parts-mock/partsAsBuilt/partsAsBuilt.test.model";
 
 describe('PartsService', () => {
     let service: PartsService;
@@ -73,6 +74,26 @@ describe('PartsService', () => {
         });
 
         req.flush(mockAssets);
+
+        httpMock.verify();
+    });
+
+    it('should call the getPartById API and return parts', () => {
+
+        spyOn(authService, 'getBearerToken').and.returnValue('your_mocked_token');
+
+        const id = "1";
+        service.getPart(id).subscribe((parts: Part) => {
+            expect(parts).toBeTruthy();
+        });
+
+        const expectedUrl = `${environment.apiUrl}/assets/as-built/` + id;
+
+        const req = httpMock.expectOne((request) => {
+            return request.url === expectedUrl && request.method === 'GET';
+        });
+
+        req.flush(MOCK_part_1);
 
         httpMock.verify();
     });
