@@ -28,6 +28,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.QualityNotificationSeverityRequest;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.StartQualityNotification;
 
 import java.time.Instant;
 import java.util.List;
@@ -55,4 +56,15 @@ public class StartQualityAlertRequest {
     private String bpn;
     @ApiModelProperty(example = "true")
     private boolean isAsBuilt = true;
+
+    public static StartQualityNotification toDomain(StartQualityAlertRequest startQualityAlertRequest) {
+        return StartQualityNotification.builder()
+                .partIds(startQualityAlertRequest.getPartIds())
+                .description(startQualityAlertRequest.getDescription())
+                .targetDate(startQualityAlertRequest.getTargetDate())
+                .severity(startQualityAlertRequest.getSeverity().toDomain())
+                .bpn(startQualityAlertRequest.getBpn())
+                .isAsBuilt(startQualityAlertRequest.isAsBuilt())
+                .build();
+    }
 }

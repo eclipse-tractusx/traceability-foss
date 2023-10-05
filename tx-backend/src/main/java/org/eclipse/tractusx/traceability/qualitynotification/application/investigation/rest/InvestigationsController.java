@@ -38,7 +38,7 @@ import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.CloseQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.QualityNotificationStatusRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.StartQualityNotificationRequest;
+import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.StartQualityInvestigationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.UpdateQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.service.QualityNotificationService;
 import org.eclipse.tractusx.traceability.qualitynotification.application.investigation.mapper.InvestigationResponseMapper;
@@ -47,11 +47,18 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import qualitynotification.base.response.QualityNotificationIdResponse;
 import qualitynotification.investigation.response.InvestigationResponse;
 
 import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitize;
+import static org.eclipse.tractusx.traceability.qualitynotification.application.base.request.StartQualityInvestigationRequest.toDomain;
 import static org.eclipse.tractusx.traceability.qualitynotification.application.validation.UpdateQualityNotificationValidator.validate;
 
 @Profile(FeatureFlags.NOTIFICATIONS_ENABLED_PROFILES)
@@ -122,17 +129,11 @@ public class InvestigationsController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public QualityNotificationIdResponse investigateAssets(@RequestBody @Valid StartQualityNotificationRequest request) {
-        StartQualityNotificationRequest cleanRequest = sanitize(request);
+    public QualityNotificationIdResponse investigateAssets(@RequestBody @Valid StartQualityInvestigationRequest request) {
+        StartQualityInvestigationRequest cleanRequest = sanitize(request);
         log.info(API_LOG_START + " with params: {}", cleanRequest);
-        return new QualityNotificationIdResponse(investigationService.start(
-                        cleanRequest.getPartIds(),
-                        cleanRequest.getDescription(),
-                        cleanRequest.getTargetDate(),
-                        cleanRequest.getSeverity().toDomain(),
-                        cleanRequest.getReceiverBpn(),
-                        cleanRequest.isAsBuilt())
-                .value());
+        return new QualityNotificationIdResponse(investigationService.start(toDomain(cleanRequest)).value());
+
     }
 
     @Operation(operationId = "getCreatedInvestigations",

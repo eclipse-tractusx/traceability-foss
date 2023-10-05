@@ -32,7 +32,7 @@ import org.eclipse.tractusx.traceability.integration.common.support.Investigatio
 import org.eclipse.tractusx.traceability.qualitynotification.application.alert.request.StartQualityAlertRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.CloseQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.QualityNotificationSeverityRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.StartQualityNotificationRequest;
+import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.StartQualityInvestigationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.UpdateQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.UpdateQualityNotificationStatusRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationAffectedPart;
@@ -122,7 +122,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
 
         assetsSupport.defaultAssetsStored();
 
-        val request = StartQualityNotificationRequest.builder()
+        val request = StartQualityInvestigationRequest.builder()
                 .partIds(partIds)
                 .description(description)
                 .severity(QualityNotificationSeverityRequest.MINOR)
@@ -173,7 +173,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         );
         String description = "at least 15 characters long investigation description";
 
-        val request = StartQualityNotificationRequest.builder()
+        val request = StartQualityInvestigationRequest.builder()
                 .partIds(partIds)
                 .description(description)
                 .build();
@@ -262,7 +262,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     void shouldCancelInvestigation() throws JsonProcessingException, JoseException {
         // given
         assetsSupport.defaultAssetsStored();
-        val startInvestigationRequest = StartQualityNotificationRequest.builder()
+        val startInvestigationRequest = StartQualityInvestigationRequest.builder()
                 .partIds(List.of("urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978"))
                 .description("at least 15 characters long investigation description")
                 .severity(QualityNotificationSeverityRequest.MAJOR)
@@ -324,7 +324,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         String description = "at least 15 characters long investigation description";
 
         assetsSupport.defaultAssetsStored();
-        val startInvestigationRequest = StartQualityNotificationRequest.builder()
+        val startInvestigationRequest = StartQualityInvestigationRequest.builder()
                 .partIds(partIds)
                 .description(description)
                 .severity(QualityNotificationSeverityRequest.MINOR)
@@ -377,7 +377,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         String description = "at least 15 characters long investigation description";
 
         assetsSupport.defaultAssetsStored();
-        val startInvestigationRequest = StartQualityNotificationRequest.builder()
+        val startInvestigationRequest = StartQualityInvestigationRequest.builder()
                 .partIds(partIds)
                 .description(description)
                 .severity(QualityNotificationSeverityRequest.MINOR)
@@ -485,7 +485,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         );
         String description = "at least 15 characters long investigation description";
         assetsSupport.defaultAssetsStored();
-        val startInvestigationRequest = StartQualityNotificationRequest.builder()
+        val startInvestigationRequest = StartQualityInvestigationRequest.builder()
                 .partIds(partIds)
                 .description(description)
                 .severity(QualityNotificationSeverityRequest.MINOR)

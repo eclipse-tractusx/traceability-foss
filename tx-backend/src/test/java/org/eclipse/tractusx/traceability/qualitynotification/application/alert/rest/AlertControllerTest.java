@@ -34,6 +34,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import qualitynotification.alert.response.AlertResponse;
 import qualitynotification.base.response.QualityNotificationIdResponse;
@@ -46,6 +47,7 @@ import java.time.Instant;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.eclipse.tractusx.traceability.qualitynotification.application.alert.request.StartQualityAlertRequest.toDomain;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -55,6 +57,7 @@ class AlertControllerTest {
 
     @Mock
     private QualityNotificationService alertService;
+
 
     @InjectMocks
     private AlertController controller;
@@ -72,13 +75,7 @@ class AlertControllerTest {
                 .severity(QualityNotificationSeverityRequest.MINOR)
                 .bpn("BPN00001")
                 .build();
-        when(alertService.start(
-                request.getPartIds(),
-                request.getDescription(),
-                request.getTargetDate(),
-                request.getSeverity().toDomain(),
-                request.getBpn(), request.isAsBuilt()
-        )).thenReturn(notificationId);
+        when(alertService.start(Mockito.eq(toDomain(request)))).thenReturn(notificationId);
 
         // when
         final QualityNotificationIdResponse result = controller.alertAssets(request);

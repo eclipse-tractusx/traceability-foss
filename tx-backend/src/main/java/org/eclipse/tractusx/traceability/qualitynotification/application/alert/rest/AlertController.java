@@ -45,11 +45,18 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import qualitynotification.alert.response.AlertResponse;
 import qualitynotification.base.response.QualityNotificationIdResponse;
 
 import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitize;
+import static org.eclipse.tractusx.traceability.qualitynotification.application.alert.request.StartQualityAlertRequest.toDomain;
 import static org.eclipse.tractusx.traceability.qualitynotification.application.validation.UpdateQualityNotificationValidator.validate;
 
 @Profile(FeatureFlags.NOTIFICATIONS_ENABLED_PROFILES)
@@ -122,15 +129,7 @@ public class AlertController {
     public QualityNotificationIdResponse alertAssets(@RequestBody @Valid StartQualityAlertRequest request) {
         StartQualityAlertRequest cleanStartQualityAlertRequest = sanitize(request);
         log.info(API_LOG_START + " with params: {}", cleanStartQualityAlertRequest);
-        //TODO refactor this method to only take request as parameter
-        return new QualityNotificationIdResponse(alertService.start(
-                cleanStartQualityAlertRequest.getPartIds(),
-                cleanStartQualityAlertRequest.getDescription(),
-                cleanStartQualityAlertRequest.getTargetDate(),
-                cleanStartQualityAlertRequest.getSeverity().toDomain(),
-                cleanStartQualityAlertRequest.getBpn(),
-                cleanStartQualityAlertRequest.isAsBuilt()
-        ).value());
+        return new QualityNotificationIdResponse(alertService.start(toDomain(cleanStartQualityAlertRequest)).value());
     }
 
     @Operation(operationId = "getCreatedAlerts",
