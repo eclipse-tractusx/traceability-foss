@@ -35,9 +35,6 @@ import {toAssetFilter, toGlobalSearchAssetFilter} from "@shared/helper/filter-he
 import {FormControl, FormGroup} from "@angular/forms";
 import {ToastService} from "@shared/components/toasts/toast.service";
 import {PartsTableComponent} from "@shared/components/parts-table/parts-table.component";
-import {
-    MultiSelectAutocompleteComponent
-} from "@shared/components/multi-select-autocomplete/multi-select-autocomplete.component";
 
 
 @Component({
