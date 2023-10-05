@@ -39,6 +39,10 @@ export class FormatPartSemanticDataModelToCamelCasePipe implements PipeTransform
             camelCase = SemanticDataModelInCamelCase.PARTASPLANNED;
             break;
           }
+          case 'justinsequence': {
+            camelCase = SemanticDataModelInCamelCase.JUSTINSEQUENCE;
+            break;
+          }
           default: {
             camelCase = SemanticDataModelInCamelCase.UNKNOWN
             break;

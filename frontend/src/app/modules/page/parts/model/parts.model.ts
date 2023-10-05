@@ -19,11 +19,11 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import type {PaginationResponse} from '@core/model/pagination.model';
-import {SemanticModel} from '@page/parts/model/aspectModels.model';
-import {DetailAspectModel} from '@page/parts/model/detailAspectModel.model';
-import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
-import {Owner} from '@page/parts/model/owner.enum';
+import type { PaginationResponse } from '@core/model/pagination.model';
+import { SemanticModel } from '@page/parts/model/aspectModels.model';
+import { DetailAspectModel } from '@page/parts/model/detailAspectModel.model';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
+import { Owner } from '@page/parts/model/owner.enum';
 
 export interface Part {
     id: string;
@@ -101,7 +101,7 @@ export enum SemanticDataModel {
     BATCH = 'BATCH',
     SERIALPART = 'SERIALPART',
     PARTASPLANNED = 'PARTASPLANNED',
-    JUSTINSEQUENCEPART = 'JUSTINSEQUENCEPART',
+    JUSTINSEQUENCE = 'JUSTINSEQUENCE',
     UNKNOWN = 'UNKNOWN'
 }
 
@@ -109,7 +109,7 @@ export enum SemanticDataModelInCamelCase {
     BATCH = "Batch",
     SERIALPART = 'SerialPart',
     PARTASPLANNED = 'PartAsPlanned',
-    JUSTINSEQUENCEPART = 'JustInSequencePart',
+    JUSTINSEQUENCE = 'JustInSequence',
     UNKNOWN = 'Unknown'
 }
 

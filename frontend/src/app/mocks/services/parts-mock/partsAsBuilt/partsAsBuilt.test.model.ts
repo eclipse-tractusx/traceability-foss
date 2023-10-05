@@ -20,8 +20,8 @@
  ********************************************************************************/
 
 import { DetailAspectType } from '@page/parts/model/detailAspectModel.model';
+import { Owner } from '@page/parts/model/owner.enum';
 import { PartResponse, PartsResponse, QualityType, SemanticDataModel } from '@page/parts/model/parts.model';
-import {Owner} from '@page/parts/model/owner.enum';
 
 export const MOCK_part_5 = {
   "id": "MOCK_part_5",
@@ -74,7 +74,7 @@ export const MOCK_part_4 = {
   "underInvestigation": false,
   "qualityType": QualityType.Ok,
   "van": "--",
-  "semanticDataModel": SemanticDataModel.JUSTINSEQUENCEPART,
+  'semanticDataModel': SemanticDataModel.JUSTINSEQUENCE,
   "classification": "product",
   "detailAspectModels": [
     {
