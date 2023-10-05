@@ -74,7 +74,7 @@ describe('Parts', () => {
         componentInstance.filterActivated(true, assetAsBuiltFilter);
 
 
-        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], assetAsBuiltFilter, true);
+        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], assetAsBuiltFilter, undefined);
     });
 
     it('should call partsFacade.setPartsAsPlannedWithFilter when filter is set', async () => {
@@ -108,7 +108,7 @@ describe('Parts', () => {
         componentInstance.filterActivated(true, assetAsBuiltFilter);
 
         // Assert
-        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], null, true);
+        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], null, undefined);
     });
 
     it('should call partsFacade.setPartsAsBuilt with the correct parameters', async () => {
