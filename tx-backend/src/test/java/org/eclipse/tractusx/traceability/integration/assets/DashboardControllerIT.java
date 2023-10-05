@@ -29,8 +29,7 @@ import org.eclipse.tractusx.traceability.integration.common.support.AlertsSuppor
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationsSupport;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.QualityNotificationSeverityRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.StartQualityNotificationRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.StartQualityInvestigationRequest;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -145,7 +144,7 @@ class DashboardControllerIT extends IntegrationTestSpecification {
         assetsSupport.defaultAssetsStored();
         investigationsSupport.defaultReceivedInvestigationStored();
         String assetId = "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978";
-        var notificationRequest = StartQualityNotificationRequest.builder()
+        var notificationRequest = StartQualityInvestigationRequest.builder()
                 .partIds(List.of(assetId))
                 .description("at least 15 characters long investigation description")
                 .severity(QualityNotificationSeverityRequest.MINOR)
