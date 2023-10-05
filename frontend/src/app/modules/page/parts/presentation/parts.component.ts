@@ -99,7 +99,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     filterActivated(isAsBuilt: boolean, assetFilter: any): void {
         if (isAsBuilt) {
-            this.partsFacade.setPartsAsBuilt(0, 50, [], toAssetFilter(assetFilter, true), true);
+            this.partsFacade.setPartsAsBuilt(0, 50, [], toAssetFilter(assetFilter, true));
         } else {
             this.partsFacade.setPartsAsPlanned(0, 50, [], toAssetFilter(assetFilter, false));
         }
