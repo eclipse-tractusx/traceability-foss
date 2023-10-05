@@ -19,11 +19,25 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators
+} from '@angular/forms';
 import { SharedModule } from '@shared/shared.module';
 import { fireEvent, screen } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 import { InputComponent } from '@shared/components/input/input.component';
+import {PartsComponent} from "@page/parts/presentation/parts.component";
+import {SidenavComponent} from "@layout/sidenav/sidenav.component";
+import {PartsModule} from "@page/parts/parts.module";
+import {LayoutModule} from "@layout/layout.module";
+import {OtherPartsModule} from "@page/other-parts/other-parts.module";
+import {SidenavService} from "@layout/sidenav/sidenav.service";
+import {PartDetailsFacade} from "@shared/modules/part-details/core/partDetails.facade";
 
 describe('InputComponent', () => {
   const renderInput = async (label = 'Label') => {
@@ -50,6 +64,58 @@ describe('InputComponent', () => {
     return { form };
   };
 
+
+  const renderInputComponent = (displayClearButton: boolean) => {
+
+    return renderComponent(InputComponent, {
+      declarations: [],
+      imports: [ReactiveFormsModule, SharedModule],
+      componentProperties: {displayClearButton}
+    });
+  };
+
+
+  it('should emit suffixIconClick event on Enter key press if onEnterActive is true', async () => {
+    const {fixture} = await renderInputComponent(true);
+    const {componentInstance} = fixture;
+    componentInstance.onEnterActive = true;
+    const event = new KeyboardEvent('keydown', { key: 'Enter' });
+    spyOn(componentInstance.suffixIconClick, 'emit');
+
+    componentInstance.onEnterKey(event);
+
+    expect(componentInstance.suffixIconClick.emit).toHaveBeenCalled();
+  });
+
+  it('should not emit suffixIconClick event on Enter key press if onEnterActive is false', async() => {
+    const {fixture} = await renderInputComponent(true);
+    const {componentInstance} = fixture;
+    componentInstance.onEnterActive = false;
+    const event = new KeyboardEvent('keydown', { key: 'Enter' });
+    spyOn(componentInstance.suffixIconClick, 'emit');
+
+    componentInstance.onEnterKey(event);
+
+    expect(componentInstance.suffixIconClick.emit).not.toHaveBeenCalled();
+  });
+
+  it('should clear the parent form control value and emit suffixIconClick event on clearIconClick', async() => {
+    const {fixture} = await renderInputComponent(true);
+    const {componentInstance} = fixture;
+    const parentFormGroup = new FormGroup({
+      parentControlName: new FormControl('initialValue'),
+    });
+    componentInstance.parentFormGroup = parentFormGroup;
+    componentInstance.parentControlName = 'parentControlName';
+    spyOn(componentInstance.suffixIconClick, 'emit');
+
+    componentInstance.clearIconClick();
+
+    expect(parentFormGroup.get('parentControlName').value).toEqual('');
+    expect(componentInstance.suffixIconClick.emit).toHaveBeenCalled();
+  });
+
+
   it('should render input', async () => {
     const label = 'Some label';
     await renderInput(label);
@@ -75,4 +141,6 @@ describe('InputComponent', () => {
     expect(form.controls.formField.errors).toEqual({ required: true });
     expect(inputLabelElement).toBeInTheDocument();
   });
+
+
 });
