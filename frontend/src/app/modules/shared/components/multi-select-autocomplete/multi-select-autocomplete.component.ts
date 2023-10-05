@@ -68,11 +68,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     selectAllChecked = false;
     displayString = '';
 
-    constructor() {
-
-    }
-
-
     ngOnChanges(): void {
         this.filteredOptions = this.options;
         if (this.selectedOptions) {

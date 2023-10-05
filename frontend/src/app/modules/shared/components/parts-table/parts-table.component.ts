@@ -18,10 +18,7 @@
  ********************************************************************************/
 
 import {SelectionModel} from '@angular/cdk/collections';
-import {
-    AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, ViewChild,
-    ViewChildren, ViewEncapsulation
-} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {MatSort, Sort} from '@angular/material/sort';
@@ -578,10 +575,6 @@ export class PartsTableComponent implements OnInit {
 
     public areAllRowsSelected(): boolean {
         return this.dataSource.data.every(data => this.isSelected(data));
-    }
-
-    public triggerMultiSelectFilterReset(){
-
     }
 
     public clearAllRows(): void {

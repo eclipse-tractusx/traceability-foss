@@ -19,7 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {Pagination} from '@core/model/pagination.model';
 import {PartsFacade} from '@page/parts/core/parts.facade';
 import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
@@ -38,7 +38,6 @@ import {PartsTableComponent} from "@shared/components/parts-table/parts-table.co
 import {
     MultiSelectAutocompleteComponent
 } from "@shared/components/multi-select-autocomplete/multi-select-autocomplete.component";
-import {forEach} from "lodash-es";
 
 
 @Component({
@@ -64,7 +63,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     public ctrlKeyState = false;
 
     @ViewChildren(PartsTableComponent) partsTableComponents: QueryList<PartsTableComponent>;
-    @ViewChildren(MultiSelectAutocompleteComponent) multiSelectionComponents: QueryList<MultiSelectAutocompleteComponent>;
+
     constructor(
         private readonly partsFacade: PartsFacade,
         private readonly partDetailsFacade: PartDetailsFacade,
@@ -89,6 +88,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public searchFormGroup = new FormGroup({});
     public searchControl: FormControl;
+
     public ngOnInit(): void {
         this.partsFacade.setPartsAsBuilt();
         this.partsFacade.setPartsAsPlanned();
@@ -109,30 +109,33 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     triggerPartSearch() {
-       let filterSet = false;
-       for (const partTableComponent of this.partsTableComponents){
-           if (partTableComponent.multiCompo.theSearchElement){
-               filterSet = true;
-               partTableComponent.multiCompo.theSearchElement = null;
-           }
-       }
-       if (filterSet){
-           this.toastService.info("parts.input.global-search.toastInfo");
-       }
+
+        let filterSet = false;
+        this.resetLocalFilters(filterSet);
+        if (filterSet) {
+            this.toastService.info("parts.input.global-search.toastInfo");
+        }
         const searchValue = this.searchFormGroup.get("partSearch").value;
 
-        if (searchValue && searchValue !== ""){
-            console.log(searchValue, "in if");
+        if (searchValue && searchValue !== "") {
             this.partsFacade.setPartsAsPlanned(0, 50, [], toGlobalSearchAssetFilter(searchValue, false), true);
             this.partsFacade.setPartsAsBuilt(0, 50, [], toGlobalSearchAssetFilter(searchValue, true), true);
         } else {
-
             this.partsFacade.setPartsAsBuilt();
             this.partsFacade.setPartsAsPlanned();
         }
 
     }
 
+
+    private resetLocalFilters(filterIsSet: boolean) {
+        for (const partTableComponent of this.partsTableComponents) {
+            if (partTableComponent.multiCompo.theSearchElement) {
+                filterIsSet = true;
+                partTableComponent.filterFormGroup.reset();
+            }
+        }
+    }
 
     public ngAfterViewInit(): void {
         this.handleTableActivationEvent(this.bomLifecycleSize);
