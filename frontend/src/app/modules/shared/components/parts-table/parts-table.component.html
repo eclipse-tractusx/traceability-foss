@@ -191,6 +191,7 @@ Third click:  reset sorting"
                                 [ngTemplateOutletContext]="{ value: element[column], row: element}"
                         >
                         </ng-container>
+                        <app-country-flag-generator [countryCode]="element[column]"></app-country-flag-generator>
                     </td>
                 </ng-container>
             </ng-template>
@@ -231,7 +232,7 @@ Third click:  reset sorting"
                         <ng-container
                                 [ngTemplateOutlet]="tableConfig?.cellRenderers?.[column] ? tableConfig?.cellRenderers?.[column] : autoFormat"
                                 [ngTemplateOutletContext]="{ value: element[column], row: element }"
-                        > <!-- TODO here we need to add countryflag-->
+                        >
                         </ng-container>
                     </td>
                 </ng-container>

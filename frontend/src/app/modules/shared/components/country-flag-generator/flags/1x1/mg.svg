@@ -1,0 +1,7 @@
+<svg id="flag-icon-css-mg" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+    <g fill-rule="evenodd" stroke-width="1pt">
+        <path d="M170.7 0H512v256H170.7z" fill="#ff3319"/>
+        <path d="M170.7 256H512v256H170.7z" fill="#00cc28"/>
+        <path d="M0 0h170.7v512H0z" fill="#fff"/>
+    </g>
+</svg>

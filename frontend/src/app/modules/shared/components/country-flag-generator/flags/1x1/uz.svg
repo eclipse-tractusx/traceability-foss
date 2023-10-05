@@ -1,0 +1,31 @@
+<svg id="flag-icon-css-uz" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink">
+    <path d="M0 341.3h512V512H0z" fill="#1eb53a"/>
+    <path d="M0 0h512v170.7H0z" fill="#0099b5"/>
+    <path d="M0 163.8h512v184.4H0z" fill="#ce1126"/>
+    <path d="M0 174h512v164H0z" fill="#fff"/>
+    <circle cx="143.4" cy="81.9" fill="#fff" r="61.4"/>
+    <circle cx="163.8" cy="81.9" fill="#0099b5" r="61.4"/>
+    <g fill="#fff" transform="translate(278.5 131) scale(2.048)">
+        <g id="e">
+            <g id="d">
+                <g id="c">
+                    <g id="b">
+                        <path d="M0-6L-1.9-.3 1 .7" id="a"/>
+                        <use height="100%" transform="scale(-1 1)" width="100%" xlink:href="#a"/>
+                    </g>
+                    <use height="100%" transform="rotate(72)" width="100%" xlink:href="#b"/>
+                </g>
+                <use height="100%" transform="rotate(-72)" width="100%" xlink:href="#b"/>
+                <use height="100%" transform="rotate(144)" width="100%" xlink:href="#c"/>
+            </g>
+            <use height="100%" width="100%" xlink:href="#d" y="-24"/>
+            <use height="100%" width="100%" xlink:href="#d" y="-48"/>
+        </g>
+        <use height="100%" width="100%" x="24" xlink:href="#e"/>
+        <use height="100%" width="100%" x="48" xlink:href="#e"/>
+        <use height="100%" width="100%" x="-48" xlink:href="#d"/>
+        <use height="100%" width="100%" x="-24" xlink:href="#d"/>
+        <use height="100%" width="100%" x="-24" xlink:href="#d" y="-24"/>
+    </g>
+</svg>

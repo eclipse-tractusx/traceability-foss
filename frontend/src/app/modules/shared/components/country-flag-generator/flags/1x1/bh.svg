@@ -1,0 +1,12 @@
+<svg id="flag-icon-css-bh" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <clipPath id="a">
+            <path d="M119-196.7h708.7V512H119z" fill="gray"/>
+        </clipPath>
+    </defs>
+    <g clip-path="url(#a)" fill-rule="evenodd" stroke-width="1pt" transform="translate(-86 142) scale(.7225)">
+        <path d="M0-196.7h1063V512H0z" fill="#e10011"/>
+        <path d="M216.7 511.7L0 512v-708.7l215.6.2 139.2 44.7-138.1 43.6 138 45-138 43.6 138 45-138 43.6 138 45-138 43.6 138 45-138 43.5 138 45-138 43.6 138 45-138 43.6 138 45-138 43.6"
+              fill="#fff"/>
+    </g>
+</svg>
