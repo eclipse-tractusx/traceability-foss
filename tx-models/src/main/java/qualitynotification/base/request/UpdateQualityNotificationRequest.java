@@ -1,5 +1,7 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+ * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
+ * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,16 +18,18 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.qualitynotification.application.base.request;
 
-import io.swagger.annotations.ApiModel;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
-// TODO move to tx-models
-@ApiModel(description = "Describes status for closed action")
-public enum QualityNotificationStatusRequest {
-    CLOSED;
+package qualitynotification.base.request;
 
-    public static QualityNotificationStatus toDomain(QualityNotificationStatusRequest qualityNotificationStatusRequest) {
-        return QualityNotificationStatus.fromStringValue(qualityNotificationStatusRequest.name());
-    }
+import io.swagger.annotations.ApiModelProperty;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+
+@Data
+public class UpdateQualityNotificationRequest {
+    @NotNull(message = "status must be present")
+    @ApiModelProperty(example = "ACKNOWLEDGED")
+    private UpdateQualityNotificationStatusRequest status;
+    @ApiModelProperty(example = "The reason.")
+    private String reason;
 }

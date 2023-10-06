@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.base.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import qualitynotification.base.request.QualityNotificationSeverityRequest;
 
 @ApiModel(description = "Describes the criticality of a notification")
 public enum QualityNotificationSeverity {
@@ -47,5 +48,9 @@ public enum QualityNotificationSeverity {
 
     public String getRealName() {
         return realName;
+    }
+
+    public static QualityNotificationSeverity from(QualityNotificationSeverityRequest qualityNotificationSeverityRequest) {
+        return QualityNotificationSeverity.fromString(qualityNotificationSeverityRequest.getRealName());
     }
 }

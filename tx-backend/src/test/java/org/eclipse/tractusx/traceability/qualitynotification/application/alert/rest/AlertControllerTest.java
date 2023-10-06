@@ -19,11 +19,6 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.application.alert.rest;
 
-import org.eclipse.tractusx.traceability.qualitynotification.application.alert.request.StartQualityAlertRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.CloseQualityNotificationRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.QualityNotificationSeverityRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.UpdateQualityNotificationRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.UpdateQualityNotificationStatusRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.service.QualityNotificationService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
@@ -36,7 +31,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import qualitynotification.alert.request.StartQualityAlertRequest;
 import qualitynotification.alert.response.AlertResponse;
+import qualitynotification.base.request.CloseQualityNotificationRequest;
+import qualitynotification.base.request.QualityNotificationSeverityRequest;
+import qualitynotification.base.request.UpdateQualityNotificationRequest;
+import qualitynotification.base.request.UpdateQualityNotificationStatusRequest;
 import qualitynotification.base.response.QualityNotificationIdResponse;
 import qualitynotification.base.response.QualityNotificationReasonResponse;
 import qualitynotification.base.response.QualityNotificationSeverityResponse;
