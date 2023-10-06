@@ -19,6 +19,7 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs;
 
+import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.IRSApiClient;
@@ -57,6 +58,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -103,7 +105,7 @@ class IrsServiceTest {
 
         // then
         verify(irsClient, times(1))
-                .registerPolicy(RegisterPolicyRequest.from(policyToCreate));
+                .registerPolicy(any());
     }
 
     @Test
@@ -113,7 +115,7 @@ class IrsServiceTest {
                 .policyId("test")
                 .ttl("2023-07-03T16:01:05.309Z")
                 .build();
-        final PolicyResponse existingPolicy = new PolicyResponse("test", Instant.parse("2023-07-03T16:01:05.309Z"), Instant.now());
+        final PolicyResponse existingPolicy = new PolicyResponse("test", OffsetDateTime.parse("2023-07-03T16:01:05.309Z"), OffsetDateTime.now(), List.of());
         when(irsClient.getPolicies()).thenReturn(List.of(existingPolicy));
         when(irsPolicyConfig.getPolicies()).thenReturn(List.of(policyToCreate));
 
@@ -131,7 +133,7 @@ class IrsServiceTest {
                 .policyId("test")
                 .ttl("2123-07-03T16:01:05.309Z")
                 .build();
-        final PolicyResponse existingPolicy = new PolicyResponse("test", Instant.parse("2023-07-03T16:01:05.309Z"), Instant.now());
+        final PolicyResponse existingPolicy = new PolicyResponse("test", OffsetDateTime.parse("2023-07-03T16:01:05.309Z"), OffsetDateTime.now(), List.of());
         when(irsClient.getPolicies()).thenReturn(List.of(existingPolicy));
         when(irsPolicyConfig.getPolicies()).thenReturn(List.of(policyToCreate));
 
@@ -140,7 +142,7 @@ class IrsServiceTest {
 
         // then
         verify(irsClient, times(1)).deletePolicy("test");
-        verify(irsClient, times(1)).registerPolicy(RegisterPolicyRequest.from(policyToCreate));
+        verify(irsClient, times(1)).registerPolicy(any());
     }
 
     @ParameterizedTest

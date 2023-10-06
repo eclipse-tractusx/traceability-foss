@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.model;
 
 import lombok.Builder;
 import lombok.Data;
+import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 
 import java.time.Instant;
 
@@ -32,5 +33,12 @@ public class IrsPolicy {
 
     public Instant getTtlAsInstant() {
         return Instant.parse(ttl);
+    }
+
+    public static IrsPolicy from(Policy policy) {
+        return IrsPolicy.builder()
+                .policyId(policy.getPolicyId())
+                .ttl(policy.getValidUntil().toString())
+                .build();
     }
 }
