@@ -28,6 +28,7 @@ import org.eclipse.tractusx.traceability.common.model.SearchCriteriaFilter;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
 import org.eclipse.tractusx.traceability.common.repository.BaseSpecification;
 import org.glassfish.jersey.internal.guava.Lists;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
@@ -39,7 +40,7 @@ public class AssetAsBuildSpecification extends BaseSpecification implements Spec
     }
 
     @Override
-    public Predicate toPredicate(Root<AssetAsBuiltEntity> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+    public Predicate toPredicate(@NotNull Root<AssetAsBuiltEntity> root, @NotNull CriteriaQuery<?> query, @NotNull CriteriaBuilder builder) {
         return createPredicate(getSearchCriteriaFilter(), root, builder);
     }
 
