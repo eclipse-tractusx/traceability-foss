@@ -56,8 +56,8 @@ import qualitynotification.alert.response.AlertResponse;
 import qualitynotification.base.response.QualityNotificationIdResponse;
 
 import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitize;
-import static org.eclipse.tractusx.traceability.qualitynotification.application.alert.request.StartQualityAlertRequest.toDomain;
 import static org.eclipse.tractusx.traceability.qualitynotification.application.validation.UpdateQualityNotificationValidator.validate;
+import static org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.StartQualityNotificationDomain.from;
 
 @Profile(FeatureFlags.NOTIFICATIONS_ENABLED_PROFILES)
 @RestController
@@ -129,7 +129,7 @@ public class AlertController {
     public QualityNotificationIdResponse alertAssets(@RequestBody @Valid StartQualityAlertRequest request) {
         StartQualityAlertRequest cleanStartQualityAlertRequest = sanitize(request);
         log.info(API_LOG_START + " with params: {}", cleanStartQualityAlertRequest);
-        return new QualityNotificationIdResponse(alertService.start(toDomain(cleanStartQualityAlertRequest)).value());
+        return new QualityNotificationIdResponse(alertService.start(from(cleanStartQualityAlertRequest)).value());
     }
 
     @Operation(operationId = "getCreatedAlerts",

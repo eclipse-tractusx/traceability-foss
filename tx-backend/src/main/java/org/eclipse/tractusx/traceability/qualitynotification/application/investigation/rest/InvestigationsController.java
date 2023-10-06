@@ -38,7 +38,7 @@ import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.CloseQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.QualityNotificationStatusRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.StartQualityInvestigationRequest;
+import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.StartQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.UpdateQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.service.QualityNotificationService;
 import org.eclipse.tractusx.traceability.qualitynotification.application.investigation.mapper.InvestigationResponseMapper;
@@ -58,8 +58,8 @@ import qualitynotification.base.response.QualityNotificationIdResponse;
 import qualitynotification.investigation.response.InvestigationResponse;
 
 import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitize;
-import static org.eclipse.tractusx.traceability.qualitynotification.application.base.request.StartQualityInvestigationRequest.toDomain;
 import static org.eclipse.tractusx.traceability.qualitynotification.application.validation.UpdateQualityNotificationValidator.validate;
+import static org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.StartQualityNotificationDomain.from;
 
 @Profile(FeatureFlags.NOTIFICATIONS_ENABLED_PROFILES)
 @RestController
@@ -129,10 +129,10 @@ public class InvestigationsController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public QualityNotificationIdResponse investigateAssets(@RequestBody @Valid StartQualityInvestigationRequest request) {
-        StartQualityInvestigationRequest cleanRequest = sanitize(request);
+    public QualityNotificationIdResponse investigateAssets(@RequestBody @Valid StartQualityNotificationRequest request) {
+        StartQualityNotificationRequest cleanRequest = sanitize(request);
         log.info(API_LOG_START + " with params: {}", cleanRequest);
-        return new QualityNotificationIdResponse(investigationService.start(toDomain(cleanRequest)).value());
+        return new QualityNotificationIdResponse(investigationService.start(from(cleanRequest)).value());
 
     }
 

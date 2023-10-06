@@ -47,7 +47,7 @@ import java.time.Instant;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.eclipse.tractusx.traceability.qualitynotification.application.alert.request.StartQualityAlertRequest.toDomain;
+import static org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.StartQualityNotificationDomain.from;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -75,7 +75,7 @@ class AlertControllerTest {
                 .severity(QualityNotificationSeverityRequest.MINOR)
                 .bpn("BPN00001")
                 .build();
-        when(alertService.start(Mockito.eq(toDomain(request)))).thenReturn(notificationId);
+        when(alertService.start(Mockito.eq(from(request)))).thenReturn(notificationId);
 
         // when
         final QualityNotificationIdResponse result = controller.alertAssets(request);

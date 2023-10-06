@@ -21,7 +21,7 @@ package org.eclipse.tractusx.traceability.infrastructure.edc.model;
 import org.eclipse.tractusx.traceability.qualitynotification.application.alert.request.StartQualityAlertRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.CloseQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.QualityNotificationSeverityRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.StartQualityInvestigationRequest;
+import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.StartQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.UpdateQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.UpdateQualityNotificationStatusRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
@@ -85,11 +85,11 @@ public class EdcNotificationModelTest {
         partIds.add("urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca979\n");
         Instant targetDate = Instant.parse("2023-09-22T14:30:00Z".trim());
         QualityNotificationSeverityRequest severity = QualityNotificationSeverityRequest.MINOR;
-        StartQualityInvestigationRequest request = new StartQualityInvestigationRequest(partIds, "The description\n", targetDate, severity, true, "BPN00001123123AS\n");
+        StartQualityNotificationRequest request = new StartQualityNotificationRequest(partIds, "The description\n", targetDate, severity, true, "BPN00001123123AS\n");
 
 
         //WHEN
-        StartQualityInvestigationRequest cleanRequest = sanitize(request);
+        StartQualityNotificationRequest cleanRequest = sanitize(request);
 
         //THEN
         assertEquals("urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca979 ", cleanRequest.getPartIds().get(1));
