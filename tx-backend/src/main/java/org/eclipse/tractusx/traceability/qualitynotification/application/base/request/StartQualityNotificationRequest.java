@@ -29,7 +29,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.StartQualityNotification;
 
 import java.time.Instant;
 import java.util.List;
@@ -38,7 +37,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class StartQualityInvestigationRequest {
+public class StartQualityNotificationRequest {
     @Size(min = 1, max = 100, message = "Specify at least 1 and at most 100 partIds")
     @ApiModelProperty(example = "[\"urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978\"]")
     private List<String> partIds;
@@ -56,13 +55,4 @@ public class StartQualityInvestigationRequest {
     @ApiModelProperty(example = "BPN00001123123AS")
     private String receiverBpn;
 
-    public static StartQualityNotification toDomain(StartQualityInvestigationRequest startQualityNotificationRequest) {
-        return StartQualityNotification.builder()
-                .partIds(startQualityNotificationRequest.getPartIds())
-                .description(startQualityNotificationRequest.getDescription())
-                .targetDate(startQualityNotificationRequest.getTargetDate())
-                .severity(startQualityNotificationRequest.getSeverity().toDomain())
-                .isAsBuilt(startQualityNotificationRequest.isAsBuilt())
-                .build();
-    }
 }

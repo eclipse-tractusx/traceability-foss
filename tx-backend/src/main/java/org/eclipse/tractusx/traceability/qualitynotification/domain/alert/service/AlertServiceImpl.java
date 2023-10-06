@@ -23,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.AlertNotFoundException;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.StartQualityNotification;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.StartQualityNotificationDomain;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.AlertRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
@@ -57,7 +57,7 @@ public class AlertServiceImpl extends AbstractQualityNotificationService {
     }
 
     @Override
-    public QualityNotificationId start(StartQualityNotification startQualityAlertDomain) {
+    public QualityNotificationId start(StartQualityNotificationDomain startQualityAlertDomain) {
         QualityNotification notification = notificationPublisherService.startAlert(startQualityAlertDomain.getPartIds(), startQualityAlertDomain.getDescription(), startQualityAlertDomain.getTargetDate(), startQualityAlertDomain.getSeverity(), startQualityAlertDomain.getBpn(), startQualityAlertDomain.isAsBuilt());
 
         QualityNotificationId createdAlertId = alertRepository.saveQualityNotificationEntity(notification);

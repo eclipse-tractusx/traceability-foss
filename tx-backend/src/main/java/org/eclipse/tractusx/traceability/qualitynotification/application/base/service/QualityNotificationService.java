@@ -19,7 +19,7 @@
 package org.eclipse.tractusx.traceability.qualitynotification.application.base.service;
 
 import org.eclipse.tractusx.traceability.common.model.PageResult;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.StartQualityNotification;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.StartQualityNotificationDomain;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
@@ -27,7 +27,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface QualityNotificationService {
 
-    QualityNotificationId start(StartQualityNotification startQualityAlertDomain);
+    QualityNotificationId start(StartQualityNotificationDomain startQualityAlertDomain);
 
     PageResult<QualityNotification> getCreated(Pageable pageable);
 
