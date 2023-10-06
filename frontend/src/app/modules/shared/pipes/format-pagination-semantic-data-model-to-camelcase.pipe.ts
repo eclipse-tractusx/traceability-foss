@@ -41,8 +41,8 @@ export class FormatPaginationSemanticDataModelToCamelCasePipe implements PipeTra
               part.semanticDataModel = SemanticDataModelInCamelCase.PARTASPLANNED;
               break;
             }
-            case 'JustInSequencePart': {
-              part.semanticDataModel = SemanticDataModelInCamelCase.JUSTINSEQUENCEPART;
+            case 'justinsequence': {
+              part.semanticDataModel = SemanticDataModelInCamelCase.JUSTINSEQUENCE;
               break;
             }
             default: {

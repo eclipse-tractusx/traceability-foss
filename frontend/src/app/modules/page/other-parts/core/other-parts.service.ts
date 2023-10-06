@@ -46,6 +46,7 @@ export class OtherPartsService {
         let params = new HttpParams()
             .set('page', page)
             .set('size', pageSize)
+            .set('filterOperator', "AND")
             .set('filter', "owner,EQUAL," + owner);
 
         sort.forEach(sortingItem => {
@@ -65,6 +66,7 @@ export class OtherPartsService {
         let params = new HttpParams()
             .set('page', page)
             .set('size', pageSize)
+            .set('filterOperator', "AND")
             .set('filter', "owner,EQUAL," + owner);
 
         sort.forEach(sortingItem => {

@@ -47,13 +47,16 @@ export class PartsService {
     constructor(private readonly apiService: ApiService) {
     }
 
-    public getPartsAsBuilt(page: number, pageSize: number, sorting: TableHeaderSort[], assetAsBuiltFilter?: AssetAsBuiltFilter): Observable<Pagination<Part>> {
+    public getPartsAsBuilt(page: number, pageSize: number, sorting: TableHeaderSort[], assetAsBuiltFilter?: AssetAsBuiltFilter, isOrSearch?: boolean): Observable<Pagination<Part>> {
 
         let sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
+        let filterOperator = isOrSearch ? "OR" : "AND";
+
         let params = new HttpParams()
             .set('page', page)
             .set('size', pageSize)
-            .set('filter', 'owner,EQUAL,OWN');
+            .set('filter', 'owner,EQUAL,OWN')
+            .set('filterOperator', filterOperator);
         sort.forEach(sortingItem => {
             params = params.append('sort', sortingItem);
         })
@@ -68,12 +71,14 @@ export class PartsService {
     }
 
 
-    public getPartsAsPlanned(page: number, pageSize: number, sorting: TableHeaderSort[], assetAsPlannedFilter?: AssetAsPlannedFilter): Observable<Pagination<Part>> {
+    public getPartsAsPlanned(page: number, pageSize: number, sorting: TableHeaderSort[], assetAsPlannedFilter?: AssetAsPlannedFilter, isOrSearch?: boolean): Observable<Pagination<Part>> {
         let sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
+        let filterOperator = isOrSearch ? "OR" : "AND";
         let params = new HttpParams()
             .set('page', page)
             .set('size', pageSize)
-            .set('filter', 'owner,EQUAL,OWN');
+            .set('filter', 'owner,EQUAL,OWN')
+            .set('filterOperator', filterOperator);
 
         sort.forEach(sortingItem => {
             params = params.append('sort', sortingItem);

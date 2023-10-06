@@ -19,7 +19,7 @@ SPDX-License-Identifier: Apache-2.0
 <mat-form-field>
     <mat-select #selectElem [placeholder]="placeholder" [formControl]="formControl"
                 [multiple]="multiple"
-                [(ngModel)]="selectedValue" (selectionChange)="onSelectionChange($event)">
+                (selectionChange)="onSelectionChange($event)">
 
         <div class="box-search">
             <mat-checkbox *ngIf="multiple" color="primary" class="box-select-all" [(ngModel)]="selectAllChecked"

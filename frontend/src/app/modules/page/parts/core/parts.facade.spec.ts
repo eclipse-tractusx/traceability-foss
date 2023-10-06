@@ -58,7 +58,7 @@ describe('Parts facade', () => {
             partsFacade.setPartsAsBuilt(0, 10);
 
             await waitFor(() => expect(serviceSpy).toHaveBeenCalledTimes(1));
-            await waitFor(() => expect(serviceSpy).toHaveBeenCalledWith(0, 10, [], undefined));
+            await waitFor(() => expect(serviceSpy).toHaveBeenCalledWith(0, 10, [], undefined, undefined));
 
             const parts = await firstValueFrom(partsState.partsAsBuilt$);
             await waitFor(() =>
@@ -78,7 +78,7 @@ describe('Parts facade', () => {
             partsFacade.setPartsAsBuilt(0, 10, [], filter);
 
             await waitFor(() => expect(serviceSpy).toHaveBeenCalledTimes(1));
-            await waitFor(() => expect(serviceSpy).toHaveBeenCalledWith(0, 10, [], filter));
+            await waitFor(() => expect(serviceSpy).toHaveBeenCalledWith(0, 10, [], filter, undefined));
 
             const parts = await firstValueFrom(partsState.partsAsBuilt$);
             await waitFor(() =>
@@ -98,7 +98,7 @@ describe('Parts facade', () => {
             partsFacade.setPartsAsPlanned(0, 10, [], filter);
 
             await waitFor(() => expect(serviceSpy).toHaveBeenCalledTimes(1));
-            await waitFor(() => expect(serviceSpy).toHaveBeenCalledWith(0, 10, [], filter));
+            await waitFor(() => expect(serviceSpy).toHaveBeenCalledWith(0, 10, [], filter, undefined));
 
             const parts = await firstValueFrom(partsState.partsAsPlanned$);
             await waitFor(() =>

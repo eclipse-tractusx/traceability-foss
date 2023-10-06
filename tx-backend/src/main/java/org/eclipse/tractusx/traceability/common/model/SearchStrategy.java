@@ -19,7 +19,7 @@
 
 package org.eclipse.tractusx.traceability.common.model;
 
-public enum SearchOperation {
+public enum SearchStrategy {
     EQUAL,
     STARTS_WITH,
     AT_LOCAL_DATE
