@@ -1,7 +1,0 @@
-<svg id="flag-icon-css-ro" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-    <g fill-rule="evenodd" stroke-width="1pt">
-        <path d="M0 0h170.7v512H0z" fill="#00319c"/>
-        <path d="M170.7 0h170.6v512H170.7z" fill="#ffde00"/>
-        <path d="M341.3 0H512v512H341.3z" fill="#de2110"/>
-    </g>
-</svg>
