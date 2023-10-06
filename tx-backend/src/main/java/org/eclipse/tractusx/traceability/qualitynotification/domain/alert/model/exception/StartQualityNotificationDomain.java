@@ -22,9 +22,9 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
-import org.eclipse.tractusx.traceability.qualitynotification.application.alert.request.StartQualityAlertRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.StartQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
+import qualitynotification.alert.request.StartQualityAlertRequest;
+import qualitynotification.base.request.StartQualityNotificationRequest;
 
 import java.time.Instant;
 import java.util.List;
@@ -51,7 +51,7 @@ public class StartQualityNotificationDomain {
                 .partIds(startQualityNotificationRequest.getPartIds())
                 .description(startQualityNotificationRequest.getDescription())
                 .targetDate(startQualityNotificationRequest.getTargetDate())
-                .severity(startQualityNotificationRequest.getSeverity().toDomain())
+                .severity(QualityNotificationSeverity.from(startQualityNotificationRequest.getSeverity()))
                 .bpn(startQualityNotificationRequest.getReceiverBpn())
                 .isAsBuilt(startQualityNotificationRequest.isAsBuilt())
                 .build();
@@ -62,7 +62,7 @@ public class StartQualityNotificationDomain {
                 .partIds(startQualityAlertRequest.getPartIds())
                 .description(startQualityAlertRequest.getDescription())
                 .targetDate(startQualityAlertRequest.getTargetDate())
-                .severity(startQualityAlertRequest.getSeverity().toDomain())
+                .severity(QualityNotificationSeverity.from(startQualityAlertRequest.getSeverity()))
                 .bpn(startQualityAlertRequest.getBpn())
                 .isAsBuilt(startQualityAlertRequest.isAsBuilt())
                 .build();
