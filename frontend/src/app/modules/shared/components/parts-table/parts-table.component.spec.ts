@@ -79,7 +79,7 @@ describe('PartsTableComponent', () => {
 
 
         return renderComponent(
-            `<app-parts-table [tableType]='tableType'[multiSelectActive]='multiSelectActive' [paginationData]='data' (selected)='selected($event)'></app-parts-table>`,
+            `<app-parts-table [tableType]='tableType' [multiSelectActive]='multiSelectActive' [paginationData]='data' (selected)='selected($event)'></app-parts-table>`,
             {
                 declarations: [PartsTableComponent],
                 imports: [SharedModule],

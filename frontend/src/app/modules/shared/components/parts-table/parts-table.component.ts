@@ -17,25 +17,32 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {SelectionModel} from '@angular/cdk/collections';
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
-import {MatPaginator, PageEvent} from '@angular/material/paginator';
-import {MatSort, Sort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
-import {Pagination} from '@core/model/pagination.model';
-import {SemanticDataModel} from '@page/parts/model/parts.model';
+import { SelectionModel } from '@angular/cdk/collections';
 import {
-    MultiSelectAutocompleteComponent
-} from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { Pagination } from '@core/model/pagination.model';
+import { SemanticDataModel } from '@page/parts/model/parts.model';
+import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
 import {
-    CreateHeaderFromColumns,
-    PartTableType,
-    TableConfig,
-    TableEventConfig,
-    TableHeaderSort
+  CreateHeaderFromColumns,
+  PartTableType,
+  TableConfig,
+  TableEventConfig,
+  TableHeaderSort,
 } from '@shared/components/table/table.model';
-import {addSelectedValues, removeSelectedValues} from "@shared/helper/table-helper";
+import { addSelectedValues, removeSelectedValues } from '@shared/helper/table-helper';
 
 
 @Component({
@@ -410,7 +417,7 @@ export class PartsTableComponent implements OnInit {
             value: SemanticDataModel.BATCH,
         }, {
             display: 'JustInSequence',
-            value: SemanticDataModel.JUSTINSEQUENCEPART,
+        value: SemanticDataModel.JUSTINSEQUENCE,
         }, {
             display: 'SerialPart',
             value: SemanticDataModel.SERIALPART,

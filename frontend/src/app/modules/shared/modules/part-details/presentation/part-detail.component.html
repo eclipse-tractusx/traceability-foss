@@ -128,12 +128,21 @@ SPDX-License-Identifier: Apache-2.0
     <mat-card-content>
       <ng-container
         *ngFor="let item of partDetails.data | ToKeyValue"
-        [ngTemplateOutlet]="item.key !== 'qualityType' ? listElement : qualityTypeElement"
+        [ngTemplateOutlet]="item.key !== 'qualityType' ? (item.key == 'manufacturingCountry' ? countryFlag : listElement) : qualityTypeElement"
         [ngTemplateOutletContext]="{ item }"
       >
       </ng-container>
     </mat-card-content>
   </mat-card>
+</ng-template>
+
+<ng-template #countryFlag let-item="item">
+    <div *ngIf="item.value" class="card-list--row">
+        <p class="card-list--key">{{ 'partDetail.' + item.key | i18n }}</p>
+        <p class="card-list--value" title="{{ item.value | autoFormat }}">{{ item.value | autoFormat }}
+            <app-country-flag-generator [countryCode]="item.value"></app-country-flag-generator>
+        </p>
+    </div>
 </ng-template>
 
 <ng-template #listElement let-item="item">
