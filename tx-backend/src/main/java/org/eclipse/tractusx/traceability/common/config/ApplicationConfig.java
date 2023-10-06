@@ -30,6 +30,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPoliciesProvider;
 import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPolicy;
+import org.eclipse.tractusx.irs.edc.client.policy.Constraint;
+import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
+import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
+import org.eclipse.tractusx.irs.edc.client.policy.Permission;
+import org.eclipse.tractusx.irs.edc.client.policy.Policy;
+import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -111,8 +118,7 @@ public class ApplicationConfig {
     @Bean
     public void registerDecentralRegistryPermissions() {
         try {
-            OffsetDateTime offsetDateTime = OffsetDateTime.now().plusMonths(1);
-            AcceptedPolicy acceptedPolicy = new AcceptedPolicy(ID_TRACE_CONSTRAINT, offsetDateTime);
+            AcceptedPolicy acceptedPolicy = buildAcceptedPolicy();
             defaultAcceptedPoliciesProvider.addAcceptedPolicies(List.of(acceptedPolicy));
             log.info("Successfully added permission to irs client lib provider: {}", acceptedPolicy);
         } catch (Exception exception) {
@@ -120,7 +126,21 @@ public class ApplicationConfig {
         }
 
     }
-	@Bean
+
+    @NotNull
+    private static AcceptedPolicy buildAcceptedPolicy() {
+        OffsetDateTime offsetDateTime = OffsetDateTime.now().plusMonths(1);
+        List<Permission> permissions = List.of(
+                new Permission(
+                        PolicyType.USE,
+                        List.of(new Constraints(List.of(new Constraint("PURPOSE", OperatorType.EQ, List.of(ID_TRACE_CONSTRAINT))), List.of()))
+                )
+        );
+        Policy policy = new Policy(ID_TRACE_CONSTRAINT, OffsetDateTime.now(), offsetDateTime, permissions);
+        return new AcceptedPolicy(policy, offsetDateTime);
+    }
+
+    @Bean
 	public RegistryEventConsumer<Retry> myRetryRegistryEventConsumer() {
 		final Logger logger = LoggerFactory.getLogger("RetryLogger");
 
