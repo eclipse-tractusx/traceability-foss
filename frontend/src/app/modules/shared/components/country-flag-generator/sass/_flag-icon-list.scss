@@ -1,0 +1,11 @@
+@include flag-css-default();
+
+@if variable-exists(include) {
+  @each $country in $include {
+    @include flag-css($country);
+  }
+} @else {
+  @each $country in $countries {
+    @include flag-css($country);
+  }
+}

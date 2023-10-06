@@ -14,11 +14,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Extended testdata to reflect better overview of assets
 - Extended testdata to reflect better overview of assets
 - Support for TractionBatteryCode
+- Support for JustInSequence Semantice data model in FE
+- Added country flags icons to manufacturing Country
 - new submodelserver related API endpoints for data provisioning /api/submodel/data/{id}
 
 ### Changed
 - updated IRS helm chart from 6.6.1 to 6.7.2
 - Updated policy related logic to reflect IRS changes
+
+- Updated user manual to reflect current state of the part views
 
 ### Removed
 - Owner filter and replaced it with the new filter query param
