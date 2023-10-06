@@ -19,14 +19,17 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response;
 
+import org.eclipse.tractusx.irs.edc.client.policy.Permission;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.IrsPolicy;
 
-import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.util.List;
 
 public record PolicyResponse(
         String policyId,
-        Instant createdOn,
-        Instant validUntil
+        OffsetDateTime createdOn,
+        OffsetDateTime validUntil,
+        List<Permission> permissions
 ) {
     public IrsPolicy toDomain() {
         return IrsPolicy.builder()
