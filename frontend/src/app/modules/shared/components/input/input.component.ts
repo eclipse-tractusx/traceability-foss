@@ -19,23 +19,57 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, EventEmitter, Inject, Injector, Input, Output } from '@angular/core';
-import { BaseInputComponent } from '@shared/abstraction/baseInput/baseInput.component';
-import { StaticIdService } from '@shared/service/staticId.service';
-import { ThemePalette } from '@angular/material/core';
+import {
+    Component,
+    ElementRef,
+    EventEmitter,
+    HostListener,
+    Inject,
+    Injector,
+    Input,
+    Output,
+    ViewChild
+} from '@angular/core';
+import {BaseInputComponent} from '@shared/abstraction/baseInput/baseInput.component';
+import {StaticIdService} from '@shared/service/staticId.service';
+import {ThemePalette} from '@angular/material/core';
+import {FormGroup} from "@angular/forms";
 
 @Component({
-  selector: 'app-input',
-  templateUrl: './input.component.html',
-  styleUrls: ['./input.component.scss'],
+    selector: 'app-input',
+    templateUrl: './input.component.html',
+    styleUrls: ['./input.component.scss'],
 })
 export class InputComponent extends BaseInputComponent<string> {
-  @Input() suffixIcon: string;
-  @Input() suffixIconColor: ThemePalette;
-  @Input() suffixIconHover: boolean = false;
-  @Output() suffixIconClick = new EventEmitter<void>();
+    @Input() suffixIcon: string;
+    @Input() suffixIconColor: ThemePalette;
+    @Input() suffixIconHover: boolean = false;
+    @Input() onEnterActive: boolean = false;
+    @Input() displayClearButton: boolean = false;
+    @Input() parentFormGroup: FormGroup;
+    @Input() parentControlName: string;
+    @Output() suffixIconClick = new EventEmitter<void>();
+    @ViewChild('inputElement') inputElement: ElementRef;
 
-  constructor(@Inject(Injector) injector: Injector, staticIdService: StaticIdService) {
-    super(injector, staticIdService);
-  }
+    constructor(@Inject(Injector) injector: Injector, staticIdService: StaticIdService) {
+        super(injector, staticIdService);
+    }
+
+    @HostListener('keydown.enter', ['$event'])
+    onEnterKey(event: KeyboardEvent): void {
+        // Check if the Enter key was pressed
+        if (event.key === 'Enter') {
+            // Trigger the suffixIconClick output event
+            if (this.onEnterActive) {
+                this.suffixIconClick.emit();
+            }
+        }
+    }
+
+    clearIconClick(): void {
+        if (this.parentControlName && this.parentFormGroup) {
+            this.parentFormGroup.get(this.parentControlName).setValue("");
+            this.suffixIconClick.emit();
+        }
+    }
 }

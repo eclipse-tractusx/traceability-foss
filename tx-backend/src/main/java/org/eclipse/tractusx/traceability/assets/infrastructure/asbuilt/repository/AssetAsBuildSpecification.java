@@ -25,7 +25,8 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.AllArgsConstructor;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
-import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaFilter;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
 import org.eclipse.tractusx.traceability.common.repository.BaseSpecification;
 import org.glassfish.jersey.internal.guava.Lists;
 import org.springframework.data.jpa.domain.Specification;
@@ -35,23 +36,30 @@ import java.util.List;
 @AllArgsConstructor
 public class AssetAsBuildSpecification extends BaseSpecification implements Specification<AssetAsBuiltEntity> {
 
-    private SearchCriteria criteria;
+    private SearchCriteriaFilter criteria;
 
     @Override
     public Predicate toPredicate(Root<AssetAsBuiltEntity> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
         return createPredicate(criteria, root, builder);
     }
 
-    public static Specification<AssetAsBuiltEntity> toSpecification(final List<AssetAsBuildSpecification> allSpecifications) {
+    public static Specification<AssetAsBuiltEntity> toSpecification(final List<AssetAsBuildSpecification> allSpecifications, SearchCriteriaOperator searchCriteriaOperator) {
         var specifications = Lists.newArrayList(allSpecifications);
         if (specifications.isEmpty()) {
             return Specification.allOf();
         }
         Specification<AssetAsBuiltEntity> result = specifications.get(0);
 
-        for (int i = 1; i < specifications.size(); i++) {
-            result = Specification.where(result).and(specifications.get(i));
+        if (searchCriteriaOperator.equals(SearchCriteriaOperator.OR)){
+            for (int i = 1; i < specifications.size(); i++) {
+                result = Specification.where(result).or(specifications.get(i));
+            }
+        } else {
+            for (int i = 1; i < specifications.size(); i++) {
+                result = Specification.where(result).and(specifications.get(i));
+            }
         }
+
         return result;
     }
 }

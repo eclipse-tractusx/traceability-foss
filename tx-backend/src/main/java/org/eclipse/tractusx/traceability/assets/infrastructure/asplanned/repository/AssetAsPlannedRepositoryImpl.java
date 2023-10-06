@@ -26,16 +26,20 @@ import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNo
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.AssetAsBuildSpecification;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
 
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 import static org.eclipse.tractusx.traceability.common.repository.EntityNameMapper.toDatabaseName;
 
 @RequiredArgsConstructor
@@ -71,14 +75,12 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository {
                 .orElseThrow(() -> new AssetNotFoundException("Child Asset Not Found"));
     }
 
+
     @Override
-    public PageResult<AssetBase> getAssets(Pageable pageable, List<SearchCriteria> filter) {
-        return new PageResult<>(
-                jpaAssetAsPlannedRepository.findAll(
-                        Objects.requireNonNull(AssetAsPlannedSpecification.toSpecification(
-                                filter.stream().map(AssetAsPlannedSpecification::new).toList())),
-                        pageable),
-                AssetAsPlannedEntity::toDomain);
+    public PageResult<AssetBase> getAssets(Pageable pageable, SearchCriteria searchCriteria) {
+        List<AssetAsPlannedSpecification> assetAsPlannedSpecifications = emptyIfNull(searchCriteria.getSearchCriteriaFilterList()).stream().map(AssetAsPlannedSpecification::new).toList();
+        Specification<AssetAsPlannedEntity> specification = AssetAsPlannedSpecification.toSpecification(assetAsPlannedSpecifications, searchCriteria.getSearchCriteriaOperator());
+        return new PageResult<>(jpaAssetAsPlannedRepository.findAll(specification, pageable), AssetAsPlannedEntity::toDomain);
     }
 
     @Override

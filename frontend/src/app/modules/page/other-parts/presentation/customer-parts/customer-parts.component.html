@@ -28,15 +28,17 @@ SPDX-License-Identifier: Apache-2.0
   ></ng-container>
 
   <ng-template #mainTmp let-parts="view" let-customContext="customContext">
-    <app-table
+    <app-parts-table
       [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
-      [tableConfig]="tableConfigAsBuilt"
       [noShadow]="true"
       [labelId]="customContext.labelId"
       (selected)="onSelectItem($event)"
       (configChanged)="onAsBuiltTableConfigChange($event)"
       [multiSortList]="tableCustomerAsBuiltSortList"
-    ></app-table>
+      [multiSelectActive]="true"
+      (filterActivated)="filterActivated(true, $event )"
+      [tableType]="PartTableType.AS_BUILT_CUSTOMER"
+    ></app-parts-table>
   </ng-template>
 </div>
 
@@ -52,15 +54,17 @@ SPDX-License-Identifier: Apache-2.0
   ></ng-container>
 
   <ng-template #myTmp let-parts="view" let-customContext="customContext">
-    <app-table
+    <app-parts-table
       [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
-      [tableConfig]="tableConfigAsPlanned"
       [noShadow]="true"
       [labelId]="customContext.labelId"
       (selected)="onSelectItem($event)"
       (configChanged)="onAsPlannedTableConfigChange($event)"
       [multiSortList]="tableCustomerAsPlannedSortList"
-    ></app-table>
+      [multiSelectActive]="true"
+      (filterActivated)="filterActivated(false, $event )"
+      [tableType]="PartTableType.AS_PLANNED_CUSTOMER"
+    ></app-parts-table>
   </ng-template>
 </div>
 

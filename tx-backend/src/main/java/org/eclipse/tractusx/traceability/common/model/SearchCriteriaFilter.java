@@ -22,11 +22,10 @@ package org.eclipse.tractusx.traceability.common.model;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.List;
-
 @Data
 @Builder
-public class SearchCriteria {
-    List<SearchCriteriaFilter> searchCriteriaFilterList;
-    SearchCriteriaOperator searchCriteriaOperator;
+public class SearchCriteriaFilter {
+    private String key;
+    private SearchStrategy strategy;
+    private String value;
 }
