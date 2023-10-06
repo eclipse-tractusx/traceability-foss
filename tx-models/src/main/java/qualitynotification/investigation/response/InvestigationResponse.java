@@ -25,6 +25,7 @@ import lombok.Data;
 import lombok.experimental.SuperBuilder;
 import qualitynotification.base.response.QualityNotificationResponse;
 
+
 @Data
 @SuperBuilder
 @ArraySchema(arraySchema = @Schema(description = "Investigations", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), minItems = Integer.MIN_VALUE, maxItems = Integer.MAX_VALUE)

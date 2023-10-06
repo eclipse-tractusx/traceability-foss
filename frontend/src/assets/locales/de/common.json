@@ -57,6 +57,7 @@
     "menuDescription": "Aktionsmenü",
     "clearPage": "Markierungen auf dieser Seite aufheben",
     "clearAll": "Alle Markierungen aufheben",
+    "filterTitle": "Filter",,
     "adminColumn": {
       "startDate": "Startdatum",
       "registryLookupStatus": "Status",
@@ -255,5 +256,18 @@
   "bomLifecycleActivator": {
     "asBuilt": "As Built",
     "asPlanned": "As Planned"
+  },
+  "multiSelect": {
+    "filterLabel": "Filter",
+    "placeholder": "Alle"
+  },
+  "parts": {
+    "input": {
+      "global-search": {
+        "placeholder": "Suche nach C-X ID, partInstanceId or partNumber / BPN",
+        "toastInfo": "Lokale Filterung auf Tabellenebene wurde zurückgesetzt."
+      }
+    }
+
   }
 }

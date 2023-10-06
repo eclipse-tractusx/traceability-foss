@@ -7,10 +7,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 ### Added
 - added multisorting in FE for notifications
+- added possiblity to add operator to searchquery of assets
+- added global search field and combined with the OR operator to be able to search for multiple elements in the database
+- Filter for each assetAsBuilt table attribute
+- Filter for each assetAsPlanned table attribute
+- Extended testdata to reflect better overview of assets
+- Extended testdata to reflect better overview of assets
+- Support for TractionBatteryCode
 - new submodelserver related API endpoints for data provisioning /api/submodel/data/{id}
 
 ### Changed
-- updated IRS helm chart from 6.6.1 to 6.7.1
+- updated IRS helm chart from 6.6.1 to 6.7.2
+- Updated policy related logic to reflect IRS changes
 
 ### Removed
 - Owner filter and replaced it with the new filter query param
@@ -24,8 +32,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - archunit tests as preparation for good quality architecture checks
 - safety and security doc including roles matrix
 - handling for duplicate shellDescriptor ids when refreshing registry
-- Extendend testdata to reflect better overview of assets
-- Support for TractionBatteryCode
+
 
 ### Changed
 - added sorting for /api/investigations received and created endpoints

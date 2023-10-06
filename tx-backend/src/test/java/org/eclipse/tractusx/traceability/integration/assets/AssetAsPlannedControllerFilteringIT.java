@@ -61,14 +61,14 @@ class AssetAsPlannedControllerFilteringIT extends IntegrationTestSpecification {
         // given
         assetsSupport.defaultAssetsAsPlannedStored();
         final String filter = "?filter=owner,EQUAL,OWN";
-
+        final String filterOperator = "&filterOperator=AND";
         // then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
                 .log().all()
                 .when()
-                .get("/api/assets/as-planned" + filter)
+                .get("/api/assets/as-planned" + filter +filterOperator)
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -80,6 +80,7 @@ class AssetAsPlannedControllerFilteringIT extends IntegrationTestSpecification {
         // given
         assetsSupport.defaultAssetsAsPlannedStored();
         final String filter = "?filter=nameAtManufacturer,STARTS_WITH,Vehicle";
+        final String filterOperator = "&filterOperator=AND";
 
         // then
         given()
@@ -87,7 +88,7 @@ class AssetAsPlannedControllerFilteringIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .log().all()
                 .when()
-                .get("/api/assets/as-planned" + filter)
+                .get("/api/assets/as-planned" + filter + filterOperator)
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -99,6 +100,7 @@ class AssetAsPlannedControllerFilteringIT extends IntegrationTestSpecification {
         // given
         assetsSupport.defaultAssetsAsPlannedStored();
         final String filter = "?filter=nameAtManufacturer,STARTS_WITH,Vehicle&filter=owner,EQUAL,SUPPLIER";
+        final String filterOperator = "&filterOperator=AND";
 
         // then
         given()
@@ -106,7 +108,7 @@ class AssetAsPlannedControllerFilteringIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .log().all()
                 .when()
-                .get("/api/assets/as-planned" + filter)
+                .get("/api/assets/as-planned" + filter + filterOperator)
                 .then()
                 .log().all()
                 .statusCode(200)

@@ -17,16 +17,15 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.common.model;
+import { _environment } from './_environment.base';
 
-import lombok.Builder;
-import lombok.Data;
-
-import java.util.List;
-
-@Data
-@Builder
-public class SearchCriteria {
-    List<SearchCriteriaFilter> searchCriteriaFilterList;
-    SearchCriteriaOperator searchCriteriaOperator;
-}
+export const environment = {
+  ..._environment,
+  mockService: false,
+  authDisabled: false,
+  apiUrl: 'https://traceability-e2e-b.dev.demo.catena-x.net/api',
+  keycloakUrl: 'https://centralidp.dev.demo.catena-x.net/auth',
+  clientId: 'Cl17-CX-Part',
+  api: '',
+  gitTag: "local"
+};

@@ -17,16 +17,3 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.common.model;
-
-import lombok.Builder;
-import lombok.Data;
-
-import java.util.List;
-
-@Data
-@Builder
-public class SearchCriteria {
-    List<SearchCriteriaFilter> searchCriteriaFilterList;
-    SearchCriteriaOperator searchCriteriaOperator;
-}
