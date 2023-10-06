@@ -21,7 +21,6 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.model;
 
 import lombok.Builder;
 import lombok.Data;
-import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 
 import java.time.Instant;
 

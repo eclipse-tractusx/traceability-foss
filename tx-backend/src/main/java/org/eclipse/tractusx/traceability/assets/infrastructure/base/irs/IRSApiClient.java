@@ -24,8 +24,6 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 import feign.Param;
 import feign.RequestLine;
 import io.github.resilience4j.retry.annotation.Retry;
-import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPolicy;
-import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterJobRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterPolicyRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobDetailResponse;

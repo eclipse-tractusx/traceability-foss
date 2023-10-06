@@ -26,7 +26,6 @@ import org.eclipse.tractusx.irs.edc.client.policy.Permission;
 import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.IrsPolicy;
 
-import java.security.Permissions;
 import java.time.Instant;
 import java.util.List;
 
