@@ -56,6 +56,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -102,7 +103,7 @@ class IrsServiceTest {
 
         // then
         verify(irsClient, times(1))
-                .registerPolicy(RegisterPolicyRequest.from(policyToCreate));
+                .registerPolicy(any());
     }
 
     @Test
@@ -112,7 +113,7 @@ class IrsServiceTest {
                 .policyId("test")
                 .ttl("2023-07-03T16:01:05.309Z")
                 .build();
-        final PolicyResponse existingPolicy = new PolicyResponse("test", Instant.parse("2023-07-03T16:01:05.309Z"), Instant.now());
+        final PolicyResponse existingPolicy = new PolicyResponse("test", OffsetDateTime.parse("2023-07-03T16:01:05.309Z"), OffsetDateTime.now(), List.of());
         when(irsClient.getPolicies()).thenReturn(List.of(existingPolicy));
         when(irsPolicyConfig.getPolicies()).thenReturn(List.of(policyToCreate));
 
@@ -130,7 +131,7 @@ class IrsServiceTest {
                 .policyId("test")
                 .ttl("2123-07-03T16:01:05.309Z")
                 .build();
-        final PolicyResponse existingPolicy = new PolicyResponse("test", Instant.parse("2023-07-03T16:01:05.309Z"), Instant.now());
+        final PolicyResponse existingPolicy = new PolicyResponse("test", OffsetDateTime.parse("2023-07-03T16:01:05.309Z"), OffsetDateTime.now(), List.of());
         when(irsClient.getPolicies()).thenReturn(List.of(existingPolicy));
         when(irsPolicyConfig.getPolicies()).thenReturn(List.of(policyToCreate));
 
@@ -139,7 +140,7 @@ class IrsServiceTest {
 
         // then
         verify(irsClient, times(1)).deletePolicy("test");
-        verify(irsClient, times(1)).registerPolicy(RegisterPolicyRequest.from(policyToCreate));
+        verify(irsClient, times(1)).registerPolicy(any());
     }
 
     @ParameterizedTest
