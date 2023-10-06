@@ -15,7 +15,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Extended testdata to reflect better overview of assets
 - Extended testdata to reflect better overview of assets
 - Support for TractionBatteryCode
+- Support for JustInSequence Semantice data model in FE
+- Added country flags icons to manufacturing Country
+
 ### Changed
+
+- Updated user manual to reflect current state of the part views
 
 ### Removed
 
