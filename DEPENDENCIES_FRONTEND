@@ -439,7 +439,7 @@ npm/npmjs/-/has-proto/1.0.1, MIT, approved, #6175
 npm/npmjs/-/has-symbols/1.0.3, MIT, approved, clearlydefined
 npm/npmjs/-/has-tostringtag/1.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/has-unicode/2.0.1, ISC, approved, clearlydefined
-npm/npmjs/-/has/1.0.3, MIT, approved, clearlydefined
+npm/npmjs/-/has/1.0.3, MIT, approved, #10930
 npm/npmjs/-/hdr-histogram-js/2.0.3, BSD-2-Clause AND BSD-3-Clause AND CC0-1.0 AND 0BSD, approved, #3301
 npm/npmjs/-/hdr-histogram-percentiles-obj/3.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/headers-polyfill/3.1.2, MIT, approved, clearlydefined
