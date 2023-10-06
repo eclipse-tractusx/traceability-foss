@@ -43,12 +43,7 @@ export class OtherPartsService {
 
   public getOtherPartsAsBuilt(page: number, pageSize: number, sorting: TableHeaderSort[], owner: Owner, filter?: AssetAsBuiltFilter, isOrSearch?: boolean): Observable<Pagination<Part>> {
     let sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
-    let filterOperator = isOrSearch ? 'OR' : 'AND';
-    let params = new HttpParams()
-      .set('page', page)
-      .set('size', pageSize)
-      .set('filterOperator', filterOperator)
-      .set('filter', 'owner,EQUAL,' + owner);
+    let params = this.buildHttpParams(page, pageSize, isOrSearch, owner);
 
     sort.forEach(sortingItem => {
       params = params.append('sort', sortingItem);
@@ -65,12 +60,8 @@ export class OtherPartsService {
   public getOtherPartsAsPlanned(page: number, pageSize: number, sorting: TableHeaderSort[], owner: Owner, filter?: AssetAsPlannedFilter, isOrSearch?: boolean): Observable<Pagination<Part>> {
     let sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
 
-    let filterOperator = isOrSearch ? 'OR' : 'AND';
-    let params = new HttpParams()
-      .set('page', page)
-      .set('size', pageSize)
-      .set('filterOperator', filterOperator)
-      .set('filter', 'owner,EQUAL,' + owner);
+
+    let params = this.buildHttpParams(page, pageSize, isOrSearch, owner);
 
     sort.forEach(sortingItem => {
       params = params.append('sort', sortingItem);
@@ -82,6 +73,15 @@ export class OtherPartsService {
     return this.apiService
       .getBy<PartsResponse>(`${ this.url }/assets/as-planned`, params)
       .pipe(map(parts => PartsAssembler.assembleOtherParts(parts, MainAspectType.AS_PLANNED)));
+  }
+
+  private buildHttpParams(page: number, pageSize: number, isOrSearch: boolean, owner: Owner): HttpParams{
+    let filterOperator = isOrSearch ? 'OR' : 'AND';
+   return new HttpParams()
+      .set('page', page)
+      .set('size', pageSize)
+      .set('filterOperator', filterOperator)
+      .set('filter', 'owner,EQUAL,' + owner);
   }
 
 }
