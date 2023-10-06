@@ -74,13 +74,23 @@ By default, both tables are displayed. You can adjust the View of tables by acti
 
 ![parts-list-view](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/parts-list-view.png)
 
+#### Parts Table
+
+A Table View split into the different BOM Lifecycle phases (AsBuilt / AsPlanned) of a part.
+
+Between the views, there is a slider to adjust the view to make either the left or the right table more visible.
+Alternatively, you can use the view toggle to adjust the visibility of the tables.
+
+Both tables can be sorted, filtered and searched.
+The global search bar at the top returns part results from both Tables.
+
 #### AsBuilt Lifecycle Parts
 
 List view of own Parts with AsBuilt Lifecycle.
 Gives detailed information on the assets registered in the Digital Twin Registry of Catena-X for the company. This includes data based on the aspect models of Use Case Traceability: Asbuilt, SerialPart, Batch.
 Parts that are in a quality alert are highlighted yellow.
 
-#### AsPlanned
+#### AsPlanned Lifecycle Parts
 
 List view of own Parts with AsPlanned Lifecycle.
 Gives detailed information on the assets registered in the Digital Twin Registry of Catena-X for the company. This includes data based on the aspect models of Use Case Traceability: AsPlanned, SerialPart, Batch.
@@ -123,6 +133,15 @@ Information about the identifiers at the customer for the respective part/batch.
 
 List view of the supplied/delivered parts and batches (Supplier parts / Customer parts).
 Gives detailed information on the assets registered in the Digital Twin Registry of Catena-X. This includes data based on the aspect models of Use Case Traceability: SerialPart, Batch.
+
+#### Other parts Table
+
+A Table View split into the different BOM Lifecycle phases (AsBuilt / AsPlanned) of a part.
+
+Between the views, there is a slider to adjust the view to make either the left or the right table more visible.
+Alternatively, you can use the view toggle to adjust the visibility of the tables.
+
+Additionally, it’s possible to switch between tabs above each of the table views to display either supplier or customer parts
 
 #### Supplier parts
 
