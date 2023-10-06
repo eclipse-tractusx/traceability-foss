@@ -48,7 +48,7 @@
   }
 
   h2,
-  normal-case{
+  normal-case {
     @apply font-medium uppercase text-dark;
     font-size: 36px;
     text-transform: none;
@@ -58,11 +58,12 @@
     @apply font-semiBold sm:text-xl text-dark;
     font-size: 24px;
   }
+
   h3,
-  upper-case{
+  upper-case {
     @apply uppercase font-semiBold sm:text-xl text-dark;
     font-size: 24px;
-    }
+  }
 
   h4 {
     @apply font-semiBold sm:text-lg text-dark;
@@ -112,7 +113,7 @@
     border-radius: 50px !important;
   }
 
-  .mat-mdc-unelevated-button > .mdc-button__label {
+  .mat-mdc-unelevated-button>.mdc-button__label {
     @apply text-interactive;
   }
 
@@ -134,7 +135,7 @@
     @apply text-gray;
   }
 
-  .mat-sort-header-sorted > .mat-sort-header-content {
+  .mat-sort-header-sorted>.mat-sort-header-content {
     @apply font-semiBold;
   }
 
