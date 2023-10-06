@@ -24,6 +24,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.repository.AssetSpecificationUtil;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaFilter;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
 import org.eclipse.tractusx.traceability.common.repository.BaseSpecification;
@@ -34,7 +35,7 @@ import org.springframework.data.jpa.domain.Specification;
 import java.util.List;
 
 
-public class AssetAsBuildSpecification extends BaseSpecification implements Specification<AssetAsBuiltEntity> {
+public class AssetAsBuildSpecification extends BaseSpecification<AssetAsBuiltEntity> implements Specification<AssetAsBuiltEntity> {
     public AssetAsBuildSpecification(SearchCriteriaFilter criteria) {
         super(criteria);
     }
@@ -44,39 +45,11 @@ public class AssetAsBuildSpecification extends BaseSpecification implements Spec
         return createPredicate(getSearchCriteriaFilter(), root, builder);
     }
 
-    public static Specification<AssetAsBuiltEntity> toSpecification(final List<org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.AssetAsBuildSpecification> allSpecifications, SearchCriteriaOperator searchCriteriaOperator) {
+    public static Specification<AssetAsBuiltEntity> toSpecification(final List<AssetAsBuildSpecification> allSpecifications, SearchCriteriaOperator searchCriteriaOperator) {
         var specifications = Lists.newArrayList(allSpecifications);
         if (specifications.isEmpty()) {
             return Specification.allOf();
         }
-        Specification<AssetAsBuiltEntity> resultAnd = null;
-        Specification<AssetAsBuiltEntity> resultOr = null;
-
-        List<org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.AssetAsBuildSpecification> ownerSpecifications = specifications.stream()
-                .filter(spec -> spec.isOwnerSpecification(spec)).toList();
-
-        List<AssetAsBuildSpecification> otherSpecifications = specifications.stream()
-                .filter(spec -> !spec.isOwnerSpecification(spec)).toList();
-
-        // always add owner spec
-        for (AssetAsBuildSpecification ownerSpecification : ownerSpecifications) {
-            resultAnd = Specification.where(resultAnd).and(ownerSpecification);
-        }
-
-        if (searchCriteriaOperator.equals(SearchCriteriaOperator.AND)) {
-            for (AssetAsBuildSpecification otherSpecification : otherSpecifications) {
-                resultAnd = Specification.where(resultAnd).and(otherSpecification);
-            }
-        } else {
-            for (AssetAsBuildSpecification otherSpecification : otherSpecifications) {
-                resultOr = Specification.where(resultOr).and(otherSpecification);
-            }
-        }
-
-        return Specification.where(resultAnd).and(resultOr);
-    }
-
-    private boolean isOwnerSpecification(AssetAsBuildSpecification specification) {
-        return "owner".equals(specification.getSearchCriteriaFilter().getKey());
+        return AssetSpecificationUtil.combineSpecifications(specifications, searchCriteriaOperator);
     }
 }

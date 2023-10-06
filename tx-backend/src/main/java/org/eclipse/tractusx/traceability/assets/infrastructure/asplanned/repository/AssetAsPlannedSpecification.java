@@ -24,6 +24,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.repository.AssetSpecificationUtil;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaFilter;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
 import org.eclipse.tractusx.traceability.common.repository.BaseSpecification;
@@ -34,7 +35,7 @@ import org.springframework.data.jpa.domain.Specification;
 import java.util.List;
 
 
-public class AssetAsPlannedSpecification extends BaseSpecification implements Specification<AssetAsPlannedEntity> {
+public class AssetAsPlannedSpecification extends BaseSpecification<AssetAsPlannedEntity> implements Specification<AssetAsPlannedEntity> {
 
     public AssetAsPlannedSpecification(SearchCriteriaFilter criteria) {
         super(criteria);
@@ -50,37 +51,8 @@ public class AssetAsPlannedSpecification extends BaseSpecification implements Sp
         if (specifications.isEmpty()) {
             return Specification.allOf();
         }
+        return AssetSpecificationUtil.combineSpecifications(specifications, searchCriteriaOperator);
 
-        Specification<AssetAsPlannedEntity> resultAnd = null;
-        Specification<AssetAsPlannedEntity> resultOr = null;
-
-        List<AssetAsPlannedSpecification> ownerSpecifications = specifications.stream()
-                .filter(spec -> spec.isOwnerSpecification(spec)).toList();
-
-        List<AssetAsPlannedSpecification> otherSpecifications = specifications.stream()
-                .filter(spec -> !spec.isOwnerSpecification(spec)).toList();
-
-        // always add owner spec with AND
-        for (AssetAsPlannedSpecification ownerSpecification : ownerSpecifications) {
-            resultAnd = Specification.where(resultAnd).and(ownerSpecification);
-        }
-
-        if (searchCriteriaOperator.equals(SearchCriteriaOperator.AND)) {
-            for (AssetAsPlannedSpecification otherSpecification : otherSpecifications) {
-                resultAnd = Specification.where(resultAnd).and(otherSpecification);
-            }
-        } else {
-            for (AssetAsPlannedSpecification otherSpecification : otherSpecifications) {
-                resultOr = Specification.where(resultOr).and(otherSpecification);
-            }
-        }
-
-        return Specification.where(resultAnd).and(resultOr);
     }
-
-    private boolean isOwnerSpecification(AssetAsPlannedSpecification specification) {
-        return "owner".equals(specification.getSearchCriteriaFilter().getKey());
-    }
-
 
 }

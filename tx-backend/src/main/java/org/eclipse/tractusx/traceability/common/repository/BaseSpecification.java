@@ -25,13 +25,14 @@ import jakarta.persistence.criteria.Root;
 import lombok.Getter;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaFilter;
 import org.eclipse.tractusx.traceability.common.model.SearchStrategy;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Getter
-public abstract class BaseSpecification {
+public abstract class BaseSpecification<T> implements Specification<T> {
 
     private final SearchCriteriaFilter searchCriteriaFilter;
 
