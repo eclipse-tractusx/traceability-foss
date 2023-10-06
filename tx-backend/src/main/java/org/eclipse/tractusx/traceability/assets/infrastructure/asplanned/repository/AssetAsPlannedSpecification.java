@@ -23,7 +23,6 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import lombok.AllArgsConstructor;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaFilter;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
@@ -33,14 +32,16 @@ import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 
-@AllArgsConstructor
+
 public class AssetAsPlannedSpecification extends BaseSpecification implements Specification<AssetAsPlannedEntity> {
 
-    private SearchCriteriaFilter criteria;
+    public AssetAsPlannedSpecification(SearchCriteriaFilter criteria) {
+        super(criteria);
+    }
 
     @Override
     public Predicate toPredicate(Root<AssetAsPlannedEntity> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-        return createPredicate(criteria, root, builder);
+        return createPredicate(getSearchCriteriaFilter(), root, builder);
     }
 
     public static Specification<AssetAsPlannedEntity> toSpecification(final List<AssetAsPlannedSpecification> allSpecifications, SearchCriteriaOperator searchCriteriaOperator) {
@@ -48,35 +49,37 @@ public class AssetAsPlannedSpecification extends BaseSpecification implements Sp
         if (specifications.isEmpty()) {
             return Specification.allOf();
         }
-        Specification<AssetAsPlannedEntity> result = specifications.get(0);
 
-        if (searchCriteriaOperator.equals(SearchCriteriaOperator.OR)) {
-            List<AssetAsPlannedSpecification> ownerSpecifications = specifications.stream()
-                    .filter(spec -> spec.isOwnerSpecification(spec)).toList();
+        Specification<AssetAsPlannedEntity> resultAnd = null;
+        Specification<AssetAsPlannedEntity> resultOr = null;
 
-            List<AssetAsPlannedSpecification> otherSpecifications = specifications.stream()
-                    .filter(spec -> !spec.isOwnerSpecification(spec)).toList();
-            for (int i = 1; i < ownerSpecifications.size(); i++) {
-                result = Specification.where(result).and(ownerSpecifications.get(i));
+        List<AssetAsPlannedSpecification> ownerSpecifications = specifications.stream()
+                .filter(spec -> spec.isOwnerSpecification(spec)).toList();
+
+        List<AssetAsPlannedSpecification> otherSpecifications = specifications.stream()
+                .filter(spec -> !spec.isOwnerSpecification(spec)).toList();
+
+        // always add owner spec with AND
+        for (AssetAsPlannedSpecification ownerSpecification : ownerSpecifications) {
+            resultAnd = Specification.where(resultAnd).and(ownerSpecification);
+        }
+
+        if (searchCriteriaOperator.equals(SearchCriteriaOperator.AND)) {
+            for (AssetAsPlannedSpecification otherSpecification : otherSpecifications) {
+                resultAnd = Specification.where(resultAnd).and(otherSpecification);
             }
-            if (otherSpecifications.size() == 1) {
-                result = Specification.where(result).and(otherSpecifications.get(0));
-            } else {
-                for (int i = 1; i < otherSpecifications.size(); i++) {
-                    result = Specification.where(result).or(otherSpecifications.get(i));
-                }
-            }
-
         } else {
-            for (int i = 1; i < specifications.size(); i++) {
-                result = Specification.where(result).and(specifications.get(i));
+            for (AssetAsPlannedSpecification otherSpecification : otherSpecifications) {
+                resultOr = Specification.where(resultOr).and(otherSpecification);
             }
         }
 
-        return result;
+        return Specification.where(resultAnd).and(resultOr);
     }
 
     private boolean isOwnerSpecification(AssetAsPlannedSpecification specification) {
-        return "owner".equals(specification.criteria.getKey());
+        return "owner".equals(specification.getSearchCriteriaFilter().getKey());
     }
+
+
 }

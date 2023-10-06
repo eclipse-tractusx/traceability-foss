@@ -251,7 +251,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
                 .then()
                 .log().all()
                 .statusCode(200)
-                .body("totalItems", equalTo(13));
+                .body("totalItems", equalTo(1));
     }
 
     @Test

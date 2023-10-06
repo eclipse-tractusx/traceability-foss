@@ -23,7 +23,6 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import lombok.AllArgsConstructor;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaFilter;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
@@ -33,50 +32,50 @@ import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 
-@AllArgsConstructor
-public class AssetAsBuildSpecification extends BaseSpecification implements Specification<AssetAsBuiltEntity> {
 
-    private SearchCriteriaFilter criteria;
+public class AssetAsBuildSpecification extends BaseSpecification implements Specification<AssetAsBuiltEntity> {
+    public AssetAsBuildSpecification(SearchCriteriaFilter criteria) {
+        super(criteria);
+    }
 
     @Override
     public Predicate toPredicate(Root<AssetAsBuiltEntity> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-        return createPredicate(criteria, root, builder);
+        return createPredicate(getSearchCriteriaFilter(), root, builder);
     }
 
-    public static Specification<AssetAsBuiltEntity> toSpecification(final List<AssetAsBuildSpecification> allSpecifications, SearchCriteriaOperator searchCriteriaOperator) {
+    public static Specification<AssetAsBuiltEntity> toSpecification(final List<org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.AssetAsBuildSpecification> allSpecifications, SearchCriteriaOperator searchCriteriaOperator) {
         var specifications = Lists.newArrayList(allSpecifications);
         if (specifications.isEmpty()) {
             return Specification.allOf();
         }
-        Specification<AssetAsBuiltEntity> result = specifications.get(0);
+        Specification<AssetAsBuiltEntity> resultAnd = null;
+        Specification<AssetAsBuiltEntity> resultOr = null;
 
-        if (searchCriteriaOperator.equals(SearchCriteriaOperator.OR)) {
-            List<AssetAsBuildSpecification> ownerSpecifications = specifications.stream()
-                    .filter(spec -> spec.isOwnerSpecification(spec)).toList();
+        List<org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.AssetAsBuildSpecification> ownerSpecifications = specifications.stream()
+                .filter(spec -> spec.isOwnerSpecification(spec)).toList();
 
-            List<AssetAsBuildSpecification> otherSpecifications = specifications.stream()
-                    .filter(spec -> !spec.isOwnerSpecification(spec)).toList();
-            for (int i = 1; i < ownerSpecifications.size(); i++) {
-                result = Specification.where(result).and(ownerSpecifications.get(i));
+        List<AssetAsBuildSpecification> otherSpecifications = specifications.stream()
+                .filter(spec -> !spec.isOwnerSpecification(spec)).toList();
+
+        // always add owner spec
+        for (AssetAsBuildSpecification ownerSpecification : ownerSpecifications) {
+            resultAnd = Specification.where(resultAnd).and(ownerSpecification);
+        }
+
+        if (searchCriteriaOperator.equals(SearchCriteriaOperator.AND)) {
+            for (AssetAsBuildSpecification otherSpecification : otherSpecifications) {
+                resultAnd = Specification.where(resultAnd).and(otherSpecification);
             }
-            if (otherSpecifications.size() == 1){
-                result = Specification.where(result).and(otherSpecifications.get(0));
-            } else {
-                for (int i = 1; i < otherSpecifications.size(); i++) {
-                    result = Specification.where(result).or(otherSpecifications.get(i));
-                }
-            }
-
         } else {
-            for (int i = 1; i < specifications.size(); i++) {
-                result = Specification.where(result).and(specifications.get(i));
+            for (AssetAsBuildSpecification otherSpecification : otherSpecifications) {
+                resultOr = Specification.where(resultOr).and(otherSpecification);
             }
         }
 
-        return result;
+        return Specification.where(resultAnd).and(resultOr);
     }
 
     private boolean isOwnerSpecification(AssetAsBuildSpecification specification) {
-        return "owner".equals(specification.criteria.getKey());
+        return "owner".equals(specification.getSearchCriteriaFilter().getKey());
     }
 }
