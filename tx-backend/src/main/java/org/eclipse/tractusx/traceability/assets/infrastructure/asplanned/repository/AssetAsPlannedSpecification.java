@@ -23,25 +23,27 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import lombok.AllArgsConstructor;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.repository.AssetSpecificationUtil;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaFilter;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
 import org.eclipse.tractusx.traceability.common.repository.BaseSpecification;
 import org.glassfish.jersey.internal.guava.Lists;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 
-@AllArgsConstructor
-public class AssetAsPlannedSpecification extends BaseSpecification implements Specification<AssetAsPlannedEntity> {
 
-    private SearchCriteriaFilter criteria;
+public class AssetAsPlannedSpecification extends BaseSpecification<AssetAsPlannedEntity> implements Specification<AssetAsPlannedEntity> {
 
+    public AssetAsPlannedSpecification(SearchCriteriaFilter criteria) {
+        super(criteria);
+    }
 
     @Override
-    public Predicate toPredicate(Root<AssetAsPlannedEntity> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-        return createPredicate(criteria, root, builder);
+    public Predicate toPredicate(@NotNull Root<AssetAsPlannedEntity> root, @NotNull CriteriaQuery<?> query, @NotNull CriteriaBuilder builder) {
+        return createPredicate(getSearchCriteriaFilter(), root, builder);
     }
 
     public static Specification<AssetAsPlannedEntity> toSpecification(final List<AssetAsPlannedSpecification> allSpecifications, SearchCriteriaOperator searchCriteriaOperator) {
@@ -49,19 +51,8 @@ public class AssetAsPlannedSpecification extends BaseSpecification implements Sp
         if (specifications.isEmpty()) {
             return Specification.allOf();
         }
+        return AssetSpecificationUtil.combineSpecifications(specifications, searchCriteriaOperator);
 
-        Specification<AssetAsPlannedEntity> result = specifications.get(0);
-
-        if (searchCriteriaOperator.equals(SearchCriteriaOperator.OR)) {
-            for (int i = 1; i < specifications.size(); i++) {
-                result = Specification.where(result).or(specifications.get(i));
-            }
-        } else {
-            for (int i = 1; i < specifications.size(); i++) {
-                result = Specification.where(result).and(specifications.get(i));
-            }
-        }
-
-        return result;
     }
+
 }

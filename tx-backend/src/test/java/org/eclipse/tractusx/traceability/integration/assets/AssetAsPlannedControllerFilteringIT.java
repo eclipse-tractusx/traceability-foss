@@ -68,7 +68,7 @@ class AssetAsPlannedControllerFilteringIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .log().all()
                 .when()
-                .get("/api/assets/as-planned" + filter +filterOperator)
+                .get("/api/assets/as-planned" + filter + filterOperator)
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -101,6 +101,26 @@ class AssetAsPlannedControllerFilteringIT extends IntegrationTestSpecification {
         assetsSupport.defaultAssetsAsPlannedStored();
         final String filter = "?filter=nameAtManufacturer,STARTS_WITH,Vehicle&filter=owner,EQUAL,SUPPLIER";
         final String filterOperator = "&filterOperator=AND";
+
+        // then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .get("/api/assets/as-planned" + filter + filterOperator)
+                .then()
+                .log().all()
+                .statusCode(200)
+                .body("totalItems", equalTo(1));
+    }
+
+    @Test
+    void givenSemanticDataModelAndOwnerOR_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
+        // given
+        assetsSupport.defaultAssetsAsPlannedStored();
+        final String filter = "?filter=owner,EQUAL,SUPPLIER&filter=id,STARTS_WITH,urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01";
+        final String filterOperator = "&filterOperator=OR";
 
         // then
         given()
