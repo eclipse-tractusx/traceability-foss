@@ -191,7 +191,8 @@ Third click:  reset sorting"
                                 [ngTemplateOutletContext]="{ value: element[column], row: element}"
                         >
                         </ng-container>
-                        <app-country-flag-generator [countryCode]="element[column]"></app-country-flag-generator>
+                      <app-country-flag-generator
+                        [countryCode]="element[column] ? element[column] : ''"></app-country-flag-generator>
                     </td>
                 </ng-container>
             </ng-template>
