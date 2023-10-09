@@ -236,6 +236,8 @@ export class PartsAssembler {
       ['psFunction', 'function'],
       ['functionValidFrom', 'functionValidFrom'],
       ['functionValidUntil', 'functionValidUntil'],
+      [ 'activeAlerts', 'qualityAlertsInStatusActive' ],
+      [ 'activeInvestigations', 'qualityInvestigationsInStatusActive' ],
 
     ]);
 

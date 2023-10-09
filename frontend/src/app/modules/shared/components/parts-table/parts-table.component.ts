@@ -245,13 +245,13 @@ export class PartsTableComponent implements OnInit {
     {
       filterKey: 'activeAlerts',
       headerKey: 'filterActiveAlerts',
-      isTextSearch: false,
+      isTextSearch: true,
       option: this.optionTextSearch,
     },
     {
       filterKey: 'activeInvestigations',
       headerKey: 'filterActiveInvestigations',
-      isTextSearch: false,
+      isTextSearch: true,
       option: this.optionTextSearch,
     },
   ];
@@ -559,13 +559,13 @@ export class PartsTableComponent implements OnInit {
     {
       filterKey: 'activeAlerts',
       headerKey: 'filterActiveAlerts',
-      isTextSearch: false,
+      isTextSearch: true,
       option: this.optionTextSearch,
     },
     {
       filterKey: 'activeInvestigations',
       headerKey: 'filterActiveInvestigations',
-      isTextSearch: false,
+      isTextSearch: true,
       option: this.optionTextSearch,
     },
   ];
@@ -600,13 +600,13 @@ export class PartsTableComponent implements OnInit {
     {
       filterKey: 'activeAlerts',
       headerKey: 'filterActiveAlerts',
-      isTextSearch: false,
+      isTextSearch: true,
       option: this.optionTextSearch,
     },
     {
       filterKey: 'activeInvestigations',
       headerKey: 'filterActiveInvestigations',
-      isTextSearch: false,
+      isTextSearch: true,
       option: this.optionTextSearch,
     },
   ];
