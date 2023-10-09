@@ -62,7 +62,7 @@ public class SecurityConfig {
     @Value("${jwt.resource-client}")
     private String resourceClient;
 
-    @Deprecated
+
     @Bean
     SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity) throws Exception {
 
