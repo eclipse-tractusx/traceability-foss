@@ -46,9 +46,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
-import qualitynotification.alert.request.StartQualityAlertRequest;
 import qualitynotification.base.request.CloseQualityNotificationRequest;
 import qualitynotification.base.request.QualityNotificationSeverityRequest;
+import qualitynotification.base.request.StartQualityNotificationRequest;
 import qualitynotification.base.request.UpdateQualityNotificationRequest;
 import qualitynotification.base.request.UpdateQualityNotificationStatusRequest;
 
@@ -121,15 +121,15 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         );
         String description = "at least 15 characters long investigation description";
         QualityNotificationSeverityRequest severity = QualityNotificationSeverityRequest.MINOR;
-        String bpn = "BPN";
+        String receiverBpn = "BPN";
 
         assetsSupport.defaultAssetsStored();
 
-        val request = StartQualityAlertRequest.builder()
+        val request = StartQualityNotificationRequest.builder()
                 .partIds(partIds)
                 .description(description)
                 .severity(severity)
-                .bpn(bpn)
+                .receiverBpn(receiverBpn)
                 .isAsBuilt(true)
                 .build();
 
@@ -177,15 +177,15 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         );
         String description = "at least 15 characters long investigation description";
         QualityNotificationSeverityRequest severity = QualityNotificationSeverityRequest.MINOR;
-        String bpn = "BPN";
+        String receiverBpn = "BPN";
 
         assetsSupport.defaultAssetsAsPlannedStored();
 
-        val request = StartQualityAlertRequest.builder()
+        val request = StartQualityNotificationRequest.builder()
                 .partIds(partIds)
                 .description(description)
                 .severity(severity)
-                .bpn(bpn)
+                .receiverBpn(receiverBpn)
                 .isAsBuilt(false)
                 .build();
 
@@ -234,7 +234,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 "urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef"  // BPN: BPNL00000003AXS3
         );
         String description = "at least 15 characters long investigation description";
-        val request = StartQualityAlertRequest.builder()
+        val request = StartQualityNotificationRequest.builder()
                 .partIds(partIds)
                 .description(description)
                 .build();
@@ -261,11 +261,11 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
 
         String description = RandomStringUtils.random(1001);
 
-        val request = StartQualityAlertRequest.builder()
+        val request = StartQualityNotificationRequest.builder()
                 .partIds(partIds)
                 .description(description)
                 .severity(QualityNotificationSeverityRequest.MINOR)
-                .bpn("BPN")
+                .receiverBpn("BPN")
                 .build();
 
         // when/then
@@ -326,11 +326,11 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     void shouldCancelAlert() throws JsonProcessingException, JoseException {
         // given
         assetsSupport.defaultAssetsStored();
-        val startAlertRequest = StartQualityAlertRequest.builder()
+        val startAlertRequest = StartQualityNotificationRequest.builder()
                 .partIds(List.of("urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978"))
                 .description("at least 15 characters long investigation description")
                 .severity(QualityNotificationSeverityRequest.MAJOR)
-                .bpn("BPN")
+                .receiverBpn("BPN")
                 .isAsBuilt(true)
                 .build();
 
@@ -392,11 +392,11 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
 
         assetsSupport.defaultAssetsStored();
 
-        val startAlertRequest = StartQualityAlertRequest.builder()
+        val startAlertRequest = StartQualityNotificationRequest.builder()
                 .partIds(partIds)
                 .description(description)
                 .severity(QualityNotificationSeverityRequest.MINOR)
-                .bpn("BPN")
+                .receiverBpn("BPN")
                 .isAsBuilt(true)
                 .build();
 
@@ -447,11 +447,11 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
 
         assetsSupport.defaultAssetsStored();
 
-        val startAlertRequest = StartQualityAlertRequest.builder()
+        val startAlertRequest = StartQualityNotificationRequest.builder()
                 .partIds(partIds)
                 .description(description)
                 .severity(QualityNotificationSeverityRequest.MINOR)
-                .bpn("BPN")
+                .receiverBpn("BPN")
                 .isAsBuilt(true)
                 .build();
 
@@ -556,11 +556,11 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         );
         String description = "at least 15 characters long investigation description";
         assetsSupport.defaultAssetsStored();
-        val startAlertRequest = StartQualityAlertRequest.builder()
+        val startAlertRequest = StartQualityNotificationRequest.builder()
                 .partIds(partIds)
                 .description(description)
                 .severity(QualityNotificationSeverityRequest.MINOR)
-                .bpn("BPN")
+                .receiverBpn("BPN")
                 .isAsBuilt(true)
                 .build();
 

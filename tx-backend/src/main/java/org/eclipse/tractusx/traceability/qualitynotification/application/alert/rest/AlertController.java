@@ -48,10 +48,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import qualitynotification.alert.request.StartQualityAlertRequest;
 import qualitynotification.alert.response.AlertResponse;
 import qualitynotification.base.request.CloseQualityNotificationRequest;
 import qualitynotification.base.request.QualityNotificationStatusRequest;
+import qualitynotification.base.request.StartQualityNotificationRequest;
 import qualitynotification.base.request.UpdateQualityNotificationRequest;
 import qualitynotification.base.response.QualityNotificationIdResponse;
 
@@ -127,10 +127,10 @@ public class AlertController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public QualityNotificationIdResponse alertAssets(@RequestBody @Valid StartQualityAlertRequest request) {
-        StartQualityAlertRequest cleanStartQualityAlertRequest = sanitize(request);
-        log.info(API_LOG_START + " with params: {}", cleanStartQualityAlertRequest);
-        return new QualityNotificationIdResponse(alertService.start(from(cleanStartQualityAlertRequest)).value());
+    public QualityNotificationIdResponse alertAssets(@RequestBody @Valid StartQualityNotificationRequest request) {
+        StartQualityNotificationRequest cleanStartQualityNotificationRequest = sanitize(request);
+        log.info(API_LOG_START + " with params: {}", cleanStartQualityNotificationRequest);
+        return new QualityNotificationIdResponse(alertService.start(from(cleanStartQualityNotificationRequest)).value());
     }
 
     @Operation(operationId = "getCreatedAlerts",

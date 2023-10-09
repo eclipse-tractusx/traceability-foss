@@ -22,7 +22,7 @@ import io.swagger.annotations.ApiModel;
 
 @ApiModel(description = "Describes status for closed action")
 public enum QualityNotificationStatusRequest {
-    CLOSED;
+    CLOSED
 
 
 }
