@@ -68,6 +68,10 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     selectAllChecked = false;
     displayString = '';
 
+    shouldHideTextSearchOptionField():boolean{
+        return !this.textSearch || this.textSearch && (this.theSearchElement === null || this.theSearchElement === '');
+    }
+
     ngOnChanges(): void {
         this.filteredOptions = this.options;
         if (this.selectedOptions) {

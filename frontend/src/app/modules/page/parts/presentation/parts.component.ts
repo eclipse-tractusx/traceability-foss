@@ -103,11 +103,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     triggerPartSearch() {
 
-        let filterSet = false;
-        this.resetLocalFilters(filterSet);
-        if (filterSet) {
-            this.toastService.info("parts.input.global-search.toastInfo");
-        }
+        this.resetFilterAndShowToast();
         const searchValue = this.searchFormGroup.get("partSearch").value;
 
         if (searchValue && searchValue !== "") {
@@ -121,11 +117,11 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
 
-    private resetLocalFilters(filterIsSet: boolean) {
+    private resetFilterAndShowToast() {
         for (const partTableComponent of this.partsTableComponents) {
-            if (partTableComponent.multiSelectAutocompleteComponent.theSearchElement) {
-                filterIsSet = true;
+            if (partTableComponent.filterFormGroup.dirty) {
                 partTableComponent.filterFormGroup.reset();
+                this.toastService.info("parts.input.global-search.toastInfo");
             }
         }
     }
