@@ -18,6 +18,9 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+@import "../../../../../theme/base.scss";
+
+@tailwind base;
 
 .header {
   &--container {
@@ -25,7 +28,6 @@
     display: flex;
     flex-direction: column;
     background: linear-gradient(152.33deg, #e4ebf3 4.24%, #adb9c7 72.17%);
-    // background: linear-gradient(111.81deg, #9eaba9 41.97%, #b6a763 72.9%);
   }
 
   &--logo {
@@ -92,11 +94,8 @@
     }
 
     &__item {
-      @apply font-bold;
-
+      @extend .label-large;
       color: #000000;
-      font-size: 20px;
-      line-height: 20px;
       position: relative;
 
       &.selected,

@@ -38,25 +38,6 @@ $primary-palette: (
   ),
 );
 
-$secondary-palette: (
-  100: #4D4D4D,
-  500: #808080,
-  700: #808080,
-  button: (100: #000000,
-    700: #333333),
-  contrast: (50: rgba(black, 0.87),
-    100: rgba(black, 0.87),
-    200: rgba(black, 0.87),
-    300: rgba(black, 0.87),
-    400: rgba(black, 0.87),
-    500: white,
-    600: white,
-    700: white,
-    800: white,
-    900: white,
-  ),
-);
-
 $accent-palette: (
   100: #F58220,
   500: #FF9032,

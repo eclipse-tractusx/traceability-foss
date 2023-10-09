@@ -20,18 +20,11 @@ SPDX-License-Identifier: Apache-2.0
 -->
 
 <ng-container
-  *viewContainer="notificationsView$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"
-></ng-container>
+  *viewContainer="notificationsView$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
 <ng-template #mainTmp let-notifications="view">
-  <app-table
-    [paginationData]="notifications.data"
-    [tableConfig]="tableConfig"
-    [noShadow]="true"
-    [labelId]="labelId"
-    [showHover]="false"
-    (selected)="selectNotification($event)"
-    (configChanged)="onTableConfigChange($event)"
-  ></app-table>
+  <app-table [paginationData]="notifications.data" [tableConfig]="tableConfig" [noShadow]="true" [labelId]="labelId"
+    [showHover]="false" (selected)="selectNotification($event)"
+    (configChanged)="onTableConfigChange($event)"></app-table>
 </ng-template>
 
 <ng-template #errorTmp let-notifications="view">
@@ -53,7 +46,7 @@ SPDX-License-Identifier: Apache-2.0
 </ng-template>
 
 <ng-template #descriptionTmp let-text="value">
-  <p class="notification--table__description">{{ text }}</p>
+  <p class="notification--table__description notification--table__description-text body-small">{{ text }}</p>
 </ng-template>
 
 <ng-template #targetDateTmp let-text="value">

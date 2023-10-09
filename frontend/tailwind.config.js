@@ -35,6 +35,9 @@ module.exports = {
         medium: ['Catena-X Medium', 'sans-serif'],
         mediumItalic: ['Catena-X MediumItalic', 'sans-serif'],
 
+        regular: ['Catena-X Regular', 'sans-serif'],
+        regularItalic: ['Catena-X Italic', 'sans-serif'],
+
         semiBold: ['Catena-X SemiBold', 'sans-serif'],
         semiBoldItalic: ['Catena-X SemiBoldItalic', 'sans-serif'],
       },
@@ -58,9 +61,9 @@ module.exports = {
       },
       fontSize: {
         tiny: '12px',
-        sm: '14px',
-        base: '16px',
-        xl: '18px',
+        sm: '16px',
+        base: '18px',
+        xl: '20px',
       },
       fill: theme => ({
         green: theme('success'),
@@ -75,16 +78,23 @@ module.exports = {
     },
     colors: {
       // Theme colors
-      primary: '#0f71cb',
-      secondary: '#eaf1fe',
+      primary: '#D31184',
+      secondary: '#4D4D4D',
+      tertiary: '#F58220',
 
-      primaryLight: '#9fc6ea',
-      primaryDark: '#0d55af',
+      primaryLight: '#EA1392',
+      primaryDark: '#A60F68',
 
-      secondaryLight: '#9fc6ea',
-      secondaryDark: '#d4e3fe',
+      secondaryLight: '#808080',
 
-      danger: '#D91E18',
+      secondaryButton: '#000000',
+      secondaryButton: '#333333',
+
+      tertiaryLight: '#F58220',
+      tertiaryDark: '#B62100',
+
+      danger: '#B62100',
+
       dangerLight: '#E5231D',
 
       interactive: '#0F71CB',
@@ -99,7 +109,7 @@ module.exports = {
       gray: '#888888',
 
       // Alert colors
-      error: '#D91E18',
+      error: '#B62100',
       success: '#00AA55',
       warning: '#F2BA00',
       alert: '#fe6702',
@@ -111,6 +121,17 @@ module.exports = {
       tundoraShadeNobel: '#b4b4b4',
       tundoraShadeAlto: '#dadada',
       accordionGray: '#fafafa',
+
+      // Surface colors
+      surfaceBase: '#FFFFFF',
+      surfaceBright: '#FAFAFA',
+      surfaceMedium: '#EDEDED',
+      surfaceDim: '#DFDFDF',
+
+      inactiveText: '#A6A6A6',
+      inactiveShape: '#D2D2D2',
+
+      positive: '#6BA13C',
 
       // Gray accent color
       dustyGray: '#999999',
@@ -128,6 +149,8 @@ module.exports = {
       investigationBlue: '#3f7bfe',
 
       footer: '#fff5cc',
+
+      textLink: '#2484C6',
 
       // Status colors for notification badges
 
