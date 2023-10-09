@@ -109,6 +109,15 @@ SPDX-License-Identifier: Apache-2.0
                     <ng-container *ngTemplateOutlet="CountryColumn; context: { $implicit: column }"></ng-container>
                 </ng-container>
 
+              <ng-container *ngSwitchCase="'activeAlerts'">
+                <ng-container *ngTemplateOutlet="ActiveAlertsColumn; context: {$implicit: column}"></ng-container>
+              </ng-container>
+
+              <ng-container *ngSwitchCase="'activeInvestigations'">
+                <ng-container
+                  *ngTemplateOutlet="ActiveInvestigationsColumn; context: {$implicit: column}"></ng-container>
+              </ng-container>
+
                 <ng-container *ngSwitchDefault>
                     <ng-container *ngTemplateOutlet="NormalColumn; context: { $implicit: column }"></ng-container>
                 </ng-container>
@@ -156,6 +165,7 @@ SPDX-License-Identifier: Apache-2.0
             <ng-template #CountryColumn let-column>
                 <ng-container matColumnDef="{{ column }}">
                     <th
+                  <!-- TODO: Make matToolTip Text i18n, for all occurences!-->
                             *matHeaderCellDef
                             matTooltip="First click: sort in ascending order ↑
 Second click: sort in descending order ↓
@@ -196,6 +206,96 @@ Third click:  reset sorting"
                     </td>
                 </ng-container>
             </ng-template>
+
+          <ng-template #ActiveAlertsColumn let-column>
+            <ng-container matColumnDef="{{ column }}">
+              <th
+                *matHeaderCellDef
+                [class.mdc-tooltip--multiline]="true"
+                [disabled]="!tableConfig.sortableColumns?.[column]"
+                [mat-sort-header]="tableConfig.sortableColumns?.[column] ? '' : null"
+                [matTooltipShowDelay]="1000"
+                class="table--cell"
+                mat-header-cell
+                matTooltip="First click: sort in ascending order ↑
+Second click: sort in descending order ↓
+Third click:  reset sorting"
+                matTooltipClass="table--header--tooltip"
+                matTooltipPosition="above"
+              >
+                <ng-container
+                  *ngIf="tableConfig?.header?.[column]; else pureColumn"
+                >{{ tableConfig?.header?.[column] | i18n }}
+                  <ng-container *ngIf="multiSortList && multiSortList.length >1">
+                    <ng-container *ngFor="let item of multiSortList; let i = index">
+                      <!-- Replace 'columnToMatch' with the specific column name you want to match -->
+                      <div *ngIf="item[0] === column" class="table--header--sort--indicator">
+                        <!-- Display the array entry when it matches the column name -->
+                        {{ (i + 1) + "." }}{{ item[1] === 'asc' ? '↑' : item[1] === 'desc' ? '↓' : '' }}
+                      </div>
+                    </ng-container>
+                  </ng-container
+                  >
+                </ng-container>
+
+              </th>
+              <td *matCellDef="let element" class="table--cell" data-testid="table-component--cell-data" mat-cell>
+                <div class="table--notification--cell">
+                  <ng-container
+                    [ngTemplateOutletContext]="{ value: element[column], row: element}"
+                    [ngTemplateOutlet]="tableConfig?.cellRenderers?.[column] ? tableConfig?.cellRenderers?.[column] : autoFormat"
+                  >
+                  </ng-container>
+                  <mat-icon class="ml-2 table--notification--icon">notification_important</mat-icon>
+                </div>
+              </td>
+            </ng-container>
+          </ng-template>
+
+          <ng-template #ActiveInvestigationsColumn let-column>
+            <ng-container matColumnDef="{{ column }}">
+              <th
+                *matHeaderCellDef
+                [class.mdc-tooltip--multiline]="true"
+                [disabled]="!tableConfig.sortableColumns?.[column]"
+                [mat-sort-header]="tableConfig.sortableColumns?.[column] ? '' : null"
+                [matTooltipShowDelay]="1000"
+                class="table--cell"
+                mat-header-cell
+                matTooltip="First click: sort in ascending order ↑
+Second click: sort in descending order ↓
+Third click:  reset sorting"
+                matTooltipClass="table--header--tooltip"
+                matTooltipPosition="above"
+              >
+                <ng-container
+                  *ngIf="tableConfig?.header?.[column]; else pureColumn"
+                >{{ tableConfig?.header?.[column] | i18n }}
+                  <ng-container *ngIf="multiSortList && multiSortList.length >1">
+                    <ng-container *ngFor="let item of multiSortList; let i = index">
+                      <!-- Replace 'columnToMatch' with the specific column name you want to match -->
+                      <div *ngIf="item[0] === column" class="table--header--sort--indicator">
+                        <!-- Display the array entry when it matches the column name -->
+                        {{ (i + 1) + "." }}{{ item[1] === 'asc' ? '↑' : item[1] === 'desc' ? '↓' : '' }}
+                      </div>
+                    </ng-container>
+                  </ng-container
+                  >
+                </ng-container>
+
+              </th>
+              <td *matCellDef="let element" class="table--cell" data-testid="table-component--cell-data" mat-cell>
+                <div class="table--notification--cell">
+                  <ng-container
+                    [ngTemplateOutletContext]="{ value: element[column], row: element}"
+                    [ngTemplateOutlet]="tableConfig?.cellRenderers?.[column] ? tableConfig?.cellRenderers?.[column] : autoFormat"
+                  >
+                  </ng-container>
+                  <mat-icon class="ml-2 table--notification--icon">inbox</mat-icon>
+                </div>
+              </td>
+            </ng-container>
+          </ng-template>
 
             <ng-template #NormalColumn let-column>
                 <ng-container matColumnDef="{{ column }}">

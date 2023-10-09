@@ -103,6 +103,11 @@ export class PartsAssembler {
       psFunction: psFunction,
       functionValidFrom: functionValidFrom,
       functionValidUntil: functionValidUntil,
+
+      // count of notifications
+      activeAlerts: partResponse.qualityAlertsInStatusActive,
+      activeInvestigations: partResponse.qualityInvestigationsInStatusActive,
+
     }
 
     return mappedPart;

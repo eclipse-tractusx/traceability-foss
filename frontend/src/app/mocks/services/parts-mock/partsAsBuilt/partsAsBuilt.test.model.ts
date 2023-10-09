@@ -51,7 +51,9 @@ export const MOCK_part_5 = {
         "manufacturingDate": "2022-02-04T13:48:54",
       }
     }
-  ]
+  ],
+  'qualityAlertsInStatusActive': 0,
+  'qualityInvestigationsInStatusActive': 0,
 };
 
 export const MOCK_part_4 = {
@@ -87,7 +89,9 @@ export const MOCK_part_4 = {
         "manufacturingDate": "2022-02-04T13:48:54",
       }
     }
-  ]
+  ],
+  'qualityAlertsInStatusActive': 0,
+  'qualityInvestigationsInStatusActive': 0,
 };
 
 export const MOCK_part_3 = {
@@ -124,7 +128,9 @@ export const MOCK_part_3 = {
         "manufacturingDate": "2022-02-04T13:48:54",
       }
     }
-  ]
+  ],
+  'qualityAlertsInStatusActive': 0,
+  'qualityInvestigationsInStatusActive': 0,
 };
 
 export const MOCK_part_2 = {
@@ -165,7 +171,9 @@ export const MOCK_part_2 = {
         "manufacturingDate": "2022-02-04T13:48:54",
       }
     }
-  ]
+  ],
+  'qualityAlertsInStatusActive': 0,
+  'qualityInvestigationsInStatusActive': 0,
 };
 
 export const MOCK_part_1 = {
@@ -203,7 +211,9 @@ export const MOCK_part_1 = {
         "manufacturingDate": "2022-02-04T13:48:54",
       }
     }
-  ]
+  ],
+  'qualityAlertsInStatusActive': 0,
+  'qualityInvestigationsInStatusActive': 0,
 };
 
 export const mockAssets: PartsResponse = {
