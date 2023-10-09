@@ -57,6 +57,7 @@ public class SecurityConfig {
             "/actuator/**",
             "/registry/reload",
             "/submodel/**"
+
     };
 
     @Value("${jwt.resource-client}")
