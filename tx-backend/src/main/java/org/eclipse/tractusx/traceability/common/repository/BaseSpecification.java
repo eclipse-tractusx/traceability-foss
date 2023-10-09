@@ -22,14 +22,23 @@ package org.eclipse.tractusx.traceability.common.repository;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
+import lombok.Getter;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaFilter;
 import org.eclipse.tractusx.traceability.common.model.SearchStrategy;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public abstract class BaseSpecification {
+@Getter
+public abstract class BaseSpecification<T> implements Specification<T> {
+
+    private final SearchCriteriaFilter searchCriteriaFilter;
+
+    protected BaseSpecification(SearchCriteriaFilter searchCriteriaFilter) {
+        this.searchCriteriaFilter = searchCriteriaFilter;
+    }
 
     protected Predicate createPredicate(SearchCriteriaFilter criteria, Root<?> root, CriteriaBuilder builder) {
         if (criteria.getStrategy().equals(SearchStrategy.EQUAL)) {
