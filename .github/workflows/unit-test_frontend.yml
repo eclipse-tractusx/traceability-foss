@@ -19,7 +19,9 @@ name: "[FE][TEST] Unit Tests"
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+      - dev
     paths:
       - 'frontend/**'
   pull_request:
