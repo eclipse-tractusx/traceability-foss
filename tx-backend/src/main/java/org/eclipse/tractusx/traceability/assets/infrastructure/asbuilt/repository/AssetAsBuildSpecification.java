@@ -23,24 +23,26 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import lombok.AllArgsConstructor;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.repository.AssetSpecificationUtil;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaFilter;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
 import org.eclipse.tractusx.traceability.common.repository.BaseSpecification;
 import org.glassfish.jersey.internal.guava.Lists;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 
-@AllArgsConstructor
-public class AssetAsBuildSpecification extends BaseSpecification implements Specification<AssetAsBuiltEntity> {
 
-    private SearchCriteriaFilter criteria;
+public class AssetAsBuildSpecification extends BaseSpecification<AssetAsBuiltEntity> implements Specification<AssetAsBuiltEntity> {
+    public AssetAsBuildSpecification(SearchCriteriaFilter criteria) {
+        super(criteria);
+    }
 
     @Override
-    public Predicate toPredicate(Root<AssetAsBuiltEntity> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-        return createPredicate(criteria, root, builder);
+    public Predicate toPredicate(@NotNull Root<AssetAsBuiltEntity> root, @NotNull CriteriaQuery<?> query, @NotNull CriteriaBuilder builder) {
+        return createPredicate(getSearchCriteriaFilter(), root, builder);
     }
 
     public static Specification<AssetAsBuiltEntity> toSpecification(final List<AssetAsBuildSpecification> allSpecifications, SearchCriteriaOperator searchCriteriaOperator) {
@@ -48,18 +50,6 @@ public class AssetAsBuildSpecification extends BaseSpecification implements Spec
         if (specifications.isEmpty()) {
             return Specification.allOf();
         }
-        Specification<AssetAsBuiltEntity> result = specifications.get(0);
-
-        if (searchCriteriaOperator.equals(SearchCriteriaOperator.OR)){
-            for (int i = 1; i < specifications.size(); i++) {
-                result = Specification.where(result).or(specifications.get(i));
-            }
-        } else {
-            for (int i = 1; i < specifications.size(); i++) {
-                result = Specification.where(result).and(specifications.get(i));
-            }
-        }
-
-        return result;
+        return AssetSpecificationUtil.combineSpecifications(specifications, searchCriteriaOperator);
     }
 }

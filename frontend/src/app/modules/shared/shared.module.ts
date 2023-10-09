@@ -76,6 +76,9 @@ import { TemplateModule } from './template.module';
 import { InputComponent } from '@shared/components/input/input.component';
 import { RequestAlertComponent } from '@shared/components/request-notification/request-alert.component';
 import {ViewSelectorComponent} from "@shared/components/view-selector/view-selector.component";
+import {
+    CountryFlagGeneratorComponent
+} from "@shared/components/country-flag-generator/country-flag-generator.component";
 
 @NgModule({
   declarations: [
@@ -124,7 +127,8 @@ import {ViewSelectorComponent} from "@shared/components/view-selector/view-selec
     InputComponent,
     BomLifecycleActivatorComponent,
     ViewSelectorComponent,
-    MultiSelectAutocompleteComponent
+      MultiSelectAutocompleteComponent,
+      CountryFlagGeneratorComponent
   ],
   imports: [TemplateModule, RouterModule, I18NextModule],
     exports: [
@@ -171,7 +175,8 @@ import {ViewSelectorComponent} from "@shared/components/view-selector/view-selec
         BomLifecycleActivatorComponent,
         ViewSelectorComponent,
       PartsTableComponent,
-      MultiSelectAutocompleteComponent
+        MultiSelectAutocompleteComponent,
+        CountryFlagGeneratorComponent,
     ],
   providers: [
     FormatDatePipe,
