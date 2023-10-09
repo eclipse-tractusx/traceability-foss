@@ -22,12 +22,10 @@ package qualitynotification.alert.response;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import qualitynotification.base.response.QualityNotificationResponse;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
 @ToString(callSuper = true)
 @SuperBuilder
