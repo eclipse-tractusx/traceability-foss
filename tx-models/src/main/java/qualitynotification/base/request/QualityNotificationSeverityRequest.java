@@ -17,18 +17,17 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.qualitynotification.application.base.request;
+package qualitynotification.base.request;
 
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
 
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-// TODO move to tx-models
+
 @ApiModel(description = "Describes the criticality of a notification")
 public enum QualityNotificationSeverityRequest {
     MINOR("MINOR"),
@@ -58,9 +57,6 @@ public enum QualityNotificationSeverityRequest {
                 .collect(Collectors.joining(", "));
     }
 
-    public QualityNotificationSeverity toDomain() {
-        return QualityNotificationSeverity.fromString(this.getRealName());
-    }
 
     public String getRealName() {
         return this.realName;

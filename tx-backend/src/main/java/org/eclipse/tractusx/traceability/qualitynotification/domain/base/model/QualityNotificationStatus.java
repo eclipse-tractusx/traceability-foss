@@ -19,6 +19,9 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.domain.base.model;
 
+import qualitynotification.base.request.QualityNotificationStatusRequest;
+import qualitynotification.base.request.UpdateQualityNotificationStatusRequest;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -94,5 +97,13 @@ public enum QualityNotificationStatus {
 
     public boolean isActiveState() {
         return ACTIVE_STATES.contains(this);
+    }
+
+    public static QualityNotificationStatus from(QualityNotificationStatusRequest qualityNotificationStatusRequest) {
+        return QualityNotificationStatus.fromStringValue(qualityNotificationStatusRequest.name());
+    }
+
+    public static QualityNotificationStatus from(UpdateQualityNotificationStatusRequest qualityNotificationStatusRequest) {
+        return QualityNotificationStatus.fromStringValue(qualityNotificationStatusRequest.name());
     }
 }

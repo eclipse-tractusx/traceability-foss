@@ -22,6 +22,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 - updated IRS helm chart from 6.6.1 to 6.7.2
 - Updated policy related logic to reflect IRS changes
+- Moved response handling from the backend folder to the model folder, addressing a TODO item.
+- StartQualityAlertRequest class and replaced it with extant StartQualityNotification class
 
 - Updated user manual to reflect current state of the part views
 
