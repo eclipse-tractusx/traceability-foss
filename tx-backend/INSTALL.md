@@ -1,21 +1,23 @@
 <div style="display: flex; align-items: center;justify-content: center;align-content: center;">
-   <img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/trace-x-logo.svg" alt="Product Traceability FOSS Backend Installation Guide" style="width:200px;"/>
+   <img src="../docs/trace-x-logo.svg" alt="Product Traceability FOSS Backend Installation Guide" style="width:200px;"/>
    <h1 style="margin: 10px 0 0 10px">Product Traceability FOSS Backend Installation guide</h1>
 </div>
 
 ## Clone the source locally:
 
 ```sh
-$ git clone git@github.com:catenax-ng/tx-traceability-foss.git
-$ cd tx-traceability-foss/backend
+$ git clone git@github.com:Cofinity-X/cofinity-x-ba-traceability-foss.git
+$ cd cofinity-x-ba-traceability-foss/tx-backend
 ```
 
 ## Local deployment
-* Start the necessary infrastructure by running: ```docker-compose up``` inside [docker folder](https://github.com/eclipse-tractusx/traceability-foss/blob/main/backend//docker)
+* Start the necessary infrastructure
+  * Change into local [docker folder](docker): ```cd docker```
+  * execute: ```docker-compose up```
 * Export environment variables required by the service:
   * `SPRING_DATASOURCE_URL` - with value `jdbc:postgresql://localhost:5432/trace`
-  * `SPRING_DATASOURCE_USERNAME` - with value `trace` [see database initialization script](https://github.com/eclipse-tractusx/traceability-foss/blob/main/backend/docker/db-init/create_db.sql)
-  * `SPRING_DATASOURCE_PASSWORD` - with value `docker` [see docker-compose file](https://github.com/eclipse-tractusx/traceability-foss/blob/main/backend/docker/docker-compose.yml)
+  * `SPRING_DATASOURCE_USERNAME` - with value `trace` [see database initialization script](docker/db-init/create_db.sql)
+  * `SPRING_DATASOURCE_PASSWORD` - with value `docker` [see docker-compose file](docker/docker-compose.yml)
   * `OAUTH2_CLIENT_ID` - with OAuth2 provider client registration id specific value
   * `OAUTH2_CLIENT_SECRET` - with OAuth2 provider client registration secret specific value
   * `OAUTH2_PROVIDER_TOKEN_URI` - with OAuth2 provider url to obtain tokens
@@ -35,7 +37,7 @@ Users should have one of the following roles assigned:
 
 ## Helm secrets configuration
 Product Traceability FOSS Backend ships with helm charts and utilize [helm dependency](https://helm.sh/docs/helm/helm_dependency/) functionality for 3rd party components.
-In order to deploy the service following secrets needs to be provided for specific environment [see project helm environment specifc files](https://github.com/eclipse-tractusx/traceability-foss/blob/main/charts/traceability-foss-backend):
+In order to deploy the service following secrets needs to be provided for specific environment [see project helm environment specific files](../charts/traceability-foss/charts/backend):
 
 ### OAuth2
 * `oauth2.clientId` - OAuth2 client registration id credentials
@@ -48,7 +50,7 @@ To start a database for local development, go to the docker directory and run.
 docker compose up -d
 ```
 
-Add the database configuration to your [application-local.yml](https://github.com/eclipse-tractusx/traceability-foss/blob/main/backend/src/main/ressouces/application-local.yml)
+Add the database configuration to your [application-local.yml](src/main/resources/application-local.yml)
 
 ```yaml
 spring:
@@ -59,11 +61,11 @@ spring:
     flyway:
         clean-on-validation-error: false
 ```
-Database scripts are executed with Flyway. Put the scripts at [migration](https://github.com/eclipse-tractusx/traceability-foss/blob/main/backend/src/main/resources/db/migration)
+Database scripts are executed with Flyway. Put the scripts at [migration](src/main/resources/db/migration)
 
 * `postgresql.secret.initUserDbSql` - database initialization script, contains username and password for databases used by the service.
 Please note that the final script should be encoded using Base64 encoding and then added to a secret. Sample command:
-```sh
+```shell
 echo -n 'CREATE ROLE trace WITH LOGIN PASSWORD 'yourPassword';\nCREATE DATABASE trace;\nGRANT ALL PRIVILEGES ON DATABASE trace TO trace;' | base64
 ```
 
@@ -85,7 +87,7 @@ Then install the Helm chart into your cluster:
 $ helm install -f your-values.yaml traceability-foss backend/traceability-foss-backend
 ```
 
-== Deployment using ArgoCD
+## Deployment using ArgoCD
 
 Create a new Helm chart and use Trace-X as a dependency.
 

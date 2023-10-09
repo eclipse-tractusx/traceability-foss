@@ -74,13 +74,13 @@ ingress:
 
 Add the Trace-X frontend Helm repository:
 
-```sh
+```shell
 $ helm repo add traceability-foss-frontend https://github.com/eclipse-tractusx/traceability-foss
 ```
 
 Then install the Helm chart into your cluster:
 
-```sh
+```shell
 $ helm install -f your-values.yaml traceability-foss-frontend traceability-foss-frontend/traceability-foss-frontend
 ```
 
