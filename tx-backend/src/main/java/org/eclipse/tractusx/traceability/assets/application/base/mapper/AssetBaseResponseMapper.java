@@ -32,7 +32,6 @@ import assets.response.base.QualityTypeResponse;
 import assets.response.base.SemanticDataModelResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataAsBuilt;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataTractionBatteryCode;
@@ -55,7 +54,6 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 @AllArgsConstructor
 @Slf4j
 @Data
-@SuperBuilder
 public class AssetBaseResponseMapper {
 
     public static List<DetailAspectModelResponse> fromList(List<DetailAspectModel> detailAspectModels) {

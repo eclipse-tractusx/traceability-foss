@@ -59,8 +59,6 @@ public class OpenApiConfig {
                                 new Example().value("{\"code\" : 500, \"Status\" : \"Internal server error\", \"Message\" : \"Internal server error\"}")
                         ))).description("Internal server error");
         Components components = new Components();
-        components.addResponses("badRequestAPI", badRequestAPI);
-        components.addResponses("internalServerErrorAPI", internalServerErrorAPI);
         components.addSecuritySchemes("oAuth2", new SecurityScheme().type(SecurityScheme.Type.OAUTH2)
                 .flows(new OAuthFlows().clientCredentials(
                         new OAuthFlow().scopes(
