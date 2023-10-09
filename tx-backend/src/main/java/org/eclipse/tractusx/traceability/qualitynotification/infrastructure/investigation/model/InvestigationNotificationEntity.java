@@ -48,7 +48,7 @@ import java.util.List;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "investigation_notification")
 public class InvestigationNotificationEntity extends QualityNotificationMessageBaseEntity {
