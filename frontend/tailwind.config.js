@@ -160,8 +160,8 @@ module.exports = {
       receivedLight: '#e1f1fe',
       receivedDark: '#2b4078',
 
-      pendingLight: '#FFECBD',
-      pendingDark: '#975b26',
+      pendingLight: '#FDB913',
+      pendingDark: '#262124',
 
       confirmedLight: '#e2f6c7',
       confirmedDark: '#5c8d46',
@@ -170,7 +170,15 @@ module.exports = {
       declinedDark: '#ff5330',
 
       closedLight: '#ffffff',
-      closedDark: '#5d3416',
+      closedDark: '#4D4D4D',
+
+      canceledLight: '#ffffff',
+      canceledDark: '#524FA1',
+
+      requestedLight: '#ffffff',
+      requestedDark: '#A6CE39',
+
+      white: '#ffffff',
 
       qualityTypeOk: '#3db014',
       qualityTypeMinor: '#ffd74a',
