@@ -51,7 +51,7 @@ public class AssetSpecificationUtil {
             }
         } else {
             for (BaseSpecification<T> otherSpecification : otherSpecifications) {
-                resultOr = Specification.where(resultOr).and(otherSpecification);
+                resultOr = Specification.where(resultOr).or(otherSpecification);
             }
         }
 

@@ -251,6 +251,26 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
                 .then()
                 .log().all()
                 .statusCode(200)
+                .body("totalItems", equalTo(13));
+    }
+
+    @Test
+    void givenSemanticDataModelAndManufacturingDateFilterAnd_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
+        // given
+        assetsSupport.defaultAssetsStored();
+        final String filter = "?filter=manufacturingDate,AT_LOCAL_DATE,2014-11-18&filter=semanticDataModel,EQUAL,SERIALPART";
+        final String filterOperator = "&filterOperator=AND";
+
+        // then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .get("/api/assets/as-built" + filter + filterOperator)
+                .then()
+                .log().all()
+                .statusCode(200)
                 .body("totalItems", equalTo(1));
     }
 
