@@ -31,10 +31,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import qualitynotification.alert.request.StartQualityAlertRequest;
 import qualitynotification.alert.response.AlertResponse;
 import qualitynotification.base.request.CloseQualityNotificationRequest;
 import qualitynotification.base.request.QualityNotificationSeverityRequest;
+import qualitynotification.base.request.StartQualityNotificationRequest;
 import qualitynotification.base.request.UpdateQualityNotificationRequest;
 import qualitynotification.base.request.UpdateQualityNotificationStatusRequest;
 import qualitynotification.base.response.QualityNotificationIdResponse;
@@ -68,12 +68,12 @@ class AlertControllerTest {
         final List<String> partIds = List.of("partId1", "partId2");
         final Instant targetDate = Instant.parse("2099-03-11T22:44:06.333826952Z");
         final QualityNotificationId notificationId = new QualityNotificationId(666L);
-        final StartQualityAlertRequest request = StartQualityAlertRequest.builder()
+        final StartQualityNotificationRequest request = StartQualityNotificationRequest.builder()
                 .partIds(partIds)
                 .description("description")
                 .targetDate(targetDate)
                 .severity(QualityNotificationSeverityRequest.MINOR)
-                .bpn("BPN00001")
+                .receiverBpn("BPN00001")
                 .build();
         when(alertService.start(Mockito.eq(from(request)))).thenReturn(notificationId);
 

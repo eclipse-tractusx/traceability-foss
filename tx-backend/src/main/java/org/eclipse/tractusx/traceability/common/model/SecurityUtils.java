@@ -24,7 +24,6 @@ import org.apache.commons.text.StringEscapeUtils;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotificationContent;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotificationHeader;
-import qualitynotification.alert.request.StartQualityAlertRequest;
 import qualitynotification.base.request.CloseQualityNotificationRequest;
 import qualitynotification.base.request.StartQualityNotificationRequest;
 import qualitynotification.base.request.UpdateQualityNotificationRequest;
@@ -68,19 +67,6 @@ public class SecurityUtils {
                     .build();
     }
 
-    public static StartQualityAlertRequest sanitize(StartQualityAlertRequest request) {
-        String cleanDescription = sanitize(request.getDescription());
-        List<String> cleanPartIds = sanitize(request.getPartIds());
-        String cleanBpn = sanitize(request.getBpn());
-        return StartQualityAlertRequest.builder()
-                .partIds(cleanPartIds)
-                .description(cleanDescription)
-                .targetDate(request.getTargetDate())
-                .severity(request.getSeverity())
-                .bpn(cleanBpn)
-                .isAsBuilt(request.isAsBuilt())
-                .build();
-    }
 
     public static CloseQualityNotificationRequest sanitize(CloseQualityNotificationRequest closeInvestigationRequest) {
             String cleanReason = sanitize(closeInvestigationRequest.getReason());

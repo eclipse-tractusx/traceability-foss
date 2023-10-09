@@ -58,7 +58,7 @@ public class AlertServiceImpl extends AbstractQualityNotificationService {
 
     @Override
     public QualityNotificationId start(StartQualityNotificationDomain startQualityAlertDomain) {
-        QualityNotification notification = notificationPublisherService.startAlert(startQualityAlertDomain.getPartIds(), startQualityAlertDomain.getDescription(), startQualityAlertDomain.getTargetDate(), startQualityAlertDomain.getSeverity(), startQualityAlertDomain.getBpn(), startQualityAlertDomain.isAsBuilt());
+        QualityNotification notification = notificationPublisherService.startAlert(startQualityAlertDomain.getPartIds(), startQualityAlertDomain.getDescription(), startQualityAlertDomain.getTargetDate(), startQualityAlertDomain.getSeverity(), startQualityAlertDomain.getReceiverBpn(), startQualityAlertDomain.isAsBuilt());
 
         QualityNotificationId createdAlertId = alertRepository.saveQualityNotificationEntity(notification);
         log.info("Start Alert {}", notification);

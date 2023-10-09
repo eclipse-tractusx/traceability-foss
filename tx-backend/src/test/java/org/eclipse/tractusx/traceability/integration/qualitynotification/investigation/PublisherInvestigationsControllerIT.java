@@ -45,7 +45,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
-import qualitynotification.alert.request.StartQualityAlertRequest;
 import qualitynotification.base.request.CloseQualityNotificationRequest;
 import qualitynotification.base.request.QualityNotificationSeverityRequest;
 import qualitynotification.base.request.StartQualityNotificationRequest;
@@ -200,7 +199,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
 
         String description = RandomStringUtils.random(1001);
 
-        val request = StartQualityAlertRequest.builder()
+        val request = StartQualityNotificationRequest.builder()
                 .partIds(partIds)
                 .description(description)
                 .severity(QualityNotificationSeverityRequest.MINOR)
