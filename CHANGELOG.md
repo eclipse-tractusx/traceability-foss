@@ -18,12 +18,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Added country flags icons to manufacturing Country
 - new submodelserver related API endpoints for data provisioning /api/submodel/data/{id}
 - Added global search field to other parts
+- Added possiblity to provide multiple semanticDataModels in filter
 
 ### Changed
 - updated IRS helm chart from 6.6.1 to 6.7.2
 - Updated policy related logic to reflect IRS changes
 - Moved response handling from the backend folder to the model folder, addressing a TODO item.
-- StartQualityAlertRequest class and replaced it with extant StartQualityNotification class
+- replaced StartQualityAlertRequest with StartQualityNotification
 - updated mikefarah/yq from 4.35.1 to 4.35.2
 - updated maven-site-plugin from 4.0.0-M5 to 4.0.0-M9
 - updated testcontainer-postgresql from 1.17.6 to 1.19.0
