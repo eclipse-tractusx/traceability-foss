@@ -26,21 +26,24 @@ import {HttpParams} from "@angular/common/http";
 
 
 export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, params: HttpParams): HttpParams {
+    const semanticDataModelKey = "semanticDataModel";
     for (const key in filter) {
-
-        const value = filter[key];
-        if (value.length !== 0) {
-            // Modify this line to format the filter
-            let operator: string;
-            if (key === "semanticDataModel") {
-                operator = getFilterOperatorValue(FilterOperator.EQUAL);
-            } else if (key.toLowerCase().includes('date')) {
-                operator = getFilterOperatorValue(FilterOperator.AT_LOCAL_DATE);
-            } else {
-                operator = getFilterOperatorValue(FilterOperator.STARTS_WITH);
+        let operator: string;
+        const filterValues = filter[key];
+        if (key !== semanticDataModelKey) {
+            if (filterValues.length !== 0) {
+                if (key.toLowerCase().includes('date')) {
+                    operator = getFilterOperatorValue(FilterOperator.AT_LOCAL_DATE);
+                } else {
+                    operator = getFilterOperatorValue(FilterOperator.STARTS_WITH);
+                }
+                params = params.append('filter', `${key},${operator},${filterValues}`);
             }
-            params = params.append('filter', `${key},${operator},${value}`);
-
+        } else {
+            operator = getFilterOperatorValue(FilterOperator.EQUAL);
+            for (let value of filterValues) {
+                params = params.append('filter', `${key},${operator},${value}`);
+            }
         }
     }
     return params;
