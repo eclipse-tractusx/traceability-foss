@@ -23,7 +23,7 @@ import {AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChildren} fr
 import {Pagination} from '@core/model/pagination.model';
 import {PartsFacade} from '@page/parts/core/parts.facade';
 import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
-import {Part} from '@page/parts/model/parts.model';
+import {AssetAsBuiltFilter, AssetAsPlannedFilter, Part} from '@page/parts/model/parts.model';
 import {PartTableType, TableEventConfig, TableHeaderSort,} from '@shared/components/table/table.model';
 import {View} from '@shared/model/view.model';
 import {PartDetailsFacade} from '@shared/modules/part-details/core/partDetails.facade';
@@ -57,6 +57,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     public tableAsBuiltSortList: TableHeaderSort[];
     public tableAsPlannedSortList: TableHeaderSort[];
 
+    public DEFAULT_PAGE_SIZE = 50;
     public ctrlKeyState = false;
 
     @ViewChildren(PartsTableComponent) partsTableComponents: QueryList<PartsTableComponent>;
@@ -86,6 +87,8 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     public searchFormGroup = new FormGroup({});
     public searchControl: FormControl;
 
+    assetFilter: AssetAsBuiltFilter | AssetAsPlannedFilter;
+
     public ngOnInit(): void {
         this.partsFacade.setPartsAsBuilt();
         this.partsFacade.setPartsAsPlanned();
@@ -94,25 +97,22 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     filterActivated(isAsBuilt: boolean, assetFilter: any): void {
+        this.assetFilter = assetFilter;
         if (isAsBuilt) {
-            this.partsFacade.setPartsAsBuilt(0, 50, [], toAssetFilter(assetFilter, true));
+            this.partsFacade.setPartsAsBuilt(0, this.DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(this.assetFilter, true));
         } else {
-            this.partsFacade.setPartsAsPlanned(0, 50, [], toAssetFilter(assetFilter, false));
+            this.partsFacade.setPartsAsPlanned(0, this.DEFAULT_PAGE_SIZE, this.tableAsPlannedSortList, toAssetFilter(this.assetFilter, false));
         }
     }
 
     triggerPartSearch() {
 
-        let filterSet = false;
-        this.resetLocalFilters(filterSet);
-        if (filterSet) {
-            this.toastService.info("parts.input.global-search.toastInfo");
-        }
+        this.resetFilterAndShowToast();
         const searchValue = this.searchFormGroup.get("partSearch").value;
 
         if (searchValue && searchValue !== "") {
-            this.partsFacade.setPartsAsPlanned(0, 50, [], toGlobalSearchAssetFilter(searchValue, false), true);
-            this.partsFacade.setPartsAsBuilt(0, 50, [], toGlobalSearchAssetFilter(searchValue, true), true);
+            this.partsFacade.setPartsAsPlanned(0, this.DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toGlobalSearchAssetFilter(searchValue, false), true);
+            this.partsFacade.setPartsAsBuilt(0, this.DEFAULT_PAGE_SIZE, this.tableAsPlannedSortList, toGlobalSearchAssetFilter(searchValue, true), true);
         } else {
             this.partsFacade.setPartsAsBuilt();
             this.partsFacade.setPartsAsPlanned();
@@ -121,11 +121,11 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
 
-    private resetLocalFilters(filterIsSet: boolean) {
+    private resetFilterAndShowToast() {
         for (const partTableComponent of this.partsTableComponents) {
-            if (partTableComponent.multiSelectAutocompleteComponent.theSearchElement) {
-                filterIsSet = true;
+            if (partTableComponent.filterFormGroup.dirty) {
                 partTableComponent.filterFormGroup.reset();
+                this.toastService.info("parts.input.global-search.toastInfo");
             }
         }
     }
@@ -144,12 +144,33 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public onAsBuiltTableConfigChange({page, pageSize, sorting}: TableEventConfig): void {
         this.setTableSortingList(sorting, MainAspectType.AS_BUILT);
-        this.partsFacade.setPartsAsBuilt(page, pageSize, this.tableAsBuiltSortList);
+
+        let pageSizeValue = this.DEFAULT_PAGE_SIZE;
+        if (pageSize !== 0) {
+            pageSizeValue = pageSize;
+        }
+
+        if (this.assetFilter) {
+            this.partsFacade.setPartsAsBuilt(0, pageSizeValue, this.tableAsBuiltSortList, toAssetFilter(this.assetFilter, true));
+        } else {
+            this.partsFacade.setPartsAsBuilt(page, pageSizeValue, this.tableAsBuiltSortList);
+        }
+
     }
 
     public onAsPlannedTableConfigChange({page, pageSize, sorting}: TableEventConfig): void {
-        this.setTableSortingList(sorting, MainAspectType.AS_PLANNED);
-        this.partsFacade.setPartsAsPlanned(page, pageSize, this.tableAsPlannedSortList);
+
+        let pageSizeValue = this.DEFAULT_PAGE_SIZE;
+        if (pageSize !== 0) {
+            pageSizeValue = pageSize;
+        }
+
+        if (this.assetFilter) {
+            this.partsFacade.setPartsAsPlanned(0, pageSizeValue, this.tableAsPlannedSortList, toAssetFilter(this.assetFilter, true));
+        } else {
+            this.partsFacade.setPartsAsPlanned(page, pageSizeValue, this.tableAsPlannedSortList);
+        }
+
     }
 
     public handleTableActivationEvent(bomLifecycleSize: BomLifecycleSize) {
