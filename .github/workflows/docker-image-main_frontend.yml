@@ -54,7 +54,10 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push to GHCR Registry ${{ env.GHCR_REGISTRY }}/${{ github.repository }}-frontend:${{ github.sha }}
+      - name: Make organization and repository name lowercase
+        run: echo "GITHUB_REPOSITORY_LOWERCASE=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
+      - name: Build and push to GHCR Registry ${{ env.GHCR_REGISTRY }}/${{ env.GITHUB_REPOSITORY_LOWERCASE }}-frontend:${{ github.sha }}
         env:
           DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
         if: env.DOCKER_HUB_USER == ''
@@ -62,7 +65,7 @@ jobs:
         with:
           context: frontend
           push: true
-          tags: ${{ env.GHCR_REGISTRY }}/${{ github.repository }}-frontend:${{ github.sha }}
+          tags: ${{ env.GHCR_REGISTRY }}/${{ env.GITHUB_REPOSITORY_LOWERCASE }}-frontend:${{ github.sha }}
 
       - name: Login to Docker Hub
         env:
