@@ -21,6 +21,8 @@
 
 package org.eclipse.tractusx.traceability.common.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import io.github.resilience4j.core.registry.EntryAddedEvent;
 import io.github.resilience4j.core.registry.EntryRemovedEvent;
 import io.github.resilience4j.core.registry.EntryReplacedEvent;
@@ -120,7 +122,7 @@ public class ApplicationConfig {
         try {
             AcceptedPolicy acceptedPolicy = buildAcceptedPolicy();
             defaultAcceptedPoliciesProvider.addAcceptedPolicies(List.of(acceptedPolicy));
-            log.info("Successfully added permission to irs client lib provider: {}", acceptedPolicy);
+            log.info("Successfully added permission to irs client lib provider: {}", new ObjectMapper().writeValueAsString(acceptedPolicy));
         } catch (Exception exception) {
             log.error("Failed to create Irs Policies : ", exception);
         }
