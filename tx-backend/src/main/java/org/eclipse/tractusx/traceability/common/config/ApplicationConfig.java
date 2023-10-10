@@ -138,10 +138,12 @@ public class ApplicationConfig {
         List<Permission> permissions = List.of(
                 new Permission(
                         PolicyType.USE,
-                        List.of(new Constraints(List.of(new Constraint("PURPOSE", OperatorType.EQ, List.of(ID_TRACE_CONSTRAINT))), List.of()))
+                        List.of(new Constraints(
+                                List.of(new Constraint("PURPOSE", OperatorType.EQ, List.of(ID_TRACE_CONSTRAINT))),
+                                List.of(new Constraint("PURPOSE", OperatorType.EQ, List.of(ID_TRACE_CONSTRAINT)))))
                 )
         );
-        Policy policy = new Policy(ID_TRACE_CONSTRAINT, OffsetDateTime.now(), offsetDateTime, permissions);
+        Policy policy = new Policy(ID_TRACE_CONSTRAINT, OffsetDateTime.now().minusDays(1), offsetDateTime, permissions);
         return new AcceptedPolicy(policy, offsetDateTime);
     }
 
