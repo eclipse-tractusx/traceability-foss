@@ -137,7 +137,7 @@ export interface AssetAsBuiltFilter {
     classification?: string,
     nameAtCustomer?: string,
     semanticModelId?: string,
-    semanticDataModel?: string,
+    semanticDataModel?: string[],
     manufacturingDate?: string,
     manufacturingCountry?: string
 }
@@ -149,7 +149,7 @@ export interface AssetAsPlannedFilter {
     manufacturer?: string,
     manufacturerPartId?: string,
     classification?: string,
-    semanticDataModel?: string,
+    semanticDataModel?: string[],
     semanticModelId?: string,
     validityPeriodFrom?: string,
     validityPeriodTo?: string,

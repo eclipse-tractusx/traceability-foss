@@ -37,7 +37,7 @@ SPDX-License-Identifier: Apache-2.0
             {{onDisplayString()}}
         </mat-select-trigger>
         <mat-option (click)="changeSearchTextOption()" [value]=this.theSearchElement
-                    [style.display]="!this.theSearchElement ? 'none': 'flex'">{{this.theSearchElement}}
+                    [style.display]="shouldHideTextSearchOptionField() ? 'none': 'flex'">{{this.theSearchElement}}
         </mat-option>
         <mat-option *ngFor="let option of options" [disabled]="option.disabled" [value]="option[value]"
                     [style.display]="hideOption(option) ? 'none': 'flex'">{{option[display]}}
