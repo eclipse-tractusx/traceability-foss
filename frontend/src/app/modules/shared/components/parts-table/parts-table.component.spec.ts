@@ -132,6 +132,8 @@ describe('PartsTableComponent', () => {
             'filterSemanticDataModel',
             'filterManufacturingDate',
             'filterManufacturingCountry',
+            'filterActiveAlerts',
+            'filterActiveInvestigations',
         ]);
     });
 

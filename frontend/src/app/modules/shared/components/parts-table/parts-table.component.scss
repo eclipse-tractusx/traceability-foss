@@ -109,6 +109,24 @@ table {
   padding: 0 10px;
 }
 
+.table--notification--cell {
+  display: flex;
+  align-items: center;
+}
+
+.table--notification--cell--content {
+  flex: 1;
+}
+
+.table--notification--cell--content--icon {
+  flex: 8;
+}
+
+
+.table--notification--icon {
+  color: #888888;
+}
+
 .table--selected__container {
   position: sticky;
   top: 0;

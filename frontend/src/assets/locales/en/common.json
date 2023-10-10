@@ -94,7 +94,9 @@
       "catenaXSiteId": "SiteId",
       "psFunction": "Function",
       "functionValidFrom": "Function valid from",
-      "functionValidUntil": "Function valid until"
+      "functionValidUntil" : "Function valid until",
+      "activeAlerts" : "Active Quality alerts",
+      "activeInvestigations" : "Active Quality investigations"
     }
   },
   "dataLoading": {
