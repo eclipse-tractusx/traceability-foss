@@ -40,7 +40,9 @@ public record RegisterPolicyRequest(
                 Instant.parse(policy.getTtl()),
                 List.of(new Permission(
                         PolicyType.USE,
-                        List.of(new Constraints(List.of(new Constraint("PURPOSE", OperatorType.EQ, List.of(policy.getPolicyId()))), List.of()))
+                        List.of(new Constraints(
+                                List.of(new Constraint("PURPOSE", OperatorType.EQ, List.of(policy.getPolicyId()))),
+                                List.of(new Constraint("PURPOSE", OperatorType.EQ, List.of(policy.getPolicyId())))))
                 )));
     }
 }
