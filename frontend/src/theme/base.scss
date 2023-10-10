@@ -24,9 +24,156 @@
 /*--------------------------------------------------------*/
 
 @layer base {
+  .display-large {
+    @apply font-semiBold m-0 p-0;
+    font-size: 64px;
+    letter-spacing: -0.25;
+    line-height: 110%;
+  }
+
+  .display-medium {
+    @apply font-semiBold m-0 p-0;
+    font-size: 48px;
+    letter-spacing: 0;
+    line-height: 110%;
+  }
+
+  .display-small {
+    @apply font-semiBold m-0 p-0;
+    font-size: 40px;
+    letter-spacing: 0;
+    line-height: 110%;
+  }
+
+  .large-text {
+    @apply font-semiBold m-0 p-0;
+    font-size: 36px;
+    letter-spacing: 0;
+    line-height: 110%;
+  }
+
+  .headline-medium {
+    @apply font-semiBold m-0 p-0;
+    font-size: 32px;
+    letter-spacing: 0;
+    line-height: 110%;
+  }
+
+  .headline-small {
+    @apply font-semiBold m-0 p-0;
+    font-size: 28px;
+    letter-spacing: 0;
+    line-height: 110%;
+  }
+
+  .title-large {
+    @apply font-semiBold m-0 p-0;
+    font-size: 24px;
+    letter-spacing: 0;
+    line-height: 110%;
+  }
+
+  .title-medium {
+    @apply font-semiBold m-0 p-0;
+    font-size: 20px;
+    letter-spacing: 0;
+    line-height: 110%;
+  }
+
+  .title-small {
+    @apply font-semiBold m-0 p-0;
+    font-size: 20px;
+    letter-spacing: 0;
+    line-height: 110%;
+  }
+
+  .label-large {
+    @apply font-semiBold m-0 p-0;
+    font-size: 20px;
+    letter-spacing: 0.1;
+    line-height: 100%;
+  }
+
+  .label-medium {
+    @apply font-semiBold m-0 p-0;
+    font-size: 16px;
+    letter-spacing: 0.5;
+    line-height: 100%;
+  }
+
+  .label-small {
+    @apply font-semiBold m-0 p-0;
+    font-size: 14px;
+    letter-spacing: 0.5;
+    line-height: 100%;
+  }
+
+  .label-xsmall {
+    @apply font-semiBold m-0 p-0;
+    font-size: 12px;
+    letter-spacing: 0.5;
+    line-height: 100%;
+  }
+
+  .body-large {
+    @apply font-regular m-0 p-0;
+    font-size: 20px;
+    letter-spacing: 0;
+    line-height: 140%;
+  }
+
+  .body-large-emphasis {
+    @apply font-medium m-0 p-0;
+    font-size: 20px;
+    letter-spacing: 0;
+    line-height: 140%;
+  }
+
+  .body-medium {
+    @apply font-regular m-0 p-0;
+    font-size: 18px;
+    letter-spacing: 0;
+    line-height: 140%;
+  }
+
+  .body-medium-emphasis {
+    @apply font-semiBold m-0 p-0;
+    font-size: 18px;
+    letter-spacing: 0;
+    line-height: 140%;
+  }
+
+  .body-small {
+    @apply font-regular m-0 p-0;
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 130%;
+  }
+
+  .body-small-emphasis {
+    @apply font-semiBold m-0 p-0;
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 130%;
+  }
+
+  .body-xsmall {
+    @apply font-regular m-0 p-0;
+    font-size: 12px;
+    letter-spacing: 0;
+    line-height: 110%;
+  }
+
+  .body-xsmall-emphasis {
+    @apply font-semiBold m-0 p-0;
+    font-size: 12px;
+    letter-spacing: 0;
+    line-height: 110%;
+  }
+
   body {
     @apply font-light bg-white m-0 p-0 overflow-hidden;
-    font-family: 'Catena-X Light', 'Arial Narrow', Arial, sans-serif;
+    font-family: 'Cofinity-X Light', 'Arial Narrow', Arial, sans-serif;
     font-size: 14px;
   }
 
@@ -48,7 +195,7 @@
   }
 
   h2,
-  normal-case{
+  normal-case {
     @apply font-medium uppercase text-dark;
     font-size: 36px;
     text-transform: none;
@@ -58,11 +205,12 @@
     @apply font-semiBold sm:text-xl text-dark;
     font-size: 24px;
   }
+
   h3,
-  upper-case{
+  upper-case {
     @apply uppercase font-semiBold sm:text-xl text-dark;
     font-size: 24px;
-    }
+  }
 
   h4 {
     @apply font-semiBold sm:text-lg text-dark;
@@ -112,7 +260,7 @@
     border-radius: 50px !important;
   }
 
-  .mat-mdc-unelevated-button > .mdc-button__label {
+  .mat-mdc-unelevated-button>.mdc-button__label {
     @apply text-interactive;
   }
 
@@ -130,11 +278,15 @@
     font-size: 14px;
   }
 
+  mat-card {
+    border-radius: 15px !important;
+  }
+
   .mat-sort-header {
     @apply text-gray;
   }
 
-  .mat-sort-header-sorted > .mat-sort-header-content {
+  .mat-sort-header-sorted>.mat-sort-header-content {
     @apply font-semiBold;
   }
 

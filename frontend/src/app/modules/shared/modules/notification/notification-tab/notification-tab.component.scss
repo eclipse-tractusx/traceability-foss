@@ -26,6 +26,10 @@
   max-width: 500px;
 }
 
+.notification--table__description-text {
+  @apply text-textLink;
+}
+
 .notification-status {
   @apply border-0 uppercase inline-flex items-center gap-1 px-3 py-1 rounded-full font-semibold text-xs w-fit;
 
@@ -35,34 +39,38 @@
   }
 
   &--RECEIVED {
-    @apply bg-receivedLight text-receivedDark before:bg-receivedDark;
+    @apply bg-receivedLight text-white before:bg-white;
   }
 
   &--CANCELED {
-    @apply bg-closedDark text-closedLight before:bg-closedLight;
+    @apply bg-canceledDark text-canceledLight before:bg-canceledLight;
   }
 
   &--CLOSED {
-    @apply bg-closedDark text-closedLight before:bg-closedLight;
+    @apply bg-closedDark text-closedLight before:bg-white;
   }
 
   &--CREATED {
-    @apply bg-createdLight text-createdDark before:bg-createdDark;
+    @apply bg-createdLight text-white before:bg-white;
   }
 
   &--SENT {
-    @apply bg-pendingLight text-pendingDark before:bg-pendingDark;
+    @apply bg-pendingLight text-white before:bg-white;
   }
 
   &--ACCEPTED {
-    @apply bg-declinedLight text-declinedDark before:bg-declinedDark;
+    @apply bg-declinedLight text-white before:bg-white;
+  }
+
+  &--REQUESTED {
+    @apply bg-requestedDark text-pendingDark before:bg-white;
   }
 
   &--ACKNOWLEDGED {
-    @apply bg-pendingLight text-pendingDark before:bg-pendingDark;
+    @apply bg-pendingLight text-pendingDark before:bg-white;
   }
 
   &--DECLINED {
-    @apply bg-confirmedLight text-confirmedDark before:bg-confirmedDark;
+    @apply bg-error text-white before:bg-white;
   }
 }

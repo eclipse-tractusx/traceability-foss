@@ -27,6 +27,10 @@
   @apply col-span-12 lg:col-span-4;
 }
 
+.view-button {
+  @apply text-textLink
+}
+
 .dashboard--investigation {
   @apply col-span-12;
 }

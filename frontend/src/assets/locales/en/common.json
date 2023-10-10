@@ -174,7 +174,7 @@
     "range": "{{startIndex}} – {{endIndex}} of {{length}}"
   },
   "commonInvestigation": {
-    "viewAll": "View all",
+    "viewAll": "view all",
     "tabs": {
       "received": "Received",
       "queuedAndRequested": "Queued & Requested"
@@ -215,7 +215,7 @@
     }
   },
   "commonAlert": {
-    "viewAll": "View all",
+    "viewAll": "view all",
     "tabs": {
       "received": "Received",
       "queuedAndRequested": "Queued & Sent"

@@ -20,7 +20,11 @@ SPDX-License-Identifier: Apache-2.0
 -->
 
 <main class="layout-container">
-  <div class="layout-content">
+  <div class="layout-content" [ngStyle]="{
+    backgroundImage:'url(./assets/images/background.svg)', 
+    backgroundRepeat: 'no-repeat', 
+    backgroundPosition: 'center right',
+    backgroundSize: '50%'}">
     <app-header></app-header>
     <div class="layout-content__box-modal relative">
       <div class="flex flex-col h-full">

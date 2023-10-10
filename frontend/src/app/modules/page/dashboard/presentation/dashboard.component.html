@@ -21,41 +21,35 @@ SPDX-License-Identifier: Apache-2.0
 
 <div class="dashboard-grid">
   <section class="parts-section">
-    <ng-container
-      *viewContainer="
+    <ng-container *viewContainer="
         this.numberOfMyParts$ | async;
         main: numbersMainTmp;
         error: numbersErrorTmp;
         loading: numbersLoaderTmp;
         customContext: { label: 'pageDashboard.totalOfParts.label', icon: 'directions_car' }
-      "
-    >
+      ">
     </ng-container>
   </section>
 
   <section class="parts-section">
-    <ng-container
-      *viewContainer="
+    <ng-container *viewContainer="
         this.numberOfOtherParts$ | async;
         main: numbersMainTmp;
         error: numbersErrorTmp;
         loading: numbersLoaderTmp;
         customContext: { label: 'pageDashboard.totalOfOtherParts.label', icon: 'directions_car' }
-      "
-    >
+      ">
     </ng-container>
   </section>
 
   <section class="parts-section">
-    <ng-container
-      *viewContainer="
+    <ng-container *viewContainer="
         this.numberOfInvestigations$ | async;
         main: numbersMainTmp;
         error: numbersErrorTmp;
         loading: numbersLoaderTmp;
         customContext: { label: 'pageDashboard.totalInvestigations.label', icon: 'find_in_page' }
-      "
-    >
+      ">
     </ng-container>
   </section>
   <section class="dashboard--investigation">
@@ -64,16 +58,11 @@ SPDX-License-Identifier: Apache-2.0
         <div class="inline-block w-full">
           <div class="flex justify-between items-center">
             <h3 class="mb-4 flex items-center">
-              <mat-icon>find_in_page</mat-icon>
+              <img class="pr-2" src="/assets/images/icons/qualityInvestigations.svg" />
               {{ 'pageTitle.investigations' | i18n }}
             </h3>
-            <app-button
-              [color]="'primary'"
-              [routerLink]="[investigationLink]"
-              [queryParams]="investigationParams"
-              [relativeTo]="null"
-            >
-              <div class="flex justify-between items-center">
+            <app-button [routerLink]="[investigationLink]" [queryParams]="investigationParams" [relativeTo]="null">
+              <div class="flex justify-between items-center view-button">
                 <mat-icon class="mr-2">remove_red_eye</mat-icon>
                 {{ 'commonInvestigation.viewAll' | i18n }}
               </div>
@@ -81,16 +70,11 @@ SPDX-License-Identifier: Apache-2.0
           </div>
         </div>
       </mat-card-header>
-
       <mat-card-content>
-        <app-notifications-tab
-          [notificationsView$]="investigations$"
-          [translationContext]="'commonInvestigation'"
-          [labelId]="'dashboard-investigations'"
-          [hasPagination]="false"
+        <app-notifications-tab [notificationsView$]="investigations$" [translationContext]="'commonInvestigation'"
+          [labelId]="'dashboard-investigations'" [hasPagination]="false"
           [optionalColumns]="['targetDate', 'severity', 'createdBy']"
-          (selected)="onNotificationSelected($event)"
-        ></app-notifications-tab>
+          (selected)="onNotificationSelected($event)"></app-notifications-tab>
       </mat-card-content>
     </mat-card>
   </section>

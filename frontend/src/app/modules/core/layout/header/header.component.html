@@ -21,9 +21,9 @@ SPDX-License-Identifier: Apache-2.0
 
 <div class="header--container">
   <nav class="header--menu-container">
-    <img src="/assets/images/logo.svg" alt="Trace-x" class="header--logo cursor-pointer" routerLink="dashboard" />
+    <img src="/assets/images/logo.svg" alt="Cofinity-X" class="header--logo cursor-pointer" routerLink="dashboard" />
 
-    <div class="header--menu">
+    <div class="header--menu label-large">
       <ng-container *ngTemplateOutlet="menuItem; context: { value: 'dashboard', role: 'user' }"></ng-container>
       <ng-container *ngTemplateOutlet="menuItem; context: { value: 'parts', role: 'user' }"></ng-container>
       <ng-container *ngTemplateOutlet="menuItem; context: { value: 'otherParts', role: 'user' }"></ng-container>
@@ -33,7 +33,7 @@ SPDX-License-Identifier: Apache-2.0
     </div>
 
     <div class="header--user">
-      <app-button variant="flat" color="accent" (click)="openDocumentation()" >
+      <app-button variant="flat" color="accent" (click)="openDocumentation()">
         {{ 'actions.help' | i18n }}
       </app-button>
 
@@ -53,15 +53,8 @@ SPDX-License-Identifier: Apache-2.0
 </div>
 
 <ng-template let-type="value" let-role="role" #menuItem>
-  <a
-    class="header--menu__item"
-    *appHasRole="[role]"
-    [routerLink]="['/' + type]"
-    [class.selected]="type === activeMenu"
-  >
-    <app-text-with-icon [iconName]="iconMapping[type]" class="header--menu__item-iconText">
-      <p>{{ 'routing.' + type | i18n }}</p>
-    </app-text-with-icon>
+  <a class="header--menu__item" *appHasRole="[role]" [routerLink]="['/' + type]" [class.selected]="type === activeMenu">
+    <div>{{ 'routing.' + type | i18n }}</div>
     <mat-icon class="header--menu__item-icon">{{ iconMapping[type] }}</mat-icon>
   </a>
 </ng-template>

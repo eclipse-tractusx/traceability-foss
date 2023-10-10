@@ -18,13 +18,16 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+@import "../../../../../theme/base.scss";
+
+@tailwind base;
 
 .header {
   &--container {
+    padding: 0 90px 0 90px;
     display: flex;
     flex-direction: column;
     background: linear-gradient(152.33deg, #e4ebf3 4.24%, #adb9c7 72.17%);
-    // background: linear-gradient(111.81deg, #9eaba9 41.97%, #b6a763 72.9%);
   }
 
   &--logo {
@@ -44,7 +47,7 @@
     // Subtract the curve height from header size
     height: calc(85px - 32px);
 
-    & > h3 {
+    &>h3 {
       padding-top: 15px;
     }
   }
@@ -76,6 +79,7 @@
 
     &__item-iconText {
       display: block;
+
       @media (max-width: 1024px) {
         display: none;
       }
@@ -83,29 +87,28 @@
 
     &__item-icon {
       display: none;
+
       @media (max-width: 1024px) {
         display: block;
       }
     }
 
     &__item {
-      @apply font-medium;
-
-      color: #888888;
-      line-height: 20px;
+      @extend .label-large;
+      color: #000000;
       position: relative;
 
       &.selected,
       &:hover {
-        @apply text-primary;
-
         &::before {
           content: ' ';
           width: 100%;
           padding-top: 10px;
-          border: none;
           position: absolute;
-          border-bottom: 2px solid #0f71cb;
+          border-bottom-width: 3px;
+          border-bottom-style: solid;
+          border-image:
+            linear-gradient(90deg, #FDB913 0%, #D31184 100%) 1;
         }
       }
     }
