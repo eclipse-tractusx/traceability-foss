@@ -23,6 +23,7 @@ package org.eclipse.tractusx.traceability.common.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.github.resilience4j.core.registry.EntryAddedEvent;
 import io.github.resilience4j.core.registry.EntryRemovedEvent;
 import io.github.resilience4j.core.registry.EntryReplacedEvent;
@@ -118,11 +119,13 @@ public class ApplicationConfig {
 	}
 
     @Bean
-    public void registerDecentralRegistryPermissions(ObjectMapper objectMapper) {
+    public void registerDecentralRegistryPermissions() {
         try {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.registerModule(new JavaTimeModule());
             AcceptedPolicy acceptedPolicy = buildAcceptedPolicy();
             defaultAcceptedPoliciesProvider.addAcceptedPolicies(List.of(acceptedPolicy));
-            log.info("Successfully added permission to irs client lib provider: {}", objectMapper.writeValueAsString(acceptedPolicy));
+            log.info("Successfully added permission to irs client lib provider: {}", mapper.writeValueAsString(acceptedPolicy));
         } catch (Exception exception) {
             log.error("Failed to create Irs Policies : ", exception);
         }
