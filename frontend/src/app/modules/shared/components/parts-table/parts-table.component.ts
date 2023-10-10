@@ -52,8 +52,7 @@ import {addSelectedValues, removeSelectedValues} from '@shared/helper/table-help
 @Component({
     selector: 'app-parts-table',
     templateUrl: './parts-table.component.html',
-    styleUrls: ['parts-table.component.scss'],
-    encapsulation: ViewEncapsulation.None,
+    styleUrls: ['parts-table.component.scss']
 })
 export class PartsTableComponent implements OnInit {
     @ViewChild(MatSort) sort: MatSort;
