@@ -76,8 +76,22 @@ export class PartsTableComponent implements OnInit {
   public tableConfig: TableConfig;
 
   filterKey = 'Filter';
-
-
+  @Output() selected = new EventEmitter<Record<string, unknown>>();
+  @Output() configChanged = new EventEmitter<TableEventConfig>();
+  @Output() multiSelect = new EventEmitter<any[]>();
+  @Output() clickSelectAction = new EventEmitter<void>();
+  @Output() filterActivated = new EventEmitter<any>();
+  public readonly dataSource = new MatTableDataSource<unknown>();
+  public readonly selection = new SelectionModel<unknown>(true, []);
+  public totalItems: number;
+  public pageIndex: number;
+  public isDataLoading: boolean;
+  public selectedRow: Record<string, unknown>;
+  public isMenuOpen: boolean;
+  public displayedFilter: boolean;
+  public filterConfiguration: any[];
+  public displayedColumns: string[];
+  filterFormGroup = new FormGroup({});
   optionTextSearch = [];
   semanticDataModelOptions = [
     {
@@ -97,6 +111,77 @@ export class PartsTableComponent implements OnInit {
       value: SemanticDataModel.PARTASPLANNED,
     },
   ];
+  assetAsBuiltFilterFormGroup = {
+    id: new FormControl([]),
+    idShort: new FormControl([]),
+    nameAtManufacturer: new FormControl([]),
+    manufacturerName: new FormControl([]),
+    partId: new FormControl([]),
+    manufacturerPartId: new FormControl([]),
+    customerPartId: new FormControl([]),
+    classification: new FormControl([]),
+    nameAtCustomer: new FormControl([]),
+    semanticModelId: new FormControl([]),
+    semanticDataModel: new FormControl([]),
+    manufacturingDate: new FormControl([]),
+    manufacturingCountry: new FormControl([]),
+    activeAlerts: new FormControl([]),
+    activeInvestigations: new FormControl([]),
+  };
+  assetAsPlannedFilterFormGroup = {
+    id: new FormControl([]),
+    idShort: new FormControl([]),
+    nameAtManufacturer: new FormControl([]),
+    manufacturerName: new FormControl([]),
+    manufacturerPartId: new FormControl([]),
+    classification: new FormControl([]),
+    semanticDataModel: new FormControl([]),
+    semanticModelId: new FormControl([]),
+    validityPeriodFrom: new FormControl([]),
+    validityPeriodTo: new FormControl([]),
+    function: new FormControl([]),
+    catenaxSiteId: new FormControl([]),
+    functionValidFrom: new FormControl([]),
+    functionValidUntil: new FormControl([]),
+  };
+  assetAsBuiltSupplierFilterFormGroup = {
+    select: new FormControl([]),
+    semanticDataModel: new FormControl([]),
+    nameAtManufacturer: new FormControl([]),
+    manufacturerName: new FormControl([]),
+    manufacturerPartId: new FormControl([]),
+    semanticModelId: new FormControl([]),
+    manufacturingDate: new FormControl([]),
+    activeAlerts: new FormControl([]),
+    activeInvestigations: new FormControl([]),
+  };
+  assetAsPlannedSupplierFilterFormGroup = {
+    select: new FormControl([]),
+    semanticDataModel: new FormControl([]),
+    nameAtManufacturer: new FormControl([]),
+    manufacturerName: new FormControl([]),
+    manufacturerPartId: new FormControl([]),
+    semanticModelId: new FormControl([]),
+  };
+  assetAsBuiltCustomerFilterFormGroup = {
+    select: new FormControl([]),
+    semanticDataModel: new FormControl([]),
+    nameAtManufacturer: new FormControl([]),
+    manufacturerName: new FormControl([]),
+    manufacturerPartId: new FormControl([]),
+    semanticModelId: new FormControl([]),
+    manufacturingDate: new FormControl([]),
+    activeAlerts: new FormControl([]),
+    activeInvestigations: new FormControl([]),
+  };
+  assetAsPlannedCustomerFilterFormGroup = {
+    select: new FormControl([]),
+    semanticDataModel: new FormControl([]),
+    nameAtManufacturer: new FormControl([]),
+    manufacturerName: new FormControl([]),
+    semanticModelId: new FormControl([]),
+    manufacturerPartId: new FormControl([]),
+  };
   public readonly assetAsBuiltFilterConfiguration: any[] = [
     { filterKey: 'Filter', headerKey: 'Filter', isTextSearch: true, option: this.optionTextSearch },
     { filterKey: 'id', headerKey: 'filterId', isTextSearch: true, option: this.optionTextSearch },
@@ -157,7 +242,12 @@ export class PartsTableComponent implements OnInit {
       isTextSearch: true,
       option: this.optionTextSearch,
     },
-    { filterKey: 'activeAlerts', headerKey: 'filterActiveAlerts', isTextSearch: true, option: this.optionTextSearch },
+    {
+      filterKey: 'activeAlerts',
+      headerKey: 'filterActiveAlerts',
+      isTextSearch: true,
+      option: this.optionTextSearch,
+    },
     {
       filterKey: 'activeInvestigations',
       headerKey: 'filterActiveInvestigations',
@@ -165,89 +255,76 @@ export class PartsTableComponent implements OnInit {
       option: this.optionTextSearch,
     },
   ];
-  assetAsBuiltFilterFormGroup = {
-    id: new FormControl([]),
-    idShort: new FormControl([]),
-    nameAtManufacturer: new FormControl([]),
-    manufacturerName: new FormControl([]),
-    partId: new FormControl([]),
-    manufacturerPartId: new FormControl([]),
-    customerPartId: new FormControl([]),
-    classification: new FormControl([]),
-    nameAtCustomer: new FormControl([]),
-    semanticModelId: new FormControl([]),
-    semanticDataModel: new FormControl([]),
-    manufacturingDate: new FormControl([]),
-    manufacturingCountry: new FormControl([]),
-    activeAlerts: new FormControl([]),
-    activeInvestigations: new FormControl([]),
-  };
-
-  @Output() selected = new EventEmitter<Record<string, unknown>>();
-  @Output() configChanged = new EventEmitter<TableEventConfig>();
-  @Output() multiSelect = new EventEmitter<any[]>();
-  @Output() clickSelectAction = new EventEmitter<void>();
-  @Output() filterActivated = new EventEmitter<any>();
-
-
-  public readonly dataSource = new MatTableDataSource<unknown>();
-  public readonly selection = new SelectionModel<unknown>(true, []);
-
-  public totalItems: number;
-  public pageIndex: number;
-  public isDataLoading: boolean;
-  public selectedRow: Record<string, unknown>;
-  public isMenuOpen: boolean;
-  public displayedFilter: boolean;
-
-  public filterConfiguration: any[];
-  public displayedColumns: string[];
-
-  filterFormGroup = new FormGroup({});
-  assetAsPlannedFilterFormGroup = {
-    id: new FormControl([]),
-    idShort: new FormControl([]),
-    nameAtManufacturer: new FormControl([]),
-    manufacturerName: new FormControl([]),
-    manufacturerPartId: new FormControl([]),
-    classification: new FormControl([]),
-    semanticDataModel: new FormControl([]),
-    semanticModelId: new FormControl([]),
-    validityPeriodFrom: new FormControl([]),
-    validityPeriodTo: new FormControl([]),
-    function: new FormControl([]),
-    catenaxSiteId: new FormControl([]),
-    functionValidFrom: new FormControl([]),
-    functionValidUntil: new FormControl([]),
-  };
-  assetAsPlannedSupplierFilterFormGroup = {
-    select: new FormControl([]),
-    semanticDataModel: new FormControl([]),
-    nameAtManufacturer: new FormControl([]),
-    manufacturerName: new FormControl([]),
-    manufacturerPartId: new FormControl([]),
-    semanticModelId: new FormControl([]),
-  };
-  assetAsPlannedCustomerFilterFormGroup = {
-    select: new FormControl([]),
-    semanticDataModel: new FormControl([]),
-    nameAtManufacturer: new FormControl([]),
-    manufacturerName: new FormControl([]),
-    semanticModelId: new FormControl([]),
-    manufacturerPartId: new FormControl([]),
-  };
-  assetAsBuiltSupplierFilterFormGroup = {
-    select: new FormControl([]),
-    semanticDataModel: new FormControl([]),
-    nameAtManufacturer: new FormControl([]),
-    manufacturerName: new FormControl([]),
-    manufacturerPartId: new FormControl([]),
-    semanticModelId: new FormControl([]),
-    manufacturingDate: new FormControl([]),
-    activeAlerts: new FormControl([]),
-    activeInvestigations: new FormControl([]),
-  };
-
+  private readonly displayedFilterColumnsAsBuilt: string[] = [
+    'Filter',
+    'filterId',
+    'filterIdShort',
+    'filterName', // nameAtManufacturer
+    'filterManufacturer',
+    'filterPartId', // Part number / Batch Number / JIS Number
+    'filterManufacturerPartId',
+    'filterCustomerPartId', // --> semanticModel.customerPartId
+    'filterClassification',
+    'filterNameAtCustomer', // --> semanticModel.nameAtCustomer
+    'filterSemanticModelId',
+    'filterSemanticDataModel',
+    'filterManufacturingDate',
+    'filterManufacturingCountry',
+    'filterActiveAlerts',
+    'filterActiveInvestigations',
+  ];
+  private readonly displayedFilterColumnsAsPlanned: string[] = [
+    'Filter',
+    'filterId',
+    'filterIdShort',
+    'filterName',
+    'filterManufacturer',
+    'filterManufacturerPartId',
+    'filterClassification',
+    'filterSemanticDataModel',
+    'filterSemanticModelId',
+    'filterValidityPeriodFrom',
+    'filterValidityPeriodTo',
+    'filterPsFunction',
+    'filterCatenaXSiteId',
+    'filterFunctionValidFrom',
+    'filterFunctionValidUntil',
+  ];
+  private readonly displayedColumnsAsBuilt: string[] = [
+    'select',
+    'id',
+    'idShort',
+    'name',
+    'manufacturer',
+    'partId',
+    'manufacturerPartId',
+    'customerPartId',
+    'classification',
+    'nameAtCustomer',
+    'semanticModelId',
+    'semanticDataModel',
+    'manufacturingDate',
+    'manufacturingCountry',
+    'activeAlerts',
+    'activeInvestigations',
+  ];
+  private readonly displayedColumnsAsPlanned: string[] = [
+    'select',
+    'id',
+    'idShort',
+    'name',
+    'manufacturer',
+    'manufacturerPartId',
+    'classification',
+    'semanticDataModel',
+    'semanticModelId',
+    'validityPeriodFrom',
+    'validityPeriodTo',
+    'psFunction',
+    'catenaXSiteId',
+    'functionValidFrom',
+    'functionValidUntil',
+  ];
   private readonly sortableColumnsAsBuilt: Record<string, boolean> = {
     id: true,
     idShort: true,
@@ -266,7 +343,6 @@ export class PartsTableComponent implements OnInit {
     activeInvestigations: true,
 
   };
-
   private readonly sortableColumnsAsPlanned: Record<string, boolean> = {
     id: true,
     idShort: true,
@@ -283,104 +359,63 @@ export class PartsTableComponent implements OnInit {
     functionValidFrom: true,
     functionValidUntil: true,
   };
-  assetAsBuiltCustomerFilterFormGroup = {
-    select: new FormControl([]),
-    semanticDataModel: new FormControl([]),
-    nameAtManufacturer: new FormControl([]),
-    manufacturerName: new FormControl([]),
-    manufacturerPartId: new FormControl([]),
-    semanticModelId: new FormControl([]),
-    manufacturingDate: new FormControl([]),
-    activeAlerts: new FormControl([]),
-    activeInvestigations: new FormControl([]),
-  };
-  private readonly displayedColumnsAsBuilt: string[] = [
+  private readonly displayedFilterColumnsAsBuiltCustomer: string[] = [
     'Filter',
-    'filterId',
-    'filterIdShort',
-    'filterName', // nameAtManufacturer
-    'filterManufacturer',
-    'filterPartId', // Part number / Batch Number / JIS Number
-    'filterManufacturerPartId',
-    'filterCustomerPartId', // --> semanticModel.customerPartId
-    'filterClassification',
-    'filterNameAtCustomer', // --> semanticModel.nameAtCustomer
-    'filterSemanticModelId',
     'filterSemanticDataModel',
+    'filterName',
+    'filterManufacturer',
+    'filterPartId',
+    'filterSemanticModelId',
     'filterManufacturingDate',
-    'filterManufacturingCountry',
     'filterActiveAlerts',
     'filterActiveInvestigations',
   ];
-  private readonly displayedColumnsAsPlanned: string[] = [
+  private readonly displayedFilterColumnsAsBuiltSupplier: string[] = [
     'Filter',
-    'filterId',
-    'filterIdShort',
+    'filterSemanticDataModel',
+    'filterName',
+    'filterManufacturer',
+    'filterPartId',
+    'filterSemanticModelId',
+    'filterManufacturingDate',
+    'filterActiveAlerts',
+    'filterActiveInvestigations',
+  ];
+  private readonly displayedFilterColumnsAsPlannedCustomer: string[] = [
+    'Filter',
+    'filterSemanticDataModel',
     'filterName',
     'filterManufacturer',
     'filterManufacturerPartId',
-    'filterClassification',
-    'filterSemanticDataModel',
     'filterSemanticModelId',
-    'filterValidityPeriodFrom',
-    'filterValidityPeriodTo',
-    'filterPsFunction',
-    'filterCatenaXSiteId',
-    'filterFunctionValidFrom',
-    'filterFunctionValidUntil',
   ];
-  private readonly displayedColumnsAsBuiltForTable: string[] = [
+  private readonly displayedFilterColumnsAsPlannedSupplier: string[] = [
+    'Filter',
+    'filterSemanticDataModel',
+    'filterName',
+    'filterManufacturer',
+    'filterManufacturerPartId',
+    'filterSemanticModelId',
+  ];
+  private readonly displayedColumnsAsBuiltCustomer: string[] = [
     'select',
-    'id',
-    'idShort',
+    'semanticDataModel',
     'name',
     'manufacturer',
     'partId',
-    'manufacturerPartId',
-    'customerPartId',
-    'classification',
-    'nameAtCustomer',
     'semanticModelId',
-    'semanticDataModel',
     'manufacturingDate',
-    'manufacturingCountry',
     'activeAlerts',
     'activeInvestigations',
   ];
-  private readonly displayedColumnsAsPlannedForTable: string[] = [
+  private readonly displayedColumnsAsPlannedCustomer: string[] = [
     'select',
-    'id',
-    'idShort',
+    'semanticDataModel',
     'name',
     'manufacturer',
     'manufacturerPartId',
-    'classification',
-    'semanticDataModel',
     'semanticModelId',
-    'validityPeriodFrom',
-    'validityPeriodTo',
-    'psFunction',
-    'catenaXSiteId',
-    'functionValidFrom',
-    'functionValidUntil',
   ];
-  private readonly displayedColumnsAsPlannedCustomer: string[] = [
-    'Filter',
-    'filterSemanticDataModel',
-    'filterName',
-    'filterManufacturer',
-    'filterManufacturerPartId',
-    'filterSemanticModelId',
-  ];
-  private readonly displayedColumnsAsPlannedSupplier: string[] = [
-    'Filter',
-    'filterSemanticDataModel',
-    'filterName',
-    'filterManufacturer',
-    'filterManufacturerPartId',
-    'filterSemanticModelId',
-  ];
-
   private readonly sortableColumnsAsPlannedCustomer: Record<string, boolean> = {
     semanticDataModel: true,
     name: true,
@@ -389,69 +424,7 @@ export class PartsTableComponent implements OnInit {
     semanticModelId: true,
     manufacturingDate: true,
   };
-  private readonly displayedColumnsAsBuiltCustomer: string[] = [
-    'Filter',
-    'filterSemanticDataModel',
-    'filterName',
-    'filterManufacturer',
-    'filterPartId',
-    'filterSemanticModelId',
-    'filterManufacturingDate',
-    'filterActiveAlerts',
-    'filterActiveInvestigations',
-  ];
   private readonly displayedColumnsAsBuiltSupplier: string[] = [
-    'Filter',
-    'filterSemanticDataModel',
-    'filterName',
-    'filterManufacturer',
-    'filterPartId',
-    'filterSemanticModelId',
-    'filterManufacturingDate',
-    'filterActiveAlerts',
-    'filterActiveInvestigations',
-  ];
-  private readonly displayedColumnsAsBuiltCustomerForTable: string[] = [
-    'select',
-    'semanticDataModel',
-    'name',
-    'manufacturer',
-    'partId',
-    'semanticModelId',
-    'manufacturingDate',
-    'activeAlerts',
-    'activeInvestigations',
-  ];
-
-  private readonly sortableColumnsAsPlannedSupplier: Record<string, boolean> = {
-    semanticDataModel: true,
-    name: true,
-    manufacturer: true,
-    manufacturerPartId: true,
-    semanticModelId: true,
-  };
-
-  private pageSize: number;
-  private sorting: TableHeaderSort;
-  private readonly sortableColumnsAsBuiltCustomer: Record<string, boolean> = {
-    semanticDataModel: true,
-    name: true,
-    manufacturer: true,
-    partId: true,
-    semanticModelId: true,
-    manufacturingDate: true,
-    activeAlerts: true,
-    activeInvestigations: true,
-  };
-  private readonly displayedColumnsAsPlannedCustomerForTable: string[] = [
-    'select',
-    'semanticDataModel',
-    'name',
-    'manufacturer',
-    'manufacturerPartId',
-    'semanticModelId',
-  ];
-  private readonly displayedColumnsAsBuiltSupplierForTable: string[] = [
     'select',
     'semanticDataModel',
     'name',
@@ -471,15 +444,89 @@ export class PartsTableComponent implements OnInit {
     manufacturingDate: true,
     activeAlerts: true,
     activeInvestigations: true,
-
   };
-  private readonly displayedColumnsAsPlannedSupplierForTable: string[] = [
+  private readonly sortableColumnsAsBuiltCustomer: Record<string, boolean> = {
+    semanticDataModel: true,
+    name: true,
+    manufacturer: true,
+    partId: true,
+    semanticModelId: true,
+    manufacturingDate: true,
+    activeAlerts: true,
+    activeInvestigations: true,
+  };
+  private readonly displayedColumnsAsPlannedSupplier: string[] = [
     'select',
     'semanticDataModel',
     'name',
     'manufacturer',
     'manufacturerPartId',
     'semanticModelId',
+  ];
+  private readonly sortableColumnsAsPlannedSupplier: Record<string, boolean> = {
+    semanticDataModel: true,
+    name: true,
+    manufacturer: true,
+    manufacturerPartId: true,
+    semanticModelId: true,
+  };
+  private pageSize: number;
+  private sorting: TableHeaderSort;
+  private readonly assetAsPlannedCustomerFilterConfiguration: any[] = [
+    { filterKey: 'Filter', headerKey: 'Filter', isTextSearch: true, option: this.optionTextSearch },
+    {
+      filterKey: 'semanticDataModel',
+      headerKey: 'filterSemanticDataModel',
+      isTextSearch: false,
+      option: this.semanticDataModelOptions,
+    },
+    { filterKey: 'nameAtManufacturer', headerKey: 'filterName', isTextSearch: true, option: this.optionTextSearch },
+    {
+      filterKey: 'manufacturerName',
+      headerKey: 'filterManufacturer',
+      isTextSearch: true,
+      option: this.optionTextSearch,
+    },
+    {
+      filterKey: 'manufacturerPartId',
+      headerKey: 'filterManufacturerPartId',
+      isTextSearch: true,
+      option: this.optionTextSearch,
+    },
+    {
+      filterKey: 'semanticModelId',
+      headerKey: 'filterSemanticModelId',
+      isTextSearch: true,
+      option: this.optionTextSearch,
+    },
+  ];
+  private readonly assetAsPlannedSupplierFilterConfiguration: any[] = [
+    { filterKey: 'Filter', headerKey: 'Filter', isTextSearch: true, option: this.optionTextSearch },
+    {
+      filterKey: 'semanticDataModel',
+      headerKey: 'filterSemanticDataModel',
+      isTextSearch: false,
+      option: this.semanticDataModelOptions,
+    },
+    { filterKey: 'nameAtManufacturer', headerKey: 'filterName', isTextSearch: true, option: this.optionTextSearch },
+    {
+      filterKey: 'manufacturerName',
+      headerKey: 'filterManufacturer',
+      isTextSearch: true,
+      option: this.optionTextSearch,
+    },
+    {
+      filterKey: 'manufacturerPartId',
+      headerKey: 'filterManufacturerPartId',
+      isTextSearch: true,
+      option: this.optionTextSearch,
+    },
+    {
+      filterKey: 'semanticModelId',
+      headerKey: 'filterSemanticModelId',
+      isTextSearch: true,
+      option: this.optionTextSearch,
+    },
   ];
   private readonly assetAsBuiltCustomerFilterConfiguration: any[] = [
     { filterKey: 'Filter', headerKey: 'Filter', isTextSearch: true, option: this.optionTextSearch },
@@ -509,7 +556,12 @@ export class PartsTableComponent implements OnInit {
       isTextSearch: true,
       option: this.optionTextSearch,
     },
-    { filterKey: 'activeAlerts', headerKey: 'filterActiveAlerts', isTextSearch: true, option: this.optionTextSearch },
+    {
+      filterKey: 'activeAlerts',
+      headerKey: 'filterActiveAlerts',
+      isTextSearch: true,
+      option: this.optionTextSearch,
+    },
     {
       filterKey: 'activeInvestigations',
       headerKey: 'filterActiveInvestigations',
@@ -545,7 +597,12 @@ export class PartsTableComponent implements OnInit {
       isTextSearch: true,
       option: this.optionTextSearch,
     },
-    { filterKey: 'activeAlerts', headerKey: 'filterActiveAlerts', isTextSearch: true, option: this.optionTextSearch },
+    {
+      filterKey: 'activeAlerts',
+      headerKey: 'filterActiveAlerts',
+      isTextSearch: true,
+      option: this.optionTextSearch,
+    },
     {
       filterKey: 'activeInvestigations',
       headerKey: 'filterActiveInvestigations',
@@ -553,151 +610,6 @@ export class PartsTableComponent implements OnInit {
       option: this.optionTextSearch,
     },
   ];
-
-  @Input() set paginationData({ page, pageSize, totalItems, content }: Pagination<unknown>) {
-    this.totalItems = totalItems;
-    this.pageSize = pageSize;
-    this.dataSource.data = content;
-    this.isDataLoading = false;
-    this.pageIndex = page;
-  }
-
-  @Input() set data(content: unknown[]) {
-
-    this.dataSource.data = content;
-    this.isDataLoading = false;
-  }
-
-  @Input() set deselectTrigger(deselectItem: unknown[]) {
-    if (!deselectItem) {
-      return;
-    }
-
-    this.removeSelectedValues(deselectItem);
-    this.emitMultiSelect();
-  }
-
-  @Input() set addTrigger(newItem: unknown) {
-    if (!newItem) {
-      return;
-    }
-
-    this.selection.select(newItem);
-    this.emitMultiSelect();
-  }
-
-  ngOnInit() {
-    this.handleAsBuiltTableType();
-    this.handleAsPlannedTableType();
-    this.filterFormGroup.valueChanges.subscribe((formValues) => {
-      this.filterActivated.emit(formValues);
-    });
-  }
-
-  private handleAsPlannedTableType(): void {
-    switch (this.tableType) {
-      case PartTableType.AS_PLANNED_CUSTOMER:
-        this.setupTableConfigurations(this.displayedColumnsAsPlannedCustomerForTable, this.displayedColumnsAsPlannedCustomer, this.sortableColumnsAsPlannedCustomer, this.assetAsPlannedCustomerFilterConfiguration, this.assetAsPlannedCustomerFilterFormGroup);
-        break;
-      case PartTableType.AS_PLANNED_OWN:
-        this.setupTableConfigurations(this.displayedColumnsAsPlannedForTable, this.displayedColumnsAsPlanned, this.sortableColumnsAsPlanned, this.assetAsPlannedFilterConfiguration, this.assetAsPlannedFilterFormGroup);
-        break;
-      case PartTableType.AS_PLANNED_SUPPLIER:
-        this.setupTableConfigurations(this.displayedColumnsAsPlannedSupplierForTable, this.displayedColumnsAsPlannedSupplier, this.sortableColumnsAsPlannedSupplier, this.assetAsPlannedSupplierFilterConfiguration, this.assetAsPlannedSupplierFilterFormGroup);
-        break;
-    }
-  }
-
-  private readonly assetAsPlannedCustomerFilterConfiguration: any[] = [
-    { filterKey: 'Filter', headerKey: 'Filter', isTextSearch: true, option: this.optionTextSearch },
-    {
-      filterKey: 'semanticDataModel',
-      headerKey: 'filterSemanticDataModel',
-      isTextSearch: false,
-      option: this.semanticDataModelOptions,
-    },
-    { filterKey: 'nameAtManufacturer', headerKey: 'filterName', isTextSearch: true, option: this.optionTextSearch },
-    {
-      filterKey: 'manufacturerName',
-      headerKey: 'filterManufacturer',
-      isTextSearch: true,
-      option: this.optionTextSearch,
-    },
-    {
-      filterKey: 'manufacturerPartId',
-      headerKey: 'filterManufacturerPartId',
-      isTextSearch: true,
-      option: this.optionTextSearch,
-    },
-    {
-      filterKey: 'semanticModelId',
-      headerKey: 'filterSemanticModelId',
-      isTextSearch: true,
-      option: this.optionTextSearch,
-    },
-  ];
-
-  private readonly assetAsPlannedSupplierFilterConfiguration: any[] = [
-    { filterKey: 'Filter', headerKey: 'Filter', isTextSearch: true, option: this.optionTextSearch },
-    {
-      filterKey: 'semanticDataModel',
-      headerKey: 'filterSemanticDataModel',
-      isTextSearch: false,
-      option: this.semanticDataModelOptions,
-    },
-    { filterKey: 'nameAtManufacturer', headerKey: 'filterName', isTextSearch: true, option: this.optionTextSearch },
-    {
-      filterKey: 'manufacturerName',
-      headerKey: 'filterManufacturer',
-      isTextSearch: true,
-      option: this.optionTextSearch,
-    },
-    {
-      filterKey: 'manufacturerPartId',
-      headerKey: 'filterManufacturerPartId',
-      isTextSearch: true,
-      option: this.optionTextSearch,
-    },
-    {
-      filterKey: 'semanticModelId',
-      headerKey: 'filterSemanticModelId',
-      isTextSearch: true,
-      option: this.optionTextSearch,
-    },
-  ];
-
-  private setupTableConfigurations(displayedColumnsForTable: string[], displayedColumns: string[], sortableColumns: Record<string, boolean>, filterConfiguration: any[], filterFormGroup: any): any {
-    const headerKey = 'table.column';
-    this.tableConfig = {
-      displayedColumns: displayedColumnsForTable,
-      header: CreateHeaderFromColumns(displayedColumnsForTable, headerKey),
-      sortableColumns: sortableColumns,
-    };
-    this.filterConfiguration = filterConfiguration;
-    this.displayedColumns = displayedColumns;
-    for (const controlName in filterFormGroup) {
-      if (filterFormGroup.hasOwnProperty(controlName)) {
-        this.filterFormGroup.addControl(controlName, filterFormGroup[controlName]);
-      }
-    }
-
-  }
-
-  private handleAsBuiltTableType(): void {
-    switch (this.tableType) {
-      case PartTableType.AS_BUILT_OWN:
-        this.setupTableConfigurations(this.displayedColumnsAsBuiltForTable, this.displayedColumnsAsBuilt, this.sortableColumnsAsBuilt, this.assetAsBuiltFilterConfiguration, this.assetAsBuiltFilterFormGroup);
-        break;
-      case PartTableType.AS_BUILT_CUSTOMER:
-        this.setupTableConfigurations(this.displayedColumnsAsBuiltCustomerForTable, this.displayedColumnsAsBuiltCustomer, this.sortableColumnsAsBuiltCustomer, this.assetAsBuiltCustomerFilterConfiguration, this.assetAsBuiltCustomerFilterFormGroup);
-        break;
-      case PartTableType.AS_BUILT_SUPPLIER:
-        this.setupTableConfigurations(this.displayedColumnsAsBuiltSupplierForTable, this.displayedColumnsAsBuiltSupplier, this.sortableColumnsAsBuiltSupplier, this.assetAsBuiltSupplierFilterConfiguration, this.assetAsBuiltSupplierFilterFormGroup);
-        break;
-    }
-  }
-
-
   private readonly assetAsPlannedFilterConfiguration: any[] = [
     { filterKey: 'Filter', headerKey: 'Filter', isTextSearch: true, option: this.optionTextSearch },
     { filterKey: 'id', headerKey: 'filterId', isTextSearch: true, option: this.optionTextSearch },
@@ -761,6 +673,45 @@ export class PartsTableComponent implements OnInit {
     },
   ];
 
+  @Input() set paginationData({ page, pageSize, totalItems, content }: Pagination<unknown>) {
+    this.totalItems = totalItems;
+    this.pageSize = pageSize;
+    this.dataSource.data = content;
+    this.isDataLoading = false;
+    this.pageIndex = page;
+  }
+
+  @Input() set data(content: unknown[]) {
+
+    this.dataSource.data = content;
+    this.isDataLoading = false;
+  }
+
+  @Input() set deselectTrigger(deselectItem: unknown[]) {
+    if (!deselectItem) {
+      return;
+    }
+
+    this.removeSelectedValues(deselectItem);
+    this.emitMultiSelect();
+  }
+
+  @Input() set addTrigger(newItem: unknown) {
+    if (!newItem) {
+      return;
+    }
+
+    this.selection.select(newItem);
+    this.emitMultiSelect();
+  }
+
+  ngOnInit() {
+    this.handleAsBuiltTableType();
+    this.handleAsPlannedTableType();
+    this.filterFormGroup.valueChanges.subscribe((formValues) => {
+      this.filterActivated.emit(formValues);
+    });
+  }
 
   public areAllRowsSelected(): boolean {
     return this.dataSource.data.every(data => this.isSelected(data));
@@ -811,16 +762,60 @@ export class PartsTableComponent implements OnInit {
     }
   }
 
-  private emitMultiSelect(): void {
-    this.multiSelect.emit(this.selection.selected);
-  }
-
   public toggleFilter(): void {
     this.displayedFilter = !this.displayedFilter;
   }
 
   public isSelected(row: unknown): boolean {
     return !!this.selection.selected.find(data => JSON.stringify(data) === JSON.stringify(row));
+  }
+
+  private setupTableConfigurations(displayedColumnsForTable: string[], displayedColumns: string[], sortableColumns: Record<string, boolean>, filterConfiguration: any[], filterFormGroup: any): any {
+    const headerKey = 'table.column';
+    this.tableConfig = {
+      displayedColumns: displayedColumnsForTable,
+      header: CreateHeaderFromColumns(displayedColumnsForTable, headerKey),
+      sortableColumns: sortableColumns,
+    };
+    this.filterConfiguration = filterConfiguration;
+    this.displayedColumns = displayedColumns;
+    for (const controlName in filterFormGroup) {
+      if (filterFormGroup.hasOwnProperty(controlName)) {
+        this.filterFormGroup.addControl(controlName, filterFormGroup[controlName]);
+      }
+    }
+  }
+
+  private handleAsPlannedTableType(): void {
+    switch (this.tableType) {
+      case PartTableType.AS_PLANNED_CUSTOMER:
+        this.setupTableConfigurations(this.displayedColumnsAsPlannedCustomer, this.displayedFilterColumnsAsPlannedCustomer, this.sortableColumnsAsPlannedCustomer, this.assetAsPlannedCustomerFilterConfiguration, this.assetAsPlannedCustomerFilterFormGroup);
+        break;
+      case PartTableType.AS_PLANNED_OWN:
+        this.setupTableConfigurations(this.displayedColumnsAsPlanned, this.displayedFilterColumnsAsPlanned, this.sortableColumnsAsPlanned, this.assetAsPlannedFilterConfiguration, this.assetAsPlannedFilterFormGroup);
+        break;
+      case PartTableType.AS_PLANNED_SUPPLIER:
+        this.setupTableConfigurations(this.displayedColumnsAsPlannedSupplier, this.displayedFilterColumnsAsPlannedSupplier, this.sortableColumnsAsPlannedSupplier, this.assetAsPlannedSupplierFilterConfiguration, this.assetAsPlannedSupplierFilterFormGroup);
+        break;
+    }
+  }
+
+  private handleAsBuiltTableType(): void {
+    switch (this.tableType) {
+      case PartTableType.AS_BUILT_OWN:
+        this.setupTableConfigurations(this.displayedColumnsAsBuilt, this.displayedFilterColumnsAsBuilt, this.sortableColumnsAsBuilt, this.assetAsBuiltFilterConfiguration, this.assetAsBuiltFilterFormGroup);
+        break;
+      case PartTableType.AS_BUILT_CUSTOMER:
+        this.setupTableConfigurations(this.displayedColumnsAsBuiltCustomer, this.displayedFilterColumnsAsBuiltCustomer, this.sortableColumnsAsBuiltCustomer, this.assetAsBuiltCustomerFilterConfiguration, this.assetAsBuiltCustomerFilterFormGroup);
+        break;
+      case PartTableType.AS_BUILT_SUPPLIER:
+        this.setupTableConfigurations(this.displayedColumnsAsBuiltSupplier, this.displayedFilterColumnsAsBuiltSupplier, this.sortableColumnsAsBuiltSupplier, this.assetAsBuiltSupplierFilterConfiguration, this.assetAsBuiltSupplierFilterFormGroup);
+        break;
+    }
+  }
+
+  private emitMultiSelect(): void {
+    this.multiSelect.emit(this.selection.selected);
   }
 
   private addSelectedValues(newData: unknown[]): void {
