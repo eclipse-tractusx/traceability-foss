@@ -17,6 +17,7 @@
 
 name: Frontend Build&Push Docker image for branch
 on:
+  workflow_dispatch:
   pull_request:
 
 env:
