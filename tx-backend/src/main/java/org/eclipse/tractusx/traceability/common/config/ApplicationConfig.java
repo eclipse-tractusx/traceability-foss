@@ -142,7 +142,7 @@ public class ApplicationConfig {
                                 List.of(new Constraint("PURPOSE", OperatorType.EQ, List.of(ID_TRACE_CONSTRAINT)))))
                 )
         );
-        Policy policy = new Policy(ID_TRACE_CONSTRAINT, OffsetDateTime.now().minusDays(1), offsetDateTime, permissions);
+        Policy policy = new Policy(ID_TRACE_CONSTRAINT, OffsetDateTime.now(), offsetDateTime, permissions);
         return new AcceptedPolicy(policy, offsetDateTime);
     }
 
