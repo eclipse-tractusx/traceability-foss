@@ -19,7 +19,9 @@ name: "[FE][BUILT][RELEASE] Docker Image on Main"
 
 on:
   push:
-    branches: main
+    branches:
+      - main
+      - dev
 
 env:
   GHCR_REGISTRY: ghcr.io

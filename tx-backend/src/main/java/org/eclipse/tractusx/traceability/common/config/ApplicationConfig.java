@@ -30,6 +30,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPoliciesProvider;
 import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPolicy;
+import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -111,15 +112,19 @@ public class ApplicationConfig {
     @Bean
     public void registerDecentralRegistryPermissions() {
         try {
-            OffsetDateTime offsetDateTime = OffsetDateTime.now().plusMonths(1);
-            AcceptedPolicy acceptedPolicy = new AcceptedPolicy(ID_TRACE_CONSTRAINT, offsetDateTime);
+            OffsetDateTime createdOn = OffsetDateTime.now();
+            OffsetDateTime validUntil = createdOn.plusMonths(1);
+            // workaround due to accommodate the incompatible interface change of org.eclipse.tractusx.irs.edc.client.policy.AcceptedPolicy.AcceptedPolicy
+            // TODO HGO@2023-10-06_12:44 check why there is an incompatible change in the irs-registry-client:1.2.1.SNAPSHOT release!
+            Policy policy = new Policy(ID_TRACE_CONSTRAINT, createdOn, validUntil, List.of());
+            AcceptedPolicy acceptedPolicy = new AcceptedPolicy(policy, validUntil);
             defaultAcceptedPoliciesProvider.addAcceptedPolicies(List.of(acceptedPolicy));
             log.info("Successfully added permission to irs client lib provider: {}", acceptedPolicy);
         } catch (Exception exception) {
             log.error("Failed to create Irs Policies : ", exception);
         }
-
     }
+
 	@Bean
 	public RegistryEventConsumer<Retry> myRetryRegistryEventConsumer() {
 		final Logger logger = LoggerFactory.getLogger("RetryLogger");

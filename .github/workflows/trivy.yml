@@ -24,7 +24,9 @@ name: "[BE][FE][SECURITY] Trivy"
 
 on:
   pull_request:
-    branches: main
+    branches:
+      - main
+      - dev
     paths-ignore:
       - '**/*.md'
       - '**/*.txt'
