@@ -63,6 +63,10 @@ export interface Part {
     psFunction: string;
     functionValidFrom?: string;
     functionValidUntil?: string;
+
+  // count of notifications
+  activeAlerts: number;
+  activeInvestigations: number;
 }
 
 export interface PartResponse {
@@ -82,7 +86,11 @@ export interface PartResponse {
     van: string;
     semanticDataModel: SemanticDataModel;
     classification: string;
-    detailAspectModels: DetailAspectModel[]
+  detailAspectModels: DetailAspectModel[];
+
+  // TODO: Delete ? flag when AsPlanned Parts do not return the props anymore
+  qualityAlertsInStatusActive?: number;
+  qualityInvestigationsInStatusActive?: number;
 
 }
 
