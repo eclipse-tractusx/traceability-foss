@@ -89,33 +89,28 @@ export class OtherPartsComponent implements OnDestroy, OnInit {
     private resetFilterAndShowToast() {
         let oneFilterSet = false;
 
-        for (const supplierPartsComponent of this.supplierPartsComponents) {
-            for (const partsTableComponent of supplierPartsComponent.partsTableComponents) {
-                for (const multiSelectAutocompleteComponent of partsTableComponent.multiSelectAutocompleteComponents) {
-                    multiSelectAutocompleteComponent.theSearchElement = null;
-                    multiSelectAutocompleteComponent.clickClear();
-                    multiSelectAutocompleteComponent.formControl.reset();
-                    if (partsTableComponent.filterFormGroup.dirty && !oneFilterSet) {
-                        this.toastService.info("parts.input.global-search.toastInfo");
-                        oneFilterSet = true;
+        const resetComponents = (
+            components: QueryList<SupplierPartsComponent> | QueryList<CustomerPartsComponent>
+        ) => {
+            for (const component of components) {
+                for (const partsTableComponent of component.partsTableComponents) {
+                    for (const multiSelectAutocompleteComponent of partsTableComponent.multiSelectAutocompleteComponents) {
+                        multiSelectAutocompleteComponent.theSearchElement = null;
+                        multiSelectAutocompleteComponent.clickClear();
+                        multiSelectAutocompleteComponent.formControl.reset();
+                        if (partsTableComponent.filterFormGroup.dirty && !oneFilterSet) {
+                            this.toastService.info("parts.input.global-search.toastInfo");
+                            oneFilterSet = true;
+                        }
                     }
                 }
             }
-        }
+        };
 
-        for (const customerPartsComponent of this.customerPartsComponents) {
-            for (const partsTableComponent of customerPartsComponent.partsTableComponents) {
-                for (const multiSelectAutocompleteComponent of partsTableComponent.multiSelectAutocompleteComponents) {
-                    multiSelectAutocompleteComponent.theSearchElement = null;
-                    multiSelectAutocompleteComponent.clickClear();
-                    multiSelectAutocompleteComponent.formControl.reset();
-                    if (partsTableComponent.filterFormGroup.dirty && !oneFilterSet) {
-                        this.toastService.info("parts.input.global-search.toastInfo");
-                    }
-                }
-            }
-        }
+        resetComponents(this.supplierPartsComponents);
+        resetComponents(this.customerPartsComponents);
     }
+
 
     public onTabChange({index}: MatTabChangeEvent): void {
         this.selectedTab = index;

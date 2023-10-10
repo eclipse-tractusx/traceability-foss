@@ -196,6 +196,36 @@ describe('Other Parts', () => {
       expect(updateCustomerPartsSpy).toHaveBeenCalledWith(searchValue);
     });
 
+    it('should trigger part search and reset filter', async () => {
+      const { fixture } = await renderOtherParts();
+      const { componentInstance } = fixture;
+      const searchValue = 'testSearchValue';
+
+
+      const updateSupplierPartsSpy = spyOn(
+          SupplierPartsComponent.prototype,
+          'updateSupplierParts',
+      );
+
+      const updateCustomerPartsSpy = spyOn(
+          CustomerPartsComponent.prototype,
+          'updateCustomerParts',
+      );
+
+      componentInstance.searchControl.setValue(searchValue);
+
+      // Spy on the private method without calling it directly
+      const resetFilterAndShowToastSpy = spyOn<any>(componentInstance, 'resetFilterAndShowToast');
+
+      // Act
+      componentInstance.triggerPartSearch();
+
+      // Assert
+      expect(updateSupplierPartsSpy).toHaveBeenCalledWith('testSearchValue');
+      expect(updateCustomerPartsSpy).toHaveBeenCalledWith('testSearchValue');
+      expect(resetFilterAndShowToastSpy).toHaveBeenCalledOnceWith();
+
+    });
   });
 });
 
