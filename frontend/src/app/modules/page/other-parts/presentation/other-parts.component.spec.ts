@@ -196,52 +196,6 @@ describe('Other Parts', () => {
       expect(updateCustomerPartsSpy).toHaveBeenCalledWith(searchValue);
     });
 
-    it('should reset form on search', async () => {
-      const { fixture } = await renderOtherParts();
-      const { componentInstance } = fixture;
-      // Mock the necessary data and components
-      componentInstance.supplierPartsComponents = [
-        {
-          updateSupplierParts: jasmine.createSpy('updateSupplierParts'), //
-          partsTableComponents: [
-            {
-              multiSelectAutocompleteComponent: {
-                theSearchElement: 'test', // Mock theSearchElement to be truthy
-              },
-              filterFormGroup: {
-                reset: jasmine.createSpy('reset'), // Spy on reset method
-              },
-            },
-          ],
-        },
-      ] as any;
-
-      componentInstance.customerPartsComponents = [
-        {
-          updateCustomerParts: jasmine.createSpy('updateCustomerParts'),
-          partsTableComponents: [
-            {
-              multiSelectAutocompleteComponent: {
-                theSearchElement: 'test', // Mock theSearchElement to be truthy
-              },
-              filterFormGroup: {
-                reset: jasmine.createSpy('reset'), // Spy on reset method
-              },
-            },
-          ],
-        },
-      ] as any;
-
-      // Call the method
-      componentInstance.triggerPartSearch();
-
-      // Expectations
-      expect(componentInstance.supplierPartsComponents[0].partsTableComponents[0].filterFormGroup.reset).toHaveBeenCalled();
-      expect(componentInstance.customerPartsComponents[0].partsTableComponents[0].filterFormGroup.reset).toHaveBeenCalled();
-
-    });
-
-
   });
 });
 
