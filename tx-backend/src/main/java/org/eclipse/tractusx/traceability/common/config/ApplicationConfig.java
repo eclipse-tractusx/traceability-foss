@@ -118,11 +118,11 @@ public class ApplicationConfig {
 	}
 
     @Bean
-    public void registerDecentralRegistryPermissions() {
+    public void registerDecentralRegistryPermissions(ObjectMapper objectMapper) {
         try {
             AcceptedPolicy acceptedPolicy = buildAcceptedPolicy();
             defaultAcceptedPoliciesProvider.addAcceptedPolicies(List.of(acceptedPolicy));
-            log.info("Successfully added permission to irs client lib provider: {}", new ObjectMapper().writeValueAsString(acceptedPolicy));
+            log.info("Successfully added permission to irs client lib provider: {}", objectMapper.writeValueAsString(acceptedPolicy));
         } catch (Exception exception) {
             log.error("Failed to create Irs Policies : ", exception);
         }
