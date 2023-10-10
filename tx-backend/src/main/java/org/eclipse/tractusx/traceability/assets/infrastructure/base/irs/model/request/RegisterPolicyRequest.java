@@ -19,15 +19,30 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request;
 
+import org.eclipse.tractusx.irs.edc.client.policy.Constraint;
+import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
+import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
+import org.eclipse.tractusx.irs.edc.client.policy.Permission;
+import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.IrsPolicy;
 
 import java.time.Instant;
+import java.util.List;
 
 public record RegisterPolicyRequest(
         String policyId,
-        Instant validUntil
+        Instant validUntil,
+        List<Permission> permissions
 ) {
     public static RegisterPolicyRequest from(IrsPolicy policy) {
-        return new RegisterPolicyRequest(policy.getPolicyId(), Instant.parse(policy.getTtl()));
+        return new RegisterPolicyRequest(
+                policy.getPolicyId(),
+                Instant.parse(policy.getTtl()),
+                List.of(new Permission(
+                        PolicyType.USE,
+                        List.of(new Constraints(
+                                List.of(new Constraint("PURPOSE", OperatorType.EQ, List.of(policy.getPolicyId()))),
+                                List.of(new Constraint("PURPOSE", OperatorType.EQ, List.of(policy.getPolicyId())))))
+                )));
     }
 }
