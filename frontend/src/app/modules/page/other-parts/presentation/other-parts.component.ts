@@ -87,28 +87,35 @@ export class OtherPartsComponent implements OnDestroy, OnInit {
 
 
   private resetFilterAndShowToast() {
-    let filterSet = false;
+    let oneFilterSet = false;
 
     for (const supplierPartsComponent of this.supplierPartsComponents) {
       for (const partsTableComponent of supplierPartsComponent.partsTableComponents) {
-        if (partsTableComponent.multiSelectAutocompleteComponent.theSearchElement) {
-          filterSet = true;
-          partsTableComponent.filterFormGroup.reset();
+        for (const multiSelectAutocompleteComponent of partsTableComponent.multiSelectAutocompleteComponents) {
+          multiSelectAutocompleteComponent.theSearchElement = null;
+          multiSelectAutocompleteComponent.clickClear();
+          multiSelectAutocompleteComponent.formControl.reset();
+          if (partsTableComponent.filterFormGroup.dirty && !oneFilterSet) {
+            this.toastService.info("parts.input.global-search.toastInfo");
+            oneFilterSet = true;
+          }
         }
       }
     }
-    for (const customerPartsComponent of this.customerPartsComponents) {
-      for (const partsTableComponent of customerPartsComponent.partsTableComponents) {
-        if (partsTableComponent.multiSelectAutocompleteComponent.theSearchElement) {
-          filterSet = true;
-          partsTableComponent.filterFormGroup.reset();
-        }
+
+      for (const customerPartsComponent of this.customerPartsComponents) {
+          for (const partsTableComponent of customerPartsComponent.partsTableComponents) {
+              for (const multiSelectAutocompleteComponent of partsTableComponent.multiSelectAutocompleteComponents) {
+                  multiSelectAutocompleteComponent.theSearchElement = null;
+                  multiSelectAutocompleteComponent.clickClear();
+                  multiSelectAutocompleteComponent.formControl.reset();
+                  if (partsTableComponent.filterFormGroup.dirty) {
+                      this.toastService.info("parts.input.global-search.toastInfo");
+                  }
+              }
+          }
       }
-    }
-    if (filterSet) {
-      this.toastService.info('parts.input.global-search.toastInfo');
-    }
-    return filterSet;
+
   }
 
   public onTabChange({ index }: MatTabChangeEvent): void {

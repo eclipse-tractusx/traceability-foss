@@ -123,9 +123,13 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private resetFilterAndShowToast() {
         for (const partTableComponent of this.partsTableComponents) {
-            if (partTableComponent.filterFormGroup.dirty) {
-                partTableComponent.filterFormGroup.reset();
-                this.toastService.info("parts.input.global-search.toastInfo");
+            for (const multiSelectAutocompleteComponent of partTableComponent.multiSelectAutocompleteComponents) {
+                multiSelectAutocompleteComponent.theSearchElement = null;
+                multiSelectAutocompleteComponent.clickClear();
+                multiSelectAutocompleteComponent.formControl.reset();
+                if (partTableComponent.filterFormGroup.dirty) {
+                    this.toastService.info("parts.input.global-search.toastInfo");
+                }
             }
         }
     }

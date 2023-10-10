@@ -138,6 +138,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
 
     clickClear(): void {
         this.formControl.patchValue("");
+        this.formControl.reset();
         this.searchInput.value = '';
         this.theSearchElement = '';
         this.selectedValue = [];
