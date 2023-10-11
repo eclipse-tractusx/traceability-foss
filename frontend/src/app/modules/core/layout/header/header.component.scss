@@ -18,98 +18,70 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-@import "../../../../../theme/base.scss";
+@import '../../../../../theme/base.scss';
 
 @tailwind base;
 
 .header {
   &--container {
-    padding: 0 90px 0 90px;
-    display: flex;
-    flex-direction: column;
-    background: linear-gradient(152.33deg, #e4ebf3 4.24%, #adb9c7 72.17%);
-  }
-
-  &--logo {
-    height: 30px;
-  }
-
-  &--breadcrumb-container {
-    height: 50px;
-    background: rgba(255, 255, 255, 0.3);
-    padding: 0 40px;
+    @apply bg-white;
     display: flex;
     align-items: center;
-  }
-
-  &--app-header {
-    padding: 0 40px;
-    // Subtract the curve height from header size
-    height: calc(85px - 32px);
-
-    &>h3 {
-      padding-top: 15px;
-    }
-  }
-
-  &--stylish-curve {
-    height: 32px;
-    width: 100%;
-    bottom: 0;
-    // this is to match our BG color
-    // color matcher used from https://codepen.io/sosuke/pen/Pjoqqp
-    filter: invert(7%) sepia(16%) saturate(53%) hue-rotate(168deg) brightness(97%) contrast(105%);
+    height: 80px;
+    gap: 90px;
+    padding: 0px 73px;
   }
 
   &--menu-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 0 10px;
+    width: 100%;
+    height: 100%;
+  }
 
-    height: 85px;
-    padding: 0 40px;
+  &--logo-container {
+    display: flex;
+    height: 75px;
+    padding-left: 10px;
+    align-items: center;
+  }
+
+  &--logo {
+    height: 29.29px;
   }
 
   &--menu {
-    width: 70%;
-    height: 50px;
     display: flex;
-    justify-content: space-evenly;
+    gap: 40px;
     align-items: center;
-
-    &__item-iconText {
-      display: block;
-
-      @media (max-width: 1024px) {
-        display: none;
-      }
-    }
-
-    &__item-icon {
-      display: none;
-
-      @media (max-width: 1024px) {
-        display: block;
-      }
-    }
-
+    height: 100%;
     &__item {
-      @extend .label-large;
-      color: #000000;
+      height: 100%;
+      gap: 14px;
       position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      &--border-bottom,
+      &--border-top {
+        height: 3px;
+        width: 100%;
+        background: none;
+      }
+      &--text {
+        @apply text-pendingDark;
 
-      &.selected,
-      &:hover {
-        &::before {
-          content: ' ';
-          width: 100%;
-          padding-top: 10px;
-          position: absolute;
-          border-bottom-width: 3px;
-          border-bottom-style: solid;
-          border-image:
-            linear-gradient(90deg, #FDB913 0%, #D31184 100%) 1;
-        }
+        @extend .label-large;
+      }
+      &.selected &--border-bottom {
+        background: linear-gradient(90deg, #fdb913 0%, #d31184 100%);
+      }
+      &:not(&.selected):hover &--border-bottom {
+        animation: line 0.1s linear forwards;
+        background: linear-gradient(90deg, #fdb913 0%, #d31184 100%);
       }
     }
   }
@@ -117,5 +89,16 @@
   &--user {
     display: flex;
     align-items: center;
+  }
+}
+
+@keyframes line {
+  from {
+    left: 50%;
+    width: 0%;
+  }
+  to {
+    left: 0%;
+    width: 100%;
   }
 }

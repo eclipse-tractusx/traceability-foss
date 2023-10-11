@@ -192,7 +192,7 @@ module.exports = {
       severityLifeThreatening: '#E5231D',
 
       semanticDataModelSerialPart: '#3db014',
-      semanticDataModelBatch: '#ffd21d'
+      semanticDataModelBatch: '#ffd21d',
     },
     screens: {
       sm: '640px',

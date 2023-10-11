@@ -35,10 +35,9 @@ export class LayoutComponent {
      * This Block positions the toast component to the start of the header breadcrumb component (vertical top distance)
      * so that on every screen size the position stays the same (not relative)
      */
-    const headerBreadCrumbRef = this.elementRef.nativeElement.querySelector('.header--breadcrumb-container');
+    const headerBreadCrumbRef = this.elementRef.nativeElement.querySelector('.header--container');
     const toastLayoutRef = this.elementRef.nativeElement.querySelector('.layout-toast-component');
     const elementTopDistance = headerBreadCrumbRef.getBoundingClientRect().top;
-    this.renderer.setStyle(toastLayoutRef, 'top',`${elementTopDistance}px`)
+    this.renderer.setStyle(toastLayoutRef, 'top', `${elementTopDistance}px`);
   }
-
 }

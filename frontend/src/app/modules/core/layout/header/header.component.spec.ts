@@ -36,10 +36,4 @@ describe('Header', () => {
 
     expect(await waitFor(() => screen.getByText('routing.dashboard'))).toBeInTheDocument();
   });
-
-  it('should render help button', async () => {
-    await renderHeader();
-
-    expect(await waitFor(() => screen.getByText('actions.help'))).toBeInTheDocument();
-  });
 });

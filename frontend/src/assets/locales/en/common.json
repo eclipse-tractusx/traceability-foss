@@ -3,9 +3,9 @@
   "routing": {
     "home": "Home",
     "dashboard": "Dashboard",
-    "parts": "Parts",
-    "otherParts": "Other parts",
-    "about": "About",
+    "parts": "My parts",
+    "otherParts": "Shared parts",
+    "about": "About Cofinity-X",
     "relations": "Relations",
     "admin": "Administration",
     "investigations": "Quality investigations",
@@ -17,7 +17,7 @@
     "dashboard": "Dashboard",
     "parts": "My Parts",
     "otherParts": "Other Parts",
-    "about": "About Catena-X Open-Source Traceability",
+    "about": "About Cofinity-X",
     "relations": "Part Relations",
     "admin": "Administration Catena-X",
     "investigations": "Quality Investigations",
@@ -25,9 +25,15 @@
   },
   "layout": {
     "nav": {
-      "openUserMenu": "Open user menu",
-      "signOut": "Sign out",
-      "goToPortal": "Go to CX Portal"
+      "language": "Language",
+      "faqs": "FAQs",
+      "helpdesk": "Helpdesk",
+      "signOut": "Logout"
+    },
+    "footer": {
+      "faqs": "FAQs",
+      "imprint": "Imprint",
+      "version": "Version updates"
     }
   },
   "actions": {

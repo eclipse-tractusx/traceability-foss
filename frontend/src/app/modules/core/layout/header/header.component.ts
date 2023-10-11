@@ -32,16 +32,6 @@ import { filter } from 'rxjs/operators';
 export class HeaderComponent {
   public activeMenu = '';
 
-  public readonly iconMapping: Record<KnownUrl, string> = {
-    dashboard: 'dashboard',
-    about: 'info',
-    parts: 'build',
-    otherParts: 'commute',
-    investigations: 'inbox',
-    alerts: 'notification_important',
-    admin: 'apps',
-  };
-
   constructor(router: Router) {
     router.events
       .pipe(filter(event => event instanceof NavigationEnd))
@@ -49,9 +39,5 @@ export class HeaderComponent {
         const currentUrl = urlAfterRedirects ?? url;
         this.activeMenu = NavigableUrls.find(menuKey => currentUrl.includes(menuKey));
       });
-  }
-
-  public openDocumentation(): void {
-    window.open('https://eclipse-tractusx.github.io/traceability-foss/docs/', '_blank', 'noopener');
   }
 }

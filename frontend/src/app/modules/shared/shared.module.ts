@@ -37,12 +37,9 @@ import { FormatPaginationSemanticDataModelToCamelCasePipe } from '@shared/pipes/
 import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
 import { FormatPartlistSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-partlist-semantic-data-model-to-camelcase.pipe';
 import { I18NextModule } from 'angular-i18next';
-import {
-  BomLifecycleActivatorComponent
-} from "@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.component";
+import { BomLifecycleActivatorComponent } from '@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.component';
 import { BaseInputComponent } from './abstraction/baseInput/baseInput.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
-import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
 import { ButtonComponent } from './components/button/button.component';
 import { CardIconComponent } from './components/card-icon/card-icon.component';
 import { CardListComponent } from './components/card-list/card-list.component';
@@ -73,13 +70,12 @@ import { StaticIdService } from './service/staticId.service';
 import { TemplateModule } from './template.module';
 import { InputComponent } from '@shared/components/input/input.component';
 import { RequestAlertComponent } from '@shared/components/request-notification/request-alert.component';
-import {ViewSelectorComponent} from "@shared/components/view-selector/view-selector.component";
+import { ViewSelectorComponent } from '@shared/components/view-selector/view-selector.component';
 
 @NgModule({
   declarations: [
     ToastContainerComponent,
     ToastMessageComponent,
-    BreadcrumbsComponent,
     ButtonComponent,
     TextWithIconComponent,
     TableComponent,
@@ -120,53 +116,52 @@ import {ViewSelectorComponent} from "@shared/components/view-selector/view-selec
     NotificationUserComponent,
     InputComponent,
     BomLifecycleActivatorComponent,
-    ViewSelectorComponent
+    ViewSelectorComponent,
   ],
   imports: [TemplateModule, RouterModule, I18NextModule],
-    exports: [
-        ToastContainerComponent,
-        ToastMessageComponent,
-        BreadcrumbsComponent,
-        ButtonComponent,
-        TextWithIconComponent,
-        TableComponent,
-        TooltipDirective,
-        RoleDirective,
-        I18nPipe,
-        FormatDatePipe,
-        AutoFormatPipe,
-        ViewContainerDirective,
-        AvatarComponent,
-        I18NextModule,
-        LanguageSelectorComponent,
-        CardIconComponent,
-        CardListComponent,
-        ToKeyValuePipe,
-        SelectComponent,
-        DataLoadingErrorComponent,
-        TabAsPanelDirective,
-        SidenavWrapperComponent,
-        TextareaComponent,
-        ErrorMessagePipe,
-        RequestInvestigationComponent,
-        RequestAlertComponent,
-        QualityTypeComponent,
-        NotificationOverviewComponent,
-        NotificationReasonComponent,
-        NotificationModalContentComponent,
-        DateTimeComponent,
-        BaseInputComponent,
-        SeverityComponent,
-        SeveritySelectComponent,
-        NotificationUserComponent,
-        InputComponent,
-        FormatPaginationSemanticDataModelToCamelCasePipe,
-        FlattenObjectPipe,
-        FormatPartSemanticDataModelToCamelCasePipe,
-        FormatPartlistSemanticDataModelToCamelCasePipe,
-        BomLifecycleActivatorComponent,
-        ViewSelectorComponent
-    ],
+  exports: [
+    ToastContainerComponent,
+    ToastMessageComponent,
+    ButtonComponent,
+    TextWithIconComponent,
+    TableComponent,
+    TooltipDirective,
+    RoleDirective,
+    I18nPipe,
+    FormatDatePipe,
+    AutoFormatPipe,
+    ViewContainerDirective,
+    AvatarComponent,
+    I18NextModule,
+    LanguageSelectorComponent,
+    CardIconComponent,
+    CardListComponent,
+    ToKeyValuePipe,
+    SelectComponent,
+    DataLoadingErrorComponent,
+    TabAsPanelDirective,
+    SidenavWrapperComponent,
+    TextareaComponent,
+    ErrorMessagePipe,
+    RequestInvestigationComponent,
+    RequestAlertComponent,
+    QualityTypeComponent,
+    NotificationOverviewComponent,
+    NotificationReasonComponent,
+    NotificationModalContentComponent,
+    DateTimeComponent,
+    BaseInputComponent,
+    SeverityComponent,
+    SeveritySelectComponent,
+    NotificationUserComponent,
+    InputComponent,
+    FormatPaginationSemanticDataModelToCamelCasePipe,
+    FlattenObjectPipe,
+    FormatPartSemanticDataModelToCamelCasePipe,
+    FormatPartlistSemanticDataModelToCamelCasePipe,
+    BomLifecycleActivatorComponent,
+    ViewSelectorComponent,
+  ],
   providers: [
     FormatDatePipe,
     StaticIdService,

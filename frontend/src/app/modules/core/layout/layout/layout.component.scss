@@ -34,12 +34,9 @@
 
 .layout-content {
   @apply flex flex-1 flex-col min-w-0 relative overflow-auto;
-  will-change: padding-left;
-  transition: padding-left 300ms cubic-bezier(0.2, 0, 0, 1) 0s;
 
   &__box-modal {
-    @apply pt-6 px-8 pb-12 min-w-0;
-    order: 1;
+    @apply min-w-0;
     flex: 1 0;
     padding: 0 73px 0 73px;
   }

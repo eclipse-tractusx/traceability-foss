@@ -65,8 +65,7 @@ export class UserMenuComponent {
     this.router.navigate(['']).then();
   }
 
-  @HostListener('window:click', [])
-  private onClick(): void {
+  public onClick(): void {
     this.isExpanded = false;
   }
 

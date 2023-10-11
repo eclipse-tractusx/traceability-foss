@@ -22,20 +22,24 @@ import { renderComponent } from '@tests/test-render.utils';
 import { LayoutComponent } from './layout.component';
 
 describe('LayoutComponent', () => {
-
   it('should render', async () => {
-    const {fixture} = await renderComponent(LayoutComponent, {imports: [LayoutModule], providers: [LayoutComponent]});
+    const { fixture } = await renderComponent(LayoutComponent, {
+      imports: [LayoutModule],
+      providers: [LayoutComponent],
+    });
     expect(fixture).toBeTruthy();
-  })
+  });
 
   it('should render toast and header in same vertical position', async () => {
-    const {fixture} = await renderComponent(LayoutComponent, {imports: [LayoutModule], providers: [LayoutComponent]});
-    let header = fixture.debugElement.query(By.css('.header--breadcrumb-container'));
+    const { fixture } = await renderComponent(LayoutComponent, {
+      imports: [LayoutModule],
+      providers: [LayoutComponent],
+    });
+    let header = fixture.debugElement.query(By.css('.header--container'));
     expect(header).not.toBeNull();
     let toast = fixture.debugElement.query(By.css('.layout-toast-component'));
-    let headerDistanceToTop = header.nativeElement.getBoundingClientRect().y +"px";
+    let headerDistanceToTop = header.nativeElement.getBoundingClientRect().y + 'px';
     let toastDistanceToTop = toast.nativeElement.style.top;
     expect(headerDistanceToTop).toEqual(toastDistanceToTop);
-  })
-
+  });
 });

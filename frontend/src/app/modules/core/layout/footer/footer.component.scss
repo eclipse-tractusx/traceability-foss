@@ -1,0 +1,30 @@
+.footer {
+  &--container {
+    @apply bg-surfaceDim;
+    display: flex;
+    align-items: center;
+    height: 56px;
+    padding: 0px 73px;
+    gap: 85px;
+  }
+  &--items-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 20px;
+    width: 100%;
+  }
+  &--items {
+    display: flex;
+    gap: 40px;
+  }
+  &--copyright {
+    display: flex;
+    gap: 40px;
+  }
+  &--text {
+    @apply font-medium m-0 p-0 text-secondary;
+    font-size: 16px;
+    letter-spacing: 0.1;
+    line-height: 125%;
+  }
+}

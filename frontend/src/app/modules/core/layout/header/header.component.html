@@ -21,7 +21,9 @@ SPDX-License-Identifier: Apache-2.0
 
 <div class="header--container">
   <nav class="header--menu-container">
-    <img src="/assets/images/logo.svg" alt="Cofinity-X" class="header--logo cursor-pointer" routerLink="dashboard" />
+    <div class="header--logo-container">
+      <img src="/assets/images/logo.svg" alt="Cofinity-X" class="header--logo" />
+    </div>
 
     <div class="header--menu label-large">
       <ng-container *ngTemplateOutlet="menuItem; context: { value: 'dashboard', role: 'user' }"></ng-container>
@@ -29,32 +31,15 @@ SPDX-License-Identifier: Apache-2.0
       <ng-container *ngTemplateOutlet="menuItem; context: { value: 'otherParts', role: 'user' }"></ng-container>
       <ng-container *ngTemplateOutlet="menuItem; context: { value: 'investigations', role: 'user' }"></ng-container>
       <ng-container *ngTemplateOutlet="menuItem; context: { value: 'alerts', role: 'user' }"></ng-container>
-      <ng-container *ngTemplateOutlet="menuItem; context: { value: 'about', role: 'user' }"></ng-container>
-    </div>
-
-    <div class="header--user">
-      <app-button variant="flat" color="accent" (click)="openDocumentation()">
-        {{ 'actions.help' | i18n }}
-      </app-button>
-
       <app-user-navigation></app-user-navigation>
     </div>
   </nav>
-
-  <div class="header--breadcrumb-container">
-    <app-breadcrumbs></app-breadcrumbs>
-  </div>
-
-  <div *ngIf="activeMenu" class="header--app-header">
-    <h3>{{ 'pageTitle.' + activeMenu | i18n }}</h3>
-  </div>
-
-  <img src="/assets/images/header-subtract.png" class="header--stylish-curve" alt="" />
 </div>
 
 <ng-template let-type="value" let-role="role" #menuItem>
   <a class="header--menu__item" *appHasRole="[role]" [routerLink]="['/' + type]" [class.selected]="type === activeMenu">
-    <div>{{ 'routing.' + type | i18n }}</div>
-    <mat-icon class="header--menu__item-icon">{{ iconMapping[type] }}</mat-icon>
+    <div class="header--menu__item--border-top"></div>
+    <p class="header--menu__item--text">{{ 'routing.' + type | i18n }}</p>
+    <div class="header--menu__item--border-bottom"></div>
   </a>
 </ng-template>

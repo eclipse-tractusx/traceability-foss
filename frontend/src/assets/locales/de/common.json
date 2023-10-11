@@ -5,7 +5,7 @@
     "dashboard": "Dashboard",
     "parts": "Produkte",
     "otherParts": "Andere Produkte",
-    "about": "Über uns",
+    "about": "Über Cofinity-X",
     "relations": "Beziehungen",
     "admin": "Verwaltung",
     "investigations": "Qualitätsuntersuchung",
@@ -25,9 +25,15 @@
   },
   "layout": {
     "nav": {
-      "openUserMenu": "Benutzermenü öffnen",
-      "signOut": "Abmelden",
-      "goToPortal": "Öffne CX Portal"
+      "language": "Sprache",
+      "faqs": "FAQs",
+      "helpdesk": "Helpdesk",
+      "signOut": "Abmelden"
+    },
+    "footer": {
+      "faqs": "FAQs",
+      "imprint": "Impressum",
+      "version": "Version Updates"
     }
   },
   "actions": {
