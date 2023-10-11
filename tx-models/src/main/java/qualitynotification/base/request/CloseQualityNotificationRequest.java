@@ -19,14 +19,14 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.qualitynotification.application.base.request;
+package qualitynotification.base.request;
 
 import io.swagger.annotations.ApiModelProperty;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-// TODO move to tx-models
+
 @Setter
 @Getter
 @ToString

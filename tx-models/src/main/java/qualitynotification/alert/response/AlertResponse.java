@@ -21,12 +21,11 @@ package qualitynotification.alert.response;
 
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import qualitynotification.base.response.QualityNotificationResponse;
 
-@Data
+
 @ToString(callSuper = true)
 @SuperBuilder
 @ArraySchema(arraySchema = @Schema(description = "Alerts", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
