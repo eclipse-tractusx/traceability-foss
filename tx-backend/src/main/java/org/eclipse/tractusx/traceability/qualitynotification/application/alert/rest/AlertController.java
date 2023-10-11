@@ -35,22 +35,30 @@ import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
 import org.eclipse.tractusx.traceability.qualitynotification.application.alert.mapper.AlertResponseMapper;
-import org.eclipse.tractusx.traceability.qualitynotification.application.alert.request.StartQualityAlertRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.CloseQualityNotificationRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.QualityNotificationStatusRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.UpdateQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.service.QualityNotificationService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import qualitynotification.alert.response.AlertResponse;
+import qualitynotification.base.request.CloseQualityNotificationRequest;
+import qualitynotification.base.request.QualityNotificationStatusRequest;
+import qualitynotification.base.request.StartQualityNotificationRequest;
+import qualitynotification.base.request.UpdateQualityNotificationRequest;
 import qualitynotification.base.response.QualityNotificationIdResponse;
 
 import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitize;
 import static org.eclipse.tractusx.traceability.qualitynotification.application.validation.UpdateQualityNotificationValidator.validate;
+import static org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.StartQualityNotificationDomain.from;
+import static org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus.from;
 
 @Profile(FeatureFlags.NOTIFICATIONS_ENABLED_PROFILES)
 @RestController
@@ -119,18 +127,10 @@ public class AlertController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public QualityNotificationIdResponse alertAssets(@RequestBody @Valid StartQualityAlertRequest request) {
-        StartQualityAlertRequest cleanStartQualityAlertRequest = sanitize(request);
-        log.info(API_LOG_START + " with params: {}", cleanStartQualityAlertRequest);
-        //TODO refactor this method to only take request as parameter
-        return new QualityNotificationIdResponse(alertService.start(
-                cleanStartQualityAlertRequest.getPartIds(),
-                cleanStartQualityAlertRequest.getDescription(),
-                cleanStartQualityAlertRequest.getTargetDate(),
-                cleanStartQualityAlertRequest.getSeverity().toDomain(),
-                cleanStartQualityAlertRequest.getBpn(),
-                cleanStartQualityAlertRequest.isAsBuilt()
-        ).value());
+    public QualityNotificationIdResponse alertAssets(@RequestBody @Valid StartQualityNotificationRequest request) {
+        StartQualityNotificationRequest cleanStartQualityNotificationRequest = sanitize(request);
+        log.info(API_LOG_START + " with params: {}", cleanStartQualityNotificationRequest);
+        return new QualityNotificationIdResponse(alertService.start(from(cleanStartQualityNotificationRequest)).value());
     }
 
     @Operation(operationId = "getCreatedAlerts",
@@ -489,7 +489,7 @@ public class AlertController {
             @Valid @RequestBody CloseQualityNotificationRequest closeAlertRequest) {
         CloseQualityNotificationRequest cleanCloseAlertRequest = sanitize(closeAlertRequest);
         log.info(API_LOG_START + "/{}/close with params {}", alertId, cleanCloseAlertRequest);
-        alertService.update(alertId, QualityNotificationStatusRequest.toDomain(QualityNotificationStatusRequest.CLOSED), cleanCloseAlertRequest.getReason());
+        alertService.update(alertId, from(QualityNotificationStatusRequest.CLOSED), cleanCloseAlertRequest.getReason());
     }
 
     @Operation(operationId = "updateAlert",
@@ -554,7 +554,7 @@ public class AlertController {
         UpdateQualityNotificationRequest cleanUpdateAlertRequest = sanitize(updateAlertRequest);
         validate(cleanUpdateAlertRequest);
         log.info(API_LOG_START + "/{}/update with params {}", alertId, cleanUpdateAlertRequest);
-        alertService.update(alertId, cleanUpdateAlertRequest.getStatus().toDomain(), cleanUpdateAlertRequest.getReason());
+        alertService.update(alertId, from(cleanUpdateAlertRequest.getStatus()), cleanUpdateAlertRequest.getReason());
     }
 }
 

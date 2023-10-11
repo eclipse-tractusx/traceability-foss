@@ -24,9 +24,9 @@ import org.eclipse.tractusx.irs.registryclient.discovery.DiscoveryFinderClient;
 import org.eclipse.tractusx.irs.registryclient.discovery.DiscoveryFinderRequest;
 import org.eclipse.tractusx.irs.registryclient.discovery.DiscoveryResponse;
 import org.eclipse.tractusx.irs.registryclient.discovery.EdcDiscoveryResult;
+import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
 import org.eclipse.tractusx.traceability.discovery.domain.model.Discovery;
 import org.eclipse.tractusx.traceability.discovery.domain.repository.DiscoveryRepository;
-import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -43,6 +43,7 @@ public class FeignDiscoveryRepositoryImpl implements DiscoveryRepository {
     private final EdcProperties edcProperties;
     private final DiscoveryFinderClient discoveryFinderClient;
 
+    @Override
     public Optional<Discovery> retrieveDiscoveryByFinderAndEdcDiscoveryService(String bpn) {
         DiscoveryFinderRequest request = new DiscoveryFinderRequest(List.of("bpn"));
         DiscoveryResponse discoveryEndpoints = discoveryFinderClient.findDiscoveryEndpoints(request);

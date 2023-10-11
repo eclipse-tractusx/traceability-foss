@@ -17,16 +17,15 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.qualitynotification.application.base.request;
+package qualitynotification.base.request;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-// TODO move to tx-models
+
 @Schema(description = "The UpdateInvestigationStatus")
 public enum UpdateQualityNotificationStatusRequest {
     ACKNOWLEDGED,
@@ -47,9 +46,6 @@ public enum UpdateQualityNotificationStatusRequest {
         return Stream.of(UpdateQualityNotificationStatusRequest.values()).map(Enum::name).collect(Collectors.joining(", "));
     }
 
-    public QualityNotificationStatus toDomain() {
-        return QualityNotificationStatus.fromStringValue(this.name());
-    }
 
 }
 

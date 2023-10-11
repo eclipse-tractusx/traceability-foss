@@ -1,5 +1,7 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+ * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
+ * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -17,7 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.qualitynotification.application.alert.request;
+package qualitynotification.base.request;
 
 import io.swagger.annotations.ApiModelProperty;
 import jakarta.validation.constraints.Future;
@@ -27,17 +29,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.QualityNotificationSeverityRequest;
 
 import java.time.Instant;
 import java.util.List;
 
-// TODO move to tx-models
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class StartQualityAlertRequest {
+public class StartQualityNotificationRequest {
     @Size(min = 1, max = 100, message = "Specify at least 1 and at most 100 partIds")
     @ApiModelProperty(example = "[\"urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978\"]")
     private List<String> partIds;
@@ -50,9 +50,9 @@ public class StartQualityAlertRequest {
     @NotNull
     @ApiModelProperty(example = "MINOR")
     private QualityNotificationSeverityRequest severity;
-    @NotNull
-    @ApiModelProperty(example = "BPN00001123123AS")
-    private String bpn;
     @ApiModelProperty(example = "true")
     private boolean isAsBuilt = true;
+    @ApiModelProperty(example = "BPN00001123123AS")
+    private String receiverBpn;
+
 }
