@@ -35,6 +35,7 @@ import {toAssetFilter, toGlobalSearchAssetFilter} from "@shared/helper/filter-he
 import {FormControl, FormGroup} from "@angular/forms";
 import {ToastService} from "@shared/components/toasts/toast.service";
 import {PartsTableComponent} from "@shared/components/parts-table/parts-table.component";
+import {resetMultiSelectionAutoCompleteComponent} from "@page/parts/core/parts.helper";
 
 
 @Component({
@@ -122,15 +123,9 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
     private resetFilterAndShowToast() {
-        for (const partTableComponent of this.partsTableComponents) {
-            for (const multiSelectAutocompleteComponent of partTableComponent.multiSelectAutocompleteComponents) {
-                multiSelectAutocompleteComponent.theSearchElement = null;
-                multiSelectAutocompleteComponent.clickClear();
-                multiSelectAutocompleteComponent.formControl.reset();
-                if (partTableComponent.filterFormGroup.dirty) {
-                    this.toastService.info("parts.input.global-search.toastInfo");
-                }
-            }
+        let filterIsSet = resetMultiSelectionAutoCompleteComponent(this.partsTableComponents, false);
+        if (filterIsSet) {
+            this.toastService.info("parts.input.global-search.toastInfo");
         }
     }
 

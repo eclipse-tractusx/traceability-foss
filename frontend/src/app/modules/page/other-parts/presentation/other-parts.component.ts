@@ -31,6 +31,7 @@ import {ToastService} from '@shared/components/toasts/toast.service';
 import {PartDetailsFacade} from '@shared/modules/part-details/core/partDetails.facade';
 import {BomLifecycleSettingsService, UserSettingView} from '@shared/service/bom-lifecycle-settings.service';
 import {StaticIdService} from '@shared/service/staticId.service';
+import {resetMultiSelectionAutoCompleteComponent} from "@page/parts/core/parts.helper";
 
 @Component({
     selector: 'app-other-parts',
@@ -93,17 +94,10 @@ export class OtherPartsComponent implements OnDestroy, OnInit {
             components: QueryList<SupplierPartsComponent> | QueryList<CustomerPartsComponent>
         ) => {
             for (const component of components) {
-                for (const partsTableComponent of component.partsTableComponents) {
-                    for (const multiSelectAutocompleteComponent of partsTableComponent.multiSelectAutocompleteComponents) {
-                        multiSelectAutocompleteComponent.theSearchElement = null;
-                        multiSelectAutocompleteComponent.clickClear();
-                        multiSelectAutocompleteComponent.formControl.reset();
-                        if (partsTableComponent.filterFormGroup.dirty && !oneFilterSet) {
-                            this.toastService.info("parts.input.global-search.toastInfo");
-                            oneFilterSet = true;
-                        }
-                    }
-                }
+                let filterIsSet = resetMultiSelectionAutoCompleteComponent(component.partsTableComponents, oneFilterSet);
+               if (filterIsSet){
+                   this.toastService.info("parts.input.global-search.toastInfo");
+               }
             }
         };
 
