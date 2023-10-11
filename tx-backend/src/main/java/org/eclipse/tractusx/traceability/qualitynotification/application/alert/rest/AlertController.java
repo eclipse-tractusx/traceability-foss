@@ -60,7 +60,7 @@ import static org.eclipse.tractusx.traceability.qualitynotification.application.
 import static org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.StartQualityNotificationDomain.from;
 import static org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus.from;
 
-@Profile(FeatureFlags.NOTIFICATIONS_ENABLED_PROFILES)
+
 @RestController
 @RequestMapping(value = "/alerts", consumes = "application/json", produces = "application/json")
 @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
