@@ -28,7 +28,7 @@ import { renderComponent } from '@tests/test-render.utils';
 
 describe('CardIcon', () => {
   it('should render card icon', async () => {
-    await renderComponent(`<app-card-icon label='Test' stats='123' icon='directions_car'></app-card-icon>`, {
+    await renderComponent(`<app-card-icon label='Test' stats='123'></app-card-icon>`, {
       declarations: [CardIconComponent],
       imports: [MatCardModule, MatIconModule, SharedModule],
     });
@@ -38,9 +38,6 @@ describe('CardIcon', () => {
 
     const cardStatsElement = screen.getByText('123');
     expect(cardStatsElement).toBeInTheDocument();
-
-    const iconElement = screen.getByText('directions_car');
-    expect(iconElement).toBeInTheDocument();
   });
 
   it('should increment ids for multiple cards', async () => {

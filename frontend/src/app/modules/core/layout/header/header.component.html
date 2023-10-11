@@ -21,7 +21,7 @@ SPDX-License-Identifier: Apache-2.0
 
 <div class="header--container">
   <nav class="header--menu-container">
-    <div class="header--logo-container">
+    <div class="header--logo-container" [routerLink]="['/dashboard']" [class.selected]="'dashboard' === activeMenu">
       <img src="/assets/images/logo.svg" alt="Cofinity-X" class="header--logo" />
     </div>
 

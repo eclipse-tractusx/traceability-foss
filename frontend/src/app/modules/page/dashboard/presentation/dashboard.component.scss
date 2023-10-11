@@ -19,18 +19,21 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-.dashboard-grid {
-  @apply grid grid-cols-1 lg:grid-cols-12 gap-6 mt-6;
-}
-
-.parts-section {
-  @apply col-span-12 lg:col-span-4;
+.dashboard {
+  &--container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  &--overview {
+    display: flex;
+    gap: 24px;
+    &-infocard {
+      @apply cursor-pointer;
+    }
+  }
 }
 
 .view-button {
-  @apply text-textLink
-}
-
-.dashboard--investigation {
-  @apply col-span-12;
+  @apply text-textLink;
 }

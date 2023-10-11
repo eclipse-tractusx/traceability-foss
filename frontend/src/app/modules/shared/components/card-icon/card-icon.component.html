@@ -21,18 +21,16 @@ SPDX-License-Identifier: Apache-2.0
 
 <mat-card>
   <mat-card-content class="card-container">
-    <div class="avatar-container">
-      <div class="avatar">
-        <span class="avatar__label">
-          <mat-icon aria-hidden="false" class="card--icon">{{ this.icon }}</mat-icon>
-        </span>
+    <div class="card-content">
+      <div class="avatar-container">
+        <img src="/assets/images/{{ this.icon }}" />
       </div>
-    </div>
-    <div class="label-container">
-      <p class="font-regular text-gray uppercase" [id]="htmlId + '-label'">
-        {{ this.label }}
-      </p>
-      <p class="text-2xl" [attr.aria-describedby]="htmlId + '-label'">{{ this.stats }}</p>
+      <div class="label-container">
+        <p class="label-top" [id]="htmlId + '-label'">
+          {{ this.label }}
+        </p>
+        <p class="label-bottom" [attr.aria-describedby]="htmlId + '-label'">{{ this.stats }}</p>
+      </div>
     </div>
   </mat-card-content>
 </mat-card>

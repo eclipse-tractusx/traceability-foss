@@ -34,11 +34,12 @@
 
 .layout-content {
   @apply flex flex-1 flex-col min-w-0 relative overflow-auto;
+  gap: 40px;
 
   &__box-modal {
     @apply min-w-0;
     flex: 1 0;
-    padding: 0 73px 0 73px;
+    padding: 0 136px;
   }
 }
 

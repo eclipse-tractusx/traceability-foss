@@ -29,7 +29,7 @@
     align-items: center;
     height: 80px;
     gap: 90px;
-    padding: 0px 73px;
+    padding: 0px 136px;
   }
 
   &--menu-container {
@@ -42,6 +42,10 @@
   }
 
   &--logo-container {
+    @apply cursor-pointer;
+    &.selected {
+      @apply cursor-default;
+    }
     display: flex;
     height: 75px;
     padding-left: 10px;
@@ -75,6 +79,9 @@
         @apply text-pendingDark;
 
         @extend .label-large;
+      }
+      &.selected {
+        @apply cursor-default;
       }
       &.selected &--border-bottom {
         background: linear-gradient(90deg, #fdb913 0%, #d31184 100%);

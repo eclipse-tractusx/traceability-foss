@@ -39,7 +39,7 @@ describe('Dashboard', () => {
 
     expect(await waitFor(() => screen.getByText('3'))).toBeInTheDocument();
 
-    expect(screen.getByText('pageDashboard.totalOfParts.label')).toHaveAttribute(
+    expect(screen.getByText('pageDashboard.totalOfMyParts.label')).toHaveAttribute(
       'id',
       screen.getByText('3').getAttribute('aria-describedby'),
     );
@@ -58,7 +58,7 @@ describe('Dashboard', () => {
       roles: ['admin'],
     });
 
-    expect(await screen.findByText('pageDashboard.totalOfParts.label')).toBeInTheDocument();
+    expect(await screen.findByText('pageDashboard.totalOfMyParts.label')).toBeInTheDocument();
   });
 
   describe('investigations', () => {

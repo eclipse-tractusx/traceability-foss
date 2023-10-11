@@ -19,39 +19,66 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<div class="dashboard-grid">
-  <section class="parts-section">
-    <ng-container *viewContainer="
-        this.numberOfMyParts$ | async;
-        main: numbersMainTmp;
-        error: numbersErrorTmp;
-        loading: numbersLoaderTmp;
-        customContext: { label: 'pageDashboard.totalOfParts.label', icon: 'directions_car' }
-      ">
-    </ng-container>
-  </section>
+<div class="dashboard--container">
+  <div class="dashboard--overview">
+    <section class="dashboard--overview-infocard">
+      <ng-container
+        *viewContainer="
+          this.numberOfMyParts$ | async;
+          main: numbersMainTmp;
+          error: numbersErrorTmp;
+          loading: numbersLoaderTmp;
+          customContext: { label: 'pageDashboard.totalOfMyParts.label', icon: '/icons/my_parts_icon.svg' }
+        "
+      >
+      </ng-container>
+    </section>
 
-  <section class="parts-section">
-    <ng-container *viewContainer="
-        this.numberOfOtherParts$ | async;
-        main: numbersMainTmp;
-        error: numbersErrorTmp;
-        loading: numbersLoaderTmp;
-        customContext: { label: 'pageDashboard.totalOfOtherParts.label', icon: 'directions_car' }
-      ">
-    </ng-container>
-  </section>
+    <section class="dashboard--overview-infocard">
+      <ng-container
+        *viewContainer="
+          this.numberOfOtherParts$ | async;
+          main: numbersMainTmp;
+          error: numbersErrorTmp;
+          loading: numbersLoaderTmp;
+          customContext: { label: 'pageDashboard.totalOfOtherParts.label', icon: '/icons/other_parts_icon.svg' }
+        "
+      >
+      </ng-container>
+    </section>
 
-  <section class="parts-section">
-    <ng-container *viewContainer="
-        this.numberOfInvestigations$ | async;
-        main: numbersMainTmp;
-        error: numbersErrorTmp;
-        loading: numbersLoaderTmp;
-        customContext: { label: 'pageDashboard.totalInvestigations.label', icon: 'find_in_page' }
-      ">
-    </ng-container>
-  </section>
+    <section class="dashboard--overview-infocard">
+      <ng-container
+        *viewContainer="
+          this.numberOfInvestigations$ | async;
+          main: numbersMainTmp;
+          error: numbersErrorTmp;
+          loading: numbersLoaderTmp;
+          customContext: {
+            label: 'pageDashboard.totalInvestigations.label',
+            icon: '/icons/open_investigations_icon.svg'
+          }
+        "
+      >
+      </ng-container>
+    </section>
+
+    <section class="dashboard--overview-infocard">
+      <ng-container
+        *viewContainer="
+          this.numberOfInvestigations$ | async;
+          main: numbersMainTmp;
+          error: numbersErrorTmp;
+          loading: numbersLoaderTmp;
+          customContext: {
+            label: 'pageDashboard.totalQualityAlerts.label',
+            icon: '/icons/open_investigations_icon.svg'
+          }
+        "
+      >
+      </ng-container>
+    </section>
+  </div>
   <section class="dashboard--investigation">
     <mat-card>
       <mat-card-header>
@@ -71,10 +98,14 @@ SPDX-License-Identifier: Apache-2.0
         </div>
       </mat-card-header>
       <mat-card-content>
-        <app-notifications-tab [notificationsView$]="investigations$" [translationContext]="'commonInvestigation'"
-          [labelId]="'dashboard-investigations'" [hasPagination]="false"
+        <app-notifications-tab
+          [notificationsView$]="investigations$"
+          [translationContext]="'commonInvestigation'"
+          [labelId]="'dashboard-investigations'"
+          [hasPagination]="false"
           [optionalColumns]="['targetDate', 'severity', 'createdBy']"
-          (selected)="onNotificationSelected($event)"></app-notifications-tab>
+          (selected)="onNotificationSelected($event)"
+        ></app-notifications-tab>
       </mat-card-content>
     </mat-card>
   </section>

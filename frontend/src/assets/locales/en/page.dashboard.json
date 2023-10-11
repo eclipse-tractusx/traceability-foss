@@ -1,13 +1,16 @@
 {
   "pageDashboard": {
+    "totalQualityAlerts": {
+      "label": "Total of quality alerts"
+    },
     "totalInvestigations": {
       "label": "Total of open investigations"
     },
-    "totalOfParts": {
-      "label": "Total of parts"
+    "totalOfMyParts": {
+      "label": "Total of my parts"
     },
     "totalOfOtherParts": {
-      "label": "Total of other parts"
+      "label": "Total of shared parts"
     }
   }
 }

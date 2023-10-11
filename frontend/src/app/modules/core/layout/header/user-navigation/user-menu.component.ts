@@ -65,6 +65,10 @@ export class UserMenuComponent {
     this.router.navigate(['']).then();
   }
 
+  public navigateToFaqs(): void {
+    this.router.navigate(['faqs']).then();
+  }
+
   public onClick(): void {
     this.isExpanded = false;
   }

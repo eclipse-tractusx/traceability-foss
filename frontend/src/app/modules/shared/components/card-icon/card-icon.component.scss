@@ -18,31 +18,60 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+@import '../../../../../theme/base.scss';
 
-.card--icon {
-  @apply text-white;
-}
+@tailwind base;
 
 .card-container {
-  @apply flex flex-row gap-x-5 items-center;
+  @apply bg-white;
+  display: flex;
+  align-items: center;
+  width: 264px;
+  height: 100px;
+  border-radius: 15px;
+  padding: 20px;
+  gap: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  box-shadow: 0px 15px 25px 0px #3333330d, -10px -10px 15px 0px #ffffff1a, 0px 0px 25px 0px #33333308;
+  &:hover {
+    box-shadow: 0px 15px 25px 0px #33333326, -10px -10px 15px 0px #ffffff26, 0px 0px 25px 0px #3333331a;
+    &:active {
+      box-shadow: none;
+    }
+  }
+}
+.card-content {
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 
 .avatar-container {
-  @apply flex flex-col items-center justify-center;
-}
-
-.avatar {
-  border-radius: 50%;
-  text-align: center;
-  @apply bg-primary;
-
-  &__label {
-    @apply flex flex-col items-center justify-center p-2;
-  }
+  @apply flex items-center justify-center;
+  width: 48px;
+  height: 48px;
 }
 
 .label-container {
-  @apply flex flex-col gap-y-1;
+  @apply flex flex-col;
+  justify-content: space-between;
+  height: 48px;
+  padding-bottom: 5px;
+}
+
+.label-top {
+  @apply text-pendingDark;
+  @extend .body-small;
+  font-weight: 400;
+  letter-spacing: 0.1px;
+}
+
+.label-bottom {
+  @apply font-medium text-pendingDark;
+  font-size: 32px;
+  line-height: 20px;
+  letter-spacing: 0.1px;
 }
 
 p:empty {
