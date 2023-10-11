@@ -17,47 +17,47 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { SelectionModel } from '@angular/cdk/collections';
+import {SelectionModel} from '@angular/cdk/collections';
 import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewChild,
-  ViewEncapsulation,
+    Component,
+    ElementRef,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+    QueryList,
+    ViewChild,
+    ViewChildren,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { Pagination } from '@core/model/pagination.model';
-import { SemanticDataModel } from '@page/parts/model/parts.model';
-import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
+import {FormControl, FormGroup} from '@angular/forms';
+import {MatPaginator, PageEvent} from '@angular/material/paginator';
+import {MatSort, Sort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
+import {Pagination} from '@core/model/pagination.model';
+import {SemanticDataModel} from '@page/parts/model/parts.model';
 import {
-  CreateHeaderFromColumns,
-  PartTableType,
-  TableConfig,
-  TableEventConfig,
-  TableHeaderSort,
+    MultiSelectAutocompleteComponent
+} from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
+import {
+    CreateHeaderFromColumns,
+    PartTableType,
+    TableConfig,
+    TableEventConfig,
+    TableHeaderSort,
 } from '@shared/components/table/table.model';
-import { addSelectedValues, removeSelectedValues } from '@shared/helper/table-helper';
+import {addSelectedValues, removeSelectedValues} from '@shared/helper/table-helper';
 
 
 @Component({
     selector: 'app-parts-table',
     templateUrl: './parts-table.component.html',
-    styleUrls: ['parts-table.component.scss'],
-    encapsulation: ViewEncapsulation.None,
+    styleUrls: ['parts-table.component.scss']
 })
 export class PartsTableComponent implements OnInit {
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild('tableElement', {read: ElementRef}) tableElementRef: ElementRef<HTMLElement>;
-
-    @ViewChild(MultiSelectAutocompleteComponent) multiSelectAutocompleteComponent: MultiSelectAutocompleteComponent;
-
+    @ViewChildren(MultiSelectAutocompleteComponent) multiSelectAutocompleteComponents: QueryList<MultiSelectAutocompleteComponent>;
     @Input() multiSelectActive = false;
 
     @Input() labelId: string;
@@ -148,6 +148,8 @@ export class PartsTableComponent implements OnInit {
         'filterSemanticDataModel',
         'filterManufacturingDate',
         'filterManufacturingCountry',
+        'filterActiveAlerts',
+        'filterActiveInvestigations',
     ];
 
     private readonly displayedColumnsAsPlanned: string[] = [
@@ -183,6 +185,8 @@ export class PartsTableComponent implements OnInit {
         'semanticDataModel',
         'manufacturingDate',
         'manufacturingCountry',
+        'activeAlerts',
+        'activeInvestigations',
     ];
 
 
@@ -218,6 +222,8 @@ export class PartsTableComponent implements OnInit {
         semanticDataModel: true,
         manufacturingDate: true,
         manufacturingCountry: true,
+        activeAlerts: true,
+        activeInvestigations: true,
 
     };
 
@@ -266,6 +272,8 @@ export class PartsTableComponent implements OnInit {
         'filterPartId',
         'filterSemanticModelId',
         'filterManufacturingDate',
+        'filterActiveAlerts',
+        'filterActiveInvestigations',
     ];
 
 
@@ -277,6 +285,8 @@ export class PartsTableComponent implements OnInit {
         'filterPartId',
         'filterSemanticModelId',
         'filterManufacturingDate',
+        'filterActiveAlerts',
+        'filterActiveInvestigations',
     ];
 
     private readonly displayedColumnsAsBuiltCustomerForTable: string[] = [
@@ -287,6 +297,8 @@ export class PartsTableComponent implements OnInit {
         'partId',
         'semanticModelId',
         'manufacturingDate',
+        'activeAlerts',
+        'activeInvestigations',
     ];
 
 
@@ -296,7 +308,9 @@ export class PartsTableComponent implements OnInit {
         manufacturer: true,
         partId: true,
         semanticModelId: true,
-        manufacturingDate: true
+        manufacturingDate: true,
+        activeAlerts: true,
+        activeInvestigations: true,
     };
 
     private readonly displayedColumnsAsPlannedCustomerForTable: string[] = [
@@ -325,6 +339,8 @@ export class PartsTableComponent implements OnInit {
         'partId',
         'semanticModelId',
         'manufacturingDate',
+        'activeAlerts',
+        'activeInvestigations',
     ];
 
     private readonly sortableColumnsAsBuiltSupplier: Record<string, boolean> = {
@@ -334,7 +350,8 @@ export class PartsTableComponent implements OnInit {
         partId: true,
         semanticModelId: true,
         manufacturingDate: true,
-
+        activeAlerts: true,
+        activeInvestigations: true,
     };
 
     private readonly displayedColumnsAsPlannedSupplierForTable: string[] = [
@@ -417,7 +434,7 @@ export class PartsTableComponent implements OnInit {
             value: SemanticDataModel.BATCH,
         }, {
             display: 'JustInSequence',
-        value: SemanticDataModel.JUSTINSEQUENCE,
+            value: SemanticDataModel.JUSTINSEQUENCE,
         }, {
             display: 'SerialPart',
             value: SemanticDataModel.SERIALPART,
@@ -445,6 +462,8 @@ export class PartsTableComponent implements OnInit {
         {filterKey: 'semanticDataModel', headerKey: 'filterSemanticDataModel', isTextSearch: false, option: this.semanticDataModelOptions},
         {filterKey: 'manufacturingDate', headerKey: 'filterManufacturingDate', isTextSearch: true, option: this.optionTextSearch},
         {filterKey: 'manufacturingCountry', headerKey: 'filterManufacturingCountry', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'activeAlerts', headerKey: 'filterActiveAlerts', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'activeInvestigations', headerKey: 'filterActiveInvestigations', isTextSearch: true, option: this.optionTextSearch},
     ];
 
 
@@ -462,6 +481,8 @@ export class PartsTableComponent implements OnInit {
         semanticDataModel: new FormControl([]),
         manufacturingDate: new FormControl([]),
         manufacturingCountry: new FormControl([]),
+        activeAlerts: new FormControl([]),
+        activeInvestigations: new FormControl([]),
     };
 
     assetAsPlannedFilterFormGroup = {
@@ -508,7 +529,9 @@ export class PartsTableComponent implements OnInit {
         manufacturerName: new FormControl([]),
         manufacturerPartId: new FormControl([]),
         semanticModelId: new FormControl([]),
-        manufacturingDate: new FormControl([])
+        manufacturingDate: new FormControl([]),
+        activeAlerts: new FormControl([]),
+        activeInvestigations: new FormControl([]),
     };
 
     assetAsBuiltCustomerFilterFormGroup = {
@@ -518,7 +541,9 @@ export class PartsTableComponent implements OnInit {
         manufacturerName: new FormControl([]),
         manufacturerPartId: new FormControl([]),
         semanticModelId: new FormControl([]),
-        manufacturingDate: new FormControl([])
+        manufacturingDate: new FormControl([]),
+        activeAlerts: new FormControl([]),
+        activeInvestigations: new FormControl([]),
     };
 
     private readonly assetAsPlannedCustomerFilterConfiguration: any[] = [
@@ -548,6 +573,8 @@ export class PartsTableComponent implements OnInit {
         {filterKey: 'manufacturerPartId', headerKey: 'filterPartId', isTextSearch: true, option: this.optionTextSearch},
         {filterKey: 'semanticModelId', headerKey: 'filterSemanticModelId', isTextSearch: true, option: this.optionTextSearch},
         {filterKey: 'manufacturingDate', headerKey: 'filterManufacturingDate', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'activeAlerts', headerKey: 'filterActiveAlerts', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'activeInvestigations', headerKey: 'filterActiveInvestigations', isTextSearch: true, option: this.optionTextSearch},
     ];
 
 
@@ -558,7 +585,10 @@ export class PartsTableComponent implements OnInit {
         {filterKey: 'manufacturerName', headerKey: 'filterManufacturer', isTextSearch: true, option: this.optionTextSearch},
         {filterKey: 'manufacturerPartId', headerKey: 'filterPartId', isTextSearch: true, option: this.optionTextSearch},
         {filterKey: 'semanticModelId', headerKey: 'filterSemanticModelId', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'manufacturingDate', headerKey: 'filterManufacturingDate', isTextSearch: true, option: this.optionTextSearch}];
+        {filterKey: 'manufacturingDate', headerKey: 'filterManufacturingDate', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'activeAlerts', headerKey: 'filterActiveAlerts', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'activeInvestigations', headerKey: 'filterActiveInvestigations', isTextSearch: true, option: this.optionTextSearch},
+    ];
 
 
     private readonly assetAsPlannedFilterConfiguration: any[] = [

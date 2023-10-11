@@ -22,7 +22,6 @@ package org.eclipse.tractusx.traceability.integration.qualitynotification.alert;
 import io.restassured.http.ContentType;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.UpdateQualityNotificationStatusRequest;
 import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
@@ -30,6 +29,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import qualitynotification.base.request.UpdateQualityNotificationStatusRequest;
 
 import java.util.stream.Stream;
 

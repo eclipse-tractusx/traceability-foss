@@ -24,11 +24,8 @@ package org.eclipse.tractusx.traceability.common.config;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
-import io.swagger.v3.oas.models.media.Content;
-import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.security.OAuthFlow;
 import io.swagger.v3.oas.models.security.OAuthFlows;
 import io.swagger.v3.oas.models.security.Scopes;
@@ -36,7 +33,6 @@ import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.MediaType;
 
 @Configuration
 @OpenAPIDefinition
@@ -44,23 +40,7 @@ public class OpenApiConfig {
 
     @Bean
     public OpenAPI baseOpenAPI() {
-        ApiResponse badRequestAPI = new ApiResponse().content(
-                new Content().addMediaType(
-                        MediaType.APPLICATION_JSON_VALUE,
-                        new io.swagger.v3.oas.models.media.MediaType().addExamples(
-                                "default",
-                                new Example().value("{\"code\" : 400, \"Status\" : \"Bad request\", \"Message\" : \"Bad request\"}")
-                        ))).description("Bad request");
-        ApiResponse internalServerErrorAPI = new ApiResponse().content(
-                new Content().addMediaType(
-                        MediaType.APPLICATION_JSON_VALUE,
-                        new io.swagger.v3.oas.models.media.MediaType().addExamples(
-                                "default",
-                                new Example().value("{\"code\" : 500, \"Status\" : \"Internal server error\", \"Message\" : \"Internal server error\"}")
-                        ))).description("Internal server error");
         Components components = new Components();
-        components.addResponses("badRequestAPI", badRequestAPI);
-        components.addResponses("internalServerErrorAPI", internalServerErrorAPI);
         components.addSecuritySchemes("oAuth2", new SecurityScheme().type(SecurityScheme.Type.OAUTH2)
                 .flows(new OAuthFlows().clientCredentials(
                         new OAuthFlow().scopes(

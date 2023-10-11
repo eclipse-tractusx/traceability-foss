@@ -57,7 +57,7 @@
     "menuDescription": "Aktionsmenü",
     "clearPage": "Markierungen auf dieser Seite aufheben",
     "clearAll": "Alle Markierungen aufheben",
-    "filterTitle": "Filter",,
+    "filterTitle" : "Filter",
     "adminColumn": {
       "startDate": "Startdatum",
       "registryLookupStatus": "Status",
@@ -95,7 +95,9 @@
       "catenaXSiteId": "Standort ID",
       "psFunction": "Funktion",
       "functionValidFrom": "Funktion gültig von",
-      "functionValidUntil": "Funktion gültig bis"
+      "functionValidUntil" : "Funktion gültig bis",
+      "activeAlerts" : "Aktive Qualitätswarnungen",
+      "activeInvestigations" : "Aktive Qualitätsuntersuchungen"
     }
   },
   "dataLoading": {

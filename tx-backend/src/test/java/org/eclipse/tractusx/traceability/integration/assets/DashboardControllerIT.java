@@ -28,9 +28,6 @@ import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecificatio
 import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationsSupport;
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.QualityNotificationSeverityRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.StartQualityNotificationRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,6 +37,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
+import qualitynotification.base.request.QualityNotificationSeverityRequest;
+import qualitynotification.base.request.StartQualityNotificationRequest;
 
 import java.util.List;
 import java.util.stream.Stream;

@@ -21,25 +21,7 @@ table {
   @apply font-light;
 }
 
-/* Remove grey background of filter selection */
-.mdc-text-field--filled:not(.mdc-text-field--disabled) {
-  background-color: unset !important;
-}
 
-/* Empty block below multi select */
-.mat-mdc-form-field-subscript-wrapper {
-  display: none;
-}
-
-/* Remove border*/
-.mdc-line-ripple::before {
-  border-bottom-width: 0 !important;
-}
-
-.mdc-line-ripple::after {
-  border-bottom-width: 0 !important;
-
-}
 
 .table--select-all {
   display: inline-flex;
@@ -81,9 +63,6 @@ table {
   outline: 1px solid currentColor;
 }
 
-.cdk-overlay-pane {
-  width: unset !important;
-}
 
 .table--no-data {
   display: flex;
@@ -107,6 +86,24 @@ table {
 
 .table--cell {
   padding: 0 10px;
+}
+
+.table--notification--cell {
+  display: flex;
+  align-items: center;
+}
+
+.table--notification--cell--content {
+  flex: 1;
+}
+
+.table--notification--cell--content--icon {
+  flex: 8;
+}
+
+
+.table--notification--icon {
+  color: #888888;
 }
 
 .table--selected__container {

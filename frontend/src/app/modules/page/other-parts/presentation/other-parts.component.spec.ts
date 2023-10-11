@@ -196,52 +196,36 @@ describe('Other Parts', () => {
       expect(updateCustomerPartsSpy).toHaveBeenCalledWith(searchValue);
     });
 
-    it('should reset form on search', async () => {
+    it('should trigger part search and reset filter', async () => {
       const { fixture } = await renderOtherParts();
       const { componentInstance } = fixture;
-      // Mock the necessary data and components
-      componentInstance.supplierPartsComponents = [
-        {
-          updateSupplierParts: jasmine.createSpy('updateSupplierParts'), //
-          partsTableComponents: [
-            {
-              multiSelectAutocompleteComponent: {
-                theSearchElement: 'test', // Mock theSearchElement to be truthy
-              },
-              filterFormGroup: {
-                reset: jasmine.createSpy('reset'), // Spy on reset method
-              },
-            },
-          ],
-        },
-      ] as any;
+      const searchValue = 'testSearchValue';
 
-      componentInstance.customerPartsComponents = [
-        {
-          updateCustomerParts: jasmine.createSpy('updateCustomerParts'),
-          partsTableComponents: [
-            {
-              multiSelectAutocompleteComponent: {
-                theSearchElement: 'test', // Mock theSearchElement to be truthy
-              },
-              filterFormGroup: {
-                reset: jasmine.createSpy('reset'), // Spy on reset method
-              },
-            },
-          ],
-        },
-      ] as any;
 
-      // Call the method
+      const updateSupplierPartsSpy = spyOn(
+          SupplierPartsComponent.prototype,
+          'updateSupplierParts',
+      );
+
+      const updateCustomerPartsSpy = spyOn(
+          CustomerPartsComponent.prototype,
+          'updateCustomerParts',
+      );
+
+      componentInstance.searchControl.setValue(searchValue);
+
+      // Spy on the private method without calling it directly
+      const resetFilterAndShowToastSpy = spyOn<any>(componentInstance, 'resetFilterAndShowToast');
+
+      // Act
       componentInstance.triggerPartSearch();
 
-      // Expectations
-      expect(componentInstance.supplierPartsComponents[0].partsTableComponents[0].filterFormGroup.reset).toHaveBeenCalled();
-      expect(componentInstance.customerPartsComponents[0].partsTableComponents[0].filterFormGroup.reset).toHaveBeenCalled();
+      // Assert
+      expect(updateSupplierPartsSpy).toHaveBeenCalledWith('testSearchValue');
+      expect(updateCustomerPartsSpy).toHaveBeenCalledWith('testSearchValue');
+      expect(resetFilterAndShowToastSpy).toHaveBeenCalledOnceWith();
 
     });
-
-
   });
 });
 

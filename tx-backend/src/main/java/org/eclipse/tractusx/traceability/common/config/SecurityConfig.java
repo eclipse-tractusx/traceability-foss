@@ -57,10 +57,12 @@ public class SecurityConfig {
             "/actuator/**",
             "/registry/reload",
             "/submodel/**"
+
     };
 
     @Value("${jwt.resource-client}")
     private String resourceClient;
+
 
     @Bean
     SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity) throws Exception {

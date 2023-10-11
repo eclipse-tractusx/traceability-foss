@@ -21,6 +21,8 @@
 
 package org.eclipse.tractusx.traceability.common.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.github.resilience4j.core.registry.EntryAddedEvent;
 import io.github.resilience4j.core.registry.EntryRemovedEvent;
 import io.github.resilience4j.core.registry.EntryReplacedEvent;
@@ -118,9 +120,11 @@ public class ApplicationConfig {
     @Bean
     public void registerDecentralRegistryPermissions() {
         try {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.registerModule(new JavaTimeModule());
             AcceptedPolicy acceptedPolicy = buildAcceptedPolicy();
             defaultAcceptedPoliciesProvider.addAcceptedPolicies(List.of(acceptedPolicy));
-            log.info("Successfully added permission to irs client lib provider: {}", acceptedPolicy);
+            log.info("Successfully added permission to irs client lib provider: {}", mapper.writeValueAsString(acceptedPolicy));
         } catch (Exception exception) {
             log.error("Failed to create Irs Policies : ", exception);
         }
@@ -133,7 +137,9 @@ public class ApplicationConfig {
         List<Permission> permissions = List.of(
                 new Permission(
                         PolicyType.USE,
-                        List.of(new Constraints(List.of(new Constraint("PURPOSE", OperatorType.EQ, List.of(ID_TRACE_CONSTRAINT))), List.of()))
+                        List.of(new Constraints(
+                                List.of(new Constraint("PURPOSE", OperatorType.EQ, List.of(ID_TRACE_CONSTRAINT))),
+                                List.of(new Constraint("PURPOSE", OperatorType.EQ, List.of(ID_TRACE_CONSTRAINT)))))
                 )
         );
         Policy policy = new Policy(ID_TRACE_CONSTRAINT, OffsetDateTime.now(), offsetDateTime, permissions);

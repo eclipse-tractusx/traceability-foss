@@ -25,3 +25,31 @@
 ::before {
   border-style: unset;
 }
+
+/* Sets the opened local filter to be full width*/
+.cdk-overlay-pane {
+  width: unset !important;
+}
+
+app-multiselect {
+
+  /* Remove border*/
+  .mdc-line-ripple::before {
+    border-bottom-width: 0 !important;
+  }
+
+  .mdc-line-ripple::after {
+    border-bottom-width: 0 !important;
+
+  }
+
+  /* Remove grey background of filter selection */
+  .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: unset !important;
+  }
+
+  /* Empty block below multi select */
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+}
