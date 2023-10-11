@@ -30,7 +30,8 @@ public class FeatureFlags {
             ApplicationProfiles.E2E_A + " | " +
             ApplicationProfiles.E2E_B + " | " +
             ApplicationProfiles.INT_A + " | " +
-            ApplicationProfiles.INT_B;
+            ApplicationProfiles.INT_B + " | " +
+            ApplicationProfiles.STABLE;
 
     private FeatureFlags() {
     }

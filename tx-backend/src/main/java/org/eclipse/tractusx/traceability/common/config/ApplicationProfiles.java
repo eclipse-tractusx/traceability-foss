@@ -35,6 +35,7 @@ public class ApplicationProfiles {
     public static final String INT_B = "int-b";
     public static final String E2E_A = "e2e-a";
     public static final String E2E_B = "e2e-b";
+    public static final String STABLE = "stable";
 
     private ApplicationProfiles() {
     }
