@@ -68,7 +68,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     selectAllChecked = false;
     displayString = '';
 
-    shouldHideTextSearchOptionField():boolean{
+    shouldHideTextSearchOptionField(): boolean {
         return !this.textSearch || this.textSearch && (this.theSearchElement === null || this.theSearchElement === '');
     }
 
@@ -138,13 +138,14 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
 
     clickClear(): void {
         this.formControl.patchValue("");
+        this.formControl.reset();
         this.searchInput.value = '';
         this.theSearchElement = '';
         this.selectedValue = [];
 
     }
 
-    resetFilter(): void{
+    resetFilter(): void {
         this.searchInput.value = '';
     }
 

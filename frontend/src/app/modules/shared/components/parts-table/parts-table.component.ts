@@ -17,47 +17,47 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { SelectionModel } from '@angular/cdk/collections';
+import {SelectionModel} from '@angular/cdk/collections';
 import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewChild,
-  ViewEncapsulation,
+    Component,
+    ElementRef,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+    QueryList,
+    ViewChild,
+    ViewChildren,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { Pagination } from '@core/model/pagination.model';
-import { SemanticDataModel } from '@page/parts/model/parts.model';
-import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
+import {FormControl, FormGroup} from '@angular/forms';
+import {MatPaginator, PageEvent} from '@angular/material/paginator';
+import {MatSort, Sort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
+import {Pagination} from '@core/model/pagination.model';
+import {SemanticDataModel} from '@page/parts/model/parts.model';
 import {
-  CreateHeaderFromColumns,
-  PartTableType,
-  TableConfig,
-  TableEventConfig,
-  TableHeaderSort,
+    MultiSelectAutocompleteComponent
+} from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
+import {
+    CreateHeaderFromColumns,
+    PartTableType,
+    TableConfig,
+    TableEventConfig,
+    TableHeaderSort,
 } from '@shared/components/table/table.model';
-import { addSelectedValues, removeSelectedValues } from '@shared/helper/table-helper';
+import {addSelectedValues, removeSelectedValues} from '@shared/helper/table-helper';
 
 
 @Component({
     selector: 'app-parts-table',
     templateUrl: './parts-table.component.html',
-    styleUrls: ['parts-table.component.scss'],
-    encapsulation: ViewEncapsulation.None,
+    styleUrls: ['parts-table.component.scss']
 })
 export class PartsTableComponent implements OnInit {
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild('tableElement', {read: ElementRef}) tableElementRef: ElementRef<HTMLElement>;
-
-    @ViewChild(MultiSelectAutocompleteComponent) multiSelectAutocompleteComponent: MultiSelectAutocompleteComponent;
-
+    @ViewChildren(MultiSelectAutocompleteComponent) multiSelectAutocompleteComponents: QueryList<MultiSelectAutocompleteComponent>;
     @Input() multiSelectActive = false;
 
     @Input() labelId: string;
@@ -434,7 +434,7 @@ export class PartsTableComponent implements OnInit {
             value: SemanticDataModel.BATCH,
         }, {
             display: 'JustInSequence',
-        value: SemanticDataModel.JUSTINSEQUENCE,
+            value: SemanticDataModel.JUSTINSEQUENCE,
         }, {
             display: 'SerialPart',
             value: SemanticDataModel.SERIALPART,
