@@ -1,0 +1,27 @@
+project: project-traceability-foss
+source:
+  repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
+  targetRevision: 0.3.22
+  helm:
+    parameters:
+      - name: enableKeycloak
+        value: 'false'
+    values: |
+      registry:
+        authentication: false
+        idpIssuerUri: https://centralidp.stable.demo.catena-x.net/auth/realms/CX-Central
+        host: trace-x-registry-stable-b.stable.demo.catena-x.net
+        ingress:
+          enabled: true
+          tls: true
+          className: nginx
+          urlPrefix: /semantics/registry
+          annotations:
+            nginx.ingress.kubernetes.io/enable-cors: "true"
+            nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+            nginx.ingress.kubernetes.io/rewrite-target: /$2
+            nginx.ingress.kubernetes.io/use-regex: "true"
+  chart: registry
+destination:
+  server: 'https://kubernetes.default.svc'
+  namespace: product-traceability-foss

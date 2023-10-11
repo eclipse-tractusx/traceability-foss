@@ -1,0 +1,369 @@
+project: project-traceability-foss
+source:
+  repoURL: 'https://eclipse-tractusx.github.io/charts/dev'
+  targetRevision: 1.3.15
+  plugin:
+    env:
+      - name: HELM_VALUES
+        value: |
+          global:
+            enablePrometheus: false
+            enableGrafana: false
+          frontend:
+            image:
+              repository: ghcr.io/catenax-ng/tx-traceability-foss
+              tag: 6.0.1-rc4
+              CATENAX_PORTAL_API_URL: '<path:traceability-foss/data/stable-a/frontend#catenax_portal_api_url>'
+              CATENAX_PORTAL_KEYCLOAK_URL: '<path:traceability-foss/data/stable-a/frontend#catenax_portal_keycloak_url>'
+              CATENAX_PORTAL_BACKEND_DOMAIN: '<path:traceability-foss/data/stable-a/frontend#catenax_portal_backend_domain>'
+              CATENAX_PORTAL_URL: '<path:traceability-foss/data/stable-a/frontend#catenax_portal_url>'
+              CATENAX_PORTAL_CLIENT_ID: '<path:traceability-foss/data/stable-a/frontend#catenax_portal_client_id>'
+            nameOverride: "tx-frontend-stable-a"
+            fullnameOverride: "tx-frontend-stable-a"
+            ingress:
+              enabled: true
+              className: "nginx"
+              annotations:
+                cert-manager.io/cluster-issuer: letsencrypt-prod
+              hosts:
+                - host: "traceability-portal-stable-a.stable.demo.catena-x.net"
+                  paths:
+                    - path: /
+                      pathType: ImplementationSpecific
+              tls:
+                - hosts:
+                    - "traceability-portal-stable-a.stable.demo.catena-x.net"
+                  secretName: "traceability-portal-stable-a.stable.demo.catena-x.net-tls"
+          backend:
+            image:
+              repository: ghcr.io/catenax-ng/tx-traceability-foss
+              tag: 6.0.1-rc4
+            nameOverride: "tx-backend-stable-a"
+            fullnameOverride: "tx-backend-stable-a"
+            podSecurityContext:
+              runAsUser: 10001
+              seccompProfile:
+                type: RuntimeDefault
+            securityContext:
+              allowPrivilegeEscalation: false
+              runAsNonRoot: true
+              runAsUser: 10001
+              runAsGroup: 3000
+              capabilities:
+                drop:
+                  - ALL
+              readOnlyRootFilesystem: false
+            resources:
+              limits:
+                cpu: 500m
+                memory: 512Mi
+              requests:
+                cpu: 100m
+                memory: 512Mi
+            springprofile: dev
+            ingress:
+              enabled: true
+              className: "nginx"
+              annotations:
+                nginx.ingress.kubernetes.io/backend-protocol: HTTP
+              hosts:
+                - host: "traceability-stable-a.stable.demo.catena-x.net"
+                  paths:
+                    - path: /
+                      pathType: ImplementationSpecific
+              tls:
+                - hosts:
+                    - "traceability-stable-a.stable.demo.catena-x.net"
+                  secretName: tls-secret
+
+            traceability:
+              bpn: "BPNL00000003CML1"
+              url: "https://traceability-stable-a.stable.demo.catena-x.net"
+            datasource:
+              url: jdbc:postgresql://tx-backend-postgresql-stable-a:5432/trace
+              username: trace
+              password: '<path:traceability-foss/data/stable-a/database#tracePassword>'
+            oauth2:
+              clientId: '<path:traceability-foss/data/stable-a/keycloak/oauth2#clientId>'
+              clientSecret: '<path:traceability-foss/data/stable-a/keycloak/oauth2#clientSecret>'
+              clientTokenUri: "https://centralidp.stable.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
+              jwkSetUri: "https://centralidp.stable.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs"
+              resourceClient: "app10"
+            edc:
+              apiKey: "<path:traceability-foss/data/stable-a/edc/controlplane#edc.api.control.auth.apikey.value>"
+              providerUrl: "https://tx-edc-consumer-stable-a-controlplane.stable.demo.catena-x.net"
+              callbackUrl: "http://tx-irs-stable-a:8181/internal/endpoint-data-reference"
+              callbackUrlEdcClient: "https://traceability-stable-a.stable.demo.catena-x.net/api/internal/endpoint-data-reference"
+              dataEndpointUrl: "https://tx-edc-consumer-stable-a-controlplane.stable.demo.catena-x.net/management"
+            discoveryfinder:
+              baseUrl: "https://semantics.stable.demo.catena-x.net/discoveryfinder/api/administration/connectors/discovery/search"
+            config:
+              allowedCorsOriginFirst: "http://localhost:4200/"
+              allowedCorsOriginSecond: "https://traceability-portal-stable-a.stable.demo.catena-x.net/"
+            irs:
+              baseUrl: "https://tx-irs-stable-a.stable.demo.catena-x.net"
+            registry:
+              urlWithPath: "https://trace-x-registry-stable-a.stable.demo.catena-x.net/semantics/registry/api/v3.0"
+            portal:
+              baseUrl: "https://portal-backend.stable.demo.catena-x.net/api"
+            dependencies:
+              enabled: true
+              irs: "tx-irs-stable-a"
+              edc: "tx-edc-consumer-stable-a"
+          pgadmin4:
+            nameOverride: "tx-pgadmin-stable-a"
+            fullnameOverride: "tx-pgadmin-stable-a"
+            enabled: true
+            strategy:
+              type: Recreate
+            networkPolicy:
+              enabled: false
+            ingress:
+              enabled: true
+              annotations:
+                kubernetes.io/ingress.class: nginx
+                nginx.ingress.kubernetes.io/backend-protocol: HTTP
+              hosts:
+                - host: tx-pgadmin-stable-a.stable.demo.catena-x.net
+                  paths:
+                    - path: /
+                      pathType: Prefix
+              tls:
+                - hosts:
+                    - tx-pgadmin-stable-a.stable.demo.catena-x.net
+                  secretName: tls-secret
+            env:
+              email: pgadmin4@trace.foss
+              password: "<path:traceability-foss/data/stable-a/database#pgadminPassword>"
+              variables:
+                - name: PGADMIN_CONFIG_UPGRADE_CHECK_ENABLED
+                  value: "False"
+            resources:
+              limits:
+                cpu: 200m
+                memory: 512Gi
+              requests:
+                cpu: 100m
+                memory: 512Mi
+          postgresql:
+            enabled: true
+            nameOverride: "tx-backend-postgresql-stable-a"
+            fullnameOverride: "tx-backend-postgresql-stable-a"
+            auth:
+              postgresPassword: "<path:traceability-foss/data/stable-a/database#postgresPassword>"
+              password: "<path:traceability-foss/data/stable-a/database#tracePassword>"
+              database: "trace"
+              username: "trace"
+          irs-helm:
+            enabled: true
+            bpn: BPNL00000003CML1
+            nameOverride: "tx-irs-stable-a"
+            fullnameOverride: "tx-irs-stable-a"
+            namespace: product-traceability-foss
+            springprofile: dev
+            irsUrl: "https://tx-irs-stable-a.stable.demo.catena-x.net"
+            ingress:
+              enabled: true
+              hosts:
+                - host: "tx-irs-stable-a.stable.demo.catena-x.net"
+                  paths:
+                    - path: /
+                      pathType: ImplementationSpecific
+              tls:
+                - hosts:
+                    - "tx-irs-stable-a.stable.demo.catena-x.net"
+                  secretName: tls-secret
+            digitalTwinRegistry:
+              type: decentral
+              descriptorEndpoint: https://trace-x-registry-stable-a.stable.demo.catena-x.net/semantics/registry/api/v3.0/shell-descriptors/{aasIdentifier}
+              shellLookupEndpoint: https://trace-x-registry-stable-a.stable.demo.catena-x.net/semantics/registry/api/v3.0/lookup/shells?assetIds={assetIds}
+              discoveryFinderUrl: https://semantics.stable.demo.catena-x.net/discoveryfinder/api/administration/connectors/discovery/search
+            semanticshub:
+              url: https://semantics.stable.demo.catena-x.net/hub/api/v1/models
+            bpdm:
+              url: https://partners-pool.stable.demo.catena-x.net
+            minioUser: '<path:traceability-foss/data/stable-a/minio#user>'
+            minioPassword: '<path:traceability-foss/data/stable-a/minio#password>'
+            minioUrl: http://tx-irs-minio-stable-a:9000
+            keycloak:
+              oauth2:
+                clientId: '<path:traceability-foss/data/stable-a/keycloak/oauth2#clientId>'
+                clientSecret: '<path:traceability-foss/data/stable-a/keycloak/oauth2#clientSecret>'
+                clientTokenUri: https://centralidp.stable.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
+                jwkSetUri: https://centralidp.stable.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
+            edc:
+              callbackurl: http://tx-irs-stable-a:8181/internal/endpoint-data-reference
+              catalog:
+                cache:
+                  enabled: "false"
+              controlplane:
+                endpoint:
+                  statesuffix: /state
+                  data: https://tx-edc-consumer-stable-a-controlplane.stable.demo.catena-x.net/management
+                apikey:
+                  secret: '<path:traceability-foss/data/stable-a/edc/controlplane#edc.api.control.auth.apikey.value>'
+            minio:
+              nameOverride: "tx-irs-minio-stable-a"
+              fullnameOverride: "tx-irs-minio-stable-a"
+              serviceAccount:
+                create: false
+              rootUser: '<path:traceability-foss/data/stable-a/minio#user>'
+              rootPassword: '<path:traceability-foss/data/stable-a/minio#password>'
+          tractusx-connector:
+            nameOverride: "tx-edc-consumer-stable-a"
+            fullnameOverride: "tx-edc-consumer-stable-a"
+            enabled: true
+            install:
+              postgresql: false
+              vault: false
+            participant:
+              id: BPNL00000003CML1
+            controlplane:
+              ingresses:
+                - enabled: true
+                  hostname: "tx-edc-consumer-stable-a-controlplane.stable.demo.catena-x.net"
+                  annotations:
+                    nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+                    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+                    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+                  endpoints:
+                    - protocol
+                    - management
+                  tls:
+                    enabled: true
+                    secretName: tls-secret
+              ssi:
+                miw:
+                  url: '<path:traceability-foss/data/stable-a/edc/wallet#ssi.miw.url>'
+                  authorityId: '<path:traceability-foss/data/stable-a/edc/wallet#ssi.miw.authorityId>'
+                oauth:
+                  tokenurl: '<path:traceability-foss/data/stable-a/edc/wallet#ssi.oauth.tokenurl>'
+                  client:
+                    id: '<path:traceability-foss/data/stable-a/edc/wallet#ssi.oauth.client.id>'
+                    secretAlias: edc-miw-keycloak-secret-stable-a
+              endpoints:
+                default:
+                  port: 8080
+                  path: /api
+                management:
+                  port: 8081
+                  path: /management
+                  authKey: '<path:traceability-foss/data/stable-a/edc/controlplane#edc.api.control.auth.apikey.value>'
+                control:
+                  port: 8083
+                  path: /control
+                protocol:
+                  port: 8084
+                  path: /api/v1/dsp
+                metrics:
+                  port: 9090
+                  path: /metrics
+                observability:
+                  port: 8085
+                  path: /observability
+                  insecure: true
+              internationalDataSpaces:
+                id: TXDC
+                description: Tractus-X Eclipse IDS Data Space Connector
+                title: ""
+                maintainer: ""
+                curator: ""
+                catalogId: TXDC-Catalog
+              url:
+                ids: ""
+              resources:
+                limits:
+                  cpu: 400m
+                  memory: 1.5Gi
+                requests:
+                  cpu: 200m
+                  memory: 1.5Gi
+            dataplane:
+              ingresses:
+                - enabled: true
+                  hostname: "tx-edc-consumer-stable-a-dataplane.stable.demo.catena-x.net"
+                  annotations:
+                    nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+                    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+                    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+                  endpoints:
+                    - public
+                  className: "nginx"
+                  tls:
+                    enabled: true
+                    secretName: tls-secret
+              endpoints:
+                default:
+                  port: 8080
+                  path: /api
+                public:
+                  port: 8081
+                  path: /api/public
+                control:
+                  port: 8083
+                  path: /api/dataplane/control
+                observability:
+                  port: 8085
+                  path: /observability
+                  insecure: true
+                metrics:
+                  port: 9090
+                  path: /metrics
+              url:
+                public: ""
+              resources:
+                limits:
+                  cpu: 200m
+                  memory: 512Mi
+                requests:
+                  cpu: 100m
+                  memory: 512Mi
+            backendService:
+              httpProxyTokenReceiverUrl: "https://traceability-stable-a.stable.demo.catena-x.net/api/callback/endpoint-data-reference"
+            securityContext:
+              readOnlyRootFilesystem: false
+            vault:
+              hashicorp:
+                url: "https://vault.demo.catena-x.net"
+                token: "<path:traceability-foss/data/stable-a/edc#edc.vault.hashicorp.token>"
+                timeout: 30
+                healthCheck:
+                  enabled: true
+                  standbyOk: true
+                paths:
+                  secret: /v1/traceability-foss
+                  health: /v1/sys/health
+              secretNames:
+                transferProxyTokenSignerPrivateKey: daps-cert-key-stable-a
+                transferProxyTokenSignerPublicKey: daps-cert-stable-a
+                transferProxyTokenEncryptionAesKey: token-signer-aes-key
+            postgresql:
+              enabled: true
+              size: 1Gi
+              auth:
+                username: "<path:traceability-foss/data/stable-a/edc/database#user>"
+                password: "<path:traceability-foss/data/stable-a/edc/database#password>"
+              username: "<path:traceability-foss/data/stable-a/edc/database#user>"
+              password: "<path:traceability-foss/data/stable-a/edc/database#password>"
+              jdbcUrl: "jdbc:postgresql://tx-edc-consumer-postgresql-stable-a-hl:5432/edc"
+          edc-postgresql:
+            primary:
+              resources:
+                limits:
+                  cpu: 200m
+                  memory: 1Gi
+                requests:
+                  cpu: 100m
+                  memory: 1Gi
+            nameOverride: "tx-edc-consumer-postgresql-stable-a"
+            fullnameOverride: "tx-edc-consumer-postgresql-stable-a"
+            enabled: true
+            auth:
+              database: edc
+              username: '<path:traceability-foss/data/stable-a/edc/database#user>'
+              postgresPassword: '<path:traceability-foss/data/stable-a/edc/database#password>'
+              password: '<path:traceability-foss/data/stable-a/edc/database#password>'
+  chart: traceability-foss
+destination:
+  server: 'https://kubernetes.default.svc'
+  namespace: product-traceability-foss
