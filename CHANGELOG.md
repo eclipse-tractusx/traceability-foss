@@ -31,11 +31,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - updated maven-site-plugin from 4.0.0-M5 to 4.0.0-M9
 - updated testcontainer-postgresql from 1.17.6 to 1.19.0
 - updated docker/build-push-action from 4 to 5
-
 - Updated user manual to reflect current state of the part views
 
 ### Removed
 - Owner filter and replaced it with the new filter query param
+- Removed profile based feature flag for investigations / alerts
 
 ## [7.1.0 - 29.09.2023]
 ### Added

@@ -30,14 +30,12 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.common.config.FeatureFlags;
 import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.service.AlertsReceiverService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationIllegalUpdate;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.service.InvestigationsReceiverService;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.NotificationType;
-import org.springframework.context.annotation.Profile;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -46,7 +44,6 @@ import org.springframework.web.bind.annotation.RestController;
 import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitize;
 
 @Slf4j
-@Profile(FeatureFlags.NOTIFICATIONS_ENABLED_PROFILES)
 @Hidden
 @RestController
 @Validated
