@@ -22,11 +22,9 @@ package assets.response.asplanned;
 import assets.response.base.AssetBaseResponse;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @SuperBuilder
-@Data
 @ArraySchema(arraySchema = @Schema(description = "Assets", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
 public class AssetAsPlannedResponse extends AssetBaseResponse {
 
