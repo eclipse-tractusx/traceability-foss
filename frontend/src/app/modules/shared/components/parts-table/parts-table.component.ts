@@ -28,7 +28,6 @@ import {
     QueryList,
     ViewChild,
     ViewChildren,
-    ViewEncapsulation,
 } from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';

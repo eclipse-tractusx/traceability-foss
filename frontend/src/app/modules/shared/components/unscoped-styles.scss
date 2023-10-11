@@ -26,7 +26,13 @@
   border-style: unset;
 }
 
-app-multiselect{
+/* Sets the opened local filter to be full width*/
+.cdk-overlay-pane {
+  width: unset !important;
+}
+
+app-multiselect {
+
   /* Remove border*/
   .mdc-line-ripple::before {
     border-bottom-width: 0 !important;
