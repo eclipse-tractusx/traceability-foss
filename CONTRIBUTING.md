@@ -142,7 +142,7 @@ https://gitlab.eclipse.org/-/profile/personal_access_tokens
 #### Backend
 ##### Generate Dependencies
 
-`mvn org.eclipse.dash:license-tool-plugin:license-check -Ddash.summary=DEPENDENCIES_BACKEND`
+`mvn package org.eclipse.dash:license-tool-plugin:license-check -DskipTests=true -Ddash.summary=DEPENDENCIES_BACKEND -Ddash.fail=true`
 
 ##### Request Review
 

@@ -20,12 +20,14 @@ name: "[BE][FE][SECURITY] Eclipse DASH IP"
 on:
   workflow_dispatch: # Trigger manually
   push:
-    branches: main
+    branches:
+      - main
     paths-ignore:
       - '**/*.md'
       - '**/*.txt'
   pull_request:
-    branches: main
+    branches:
+      - main
     paths:
       - '**/pom.xml'
       - 'pom.xml'
@@ -73,7 +75,7 @@ jobs:
 
       - name: Check dependencies
         run: |
-          mvn package -pl tx-models,tx-backend org.eclipse.dash:license-tool-plugin:license-check -DskipTests=true -Ddash.summary=DEPENDENCIES_BACKEND -Ddash.fail=true
+          mvn package org.eclipse.dash:license-tool-plugin:license-check -DskipTests=true -Ddash.summary=DEPENDENCIES_BACKEND -Ddash.fail=true
 
       - name: upload results
         if: always()
