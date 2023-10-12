@@ -151,7 +151,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
         this.selectedValue = this.theSearchElement as unknown as [];
     }
 
-    addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
+    dateSelectionEvent(event: MatDatepickerInputEvent<Date>) {
         let value = this.datePipe.transform(event.value, 'yyyy-MM-dd');
         this.formControl.patchValue(value);
         this.selectedValue = value as unknown as [];
