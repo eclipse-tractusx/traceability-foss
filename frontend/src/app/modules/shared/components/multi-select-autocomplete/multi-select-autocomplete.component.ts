@@ -20,7 +20,7 @@
 import {Component, EventEmitter, Input, OnChanges, Output, ViewChild} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {MatDatepickerInputEvent} from "@angular/material/datepicker";
-
+import { DatePipe } from '@angular/common';
 @Component({
     selector: 'app-multiselect',
     templateUrl: 'multi-select-autocomplete.component.html',
@@ -73,6 +73,8 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     selectAllChecked = false;
     displayString = '';
 
+    constructor(public datePipe: DatePipe) {
+    }
     shouldHideTextSearchOptionField(): boolean {
         return !this.textSearch || this.textSearch && (this.theSearchElement === null || this.theSearchElement === '');
     }
@@ -145,23 +147,19 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
         this.selectedValue = this.theSearchElement as unknown as [];
     }
 
-    changeDateOption(): void {
-     /*   this.formControl.patchValue(this.theSearchElement);
-        this.selectedValue = this.theSearchElement as unknown as [];*/
-    }
-
-    events: string[] = [];
-
     addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
         console.log(type, "type");
-        console.log(event, "event");
-        this.events.push(`${type}: ${event.value}`);
+        console.log(event.value, "event");
+        let value = this.datePipe.transform(event.value, 'yyyy-MM-dd');
+        this.formControl.patchValue(value);
+        this.selectedValue = value as unknown as [];
+
     }
 
     clickClear(): void {
         this.formControl.patchValue("");
         this.formControl.reset();
-        this.searchInput.value = '';
+        this.searchInput ? this.searchInput.value = '' : null;
         this.theSearchElement = '';
         this.selectedValue = [];
 
