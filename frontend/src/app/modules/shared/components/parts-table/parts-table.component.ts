@@ -380,8 +380,6 @@ export class PartsTableComponent implements OnInit {
         this.handleAsBuiltTableType();
         this.handleAsPlannedTableType();
         this.filterFormGroup.valueChanges.subscribe((formValues) => {
-            console.log(formValues, " value");
-            console.log(this.multiSelectAutocompleteComponents, "multi");
             this.filterActivated.emit(formValues);
         });
     }
