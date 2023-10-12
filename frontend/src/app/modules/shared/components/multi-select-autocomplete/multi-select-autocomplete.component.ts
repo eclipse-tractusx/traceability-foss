@@ -20,8 +20,10 @@
 import {Component, EventEmitter, Inject, Input, LOCALE_ID, OnChanges, Output, ViewChild} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {MatDatepickerInputEvent} from "@angular/material/datepicker";
-import {DatePipe} from '@angular/common';
+import {DatePipe, registerLocaleData} from '@angular/common';
 import {DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
+import localeDe from '@angular/common/locales/de';
+import localeDeExtra from '@angular/common/locales/extra/de';
 
 @Component({
     selector: 'app-multiselect',
@@ -77,6 +79,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
 
     constructor(public datePipe: DatePipe, public _adapter: DateAdapter<any>,
                 @Inject(MAT_DATE_LOCALE) public _locale: string, @Inject(LOCALE_ID) private locale: string) {
+        registerLocaleData(localeDe, 'de', localeDeExtra);
         this._adapter.setLocale(locale);
     }
 
