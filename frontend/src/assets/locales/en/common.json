@@ -273,6 +273,9 @@
         "toastInfo": "By using global search on view level, the local filters on table level was removed."
       }
     }
-
+  },
+  "datepicker": {
+    "apply": "Filter",
+    "cancel": "Reset"
   }
 }

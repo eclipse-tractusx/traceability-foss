@@ -121,7 +121,6 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     }
 
-
     private resetFilterAndShowToast() {
         let filterIsSet = resetMultiSelectionAutoCompleteComponent(this.partsTableComponents, false);
         if (filterIsSet) {

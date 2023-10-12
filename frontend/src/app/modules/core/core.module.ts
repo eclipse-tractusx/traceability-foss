@@ -82,6 +82,10 @@ import { ErrorPageModule } from '@page/error-page/error-page.module';
       useValue: 'en-GB',
     },
     {
+      provide: MAT_DATE_LOCALE,
+      useValue: 'de-DE',
+    },
+    {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpErrorInterceptor,
       multi: true,
