@@ -72,11 +72,9 @@ export class PartsTableComponent implements OnInit {
 
     @Input() tableType: PartTableType;
 
-
     public tableConfig: TableConfig;
 
     filterKey = 'Filter';
-
 
     @Input() set paginationData({page, pageSize, totalItems, content}: Pagination<unknown>) {
         this.totalItems = totalItems;
@@ -116,7 +114,6 @@ export class PartsTableComponent implements OnInit {
     @Output() clickSelectAction = new EventEmitter<void>();
     @Output() filterActivated = new EventEmitter<any>();
 
-
     public readonly dataSource = new MatTableDataSource<unknown>();
     public readonly selection = new SelectionModel<unknown>(true, []);
 
@@ -132,8 +129,8 @@ export class PartsTableComponent implements OnInit {
 
     filterFormGroup = new FormGroup({});
 
-    public isMultipleSearch(filter: any): boolean{
-        if (filter.isDate || filter.isTextSearch){
+    public isMultipleSearch(filter: any): boolean {
+        if (filter.isDate || filter.isTextSearch) {
             return false;
         }
     }
@@ -383,6 +380,8 @@ export class PartsTableComponent implements OnInit {
         this.handleAsBuiltTableType();
         this.handleAsPlannedTableType();
         this.filterFormGroup.valueChanges.subscribe((formValues) => {
+            console.log(formValues, " value");
+            console.log(this.multiSelectAutocompleteComponents, "multi");
             this.filterActivated.emit(formValues);
         });
     }

@@ -49,12 +49,12 @@ SPDX-License-Identifier: Apache-2.0
     </mat-select>
 
     <div  *ngIf="isDate" class="date-search">
-            <input disabled [placeholder]="placeholder" matInput [matDatepicker]="datepicker"
+            <input disabled [value]="theSearchElement" [placeholder]="placeholder" matInput [matDatepicker]="datepicker"
                    (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change', $event)">
             <mat-datepicker-toggle  matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
             <mat-datepicker  disabled="false" #datepicker>
                 <mat-datepicker-actions>
-                    <button (click)="clickClear()" mat-button matDatepickerCancel>Cancel</button>
+                    <button (click)="filterItem(''); clickClear()" mat-button matDatepickerCancel>Cancel</button>
                     <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
                 </mat-datepicker-actions>
             </mat-datepicker>

@@ -17,10 +17,12 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {Component, EventEmitter, Input, OnChanges, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Inject, Input, LOCALE_ID, OnChanges, Output, ViewChild} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {MatDatepickerInputEvent} from "@angular/material/datepicker";
-import { DatePipe } from '@angular/common';
+import {DatePipe} from '@angular/common';
+import {DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
+
 @Component({
     selector: 'app-multiselect',
     templateUrl: 'multi-select-autocomplete.component.html',
@@ -73,14 +75,13 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     selectAllChecked = false;
     displayString = '';
 
-    constructor(public datePipe: DatePipe) {
-    }
-    shouldHideTextSearchOptionField(): boolean {
-        return !this.textSearch || this.textSearch && (this.theSearchElement === null || this.theSearchElement === '');
+    constructor(public datePipe: DatePipe, public _adapter: DateAdapter<any>,
+                @Inject(MAT_DATE_LOCALE) public _locale: string, @Inject(LOCALE_ID) private locale: string) {
+        this._adapter.setLocale(locale);
     }
 
-    shouldHideDatePicker(): boolean{
-        return !this.isDate;
+    shouldHideTextSearchOptionField(): boolean {
+        return !this.textSearch || this.textSearch && (this.theSearchElement === null || this.theSearchElement === '');
     }
 
     ngOnChanges(): void {
@@ -148,26 +149,20 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     }
 
     addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
-        console.log(type, "type");
-        console.log(event.value, "event");
         let value = this.datePipe.transform(event.value, 'yyyy-MM-dd');
         this.formControl.patchValue(value);
         this.selectedValue = value as unknown as [];
-
+        this.theSearchElement = value;
     }
 
     clickClear(): void {
         this.formControl.patchValue("");
         this.formControl.reset();
         this.searchInput ? this.searchInput.value = '' : null;
-        this.theSearchElement = '';
+        this.theSearchElement = null;
         this.selectedValue = [];
-
     }
 
-    resetFilter(): void {
-        this.searchInput.value = '';
-    }
 
     onDisplayString(): string {
         this.displayString = '';
