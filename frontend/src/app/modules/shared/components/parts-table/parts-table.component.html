@@ -62,8 +62,9 @@ SPDX-License-Identifier: Apache-2.0
                         <app-multiselect *ngIf="filter.headerKey!==filterKey"
                                          [placeholder]="'All'"
                                          [options]="filter.option"
-                                         [multiple]='!filter.isTextSearch'
+                                         [multiple]='isMultipleSearch(filter)'
                                          [textSearch]='filter.isTextSearch'
+                                         [isDate]='filter.isDate'
                                          ngDefaultControl
                                          [formControl]="filterFormGroup.controls[filter.filterKey]"></app-multiselect>
                         <span class="filter-title"

@@ -270,6 +270,9 @@
         "toastInfo": "Lokale Filterung auf Tabellenebene wurde zurückgesetzt."
       }
     }
-
+  },
+  "datepicker": {
+    "apply": "Filter",
+    "cancel": "Zurücksetzen"
   }
 }

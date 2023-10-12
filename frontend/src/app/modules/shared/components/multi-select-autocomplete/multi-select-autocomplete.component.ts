@@ -17,8 +17,13 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {Component, EventEmitter, Input, OnChanges, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Inject, Input, LOCALE_ID, OnChanges, Output, ViewChild} from '@angular/core';
 import {FormControl} from '@angular/forms';
+import {MatDatepickerInputEvent} from "@angular/material/datepicker";
+import {DatePipe, registerLocaleData} from '@angular/common';
+import {DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
+import localeDe from '@angular/common/locales/de';
+import localeDeExtra from '@angular/common/locales/extra/de';
 
 @Component({
     selector: 'app-multiselect',
@@ -47,12 +52,16 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     multiple = true;
     @Input()
     textSearch = true;
+    @Input()
+    isDate = false;
 
     // New Options
     @Input()
     labelCount = 1;
     @Input()
     appearance = 'standard';
+
+    public readonly minDate = new Date();
 
     @ViewChild('searchInput', {static: true}) searchInput: any;
 
@@ -67,6 +76,12 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     selectedValue: Array<any> = [];
     selectAllChecked = false;
     displayString = '';
+
+    constructor(public datePipe: DatePipe, public _adapter: DateAdapter<any>,
+                @Inject(MAT_DATE_LOCALE) public _locale: string, @Inject(LOCALE_ID) private locale: string) {
+        registerLocaleData(localeDe, 'de', localeDeExtra);
+        this._adapter.setLocale(locale);
+    }
 
     shouldHideTextSearchOptionField(): boolean {
         return !this.textSearch || this.textSearch && (this.theSearchElement === null || this.theSearchElement === '');
@@ -136,18 +151,23 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
         this.selectedValue = this.theSearchElement as unknown as [];
     }
 
+    dateSelectionEvent(event: MatDatepickerInputEvent<Date>) {
+        let value = this.datePipe.transform(event.value, 'yyyy-MM-dd');
+        this.formControl.patchValue(value);
+        this.selectedValue = value as unknown as [];
+        this.theSearchElement = value;
+    }
+
     clickClear(): void {
         this.formControl.patchValue("");
         this.formControl.reset();
-        this.searchInput.value = '';
-        this.theSearchElement = '';
+        if (this.searchInput) {
+            this.searchInput.value = ''
+        }
+        this.theSearchElement = null;
         this.selectedValue = [];
-
     }
 
-    resetFilter(): void {
-        this.searchInput.value = '';
-    }
 
     onDisplayString(): string {
         this.displayString = '';
@@ -199,6 +219,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     }
 
     onSelectionChange(val: any) {
+
 
         const filteredValues = this.getFilteredOptionsValues();
         if (this.multiple) {

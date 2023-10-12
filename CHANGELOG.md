@@ -21,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Added possiblity to provide multiple semanticDataModels in filter
 - Added two new columns for amount of open Notifications per part in part views (asBuilt)
 - Added test dependencies to dash ip check
+- Added datepicker for date fields inside of the table filters
 
 ### Changed
 - updated IRS helm chart from 6.6.1 to 6.7.2
