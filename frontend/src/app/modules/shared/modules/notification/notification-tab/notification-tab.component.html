@@ -22,9 +22,14 @@ SPDX-License-Identifier: Apache-2.0
 <ng-container
   *viewContainer="notificationsView$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
 <ng-template #mainTmp let-notifications="view">
-  <app-table [paginationData]="notifications.data" [tableConfig]="tableConfig" [noShadow]="true" [labelId]="labelId"
-    [showHover]="false" (selected)="selectNotification($event)"
-    (configChanged)="onTableConfigChange($event)"></app-table>
+  <div *ngIf="notifications.data.totalItems > 0; else displayMessage">
+    <app-table [paginationData]="notifications.data" [tableConfig]="tableConfig" [noShadow]="true" [labelId]="labelId"
+      [showHover]="false" (selected)="selectNotification($event)"
+      (configChanged)="onTableConfigChange($event)"></app-table>
+  </div>
+  <ng-template #displayMessage>
+    <ng-content select="[content1]"></ng-content>
+  </ng-template>
 </ng-template>
 
 <ng-template #errorTmp let-notifications="view">
@@ -45,16 +50,21 @@ SPDX-License-Identifier: Apache-2.0
   <app-severity [severity]="severity"></app-severity>
 </ng-template>
 
+<ng-template #idTmp let-text="value">
+  <p class="notification--table__description notification--table__description-text body-small">{{ text }}</p>
+</ng-template>
+
 <ng-template #descriptionTmp let-text="value">
   <p class="notification--table__description notification--table__description-text body-small">{{ text }}</p>
 </ng-template>
 
 <ng-template #targetDateTmp let-text="value">
-  <p class="notification--table__description">{{ text | formatDate : { dateStyle: 'short', timeStyle: 'short' } }}</p>
+  <p class="notification--table__description body-small">{{ text | formatDate : { dateStyle: 'short', timeStyle: 'short'
+    } }}</p>
 </ng-template>
 
 <ng-template #userTmp let-text="value">
-  <p class="notification--table__description">
+  <p class="notification--table__description body-small">
     <app-notification-user [user]="text" mode="normal"></app-notification-user>
   </p>
 </ng-template>

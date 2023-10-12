@@ -31,12 +31,7 @@
 }
 
 .notification-status {
-  @apply border-0 uppercase inline-flex items-center gap-1 px-3 py-1 rounded-full font-semibold text-xs w-fit;
-
-  &:before {
-    content: ' ';
-    @apply h-2 w-2 rounded-full inline-block;
-  }
+  @apply border-0 uppercase inline-flex items-center px-3 py-1 rounded-full font-semibold text-xs w-fit;
 
   &--RECEIVED {
     @apply bg-receivedLight text-white before:bg-white;
@@ -59,18 +54,18 @@
   }
 
   &--ACCEPTED {
-    @apply bg-declinedLight text-white before:bg-white;
+    @apply bg-acceptedDark text-black before:bg-white;
   }
 
   &--REQUESTED {
-    @apply bg-requestedDark text-pendingDark before:bg-white;
+    @apply bg-requestedDark text-black before:bg-white;
   }
 
   &--ACKNOWLEDGED {
-    @apply bg-pendingLight text-pendingDark before:bg-white;
+    @apply bg-acknowledgedDark text-black before:bg-white;
   }
 
   &--DECLINED {
-    @apply bg-error text-white before:bg-white;
+    @apply bg-declinedDark text-black before:bg-white;
   }
 }

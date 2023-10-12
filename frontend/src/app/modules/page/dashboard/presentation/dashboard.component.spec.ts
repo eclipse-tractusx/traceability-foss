@@ -73,4 +73,17 @@ describe('Dashboard', () => {
       );
     });
   });
+
+  describe('alerts', () => {
+    it('should render count for alerts', async () => {
+      await renderDashboard();
+
+      expect(await waitFor(() => screen.getByText('101'))).toBeInTheDocument();
+
+      expect(screen.getByText('pageDashboard.totalAlerts.label')).toHaveAttribute(
+        'id',
+        screen.getByText('101').getAttribute('aria-describedby'),
+      );
+    });
+  });
 });

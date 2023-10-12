@@ -206,12 +206,6 @@
     font-size: 24px;
   }
 
-  h3,
-  upper-case {
-    @apply uppercase font-semiBold sm:text-xl text-dark;
-    font-size: 24px;
-  }
-
   h4 {
     @apply font-semiBold sm:text-lg text-dark;
     font-size: 18px;
@@ -283,7 +277,7 @@
   }
 
   .mat-sort-header {
-    @apply text-gray;
+    @apply text-black;
   }
 
   .mat-sort-header-sorted > .mat-sort-header-content {

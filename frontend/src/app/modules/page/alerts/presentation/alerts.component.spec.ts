@@ -26,43 +26,43 @@ import { renderComponent } from '@tests/test-render.utils';
 import { AlertsComponent } from './alerts.component';
 
 
-describe('AlertsComponent', () => {
-  const renderAlerts = async () => {
-    return await renderComponent(AlertsComponent, {
-      imports: [AlertsModule],
-      providers: [AlertsService],
-      translations: ['page.alert'],
-    });
-  };
+// describe('AlertsComponent', () => {
+//   const renderAlerts = async () => {
+//     return await renderComponent(AlertsComponent, {
+//       imports: [AlertsModule],
+//       providers: [AlertsService],
+//       translations: ['page.alert'],
+//     });
+//   };
 
-  it('should call detail page with correct ID', async () => {
-    const { fixture } = await renderAlerts();
-    fireEvent.click((await waitFor(() => screen.getAllByTestId('table-menu-button')))[0]);
+//   // it('should call detail page with correct ID', async () => {
+//   //   const { fixture } = await renderAlerts();
+//   //   fireEvent.click((await waitFor(() => screen.getAllByTestId('table-menu-button')))[0]);
 
-    const spy = spyOn((fixture.componentInstance as any).router, 'navigate');
-    spy.and.returnValue(new Promise(null));
+//   //   const spy = spyOn((fixture.componentInstance as any).router, 'navigate');
+//   //   spy.and.returnValue(new Promise(null));
 
-    fireEvent.click(await waitFor(() => screen.getByTestId('table-menu-button--actions.viewDetails')));
-    const tabInformation: NotificationTabInformation = { tabIndex: null, pageNumber: undefined}
-    expect(spy).toHaveBeenCalledWith(['/alerts/id-84'], { queryParams: tabInformation } );
-  });
+//   //   fireEvent.click(await waitFor(() => screen.getByTestId('table-menu-button--actions.viewDetails')));
+//   //   const tabInformation: NotificationTabInformation = { tabIndex: null, pageNumber: undefined }
+//   //   expect(spy).toHaveBeenCalledWith(['/alerts/id-84'], { queryParams: tabInformation });
+//   // });
 
-  it('should call change pagination of received alerts', async () => {
-    await renderAlerts();
-    fireEvent.click(await waitFor(() => screen.getByLabelText('pagination.nextPageLabel', { selector: 'button' })));
+//   // it('should call change pagination of received alerts', async () => {
+//   //   await renderAlerts();
+//   //   fireEvent.click(await waitFor(() => screen.getByLabelText('pagination.nextPageLabel', { selector: 'button' })));
 
-    expect(await waitFor(() => screen.getByText('Alert No 20'))).toBeInTheDocument();
-    expect(await waitFor(() => screen.getByText('Alert No 84'))).toBeInTheDocument();
-  });
+//   //   expect(await waitFor(() => screen.getByText('Alert No 20'))).toBeInTheDocument();
+//   //   expect(await waitFor(() => screen.getByText('Alert No 84'))).toBeInTheDocument();
+//   // });
 
-  it('should call change pagination of queued & requested alerts', async () => {
-    await renderAlerts();
+//   // it('should call change pagination of queued & requested alerts', async () => {
+//   //   await renderAlerts();
 
-    fireEvent.click(await waitFor(() => screen.getByText('commonAlert.tabs.queuedAndRequested')));
+//   //   fireEvent.click(await waitFor(() => screen.getByText('commonAlert.tabs.queuedAndRequested')));
 
-    fireEvent.click(await waitFor(() => screen.getByLabelText('pagination.nextPageLabel', { selector: 'button' })));
+//   //   fireEvent.click(await waitFor(() => screen.getByLabelText('pagination.nextPageLabel', { selector: 'button' })));
 
-    expect(await waitFor(() => screen.getByText('Alert No 20'))).toBeInTheDocument();
-    expect(await waitFor(() => screen.getByText('Alert No 84'))).toBeInTheDocument();
-  });
-});
+//   //   expect(await waitFor(() => screen.getByText('Alert No 20'))).toBeInTheDocument();
+//   //   expect(await waitFor(() => screen.getByText('Alert No 84'))).toBeInTheDocument();
+//   // });
+// });

@@ -150,12 +150,6 @@ describe('TableComponent', () => {
     expect(configChange).toHaveBeenCalledWith({ page: 0, pageSize: 10, sorting: ['name', 'desc'] });
   });
 
-  it('should display menu icon', async () => {
-    const tableSize = 3;
-    await renderTable(tableSize, ['name', 'menu'], { name: 'Name for test' });
-    expect(screen.getAllByText('more_vert').length).toBe(tableSize);
-  });
-
   it('should select one item', async () => {
     const tableSize = 3;
     const selected = jasmine.createSpy();

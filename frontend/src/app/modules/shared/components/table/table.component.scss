@@ -18,9 +18,14 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+
+@import '../../../../../theme/base.scss';
+@tailwind base;
+
 table {
+  @extend .body-small;
+  color: '#000000';
   width: 100%;
-  @apply font-light;
 }
 
 .table--select-all {
@@ -30,7 +35,7 @@ table {
   &__menu {
     background: rgba(0, 0, 0, 0.04);
 
-    & > .table--select-all__dropdown:hover {
+    &>.table--select-all__dropdown:hover {
       background: none;
     }
   }
@@ -50,7 +55,8 @@ table {
 }
 
 .mat-mdc-row:hover {
-  outline: 1px solid currentColor;
+  // background-color: #EAF1FE !important;
+  @apply bg-surfaceMedium !important;
 }
 
 .table--no-data {
@@ -73,8 +79,17 @@ table {
   outline: unset;
 }
 
+.table--header {
+  border-bottom: 1px solid #D2D2D2;
+}
+
 .table--cell {
-  padding: 0 10px;
+  padding: 2px 12px 2px 12px;
+  border: none !important;
+}
+
+.mat-mdc-table .mdc-data-table__row {
+  height: 40px;
 }
 
 .table--selected__container {
@@ -107,30 +122,19 @@ table {
   }
 }
 
-tr.highlighted {
-  @apply bg-warning bg-opacity-30;
-  &:hover {
-    @apply bg-warning bg-opacity-30;
-  }
-}
-
-tr.error {
-  @apply bg-danger bg-opacity-20;
-  &:hover {
-    @apply bg-danger bg-opacity-20;
-  }
-}
-
 @keyframes loading {
   0% {
     background-position: 0;
   }
+
   50% {
     background-position: -30%;
   }
+
   80% {
     background-position: -100%;
   }
+
   100% {
     background-position: -200%;
   }
@@ -179,6 +183,9 @@ tr.error {
 
 .table--header--row {
   white-space: nowrap;
+  @apply font-semiBold;
+  @apply text-black;
+  font-size: 16px;
 }
 
 .table--header {
@@ -191,7 +198,7 @@ tr.error {
 
 .table--header--tooltip {
   .mdc-tooltip__surface {
-    background-color: rgb(48,48,48);
+    background-color: rgb(48, 48, 48);
     @apply font-medium;
     color: white;
     max-width: 300px;
@@ -200,8 +207,8 @@ tr.error {
     line-height: 20px;
 
   }
+
   .mdc-tooltip--multiline {
     white-space: pre-line;
   }
 }
-

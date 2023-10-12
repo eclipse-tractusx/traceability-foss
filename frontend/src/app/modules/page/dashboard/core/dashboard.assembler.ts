@@ -27,6 +27,7 @@ export class DashboardAssembler {
       otherParts: dashboard.otherParts,
       myItems: dashboard.myItems,
       investigations: dashboard.investigations,
+      alerts: dashboard.alerts,
     };
   }
 }

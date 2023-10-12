@@ -31,6 +31,7 @@ import { StaticIdService } from '@shared/service/staticId.service';
 export class CardIconComponent {
   public readonly htmlIdBase = 'app-card-icon-';
   public readonly htmlId: string;
+  public readonly iconPath = '/assets/images/icons/';
 
   @Input() label: string;
   @Input() stats: number | string;

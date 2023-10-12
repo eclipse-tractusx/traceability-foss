@@ -25,4 +25,5 @@ export const mockDashboardStats: DashboardStatsResponse = {
   otherParts: 5,
   myItems: 3,
   investigations: 20,
+  alerts: 101,
 };

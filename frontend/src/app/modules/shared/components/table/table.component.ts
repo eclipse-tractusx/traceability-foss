@@ -81,7 +81,7 @@ export class TableComponent {
     this.pageIndex = page;
   }
 
-  @Input() set PartsPaginationData({page, pageSize, totalItems, content}: Pagination<unknown>) {
+  @Input() set PartsPaginationData({ page, pageSize, totalItems, content }: Pagination<unknown>) {
     let flatter = new FlattenObjectPipe();
     // modify the content of the partlist so that there are no subobjects
     let newContent = content.map(part => flatter.transform(part))
@@ -93,7 +93,6 @@ export class TableComponent {
   }
 
   @Input() set data(content: unknown[]) {
-
     this.dataSource.data = content;
     this.isDataLoading = false;
   }
@@ -135,7 +134,7 @@ export class TableComponent {
 
   private _tableConfig: TableConfig;
 
-  constructor(private readonly roleService: RoleService) {}
+  constructor(private readonly roleService: RoleService) { }
 
   public areAllRowsSelected(): boolean {
     return this.dataSource.data.every(data => this.isSelected(data));

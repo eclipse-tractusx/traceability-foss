@@ -26,21 +26,22 @@
   @apply bg-white;
   display: flex;
   align-items: center;
-  width: 264px;
-  height: 100px;
   border-radius: 15px;
   padding: 20px;
   gap: 20px;
   overflow: hidden;
   white-space: nowrap;
   box-shadow: 0px 15px 25px 0px #3333330d, -10px -10px 15px 0px #ffffff1a, 0px 0px 25px 0px #33333308;
+
   &:hover {
     box-shadow: 0px 15px 25px 0px #33333326, -10px -10px 15px 0px #ffffff26, 0px 0px 25px 0px #3333331a;
+
     &:active {
       box-shadow: none;
     }
   }
 }
+
 .card-content {
   display: flex;
   gap: 10px;

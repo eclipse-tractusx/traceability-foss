@@ -53,8 +53,7 @@ export const investigationsHandlers = [
     const pagination = extractPagination(req);
 
     const currentStatus = [
-      NotificationStatus.CREATED,
-      NotificationStatus.SENT,
+      NotificationStatus.REQUESTED,
       NotificationStatus.ACKNOWLEDGED,
       NotificationStatus.ACCEPTED,
       NotificationStatus.DECLINED,
@@ -72,7 +71,7 @@ export const investigationsHandlers = [
     const pagination = extractPagination(req);
 
     const currentStatus = [
-      NotificationStatus.RECEIVED,
+      NotificationStatus.REQUESTED,
       NotificationStatus.ACKNOWLEDGED,
       NotificationStatus.ACCEPTED,
       NotificationStatus.DECLINED,
@@ -146,7 +145,7 @@ export const investigationsTestHandlers = [
   rest.get(`*${environment.apiUrl}/investigations/received`, (req, res, ctx) => {
     const pagination = extractPagination(req);
 
-    const currentStatus = [NotificationStatus.RECEIVED, NotificationStatus.ACKNOWLEDGED];
+    const currentStatus = [NotificationStatus.REQUESTED, NotificationStatus.ACKNOWLEDGED];
     return res(
       ctx.status(200),
       ctx.json(applyPagination(testBuildMockInvestigations(currentStatus, 'RECEIVER'), pagination)),
@@ -161,7 +160,7 @@ export const investigationsTestHandlers = [
     const statusCollection = [
       NotificationStatus.CREATED,
       NotificationStatus.SENT,
-      NotificationStatus.RECEIVED,
+      NotificationStatus.REQUESTED,
       NotificationStatus.CLOSED,
       NotificationStatus.CANCELED,
       NotificationStatus.ACKNOWLEDGED,

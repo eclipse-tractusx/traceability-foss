@@ -20,12 +20,10 @@ SPDX-License-Identifier: Apache-2.0
 -->
 
 <ng-container *ngIf="mode == 'normal'">
-  <strong style="font-weight: bold">{{ user.bpn }}</strong> <br />
+  <strong>{{ user.bpn }}</strong> <br />
   {{ user.name }}
 </ng-container>
 
 <ng-container *ngIf="mode == 'sup'">
-  <span title="{{ user.bpn }} | {{ user.name }}"
-    >{{ user.bpn }} <sup>{{ user.name }}</sup></span
-  >
+  <span title="{{ user.bpn }} | {{ user.name }}">{{ user.bpn }} <sup>{{ user.name }}</sup></span>
 </ng-container>

@@ -32,6 +32,7 @@ export enum NotificationStatus {
   CREATED = 'CREATED',
   DECLINED = 'DECLINED',
   RECEIVED = 'RECEIVED',
+  REQUESTED = 'REQUESTED',
   SENT = 'SENT',
 }
 
