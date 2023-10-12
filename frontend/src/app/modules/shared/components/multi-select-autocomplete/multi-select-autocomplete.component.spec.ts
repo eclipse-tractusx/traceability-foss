@@ -56,7 +56,7 @@ describe('MultiSelectAutocompleteComponent', () => {
 
         // Assert
         expect(componentInstance.searchInput.value).toBe('');
-        expect(componentInstance.theSearchElement).toBe('');
+        expect(componentInstance.theSearchElement).toBe(null);
         expect(componentInstance.selectedValue).toEqual([]);
     });
 
