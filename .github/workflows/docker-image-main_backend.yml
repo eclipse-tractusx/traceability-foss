@@ -59,6 +59,9 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: ACR Login
+        run: az acr login --name ${{ env.IMAGE_REGISTRY }}
+
       - name: Make organization and repository name lowercase
         run: echo "GITHUB_REPOSITORY_LOWERCASE=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
@@ -70,7 +73,9 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.GHCR_REGISTRY }}/${{ env.GITHUB_REPOSITORY_LOWERCASE }}:${{ github.sha }}
+          tags: |
+            ${{ env.GHCR_REGISTRY }}/${{ env.GITHUB_REPOSITORY_LOWERCASE }}:${{ github.sha }}
+            ${{ env.IMAGE_REGISTRY }}/${{ env.GITHUB_REPOSITORY_LOWERCASE }}:${{ github.sha }}
 
       - name: Login to Docker Hub
         env:

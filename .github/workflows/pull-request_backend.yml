@@ -25,6 +25,7 @@ env:
   GHCR_REGISTRY: ghcr.io
   JAVA_VERSION: 17
   DOCKER_HUB_REGISTRY_NAMESPACE: tractusx
+  IMAGE_REGISTRY: acrcfxsharedservices.azurecr.io
 
 jobs:
   Test-and-Sonar:
@@ -101,15 +102,20 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: ACR Login
+        run: az acr login --name ${{ env.IMAGE_REGISTRY }}
+
       - name: Make organization and repository name lowercase
         run: echo "GITHUB_REPOSITORY_LOWERCASE=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
-      - name: Build & Push docker image for GHCR ${{ env.GHCR_REGISTRY }}/${{ env.GITHUB_REPOSITORY_LOWERCASE }}:${{ github.event.pull_request.head.sha }}
+      - name: Build & Push docker image ${{ env.GITHUB_REPOSITORY_LOWERCASE }}:${{ github.event.pull_request.head.sha }}
         uses: docker/build-push-action@v4
         with:
           context: .
           push: true
-          tags: ${{ env.GHCR_REGISTRY }}/${{ env.GITHUB_REPOSITORY_LOWERCASE }}:${{ github.event.pull_request.head.sha }}
+          tags: |
+            ${{ env.GHCR_REGISTRY }}/${{ env.GITHUB_REPOSITORY_LOWERCASE }}:${{ github.event.pull_request.head.sha }}
+            ${{ env.IMAGE_REGISTRY }}/${{ env.GITHUB_REPOSITORY_LOWERCASE }}:${{ github.event.pull_request.head.sha }}
 
   Dependency-analysis:
     runs-on: ubuntu-latest
