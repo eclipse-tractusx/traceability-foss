@@ -179,6 +179,8 @@
   },
   "commonInvestigation": {
     "viewAll": "Alle anzeigen",
+    "noInvestigations": "Keine aktuellen Qualitätsuntersuchungen",
+    "noInvestigationsDescription": "Wenn es Qualitätsuntersuchungen gibt, werden sie hier angezeigt.",
     "tabs": {
       "received": "Zugewiesene",
       "queuedAndRequested": "Erstellte und Angefragte"

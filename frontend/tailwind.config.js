@@ -169,20 +169,20 @@ module.exports = {
       confirmedLight: '#e2f6c7',
       confirmedDark: '#5c8d46',
 
-      declinedLight: '#ffffff',
-      declinedDark: '#B6210080',
+      declinedLight: '#FF000033',
+      declinedDark: '#B62100',
 
       closedLight: '#ffffff',
       closedDark: '#000000',
 
-      canceledLight: '#ffffff',
+      canceledLight: '#FFFFFF',
       canceledDark: '#4D4D4D',
 
-      requestedLight: '#ffffff',
-      requestedDark: '#FDB91380',
+      requestedLight: '#FDB91366',
+      requestedDark: '#785707',
 
-      acknowledgedLight: '#ffffff',
-      acknowledgedDark: '#A6CE3980',
+      acknowledgedLight: '#A6CE3980',
+      acknowledgedDark: '#486D28',
 
       white: '#ffffff',
       black: '#000000',
