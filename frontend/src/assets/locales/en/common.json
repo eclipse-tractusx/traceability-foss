@@ -182,6 +182,8 @@
   },
   "commonInvestigation": {
     "viewAll": "view all",
+    "noInvestigations": "No current quality investigations",
+    "noInvestigationsDescription": "If there are any quality investigations, they will be displayed here.",
     "tabs": {
       "received": "Received",
       "queuedAndRequested": "Queued & Requested"

@@ -31,7 +31,7 @@
 }
 
 .notification-status {
-  @apply border-0 uppercase inline-flex items-center px-3 py-1 rounded-full font-semibold text-xs w-fit;
+  @apply border-0 uppercase inline-flex items-center px-3 py-0.5 rounded-full font-semibold text-xs w-fit;
 
   &--RECEIVED {
     @apply bg-receivedLight text-white before:bg-white;
@@ -42,30 +42,32 @@
   }
 
   &--CLOSED {
-    @apply bg-closedDark text-closedLight before:bg-white;
+    border: solid 1px;
+    border-color: #4D4D4D;
+    @apply bg-closedLight text-closedDark;
   }
 
   &--CREATED {
-    @apply bg-createdLight text-white before:bg-white;
+    @apply bg-createdLight text-white;
   }
 
   &--SENT {
-    @apply bg-pendingLight text-white before:bg-white;
+    @apply bg-pendingLight text-white;
   }
 
   &--ACCEPTED {
-    @apply bg-acceptedDark text-black before:bg-white;
+    @apply bg-acceptedDark text-black;
   }
 
   &--REQUESTED {
-    @apply bg-requestedDark text-black before:bg-white;
+    @apply bg-requestedLight text-requestedDark;
   }
 
   &--ACKNOWLEDGED {
-    @apply bg-acknowledgedDark text-black before:bg-white;
+    @apply bg-acknowledgedLight text-acknowledgedDark;
   }
 
   &--DECLINED {
-    @apply bg-declinedDark text-black before:bg-white;
+    @apply bg-declinedLight text-declinedDark;
   }
 }

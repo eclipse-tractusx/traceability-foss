@@ -56,7 +56,7 @@ SPDX-License-Identifier: Apache-2.0
         loading: numbersLoaderTmp;
         customContext: { 
           label: 'pageDashboard.totalInvestigations.label', 
-          icon: 'open_investigations_icon', 
+          icon: 'content_paste_search', 
           link: 'investigations'}
       ">
     </ng-container>
@@ -82,7 +82,7 @@ SPDX-License-Identifier: Apache-2.0
         <div class="inline-block w-full">
           <div class="flex justify-between items-center">
             <h3 class="pl-2 mb-4 flex items-center tableHeader">
-              <img class="pr-2" src="/assets/images/icons/qualityInvestigations.svg" />
+              <img class="pr-2" src="/assets/images/icons/content_paste_search_small.svg" />
               {{ 'pageTitle.investigations' | i18n }}
               <span class="pl-1 latestFiveLabel">{{ 'table.latestFive' | i18n }}</span>
             </h3>
@@ -98,8 +98,13 @@ SPDX-License-Identifier: Apache-2.0
       <mat-card-content>
         <app-notifications-tab [notificationsView$]="investigations$" [translationContext]="'commonInvestigation'"
           [labelId]="'dashboard-investigations'" [hasPagination]="false"
-          [optionalColumns]="['targetDate', 'severity', 'createdBy']"
-          (selected)="onNotificationSelected($event)"></app-notifications-tab>
+          [optionalColumns]="['targetDate', 'severity', 'createdBy']" (selected)="onNotificationSelected($event)">
+          <div content1>
+            <img src="/assets/images/icons/noQualityInvestigations.svg" class="center py-5" />
+            <div class="noAlerts pb-3">{{ 'commonInvestigation.noInvestigations' | i18n }}</div>
+            <div class="description pb-10">{{ 'commonInvestigation.noInvestigationsDescription' | i18n }}</div>
+          </div>
+        </app-notifications-tab>
       </mat-card-content>
     </mat-card>
   </section>
