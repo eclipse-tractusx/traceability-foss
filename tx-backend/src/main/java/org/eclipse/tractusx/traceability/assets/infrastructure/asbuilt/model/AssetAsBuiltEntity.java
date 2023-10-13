@@ -56,7 +56,7 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 @SuperBuilder
 @Table(name = "assets_as_built")
 public class AssetAsBuiltEntity extends AssetBaseEntity {
-
+    // TODO date
     private LocalDateTime manufacturingDate;
     private String manufacturingCountry;
     private String manufacturerId;

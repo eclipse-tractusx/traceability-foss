@@ -52,10 +52,14 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 @Table(name = "assets_as_planned")
 public class AssetAsPlannedEntity extends AssetBaseEntity {
 
+    // TODO date
     private String validityPeriodFrom;
+    // TODO date
     private String validityPeriodTo;
+    // TODO date
     private String functionValidUntil;
     private String function;
+    // TODO date
     private String functionValidFrom;
     private String catenaxSiteId;
 
