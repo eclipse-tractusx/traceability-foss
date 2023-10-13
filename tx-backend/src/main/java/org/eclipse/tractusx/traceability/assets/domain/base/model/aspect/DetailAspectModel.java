@@ -120,7 +120,7 @@ public class DetailAspectModel {
                 .validityPeriodFrom(validityPeriod.validFrom())
                 .validityPeriodTo(validityPeriod.validTo())
                 .build();
-        return DetailAspectModel.builder().data(detailAspectDataAsPlanned).type(DetailAspectType.SINGLE_LEVEL_BOM_AS_PLANNED).build();
+        return DetailAspectModel.builder().data(detailAspectDataAsPlanned).type(DetailAspectType.AS_PLANNED).build();
     }
 
     public static DetailAspectModel extractDetailAspectModelsAsBuilt(ManufacturingInformation manufacturingInformation,

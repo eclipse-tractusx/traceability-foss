@@ -60,6 +60,7 @@ public class SemanticDataModel {
     List<Site> sites;
     String aspectType;
     String catenaXId;
+    String identification;
 
     public SemanticDataModel(
             String catenaXId,
@@ -199,6 +200,10 @@ public class SemanticDataModel {
 
     public String catenaXId() {
         return catenaXId;
+    }
+
+    public String identification(){
+        return identification;
     }
 
     public ManufacturingInformation manufacturingInformation() {

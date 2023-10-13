@@ -88,6 +88,7 @@ class AssetAsPlannedControllerByIdIT extends IntegrationTestSpecification {
                 .when()
                 .get("/api/assets/as-planned/urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01")
                 .then()
+                .log().all()
                 .statusCode(200)
                 .assertThat()
                 .body("qualityAlertsInStatusActive", is(6));

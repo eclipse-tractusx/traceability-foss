@@ -18,7 +18,6 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.eclipse.tractusx.traceability.common.date.CustomOffSetDateTimeNullOnException;
 
@@ -26,7 +25,7 @@ import java.time.OffsetDateTime;
 
 public record ValidityPeriod(
         @JsonDeserialize(using = CustomOffSetDateTimeNullOnException.class)
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss", timezone = "CET") OffsetDateTime validFrom,
+        OffsetDateTime validFrom,
         @JsonDeserialize(using = CustomOffSetDateTimeNullOnException.class)
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss", timezone = "CET") OffsetDateTime validTo) {
+        OffsetDateTime validTo) {
 }

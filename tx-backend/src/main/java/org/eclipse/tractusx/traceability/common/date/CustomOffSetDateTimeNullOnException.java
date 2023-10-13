@@ -26,7 +26,9 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 
 @Slf4j
 public class CustomOffSetDateTimeNullOnException extends StdDeserializer<OffsetDateTime> {
@@ -45,12 +47,18 @@ public class CustomOffSetDateTimeNullOnException extends StdDeserializer<OffsetD
         ObjectMapper mapper = (ObjectMapper) jsonParser.getCodec();
         JsonNode node = mapper.readTree(jsonParser);
         String dateString = node.asText();
+
         try {
             return OffsetDateTime.parse(dateString);
         } catch (Exception e) {
-            log.warn("Date has invalid format and cannot be parsed", e);
-            return null;
+            try {
+                return LocalDateTime.parse(dateString).atOffset(ZoneOffset.UTC);
+            } catch (Exception ex) {
+                log.warn("Neither OffsetDateTime nor LocalDateTime could be created from string: {} Fallback to null", dateString);
+                return null;
+            }
         }
+
 
     }
 

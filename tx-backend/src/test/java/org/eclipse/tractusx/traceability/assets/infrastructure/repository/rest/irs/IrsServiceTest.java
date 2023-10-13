@@ -187,8 +187,8 @@ class IrsServiceTest {
         );
 
         List<Shell> shells = Arrays.asList(
-                new Shell("shell1", "Identification 1"),
-                new Shell("shell2", "Identification 2")
+                new Shell("shell1", "Identification 1", "globalAssetId"),
+                new Shell("shell2", "Identification 2", "globalAssetId")
         );
 
         ValidityPeriod validityPeriod = new ValidityPeriod(null, toOffsetDateTime(Instant.now()));
