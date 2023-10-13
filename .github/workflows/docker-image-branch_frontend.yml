@@ -23,6 +23,7 @@ env:
   GHCR_REGISTRY: ghcr.io
   DOCKER_HUB_REGISTRY_NAMESPACE: tractusx
   FRONTEND_IMAGE_DOCKER_HUB: traceability-foss-frontend
+  IMAGE_REGISTRY: acrcfxsharedservices.azurecr.io
 
 jobs:
   build:

@@ -30,6 +30,7 @@ env:
   JAVA_VERSION: 17
   DOCKER_HUB_REGISTRY_NAMESPACE: tractusx
   BACKEND_IMAGE_DOCKER_HUB: traceability-foss
+  IMAGE_REGISTRY: acrcfxsharedservices.azurecr.io
 
 jobs:
   Publish-docker-image:
