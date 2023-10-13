@@ -41,9 +41,14 @@ export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, para
             }
         } else {
             operator = getFilterOperatorValue(FilterOperator.EQUAL);
-            for (let value of filterValues) {
-                params = params.append('filter', `${key},${operator},${value}`);
+            if (Array.isArray(filterValues)){
+                for (let value of filterValues) {
+                    params = params.append('filter', `${key},${operator},${value}`);
+                }
+            } else {
+                params = params.append('filter', `${key},${operator},${filterValues}`);
             }
+
         }
     }
     return params;
