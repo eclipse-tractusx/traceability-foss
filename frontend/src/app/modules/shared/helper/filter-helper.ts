@@ -55,7 +55,7 @@ export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, para
 }
 
 function isDateFilter(key: string) {
-    const filterKeys = ['date', 'functionValidFrom', 'functionValidTo', 'validityPeriodFrom', 'validityPeriodTo'];
+    const filterKeys = ['date', 'functionValidFrom', 'functionValidUntil', 'validityPeriodFrom', 'validityPeriodTo'];
     return filterKeys.includes(key);
 }
 
