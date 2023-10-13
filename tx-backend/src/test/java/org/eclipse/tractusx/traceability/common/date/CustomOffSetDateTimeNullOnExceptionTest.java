@@ -31,8 +31,7 @@ import org.mockito.MockitoAnnotations;
 import java.io.IOException;
 import java.time.OffsetDateTime;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 public class CustomOffSetDateTimeNullOnExceptionTest {
@@ -67,14 +66,13 @@ public class CustomOffSetDateTimeNullOnExceptionTest {
         when(jsonNode.asText()).thenReturn(validDateString);
 
         // Call the deserialize method
-        OffsetDateTime result = customDeserializer.deserialize(jsonParser, deserializationContext);
+        customDeserializer.deserialize(jsonParser, deserializationContext);
 
         // Verify that the result is not null and corresponds to the valid date string
         verify(log, never()).warn(anyString(), any(Throwable.class));
         verify(jsonNode, times(1)).asText();
         verify(jsonParser, times(1)).getCodec();
         verify(objectMapper, times(1)).readTree(jsonParser);
-        assertNotEquals("2022-02-04T14:48:54", result);
     }
 
     @Test
@@ -94,6 +92,6 @@ public class CustomOffSetDateTimeNullOnExceptionTest {
         verify(jsonNode, times(1)).asText();
         verify(jsonParser, times(1)).getCodec();
         verify(objectMapper, times(1)).readTree(jsonParser);
-        assertEquals(null, result);
+        assertNull(result);
     }
 }

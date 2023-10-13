@@ -24,6 +24,7 @@ import {
 } from "@page/parts/model/parts.model";
 import {HttpParams} from "@angular/common/http";
 
+export const FILTER_KEYS = ['manufacturingDate', 'functionValidFrom', 'functionValidUntil', 'validityPeriodFrom', 'validityPeriodTo'];
 
 export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, params: HttpParams): HttpParams {
     const semanticDataModelKey = "semanticDataModel";
@@ -41,7 +42,7 @@ export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, para
             }
         } else {
             operator = getFilterOperatorValue(FilterOperator.EQUAL);
-            if (Array.isArray(filterValues)){
+            if (Array.isArray(filterValues)) {
                 for (let value of filterValues) {
                     params = params.append('filter', `${key},${operator},${value}`);
                 }
@@ -54,9 +55,8 @@ export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, para
     return params;
 }
 
-function isDateFilter(key: string) {
-    const filterKeys = ['date', 'functionValidFrom', 'functionValidUntil', 'validityPeriodFrom', 'validityPeriodTo'];
-    return filterKeys.includes(key);
+export function isDateFilter(key: string): boolean {
+    return FILTER_KEYS.includes(key);
 }
 
 export function toAssetFilter(formValues: any, isAsBuilt: boolean): AssetAsPlannedFilter | AssetAsBuiltFilter {

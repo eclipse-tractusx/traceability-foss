@@ -46,6 +46,7 @@ import {
     TableHeaderSort,
 } from '@shared/components/table/table.model';
 import {addSelectedValues, removeSelectedValues} from '@shared/helper/table-helper';
+import {isDateFilter} from "@shared/helper/filter-helper";
 
 
 @Component({
@@ -129,6 +130,9 @@ export class PartsTableComponent implements OnInit {
 
     filterFormGroup = new FormGroup({});
 
+    public isDateElement(key: string){
+        return isDateFilter(key);
+    }
     public isMultipleSearch(filter: any): boolean {
         return !(filter.isDate || filter.isTextSearch);
     }
