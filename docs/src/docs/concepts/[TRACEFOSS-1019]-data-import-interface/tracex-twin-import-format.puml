@@ -1,0 +1,41 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam linetype ortho
+skinparam defaultFontName "Architects daughter"
+
+
+entity DigitalTwinsToImport {
+    * digitalTwinsToImport : Collection<Twin>
+}
+entity Twin {
+    * twinId : String <uuid>
+    creator : String <author>
+    * shells : Collection<Shell>
+    * submodels : Collection<SubmodelData<T>>
+}
+entity Shell {
+    descriptions : Collection<ShellDescription>
+}
+entity ShellDescription {
+    keyValues : Tuple<K,V>
+}
+entity SubmodelData<T> {
+    * aspectType : String <urn>
+    * identification : String <id>
+    descriptions : Collections<Tuple<String,String>>
+    * payload : Submodel<T>
+}
+
+class  Submodel<T>
+
+class SerialPart
+
+DigitalTwinsToImport }o--|{ Twin
+Twin  }o--|{ Shell
+Shell }o--|{  ShellDescription
+Twin }o-|{ SubmodelData
+SubmodelData ||--|| Submodel
+Submodel <|-- SerialPart
+
+@enduml
