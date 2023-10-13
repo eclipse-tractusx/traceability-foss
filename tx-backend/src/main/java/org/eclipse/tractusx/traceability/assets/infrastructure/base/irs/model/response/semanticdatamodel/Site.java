@@ -23,11 +23,11 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.eclipse.tractusx.traceability.common.date.CustomOffSetDateTimeNullOnException;
 
 import java.time.OffsetDateTime;
-import java.util.Date;
 
 public record Site(
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss", timezone = "CET") Date functionValidUntil,
-        @JsonDeserialize(using = CustomOffSetDateTimeNullOnException.class) // Apply the custom deserializer
+        @JsonDeserialize(using = CustomOffSetDateTimeNullOnException.class)
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss", timezone = "CET") OffsetDateTime functionValidUntil,
+        @JsonDeserialize(using = CustomOffSetDateTimeNullOnException.class)
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss", timezone = "UTC") OffsetDateTime functionValidFrom,
         String function,
         String catenaXSiteId

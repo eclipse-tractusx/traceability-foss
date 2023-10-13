@@ -43,14 +43,10 @@ import static org.eclipse.tractusx.traceability.common.date.DateUtil.toInstant;
 @Table(name = "assets_as_planned")
 public class AssetAsPlannedEntity extends AssetBaseEntity {
 
-    // TODO date
-    private String validityPeriodFrom;
-    // TODO date
-    private String validityPeriodTo;
-    // TODO date
-    private String functionValidUntil;
+    private Instant validityPeriodFrom;
+    private Instant validityPeriodTo;
+    private Instant functionValidUntil;
     private String function;
-    // TODO date
     private Instant functionValidFrom;
     private String catenaxSiteId;
 
@@ -89,9 +85,9 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                 .van(asset.getVan())
                 .functionValidFrom(toInstant(asPlannedInfo.getFunctionValidFrom()))
                 .function(asPlannedInfo.getFunction())
-                .functionValidUntil(asPlannedInfo.getFunctionValidUntil())
-                .validityPeriodFrom(asPlannedInfo.getValidityPeriodFrom())
-                .validityPeriodTo(asPlannedInfo.getValidityPeriodTo())
+                .functionValidUntil(toInstant(asPlannedInfo.getFunctionValidUntil()))
+                .validityPeriodFrom(toInstant(asPlannedInfo.getValidityPeriodFrom()))
+                .validityPeriodTo(toInstant(asPlannedInfo.getValidityPeriodTo()))
                 .owner(asset.getOwner())
                 .classification(asset.getClassification())
                 .childDescriptors(asset.getChildRelations().stream()

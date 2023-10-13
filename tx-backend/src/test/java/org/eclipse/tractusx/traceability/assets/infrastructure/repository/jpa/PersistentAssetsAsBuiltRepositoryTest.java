@@ -33,7 +33,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 
 import static org.eclipse.tractusx.traceability.testdata.AssetTestDataFactory.createAssetTestData;
@@ -60,7 +60,7 @@ class PersistentAssetsAsBuiltRepositoryTest {
                 .manufacturerName("manuName")
                 .nameAtCustomer("Customer Name")
                 .customerPartId("customerPartId")
-                .manufacturingDate(LocalDateTime.now())
+                .manufacturingDate(Instant.now())
                 .manufacturingCountry("manu456")
                 .semanticDataModel(SemanticDataModelEntity.SERIALPART)
                 .owner(Owner.OWN)

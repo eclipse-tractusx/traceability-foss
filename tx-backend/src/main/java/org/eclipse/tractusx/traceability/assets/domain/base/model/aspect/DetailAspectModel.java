@@ -56,7 +56,7 @@ public class DetailAspectModel {
                         .customerPartId(entity.getCustomerPartId())
                         .nameAtCustomer(entity.getNameAtCustomer())
                         .manufacturingCountry(entity.getManufacturingCountry())
-                        .manufacturingDate(entity.getManufacturingDate() != null ? entity.getManufacturingDate() : null)
+                        .manufacturingDate(toOffsetDateTime(entity.getManufacturingDate()))
                         .build())
                 .build();
         List<DetailAspectModel> detailAspectModels = new ArrayList<>(List.of(detailAspectModelAsBuilt));
@@ -82,8 +82,8 @@ public class DetailAspectModel {
         DetailAspectModel asPlannedInfo = DetailAspectModel.builder()
                 .type(DetailAspectType.AS_PLANNED)
                 .data(DetailAspectDataAsPlanned.builder()
-                        .validityPeriodFrom(entity.getValidityPeriodFrom())
-                        .validityPeriodTo(entity.getValidityPeriodTo())
+                        .validityPeriodFrom(toOffsetDateTime(entity.getValidityPeriodFrom()))
+                        .validityPeriodTo(toOffsetDateTime(entity.getValidityPeriodTo()))
                         .build())
                 .build();
 
@@ -93,7 +93,7 @@ public class DetailAspectModel {
                         .catenaXSiteId(entity.getCatenaxSiteId())
                         .functionValidFrom(toOffsetDateTime(entity.getFunctionValidFrom()))
                         .function(entity.getFunction())
-                        .functionValidUntil(entity.getFunctionValidUntil())
+                        .functionValidUntil(toOffsetDateTime(entity.getFunctionValidUntil()))
                         .build())
                 .build();
 
@@ -107,7 +107,7 @@ public class DetailAspectModel {
                     .catenaXSiteId(site.catenaXSiteId())
                     .functionValidFrom(site.functionValidFrom())
                     .function(site.function())
-                    .functionValidUntil(site.functionValidUntil().toString())
+                    .functionValidUntil(site.functionValidUntil())
                     .build();
             detailAspectModels.add(DetailAspectModel.builder().data(detailAspectDataPartSiteInformationAsPlanned).type(DetailAspectType.PART_SITE_INFORMATION_AS_PLANNED).build());
         });
@@ -117,8 +117,8 @@ public class DetailAspectModel {
 
     public static DetailAspectModel extractDetailAspectModelsAsPlanned(ValidityPeriod validityPeriod) {
         DetailAspectDataAsPlanned detailAspectDataAsPlanned = DetailAspectDataAsPlanned.builder()
-                .validityPeriodFrom(validityPeriod.validFrom().toString())
-                .validityPeriodTo(validityPeriod.validTo().toString())
+                .validityPeriodFrom(validityPeriod.validFrom())
+                .validityPeriodTo(validityPeriod.validTo())
                 .build();
         return DetailAspectModel.builder().data(detailAspectDataAsPlanned).type(DetailAspectType.SINGLE_LEVEL_BOM_AS_PLANNED).build();
     }

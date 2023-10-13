@@ -14,11 +14,11 @@ import java.util.Optional;
 @Builder
 @Getter
 public class AsPlannedInfo {
-    private String functionValidUntil;
+    private OffsetDateTime functionValidUntil;
     private OffsetDateTime functionValidFrom;
     private String function;
-    private String validityPeriodFrom;
-    private String validityPeriodTo;
+    private OffsetDateTime validityPeriodFrom;
+    private OffsetDateTime validityPeriodTo;
     private String catenaxSiteId;
 
     public static AsPlannedInfo from(List<DetailAspectModel> detailAspectModels) {
@@ -27,13 +27,13 @@ public class AsPlannedInfo {
                 .filter(detailAspectModel -> detailAspectModel.getType().equals(DetailAspectType.AS_PLANNED))
                 .findFirst();
 
-        String validityPeriodFrom = asPlannedInfo.map(detailAspectModel -> (DetailAspectDataAsPlanned) detailAspectModel.getData())
+        OffsetDateTime validityPeriodFrom = asPlannedInfo.map(detailAspectModel -> (DetailAspectDataAsPlanned) detailAspectModel.getData())
                 .map(org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataAsPlanned::getValidityPeriodFrom)
-                .orElse("");
+                .orElse(null);
 
-        String validityPeriodTo = asPlannedInfo.map(detailAspectModel -> (DetailAspectDataAsPlanned) detailAspectModel.getData())
+        OffsetDateTime validityPeriodTo = asPlannedInfo.map(detailAspectModel -> (DetailAspectDataAsPlanned) detailAspectModel.getData())
                 .map(org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataAsPlanned::getValidityPeriodTo)
-                .orElse("");
+                .orElse(null);
 
         Optional<DetailAspectModel> partSiteInfo = detailAspectModels
                 .stream()
@@ -44,9 +44,9 @@ public class AsPlannedInfo {
                 .map(org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataPartSiteInformationAsPlanned::getFunction)
                 .orElse("");
 
-        String functionValidUntil = partSiteInfo.map(detailAspectModel -> (DetailAspectDataPartSiteInformationAsPlanned) detailAspectModel.getData())
+        OffsetDateTime functionValidUntil = partSiteInfo.map(detailAspectModel -> (DetailAspectDataPartSiteInformationAsPlanned) detailAspectModel.getData())
                 .map(org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataPartSiteInformationAsPlanned::getFunctionValidUntil)
-                .orElse("");
+                .orElse(null);
 
         OffsetDateTime functionValidFrom = partSiteInfo.map(detailAspectModel -> (DetailAspectDataPartSiteInformationAsPlanned) detailAspectModel.getData())
                 .map(org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataPartSiteInformationAsPlanned::getFunctionValidFrom)

@@ -32,7 +32,7 @@ export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, para
         const filterValues = filter[key];
         if (key !== semanticDataModelKey) {
             if (filterValues.length !== 0) {
-                if (key.toLowerCase().includes('date')) {
+                if (isDateFilter(key)) {
                     operator = getFilterOperatorValue(FilterOperator.AT_LOCAL_DATE);
                 } else {
                     operator = getFilterOperatorValue(FilterOperator.STARTS_WITH);
@@ -47,6 +47,11 @@ export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, para
         }
     }
     return params;
+}
+
+function isDateFilter(key: string) {
+    const filterKeys = ['date', 'functionValidFrom', 'functionValidTo', 'validityPeriodFrom', 'validityPeriodTo'];
+    return filterKeys.includes(key);
 }
 
 export function toAssetFilter(formValues: any, isAsBuilt: boolean): AssetAsPlannedFilter | AssetAsBuiltFilter {

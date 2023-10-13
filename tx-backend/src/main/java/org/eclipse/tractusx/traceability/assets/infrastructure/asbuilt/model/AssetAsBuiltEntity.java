@@ -21,19 +21,8 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model;
 
-import jakarta.persistence.CollectionTable;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
@@ -43,11 +32,12 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.Semant
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+import static org.eclipse.tractusx.traceability.common.date.DateUtil.toInstant;
 
 @Getter
 @Setter
@@ -56,8 +46,8 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 @SuperBuilder
 @Table(name = "assets_as_built")
 public class AssetAsBuiltEntity extends AssetBaseEntity {
-    // TODO date
-    private LocalDateTime manufacturingDate;
+
+    private Instant manufacturingDate;
     private String manufacturingCountry;
     private String manufacturerId;
     private String nameAtCustomer;
@@ -98,7 +88,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                 .manufacturerName(asset.getManufacturerName())
                 .nameAtCustomer(manufacturingInfo.getNameAtCustomer())
                 .customerPartId(manufacturingInfo.getCustomerPartId())
-                .manufacturingDate(manufacturingInfo.getManufacturingDate())
+                .manufacturingDate(toInstant(manufacturingInfo.getManufacturingDate()))
                 .manufacturingCountry(manufacturingInfo.getManufacturingCountry())
                 .owner(asset.getOwner())
                 .childDescriptors(asset.getChildRelations().stream()

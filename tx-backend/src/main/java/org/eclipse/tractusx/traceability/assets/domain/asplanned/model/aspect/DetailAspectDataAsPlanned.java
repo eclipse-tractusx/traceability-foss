@@ -22,9 +22,11 @@ import lombok.Builder;
 import lombok.Getter;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectData;
 
+import java.time.OffsetDateTime;
+
 @Builder
 @Getter
 public class DetailAspectDataAsPlanned implements DetailAspectData {
-    private String validityPeriodFrom;
-    private String validityPeriodTo;
+    private OffsetDateTime validityPeriodFrom;
+    private OffsetDateTime validityPeriodTo;
 }

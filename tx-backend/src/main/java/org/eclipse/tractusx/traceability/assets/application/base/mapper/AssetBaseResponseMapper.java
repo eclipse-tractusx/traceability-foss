@@ -83,7 +83,7 @@ public class AssetBaseResponseMapper {
             return PartSiteInformationAsPlannedResponse.builder().catenaXSiteId(detailAspectDataPartSiteInformationAsPlanned.getCatenaXSiteId())
                     .function(detailAspectDataPartSiteInformationAsPlanned.getFunction())
                     .functionValidFrom(String.valueOf(detailAspectDataPartSiteInformationAsPlanned.getFunctionValidFrom()))
-                    .functionValidUntil(detailAspectDataPartSiteInformationAsPlanned.getFunctionValidUntil())
+                    .functionValidUntil(String.valueOf(detailAspectDataPartSiteInformationAsPlanned.getFunctionValidUntil()))
                     .build();
         }
 
@@ -93,14 +93,14 @@ public class AssetBaseResponseMapper {
                     .customerPartId(detailAspectDataAsBuilt.getCustomerPartId())
                     .nameAtCustomer(detailAspectDataAsBuilt.getNameAtCustomer())
                     .manufacturingCountry(detailAspectDataAsBuilt.getManufacturingCountry())
-                    .manufacturingDate(detailAspectDataAsBuilt.getManufacturingDate().toString())
+                    .manufacturingDate(String.valueOf(detailAspectDataAsBuilt.getManufacturingDate()))
                     .build();
         }
 
         if (detailAspectData instanceof DetailAspectDataAsPlanned detailAspectDataAsPlanned) {
             return DetailAspectDataAsPlannedResponse.builder()
-                    .validityPeriodTo(detailAspectDataAsPlanned.getValidityPeriodTo())
-                    .validityPeriodFrom(detailAspectDataAsPlanned.getValidityPeriodFrom())
+                    .validityPeriodTo(String.valueOf(detailAspectDataAsPlanned.getValidityPeriodTo()))
+                    .validityPeriodFrom(String.valueOf(detailAspectDataAsPlanned.getValidityPeriodFrom()))
                     .build();
         }
         return null;

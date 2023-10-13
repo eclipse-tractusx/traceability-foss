@@ -27,7 +27,7 @@ import java.time.OffsetDateTime;
 @Builder
 @Getter
 public class DetailAspectDataPartSiteInformationAsPlanned implements DetailAspectData {
-    private String functionValidUntil;
+    private OffsetDateTime functionValidUntil;
     private String function;
     private OffsetDateTime functionValidFrom;
     private String catenaXSiteId;
