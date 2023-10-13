@@ -25,13 +25,11 @@
   },
   "layout": {
     "nav": {
-      "language": "Language",
       "faqs": "FAQs",
       "helpdesk": "Helpdesk",
       "signOut": "Logout"
     },
     "footer": {
-      "faqs": "FAQs",
       "imprint": "Imprint",
       "version": "Version updates"
     }

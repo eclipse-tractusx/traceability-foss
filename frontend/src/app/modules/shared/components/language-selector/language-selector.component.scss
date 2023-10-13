@@ -23,13 +23,11 @@
 @tailwind base;
 
 .language-button {
-  text-transform: uppercase !important;
   @extend .label-large;
-  @apply text-textLink;
-  margin-right: 8px;
+  @apply text-pendingDark;
+  display: flex;
 }
 
 .selectedText {
-  @apply text-pendingDark;
-  border-bottom: 2px solid;
+  @apply text-primary cursor-default;
 }

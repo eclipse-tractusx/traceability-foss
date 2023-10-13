@@ -24,7 +24,12 @@ SPDX-License-Identifier: Apache-2.0
   <div class="user-menu-content">
     <div (click)="this.expand($event)">
       <button class="user-menu-btn" data-testid="user-menu" id="user-menu" aria-haspopup="true">
-        <img class="user-menu-btn__icon" src="/assets/images/userMenuIcon.svg" />
+        <img *ngIf="!this.isExpanded" class="user-menu-btn__icon" src="/assets/images/icons/user_menu_icon.svg" />
+        <img
+          *ngIf="this.isExpanded"
+          class="user-menu-btn__icon-close"
+          src="/assets/images/icons/user_menu_close_icon.svg"
+        />
       </button>
     </div>
     <div
@@ -35,15 +40,13 @@ SPDX-License-Identifier: Apache-2.0
       aria-orientation="vertical"
       aria-labelledby="user-menu"
     >
-      <div class="user-menu-close">
-        <img class="user-menu-close-icon" (click)="this.onClick()" src="/assets/images/user_menu_close_icon.svg" />
-      </div>
       <section class="flex flex-col">
-        <p class="label-large">{{ this.userDetails.name }}</p>
+        <p class="label-large text-primary">{{ this.userDetails.name }}</p>
         <p class="body-small">{{ this.userDetails.role }}</p>
       </section>
 
       <mat-divider class="user-menu-mat-divider"></mat-divider>
+
       <p class="label-large user-menu-item" role="menuitem" (click)="this.navigateToFaqs()">
         {{ 'layout.nav.faqs' | i18n }}
       </p>
@@ -51,25 +54,14 @@ SPDX-License-Identifier: Apache-2.0
       <p class="label-large user-menu-item" role="menuitem" (click)="this.openPortalPage()">
         {{ 'layout.nav.helpdesk' | i18n }}
       </p>
-      <mat-divider class="user-menu-mat-divider"></mat-divider>
 
-      <div class="user-menu-language">
-        <p class="body-large user-menu-language__items">{{ 'layout.nav.language' | i18n }}</p>
-        <p class="user-menu-language__items">
-          <app-language-selector></app-language-selector>
-        </p>
-      </div>
+      <p class="label-large user-menu-item" role="menuitem">
+        {{ 'layout.nav.signOut' | i18n }}
+      </p>
 
       <mat-divider class="user-menu-mat-divider"></mat-divider>
 
-      <div class="user-menu-items" (click)="this.logOut()">
-        <div class="user-menu-logout">
-          <img src="/assets/images/user_menu_logout_icon.svg" />
-        </div>
-        <p class="label-large user-menu-item" role="menuitem">
-          {{ 'layout.nav.signOut' | i18n }}
-        </p>
-      </div>
+      <app-language-selector class="user-menu-language"></app-language-selector>
     </div>
   </div>
 </div>

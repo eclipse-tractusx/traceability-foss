@@ -37,8 +37,11 @@
 .user-menu-btn {
   border-radius: 100px;
   padding: 8px;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
+  justify-content: center;
   &:hover {
     background-color: rgba(51, 51, 51, 0.05);
   }
@@ -47,6 +50,11 @@
 .user-menu-btn__icon {
   width: 24px;
   height: 24px;
+}
+
+.user-menu-btn__icon-close {
+  width: 14px;
+  height: 14px;
 }
 
 .user-menu-btn__notification {
@@ -59,6 +67,7 @@
 
 .user-menu-items-container {
   @apply origin-top-right absolute z-10 bg-white;
+  transform: translate(10px, 20px);
   display: flex;
   flex-direction: column;
   width: 270px;
@@ -89,17 +98,20 @@
 }
 
 .user-menu-item {
-  @apply flex cursor-pointer text-textLink;
+  @apply flex cursor-pointer text-pendingDark;
 }
 
 .user-menu-language {
   @apply flex items-center;
-  gap: 8px;
+  gap: 20px;
+  flex-direction: row;
 }
 
 .user-menu-language__items {
   @apply flex focus:outline-none;
+  flex-direction: row;
   line-height: 20px;
+  gap: 20px;
 }
 
 .user-menu-items__badge {

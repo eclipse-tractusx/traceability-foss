@@ -24,6 +24,7 @@ SPDX-License-Identifier: Apache-2.0
   (click)="handleClick(localEntry.locale)"
   class="language-button"
   [ngClass]="localEntry.locale == currentLocale ? 'selectedText' : ''"
+  [attr.disabled]="localEntry.locale == currentLocale ? '' : null"
 >
   {{ localEntry.locale | uppercase }}
 </button>
