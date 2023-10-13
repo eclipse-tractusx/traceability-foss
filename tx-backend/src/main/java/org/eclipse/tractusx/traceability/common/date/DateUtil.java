@@ -16,19 +16,29 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect;
+package org.eclipse.tractusx.traceability.common.date;
 
-import lombok.Builder;
-import lombok.Getter;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectData;
-
+import java.time.Instant;
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
 
-@Builder
-@Getter
-public class DetailAspectDataPartSiteInformationAsPlanned implements DetailAspectData {
-    private String functionValidUntil;
-    private String function;
-    private OffsetDateTime functionValidFrom;
-    private String catenaXSiteId;
+import static org.eclipse.tractusx.traceability.common.config.TimeConfig.SYSTEM_TIMEZONE;
+
+public class DateUtil {
+
+    public static Instant toInstant(OffsetDateTime offsetDateTime) {
+        if (offsetDateTime != null) {
+            return offsetDateTime.toInstant();
+        } else {
+            return null;
+        }
+    }
+
+    public static OffsetDateTime toOffsetDateTime(Instant instant) {
+        if (instant != null) {
+            return OffsetDateTime.from(instant.atZone(ZoneId.of(SYSTEM_TIMEZONE)));
+        } else {
+            return null;
+        }
+    }
 }

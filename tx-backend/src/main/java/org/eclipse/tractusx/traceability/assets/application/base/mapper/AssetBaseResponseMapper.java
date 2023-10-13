@@ -23,13 +23,7 @@ import assets.response.asbuilt.DetailAspectDataTractionBatteryCodeResponse;
 import assets.response.asbuilt.DetailAspectDataTractionBatteryCodeResponse.DetailAspectDataTractionBatteryCodeSubcomponentResponse;
 import assets.response.asplanned.DetailAspectDataAsPlannedResponse;
 import assets.response.asplanned.PartSiteInformationAsPlannedResponse;
-import assets.response.base.DescriptionsResponse;
-import assets.response.base.DetailAspectDataResponse;
-import assets.response.base.DetailAspectModelResponse;
-import assets.response.base.DetailAspectTypeResponse;
-import assets.response.base.OwnerResponse;
-import assets.response.base.QualityTypeResponse;
-import assets.response.base.SemanticDataModelResponse;
+import assets.response.base.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -88,7 +82,7 @@ public class AssetBaseResponseMapper {
         if (detailAspectData instanceof DetailAspectDataPartSiteInformationAsPlanned detailAspectDataPartSiteInformationAsPlanned) {
             return PartSiteInformationAsPlannedResponse.builder().catenaXSiteId(detailAspectDataPartSiteInformationAsPlanned.getCatenaXSiteId())
                     .function(detailAspectDataPartSiteInformationAsPlanned.getFunction())
-                    .functionValidFrom(detailAspectDataPartSiteInformationAsPlanned.getFunctionValidFrom())
+                    .functionValidFrom(String.valueOf(detailAspectDataPartSiteInformationAsPlanned.getFunctionValidFrom()))
                     .functionValidUntil(detailAspectDataPartSiteInformationAsPlanned.getFunctionValidUntil())
                     .build();
         }

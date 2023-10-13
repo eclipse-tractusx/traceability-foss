@@ -7,6 +7,7 @@ import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.De
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,7 +15,7 @@ import java.util.Optional;
 @Getter
 public class AsPlannedInfo {
     private String functionValidUntil;
-    private String functionValidFrom;
+    private OffsetDateTime functionValidFrom;
     private String function;
     private String validityPeriodFrom;
     private String validityPeriodTo;
@@ -47,9 +48,9 @@ public class AsPlannedInfo {
                 .map(org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataPartSiteInformationAsPlanned::getFunctionValidUntil)
                 .orElse("");
 
-        String functionValidFrom = partSiteInfo.map(detailAspectModel -> (DetailAspectDataPartSiteInformationAsPlanned) detailAspectModel.getData())
+        OffsetDateTime functionValidFrom = partSiteInfo.map(detailAspectModel -> (DetailAspectDataPartSiteInformationAsPlanned) detailAspectModel.getData())
                 .map(org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataPartSiteInformationAsPlanned::getFunctionValidFrom)
-                .orElse("");
+                .orElse(null);
 
         String catenaxSiteId = partSiteInfo.map(detailAspectModel -> (DetailAspectDataPartSiteInformationAsPlanned) detailAspectModel.getData())
                 .map(org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataPartSiteInformationAsPlanned::getCatenaXSiteId)

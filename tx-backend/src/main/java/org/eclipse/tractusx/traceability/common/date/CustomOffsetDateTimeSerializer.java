@@ -16,19 +16,22 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect;
+package org.eclipse.tractusx.traceability.common.date;
 
-import lombok.Builder;
-import lombok.Getter;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectData;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
 
+import java.io.IOException;
 import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 
-@Builder
-@Getter
-public class DetailAspectDataPartSiteInformationAsPlanned implements DetailAspectData {
-    private String functionValidUntil;
-    private String function;
-    private OffsetDateTime functionValidFrom;
-    private String catenaXSiteId;
+public class CustomOffsetDateTimeSerializer extends JsonSerializer<OffsetDateTime> {
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
+
+    @Override
+    public void serialize(OffsetDateTime offsetDateTime, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
+        String formattedDateTime = offsetDateTime.format(formatter);
+        jsonGenerator.writeString(formattedDateTime);
+    }
 }

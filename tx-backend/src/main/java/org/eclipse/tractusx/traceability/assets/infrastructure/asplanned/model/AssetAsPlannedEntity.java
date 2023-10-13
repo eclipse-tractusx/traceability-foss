@@ -18,32 +18,23 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model;
 
-import jakarta.persistence.CollectionTable;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
-import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.ManufacturingInfo;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.SemanticDataModelEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+import static org.eclipse.tractusx.traceability.common.date.DateUtil.toInstant;
 
 @Getter
 @NoArgsConstructor
@@ -60,7 +51,7 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
     private String functionValidUntil;
     private String function;
     // TODO date
-    private String functionValidFrom;
+    private Instant functionValidFrom;
     private String catenaxSiteId;
 
 
@@ -96,7 +87,7 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                 .manufacturerName(asset.getManufacturerName())
                 .semanticModelId(asset.getSemanticModelId())
                 .van(asset.getVan())
-                .functionValidFrom(asPlannedInfo.getFunctionValidFrom())
+                .functionValidFrom(toInstant(asPlannedInfo.getFunctionValidFrom()))
                 .function(asPlannedInfo.getFunction())
                 .functionValidUntil(asPlannedInfo.getFunctionValidUntil())
                 .validityPeriodFrom(asPlannedInfo.getValidityPeriodFrom())
