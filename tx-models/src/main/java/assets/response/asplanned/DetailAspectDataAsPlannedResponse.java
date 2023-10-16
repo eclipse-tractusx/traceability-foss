@@ -6,8 +6,6 @@ import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.OffsetDateTime;
-
 @Builder
 @Getter
 public class DetailAspectDataAsPlannedResponse implements DetailAspectDataResponse {
