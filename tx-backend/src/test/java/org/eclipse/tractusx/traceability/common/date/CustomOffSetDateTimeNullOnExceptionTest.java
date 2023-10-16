@@ -25,8 +25,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.time.OffsetDateTime;
@@ -34,6 +38,7 @@ import java.time.OffsetDateTime;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 public class CustomOffSetDateTimeNullOnExceptionTest {
 
     @Mock
@@ -47,13 +52,8 @@ public class CustomOffSetDateTimeNullOnExceptionTest {
     @Mock
     private Logger log;
 
+    @InjectMocks
     private CustomOffSetDateTimeNullOnException customDeserializer;
-
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        customDeserializer = new CustomOffSetDateTimeNullOnException();
-    }
 
     @Test
     public void testDeserializeValidDate() throws IOException {
