@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.Logger;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -32,7 +33,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.io.IOException;
 import java.time.OffsetDateTime;
 
-import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -54,18 +54,13 @@ public class CustomOffSetDateTimeNullOnExceptionTest {
 
     @Test
     public void testDeserializeValidDate() throws IOException {
-        // Prepare a valid date string
-        //String validDateString = "2023-10-13T14:30:45+01:00";
         String validDateString = "2022-02-04T14:48:54";
-        // Mock the necessary behavior for deserialization
         when(jsonParser.getCodec()).thenReturn(objectMapper);
         when(objectMapper.readTree(jsonParser)).thenReturn(jsonNode);
         when(jsonNode.asText()).thenReturn(validDateString);
 
-        // Call the deserialize method
         customDeserializer.deserialize(jsonParser, deserializationContext);
 
-        // Verify that the result is not null and corresponds to the valid date string
         verify(log, never()).warn(anyString(), any(Throwable.class));
         verify(jsonNode, times(1)).asText();
         verify(jsonParser, times(1)).getCodec();
@@ -74,21 +69,18 @@ public class CustomOffSetDateTimeNullOnExceptionTest {
 
     @Test
     public void testDeserializeInvalidDate() throws IOException {
-        // Prepare an invalid date string
+
         String invalidDateString = "invalid-date";
 
-        // Mock the necessary behavior for deserialization
         when(jsonParser.getCodec()).thenReturn(objectMapper);
         when(objectMapper.readTree(jsonParser)).thenReturn(jsonNode);
         when(jsonNode.asText()).thenReturn(invalidDateString);
 
-        // Call the deserialize method
         OffsetDateTime result = customDeserializer.deserialize(jsonParser, deserializationContext);
 
-        // Verify that the result is null
         verify(jsonNode, times(1)).asText();
         verify(jsonParser, times(1)).getCodec();
         verify(objectMapper, times(1)).readTree(jsonParser);
-        assertNull(result);
+        Assertions.assertNull(result);
     }
 }
