@@ -41,6 +41,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Date format of manufacturingDate, validityPeriodFrom, validityPeriodUntil, functionValidFrom, functionValidTo to be
   OffsetDateTime for Business logic and Instant for Database
 - Changed types of OffsetDates within the database to be a timestamp including timezone
+- Fixxed mapping of idShort
+- Changed date formats of assets to have offsetDateTime instead of Date or LocalDateTime
+- Aligned date formats in the rest api for assets
 
 ### Removed
 
