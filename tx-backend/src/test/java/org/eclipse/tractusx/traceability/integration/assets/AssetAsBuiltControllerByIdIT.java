@@ -98,6 +98,7 @@ class AssetAsBuiltControllerByIdIT extends IntegrationTestSpecification {
                 .when()
                 .get("/api/assets/as-built/urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb")
                 .then()
+                .log().all()
                 .statusCode(200)
                 .assertThat()
                 .body("qualityAlertsInStatusActive", is(6));
