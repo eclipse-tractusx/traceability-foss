@@ -106,6 +106,13 @@ SPDX-License-Identifier: Apache-2.0
                     <artifactId>runtime-metamodel</artifactId>
                     <groupId>org.eclipse.edc</groupId>
                 </exclusion>
+                <!-- Fixes CVE-2023-36478  https://github.com/catenax-ng/tx-traceability-foss/security/code-scanning/6770
+                Can be removed once org.eclipse.edc delivers at least jetty-http 11.0.16
+                -->
+                <exclusion>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-http</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
