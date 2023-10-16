@@ -34,6 +34,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - updated docker/build-push-action from 4 to 5
 - Updated user manual to reflect current state of the part views
 - Fixed dash IP GitHub action that scans Backend dependencies
+- Increase version from org.eclipse.jetty:jetty-http to 11.0.17
 
 ### Removed
 - Owner filter and replaced it with the new filter query param
