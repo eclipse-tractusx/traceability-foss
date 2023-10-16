@@ -18,12 +18,6 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.domain.base.model.aspect;
 
-import assets.response.asbuilt.DetailAspectDataAsBuiltResponse;
-import assets.response.asplanned.DetailAspectDataAsPlannedResponse;
-import assets.response.asplanned.PartSiteInformationAsPlannedResponse;
-import assets.response.base.DetailAspectDataResponse;
-import assets.response.base.DetailAspectModelResponse;
-import assets.response.base.DetailAspectTypeResponse;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -40,11 +34,11 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.Site;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.ValidityPeriod;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+import static org.eclipse.tractusx.traceability.common.date.DateUtil.toOffsetDateTime;
 
 @Getter
 @Setter
@@ -52,43 +46,6 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 public class DetailAspectModel {
     private DetailAspectType type;
     private DetailAspectData data;
-
-    public static DetailAspectModel from(DetailAspectModelResponse detailAspectModelResponse) {
-        DetailAspectTypeResponse detailAspectType = detailAspectModelResponse.getType();
-        DetailAspectDataResponse detailAspectData = detailAspectModelResponse.getData();
-        return DetailAspectModel.builder()
-                .type(DetailAspectType.valueOf(detailAspectType.name()))
-                .data(from(detailAspectData)).build();
-    }
-
-    public static DetailAspectData from(DetailAspectDataResponse detailAspectDataResponse) {
-        if (detailAspectDataResponse instanceof DetailAspectDataAsBuiltResponse) {
-            return DetailAspectDataAsBuilt.builder()
-                    .partId(((DetailAspectDataAsBuiltResponse) detailAspectDataResponse).getPartId())
-                    .customerPartId(((DetailAspectDataAsBuiltResponse) detailAspectDataResponse).getCustomerPartId())
-                    .nameAtCustomer(((DetailAspectDataAsBuiltResponse) detailAspectDataResponse).getNameAtCustomer())
-                    .manufacturingCountry(((DetailAspectDataAsBuiltResponse) detailAspectDataResponse).getManufacturingCountry())
-                    .manufacturingDate(LocalDateTime.parse(((DetailAspectDataAsBuiltResponse) detailAspectDataResponse).getManufacturingDate()))
-                    .build();
-        }
-
-        if (detailAspectDataResponse instanceof DetailAspectDataAsPlannedResponse) {
-            return DetailAspectDataAsPlanned.builder()
-                    .validityPeriodTo(((DetailAspectDataAsPlannedResponse) detailAspectDataResponse).getValidityPeriodTo())
-                    .validityPeriodFrom(((DetailAspectDataAsPlannedResponse) detailAspectDataResponse).getValidityPeriodFrom())
-                    .build();
-        }
-
-        if (detailAspectDataResponse instanceof PartSiteInformationAsPlannedResponse) {
-            return DetailAspectDataPartSiteInformationAsPlanned.builder()
-                    .catenaXSiteId(((PartSiteInformationAsPlannedResponse) detailAspectDataResponse).getCatenaXSiteId())
-                    .functionValidFrom(((PartSiteInformationAsPlannedResponse) detailAspectDataResponse).getFunctionValidFrom())
-                    .function(((PartSiteInformationAsPlannedResponse) detailAspectDataResponse).getFunction())
-                    .functionValidUntil(((PartSiteInformationAsPlannedResponse) detailAspectDataResponse).getFunctionValidUntil())
-                    .build();
-        }
-        return DetailAspectDataPartSiteInformationAsPlanned.builder().build();
-    }
 
     public static List<DetailAspectModel> from(AssetAsBuiltEntity entity) {
 
@@ -99,7 +56,7 @@ public class DetailAspectModel {
                         .customerPartId(entity.getCustomerPartId())
                         .nameAtCustomer(entity.getNameAtCustomer())
                         .manufacturingCountry(entity.getManufacturingCountry())
-                        .manufacturingDate(entity.getManufacturingDate() != null ? entity.getManufacturingDate() : null)
+                        .manufacturingDate(toOffsetDateTime(entity.getManufacturingDate()))
                         .build())
                 .build();
         List<DetailAspectModel> detailAspectModels = new ArrayList<>(List.of(detailAspectModelAsBuilt));
@@ -125,8 +82,8 @@ public class DetailAspectModel {
         DetailAspectModel asPlannedInfo = DetailAspectModel.builder()
                 .type(DetailAspectType.AS_PLANNED)
                 .data(DetailAspectDataAsPlanned.builder()
-                        .validityPeriodFrom(entity.getValidityPeriodFrom())
-                        .validityPeriodTo(entity.getValidityPeriodTo())
+                        .validityPeriodFrom(toOffsetDateTime(entity.getValidityPeriodFrom()))
+                        .validityPeriodTo(toOffsetDateTime(entity.getValidityPeriodTo()))
                         .build())
                 .build();
 
@@ -134,9 +91,9 @@ public class DetailAspectModel {
                 .type(DetailAspectType.PART_SITE_INFORMATION_AS_PLANNED)
                 .data(DetailAspectDataPartSiteInformationAsPlanned.builder()
                         .catenaXSiteId(entity.getCatenaxSiteId())
-                        .functionValidFrom(entity.getFunctionValidFrom())
+                        .functionValidFrom(toOffsetDateTime(entity.getFunctionValidFrom()))
                         .function(entity.getFunction())
-                        .functionValidUntil(entity.getFunctionValidUntil())
+                        .functionValidUntil(toOffsetDateTime(entity.getFunctionValidUntil()))
                         .build())
                 .build();
 
@@ -148,9 +105,9 @@ public class DetailAspectModel {
         emptyIfNull(sites).forEach(site -> {
             DetailAspectDataPartSiteInformationAsPlanned detailAspectDataPartSiteInformationAsPlanned = DetailAspectDataPartSiteInformationAsPlanned.builder()
                     .catenaXSiteId(site.catenaXSiteId())
-                    .functionValidFrom(site.functionValidFrom().toString())
+                    .functionValidFrom(site.functionValidFrom())
                     .function(site.function())
-                    .functionValidUntil(site.functionValidUntil().toString())
+                    .functionValidUntil(site.functionValidUntil())
                     .build();
             detailAspectModels.add(DetailAspectModel.builder().data(detailAspectDataPartSiteInformationAsPlanned).type(DetailAspectType.PART_SITE_INFORMATION_AS_PLANNED).build());
         });
@@ -160,10 +117,10 @@ public class DetailAspectModel {
 
     public static DetailAspectModel extractDetailAspectModelsAsPlanned(ValidityPeriod validityPeriod) {
         DetailAspectDataAsPlanned detailAspectDataAsPlanned = DetailAspectDataAsPlanned.builder()
-                .validityPeriodFrom(validityPeriod.validFrom().toString())
-                .validityPeriodTo(validityPeriod.validTo().toString())
+                .validityPeriodFrom(validityPeriod.validFrom())
+                .validityPeriodTo(validityPeriod.validTo())
                 .build();
-        return DetailAspectModel.builder().data(detailAspectDataAsPlanned).type(DetailAspectType.SINGLE_LEVEL_BOM_AS_PLANNED).build();
+        return DetailAspectModel.builder().data(detailAspectDataAsPlanned).type(DetailAspectType.AS_PLANNED).build();
     }
 
     public static DetailAspectModel extractDetailAspectModelsAsBuilt(ManufacturingInformation manufacturingInformation,
