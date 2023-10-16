@@ -24,6 +24,7 @@ import {
 } from "@page/parts/model/parts.model";
 import {HttpParams} from "@angular/common/http";
 
+export const FILTER_KEYS = ['manufacturingDate', 'functionValidFrom', 'functionValidUntil', 'validityPeriodFrom', 'validityPeriodTo'];
 
 export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, params: HttpParams): HttpParams {
     const semanticDataModelKey = "semanticDataModel";
@@ -32,7 +33,7 @@ export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, para
         const filterValues = filter[key];
         if (key !== semanticDataModelKey) {
             if (filterValues.length !== 0) {
-                if (key.toLowerCase().includes('date')) {
+                if (isDateFilter(key)) {
                     operator = getFilterOperatorValue(FilterOperator.AT_LOCAL_DATE);
                 } else {
                     operator = getFilterOperatorValue(FilterOperator.STARTS_WITH);
@@ -41,12 +42,21 @@ export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, para
             }
         } else {
             operator = getFilterOperatorValue(FilterOperator.EQUAL);
-            for (let value of filterValues) {
-                params = params.append('filter', `${key},${operator},${value}`);
+            if (Array.isArray(filterValues)) {
+                for (let value of filterValues) {
+                    params = params.append('filter', `${key},${operator},${value}`);
+                }
+            } else {
+                params = params.append('filter', `${key},${operator},${filterValues}`);
             }
+
         }
     }
     return params;
+}
+
+export function isDateFilter(key: string): boolean {
+    return FILTER_KEYS.includes(key);
 }
 
 export function toAssetFilter(formValues: any, isAsBuilt: boolean): AssetAsPlannedFilter | AssetAsBuiltFilter {

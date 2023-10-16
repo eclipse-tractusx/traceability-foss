@@ -22,13 +22,13 @@ import lombok.Builder;
 import lombok.Getter;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectData;
 
-import java.util.Date;
+import java.time.OffsetDateTime;
 
 @Builder
 @Getter
 public class DetailAspectDataPartSiteInformationAsPlanned implements DetailAspectData {
-    private String functionValidUntil;
+    private OffsetDateTime functionValidUntil;
     private String function;
-    private String functionValidFrom;
+    private OffsetDateTime functionValidFrom;
     private String catenaXSiteId;
 }

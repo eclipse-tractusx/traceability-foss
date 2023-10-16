@@ -19,10 +19,14 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel;
 
-import java.time.LocalDateTime;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.eclipse.tractusx.traceability.common.date.CustomOffSetDateTimeNullOnException;
+
+import java.time.OffsetDateTime;
 
 public record ManufacturingInformation(
         String country,
-        LocalDateTime date
+        @JsonDeserialize(using = CustomOffSetDateTimeNullOnException.class)
+        OffsetDateTime date
 ) {
 }
