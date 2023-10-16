@@ -71,7 +71,6 @@ export const alertsHandlers = [
     const currentStatus = [
       NotificationStatus.REQUESTED,
       NotificationStatus.ACKNOWLEDGED,
-      NotificationStatus.ACCEPTED,
       NotificationStatus.DECLINED,
       NotificationStatus.CLOSED,
       NotificationStatus.CANCELED,
@@ -91,11 +90,8 @@ export const alertsHandlers = [
       NotificationStatus.CLOSED,
       NotificationStatus.CANCELED,
       NotificationStatus.ACKNOWLEDGED,
-      NotificationStatus.ACCEPTED,
       NotificationStatus.DECLINED,
-
       NotificationStatus.ACKNOWLEDGED,
-      NotificationStatus.ACCEPTED,
       NotificationStatus.DECLINED,
       NotificationStatus.CLOSED,
       NotificationStatus.CANCELED,

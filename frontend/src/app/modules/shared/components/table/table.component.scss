@@ -55,7 +55,6 @@ table {
 }
 
 .mat-mdc-row:hover {
-  // background-color: #EAF1FE !important;
   @apply bg-surfaceMedium !important;
 }
 
@@ -86,6 +85,7 @@ table {
 .table--cell {
   padding: 2px 12px 2px 12px;
   border: none !important;
+  max-width: 332px;
 }
 
 .mat-mdc-table .mdc-data-table__row {
