@@ -80,7 +80,7 @@ jobs:
           push: true
           tags: |
             ${{ env.GHCR_REGISTRY }}/${{ env.GITHUB_REPOSITORY_LOWERCASE }}-frontend:${{ github.sha }}
-            ${{ env.IMAGE_REGISTRY }}/${{ env.GITHUB_REPOSITORY_LOWERCASE }}:${{ github.sha }}
+            ${{ env.IMAGE_REGISTRY }}/${{ env.GITHUB_REPOSITORY_LOWERCASE }}-frontend:${{ github.sha }}
 
 
       - name: Login to Docker Hub
