@@ -30,16 +30,19 @@ env:
   JAVA_VERSION: 17
   DOCKER_HUB_REGISTRY_NAMESPACE: tractusx
   BACKEND_IMAGE_DOCKER_HUB: traceability-foss
+  IMAGE_REGISTRY: acrcfxsharedservices.azurecr.io
 
 jobs:
   Publish-docker-image:
     runs-on: ubuntu-latest
+    environment: acr-shared-env
     defaults:
       run:
         working-directory: tx-backend
     permissions:
       contents: read
       packages: write
+      id-token: write
 
     steps:
       - uses: actions/checkout@v4
@@ -59,6 +62,17 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      # Establish authentication with azure account
+      - name: Azure CLI auth
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: ACR Login
+        run: az acr login --name ${{ env.IMAGE_REGISTRY }}
+
       - name: Make organization and repository name lowercase
         run: echo "GITHUB_REPOSITORY_LOWERCASE=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
@@ -70,7 +84,9 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.GHCR_REGISTRY }}/${{ env.GITHUB_REPOSITORY_LOWERCASE }}:${{ github.sha }}
+          tags: |
+            ${{ env.GHCR_REGISTRY }}/${{ env.GITHUB_REPOSITORY_LOWERCASE }}:${{ github.sha }}
+            ${{ env.IMAGE_REGISTRY }}/${{ env.GITHUB_REPOSITORY_LOWERCASE }}:${{ github.sha }}
 
       - name: Login to Docker Hub
         env:
