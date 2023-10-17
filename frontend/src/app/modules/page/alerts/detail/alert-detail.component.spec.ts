@@ -26,51 +26,51 @@ import { renderComponent } from '@tests/test-render.utils';
 import { of } from 'rxjs';
 import { MOCK_part_1 } from '../../../../mocks/services/parts-mock/partsAsPlanned/partsAsPlanned.test.model';
 
-// describe('AlertDetailComponent', () => {
+describe('AlertDetailComponent', () => {
 
-//   const renderAlertDetail = async (id?: string) => {
-//     return await renderComponent(AlertDetailComponent, {
-//       imports: [AlertsModule],
-//       providers: [
-//         AlertsService,
-//         {
-//           provide: ActivatedRoute,
-//           useValue: {
-//             snapshot: {
-//               paramMap: {
-//                 get: () => id || 'id-2',
-//               },
-//             },
-//             queryParams: of({ pageNumber: 0, tabIndex: 0 })
-//           },
-//         },
-//       ],
-//     });
-//   };
+  const renderAlertDetail = async (id?: string) => {
+    return await renderComponent(AlertDetailComponent, {
+      imports: [AlertsModule],
+      providers: [
+        AlertsService,
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              paramMap: {
+                get: () => id || 'id-2',
+              },
+            },
+            queryParams: of({ pageNumber: 0, tabIndex: 0 })
+          },
+        },
+      ],
+    });
+  };
 
-//   // it('should render specific text and additional table for received alert', async () => {
-//   //   await renderAlertDetail();
-//   //   await waitFor(() => expect(screen.getByText('pageAlert.subHeadline.affectedParts')).toBeInTheDocument());
-//   //   await waitFor(() => expect(screen.getByText('pageAlert.subHeadline.supplierParts')).toBeInTheDocument());
-//   // });
+  it('should render specific text and additional table for received alert', async () => {
+    await renderAlertDetail();
+    await waitFor(() => expect(screen.getByText('pageAlert.subHeadline.affectedParts')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('pageAlert.subHeadline.supplierParts')).toBeInTheDocument());
+  });
 
-//   it('should render specific text for queued or requested alerts', async () => {
-//     await renderAlertDetail('id-1');
-//     await waitFor(() => expect(screen.getByText('pageAlert.subHeadline.supplierParts')).toBeInTheDocument());
-//   });
+  it('should render specific text for queued or requested alerts', async () => {
+    await renderAlertDetail('id-1');
+    await waitFor(() => expect(screen.getByText('pageAlert.subHeadline.supplierParts')).toBeInTheDocument());
+  });
 
-//   it('should render specific text for back button', async () => {
-//     await renderAlertDetail('id-1');
-//     await waitFor(() => expect(screen.getByText('actions.goBack')).toBeInTheDocument());
-//   });
+  it('should render specific text for back button', async () => {
+    await renderAlertDetail('id-1');
+    await waitFor(() => expect(screen.getByText('actions.goBack')).toBeInTheDocument());
+  });
 
-//   // it('should render copy data to clipboard', async () => {
-//   //   await renderAlertDetail('id-1');
-//   //   await waitFor(() => expect(screen.getByText('pageAlert.subHeadline.supplierParts')).toBeInTheDocument());
+  it('should render copy data to clipboard', async () => {
+    await renderAlertDetail('id-1');
+    await waitFor(() => expect(screen.getByText('pageAlert.subHeadline.supplierParts')).toBeInTheDocument());
 
-//   //   const spy = spyOn(navigator.clipboard, 'writeText').and.returnValue(new Promise(null));
-//   //   fireEvent.click(await waitFor(() => screen.getByTestId('copy-button--' + MOCK_part_1.id)));
+    const spy = spyOn(navigator.clipboard, 'writeText').and.returnValue(new Promise(null));
+    fireEvent.click(await waitFor(() => screen.getByTestId('copy-button--' + MOCK_part_1.id)));
 
-//   //   expect(spy).toHaveBeenCalledWith("NO-341449848714937445621543");
-//   // });
-// });
+    expect(spy).toHaveBeenCalledWith("NO-341449848714937445621543");
+  });
+});

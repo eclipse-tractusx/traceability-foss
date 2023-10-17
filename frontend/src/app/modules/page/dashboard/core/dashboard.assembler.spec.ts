@@ -21,19 +21,20 @@
 
 import { DashboardAssembler } from './dashboard.assembler';
 
-// describe('DashboardAssembler', () => {
-//   describe('assembleDashboard', () => {
-//     it('should map response', () => {
-//       expect(
-//         DashboardAssembler.assembleDashboard({
-//           otherParts: 100,
-//           myItems: 200,
-//         }),
-//       ).toEqual({
-//         otherParts: 100,
-//         myItems: 200,
-//         investigations: undefined,
-//       });
-//     });
-//   });
-// });
+describe('DashboardAssembler', () => {
+  describe('assembleDashboard', () => {
+    it('should map response', () => {
+      expect(
+        DashboardAssembler.assembleDashboard({
+          otherParts: 100,
+          myItems: 200,
+        }),
+      ).toEqual({
+        otherParts: 100,
+        myItems: 200,
+        investigations: undefined,
+        alerts: undefined,
+      });
+    });
+  });
+});

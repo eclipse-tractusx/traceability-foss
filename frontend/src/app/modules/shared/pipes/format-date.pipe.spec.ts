@@ -42,7 +42,7 @@ describe('FormatDatePipe', () => {
       componentProperties: { date },
     });
 
-    expect(screen.getByText('2/4/22')).toBeInTheDocument();
+    expect(screen.getByText('04/02/2022')).toBeInTheDocument();
   });
 
   it('should format date with options', async () => {
@@ -52,7 +52,7 @@ describe('FormatDatePipe', () => {
       componentProperties: { date },
     });
 
-    expect(screen.getByText('Feb 4, 2022, 1:48 PM')).toBeInTheDocument();
+    expect(screen.getByText('4 Feb 2022, 13:48')).toBeInTheDocument();
   });
 
   it('should return -- if string is empty', async () => {
