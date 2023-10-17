@@ -1,7 +1,7 @@
 # Eclipse-TractusX-Traceability-FOSS Umbrella Helm Chart
 
 This Helm chart provides a way to deploy the Umbrella component of Eclipse-TractusX-Traceability-FOSS on Kubernetes.
-The chart includes the necessary configuration files, resources, and dependencies to deploy the Umbrella component in an kubernetes environment.
+The chart includes the necessary configuration files, resources, and dependencies to deploy the Umbrella component in a kubernetes environment.
 
 ## Prerequisites
 

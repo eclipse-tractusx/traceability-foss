@@ -52,7 +52,6 @@ cypress/reports/*
 cucumber-messages.ndjson
 
 # System Files
-.DS_Store
 Thumbs.db
 
 #mock
