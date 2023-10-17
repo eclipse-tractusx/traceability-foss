@@ -16,20 +16,22 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel;
+package org.eclipse.tractusx.traceability.common.date;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.eclipse.tractusx.traceability.common.date.CustomOffSetDateTimeNullOnException;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
 
+import java.io.IOException;
 import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 
-public record Site(
-        @JsonDeserialize(using = CustomOffSetDateTimeNullOnException.class)
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss", timezone = "CET") OffsetDateTime functionValidUntil,
-        @JsonDeserialize(using = CustomOffSetDateTimeNullOnException.class)
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss", timezone = "UTC") OffsetDateTime functionValidFrom,
-        String function,
-        String catenaXSiteId
-) {
+public class CustomOffsetDateTimeSerializer extends JsonSerializer<OffsetDateTime> {
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
+
+    @Override
+    public void serialize(OffsetDateTime offsetDateTime, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
+        String formattedDateTime = offsetDateTime.format(formatter);
+        jsonGenerator.writeString(formattedDateTime);
+    }
 }

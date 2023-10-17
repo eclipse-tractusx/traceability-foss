@@ -4,6 +4,8 @@ import {
     MultiSelectAutocompleteComponent
 } from "@shared/components/multi-select-autocomplete/multi-select-autocomplete.component";
 import {SemanticDataModel} from "@page/parts/model/parts.model";
+import {MatDatepickerInputEvent} from "@angular/material/datepicker";
+import {DatePipe} from "@angular/common";
 
 describe('MultiSelectAutocompleteComponent', () => {
     const renderMultiSelectAutoCompleteComponent = (multiple = true) => {
@@ -12,7 +14,7 @@ describe('MultiSelectAutocompleteComponent', () => {
 
         return renderComponent(MultiSelectAutocompleteComponent, {
             imports: [SharedModule],
-            providers: [],
+            providers: [DatePipe],
             componentProperties: {placeholder: placeholder, options: options, multiple},
         });
     };
@@ -56,7 +58,7 @@ describe('MultiSelectAutocompleteComponent', () => {
 
         // Assert
         expect(componentInstance.searchInput.value).toBe('');
-        expect(componentInstance.theSearchElement).toBe('');
+        expect(componentInstance.theSearchElement).toBe(null);
         expect(componentInstance.selectedValue).toEqual([]);
     });
 
@@ -180,5 +182,28 @@ describe('MultiSelectAutocompleteComponent', () => {
         componentInstance.toggleSelectAll(val);
 
         expect(componentInstance.selectedValue).toEqual([]);
+    });
+
+    it('should emit data correctly when changeEvent of Datepicker is triggered', async () => {
+
+        const {fixture} = await renderMultiSelectAutoCompleteComponent(false);
+        const {componentInstance} = fixture;
+
+        const inputValue = new Date('2023-10-12'); // Replace with your desired date
+
+        // Create a mock event with the selected date
+        const event: MatDatepickerInputEvent<Date> = {
+            value: inputValue,
+            target: undefined,
+            targetElement: undefined
+        };
+
+        // Call the function to test
+        componentInstance.dateSelectionEvent(event);
+
+        // Expectations
+        expect(componentInstance.formControl.value).toBe('2023-10-12'); // Replace with your actual form control variable
+        expect(componentInstance.selectedValue).toBe('2023-10-12');
+        expect(componentInstance.theSearchElement).toBe('2023-10-12');
     });
 });

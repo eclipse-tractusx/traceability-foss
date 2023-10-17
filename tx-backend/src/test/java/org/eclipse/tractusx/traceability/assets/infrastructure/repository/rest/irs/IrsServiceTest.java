@@ -54,7 +54,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.Collections;
@@ -65,6 +65,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.eclipse.tractusx.traceability.common.date.DateUtil.toOffsetDateTime;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -207,18 +208,18 @@ class IrsServiceTest {
         );
 
         List<Shell> shells = Arrays.asList(
-                new Shell("shell1", "Identification 1"),
-                new Shell("shell2", "Identification 2")
+                new Shell("shell1", "Identification 1", "globalAssetId"),
+                new Shell("shell2", "Identification 2", "globalAssetId")
         );
 
-        ValidityPeriod validityPeriod = new ValidityPeriod(new Date(), new Date());
-        Site site = new Site(new Date(), new Date(), "function", "cxid");
+        ValidityPeriod validityPeriod = new ValidityPeriod(null, toOffsetDateTime(Instant.now()));
+        Site site = new Site(toOffsetDateTime(Instant.now()), OffsetDateTime.now(), "function", "cxid");
         List<SemanticDataModel> semanticDataModels = Collections.singletonList(
                 new SemanticDataModel(
                         "catenaXId123",
                         new PartTypeInformation("classification", "Name at Manufacturer", "Name at Customer",
                                 "ManufacturerPartId123", "CustomerPartId123"),
-                        new ManufacturingInformation("Country", LocalDateTime.now()),
+                        new ManufacturingInformation("Country", toOffsetDateTime(Instant.now())),
                         Collections.emptyList(), validityPeriod, List.of(site), "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart"
 
                 )

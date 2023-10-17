@@ -43,11 +43,12 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.Semant
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+import static org.eclipse.tractusx.traceability.common.date.DateUtil.toInstant;
 
 @Getter
 @Setter
@@ -57,7 +58,7 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 @Table(name = "assets_as_built")
 public class AssetAsBuiltEntity extends AssetBaseEntity {
 
-    private LocalDateTime manufacturingDate;
+    private Instant manufacturingDate;
     private String manufacturingCountry;
     private String manufacturerId;
     private String nameAtCustomer;
@@ -98,7 +99,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                 .manufacturerName(asset.getManufacturerName())
                 .nameAtCustomer(manufacturingInfo.getNameAtCustomer())
                 .customerPartId(manufacturingInfo.getCustomerPartId())
-                .manufacturingDate(manufacturingInfo.getManufacturingDate())
+                .manufacturingDate(toInstant(manufacturingInfo.getManufacturingDate()))
                 .manufacturingCountry(manufacturingInfo.getManufacturingCountry())
                 .owner(asset.getOwner())
                 .childDescriptors(asset.getChildRelations().stream()

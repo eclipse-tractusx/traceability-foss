@@ -46,6 +46,7 @@ import {
     TableHeaderSort,
 } from '@shared/components/table/table.model';
 import {addSelectedValues, removeSelectedValues} from '@shared/helper/table-helper';
+import {isDateFilter} from "@shared/helper/filter-helper";
 
 
 @Component({
@@ -72,11 +73,9 @@ export class PartsTableComponent implements OnInit {
 
     @Input() tableType: PartTableType;
 
-
     public tableConfig: TableConfig;
 
     filterKey = 'Filter';
-
 
     @Input() set paginationData({page, pageSize, totalItems, content}: Pagination<unknown>) {
         this.totalItems = totalItems;
@@ -116,7 +115,6 @@ export class PartsTableComponent implements OnInit {
     @Output() clickSelectAction = new EventEmitter<void>();
     @Output() filterActivated = new EventEmitter<any>();
 
-
     public readonly dataSource = new MatTableDataSource<unknown>();
     public readonly selection = new SelectionModel<unknown>(true, []);
 
@@ -132,6 +130,12 @@ export class PartsTableComponent implements OnInit {
 
     filterFormGroup = new FormGroup({});
 
+    public isDateElement(key: string){
+        return isDateFilter(key);
+    }
+    public isMultipleSearch(filter: any): boolean {
+        return !(filter.isDate || filter.isTextSearch);
+    }
 
     private readonly displayedColumnsAsBuilt: string[] = [
         'Filter',
@@ -460,7 +464,7 @@ export class PartsTableComponent implements OnInit {
         {filterKey: 'nameAtCustomer', headerKey: 'filterNameAtCustomer', isTextSearch: true, option: this.optionTextSearch}, // --> semanticModel.nameAtCustomer
         {filterKey: 'semanticModelId', headerKey: 'filterSemanticModelId', isTextSearch: true, option: this.optionTextSearch},
         {filterKey: 'semanticDataModel', headerKey: 'filterSemanticDataModel', isTextSearch: false, option: this.semanticDataModelOptions},
-        {filterKey: 'manufacturingDate', headerKey: 'filterManufacturingDate', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'manufacturingDate', headerKey: 'filterManufacturingDate', isTextSearch: false, isDate: true, option: this.optionTextSearch},
         {filterKey: 'manufacturingCountry', headerKey: 'filterManufacturingCountry', isTextSearch: true, option: this.optionTextSearch},
         {filterKey: 'activeAlerts', headerKey: 'filterActiveAlerts', isTextSearch: true, option: this.optionTextSearch},
         {filterKey: 'activeInvestigations', headerKey: 'filterActiveInvestigations', isTextSearch: true, option: this.optionTextSearch},
@@ -572,7 +576,7 @@ export class PartsTableComponent implements OnInit {
         {filterKey: 'manufacturerName', headerKey: 'filterManufacturer', isTextSearch: true, option: this.optionTextSearch},
         {filterKey: 'manufacturerPartId', headerKey: 'filterPartId', isTextSearch: true, option: this.optionTextSearch},
         {filterKey: 'semanticModelId', headerKey: 'filterSemanticModelId', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'manufacturingDate', headerKey: 'filterManufacturingDate', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'manufacturingDate', headerKey: 'filterManufacturingDate', isTextSearch: false, isDate: true, option: this.optionTextSearch},
         {filterKey: 'activeAlerts', headerKey: 'filterActiveAlerts', isTextSearch: true, option: this.optionTextSearch},
         {filterKey: 'activeInvestigations', headerKey: 'filterActiveInvestigations', isTextSearch: true, option: this.optionTextSearch},
     ];
@@ -585,7 +589,7 @@ export class PartsTableComponent implements OnInit {
         {filterKey: 'manufacturerName', headerKey: 'filterManufacturer', isTextSearch: true, option: this.optionTextSearch},
         {filterKey: 'manufacturerPartId', headerKey: 'filterPartId', isTextSearch: true, option: this.optionTextSearch},
         {filterKey: 'semanticModelId', headerKey: 'filterSemanticModelId', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'manufacturingDate', headerKey: 'filterManufacturingDate', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'manufacturingDate', headerKey: 'filterManufacturingDate', isTextSearch: false, isDate: true, option: this.optionTextSearch},
         {filterKey: 'activeAlerts', headerKey: 'filterActiveAlerts', isTextSearch: true, option: this.optionTextSearch},
         {filterKey: 'activeInvestigations', headerKey: 'filterActiveInvestigations', isTextSearch: true, option: this.optionTextSearch},
     ];
@@ -601,12 +605,12 @@ export class PartsTableComponent implements OnInit {
         {filterKey: 'classification', headerKey: 'filterClassification', isTextSearch: true, option: this.optionTextSearch},
         {filterKey: 'semanticDataModel', headerKey: 'filterSemanticDataModel', isTextSearch: false, option: this.semanticDataModelOptions},
         {filterKey: 'semanticModelId', headerKey: 'filterSemanticModelId', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'validityPeriodFrom', headerKey: 'filterValidityPeriodFrom', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'validityPeriodTo', headerKey: 'filterValidityPeriodTo', isTextSearch: true, option: this.optionTextSearch},
+        {filterKey: 'validityPeriodFrom', headerKey: 'filterValidityPeriodFrom', isTextSearch: false, isDate: true, option: this.optionTextSearch},
+        {filterKey: 'validityPeriodTo', headerKey: 'filterValidityPeriodTo', isTextSearch: false, isDate: true, option: this.optionTextSearch},
         {filterKey: 'function', headerKey: 'filterPsFunction', isTextSearch: true, option: this.optionTextSearch},
         {filterKey: 'catenaxSiteId', headerKey: 'filterCatenaXSiteId', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'functionValidFrom', headerKey: 'filterFunctionValidFrom', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'functionValidUntil', headerKey: 'filterFunctionValidUntil', isTextSearch: true, option: this.optionTextSearch}
+        {filterKey: 'functionValidFrom', headerKey: 'filterFunctionValidFrom', isTextSearch: false, isDate: true, option: this.optionTextSearch},
+        {filterKey: 'functionValidUntil', headerKey: 'filterFunctionValidUntil', isTextSearch: false, isDate: true, option: this.optionTextSearch}
     ];
 
 

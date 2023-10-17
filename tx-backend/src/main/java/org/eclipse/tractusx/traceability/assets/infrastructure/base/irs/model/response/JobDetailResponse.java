@@ -88,6 +88,7 @@ public record JobDetailResponse(
                     } else {
                         SemanticDataModel payload = (SemanticDataModel) submodel.getPayload();
                         payload.setAspectType(submodel.getAspectType());
+                        payload.setIdentification(submodel.getIdentification());
                         return payload;
                     }
                 }).toList();
@@ -120,7 +121,7 @@ public record JobDetailResponse(
 
         Map<String, String> shortIds = shells().stream()
                 .collect(Collectors.toMap(
-                        Shell::identification,
+                        Shell::globalAssetId,
                         Shell::idShort,
                         (existingValue, newValue) -> existingValue));
 

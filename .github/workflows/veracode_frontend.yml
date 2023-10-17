@@ -15,7 +15,7 @@
 #
 #  SPDX-License-Identifier: Apache-2.0
 
-name: "[FE][SECURITY] Trivy"
+name: "[FE][SECURITY] Veracode"
 
 on:
   workflow_dispatch:
