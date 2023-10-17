@@ -23,6 +23,7 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.r
 
 public record Shell(
         String idShort,
-        String identification
+        String id,
+        String globalAssetId
 ) {
 }

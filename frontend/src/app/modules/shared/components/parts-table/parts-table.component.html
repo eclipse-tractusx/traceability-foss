@@ -181,35 +181,40 @@ Third click:  reset sorting"
 
                     </th>
                     <td *matCellDef="let element" mat-cell class="table--cell" data-testid="table-component--cell-data">
-                      <div class="table--notification--cell">
+                        <div class="table--notification--cell">
                         <span class="table--notification--cell--content">
-                      <ng-container
-                                [ngTemplateOutlet]="tableConfig?.cellRenderers?.[column] ? tableConfig?.cellRenderers?.[column] : autoFormat"
-                                [ngTemplateOutletContext]="{ value: element[column], row: element }"
+                            <ng-container *ngIf="isDateElement(column); else autoFormatRef">
+                         {{ element[column] | date:'yyyy-MM-dd' }}
+                            </ng-container>
 
-                      >
+                            <ng-template #autoFormatRef>
+
+                      <ng-container
+                              [ngTemplateOutlet]="tableConfig?.cellRenderers?.[column] ? tableConfig?.cellRenderers?.[column] : autoFormat"
+                              [ngTemplateOutletContext]="{ value: element[column], row: element }">
                       </ng-container>
+                                  </ng-template>
                         </span>
-                        <ng-container [ngSwitch]="column">
-                        <ng-container *ngSwitchCase="'activeAlerts'">
+                            <ng-container [ngSwitch]="column">
+                                <ng-container *ngSwitchCase="'activeAlerts'">
                           <span class="table--notification--cell--content--icon">
                           <mat-icon class="table--notification--icon">notification_important</mat-icon>
                           </span>
-                        </ng-container>
-                        <ng-container *ngSwitchCase="'activeInvestigations'">
+                                </ng-container>
+                                <ng-container *ngSwitchCase="'activeInvestigations'">
                           <span class="table--notification--cell--content--icon">
                           <mat-icon class="table--notification--icon">inbox</mat-icon>
                         </span>
-                        </ng-container>
-                        <ng-container *ngSwitchCase="'manufacturingCountry'">
+                                </ng-container>
+                                <ng-container *ngSwitchCase="'manufacturingCountry'">
                           <span class="table--notification--cell--content--icon">
                           <app-country-flag-generator class="ml-2"
-                            [countryCode]="element[column] ? element[column] : ''">
+                                                      [countryCode]="element[column] ? element[column] : ''">
                           </app-country-flag-generator>
                         </span>
-                        </ng-container>
-                      </ng-container>
-                      </div>
+                                </ng-container>
+                            </ng-container>
+                        </div>
                     </td>
                 </ng-container>
             </ng-template>
