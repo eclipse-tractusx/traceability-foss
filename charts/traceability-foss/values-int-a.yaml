@@ -134,7 +134,7 @@ backend:
     dataEndpointUrl: "https://tx-edc-consumer-int-a-controlplane.int.demo.catena-x.net/management"
 
   discoveryfinder:
-    baseUrl: "https://semantics.int.demo.catena-x.net/discoveryfinder/api/administration/connectors/discovery/search"
+    baseUrl: "https://semantics.int.demo.catena-x.net/discoveryfinder/api/v1.0/administration/connectors/discovery/search"
   config:
     allowedCorsOriginFirst: "http://localhost:4200/"
     allowedCorsOriginSecond: "https://traceability-portal-int-a.int.demo.catena-x.net/"
@@ -143,6 +143,7 @@ backend:
     baseUrl: "https://tx-irs-int-a.int.demo.catena-x.net"
   registry:
     urlWithPath: "https://trace-x-registry-int-a.int.demo.catena-x.net/semantics/registry/api/v3.0"
+
   portal:
     baseUrl: "https://portal-backend.int.demo.catena-x.net/api"
 
