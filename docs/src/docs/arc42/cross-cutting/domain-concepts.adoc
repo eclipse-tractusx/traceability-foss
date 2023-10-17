@@ -1,1 +1,11 @@
 = Domain concepts
+
+== Domain Model
+
+
+[plantuml, target=level-1, format=svg]
+....
+include::../../../uml-diagrams/arc42/cross-cutting/domain-model/domain-model.puml[]
+....
+
+
