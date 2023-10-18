@@ -6,30 +6,33 @@ skinparam linetype ortho
 title: Domain Model
 
 abstract Asset {
-        *   id : String
-        owner : Owner
+        *   id : String (max = 255)
+        idShort : String (max = 255)
+        semanticModelId : String
+        businessPartner : String  (max = 255) /' BusinessPartner '/
+        manufacturerName : String  (max = 255) /' BPN Lookup collection irs.bpns[] '/
+        nameAtManufacturer : String  (max = 255) /' partTypeInformation.nameAtManufacturer '/
+        manufacturerPartId : String (max = 255) /' partTypeInformation.manufacturerPartId '/
+
+        owner : OwnerResponse
         activeAlert: boolean
         qualityType : QualityType
         underInvestigation : boolean
         semanticDataModelType : SemanticDataModelType
         childRelations : List<Relation>
         parentRelations : List<Relation>
-
-        idShort : String
-        van : String
-
-        manufacturerName : String /' BPN Lookup collection irs.bpns[] '/
-
-        manufacturerPartId : String /' partTypeInformation.manufacturerPartId '/
-        nameAtManufacturer : String /' partTypeInformation.nameAtManufacturer '/
-        classification : String /' partTypeInformation.classification '/
-        businessPartner : String /' BusinessPartner '/
-
+        van : String (max = 255)
+        classification : String  (max = 255) /' partTypeInformation.classification '/
         detailSemanticModels : List<DetailAspectModelModel>
+        qualityInvestigationsInStatusActive : Integer
+        qualityAlertsInStatusActive : Integer
+
+        semanticPayload : SemanticPayload
 }
 
 note left
-    Rename Descriptions to Relation
+    Rename Descriptions
+    to Relation
 end note
 
 
@@ -37,9 +40,15 @@ abstract DetailAspectModelModel {
     detailSemanticDataModelType : DetailSemanticDataModelType
 }
 note left
-    DetailAspectModelModel contains detail semantic models
+    DetailAspectModelModel
+    contains detail
+    semantic models
 end note
 
+class SemanticPayload  {
+    *   id : String
+       payload : JSONObject /'Payload of semantic model'/
+ }
 
 class Relation {
        *   id : String
@@ -70,7 +79,9 @@ class AsBuiltAspectModel {
 }
 
 note left
-    partId covers SerialPart.partInstanceID, Batch.BatchID, JustInSequencePart.jisNumber
+    partId covers SerialPart.partInstanceID,
+     Batch.BatchID,
+     JustInSequencePart.jisNumber
 end note
 
 class TractionBatteryCode {
@@ -98,15 +109,16 @@ class PartSiteInformationAsPlanned {
 
 }
 
-
 SemanticDataModelType <-- Asset
 DetailSemanticDataModelType <-- DetailAspectModelModel
 Asset <|.. AsBuiltAspectModel
-Asset <|.. AsPlannedAspectModel
+Asset <|... AsPlannedAspectModel
 
-Asset }o-- Relation : childRelations
-Asset }o--  Relation : parentRelations
-Asset }o- DetailAspectModelModel : detailAspectModels
+Asset ||---o{ Relation : childRelations
+Asset ||--o{  Relation : parentRelations
+Asset ||--o{  DetailAspectModelModel : detailAspectModels
 DetailAspectModelModel  <|.. TractionBatteryCode
 DetailAspectModelModel  <|..  PartSiteInformationAsPlanned
+
+Asset ||---|| SemanticPayload
 @enduml

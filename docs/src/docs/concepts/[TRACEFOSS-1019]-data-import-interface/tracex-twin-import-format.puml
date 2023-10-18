@@ -27,9 +27,9 @@ entity SubmodelData<T> {
     * payload : Submodel<T>
 }
 
-class  Submodel<T>
+entity  Submodel<T>
 
-class SerialPart
+entity SerialPart
 
 DigitalTwinsToImport }o--|{ Twin
 Twin  }o--|{ Shell
