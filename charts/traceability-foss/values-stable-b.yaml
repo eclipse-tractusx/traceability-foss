@@ -134,7 +134,7 @@ backend:
     dataEndpointUrl: "https://tx-edc-consumer-stable-b-controlplane.stable.demo.catena-x.net/management"
 
   discoveryfinder:
-    baseUrl: "https://semantics.stable.demo.catena-x.net/discoveryfinder/api/administration/connectors/discovery/search"  # check DF url when provided
+    baseUrl: "https://semantics.stable.demo.catena-x.net/discoveryfinder/api/v1.0/administration/connectors/discovery/search"  # check DF url when provided
 
   config:
     allowedCorsOriginFirst: "http://localhost:4200/"
@@ -238,7 +238,7 @@ irs-helm:
     type: decentral
     descriptorEndpoint: https://trace-x-registry-stable-b.stable.demo.catena-x.net/semantics/registry/api/v3.0/shell-descriptors/{aasIdentifier}
     shellLookupEndpoint: https://trace-x-registry-stable-b.stable.demo.catena-x.net/semantics/registry/api/v3.0/lookup/shells?assetIds={assetIds}
-    discoveryFinderUrl: https://semantics.stable.demo.catena-x.net/discoveryfinder/api/administration/connectors/discovery/search  # check DF url when provided
+    discoveryFinderUrl: https://semantics.stable.demo.catena-x.net/discoveryfinder/api/v1.0/administration/connectors/discovery/search  # check DF url when provided
 
   semanticshub:
     url: https://semantics.stable.demo.catena-x.net/hub/api/v1/models  # check DF url when provided

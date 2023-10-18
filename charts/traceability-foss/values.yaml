@@ -293,7 +293,7 @@ backend:
     dataEndpointUrl: "CHANGEME"  # example: https://<tractusx-connector.controlplane.ingress.hosts>/management"
 
   discoveryfinder:
-    baseUrl: "CHANGEME"  # example: https://discoveryfinder.net/discoveryfinder/api/administration/connectors/discovery/search
+    baseUrl: "CHANGEME"  # example: https://discoveryfinder.net/discoveryfinder/api/v1.0/administration/connectors/discovery/search
 
   irs:
     baseUrl: "https://replace.me"  # https://<irs-helm.ingress.host>

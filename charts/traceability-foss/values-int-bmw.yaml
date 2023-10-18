@@ -134,7 +134,7 @@ backend:
     dataEndpointUrl: "https://tx-edc-consumer-int-bmw-controlplane.int.demo.catena-x.net/management"
 
   discoveryfinder:
-    baseUrl: "https://semantics.int.demo.catena-x.net/discoveryfinder/api/administration/connectors/discovery/search"
+    baseUrl: "https://semantics.int.demo.catena-x.net/discoveryfinder/api/v1.0/administration/connectors/discovery/search"
 
   irs:
     baseUrl: "https://tx-irs-int-bmw.int.demo.catena-x.net"
@@ -237,7 +237,7 @@ irs-helm:
         secretName: tls-secret
   digitalTwinRegistry:
     type: decentral
-    discoveryFinderUrl: https://semantics.int.demo.catena-x.net/discoveryfinder/api/administration/connectors/discovery/search
+    discoveryFinderUrl: https://semantics.int.demo.catena-x.net/discoveryfinder/api/v1.0/administration/connectors/discovery/search
 
   semanticshub:
     url: https://semantics.int.demo.catena-x.net/hub/api/v1/models

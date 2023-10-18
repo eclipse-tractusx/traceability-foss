@@ -161,7 +161,7 @@ backend:
     dataEndpointUrl: "https://tx-edc-consumer-test-controlplane.dev.demo.catena-x.net/management"
 
   discoveryfinder:
-    baseUrl: "https://tracex-discovery-mock-test.dev.demo.catena-x.net/api/administration/connectors/discovery/search"
+    baseUrl: "https://tracex-discovery-mock-test.dev.demo.catena-x.net/api/v1.0/administration/connectors/discovery/search"
 
   irs:
     baseUrl: "https://tx-irs-test.dev.demo.catena-x.net"
@@ -259,7 +259,7 @@ irs-helm:
     type: decentral
     descriptorEndpoint: https://trace-x-registry-test.dev.demo.catena-x.net/semantics/registry/api/v3.0/shell-descriptors/{aasIdentifier}
     shellLookupEndpoint: https://trace-x-registry-test.dev.demo.catena-x.net/semantics/registry/api/v3.0/lookup/shells?assetIds={assetIds}
-    discoveryFinderUrl: https://tracex-discovery-mock-test.dev.demo.catena-x.net/irs/api/administration/connectors/discovery/search
+    discoveryFinderUrl: https://tracex-discovery-mock-test.dev.demo.catena-x.net/irs/api/v1.0/administration/connectors/discovery/search
   semanticshub:
     url: https://semantics.int.demo.catena-x.net/hub/api/v1/models
   bpdm:
