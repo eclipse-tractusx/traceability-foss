@@ -28,5 +28,4 @@ public class SearchCriteriaFilter {
     private String key;
     private SearchStrategy strategy;
     private String value;
-    private CombineOperator predicate;
 }

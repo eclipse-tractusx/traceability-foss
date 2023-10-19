@@ -23,8 +23,8 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.Getter;
-import org.eclipse.tractusx.traceability.common.model.CombineOperator;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaFilter;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
 import org.eclipse.tractusx.traceability.common.model.SearchStrategy;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -33,11 +33,14 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
 
 @Getter
 public abstract class BaseSpecification<T> implements Specification<T> {
+
+    private static final String OWNER_FIELD_NAME = "owner";
 
     private final SearchCriteriaFilter searchCriteriaFilter;
 
@@ -67,7 +70,7 @@ public abstract class BaseSpecification<T> implements Specification<T> {
         return null;
     }
 
-    public static <T> Specification<T> toSpecification(List<? extends BaseSpecification<T>> specifications){
+    public static <T> Specification<T> toSpecification(List<? extends BaseSpecification<T>> specifications, SearchCriteriaOperator searchCriteriaOperator) {
         if (specifications.isEmpty()) {
             return null;
         }
@@ -75,28 +78,58 @@ public abstract class BaseSpecification<T> implements Specification<T> {
         Map<String, List<BaseSpecification<T>>> groupedSpecifications = specifications.stream()
                 .collect(groupingBy(spec -> spec.getSearchCriteriaFilter().getKey()));
 
-        List<Specification<T>> fieldSpecs = groupedSpecifications.values().stream().map(BaseSpecification::combineWithOr).toList();
+        Map<String, Specification<T>> fieldSpecsByFieldName = groupedSpecifications.values().stream()
+                .map(BaseSpecification::combineFieldSpecifications)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
-        Specification<T> result = fieldSpecs.get(0);
-
-        for (int i = 1; i < fieldSpecs.size(); i++) {
-                    result = Specification.where(result).and(fieldSpecs.get(i));
-        }
-
-        return result;
+        return combineSpecifications(fieldSpecsByFieldName, searchCriteriaOperator);
 
     }
 
-    private static <T> Specification<T> combineWithOr(List<BaseSpecification<T>> specifications) {
+    // Combines all fields into one specification
+    private static <T> Specification<T> combineSpecifications(Map<String, Specification<T>> fieldSpecsByFieldName, SearchCriteriaOperator searchCriteriaOperator) {
+        Specification<T> result;
+
+        // global filtering specific logic
+        if (fieldSpecsByFieldName.containsKey(OWNER_FIELD_NAME) && SearchCriteriaOperator.OR.equals(searchCriteriaOperator)) {
+            result = fieldSpecsByFieldName.get(OWNER_FIELD_NAME);
+            List<Specification<T>> otherFieldsSpecifications = fieldSpecsByFieldName.entrySet().stream()
+                    .filter(entry -> !OWNER_FIELD_NAME.equals(entry.getKey()))
+                    .map(Map.Entry::getValue).toList();
+
+            if (otherFieldsSpecifications.isEmpty()) {
+                return result;
+            }
+            return Specification.where(result).and(combineWithSpecificationsWith(otherFieldsSpecifications, SearchCriteriaOperator.OR));
+        } else {
+
+            List<Specification<T>> fieldSpecList = fieldSpecsByFieldName.values().stream().toList();
+
+            result = combineWithSpecificationsWith(fieldSpecList, searchCriteriaOperator);
+        }
+        return result;
+    }
+
+    // Combines specific field specifications
+    private static <T> Map.Entry<String, Specification<T>> combineFieldSpecifications(List<BaseSpecification<T>> specifications) {
+        // TODO: Add here date range handling if list has BEFORE_LOCAL_DATE and AFTER_LOCAL_DATE then combine those with AND
+        String fieldName = specifications.get(0).searchCriteriaFilter.getKey();
+        Specification<T> result = combineWithSpecificationsWith(
+                specifications.stream().map(baseSpec -> (Specification<T>) baseSpec).toList(),
+                SearchCriteriaOperator.OR);
+
+        return Map.entry(fieldName, result);
+    }
+
+    private static <T> Specification<T> combineWithSpecificationsWith(List<Specification<T>> specifications, SearchCriteriaOperator searchCriteriaOperator) {
         Specification<T> result = specifications.get(0);
         for (int i = 1; i < specifications.size(); i++) {
-            result = Specification.where(result).or(specifications.get(i));
+            if (SearchCriteriaOperator.OR.equals(searchCriteriaOperator)) {
+                result = Specification.where(result).or(specifications.get(i));
+            } else {
+                result = Specification.where(result).and(specifications.get(i));
+            }
         }
         return result;
     }
-
-    public boolean isOrPredicate() {
-        return CombineOperator.OR.equals(this.searchCriteriaFilter.getPredicate());
-    }
-
 }

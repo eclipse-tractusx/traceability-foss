@@ -23,7 +23,6 @@ import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.eclipse.tractusx.traceability.common.model.CombineOperator;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaFilter;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
@@ -66,11 +65,10 @@ public class SearchCriteriaRequestParam {
                                 .key(filterParams[0])
                                 .strategy(SearchStrategy.valueOf(filterParams[1]))
                                 .value(filterParams[2])
-                                .predicate(toCombineOperator(filterParams))
                                 .build());
             } catch (Exception exception) {
                 throw new InvalidFilterException(
-                        "Invalid filter param provided filter={provided} expected format is following sort=parameter,operation,value,operator"
+                        "Invalid filter param provided filter={provided} expected format is following sort=parameter,operation,value"
                                 .replace("{provided}", filter)
                 );
             }
@@ -88,12 +86,4 @@ public class SearchCriteriaRequestParam {
         }
         return SearchCriteria.builder().searchCriteriaOperator(operator).searchCriteriaFilterList(filters).build();
     }
-
-    private CombineOperator toCombineOperator(String[] params) {
-        if(params.length == 3) {
-            return CombineOperator.AND;
-        }
-        return params[3] == null ? CombineOperator.AND : CombineOperator.valueOf(params[3]);
-    }
-
 }
