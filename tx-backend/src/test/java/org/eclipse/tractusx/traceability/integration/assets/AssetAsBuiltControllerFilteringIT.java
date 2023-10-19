@@ -300,7 +300,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     void givenSemanticDataModelAsMultipleValuesAndOwnerOR_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
         // given
         assetsSupport.defaultAssetsStored();
-        final String filter = "?filter=owner,EQUAL,SUPPLIER&filter=semanticDataModel,EQUAL,SERIALPART,AND&filter=semanticDataModel,EQUAL,BATCH,OR";
+        final String filter = "?filter=owner,EQUAL,SUPPLIER&filter=semanticDataModel,EQUAL,SERIALPART&filter=semanticDataModel,EQUAL,BATCH";
         final String filterOperator = "&filterOperator=OR";
 
         // then

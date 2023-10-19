@@ -37,7 +37,7 @@ import static java.util.Objects.isNull;
 @Data
 @AllArgsConstructor
 public class SearchCriteriaRequestParam {
-    @ArraySchema(arraySchema = @Schema(description = "Filter Criteria", additionalProperties = Schema.AdditionalPropertiesValue.FALSE, example = "owner,EQUAL,OWN,OR"), maxItems = Integer.MAX_VALUE)
+    @ArraySchema(arraySchema = @Schema(description = "Filter Criteria", additionalProperties = Schema.AdditionalPropertiesValue.FALSE, example = "owner,EQUAL,OWN"), maxItems = Integer.MAX_VALUE)
     private List<String> filter;
 
     @Schema(description = "The filter logical operator", example = "AND", allowableValues = {"AND", "OR"})
