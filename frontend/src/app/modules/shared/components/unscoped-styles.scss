@@ -25,3 +25,62 @@
 ::before {
   border-style: unset;
 }
+
+/* Sets the opened local filter to be full width*/
+.cdk-overlay-pane {
+  width: unset !important;
+}
+
+app-multiselect {
+
+  /* Overriding defaults for mat-input*/
+  input {
+    font-size: 0.75rem !important;
+    line-height: 1rem !important;
+    font-family: Catena-X Light, sans-serif !important;
+    font-weight: 300 !important;
+  }
+
+  /* Removing grey background for date picker*/
+  .mdc-text-field--disabled.mdc-text-field--filled {
+    background-color: inherit;
+  }
+
+  /* Font color of disabled date picker value */
+  .mdc-text-field--disabled .mdc-text-field__input {
+    color: rgba(0, 0, 0, 0.87);
+  }
+
+  /* Font color of disabled date picker values placeholder */
+  .mdc-text-field--disabled .mdc-text-field__input::placeholder {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  /* Having lower header rows */
+  .mdc-text-field--no-label:not(.mdc-text-field--outlined):not(.mdc-text-field--textarea) .mat-mdc-form-field-infix {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Remove border*/
+  .mdc-line-ripple::before {
+    border-bottom-width: 0 !important;
+  }
+
+  /* Remove border*/
+  .mdc-line-ripple::after {
+    border-bottom-width: 0 !important;
+  }
+
+  /* Remove grey background of filter selection */
+  .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: unset !important;
+  }
+
+  /* Empty block below multi select */
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+}

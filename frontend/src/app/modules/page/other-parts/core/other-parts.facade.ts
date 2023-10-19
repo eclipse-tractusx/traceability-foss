@@ -19,86 +19,84 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Injectable } from '@angular/core';
-import { Pagination } from '@core/model/pagination.model';
-import { OtherPartsService } from '@page/other-parts/core/other-parts.service';
-import { OtherPartsState } from '@page/other-parts/core/other-parts.state';
-import { Owner } from '@page/parts/model/owner.enum';
-import { Part } from '@page/parts/model/parts.model';
-import { TableHeaderSort } from '@shared/components/table/table.model';
-import { View } from '@shared/model/view.model';
-import { PartsService } from '@shared/service/parts.service';
-import { Observable, Subscription } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {Pagination} from '@core/model/pagination.model';
+import {OtherPartsService} from '@page/other-parts/core/other-parts.service';
+import {OtherPartsState} from '@page/other-parts/core/other-parts.state';
+import {Owner} from '@page/parts/model/owner.enum';
+import {AssetAsBuiltFilter, AssetAsPlannedFilter, Part} from '@page/parts/model/parts.model';
+import {TableHeaderSort} from '@shared/components/table/table.model';
+import {View} from '@shared/model/view.model';
+import {Observable, Subscription} from 'rxjs';
 
 @Injectable()
 export class OtherPartsFacade {
-  private customerPartsAsBuiltSubscription: Subscription;
-  private customerPartsAsPlannedSubscription: Subscription;
+    private customerPartsAsBuiltSubscription: Subscription;
+    private customerPartsAsPlannedSubscription: Subscription;
 
-  private supplierPartsAsBuiltSubscription: Subscription;
-  private supplierPartsAsPlannedSubscription: Subscription;
+    private supplierPartsAsBuiltSubscription: Subscription;
+    private supplierPartsAsPlannedSubscription: Subscription;
 
-  constructor(
-    private readonly otherPartsService: OtherPartsService,
-    private readonly partsService: PartsService,
-    private readonly otherPartsState: OtherPartsState,
-  ) {}
+    constructor(
+        private readonly otherPartsService: OtherPartsService,
+        private readonly otherPartsState: OtherPartsState,
+    ) {
+    }
 
-  public get customerPartsAsBuilt$(): Observable<View<Pagination<Part>>> {
-    return this.otherPartsState.customerPartsAsBuilt$;
-  }
+    public get customerPartsAsBuilt$(): Observable<View<Pagination<Part>>> {
+        return this.otherPartsState.customerPartsAsBuilt$;
+    }
 
-  public get customerPartsAsPlanned$(): Observable<View<Pagination<Part>>> {
-    return this.otherPartsState.customerPartsAsPlanned$;
-  }
+    public get customerPartsAsPlanned$(): Observable<View<Pagination<Part>>> {
+        return this.otherPartsState.customerPartsAsPlanned$;
+    }
 
-  public get supplierPartsAsBuilt$(): Observable<View<Pagination<Part>>> {
-    return this.otherPartsState.supplierPartsAsBuilt$;
-  }
+    public get supplierPartsAsBuilt$(): Observable<View<Pagination<Part>>> {
+        return this.otherPartsState.supplierPartsAsBuilt$;
+    }
 
-  public get supplierPartsAsPlanned$(): Observable<View<Pagination<Part>>> {
-    return this.otherPartsState.supplierPartsAsPlanned$;
-  }
+    public get supplierPartsAsPlanned$(): Observable<View<Pagination<Part>>> {
+        return this.otherPartsState.supplierPartsAsPlanned$;
+    }
 
 // TODO: remove OtherPartsService and integrate in PartService
-  public setCustomerPartsAsBuilt(page = 0, pageSize = 50, sorting: TableHeaderSort[] = []): void {
-    this.customerPartsAsBuiltSubscription?.unsubscribe();
-    this.customerPartsAsBuiltSubscription = this.otherPartsService.getOtherPartsAsBuilt(page, pageSize, sorting, Owner.CUSTOMER).subscribe({
-      next: data => (this.otherPartsState.customerPartsAsBuilt = { data }),
-      error: error => (this.otherPartsState.customerPartsAsBuilt = { error }),
-    });
-  }
+    public setCustomerPartsAsBuilt(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: AssetAsBuiltFilter, isOrSearch?: boolean): void {
+        this.customerPartsAsBuiltSubscription?.unsubscribe();
+        this.customerPartsAsBuiltSubscription = this.otherPartsService.getOtherPartsAsBuilt(page, pageSize, sorting, Owner.CUSTOMER, filter, isOrSearch).subscribe({
+            next: data => (this.otherPartsState.customerPartsAsBuilt = {data}),
+            error: error => (this.otherPartsState.customerPartsAsBuilt = {error}),
+        });
+    }
 
-  public setCustomerPartsAsPlanned(page = 0, pageSize = 50, sorting: TableHeaderSort[] = []): void {
-    this.customerPartsAsPlannedSubscription?.unsubscribe();
-    this.customerPartsAsPlannedSubscription = this.otherPartsService.getOtherPartsAsPlanned(page, pageSize, sorting, Owner.CUSTOMER).subscribe({
-      next: data => (this.otherPartsState.customerPartsAsPlanned = { data }),
-      error: error => (this.otherPartsState.customerPartsAsPlanned = { error }),
-    });
-  }
+    public setCustomerPartsAsPlanned(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: AssetAsPlannedFilter, isOrSearch?: boolean): void {
+        this.customerPartsAsPlannedSubscription?.unsubscribe();
+        this.customerPartsAsPlannedSubscription = this.otherPartsService.getOtherPartsAsPlanned(page, pageSize, sorting, Owner.CUSTOMER, filter, isOrSearch).subscribe({
+            next: data => (this.otherPartsState.customerPartsAsPlanned = {data}),
+            error: error => (this.otherPartsState.customerPartsAsPlanned = {error}),
+        });
+    }
 
-  public setSupplierPartsAsBuilt(page = 0, pageSize = 50, sorting: TableHeaderSort[] = []): void {
-    this.supplierPartsAsBuiltSubscription?.unsubscribe();
-    this.supplierPartsAsBuiltSubscription = this.otherPartsService.getOtherPartsAsBuilt(page, pageSize, sorting, Owner.SUPPLIER).subscribe({
-      next: data => (this.otherPartsState.supplierPartsAsBuilt = { data }),
-      error: error => (this.otherPartsState.supplierPartsAsBuilt = { error }),
-    });
-  }
+    public setSupplierPartsAsBuilt(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: AssetAsBuiltFilter, isOrSearch?: boolean): void {
+        this.supplierPartsAsBuiltSubscription?.unsubscribe();
+        this.supplierPartsAsBuiltSubscription = this.otherPartsService.getOtherPartsAsBuilt(page, pageSize, sorting, Owner.SUPPLIER, filter, isOrSearch).subscribe({
+            next: data => (this.otherPartsState.supplierPartsAsBuilt = {data}),
+            error: error => (this.otherPartsState.supplierPartsAsBuilt = {error}),
+        });
+    }
 
-  public setSupplierPartsAsPlanned(page = 0, pageSize = 50, sorting: TableHeaderSort[] = []): void {
-    this.supplierPartsAsPlannedSubscription?.unsubscribe();
-    this.supplierPartsAsPlannedSubscription = this.otherPartsService.getOtherPartsAsPlanned(page, pageSize, sorting, Owner.SUPPLIER).subscribe({
-      next: data => (this.otherPartsState.supplierPartsAsPlanned = { data }),
-      error: error => (this.otherPartsState.supplierPartsAsPlanned = { error }),
-    });
-  }
+    public setSupplierPartsAsPlanned(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: AssetAsPlannedFilter, isOrSearch?: boolean): void {
+        this.supplierPartsAsPlannedSubscription?.unsubscribe();
+        this.supplierPartsAsPlannedSubscription = this.otherPartsService.getOtherPartsAsPlanned(page, pageSize, sorting, Owner.SUPPLIER, filter, isOrSearch).subscribe({
+            next: data => (this.otherPartsState.supplierPartsAsPlanned = {data}),
+            error: error => (this.otherPartsState.supplierPartsAsPlanned = {error}),
+        });
+    }
 
 
-
-  public unsubscribeParts(): void {
-    this.customerPartsAsBuiltSubscription?.unsubscribe();
-    this.customerPartsAsPlannedSubscription?.unsubscribe();
-    this.supplierPartsAsBuiltSubscription?.unsubscribe();
-    this.supplierPartsAsPlannedSubscription?.unsubscribe();
-  }
+    public unsubscribeParts(): void {
+        this.customerPartsAsBuiltSubscription?.unsubscribe();
+        this.customerPartsAsPlannedSubscription?.unsubscribe();
+        this.supplierPartsAsBuiltSubscription?.unsubscribe();
+        this.supplierPartsAsPlannedSubscription?.unsubscribe();
+    }
 }

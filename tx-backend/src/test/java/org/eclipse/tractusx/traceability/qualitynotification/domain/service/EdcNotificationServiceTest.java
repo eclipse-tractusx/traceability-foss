@@ -21,17 +21,17 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.service;
 
 import org.eclipse.tractusx.traceability.discovery.domain.model.Discovery;
 import org.eclipse.tractusx.traceability.discovery.domain.service.DiscoveryService;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.AlertRepository;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.ContractNegotiationException;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.InvestigationsEDCFacade;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.NoCatalogItemException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.NoEndpointDataReferenceException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.SendNotificationException;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.AlertRepository;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.EdcNotificationService;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.InvestigationsEDCFacade;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -78,7 +78,7 @@ class EdcNotificationServiceTest {
         when(discoveryService.getDiscoveryByBPN(bpn)).thenReturn(discovery);
         // and
         QualityNotificationMessage notification = QualityNotificationMessage.builder()
-                .receiverBpnNumber(bpn)
+                .sendTo(bpn)
                 .type(QualityNotificationType.INVESTIGATION)
                 .targetDate(Instant.now())
                 .severity(QualityNotificationSeverity.MINOR)
@@ -106,7 +106,7 @@ class EdcNotificationServiceTest {
         when(discoveryService.getDiscoveryByBPN(bpn)).thenReturn(discovery);
         // and
         QualityNotificationMessage notification = QualityNotificationMessage.builder()
-                .receiverBpnNumber(bpn)
+                .sendTo(bpn)
                 .type(QualityNotificationType.ALERT)
                 .targetDate(Instant.now())
                 .severity(QualityNotificationSeverity.MINOR)
@@ -132,7 +132,7 @@ class EdcNotificationServiceTest {
         Discovery discovery = Discovery.builder().senderUrl(edcSenderUrl).receiverUrls(List.of(edcReceiverUrl)).build();
         when(discoveryService.getDiscoveryByBPN(bpn)).thenReturn(discovery);
         QualityNotificationMessage notification = QualityNotificationMessage.builder()
-                .receiverBpnNumber(bpn)
+                .sendTo(bpn)
                 .type(QualityNotificationType.INVESTIGATION)
                 .targetDate(Instant.now())
                 .severity(QualityNotificationSeverity.MINOR)
@@ -159,7 +159,7 @@ class EdcNotificationServiceTest {
         Discovery discovery = Discovery.builder().senderUrl(edcSenderUrl).receiverUrls(List.of(edcReceiverUrl)).build();
         when(discoveryService.getDiscoveryByBPN(bpn)).thenReturn(discovery);
         QualityNotificationMessage notification = QualityNotificationMessage.builder()
-                .receiverBpnNumber(bpn)
+                .sendTo(bpn)
                 .type(QualityNotificationType.INVESTIGATION)
                 .targetDate(Instant.now())
                 .severity(QualityNotificationSeverity.MINOR)
@@ -186,7 +186,7 @@ class EdcNotificationServiceTest {
         Discovery discovery = Discovery.builder().senderUrl(edcSenderUrl).receiverUrls(List.of(edcReceiverUrl)).build();
         when(discoveryService.getDiscoveryByBPN(bpn)).thenReturn(discovery);
         QualityNotificationMessage notification = QualityNotificationMessage.builder()
-                .receiverBpnNumber(bpn)
+                .sendTo(bpn)
                 .type(QualityNotificationType.INVESTIGATION)
                 .targetDate(Instant.now())
                 .severity(QualityNotificationSeverity.MINOR)
@@ -213,7 +213,7 @@ class EdcNotificationServiceTest {
         Discovery discovery = Discovery.builder().senderUrl(edcSenderUrl).receiverUrls(List.of(edcReceiverUrl)).build();
         when(discoveryService.getDiscoveryByBPN(bpn)).thenReturn(discovery);
         QualityNotificationMessage notification = QualityNotificationMessage.builder()
-                .receiverBpnNumber(bpn)
+                .sendTo(bpn)
                 .type(QualityNotificationType.INVESTIGATION)
                 .targetDate(Instant.now())
                 .severity(QualityNotificationSeverity.MINOR)
@@ -241,7 +241,7 @@ class EdcNotificationServiceTest {
         Discovery discovery = Discovery.builder().senderUrl(edcSenderUrl).receiverUrls(List.of(edcReceiverUrl)).build();
         when(discoveryService.getDiscoveryByBPN(bpn)).thenReturn(discovery);
         QualityNotificationMessage notification = QualityNotificationMessage.builder()
-                .receiverBpnNumber(bpn)
+                .sendTo(bpn)
                 .type(QualityNotificationType.ALERT)
                 .targetDate(Instant.now())
                 .severity(QualityNotificationSeverity.MINOR)
@@ -268,7 +268,7 @@ class EdcNotificationServiceTest {
         Discovery discovery = Discovery.builder().senderUrl(edcSenderUrl).receiverUrls(List.of(edcReceiverUrl)).build();
         when(discoveryService.getDiscoveryByBPN(bpn)).thenReturn(discovery);
         QualityNotificationMessage notification = QualityNotificationMessage.builder()
-                .receiverBpnNumber(bpn)
+                .sendTo(bpn)
                 .type(QualityNotificationType.ALERT)
                 .targetDate(Instant.now())
                 .severity(QualityNotificationSeverity.MINOR)
@@ -295,7 +295,7 @@ class EdcNotificationServiceTest {
         Discovery discovery = Discovery.builder().senderUrl(edcSenderUrl).receiverUrls(List.of(edcReceiverUrl)).build();
         when(discoveryService.getDiscoveryByBPN(bpn)).thenReturn(discovery);
         QualityNotificationMessage notification = QualityNotificationMessage.builder()
-                .receiverBpnNumber(bpn)
+                .sendTo(bpn)
                 .type(QualityNotificationType.ALERT)
                 .targetDate(Instant.now())
                 .severity(QualityNotificationSeverity.MINOR)
@@ -322,7 +322,7 @@ class EdcNotificationServiceTest {
         Discovery discovery = Discovery.builder().senderUrl(edcSenderUrl).receiverUrls(List.of(edcReceiverUrl)).build();
         when(discoveryService.getDiscoveryByBPN(bpn)).thenReturn(discovery);
         QualityNotificationMessage notification = QualityNotificationMessage.builder()
-                .receiverBpnNumber(bpn)
+                .sendTo(bpn)
                 .type(QualityNotificationType.ALERT)
                 .targetDate(Instant.now())
                 .severity(QualityNotificationSeverity.MINOR)

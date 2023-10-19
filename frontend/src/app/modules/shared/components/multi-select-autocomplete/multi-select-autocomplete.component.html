@@ -1,0 +1,63 @@
+<!--
+Copyright (c) 2023 Contributors to the Eclipse Foundation
+
+See the NOTICE file(s) distributed with this work for additional
+information regarding copyright ownership.
+
+This program and the accompanying materials are made available under the
+terms of the Apache License, Version 2.0 which is available at
+https://www.apache.org/licenses/LICENSE-2.0.
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License.
+
+SPDX-License-Identifier: Apache-2.0
+-->
+<mat-form-field>
+    <mat-select *ngIf="!isDate" #selectElem [placeholder]="placeholder" [formControl]="formControl"
+                [multiple]="multiple"
+                (selectionChange)="onSelectionChange($event)">
+
+        <div class="box-search">
+            <mat-checkbox *ngIf="multiple" color="primary" class="box-select-all" [(ngModel)]="selectAllChecked"
+                          (change)="toggleSelectAll($event)"></mat-checkbox>
+            <input [disabled]="!textSearch" #searchInput [(ngModel)]="theSearchElement" type="text"
+                   [ngClass]="{'pl-1': !multiple}"
+                   (input)="filterItem(searchInput.value)"
+                   [placeholder]="textSearch ? 'Search..': 'Choose..'">
+            <div class="box-search-icon" (click)="filterItem(''); clickClear()">
+                <button mat-icon-button class="search-button">
+                    <mat-icon class="mat-24" aria-label="Search icon">clear</mat-icon>
+                </button>
+            </div>
+        </div>
+
+
+        <mat-select-trigger *ngIf="!isDate">
+            {{onDisplayString()}}
+        </mat-select-trigger>
+        <mat-option (click)="changeSearchTextOption()" [value]=this.theSearchElement
+                    [style.display]="shouldHideTextSearchOptionField() ? 'none': 'flex'">{{this.theSearchElement}}
+        </mat-option>
+        <mat-option  *ngFor="let option of options" [disabled]="option.disabled" [value]="option[value]"
+                    [style.display]="hideOption(option) ? 'none': 'flex'">{{option[display]}}
+        </mat-option>
+
+    </mat-select>
+
+    <div  *ngIf="isDate" class="date-search">
+            <input disabled [value]="theSearchElement" [placeholder]="placeholder" matInput [matDatepicker]="datepicker"
+                   (dateInput)="dateSelectionEvent($event)" (dateChange)="dateSelectionEvent($event)">
+            <mat-datepicker-toggle  matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+            <mat-datepicker  disabled="false" #datepicker>
+                <mat-datepicker-actions>
+                    <button (click)="filterItem(''); clickClear()" mat-button matDatepickerCancel>{{ 'datepicker.cancel' | i18n }}</button>
+                    <button mat-raised-button color="primary" matDatepickerApply>{{ 'datepicker.apply' | i18n }}</button>
+                </mat-datepicker-actions>
+            </mat-datepicker>
+    </div>
+
+</mat-form-field>

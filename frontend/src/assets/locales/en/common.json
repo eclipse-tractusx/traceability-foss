@@ -62,6 +62,7 @@
     "menuDescription": "Action menu",
     "clearPage": "Clear page selections",
     "clearAll": "Clear all selections",
+    "filterTitle": "Filter",
     "adminColumn": {
       "startDate": "Start date",
       "registryLookupStatus": "Status",
@@ -98,7 +99,9 @@
       "catenaXSiteId": "SiteId",
       "psFunction": "Function",
       "functionValidFrom": "Function valid from",
-      "functionValidUntil": "Function valid until"
+      "functionValidUntil" : "Function valid until",
+      "activeAlerts" : "Active Quality alerts",
+      "activeInvestigations" : "Active Quality investigations"
     }
   },
   "dataLoading": {
@@ -269,5 +272,21 @@
   "bomLifecycleActivator": {
     "asBuilt": "As Built",
     "asPlanned": "As Planned"
+  },
+  "multiSelect": {
+    "filterLabel": "Filter",
+    "placeHolder": "All"
+  },
+  "parts": {
+    "input": {
+      "global-search": {
+        "placeholder": "Search by entering C-X ID, partInstanceId or partNumber / BPN",
+        "toastInfo": "By using global search on view level, the local filters on table level was removed."
+      }
+    }
+  },
+  "datepicker": {
+    "apply": "Filter",
+    "cancel": "Reset"
   }
 }

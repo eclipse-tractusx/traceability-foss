@@ -33,6 +33,15 @@ SPDX-License-Identifier: Apache-2.0
       matSuffix
       >{{ suffixIcon }}</mat-icon
     >
+    <mat-icon
+            *ngIf="!matcher.isErrorState(control) && displayClearButton"
+            [color]="suffixIconColor"
+            [class.cursor-pointer]="suffixIconHover"
+            [attr.data-testId]="htmlId + '-icon-clear'"
+            (click)="clearIconClick()"
+            matSuffix
+    >clear</mat-icon
+    >
 
     <mat-hint *ngIf="hint" align="start">{{ hint }}</mat-hint>
     <mat-hint align="end" *ngIf="!!maxLength && !!minLength">{{

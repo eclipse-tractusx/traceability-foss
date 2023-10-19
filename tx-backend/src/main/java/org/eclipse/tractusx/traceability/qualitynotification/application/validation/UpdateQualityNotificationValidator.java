@@ -21,8 +21,8 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.application.validation;
 
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.UpdateQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
+import qualitynotification.base.request.UpdateQualityNotificationRequest;
 
 import java.util.Set;
 

@@ -32,29 +32,28 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.common.config.FeatureFlags;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.CloseQualityNotificationRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.QualityNotificationStatusRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.StartQualityNotificationRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.UpdateQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.service.QualityNotificationService;
 import org.eclipse.tractusx.traceability.qualitynotification.application.investigation.mapper.InvestigationResponseMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import qualitynotification.base.request.CloseQualityNotificationRequest;
+import qualitynotification.base.request.QualityNotificationStatusRequest;
+import qualitynotification.base.request.StartQualityNotificationRequest;
+import qualitynotification.base.request.UpdateQualityNotificationRequest;
 import qualitynotification.base.response.QualityNotificationIdResponse;
 import qualitynotification.investigation.response.InvestigationResponse;
 
 import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitize;
 import static org.eclipse.tractusx.traceability.qualitynotification.application.validation.UpdateQualityNotificationValidator.validate;
+import static org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.StartQualityNotificationDomain.from;
+import static org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus.from;
 
-@Profile(FeatureFlags.NOTIFICATIONS_ENABLED_PROFILES)
 @RestController
 @RequestMapping(value = "/investigations", consumes = "application/json", produces = "application/json")
 @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
@@ -125,14 +124,8 @@ public class InvestigationsController {
     public QualityNotificationIdResponse investigateAssets(@RequestBody @Valid StartQualityNotificationRequest request) {
         StartQualityNotificationRequest cleanRequest = sanitize(request);
         log.info(API_LOG_START + " with params: {}", cleanRequest);
-        return new QualityNotificationIdResponse(investigationService.start(
-                        cleanRequest.getPartIds(),
-                        cleanRequest.getDescription(),
-                        cleanRequest.getTargetDate(),
-                        cleanRequest.getSeverity().toDomain(),
-                        cleanRequest.getReceiverBpn(),
-                        cleanRequest.isAsBuilt())
-                .value());
+        return new QualityNotificationIdResponse(investigationService.start(from(cleanRequest)).value());
+
     }
 
     @Operation(operationId = "getCreatedInvestigations",
@@ -484,7 +477,7 @@ public class InvestigationsController {
     public void closeInvestigation(@PathVariable Long investigationId, @Valid @RequestBody CloseQualityNotificationRequest closeInvestigationRequest) {
         CloseQualityNotificationRequest cleanCloseQualityNotificationRequest = sanitize(closeInvestigationRequest);
         log.info(API_LOG_START + "/{}/close with params {}", investigationId, cleanCloseQualityNotificationRequest);
-        investigationService.update(investigationId, QualityNotificationStatusRequest.toDomain(QualityNotificationStatusRequest.CLOSED), cleanCloseQualityNotificationRequest.getReason());
+        investigationService.update(investigationId, from(QualityNotificationStatusRequest.CLOSED), cleanCloseQualityNotificationRequest.getReason());
     }
 
     @Operation(operationId = "updateInvestigation",
@@ -547,7 +540,7 @@ public class InvestigationsController {
         UpdateQualityNotificationRequest cleanUpdateQualityNotificationRequest = sanitize(updateInvestigationRequest);
         validate(cleanUpdateQualityNotificationRequest);
         log.info(API_LOG_START + "/{}/update with params {}", investigationId, cleanUpdateQualityNotificationRequest);
-        investigationService.update(investigationId, cleanUpdateQualityNotificationRequest.getStatus().toDomain(), cleanUpdateQualityNotificationRequest.getReason());
+        investigationService.update(investigationId, from(cleanUpdateQualityNotificationRequest.getStatus()), cleanUpdateQualityNotificationRequest.getReason());
     }
 }
 

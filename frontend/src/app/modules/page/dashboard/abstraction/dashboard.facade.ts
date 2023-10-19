@@ -105,7 +105,7 @@ export class DashboardFacade {
 
   private setInvestigations(): void {
     this.investigationSubscription?.unsubscribe();
-    this.investigationSubscription = this.investigationsService.getReceivedInvestigations(0, 5, null).subscribe({
+    this.investigationSubscription = this.investigationsService.getReceivedInvestigations(0, 5, []).subscribe({
       next: data => this.dashboardState.setInvestigation({ data }),
       error: (error: Error) => this.dashboardState.setInvestigation({ error }),
     });

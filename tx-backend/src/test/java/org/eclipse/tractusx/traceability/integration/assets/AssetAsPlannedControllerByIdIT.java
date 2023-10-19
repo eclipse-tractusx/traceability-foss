@@ -19,7 +19,6 @@
 package org.eclipse.tractusx.traceability.integration.assets;
 
 import io.restassured.http.ContentType;
-import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.repository.JpaAssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
@@ -96,6 +95,7 @@ class AssetAsPlannedControllerByIdIT extends IntegrationTestSpecification {
                 .when()
                 .get("/api/assets/as-planned/urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01")
                 .then()
+                .log().all()
                 .statusCode(200)
                 .assertThat()
                 .body("qualityAlertsInStatusActive", is(6));
@@ -136,6 +136,7 @@ class AssetAsPlannedControllerByIdIT extends IntegrationTestSpecification {
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
+                .log().all()
                 .when()
                 .get("/api/assets/as-planned/urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01")
                 .then()

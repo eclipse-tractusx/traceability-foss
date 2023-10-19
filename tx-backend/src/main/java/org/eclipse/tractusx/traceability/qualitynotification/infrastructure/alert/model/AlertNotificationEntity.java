@@ -27,7 +27,6 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -38,8 +37,8 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationMessageBaseEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationMessageBaseEntity;
 
 import java.util.List;
 
@@ -48,7 +47,6 @@ import java.util.List;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
 @Entity
 @Table(name = "alert_notification")
 public class AlertNotificationEntity extends QualityNotificationMessageBaseEntity {
@@ -77,10 +75,10 @@ public class AlertNotificationEntity extends QualityNotificationMessageBaseEntit
         return QualityNotificationMessage.builder()
                 .id(alertNotificationEntity.getId())
                 .notificationReferenceId(alertNotificationEntity.getNotificationReferenceId())
-                .senderBpnNumber(alertNotificationEntity.getSenderBpnNumber())
-                .senderManufacturerName(alertNotificationEntity.getSenderManufacturerName())
-                .receiverBpnNumber(alertNotificationEntity.getReceiverBpnNumber())
-                .receiverManufacturerName(alertNotificationEntity.getReceiverManufacturerName())
+                .createdBy(alertNotificationEntity.getCreatedBy())
+                .createdByName(alertNotificationEntity.getCreatedByName())
+                .sendTo(alertNotificationEntity.getSendTo())
+                .sendToName(alertNotificationEntity.getSendToName())
                 .description(alertNotificationEntity.getAlert().getDescription())
                 .edcUrl(alertNotificationEntity.getEdcUrl())
                 .contractAgreementId(alertNotificationEntity.getContractAgreementId())
@@ -108,10 +106,10 @@ public class AlertNotificationEntity extends QualityNotificationMessageBaseEntit
                 .id(qualityNotificationMessage.getId())
                 .alert(alertEntity)
                 .created(qualityNotificationMessage.getCreated())
-                .senderBpnNumber(qualityNotificationMessage.getSenderBpnNumber())
-                .senderManufacturerName(qualityNotificationMessage.getSenderManufacturerName())
-                .receiverBpnNumber(qualityNotificationMessage.getReceiverBpnNumber())
-                .receiverManufacturerName(qualityNotificationMessage.getReceiverManufacturerName())
+                .createdBy(qualityNotificationMessage.getCreatedBy())
+                .createdByName(qualityNotificationMessage.getCreatedByName())
+                .sendTo(qualityNotificationMessage.getSendTo())
+                .sendToName(qualityNotificationMessage.getSendToName())
                 .assets(notificationAssets)
                 .assetsAsPlanned(assetAsPlannedEntitiesByAlert)
                 .notificationReferenceId(qualityNotificationMessage.getNotificationReferenceId())

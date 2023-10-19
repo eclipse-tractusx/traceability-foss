@@ -1,6 +1,6 @@
 {
   "name": "trace-x",
-  "version": "7.1.0",
+  "version": "8.0.0",
   "scripts": {
     "analyze": "ng build --configuration=production --stats-json && webpack-bundle-analyzer dist/stats.json",
     "build:prod": "ng build --configuration=debugProd --base-href /{baseHrefPlaceholder}/ --deploy-url /{baseHrefPlaceholder}/",
@@ -18,6 +18,7 @@
     "start:auth:dev": "ng serve --configuration=dev,authDev",
     "start:auth:test": "ng serve --configuration=dev,authTest",
     "start:auth:e2ea": "ng serve --configuration=dev,authE2eA",
+    "start:auth:e2eb": "ng serve --configuration=dev,authE2eB",
     "start:auth:mock": "ng serve --configuration=authMock",
     "start:auth:local": "ng serve --configuration=authLocal",
     "start:auth:localBe": "ng serve --configuration=localBackend",

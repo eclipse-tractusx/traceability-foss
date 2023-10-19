@@ -35,7 +35,6 @@ import org.eclipse.tractusx.traceability.assets.application.base.request.GetDeta
 import org.eclipse.tractusx.traceability.assets.application.base.request.SyncAssetsRequest;
 import org.eclipse.tractusx.traceability.assets.application.base.request.UpdateAssetRequest;
 import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBaseService;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
@@ -59,9 +58,11 @@ import java.util.List;
 public class AssetAsPlannedController {
 
     private final AssetBaseService assetService;
+
     public AssetAsPlannedController(@Qualifier("assetAsPlannedServiceImpl") AssetBaseService assetService) {
         this.assetService = assetService;
     }
+
     @Operation(operationId = "sync",
             summary = "Synchronizes assets from IRS",
             tags = {"AssetsAsPlanned"},
@@ -177,8 +178,7 @@ public class AssetAsPlannedController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("")
-    public PageResult<AssetAsPlannedResponse> assets(OwnPageable pageable, @QueryParam("owner") Owner owner, SearchCriteriaRequestParam filter) {
-        filter.addOwnerCriteria(owner);
+    public PageResult<AssetAsPlannedResponse> assets(OwnPageable pageable, SearchCriteriaRequestParam filter) {
         return AssetAsPlannedResponseMapper.from(assetService.getAssets(OwnPageable.toPageable(pageable), filter.toSearchCriteria()));
     }
 

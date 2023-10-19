@@ -62,6 +62,7 @@
     "menuDescription": "Aktionsmenü",
     "clearPage": "Markierungen auf dieser Seite aufheben",
     "clearAll": "Alle Markierungen aufheben",
+    "filterTitle" : "Filter",
     "adminColumn": {
       "startDate": "Startdatum",
       "registryLookupStatus": "Status",
@@ -99,7 +100,9 @@
       "catenaXSiteId": "Standort ID",
       "psFunction": "Funktion",
       "functionValidFrom": "Funktion gültig von",
-      "functionValidUntil": "Funktion gültig bis"
+      "functionValidUntil" : "Funktion gültig bis",
+      "activeAlerts" : "Aktive Qualitätswarnungen",
+      "activeInvestigations" : "Aktive Qualitätsuntersuchungen"
     }
   },
   "dataLoading": {
@@ -266,5 +269,21 @@
   "bomLifecycleActivator": {
     "asBuilt": "As Built",
     "asPlanned": "As Planned"
+  },
+  "multiSelect": {
+    "filterLabel": "Filter",
+    "placeholder": "Alle"
+  },
+  "parts": {
+    "input": {
+      "global-search": {
+        "placeholder": "Suche nach C-X ID, partInstanceId or partNumber / BPN",
+        "toastInfo": "Lokale Filterung auf Tabellenebene wurde zurückgesetzt."
+      }
+    }
+  },
+  "datepicker": {
+    "apply": "Filter",
+    "cancel": "Zurücksetzen"
   }
 }

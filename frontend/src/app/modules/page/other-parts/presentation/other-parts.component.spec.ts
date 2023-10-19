@@ -20,6 +20,8 @@
  ********************************************************************************/
 
 import { OtherPartsState } from '@page/other-parts/core/other-parts.state';
+import { CustomerPartsComponent } from '@page/other-parts/presentation/customer-parts/customer-parts.component';
+import { SupplierPartsComponent } from '@page/other-parts/presentation/supplier-parts/supplier-parts.component';
 import { PartsState } from '@page/parts/core/parts.state';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
@@ -45,15 +47,16 @@ describe('Other Parts', () => {
   let otherPartsState: OtherPartsState;
   let formatPartSemanticToCamelCase: FormatPartSemanticDataModelToCamelCasePipe;
   beforeEach(() => {
-    otherPartsState = new OtherPartsState()
+    otherPartsState = new OtherPartsState();
     formatPartSemanticToCamelCase = new FormatPartSemanticDataModelToCamelCasePipe();
   });
 
 
   const renderOtherParts = ({ roles = [] } = {}) =>
     renderComponent(OtherPartsComponent, {
-      imports: [OtherPartsModule],
-      providers: [{ provide: OtherPartsState, useFactory: () => otherPartsState }, { provide: PartsState }],
+      declarations: [ SupplierPartsComponent, CustomerPartsComponent ],
+      imports: [ OtherPartsModule ],
+      providers: [ { provide: OtherPartsState, useFactory: () => otherPartsState }, { provide: PartsState } ],
       roles,
     });
 
@@ -80,7 +83,7 @@ describe('Other Parts', () => {
   });
 
   it('should render selected parts information', async () => {
-    await renderOtherParts({ roles: ['user'] });
+    await renderOtherParts({ roles: [ 'user' ] });
     await screen.findByTestId('table-component--test-id');
     const selectedPartsInfo = await screen.getByText('page.selectedParts.info');
 
@@ -106,9 +109,9 @@ describe('Other Parts', () => {
     let formatPartSemanticToCamelCase: FormatPartSemanticDataModelToCamelCasePipe;
     beforeEach(() => {
       formatPartSemanticToCamelCase = new FormatPartSemanticDataModelToCamelCasePipe();
-    })
+    });
     it('should request supplier parts if first tab is selected', async () => {
-      await renderOtherParts({ roles: ['user'] });
+      await renderOtherParts({ roles: [ 'user' ] });
       fireEvent.click(screen.getAllByText('pageOtherParts.tab.supplier')[0]);
 
       await waitFor(() => expect(screen.getByText('table.column.manufacturer')).toBeInTheDocument());
@@ -136,7 +139,7 @@ describe('Other Parts', () => {
     });
 
     it('should request customer parts if second tab is selected', async () => {
-      const fixture = await renderOtherParts({ roles: ['user'] });
+      const fixture = await renderOtherParts({ roles: [ 'user' ] });
       let tabs = screen.getAllByText('pageOtherParts.tab.customer');
       fireEvent.click(tabs[0]);
 
@@ -164,5 +167,65 @@ describe('Other Parts', () => {
         }),
       );
     });
+
+    it('should clear filters and call partsFacade methods with search value', async () => {
+
+      const { fixture } = await renderOtherParts();
+      const { componentInstance } = fixture;
+      // Arrange
+      const searchValue = 'searchTerm';
+
+      const updateSupplierPartsSpy = spyOn(
+        SupplierPartsComponent.prototype,
+        'updateSupplierParts',
+      );
+
+      const updateCustomerPartsSpy = spyOn(
+        CustomerPartsComponent.prototype,
+        'updateCustomerParts',
+      );
+
+      componentInstance.searchControl.setValue(searchValue);
+
+
+      // Act
+      componentInstance.triggerPartSearch();
+
+      // Assert
+      expect(updateSupplierPartsSpy).toHaveBeenCalledWith(searchValue);
+      expect(updateCustomerPartsSpy).toHaveBeenCalledWith(searchValue);
+    });
+
+    it('should trigger part search and reset filter', async () => {
+      const { fixture } = await renderOtherParts();
+      const { componentInstance } = fixture;
+      const searchValue = 'testSearchValue';
+
+
+      const updateSupplierPartsSpy = spyOn(
+          SupplierPartsComponent.prototype,
+          'updateSupplierParts',
+      );
+
+      const updateCustomerPartsSpy = spyOn(
+          CustomerPartsComponent.prototype,
+          'updateCustomerParts',
+      );
+
+      componentInstance.searchControl.setValue(searchValue);
+
+      // Spy on the private method without calling it directly
+      const resetFilterAndShowToastSpy = spyOn<any>(componentInstance, 'resetFilterAndShowToast');
+
+      // Act
+      componentInstance.triggerPartSearch();
+
+      // Assert
+      expect(updateSupplierPartsSpy).toHaveBeenCalledWith('testSearchValue');
+      expect(updateCustomerPartsSpy).toHaveBeenCalledWith('testSearchValue');
+      expect(resetFilterAndShowToastSpy).toHaveBeenCalledOnceWith();
+
+    });
   });
 });
+

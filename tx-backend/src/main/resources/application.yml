@@ -70,11 +70,6 @@ irs-edc-client:
       read: PT90S # HTTP read timeout for the submodel client
       connect: PT90S # HTTP connect timeout for the submodel client
 
-  catalog:
-    policies:
-      acceptedRightOperands: active # List of comma separated names of the rightOperands to accept.
-      acceptedLeftOperands: PURPOSE # List of comma separated names of the leftOperands to accept.
-
 server:
   servlet:
     context-path: /api
@@ -172,10 +167,10 @@ irs:
   policies:
     -
       policyId: "ID 3.0 Trace"
-      ttl: "2023-09-30T23:59:59.99Z"
+      ttl: "2024-09-30T23:59:59.99Z"
     -
       policyId: "ID 3.1 Trace"
-      ttl: "2023-09-30T23:59:59.99Z"
+      ttl: "2024-09-30T23:59:59.99Z"
 digitalTwinRegistryClient:
   shellDescriptorTemplate: /shell-descriptors/{aasIdentifier} # The path to retrieve AAS descriptors from the decentral DTR, must contain the placeholder {aasIdentifier}
   lookupShellsTemplate: /lookup/shells?assetIds={assetIds} # The path to lookup shells from the decentral DTR, must contain the placeholder {assetIds}

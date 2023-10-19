@@ -18,64 +18,27 @@
  ********************************************************************************/
 
 
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Pagination } from '@core/model/pagination.model';
 import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Part } from '@page/parts/model/parts.model';
-import {
-  CreateHeaderFromColumns,
-  TableConfig,
-  TableEventConfig,
-  TableHeaderSort,
-} from '@shared/components/table/table.model';
+import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
+import { PartTableType, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
+import { TableSortingUtil } from '@shared/components/table/tableSortingUtil';
+import { toAssetFilter, toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { Observable } from 'rxjs';
 
+
 @Component({
   selector: 'app-customer-parts',
-  templateUrl: './customer-parts.component.html'
+  templateUrl: './customer-parts.component.html',
 })
 export class CustomerPartsComponent implements OnInit, OnDestroy {
-  public readonly displayedColumnsAsBuilt: string[] = [
-    'semanticDataModel',
-    'name',
-    'manufacturer',
-    'partId',
-    'semanticModelId',
-    'manufacturingDate',
-  ];
-
-  public readonly sortableColumnsAsBuilt: Record<string, boolean> = {
-    semanticDataModel: true,
-    name: true,
-    manufacturer: true,
-    partId: true,
-    semanticModelId: true,
-  };
-
-  public readonly displayedColumnsAsPlanned: string[] = [
-    'semanticDataModel',
-    'name',
-    'manufacturer',
-    'manufacturerPartId',
-    'semanticModelId',
-  ];
-
-  public readonly sortableColumnsAsPlanned: Record<string, boolean> = {
-    semanticDataModel: true,
-    name: true,
-    manufacturer: true,
-    manufacturerPartId: true,
-    semanticModelId: true,
-    manufacturingDate: true,
-  };
-
-  public tableConfigAsBuilt: TableConfig;
-  public tableConfigAsPlanned: TableConfig;
-
+  @ViewChildren(PartsTableComponent) partsTableComponents: QueryList<PartsTableComponent>;
 
   public customerPartsAsBuilt$: Observable<View<Pagination<Part>>>;
   public customerPartsAsPlanned$: Observable<View<Pagination<Part>>>;
@@ -89,6 +52,7 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
 
   @Input()
   public bomLifecycle: MainAspectType;
+
   constructor(
     private readonly otherPartsFacade: OtherPartsFacade,
     private readonly partDetailsFacade: PartDetailsFacade,
@@ -105,30 +69,32 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    if(this.bomLifecycle === MainAspectType.AS_BUILT) {
+    if (this.bomLifecycle === MainAspectType.AS_BUILT) {
       this.customerPartsAsBuilt$ = this.otherPartsFacade.customerPartsAsBuilt$;
       this.tableCustomerAsBuiltSortList = [];
       this.otherPartsFacade.setCustomerPartsAsBuilt();
-    } else if(this.bomLifecycle === MainAspectType.AS_PLANNED) {
+    } else if (this.bomLifecycle === MainAspectType.AS_PLANNED) {
       this.customerPartsAsPlanned$ = this.otherPartsFacade.customerPartsAsPlanned$;
       this.tableCustomerAsPlannedSortList = [];
       this.otherPartsFacade.setCustomerPartsAsPlanned();
     }
   }
 
-  public ngAfterViewInit(): void {
-    if(this.bomLifecycle === MainAspectType.AS_BUILT) {
-      this.tableConfigAsBuilt = {
-        displayedColumns: this.displayedColumnsAsBuilt,
-        header: CreateHeaderFromColumns(this.displayedColumnsAsBuilt, 'table.column'),
-        sortableColumns: this.sortableColumnsAsBuilt,
-      }
-    } else if(this.bomLifecycle === MainAspectType.AS_PLANNED) {
-      this.tableConfigAsPlanned = {
-        displayedColumns: this.displayedColumnsAsPlanned,
-        header: CreateHeaderFromColumns(this.displayedColumnsAsPlanned, 'table.column'),
-        sortableColumns: this.sortableColumnsAsPlanned,
-      }
+  updateCustomerParts(searchValue?: string): void {
+    if (searchValue) {
+      this.otherPartsFacade.setCustomerPartsAsBuilt(0, 50, [], toGlobalSearchAssetFilter(searchValue, true), true);
+      this.otherPartsFacade.setCustomerPartsAsPlanned(0, 50, [], toGlobalSearchAssetFilter(searchValue, false), true);
+    } else {
+      this.otherPartsFacade.setCustomerPartsAsBuilt();
+      this.otherPartsFacade.setCustomerPartsAsPlanned();
+    }
+  }
+
+  filterActivated(isAsBuilt: boolean, assetFilter: any): void {
+    if (isAsBuilt) {
+      this.otherPartsFacade.setCustomerPartsAsBuilt(0, 50, [], toAssetFilter(assetFilter, true));
+    } else {
+      this.otherPartsFacade.setCustomerPartsAsPlanned(0, 50, [], toAssetFilter(assetFilter, false));
     }
   }
 
@@ -141,8 +107,8 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
   }
 
   public onAsBuiltTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
-      this.setTableSortingList(sorting, MainAspectType.AS_BUILT);
-      this.otherPartsFacade.setCustomerPartsAsBuilt(page, pageSize, this.tableCustomerAsBuiltSortList);
+    this.setTableSortingList(sorting, MainAspectType.AS_BUILT);
+    this.otherPartsFacade.setCustomerPartsAsBuilt(page, pageSize, this.tableCustomerAsBuiltSortList);
   }
 
   public onAsPlannedTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
@@ -150,51 +116,11 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
     this.otherPartsFacade.setCustomerPartsAsPlanned(page, pageSize, this.tableCustomerAsPlannedSortList);
   }
 
-
   private setTableSortingList(sorting: TableHeaderSort, partTable: MainAspectType): void {
-    if(!sorting && (this.tableCustomerAsBuiltSortList || this.tableCustomerAsPlannedSortList)) {
-      this.resetTableSortingList(partTable);
-      return;
-    }
-
-    if(this.ctrlKeyState) {
-      const [columnName] = sorting;
-      const tableSortList = partTable === MainAspectType.AS_BUILT ? this.tableCustomerAsBuiltSortList : this.tableCustomerAsPlannedSortList;
-
-      // Find the index of the existing entry with the same first item
-      const index = tableSortList.findIndex(
-        ([itemColumnName]) => itemColumnName === columnName
-      );
-
-      if (index !== -1) {
-        // Replace the existing entry
-        tableSortList[index] = sorting;
-      } else {
-        // Add the new entry if it doesn't exist
-        tableSortList.push(sorting);
-      }
-
-      if(partTable === MainAspectType.AS_BUILT) {
-        this.tableCustomerAsBuiltSortList = tableSortList
-      } else {
-        this.tableCustomerAsPlannedSortList = tableSortList
-      }
-    }
-    // If CTRL is not pressed just add a list with one entry
-    else if(partTable === MainAspectType.AS_BUILT) {
-      this.tableCustomerAsBuiltSortList = [sorting];
-    } else {
-      this.tableCustomerAsPlannedSortList = [sorting]
-    }
-  }
-
-  private resetTableSortingList(partTable: MainAspectType): void {
-    if(partTable === MainAspectType.AS_BUILT) {
-      this.tableCustomerAsBuiltSortList = [];
-    } else {
-      this.tableCustomerAsPlannedSortList= [];
-    }
+    const tableSortList = partTable === MainAspectType.AS_BUILT ? this.tableCustomerAsBuiltSortList : this.tableCustomerAsPlannedSortList;
+    TableSortingUtil.setTableSortingList(sorting, tableSortList, this.ctrlKeyState);
   }
 
   protected readonly MainAspectType = MainAspectType;
+  protected readonly PartTableType = PartTableType;
 }
