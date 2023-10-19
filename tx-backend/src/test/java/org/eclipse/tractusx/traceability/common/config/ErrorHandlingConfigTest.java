@@ -20,6 +20,7 @@
 package org.eclipse.tractusx.traceability.common.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -216,6 +217,7 @@ class ErrorHandlingConfigTest {
         }
     }
 
+    @Hidden
     @RestController
     private static class DummyController {
 

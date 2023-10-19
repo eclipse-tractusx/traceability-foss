@@ -24,7 +24,7 @@ import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.Deta
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +38,7 @@ public class ManufacturingInfo {
     private String nameAtCustomer;
     private String customerPartId;
     private String manufacturingCountry;
-    private LocalDateTime manufacturingDate;
+    private OffsetDateTime manufacturingDate;
 
     public static ManufacturingInfo from(List<DetailAspectModel> detailAspectModels) {
         Optional<DetailAspectModel> detailAspectAsBuilt = detailAspectModels
@@ -58,9 +58,9 @@ public class ManufacturingInfo {
         String nameAtCustomer = detailAspectAsBuilt.map(detailAspectModel -> (DetailAspectDataAsBuilt) detailAspectModel.getData())
                 .map(DetailAspectDataAsBuilt::getNameAtCustomer)
                 .orElse("");
-        LocalDateTime manufacturingDate = detailAspectAsBuilt.map(detailAspectModel -> (DetailAspectDataAsBuilt) detailAspectModel.getData())
+        OffsetDateTime manufacturingDate = detailAspectAsBuilt.map(detailAspectModel -> (DetailAspectDataAsBuilt) detailAspectModel.getData())
                 .map(DetailAspectDataAsBuilt::getManufacturingDate)
-                .orElse(LocalDateTime.MIN);
+                .orElse(null);
 
         return ManufacturingInfo.builder()
                 .manufacturerPartId(manufacturerPartId)

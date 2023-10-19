@@ -26,12 +26,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
 import org.eclipse.tractusx.traceability.discovery.domain.model.Discovery;
 import org.eclipse.tractusx.traceability.discovery.domain.service.DiscoveryService;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.AlertRepository;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.ContractNegotiationException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.NoCatalogItemException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.NoEndpointDataReferenceException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.SendNotificationException;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.AlertRepository;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
 import org.springframework.scheduling.annotation.Async;
@@ -53,7 +53,7 @@ public class EdcNotificationService {
     @Async(value = AssetsAsyncConfig.UPDATE_NOTIFICATION_EXECUTOR)
     public void asyncNotificationExecutor(QualityNotificationMessage notification) {
         log.info("::asyncNotificationExecutor::notification {}", notification);
-        Discovery discovery = discoveryService.getDiscoveryByBPN(notification.getReceiverBpnNumber());
+        Discovery discovery = discoveryService.getDiscoveryByBPN(notification.getSendTo());
         String senderEdcUrl = discovery.getSenderUrl();
 
         if (notification.getType().equals(QualityNotificationType.ALERT)) {

@@ -73,11 +73,7 @@
     {
       "administration" : null,
       "description" : [],
-      "globalAssetId" : {
-        "value" : [
-          "urn:uuid:8f9d8c7f-6d7a-48f1-9959-9fa3a1a7a891"
-        ]
-      },
+      "globalAssetId" : "urn:uuid:8f9d8c7f-6d7a-48f1-9959-9fa3a1a7a891",
       "idShort" : "DoorKey",
       "identification" : "urn:uuid:c4b04dc9-2e11-41ab-9326-7941a0ac9f6d",
       "specificAssetIds" : [
@@ -130,11 +126,7 @@
     {
       "administration" : null,
       "description" : [],
-      "globalAssetId" : {
-        "value" : [
-          "urn:uuid:3e300930-0e1c-459c-8914-1ac631176716"
-        ]
-      },
+      "globalAssetId" : "urn:uuid:3e300930-0e1c-459c-8914-1ac631176716",
       "idShort" : "Doorf-l",
       "identification" : "urn:uuid:5be294f7-3a77-4f99-be9b-259321064ab6",
       "specificAssetIds" : [
@@ -187,11 +179,7 @@
     {
       "administration" : null,
       "description" : [],
-      "globalAssetId" : {
-        "value" : [
-          "urn:uuid:d3c0bf85-d44f-47c5-990d-fec8a36065c6"
-        ]
-      },
+      "globalAssetId" : "urn:uuid:d3c0bf85-d44f-47c5-990d-fec8a36065c6",
       "idShort" : "VehicleCombustion",
       "identification" : "urn:uuid:99998358-e6fa-44b0-ae5c-50b443628b12",
       "specificAssetIds" : [

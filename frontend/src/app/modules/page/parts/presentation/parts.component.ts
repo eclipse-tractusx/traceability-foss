@@ -19,24 +19,23 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {Pagination} from '@core/model/pagination.model';
 import {PartsFacade} from '@page/parts/core/parts.facade';
 import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
-import {Part} from '@page/parts/model/parts.model';
-import {
-    CreateHeaderFromColumns,
-    TableConfig,
-    TableEventConfig,
-    TableHeaderSort,
-} from '@shared/components/table/table.model';
+import {AssetAsBuiltFilter, AssetAsPlannedFilter, Part} from '@page/parts/model/parts.model';
+import {PartTableType, TableEventConfig, TableHeaderSort,} from '@shared/components/table/table.model';
 import {View} from '@shared/model/view.model';
 import {PartDetailsFacade} from '@shared/modules/part-details/core/partDetails.facade';
 import {StaticIdService} from '@shared/service/staticId.service';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {BomLifecycleSize} from "@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model";
 import {BomLifecycleSettingsService, UserSettingView} from "@shared/service/bom-lifecycle-settings.service";
-
+import {toAssetFilter, toGlobalSearchAssetFilter} from "@shared/helper/filter-helper";
+import {FormControl, FormGroup} from "@angular/forms";
+import {ToastService} from "@shared/components/toasts/toast.service";
+import {PartsTableComponent} from "@shared/components/parts-table/parts-table.component";
+import {resetMultiSelectionAutoCompleteComponent} from "@page/parts/core/parts.helper";
 
 
 @Component({
@@ -45,77 +44,6 @@ import {BomLifecycleSettingsService, UserSettingView} from "@shared/service/bom-
     styleUrls: ['./parts.component.scss'],
 })
 export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
-
-    public readonly displayedColumnsAsBuilt: string[] = [
-        'select',
-        'id',
-        'idShort',
-        'name', // nameAtManufacturer
-        'manufacturer',
-        'partId', // Part number / Batch Number / JIS Number
-        'manufacturerPartId',
-        'customerPartId', // --> semanticModel.customerPartId
-        'classification',
-        //'nameAtManufacturer', --> already in name
-        'nameAtCustomer', // --> semanticModel.nameAtCustomer
-        'semanticModelId',
-        'semanticDataModel',
-        'manufacturingDate',
-        'manufacturingCountry',
-    ];
-
-
-    public readonly displayedColumnsAsPlanned: string[] = [
-        'select',
-        'id',
-        'idShort',
-        'name',
-        'manufacturer',
-        'manufacturerPartId',
-        'classification',
-        'semanticDataModel',
-        'semanticModelId',
-        'validityPeriodFrom',
-        'validityPeriodTo',
-        'psFunction',
-        'catenaXSiteId',
-        'functionValidFrom',
-        'functionValidUntil',
-    ];
-
-    public readonly sortableColumnsAsBuilt: Record<string, boolean> = {
-        id: true,
-        idShort: true,
-        name: true,
-        manufacturer: true,
-        partId: true,
-        manufacturerPartId: true,
-        customerPartId: true,
-        classification: true,
-        nameAtCustomer: true,
-        semanticModelId: true,
-        semanticDataModel: true,
-        manufacturingDate: true,
-        manufacturingCountry: true,
-
-    };
-
-    public readonly sortableColumnsAsPlanned: Record<string, boolean> = {
-        id: true,
-        idShort: true,
-        name: true,
-        manufacturer: true,
-        manufacturerPartId: true,
-        classification: true,
-        semanticDataModel: true,
-        semanticModelId: true,
-        validityPeriodFrom: true,
-        validityPeriodTo: true,
-        psFunction: true,
-        catenaXSiteId: true,
-        functionValidFrom: true,
-        functionValidUntil: true,
-    };
 
     public readonly titleId = this.staticIdService.generateId('PartsComponent.title');
     public readonly partsAsBuilt$: Observable<View<Pagination<Part>>>;
@@ -130,17 +58,17 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     public tableAsBuiltSortList: TableHeaderSort[];
     public tableAsPlannedSortList: TableHeaderSort[];
 
-    public tableConfigAsBuilt: TableConfig;
-    public tableConfigAsPlanned: TableConfig;
+    public DEFAULT_PAGE_SIZE = 50;
+    public ctrlKeyState = false;
 
-    private ctrlKeyState = false;
-
+    @ViewChildren(PartsTableComponent) partsTableComponents: QueryList<PartsTableComponent>;
 
     constructor(
         private readonly partsFacade: PartsFacade,
         private readonly partDetailsFacade: PartDetailsFacade,
         private readonly staticIdService: StaticIdService,
-        private readonly userSettingService: BomLifecycleSettingsService
+        private readonly userSettingService: BomLifecycleSettingsService,
+        public toastService: ToastService
     ) {
         this.partsAsBuilt$ = this.partsFacade.partsAsBuilt$;
         this.partsAsPlanned$ = this.partsFacade.partsAsPlanned$;
@@ -157,24 +85,50 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public bomLifecycleSize: BomLifecycleSize = this.userSettingService.getSize(UserSettingView.PARTS);
 
+    public searchFormGroup = new FormGroup({});
+    public searchControl: FormControl;
+
+    assetFilter: AssetAsBuiltFilter | AssetAsPlannedFilter;
 
     public ngOnInit(): void {
         this.partsFacade.setPartsAsBuilt();
         this.partsFacade.setPartsAsPlanned();
+        this.searchFormGroup.addControl("partSearch", new FormControl([]));
+        this.searchControl = this.searchFormGroup.get('partSearch') as unknown as FormControl;
+    }
+
+    filterActivated(isAsBuilt: boolean, assetFilter: any): void {
+        this.assetFilter = assetFilter;
+        if (isAsBuilt) {
+            this.partsFacade.setPartsAsBuilt(0, this.DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(this.assetFilter, true));
+        } else {
+            this.partsFacade.setPartsAsPlanned(0, this.DEFAULT_PAGE_SIZE, this.tableAsPlannedSortList, toAssetFilter(this.assetFilter, false));
+        }
+    }
+
+    triggerPartSearch() {
+
+        this.resetFilterAndShowToast();
+        const searchValue = this.searchFormGroup.get("partSearch").value;
+
+        if (searchValue && searchValue !== "") {
+            this.partsFacade.setPartsAsPlanned(0, this.DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toGlobalSearchAssetFilter(searchValue, false), true);
+            this.partsFacade.setPartsAsBuilt(0, this.DEFAULT_PAGE_SIZE, this.tableAsPlannedSortList, toGlobalSearchAssetFilter(searchValue, true), true);
+        } else {
+            this.partsFacade.setPartsAsBuilt();
+            this.partsFacade.setPartsAsPlanned();
+        }
+
+    }
+
+    private resetFilterAndShowToast() {
+        let filterIsSet = resetMultiSelectionAutoCompleteComponent(this.partsTableComponents, false);
+        if (filterIsSet) {
+            this.toastService.info("parts.input.global-search.toastInfo");
+        }
     }
 
     public ngAfterViewInit(): void {
-        this.tableConfigAsBuilt = {
-            displayedColumns: this.displayedColumnsAsBuilt,
-            header: CreateHeaderFromColumns(this.displayedColumnsAsBuilt, 'table.column'),
-            sortableColumns: this.sortableColumnsAsBuilt,
-        };
-        this.tableConfigAsPlanned = {
-            displayedColumns: this.displayedColumnsAsPlanned,
-            header: CreateHeaderFromColumns(this.displayedColumnsAsPlanned, 'table.column'),
-            sortableColumns: this.sortableColumnsAsPlanned,
-        }
-
         this.handleTableActivationEvent(this.bomLifecycleSize);
     }
 
@@ -188,12 +142,33 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public onAsBuiltTableConfigChange({page, pageSize, sorting}: TableEventConfig): void {
         this.setTableSortingList(sorting, MainAspectType.AS_BUILT);
-        this.partsFacade.setPartsAsBuilt(page, pageSize, this.tableAsBuiltSortList);
+
+        let pageSizeValue = this.DEFAULT_PAGE_SIZE;
+        if (pageSize !== 0) {
+            pageSizeValue = pageSize;
+        }
+
+        if (this.assetFilter) {
+            this.partsFacade.setPartsAsBuilt(0, pageSizeValue, this.tableAsBuiltSortList, toAssetFilter(this.assetFilter, true));
+        } else {
+            this.partsFacade.setPartsAsBuilt(page, pageSizeValue, this.tableAsBuiltSortList);
+        }
+
     }
 
     public onAsPlannedTableConfigChange({page, pageSize, sorting}: TableEventConfig): void {
-        this.setTableSortingList(sorting, MainAspectType.AS_PLANNED);
-        this.partsFacade.setPartsAsPlanned(page, pageSize, this.tableAsPlannedSortList);
+
+        let pageSizeValue = this.DEFAULT_PAGE_SIZE;
+        if (pageSize !== 0) {
+            pageSizeValue = pageSize;
+        }
+
+        if (this.assetFilter) {
+            this.partsFacade.setPartsAsPlanned(0, pageSizeValue, this.tableAsPlannedSortList, toAssetFilter(this.assetFilter, true));
+        } else {
+            this.partsFacade.setPartsAsPlanned(page, pageSizeValue, this.tableAsPlannedSortList);
+        }
+
     }
 
     public handleTableActivationEvent(bomLifecycleSize: BomLifecycleSize) {
@@ -247,4 +222,5 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     protected readonly UserSettingView = UserSettingView;
+    protected readonly PartTableType = PartTableType;
 }

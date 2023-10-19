@@ -43,6 +43,7 @@ public class DashboardServiceImpl implements DashboardService {
     private final InvestigationRepository investigationsRepository;
     private final AlertRepository alertRepository;
 
+    @Override
     public Dashboard getDashboard() {
         long customerParts = assetAsBuiltRepository.countAssetsByOwner(Owner.CUSTOMER) + assetAsPlannedRepository.countAssetsByOwner(Owner.CUSTOMER);
         long supplierParts = assetAsBuiltRepository.countAssetsByOwner(Owner.SUPPLIER) + assetAsPlannedRepository.countAssetsByOwner(Owner.SUPPLIER);

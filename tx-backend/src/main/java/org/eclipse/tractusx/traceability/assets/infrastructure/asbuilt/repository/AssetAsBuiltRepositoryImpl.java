@@ -33,11 +33,12 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.Ass
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Objects;
 
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 import static org.eclipse.tractusx.traceability.common.repository.EntityNameMapper.toDatabaseName;
 
 @RequiredArgsConstructor
@@ -77,13 +78,10 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
     }
 
     @Override
-    public PageResult<AssetBase> getAssets(Pageable pageable, List<SearchCriteria> filter) {
-        return new PageResult<>(
-                jpaAssetAsBuiltRepository.findAll(
-                        Objects.requireNonNull(AssetAsBuildSpecification.toSpecification(
-                                filter.stream().map(AssetAsBuildSpecification::new).toList())),
-                        pageable),
-                AssetAsBuiltEntity::toDomain);
+    public PageResult<AssetBase> getAssets(Pageable pageable, SearchCriteria searchCriteria) {
+        List<AssetAsBuildSpecification> assetAsBuildSpecifications = emptyIfNull(searchCriteria.getSearchCriteriaFilterList()).stream().map(AssetAsBuildSpecification::new).toList();
+        Specification<AssetAsBuiltEntity> specification = AssetAsBuildSpecification.toSpecification(assetAsBuildSpecifications, searchCriteria.getSearchCriteriaOperator());
+        return new PageResult<>(jpaAssetAsBuiltRepository.findAll(specification, pageable), AssetAsBuiltEntity::toDomain);
     }
 
     @Override

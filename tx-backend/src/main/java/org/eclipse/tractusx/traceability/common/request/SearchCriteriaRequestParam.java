@@ -23,16 +23,16 @@ import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
-import org.eclipse.tractusx.traceability.common.model.SearchOperation;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaFilter;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
+import org.eclipse.tractusx.traceability.common.model.SearchStrategy;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
 
 @Data
 @AllArgsConstructor
@@ -40,18 +40,30 @@ public class SearchCriteriaRequestParam {
     @ArraySchema(arraySchema = @Schema(description = "Filter Criteria", additionalProperties = Schema.AdditionalPropertiesValue.FALSE, example = "owner,EQUAL,OWN"), maxItems = Integer.MAX_VALUE)
     private List<String> filter;
 
-    public List<SearchCriteria> toSearchCriteria() {
+    @Schema(description = "The filter logical operator", example = "AND", allowableValues = {"AND", "OR"})
+    private String filterOperator;
+
+    public SearchCriteria toSearchCriteria() {
+        ArrayList<SearchCriteriaFilter> filters = new ArrayList<>();
+        List<String> inputFilters = filter;
         if (isNull(this.filter)) {
-            return Collections.emptyList();
+            inputFilters = Collections.emptyList();
         }
-        ArrayList<SearchCriteria> filters = new ArrayList<>();
-        for (String filter : this.filter) {
+        if (!isNull(this.filter) && isNull(this.filterOperator)) {
+            throw new InvalidFilterException(
+                    "No filter operator found. Please add param filterOperator=AND or filterOperator=OR");
+        }
+        if (isNull(this.filter) && isNull(this.filterOperator)) {
+            return SearchCriteria.builder().build();
+        }
+
+        for (String filter : inputFilters) {
             try {
                 String[] filterParams = filter.split(",");
                 filters.add(
-                        SearchCriteria.builder()
+                        SearchCriteriaFilter.builder()
                                 .key(filterParams[0])
-                                .operation(SearchOperation.valueOf(filterParams[1]))
+                                .strategy(SearchStrategy.valueOf(filterParams[1]))
                                 .value(filterParams[2])
                                 .build());
             } catch (Exception exception) {
@@ -60,16 +72,19 @@ public class SearchCriteriaRequestParam {
                                 .replace("{provided}", filter)
                 );
             }
+
         }
-        return filters;
+
+        SearchCriteriaOperator operator;
+        try {
+            operator = SearchCriteriaOperator.valueOf(filterOperator);
+        } catch (Exception exception) {
+            throw new InvalidFilterException(
+                    "Invalid filter operator provided filterOperator={provided} expected format is following filterOperator=value. Where value is one of AND, OR"
+                            .replace("{provided}", filterOperator)
+            );
+        }
+        return SearchCriteria.builder().searchCriteriaOperator(operator).searchCriteriaFilterList(filters).build();
     }
 
-    public void addOwnerCriteria(Owner owner) {
-        if (nonNull(owner) && isNull(filter)) {
-            filter = new ArrayList<>();
-            filter.add("owner,EQUAL," + owner.name());
-        } else if (nonNull(owner) && nonNull(filter)) {
-            filter.add("owner,EQUAL," + owner.name());
-        }
-    }
 }

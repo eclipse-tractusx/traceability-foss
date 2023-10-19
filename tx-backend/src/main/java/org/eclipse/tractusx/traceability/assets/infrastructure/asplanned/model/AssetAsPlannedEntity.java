@@ -34,16 +34,17 @@ import lombok.experimental.SuperBuilder;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
-import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.ManufacturingInfo;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.SemanticDataModelEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+import static org.eclipse.tractusx.traceability.common.date.DateUtil.toInstant;
 
 @Getter
 @NoArgsConstructor
@@ -52,11 +53,11 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 @Table(name = "assets_as_planned")
 public class AssetAsPlannedEntity extends AssetBaseEntity {
 
-    private String validityPeriodFrom;
-    private String validityPeriodTo;
-    private String functionValidUntil;
+    private Instant validityPeriodFrom;
+    private Instant validityPeriodTo;
+    private Instant functionValidUntil;
     private String function;
-    private String functionValidFrom;
+    private Instant functionValidFrom;
     private String catenaxSiteId;
 
 
@@ -92,11 +93,11 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                 .manufacturerName(asset.getManufacturerName())
                 .semanticModelId(asset.getSemanticModelId())
                 .van(asset.getVan())
-                .functionValidFrom(asPlannedInfo.getFunctionValidFrom())
+                .functionValidFrom(toInstant(asPlannedInfo.getFunctionValidFrom()))
                 .function(asPlannedInfo.getFunction())
-                .functionValidUntil(asPlannedInfo.getFunctionValidUntil())
-                .validityPeriodFrom(asPlannedInfo.getValidityPeriodFrom())
-                .validityPeriodTo(asPlannedInfo.getValidityPeriodTo())
+                .functionValidUntil(toInstant(asPlannedInfo.getFunctionValidUntil()))
+                .validityPeriodFrom(toInstant(asPlannedInfo.getValidityPeriodFrom()))
+                .validityPeriodTo(toInstant(asPlannedInfo.getValidityPeriodTo()))
                 .owner(asset.getOwner())
                 .classification(asset.getClassification())
                 .childDescriptors(asset.getChildRelations().stream()

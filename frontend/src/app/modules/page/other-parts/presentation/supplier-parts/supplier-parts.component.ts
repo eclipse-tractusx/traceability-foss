@@ -18,17 +18,15 @@
  ********************************************************************************/
 
 
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Pagination } from '@core/model/pagination.model';
 import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Part, SemanticDataModel } from '@page/parts/model/parts.model';
-import {
-  CreateHeaderFromColumns,
-  TableConfig,
-  TableEventConfig,
-  TableHeaderSort,
-} from '@shared/components/table/table.model';
+import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
+import { PartTableType, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
+import { TableSortingUtil } from '@shared/components/table/tableSortingUtil';
+import { toAssetFilter, toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { StaticIdService } from '@shared/service/staticId.service';
@@ -37,51 +35,12 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 @Component({
   selector: 'app-supplier-parts',
   templateUrl: './supplier-parts.component.html',
-  styleUrls: ['../other-parts.component.scss']
+  styleUrls: [ '../other-parts.component.scss' ],
 })
 export class SupplierPartsComponent implements OnInit, OnDestroy {
-  public readonly displayedColumnsAsBuilt: string[] = [
-    'select',
-    'semanticDataModel',
-    'name',
-    'manufacturer',
-    'partId',
-    'semanticModelId',
-    'manufacturingDate',
-  ];
 
-  public readonly sortableColumnsAsBuilt: Record<string, boolean> = {
-    semanticDataModel: true,
-    name: true,
-    manufacturer: true,
-    partId: true,
-    semanticModelId: true,
-    manufacturingDate: true,
-
-  };
-
-  public readonly displayedColumnsAsPlanned: string[] = [
-    'select',
-    'semanticDataModel',
-    'name',
-    'manufacturer',
-    'manufacturerPartId',
-    'semanticModelId',
-  ];
-
-  public readonly sortableColumnsAsPlanned: Record<string, boolean> = {
-    semanticDataModel: true,
-    name: true,
-    manufacturer: true,
-    manufacturerPartId: true,
-    semanticModelId: true,
-  };
-
-  public tableConfigAsBuilt: TableConfig;
-  public tableConfigAsPlanned: TableConfig;
-
-  public  supplierPartsAsBuilt$: Observable<View<Pagination<Part>>>;
-  public  supplierPartsAsPlanned$: Observable<View<Pagination<Part>>>;
+  public supplierPartsAsBuilt$: Observable<View<Pagination<Part>>>;
+  public supplierPartsAsPlanned$: Observable<View<Pagination<Part>>>;
 
   public readonly deselectPartTrigger$ = new Subject<Part[]>();
   public readonly addPartTrigger$ = new Subject<Part>();
@@ -98,6 +57,8 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
 
   @Input()
   public bomLifecycle: MainAspectType;
+
+  @ViewChildren(PartsTableComponent) partsTableComponents: QueryList<PartsTableComponent>;
 
   constructor(
     private readonly otherPartsFacade: OtherPartsFacade,
@@ -116,8 +77,11 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
   public get currentSelectedItems(): Part[] {
 
     this.selectedItems = this.selectedItems.map(part => {
-      return {...part, semanticDataModel: SemanticDataModel[part.semanticDataModel.toUpperCase() as keyof typeof SemanticDataModel]}
-    })
+      return {
+        ...part,
+        semanticDataModel: SemanticDataModel[part.semanticDataModel.toUpperCase() as keyof typeof SemanticDataModel],
+      };
+    });
     return this.selectedItems || [];
   }
 
@@ -126,35 +90,33 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    if(this.bomLifecycle === MainAspectType.AS_BUILT) {
+    if (this.bomLifecycle === MainAspectType.AS_BUILT) {
       this.supplierPartsAsBuilt$ = this.otherPartsFacade.supplierPartsAsBuilt$;
       this.tableSupplierAsBuiltSortList = [];
       this.otherPartsFacade.setSupplierPartsAsBuilt();
-    } else if(this.bomLifecycle === MainAspectType.AS_PLANNED) {
+    } else if (this.bomLifecycle === MainAspectType.AS_PLANNED) {
       this.supplierPartsAsPlanned$ = this.otherPartsFacade.supplierPartsAsPlanned$;
       this.tableSupplierAsPlannedSortList = [];
       this.otherPartsFacade.setSupplierPartsAsPlanned();
     }
   }
 
-  public ngAfterViewInit(): void {
-
-    if(this.bomLifecycle === MainAspectType.AS_BUILT) {
-      this.tableConfigAsBuilt = {
-        displayedColumns: this.displayedColumnsAsBuilt,
-        header: CreateHeaderFromColumns(this.displayedColumnsAsBuilt, 'table.column'),
-        sortableColumns: this.sortableColumnsAsBuilt,
-      };
-
-    } else if(this.bomLifecycle === MainAspectType.AS_PLANNED) {
-      this.tableConfigAsPlanned = {
-        displayedColumns: this.displayedColumnsAsPlanned,
-        header: CreateHeaderFromColumns(this.displayedColumnsAsPlanned, 'table.column'),
-        sortableColumns: this.sortableColumnsAsPlanned,
-      };
+  filterActivated(isAsBuilt: boolean, assetFilter: any): void {
+    if (isAsBuilt) {
+      this.otherPartsFacade.setSupplierPartsAsBuilt(0, 50, [], toAssetFilter(assetFilter, true));
+    } else {
+      this.otherPartsFacade.setSupplierPartsAsPlanned(0, 50, [], toAssetFilter(assetFilter, false));
     }
+  }
 
-
+  updateSupplierParts(searchValue?: string): void {
+    if (searchValue || searchValue === '') {
+      this.otherPartsFacade.setSupplierPartsAsBuilt(0, 50, [], toGlobalSearchAssetFilter(searchValue, true), true);
+      this.otherPartsFacade.setSupplierPartsAsPlanned(0, 50, [], toGlobalSearchAssetFilter(searchValue, false), true);
+    } else {
+      this.otherPartsFacade.setSupplierPartsAsBuilt();
+      this.otherPartsFacade.setSupplierPartsAsPlanned();
+    }
   }
 
   public ngOnDestroy(): void {
@@ -166,8 +128,8 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
   }
 
   public onAsBuiltTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
-      this.setTableSortingList(sorting, MainAspectType.AS_BUILT);
-      this.otherPartsFacade.setSupplierPartsAsBuilt(page, pageSize, this.tableSupplierAsBuiltSortList);
+    this.setTableSortingList(sorting, MainAspectType.AS_BUILT);
+    this.otherPartsFacade.setSupplierPartsAsBuilt(page, pageSize, this.tableSupplierAsBuiltSortList);
   }
 
   public onAsPlannedTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
@@ -180,7 +142,7 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
   }
 
   public removeItemFromSelection(part: Part): void {
-    this.deselectPartTrigger$.next([part]);
+    this.deselectPartTrigger$.next([ part ]);
     this.currentSelectedItems = this.currentSelectedItems.filter(({ id }) => id !== part.id);
   }
 
@@ -191,7 +153,7 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
 
   public addItemToSelection(part: Part): void {
     this.addPartTrigger$.next(part);
-    this.currentSelectedItems = [...this.currentSelectedItems, part];
+    this.currentSelectedItems = [ ...this.currentSelectedItems, part ];
   }
 
   public submit(): void {
@@ -200,49 +162,10 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
 
 
   private setTableSortingList(sorting: TableHeaderSort, partTable: MainAspectType): void {
-    if(!sorting && (this.tableSupplierAsBuiltSortList || this.tableSupplierAsPlannedSortList)) {
-      this.resetTableSortingList(partTable);
-      return;
-    }
-
-    if(this.ctrlKeyState) {
-      const [columnName] = sorting;
-      const tableSortList = partTable === MainAspectType.AS_BUILT ? this.tableSupplierAsBuiltSortList : this.tableSupplierAsPlannedSortList;
-
-      // Find the index of the existing entry with the same first item
-      const index = tableSortList.findIndex(
-          ([itemColumnName]) => itemColumnName === columnName
-      );
-
-      if (index !== -1) {
-        // Replace the existing entry
-        tableSortList[index] = sorting;
-      } else {
-        // Add the new entry if it doesn't exist
-        tableSortList.push(sorting);
-      }
-
-      if(partTable === MainAspectType.AS_BUILT) {
-        this.tableSupplierAsBuiltSortList = tableSortList
-      } else {
-        this.tableSupplierAsPlannedSortList = tableSortList
-      }
-    }
-    // If CTRL is not pressed just add a list with one entry
-    else if(partTable === MainAspectType.AS_BUILT) {
-      this.tableSupplierAsBuiltSortList = [sorting];
-    } else {
-      this.tableSupplierAsPlannedSortList = [sorting]
-    }
-  }
-
-  private resetTableSortingList(partTable: MainAspectType): void {
-    if(partTable === MainAspectType.AS_BUILT) {
-      this.tableSupplierAsBuiltSortList = [];
-    } else {
-      this.tableSupplierAsPlannedSortList= [];
-    }
+    const tableSortList = partTable === MainAspectType.AS_BUILT ? this.tableSupplierAsBuiltSortList : this.tableSupplierAsPlannedSortList;
+    TableSortingUtil.setTableSortingList(sorting, tableSortList, this.ctrlKeyState);
   }
 
   protected readonly MainAspectType = MainAspectType;
+  protected readonly PartTableType = PartTableType;
 }

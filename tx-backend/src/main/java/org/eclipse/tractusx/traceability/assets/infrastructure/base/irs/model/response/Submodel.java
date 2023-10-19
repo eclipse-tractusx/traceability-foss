@@ -68,6 +68,9 @@ class Submodel {
     @JsonProperty("aspectType")
     private String aspectType;
 
+    @JsonProperty("identification")
+    private String identification;
+
     @JsonCreator
     public Submodel(@JsonProperty("aspectType") String aspectType, @JsonProperty("payload") Object payload) {
         this.aspectType = aspectType;
@@ -80,6 +83,10 @@ class Submodel {
 
     public String getAspectType() {
         return aspectType;
+    }
+
+    public String getIdentification() {
+        return identification;
     }
 }
 
