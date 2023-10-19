@@ -19,14 +19,7 @@
 
 package org.eclipse.tractusx.traceability.common.model;
 
-import lombok.Builder;
-import lombok.Data;
-
-@Data
-@Builder
-public class SearchCriteriaFilter {
-    private String key;
-    private SearchStrategy strategy;
-    private String value;
-    private CombineOperator predicate;
+public enum CombineOperator {
+    AND,
+    OR
 }

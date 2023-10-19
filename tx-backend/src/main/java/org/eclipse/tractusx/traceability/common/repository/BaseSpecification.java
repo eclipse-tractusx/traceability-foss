@@ -23,6 +23,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.Getter;
+import org.eclipse.tractusx.traceability.common.model.CombineOperator;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaFilter;
 import org.eclipse.tractusx.traceability.common.model.SearchStrategy;
 import org.springframework.data.jpa.domain.Specification;
@@ -30,6 +31,10 @@ import org.springframework.data.jpa.domain.Specification;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
+import java.util.Map;
+
+import static java.util.stream.Collectors.groupingBy;
 
 @Getter
 public abstract class BaseSpecification<T> implements Specification<T> {
@@ -62,5 +67,36 @@ public abstract class BaseSpecification<T> implements Specification<T> {
         return null;
     }
 
+    public static <T> Specification<T> toSpecification(List<? extends BaseSpecification<T>> specifications){
+        if (specifications.isEmpty()) {
+            return null;
+        }
+
+        Map<String, List<BaseSpecification<T>>> groupedSpecifications = specifications.stream()
+                .collect(groupingBy(spec -> spec.getSearchCriteriaFilter().getKey()));
+
+        List<Specification<T>> fieldSpecs = groupedSpecifications.values().stream().map(BaseSpecification::combineWithOr).toList();
+
+        Specification<T> result = fieldSpecs.get(0);
+
+        for (int i = 1; i < fieldSpecs.size(); i++) {
+                    result = Specification.where(result).and(fieldSpecs.get(i));
+        }
+
+        return result;
+
+    }
+
+    private static <T> Specification<T> combineWithOr(List<BaseSpecification<T>> specifications) {
+        Specification<T> result = specifications.get(0);
+        for (int i = 1; i < specifications.size(); i++) {
+            result = Specification.where(result).or(specifications.get(i));
+        }
+        return result;
+    }
+
+    public boolean isOrPredicate() {
+        return CombineOperator.OR.equals(this.searchCriteriaFilter.getPredicate());
+    }
 
 }

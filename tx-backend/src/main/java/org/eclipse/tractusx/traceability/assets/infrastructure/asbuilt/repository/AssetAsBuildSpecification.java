@@ -24,7 +24,6 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.repository.AssetSpecificationUtil;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaFilter;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
 import org.eclipse.tractusx.traceability.common.repository.BaseSpecification;
@@ -50,6 +49,8 @@ public class AssetAsBuildSpecification extends BaseSpecification<AssetAsBuiltEnt
         if (specifications.isEmpty()) {
             return Specification.allOf();
         }
-        return AssetSpecificationUtil.combineSpecifications(specifications, searchCriteriaOperator);
+        return BaseSpecification.toSpecification(allSpecifications);
     }
+
+
 }

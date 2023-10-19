@@ -23,6 +23,7 @@ import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.eclipse.tractusx.traceability.common.model.CombineOperator;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaFilter;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
@@ -37,7 +38,7 @@ import static java.util.Objects.isNull;
 @Data
 @AllArgsConstructor
 public class SearchCriteriaRequestParam {
-    @ArraySchema(arraySchema = @Schema(description = "Filter Criteria", additionalProperties = Schema.AdditionalPropertiesValue.FALSE, example = "owner,EQUAL,OWN"), maxItems = Integer.MAX_VALUE)
+    @ArraySchema(arraySchema = @Schema(description = "Filter Criteria", additionalProperties = Schema.AdditionalPropertiesValue.FALSE, example = "owner,EQUAL,OWN,OR"), maxItems = Integer.MAX_VALUE)
     private List<String> filter;
 
     @Schema(description = "The filter logical operator", example = "AND", allowableValues = {"AND", "OR"})
@@ -65,10 +66,11 @@ public class SearchCriteriaRequestParam {
                                 .key(filterParams[0])
                                 .strategy(SearchStrategy.valueOf(filterParams[1]))
                                 .value(filterParams[2])
+                                .predicate(toCombineOperator(filterParams))
                                 .build());
             } catch (Exception exception) {
                 throw new InvalidFilterException(
-                        "Invalid filter param provided filter={provided} expected format is following sort=parameter,operation,value"
+                        "Invalid filter param provided filter={provided} expected format is following sort=parameter,operation,value,operator"
                                 .replace("{provided}", filter)
                 );
             }
@@ -85,6 +87,13 @@ public class SearchCriteriaRequestParam {
             );
         }
         return SearchCriteria.builder().searchCriteriaOperator(operator).searchCriteriaFilterList(filters).build();
+    }
+
+    private CombineOperator toCombineOperator(String[] params) {
+        if(params.length == 3) {
+            return CombineOperator.AND;
+        }
+        return params[3] == null ? CombineOperator.AND : CombineOperator.valueOf(params[3]);
     }
 
 }
