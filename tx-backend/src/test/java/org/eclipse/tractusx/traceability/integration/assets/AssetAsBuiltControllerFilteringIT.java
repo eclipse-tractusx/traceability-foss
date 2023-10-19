@@ -20,7 +20,6 @@
 package org.eclipse.tractusx.traceability.integration.assets;
 
 import io.restassured.http.ContentType;
-import io.restassured.response.Response;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
@@ -29,7 +28,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static io.restassured.RestAssured.given;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -304,7 +302,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
         final String filterOperator = "&filterOperator=OR";
 
         // then
-        Response response = given()
+        given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
                 .log().all()
@@ -314,6 +312,5 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
                 .log().all()
                 .statusCode(200)
                 .body("totalItems", equalTo(12)).extract().response();
-        assertThat(response).isNotNull();
     }
 }
