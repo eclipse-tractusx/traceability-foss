@@ -111,13 +111,16 @@ table {
   top: 0;
   z-index: 1;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 0 10px;
   // Mat row defines fixed height of 48px.
   min-height: 48px;
 
-  @apply bg-primaryLight border-r-2;
+  @apply bg-primaryLight
+}
+
+.table--selected--label {
+  flex: 1;
 }
 
 .loading-table {
@@ -227,11 +230,22 @@ tr.error {
     padding: 15px;
     font-size: 14px;
     line-height: 20px;
-
   }
 
   .mdc-tooltip--multiline {
     white-space: pre-line;
   }
+}
+
+.table--settings--button {
+  width: 28px;
+  height: 28px;
+  font-size: 28px;
+  cursor: pointer;
+  color: #333333
+}
+
+.table--header--select--cell {
+  width: 90px;
 }
 

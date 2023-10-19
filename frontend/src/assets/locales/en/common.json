@@ -58,6 +58,13 @@
     "clearPage": "Clear page selections",
     "clearAll": "Clear all selections",
     "filterTitle": "Filter",
+    "tableSettings": {
+      "title": "Table column settings",
+      "selectAll": "All",
+      "orderTooltip": "Table column order can be changed by selecting a column and move it up or down by clicking on the icon ↑ (up) or ↓ (down)",
+      "refreshTooltip": "Reset individual table column settings to default",
+      "saveAction": "Save"
+    },
     "adminColumn": {
       "startDate": "Start date",
       "registryLookupStatus": "Status",

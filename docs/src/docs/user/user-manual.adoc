@@ -85,10 +85,26 @@ List view of own Parts with AsPlanned Lifecycle.
 Gives detailed information on the assets registered in the Digital Twin Registry of Catena-X for the company. This includes data based on the aspect models of Use Case Traceability: AsPlanned, SerialPart, Batch.
 Parts that are in a quality alert are highlighted yellow.
 
-=== Parts select / Quality alert
+=== Parts selection -> Create Quality alert
 Select one or multiple child components/parts/batches that are build into your part. Selection will enable you to create a quality alert (notification) to your customers. The quality alert will be added to a queue (queued & requested inbox) and not directly sent to the customers.
 
 Once the quality alert is created you will get a pop-up and can directly navigate to the inbox for further action.
+
+=== Parts table column settings
+On the right upper site of a table there is a settings icon in which you can set the table columns to a desired view. With a click on it a dialog opens where you can change the settings of the corresponding table:
+
+image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/table-settings-dialog.png[]
+
+
+Hide/show table columns by clicking on the checkbox or the column name. It is possible to hide/show all columns by clicking on the "All"- checkbox.
+
+The reset icon resets the table columns to its default view.
+
+Reorder the table columns by selecting a list item (click on the right of the column name). By selecting the column, you can reorder it with the up and down arrow icons to move it in the front or back of other columns.
+
+Apply your changes by clicking on the "Save" - button. If you want to discard your changes, simply press you "ESC" - button, click anywhere else except in the dialog or close it explicitely with the close icon on the upper right of the dialog.
+
+The settings will be stored in the local storage of the browser and will be persisted until they get deleted.
 
 === Part details
 Clicking on an item in the list opens "Part details" view.

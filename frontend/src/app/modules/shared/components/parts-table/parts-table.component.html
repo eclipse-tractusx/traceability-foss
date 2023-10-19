@@ -19,9 +19,8 @@ SPDX-License-Identifier: Apache-2.0
 
 <div [class.mat-elevation-z8]="!noShadow" class="table-wrapper">
     <ng-container *ngIf="tableHeader"><p class="large-text table--header">{{tableHeader | i18n }}</p></ng-container>
-    <ng-container *ngIf="selectedPartsInfoLabel">
         <div *appHasRole="tableConfig.columnRoles?.['select'] ?? 'user'" class="table--selected__container">
-            <p class="regular-text">{{ selectedPartsInfoLabel | i18n : {count: selection?.selected?.length || 0} }}</p>
+            <p class="regular-text table--selected--label">{{ selectedPartsInfoLabel | i18n : {count: selection?.selected?.length || 0} }}</p>
             <app-button
                     *ngIf="selection?.selected?.length"
                     (click)="clickSelectAction.emit()"
@@ -33,8 +32,13 @@ SPDX-License-Identifier: Apache-2.0
                     {{ selectedPartsActionLabel | i18n }}
                 </div>
             </app-button>
+          <mat-icon
+            (click)="openDialog()"
+            class="table--settings--button ml-2"
+          >
+            settings
+          </mat-icon>
         </div>
-    </ng-container>
 
     <app-scroll-with-shadow>
         <table
@@ -68,7 +72,7 @@ SPDX-License-Identifier: Apache-2.0
                                          ngDefaultControl
                                          [formControl]="filterFormGroup.controls[filter.filterKey]"></app-multiselect>
                         <span class="filter-title"
-                              *ngIf="filter.headerKey==='Filter'">{{ 'table.filterTitle' | i18n }}</span>
+                              *ngIf="filter.headerKey==='Filter'">{{ ''}}</span>
                     </th>
                 </ng-container>
             </ng-container>
@@ -101,7 +105,7 @@ SPDX-License-Identifier: Apache-2.0
                 </td>
             </tr>
             <ng-container *ngFor="let column of tableConfig?.displayedColumns" [ngSwitch]="column">
-                <ng-container *ngSwitchCase="'select'">
+                <ng-container *ngSwitchCase="'select'" >
                     <ng-container *ngTemplateOutlet="SelectColumn"></ng-container>
                 </ng-container>
                 <ng-container *ngSwitchDefault>
@@ -111,7 +115,10 @@ SPDX-License-Identifier: Apache-2.0
 
             <ng-template #SelectColumn>
                 <ng-container matColumnDef="select">
-                    <th *matHeaderCellDef mat-header-cell>
+                    <th *matHeaderCellDef
+                        mat-header-cell
+                        class="table--header--select--cell"
+                    >
                         <div class="table--select-all" [class.table--select-all__menu]="isMenuOpen">
                             <mat-checkbox
                                     [checked]="selection.hasValue() && areAllRowsSelected()"
@@ -162,7 +169,7 @@ Third click:  reset sorting"
                             [mat-sort-header]="tableConfig.sortableColumns?.[column] ? '' : null"
                             [disabled]="!tableConfig.sortableColumns?.[column]"
                             mat-header-cell
-                            class="table--cell"
+                            class="table--cell table--header--normal--cell"
                     >
                         <ng-container
                                 *ngIf="tableConfig?.header?.[column]; else pureColumn"

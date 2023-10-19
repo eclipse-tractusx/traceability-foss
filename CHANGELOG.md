@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [UNRELEASED - DD.MM.YYYY]
+
+### Added
+- Added Table columns settings in part tables to show/hide/reorder table columns
+
+### Changed
+- Updated user manual to reflect the table column settings feature
+
+### Removed
+
+
 ## [8.0.0 - 16.10.2023]
 
 ### Added
