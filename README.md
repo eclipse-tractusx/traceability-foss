@@ -76,14 +76,14 @@ Because it uses SVGs, we knew it will perform great. And we are able to have pin
 
 Clone the source locally:
 
-```sh
+```shell
 $ git clone git@github.com:Cofinity-X/cofinity-x-ba-traceability-foss.git
 $ cd cofinity-x-ba-traceability-foss/frontend
 ```
 
 Install prerequisites:
 1. install [Node.js 18.x](https://nodejs.org)
-```sh
+```shell
 $ npm install --global yarn
 $ npm install -g @angular/cli
 $ yarn install
@@ -121,7 +121,7 @@ A detailed [explanation](/docs/src/docs/user/user-manual.adoc) of how to use the
 
 To run unit tests invoke following command:
 
-```sh
+```shell
 mvn clean test
 ```
 
@@ -140,7 +140,7 @@ mvn -pl tx-models,tx-backend,tx-coverage -Dorg.slf4j.simpleLogger.log.org.apache
 
 To run all tests invoke following command:
 
-```sh
+```shell
 mvn -DskipTests=false clean verify
 ```
 
