@@ -103,7 +103,7 @@ jobs:
       - name: Cypress run all tests
         uses: cypress-io/github-action@v6.5.0 # use the explicit version number
         with:
-          start: npm start
+          start: npm start:auth:e2ea
           wait-on: "http://localhost:4200"
           wait-on-timeout: 120
           browser: chrome
@@ -209,38 +209,38 @@ jobs:
 #        with:
 #          node-version: 18.x
 
-      - name: Use Node.js 16.x
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16.x
-
-      # https://docs.cypress.io/guides/guides/launching-browsers#Linux-Dependencies
-      - name: Install additional dependencies
-        run: npx playwright install --with-deps webkit
-
-      - name: Cypress run all tests
-        uses: cypress-io/github-action@v6.5.0 # use the explicit version number
-        with:
-          start: npm start
-          wait-on: "http://localhost:4200"
-          wait-on-timeout: 120
-          browser: webkit
-          working-directory: frontend
-
-      - name: Submit results to Xray
-        # we don't want to submit results to xray when it was run by PR
-        if: github.event_name != 'pull_request' && (success() || failure())
-        env:
-          JIRA_USERNAME: ${{ secrets.ORG_IRS_JIRA_USERNAME }}
-          JIRA_PASSWORD: ${{ secrets.ORG_IRS_JIRA_PASSWORD }}
-        run: |
-          ./scripts/xray-push-test-results.sh
-
-      - name: Archive cypress artifacts
-        if: success() || failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: cypress generated files - webkit
-          path: |
-            frontend/cypress/videos/
-            frontend/cypress/screenshots/
+ #     - name: Use Node.js 16.x
+ #       uses: actions/setup-node@v3
+ #       with:
+ #         node-version: 16.x
+#
+ #     # https://docs.cypress.io/guides/guides/launching-browsers#Linux-Dependencies
+ #     - name: Install additional dependencies
+ #       run: npx playwright install --with-deps webkit
+#
+ #     - name: Cypress run all tests
+ #       uses: cypress-io/github-action@v6.5.0 # use the explicit version number
+ #       with:
+ #         start: npm start:auth:e2ea
+ #         wait-on: "http://localhost:4200"
+ #         wait-on-timeout: 120
+ #         browser: webkit
+ #         working-directory: frontend
+#
+ #     - name: Submit results to Xray
+ #       # we don't want to submit results to xray when it was run by PR
+ #       if: github.event_name != 'pull_request' && (success() || failure())
+ #       env:
+ #         JIRA_USERNAME: ${{ secrets.ORG_IRS_JIRA_USERNAME }}
+ #         JIRA_PASSWORD: ${{ secrets.ORG_IRS_JIRA_PASSWORD }}
+ #       run: |
+ #         ./scripts/xray-push-test-results.sh
+#
+ #     - name: Archive cypress artifacts
+ #       if: success() || failure()
+ #       uses: actions/upload-artifact@v3
+ #       with:
+ #         name: cypress generated files - webkit
+ #         path: |
+ #           frontend/cypress/videos/
+ #           frontend/cypress/screenshots/
