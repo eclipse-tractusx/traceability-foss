@@ -9,14 +9,14 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 - Added Table columns settings in part tables to show/hide/reorder table columns
-- Support for Filtering on Alerts and Notifications endpoints
+- new endpoints supporting filtering feature for investigations and alers api/investigations api/alerts
 
 ### Changed
 - Updated user manual to reflect the table column settings feature
 - Changed Filter to support Logical operator (AND,OR) on searchCriteria
 
 ### Removed
-
+- Removed no longer needed endpoints api/investigations/created, api/investigations/received, api/alerts/created, api/alerts/received
 
 ## [8.0.0 - 16.10.2023]
 

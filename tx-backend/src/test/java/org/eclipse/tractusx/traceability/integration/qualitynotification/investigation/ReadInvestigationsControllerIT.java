@@ -196,7 +196,7 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenInvalidSort_whenGetCreated_thenBadRequest() throws JoseException {
+    void givenInvalidSort_whenGet_thenBadRequest() throws JoseException {
         // given
         String sortString = "createdDate,failure";
 
