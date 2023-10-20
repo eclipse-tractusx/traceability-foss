@@ -40,8 +40,6 @@ import static java.util.stream.Collectors.groupingBy;
 @Getter
 public abstract class BaseSpecification<T> implements Specification<T> {
 
-    private static final String OWNER_FIELD_NAME = "owner";
-
     private final SearchCriteriaFilter searchCriteriaFilter;
 
     protected BaseSpecification(SearchCriteriaFilter searchCriteriaFilter) {
@@ -83,7 +81,6 @@ public abstract class BaseSpecification<T> implements Specification<T> {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
         return combineSpecifications(fieldSpecsByFieldName);
-
     }
 
     // Combines all fields into one specification
