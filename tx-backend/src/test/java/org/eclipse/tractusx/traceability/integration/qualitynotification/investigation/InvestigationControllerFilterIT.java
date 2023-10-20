@@ -62,8 +62,7 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
     void givenInvestigations_whenProvideBpnFilter_thenReturnExpectedResult() throws JoseException {
         // given
         InvestigationNotificationSupport.defaultInvestigationsStored();
-        String filter = "?filter=bpn,STARTS_WITH,BPNL00000003AXS2";
-        final String filterOperator = "&filterOperator=OR";
+        String filter = "?filter=bpn,STARTS_WITH,BPNL00000003AXS2,OR";
 
         // when/then
         given()
@@ -72,7 +71,7 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations" + filter + filterOperator)
+                .get("/api/investigations" + filter)
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -85,8 +84,7 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
     void givenInvestigations_whenProvideBpnFilterAnd_thenReturnExpectedResult() throws JoseException {
         // given
         InvestigationNotificationSupport.defaultInvestigationsStored();
-        String filter = "?filter=bpn,STARTS_WITH,BPNL00000003AXS3&filter=createdDate,AT_LOCAL_DATE," + LocalDate.now();
-        final String filterOperator = "&filterOperator=AND";
+        String filter = "?filter=bpn,STARTS_WITH,BPNL00000003AXS3,AND&filter=createdDate,AT_LOCAL_DATE," + LocalDate.now() + ",AND";
 
         // when/then
         given()
@@ -95,7 +93,7 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations" + filter + filterOperator)
+                .get("/api/investigations" + filter)
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))

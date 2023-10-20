@@ -84,7 +84,7 @@ public class AlertsRepositoryImpl implements AlertRepository {
         List<AlertSpecification> alertsSpecifications = emptyIfNull(searchCriteria.getSearchCriteriaFilterList()).stream()
                 .map(AlertSpecification::new)
                 .toList();
-        Specification<AlertEntity> specification = AlertSpecification.toSpecification(alertsSpecifications, searchCriteria.getSearchCriteriaOperator());
+        Specification<AlertEntity> specification = AlertSpecification.toSpecification(alertsSpecifications);
         return new PageResult<>(jpaAlertRepository.findAll(specification, pageable), AlertEntity::toDomain);
     }
 

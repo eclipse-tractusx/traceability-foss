@@ -62,8 +62,7 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
     void givenAlerts_whenProvideBpnFilter_thenReturnExpectedResult() throws JoseException {
         // given
         alertNotificationsSupport.defaultAlertsStored();
-        String filter = "?filter=bpn,STARTS_WITH,BPNL00000003AXS2";
-        final String filterOperator = "&filterOperator=OR";
+        String filter = "?filter=bpn,STARTS_WITH,BPNL00000003AXS2,OR";
 
         // when/then
         given()
@@ -72,7 +71,7 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts" + filter + filterOperator)
+                .get("/api/alerts" + filter)
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -85,8 +84,7 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
     void givenAlerts_whenProvideBpnFilterAnd_thenReturnExpectedResult() throws JoseException {
         // given
         alertNotificationsSupport.defaultAlertsStored();
-        String filter = "?filter=bpn,STARTS_WITH,BPNL00000003AXS2&filter=createdDate,AT_LOCAL_DATE," + LocalDate.now();
-        final String filterOperator = "&filterOperator=OR";
+        String filter = "?filter=bpn,STARTS_WITH,BPNL00000003AXS2,AND&filter=createdDate,AT_LOCAL_DATE," + LocalDate.now() + ",AND";
 
         // when/then
         given()
@@ -95,12 +93,12 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts" + filter + filterOperator)
+                .get("/api/alerts" + filter)
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
-                .body("content", Matchers.hasSize(4))
-                .body("totalItems", Matchers.is(4));
+                .body("content", Matchers.hasSize(1))
+                .body("totalItems", Matchers.is(1));
     }
 }

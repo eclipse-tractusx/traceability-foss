@@ -78,7 +78,7 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
         List<InvestigationSpecification> investigationSpecifications = emptyIfNull(searchCriteria.getSearchCriteriaFilterList()).stream()
                 .map(InvestigationSpecification::new)
                 .toList();
-        Specification<InvestigationEntity> specification = InvestigationSpecification.toSpecification(investigationSpecifications, searchCriteria.getSearchCriteriaOperator());
+        Specification<InvestigationEntity> specification = InvestigationSpecification.toSpecification(investigationSpecifications);
         return new PageResult<>(jpaInvestigationRepository.findAll(specification, pageable), InvestigationEntity::toDomain);
     }
 

@@ -80,7 +80,7 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
     @Override
     public PageResult<AssetBase> getAssets(Pageable pageable, SearchCriteria searchCriteria) {
         List<AssetAsBuildSpecification> assetAsBuildSpecifications = emptyIfNull(searchCriteria.getSearchCriteriaFilterList()).stream().map(AssetAsBuildSpecification::new).toList();
-        Specification<AssetAsBuiltEntity> specification = AssetAsBuildSpecification.toSpecification(assetAsBuildSpecifications, searchCriteria.getSearchCriteriaOperator());
+        Specification<AssetAsBuiltEntity> specification = AssetAsBuildSpecification.toSpecification(assetAsBuildSpecifications);
         return new PageResult<>(jpaAssetAsBuiltRepository.findAll(specification, pageable), AssetAsBuiltEntity::toDomain);
     }
 
