@@ -36,7 +36,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.IntStream;
 
 import static io.restassured.RestAssured.given;
@@ -53,31 +52,19 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
     InvestigationsSupport investigationsSupport;
 
     @Test
-    void shouldNotReturnCreatedInvestigationWithoutAuthentication() {
-        given()
-                .param("page", "0")
-                .param("size", "10")
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/api/investigations/created")
-                .then()
-                .statusCode(401);
-    }
-
-    @Test
-    void shouldNotReturnReceivedInvestigationWithoutAuthentication() {
-        given()
-                .param("page", "0")
-                .param("size", "10")
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/api/investigations/received")
-                .then()
-                .statusCode(401);
-    }
-
-    @Test
     void shouldNotReturnInvestigationWithoutAuthentication() {
+        given()
+                .param("page", "0")
+                .param("size", "10")
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/investigations")
+                .then()
+                .statusCode(401);
+    }
+
+    @Test
+    void shouldNotReturnInvestigationWithIdWithoutAuthentication() {
         given()
                 .contentType(ContentType.JSON)
                 .when()
@@ -87,14 +74,15 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldReturnNoReceivedInvestigations() throws JoseException {
+    void shouldReturnNoInvestigations() throws JoseException {
+        // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .param("page", "0")
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/received")
+                .get("/api/investigations")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -103,105 +91,11 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldReturnNoCreatedInvestigations() throws JoseException {
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/api/investigations/created")
-                .then()
-                .statusCode(200)
-                .body("page", Matchers.is(0))
-                .body("pageSize", Matchers.is(10))
-                .body("content", Matchers.hasSize(0));
-    }
-
-    @Test
-    void givenInvestigations_whenGetInvestigations_thenReturnSortedByCreationTime() throws JoseException {
+    void givenInvestigations_whenGetSenderInvestigationsSortedAsc_thenReturnProperlySorted() throws JoseException {
         // given
-        Instant now = Instant.now();
-        String testBpn = bpnSupport.testBpn();
-
-        InvestigationEntity firstInvestigation = InvestigationEntity.builder()
-                .assets(Collections.emptyList())
-                .bpn(testBpn)
-                .status(NotificationStatusBaseEntity.CREATED)
-                .side(NotificationSideBaseEntity.SENDER)
-                .description("1")
-                .createdDate(now.minusSeconds(10L))
-                .build();
-        InvestigationEntity secondInvestigation = InvestigationEntity.builder()
-                .assets(Collections.emptyList())
-                .bpn(testBpn)
-                .status(NotificationStatusBaseEntity.CREATED)
-                .description("2")
-                .side(NotificationSideBaseEntity.SENDER)
-                .createdDate(now.plusSeconds(21L))
-                .build();
-        InvestigationEntity thirdInvestigation = InvestigationEntity.builder()
-                .assets(Collections.emptyList())
-                .bpn(testBpn)
-                .status(NotificationStatusBaseEntity.CREATED)
-                .description("3")
-                .side(NotificationSideBaseEntity.SENDER)
-                .createdDate(now)
-                .build();
-        InvestigationEntity fourthInvestigation = InvestigationEntity.builder()
-                .assets(Collections.emptyList())
-                .bpn(testBpn)
-                .status(NotificationStatusBaseEntity.CREATED)
-                .description("4")
-                .side(NotificationSideBaseEntity.SENDER)
-                .createdDate(now.plusSeconds(20L))
-                .build();
-        InvestigationEntity fifthInvestigation = InvestigationEntity.builder()
-                .assets(Collections.emptyList())
-                .bpn(testBpn)
-                .status(NotificationStatusBaseEntity.CREATED)
-                .description("5")
-                .side(NotificationSideBaseEntity.RECEIVER)
-                .createdDate(now.plusSeconds(40L))
-                .build();
-
-        investigationNotificationsSupport.storedNotifications(
-                InvestigationNotificationEntity
-                        .builder()
-                        .id("1")
-                        .investigation(firstInvestigation)
-                        .status(NotificationStatusBaseEntity.CREATED)
-                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
-                        .build(),
-                InvestigationNotificationEntity
-                        .builder()
-                        .status(NotificationStatusBaseEntity.CREATED)
-                        .id("2")
-                        .investigation(secondInvestigation)
-                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
-                        .build(),
-                InvestigationNotificationEntity
-                        .builder()
-                        .status(NotificationStatusBaseEntity.CREATED)
-                        .id("3")
-                        .investigation(thirdInvestigation)
-                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
-                        .build(),
-                InvestigationNotificationEntity
-                        .builder()
-                        .status(NotificationStatusBaseEntity.CREATED)
-                        .id("4")
-                        .investigation(fourthInvestigation)
-                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
-                        .build(),
-                InvestigationNotificationEntity
-                        .builder()
-                        .status(NotificationStatusBaseEntity.CREATED)
-                        .id("5")
-                        .investigation(fifthInvestigation)
-                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
-                        .build()
-        );
+        String filterString = "side,EQUAL,SENDER,AND";
+        String sortString = "createdDate,ASC";
+        investigationNotificationsSupport.defaultInvestigationsStored();
 
         // then
         given()
@@ -210,322 +104,95 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .param("filter", filterString)
+                .param("sort", sortString)
+                .get("/api/investigations")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
-                .body("content", Matchers.hasSize(4))
-                .body("totalItems", Matchers.is(4));
+                .body("totalItems", Matchers.is(8))
+                .body("content", Matchers.hasSize(8))
+                .body("content.description", Matchers.containsInRelativeOrder("1", "2", "3", "4", "5", "6", "7", "8"));
     }
 
     @Test
-    void givenSortByCreatedDateProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
+    void givenInvestigations_whenGetSenderInvestigationsSortedDesc_thenReturnProperlySorted() throws JoseException {
         // given
-        String sortString = "createdDate,desc";
-        Instant now = Instant.now();
-        String testBpn = bpnSupport.testBpn();
+        String filterString = "side,EQUAL,SENDER,AND";
+        String sortString = "createdDate,DESC";
+        investigationNotificationsSupport.defaultInvestigationsStored();
 
-        InvestigationEntity firstInvestigation = InvestigationEntity.builder()
-                .assets(Collections.emptyList())
-                .bpn(testBpn)
-                .status(NotificationStatusBaseEntity.CREATED)
-                .side(NotificationSideBaseEntity.SENDER)
-                .description("1")
-                .createdDate(now.minusSeconds(10L))
-                .build();
-        InvestigationEntity secondInvestigation = InvestigationEntity.builder()
-                .assets(Collections.emptyList())
-                .bpn(testBpn)
-                .status(NotificationStatusBaseEntity.CREATED)
-                .description("2")
-                .side(NotificationSideBaseEntity.SENDER)
-                .createdDate(now.plusSeconds(21L))
-                .build();
-        InvestigationEntity thirdInvestigation = InvestigationEntity.builder()
-                .assets(Collections.emptyList())
-                .bpn(testBpn)
-                .status(NotificationStatusBaseEntity.CREATED)
-                .description("3")
-                .side(NotificationSideBaseEntity.SENDER)
-                .createdDate(now)
-                .build();
-        InvestigationEntity fourthInvestigation = InvestigationEntity.builder()
-                .assets(Collections.emptyList())
-                .bpn(testBpn)
-                .status(NotificationStatusBaseEntity.CREATED)
-                .description("4")
-                .side(NotificationSideBaseEntity.SENDER)
-                .createdDate(now.plusSeconds(20L))
-                .build();
-        InvestigationEntity fifthInvestigation = InvestigationEntity.builder()
-                .assets(Collections.emptyList())
-                .bpn(testBpn)
-                .status(NotificationStatusBaseEntity.CREATED)
-                .description("5")
-                .side(NotificationSideBaseEntity.RECEIVER)
-                .createdDate(now.plusSeconds(40L))
-                .build();
-
-        investigationNotificationsSupport.storedNotifications(
-                InvestigationNotificationEntity
-                        .builder()
-                        .id("1")
-                        .investigation(firstInvestigation)
-                        .status(NotificationStatusBaseEntity.CREATED)
-                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
-                        .build(),
-                InvestigationNotificationEntity
-                        .builder()
-                        .status(NotificationStatusBaseEntity.CREATED)
-                        .id("2")
-                        .investigation(secondInvestigation)
-                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
-                        .build(),
-                InvestigationNotificationEntity
-                        .builder()
-                        .status(NotificationStatusBaseEntity.CREATED)
-                        .id("3")
-                        .investigation(thirdInvestigation)
-                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
-                        .build(),
-                InvestigationNotificationEntity
-                        .builder()
-                        .status(NotificationStatusBaseEntity.CREATED)
-                        .id("4")
-                        .investigation(fourthInvestigation)
-                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
-                        .build(),
-                InvestigationNotificationEntity
-                        .builder()
-                        .status(NotificationStatusBaseEntity.CREATED)
-                        .id("5")
-                        .investigation(fifthInvestigation)
-                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
-                        .build()
-        );
-
-        // when/then
+        // then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .param("page", "0")
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created?page=0&size=10&sort=$sortString".replace("$sortString", sortString))
+                .param("filter", filterString)
+                .param("sort", sortString)
+                .get("/api/investigations")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
-                .body("content", Matchers.hasSize(4))
-                .body("totalItems", Matchers.is(4));
+                .body("totalItems", Matchers.is(8))
+                .body("content", Matchers.hasSize(8))
+                .body("content.description", Matchers.containsInRelativeOrder("8", "7", "6", "5", "4", "3", "2", "1"));
     }
 
 
     @Test
     void givenSortByDescriptionProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
         // given
-        String sortString = "description,desc";
-        Instant now = Instant.now();
-        String testBpn = bpnSupport.testBpn();
+        String filterString = "side,EQUAL,SENDER,AND";
+        String sortString = "description,ASC";
+        investigationNotificationsSupport.defaultInvestigationsStored();
 
-        InvestigationEntity firstInvestigation = InvestigationEntity.builder()
-                .assets(Collections.emptyList())
-                .bpn(testBpn)
-                .status(NotificationStatusBaseEntity.SENT)
-                .side(NotificationSideBaseEntity.SENDER)
-                .description("1")
-                .createdDate(now.minusSeconds(10L))
-                .build();
-        InvestigationEntity secondInvestigation = InvestigationEntity.builder()
-                .assets(Collections.emptyList())
-                .bpn(testBpn)
-                .status(NotificationStatusBaseEntity.CREATED)
-                .description("2")
-                .side(NotificationSideBaseEntity.SENDER)
-                .createdDate(now.plusSeconds(21L))
-                .build();
-        InvestigationEntity thirdInvestigation = InvestigationEntity.builder()
-                .assets(Collections.emptyList())
-                .bpn(testBpn)
-                .status(NotificationStatusBaseEntity.CLOSED)
-                .description("3")
-                .side(NotificationSideBaseEntity.SENDER)
-                .createdDate(now)
-                .build();
-        InvestigationEntity fourthInvestigation = InvestigationEntity.builder()
-                .assets(Collections.emptyList())
-                .bpn(testBpn)
-                .status(NotificationStatusBaseEntity.CREATED)
-                .description("4")
-                .side(NotificationSideBaseEntity.SENDER)
-                .createdDate(now.plusSeconds(20L))
-                .build();
-        InvestigationEntity fifthInvestigation = InvestigationEntity.builder()
-                .assets(Collections.emptyList())
-                .bpn(testBpn)
-                .status(NotificationStatusBaseEntity.ACKNOWLEDGED)
-                .description("5")
-                .side(NotificationSideBaseEntity.SENDER)
-                .createdDate(now.plusSeconds(40L))
-                .build();
-
-
-        investigationNotificationsSupport.storedNotifications(
-                InvestigationNotificationEntity
-                        .builder()
-                        .id("1")
-                        .investigation(firstInvestigation)
-                        .status(NotificationStatusBaseEntity.CREATED)
-                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
-                        .build(),
-                InvestigationNotificationEntity
-                        .builder()
-                        .status(NotificationStatusBaseEntity.CREATED)
-                        .id("2")
-                        .investigation(secondInvestigation)
-                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
-                        .build(),
-                InvestigationNotificationEntity
-                        .builder()
-                        .status(NotificationStatusBaseEntity.CREATED)
-                        .id("3")
-                        .investigation(thirdInvestigation)
-                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
-                        .build(),
-                InvestigationNotificationEntity
-                        .builder()
-                        .status(NotificationStatusBaseEntity.CREATED)
-                        .id("4")
-                        .investigation(fourthInvestigation)
-                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
-                        .build(),
-                InvestigationNotificationEntity
-                        .builder()
-                        .status(NotificationStatusBaseEntity.CREATED)
-                        .id("5")
-                        .investigation(fifthInvestigation)
-                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
-                        .build()
-        );
-
+        // then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .param("page", "0")
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created?page=0&size=10&sort=$sortString".replace("$sortString", sortString))
+                .param("filter", filterString)
+                .param("sort", sortString)
+                .get("/api/investigations")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
-                .body("content", Matchers.hasSize(5))
-                .body("totalItems", Matchers.is(5))
-                .body("content.description", Matchers.containsInRelativeOrder("5", "4", "3", "2", "1"));
+                .body("totalItems", Matchers.is(8))
+                .body("content", Matchers.hasSize(8))
+                .body("content.description", Matchers.containsInRelativeOrder("1", "2", "3", "4", "5", "6", "7", "8"));
     }
 
     @Test
     void givenSortByStatusProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
         // given
-        String sortString = "status,asc";
-        Instant now = Instant.now();
-        String testBpn = bpnSupport.testBpn();
+        String filterString = "side,EQUAL,SENDER,AND";
+        String sortString = "status,ASC";
+        investigationNotificationsSupport.defaultInvestigationsStored();
 
-        InvestigationEntity firstInvestigation = InvestigationEntity.builder()
-                .assets(Collections.emptyList())
-                .bpn(testBpn)
-                .status(NotificationStatusBaseEntity.SENT)
-                .side(NotificationSideBaseEntity.SENDER)
-                .description("1")
-                .createdDate(now.minusSeconds(10L))
-                .build();
-        InvestigationEntity secondInvestigation = InvestigationEntity.builder()
-                .assets(Collections.emptyList())
-                .bpn(testBpn)
-                .status(NotificationStatusBaseEntity.CREATED)
-                .description("2")
-                .side(NotificationSideBaseEntity.SENDER)
-                .createdDate(now.plusSeconds(21L))
-                .build();
-        InvestigationEntity thirdInvestigation = InvestigationEntity.builder()
-                .assets(Collections.emptyList())
-                .bpn(testBpn)
-                .status(NotificationStatusBaseEntity.CLOSED)
-                .description("3")
-                .side(NotificationSideBaseEntity.SENDER)
-                .createdDate(now)
-                .build();
-        InvestigationEntity fourthInvestigation = InvestigationEntity.builder()
-                .assets(Collections.emptyList())
-                .bpn(testBpn)
-                .status(NotificationStatusBaseEntity.CREATED)
-                .description("4")
-                .side(NotificationSideBaseEntity.SENDER)
-                .createdDate(now.plusSeconds(20L))
-                .build();
-        InvestigationEntity fifthInvestigation = InvestigationEntity.builder()
-                .assets(Collections.emptyList())
-                .bpn(testBpn)
-                .status(NotificationStatusBaseEntity.ACKNOWLEDGED)
-                .description("5")
-                .side(NotificationSideBaseEntity.SENDER)
-                .createdDate(now.plusSeconds(40L))
-                .build();
-
-
-        investigationNotificationsSupport.storedNotifications(
-                InvestigationNotificationEntity
-                        .builder()
-                        .id("1")
-                        .investigation(firstInvestigation)
-                        .status(NotificationStatusBaseEntity.CREATED)
-                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
-                        .build(),
-                InvestigationNotificationEntity
-                        .builder()
-                        .status(NotificationStatusBaseEntity.CREATED)
-                        .id("2")
-                        .investigation(secondInvestigation)
-                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
-                        .build(),
-                InvestigationNotificationEntity
-                        .builder()
-                        .status(NotificationStatusBaseEntity.CREATED)
-                        .id("3")
-                        .investigation(thirdInvestigation)
-                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
-                        .build(),
-                InvestigationNotificationEntity
-                        .builder()
-                        .status(NotificationStatusBaseEntity.CREATED)
-                        .id("4")
-                        .investigation(fourthInvestigation)
-                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
-                        .build(),
-                InvestigationNotificationEntity
-                        .builder()
-                        .status(NotificationStatusBaseEntity.CREATED)
-                        .id("5")
-                        .investigation(fifthInvestigation)
-                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
-                        .build()
-        );
-
+        // then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .param("page", "0")
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created?page=0&size=10&sort=$sortString".replace("$sortString", sortString))
+                .param("filter", filterString)
+                .param("sort", sortString)
+                .get("/api/investigations")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
-                .body("content", Matchers.hasSize(5))
-                .body("totalItems", Matchers.is(5))
-                .body("content.status", Matchers.containsInRelativeOrder("ACKNOWLEDGED", "CLOSED", "CREATED", "CREATED", "SENT"));
+                .body("totalItems", Matchers.is(8))
+                .body("content", Matchers.hasSize(8))
+                .body("content.status", Matchers.containsInRelativeOrder("ACCEPTED", "ACKNOWLEDGED", "CANCELED", "CLOSED", "CREATED", "DECLINED", "RECEIVED", "SENT"));
     }
 
     @Test
@@ -540,7 +207,10 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created?page=0&size=10&sort=$sortString".replace("$sortString", sortString))
+                .param("page", 0)
+                .param("size", 10)
+                .param("sort", sortString)
+                .get("/api/investigations")
                 .then()
                 .statusCode(400)
                 .body("message", Matchers.is(
@@ -549,7 +219,7 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldReturnPagedCreatedInvestigations() throws JoseException {
+    void shouldReturnPagedInvestigations() throws JoseException {
         // given
         Instant now = Instant.now();
         String testBpn = bpnSupport.testBpn();
@@ -576,7 +246,7 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .get("/api/investigations")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(2))
@@ -586,172 +256,7 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldReturnProperlyPagedReceivedInvestigations() throws JoseException {
-        // given
-        Instant now = Instant.now();
-        String testBpn = bpnSupport.testBpn();
-        String senderBPN = "BPN0001";
-        String senderName = "Sender name";
-        String receiverBPN = "BPN0002";
-        String receiverName = "Receiver name";
-
-        IntStream.range(101, 201)
-                .forEach(number ->
-                        {
-                            InvestigationEntity investigationEntity = InvestigationEntity.builder()
-                                    .assets(Collections.emptyList())
-                                    .bpn(testBpn)
-                                    .status(NotificationStatusBaseEntity.CREATED)
-                                    .side(NotificationSideBaseEntity.RECEIVER)
-                                    .createdDate(now)
-                                    .build();
-
-                            InvestigationEntity investigation = investigationsSupport.storedInvestigationFullObject(investigationEntity);
-
-                            InvestigationNotificationEntity notificationEntity = InvestigationNotificationEntity
-                                    .builder()
-                                    .id(UUID.randomUUID().toString())
-                                    .investigation(investigation)
-                                    .createdBy(senderBPN)
-                                    .status(NotificationStatusBaseEntity.CREATED)
-                                    .createdByName(senderName)
-                                    .sendTo(receiverBPN)
-                                    .sendToName(receiverName)
-                                    .messageId("messageId")
-                                    .build();
-
-                            InvestigationNotificationEntity persistedNotification = investigationNotificationsSupport.storedNotification(notificationEntity);
-                            persistedNotification.setInvestigation(investigation);
-                            investigationNotificationsSupport.storedNotification(persistedNotification);
-                        }
-                );
-
-        // when/then
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "2")
-                .param("size", "10")
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/api/investigations/received")
-                .then()
-                .statusCode(200)
-                .body("content.createdBy", Matchers.hasItems(senderBPN))
-                .body("content.createdByName", Matchers.hasItems(senderName))
-                .body("content.sendTo", Matchers.hasItems(receiverBPN))
-                .body("content.sendToName", Matchers.hasItems(receiverName))
-                .body("page", Matchers.is(2))
-                .body("pageSize", Matchers.is(10))
-                .body("content", Matchers.hasSize(10))
-                .body("totalItems", Matchers.is(100));
-    }
-
-    @Test
-    void shouldReturnReceivedInvestigationsSortedByCreationTime() throws JoseException {
-        // given
-        String sortString = "createdDate,desc";
-        Instant now = Instant.now();
-        String testBpn = bpnSupport.testBpn();
-
-        InvestigationEntity firstInvestigation = InvestigationEntity.builder()
-                .assets(Collections.emptyList())
-                .bpn(testBpn)
-                .status(NotificationStatusBaseEntity.RECEIVED)
-                .side(NotificationSideBaseEntity.RECEIVER)
-                .description("1")
-                .createdDate(now.minusSeconds(5L))
-                .build();
-        InvestigationEntity secondInvestigation = InvestigationEntity.builder()
-                .assets(Collections.emptyList())
-                .bpn(testBpn)
-                .status(NotificationStatusBaseEntity.RECEIVED)
-                .description("2")
-                .side(NotificationSideBaseEntity.RECEIVER)
-                .createdDate(now.plusSeconds(2L))
-                .build();
-        InvestigationEntity thirdInvestigation = InvestigationEntity.builder()
-                .assets(Collections.emptyList())
-                .bpn(testBpn)
-                .status(NotificationStatusBaseEntity.RECEIVED)
-                .description("3")
-                .side(NotificationSideBaseEntity.RECEIVER)
-                .createdDate(now)
-                .build();
-        InvestigationEntity fourthInvestigation = InvestigationEntity.builder()
-                .assets(Collections.emptyList())
-                .bpn(testBpn)
-                .status(NotificationStatusBaseEntity.RECEIVED)
-                .description("4")
-                .side(NotificationSideBaseEntity.RECEIVER)
-                .createdDate(now.plusSeconds(20L))
-                .build();
-        InvestigationEntity fifthInvestigation = InvestigationEntity.builder()
-                .assets(Collections.emptyList())
-                .bpn(testBpn)
-                .status(NotificationStatusBaseEntity.CREATED)
-                .description("5")
-                .side(NotificationSideBaseEntity.SENDER)
-                .createdDate(now.plusSeconds(40L))
-                .build();
-
-        investigationNotificationsSupport.storedNotifications(
-                InvestigationNotificationEntity
-                        .builder()
-                        .id("1")
-                        .investigation(firstInvestigation)
-                        .status(NotificationStatusBaseEntity.CREATED)
-                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
-                        .build(),
-                InvestigationNotificationEntity
-                        .builder()
-                        .id("2")
-                        .investigation(secondInvestigation)
-                        .status(NotificationStatusBaseEntity.CREATED)
-                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
-                        .build(),
-                InvestigationNotificationEntity
-                        .builder()
-                        .id("3")
-                        .investigation(thirdInvestigation)
-                        .status(NotificationStatusBaseEntity.CREATED)
-                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
-                        .build(),
-                InvestigationNotificationEntity
-                        .builder()
-                        .id("4")
-                        .investigation(fourthInvestigation)
-                        .status(NotificationStatusBaseEntity.CREATED)
-                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
-                        .build(),
-                InvestigationNotificationEntity
-                        .builder()
-                        .id("5")
-                        .investigation(fifthInvestigation)
-                        .status(NotificationStatusBaseEntity.CREATED)
-                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
-                        .build()
-        );
-
-        // then
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/api/investigations/received?sort=$sortString".replace("$sortString", sortString))
-                .then()
-                .statusCode(200)
-                .body("page", Matchers.is(0))
-                .body("pageSize", Matchers.is(10))
-                .body("content", Matchers.hasSize(4))
-                .body("totalItems", Matchers.is(4))
-                .body("content.description", Matchers.containsInRelativeOrder("4", "2", "3", "1"))
-                .body("content.createdDate", Matchers.hasItems(isIso8601DateTime()));
-    }
-
-    @Test
-    void givenNoInvestigationId_whenGetInvestigationById_thenReturnNotFound() throws JoseException {
+    void givenNonExistingInvestigation_whenGetInvestigationById_thenReturnNotFound() throws JoseException {
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -765,57 +270,25 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
     @Test
     void shouldReturnInvestigationById() throws JoseException {
         // given
-        String testBpn = bpnSupport.testBpn();
-        String senderBPN = "BPN0001";
-        String senderName = "Sender name";
-        String receiverBPN = "BPN0002";
-        String receiverName = "Receiver name";
-
-        InvestigationEntity investigationEntity =
-                InvestigationEntity
-                        .builder()
-                        .id(1L)
-                        .assets(List.of())
-                        .bpn(testBpn)
-                        .description("1")
-                        .status(NotificationStatusBaseEntity.RECEIVED)
-                        .side(NotificationSideBaseEntity.SENDER)
-                        .createdDate(Instant.now())
-                        .build();
-
-        InvestigationEntity persistedInvestigation = investigationsSupport.storedInvestigationFullObject(investigationEntity);
-
-        InvestigationNotificationEntity notificationEntity = investigationNotificationsSupport.storedNotification(
-                InvestigationNotificationEntity
-                        .builder()
-                        .id("1")
-                        .investigation(persistedInvestigation)
-                        .createdBy(senderBPN)
-                        .createdByName(senderName)
-                        .sendTo(receiverBPN)
-                        .status(NotificationStatusBaseEntity.CREATED)
-                        .sendToName(receiverName)
-                        .build());
-        notificationEntity.setInvestigation(persistedInvestigation);
-        investigationNotificationsSupport.storedNotification(notificationEntity);
-        Long investigationId = persistedInvestigation.getId();
+        InvestigationNotificationEntity storedInvestigationNotification = investigationNotificationsSupport.storeInvestigationNotification();
+        InvestigationEntity storedInvestigation = storedInvestigationNotification.getInvestigation();
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/{investigationId}", investigationId)
+                .get("/api/investigations/{investigationId}", storedInvestigation.getId())
                 .then()
                 .statusCode(200)
-                .body("id", Matchers.is(investigationId.intValue()))
-                .body("status", Matchers.is("RECEIVED"))
-                .body("description", Matchers.is("1"))
+                .body("id", Matchers.is(storedInvestigation.getId().intValue()))
+                .body("status", Matchers.is(storedInvestigation.getStatus().name()))
+                .body("description", Matchers.is(storedInvestigation.getDescription()))
                 .body("assetIds", Matchers.empty())
-                .body("createdBy", Matchers.is(senderBPN))
-                .body("createdByName", Matchers.is(senderName))
-                .body("sendTo", Matchers.is(receiverBPN))
-                .body("sendToName", Matchers.is(receiverName))
+                .body("createdBy", Matchers.is(storedInvestigationNotification.getCreatedBy()))
+                .body("createdByName", Matchers.is(storedInvestigationNotification.getCreatedByName()))
+                .body("sendTo", Matchers.is(storedInvestigationNotification.getSendTo()))
+                .body("sendToName", Matchers.is(storedInvestigationNotification.getSendToName()))
                 .body("createdDate", isIso8601DateTime());
     }
 }

@@ -70,12 +70,13 @@ class ReceiverInvestigationsControllerIT extends IntegrationTestSpecification {
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/received")
+                .get("/api/investigations")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
-                .body("content", Matchers.hasSize(1));
+                .body("content", Matchers.hasSize(1))
+                .body("content.status", Matchers.containsInRelativeOrder("RECEIVED"));
     }
 
     @Test
@@ -83,7 +84,7 @@ class ReceiverInvestigationsControllerIT extends IntegrationTestSpecification {
         // given
         final long notExistingInvestigationId = 1234L;
 
-        // when
+        // when/then
         given()
                 .contentType(ContentType.JSON)
                 .body("""
@@ -96,20 +97,6 @@ class ReceiverInvestigationsControllerIT extends IntegrationTestSpecification {
                 .post("/api/investigations/{notExistingInvestigationId}/update", notExistingInvestigationId)
                 .then()
                 .statusCode(404);
-
-        // then
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "15")
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/api/investigations/received")
-                .then()
-                .statusCode(200)
-                .body("page", Matchers.is(0))
-                .body("pageSize", Matchers.is(15))
-                .body("content", Matchers.hasSize(0));
     }
 
     @Test
@@ -131,20 +118,6 @@ class ReceiverInvestigationsControllerIT extends IntegrationTestSpecification {
                 .post("/api/investigations/{notExistingInvestigationId}/update", notExistingInvestigationId)
                 .then()
                 .statusCode(404);
-
-        // then
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "15")
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/api/investigations/received")
-                .then()
-                .statusCode(200)
-                .body("page", Matchers.is(0))
-                .body("pageSize", Matchers.is(15))
-                .body("content", Matchers.hasSize(0));
     }
 
     @Test
@@ -166,20 +139,6 @@ class ReceiverInvestigationsControllerIT extends IntegrationTestSpecification {
                 .post("/api/investigations/{notExistingInvestigationId}/update", notExistingInvestigationId)
                 .then()
                 .statusCode(404);
-
-        // then
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "15")
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/api/investigations/received")
-                .then()
-                .statusCode(200)
-                .body("page", Matchers.is(0))
-                .body("pageSize", Matchers.is(15))
-                .body("content", Matchers.hasSize(0));
     }
 
     @ParameterizedTest
@@ -197,20 +156,6 @@ class ReceiverInvestigationsControllerIT extends IntegrationTestSpecification {
                 .post("/api/investigations/{notExistingInvestigationId}/update", Long.toString(notExistingInvestigationId))
                 .then()
                 .statusCode(400);
-
-        // then
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "15")
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/api/investigations/received")
-                .then()
-                .statusCode(200)
-                .body("page", Matchers.is(0))
-                .body("pageSize", Matchers.is(15))
-                .body("content", Matchers.hasSize(0));
     }
 
 

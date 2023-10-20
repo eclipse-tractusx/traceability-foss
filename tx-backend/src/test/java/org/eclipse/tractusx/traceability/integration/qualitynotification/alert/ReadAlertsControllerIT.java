@@ -92,7 +92,8 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/received")
+                .param("filter", "side,EQUAL,RECEIVER,AND")
+                .get("/api/alerts")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -102,13 +103,18 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
 
     @Test
     void shouldReturnNoCreatedAlerts() throws JoseException {
+        // given
+        String filterString = "side,EQUAL,SENDER,AND";
+
+        // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .param("page", "0")
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/created")
+                .param("filter", filterString)
+                .get("/api/alerts")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -208,7 +214,8 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/created")
+                .param("filter", "side,EQUAL,SENDER,AND")
+                .get("/api/alerts")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -221,6 +228,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
     void givenSortByCreatedDateProvided_whenGetAlerts_thenReturnAlertsProperlySorted() throws JoseException {
         // given
         String sortString = "createdDate,desc";
+        String filterString = "side,EQUAL,SENDER,AND";
         Instant now = Instant.now();
         String testBpn = bpnSupport.testBpn();
 
@@ -310,7 +318,11 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/created?page=0&size=10&sort=$sortString".replace("$sortString", sortString))
+                .param("filter", filterString)
+                .param("page", 0)
+                .param("size", 10)
+                .param("sort", sortString)
+                .get("/api/alerts")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -325,6 +337,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
         String sortString = "description,desc";
         Instant now = Instant.now();
         String testBpn = bpnSupport.testBpn();
+        String filterString = "side,EQUAL,SENDER,AND";
 
         AlertEntity firstAlert = AlertEntity.builder()
                 .assets(Collections.emptyList())
@@ -412,7 +425,11 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/created?page=0&size=10&sort=$sortString".replace("$sortString", sortString))
+                .param("filter", filterString)
+                .param("page", 0)
+                .param("size", 10)
+                .param("sort", sortString)
+                .get("/api/alerts")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -425,6 +442,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
     @Test
     void givenSortByStatusProvided_whenGetAlerts_thenReturnAlertsProperlySorted() throws JoseException {
         // given
+        String filterString = "side,EQUAL,SENDER,AND";
         String sortString = "status,asc";
         Instant now = Instant.now();
         String testBpn = bpnSupport.testBpn();
@@ -515,7 +533,11 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/created?page=0&size=10&sort=$sortString".replace("$sortString", sortString))
+                .param("filter", filterString)
+                .param("page", 0)
+                .param("size", 10)
+                .param("sort", sortString)
+                .get("/api/alerts")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -529,6 +551,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
     void givenInvalidSort_whenGetCreated_thenBadRequest() throws JoseException {
         // given
         String sortString = "createdDate,failure";
+        String filterString = "side,EQUAL,SENDER,AND";
 
         // when/then
         given()
@@ -537,7 +560,11 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/created?page=0&size=10&sort=$sortString".replace("$sortString", sortString))
+                .param("filter", filterString)
+                .param("page", 0)
+                .param("size", 10)
+                .param("sort", sortString)
+                .get("/api/alerts")
                 .then()
                 .statusCode(400)
                 .body("message", Matchers.is(
@@ -548,6 +575,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
     @Test
     void shouldReturnPagedCreatedAlerts() throws JoseException {
         // given
+        String filterString = "side,EQUAL,SENDER,AND";
         Instant now = Instant.now();
         String testBpn = bpnSupport.testBpn();
 
@@ -573,7 +601,8 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/created")
+                .param("filter", filterString)
+                .get("/api/alerts")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(2))
@@ -591,6 +620,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
         String senderName = "Sender name";
         String receiverBPN = "BPN0002";
         String receiverName = "Receiver name";
+        String filterString = "side,EQUAL,RECEIVER,AND";
 
         IntStream.range(101, 201)
                 .forEach(number ->
@@ -630,7 +660,8 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/received")
+                .param("filter", filterString)
+                .get("/api/alerts")
                 .then()
                 .statusCode(200)
                 .body("content.createdBy", Matchers.hasItems(senderBPN))
@@ -736,7 +767,9 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/received?sort=$sortString".replace("$sortString", sortString))
+                .param("filter", "side,EQUAL,RECEIVER,AND")
+                .param("sort", sortString)
+                .get("/api/alerts")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))

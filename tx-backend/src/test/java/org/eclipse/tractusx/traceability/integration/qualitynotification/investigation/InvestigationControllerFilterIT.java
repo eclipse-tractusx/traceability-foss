@@ -54,15 +54,15 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
-                .body("content", Matchers.hasSize(6))
-                .body("totalItems", Matchers.is(6));
+                .body("totalItems", Matchers.is(14))
+                .body("content", Matchers.hasSize(10));
     }
 
     @Test
     void givenInvestigations_whenProvideBpnFilter_thenReturnExpectedResult() throws JoseException {
         // given
         InvestigationNotificationSupport.defaultInvestigationsStored();
-        String filter = "?filter=bpn,STARTS_WITH,BPNL00000003AXS2,OR";
+        String filter = "?filter=bpn,STARTS_WITH,BPNL00000002OTHER,OR";
 
         // when/then
         given()
@@ -76,15 +76,15 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
-                .body("content", Matchers.hasSize(1))
-                .body("totalItems", Matchers.is(1));
+                .body("totalItems", Matchers.is(6))
+                .body("content", Matchers.hasSize(6));
     }
 
     @Test
     void givenInvestigations_whenProvideBpnFilterAnd_thenReturnExpectedResult() throws JoseException {
         // given
         InvestigationNotificationSupport.defaultInvestigationsStored();
-        String filter = "?filter=bpn,STARTS_WITH,BPNL00000003AXS3,AND&filter=createdDate,AT_LOCAL_DATE," + LocalDate.now() + ",AND";
+        String filter = "?filter=bpn,STARTS_WITH,BPNL00000001OWN,AND&filter=createdDate,AT_LOCAL_DATE,2023-10-10,AND";
 
         // when/then
         given()
@@ -98,7 +98,7 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
-                .body("content", Matchers.hasSize(4))
-                .body("totalItems", Matchers.is(4));
+                .body("totalItems", Matchers.is(2))
+                .body("content", Matchers.hasSize(2));
     }
 }
