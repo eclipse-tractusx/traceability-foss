@@ -29,6 +29,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.A
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.repository.JpaAssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.AlertRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationAffectedPart;
@@ -42,6 +43,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.mode
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import java.time.Clock;
@@ -52,6 +54,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -73,6 +77,15 @@ public class AlertsRepositoryImpl implements AlertRepository {
         AlertNotificationEntity entity = notificationRepository.findById(notification.getId())
                 .orElseThrow(() -> new IllegalArgumentException(String.format("Notification with id %s not found!", notification.getId())));
         handleNotificationUpdate(entity, notification);
+    }
+
+    @Override
+    public PageResult<QualityNotification> getNotifications(Pageable pageable, SearchCriteria searchCriteria) {
+        List<AlertSpecification> alertsSpecifications = emptyIfNull(searchCriteria.getSearchCriteriaFilterList()).stream()
+                .map(AlertSpecification::new)
+                .toList();
+        Specification<AlertEntity> specification = AlertSpecification.toSpecification(alertsSpecifications, searchCriteria.getSearchCriteriaOperator());
+        return new PageResult<>(jpaAlertRepository.findAll(specification, pageable), AlertEntity::toDomain);
     }
 
     @Override

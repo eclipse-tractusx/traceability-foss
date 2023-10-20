@@ -34,6 +34,7 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
+import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.service.QualityNotificationService;
 import org.eclipse.tractusx.traceability.qualitynotification.application.investigation.mapper.InvestigationResponseMapper;
@@ -242,6 +243,11 @@ public class InvestigationsController {
     public PageResult<InvestigationResponse> getReceivedInvestigations(OwnPageable pageable) {
         log.info(API_LOG_START + "/received");
         return InvestigationResponseMapper.fromAsPageResult(investigationService.getReceived(OwnPageable.toPageable(pageable)));
+    }
+
+    @GetMapping("")
+    public PageResult<InvestigationResponse> getInvestigations(OwnPageable pageable, SearchCriteriaRequestParam filter) {
+        return InvestigationResponseMapper.fromAsPageResult(investigationService.getNotifications(OwnPageable.toPageable(pageable), filter.toSearchCriteria()));
     }
 
     @Operation(operationId = "getInvestigation",

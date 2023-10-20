@@ -19,12 +19,18 @@
 
 package org.eclipse.tractusx.traceability.integration.common.support;
 
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertNotificationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.repository.JpaAlertNotificationRepository;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,6 +40,88 @@ public class AlertNotificationsSupport {
 
     @Autowired
     JpaAlertNotificationRepository jpaAlertNotificationRepository;
+
+    public void defaultAlertsStored() {
+        Instant now = Instant.now();
+        AlertEntity firstAlert = AlertEntity.builder()
+                .assets(Collections.emptyList())
+                .bpn("BPNL00000003AXS3")
+                .status(NotificationStatusBaseEntity.CREATED)
+                .side(NotificationSideBaseEntity.SENDER)
+                .description("1")
+                .createdDate(now.minusSeconds(10L))
+                .build();
+        AlertEntity secondAlert = AlertEntity.builder()
+                .assets(Collections.emptyList())
+                .bpn("BPNL00000003AXS3")
+                .status(NotificationStatusBaseEntity.CREATED)
+                .description("2")
+                .side(NotificationSideBaseEntity.SENDER)
+                .createdDate(now.plusSeconds(21L))
+                .build();
+        AlertEntity thirdAlert = AlertEntity.builder()
+                .assets(Collections.emptyList())
+                .bpn("BPNL00000003AXS3")
+                .status(NotificationStatusBaseEntity.CREATED)
+                .description("3")
+                .side(NotificationSideBaseEntity.SENDER)
+                .createdDate(now)
+                .build();
+        AlertEntity fourthAlert = AlertEntity.builder()
+                .assets(Collections.emptyList())
+                .bpn("BPNL00000003AXS3")
+                .status(NotificationStatusBaseEntity.CREATED)
+                .description("4")
+                .side(NotificationSideBaseEntity.SENDER)
+                .createdDate(now.minus(2L, ChronoUnit.DAYS))
+                .build();
+        AlertEntity fifthAlert = AlertEntity.builder()
+                .assets(Collections.emptyList())
+                .bpn("BPNL00000003AXS2")
+                .status(NotificationStatusBaseEntity.CREATED)
+                .description("5")
+                .side(NotificationSideBaseEntity.RECEIVER)
+                .createdDate(now.plusSeconds(40L))
+                .build();
+
+        storedAlertNotifications(
+                AlertNotificationEntity
+                        .builder()
+                        .id("1")
+                        .alert(firstAlert)
+                        .status(NotificationStatusBaseEntity.CREATED)
+                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a11")
+                        .build(),
+                AlertNotificationEntity
+                        .builder()
+                        .status(NotificationStatusBaseEntity.CREATED)
+                        .id("2")
+                        .alert(secondAlert)
+                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a22")
+                        .build(),
+                AlertNotificationEntity
+                        .builder()
+                        .status(NotificationStatusBaseEntity.CREATED)
+                        .id("3")
+                        .alert(thirdAlert)
+                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a33")
+                        .build(),
+                AlertNotificationEntity
+                        .builder()
+                        .status(NotificationStatusBaseEntity.CREATED)
+                        .id("4")
+                        .alert(fourthAlert)
+                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a44")
+                        .build(),
+                AlertNotificationEntity
+                        .builder()
+                        .status(NotificationStatusBaseEntity.CREATED)
+                        .id("5")
+                        .alert(fifthAlert)
+                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a55")
+                        .build()
+        );
+    }
 
     public AlertNotificationEntity storedAlertNotification(AlertNotificationEntity notification) {
         return jpaAlertNotificationRepository.save(notification);

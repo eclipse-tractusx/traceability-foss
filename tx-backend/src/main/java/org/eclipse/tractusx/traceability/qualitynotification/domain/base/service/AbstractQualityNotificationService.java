@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.base.servic
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.service.QualityNotificationService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
@@ -42,14 +43,21 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
 
     protected abstract void setAssetStatus(QualityNotification qualityNotification);
 
+    @Deprecated
     @Override
     public PageResult<QualityNotification> getCreated(Pageable pageable) {
         return getQualityNotificationsPageResult(pageable, QualityNotificationSide.SENDER);
     }
 
+    @Deprecated
     @Override
     public PageResult<QualityNotification> getReceived(Pageable pageable) {
         return getQualityNotificationsPageResult(pageable, QualityNotificationSide.RECEIVER);
+    }
+
+    @Override
+    public PageResult<QualityNotification> getNotifications(Pageable pageable, SearchCriteria searchCriteria){
+        return getQualityNotificationRepository().getNotifications(pageable, searchCriteria);
     }
 
     @Override
