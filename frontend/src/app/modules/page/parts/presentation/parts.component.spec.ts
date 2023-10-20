@@ -19,130 +19,249 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { By } from '@angular/platform-browser';
-import { LayoutModule } from '@layout/layout.module';
-import { SidenavComponent } from '@layout/sidenav/sidenav.component';
-import { SidenavService } from '@layout/sidenav/sidenav.service';
-import { OtherPartsModule } from '@page/other-parts/other-parts.module';
-import { PartsComponent } from '@page/parts/presentation/parts.component';
-import { SharedModule } from '@shared/shared.module';
-import { fireEvent, screen, waitFor } from '@testing-library/angular';
-import { renderComponent } from '@tests/test-render.utils';
-import { PartsModule } from '../parts.module';
+import {LayoutModule} from '@layout/layout.module';
+import {SidenavComponent} from '@layout/sidenav/sidenav.component';
+import {SidenavService} from '@layout/sidenav/sidenav.service';
+import {OtherPartsModule} from '@page/other-parts/other-parts.module';
+import {PartsComponent} from '@page/parts/presentation/parts.component';
+import {SharedModule} from '@shared/shared.module';
+import {screen, waitFor} from '@testing-library/angular';
+import {renderComponent} from '@tests/test-render.utils';
+import {PartsModule} from '../parts.module';
+import {AssetAsBuiltFilter, AssetAsPlannedFilter} from "@page/parts/model/parts.model";
+import {TableHeaderSort} from "@shared/components/table/table.model";
+import {PartDetailsFacade} from "@shared/modules/part-details/core/partDetails.facade";
+import {toGlobalSearchAssetFilter} from "@shared/helper/filter-helper";
 
 describe('Parts', () => {
-  const renderParts = () => {
-    return renderComponent(`<app-sidenav></app-sidenav><app-parts></app-parts>`, {
-      declarations: [SidenavComponent, PartsComponent],
-      imports: [PartsModule, SharedModule, LayoutModule, OtherPartsModule],
-      providers: [{ provide: SidenavService }],
-      roles: ['admin', 'wip'],
-    });
-  };
 
-  it('should render part table', async () => {
-    await renderParts();
+    const renderParts = () => {
 
-    expect(await waitFor(() => screen.getByTestId('table-component--test-id'))).toBeInTheDocument();
-  });
+        return renderComponent(PartsComponent, {
+            declarations: [SidenavComponent],
+            imports: [PartsModule, SharedModule, LayoutModule, OtherPartsModule],
+            providers: [{provide: SidenavService}, {provide: PartDetailsFacade}],
+            roles: ['admin', 'wip'],
+        });
+    };
 
-  it('should render table and display correct amount of rows', async () => {
-    await renderParts();
-
-    const tableElement = await waitFor(() => screen.getByTestId('table-component--test-id'));
-    expect(tableElement).toBeInTheDocument();
-    expect(tableElement.children[1].childElementCount).toEqual(5);
-  });
-
-  it('should render parts with closed sidenav', async () => {
-    await renderParts();
-
-    const sideNavElement = await waitFor(() => screen.getByTestId('sidenav--test-id'));
-    expect(sideNavElement).toBeInTheDocument();
-    expect(sideNavElement).not.toHaveClass('sidenav--container__open');
-  });
-
-  it('should render selected parts information', async () => {
-    await renderParts();
-    await screen.findByTestId('table-component--test-id');
-    const selectedPartsInfo = await screen.getByText('page.selectedParts.info');
-
-    expect(selectedPartsInfo).toBeInTheDocument();
-  });
-
-  it('should sort asBuilt after column id', async () => {
-    const { fixture } = await renderParts();
-    const partsComponent =  await fixture.debugElement.query(By.directive(PartsComponent)).componentInstance;
-
-    let setTableFunctionSpy = spyOn<any>(partsComponent, "setTableSortingList").and.callThrough();
-    let idColumnHeader = await screen.findByText('table.column.id');
-    await waitFor(() => {fireEvent.click(idColumnHeader);}, {timeout: 3000});
-
-
-    expect(setTableFunctionSpy).toHaveBeenCalledWith(['id', 'asc'], "as_built" );
-
-    expect(partsComponent['tableAsBuiltSortList']).toEqual([["id", "asc"]]);
-  });
-
-  it('should multisort after column id and idShort', async () => {
-    const { fixture } = await renderParts();
-    const partsComponent =  await fixture.debugElement.query(By.directive(PartsComponent)).componentInstance;
-
-    let setTableFunctionSpy = spyOn<any>(partsComponent, "setTableSortingList").and.callThrough();
-    let idColumnHeader = await screen.findByText('table.column.id');
-    await waitFor(() => {fireEvent.click(idColumnHeader);}, {timeout: 3000});
-    let idShortHeader = await screen.findByText('table.column.idShort')
-
-    await waitFor(() => {fireEvent.keyDown(idShortHeader, {
-      ctrlKey: true,
-      charCode: 17
-    })})
-    expect(partsComponent['ctrlKeyState']).toBeTruthy();
-    await waitFor(() => {
-      fireEvent.click(idShortHeader)
+    it('should render split areas', async () => {
+        await renderParts();
+        expect(await waitFor(() => screen.getByTestId('as-split-area-1-component--test-id'))).toBeInTheDocument();
+        expect(await waitFor(() => screen.getByTestId('as-split-area-2-component--test-id'))).toBeInTheDocument();
     });
 
-    await waitFor(() => {fireEvent.keyUp(idShortHeader, {
-      ctrlKey: true,
-      charCode: 17
-    })})
 
-    await waitFor(() => {fireEvent.click(idShortHeader)});
-
-
-    expect(setTableFunctionSpy).toHaveBeenCalledWith(['id', 'asc'], "as_built" );
-    expect(setTableFunctionSpy).toHaveBeenCalledWith(['idShort', 'asc'], "as_built" );
-    console.warn(partsComponent.tableAsBuiltSortList);
-    expect(partsComponent['tableAsBuiltSortList']).toEqual([["id", "asc"], ["idShort", "desc"]]);
-  });
-
-  it('should reset sorting after third click', async () => {
-    const { fixture } = await renderParts();
-    const partsComponent =  await fixture.debugElement.query(By.directive(PartsComponent)).componentInstance;
-
-    let idColumnHeader = await screen.findByText('table.column.id');
-    await waitFor(() => {fireEvent.click(idColumnHeader);}, {timeout: 3000});
-    let idShortHeader = await screen.findByText('table.column.idShort')
-
-    await waitFor(() => {fireEvent.keyDown(idShortHeader, {
-      ctrlKey: true,
-      charCode: 17
-    })})
-
-    await waitFor(() => {
-      fireEvent.click(idShortHeader)
+    it('should have correct sizes for split areas', async () => {
+        const {fixture} = await renderParts();
+        const {componentInstance} = fixture;
+        expect(componentInstance.bomLifecycleSize.asPlannedSize).toBe(50);
+        expect(componentInstance.bomLifecycleSize.asBuiltSize).toBe(50);
     });
 
-    await waitFor(() => {fireEvent.keyUp(idShortHeader, {
-      ctrlKey: true,
-      charCode: 17
-    })})
 
-    await waitFor(() => {fireEvent.click(idShortHeader)});
+    it('should call partsFacade.setPartsAsBuiltWithFilter when filter is set', async () => {
 
-    await waitFor(() => {fireEvent.click(idShortHeader)});
+        const {fixture} = await renderParts();
+        const {componentInstance} = fixture;
+        // Arrange
+        const assetAsBuiltFilter: AssetAsBuiltFilter = {
+            id: "123"
+        };
+        const partsFacade = (componentInstance as any)['partsFacade'];
+        const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuilt');
 
-    expect(partsComponent['tableAsBuiltSortList']).toEqual([]);
-  });
+        componentInstance.filterActivated(true, assetAsBuiltFilter);
+
+
+        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], assetAsBuiltFilter);
+    });
+
+    it('should call partsFacade.setPartsAsPlannedWithFilter when filter is set', async () => {
+
+        const {fixture} = await renderParts();
+        const {componentInstance} = fixture;
+        // Arrange
+        const assetAsPlannedFilter: AssetAsPlannedFilter = {
+            id: "123"
+        };
+        const partsFacade = (componentInstance as any)['partsFacade'];
+        const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsPlanned');
+
+
+        componentInstance.filterActivated(false, assetAsPlannedFilter);
+
+
+        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], assetAsPlannedFilter);
+    });
+
+    it('should call partsFacade.setPartsAsBuilt when filter is not set', async () => {
+
+        const {fixture} = await renderParts();
+        const {componentInstance} = fixture;
+
+        const assetAsBuiltFilter: AssetAsBuiltFilter = {};
+        const partsFacade = (componentInstance as any)['partsFacade'];
+        const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuilt');
+
+        // Act
+        componentInstance.filterActivated(true, assetAsBuiltFilter);
+
+        // Assert
+        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], null);
+    });
+
+    it('should call partsFacade.setPartsAsBuilt with the correct parameters', async () => {
+        const {fixture} = await renderParts();
+        const {componentInstance} = fixture;
+
+        const page = 1; // Set the page number
+        const pageSize = 10; // Set the page size
+        const sorting = ['id', 'asc'] as TableHeaderSort;
+        componentInstance.ctrlKeyState = true;
+
+        // Access the private partsFacade property
+        const partsFacade = (componentInstance as any)['partsFacade'];
+        const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuilt');
+
+        // Act
+        componentInstance['onAsBuiltTableConfigChange']({page, pageSize, sorting}); // Access private method
+
+        // Assert
+        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsBuiltSortList']);
+    });
+
+    it('should call partsFacade.setPartsAsBuilt with the correct parameters no ctrlkey pressed', async () => {
+        const {fixture} = await renderParts();
+        const {componentInstance} = fixture;
+
+        const page = 1; // Set the page number
+        const pageSize = 10; // Set the page size
+        const sorting = ['id', 'asc'] as TableHeaderSort;
+        componentInstance.ctrlKeyState = false;
+
+        // Access the private partsFacade property
+        const partsFacade = (componentInstance as any)['partsFacade'];
+        const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuilt');
+
+        // Act
+        componentInstance['onAsBuiltTableConfigChange']({page, pageSize, sorting}); // Access private method
+
+        // Assert
+        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsBuiltSortList']);
+    });
+
+
+    it('should call partsFacade.setPartsAsPlanned with the correct parameters', async () => {
+        const {fixture} = await renderParts();
+        const {componentInstance} = fixture;
+
+        const page = 1; // Set the page number
+        const pageSize = 10; // Set the page size
+        const sorting = ['id', 'asc'] as TableHeaderSort;
+        componentInstance.ctrlKeyState = true;
+
+        // Access the private partsFacade property
+        const partsFacade = (componentInstance as any)['partsFacade'];
+        const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsPlanned');
+
+        // Act
+        componentInstance['onAsPlannedTableConfigChange']({page, pageSize, sorting}); // Access private method
+
+        // Assert
+        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsPlannedSortList']);
+    });
+
+    it('should call partsFacade.setPartsAsPlanned with the correct parameters  and ctrlkey not pressed', async () => {
+        const {fixture} = await renderParts();
+        const {componentInstance} = fixture;
+
+        const page = 1; // Set the page number
+        const pageSize = 10; // Set the page size
+        const sorting = ['id', 'asc'] as TableHeaderSort;
+        componentInstance.ctrlKeyState = false;
+
+        // Access the private partsFacade property
+        const partsFacade = (componentInstance as any)['partsFacade'];
+        const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsPlanned');
+
+        // Act
+        componentInstance['onAsPlannedTableConfigChange']({page, pageSize, sorting}); // Access private method
+
+        // Assert
+        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsPlannedSortList']);
+    });
+
+
+    it('should set selectedPart in PartDetailsFacade correctly', async () => {
+        const {fixture} = await renderParts();
+        const {componentInstance} = fixture;
+        const sampleEvent: Record<string, unknown> = {id: 123, name: 'Sample Part'};
+
+        componentInstance.onSelectItem(sampleEvent);
+        const partDetailsFacade = (componentInstance as any)['partDetailsFacade'];
+        expect(partDetailsFacade.selectedPart).toEqual(sampleEvent);
+    });
+
+    it('should resetTableSortingList on correct values', async () => {
+        const {fixture} = await renderParts();
+        const {componentInstance} = fixture;
+
+        const page = 1; // Set the page number
+        const pageSize = 10; // Set the page size
+        const sorting = null;
+
+        // Access the private partsFacade property
+        const partsFacade = (componentInstance as any)['partsFacade'];
+        const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuilt');
+
+        // Act
+        componentInstance['onAsBuiltTableConfigChange']({page, pageSize, sorting}); // Access private method
+
+        // Assert
+        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsBuiltSortList']);
+    });
+
+    it('should clear filters and call partsFacade methods with search value', async () => {
+
+        const {fixture} = await renderParts();
+        const {componentInstance} = fixture;
+        // Arrange
+        const searchValue = 'searchTerm';
+
+        const partsFacade = (componentInstance as any)['partsFacade'];
+        const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuilt');
+        const partsFacadeAsPlannedSpy = spyOn(partsFacade, 'setPartsAsPlanned');
+        componentInstance.searchControl.setValue(searchValue);
+
+
+        // Act
+        componentInstance.triggerPartSearch();
+
+        // Assert
+        expect(partsFacadeAsPlannedSpy).toHaveBeenCalledWith(0, 50, [], toGlobalSearchAssetFilter(searchValue, false), true);
+        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], toGlobalSearchAssetFilter(searchValue, true), true);
+    });
+
+    it('should not filter if filter search is unset', async () => {
+
+        const {fixture} = await renderParts();
+        const {componentInstance} = fixture;
+        // Arrange
+        const searchValue = '';
+
+        const partsFacade = (componentInstance as any)['partsFacade'];
+        const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuilt');
+        const partsFacadeAsPlannedSpy = spyOn(partsFacade, 'setPartsAsPlanned');
+        componentInstance.searchControl.setValue(searchValue);
+
+
+        // Act
+        componentInstance.triggerPartSearch();
+
+        // Assert
+        expect(partsFacadeAsPlannedSpy).toHaveBeenCalledWith();
+        expect(partsFacadeSpy).toHaveBeenCalledWith();
+    });
 
 });

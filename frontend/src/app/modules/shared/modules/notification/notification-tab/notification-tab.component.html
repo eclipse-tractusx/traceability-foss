@@ -19,13 +19,14 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<ng-container
-  *viewContainer="notificationsView$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
+<ng-container *viewContainer="notificationsView$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp">
+</ng-container>
 <ng-template #mainTmp let-notifications="view">
   <div *ngIf="notifications.data.totalItems > 0; else displayMessage">
     <app-table [paginationData]="notifications.data" [tableConfig]="tableConfig" [noShadow]="true" [labelId]="labelId"
-      [showHover]="false" (selected)="selectNotification($event)"
-      (configChanged)="onTableConfigChange($event)"></app-table>
+      [showHover]="false" [multiSortList]="multiSortList" (selected)="selectNotification($event)"
+      (configChanged)="onTableConfigChange($event)">
+    </app-table>
   </div>
   <ng-template #displayMessage>
     <ng-content select="[content1]"></ng-content>
@@ -37,7 +38,7 @@ SPDX-License-Identifier: Apache-2.0
 </ng-template>
 
 <ng-template #loaderTmp>
-  <mat-spinner></mat-spinner>
+  <mat-spinner class="loader"></mat-spinner>
 </ng-template>
 
 <ng-template #statusTmp let-status="value">

@@ -19,11 +19,6 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.application.alert.rest;
 
-import org.eclipse.tractusx.traceability.qualitynotification.application.alert.request.StartQualityAlertRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.CloseQualityNotificationRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.QualityNotificationSeverityRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.UpdateQualityNotificationRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.UpdateQualityNotificationStatusRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.service.QualityNotificationService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
@@ -34,8 +29,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import qualitynotification.alert.response.AlertResponse;
+import qualitynotification.base.request.CloseQualityNotificationRequest;
+import qualitynotification.base.request.QualityNotificationSeverityRequest;
+import qualitynotification.base.request.StartQualityNotificationRequest;
+import qualitynotification.base.request.UpdateQualityNotificationRequest;
+import qualitynotification.base.request.UpdateQualityNotificationStatusRequest;
 import qualitynotification.base.response.QualityNotificationIdResponse;
 import qualitynotification.base.response.QualityNotificationReasonResponse;
 import qualitynotification.base.response.QualityNotificationSeverityResponse;
@@ -46,6 +47,7 @@ import java.time.Instant;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.StartQualityNotificationDomain.from;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -56,6 +58,7 @@ class AlertControllerTest {
     @Mock
     private QualityNotificationService alertService;
 
+
     @InjectMocks
     private AlertController controller;
 
@@ -65,20 +68,14 @@ class AlertControllerTest {
         final List<String> partIds = List.of("partId1", "partId2");
         final Instant targetDate = Instant.parse("2099-03-11T22:44:06.333826952Z");
         final QualityNotificationId notificationId = new QualityNotificationId(666L);
-        final StartQualityAlertRequest request = StartQualityAlertRequest.builder()
+        final StartQualityNotificationRequest request = StartQualityNotificationRequest.builder()
                 .partIds(partIds)
                 .description("description")
                 .targetDate(targetDate)
                 .severity(QualityNotificationSeverityRequest.MINOR)
-                .bpn("BPN00001")
+                .receiverBpn("BPN00001")
                 .build();
-        when(alertService.start(
-                request.getPartIds(),
-                request.getDescription(),
-                request.getTargetDate(),
-                request.getSeverity().toDomain(),
-                request.getBpn(), request.isAsBuilt()
-        )).thenReturn(notificationId);
+        when(alertService.start(Mockito.eq(from(request)))).thenReturn(notificationId);
 
         // when
         final QualityNotificationIdResponse result = controller.alertAssets(request);
@@ -107,11 +104,11 @@ class AlertControllerTest {
                 .hasFieldOrPropertyWithValue("description", notification.getDescription())
                 .hasFieldOrPropertyWithValue("createdBy", notification.getNotifications().stream()
                         .findFirst()
-                        .map(QualityNotificationMessage::getSenderBpnNumber)
+                        .map(QualityNotificationMessage::getCreatedBy)
                         .orElse(null))
                 .hasFieldOrPropertyWithValue("createdByName", notification.getNotifications().stream()
                         .findFirst()
-                        .map(QualityNotificationMessage::getSenderManufacturerName)
+                        .map(QualityNotificationMessage::getCreatedByName)
                         .orElse(null))
                 .hasFieldOrPropertyWithValue("createdDate", notification.getCreatedAt().toString())
                 .hasFieldOrPropertyWithValue("assetIds", notification.getAssetIds())

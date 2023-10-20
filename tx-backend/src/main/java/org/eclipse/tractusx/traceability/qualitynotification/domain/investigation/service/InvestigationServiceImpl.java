@@ -22,18 +22,15 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.investigati
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.StartQualityNotificationDomain;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.AbstractQualityNotificationService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.NotificationPublisherService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationNotFoundException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.repository.QualityNotificationRepository;
 import org.springframework.stereotype.Service;
-
-import java.time.Instant;
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -60,8 +57,8 @@ public class InvestigationServiceImpl extends AbstractQualityNotificationService
     }
 
     @Override
-    public QualityNotificationId start(List<String> partIds, String description, Instant targetDate, QualityNotificationSeverity severity, String receiverBpn, boolean isAsBuilt) {
-        QualityNotification notification = getNotificationPublisherService().startInvestigation(partIds, description, targetDate, severity, receiverBpn, isAsBuilt);
+    public QualityNotificationId start(StartQualityNotificationDomain startQualityAlertDomain) {
+        QualityNotification notification = getNotificationPublisherService().startInvestigation(startQualityAlertDomain.getPartIds(), startQualityAlertDomain.getDescription(), startQualityAlertDomain.getTargetDate(), startQualityAlertDomain.getSeverity(), startQualityAlertDomain.getReceiverBpn(), startQualityAlertDomain.isAsBuilt());
 
         QualityNotificationId createdInvestigationId = getQualityNotificationRepository().saveQualityNotificationEntity(notification);
         log.info("Start Investigation {}", notification);

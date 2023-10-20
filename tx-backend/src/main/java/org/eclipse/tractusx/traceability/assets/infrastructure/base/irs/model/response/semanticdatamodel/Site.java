@@ -19,12 +19,16 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.eclipse.tractusx.traceability.common.date.CustomOffSetDateTimeNullOnException;
 
-import java.util.Date;
+import java.time.OffsetDateTime;
 
 public record Site(
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss", timezone = "CET") Date functionValidUntil,
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss", timezone = "CET") Date functionValidFrom,
+        @JsonDeserialize(using = CustomOffSetDateTimeNullOnException.class)
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss", timezone = "CET") OffsetDateTime functionValidUntil,
+        @JsonDeserialize(using = CustomOffSetDateTimeNullOnException.class)
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss", timezone = "UTC") OffsetDateTime functionValidFrom,
         String function,
         String catenaXSiteId
 ) {

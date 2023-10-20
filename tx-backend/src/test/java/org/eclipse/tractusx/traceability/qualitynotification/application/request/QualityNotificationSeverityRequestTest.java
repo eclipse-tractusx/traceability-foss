@@ -21,12 +21,12 @@ package org.eclipse.tractusx.traceability.qualitynotification.application.reques
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.ValueInstantiationException;
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.QualityNotificationSeverityRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import qualitynotification.base.request.QualityNotificationSeverityRequest;
 
 import java.io.IOException;
 import java.util.NoSuchElementException;

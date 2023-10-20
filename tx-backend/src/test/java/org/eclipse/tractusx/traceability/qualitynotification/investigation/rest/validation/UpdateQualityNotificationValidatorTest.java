@@ -21,8 +21,6 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.investigation.rest.validation;
 
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.UpdateQualityNotificationRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.UpdateQualityNotificationStatusRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.validation.UpdateQualityNotificationValidationException;
 import org.eclipse.tractusx.traceability.qualitynotification.application.validation.UpdateQualityNotificationValidator;
 import org.junit.jupiter.api.DisplayName;
@@ -30,6 +28,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
+import qualitynotification.base.request.UpdateQualityNotificationRequest;
+import qualitynotification.base.request.UpdateQualityNotificationStatusRequest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;

@@ -25,7 +25,7 @@ import {
   DisplayColumns,
   MenuActionConfig,
   TableConfig,
-  TableEventConfig,
+  TableEventConfig, TableHeaderSort,
 } from '@shared/components/table/table.model';
 import { Notification, Notifications } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
@@ -44,6 +44,7 @@ export class NotificationTabComponent implements AfterViewInit {
   @Input() menuActionsConfig: MenuActionConfig<Notification>[];
   @Input() optionalColumns: Array<'targetDate' | 'severity' | 'createdBy' | 'sendTo'> = [];
   @Input() sortableColumns: Record<string, boolean> = {};
+  @Input() multiSortList: TableHeaderSort[] = [];
 
   @Output() tableConfigChanged = new EventEmitter<TableEventConfig>();
   @Output() selected = new EventEmitter<Notification>();
@@ -78,6 +79,7 @@ export class NotificationTabComponent implements AfterViewInit {
         sendTo: this.userTemplate,
       },
     };
+
   }
 
   public selectNotification(notification: Record<string, unknown>): void {
@@ -87,4 +89,7 @@ export class NotificationTabComponent implements AfterViewInit {
   public onTableConfigChange(tableEventConfig: TableEventConfig): void {
     this.tableConfigChanged.emit(tableEventConfig);
   }
+
+
+
 }

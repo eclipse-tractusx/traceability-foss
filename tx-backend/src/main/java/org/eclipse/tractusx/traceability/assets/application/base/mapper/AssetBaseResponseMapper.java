@@ -32,7 +32,6 @@ import assets.response.base.QualityTypeResponse;
 import assets.response.base.SemanticDataModelResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataAsBuilt;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataTractionBatteryCode;
@@ -55,7 +54,6 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 @AllArgsConstructor
 @Slf4j
 @Data
-@SuperBuilder
 public class AssetBaseResponseMapper {
 
     public static List<DetailAspectModelResponse> fromList(List<DetailAspectModel> detailAspectModels) {
@@ -90,8 +88,8 @@ public class AssetBaseResponseMapper {
         if (detailAspectData instanceof DetailAspectDataPartSiteInformationAsPlanned detailAspectDataPartSiteInformationAsPlanned) {
             return PartSiteInformationAsPlannedResponse.builder().catenaXSiteId(detailAspectDataPartSiteInformationAsPlanned.getCatenaXSiteId())
                     .function(detailAspectDataPartSiteInformationAsPlanned.getFunction())
-                    .functionValidFrom(detailAspectDataPartSiteInformationAsPlanned.getFunctionValidFrom())
-                    .functionValidUntil(detailAspectDataPartSiteInformationAsPlanned.getFunctionValidUntil())
+                    .functionValidFrom(String.valueOf(detailAspectDataPartSiteInformationAsPlanned.getFunctionValidFrom()))
+                    .functionValidUntil(String.valueOf(detailAspectDataPartSiteInformationAsPlanned.getFunctionValidUntil()))
                     .build();
         }
 
@@ -101,14 +99,14 @@ public class AssetBaseResponseMapper {
                     .customerPartId(detailAspectDataAsBuilt.getCustomerPartId())
                     .nameAtCustomer(detailAspectDataAsBuilt.getNameAtCustomer())
                     .manufacturingCountry(detailAspectDataAsBuilt.getManufacturingCountry())
-                    .manufacturingDate(detailAspectDataAsBuilt.getManufacturingDate().toString())
+                    .manufacturingDate(String.valueOf(detailAspectDataAsBuilt.getManufacturingDate()))
                     .build();
         }
 
         if (detailAspectData instanceof DetailAspectDataAsPlanned detailAspectDataAsPlanned) {
             return DetailAspectDataAsPlannedResponse.builder()
-                    .validityPeriodTo(detailAspectDataAsPlanned.getValidityPeriodTo())
-                    .validityPeriodFrom(detailAspectDataAsPlanned.getValidityPeriodFrom())
+                    .validityPeriodTo(String.valueOf(detailAspectDataAsPlanned.getValidityPeriodTo()))
+                    .validityPeriodFrom(String.valueOf(detailAspectDataAsPlanned.getValidityPeriodFrom()))
                     .build();
         }
         return null;

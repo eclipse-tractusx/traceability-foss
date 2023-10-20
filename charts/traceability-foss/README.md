@@ -26,10 +26,9 @@ The Helm chart provides the following configuration options:
 - `postgresql.*`: The prefix for the postgresql of the backend subchart configuration. Defaults to the subchart (backend) values.yaml configuration
 - `irs-edc-consumer`: The prefix for the irs-ed-consumer of the backend subchart configuration. Defaults to the subchart (backend) values.yaml configuration
 - `pgadmin4.*`: The prefix for the pgadmin4 of the backend subchart configuration. Defaults to the subchart (backend) values.yaml configuration
-- `irs-helm.*`: The prefix for the irs-helm of the backend subchart configurationn. Defaults to the subchart (backend) values.yaml configuration
+- `irs-helm.*`: The prefix for the irs-helm of the backend subchart configuration. Defaults to the subchart (backend) values.yaml configuration
 
 You can customize the configuration options by creating a `values.yaml` file and specifying your desired values.
 
 ## License
 This project is licensed under the Apache License, Version 2.0. See the `LICENSE` file for more information.
-

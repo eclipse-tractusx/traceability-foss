@@ -26,23 +26,18 @@ import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetA
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.common.security.JwtRole;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotificationFactory;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertNotificationsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
-import org.eclipse.tractusx.traceability.qualitynotification.application.alert.request.StartQualityAlertRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.CloseQualityNotificationRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.QualityNotificationSeverityRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.UpdateQualityNotificationRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.UpdateQualityNotificationStatusRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.service.AlertsReceiverService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationAffectedPart;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotificationFactory;
 import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,6 +46,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
+import qualitynotification.base.request.CloseQualityNotificationRequest;
+import qualitynotification.base.request.QualityNotificationSeverityRequest;
+import qualitynotification.base.request.StartQualityNotificationRequest;
+import qualitynotification.base.request.UpdateQualityNotificationRequest;
+import qualitynotification.base.request.UpdateQualityNotificationStatusRequest;
 
 import java.time.Instant;
 import java.util.List;
@@ -90,10 +90,10 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .id("some-id")
                 .notificationStatus(QualityNotificationStatus.SENT)
                 .affectedParts(List.of(new QualityNotificationAffectedPart("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb")))
-                .senderManufacturerName("bpn-a")
-                .senderBpnNumber("Sender Manufacturer name")
-                .receiverBpnNumber("BPNL00000003AXS3")
-                .receiverManufacturerName("Receiver manufacturer name")
+                .createdByName("bpn-a")
+                .createdBy("Sender Manufacturer name")
+                .sendTo("BPNL00000003AXS3")
+                .sendToName("Receiver manufacturer name")
                 .severity(QualityNotificationSeverity.MINOR)
                 .targetDate(Instant.parse("2018-11-30T18:35:24.00Z"))
                 .isInitial(false)
@@ -121,15 +121,15 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         );
         String description = "at least 15 characters long investigation description";
         QualityNotificationSeverityRequest severity = QualityNotificationSeverityRequest.MINOR;
-        String bpn = "BPN";
+        String receiverBpn = "BPN";
 
         assetsSupport.defaultAssetsStored();
 
-        val request = StartQualityAlertRequest.builder()
+        val request = StartQualityNotificationRequest.builder()
                 .partIds(partIds)
                 .description(description)
                 .severity(severity)
-                .bpn(bpn)
+                .receiverBpn(receiverBpn)
                 .isAsBuilt(true)
                 .build();
 
@@ -177,15 +177,15 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         );
         String description = "at least 15 characters long investigation description";
         QualityNotificationSeverityRequest severity = QualityNotificationSeverityRequest.MINOR;
-        String bpn = "BPN";
+        String receiverBpn = "BPN";
 
         assetsSupport.defaultAssetsAsPlannedStored();
 
-        val request = StartQualityAlertRequest.builder()
+        val request = StartQualityNotificationRequest.builder()
                 .partIds(partIds)
                 .description(description)
                 .severity(severity)
-                .bpn(bpn)
+                .receiverBpn(receiverBpn)
                 .isAsBuilt(false)
                 .build();
 
@@ -234,7 +234,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 "urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef"  // BPN: BPNL00000003AXS3
         );
         String description = "at least 15 characters long investigation description";
-        val request = StartQualityAlertRequest.builder()
+        val request = StartQualityNotificationRequest.builder()
                 .partIds(partIds)
                 .description(description)
                 .build();
@@ -261,11 +261,11 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
 
         String description = RandomStringUtils.random(1001);
 
-        val request = StartQualityAlertRequest.builder()
+        val request = StartQualityNotificationRequest.builder()
                 .partIds(partIds)
                 .description(description)
                 .severity(QualityNotificationSeverityRequest.MINOR)
-                .bpn("BPN")
+                .receiverBpn("BPN")
                 .build();
 
         // when/then
@@ -326,11 +326,11 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     void shouldCancelAlert() throws JsonProcessingException, JoseException {
         // given
         assetsSupport.defaultAssetsStored();
-        val startAlertRequest = StartQualityAlertRequest.builder()
+        val startAlertRequest = StartQualityNotificationRequest.builder()
                 .partIds(List.of("urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978"))
                 .description("at least 15 characters long investigation description")
                 .severity(QualityNotificationSeverityRequest.MAJOR)
-                .bpn("BPN")
+                .receiverBpn("BPN")
                 .isAsBuilt(true)
                 .build();
 
@@ -392,11 +392,11 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
 
         assetsSupport.defaultAssetsStored();
 
-        val startAlertRequest = StartQualityAlertRequest.builder()
+        val startAlertRequest = StartQualityNotificationRequest.builder()
                 .partIds(partIds)
                 .description(description)
                 .severity(QualityNotificationSeverityRequest.MINOR)
-                .bpn("BPN")
+                .receiverBpn("BPN")
                 .isAsBuilt(true)
                 .build();
 
@@ -447,11 +447,11 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
 
         assetsSupport.defaultAssetsStored();
 
-        val startAlertRequest = StartQualityAlertRequest.builder()
+        val startAlertRequest = StartQualityNotificationRequest.builder()
                 .partIds(partIds)
                 .description(description)
                 .severity(QualityNotificationSeverityRequest.MINOR)
-                .bpn("BPN")
+                .receiverBpn("BPN")
                 .isAsBuilt(true)
                 .build();
 
@@ -556,11 +556,11 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         );
         String description = "at least 15 characters long investigation description";
         assetsSupport.defaultAssetsStored();
-        val startAlertRequest = StartQualityAlertRequest.builder()
+        val startAlertRequest = StartQualityNotificationRequest.builder()
                 .partIds(partIds)
                 .description(description)
                 .severity(QualityNotificationSeverityRequest.MINOR)
-                .bpn("BPN")
+                .receiverBpn("BPN")
                 .isAsBuilt(true)
                 .build();
 

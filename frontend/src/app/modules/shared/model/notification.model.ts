@@ -56,6 +56,11 @@ export interface NotificationUser {
   name?: string;
 }
 
+export enum NotificationType {
+  INVESTIGATION = "Investigation",
+  ALERT = "Alert"
+}
+
 export interface NotificationResponse {
   id: string;
   description: string;
@@ -90,6 +95,8 @@ export interface Notification {
   targetDate?: CalendarDateModel;
   bpn?: string;
   errorMessage?: string;
+
+  notificationType?: NotificationType;
 }
 
 export type NotificationsResponse = PaginationResponse<NotificationResponse>;

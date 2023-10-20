@@ -55,11 +55,14 @@ public class SecurityConfig {
             "/callback/endpoint-data-reference",
             "/internal/endpoint-data-reference",
             "/actuator/**",
-            "/registry/reload"
+            "/registry/reload",
+            "/submodel/**"
+
     };
 
     @Value("${jwt.resource-client}")
     private String resourceClient;
+
 
     @Bean
     SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity) throws Exception {

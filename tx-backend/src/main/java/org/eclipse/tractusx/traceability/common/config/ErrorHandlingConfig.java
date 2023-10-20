@@ -30,6 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnNotFoundException;
+import org.eclipse.tractusx.traceability.common.request.InvalidFilterException;
 import org.eclipse.tractusx.traceability.common.request.InvalidSortException;
 import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
 import org.eclipse.tractusx.traceability.common.security.TechnicalUserAuthorizationException;
@@ -41,6 +42,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.investigatio
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationReceiverBpnMismatchException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationStatusTransitionNotAllowed;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.NotificationStatusTransitionNotAllowed;
+import org.eclipse.tractusx.traceability.submodel.domain.model.SubmodelNotFoundException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -194,6 +196,13 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
+    @ExceptionHandler(InvalidFilterException.class)
+    ResponseEntity<ErrorResponse> handleInvalidFilterException(InvalidFilterException exception) {
+        log.warn("handleInvalidFilterException", exception);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(exception.getMessage()));
+    }
+
     @ExceptionHandler(CreateNotificationContractException.class)
     ResponseEntity<ErrorResponse> handleCreateNotificationContractException(CreateNotificationContractException exception) {
         log.warn("handleCreateNotificationContractException", exception);
@@ -225,5 +234,14 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
+    }
+
+    @ExceptionHandler(SubmodelNotFoundException.class)
+    ResponseEntity<ErrorResponse> handleSubmodelNotFoundException(SubmodelNotFoundException exception) {
+        String errorMessage = exception
+                .getMessage();
+        log.warn("handleSubmodelNotFoundException", exception);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ErrorResponse(errorMessage));
     }
 }

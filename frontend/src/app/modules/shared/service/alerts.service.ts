@@ -30,10 +30,12 @@ import type { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
   Notification,
-  NotificationCreateResponse, NotificationResponse,
+  NotificationCreateResponse,
+  NotificationResponse,
   Notifications,
   NotificationsResponse,
   NotificationStatus,
+  NotificationType,
 } from '../model/notification.model';
 
 @Injectable({
@@ -42,35 +44,46 @@ import {
 export class AlertsService {
   private readonly url = environment.apiUrl;
 
-  constructor(private readonly apiService: ApiService) {}
+  constructor(private readonly apiService: ApiService) { }
 
-  public getCreatedAlerts(page: number, pageSize: number, sorting: TableHeaderSort): Observable<Notifications> {
-    const sort = sorting ? `${sorting[0]},${sorting[1]}` : 'createdDate,desc';
+  public getCreatedAlerts(page: number, pageSize: number, sorting: TableHeaderSort[]): Observable<Notifications> {
+    let sort = sorting.length ? sorting : ['createdDate,desc'];
+    let params = new HttpParams()
+      .set('page', page)
+      .set('size', pageSize)
 
-    const params = new HttpParams().set('page', page).set('size', pageSize).set('sort', sort);
+    sort.forEach(sortingItem => {
+      params = params.append('sort', sortingItem);
+    })
 
     return this.apiService
       .getBy<NotificationsResponse>(`${this.url}/alerts/created`, params)
-      .pipe(map(alerts => NotificationAssembler.assembleNotifications(alerts)));
+      .pipe(map(alerts => NotificationAssembler.assembleNotifications(alerts, NotificationType.ALERT)));
   }
 
-  public getReceivedAlerts(page: number, pageSize: number, sorting: TableHeaderSort): Observable<Notifications> {
-    const sort = sorting ? `${sorting[0]},${sorting[1]}` : 'createdDate,desc';
-    const params = new HttpParams().set('page', page).set('size', pageSize).set('sort', sort);
+  public getReceivedAlerts(page: number, pageSize: number, sorting: TableHeaderSort[]): Observable<Notifications> {
+    let sort = sorting ? sorting : ['createdDate,desc'];
+    let params = new HttpParams()
+      .set('page', page)
+      .set('size', pageSize)
+
+    sort.forEach(sortingItem => {
+      params = params.append('sort', sortingItem);
+    })
 
     return this.apiService
       .getBy<NotificationsResponse>(`${this.url}/alerts/received`, params)
-      .pipe(map(alerts => NotificationAssembler.assembleNotifications(alerts)));
+      .pipe(map(alerts => NotificationAssembler.assembleNotifications(alerts, NotificationType.ALERT)));
   }
 
   public getAlert(id: string): Observable<Notification> {
     return this.apiService
       .get<NotificationResponse>(`${this.url}/alerts/${id}`)
-      .pipe(map(notification => NotificationAssembler.assembleNotification(notification)));
+      .pipe(map(notification => NotificationAssembler.assembleNotification(notification, NotificationType.ALERT)));
   }
 
   public postAlert(partIds: string[], description: string, severity: Severity, bpn: string, isAsBuilt: boolean): Observable<string> {
-    const body = { partIds, description, severity, bpn, isAsBuilt };
+    const body = { partIds, description, severity, receiverBpn: bpn, isAsBuilt };
 
     return this.apiService.post<NotificationCreateResponse>(`${this.url}/alerts`, body).pipe(map(({ id }) => id));
   }

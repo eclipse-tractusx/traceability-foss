@@ -37,7 +37,6 @@ import org.eclipse.tractusx.traceability.assets.application.base.request.GetDeta
 import org.eclipse.tractusx.traceability.assets.application.base.request.SyncAssetsRequest;
 import org.eclipse.tractusx.traceability.assets.application.base.request.UpdateAssetRequest;
 import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBaseService;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
@@ -182,8 +181,7 @@ public class AssetAsBuiltController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("")
-    public PageResult<AssetAsBuiltResponse> assets(OwnPageable pageable, @QueryParam("owner") Owner owner, SearchCriteriaRequestParam searchCriteriaRequestParam) {
-        searchCriteriaRequestParam.addOwnerCriteria(owner);
+    public PageResult<AssetAsBuiltResponse> assets(OwnPageable pageable, SearchCriteriaRequestParam searchCriteriaRequestParam) {
         return AssetAsBuiltResponseMapper.from(assetBaseService.getAssets(OwnPageable.toPageable(pageable), searchCriteriaRequestParam.toSearchCriteria()));
     }
 

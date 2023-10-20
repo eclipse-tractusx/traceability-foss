@@ -74,7 +74,7 @@ jobs:
         env:
           DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
         if: env.DOCKER_HUB_USER == ''
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           context: frontend
           push: true
@@ -96,7 +96,7 @@ jobs:
         env:
           DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
         if: env.DOCKER_HUB_USER != ''
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           context: frontend
           push: true

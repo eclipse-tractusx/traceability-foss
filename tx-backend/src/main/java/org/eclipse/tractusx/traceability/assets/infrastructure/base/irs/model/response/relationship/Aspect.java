@@ -47,11 +47,13 @@ public enum Aspect {
     }
 
     public static List<String> downwardAspectsForAssetsAsBuilt() {
-        return List.of(BATCH.getAspectName(), SERIAL_PART.getAspectName(), SINGLE_LEVEL_BOM_AS_BUILT.getAspectName(), JUST_IN_SEQUENCE_PART.getAspectName());
+        return List.of(BATCH.getAspectName(), SERIAL_PART.getAspectName(), SINGLE_LEVEL_BOM_AS_BUILT.getAspectName(),
+                JUST_IN_SEQUENCE_PART.getAspectName(), TRACTION_BATTERY_CODE.getAspectName());
     }
 
     public static List<String> upwardAspectsForAssetsAsBuilt() {
-        return List.of(BATCH.getAspectName(), SERIAL_PART.getAspectName(), SINGLE_LEVEL_USAGE_AS_BUILT.getAspectName(), JUST_IN_SEQUENCE_PART.getAspectName());
+        return List.of(BATCH.getAspectName(), SERIAL_PART.getAspectName(), SINGLE_LEVEL_USAGE_AS_BUILT.getAspectName(),
+                JUST_IN_SEQUENCE_PART.getAspectName(), TRACTION_BATTERY_CODE.getAspectName());
     }
 
     public static List<String> downwardAspectsForAssetsAsPlanned() {

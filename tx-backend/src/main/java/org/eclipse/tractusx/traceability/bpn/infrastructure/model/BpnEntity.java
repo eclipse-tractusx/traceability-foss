@@ -48,7 +48,9 @@ public class BpnEntity {
 
     private String url;
 
+    // TODO date
     private LocalDateTime created;
+    // TODO date
     private LocalDateTime updated;
 
     @PreUpdate

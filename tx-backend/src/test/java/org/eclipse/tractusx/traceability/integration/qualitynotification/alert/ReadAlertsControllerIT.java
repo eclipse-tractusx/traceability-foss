@@ -609,11 +609,11 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                                     .builder()
                                     .id(UUID.randomUUID().toString())
                                     .alert(alert)
-                                    .senderBpnNumber(senderBPN)
+                                    .createdBy(senderBPN)
                                     .status(NotificationStatusBaseEntity.CREATED)
-                                    .senderManufacturerName(senderName)
-                                    .receiverBpnNumber(receiverBPN)
-                                    .receiverManufacturerName(receiverName)
+                                    .createdByName(senderName)
+                                    .sendTo(receiverBPN)
+                                    .sendToName(receiverName)
                                     .messageId("messageId")
                                     .build();
 
@@ -787,11 +787,11 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                         .builder()
                         .id("1")
                         .alert(persistedAlert)
-                        .senderBpnNumber(senderBPN)
-                        .senderManufacturerName(senderName)
-                        .receiverBpnNumber(receiverBPN)
+                        .createdBy(senderBPN)
+                        .createdByName(senderName)
+                        .sendTo(receiverBPN)
                         .status(NotificationStatusBaseEntity.CREATED)
-                        .receiverManufacturerName(receiverName)
+                        .sendToName(receiverName)
                         .build());
         notificationEntity.setAlert(persistedAlert);
         alertNotificationsSupport.storedAlertNotification(notificationEntity);

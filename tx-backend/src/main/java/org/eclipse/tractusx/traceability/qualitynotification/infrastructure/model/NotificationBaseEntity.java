@@ -44,8 +44,10 @@ public class NotificationBaseEntity {
     private String acceptReason;
     private String declineReason;
     private String description;
+    // TODO date
     @Column(name = "created")
     private Instant createdDate;
+    // TODO date
     private Instant updated;
     @Enumerated(EnumType.STRING)
     private NotificationSideBaseEntity side;
