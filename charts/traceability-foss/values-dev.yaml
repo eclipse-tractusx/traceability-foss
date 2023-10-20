@@ -148,7 +148,7 @@ backend:
     dataEndpointUrl: "https://tx-edc-consumer-dev-controlplane.dev.demo.catena-x.net/management"
 
   discoveryfinder:
-    baseUrl: "https://semantics.int.demo.catena-x.net/discoveryfinder/api/v1.0/administration/connectors/discovery/search"
+    baseUrl: "https://tracex-discovery-mock-dev.dev.demo.catena-x.net/api/v1.0/administration/connectors/discovery/search"
 
   irs:
     baseUrl: "https://tx-irs-dev.dev.demo.catena-x.net"
