@@ -75,7 +75,7 @@ public class IrsService implements IrsRepository {
         log.info("IRS call for globalAssetId: {} finished with status: {}, runtime {} s.", globalAssetId, jobStatus.state(), runtime);
         try {
             log.info("Received HTTP Response: {}", objectMapper.writeValueAsString(jobResponse));
-        } catch (JsonProcessingException e) {
+        } catch (Exception e) {
             log.warn("Unable to log IRS Response", e);
         }
         if (jobResponse.isCompleted()) {
