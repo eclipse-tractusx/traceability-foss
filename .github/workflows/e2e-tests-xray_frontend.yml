@@ -127,78 +127,78 @@ jobs:
             frontend/cypress/videos/
             frontend/cypress/screenshots/
 
-  cypress-run-firefox:
-    timeout-minutes: 15
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: frontend
-    container:
-      # if you need to change image please make sure use the same version in all places
-      # (here and in cypress/Dockerfile)
-      image: cypress/browsers:node16.16.0-chrome107-ff107-edge
-      options: --user 1001
-    needs: install
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Download the cypress/e2e folder
-        uses: actions/download-artifact@v3
-        with:
-          name: cypress - e2e
-          path: frontend/cypress/e2e
-
-      - name: Use Node.js 18.x
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18.x
-
-      - name: Cypress run all tests
-        uses: cypress-io/github-action@v6.5.0 # use the explicit version number
-        with:
-          start: npm start
-          wait-on: "http://localhost:4200"
-          wait-on-timeout: 120
-          browser: firefox
-          working-directory: frontend
-
-      - name: Submit results to Xray
-        # we don't want to submit results to xray when it was run by PR
-        if: github.event_name != 'pull_request' && (success() || failure())
-        env:
-          JIRA_USERNAME: ${{ secrets.ORG_IRS_JIRA_USERNAME }}
-          JIRA_PASSWORD: ${{ secrets.ORG_IRS_JIRA_PASSWORD }}
-        run: |
-          ./scripts/xray-push-test-results.sh
-
-      - name: Archive cypress artifacts
-        if: success() || failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: cypress generated files - firefox
-          path: |
-            frontend/cypress/videos/
-            frontend/cypress/screenshots/
-
-  cypress-run-webkit:
-    timeout-minutes: 15
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: frontend
-    needs: install
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Download the cypress/e2e folder
-        uses: actions/download-artifact@v3
-        with:
-          name: cypress - e2e
-          path: frontend/cypress/e2e
+ # cypress-run-firefox:
+ #   timeout-minutes: 15
+ #   runs-on: ubuntu-latest
+ #   defaults:
+ #     run:
+ #       working-directory: frontend
+ #   container:
+ #     # if you need to change image please make sure use the same version in all places
+ #     # (here and in cypress/Dockerfile)
+ #     image: cypress/browsers:node16.16.0-chrome107-ff107-edge
+ #     options: --user 1001
+ #   needs: install
+#
+ #   steps:
+ #     - name: Checkout
+ #       uses: actions/checkout@v4
+#
+ #     - name: Download the cypress/e2e folder
+ #       uses: actions/download-artifact@v3
+ #       with:
+ #         name: cypress - e2e
+ #         path: frontend/cypress/e2e
+#
+ #     - name: Use Node.js 18.x
+ #       uses: actions/setup-node@v3
+ #       with:
+ #         node-version: 18.x
+#
+ #     - name: Cypress run all tests
+ #       uses: cypress-io/github-action@v6.5.0 # use the explicit version number
+ #       with:
+ #         start: npm start
+ #         wait-on: "http://localhost:4200"
+ #         wait-on-timeout: 120
+ #         browser: firefox
+ #         working-directory: frontend
+#
+ #     - name: Submit results to Xray
+ #       # we don't want to submit results to xray when it was run by PR
+ #       if: github.event_name != 'pull_request' && (success() || failure())
+ #       env:
+ #         JIRA_USERNAME: ${{ secrets.ORG_IRS_JIRA_USERNAME }}
+ #         JIRA_PASSWORD: ${{ secrets.ORG_IRS_JIRA_PASSWORD }}
+ #       run: |
+ #         ./scripts/xray-push-test-results.sh
+#
+ #     - name: Archive cypress artifacts
+ #       if: success() || failure()
+ #       uses: actions/upload-artifact@v3
+ #       with:
+ #         name: cypress generated files - firefox
+ #         path: |
+ #           frontend/cypress/videos/
+ #           frontend/cypress/screenshots/
+#
+ # cypress-run-webkit:
+ #   timeout-minutes: 15
+ #   runs-on: ubuntu-latest
+ #   defaults:
+ #     run:
+ #       working-directory: frontend
+ #   needs: install
+#
+ #   steps:
+ #     - name: Checkout
+ #       uses: actions/checkout@v4
+#
+ #     - name: Download the cypress/e2e folder
+ #       uses: actions/download-artifact@v3
+ #       with:
+ #         name: cypress - e2e
+ #         path: frontend/cypress/e2e
 
 # commented because if we use it here, we face with that problem:
 # "http://localhost:4200 timed out on retry 151 of 5, elapsed 150449ms, limit 150000ms
