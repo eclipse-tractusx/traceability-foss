@@ -21,6 +21,7 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -72,7 +73,11 @@ public class IrsService implements IrsRepository {
         JobStatus jobStatus = jobResponse.jobStatus();
         long runtime = (jobStatus.lastModifiedOn().getTime() - jobStatus.startedOn().getTime()) / 1000;
         log.info("IRS call for globalAssetId: {} finished with status: {}, runtime {} s.", globalAssetId, jobStatus.state(), runtime);
-
+        try {
+            log.info("Received HTTP Response: {}", objectMapper.writeValueAsString(jobResponse));
+        } catch (JsonProcessingException e) {
+            log.warn("Unable to log IRS Response", e);
+        }
         if (jobResponse.isCompleted()) {
             try {
                 // TODO exception will be often thrown probably because two transactions try to commit same primary key - check if we need to update it here
