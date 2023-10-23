@@ -52,13 +52,14 @@ export class InvestigationsService {
     let params = new HttpParams()
       .set('page', page)
       .set('size', pageSize)
+      .set('filter', 'side,EQUAL,SENDER,AND')
 
     sort.forEach(sortingItem => {
       params = params.append('sort', sortingItem);
     })
 
     return this.apiService
-      .getBy<NotificationsResponse>(`${this.url}/investigations/created`, params)
+      .getBy<NotificationsResponse>(`${this.url}/investigations`, params)
       .pipe(map(investigations => NotificationAssembler.assembleNotifications(investigations, NotificationType.INVESTIGATION)));
   }
 
@@ -67,13 +68,14 @@ export class InvestigationsService {
     let params = new HttpParams()
       .set('page', page)
       .set('size', pageSize)
+      .set('filter', 'side,EQUAL,RECEIVER,AND')
 
     sort.forEach(sortingItem => {
       params = params.append('sort', sortingItem);
     })
 
     return this.apiService
-      .getBy<NotificationsResponse>(`${this.url}/investigations/received`, params)
+      .getBy<NotificationsResponse>(`${this.url}/investigations`, params)
       .pipe(map(investigations => NotificationAssembler.assembleNotifications(investigations, NotificationType.INVESTIGATION)));
   }
 
