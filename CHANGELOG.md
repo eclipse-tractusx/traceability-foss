@@ -12,6 +12,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 - Updated user manual to reflect the table column settings feature
+- Fixed a bug which removed all parts asBuilt selection at once when creating notifications
 
 ### Removed
 

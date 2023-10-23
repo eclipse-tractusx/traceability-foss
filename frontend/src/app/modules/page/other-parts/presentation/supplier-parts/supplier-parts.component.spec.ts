@@ -22,11 +22,9 @@ import { OtherPartsState } from '@page/other-parts/core/other-parts.state';
 import { OtherPartsModule } from '@page/other-parts/other-parts.module';
 import { PartsState } from '@page/parts/core/parts.state';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { getTableCheckbox, renderComponent } from '@tests/test-render.utils';
-import { OTHER_PARTS_MOCK_6 } from '../../../../../mocks/services/otherParts-mock/otherParts.test.model';
 
 import { SupplierPartsComponent } from './supplier-parts.component';
 
@@ -61,52 +59,18 @@ describe('SupplierPartsComponent', () => {
 
   it('should add item to current list and then remove', async () => {
     const { fixture } = await renderSupplierParts({ roles: [ 'user' ] });
-    const expectedPart = PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_6, MainAspectType.AS_BUILT);
 
     // first click to check checkbox
     fireEvent.click(await getTableCheckbox(screen, 0));
 
     const selectedText_1 = await waitFor(() => screen.getByText('page.selectedParts.info'));
     expect(selectedText_1).toBeInTheDocument();
-    expect(fixture.componentInstance.currentSelectedItems).toEqual([ expectedPart ]);
 
     // second click to uncheck checkbox
     fireEvent.click(await getTableCheckbox(screen, 0));
 
     const selectedText_2 = await waitFor(() => screen.getByText('page.selectedParts.info'));
     expect(selectedText_2).toBeInTheDocument();
-    expect(fixture.componentInstance.currentSelectedItems).toEqual([]);
-  });
-
-  it('test addItemToSelection method', async () => {
-    const { fixture } = await renderSupplierParts();
-
-    const expectedPart = PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_6, MainAspectType.AS_BUILT);
-
-    fixture.componentInstance.addItemToSelection(expectedPart);
-    expect(fixture.componentInstance.currentSelectedItems).toEqual([ expectedPart ]);
-  });
-
-  it('test removeItemFromSelection method', async () => {
-    const { fixture } = await renderSupplierParts();
-
-    const expectedPart = PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_6, MainAspectType.AS_BUILT);
-
-    fixture.componentInstance.currentSelectedItems = [ expectedPart ];
-
-    fixture.componentInstance.removeItemFromSelection(expectedPart);
-    expect(fixture.componentInstance.currentSelectedItems).toEqual([]);
-  });
-
-  it('test clearSelected method', async () => {
-    const { fixture } = await renderSupplierParts();
-
-    const expectedPart = PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_6, MainAspectType.AS_BUILT);
-
-    fixture.componentInstance.currentSelectedItems = [ expectedPart ];
-
-    fixture.componentInstance.clearSelected();
-    expect(fixture.componentInstance.currentSelectedItems).toEqual([]);
   });
 
   it('sort supplier parts after name column', async () => {

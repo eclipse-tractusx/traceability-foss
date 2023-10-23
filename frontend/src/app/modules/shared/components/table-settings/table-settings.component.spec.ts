@@ -49,7 +49,7 @@ describe('TableSettingsComponent', () => {
     });
 
     tableSettingsServiceSpy.storeTableSettings.and.callFake((partTableType, tableSettingsList) => {
-      console.log(`Mocked setColumnVisibilitySettings called with partTableType: ${partTableType} and tableSettingsList:`, tableSettingsList);
+      return;
     });
 
     TestBed.configureTestingModule({
@@ -102,7 +102,6 @@ describe('TableSettingsComponent', () => {
   });
 
   it('should create the component', () => {
-    console.warn(component);
     expect(component).toBeTruthy();
   });
 

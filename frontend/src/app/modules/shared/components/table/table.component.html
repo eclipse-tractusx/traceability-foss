@@ -188,9 +188,7 @@ SPDX-License-Identifier: Apache-2.0
         <ng-container matColumnDef="{{ column }}">
           <th
             *matHeaderCellDef
-            matTooltip="First click: sort in ascending order ↑
-Second click: sort in descending order ↓
-Third click:  reset sorting"
+            matTooltip="{{'table.multiSortingTooltip' | i18n}}"
             matTooltipClass="table--header--tooltip"
             matTooltipPosition="above"
             [class.mdc-tooltip--multiline]="true"
