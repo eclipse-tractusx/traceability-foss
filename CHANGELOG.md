@@ -174,10 +174,32 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Environment [TRACEFOSS-2164]: HTTP Requests for syncing the submodel server inoperable~~
 
+## [6.0.1] - 2023-10-23
+### Added
+- All elements from 6.0.1-rc1,rc2,rc3,rc4
+
+
+## [6.0.1-rc4]
+### Added
+
+### Changed
+- updated IRS helm chart from 6.6.1 to 6.7.2
+- updated policy related logic to reflect IRS changes
+
+### Removed
+
+## [6.0.1-rc3] - 2023-08-31
+### Added
+
+
+### Changed
+
+- Updated irs-registry-client from 1.1.0-SNAPSHOT to 1.2.0-SNAPSHOT
+- Updated irs-helm from 6.4.1 to 6.5.0
+
 ### Removed
 
 ## [6.0.1-rc2]
-
 ### Added
 
 - OAuth2 client credentials rest template interceptor
@@ -189,12 +211,59 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Changed digitalTwinRegistryRestTemplate to use token in requests
 - Update asBuild test data to 1.5.3 and asPlanned to 1.5.1
-- Changed transfer notification logic not to break iteration loop when sending notifications to bpn with more than 1
-  connector endpoints
-- added handling for null manufacturerName in IrsJobResponse, if null is passed it is replaced with "
-  UNKNOWN_MANUFACTURER"
+- Changed transfer notification logic not to break iteration loop when sending notifications to bpn with more than 1 connector endpoints
+- added handling for null manufacturerName in IrsJobResponse, if null is passed it is replaced with "UNKNOWN_MANUFACTURER"
 
 ### Removed
+
+## [6.0.0 - 2023-07-21]
+
+### Added
+
+- Moved all parts of app config to helm charts to be fully configurable
+- Helmignore config params for wrong values.yaml files
+- Home / Source URL in Helm Chart
+- Name Overrides in Helmchart for pgadmin, irs-helm and tractusx-connector
+- Added decentral registry approach
+- Added discovery finder / edc discovery service for looking up edc urls of receiver of notifications
+- Added about component with additional Workflow to load repo info into the component
+- Add Transformer to support new EDC constraint operator format
+
+### Changed
+
+- Modified IRS Policies support to handle multiple policies
+- Readme titles to match TRGs
+- Updated Irs helm chart to 6.3.1
+- Update EDC dependencies to 0.1.3
+- Update implementation to use EDC 0.5.0
+- Spring Security Config Update from 6.0.3 to 6.0.5
+- Logic of commitId retrieval by frontend has changed
+- Readme / Docker Notice information as required in TRGs
+- Removed references to GitHub registry and added docker hub for tractusx instead
+- Spring Boot Update from: 3.0.7 to 3.1.2
+- Spring Core Update from: 6.0.8 to 6.0.11
+
+### Removed
+- unused classes and methods
+
+### Known knowns
+
+- Backend [TRACEFOSS-1458]: AdminView: No validation of BPN for BPN  EDC URL mapping
+- Backend [TRACEFOSS-589]: Backend API access without login returns incorrect HTTP status code (500 instead of 401)
+- Backend [TRACEFOSS-2148]: Endpoints for parts and notifications returns unsorted list
+---
+- Frontend [TRACEFOSS-2149]: Sorting on empty table causes unhandled error view
+---
+- Security [TRACEFOSS-829]: CVE Strict-Transport-Security header - The HSTS Warning and Error may allow attackers to bypass HSTS
+- Security [TRACEFOSS-830]: CVE one stack trace disclosure (Java) in the target web server's HTTP response
+- Security [TRACEFOSS-919]: Authorization Bypass Through User-Controlled SQL Primary Key CWE ID 566
+- Security [TRACEFOSS-984]: Improper Output Neutralization for Logs CWE ID 117
+- Security [TRACEFOSS-1313]: Using components with known vulnerabilities
+- Security [TRACEFOSS-1314]: Open Redirect - host header injection
+- Security [TRACEFOSS-1315]: No additional authentication component (MFA) during login process
+---
+- Environment [TRACEFOSS-2164]: HTTP Requests for syncing the submodel server inoperable~~
+
 
 ## [6.0.0 - 2023-07-21]
 
