@@ -16,6 +16,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Changed Filter to support Logical operator (AND,OR) on searchCriteria
 
 ### Removed
+- Removed &filterOperator=AND from filtering requests
 - Removed no longer needed endpoints api/investigations/created, api/investigations/received, api/alerts/created, api/alerts/received
 
 ## [8.0.0 - 16.10.2023]
