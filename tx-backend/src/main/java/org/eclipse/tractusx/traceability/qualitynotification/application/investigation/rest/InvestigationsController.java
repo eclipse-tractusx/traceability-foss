@@ -182,6 +182,7 @@ public class InvestigationsController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("")
     public PageResult<InvestigationResponse> getInvestigations(OwnPageable pageable, SearchCriteriaRequestParam filter) {
+        log.info(API_LOG_START);
         return InvestigationResponseMapper.fromAsPageResult(investigationService.getNotifications(OwnPageable.toPageable(pageable), filter.toSearchCriteria()));
     }
 
