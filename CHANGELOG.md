@@ -16,6 +16,10 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Fixed a bug which removed all parts asBuilt selection at once when creating notifications
 - Changed Filter to support Logical operator (AND,OR) on searchCriteria
 - Reworked business logic of /registry/reload to always sync all assets
+- Only include configured severities into report
+- Shedlock version from 5.7.0 to 5.9.1
+- Swagger Annotation Version from 1.6.11 to 1.6.12
+- Testcontainer Postgresql Version from 1.19.0 to 1.19.1
 
 ### Removed
 - Removed &filterOperator=AND from filtering requests
