@@ -30,12 +30,11 @@ export const otherPartsAsBuiltHandlers = [
   rest.get(`*${environment.apiUrl}/assets/as-built`, (req, res, ctx) => {
     const pagination = extractPagination(req);
     const ownerSearchQuery = req.url.searchParams.get('filter').replace("owner,EQUAL,", "");
-
     switch (ownerSearchQuery) {
-      case 'SUPPLIER':
+      case 'SUPPLIER,AND':
         return res(ctx.status(200), ctx.json(mockSupplierAssets));
 
-      case 'CUSTOMER':
+      case 'CUSTOMER,AND':
         return res(ctx.status(200), ctx.json(mockCustomerAssets));
     }
 
@@ -47,10 +46,10 @@ export const otherPartsAsBuiltHandlersTest = [
     const owner = req.url.searchParams.get('filter').replace("owner,EQUAL,", "");
 
     switch (owner) {
-      case 'SUPPLIER':
+      case 'SUPPLIER,AND':
         return res(ctx.status(200), ctx.json(mockSupplierAssets));
 
-      case 'CUSTOMER':
+      case 'CUSTOMER,AND':
         return res(ctx.status(200), ctx.json(mockCustomerAssets));
     }
 
@@ -63,10 +62,10 @@ export const otherPartsAsPlannedHandlers = [
     const owner = req.url.searchParams.get('filter').replace("owner,EQUAL,", "");
 
     switch (owner) {
-      case 'SUPPLIER':
+      case 'SUPPLIER,AND':
         return res(ctx.status(200), ctx.json(applyPagination(supplierPartsAsPlannedAssets, pagination)));
 
-      case 'CUSTOMER':
+      case 'CUSTOMER,AND':
         return res(ctx.status(200), ctx.json(applyPagination(customerPartsAsPlannedModel, pagination)));
     }
 
@@ -79,10 +78,10 @@ export const otherPartsAsPlannedHandlersTest = [
     const owner = req.url.searchParams.get('filter').replace("owner,EQUAL,", "");
 
     switch (owner) {
-      case 'SUPPLIER':
+      case 'SUPPLIER,AND':
         return res(ctx.status(200), ctx.json(supplierPartsAsPlannedAssets));
 
-      case 'CUSTOMER':
+      case 'CUSTOMER,AND':
         return res(ctx.status(200), ctx.json(applyPagination(customerPartsAsPlannedModel, pagination)));
     }
 
