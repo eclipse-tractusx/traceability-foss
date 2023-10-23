@@ -17,11 +17,25 @@ This work is licensed under the [Apache-2.0](https://www.apache.org/licenses/LIC
 == General information
 
 Accessing the application is done by the URL provided by the hosting company.
-You can have three roles for the users:
+A list of user or technical roles can be found below:
 
-* User
-* Supervisor
-* Admin
+|===
+|Role |Description
+
+|Trace-X app roles
+|Role list: https://portal.int.demo.catena-x.net/appusermanagement/3bbc88ae-5f0d-45cb-ab3e-8c7602ff58b4
+
+Assignment: https://portal.int.demo.catena-x.net/documentation/?path=docs%2F03.+User+Management%2F04.+Assign+App+Roles
+
+|Catena-X portal roles
+|Role details: https://portal.int.demo.catena-x.net/role-details
+
+User accounts: https://portal.int.demo.catena-x.net/documentation/?path=docs%2F03.+User+Management%2F01.+User+Account
+
+|Technical users
+|https://portal.int.demo.catena-x.net/documentation/?path=docs%2F03.+User+Management%2F03.+Technical+User
+
+|===
 
 To login use the credentials provided by the hosting company.
 
