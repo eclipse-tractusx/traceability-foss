@@ -86,5 +86,4 @@ public class SearchCriteriaRequestParam {
         }
         return SearchCriteria.builder().searchCriteriaOperator(operator).searchCriteriaFilterList(filters).build();
     }
-
 }

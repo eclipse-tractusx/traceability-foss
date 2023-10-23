@@ -22,10 +22,10 @@ import { Component, Input, OnDestroy, OnInit, QueryList, ViewChildren } from '@a
 import { Pagination } from '@core/model/pagination.model';
 import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import { Part, SemanticDataModel } from '@page/parts/model/parts.model';
+import { Part } from '@page/parts/model/parts.model';
 import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
+import { TableSortingUtil } from '@shared/components/table/table-sorting.util';
 import { PartTableType, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
-import { TableSortingUtil } from '@shared/components/table/tableSortingUtil';
 import { toAssetFilter, toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
@@ -44,9 +44,9 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
 
   public readonly deselectPartTrigger$ = new Subject<Part[]>();
   public readonly addPartTrigger$ = new Subject<Part>();
+  public readonly currentSelectedItems$ = new BehaviorSubject<Part[]>([]);
 
   public readonly isInvestigationOpen$ = new BehaviorSubject<boolean>(false);
-  public selectedItems: Array<Part> = [];
 
   public readonly supplierTabLabelId = this.staticIdService.generateId('OtherParts.supplierTabLabel');
 
@@ -72,21 +72,6 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
     window.addEventListener('keyup', (event) => {
       this.ctrlKeyState = event.ctrlKey;
     });
-  }
-
-  public get currentSelectedItems(): Part[] {
-
-    this.selectedItems = this.selectedItems.map(part => {
-      return {
-        ...part,
-        semanticDataModel: SemanticDataModel[part.semanticDataModel.toUpperCase() as keyof typeof SemanticDataModel],
-      };
-    });
-    return this.selectedItems || [];
-  }
-
-  public set currentSelectedItems(parts: Part[]) {
-    this.selectedItems = parts;
   }
 
   public ngOnInit(): void {
@@ -135,29 +120,6 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
   public onAsPlannedTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
     this.setTableSortingList(sorting, MainAspectType.AS_PLANNED);
     this.otherPartsFacade.setSupplierPartsAsPlanned(page, pageSize, this.tableSupplierAsPlannedSortList);
-  }
-
-  public onMultiSelect(event: unknown[]): void {
-    this.currentSelectedItems = event as Part[];
-  }
-
-  public removeItemFromSelection(part: Part): void {
-    this.deselectPartTrigger$.next([ part ]);
-    this.currentSelectedItems = this.currentSelectedItems.filter(({ id }) => id !== part.id);
-  }
-
-  public clearSelected(): void {
-    this.deselectPartTrigger$.next(this.currentSelectedItems);
-    this.currentSelectedItems = [];
-  }
-
-  public addItemToSelection(part: Part): void {
-    this.addPartTrigger$.next(part);
-    this.currentSelectedItems = [ ...this.currentSelectedItems, part ];
-  }
-
-  public submit(): void {
-    this.isInvestigationOpen$.next(false);
   }
 
 

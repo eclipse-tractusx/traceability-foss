@@ -26,8 +26,8 @@ import { InvestigationDetailFacade } from '@page/investigations/core/investigati
 import { InvestigationHelperService } from '@page/investigations/core/investigation-helper.service';
 import { NotificationMenuActionsAssembler } from '@shared/assembler/notificationMenuActions.assembler';
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
+import { TableSortingUtil } from '@shared/components/table/table-sorting.util';
 import { MenuActionConfig, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
-import { TableSortingUtil } from '@shared/components/table/tableSortingUtil';
 import { NotificationTabInformation } from '@shared/model/notification-tab-information';
 import { Notification, NotificationStatusGroup } from '@shared/model/notification.model';
 import { TranslationContext } from '@shared/model/translation-context.model';
