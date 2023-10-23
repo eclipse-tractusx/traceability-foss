@@ -26,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationAffectedPart;
@@ -39,6 +40,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.mode
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import java.time.Clock;
@@ -48,6 +50,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -67,6 +71,15 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
         InvestigationNotificationEntity entity = notificationRepository.findById(notification.getId())
                 .orElseThrow(() -> new IllegalArgumentException(String.format("Notification with id %s not found!", notification.getId())));
         handleNotificationUpdate(entity, notification);
+    }
+
+    @Override
+    public PageResult<QualityNotification> getNotifications(Pageable pageable, SearchCriteria searchCriteria) {
+        List<InvestigationSpecification> investigationSpecifications = emptyIfNull(searchCriteria.getSearchCriteriaFilterList()).stream()
+                .map(InvestigationSpecification::new)
+                .toList();
+        Specification<InvestigationEntity> specification = InvestigationSpecification.toSpecification(investigationSpecifications);
+        return new PageResult<>(jpaInvestigationRepository.findAll(specification, pageable), InvestigationEntity::toDomain);
     }
 
     @Override

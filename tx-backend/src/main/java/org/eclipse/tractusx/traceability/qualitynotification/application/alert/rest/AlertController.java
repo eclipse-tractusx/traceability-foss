@@ -32,6 +32,7 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
+import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
 import org.eclipse.tractusx.traceability.qualitynotification.application.alert.mapper.AlertResponseMapper;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.service.QualityNotificationService;
@@ -125,10 +126,10 @@ public class AlertController {
         return new QualityNotificationIdResponse(alertService.start(from(cleanStartQualityNotificationRequest)).value());
     }
 
-    @Operation(operationId = "getCreatedAlerts",
-            summary = "Gets created alerts",
+    @Operation(operationId = "getAlerts",
+            summary = "Gets alerts",
             tags = {"Alerts"},
-            description = "The endpoint returns created alerts as paged result.",
+            description = "The endpoint returns alerts as paged result.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found for Asset", content = @Content(
             mediaType = "application/json",
@@ -178,69 +179,10 @@ public class AlertController {
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
-    @GetMapping("/created")
-    public PageResult<AlertResponse> getCreatedAlerts(OwnPageable pageable) {
-        log.info(API_LOG_START + "/created");
-        return AlertResponseMapper.fromAsPageResult(alertService.getCreated(OwnPageable.toPageable(pageable)));
-    }
-
-    @Operation(operationId = "getReceivedAlerts",
-            summary = "Gets received alerts",
-            tags = {"Alerts"},
-            description = "The endpoint returns received alerts as paged result.",
-            security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found for Asset", content = @Content(
-            mediaType = "application/json",
-            array = @ArraySchema(arraySchema = @Schema(description = "AlertData", implementation = AlertResponse.class, additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
-    )),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Bad request.",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Authorization failed.",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class))),
-
-            @ApiResponse(
-                    responseCode = "403",
-                    description = "Forbidden.",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class))),
-
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Not found.",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(
-                    responseCode = "415",
-                    description = "Unsupported media type",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(
-                    responseCode = "429",
-                    description = "Too many requests.",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Internal server error.",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class)))})
-    @GetMapping("/received")
-    public PageResult<AlertResponse> getReceivedAlerts(OwnPageable pageable) {
-        log.info(API_LOG_START + "/received");
-        return AlertResponseMapper.fromAsPageResult(alertService.getReceived(OwnPageable.toPageable(pageable)));
+    @GetMapping("")
+    public PageResult<AlertResponse> getAlerts(OwnPageable pageable, SearchCriteriaRequestParam filter) {
+        log.info(API_LOG_START);
+        return AlertResponseMapper.fromAsPageResult(alertService.getNotifications(OwnPageable.toPageable(pageable), filter.toSearchCriteria()));
     }
 
     @Operation(operationId = "getAlert",

@@ -9,13 +9,17 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 - Added Table columns settings in part tables to show/hide/reorder table columns
+- new endpoints supporting filtering feature for investigations and alers api/investigations api/alerts
 
 ### Changed
 - Updated user manual to reflect the table column settings feature
 - Fixed a bug which removed all parts asBuilt selection at once when creating notifications
+- Changed Filter to support Logical operator (AND,OR) on searchCriteria
+- Reworked business logic of /registry/reload to always sync all assets
 
 ### Removed
-
+- Removed &filterOperator=AND from filtering requests
+- Removed no longer needed endpoints api/investigations/created, api/investigations/received, api/alerts/created, api/alerts/received
 
 ## [8.0.0 - 16.10.2023]
 
@@ -57,7 +61,6 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Changed date formats of assets to have offsetDateTime instead of Date or LocalDateTime
 - Aligned date formats in the rest api for assets
 - Increased version of jetty-http from 11.0.15 to 11.0.17 and excluded from edc package
-- Reworked business logic of /registry/reload to always sync all assets
 
 ### Removed
 

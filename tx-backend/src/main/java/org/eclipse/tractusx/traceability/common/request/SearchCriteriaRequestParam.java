@@ -26,7 +26,7 @@ import lombok.Data;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaFilter;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
-import org.eclipse.tractusx.traceability.common.model.SearchStrategy;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,21 +40,11 @@ public class SearchCriteriaRequestParam {
     @ArraySchema(arraySchema = @Schema(description = "Filter Criteria", additionalProperties = Schema.AdditionalPropertiesValue.FALSE, example = "owner,EQUAL,OWN"), maxItems = Integer.MAX_VALUE)
     private List<String> filter;
 
-    @Schema(description = "The filter logical operator", example = "AND", allowableValues = {"AND", "OR"})
-    private String filterOperator;
-
     public SearchCriteria toSearchCriteria() {
         ArrayList<SearchCriteriaFilter> filters = new ArrayList<>();
         List<String> inputFilters = filter;
         if (isNull(this.filter)) {
             inputFilters = Collections.emptyList();
-        }
-        if (!isNull(this.filter) && isNull(this.filterOperator)) {
-            throw new InvalidFilterException(
-                    "No filter operator found. Please add param filterOperator=AND or filterOperator=OR");
-        }
-        if (isNull(this.filter) && isNull(this.filterOperator)) {
-            return SearchCriteria.builder().build();
         }
 
         for (String filter : inputFilters) {
@@ -63,8 +53,9 @@ public class SearchCriteriaRequestParam {
                 filters.add(
                         SearchCriteriaFilter.builder()
                                 .key(filterParams[0])
-                                .strategy(SearchStrategy.valueOf(filterParams[1]))
+                                .strategy(SearchCriteriaStrategy.valueOf(filterParams[1]))
                                 .value(filterParams[2])
+                                .operator(SearchCriteriaOperator.valueOf(filterParams[3]))
                                 .build());
             } catch (Exception exception) {
                 throw new InvalidFilterException(
@@ -74,16 +65,6 @@ public class SearchCriteriaRequestParam {
             }
 
         }
-
-        SearchCriteriaOperator operator;
-        try {
-            operator = SearchCriteriaOperator.valueOf(filterOperator);
-        } catch (Exception exception) {
-            throw new InvalidFilterException(
-                    "Invalid filter operator provided filterOperator={provided} expected format is following filterOperator=value. Where value is one of AND, OR"
-                            .replace("{provided}", filterOperator)
-            );
-        }
-        return SearchCriteria.builder().searchCriteriaOperator(operator).searchCriteriaFilterList(filters).build();
+        return SearchCriteria.builder().searchCriteriaFilterList(filters).build();
     }
 }
