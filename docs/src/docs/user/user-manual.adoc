@@ -23,17 +23,17 @@ A list of user or technical roles can be found below:
 |Role |Description
 
 |Trace-X app roles
-|Role list: https://portal.int.demo.catena-x.net/appusermanagement/3bbc88ae-5f0d-45cb-ab3e-8c7602ff58b4
+|Role list: <https://portal.int.demo.catena-x.net/appusermanagement/3bbc88ae-5f0d-45cb-ab3e-8c7602ff58b4>
 
-Assignment: https://portal.int.demo.catena-x.net/documentation
+Assignment: <https://portal.int.demo.catena-x.net/documentation>
 
 |Catena-X portal roles
-|Role details: https://portal.int.demo.catena-x.net/role-details
+|Role details: <https://portal.int.demo.catena-x.net/role-details>
 
-User accounts: https://portal.int.demo.catena-x.net/documentation
+User accounts: <https://portal.int.demo.catena-x.net/documentation>
 
 |Technical users
-|https://portal.int.demo.catena-x.net/documentation
+|<https://portal.int.demo.catena-x.net/documentation>
 
 |===
 
