@@ -57,6 +57,7 @@
     "menuDescription": "Action menu",
     "clearPage": "Clear page selections",
     "clearAll": "Clear all selections",
+    "multiSortingTooltip": "First click: sort in ascending order ↑ Second click: sort in descending order ↓ Third click: reset sorting",
     "filterTitle": "Filter",
     "tableSettings": {
       "title": "Table column settings",
