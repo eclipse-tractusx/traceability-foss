@@ -97,7 +97,7 @@ class AssetAsBuiltControllerFilterValuesIT extends IntegrationTestSpecification 
         return Stream.of(
                 Arguments.of("id", 10L, 10),
                 Arguments.of("id", 200L, 13),
-                Arguments.of("inInvestigation", 10L, 1),
+                Arguments.of("underInvestigation", 10L, 1),
                 Arguments.of("owner", 10L, 4),
                 Arguments.of("semanticDataModel", 10L, 5),
                 Arguments.of("qualityType", 10L, 5)
