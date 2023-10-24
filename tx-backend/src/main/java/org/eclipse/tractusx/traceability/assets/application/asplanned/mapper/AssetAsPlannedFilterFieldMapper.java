@@ -17,20 +17,11 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.common.repository;
+package org.eclipse.tractusx.traceability.assets.application.asplanned.mapper;
 
-import lombok.experimental.UtilityClass;
+public class AssetAsPlannedFilterFieldMapper {
 
-import java.util.Objects;
-
-@UtilityClass
-public class SqlUtil {
-
-    public static String constructLikeWildcardQuery(String databaseFieldName, String startsWith) {
-        if (Objects.isNull(startsWith)) {
-            return "";
-        }
-
-        return " WHERE ( " + databaseFieldName + " LIKE '" + startsWith + "%')";
+    public String mapFilterRequestFieldName() {
+        return "";
     }
 }

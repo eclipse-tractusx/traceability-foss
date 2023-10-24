@@ -44,7 +44,7 @@ class AssetAsBuiltRepositoryIT extends IntegrationTestSpecification {
     @MethodSource("fieldNameTestProvider")
     void givenIdField_whenGetFieldValues_thenSorted(
             String fieldName,
-            String startWithString,
+            String startWith,
             Long resultLimit,
             Integer expectedSize
     ) {
@@ -52,7 +52,7 @@ class AssetAsBuiltRepositoryIT extends IntegrationTestSpecification {
         assetsSupport.defaultAssetsStored();
 
         // when
-        List<String> result = assetAsBuiltRepository.getFieldValues(fieldName, startWithString, resultLimit);
+        List<String> result = assetAsBuiltRepository.getFieldValues(fieldName, startWith, resultLimit);
 
         // then
         assertThat(result)

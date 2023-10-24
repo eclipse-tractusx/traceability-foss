@@ -44,7 +44,7 @@ class AssetAsPlannedRepositoryIT extends IntegrationTestSpecification {
     @MethodSource("fieldNameTestProvider")
     void givenFieldNameAndResultLimit_whenGetFieldValues_thenSorted(
             String fieldName,
-            String startWithString,
+            String startWith,
             Long resultLimit,
             Integer expectedSize
     ) {
@@ -52,7 +52,7 @@ class AssetAsPlannedRepositoryIT extends IntegrationTestSpecification {
         assetsSupport.defaultAssetsAsPlannedStored();
 
         // when
-        List<String> result = assetAsPlannedRepository.getFieldValues(fieldName, startWithString, resultLimit);
+        List<String> result = assetAsPlannedRepository.getFieldValues(fieldName, startWith, resultLimit);
 
         // then
         assertThat(result)
