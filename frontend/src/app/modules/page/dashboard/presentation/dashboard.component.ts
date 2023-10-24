@@ -75,8 +75,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.dashboardFacade.stopDataLoading();
   }
 
-  public onNotificationSelected(notification: Notification): void {
-    const { link } = getRoute(INVESTIGATION_BASE_ROUTE);
+  public onNotificationSelected(notification: Notification, isInvestigation: boolean): void {
+    const { link } = getRoute(isInvestigation ? INVESTIGATION_BASE_ROUTE : ALERT_BASE_ROUTE);
     this.router.navigate([`/${link}/${notification.id}`]).then();
   }
 }

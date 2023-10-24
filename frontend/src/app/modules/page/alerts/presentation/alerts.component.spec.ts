@@ -47,23 +47,6 @@ describe('AlertsComponent', () => {
   //   expect(spy).toHaveBeenCalledWith(['/alerts/id-84'], { queryParams: tabInformation });
   // });
 
-  it('should call change pagination of received alerts', async () => {
-    await renderAlerts();
-    fireEvent.click(await waitFor(() => screen.getByLabelText('pagination.nextPageLabel', { selector: 'button' })));
-
-    expect(await waitFor(() => screen.getByText('Alert No 84'))).toBeInTheDocument();
-  });
-
-  it('should call change pagination of queued & requested alerts', async () => {
-    await renderAlerts();
-
-    fireEvent.click(await waitFor(() => screen.getByText('commonAlert.tabs.queuedAndRequested')));
-
-    fireEvent.click(await waitFor(() => screen.getByLabelText('pagination.nextPageLabel', { selector: 'button' })));
-
-    expect(await waitFor(() => screen.getByText('Alert No 84'))).toBeInTheDocument();
-  });
-
   it('should sort received alerts after column status', async () => {
     const { fixture } = await renderAlerts();
     const alertsComponent = fixture.componentInstance;

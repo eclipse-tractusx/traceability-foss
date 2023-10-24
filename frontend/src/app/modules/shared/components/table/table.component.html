@@ -70,6 +70,10 @@ SPDX-License-Identifier: Apache-2.0
           <ng-container *ngTemplateOutlet="SelectColumn"></ng-container>
         </ng-container>
 
+        <ng-container *ngSwitchCase="'menu'">
+          <ng-container *ngTemplateOutlet="MenuColumn"></ng-container>
+        </ng-container>
+
         <ng-container *ngSwitchDefault>
           <ng-container *ngTemplateOutlet="NormalColumn; context: { $implicit: column }"></ng-container>
         </ng-container>
@@ -97,6 +101,30 @@ SPDX-License-Identifier: Apache-2.0
             <mat-checkbox [checked]="isSelected(row)" (click)="$event.stopPropagation()" (change)="toggleSelection(row)"
               data-testid="select-one--test-id" color="primary">
             </mat-checkbox>
+          </td>
+        </ng-container>
+      </ng-template>
+
+      <ng-template #MenuColumn>
+        <ng-container matColumnDef="menu">
+          <th *matHeaderCellDef class="table--menu" mat-header-cell></th>
+          <td *matCellDef="let row" class="table--menu table--cell" mat-cell
+            [attr.colspan]="tableConfig.displayedColumns.length">
+            <div class="table--menu__desktop">
+              <button [matMenuTriggerFor]="menu" [attr.aria-label]="'table.menuDescription' | i18n"
+                data-testId="table-menu-button" mat-icon-button>
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <ng-container *ngFor="let config of tableConfig.menuActionsConfig">
+                  <button *ngIf="!config.condition || config.condition(row)" (click)="config.action(row)"
+                    [attr.data-testId]="'table-menu-button--' + config.label" mat-menu-item>
+                    <mat-icon>{{ config.icon }}</mat-icon>
+                    <span>{{ config.label | i18n }}</span>
+                  </button>
+                </ng-container>
+              </mat-menu>
+            </div>
           </td>
         </ng-container>
       </ng-template>
