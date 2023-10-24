@@ -28,12 +28,12 @@ import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy;
 import org.springframework.data.jpa.domain.Specification;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
@@ -135,12 +135,17 @@ public abstract class BaseSpecification<T> implements Specification<T> {
     }
 
     private static <T> boolean dateRangesOverlap(List<BaseSpecification<T>> specifications) {
-        BaseSpecification<T> before = specifications.stream().filter(BaseSpecification::isBeforePredicate).findFirst().get();
-        BaseSpecification<T> after = specifications.stream().filter(BaseSpecification::isAfterPredicate).findFirst().get();
-        LocalDate beforeDate = LocalDate.parse(before.searchCriteriaFilter.getValue());
-        LocalDate afterDate = LocalDate.parse(after.searchCriteriaFilter.getValue());
+        Optional<BaseSpecification<T>> before = specifications.stream().filter(BaseSpecification::isBeforePredicate).findFirst();
+        Optional<BaseSpecification<T>> after = specifications.stream().filter(BaseSpecification::isAfterPredicate).findFirst();
 
+        if (before.isEmpty() || after.isEmpty()) {
+            return false;
+        }
+
+        LocalDate beforeDate = LocalDate.parse(before.get().searchCriteriaFilter.getValue());
+        LocalDate afterDate = LocalDate.parse(after.get().searchCriteriaFilter.getValue());
         return beforeDate.isAfter(afterDate);
+
     }
 
     private static <T> Specification<T> combineSpecificationsWith(List<Specification<T>> specifications, SearchCriteriaOperator searchCriteriaOperator) {
