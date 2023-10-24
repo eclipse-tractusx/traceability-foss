@@ -15,6 +15,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Updated user manual to reflect the table column settings feature
 - Fixed a bug which removed all parts asBuilt selection at once when creating notifications
 - Changed Filter to support Logical operator (AND,OR) on searchCriteria
+- Adapt frontend to use the changed filter logic with the correct operator per use case
 - Reworked business logic of /registry/reload to always sync all assets
 
 ### Removed

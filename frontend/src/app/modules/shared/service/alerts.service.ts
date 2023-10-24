@@ -51,13 +51,14 @@ export class AlertsService {
     let params = new HttpParams()
       .set('page', page)
       .set('size', pageSize)
+      .set('filter', 'side,EQUAL,SENDER,AND')
 
     sort.forEach(sortingItem => {
       params = params.append('sort', sortingItem);
     })
 
     return this.apiService
-      .getBy<NotificationsResponse>(`${this.url}/alerts/created`, params)
+      .getBy<NotificationsResponse>(`${this.url}/alerts`, params)
       .pipe(map(alerts => NotificationAssembler.assembleNotifications(alerts, NotificationType.ALERT)));
   }
 
@@ -66,13 +67,14 @@ export class AlertsService {
     let params = new HttpParams()
       .set('page', page)
       .set('size', pageSize)
+      .set('filter', 'side,EQUAL,RECEIVER,AND')
 
     sort.forEach(sortingItem => {
       params = params.append('sort', sortingItem);
     })
 
     return this.apiService
-      .getBy<NotificationsResponse>(`${this.url}/alerts/received`, params)
+      .getBy<NotificationsResponse>(`${this.url}/alerts`, params)
       .pipe(map(alerts => NotificationAssembler.assembleNotifications(alerts, NotificationType.ALERT)));
   }
 
