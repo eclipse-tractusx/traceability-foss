@@ -21,8 +21,9 @@ A list of user or technical roles can be found below:
 
 === Trace-X app roles
 
-Role list: https://portal.int.demo.catena-x.net/appusermanagement/3bbc88ae-5f0d-45cb-ab3e-8c7602ff58b4
-Assignment: https://portal.int.demo.catena-x.net/documentation
+Available roles: https://portal.int.demo.catena-x.net/appusermanagement/3bbc88ae-5f0d-45cb-ab3e-8c7602ff58b4
+
+Assignment of roles: https://portal.int.demo.catena-x.net/documentation
 
 === Catena-X portal roles
 
