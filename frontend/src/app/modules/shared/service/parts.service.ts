@@ -19,26 +19,26 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {HttpParams} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {ApiService} from '@core/api/api.service';
-import {Pagination} from '@core/model/pagination.model';
-import {environment} from '@env';
-import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
+import { HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { ApiService } from '@core/api/api.service';
+import { Pagination } from '@core/model/pagination.model';
+import { environment } from '@env';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import {
-    AssetAsBuiltFilter,
-    AssetAsPlannedFilter,
-    Part,
-    PartResponse,
-    PartsResponse
+  AssetAsBuiltFilter,
+  AssetAsPlannedFilter,
+  Part,
+  PartResponse,
+  PartsResponse,
 } from '@page/parts/model/parts.model';
-import {PartsAssembler} from '@shared/assembler/parts.assembler';
-import {TableHeaderSort} from '@shared/components/table/table.model';
+import { PartsAssembler } from '@shared/assembler/parts.assembler';
+import { TableHeaderSort } from '@shared/components/table/table.model';
+import { enrichFilterAndGetUpdatedParams } from '@shared/helper/filter-helper';
 import _deepClone from 'lodash-es/cloneDeep';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
-import {SortDirection} from '../../../mocks/services/pagination.helper';
-import {enrichFilterAndGetUpdatedParams} from "@shared/helper/filter-helper";
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { SortDirection } from '../../../mocks/services/pagination.helper';
 
 @Injectable()
 export class PartsService {
@@ -55,14 +55,13 @@ export class PartsService {
         let params = new HttpParams()
             .set('page', page)
             .set('size', pageSize)
-            .set('filter', 'owner,EQUAL,OWN')
-            .set('filterOperator', filterOperator);
+            .set('filter', "owner,EQUAL,OWN,AND")
         sort.forEach(sortingItem => {
             params = params.append('sort', sortingItem);
         })
 
         if (assetAsBuiltFilter) {
-            params = enrichFilterAndGetUpdatedParams(assetAsBuiltFilter, params);
+            params = enrichFilterAndGetUpdatedParams(assetAsBuiltFilter, params, filterOperator);
         }
 
         return this.apiService
@@ -77,15 +76,14 @@ export class PartsService {
         let params = new HttpParams()
             .set('page', page)
             .set('size', pageSize)
-            .set('filter', 'owner,EQUAL,OWN')
-            .set('filterOperator', filterOperator);
+            .set('filter', "owner,EQUAL,OWN,AND")
 
         sort.forEach(sortingItem => {
             params = params.append('sort', sortingItem);
         })
 
         if (assetAsPlannedFilter) {
-            params = enrichFilterAndGetUpdatedParams(assetAsPlannedFilter, params);
+            params = enrichFilterAndGetUpdatedParams(assetAsPlannedFilter, params, filterOperator);
         }
 
         return this.apiService

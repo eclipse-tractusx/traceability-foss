@@ -272,7 +272,9 @@
   },
   "multiSelect": {
     "filterLabel": "Filter",
-    "placeHolder": "All"
+    "placeholder": "All",
+    "searchPlaceholder": "Search..",
+    "choosePlaceholder": "Choose.."
   },
   "parts": {
     "input": {

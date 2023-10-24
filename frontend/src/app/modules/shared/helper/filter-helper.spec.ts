@@ -18,7 +18,7 @@
  ********************************************************************************/
 
 import { HttpParams } from '@angular/common/http';
-import { enrichFilterAndGetUpdatedParams } from './filter-helper'
+import { enrichFilterAndGetUpdatedParams } from './filter-helper';
 
 describe('enrichFilterAndGetUpdatedParams', () => {
     it('should append filter parameters for non-date filters', () => {
@@ -53,7 +53,7 @@ describe('enrichFilterAndGetUpdatedParams', () => {
             semanticDataModel: ['value1', 'value2'],
         };
         const params = new HttpParams();
-        const result = enrichFilterAndGetUpdatedParams(filter, params);
+        const result = enrichFilterAndGetUpdatedParams(filter, params, "OR");
         expect(result.toString()).toContain('filter=semanticDataModel,EQUAL,value1');
         expect(result.toString()).toContain('filter=semanticDataModel,EQUAL,value2');
     });

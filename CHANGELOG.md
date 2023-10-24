@@ -10,13 +10,16 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 - Added Table columns settings in part tables to show/hide/reorder table columns
 - new endpoints supporting filtering feature for investigations and alers api/investigations api/alerts
+- Added missing translations
 - support for date ranges BEFORE_LOCAL_DATE and AFTER_LOCAL_DATE providing both will cause filter result to return only relevant date ranges
 
 ### Changed
 - Updated user manual to reflect the table column settings feature
 - Fixed a bug which removed all parts asBuilt selection at once when creating notifications
 - Changed Filter to support Logical operator (AND,OR) on searchCriteria
+- Adapt frontend to use the changed filter logic with the correct operator per use case
 - Reworked business logic of /registry/reload to always sync all assets
+- Bump @babel/traverse from 7.20.13 to 7.23.2 in frontend
 - distinctFilterValues endpoints now support startWith parameter that will cause result to contain only suggestions starting with given string
 
 ### Removed
