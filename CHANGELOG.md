@@ -10,6 +10,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 - Added Table columns settings in part tables to show/hide/reorder table columns
 - new endpoints supporting filtering feature for investigations and alers api/investigations api/alerts
+- Added missing translations
 
 ### Changed
 - Updated user manual to reflect the table column settings feature
