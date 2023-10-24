@@ -17,11 +17,12 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.application.asplanned.mapper;
+package org.eclipse.tractusx.traceability.common.model;
 
-public class AssetAsPlannedFilterFieldMapper {
+import java.util.List;
 
-    public String mapFilterRequestFieldName() {
-        return "";
+public class UnsupportedSearchCriteriaFieldException extends RuntimeException {
+    UnsupportedSearchCriteriaFieldException(String fieldName, List<String> supportedFieldNames) {
+        super("Provided field name: '" + fieldName + "' is not supported. Supported fields are following " + supportedFieldNames.toString());
     }
 }

@@ -105,7 +105,7 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
     public void setAssetsInvestigationStatus(QualityNotification investigation) {
         getAssetRepository().getAssetsById(investigation.getAssetIds()).forEach(asset -> {
             // Assets in status closed will be false, others true
-            asset.setUnderInvestigation(!investigation.getNotificationStatus().equals(QualityNotificationStatus.CLOSED));
+            asset.setInInvestigation(!investigation.getNotificationStatus().equals(QualityNotificationStatus.CLOSED));
             getAssetRepository().save(asset);
         });
     }

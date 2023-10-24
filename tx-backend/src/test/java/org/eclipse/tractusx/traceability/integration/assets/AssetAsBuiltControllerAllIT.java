@@ -201,4 +201,21 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
                 .body("content[0].detailAspectModels[1]", hasEntry("type", "TRACTION_BATTERY_CODE"));
     }
 
+    @Test
+    void givenNonExistingSortField_whenGetAssetsAsBuilt_thenBadRequest() throws JoseException {
+        //THEN
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .param("page", "0")
+                .param("size", "10")
+                .param("sort", "nonExistingField,ASC")
+                .when()
+                .log().all()
+                .get("/api/assets/as-built")
+                .then()
+                .log().all()
+                .statusCode(400);
+    }
+
 }

@@ -121,4 +121,44 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
                 .body("totalItems", Matchers.is(8))
                 .body("content", Matchers.hasSize(8));
     }
+
+    @Test
+    void givenAlerts_whenProvideDateRangeFiltersXAnd_thenReturnExpectedResult() throws JoseException {
+        // given
+        investigationNotificationSupport.defaultInvestigationsStored();
+        String filter = "?filter=createdDate,AFTER_LOCAL_DATE,2023-10-12,AND&filter=createdDate,BEFORE_LOCAL_DATE,2023-10-08,AND";
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .param("page", "0")
+                .param("size", "10")
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/investigations" + filter)
+                .then()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(10))
+                .body("totalItems", Matchers.is(6))
+                .body("content", Matchers.hasSize(6));
+    }
+
+    @Test
+    void givenNonExistingFilterField_whenGetInvestigations_thenBadRequest() throws JoseException {
+        // given
+        investigationNotificationSupport.defaultInvestigationsStored();
+        String filter = "?filter=nonExistingField,AFTER_LOCAL_DATE,2023-10-12,AND";
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .param("page", "0")
+                .param("size", "10")
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/investigations" + filter)
+                .then()
+                .statusCode(400);
+    }
 }

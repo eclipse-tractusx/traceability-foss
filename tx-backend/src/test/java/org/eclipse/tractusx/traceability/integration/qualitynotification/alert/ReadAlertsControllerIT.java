@@ -96,7 +96,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
     @Test
     void givenAlerts_whenGetSenderAlertsSortedAsc_thenReturnProperlySorted() throws JoseException {
         // given
-        String filterString = "side,EQUAL,SENDER,AND";
+        String filterString = "channel,EQUAL,SENDER,AND";
         String sortString = "createdDate,ASC";
         alertNotificationsSupport.defaultAlertsStored();
 
@@ -122,7 +122,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
     @Test
     void givenAlerts_whenGetSenderAlertsSortedDesc_thenReturnProperlySorted() throws JoseException {
         // given
-        String filterString = "side,EQUAL,SENDER,AND";
+        String filterString = "channel,EQUAL,SENDER,AND";
         String sortString = "createdDate,DESC";
         alertNotificationsSupport.defaultAlertsStored();
 
@@ -149,7 +149,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
     @Test
     void givenSortByDescriptionProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
         // given
-        String filterString = "side,EQUAL,SENDER,AND";
+        String filterString = "channel,EQUAL,SENDER,AND";
         String sortString = "description,ASC";
         alertNotificationsSupport.defaultAlertsStored();
 
@@ -175,7 +175,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
     @Test
     void givenSortByStatusProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
         // given
-        String filterString = "side,EQUAL,SENDER,AND";
+        String filterString = "channel,EQUAL,SENDER,AND";
         String sortString = "status,ASC";
         alertNotificationsSupport.defaultAlertsStored();
 
@@ -230,7 +230,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
         String senderName = "Sender name";
         String receiverBPN = "BPN0002";
         String receiverName = "Receiver name";
-        String filterString = "side,EQUAL,RECEIVER,AND";
+        String filterString = "channel,EQUAL,RECEIVER,AND";
 
         IntStream.range(101, 201)
                 .forEach(number ->
@@ -318,5 +318,19 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .body("sendTo", Matchers.is(storedAlertNotification.getSendTo()))
                 .body("sendToName", Matchers.is(storedAlertNotification.getSendToName()))
                 .body("createdDate", isIso8601DateTime());
+    }
+
+    @Test
+    void givenNonExistingSortField_whenGetAlerts_thenBadRequest() throws JoseException {
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .param("page", "0")
+                .param("size", "10")
+                .param("sort", "nonExistingField,ASC")
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/alerts")
+                .then()
+                .statusCode(400);
     }
 }

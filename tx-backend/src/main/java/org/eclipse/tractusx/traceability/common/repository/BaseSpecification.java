@@ -28,6 +28,7 @@ import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -120,7 +121,7 @@ public abstract class BaseSpecification<T> implements Specification<T> {
                 .build();
 
         Specification<T> result;
-        if (hasBeforePredicate(specifications) && hasAfterPredicate(specifications)) {
+        if (hasBeforePredicate(specifications) && hasAfterPredicate(specifications) && dateRangesOverlap(specifications)) {
             result = combineSpecificationsWith(
                     specifications.stream().map(baseSpec -> (Specification<T>) baseSpec).toList(),
                     SearchCriteriaOperator.AND);
@@ -131,6 +132,15 @@ public abstract class BaseSpecification<T> implements Specification<T> {
         }
 
         return Map.entry(fieldOperatorMap, result);
+    }
+
+    private static <T> boolean dateRangesOverlap(List<BaseSpecification<T>> specifications) {
+        BaseSpecification<T> before = specifications.stream().filter(BaseSpecification::isBeforePredicate).findFirst().get();
+        BaseSpecification<T> after = specifications.stream().filter(BaseSpecification::isAfterPredicate).findFirst().get();
+        LocalDate beforeDate = LocalDate.parse(before.searchCriteriaFilter.getValue());
+        LocalDate afterDate = LocalDate.parse(after.searchCriteriaFilter.getValue());
+
+        return beforeDate.isAfter(afterDate);
     }
 
     private static <T> Specification<T> combineSpecificationsWith(List<Specification<T>> specifications, SearchCriteriaOperator searchCriteriaOperator) {
