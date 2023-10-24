@@ -27,20 +27,18 @@ import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDate;
-
 import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 
 class InvestigationControllerFilterIT extends IntegrationTestSpecification {
 
     @Autowired
-    InvestigationNotificationsSupport InvestigationNotificationSupport;
+    InvestigationNotificationsSupport investigationNotificationSupport;
 
     @Test
     void givenInvestigations_whenProvideNoFilter_thenReturnAll() throws JoseException {
         // given
-        InvestigationNotificationSupport.defaultInvestigationsStored();
+        investigationNotificationSupport.defaultInvestigationsStored();
 
         // when/then
         given()
@@ -61,7 +59,7 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
     @Test
     void givenInvestigations_whenProvideBpnFilter_thenReturnExpectedResult() throws JoseException {
         // given
-        InvestigationNotificationSupport.defaultInvestigationsStored();
+        investigationNotificationSupport.defaultInvestigationsStored();
         String filter = "?filter=bpn,STARTS_WITH,BPNL00000002OTHER,OR";
 
         // when/then
@@ -83,7 +81,7 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
     @Test
     void givenInvestigations_whenProvideBpnFilterAnd_thenReturnExpectedResult() throws JoseException {
         // given
-        InvestigationNotificationSupport.defaultInvestigationsStored();
+        investigationNotificationSupport.defaultInvestigationsStored();
         String filter = "?filter=bpn,STARTS_WITH,BPNL00000001OWN,AND&filter=createdDate,AT_LOCAL_DATE,2023-10-10,AND";
 
         // when/then
@@ -100,5 +98,27 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
                 .body("pageSize", Matchers.is(10))
                 .body("totalItems", Matchers.is(2))
                 .body("content", Matchers.hasSize(2));
+    }
+
+    @Test
+    void givenAlerts_whenProvideDateRangeFilters_thenReturnExpectedResult() throws JoseException {
+        // given
+        investigationNotificationSupport.defaultInvestigationsStored();
+        String filter = "?filter=createdDate,AFTER_LOCAL_DATE,2023-10-09,AND&filter=createdDate,BEFORE_LOCAL_DATE,2023-10-11,AND";
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .param("page", "0")
+                .param("size", "10")
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/investigations" + filter)
+                .then()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(10))
+                .body("totalItems", Matchers.is(8))
+                .body("content", Matchers.hasSize(8));
     }
 }

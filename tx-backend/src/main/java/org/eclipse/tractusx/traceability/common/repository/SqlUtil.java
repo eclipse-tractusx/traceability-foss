@@ -17,12 +17,20 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.common.model;
+package org.eclipse.tractusx.traceability.common.repository;
 
-public enum SearchCriteriaStrategy {
-    EQUAL,
-    STARTS_WITH,
-    AT_LOCAL_DATE,
-    AFTER_LOCAL_DATE,
-    BEFORE_LOCAL_DATE
+import lombok.experimental.UtilityClass;
+
+import java.util.Objects;
+
+@UtilityClass
+public class SqlUtil {
+
+    public static String constructWhereStartWithString(String databaseFieldName, String startsWithString) {
+        if (Objects.isNull(startsWithString)) {
+            return "";
+        }
+
+        return " WHERE ( " + databaseFieldName + " LIKE '" + startsWithString + "%')";
+    }
 }

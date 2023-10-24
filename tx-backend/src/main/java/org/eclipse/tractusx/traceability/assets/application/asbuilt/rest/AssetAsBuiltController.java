@@ -246,8 +246,8 @@ public class AssetAsBuiltController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("distinctFilterValues")
-    public List<String> distinctFilterValues(@QueryParam("fieldName") String fieldName, @QueryParam("size") Long size) {
-        return assetBaseService.getDistinctFilterValues(fieldName, size);
+    public List<String> distinctFilterValues(@QueryParam("fieldName") String fieldName, @QueryParam("size") Long size, @QueryParam("startWith") String startWith) {
+        return assetBaseService.getDistinctFilterValues(fieldName, startWith, size);
     }
 
     @Operation(operationId = "assetsCountryMap",
