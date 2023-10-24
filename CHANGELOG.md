@@ -17,6 +17,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Changed Filter to support Logical operator (AND,OR) on searchCriteria
 - Adapt frontend to use the changed filter logic with the correct operator per use case
 - Reworked business logic of /registry/reload to always sync all assets
+- Bump @babel/traverse from 7.20.13 to 7.23.2 in frontend
 
 ### Removed
 - Removed &filterOperator=AND from filtering requests
