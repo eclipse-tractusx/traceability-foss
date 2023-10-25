@@ -18,6 +18,7 @@
  ********************************************************************************/
 
 import { SelectionModel } from '@angular/cdk/collections';
+import { MenuStack } from '@angular/cdk/menu';
 import {
   Component,
   ElementRef,
@@ -775,4 +776,5 @@ export class PartsTableComponent implements OnInit {
     }
 
 
+  protected readonly MenuStack = MenuStack;
 }

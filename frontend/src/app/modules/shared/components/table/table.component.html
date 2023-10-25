@@ -97,7 +97,7 @@ SPDX-License-Identifier: Apache-2.0
       </ng-container>
 
       <ng-template #SelectColumn>
-        <ng-container matColumnDef="select">
+        <ng-container matColumnDef="select" sticky>
           <th *matHeaderCellDef mat-header-cell>
             <div class="table--select-all" [class.table--select-all__menu]="isMenuOpen">
               <mat-checkbox
@@ -136,7 +136,7 @@ SPDX-License-Identifier: Apache-2.0
       </ng-template>
 
       <ng-template #MenuColumn>
-        <ng-container matColumnDef="menu">
+        <ng-container matColumnDef="menu" stickyEnd sticky>
           <th *matHeaderCellDef class="table--menu" mat-header-cell></th>
           <td *matCellDef="let row" class="table--menu" mat-cell [attr.colspan]="tableConfig.displayedColumns.length">
             <div class="table--menu__desktop">
@@ -166,7 +166,7 @@ SPDX-License-Identifier: Apache-2.0
         </ng-container>
       </ng-template>
 
-      <ng-container matColumnDef="expandMenuActions">
+      <ng-container matColumnDef="expandMenuActions" sticky>
         <td mat-cell *matCellDef="let row" [attr.colspan]="tableConfig.displayedColumns.length">
           <div [class.expanded]="row === selectedRow" [class.collapsed]="row !== selectedRow" class="expand-element">
             <ng-container *ngFor="let config of tableConfig.menuActionsConfig">

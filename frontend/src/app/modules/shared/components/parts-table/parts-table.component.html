@@ -17,30 +17,33 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<div [class.mat-elevation-z8]="!noShadow" class="table-wrapper">
-    <ng-container *ngIf="tableHeader"><p class="large-text table--header">{{tableHeader | i18n }}</p></ng-container>
-        <div *appHasRole="tableConfig.columnRoles?.['select'] ?? 'user'" class="table--selected__container">
-            <p class="regular-text table--selected--label">{{ selectedPartsInfoLabel | i18n : {count: selection?.selected?.length || 0} }}</p>
-            <app-button
-                    *ngIf="selection?.selected?.length"
-                    (click)="clickSelectAction.emit()"
-                    [variant]="'raised'"
-                    [color]="'accent'"
-            >
-                <div class="flex justify-between items-center text-dark p-0.5">
-                    <mat-icon class="mr-2">announcement</mat-icon>
-                    {{ selectedPartsActionLabel | i18n }}
-                </div>
-            </app-button>
-          <mat-icon
-            (click)="openDialog()"
-            class="table--settings--button ml-2"
-          >
-            settings
-          </mat-icon>
-        </div>
 
-    <app-scroll-with-shadow>
+<ng-container *ngIf="tableHeader"><p class="large-text table--header">{{tableHeader | i18n }}</p></ng-container>
+<div *appHasRole="tableConfig.columnRoles?.['select'] ?? 'user'" class="table&#45;&#45;selected__container">
+  <p class="regular-text table&#45;&#45;selected&#45;&#45;label">{{ selectedPartsInfoLabel | i18n : {count: selection?.selected?.length || 0} }}</p>
+  <app-button
+    *ngIf="selection?.selected?.length"
+    (click)="clickSelectAction.emit()"
+    [variant]="'raised'"
+    [color]="'accent'"
+  >
+    <div class="flex justify-between items-center text-dark p-0.5">
+      <mat-icon class="mr-2">announcement</mat-icon>
+      {{ selectedPartsActionLabel | i18n }}
+    </div>
+  </app-button>
+  <mat-icon
+    (click)="openDialog()"
+    class="table&#45;&#45;settings&#45;&#45;button ml-2"
+  >
+    settings
+  </mat-icon>
+</div>
+
+<div [class.mat-elevation-z8]="!noShadow" class="table-wrapper">
+
+
+  <!--  <app-scroll-with-shadow>-->
         <table
             #tableElement
             [dataSource]="dataSource"
@@ -53,11 +56,11 @@ SPDX-License-Identifier: Apache-2.0
             data-testid="table-component--test-id"
         >
             <!-- TODO: Make Header fixed to top when scrolling -->
-            <tr *matHeaderRowDef="tableConfig.displayedColumns" mat-header-row data-testid="table-component--head-row"
+            <tr *matHeaderRowDef="tableConfig.displayedColumns; sticky: true" mat-header-row data-testid="table-component--head-row"
                 class="table--header--row"></tr>
 
             <ng-container *ngIf="multiSelectActive">
-                <tr class="filter-row" mat-header-row *matHeaderRowDef="displayedColumns"
+                <tr class="filter-row" mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"
                     [hidden]="displayedFilter"></tr>
 
 
@@ -104,14 +107,18 @@ SPDX-License-Identifier: Apache-2.0
                     </div>
                 </td>
             </tr>
-            <ng-container *ngFor="let column of tableConfig?.displayedColumns" [ngSwitch]="column">
+            <ng-container *ngFor="let column of tableConfig?.displayedColumns" [ngSwitch]="column" >
                 <ng-container *ngSwitchCase="'select'" >
                     <ng-container *ngTemplateOutlet="SelectColumn"></ng-container>
                 </ng-container>
+              <ng-container *ngSwitchCase="'menu'">
+                <ng-container *ngTemplateOutlet="MenuColumn"></ng-container>
+              </ng-container>
                 <ng-container *ngSwitchDefault>
                     <ng-container *ngTemplateOutlet="NormalColumn; context: { $implicit: column }"></ng-container>
                 </ng-container>
             </ng-container>
+
 
             <ng-template #SelectColumn>
                 <ng-container matColumnDef="select">
@@ -223,21 +230,56 @@ SPDX-License-Identifier: Apache-2.0
                     </td>
                 </ng-container>
             </ng-template>
-        </table>
-    </app-scroll-with-shadow>
 
-    <mat-paginator class="table-paginator-menu"
-                   [length]="totalItems"
-                   [pageIndex]="pageIndex"
-                   [pageSizeOptions]="[50, 100, 200]"
-                   [attr.aria-label]="'table.selectPageSize' | i18n"
-                   [attr.data-testId]="'table.selectPageSize' | i18n"
-                   (page)="onPaginationChange($event)"
-                   showFirstLastButtons
-    >
-    </mat-paginator>
+          <ng-template #MenuColumn>
+            <ng-container matColumnDef="menu">
+              <th *matHeaderCellDef class="table--menu" mat-header-cell></th>
+              <td *matCellDef="let row" class="table--menu" mat-cell [attr.colspan]="tableConfig.displayedColumns.length">
+                <div class="table--menu__desktop">
+                  <button
+                    [matMenuTriggerFor]="menu"
+                    [attr.aria-label]="'table.menuDescription' | i18n"
+                    data-testId="table-menu-button"
+                    mat-icon-button
+                  >
+                    <mat-icon>more_vert</mat-icon>
+                  </button>
+                  <mat-menu #menu="matMenu">
+                    <ng-container *ngFor="let config of tableConfig.menuActionsConfig">
+                      <button
+                        *ngIf="!config.condition || config.condition(row)"
+                        (click)="config.action(row)"
+                        [attr.data-testId]="'table-menu-button--' + config.label"
+                        mat-menu-item
+                      >
+                        <mat-icon>{{ config.icon }}</mat-icon>
+                        <span>{{ config.label | i18n }}</span>
+                      </button>
+                    </ng-container>
+                  </mat-menu>
+                </div>
+              </td>
+            </ng-container>
+          </ng-template>
+
+        </table>
+<!--
+    </app-scroll-with-shadow>
+-->
+
 </div>
 
+
+<mat-paginator class="table-paginator-menu"
+               [length]="totalItems"
+               [pageIndex]="pageIndex"
+               [pageSizeOptions]="[50, 100, 200]"
+               [attr.aria-label]="'table.selectPageSize' | i18n"
+               [attr.data-testId]="'table.selectPageSize' | i18n"
+               (page)="onPaginationChange($event)"
+               showFirstLastButtons
+>
+</mat-paginator>
 <ng-template #pureColumn>
     {{ pureColumn }}
 </ng-template>

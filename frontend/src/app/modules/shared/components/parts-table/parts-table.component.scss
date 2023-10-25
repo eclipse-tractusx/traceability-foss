@@ -212,6 +212,10 @@ tr.error {
 .table--header--row {
   white-space: nowrap;
 }
+.table-wrapper{
+  max-height:52vh;
+  overflow:auto;
+}
 
 .table--header {
   padding-bottom: 8px;
