@@ -19,14 +19,10 @@
 
 package org.eclipse.tractusx.traceability.common.model;
 
-import lombok.Builder;
-import lombok.Data;
+import java.util.List;
 
-@Data
-@Builder
-public class SearchCriteriaFilter {
-    private String key;
-    private SearchCriteriaStrategy strategy;
-    private String value;
-    private SearchCriteriaOperator operator;
+public class UnsupportedSearchCriteriaFieldException extends RuntimeException {
+    UnsupportedSearchCriteriaFieldException(String fieldName, List<String> supportedFieldNames) {
+        super("Provided field name: '" + fieldName + "' is not supported. Supported fields are following " + supportedFieldNames.toString());
+    }
 }

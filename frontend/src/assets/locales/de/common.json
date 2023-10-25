@@ -57,7 +57,7 @@
     "menuDescription": "Aktionsmenü",
     "clearPage": "Markierungen auf dieser Seite aufheben",
     "clearAll": "Alle Markierungen aufheben",
-    "multiSortingToolTip": "Erster Klick: aufsteigend sortieren ↑ Zweiter Klick: absteigend sortieren ↓ Dritter Klick: Sortierung zurücksetzen",
+    "multiSortingTooltip": "Erster Klick: aufsteigend sortieren ↑ Zweiter Klick: absteigend sortieren ↓ Dritter Klick: Sortierung zurücksetzen",
     "filterTitle" : "Filter",
     "tableSettings": {
       "title": "Tabellenspalten Einstellungen",
@@ -269,12 +269,14 @@
   },
   "multiSelect": {
     "filterLabel": "Filter",
-    "placeholder": "Alle"
+    "placeholder": "Alle",
+    "searchPlaceholder": "Suche..",
+    "choosePlaceholder": "Auswählen.."
   },
   "parts": {
     "input": {
       "global-search": {
-        "placeholder": "Suche nach C-X ID, partInstanceId or partNumber / BPN",
+        "placeholder": "Suche nach C-X ID, partInstanceId oder partNumber / BPN",
         "toastInfo": "Lokale Filterung auf Tabellenebene wurde zurückgesetzt."
       }
     }

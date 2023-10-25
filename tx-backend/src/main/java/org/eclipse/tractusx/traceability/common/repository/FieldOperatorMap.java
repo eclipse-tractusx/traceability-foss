@@ -17,16 +17,13 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.common.model;
+package org.eclipse.tractusx.traceability.common.repository;
 
 import lombok.Builder;
-import lombok.Data;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
 
-@Data
 @Builder
-public class SearchCriteriaFilter {
-    private String key;
-    private SearchCriteriaStrategy strategy;
-    private String value;
-    private SearchCriteriaOperator operator;
+public class FieldOperatorMap {
+    String fieldName;
+    SearchCriteriaOperator operator;
 }

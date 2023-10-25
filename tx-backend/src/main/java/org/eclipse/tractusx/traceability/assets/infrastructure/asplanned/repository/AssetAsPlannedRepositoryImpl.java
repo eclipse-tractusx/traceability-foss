@@ -26,8 +26,6 @@ import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNo
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
-import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
-import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.AssetAsBuildSpecification;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
@@ -37,10 +35,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 import static org.eclipse.tractusx.traceability.common.repository.EntityNameMapper.toDatabaseName;
+import static org.eclipse.tractusx.traceability.common.repository.SqlUtil.constructLikeWildcardQuery;
 
 @RequiredArgsConstructor
 @Component
@@ -79,7 +77,7 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository {
     @Override
     public PageResult<AssetBase> getAssets(Pageable pageable, SearchCriteria searchCriteria) {
         List<AssetAsPlannedSpecification> assetAsPlannedSpecifications = emptyIfNull(searchCriteria.getSearchCriteriaFilterList()).stream().map(AssetAsPlannedSpecification::new).toList();
-        Specification<AssetAsPlannedEntity> specification = AssetAsPlannedSpecification.toSpecification(assetAsPlannedSpecifications, searchCriteria.getSearchCriteriaOperator());
+        Specification<AssetAsPlannedEntity> specification = AssetAsPlannedSpecification.toSpecification(assetAsPlannedSpecifications);
         return new PageResult<>(jpaAssetAsPlannedRepository.findAll(specification, pageable), AssetAsPlannedEntity::toDomain);
     }
 
@@ -123,9 +121,10 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository {
     }
 
     @Override
-    public List<String> getFieldValues(String fieldName, Long resultLimit) {
+    public List<String> getFieldValues(String fieldName, String startWith, Long resultLimit) {
         String databaseFieldName = toDatabaseName(fieldName);
-        String getFieldValuesQuery = "SELECT DISTINCT " + databaseFieldName + " FROM assets_as_planned ORDER BY " + databaseFieldName + " ASC LIMIT :resultLimit";
+        String getFieldValuesQuery = "SELECT DISTINCT " + databaseFieldName + " FROM assets_as_planned" + constructLikeWildcardQuery(databaseFieldName, startWith) + " ORDER BY " + databaseFieldName + " ASC LIMIT :resultLimit";
+
         return entityManager.createNativeQuery(getFieldValuesQuery, String.class)
                 .setParameter("resultLimit", resultLimit)
                 .getResultList();

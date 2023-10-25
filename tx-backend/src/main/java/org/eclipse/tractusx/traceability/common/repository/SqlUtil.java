@@ -17,16 +17,20 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.common.model;
+package org.eclipse.tractusx.traceability.common.repository;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.experimental.UtilityClass;
 
-@Data
-@Builder
-public class SearchCriteriaFilter {
-    private String key;
-    private SearchCriteriaStrategy strategy;
-    private String value;
-    private SearchCriteriaOperator operator;
+import java.util.Objects;
+
+@UtilityClass
+public class SqlUtil {
+
+    public static String constructLikeWildcardQuery(String databaseFieldName, String startsWith) {
+        if (Objects.isNull(startsWith)) {
+            return "";
+        }
+
+        return " WHERE ( " + databaseFieldName + " LIKE '" + startsWith + "%')";
+    }
 }

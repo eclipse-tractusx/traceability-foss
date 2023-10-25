@@ -40,6 +40,7 @@ import java.util.List;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 import static org.eclipse.tractusx.traceability.common.repository.EntityNameMapper.toDatabaseName;
+import static org.eclipse.tractusx.traceability.common.repository.SqlUtil.constructLikeWildcardQuery;
 
 @RequiredArgsConstructor
 @Component
@@ -80,14 +81,14 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
     @Override
     public PageResult<AssetBase> getAssets(Pageable pageable, SearchCriteria searchCriteria) {
         List<AssetAsBuildSpecification> assetAsBuildSpecifications = emptyIfNull(searchCriteria.getSearchCriteriaFilterList()).stream().map(AssetAsBuildSpecification::new).toList();
-        Specification<AssetAsBuiltEntity> specification = AssetAsBuildSpecification.toSpecification(assetAsBuildSpecifications, searchCriteria.getSearchCriteriaOperator());
+        Specification<AssetAsBuiltEntity> specification = AssetAsBuildSpecification.toSpecification(assetAsBuildSpecifications);
         return new PageResult<>(jpaAssetAsBuiltRepository.findAll(specification, pageable), AssetAsBuiltEntity::toDomain);
     }
 
     @Override
-    public List<String> getFieldValues(String fieldName, Long resultLimit) {
+    public List<String> getFieldValues(String fieldName, String startWith, Long resultLimit) {
         String databaseFieldName = toDatabaseName(fieldName);
-        String getFieldValuesQuery = "SELECT DISTINCT " + databaseFieldName + " FROM assets_as_built ORDER BY " + databaseFieldName + " ASC LIMIT :resultLimit";
+        String getFieldValuesQuery = "SELECT DISTINCT " + databaseFieldName + " FROM assets_as_built" + constructLikeWildcardQuery(databaseFieldName, startWith) + " ORDER BY " + databaseFieldName + " ASC LIMIT :resultLimit";
         return entityManager.createNativeQuery(getFieldValuesQuery, String.class)
                 .setParameter("resultLimit", resultLimit)
                 .getResultList();

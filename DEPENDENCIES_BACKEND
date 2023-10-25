@@ -50,16 +50,16 @@ maven/mavencentral/dev.failsafe/failsafe/3.3.2, Apache-2.0, approved, #9268
 maven/mavencentral/io.cucumber/ci-environment/9.2.0, MIT, approved, clearlydefined
 maven/mavencentral/io.cucumber/cucumber-core/7.12.1, MIT AND (Apache-2.0 AND MIT), approved, #11050
 maven/mavencentral/io.cucumber/cucumber-expressions/16.1.2, MIT, approved, clearlydefined
-maven/mavencentral/io.cucumber/cucumber-gherkin-messages/7.12.1, None, restricted, #11045
+maven/mavencentral/io.cucumber/cucumber-gherkin-messages/7.12.1, MIT, approved, #11045
 maven/mavencentral/io.cucumber/cucumber-gherkin/7.12.1, MIT, approved, clearlydefined
 maven/mavencentral/io.cucumber/cucumber-java/7.12.1, MIT, approved, clearlydefined
-maven/mavencentral/io.cucumber/cucumber-junit-platform-engine/7.12.1, None, restricted, #11046
+maven/mavencentral/io.cucumber/cucumber-junit-platform-engine/7.12.1, MIT, approved, #11046
 maven/mavencentral/io.cucumber/cucumber-plugin/7.12.1, MIT, approved, clearlydefined
-maven/mavencentral/io.cucumber/datatable/7.12.1, None, restricted, #11047
+maven/mavencentral/io.cucumber/datatable/7.12.1, MIT, approved, #11047
 maven/mavencentral/io.cucumber/docstring/7.12.1, MIT, approved, clearlydefined
 maven/mavencentral/io.cucumber/gherkin/26.2.0, MIT, approved, clearlydefined
 maven/mavencentral/io.cucumber/html-formatter/20.3.1, MIT, approved, clearlydefined
-maven/mavencentral/io.cucumber/junit-xml-formatter/0.2.0, None, restricted, #11043
+maven/mavencentral/io.cucumber/junit-xml-formatter/0.2.0, MIT, approved, #11043
 maven/mavencentral/io.cucumber/messages/22.0.0, MIT, approved, clearlydefined
 maven/mavencentral/io.cucumber/tag-expressions/5.0.1, MIT, approved, clearlydefined
 maven/mavencentral/io.github.classgraph/classgraph/4.8.149, MIT, approved, CQ22530

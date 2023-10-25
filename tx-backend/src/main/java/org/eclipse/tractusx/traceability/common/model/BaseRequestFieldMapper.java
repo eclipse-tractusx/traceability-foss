@@ -19,14 +19,20 @@
 
 package org.eclipse.tractusx.traceability.common.model;
 
-import lombok.Builder;
-import lombok.Data;
+import java.util.Map;
 
-@Data
-@Builder
-public class SearchCriteriaFilter {
-    private String key;
-    private SearchCriteriaStrategy strategy;
-    private String value;
-    private SearchCriteriaOperator operator;
+import static java.util.Objects.isNull;
+
+public abstract class BaseRequestFieldMapper {
+
+    protected abstract Map<String, String> getSupportedFields();
+
+    public String mapRequestFieldName(String fieldName) {
+        String mappedField = getSupportedFields().get(fieldName);
+        if (isNull(mappedField)) {
+            throw new UnsupportedSearchCriteriaFieldException(fieldName, getSupportedFields().values().stream().toList());
+        }
+        return mappedField;
+    }
+
 }
