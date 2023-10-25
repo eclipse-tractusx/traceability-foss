@@ -30,7 +30,7 @@ public abstract class BaseRequestFieldMapper {
     public String mapRequestFieldName(String fieldName) {
         String mappedField = getSupportedFields().get(fieldName);
         if (isNull(mappedField)) {
-            throw new UnsupportedSearchCriteriaFieldException(fieldName, getSupportedFields().values().stream().toList());
+            throw new UnsupportedSearchCriteriaFieldException(fieldName, getSupportedFields().keySet().stream().toList());
         }
         return mappedField;
     }
