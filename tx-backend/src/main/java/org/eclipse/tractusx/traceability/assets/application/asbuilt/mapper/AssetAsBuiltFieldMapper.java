@@ -28,21 +28,27 @@ import java.util.Map;
 public class AssetAsBuiltFieldMapper extends BaseRequestFieldMapper {
 
     private static final Map<String, String> SUPPORTED_ASSETS_AS_BUILT_FILTER_FIELDS = Map.ofEntries(
+            Map.entry("manufacturingDate", "manufacturingDate"),
+            Map.entry("manufacturingCountry", "manufacturingCountry"),
+            Map.entry("manufacturerId", "manufacturerId"),
+            Map.entry("nameAtCustomer","nameAtCustomer"),
+            Map.entry("customerPartId", "customerPartId"),
+            Map.entry("productType","productType"),
+            Map.entry("tractionBatteryCode","tractionBatteryCode"),
             Map.entry("id","id"),
             Map.entry("idShort", "idShort"),
-            Map.entry("semanticModelId", "semanticModelId"),
+            Map.entry("owner", "owner"),
+            Map.entry("classification", "classification"),
+            Map.entry("underInvestigation", "inInvestigation"),
+            Map.entry("activeAlert", "activeAlert"),
+            Map.entry("qualityType", "qualityType"),
+            Map.entry("manufacturerPartId", "manufacturerPartId"),
             Map.entry("manufacturerName", "manufacturerName"),
             Map.entry("nameAtManufacturer", "nameAtManufacturer"),
-            Map.entry("manufacturerPartId", "manufacturerPartId"),
-            Map.entry("owner", "owner"),
-            Map.entry("activeAlert", "activeAlert"),
-            Map.entry("underInvestigation", "inInvestigation"),
-            Map.entry("qualityType", "qualityType"),
-            Map.entry("van", "van"),
             Map.entry("semanticDataModel", "semanticDataModel"),
-            Map.entry("classification", "classification"),
-            Map.entry("businessPartner", "manufacturerId"),
-            Map.entry("manufacturingDate", "manufacturingDate")
+            Map.entry("semanticModelId", "semanticModelId"),
+            Map.entry("van", "van"),
+            Map.entry("businessPartner", "manufacturerId")
     );
 
     @Override
