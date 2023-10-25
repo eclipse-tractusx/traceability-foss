@@ -121,9 +121,9 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository {
     }
 
     @Override
-    public List<String> getFieldValues(String fieldName, String startsWithString, Long resultLimit) {
+    public List<String> getFieldValues(String fieldName, String startWith, Long resultLimit) {
         String databaseFieldName = toDatabaseName(fieldName);
-        String getFieldValuesQuery = "SELECT DISTINCT " + databaseFieldName + " FROM assets_as_planned" + constructLikeWildcardQuery(databaseFieldName, startsWithString) + " ORDER BY " + databaseFieldName + " ASC LIMIT :resultLimit";
+        String getFieldValuesQuery = "SELECT DISTINCT " + databaseFieldName + " FROM assets_as_planned" + constructLikeWildcardQuery(databaseFieldName, startWith) + " ORDER BY " + databaseFieldName + " ASC LIMIT :resultLimit";
 
         return entityManager.createNativeQuery(getFieldValuesQuery, String.class)
                 .setParameter("resultLimit", resultLimit)
