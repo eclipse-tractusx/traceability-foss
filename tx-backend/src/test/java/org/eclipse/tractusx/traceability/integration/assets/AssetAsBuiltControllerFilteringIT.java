@@ -154,7 +154,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     void givenManufacturerIdFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
         // given
         assetsSupport.defaultAssetsStored();
-        final String filter = "?filter=manufacturerId,EQUAL,BPNL00000003B0Q0,AND";
+        final String filter = "?filter=businessPartner,EQUAL,BPNL00000003B0Q0,AND";
 
         // then
         given()
@@ -173,7 +173,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     void givenManufacturerIdAndSemanticModelIdFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
         // given
         assetsSupport.defaultAssetsStored();
-        final String filter = "?filter=manufacturerId,EQUAL,BPNL00000003B0Q0,AND&filter=semanticModelId,STARTS_WITH,NO-3404609481920549,AND";
+        final String filter = "?filter=businessPartner,EQUAL,BPNL00000003B0Q0,AND&filter=semanticModelId,STARTS_WITH,NO-3404609481920549,AND";
 
         // then
         given()
@@ -300,5 +300,23 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
                 .log().all()
                 .statusCode(200)
                 .body("totalItems", equalTo(12)).extract().response();
+    }
+
+    @Test
+    void givenNonExistingFilterField_whenGetAssetsAsBuilt_thenBadRequest() throws JoseException {
+        // given
+        assetsSupport.defaultAssetsStored();
+        final String filter = "?filter=nonExistingField,EQUAL,SUPPLIER,AND";
+
+        // then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .get("/api/assets/as-built" + filter)
+                .then()
+                .log().all()
+                .statusCode(400);
     }
 }

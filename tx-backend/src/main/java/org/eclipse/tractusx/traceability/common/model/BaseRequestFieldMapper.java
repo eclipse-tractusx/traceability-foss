@@ -19,10 +19,20 @@
 
 package org.eclipse.tractusx.traceability.common.model;
 
-public enum SearchCriteriaStrategy {
-    EQUAL,
-    STARTS_WITH,
-    AT_LOCAL_DATE,
-    AFTER_LOCAL_DATE,
-    BEFORE_LOCAL_DATE
+import java.util.Map;
+
+import static java.util.Objects.isNull;
+
+public abstract class BaseRequestFieldMapper {
+
+    protected abstract Map<String, String> getSupportedFields();
+
+    public String mapRequestFieldName(String fieldName) {
+        String mappedField = getSupportedFields().get(fieldName);
+        if (isNull(mappedField)) {
+            throw new UnsupportedSearchCriteriaFieldException(fieldName, getSupportedFields().values().stream().toList());
+        }
+        return mappedField;
+    }
+
 }

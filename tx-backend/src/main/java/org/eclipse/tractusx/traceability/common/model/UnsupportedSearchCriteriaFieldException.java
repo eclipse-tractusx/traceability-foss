@@ -19,10 +19,10 @@
 
 package org.eclipse.tractusx.traceability.common.model;
 
-public enum SearchCriteriaStrategy {
-    EQUAL,
-    STARTS_WITH,
-    AT_LOCAL_DATE,
-    AFTER_LOCAL_DATE,
-    BEFORE_LOCAL_DATE
+import java.util.List;
+
+public class UnsupportedSearchCriteriaFieldException extends RuntimeException {
+    UnsupportedSearchCriteriaFieldException(String fieldName, List<String> supportedFieldNames) {
+        super("Provided field name: '" + fieldName + "' is not supported. Supported fields are following " + supportedFieldNames.toString());
+    }
 }

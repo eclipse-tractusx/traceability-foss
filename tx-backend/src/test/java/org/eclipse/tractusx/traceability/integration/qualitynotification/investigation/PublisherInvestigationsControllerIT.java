@@ -144,7 +144,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         partIds.forEach(partId -> {
             AssetBase asset = assetAsBuiltRepository.getAssetById(partId);
             assertThat(asset).isNotNull();
-            assertThat(asset.isUnderInvestigation()).isTrue();
+            assertThat(asset.isInInvestigation()).isTrue();
         });
 
         investigationNotificationsSupport.assertNotificationsSize(2);
@@ -155,7 +155,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .param("filter", "side,EQUAL,SENDER,AND")
+                .param("filter", "channel,EQUAL,SENDER,AND")
                 .get("/api/investigations")
                 .then()
                 .statusCode(200)
@@ -286,7 +286,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .param("filter", "side,EQUAL,SENDER,AND")
+                .param("filter", "channel,EQUAL,SENDER,AND")
                 .get("/api/investigations")
                 .then()
                 .statusCode(200)
@@ -308,7 +308,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .param("filter", "side,EQUAL,SENDER,AND")
+                .param("filter", "channel,EQUAL,SENDER,AND")
                 .get("/api/investigations")
                 .then()
                 .statusCode(200)
@@ -362,7 +362,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .param("filter", "side,EQUAL,SENDER,AND")
+                .param("filter", "channel,EQUAL,SENDER,AND")
                 .get("/api/investigations")
                 .then()
                 .statusCode(200)
@@ -379,7 +379,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978" // BPN: BPNL00000003AYRE
         );
         String description = "at least 15 characters long investigation description";
-        String filterString = "side,EQUAL,SENDER,AND";
+        String filterString = "channel,EQUAL,SENDER,AND";
 
         assetsSupport.defaultAssetsStored();
         val startInvestigationRequest = StartQualityNotificationRequest.builder()
@@ -418,7 +418,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .param("filter", "side,EQUAL,SENDER,AND")
+                .param("filter", "channel,EQUAL,SENDER,AND")
                 .get("/api/investigations")
                 .then()
                 .statusCode(200)
@@ -514,7 +514,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         partIds.forEach(partId -> {
             AssetBase asset = assetAsBuiltRepository.getAssetById(partId);
             assertThat(asset).isNotNull();
-            assertThat(asset.isUnderInvestigation()).isTrue();
+            assertThat(asset.isInInvestigation()).isTrue();
         });
 
         investigationNotificationsSupport.assertNotificationsSize(2);
@@ -524,7 +524,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .param("filter", "side,EQUAL,SENDER,AND")
+                .param("filter", "channel,EQUAL,SENDER,AND")
                 .get("/api/investigations")
                 .then()
                 .statusCode(200)

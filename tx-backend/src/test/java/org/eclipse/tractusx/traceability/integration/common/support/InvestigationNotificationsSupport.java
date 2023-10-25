@@ -34,7 +34,6 @@ import java.util.List;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.not;
 
 @Component
 public class InvestigationNotificationsSupport {
@@ -232,7 +231,7 @@ public class InvestigationNotificationsSupport {
                 .status(NotificationStatusBaseEntity.RECEIVED)
                 .side(NotificationSideBaseEntity.RECEIVER)
                 .description("11")
-                .createdDate(now.minusSeconds(5L))
+                .createdDate(now.minus(2L, DAYS))
                 .build();
         InvestigationEntity investigation2 = InvestigationEntity.builder()
                 .assets(Collections.emptyList())
@@ -240,7 +239,7 @@ public class InvestigationNotificationsSupport {
                 .status(NotificationStatusBaseEntity.ACKNOWLEDGED)
                 .description("22")
                 .side(NotificationSideBaseEntity.RECEIVER)
-                .createdDate(now.plusSeconds(2L))
+                .createdDate(now.minus(1L, DAYS))
                 .build();
         InvestigationEntity investigation3 = InvestigationEntity.builder()
                 .assets(Collections.emptyList())
@@ -264,7 +263,7 @@ public class InvestigationNotificationsSupport {
                 .status(NotificationStatusBaseEntity.CANCELED)
                 .description("55")
                 .side(NotificationSideBaseEntity.RECEIVER)
-                .createdDate(now.plusSeconds(40L))
+                .createdDate(now.plus(1L, DAYS))
                 .build();
         InvestigationEntity investigation6 = InvestigationEntity.builder()
                 .assets(Collections.emptyList())
@@ -272,7 +271,7 @@ public class InvestigationNotificationsSupport {
                 .status(NotificationStatusBaseEntity.CLOSED)
                 .description("55")
                 .side(NotificationSideBaseEntity.RECEIVER)
-                .createdDate(now.plusSeconds(40L))
+                .createdDate(now.plus(2L, DAYS))
                 .build();
 
         storedNotifications(

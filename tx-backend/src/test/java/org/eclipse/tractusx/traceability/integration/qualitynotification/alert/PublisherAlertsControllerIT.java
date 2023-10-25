@@ -161,7 +161,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .param("filter", "side,EQUAL,SENDER,AND")
+                .param("filter", "channel,EQUAL,SENDER,AND")
                 .get("/api/alerts")
                 .then()
                 .statusCode(200)
@@ -326,7 +326,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     @Test
     void shouldCancelAlert() throws JsonProcessingException, JoseException {
         // given
-        String filterString = "side,EQUAL,SENDER,AND";
+        String filterString = "channel,EQUAL,SENDER,AND";
         assetsSupport.defaultAssetsStored();
         val startAlertRequest = StartQualityNotificationRequest.builder()
                 .partIds(List.of("urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978"))
@@ -432,7 +432,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .param("filter", "side,EQUAL,SENDER,AND")
+                .param("filter", "channel,EQUAL,SENDER,AND")
                 .get("/api/alerts")
                 .then()
                 .statusCode(200)
@@ -445,7 +445,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     @Test
     void shouldCloseAlertStatus() throws JsonProcessingException, JoseException {
         // given
-        String filterString = "side,EQUAL,SENDER,AND";
+        String filterString = "channel,EQUAL,SENDER,AND";
         List<String> partIds = List.of(
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978" // BPN: BPNL00000003AYRE
         );
@@ -557,7 +557,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     @Test
     void shouldBeCreatedBySender() throws JsonProcessingException, JoseException {
         // given
-        String filterString = "side,EQUAL,SENDER,AND";
+        String filterString = "channel,EQUAL,SENDER,AND";
         List<String> partIds = List.of(
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
                 "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb", // BPN: BPNL00000003AYRE
