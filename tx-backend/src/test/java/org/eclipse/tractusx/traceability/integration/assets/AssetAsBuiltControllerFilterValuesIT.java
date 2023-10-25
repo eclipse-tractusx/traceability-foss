@@ -65,14 +65,51 @@ class AssetAsBuiltControllerFilterValuesIT extends IntegrationTestSpecification 
                 .body("size()", is(expectedSize));
     }
 
+    @ParameterizedTest
+    @MethodSource("fieldNameTestProviderWithStartWithParam")
+    void givenNotEnumTypeFieldNameAndSizeAndStartWith_whenCallDistinctFilterValues_thenProperResponse(
+            String fieldName,
+            String startWith,
+            Long resultLimit,
+            Integer expectedSize
+    ) throws JoseException {
+        // given
+        assetsSupport.defaultAssetsStored();
+
+        // then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .param("fieldName", fieldName)
+                .param("size", resultLimit.toString())
+                .param("startWith", startWith)
+                .get("/api/assets/as-built/distinctFilterValues")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .assertThat()
+                .body("size()", is(expectedSize));
+    }
+
     private static Stream<Arguments> fieldNameTestProvider() {
         return Stream.of(
                 Arguments.of("id", 10L, 10),
                 Arguments.of("id", 200L, 13),
-                Arguments.of("inInvestigation", 10L, 1),
+                Arguments.of("underInvestigation", 10L, 1),
                 Arguments.of("owner", 10L, 4),
                 Arguments.of("semanticDataModel", 10L, 5),
                 Arguments.of("qualityType", 10L, 5)
+        );
+    }
+
+    private static Stream<Arguments> fieldNameTestProviderWithStartWithParam() {
+        return Stream.of(
+                Arguments.of("id", "urn:uuid:1", 10L, 3),
+                Arguments.of("owner", "shuldNotMakeDifference", 10L, 4),
+                Arguments.of("semanticDataModel", "shuldNotMakeDifference", 10L, 5),
+                Arguments.of("qualityType", "shuldNotMakeDifference", 10L, 5)
         );
     }
 }

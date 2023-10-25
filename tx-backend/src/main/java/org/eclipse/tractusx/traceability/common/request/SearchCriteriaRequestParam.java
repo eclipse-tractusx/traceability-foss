@@ -23,10 +23,12 @@ import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.eclipse.tractusx.traceability.common.model.BaseRequestFieldMapper;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaFilter;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy;
+import org.eclipse.tractusx.traceability.common.model.UnsupportedSearchCriteriaFieldException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,7 +42,7 @@ public class SearchCriteriaRequestParam {
     @ArraySchema(arraySchema = @Schema(description = "Filter Criteria", additionalProperties = Schema.AdditionalPropertiesValue.FALSE, example = "owner,EQUAL,OWN"), maxItems = Integer.MAX_VALUE)
     private List<String> filter;
 
-    public SearchCriteria toSearchCriteria() {
+    public SearchCriteria toSearchCriteria(BaseRequestFieldMapper fieldMapper) {
         ArrayList<SearchCriteriaFilter> filters = new ArrayList<>();
         List<String> inputFilters = filter;
         if (isNull(this.filter)) {
@@ -52,14 +54,16 @@ public class SearchCriteriaRequestParam {
                 String[] filterParams = filter.split(",");
                 filters.add(
                         SearchCriteriaFilter.builder()
-                                .key(filterParams[0])
+                                .key(fieldMapper.mapRequestFieldName(filterParams[0]))
                                 .strategy(SearchCriteriaStrategy.valueOf(filterParams[1]))
                                 .value(filterParams[2])
                                 .operator(SearchCriteriaOperator.valueOf(filterParams[3]))
                                 .build());
+            } catch (UnsupportedSearchCriteriaFieldException exception) {
+                throw exception;
             } catch (Exception exception) {
                 throw new InvalidFilterException(
-                        "Invalid filter param provided filter={provided} expected format is following sort=parameter,operation,value"
+                        "Invalid filter param provided filter={provided} expected format is following sort=parameter,strategy,value,operator"
                                 .replace("{provided}", filter)
                 );
             }

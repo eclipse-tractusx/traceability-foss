@@ -93,7 +93,7 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
     @Test
     void givenInvestigations_whenGetSenderInvestigationsSortedAsc_thenReturnProperlySorted() throws JoseException {
         // given
-        String filterString = "side,EQUAL,SENDER,AND";
+        String filterString = "channel,EQUAL,SENDER,AND";
         String sortString = "createdDate,ASC";
         investigationNotificationsSupport.defaultInvestigationsStored();
 
@@ -119,7 +119,7 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
     @Test
     void givenInvestigations_whenGetSenderInvestigationsSortedDesc_thenReturnProperlySorted() throws JoseException {
         // given
-        String filterString = "side,EQUAL,SENDER,AND";
+        String filterString = "channel,EQUAL,SENDER,AND";
         String sortString = "createdDate,DESC";
         investigationNotificationsSupport.defaultInvestigationsStored();
 
@@ -146,7 +146,7 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
     @Test
     void givenSortByDescriptionProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
         // given
-        String filterString = "side,EQUAL,SENDER,AND";
+        String filterString = "channel,EQUAL,SENDER,AND";
         String sortString = "description,ASC";
         investigationNotificationsSupport.defaultInvestigationsStored();
 
@@ -172,7 +172,7 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
     @Test
     void givenSortByStatusProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
         // given
-        String filterString = "side,EQUAL,SENDER,AND";
+        String filterString = "channel,EQUAL,SENDER,AND";
         String sortString = "status,ASC";
         investigationNotificationsSupport.defaultInvestigationsStored();
 
@@ -290,5 +290,19 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body("sendTo", Matchers.is(storedInvestigationNotification.getSendTo()))
                 .body("sendToName", Matchers.is(storedInvestigationNotification.getSendToName()))
                 .body("createdDate", isIso8601DateTime());
+    }
+
+    @Test
+    void givenNonExistingSortField_whenGetInvestigations_thenBadRequest() throws JoseException {
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .param("page", "0")
+                .param("size", "10")
+                .param("sort", "nonExistingField,ASC")
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/investigations")
+                .then()
+                .statusCode(400);
     }
 }

@@ -130,4 +130,22 @@ class AssetAsPlannedControllerFilteringIT extends IntegrationTestSpecification {
                 .statusCode(200)
                 .body("totalItems", equalTo(1));
     }
+
+    @Test
+    void givenNonExistingFilterField_whenGetAssetsAsPlanned_thenBadRequest() throws JoseException {
+        // given
+        assetsSupport.defaultAssetsAsPlannedStored();
+        final String filter = "?filter=nonExistingField,EQUAL,SUPPLIER,OR";
+
+        // then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .get("/api/assets/as-planned" + filter)
+                .then()
+                .log().all()
+                .statusCode(400);
+    }
 }
