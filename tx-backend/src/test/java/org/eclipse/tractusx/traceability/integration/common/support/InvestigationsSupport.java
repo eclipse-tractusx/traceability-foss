@@ -83,15 +83,15 @@ public class InvestigationsSupport {
         );
     }
 
-    public void storedInvestigations(InvestigationEntity... investigations) {
-        jpaInvestigationRepository.saveAll(Arrays.asList(investigations));
-    }
-
     public Long storedInvestigation(InvestigationEntity investigation) {
         return jpaInvestigationRepository.save(investigation).getId();
     }
 
     public InvestigationEntity storedInvestigationFullObject(InvestigationEntity investigation) {
         return jpaInvestigationRepository.save(investigation);
+    }
+
+    public List<InvestigationEntity> findAllInvestigations() {
+        return jpaInvestigationRepository.findAll();
     }
 }

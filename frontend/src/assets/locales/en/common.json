@@ -57,7 +57,15 @@
     "menuDescription": "Action menu",
     "clearPage": "Clear page selections",
     "clearAll": "Clear all selections",
+    "multiSortingTooltip": "First click: sort in ascending order ↑ Second click: sort in descending order ↓ Third click: reset sorting",
     "filterTitle": "Filter",
+    "tableSettings": {
+      "title": "Table column settings",
+      "selectAll": "All",
+      "orderTooltip": "Table column order can be changed by selecting a column and move it up or down by clicking on the icon ↑ (up) or ↓ (down)",
+      "refreshTooltip": "Reset individual table column settings to default",
+      "saveAction": "Save"
+    },
     "adminColumn": {
       "startDate": "Start date",
       "registryLookupStatus": "Status",
@@ -264,7 +272,9 @@
   },
   "multiSelect": {
     "filterLabel": "Filter",
-    "placeHolder": "All"
+    "placeholder": "All",
+    "searchPlaceholder": "Search..",
+    "choosePlaceholder": "Choose.."
   },
   "parts": {
     "input": {

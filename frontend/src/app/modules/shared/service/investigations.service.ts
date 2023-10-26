@@ -19,16 +19,16 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { ApiService } from '@core/api/api.service';
-import { environment } from '@env';
-import { DateTimeString } from '@shared/components/dateTime/dateTime.component';
-import { TableHeaderSort } from '@shared/components/table/table.model';
-import { Severity } from '@shared/model/severity.model';
-import type { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { NotificationAssembler } from '../assembler/notification.assembler';
+import {HttpParams} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {ApiService} from '@core/api/api.service';
+import {environment} from '@env';
+import {DateTimeString} from '@shared/components/dateTime/dateTime.component';
+import {TableHeaderSort} from '@shared/components/table/table.model';
+import {Severity} from '@shared/model/severity.model';
+import type {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {NotificationAssembler} from '../assembler/notification.assembler';
 import {
   Notification,
   NotificationCreateResponse,
@@ -52,13 +52,14 @@ export class InvestigationsService {
     let params = new HttpParams()
       .set('page', page)
       .set('size', pageSize)
+      .set('filter', 'channel,EQUAL,SENDER,AND')
 
     sort.forEach(sortingItem => {
       params = params.append('sort', sortingItem);
     })
 
     return this.apiService
-      .getBy<NotificationsResponse>(`${this.url}/investigations/created`, params)
+      .getBy<NotificationsResponse>(`${this.url}/investigations`, params)
       .pipe(map(investigations => NotificationAssembler.assembleNotifications(investigations, NotificationType.INVESTIGATION)));
   }
 
@@ -67,13 +68,14 @@ export class InvestigationsService {
     let params = new HttpParams()
       .set('page', page)
       .set('size', pageSize)
+      .set('filter', 'channel,EQUAL,RECEIVER,AND')
 
     sort.forEach(sortingItem => {
       params = params.append('sort', sortingItem);
     })
 
     return this.apiService
-      .getBy<NotificationsResponse>(`${this.url}/investigations/received`, params)
+      .getBy<NotificationsResponse>(`${this.url}/investigations`, params)
       .pipe(map(investigations => NotificationAssembler.assembleNotifications(investigations, NotificationType.INVESTIGATION)));
   }
 

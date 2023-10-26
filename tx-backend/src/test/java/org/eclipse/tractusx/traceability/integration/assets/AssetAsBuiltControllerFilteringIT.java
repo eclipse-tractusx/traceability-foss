@@ -79,8 +79,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     void givenInInvestigationFalseFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
         // given
         assetsSupport.defaultAssetsStored();
-        final String filter = "?filter=activeAlert,EQUAL,false";
-        final String filterOperator = "&filterOperator=AND";
+        final String filter = "?filter=activeAlert,EQUAL,false,AND";
 
         // then
         given()
@@ -88,7 +87,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .log().all()
                 .when()
-                .get("/api/assets/as-built" + filter + filterOperator)
+                .get("/api/assets/as-built" + filter)
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -99,8 +98,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     void givenInInvestigationTrueFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
         // given
         assetsSupport.defaultAssetsStored();
-        final String filter = "?filter=activeAlert,EQUAL,true";
-        final String filterOperator = "&filterOperator=AND";
+        final String filter = "?filter=activeAlert,EQUAL,true,AND";
 
         // then
         given()
@@ -108,7 +106,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .log().all()
                 .when()
-                .get("/api/assets/as-built" + filter + filterOperator)
+                .get("/api/assets/as-built" + filter)
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -119,15 +117,14 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     void givenIdAndIdShortFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
         // given
         assetsSupport.defaultAssetsStored();
-        final String filter = "?filter=id,STARTS_WITH,urn:uuid:1&filter=idShort,STARTS_WITH,engineering";
-        final String filterOperator = "&filterOperator=AND";
+        final String filter = "?filter=id,STARTS_WITH,urn:uuid:1,AND&filter=idShort,STARTS_WITH,engineering,AND";
         // then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
                 .log().all()
                 .when()
-                .get("/api/assets/as-built" + filter + filterOperator)
+                .get("/api/assets/as-built" + filter)
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -138,8 +135,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     void givenOwnFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
         // given
         assetsSupport.defaultAssetsStored();
-        final String filter = "?filter=owner,EQUAL,OWN";
-        final String filterOperator = "&filterOperator=AND";
+        final String filter = "?filter=owner,EQUAL,OWN,AND";
 
         // then
         given()
@@ -147,7 +143,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .log().all()
                 .when()
-                .get("/api/assets/as-built" + filter + filterOperator)
+                .get("/api/assets/as-built" + filter)
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -158,8 +154,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     void givenManufacturerIdFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
         // given
         assetsSupport.defaultAssetsStored();
-        final String filter = "?filter=manufacturerId,EQUAL,BPNL00000003B0Q0";
-        final String filterOperator = "&filterOperator=AND";
+        final String filter = "?filter=businessPartner,EQUAL,BPNL00000003B0Q0,AND";
 
         // then
         given()
@@ -167,7 +162,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .log().all()
                 .when()
-                .get("/api/assets/as-built" + filter + filterOperator)
+                .get("/api/assets/as-built" + filter)
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -178,8 +173,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     void givenManufacturerIdAndSemanticModelIdFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
         // given
         assetsSupport.defaultAssetsStored();
-        final String filter = "?filter=manufacturerId,EQUAL,BPNL00000003B0Q0&filter=semanticModelId,STARTS_WITH,NO-3404609481920549";
-        final String filterOperator = "&filterOperator=AND";
+        final String filter = "?filter=businessPartner,EQUAL,BPNL00000003B0Q0,AND&filter=semanticModelId,STARTS_WITH,NO-3404609481920549,AND";
 
         // then
         given()
@@ -187,7 +181,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .log().all()
                 .when()
-                .get("/api/assets/as-built" + filter + filterOperator)
+                .get("/api/assets/as-built" + filter)
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -198,8 +192,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     void givenIdShortStartsWithFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
         // given
         assetsSupport.defaultAssetsStored();
-        final String filter = "?filter=idShort,STARTS_WITH,ntier_";
-        final String filterOperator = "&filterOperator=AND";
+        final String filter = "?filter=idShort,STARTS_WITH,ntier_,AND";
 
         // then
         given()
@@ -207,7 +200,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .log().all()
                 .when()
-                .get("/api/assets/as-built" + filter + filterOperator)
+                .get("/api/assets/as-built" + filter)
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -218,8 +211,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     void givenManufacturingDateFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
         // given
         assetsSupport.defaultAssetsStored();
-        final String filter = "?filter=manufacturingDate,AT_LOCAL_DATE,2014-11-18";
-        final String filterOperator = "&filterOperator=AND";
+        final String filter = "?filter=manufacturingDate,AT_LOCAL_DATE,2014-11-18,AND";
 
         // then
         given()
@@ -227,7 +219,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .log().all()
                 .when()
-                .get("/api/assets/as-built" + filter + filterOperator)
+                .get("/api/assets/as-built" + filter)
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -238,8 +230,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     void givenSemanticDataModelAndManufacturingDateFilterOR_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
         // given
         assetsSupport.defaultAssetsStored();
-        final String filter = "?filter=manufacturingDate,AT_LOCAL_DATE,2014-11-18&filter=semanticDataModel,EQUAL,SERIALPART";
-        final String filterOperator = "&filterOperator=OR";
+        final String filter = "?filter=manufacturingDate,AT_LOCAL_DATE,2014-11-18,OR&filter=semanticDataModel,EQUAL,SERIALPART,OR";
 
         // then
         given()
@@ -247,7 +238,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .log().all()
                 .when()
-                .get("/api/assets/as-built" + filter + filterOperator)
+                .get("/api/assets/as-built" + filter)
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -258,8 +249,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     void givenSemanticDataModelAndManufacturingDateFilterAnd_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
         // given
         assetsSupport.defaultAssetsStored();
-        final String filter = "?filter=manufacturingDate,AT_LOCAL_DATE,2014-11-18&filter=semanticDataModel,EQUAL,SERIALPART";
-        final String filterOperator = "&filterOperator=AND";
+        final String filter = "?filter=manufacturingDate,AT_LOCAL_DATE,2014-11-18,AND&filter=semanticDataModel,EQUAL,SERIALPART,AND";
 
         // then
         given()
@@ -267,7 +257,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .log().all()
                 .when()
-                .get("/api/assets/as-built" + filter + filterOperator)
+                .get("/api/assets/as-built" + filter)
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -278,8 +268,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     void givenSemanticDataModelAndOwnerOR_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
         // given
         assetsSupport.defaultAssetsStored();
-        final String filter = "?filter=owner,EQUAL,SUPPLIER&filter=id,STARTS_WITH,urn:uuid:f7cf62fe-9e25-472b-9148-66";
-        final String filterOperator = "&filterOperator=OR";
+        final String filter = "?filter=owner,EQUAL,SUPPLIER,AND&filter=id,STARTS_WITH,urn:uuid:f7cf62fe-9e25-472b-9148-66,OR";
 
         // then
         given()
@@ -287,7 +276,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .log().all()
                 .when()
-                .get("/api/assets/as-built" + filter + filterOperator)
+                .get("/api/assets/as-built" + filter)
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -298,8 +287,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     void givenSemanticDataModelAsMultipleValuesAndOwnerOR_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
         // given
         assetsSupport.defaultAssetsStored();
-        final String filter = "?filter=owner,EQUAL,SUPPLIER&filter=semanticDataModel,EQUAL,SERIALPART&filter=semanticDataModel,EQUAL,BATCH";
-        final String filterOperator = "&filterOperator=OR";
+        final String filter = "?filter=owner,EQUAL,SUPPLIER,AND&filter=semanticDataModel,EQUAL,SERIALPART,OR&filter=semanticDataModel,EQUAL,BATCH,OR";
 
         // then
         given()
@@ -307,10 +295,28 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .log().all()
                 .when()
-                .get("/api/assets/as-built" + filter + filterOperator)
+                .get("/api/assets/as-built" + filter)
                 .then()
                 .log().all()
                 .statusCode(200)
-                .body("totalItems", equalTo(12));
+                .body("totalItems", equalTo(12)).extract().response();
+    }
+
+    @Test
+    void givenNonExistingFilterField_whenGetAssetsAsBuilt_thenBadRequest() throws JoseException {
+        // given
+        assetsSupport.defaultAssetsStored();
+        final String filter = "?filter=nonExistingField,EQUAL,SUPPLIER,AND";
+
+        // then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .get("/api/assets/as-built" + filter)
+                .then()
+                .log().all()
+                .statusCode(400);
     }
 }

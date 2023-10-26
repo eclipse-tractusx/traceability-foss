@@ -30,6 +30,7 @@ SPDX-License-Identifier: Apache-2.0
   <ng-template #mainTmp let-parts="view" let-customContext="customContext">
     <app-parts-table class="supplier-parts-as-built-table"
                [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
+               [multiSelectActive]="true"
                [selectedPartsInfoLabel]="'page.selectedParts.info'"
                [selectedPartsActionLabel]="'page.selectedParts.action'"
                [deselectTrigger]="deselectPartTrigger$ | async"
@@ -38,10 +39,9 @@ SPDX-License-Identifier: Apache-2.0
                [labelId]="customContext.labelId"
                (selected)="onSelectItem($event)"
                (configChanged)="onAsBuiltTableConfigChange($event)"
-               (multiSelect)="onMultiSelect($event)"
+               (multiSelect)="currentSelectedItems$.next($event)"
                (clickSelectAction)="isInvestigationOpen$.next(true)"
                [multiSortList]="tableSupplierAsBuiltSortList"
-               [multiSelectActive]="true"
                (filterActivated)="filterActivated(true, $event )"
                [tableType]="PartTableType.AS_BUILT_SUPPLIER"
     ></app-parts-table>
@@ -69,7 +69,6 @@ SPDX-License-Identifier: Apache-2.0
                [labelId]="customContext.labelId"
                (selected)="onSelectItem($event)"
                (configChanged)="onAsPlannedTableConfigChange($event)"
-               (multiSelect)="onMultiSelect($event)"
                (clickSelectAction)="isInvestigationOpen$.next(true)"
                [multiSortList]="tableSupplierAsPlannedSortList"
                      [multiSelectActive]="true"
@@ -95,11 +94,11 @@ SPDX-License-Identifier: Apache-2.0
 <app-sidenav-wrapper [isOpen]="isInvestigationOpen$ | async" (sidenavAction)="isInvestigationOpen$.next($event)">
   <app-request-investigation
     *ngIf="isInvestigationOpen$ | async"
-    [selectedItems]="currentSelectedItems"
-    (deselectPart)="removeItemFromSelection($event)"
-    (restorePart)="addItemToSelection($event)"
-    (clearSelected)="clearSelected()"
-    (submitted)="submit()"
+    [selectedItems]="currentSelectedItems$ | async"
+    (deselectPart)="deselectPartTrigger$.next([$event])"
+    (restorePart)="addPartTrigger$.next($event)"
+    (clearSelected)="deselectPartTrigger$.next(currentSelectedItems$.value)"
+    (submitted)="isInvestigationOpen$.next(false)"
   ></app-request-investigation>
 </app-sidenav-wrapper>
 

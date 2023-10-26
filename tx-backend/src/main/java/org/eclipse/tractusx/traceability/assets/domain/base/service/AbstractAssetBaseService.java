@@ -47,6 +47,7 @@ import java.util.stream.Collectors;
 public abstract class AbstractAssetBaseService implements AssetBaseService {
 
     private static List<String> SUPPORTED_ENUM_FIELDS = List.of("owner", "qualityType", "semanticDataModel");
+    private static List<String> SUPPORTED_BOOLEAN_FIELDS = List.of("activeAlert", "underInvestigation");
 
     protected abstract AssetRepository getAssetRepository();
 
@@ -104,7 +105,7 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
     public void setAssetsInvestigationStatus(QualityNotification investigation) {
         getAssetRepository().getAssetsById(investigation.getAssetIds()).forEach(asset -> {
             // Assets in status closed will be false, others true
-            asset.setUnderInvestigation(!investigation.getNotificationStatus().equals(QualityNotificationStatus.CLOSED));
+            asset.setInInvestigation(!investigation.getNotificationStatus().equals(QualityNotificationStatus.CLOSED));
             getAssetRepository().save(asset);
         });
     }
@@ -153,11 +154,18 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
     }
 
     @Override
-    public List<String> getDistinctFilterValues(String fieldName, Long size) {
+    public List<String> getDistinctFilterValues(String fieldName, String startWith, Long size) {
         if (isSupportedEnumType(fieldName)) {
             return getAssetEnumFieldValues(fieldName);
         }
-        return getAssetRepository().getFieldValues(fieldName, size);
+        if (isBooleanType(fieldName)) {
+            return List.of("true", "false");
+        }
+        return getAssetRepository().getFieldValues(fieldName, startWith, size);
+    }
+
+    private boolean isBooleanType(String fieldName) {
+        return SUPPORTED_BOOLEAN_FIELDS.contains(fieldName);
     }
 
     private boolean isSupportedEnumType(String fieldName) {

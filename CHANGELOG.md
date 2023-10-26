@@ -5,6 +5,36 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [UNRELEASED - DD.MM.YYYY]
+
+### Added
+- Added Table columns settings in part tables to show/hide/reorder table columns
+- new endpoints supporting filtering feature for investigations and alers api/investigations api/alerts
+- Added support for aspectmodel traction battery code
+- Added missing translations
+- support for date ranges BEFORE_LOCAL_DATE and AFTER_LOCAL_DATE providing both will cause filter result to return only relevant date ranges
+- added supported searchCriteriaFieldsMappers for investigations, alerts, assetsAsBuilt and assetAsPlanned related endpoints
+- added cache busting to build output of FE application
+
+### Changed
+- Updated user manual to reflect the table column settings feature
+- Fixed a bug which removed all parts asBuilt selection at once when creating notifications
+- Changed Filter to support Logical operator (AND,OR) on searchCriteria
+- Adapt frontend to use the changed filter logic with the correct operator per use case
+- Reworked business logic of /registry/reload to always sync all assets
+- Only include configured severities into report
+- Shedlock version from 5.7.0 to 5.9.1
+- Swagger Annotation Version from 1.6.11 to 1.6.12
+- Testcontainer Postgresql Version from 1.19.0 to 1.19.1
+- Bump @babel/traverse from 7.20.13 to 7.23.2 in frontend
+- distinctFilterValues endpoints now support startWith parameter that will cause result to contain only suggestions starting with given string
+- changed qualityNotification filtering changed from side to channel as response field name
+- changed assetAsBuilt filtering manufacturerId to businessPartner
+
+### Removed
+- Removed &filterOperator=AND from filtering requests
+- Removed no longer needed endpoints api/investigations/created, api/investigations/received, api/alerts/created, api/alerts/received
+
 ## [8.0.0 - 16.10.2023]
 
 ### Added
@@ -161,10 +191,32 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Environment [TRACEFOSS-2164]: HTTP Requests for syncing the submodel server inoperable~~
 
+## [6.0.1] - 2023-10-23
+### Added
+- All elements from 6.0.1-rc1,rc2,rc3,rc4
+
+
+## [6.0.1-rc4]
+### Added
+
+### Changed
+- updated IRS helm chart from 6.6.1 to 6.7.2
+- updated policy related logic to reflect IRS changes
+
+### Removed
+
+## [6.0.1-rc3] - 2023-08-31
+### Added
+
+
+### Changed
+
+- Updated irs-registry-client from 1.1.0-SNAPSHOT to 1.2.0-SNAPSHOT
+- Updated irs-helm from 6.4.1 to 6.5.0
+
 ### Removed
 
 ## [6.0.1-rc2]
-
 ### Added
 
 - OAuth2 client credentials rest template interceptor
@@ -176,12 +228,59 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Changed digitalTwinRegistryRestTemplate to use token in requests
 - Update asBuild test data to 1.5.3 and asPlanned to 1.5.1
-- Changed transfer notification logic not to break iteration loop when sending notifications to bpn with more than 1
-  connector endpoints
-- added handling for null manufacturerName in IrsJobResponse, if null is passed it is replaced with "
-  UNKNOWN_MANUFACTURER"
+- Changed transfer notification logic not to break iteration loop when sending notifications to bpn with more than 1 connector endpoints
+- added handling for null manufacturerName in IrsJobResponse, if null is passed it is replaced with "UNKNOWN_MANUFACTURER"
 
 ### Removed
+
+## [6.0.0 - 2023-07-21]
+
+### Added
+
+- Moved all parts of app config to helm charts to be fully configurable
+- Helmignore config params for wrong values.yaml files
+- Home / Source URL in Helm Chart
+- Name Overrides in Helmchart for pgadmin, irs-helm and tractusx-connector
+- Added decentral registry approach
+- Added discovery finder / edc discovery service for looking up edc urls of receiver of notifications
+- Added about component with additional Workflow to load repo info into the component
+- Add Transformer to support new EDC constraint operator format
+
+### Changed
+
+- Modified IRS Policies support to handle multiple policies
+- Readme titles to match TRGs
+- Updated Irs helm chart to 6.3.1
+- Update EDC dependencies to 0.1.3
+- Update implementation to use EDC 0.5.0
+- Spring Security Config Update from 6.0.3 to 6.0.5
+- Logic of commitId retrieval by frontend has changed
+- Readme / Docker Notice information as required in TRGs
+- Removed references to GitHub registry and added docker hub for tractusx instead
+- Spring Boot Update from: 3.0.7 to 3.1.2
+- Spring Core Update from: 6.0.8 to 6.0.11
+
+### Removed
+- unused classes and methods
+
+### Known knowns
+
+- Backend [TRACEFOSS-1458]: AdminView: No validation of BPN for BPN  EDC URL mapping
+- Backend [TRACEFOSS-589]: Backend API access without login returns incorrect HTTP status code (500 instead of 401)
+- Backend [TRACEFOSS-2148]: Endpoints for parts and notifications returns unsorted list
+---
+- Frontend [TRACEFOSS-2149]: Sorting on empty table causes unhandled error view
+---
+- Security [TRACEFOSS-829]: CVE Strict-Transport-Security header - The HSTS Warning and Error may allow attackers to bypass HSTS
+- Security [TRACEFOSS-830]: CVE one stack trace disclosure (Java) in the target web server's HTTP response
+- Security [TRACEFOSS-919]: Authorization Bypass Through User-Controlled SQL Primary Key CWE ID 566
+- Security [TRACEFOSS-984]: Improper Output Neutralization for Logs CWE ID 117
+- Security [TRACEFOSS-1313]: Using components with known vulnerabilities
+- Security [TRACEFOSS-1314]: Open Redirect - host header injection
+- Security [TRACEFOSS-1315]: No additional authentication component (MFA) during login process
+---
+- Environment [TRACEFOSS-2164]: HTTP Requests for syncing the submodel server inoperable~~
+
 
 ## [6.0.0 - 2023-07-21]
 
