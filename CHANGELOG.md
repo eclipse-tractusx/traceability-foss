@@ -10,6 +10,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 - Added Table columns settings in part tables to show/hide/reorder table columns
 - new endpoints supporting filtering feature for investigations and alers api/investigations api/alerts
+- Added support for aspectmodel traction battery code
 - Added missing translations
 - support for date ranges BEFORE_LOCAL_DATE and AFTER_LOCAL_DATE providing both will cause filter result to return only relevant date ranges
 - added supported searchCriteriaFieldsMappers for investigations, alerts, assetsAsBuilt and assetAsPlanned related endpoints
