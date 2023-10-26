@@ -135,7 +135,6 @@ jobs:
         with:
           scan-type: "config"
           hide-progress: false
-          limit-severities-for-sarif: true
           format: "sarif"
           output: "trivy-results1.sarif"
           severity: "CRITICAL,HIGH"
