@@ -52,6 +52,7 @@
     @apply flex flex-row;
     justify-content: space-between;
     padding-bottom: 25px;
+    padding-top: 5px;
 
     @media (max-width: 1024px) {
       @apply flex-col;
@@ -62,9 +63,11 @@
   &--manufacturer-info {
     @apply flex flex-row;
     justify-content: space-between;
+    padding-bottom: 25px;
 
     @media (max-width: 1024px) {
       @apply flex-col;
+      padding-bottom: unset;
     }
   }
 
@@ -88,6 +91,28 @@
     &:hover {
       cursor: pointer;
     }
+  }
+
+  &--tractionBattery-info {
+    width: 100%;
+    height: fit-content;
+  }
+
+  &--tractionBattery-content {
+    @apply flex flex-row;
+    justify-content: space-between;
+    padding-bottom: 25px;
+    margin-top: 8px;
+
+    @media (max-width: 1024px) {
+      @apply flex-col;
+      padding-bottom: unset;
+    }
+  }
+
+  &-subcomponents-table-container {
+    height: 350px;
+    overflow: auto;
   }
 }
 
