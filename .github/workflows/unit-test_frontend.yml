@@ -49,14 +49,13 @@ jobs:
     - name: Run yarn test:ci
       run: CHROMIUM_BIN=$(which chrome) yarn test:ci # will run `test:ci` command
 
-# Currently disabled, as we do not have a SonarQube instance yet.
-#    - name: Run SonarCloud check
-#      uses: SonarSource/sonarcloud-github-action@master
-#      env:
-#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-#        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_FRONTEND }}
-#      with:
-#        projectBaseDir: frontend
-#        args: >
-#          -Dsonar.organization=${{ vars.SONAR_ORGANIZATION }}
-#          -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY_FRONTEND }}
+    - name: Run SonarCloud check
+      uses: SonarSource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_FRONTEND }}
+      with:
+        projectBaseDir: frontend
+        args: >
+          -Dsonar.organization=${{ vars.SONAR_ORGANIZATION }}
+          -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY_FRONTEND }}
