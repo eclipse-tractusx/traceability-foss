@@ -22,7 +22,15 @@ const fs = require('fs');
 const NGINX_CONF_PATH = '/etc/nginx/nginx.conf';
 const NGINX_SECURITY_CONF_PATH = '/etc/nginx/security-headers.conf';
 const HTML_PATH = '/usr/share/nginx/html/index.html';
-const RUNTIME_PATH = '/usr/share/nginx/html/runtime.js';
+let RUNTIME_PATH = "";
+fs.readdir('/usr/share/nginx/html/', (err, files) => {
+    if(err) {
+        console.error('Error reading directory:', err);
+        return;
+    }
+    RUNTIME_PATH = '/usr/share/nginx/html/' + files.find((file) => file.startsWith('runtime.') && file.endsWith('.js'))[0];
+})
+
 
 const BASE_HREF_PLACEHOLDER_VAR = '/{baseHrefPlaceholder}';
 const BACKEND_DOMAIN_PLACEHOLDER_VAR = '{backendDomain}';
