@@ -22,15 +22,9 @@ const fs = require('fs');
 const NGINX_CONF_PATH = '/etc/nginx/nginx.conf';
 const NGINX_SECURITY_CONF_PATH = '/etc/nginx/security-headers.conf';
 const HTML_PATH = '/usr/share/nginx/html/index.html';
-let RUNTIME_PATH = "";
-fs.readdir('/usr/share/nginx/html/', (err, files) => {
-    if(err) {
-        console.error('Error reading directory:', err);
-        return;
-    }
-    RUNTIME_PATH = '/usr/share/nginx/html/' + files.find((file) => file.startsWith('runtime.') && file.endsWith('.js'))[0];
-})
 
+const files = fs.readdirSync('/usr/share/nginx/html/');
+const RUNTIME_PATH = '/usr/share/nginx/html/' + files.find((file) => file.startsWith('runtime.') && file.endsWith('.js'));
 
 const BASE_HREF_PLACEHOLDER_VAR = '/{baseHrefPlaceholder}';
 const BACKEND_DOMAIN_PLACEHOLDER_VAR = '{backendDomain}';
@@ -53,3 +47,4 @@ fs.writeFileSync(NGINX_CONF_PATH, NGINX_CONF_WITH_BASE, 'utf8');
 const NGINX_SECURITY_CONF = fs.readFileSync(NGINX_SECURITY_CONF_PATH, 'utf8');
 const NGINX_SECURITY_CONF_WITH_DOMAIN = NGINX_SECURITY_CONF.split(BACKEND_DOMAIN_PLACEHOLDER_VAR).join(BACKEND_DOMAIN);
 fs.writeFileSync(NGINX_SECURITY_CONF_PATH, NGINX_SECURITY_CONF_WITH_DOMAIN, 'utf8');
+
