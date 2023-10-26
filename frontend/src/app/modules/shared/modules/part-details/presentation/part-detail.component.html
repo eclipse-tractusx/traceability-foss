@@ -95,7 +95,6 @@ SPDX-License-Identifier: Apache-2.0
     <mat-card-content [class.part-detail--spinner]="!(isOpen$ | async)" class="part-detail--tractionBattery-content">
       <ng-container *ngIf="isOpen$ | async">
           <app-card-list [list]="tractionBatteryDetails.data" [title]="'partDetail.tractionBattery' | i18n" class="part-detail--tractionBattery-details"></app-card-list>
-
       <mat-card>
             <mat-card-header>
               <mat-card-title>{{ 'partDetail.subcomponents' | i18n }}</mat-card-title>
@@ -105,13 +104,12 @@ SPDX-License-Identifier: Apache-2.0
                 <section class="part-detail-subcomponents-table-container">
                   <table mat-table
                          [dataSource]="(tractionBatterySubcomponents$ | async)?.data.subcomponents"
-                         *ngFor="let item of (tractionBatterySubcomponents$ | async)?.data.subcomponents; let index=index"
                          aria-describedby="tractionBatteryCodeSubcomponentsTable"
                   >
                     <ng-container matColumnDef="position">
                       <th mat-header-cell *matHeaderCellDef> {{'partDetail.position' | i18n}} </th>
                       <!--TODO: Adjust when getting position porperty from BE, currently hardcoded for displaying purposes-->
-                      <td mat-cell *matCellDef>000{{index+1}}</td>
+                      <td mat-cell *matCellDef="let i=index">000{{i+1}}</td>
                     </ng-container>
                     <ng-container matColumnDef="productType">
                       <th mat-header-cell *matHeaderCellDef> {{'partDetail.productType' | i18n }}</th>
@@ -121,7 +119,7 @@ SPDX-License-Identifier: Apache-2.0
                       <th mat-header-cell *matHeaderCellDef> {{'partDetail.tractionBatteryCode' | i18n }} </th>
                       <td mat-cell *matCellDef="let subcomponent">{{subcomponent.tractionBatteryCode}}</td>
                     </ng-container>
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                   </table>
                 </section>
