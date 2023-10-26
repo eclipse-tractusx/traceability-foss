@@ -20,12 +20,16 @@
 package org.eclipse.tractusx.traceability.common.repository;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.Getter;
+import org.eclipse.tractusx.traceability.common.domain.ParseLocalDateException;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaFilter;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
@@ -50,35 +54,73 @@ public abstract class BaseSpecification<T> implements Specification<T> {
     }
 
     protected Predicate createPredicate(SearchCriteriaFilter criteria, Root<?> root, CriteriaBuilder builder) {
+        String fieldName = getJoinTableFieldName(criteria.getKey());
+        Path<Object> fieldPath = getFieldPath(root, criteria);
+        String expectedFieldValue = criteria.getValue();
+
         if (SearchCriteriaStrategy.EQUAL.equals(criteria.getStrategy())) {
             return builder.equal(
-                    root.<String>get(criteria.getKey()).as(String.class),
-                    criteria.getValue());
+                    fieldPath.as(String.class),
+                    expectedFieldValue);
         }
         if (SearchCriteriaStrategy.STARTS_WITH.equals(criteria.getStrategy())) {
             return builder.like(
-                    root.get(criteria.getKey()),
-                    criteria.getValue() + "%");
+                    fieldPath.as(String.class),
+                    expectedFieldValue + "%");
         }
         if (SearchCriteriaStrategy.AT_LOCAL_DATE.equals(criteria.getStrategy())) {
-            final LocalDate localDate = LocalDate.parse(criteria.getValue());
-            Predicate startingFrom = builder.greaterThanOrEqualTo(root.get(criteria.getKey()),
+            final LocalDate localDate = getParseLocalDate(expectedFieldValue, fieldName);
+            Predicate startingFrom = builder.greaterThanOrEqualTo(fieldPath.as(LocalDateTime.class),
                     LocalDateTime.of(localDate, LocalTime.MIN));
-            Predicate endingAt = builder.lessThanOrEqualTo(root.get(criteria.getKey()),
+            Predicate endingAt = builder.lessThanOrEqualTo(fieldPath.as(LocalDateTime.class),
                     LocalDateTime.of(localDate, LocalTime.MAX));
+
             return builder.and(startingFrom, endingAt);
         }
         if (BEFORE_LOCAL_DATE.equals(criteria.getStrategy())) {
-            final LocalDate localDate = LocalDate.parse(criteria.getValue());
-            return builder.lessThanOrEqualTo(root.get(criteria.getKey()),
+            final LocalDate localDate = getParseLocalDate(expectedFieldValue, fieldName);
+
+            return builder.lessThanOrEqualTo(fieldPath.as(LocalDateTime.class),
                     LocalDateTime.of(localDate, LocalTime.MAX));
         }
         if (SearchCriteriaStrategy.AFTER_LOCAL_DATE.equals(criteria.getStrategy())) {
-            final LocalDate localDate = LocalDate.parse(criteria.getValue());
-            return builder.greaterThanOrEqualTo(root.get(criteria.getKey()),
+            final LocalDate localDate = getParseLocalDate(expectedFieldValue, fieldName);
+
+            return builder.greaterThanOrEqualTo(fieldPath.as(LocalDateTime.class),
                     LocalDateTime.of(localDate, LocalTime.MIN));
         }
         return null;
+    }
+
+    private Path<Object> getFieldPath(Root<?> root, SearchCriteriaFilter criteria) {
+        if (isJoinQueryFieldName(criteria.getKey())) {
+            Join<?, ?> join = root.join(getJoinTableName(criteria.getKey()));
+            return join.get(getJoinTableFieldName(criteria.getKey()));
+        }
+        return root.get(criteria.getKey());
+    }
+
+    @NotNull
+    private static LocalDate getParseLocalDate(String fieldValue, String fieldName) {
+        try {
+            return LocalDate.parse(fieldValue);
+        } catch (Exception exception) {
+            throw new ParseLocalDateException(fieldValue, fieldName);
+        }
+    }
+
+    private boolean isJoinQueryFieldName(String fieldName) {
+        return fieldName.contains("_");
+    }
+
+    private String getJoinTableName(String joinQueryFieldName) {
+        String[] split = joinQueryFieldName.split("_");
+        return split[0];
+    }
+
+    private String getJoinTableFieldName(String joinQueryFieldName) {
+        String[] split = joinQueryFieldName.split("_");
+        return split.length == 2 ? split[1] : split[0];
     }
 
     public static <T> Specification<T> toSpecification(List<? extends BaseSpecification<T>> specifications) {
@@ -142,8 +184,8 @@ public abstract class BaseSpecification<T> implements Specification<T> {
             return false;
         }
 
-        LocalDate beforeDate = LocalDate.parse(before.get().searchCriteriaFilter.getValue());
-        LocalDate afterDate = LocalDate.parse(after.get().searchCriteriaFilter.getValue());
+        LocalDate beforeDate = getParseLocalDate(before.get().searchCriteriaFilter.getValue(), before.get().searchCriteriaFilter.getKey());
+        LocalDate afterDate = getParseLocalDate(after.get().searchCriteriaFilter.getValue(), after.get().searchCriteriaFilter.getKey());
         return beforeDate.isAfter(afterDate);
 
     }
