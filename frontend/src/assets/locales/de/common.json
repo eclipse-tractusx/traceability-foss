@@ -80,11 +80,11 @@
       "name": "Name",
       "manufacturer": "Hersteller",
       "partId": "Produktnummer",
-      "manufacturerPartId": "Hersteller produktnummer",
+      "manufacturerPartId": "Hersteller Produktnummer",
       "customerPartId": "Kunden produktnummer",
       "classification": "Klassifizierung",
       "nameAtCustomer": "Kunden produktname",
-      "nameAtManufacturer": "Hersteller produktname",
+      "nameAtManufacturer": "Hersteller Produktname",
       "semanticModelId": "Semantische Modellnummer",
       "qualityType": "Qualitätsstufe",
       "manufacturingDate": "Produktionsdatum",
@@ -269,12 +269,14 @@
   },
   "multiSelect": {
     "filterLabel": "Filter",
-    "placeholder": "Alle"
+    "placeholder": "Alle",
+    "searchPlaceholder": "Suche..",
+    "choosePlaceholder": "Auswählen.."
   },
   "parts": {
     "input": {
       "global-search": {
-        "placeholder": "Suche nach C-X ID, partInstanceId or partNumber / BPN",
+        "placeholder": "Suche nach C-X ID, partInstanceId oder partNumber / BPN",
         "toastInfo": "Lokale Filterung auf Tabellenebene wurde zurückgesetzt."
       }
     }

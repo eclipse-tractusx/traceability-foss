@@ -16,36 +16,13 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-// should be mapped into
-export type SemanticModel = {
 
+package org.eclipse.tractusx.traceability.common.model;
+
+import java.util.List;
+
+public class UnsupportedSearchCriteriaFieldException extends RuntimeException {
+    UnsupportedSearchCriteriaFieldException(String fieldName, List<String> supportedFieldNames) {
+        super("Provided field name: '" + fieldName + "' is not supported. Supported fields are following " + supportedFieldNames.toString());
+    }
 }
-
-export type AsBuiltAspectModel = {
-  partId: string;
-  customerPartId: string;
-  nameAtCustomer: string;
-  manufacturingDate: string;
-  manufacturingCountry: string;
-}
-
-export type AsPlannedAspectModel = {
-  validityPeriodFrom: string;
-  validityPeriodTo: string;
-}
-
-export type PartSiteInformationAsPlanned = {
-  function: string,
-  catenaXSiteId: string
-  functionValidFrom: string,
-  functionValidUntil: string
-}
-
-export type TractionBatteryCode = {
-  productType: string,
-  tractionBatteryCode: string,
-  subcomponents?: TractionBatteryCode[]
-}
-
-
-

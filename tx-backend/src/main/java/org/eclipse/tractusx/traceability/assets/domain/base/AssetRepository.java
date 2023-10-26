@@ -50,5 +50,5 @@ public interface AssetRepository {
 
     long countAssetsByOwner(Owner owner);
 
-    List<String> getFieldValues(String fieldName, Long resultLimit);
+    List<String> getFieldValues(String fieldName, String startWith, Long resultLimit);
 }

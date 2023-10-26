@@ -49,7 +49,7 @@ const commonHandler = [
 ];
 
 export const alertsHandlers = [
-  rest.get(`*${environment.apiUrl}/alerts/created`, (req, res, ctx) => {
+  rest.get(`*${environment.apiUrl}/alerts`, (req, res, ctx) => {
     const pagination = extractPagination(req);
 
     const currentStatus = [
@@ -65,7 +65,7 @@ export const alertsHandlers = [
     return res(ctx.status(200), ctx.json(applyPagination(buildMockAlerts(currentStatus, 'SENDER'), pagination)));
   }),
 
-  rest.get(`*${environment.apiUrl}/alerts/received`, (req, res, ctx) => {
+  rest.get(`*${environment.apiUrl}/alerts`, (req, res, ctx) => {
     const pagination = extractPagination(req);
 
     const currentStatus = [
@@ -120,7 +120,7 @@ export const alertsHandlers = [
 ];
 
 export const alertsTestHandlers = [
-  rest.get(`*${environment.apiUrl}/alerts/created`, (req, res, ctx) => {
+  rest.get(`*${environment.apiUrl}/alerts`, (req, res, ctx) => {
     const pagination = extractPagination(req);
 
     const currentStatus = [
@@ -134,7 +134,7 @@ export const alertsTestHandlers = [
     return res(ctx.status(200), ctx.json(applyPagination(testBuildMockAlerts(currentStatus, 'SENDER'), pagination)));
   }),
 
-  rest.get(`*${environment.apiUrl}/alerts/received`, (req, res, ctx) => {
+  rest.get(`*${environment.apiUrl}/alerts`, (req, res, ctx) => {
     const pagination = extractPagination(req);
 
     const currentStatus = [NotificationStatus.RECEIVED, NotificationStatus.ACKNOWLEDGED];

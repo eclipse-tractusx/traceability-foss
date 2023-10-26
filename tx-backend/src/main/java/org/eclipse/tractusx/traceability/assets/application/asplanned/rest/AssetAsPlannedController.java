@@ -30,11 +30,13 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.QueryParam;
+import org.eclipse.tractusx.traceability.assets.application.asplanned.mapper.AssetAsPlannedFieldMapper;
 import org.eclipse.tractusx.traceability.assets.application.asplanned.mapper.AssetAsPlannedResponseMapper;
 import org.eclipse.tractusx.traceability.assets.application.base.request.GetDetailInformationRequest;
 import org.eclipse.tractusx.traceability.assets.application.base.request.SyncAssetsRequest;
 import org.eclipse.tractusx.traceability.assets.application.base.request.UpdateAssetRequest;
 import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBaseService;
+import org.eclipse.tractusx.traceability.common.model.BaseRequestFieldMapper;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
@@ -58,9 +60,13 @@ import java.util.List;
 public class AssetAsPlannedController {
 
     private final AssetBaseService assetService;
+    private final BaseRequestFieldMapper fieldMapper;
 
-    public AssetAsPlannedController(@Qualifier("assetAsPlannedServiceImpl") AssetBaseService assetService) {
+    public AssetAsPlannedController(
+            @Qualifier("assetAsPlannedServiceImpl") AssetBaseService assetService,
+            AssetAsPlannedFieldMapper fieldMapper) {
         this.assetService = assetService;
+        this.fieldMapper = fieldMapper;
     }
 
     @Operation(operationId = "sync",
@@ -179,7 +185,7 @@ public class AssetAsPlannedController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("")
     public PageResult<AssetAsPlannedResponse> assets(OwnPageable pageable, SearchCriteriaRequestParam filter) {
-        return AssetAsPlannedResponseMapper.from(assetService.getAssets(OwnPageable.toPageable(pageable), filter.toSearchCriteria()));
+        return AssetAsPlannedResponseMapper.from(assetService.getAssets(OwnPageable.toPageable(pageable, fieldMapper), filter.toSearchCriteria(fieldMapper)));
     }
 
     @Operation(operationId = "distinctFilterValues",
@@ -242,8 +248,8 @@ public class AssetAsPlannedController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("distinctFilterValues")
-    public List<String> distinctFilterValues(@QueryParam("fieldName") String fieldName, @QueryParam("size") Long size) {
-        return assetService.getDistinctFilterValues(fieldName, size);
+    public List<String> distinctFilterValues(@QueryParam("fieldName") String fieldName, @QueryParam("size") Long size, @QueryParam("startWith") String startWith) {
+        return assetService.getDistinctFilterValues(fieldMapper.mapRequestFieldName(fieldName), startWith, size);
     }
 
     @Operation(operationId = "assetById",

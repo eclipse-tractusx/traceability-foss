@@ -49,7 +49,7 @@ const commonHandler = [
 ];
 
 export const investigationsHandlers = [
-  rest.get(`*${environment.apiUrl}/investigations/created`, (req, res, ctx) => {
+  rest.get(`*${environment.apiUrl}/investigations`, (req, res, ctx) => {
     const pagination = extractPagination(req);
 
     const currentStatus = [
@@ -68,7 +68,7 @@ export const investigationsHandlers = [
     );
   }),
 
-  rest.get(`*${environment.apiUrl}/investigations/received`, (req, res, ctx) => {
+  rest.get(`*${environment.apiUrl}/investigations`, (req, res, ctx) => {
     const pagination = extractPagination(req);
 
     const currentStatus = [
@@ -126,7 +126,7 @@ export const investigationsHandlers = [
 ];
 
 export const investigationsTestHandlers = [
-  rest.get(`*${environment.apiUrl}/investigations/created`, (req, res, ctx) => {
+  rest.get(`*${environment.apiUrl}/investigations`, (req, res, ctx) => {
     const pagination = extractPagination(req);
 
     const currentStatus = [
@@ -143,7 +143,7 @@ export const investigationsTestHandlers = [
     );
   }),
 
-  rest.get(`*${environment.apiUrl}/investigations/received`, (req, res, ctx) => {
+  rest.get(`*${environment.apiUrl}/investigations`, (req, res, ctx) => {
     const pagination = extractPagination(req);
 
     const currentStatus = [NotificationStatus.RECEIVED, NotificationStatus.ACKNOWLEDGED];

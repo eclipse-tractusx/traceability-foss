@@ -22,15 +22,12 @@ package org.eclipse.tractusx.traceability.integration.common.support;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertNotificationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.repository.JpaAlertNotificationRepository;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationNotificationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -231,7 +228,7 @@ public class AlertNotificationsSupport {
                 .status(NotificationStatusBaseEntity.RECEIVED)
                 .side(NotificationSideBaseEntity.RECEIVER)
                 .description("11")
-                .createdDate(now.minusSeconds(5L))
+                .createdDate(now.minus(2L, DAYS))
                 .build();
         AlertEntity alert2 = AlertEntity.builder()
                 .assets(Collections.emptyList())
@@ -239,7 +236,7 @@ public class AlertNotificationsSupport {
                 .status(NotificationStatusBaseEntity.ACKNOWLEDGED)
                 .description("22")
                 .side(NotificationSideBaseEntity.RECEIVER)
-                .createdDate(now.plusSeconds(2L))
+                .createdDate(now.minus(1L, DAYS))
                 .build();
         AlertEntity alert3 = AlertEntity.builder()
                 .assets(Collections.emptyList())
@@ -263,7 +260,7 @@ public class AlertNotificationsSupport {
                 .status(NotificationStatusBaseEntity.CANCELED)
                 .description("55")
                 .side(NotificationSideBaseEntity.RECEIVER)
-                .createdDate(now.plusSeconds(40L))
+                .createdDate(now.plusSeconds(1L))
                 .build();
         AlertEntity alert6 = AlertEntity.builder()
                 .assets(Collections.emptyList())
@@ -271,7 +268,7 @@ public class AlertNotificationsSupport {
                 .status(NotificationStatusBaseEntity.CLOSED)
                 .description("55")
                 .side(NotificationSideBaseEntity.RECEIVER)
-                .createdDate(now.plusSeconds(40L))
+                .createdDate(now.plus(2L, DAYS))
                 .build();
 
         storedAlertNotifications(

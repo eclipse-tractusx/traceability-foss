@@ -27,7 +27,7 @@ SPDX-License-Identifier: Apache-2.0
             <input [disabled]="!textSearch" #searchInput [(ngModel)]="theSearchElement" type="text"
                    [ngClass]="{'pl-1': !multiple}"
                    (input)="filterItem(searchInput.value)"
-                   [placeholder]="textSearch ? 'Search..': 'Choose..'">
+                   [placeholder]="textSearch ? ('multiSelect.searchPlaceholder' | i18n): ('multiSelect.choosePlaceholder'| i18n)">
             <div class="box-search-icon" (click)="filterItem(''); clickClear()">
                 <button mat-icon-button class="search-button">
                     <mat-icon class="mat-24" aria-label="Search icon">clear</mat-icon>

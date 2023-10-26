@@ -47,7 +47,7 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
     void ShouldAcknowledgeReceivedAlert() throws JoseException {
         // given
         var alertId = alertsSupport.defaultReceivedAlertStored();
-        String filterString = "side,EQUAL,RECEIVER,AND";
+        String filterString = "channel,EQUAL,RECEIVER,AND";
 
         // when
         given()
@@ -85,7 +85,7 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
     void shouldNotUpdateToAcknowledgedNonExistingAlert() throws JoseException {
         // given
         final long notExistingAlertId = 1234L;
-        String filterString = "side,EQUAL,RECEIVER,AND";
+        String filterString = "channel,EQUAL,RECEIVER,AND";
 
         // when
         given()
@@ -121,7 +121,7 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
     void shouldNotUpdateToAcceptedNonExistingAlert() throws JoseException {
         // given
         final long notExistingAlertId = 1234L;
-        String filterString = "side,EQUAL,RECEIVER,AND";
+        String filterString = "channel,EQUAL,RECEIVER,AND";
 
         // when
         given()
@@ -158,7 +158,7 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
     void shouldNotUpdateToDeclinedNonExistingAlert() throws JoseException {
         // given
         final long notExistingAlertId = 1234L;
-        String filterString = "side,EQUAL,RECEIVER,AND";
+        String filterString = "channel,EQUAL,RECEIVER,AND";
 
         // when
         given()
@@ -196,7 +196,7 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
     void shouldNotUpdateWithInvalidRequest(final String request) throws JoseException {
         // given
         final long notExistingAlertId = 1234L;
-        String filterString = "side,EQUAL,SENDER,AND";
+        String filterString = "channel,EQUAL,SENDER,AND";
 
         // when
         given()

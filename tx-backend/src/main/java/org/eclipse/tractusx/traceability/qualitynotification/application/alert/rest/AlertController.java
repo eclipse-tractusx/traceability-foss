@@ -30,17 +30,25 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.common.model.BaseRequestFieldMapper;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
 import org.eclipse.tractusx.traceability.qualitynotification.application.alert.mapper.AlertResponseMapper;
+import org.eclipse.tractusx.traceability.qualitynotification.application.base.mapper.QualityNotificationFieldMapper;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.service.QualityNotificationService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import qualitynotification.alert.response.AlertResponse;
 import qualitynotification.base.request.CloseQualityNotificationRequest;
 import qualitynotification.base.request.QualityNotificationStatusRequest;
@@ -63,9 +71,13 @@ import static org.eclipse.tractusx.traceability.qualitynotification.domain.base.
 public class AlertController {
 
     private final QualityNotificationService alertService;
+    private final BaseRequestFieldMapper fieldMapper;
 
-    public AlertController(@Qualifier("alertServiceImpl") QualityNotificationService alertService) {
+    public AlertController(
+            @Qualifier("alertServiceImpl") QualityNotificationService alertService,
+            QualityNotificationFieldMapper fieldMapper) {
         this.alertService = alertService;
+        this.fieldMapper = fieldMapper;
     }
 
     private static final String API_LOG_START = "Received API call on /alerts";
@@ -182,7 +194,7 @@ public class AlertController {
     @GetMapping("")
     public PageResult<AlertResponse> getAlerts(OwnPageable pageable, SearchCriteriaRequestParam filter) {
         log.info(API_LOG_START);
-        return AlertResponseMapper.fromAsPageResult(alertService.getNotifications(OwnPageable.toPageable(pageable), filter.toSearchCriteria()));
+        return AlertResponseMapper.fromAsPageResult(alertService.getNotifications(OwnPageable.toPageable(pageable, fieldMapper), filter.toSearchCriteria(fieldMapper)));
     }
 
     @Operation(operationId = "getAlert",

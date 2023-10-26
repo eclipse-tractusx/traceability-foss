@@ -16,36 +16,21 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-// should be mapped into
-export type SemanticModel = {
 
+package org.eclipse.tractusx.traceability.common.repository;
+
+import lombok.experimental.UtilityClass;
+
+import java.util.Objects;
+
+@UtilityClass
+public class SqlUtil {
+
+    public static String constructLikeWildcardQuery(String databaseFieldName, String startsWith) {
+        if (Objects.isNull(startsWith)) {
+            return "";
+        }
+
+        return " WHERE ( " + databaseFieldName + " LIKE '" + startsWith + "%')";
+    }
 }
-
-export type AsBuiltAspectModel = {
-  partId: string;
-  customerPartId: string;
-  nameAtCustomer: string;
-  manufacturingDate: string;
-  manufacturingCountry: string;
-}
-
-export type AsPlannedAspectModel = {
-  validityPeriodFrom: string;
-  validityPeriodTo: string;
-}
-
-export type PartSiteInformationAsPlanned = {
-  function: string,
-  catenaXSiteId: string
-  functionValidFrom: string,
-  functionValidUntil: string
-}
-
-export type TractionBatteryCode = {
-  productType: string,
-  tractionBatteryCode: string,
-  subcomponents?: TractionBatteryCode[]
-}
-
-
-

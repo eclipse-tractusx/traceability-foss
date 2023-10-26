@@ -16,17 +16,17 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+import { HttpParams } from '@angular/common/http';
 import {
-    AssetAsBuiltFilter,
-    AssetAsPlannedFilter,
-    FilterOperator,
-    getFilterOperatorValue
-} from "@page/parts/model/parts.model";
-import {HttpParams} from "@angular/common/http";
+  AssetAsBuiltFilter,
+  AssetAsPlannedFilter,
+  FilterOperator,
+  getFilterOperatorValue,
+} from '@page/parts/model/parts.model';
 
 export const FILTER_KEYS = ['manufacturingDate', 'functionValidFrom', 'functionValidUntil', 'validityPeriodFrom', 'validityPeriodTo'];
 
-export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, params: HttpParams): HttpParams {
+export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, params: HttpParams, filterOperator: string): HttpParams {
     const semanticDataModelKey = "semanticDataModel";
     for (const key in filter) {
         let operator: string;
@@ -38,16 +38,16 @@ export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, para
                 } else {
                     operator = getFilterOperatorValue(FilterOperator.STARTS_WITH);
                 }
-                params = params.append('filter', `${key},${operator},${filterValues}`);
+                params = params.append('filter', `${key},${operator},${filterValues},${filterOperator}`);
             }
         } else {
             operator = getFilterOperatorValue(FilterOperator.EQUAL);
             if (Array.isArray(filterValues)) {
                 for (let value of filterValues) {
-                    params = params.append('filter', `${key},${operator},${value}`);
+                    params = params.append('filter', `${key},${operator},${value},${filterOperator}`);
                 }
             } else {
-                params = params.append('filter', `${key},${operator},${filterValues}`);
+                params = params.append('filter', `${key},${operator},${filterValues},${filterOperator}`);
             }
 
         }
