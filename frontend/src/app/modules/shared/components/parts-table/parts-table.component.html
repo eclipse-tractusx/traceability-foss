@@ -105,6 +105,7 @@ SPDX-License-Identifier: Apache-2.0
                     </div>
                 </td>
             </tr>
+
             <ng-container *ngFor="let column of tableConfig?.displayedColumns" [ngSwitch]="column" >
                 <ng-container *ngSwitchCase="'select'" >
                     <ng-container *ngTemplateOutlet="SelectColumn"></ng-container>

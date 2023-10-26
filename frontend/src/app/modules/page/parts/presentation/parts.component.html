@@ -20,20 +20,26 @@ SPDX-License-Identifier: Apache-2.0
 -->
 
 <div class="parts-table-container">
-    <div class="parts-search-input-wrapper" [formGroup]="searchFormGroup">
-    <app-input
-            [label]="'parts.input.global-search.placeholder' | i18n"
-            [suffixIconHover]="true"
-            [displayClearButton]="true"
-            (suffixIconClick)="triggerPartSearch()"
-            [onEnterActive]="true"
-            [suffixIcon]="'search'"
-            class="parts-search-input"
-            formControlName="partSearch"
-            [parentFormGroup]="searchFormGroup"
-            [parentControlName]="'partSearch'"
-            suffixIconColor="primary"
-    ></app-input>
+  <div class="searchbar-wrapper">
+    <div class="searchbar-container" [formGroup]="searchFormGroup">
+      <app-input
+        [label]="'parts.input.global-search.placeholder' | i18n"
+        [suffixIconHover]="true"
+        [appearance]="'none'"
+        [displayClearButton]="true"
+        (suffixIconClick)="triggerPartSearch()"
+        [onEnterActive]="true"
+        [suffixIcon]="'search'"
+        class="parts-search-input"
+        formControlName="partSearch"
+        [parentFormGroup]="searchFormGroup"
+        [parentControlName]="'partSearch'"
+        suffixIconColor="primary"
+      ></app-input>
+    </div>
+  </div>
+    <div class="parts-search-input-wrapper" >
+
     </div>
     <div class="app-bom-lifecycle-activator-container">
         <app-bom-lifecycle-activator [view]=UserSettingView.PARTS
