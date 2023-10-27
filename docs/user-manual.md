@@ -16,11 +16,29 @@ This work is licensed under the [Apache-2.0](https://www.apache.org/licenses/LIC
 ### General information
 
 Accessing the application is done by the URL provided by the hosting company.
-You can have three roles for the users:
+A list of user or technical roles can be found below:
 
-* User
-* Supervisor
-* Admin
+#### Trace-X app roles
+
+Available roles: <https://portal.int.demo.catena-x.net/appusermanagement/3bbc88ae-5f0d-45cb-ab3e-8c7602ff58b4>
+
+![app_roles](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/usermanual/app_roles.png)
+
+Assignment of roles: <https://portal.int.demo.catena-x.net/documentation/?path=docs%2F03.+User+Management%2F02.+Modify+User+Account%2F03.+User+Permissions.md>
+
+![assign_app_roles](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/usermanual/assign_app_roles.png)
+
+#### Catena-X portal roles
+
+Role details: <https://portal.int.demo.catena-x.net/role-details>
+
+![cx_portal_roles](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/usermanual/cx_portal_roles.png)
+
+User accounts: <https://portal.int.demo.catena-x.net/documentation/?path=docs%2F03.+User+Management%2F01.+User+Account>
+
+#### Technical users
+
+Documentation: <https://portal.int.demo.catena-x.net/documentation/?path=docs%2F03.+User+Management%2F01.+User+Account>
 
 To login use the credentials provided by the hosting company.
 
@@ -53,7 +71,8 @@ Navigates to the inbox and outgoing alerts.
 
 #### Administration
 
-Only applicable for the admin user role. Possibility to check the network status based on logfiles and will provide access to configuration possibilities for the application.
+Only applicable for the admin user role.
+Possibility to check the network status based on logfiles and will provide access to configuration possibilities for the application.
 
 #### Logout
 
@@ -70,7 +89,8 @@ Supported languages:
 ### Parts
 
 List view of the own manufactured (asBuilt) or planned (asPlanned) parts and batches.
-By default, both tables are displayed. You can adjust the View of tables by activating/deactivating the tables.
+By default, both tables are displayed.
+You can adjust the View of tables by activating/deactivating the tables.
 
 ![parts-list-view](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/parts-list-view.png)
 
@@ -87,34 +107,42 @@ The global search bar at the top returns part results from both Tables.
 #### AsBuilt Lifecycle Parts
 
 List view of own Parts with AsBuilt Lifecycle.
-Gives detailed information on the assets registered in the Digital Twin Registry of Catena-X for the company. This includes data based on the aspect models of Use Case Traceability: Asbuilt, SerialPart, Batch.
+Gives detailed information on the assets registered in the Digital Twin Registry of Catena-X for the company.
+This includes data based on the aspect models of Use Case Traceability: Asbuilt, SerialPart, Batch.
 Parts that are in a quality alert are highlighted yellow.
 
 #### AsPlanned Lifecycle Parts
 
 List view of own Parts with AsPlanned Lifecycle.
-Gives detailed information on the assets registered in the Digital Twin Registry of Catena-X for the company. This includes data based on the aspect models of Use Case Traceability: AsPlanned, SerialPart, Batch.
+Gives detailed information on the assets registered in the Digital Twin Registry of Catena-X for the company.
+This includes data based on the aspect models of Use Case Traceability: AsPlanned, SerialPart, Batch.
 Parts that are in a quality alert are highlighted yellow.
 
 #### Parts selection -> Create Quality alert
 
-Select one or multiple child components/parts/batches that are build into your part. Selection will enable you to create a quality alert (notification) to your customers. The quality alert will be added to a queue (queued & requested inbox) and not directly sent to the customers.
+Select one or multiple child components/parts/batches that are build into your part.
+Selection will enable you to create a quality alert (notification) to your customers.
+The quality alert will be added to a queue (queued & requested inbox) and not directly sent to the customers.
 
 Once the quality alert is created you will get a pop-up and can directly navigate to the inbox for further action.
 
 #### Parts table column settings
 
-On the right upper site of a table there is a settings icon in which you can set the table columns to a desired view. With a click on it a dialog opens where you can change the settings of the corresponding table:
+On the right upper site of a table there is a settings icon in which you can set the table columns to a desired view.
+With a click on it a dialog opens where you can change the settings of the corresponding table:
 
 ![table-settings-dialog](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/table-settings-dialog.png)
 
-Hide/show table columns by clicking on the checkbox or the column name. It is possible to hide/show all columns by clicking on the "All"- checkbox.
+Hide/show table columns by clicking on the checkbox or the column name.
+It is possible to hide/show all columns by clicking on the "All"- checkbox.
 
 The reset icon resets the table columns to its default view.
 
-Reorder the table columns by selecting a list item (click on the right of the column name). By selecting the column, you can reorder it with the up and down arrow icons to move it in the front or back of other columns.
+Reorder the table columns by selecting a list item (click on the right of the column name).
+By selecting the column, you can reorder it with the up and down arrow icons to move it in the front or back of other columns.
 
-Apply your changes by clicking on the "Save" - button. If you want to discard your changes, simply press you "ESC" - button, click anywhere else except in the dialog or close it explicitely with the close icon on the upper right of the dialog.
+Apply your changes by clicking on the "Save" - button.
+If you want to discard your changes, simply press you "ESC" - button, click anywhere else except in the dialog or close it explicitely with the close icon on the upper right of the dialog.
 
 The settings will be stored in the local storage of the browser and will be persisted until they get deleted.
 
@@ -127,15 +155,21 @@ More detailed information on the asset is listed as well as a part tree that vis
 
 ##### Overview
 
-General production information. Information on the quality status of the part/batch.
+General production information.
+Information on the quality status of the part/batch.
 
 ##### Relations
 
-Part tree based on SingleLevelBomAsBuilt aspect model. Dependent on the semantic data model of the part the borders are in a different color. A green border indicates that the part is a SerialPart. A yellow border indicates that the part is a piece of a batch.
+Part tree based on SingleLevelBomAsBuilt aspect model.
+Dependent on the semantic data model of the part the borders are in a different color.
+A green border indicates that the part is a SerialPart.
+A yellow border indicates that the part is a piece of a batch.
 
-It is possible to adjust the view of the relationships by dragging the mouse to the desired view. Zooming in/out can be done with the corresponding control buttons.
+It is possible to adjust the view of the relationships by dragging the mouse to the desired view.
+Zooming in/out can be done with the corresponding control buttons.
 
-![open-new-tab](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/open-new-tab.png) Open part tree in new tab to zoom, scroll and focus in a larger view. A minimap on the bottom right provides an overview of the current position on the part tree.
+![open-new-tab](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/open-new-tab.png) Open part tree in new tab to zoom, scroll and focus in a larger view.
+A minimap on the bottom right provides an overview of the current position on the part tree.
 
 ##### Manufacturer data
 
@@ -166,7 +200,9 @@ Supplier parts that are in a quality investigation are highlighted yellow.
 
 ##### Supplier parts select / Quality Investigation
 
-Select one or multiple supplier parts. Selection will enable you to create a quality investigation (notification) to your supplier. The quality investigation will be added to a queue (queued & requested inbox) and not directly be sent to the supplier.
+Select one or multiple supplier parts.
+Selection will enable you to create a quality investigation (notification) to your supplier.
+The quality investigation will be added to a queue (queued & requested inbox) and not directly be sent to the supplier.
 
 Once the quality investigation is created you will get a pop-up and can directly navigate to the inbox for further action.
 
@@ -179,7 +215,8 @@ More detailed information on the asset is listed.
 
 ##### Overview
 
-General production information. Information on the quality status of the supplier part/batch.
+General production information.
+Information on the quality status of the supplier part/batch.
 
 ##### Manufacturer data
 
@@ -203,7 +240,8 @@ More detailed information on the asset is listed.
 
 ##### Overview
 
-General production information. Information on the quality status of the supplier part/batch.
+General production information.
+Information on the quality status of the supplier part/batch.
 
 ##### Manufacturer data
 
@@ -221,18 +259,22 @@ Inbox for received quality investigations and "Queued & Requested" inbox for out
 
 ![notification-drafts](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/notification-drafts.png) Received investigations.
 
-Investigations received by a customer. Those notifications specify a defect or request to investigate on a specific part / batch on your side and give feedback to the customer.
+Investigations received by a customer.
+Those notifications specify a defect or request to investigate on a specific part / batch on your side and give feedback to the customer.
 
 ![notification-send](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/notification-send.png) Queued & Requested investigations.
 
-Notifications in the context of quality investigations that are in queued/draft status or already requested/sent to the supplier. Those notifications specify a defect or request to investigate on a specific part / batch on your suppliers side and give feedback back to you.
+Notifications in the context of quality investigations that are in queued/draft status or already requested/sent to the supplier.
+Those notifications specify a defect or request to investigate on a specific part / batch on your suppliers side and give feedback back to you.
 
 * Queued status: Quality investigation is created but not yet released.
 * Requested status: Quality investigation is sent to the supplier.
 
 #### Quality investigation context action
 
-Select the three dots icon on the right side of an investigation entry to open the context menu. From there it is possible to open the investigation detailed view or change the status of an investigation. Only the possible status transition will show up.
+Select the three dots icon on the right side of an investigation entry to open the context menu.
+From there it is possible to open the investigation detailed view or change the status of an investigation.
+Only the possible status transition will show up.
 
 ![notification-context-action](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/notification-context-action.png)
 
@@ -266,7 +308,8 @@ Displays all state transitions including the reason/description of the transitio
 
 ##### Quality investigation action
 
-All possible state transitions are displayed in form of buttons (upper right corner). There the desired action can be selected to open a modal in which the details to the status change can be provided and completed.
+All possible state transitions are displayed in form of buttons (upper right corner).
+There the desired action can be selected to open a modal in which the details to the status change can be provided and completed.
 
 #### Quality investigation status
 
@@ -285,11 +328,14 @@ Following status for a quality investigation (notification) are possible:
 
 #### Quality investigation status flow
 
-Notifications always have a status. The transition from one status to a subsequent status is described in the below state model.
+Notifications always have a status.
+The transition from one status to a subsequent status is described in the below state model.
 
-The Sender can change the status to closed from any status. The receiver can never change the status to closed.
+The Sender can change the status to closed from any status.
+The receiver can never change the status to closed.
 
-The legend in the below state diagram describes who can set the status. One exception to this rule: the transition from status SENT to status RECEIVED is done automatically once the sender receives the Http status code 201.
+The legend in the below state diagram describes who can set the status.
+One exception to this rule: the transition from status SENT to status RECEIVED is done automatically once the sender receives the Http status code 201.
 
 ![Notification state model](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/notificationstatemodel.png)
 
@@ -301,18 +347,22 @@ Inbox for received quality alerts and "Queued & Requested" inbox for outgoing dr
 
 ![notification-drafts](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/notification-drafts.png) Received alerts.
 
-Alerts received by a supplier. Those notifications specify a defect or request to informed on a specific part / batch on your side to be informed and give feedback to the supplier.
+Alerts received by a supplier.
+Those notifications specify a defect or request to informed on a specific part / batch on your side to be informed and give feedback to the supplier.
 
 ![notification-send](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/notification-send.png) Queued & Requested alerts.
 
-Notifications in the context of quality alerts that are in queued/draft status or already requested/sent to the customer. Those notifications specify a defect or request to inform on a specific part / batch on the customer side and give feedback back to you.
+Notifications in the context of quality alerts that are in queued/draft status or already requested/sent to the customer.
+Those notifications specify a defect or request to inform on a specific part / batch on the customer side and give feedback back to you.
 
 * Queued status: Quality alert is created but not yet released.
 * Requested status: Quality alert is sent to the customer.
 
 #### Quality alert context action
 
-Select the three dots icon on the right side of an alert entry to open the context menu. From there it is possible to open the alert detailed view or change the status of an alert. Only the possible status transitions will show up.
+Select the three dots icon on the right side of an alert entry to open the context menu.
+From there it is possible to open the alert detailed view or change the status of an alert.
+Only the possible status transitions will show up.
 
 ![notification-context-action](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/notification-context-action.png)
 
@@ -346,7 +396,8 @@ Displays all state transitions including the reason/description of the transitio
 
 ##### Quality investigation action
 
-All possible state transitions are displayed in form of buttons (upper right corner). There the desired action can be selected to open a modal in which the details to the status change can be provided and completed.
+All possible state transitions are displayed in form of buttons (upper right corner).
+There the desired action can be selected to open a modal in which the details to the status change can be provided and completed.
 
 #### Quality alert status
 
@@ -365,10 +416,13 @@ Following status for a quality alert (notification) are possible:
 
 #### Quality alert status flow
 
-Notifications always have a status. The transition from one status to a subsequent status is described in the below state model.
+Notifications always have a status.
+The transition from one status to a subsequent status is described in the below state model.
 
-The Sender can change the status to closed from any status. The receiver can never change the status to closed.
+The Sender can change the status to closed from any status.
+The receiver can never change the status to closed.
 
-The legend in the below state diagram describes who can set the status. One exception to this rule: the transition from status SENT to status RECEIVED is done automatically once the sender receives the Http status code 201.
+The legend in the below state diagram describes who can set the status.
+One exception to this rule: the transition from status SENT to status RECEIVED is done automatically once the sender receives the Http status code 201.
 
 ![Notification state model](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/notificationstatemodel.png)
