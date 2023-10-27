@@ -41,7 +41,7 @@ on:
         description: Argo Token
         required: true 
       api_key:
-        description: API-KEY
+        description: API-KEY (DEV/TEST, E2E, INT)
         required: true 
       
 
