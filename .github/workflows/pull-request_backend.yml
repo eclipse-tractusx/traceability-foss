@@ -128,3 +128,9 @@ jobs:
 
       - name: Dependency analysis report Tx-Models
         run: cat tx-models/target/dependency-check-report.html
+
+      - name: Upload Test results
+        uses: actions/upload-artifact@master
+        with:
+          name: Depcheck report
+          path: ${{github.workspace}}/reports
