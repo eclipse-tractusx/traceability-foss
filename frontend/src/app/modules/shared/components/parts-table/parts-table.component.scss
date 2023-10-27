@@ -60,11 +60,6 @@ table {
   cursor: pointer;
 }
 
-.mat-mdc-row:hover {
-background-color: rgba(0, 0, 0, 0.04)!important;
-}
-
-
 .table--no-data {
   display: flex;
   flex-direction: column;
@@ -212,10 +207,6 @@ tr.error {
 
 .table--header--row {
   white-space: nowrap;
-}
-.table-wrapper{
-  max-height:52vh;
-  overflow:auto;
 }
 
 .table--header {
