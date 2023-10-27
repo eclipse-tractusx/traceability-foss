@@ -62,7 +62,7 @@ SPDX-License-Identifier: Apache-2.0
                     [hidden]="displayedFilter"></tr>
 
 
-                <ng-container matColumnDef="{{ filter.headerKey }}" [sticky]="filter.headerKey==='select'" *ngFor="let filter of filterConfiguration">
+                <ng-container matColumnDef="{{ filter.headerKey }}" *ngFor="let filter of filterConfiguration">
                     <th class="multi-select-header-cell" mat-header-cell *matHeaderCellDef>
                         <app-multiselect *ngIf="filter.headerKey!==filterKey"
                                          [placeholder]="'multiSelect.placeholder' | i18n"
@@ -148,7 +148,7 @@ SPDX-License-Identifier: Apache-2.0
                             <button mat-menu-item (click)="clearAllRows()">{{ 'table.clearAll' | i18n }}</button>
                         </mat-menu>
                     </th>
-                    <td *matCellDef="let row" mat-cell>
+                    <td *matCellDef="let row"   mat-cell>
                         <mat-checkbox
                                 [checked]="isSelected(row)"
                                 (click)="$event.stopPropagation()"
@@ -231,7 +231,7 @@ SPDX-License-Identifier: Apache-2.0
             </ng-template>
 
           <ng-template #MenuColumn>
-            <ng-container matColumnDef="menu">
+            <ng-container matColumnDef="menu" stickyEnd>
               <th *matHeaderCellDef class="table--menu" mat-header-cell></th>
               <td *matCellDef="let row" class="table--menu" mat-cell [attr.colspan]="tableConfig.displayedColumns.length">
                 <div class="table--menu__desktop">
