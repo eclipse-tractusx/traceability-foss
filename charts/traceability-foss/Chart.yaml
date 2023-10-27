@@ -18,7 +18,7 @@
 #
 apiVersion: v2
 name: traceability-foss
-description: An umbrella Helm chart for eclipse-tractusx/traceability-foss project.
+description: An umbrella Helm chart for eclipse-tractusx/traceability-foss project
 home: https://eclipse-tractusx.github.io/
 sources:
   - https://github.com/eclipse-tractusx/traceability-foss
