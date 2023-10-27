@@ -19,6 +19,8 @@
 .button-container {
   display: flex;
   flex-direction: row;
+  margin-left:16px;
+  margin-right:16px;
 }
 
 .button-container app-button {
