@@ -21,7 +21,7 @@
 # You may wish to alter this file to override the set of languages analyzed,
 # or to provide custom queries or build logic.
 #
-name: Argo
+name: Reset Argo ENV and Testdata import
 
 on:
   workflow_dispatch:
