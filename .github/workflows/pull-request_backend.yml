@@ -130,6 +130,7 @@ jobs:
         run: cat tx-models/target/dependency-check-report.html
 
       - name: Upload Test results
+        if: always()
         uses: actions/upload-artifact@master
         with:
           name: Depcheck report
