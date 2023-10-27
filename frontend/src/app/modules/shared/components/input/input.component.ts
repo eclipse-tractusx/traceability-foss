@@ -28,7 +28,7 @@ import {
     Injector,
     Input,
     Output,
-    ViewChild,
+    ViewChild
 } from '@angular/core';
 import {BaseInputComponent} from '@shared/abstraction/baseInput/baseInput.component';
 import {StaticIdService} from '@shared/service/staticId.service';
@@ -47,7 +47,6 @@ export class InputComponent extends BaseInputComponent<string> {
     @Input() onEnterActive: boolean = false;
     @Input() displayClearButton: boolean = false;
     @Input() parentFormGroup: FormGroup;
-    @Input() appearance: any = "fill";
     @Input() parentControlName: string;
     @Output() suffixIconClick = new EventEmitter<void>();
     @ViewChild('inputElement') inputElement: ElementRef;
