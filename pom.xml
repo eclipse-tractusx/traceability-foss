@@ -73,7 +73,7 @@ SPDX-License-Identifier: Apache-2.0
         <feign.version>12.3</feign.version>
         <jakarta-ws-rs.version>3.1.0</jakarta-ws-rs.version>
         <jruby.version>9.4.3.0</jruby.version>
-        <resilience4j.version>2.1.0</resilience4j.version>
+        <resilience4j.version>2.0.2</resilience4j.version>
         <schedlock.version>5.9.1</schedlock.version>
         <spring-cloud.version>2022.0.3</spring-cloud.version>
         <jetbrains-annotation.version>24.0.1</jetbrains-annotation.version>
@@ -99,7 +99,7 @@ SPDX-License-Identifier: Apache-2.0
         <jackson.version>2.15.2</jackson.version>
         <junit-bom.version>5.9.3</junit-bom.version>
         <awaitility.version>3.0.0</awaitility.version>
-        <irs-client-lib.version>1.2.1-SNAPSHOT</irs-client-lib.version>
+        <irs-client-lib.version>1.4.0</irs-client-lib.version>
         <!-- Sonar related properties -->
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
@@ -289,6 +289,7 @@ SPDX-License-Identifier: Apache-2.0
                         <artifactId>dependency-check-maven</artifactId>
                         <version>${owasp-plugin.version}</version>
                         <configuration>
+                            <failBuildOnAnyVulnerability>true</failBuildOnAnyVulnerability>
                             <suppressionFile>dependency_check/suppressions.xml</suppressionFile>
                         </configuration>
                         <executions>
