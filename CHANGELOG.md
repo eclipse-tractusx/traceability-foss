@@ -32,6 +32,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - distinctFilterValues endpoints now support startWith parameter that will cause result to contain only suggestions starting with given string
 - changed qualityNotification filtering changed from side to channel as response field name
 - changed assetAsBuilt filtering manufacturerId to businessPartner
+- IRS-Client-Lib from 1.2.1-SNAPSHOT to 1.4.0
 
 ### Removed
 - Removed &filterOperator=AND from filtering requests
