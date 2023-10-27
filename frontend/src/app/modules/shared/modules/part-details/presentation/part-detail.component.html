@@ -53,9 +53,14 @@ SPDX-License-Identifier: Apache-2.0
         <ng-container
           *viewContainer="customerOrPartSiteDetails$ | async; main: customerOrPartSiteDetailsMainTmp; error: errorTmp; loading: loaderTmp"
         ></ng-container>
-
       </div>
+
+      <ng-container
+        *viewContainer="tractionBatteryDetails$ | async; main: tractionBatteryDetailsMainTmp; error: errorTmp; loading: loaderTmp">
+      </ng-container>
+
     </mat-expansion-panel>
+
     <mat-expansion-panel *ngIf="showStartInvestigation" [disabled]="(selectedPartDetails$ | async)?.data?.children?.length ? undefined : true">
       <mat-expansion-panel-header>
         <mat-panel-title>{{ 'partDetail.investigation.tab.header' | i18n }}</mat-panel-title>
@@ -79,6 +84,53 @@ SPDX-License-Identifier: Apache-2.0
 
 <ng-template #customerOrPartSiteDetailsMainTmp let-customerOrPartSiteDetails="view">
   <app-card-list [list]="customerOrPartSiteDetails.data" [title]=" customerOrPartSiteHeader.toString() | i18n"></app-card-list>
+</ng-template>
+
+<ng-template #tractionBatteryDetailsMainTmp let-tractionBatteryDetails="view" let-tractionBattery>
+
+  <mat-card class="part-detail--tractionBattery-info">
+    <mat-card-header>
+      <mat-card-title>{{ 'partDetail.tractionBatteryCodeTitle' | i18n }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content [class.part-detail--spinner]="!(isOpen$ | async)" class="part-detail--tractionBattery-content">
+      <ng-container *ngIf="isOpen$ | async">
+          <app-card-list [list]="tractionBatteryDetails.data" [title]="'partDetail.tractionBattery' | i18n" class="part-detail--tractionBattery-details"></app-card-list>
+      <mat-card>
+            <mat-card-header>
+              <mat-card-title>{{ 'partDetail.subcomponents' | i18n }}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content [class.part-detail--spinner]="!(isOpen$ | async)">
+              <ng-container *ngIf="isOpen$ | async">
+                <section class="part-detail-subcomponents-table-container">
+                  <table mat-table
+                         [dataSource]="(tractionBatterySubcomponents$ | async)?.data.subcomponents"
+                         aria-describedby="tractionBatteryCodeSubcomponentsTable"
+                  >
+                    <ng-container matColumnDef="position">
+                      <th mat-header-cell *matHeaderCellDef> {{'partDetail.position' | i18n}} </th>
+                      <!--TODO: Adjust when getting position porperty from BE, currently hardcoded for displaying purposes-->
+                      <td mat-cell *matCellDef="let i=index">000{{i+1}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="productType">
+                      <th mat-header-cell *matHeaderCellDef> {{'partDetail.productType' | i18n }}</th>
+                      <td mat-cell *matCellDef="let subcomponent">{{subcomponent.productType}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="tractionBatteryCode">
+                      <th mat-header-cell *matHeaderCellDef> {{'partDetail.tractionBatteryCode' | i18n }} </th>
+                      <td mat-cell *matCellDef="let subcomponent">{{subcomponent.tractionBatteryCode}}</td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                  </table>
+                </section>
+              </ng-container>
+              <mat-spinner *ngIf="!(isOpen$ | async)"></mat-spinner>
+            </mat-card-content>
+          </mat-card>
+      </ng-container>
+      <mat-spinner *ngIf="!(isOpen$ | async)"></mat-spinner>
+    </mat-card-content>
+  </mat-card>
 </ng-template>
 
 
