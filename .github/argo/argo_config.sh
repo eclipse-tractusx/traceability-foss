@@ -15,12 +15,6 @@
 #
 #  SPDX-License-Identifier: Apache-2.0
 
-# For most projects, this workflow file will not need changing; you simply need
-# to commit it to your repository.
-#
-# You may wish to alter this file to override the set of languages analyzed,
-# or to provide custom queries or build logic.
-#
 DELETE_DEV_TEST_RESOURCES=(
               "$ARGO_TEST_TRACE_X_INSTANCE/resource?force=false&orphan=false&resourceName=data-tx-backend-postgresql-test-0&version=v1&kind=PersistentVolumeClaim&namespace=product-traceability-foss"
               "$ARGO_TEST_TRACE_X_INSTANCE/resource?group=apps&force=true&orphan=false&resourceName=tx-backend-postgresql-test&version=v1&kind=StatefulSet&namespace=product-traceability-foss"
