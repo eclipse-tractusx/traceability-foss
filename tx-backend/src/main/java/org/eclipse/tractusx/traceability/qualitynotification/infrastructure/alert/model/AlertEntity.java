@@ -41,6 +41,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationBaseEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
+import org.hibernate.annotations.Formula;
 
 import java.util.List;
 
@@ -72,6 +73,9 @@ public class AlertEntity extends NotificationBaseEntity {
 
     @OneToMany(mappedBy = "alert")
     private List<AlertNotificationEntity> notifications;
+
+    @Formula("(select A.severity from alert_notification A where A.alert_id=id limit 1)")
+    private Integer severity;
 
     public static QualityNotification toDomain(AlertEntity alertNotificationEntity) {
         List<QualityNotificationMessage> notifications = emptyIfNull(alertNotificationEntity.getNotifications()).stream()

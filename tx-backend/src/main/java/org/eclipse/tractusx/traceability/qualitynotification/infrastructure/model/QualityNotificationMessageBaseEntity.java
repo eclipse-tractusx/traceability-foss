@@ -45,15 +45,6 @@ public class QualityNotificationMessageBaseEntity {
     private String contractAgreementId;
     private String notificationReferenceId;
     private Instant targetDate;
-
-    @Formula("case severity "
-            + "when 'MINOR' then 0 "
-            + "when 'MAJOR' then 1 "
-            + "when 'CRITICAL' then 2 "
-            + "when 'LIFE-THREATENING' then 3 "
-            + "end")
-    private int severityRank;
-
     private QualityNotificationSeverity severity;
     private String edcNotificationId;
     private LocalDateTime created;
@@ -70,8 +61,9 @@ public class QualityNotificationMessageBaseEntity {
             + "when 'ACCEPTED' then 5 "
             + "when 'DECLINED' then 6 "
             + "when 'CLOSED' then 7 "
+            + "else -1 "
             + "end")
-    private int statusRank;
+    private Integer statusrank;
 
     private NotificationStatusBaseEntity status;
 
