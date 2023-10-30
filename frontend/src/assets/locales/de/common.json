@@ -57,6 +57,7 @@
     "menuDescription": "Aktionsmenü",
     "clearPage": "Markierungen auf dieser Seite aufheben",
     "clearAll": "Alle Markierungen aufheben",
+    "multiSortingTooltip": "Erster Klick: aufsteigend sortieren ↑ Zweiter Klick: absteigend sortieren ↓ Dritter Klick: Sortierung zurücksetzen",
     "filterTitle" : "Filter",
     "tableSettings": {
       "title": "Tabellenspalten Einstellungen",
@@ -79,11 +80,11 @@
       "name": "Name",
       "manufacturer": "Hersteller",
       "partId": "Produktnummer",
-      "manufacturerPartId": "Hersteller produktnummer",
-      "customerPartId": "Kunden produktnummer",
+      "manufacturerPartId": "Hersteller Produktnummer",
+      "customerPartId": "Kunden Produktnummer",
       "classification": "Klassifizierung",
-      "nameAtCustomer": "Kunden produktname",
-      "nameAtManufacturer": "Hersteller produktname",
+      "nameAtCustomer": "Kunden Produktname",
+      "nameAtManufacturer": "Hersteller Produktname",
       "semanticModelId": "Semantische Modellnummer",
       "qualityType": "Qualitätsstufe",
       "manufacturingDate": "Produktionsdatum",
@@ -268,12 +269,14 @@
   },
   "multiSelect": {
     "filterLabel": "Filter",
-    "placeholder": "Alle"
+    "placeholder": "Alle",
+    "searchPlaceholder": "Suche..",
+    "choosePlaceholder": "Auswählen.."
   },
   "parts": {
     "input": {
       "global-search": {
-        "placeholder": "Suche nach C-X ID, partInstanceId or partNumber / BPN",
+        "placeholder": "Suche nach C-X ID, partInstanceId oder partNumber / BPN",
         "toastInfo": "Lokale Filterung auf Tabellenebene wurde zurückgesetzt."
       }
     }

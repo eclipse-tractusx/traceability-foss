@@ -84,6 +84,7 @@ SPDX-License-Identifier: Apache-2.0
 
       <mat-card-content>
         <app-notifications-tab
+          [notificationType]="NotificationType.INVESTIGATION"
           [notificationsView$]="investigations$"
           [translationContext]="'commonInvestigation'"
           [labelId]="'dashboard-investigations'"

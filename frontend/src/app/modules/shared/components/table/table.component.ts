@@ -28,6 +28,7 @@ import { Pagination } from '@core/model/pagination.model';
 import { RoleService } from '@core/user/role.service';
 import { MenuActionConfig, TableConfig, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
 import {addSelectedValues, clearAllRows, clearCurrentRows, removeSelectedValues} from '@shared/helper/table-helper';
+import { NotificationType } from '@shared/model/notification.model';
 import { FlattenObjectPipe } from '@shared/pipes/flatten-object.pipe';
 
 @Component({
@@ -41,6 +42,7 @@ export class TableComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('tableElement', { read: ElementRef }) tableElementRef: ElementRef<HTMLElement>;
 
+  @Input() additionalTableHeader = false;
   @Input()
   set tableConfig(tableConfig: TableConfig) {
     if (!tableConfig) {
@@ -200,4 +202,6 @@ export class TableComponent {
   private removeSelectedValues(itemsToRemove: unknown[]): void {
     removeSelectedValues(this.selection, itemsToRemove);
   }
+
+  protected readonly NotificationType = NotificationType;
 }

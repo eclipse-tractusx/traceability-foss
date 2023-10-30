@@ -19,13 +19,13 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Pagination } from '@core/model/pagination.model';
-import { AsBuiltAspectModel } from '@page/parts/model/aspectModels.model';
-import { DetailAspectType } from '@page/parts/model/detailAspectModel.model';
-import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import { Part, QualityType, SemanticDataModel } from '@page/parts/model/parts.model';
-import { PartsAssembler } from '@shared/assembler/parts.assembler';
-import { of } from 'rxjs';
+import {Pagination} from '@core/model/pagination.model';
+import {AsBuiltAspectModel} from '@page/parts/model/aspectModels.model';
+import {DetailAspectType} from '@page/parts/model/detailAspectModel.model';
+import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
+import {Part, QualityType, SemanticDataModel} from '@page/parts/model/parts.model';
+import {PartsAssembler} from '@shared/assembler/parts.assembler';
+import {of} from 'rxjs';
 
 describe('PartsAssembler', () => {
   const page = <T>(content: T[]): Pagination<T> => ({
@@ -222,4 +222,62 @@ describe('PartsAssembler', () => {
         });
     });
   });
+
+  describe('mapForTractionBatteryCodeDetailsView', () => {
+    const tractionBatteryCode = 'tractionBatteryCode';
+    const productType = 'productType';
+    it('should clean up data for traction battery details view', done => {
+      const data = { tractionBatteryCode, productType, test: '' } as unknown as Part;
+      of({ data })
+          .pipe(PartsAssembler.mapPartForTractionBatteryCodeDetailsView())
+          .subscribe(result => {
+            expect(result).toEqual({ data: { tractionBatteryCode, productType } as unknown as Part });
+            done();
+          });
+    });
+    it('should return nothing when there is no viewData', done => {
+      const data = undefined as unknown as Part;
+      of({data})
+        .pipe(PartsAssembler.mapPartForTractionBatteryCodeDetailsView())
+        .subscribe(result => {
+          expect(result).toEqual(undefined);
+          done();
+        });
+    });
+  });
+
+  describe('mapForTractionBatterySubComponentsView', () => {
+    const tractionBatteryCode = 'tractionBatteryCode';
+    const productType = 'productType';
+    const subcomponents = 'subcomponents';
+    it('should clean up data for traction battery subcomponents view', done => {
+      const data = { tractionBatteryCode, productType, subcomponents, test: '' } as unknown as Part;
+      of({ data })
+          .pipe(PartsAssembler.mapPartForTractionBatteryCodeSubComponentsView())
+          .subscribe(result => {
+            expect(result).toEqual({ data: { tractionBatteryCode, productType, subcomponents } as unknown as Part });
+            done();
+          });
+    });
+    it('should return nothing when there is no viewData', done => {
+      const data = undefined as unknown as Part;
+      of({ data } )
+          .pipe(PartsAssembler.mapPartForTractionBatteryCodeSubComponentsView())
+          .subscribe(result => {
+            expect(result).toEqual( undefined);
+            done();
+          });
+    });
+    it('should return nothing when there is no tractionbattery', done => {
+      const data = { productType, subcomponents, test: '' } as unknown as Part;
+      of({ data })
+          .pipe(PartsAssembler.mapPartForTractionBatteryCodeSubComponentsView())
+          .subscribe(result => {
+            expect(result).toEqual(undefined);
+            done();
+          });
+    });
+  });
+
+
 });

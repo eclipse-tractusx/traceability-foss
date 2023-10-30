@@ -47,6 +47,7 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
     void ShouldAcknowledgeReceivedAlert() throws JoseException {
         // given
         var alertId = alertsSupport.defaultReceivedAlertStored();
+        String filterString = "channel,EQUAL,RECEIVER,AND";
 
         // when
         given()
@@ -71,7 +72,8 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/received")
+                .param("filter", filterString)
+                .get("/api/alerts")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -83,6 +85,7 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
     void shouldNotUpdateToAcknowledgedNonExistingAlert() throws JoseException {
         // given
         final long notExistingAlertId = 1234L;
+        String filterString = "channel,EQUAL,RECEIVER,AND";
 
         // when
         given()
@@ -105,7 +108,8 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
                 .param("size", "15")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/received")
+                .param("filter", filterString)
+                .get("/api/alerts")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -117,6 +121,7 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
     void shouldNotUpdateToAcceptedNonExistingAlert() throws JoseException {
         // given
         final long notExistingAlertId = 1234L;
+        String filterString = "channel,EQUAL,RECEIVER,AND";
 
         // when
         given()
@@ -140,7 +145,8 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
                 .param("size", "15")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/received")
+                .param("filter", filterString)
+                .get("/api/alerts")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -152,6 +158,7 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
     void shouldNotUpdateToDeclinedNonExistingAlert() throws JoseException {
         // given
         final long notExistingAlertId = 1234L;
+        String filterString = "channel,EQUAL,RECEIVER,AND";
 
         // when
         given()
@@ -175,7 +182,8 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
                 .param("size", "15")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/received")
+                .param("filter", filterString)
+                .get("/api/alerts")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -188,6 +196,7 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
     void shouldNotUpdateWithInvalidRequest(final String request) throws JoseException {
         // given
         final long notExistingAlertId = 1234L;
+        String filterString = "channel,EQUAL,SENDER,AND";
 
         // when
         given()
@@ -206,7 +215,8 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
                 .param("size", "15")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/received")
+                .param("filter", filterString)
+                .get("/api/alerts")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))

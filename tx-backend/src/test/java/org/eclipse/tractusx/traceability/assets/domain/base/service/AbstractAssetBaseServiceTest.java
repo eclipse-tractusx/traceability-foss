@@ -24,11 +24,23 @@ class AbstractAssetBaseServiceTest {
 
     @ParameterizedTest
     @MethodSource("enumFieldNamesProvider")
-    void givenOwnerFieldName(String fieldName, List<String> expectedValues) {
+    void givenEnumFieldName(String fieldName, String startWith, List<String> expectedValues) {
         // given params
 
         // when
-        List<String> result = service.getDistinctFilterValues(fieldName, 10L);
+        List<String> result = service.getDistinctFilterValues(fieldName, startWith, 10L);
+
+        // then
+        assertThat(result).containsAll(expectedValues);
+    }
+
+    @ParameterizedTest
+    @MethodSource("booleanFieldNamesProvider")
+    void givenBooleanFieldName(String fieldName, String startWith, List<String> expectedValues) {
+        // given params
+
+        // when
+        List<String> result = service.getDistinctFilterValues(fieldName, startWith, 10L);
 
         // then
         assertThat(result).containsAll(expectedValues);
@@ -36,9 +48,18 @@ class AbstractAssetBaseServiceTest {
 
     private static Stream<Arguments> enumFieldNamesProvider() {
         return Stream.of(
-                Arguments.of("owner", List.of("SUPPLIER", "CUSTOMER", "OWN", "UNKNOWN")),
-                Arguments.of("qualityType", List.of("OK", "MINOR", "MAJOR", "CRITICAL", "LIFE_THREATENING")),
-                Arguments.of("semanticDataModel", List.of("BATCH", "SERIALPART", "UNKNOWN", "PARTASPLANNED", "JUSTINSEQUENCE"))
+                Arguments.of("owner", null, List.of("SUPPLIER", "CUSTOMER", "OWN", "UNKNOWN")),
+                Arguments.of("qualityType", "O", List.of("OK", "MINOR", "MAJOR", "CRITICAL", "LIFE_THREATENING")),
+                Arguments.of("semanticDataModel", null, List.of("BATCH", "SERIALPART", "UNKNOWN", "PARTASPLANNED", "JUSTINSEQUENCE"))
+        );
+    }
+
+    private static Stream<Arguments> booleanFieldNamesProvider() {
+        return Stream.of(
+                Arguments.of("activeAlert", null, List.of("true", "false")),
+                Arguments.of("activeAlert", "true", List.of("true", "false")),
+                Arguments.of("underInvestigation", null, List.of("true", "false")),
+                Arguments.of("underInvestigation", "f", List.of("true", "false"))
         );
     }
 

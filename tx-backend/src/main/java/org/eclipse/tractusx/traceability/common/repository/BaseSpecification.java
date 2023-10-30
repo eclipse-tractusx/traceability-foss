@@ -20,12 +20,15 @@
 package org.eclipse.tractusx.traceability.common.repository;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.Getter;
+import org.eclipse.tractusx.traceability.common.domain.ParseLocalDateException;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaFilter;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
-import org.eclipse.tractusx.traceability.common.model.SearchStrategy;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
@@ -33,14 +36,15 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
+import static org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy.AFTER_LOCAL_DATE;
+import static org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy.BEFORE_LOCAL_DATE;
 
 @Getter
 public abstract class BaseSpecification<T> implements Specification<T> {
-
-    private static final String OWNER_FIELD_NAME = "owner";
 
     private final SearchCriteriaFilter searchCriteriaFilter;
 
@@ -49,28 +53,75 @@ public abstract class BaseSpecification<T> implements Specification<T> {
     }
 
     protected Predicate createPredicate(SearchCriteriaFilter criteria, Root<?> root, CriteriaBuilder builder) {
-        if (criteria.getStrategy().equals(SearchStrategy.EQUAL)) {
+        String fieldName = getJoinTableFieldName(criteria.getKey());
+        Path<Object> fieldPath = getFieldPath(root, criteria);
+        String expectedFieldValue = criteria.getValue();
+
+        if (SearchCriteriaStrategy.EQUAL.equals(criteria.getStrategy())) {
             return builder.equal(
-                    root.<String>get(criteria.getKey()).as(String.class),
-                    criteria.getValue());
+                    fieldPath.as(String.class),
+                    expectedFieldValue);
         }
-        if (criteria.getStrategy().equals(SearchStrategy.STARTS_WITH)) {
+        if (SearchCriteriaStrategy.STARTS_WITH.equals(criteria.getStrategy())) {
             return builder.like(
-                    root.get(criteria.getKey()),
-                    criteria.getValue() + "%");
+                    fieldPath.as(String.class),
+                    expectedFieldValue + "%");
         }
-        if (criteria.getStrategy().equals(SearchStrategy.AT_LOCAL_DATE)) {
-            final LocalDate localDate = LocalDate.parse(criteria.getValue());
-            Predicate startingFrom = builder.greaterThanOrEqualTo(root.get(criteria.getKey()),
+        if (SearchCriteriaStrategy.AT_LOCAL_DATE.equals(criteria.getStrategy())) {
+            final LocalDate localDate = getParseLocalDate(expectedFieldValue, fieldName);
+            Predicate startingFrom = builder.greaterThanOrEqualTo(fieldPath.as(LocalDateTime.class),
                     LocalDateTime.of(localDate, LocalTime.MIN));
-            Predicate endingAt = builder.lessThanOrEqualTo(root.get(criteria.getKey()),
+            Predicate endingAt = builder.lessThanOrEqualTo(fieldPath.as(LocalDateTime.class),
                     LocalDateTime.of(localDate, LocalTime.MAX));
+
             return builder.and(startingFrom, endingAt);
+        }
+        if (BEFORE_LOCAL_DATE.equals(criteria.getStrategy())) {
+            final LocalDate localDate = getParseLocalDate(expectedFieldValue, fieldName);
+
+            return builder.lessThanOrEqualTo(fieldPath.as(LocalDateTime.class),
+                    LocalDateTime.of(localDate, LocalTime.MAX));
+        }
+        if (SearchCriteriaStrategy.AFTER_LOCAL_DATE.equals(criteria.getStrategy())) {
+            final LocalDate localDate = getParseLocalDate(expectedFieldValue, fieldName);
+
+            return builder.greaterThanOrEqualTo(fieldPath.as(LocalDateTime.class),
+                    LocalDateTime.of(localDate, LocalTime.MIN));
         }
         return null;
     }
 
-    public static <T> Specification<T> toSpecification(List<? extends BaseSpecification<T>> specifications, SearchCriteriaOperator searchCriteriaOperator) {
+    private Path<Object> getFieldPath(Root<?> root, SearchCriteriaFilter criteria) {
+        if (isJoinQueryFieldName(criteria.getKey())) {
+            Join<?, ?> join = root.join(getJoinTableName(criteria.getKey()));
+            return join.get(getJoinTableFieldName(criteria.getKey()));
+        }
+        return root.get(criteria.getKey());
+    }
+
+    private static LocalDate getParseLocalDate(String fieldValue, String fieldName) {
+        try {
+            return LocalDate.parse(fieldValue);
+        } catch (Exception exception) {
+            throw new ParseLocalDateException(fieldValue, fieldName, exception);
+        }
+    }
+
+    private boolean isJoinQueryFieldName(String fieldName) {
+        return fieldName.contains("_");
+    }
+
+    private String getJoinTableName(String joinQueryFieldName) {
+        String[] split = joinQueryFieldName.split("_");
+        return split[0];
+    }
+
+    private String getJoinTableFieldName(String joinQueryFieldName) {
+        String[] split = joinQueryFieldName.split("_");
+        return split.length == 2 ? split[1] : split[0];
+    }
+
+    public static <T> Specification<T> toSpecification(List<? extends BaseSpecification<T>> specifications) {
         if (specifications.isEmpty()) {
             return null;
         }
@@ -78,50 +129,69 @@ public abstract class BaseSpecification<T> implements Specification<T> {
         Map<String, List<BaseSpecification<T>>> groupedSpecifications = specifications.stream()
                 .collect(groupingBy(spec -> spec.getSearchCriteriaFilter().getKey()));
 
-        Map<String, Specification<T>> fieldSpecsByFieldName = groupedSpecifications.values().stream()
+        Map<FieldOperatorMap, Specification<T>> fieldSpecsByFieldName = groupedSpecifications.values().stream()
                 .map(BaseSpecification::combineFieldSpecifications)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
-        return combineSpecifications(fieldSpecsByFieldName, searchCriteriaOperator);
-
+        return combineSpecifications(fieldSpecsByFieldName);
     }
 
     // Combines all fields into one specification
-    private static <T> Specification<T> combineSpecifications(Map<String, Specification<T>> fieldSpecsByFieldName, SearchCriteriaOperator searchCriteriaOperator) {
-        Specification<T> result;
+    private static <T> Specification<T> combineSpecifications(Map<FieldOperatorMap, Specification<T>> fieldSpecsByFieldName) {
+        List<Specification<T>> andSpecifications = extractSpecificationsWithOperator(fieldSpecsByFieldName, SearchCriteriaOperator.AND);
+        List<Specification<T>> orSpecifications = extractSpecificationsWithOperator(fieldSpecsByFieldName, SearchCriteriaOperator.OR);
 
-        // global filtering specific logic
-        if (fieldSpecsByFieldName.containsKey(OWNER_FIELD_NAME) && SearchCriteriaOperator.OR.equals(searchCriteriaOperator)) {
-            result = fieldSpecsByFieldName.get(OWNER_FIELD_NAME);
-            List<Specification<T>> otherFieldsSpecifications = fieldSpecsByFieldName.entrySet().stream()
-                    .filter(entry -> !OWNER_FIELD_NAME.equals(entry.getKey()))
-                    .map(Map.Entry::getValue).toList();
-
-            if (otherFieldsSpecifications.isEmpty()) {
-                return result;
-            }
-            return Specification.where(result).and(combineWithSpecificationsWith(otherFieldsSpecifications, SearchCriteriaOperator.OR));
-        } else {
-
-            List<Specification<T>> fieldSpecList = fieldSpecsByFieldName.values().stream().toList();
-
-            result = combineWithSpecificationsWith(fieldSpecList, searchCriteriaOperator);
-        }
-        return result;
+        return Specification.where(combineSpecificationsWith(andSpecifications, SearchCriteriaOperator.AND))
+                .and(combineSpecificationsWith(orSpecifications, SearchCriteriaOperator.OR));
     }
+
+    private static <T> List<Specification<T>> extractSpecificationsWithOperator(Map<FieldOperatorMap, Specification<T>> fieldSpecsByFieldName, SearchCriteriaOperator searchCriteriaOperator) {
+        return fieldSpecsByFieldName.entrySet().stream()
+                .filter(entry -> searchCriteriaOperator.equals(entry.getKey().operator))
+                .map(Map.Entry::getValue)
+                .toList();
+    }
+
 
     // Combines specific field specifications
-    private static <T> Map.Entry<String, Specification<T>> combineFieldSpecifications(List<BaseSpecification<T>> specifications) {
-        // TODO: Add here date range handling if list has BEFORE_LOCAL_DATE and AFTER_LOCAL_DATE then combine those with AND
-        String fieldName = specifications.get(0).searchCriteriaFilter.getKey();
-        Specification<T> result = combineWithSpecificationsWith(
-                specifications.stream().map(baseSpec -> (Specification<T>) baseSpec).toList(),
-                SearchCriteriaOperator.OR);
+    private static <T> Map.Entry<FieldOperatorMap, Specification<T>> combineFieldSpecifications(List<BaseSpecification<T>> specifications) {
+        FieldOperatorMap fieldOperatorMap = FieldOperatorMap.builder()
+                .fieldName(specifications.get(0).searchCriteriaFilter.getKey())
+                .operator(specifications.get(0).searchCriteriaFilter.getOperator())
+                .build();
 
-        return Map.entry(fieldName, result);
+        Specification<T> result;
+        if (hasBeforePredicate(specifications) && hasAfterPredicate(specifications) && dateRangesOverlap(specifications)) {
+            result = combineSpecificationsWith(
+                    specifications.stream().map(baseSpec -> (Specification<T>) baseSpec).toList(),
+                    SearchCriteriaOperator.AND);
+        } else {
+            result = combineSpecificationsWith(
+                    specifications.stream().map(baseSpec -> (Specification<T>) baseSpec).toList(),
+                    SearchCriteriaOperator.OR);
+        }
+
+        return Map.entry(fieldOperatorMap, result);
     }
 
-    private static <T> Specification<T> combineWithSpecificationsWith(List<Specification<T>> specifications, SearchCriteriaOperator searchCriteriaOperator) {
+    private static <T> boolean dateRangesOverlap(List<BaseSpecification<T>> specifications) {
+        Optional<BaseSpecification<T>> before = specifications.stream().filter(BaseSpecification::isBeforePredicate).findFirst();
+        Optional<BaseSpecification<T>> after = specifications.stream().filter(BaseSpecification::isAfterPredicate).findFirst();
+
+        if (before.isEmpty() || after.isEmpty()) {
+            return false;
+        }
+
+        LocalDate beforeDate = getParseLocalDate(before.get().searchCriteriaFilter.getValue(), before.get().searchCriteriaFilter.getKey());
+        LocalDate afterDate = getParseLocalDate(after.get().searchCriteriaFilter.getValue(), after.get().searchCriteriaFilter.getKey());
+        return beforeDate.isAfter(afterDate);
+
+    }
+
+    private static <T> Specification<T> combineSpecificationsWith(List<Specification<T>> specifications, SearchCriteriaOperator searchCriteriaOperator) {
+        if (specifications.isEmpty()) {
+            return null;
+        }
         Specification<T> result = specifications.get(0);
         for (int i = 1; i < specifications.size(); i++) {
             if (SearchCriteriaOperator.OR.equals(searchCriteriaOperator)) {
@@ -131,5 +201,21 @@ public abstract class BaseSpecification<T> implements Specification<T> {
             }
         }
         return result;
+    }
+
+    private static <T> boolean hasBeforePredicate(List<BaseSpecification<T>> specifications) {
+        return !specifications.stream().filter(spec -> BEFORE_LOCAL_DATE.equals(spec.getSearchCriteriaFilter().getStrategy())).toList().isEmpty();
+    }
+
+    private static <T> boolean isBeforePredicate(BaseSpecification<T> specification) {
+        return BEFORE_LOCAL_DATE.equals(specification.getSearchCriteriaFilter().getStrategy());
+    }
+
+    private static <T> boolean hasAfterPredicate(List<BaseSpecification<T>> specifications) {
+        return !specifications.stream().filter(spec -> AFTER_LOCAL_DATE.equals(spec.getSearchCriteriaFilter().getStrategy())).toList().isEmpty();
+    }
+
+    private static <T> boolean isAfterPredicate(BaseSpecification<T> specification) {
+        return AFTER_LOCAL_DATE.equals(specification.getSearchCriteriaFilter().getStrategy());
     }
 }
