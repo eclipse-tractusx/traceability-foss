@@ -119,13 +119,13 @@ SYNC_DEV_TEST_RESOURCES=(
               "$ARGO_DEV_TRACE_X_INSTANCE/sync"
               )
 SYNC_E2E_RESOURCES=(
-               "$ARGO_E2E-A_REGISTRY/sync"
-              "$ARGO_E2E-A_EDC_PROVIDER/sync"
-              "$ARGO_E2E-A_TRACE_X_INSTANCE/sync"
+              "$ARGO_E2E_A_REGISTRY/sync"
+              "$ARGO_E2E_A_EDC_PROVIDER/sync"
+              "$ARGO_E2E_A_TRACE_X_INSTANCE/sync"
 
-              "$ARGO_E2E-B_REGISTRY/sync"
-              "$ARGO_E2E-B_EDC_PROVIDER/sync"
-              "$ARGO_E2E-B_TRACE_X_INSTANCE/sync"
+              "$ARGO_E2E_B_REGISTRY/sync"
+              "$ARGO_E2E_B_EDC_PROVIDER/sync"
+              "$ARGO_E2E_B_TRACE_X_INSTANCE/sync"
 )
 SYNC_INT_RESOURCES=(
               "$ARGO_INT-A_REGISTRY/sync"
@@ -146,13 +146,13 @@ TEST_STATE_DEV_TEST_RESOURCES=(
               "$ARGO_DEV_TRACE_X_INSTANCE"
               )
 TEST_STATE_E2E_RESOURCES=(
-              "$ARGO_E2E-A_REGISTRY"
-              "$ARGO_E2E-A_EDC_PROVIDER"
-              "$ARGO_E2E-A_TRACE_X_INSTANCE"
+              "$ARGO_E2E_A_REGISTRY"
+              "$ARGO_E2E_A_EDC_PROVIDER"
+              "$ARGO_E2E_A_TRACE_X_INSTANCE"
 
-              "$ARGO_E2E-B_REGISTRY"
-              "$ARGO_E2E-B_EDC_PROVIDER/sync"
-              "$ARGO_E2E-B_TRACE_X_INSTANCE/sync"
+              "$ARGO_E2E_B_REGISTRY"
+              "$ARGO_E2E_B_EDC_PROVIDER/sync"
+              "$ARGO_E2E_B_TRACE_X_INSTANCE/sync"
 )
 TEST_STATE_INT_RESOURCES=(
               "$ARGO_INT-A_REGISTRY"
