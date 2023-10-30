@@ -59,7 +59,6 @@ import { DataLoadingErrorComponent } from './components/data-loading-error/data-
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
 import { PaginatorIntlService } from './components/pagination/paginator-intl.service';
 import { QualityTypeComponent } from './components/quality-type/quality-type.component';
-import { ScrollWithShadowComponent } from './components/scroll-with-shadow/scroll-with-shadow.component';
 import { SelectComponent } from './components/select/select.component';
 import { ValueToLablePipe } from './components/select/valueToLable.pipe';
 import { SidenavWrapperComponent } from './components/sidenav/sidenav-wrapper.component';
@@ -111,7 +110,6 @@ import { TemplateModule } from './template.module';
         ErrorMessagePipe,
         RequestInvestigationComponent,
         RequestAlertComponent,
-        ScrollWithShadowComponent,
         QualityTypeComponent,
         ValueToLablePipe,
         NotificationOverviewComponent,

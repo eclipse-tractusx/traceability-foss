@@ -18,6 +18,7 @@
  ********************************************************************************/
 
 import { SelectionModel } from '@angular/cdk/collections';
+import { MenuStack } from '@angular/cdk/menu';
 import {
   Component,
   ElementRef,
@@ -218,6 +219,7 @@ export class PartsTableComponent implements OnInit {
         'catenaXSiteId',
         'functionValidFrom',
         'functionValidUntil',
+      'menu'
     ];
 
     private readonly sortableColumnsAsBuilt: Record<string, boolean> = {
@@ -349,6 +351,7 @@ export class PartsTableComponent implements OnInit {
         'manufacturingDate',
         'activeAlerts',
         'activeInvestigations',
+      'menu'
     ];
 
     private readonly sortableColumnsAsBuiltSupplier: Record<string, boolean> = {
@@ -369,6 +372,7 @@ export class PartsTableComponent implements OnInit {
         'manufacturer',
         'manufacturerPartId',
         'semanticModelId',
+      'menu'
     ];
 
     private readonly sortableColumnsAsPlannedSupplier: Record<string, boolean> = {
@@ -595,7 +599,8 @@ export class PartsTableComponent implements OnInit {
         nameAtManufacturer: new FormControl([]),
         manufacturerName: new FormControl([]),
         manufacturerPartId: new FormControl([]),
-        semanticModelId: new FormControl([])
+        semanticModelId: new FormControl([]),
+      menu: new FormControl([])
     };
 
     assetAsPlannedCustomerFilterFormGroup = {
@@ -617,6 +622,7 @@ export class PartsTableComponent implements OnInit {
         manufacturingDate: new FormControl([]),
         activeAlerts: new FormControl([]),
         activeInvestigations: new FormControl([]),
+      menu: new FormControl([])
     };
 
     assetAsBuiltCustomerFilterFormGroup = {
@@ -775,4 +781,5 @@ export class PartsTableComponent implements OnInit {
     }
 
 
+  protected readonly MenuStack = MenuStack;
 }

@@ -26,6 +26,7 @@ SPDX-License-Identifier: Apache-2.0
 ></app-notification-common-modal>
 
 <app-notification
+  [notificationType]="NotificationType.INVESTIGATION"
   [queuedAndRequestedNotifications$]="investigationsQueuedAndRequested$"
   [receivedNotifications$]="investigationsReceived$"
   [translationContext]="TranslationContext.COMMONINVESTIGATION"
