@@ -66,15 +66,15 @@ env:
     ARGO_E2E_B_TRACE_X_INSTANCE: "https://argo.dev.demo.catena-x.net/api/v1/applications/traceability-foss-e2e-b"
     ARGO_E2E_B_RegistryReload: "https://traceability-e2e-b.dev.demo.catena-x.net/api/registry/reload"
   
-    ARGO_INT-A_REGISTRY: "https://argo.int.demo.catena-x.net/api/v1/applications/tx-registry-int-a" 
-    ARGO_INT-A_EDC_PROVIDER: "https://argo.int.demo.catena-x.net/api/v1/applications/tx-edc-provider-int-a"
-    ARGO_INT-A_TRACE_X_INSTANCE: "https://argo.int.demo.catena-x.net/api/v1/applications/traceability-foss-int-a"
-    ARGO_INT-A_RegistryReload: "https://traceability-int-a.int.demo.catena-x.net/api/registry/reload"
+    ARGO_INT_A_REGISTRY: "https://argo.int.demo.catena-x.net/api/v1/applications/tx-registry-int-a" 
+    ARGO_INT_A_EDC_PROVIDER: "https://argo.int.demo.catena-x.net/api/v1/applications/tx-edc-provider-int-a"
+    ARGO_INT_A_TRACE_X_INSTANCE: "https://argo.int.demo.catena-x.net/api/v1/applications/traceability-foss-int-a"
+    ARGO_INT_A_RegistryReload: "https://traceability-int-a.int.demo.catena-x.net/api/registry/reload"
 
-    ARGO_INT-B_REGISTRY: "https://argo.int.demo.catena-x.net/api/v1/applications/tx-registry-int-b"
-    ARGO_INT-B_EDC_PROVIDER=: "https://argo.int.demo.catena-x.net/api/v1/applications/tx-edc-provider-int-b"
-    ARGO_INT-B_TRACE_X_INSTANCE: "https://argo.int.demo.catena-x.net/api/v1/applications/traceability-foss-int-b"
-    ARGO_INT-B_RegistryReload: "https://traceability-int-b.int.demo.catena-x.net/api/registry/reload"
+    ARGO_INT_B_REGISTRY: "https://argo.int.demo.catena-x.net/api/v1/applications/tx-registry-int-b"
+    ARGO_INT_B_EDC_PROVIDER=: "https://argo.int.demo.catena-x.net/api/v1/applications/tx-edc-provider-int-b"
+    ARGO_INT_B_TRACE_X_INSTANCE: "https://argo.int.demo.catena-x.net/api/v1/applications/traceability-foss-int-b"
+    ARGO_INT_B_RegistryReload: "https://traceability-int-b.int.demo.catena-x.net/api/registry/reload"
     
 jobs:                 
   delete_environment:
@@ -307,8 +307,8 @@ jobs:
           curl -X GET "$ARGO_E2E_A_RegistryReload"
           curl -X GET "$ARGO_E2E_B_RegistryReload"
         elif [ "${{ github.event.inputs.environment }}" == "int-a/int-b" ]; then
-          curl -X GET "$ARGO_INT-A_RegistryReload"
-          curl -X GET "$ARGO_INT-B_RegistryReload"
+          curl -X GET "$ARGO_INT_A_RegistryReload"
+          curl -X GET "$ARGO_INT_B_RegistryReload"
         fi
      
        
