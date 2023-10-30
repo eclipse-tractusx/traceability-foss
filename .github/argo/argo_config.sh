@@ -65,7 +65,7 @@ DELETE_E2E_RESOURCES=(
 
               "$ARGO_E2E_B_TRACE_X_INSTANCE/resource?force=false&orphan=false&resourceName=data-tx-backend-postgresql-e2e-b-0&version=v1&kind=PersistentVolumeClaim&namespace=product-traceability-foss"
               "$ARGO_E2E_B_TRACE_X_INSTANCE/resource?group=apps&force=true&orphan=false&resourceName=tx-backend-postgresql-e2e-b&version=v1&kind=StatefulSet&namespace=product-traceability-foss"
-              "$ARGO_E2E_B_TRACE_X_INSTANCE/resource?force=false&orphan=false&resourceName=data-tx-edc-consumer-postgresql-e2e-b-0&version=v1&kind=PersistentVolumeClaim&namespace=product-traceability-foss"
+              "$ARGO_E2E_B_TRACE_X_INSTANCEb/resource?force=false&orphan=false&resourceName=data-tx-edc-consumer-postgresql-e2e-b-0&version=v1&kind=PersistentVolumeClaim&namespace=product-traceability-foss"
               "$ARGO_E2E_B_TRACE_X_INSTANCE/resource?group=apps&force=true&orphan=false&resourceName=tx-edc-consumer-postgresql-e2e-b&version=v1&kind=StatefulSet&namespace=product-traceability-foss"
               "$ARGO_E2E_B_TRACE_X_INSTANCE/resource?group=apps&force=false&orphan=false&resourceName=tx-backend-e2e-b&version=v1&kind=Deployment&namespace=product-traceability-foss"
               "$ARGO_E2E_B_TRACE_X_INSTANCE/resource?group=apps&force=false&orphan=false&resourceName=tx-edc-consumer-e2e-b-controlplane&version=v1&kind=Deployment&namespace=product-traceability-foss"
