@@ -32,7 +32,7 @@ wiremock:
 
 ingress:
   hosts:
-    - host: "tracex-discovery-mock-stable-b.int.demo.catena-x.net"
+    - host: "tracex-discovery-mock-stable-b.dev.demo.catena-x.net"
       paths:
         - path: /
           pathType: ImplementationSpecific
