@@ -76,7 +76,38 @@ env:
     ARGO_INT_B_TRACE_X_INSTANCE: "https://argo.int.demo.catena-x.net/api/v1/applications/traceability-foss-int-b"
     ARGO_INT_B_RegistryReload: "https://traceability-int-b.int.demo.catena-x.net/api/registry/reload"
     
-jobs:                 
+jobs:      
+
+  hard_refresh_environment:
+   runs-on: ubuntu-latest
+   steps:
+  
+      - name: Checkout-Repository
+        uses: actions/checkout@v4
+        
+      - name: mask token
+        run: |
+          ARGO_TOKEN=$(jq -r '.inputs.argo_token' $GITHUB_EVENT_PATH)
+          echo ::add-mask::$ARGO_TOKEN
+          echo ARGO_TOKEN=$ARGO_TOKEN >> $GITHUB_ENV
+          
+      - name: Hard refresh environment
+        run: |
+         source ./.github/argo/argo_config.sh
+        
+         if [ "${{ github.event.inputs.environment }}" == "Dev/Test" ]; then
+            resources=("${DEV_TEST_RESOURCES[@]}")
+         elif [ "${{ github.event.inputs.environment }}" == "E2E-A/E2E-B" ]; then
+            resources=("${E2E_RESOURCES[@]}")
+         elif [ "${{ github.event.inputs.environment }}" == "int-a/int-b" ]; then
+            resources=("${INT_RESOURCES[@]}")
+         fi
+         
+         for resource in "${resources[@]}"; do
+           curl -X DELETE -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" "$resource?refresh=hard&appNamespace=argocd"
+         done
+         sleep 60
+
   delete_environment:
     runs-on: ubuntu-latest
     steps:
@@ -217,11 +248,11 @@ jobs:
            source ./.github/argo/argo_config.sh
 
            if [ "${{ github.event.inputs.environment }}" == "Dev/Test" ]; then
-              resources=("${TEST_STATE_DEV_TEST_RESOURCES[@]}")
+              resources=("${DEV_TEST_RESOURCES[@]}")
             elif [ "${{ github.event.inputs.environment }}" == "E2E-A/E2E-B" ]; then
-              resources=("${TEST_STATE_E2E_RESOURCES[@]}")
+              resources=("${E2E_RESOURCES[@]}")
             elif [ "${{ github.event.inputs.environment }}" == "int-a/int-b" ]; then
-              resources=("${TEST_STATE_INT_RESOURCES[@]}")
+              resources=("${INT_RESOURCES[@]}")
             fi 
         
               for resource in "${resources[@]}"; do
