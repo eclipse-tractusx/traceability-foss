@@ -49,14 +49,14 @@ jobs:
         if: always()
         uses: actions/upload-artifact@master
         with:
-          name: Depcheck report
+          name: Depcheck report tx-backend
           path: tx-backend/target
 
       - name: Upload Test results Tx-Models
         if: always()
         uses: actions/upload-artifact@master
         with:
-          name: Depcheck report
+          name: Depcheck report tx-models
           path: tx-models/target
 
       - name: add PR comment
