@@ -65,6 +65,5 @@ jobs:
         with:
           message: |
             ## ‼️ Dependency Check findings ‼️
-            One or more high findings have been found during dependency check. Please check the depenency report.
-
-
+            One or more high/critical findings have been found during dependency check. Please check the depenency report:
+            https://github.com/catenax-ng/tx-traceability-foss/actions/runs/${{ toJson(github.run_id) }}
