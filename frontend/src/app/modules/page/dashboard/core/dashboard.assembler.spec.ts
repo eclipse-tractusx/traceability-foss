@@ -27,7 +27,7 @@ describe('DashboardAssembler', () => {
       expect(
         DashboardAssembler.assembleDashboard({
           otherParts: 100,
-          myItems: 200,
+          myParts: 200,
         }),
       ).toEqual({
         otherParts: 100,
