@@ -29,7 +29,6 @@ import org.eclipse.tractusx.traceability.common.domain.ParseLocalDateException;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaFilter;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
@@ -100,12 +99,11 @@ public abstract class BaseSpecification<T> implements Specification<T> {
         return root.get(criteria.getKey());
     }
 
-    @NotNull
     private static LocalDate getParseLocalDate(String fieldValue, String fieldName) {
         try {
             return LocalDate.parse(fieldValue);
         } catch (Exception exception) {
-            throw new ParseLocalDateException(fieldValue, fieldName);
+            throw new ParseLocalDateException(fieldValue, fieldName, exception);
         }
     }
 
