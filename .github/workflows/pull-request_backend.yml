@@ -138,7 +138,9 @@ jobs:
           name: Depcheck report
           path: tx-models/target
 
-      - uses: mshick/add-pr-comment@v2
+      - name: add PR comment
+        uses: mshick/add-pr-comment@v2
+        if: always()
         with:
           message: |
             **Hello**
