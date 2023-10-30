@@ -20,7 +20,7 @@
 package org.eclipse.tractusx.traceability.common.domain;
 
 public class ParseLocalDateException extends RuntimeException {
-    public ParseLocalDateException(String localDate, String fieldName) {
-        super("Could not parse '%s' for field '%s'. Accepted LocalDate format is following 'YYYY-MM-DD'".formatted(localDate, fieldName));
+    public ParseLocalDateException(String localDate, String fieldName, Throwable cause) {
+        super("Could not parse '%s' for field '%s'. Accepted LocalDate format is following 'YYYY-MM-DD'".formatted(localDate, fieldName), cause);
     }
 }
