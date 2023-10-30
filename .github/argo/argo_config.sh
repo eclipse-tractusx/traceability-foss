@@ -39,12 +39,12 @@ DELETE_DEV_TEST_RESOURCES=(
               "$ARGO_DEV_TRACE_X_INSTANCE/resource?group=apps&force=false&orphan=false&resourceName=tx-edc-consumer-dev-controlplane&version=v1&kind=Deployment&namespace=product-traceability-foss"
               "$ARGO_DEV_TRACE_X_INSTANCE/resource?group=apps&force=true&orphan=false&resourceName=tx-edc-consumer-dev-dataplane&version=v1&kind=Deployment&namespace=product-traceability-foss"
               "$ARGO_DEV_EDC_PROVIDER/resource?force=false&orphan=false&resourceName=data-tracex-edc-provider-edc-postgresql-0&version=v1&kind=PersistentVolumeClaim&namespace=product-traceability-foss"
-              "$ARGO_DEV_EDC_PROVIDER/resource?group=apps&force=true&orphan=false&resourceName=tracex-edc-provider-edc-postgresql&version=v1&kind=StatefulSet&namespace=product-traceability-foss"
-              "$ARGO_DEV_EDC_PROVIDER/resource?group=apps&force=false&orphan=false&resourceName=tracex-edc-provider-tractusx-connector-controlplane&version=v1&kind=Deployment&namespace=product-traceability-foss"
-              "$ARGO_DEV_EDC_PROVIDER/resource?group=apps&force=false&orphan=false&resourceName=tracex-edc-provider-tractusx-connector-dataplane&version=v1&kind=Deployment&namespace=product-traceability-foss"
-              "$ARGO_DEV_REGISTRY/resource?force=false&orphan=false&resourceName=data-tracex-dt-registry-dev-postgresql-0&version=v1&kind=PersistentVolumeClaim&namespace=product-traceability-foss"
-              "$ARGO_DEV_REGISTRY/resource?group=apps&force=true&orphan=false&resourceName=tracex-dt-registry-dev-postgresql&version=v1&kind=StatefulSet&namespace=product-traceability-foss"
-              "$ARGO_DEV_REGISTRY/resource?group=apps&force=false&orphan=false&resourceName=cx-tracex-dt-registry-dev-registry&version=v1&kind=Deployment&namespace=product-traceability-foss"
+              "$ARGO_DEV_EDC_PROVIDER/resource?group=apps&force=true&orphan=false&resourceName=tracex-edc-provider-e2e-b-edc-postgresql&version=v1&kind=StatefulSet&namespace=product-traceability-foss"
+              "$ARGO_DEV_EDC_PROVIDER/resource?group=apps&force=false&orphan=false&resourceName=tracex-edc-provider-e2e-b-tractusx-connector-controlplane&version=v1&kind=Deployment&namespace=product-traceability-foss"
+              "$ARGO_DEV_EDC_PROVIDER/resource?group=apps&force=false&orphan=false&resourceName=tracex-edc-provider-e2e-b-tractusx-connector-dataplane&version=v1&kind=Deployment&namespace=product-traceability-foss"
+              "$ARGO_DEV_REGISTRY/resource?force=false&orphan=false&resourceName=data-tracex-dt-registry-e2e-b-postgresql-0&version=v1&kind=PersistentVolumeClaim&namespace=product-traceability-foss"
+              "$ARGO_DEV_REGISTRY/resource?group=apps&force=true&orphan=false&resourceName=tracex-dt-registry-e2e-b-postgresql&version=v1&kind=StatefulSet&namespace=product-traceability-foss"
+              "$ARGO_DEV_REGISTRY/resource?group=apps&force=false&orphan=false&resourceName=cx-tracex-dt-registry-e2e-b-registry&version=v1&kind=Deployment&namespace=product-traceability-foss"
               )
 
 DELETE_E2E_RESOURCES=(
