@@ -18,6 +18,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - added Argo Github-Action
 - handling for invalid LocalDate string provided in filterCriteria for date related filtering
 - support for filtering join tables for Specification searchCriteria
+- added PR comment in case of HIGH/CRITICAL dependency check findings
 
 ### Changed
 - Updated user manual to reflect the table column settings feature
@@ -34,6 +35,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - changed qualityNotification filtering changed from side to channel as response field name
 - changed assetAsBuilt filtering manufacturerId to businessPartner
 - IRS-Client-Lib from 1.2.1-SNAPSHOT to 1.4.0
+- Decoupled dependency check in a separate GitHub action
 
 ### Removed
 - Removed &filterOperator=AND from filtering requests
