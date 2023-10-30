@@ -288,6 +288,10 @@ SPDX-License-Identifier: Apache-2.0
                         <groupId>org.owasp</groupId>
                         <artifactId>dependency-check-maven</artifactId>
                         <version>${owasp-plugin.version}</version>
+                        <configuration>
+                            <suppressionFile>dependency_check/suppressions.xml</suppressionFile>
+                            <failBuildOnCVSS>7.0</failBuildOnCVSS>
+                        </configuration>
                         <executions>
                             <execution>
                                 <phase>site</phase>

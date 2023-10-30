@@ -15,6 +15,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - support for date ranges BEFORE_LOCAL_DATE and AFTER_LOCAL_DATE providing both will cause filter result to return only relevant date ranges
 - added supported searchCriteriaFieldsMappers for investigations, alerts, assetsAsBuilt and assetAsPlanned related endpoints
 - added cache busting to build output of FE application
+- added PR comment in case of HIGH/CRITICAL dependency check findings
 
 ### Changed
 - Updated user manual to reflect the table column settings feature
@@ -31,6 +32,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - changed qualityNotification filtering changed from side to channel as response field name
 - changed assetAsBuilt filtering manufacturerId to businessPartner
 - IRS-Client-Lib from 1.2.1-SNAPSHOT to 1.4.0
+- Decoupled dependency check in a separate GitHub action
 
 ### Removed
 - Removed &filterOperator=AND from filtering requests
