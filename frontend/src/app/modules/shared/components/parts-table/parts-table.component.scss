@@ -103,16 +103,13 @@ table {
 }
 
 .table--selected__container {
-  position: sticky;
-  top: 0;
+
+
   z-index: 1;
   display: flex;
   align-items: center;
-  padding: 0 10px;
-  // Mat row defines fixed height of 48px.
-  min-height: 48px;
+  min-height: 35px;
 
-  @apply bg-primaryLight
 }
 
 .table--selected--label {

@@ -46,11 +46,7 @@ SPDX-License-Identifier: Apache-2.0
             <as-split-area data-testid="as-split-area-1-component--test-id" [size]="bomLifecycleSize.asBuiltSize"
                            class="split-area">
 
-              <div class="table-header-wrapper">
-                <div class="table-header-container">
-                  <div class="large-text table--header--text">{{"page.asBuiltParts" | i18n}}</div>
-                </div>
-              </div>
+
 
                 <div class="parts-table-wrapper">
                     <ng-container
@@ -71,6 +67,7 @@ SPDX-License-Identifier: Apache-2.0
                                          (clickSelectAction)="isAlertOpen$.next(true)"
                                          (filterActivated)="filterActivated(true, $event )"
                                          [multiSortList]="tableAsBuiltSortList"
+                                         [tableHeader]='"page.asBuiltParts" | i18n'
                                          [tableType]="PartTableType.AS_BUILT_OWN"
                         ></app-parts-table>
                     </ng-template>
@@ -78,11 +75,6 @@ SPDX-License-Identifier: Apache-2.0
             </as-split-area>
             <as-split-area data-testid="as-split-area-2-component--test-id" [size]="bomLifecycleSize.asPlannedSize"
                            class="split-area">
-                <div class="table-header-wrapper">
-                    <div class="table-header-container">
-                        <div class="large-text table--header--text">{{"page.asPlannedParts" | i18n}}</div>
-                    </div>
-                </div>
                 <div class="parts-table-wrapper">
                     <ng-container
                             *viewContainer="partsAsPlanned$ | async; main: myTmp; error: errorTmp; loading: loaderTmp"></ng-container>
@@ -101,6 +93,7 @@ SPDX-License-Identifier: Apache-2.0
                                          (clickSelectAction)="isAlertOpen$.next(true)"
                                          (filterActivated)="filterActivated(false, $event)"
                                          [multiSortList]="tableAsPlannedSortList"
+                                         [tableHeader]='"page.asPlannedParts" | i18n'
                                          [tableType]="PartTableType.AS_PLANNED_OWN"
                         ></app-parts-table>
 

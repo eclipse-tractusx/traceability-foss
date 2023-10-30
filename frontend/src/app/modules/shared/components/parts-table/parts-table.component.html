@@ -17,22 +17,29 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<div *appHasRole="tableConfig.columnRoles?.['select'] ?? 'user'" class="table&#45;&#45;selected__container">
-    <p class="regular-text table&#45;&#45;selected&#45;&#45;label">{{ selectedPartsInfoLabel | i18n : {count: selection?.selected?.length || 0} }}</p>
-    <app-button
-            *ngIf="selection?.selected?.length"
-            (click)="clickSelectAction.emit()"
-            [variant]="'raised'"
-            [color]="'accent'"
-    >
+
+
+<div class="table-header-wrapper">
+  <div class="table-header-container">
+    <div class="large-text table--header--text">{{tableHeader}}      <mat-icon (click)="openDialog()" class="table&#45;&#45;settings&#45;&#45;button ml-2">
+      settings
+    </mat-icon></div>
+    <div *appHasRole="tableConfig.columnRoles?.['select'] ?? 'user'" class="table&#45;&#45;selected__container">
+      <p class="regular-text table&#45;&#45;selected&#45;&#45;label">{{ selectedPartsInfoLabel | i18n : {count: selection?.selected?.length || 0} }}</p>
+      <app-button
+        *ngIf="selection?.selected?.length"
+        (click)="clickSelectAction.emit()"
+        [variant]="'raised'"
+        [color]="'accent'"
+      >
         <div class="flex justify-between items-center text-dark p-0.5">
-            <mat-icon class="mr-2">announcement</mat-icon>
-            {{ selectedPartsActionLabel | i18n }}
+          <mat-icon class="mr-2">announcement</mat-icon>
+          {{ selectedPartsActionLabel | i18n }}
         </div>
-    </app-button>
-    <mat-icon (click)="openDialog()" class="table&#45;&#45;settings&#45;&#45;button ml-2">
-        settings
-    </mat-icon>
+      </app-button>
+
+    </div>
+  </div>
 </div>
 
 <div [class.mat-elevation-z8]="!noShadow" class="table-wrapper">

@@ -55,11 +55,6 @@ SPDX-License-Identifier: Apache-2.0
           <ng-template mat-tab-label>
             <span [id]="supplierTabLabelId">{{ 'pageOtherParts.tab.supplier' | i18n }} </span>
           </ng-template>
-          <div class="table-header-wrapper">
-            <div class="table-header-container">
-              <div class="large-text table--header--text">{{"page.asBuiltParts" | i18n}}</div>
-            </div>
-          </div>
           <app-supplier-parts
             [bomLifecycle]="MainAspectType.AS_BUILT"
           ></app-supplier-parts>
@@ -69,11 +64,6 @@ SPDX-License-Identifier: Apache-2.0
           <ng-template mat-tab-label>
             <span [id]="customerTabLabelId">{{ 'pageOtherParts.tab.customer' | i18n }} </span>
           </ng-template>
-          <div class="table-header-wrapper">
-            <div class="table-header-container">
-              <div class="large-text table--header--text">{{"page.asBuiltParts" | i18n}}</div>
-            </div>
-          </div>
           <app-customer-parts
             [bomLifecycle]="MainAspectType.AS_BUILT"
           ></app-customer-parts>
@@ -92,11 +82,7 @@ SPDX-License-Identifier: Apache-2.0
           <ng-template mat-tab-label>
             <span [id]="supplierTabLabelId">{{ 'pageOtherParts.tab.supplier' | i18n }} </span>
           </ng-template>
-          <div class="table-header-wrapper">
-            <div class="table-header-container">
-              <div class="large-text table--header--text">{{"page.asPlannedParts" | i18n}}</div>
-            </div>
-          </div>
+
           <app-supplier-parts
             [bomLifecycle]="MainAspectType.AS_PLANNED"
           ></app-supplier-parts>
@@ -106,11 +92,6 @@ SPDX-License-Identifier: Apache-2.0
           <ng-template mat-tab-label>
             <span [id]="customerTabLabelId">{{ 'pageOtherParts.tab.customer' | i18n }} </span>
           </ng-template>
-          <div class="table-header-wrapper">
-            <div class="table-header-container">
-              <div class="large-text table--header--text">{{"page.asPlannedParts" | i18n}}</div>
-            </div>
-          </div>
           <app-customer-parts
             [bomLifecycle]="MainAspectType.AS_PLANNED"
           ></app-customer-parts>

@@ -42,6 +42,7 @@ SPDX-License-Identifier: Apache-2.0
                (configChanged)="onAsBuiltTableConfigChange($event)"
                (multiSelect)="currentSelectedItems$.next($event)"
                (clickSelectAction)="isInvestigationOpen$.next(true)"
+               [tableHeader]='"page.asBuiltParts" | i18n'
                [multiSortList]="tableSupplierAsBuiltSortList"
                (filterActivated)="filterActivated(true, $event )"
                [tableType]="PartTableType.AS_BUILT_SUPPLIER"
@@ -69,6 +70,7 @@ SPDX-License-Identifier: Apache-2.0
                [noShadow]="true"
                [labelId]="customContext.labelId"
                (selected)="onSelectItem($event)"
+               [tableHeader]='"page.asPlannedParts" | i18n'
                (configChanged)="onAsPlannedTableConfigChange($event)"
                (clickSelectAction)="isInvestigationOpen$.next(true)"
                [multiSortList]="tableSupplierAsPlannedSortList"
