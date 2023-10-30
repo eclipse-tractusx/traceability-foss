@@ -143,16 +143,24 @@
 .mdc-text-field__input::-webkit-calendar-picker-indicator {
   display: flex !important;
 }
-
-as-split-area{
-  box-shadow: 0 2px 2px -3px rgba(0, 0, 0, 0.2), 0px 4px 6px -1px rgba(0, 0, 0, 0.14), 0px 1px 8px -2px rgba(0, 0, 0, 0.12);
-  border-radius:20px;
+/* Make slider of split area always visible and align with containers */
+.as-split-gutter {
+  height: auto !important;
 }
 
-app-parts-table{
+.split-area::before {
+  box-shadow: 3px 3px 5px #888 !important;
+}
+
+as-split-area {
+  box-shadow: 0 2px 2px -3px rgba(0, 0, 0, 0.2), 0px 4px 6px -1px rgba(0, 0, 0, 0.14), 0px 1px 8px -2px rgba(0, 0, 0, 0.12);
+  border-radius: 20px;
+}
+
+app-parts-table {
   /* Avoid sticky head to be over sidenav component*/
-  th{
-    z-index: 1!important;
+  th {
+    z-index: 1 !important;
   }
 }
 
@@ -160,31 +168,33 @@ app-parts-table{
 app-parts, app-other-parts, app-notifications-tab {
 
 
-
   .app-bom-lifecycle-activator-container {
     grid-column: 1 / span 2; /* This will make it span both columns */
     width: 100%;
   }
+
   .table-header-wrapper {
-    mat-icon{
-      float:right;
+    mat-icon {
+      float: right;
     }
+
     justify-content: center;
     border: 1px solid rgb(220, 220, 220);
     border-radius: 24px 24px 0 0;
     background-color: rgba(0, 0, 0, 0.02);
     box-shadow: 0 3px 5px #888;
-   // box-shadow: 0 2px 2px -3px rgba(0, 0, 0, 0.2), 0px 4px 6px -1px rgba(0, 0, 0, 0.14), 0px 1px 8px -2px rgba(0, 0, 0, 0.12);
+    // box-shadow: 0 2px 2px -3px rgba(0, 0, 0, 0.2), 0px 4px 6px -1px rgba(0, 0, 0, 0.14), 0px 1px 8px -2px rgba(0, 0, 0, 0.12);
 
     .table-header-container {
       justify-content: center;
       display: flex;
       flex-direction: column;
-      align-content:center;
+      align-content: center;
       min-height: 100px;
       padding: 8px 32px 8px 32px;
     }
   }
+
   .table-wrapper {
     max-height: 52vh;
     overflow: auto;
@@ -192,12 +202,12 @@ app-parts, app-other-parts, app-notifications-tab {
 
   .mat-mdc-paginator {
     border-radius: 0 0 24px 24px;
-   // box-shadow: 0 2px 2px -3px rgba(0, 0, 0, 0.2), 0px 4px 6px -1px rgba(0, 0, 0, 0.14), 0px 1px 8px -2px rgba(0, 0, 0, 0.12);
+    // box-shadow: 0 2px 2px -3px rgba(0, 0, 0, 0.2), 0px 4px 6px -1px rgba(0, 0, 0, 0.14), 0px 1px 8px -2px rgba(0, 0, 0, 0.12);
   }
 
   .mat-mdc-row:hover {
     background-color: rgba(0, 0, 0, 0.04) !important;
-    border:none!important;
+    border: none !important;
   }
 
   .parts-search-input {
