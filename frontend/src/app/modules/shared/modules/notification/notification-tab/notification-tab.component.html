@@ -23,6 +23,11 @@ SPDX-License-Identifier: Apache-2.0
   *viewContainer="notificationsView$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"
 ></ng-container>
 <ng-template #mainTmp let-notifications="view">
+  <div class="table-header-wrapper">
+    <div class="table-header-container">
+      <div class="large-text table--header--text">{{notificationType === NotificationType.INVESTIGATION ? ('pageTitle.investigations' | i18n) : ('pageTitle.alerts' | i18n)}}</div>
+    </div>
+  </div>
   <app-table
     [paginationData]="notifications.data"
     [tableConfig]="tableConfig"

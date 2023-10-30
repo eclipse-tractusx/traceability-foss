@@ -144,8 +144,13 @@
   display: flex !important;
 }
 
+as-split-area{
+  box-shadow: 0 2px 2px -3px rgba(0, 0, 0, 0.2), 0px 4px 6px -1px rgba(0, 0, 0, 0.14), 0px 1px 8px -2px rgba(0, 0, 0, 0.12);
+  border-radius:20px;
+}
 
-app-parts, app-other-parts {
+app-parts, app-other-parts, app-notifications-tab {
+
   .app-bom-lifecycle-activator-container {
     grid-column: 1 / span 2; /* This will make it span both columns */
     width: 100%;
@@ -154,7 +159,8 @@ app-parts, app-other-parts {
     border: 1px solid rgb(220, 220, 220);
     border-radius: 24px 24px 0 0;
     background-color: rgb(249, 249, 249);
-    box-shadow: 0 2px 2px -3px rgba(0, 0, 0, 0.2), 0px 4px 6px -1px rgba(0, 0, 0, 0.14), 0px 1px 8px -2px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 3px 5px #888;
+   // box-shadow: 0 2px 2px -3px rgba(0, 0, 0, 0.2), 0px 4px 6px -1px rgba(0, 0, 0, 0.14), 0px 1px 8px -2px rgba(0, 0, 0, 0.12);
 
     .table-header-container {
       display: flex;
@@ -171,11 +177,12 @@ app-parts, app-other-parts {
 
   .mat-mdc-paginator {
     border-radius: 0 0 24px 24px;
-    box-shadow: 0 2px 2px -3px rgba(0, 0, 0, 0.2), 0px 4px 6px -1px rgba(0, 0, 0, 0.14), 0px 1px 8px -2px rgba(0, 0, 0, 0.12);
+   // box-shadow: 0 2px 2px -3px rgba(0, 0, 0, 0.2), 0px 4px 6px -1px rgba(0, 0, 0, 0.14), 0px 1px 8px -2px rgba(0, 0, 0, 0.12);
   }
 
   .mat-mdc-row:hover {
     background-color: rgba(0, 0, 0, 0.04) !important;
+    border:none!important;
   }
 
   .parts-search-input {
