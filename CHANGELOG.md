@@ -16,6 +16,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - added supported searchCriteriaFieldsMappers for investigations, alerts, assetsAsBuilt and assetAsPlanned related endpoints
 - added cache busting to build output of FE application
 - added Argo Github-Action
+- handling for invalid LocalDate string provided in filterCriteria for date related filtering
+- support for filtering join tables for Specification searchCriteria
 
 ### Changed
 - Updated user manual to reflect the table column settings feature

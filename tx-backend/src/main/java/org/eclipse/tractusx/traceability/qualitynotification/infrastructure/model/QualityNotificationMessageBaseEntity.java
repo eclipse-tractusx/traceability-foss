@@ -18,6 +18,8 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PreUpdate;
@@ -44,12 +46,14 @@ public class QualityNotificationMessageBaseEntity {
     private String contractAgreementId;
     private String notificationReferenceId;
     private Instant targetDate;
+    @Enumerated(EnumType.STRING)
     private QualityNotificationSeverity severity;
     private String edcNotificationId;
     private LocalDateTime created;
     private LocalDateTime updated;
     private String messageId;
     private Boolean isInitial;
+    @Enumerated(EnumType.STRING)
     private NotificationStatusBaseEntity status;
 
     @PreUpdate
