@@ -13,7 +13,7 @@ source:
           nameOverride: "tx-edc-provider-stable-a"
           fullnameOverride: "tx-edc-provider-stable-a"
           participant:
-            id: CHANGE_ME
+            id: BPNL00000003CML1
           controlplane:
             ingresses:
               - enabled: true
