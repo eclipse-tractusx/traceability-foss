@@ -28,7 +28,7 @@ import java.util.Map;
 public class QualityNotificationFieldMapper extends BaseRequestFieldMapper {
 
     private static final Map<String, String> SUPPORTED_NOTIFICATION_FILTER_FIELDS = Map.ofEntries(
-            Map.entry("id","id"),
+            Map.entry("id", "id"),
             Map.entry("bpn", "bpn"),
             Map.entry("status", "status"),
             Map.entry("description", "description"),
@@ -37,22 +37,16 @@ public class QualityNotificationFieldMapper extends BaseRequestFieldMapper {
             Map.entry("errorMessage", "errorMessage"),
             Map.entry("close", "closeReason"),
             Map.entry("accept", "acceptReason"),
-            Map.entry("decline", "declineReason")
+            Map.entry("decline", "declineReason"),
+            Map.entry("severity", "notifications_severity"),
+            Map.entry("createdBy", "notifications_createdBy"),
+            Map.entry("createdByName", "notifications_createdByName"),
+            Map.entry("sendTo", "notifications_sentTo"),
+            Map.entry("sendToName", "notifications_sentToName"),
+            Map.entry("targetDate", "notifications_targetDate")
 
-            /*
-              Currently unsupported response field filters due to complicated structure.
-              need to prepare special join queries to be able to add filter support for these notification fields
-
-
-            Map.entry("createdBy", "created_by"), // part of QualityNotificationMessage
-            Map.entry("createdByName", "created_by_name"), // part of QualityNotificationMessage
-            Map.entry("assetIds", "assets"), // no existing search criteria to filter by ManyToMany AssetAsBuiltEntity joined table
-            Map.entry("sendTo", "send_to"), // part of QualityNotificationMessage
-            Map.entry("sendToName", "send_to_name"), // part of QualityNotificationMessage
-            Map.entry("severity", "severity"), // part of QualityNotificationMessage
-            Map.entry("targetDate", "target_date") // part of QualityNotificationMessage
-            */
     );
+
     @Override
     protected Map<String, String> getSupportedFields() {
         return SUPPORTED_NOTIFICATION_FILTER_FIELDS;
