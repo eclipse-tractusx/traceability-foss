@@ -217,7 +217,7 @@ source:
               postgresql: false
               vault: false
             participant:
-              id: BPNL00000003CML1
+              id: BPNL00000003CNKC
             controlplane:
               ingresses:
                 - enabled: true
