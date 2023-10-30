@@ -15,6 +15,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - support for date ranges BEFORE_LOCAL_DATE and AFTER_LOCAL_DATE providing both will cause filter result to return only relevant date ranges
 - added supported searchCriteriaFieldsMappers for investigations, alerts, assetsAsBuilt and assetAsPlanned related endpoints
 - added cache busting to build output of FE application
+- added Argo Github-Action
 - handling for invalid LocalDate string provided in filterCriteria for date related filtering
 - support for filtering join tables for Specification searchCriteria
 
