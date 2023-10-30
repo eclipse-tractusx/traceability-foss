@@ -104,7 +104,7 @@ jobs:
          fi
          
          for resource in "${resources[@]}"; do
-           curl -X DELETE -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" "$resource?refresh=hard&appNamespace=argocd"
+           curl -X GET -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" "$resource?refresh=hard&appNamespace=argocd"
          done
          sleep 60
 
