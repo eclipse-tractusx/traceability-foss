@@ -109,6 +109,7 @@ jobs:
          sleep 60
 
   delete_environment:
+    needs: hard_refresh_environment
     runs-on: ubuntu-latest
     steps:
   
