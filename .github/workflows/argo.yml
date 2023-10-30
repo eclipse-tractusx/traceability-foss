@@ -72,7 +72,7 @@ env:
     ARGO_INT_A_RegistryReload: "https://traceability-int-a.int.demo.catena-x.net/api/registry/reload"
 
     ARGO_INT_B_REGISTRY: "https://argo.int.demo.catena-x.net/api/v1/applications/tx-registry-int-b"
-    ARGO_INT_B_EDC_PROVIDER=: "https://argo.int.demo.catena-x.net/api/v1/applications/tx-edc-provider-int-b"
+    ARGO_INT_B_EDC_PROVIDER: "https://argo.int.demo.catena-x.net/api/v1/applications/tx-edc-provider-int-b"
     ARGO_INT_B_TRACE_X_INSTANCE: "https://argo.int.demo.catena-x.net/api/v1/applications/traceability-foss-int-b"
     ARGO_INT_B_RegistryReload: "https://traceability-int-b.int.demo.catena-x.net/api/registry/reload"
     
