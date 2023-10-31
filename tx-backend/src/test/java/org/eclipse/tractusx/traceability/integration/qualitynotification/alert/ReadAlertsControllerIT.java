@@ -24,6 +24,7 @@ import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecificatio
 import org.eclipse.tractusx.traceability.integration.common.support.AlertNotificationsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.BpnSupport;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertNotificationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
@@ -522,7 +523,115 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .body("pageSize", Matchers.is(10))
                 .body("content", Matchers.hasSize(5))
                 .body("totalItems", Matchers.is(5))
-                .body("content.status", Matchers.containsInRelativeOrder("ACKNOWLEDGED", "CLOSED", "CREATED", "CREATED", "SENT"));
+                .body("content.status", Matchers.containsInRelativeOrder("CREATED", "CREATED", "SENT", "ACKNOWLEDGED", "CLOSED"));
+    }
+
+    @Test
+    void givenSortBySeverityProvided_whenGetAlerts_thenReturnAlertsProperlySorted() throws JoseException {
+        // given
+        String sortString = "severity,asc";
+        Instant now = Instant.now();
+        String testBpn = bpnSupport.testBpn();
+
+        AlertEntity firstAlert = AlertEntity.builder()
+                                            .assets(Collections.emptyList())
+                                            .bpn(testBpn)
+                                            .status(NotificationStatusBaseEntity.SENT)
+                                            .side(NotificationSideBaseEntity.SENDER)
+                                            .description("1")
+                                            .createdDate(now.minusSeconds(10L))
+                                            .build();
+        AlertEntity secondAlert = AlertEntity.builder()
+                                             .assets(Collections.emptyList())
+                                             .bpn(testBpn)
+                                             .status(NotificationStatusBaseEntity.CREATED)
+                                             .description("2")
+                                             .side(NotificationSideBaseEntity.SENDER)
+                                             .createdDate(now.plusSeconds(21L))
+                                             .build();
+        AlertEntity thirdAlert = AlertEntity.builder()
+                                            .assets(Collections.emptyList())
+                                            .bpn(testBpn)
+                                            .status(NotificationStatusBaseEntity.CLOSED)
+                                            .description("3")
+                                            .side(NotificationSideBaseEntity.SENDER)
+                                            .createdDate(now)
+                                            .build();
+        AlertEntity fourthAlert = AlertEntity.builder()
+                                             .assets(Collections.emptyList())
+                                             .bpn(testBpn)
+                                             .status(NotificationStatusBaseEntity.CREATED)
+                                             .description("4")
+                                             .side(NotificationSideBaseEntity.SENDER)
+                                             .createdDate(now.plusSeconds(20L))
+                                             .build();
+        AlertEntity fifthAlert = AlertEntity.builder()
+                                            .assets(Collections.emptyList())
+                                            .bpn(testBpn)
+                                            .status(NotificationStatusBaseEntity.ACKNOWLEDGED)
+                                            .description("5")
+                                            .side(NotificationSideBaseEntity.SENDER)
+                                            .createdDate(now.plusSeconds(40L))
+                                            .build();
+
+
+        alertNotificationsSupport.storedAlertNotifications(
+                AlertNotificationEntity
+                        .builder()
+                        .id("1")
+                        .alert(firstAlert)
+                        .severity(QualityNotificationSeverity.CRITICAL)
+                        .status(NotificationStatusBaseEntity.CREATED)
+                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
+                        .build(),
+                AlertNotificationEntity
+                        .builder()
+                        .severity(QualityNotificationSeverity.MAJOR)
+                        .status(NotificationStatusBaseEntity.CREATED)
+                        .id("2")
+                        .alert(secondAlert)
+                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
+                        .build(),
+                AlertNotificationEntity
+                        .builder()
+                        .severity(QualityNotificationSeverity.LIFE_THREATENING)
+                        .status(NotificationStatusBaseEntity.CREATED)
+                        .id("3")
+                        .alert(thirdAlert)
+                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
+                        .build(),
+                AlertNotificationEntity
+                        .builder()
+                        .severity(QualityNotificationSeverity.MINOR)
+                        .status(NotificationStatusBaseEntity.CREATED)
+                        .id("4")
+                        .alert(fourthAlert)
+                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
+                        .build(),
+                AlertNotificationEntity
+                        .builder()
+                        .severity(QualityNotificationSeverity.CRITICAL)
+                        .status(NotificationStatusBaseEntity.CREATED)
+                        .id("5")
+                        .alert(fifthAlert)
+                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
+                        .build()
+        );
+
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .param("page", "0")
+                .param("size", "10")
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/alerts/created?page=0&size=10&sort=$sortString".replace("$sortString", sortString))
+                .then()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(10))
+                .body("content", Matchers.hasSize(5))
+                .body("totalItems", Matchers.is(5))
+                .body("content.severity", Matchers.containsInRelativeOrder("MINOR", "MAJOR", "CRITICAL", "CRITICAL", "LIFE-THREATENING"));
     }
 
     @Test

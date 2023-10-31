@@ -24,6 +24,7 @@ import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecificatio
 import org.eclipse.tractusx.traceability.integration.common.support.BpnSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationNotificationsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationsSupport;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationNotificationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
@@ -525,7 +526,115 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body("pageSize", Matchers.is(10))
                 .body("content", Matchers.hasSize(5))
                 .body("totalItems", Matchers.is(5))
-                .body("content.status", Matchers.containsInRelativeOrder("ACKNOWLEDGED", "CLOSED", "CREATED", "CREATED", "SENT"));
+                .body("content.status", Matchers.containsInRelativeOrder("CREATED", "CREATED", "SENT", "ACKNOWLEDGED", "CLOSED"));
+    }
+
+    @Test
+    void givenSortBySeverityProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
+        // given
+        String sortString = "severity,asc";
+        Instant now = Instant.now();
+        String testBpn = bpnSupport.testBpn();
+
+        InvestigationEntity firstInvestigation = InvestigationEntity.builder()
+                                                                    .assets(Collections.emptyList())
+                                                                    .bpn(testBpn)
+                                                                    .status(NotificationStatusBaseEntity.SENT)
+                                                                    .side(NotificationSideBaseEntity.SENDER)
+                                                                    .description("1")
+                                                                    .createdDate(now.minusSeconds(10L))
+                                                                    .build();
+        InvestigationEntity secondInvestigation = InvestigationEntity.builder()
+                                                                     .assets(Collections.emptyList())
+                                                                     .bpn(testBpn)
+                                                                     .status(NotificationStatusBaseEntity.CREATED)
+                                                                     .description("2")
+                                                                     .side(NotificationSideBaseEntity.SENDER)
+                                                                     .createdDate(now.plusSeconds(21L))
+                                                                     .build();
+        InvestigationEntity thirdInvestigation = InvestigationEntity.builder()
+                                                                    .assets(Collections.emptyList())
+                                                                    .bpn(testBpn)
+                                                                    .status(NotificationStatusBaseEntity.CLOSED)
+                                                                    .description("3")
+                                                                    .side(NotificationSideBaseEntity.SENDER)
+                                                                    .createdDate(now)
+                                                                    .build();
+        InvestigationEntity fourthInvestigation = InvestigationEntity.builder()
+                                                                     .assets(Collections.emptyList())
+                                                                     .bpn(testBpn)
+                                                                     .status(NotificationStatusBaseEntity.CREATED)
+                                                                     .description("4")
+                                                                     .side(NotificationSideBaseEntity.SENDER)
+                                                                     .createdDate(now.plusSeconds(20L))
+                                                                     .build();
+        InvestigationEntity fifthInvestigation = InvestigationEntity.builder()
+                                                                    .assets(Collections.emptyList())
+                                                                    .bpn(testBpn)
+                                                                    .status(NotificationStatusBaseEntity.ACKNOWLEDGED)
+                                                                    .description("5")
+                                                                    .side(NotificationSideBaseEntity.SENDER)
+                                                                    .createdDate(now.plusSeconds(40L))
+                                                                    .build();
+
+
+        investigationNotificationsSupport.storedNotifications(
+                InvestigationNotificationEntity
+                        .builder()
+                        .id("1")
+                        .investigation(firstInvestigation)
+                        .severity(QualityNotificationSeverity.CRITICAL)
+                        .status(NotificationStatusBaseEntity.CREATED)
+                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
+                        .build(),
+                InvestigationNotificationEntity
+                        .builder()
+                        .severity(QualityNotificationSeverity.MAJOR)
+                        .status(NotificationStatusBaseEntity.CREATED)
+                        .id("2")
+                        .investigation(secondInvestigation)
+                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
+                        .build(),
+                InvestigationNotificationEntity
+                        .builder()
+                        .severity(QualityNotificationSeverity.LIFE_THREATENING)
+                        .status(NotificationStatusBaseEntity.CREATED)
+                        .id("3")
+                        .investigation(thirdInvestigation)
+                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
+                        .build(),
+                InvestigationNotificationEntity
+                        .builder()
+                        .severity(QualityNotificationSeverity.MINOR)
+                        .status(NotificationStatusBaseEntity.CREATED)
+                        .id("4")
+                        .investigation(fourthInvestigation)
+                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
+                        .build(),
+                InvestigationNotificationEntity
+                        .builder()
+                        .severity(QualityNotificationSeverity.CRITICAL)
+                        .status(NotificationStatusBaseEntity.CREATED)
+                        .id("5")
+                        .investigation(fifthInvestigation)
+                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
+                        .build()
+        );
+
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .param("page", "0")
+                .param("size", "10")
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/investigations/created?page=0&size=10&sort=$sortString".replace("$sortString", sortString))
+                .then()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(10))
+                .body("content", Matchers.hasSize(5))
+                .body("totalItems", Matchers.is(5))
+                .body("content.severity", Matchers.containsInRelativeOrder("MINOR", "MAJOR", "CRITICAL", "CRITICAL", "LIFE-THREATENING"));
     }
 
     @Test
