@@ -56,28 +56,59 @@ env:
     ARGO_DEV_TRACE_X_INSTANCE: "https://argo.dev.demo.catena-x.net/api/v1/applications/traceability-foss-dev"
     ARGO_DEV_RegistryReload: "https://traceability.dev.demo.catena-x.net/api/registry/reload"
   
-    ARGO_E2E-A_REGISTRY: "https://argo.dev.demo.catena-x.net/api/v1/applications/tracex-dt-registry-e2e-a" 
-    ARGO_E2E-A_EDC_PROVIDER: "https://argo.dev.demo.catena-x.net/api/v1/applications/tracex-edc-provider-e2e-a"
-    ARGO_E2E-A_TRACE_X_INSTANCE: "https://argo.dev.demo.catena-x.net/api/v1/applications/traceability-foss-e2e-a"
-    ARGO_E2E-A_RegistryReload: "https://traceability-e2e-a.dev.demo.catena-x.net/api/registry/reload"
+    ARGO_E2E_A_REGISTRY: "https://argo.dev.demo.catena-x.net/api/v1/applications/tracex-dt-registry-e2e-a" 
+    ARGO_E2E_A_EDC_PROVIDER: "https://argo.dev.demo.catena-x.net/api/v1/applications/tracex-edc-provider-e2e-a"
+    ARGO_E2E_A_TRACE_X_INSTANCE: "https://argo.dev.demo.catena-x.net/api/v1/applications/traceability-foss-e2e-a"
+    ARGO_E2E_A_RegistryReload: "https://traceability-e2e-a.dev.demo.catena-x.net/api/registry/reload"
 
-    ARGO_E2E-B_REGISTRY: "https://argo.dev.demo.catena-x.net/api/v1/applications/tracex-dt-registry-e2e-b"
-    ARGO_E2E-B_EDC_PROVIDER=: "https://argo.dev.demo.catena-x.net/api/v1/applications/tracex-edc-provider-e2e-b"
-    ARGO_E2E-B_TRACE_X_INSTANCE: "https://argo.dev.demo.catena-x.net/api/v1/applications/traceability-foss-e2e-b"
-    ARGO_E2E-B_RegistryReload: "https://traceability-e2e-b.dev.demo.catena-x.net/api/registry/reload"
+    ARGO_E2E_B_REGISTRY: "https://argo.dev.demo.catena-x.net/api/v1/applications/tracex-dt-registry-e2e-b"
+    ARGO_E2E_B_EDC_PROVIDER: "https://argo.dev.demo.catena-x.net/api/v1/applications/tracex-edc-provider-e2e-b"
+    ARGO_E2E_B_TRACE_X_INSTANCE: "https://argo.dev.demo.catena-x.net/api/v1/applications/traceability-foss-e2e-b"
+    ARGO_E2E_B_RegistryReload: "https://traceability-e2e-b.dev.demo.catena-x.net/api/registry/reload"
   
-    ARGO_INT-A_REGISTRY: "https://argo.int.demo.catena-x.net/api/v1/applications/tx-registry-int-a" 
-    ARGO_INT-A_EDC_PROVIDER: "https://argo.int.demo.catena-x.net/api/v1/applications/tx-edc-provider-int-a"
-    ARGO_INT-A_TRACE_X_INSTANCE: "https://argo.int.demo.catena-x.net/api/v1/applications/traceability-foss-int-a"
-    ARGO_INT-A_RegistryReload: "https://traceability-int-a.int.demo.catena-x.net/api/registry/reload"
+    ARGO_INT_A_REGISTRY: "https://argo.int.demo.catena-x.net/api/v1/applications/tx-registry-int-a" 
+    ARGO_INT_A_EDC_PROVIDER: "https://argo.int.demo.catena-x.net/api/v1/applications/tx-edc-provider-int-a"
+    ARGO_INT_A_TRACE_X_INSTANCE: "https://argo.int.demo.catena-x.net/api/v1/applications/traceability-foss-int-a"
+    ARGO_INT_A_RegistryReload: "https://traceability-int-a.int.demo.catena-x.net/api/registry/reload"
 
-    ARGO_INT-B_REGISTRY: "https://argo.int.demo.catena-x.net/api/v1/applications/tx-registry-int-b"
-    ARGO_INT-B_EDC_PROVIDER=: "https://argo.int.demo.catena-x.net/api/v1/applications/tx-edc-provider-int-b"
-    ARGO_INT-B_TRACE_X_INSTANCE: "https://argo.int.demo.catena-x.net/api/v1/applications/traceability-foss-int-b"
-    ARGO_INT-B_RegistryReload: "https://traceability-int-b.int.demo.catena-x.net/api/registry/reload"
+    ARGO_INT_B_REGISTRY: "https://argo.int.demo.catena-x.net/api/v1/applications/tx-registry-int-b"
+    ARGO_INT_B_EDC_PROVIDER: "https://argo.int.demo.catena-x.net/api/v1/applications/tx-edc-provider-int-b"
+    ARGO_INT_B_TRACE_X_INSTANCE: "https://argo.int.demo.catena-x.net/api/v1/applications/traceability-foss-int-b"
+    ARGO_INT_B_RegistryReload: "https://traceability-int-b.int.demo.catena-x.net/api/registry/reload"
     
-jobs:                 
+jobs:      
+
+  hard_refresh_environment:
+   runs-on: ubuntu-latest
+   steps:
+  
+      - name: Checkout-Repository
+        uses: actions/checkout@v4
+        
+      - name: mask token
+        run: |
+          ARGO_TOKEN=$(jq -r '.inputs.argo_token' $GITHUB_EVENT_PATH)
+          echo ::add-mask::$ARGO_TOKEN
+          echo ARGO_TOKEN=$ARGO_TOKEN >> $GITHUB_ENV
+          
+      - name: Hard refresh environment
+        run: |
+         source ./.github/argo/argo_config.sh
+        
+         if [ "${{ github.event.inputs.environment }}" == "Dev/Test" ]; then
+            resources=("${DEV_TEST_RESOURCES[@]}")
+         elif [ "${{ github.event.inputs.environment }}" == "E2E-A/E2E-B" ]; then
+            resources=("${E2E_RESOURCES[@]}")
+         elif [ "${{ github.event.inputs.environment }}" == "int-a/int-b" ]; then
+            resources=("${INT_RESOURCES[@]}")
+         fi
+         
+         for resource in "${resources[@]}"; do
+           curl -X GET -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" "$resource?refresh=hard&appNamespace=argocd"
+         done
+         sleep 40
   delete_environment:
+    needs: hard_refresh_environment
     runs-on: ubuntu-latest
     steps:
   
@@ -146,20 +177,20 @@ jobs:
               
             elif [ "${{ github.event.inputs.environment }}" == "E2E-A/E2E-B" ]; then
             
-              json_data1=$(curl -X GET -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" "$ARGO_E2E-A_TRACE_X_INSTANCE")
+              json_data1=$(curl -X GET -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" "$ARGO_E2E_A_TRACE_X_INSTANCE")
               old_TargetRevision1=$(echo "$json_data1" | jq -r '.spec.source.targetRevision')
-              json_data2=$(curl -X GET -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" "$ARGO_E2E-B_TRACE_X_INSTANCE")
+              json_data2=$(curl -X GET -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" "$ARGO_E2E_B_TRACE_X_INSTANCE")
               old_TargetRevision2=$(echo "$json_data2" | jq -r '.spec.source.targetRevision')
 
               if [ "$old_TargetRevision1" != "$new_target_revision" ]; then
                 updated_json=$(echo "$json_data1" | jq ".spec.source.targetRevision = \"$new_target_revision\"")
-                curl -X PUT -H "Content-Type: application/json" -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" -d "$updated_json" "$ARGO_E2E-A_TRACE_X_INSTANCE"
+                curl -X PUT -H "Content-Type: application/json" -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" -d "$updated_json" "$ARGO_E2E_A_TRACE_X_INSTANCE"
                 echo "Target Revision for e2e-a overwritten"
               fi
             
               if [ "$old_TargetRevision2" != "$new_target_revision" ]; then
                 updated_json=$(echo "$json_data2" | jq ".spec.source.targetRevision = \"$new_target_revision\"")
-                curl -X PUT -H "Content-Type: application/json" -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" -d "$updated_json" "$ARGO_E2E-B_TRACE_X_INSTANCE"
+                curl -X PUT -H "Content-Type: application/json" -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" -d "$updated_json" "$ARGO_E2E_B_TRACE_X_INSTANCE"
                 echo "Target Revision for e2e-b overwritten"
               fi
    
@@ -217,11 +248,11 @@ jobs:
            source ./.github/argo/argo_config.sh
 
            if [ "${{ github.event.inputs.environment }}" == "Dev/Test" ]; then
-              resources=("${TEST_STATE_DEV_TEST_RESOURCES[@]}")
+              resources=("${DEV_TEST_RESOURCES[@]}")
             elif [ "${{ github.event.inputs.environment }}" == "E2E-A/E2E-B" ]; then
-              resources=("${TEST_STATE_E2E_RESOURCES[@]}")
+              resources=("${E2E_RESOURCES[@]}")
             elif [ "${{ github.event.inputs.environment }}" == "int-a/int-b" ]; then
-              resources=("${TEST_STATE_INT_RESOURCES[@]}")
+              resources=("${INT_RESOURCES[@]}")
             fi 
         
               for resource in "${resources[@]}"; do
@@ -282,7 +313,7 @@ jobs:
         elif [ "${{ github.event.inputs.environment }}" == "E2E-A/E2E-B" ]; then
           python transform-and-upload.py -f ./tx-backend/testdata/CX_Testdata_MessagingTest_v${{ github.event.inputs.testdata_version }}.json -s https://traceability-e2e-a.dev.demo.catena-x.net/api/submodel -edc https://trace-x-edc-e2e-a.dev.demo.catena-x.net -a https://trace-x-registry-e2e-a.dev.demo.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-edc-e2e-a-dataplane.dev.demo.catena-x.net -p id-3.0-trace -k ${{ env.API_KEY }}
           sleep 10
-          python transform-and-upload.py -f ./tx-backend/testdata/CX_Testdata_MessagingTest_v${{ github.event.inputs.testdata_version }}.json -s https://traceability-e2e-a.dev.demo.catena-x.net/api/submodel -edc https://trace-x-edc-e2e-a.dev.demo.catena-x.net -a https://trace-x-registry-e2e-a.dev.demo.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-edc-e2e-a-dataplane.dev.demo.catena-x.net -p id-3.0-trace -k ${{ env.API_KEY }}
+          python transform-and-upload.py -f ./tx-backend/testdata/CX_Testdata_MessagingTest_v${{ github.event.inputs.testdata_version }}.json -s https://traceability-e2e-b.dev.demo.catena-x.net/api/submodel -edc https://trace-x-edc-e2e-b.dev.demo.catena-x.net -a https://trace-x-registry-e2e-b.dev.demo.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-edc-e2e-b-dataplane.dev.demo.catena-x.net -p id-3.0-trace -k ${{ env.API_KEY }}
           sleep 10
         elif [ "${{ github.event.inputs.environment }}" == "int-a/int-b" ]; then
           python transform-and-upload.py -f ./tx-backend/testdata/CX_Testdata_MessagingTest_v${{ github.event.inputs.testdata_version }}.json -s https://traceability-int-a.int.demo.catena-x.net/api/submodel -edc https://trace-x-edc-int-a.int.demo.catena-x.net -a https://trace-x-registry-int-a.int.demo.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-edc-int-a-dataplane.int.demo.catena-x.net -p id-3.0-trace -k ${{ env.API_KEY }}
@@ -304,11 +335,11 @@ jobs:
           curl -X GET "$ARGO_TEST_RegistryReload"
           curl -X GET "$ARGO_DEV_RegistryReload"
         elif [ "${{ github.event.inputs.environment }}" == "E2E-A/E2E-B" ]; then
-          curl -X GET "$ARGO_E2E-A_RegistryReload"
-          curl -X GET "$ARGO_E2E-B_RegistryReload"
+          curl -X GET "$ARGO_E2E_A_RegistryReload"
+          curl -X GET "$ARGO_E2E_B_RegistryReload"
         elif [ "${{ github.event.inputs.environment }}" == "int-a/int-b" ]; then
-          curl -X GET "$ARGO_INT-A_RegistryReload"
-          curl -X GET "$ARGO_INT-B_RegistryReload"
+          curl -X GET "$ARGO_INT_A_RegistryReload"
+          curl -X GET "$ARGO_INT_B_RegistryReload"
         fi
      
        
