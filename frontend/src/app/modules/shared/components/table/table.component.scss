@@ -28,6 +28,11 @@ table {
   width: 100%;
 }
 
+.settingsIcon {
+  padding-left: 13px;
+}
+
+
 .table--select-all {
   display: inline-flex;
   align-items: center;
@@ -79,7 +84,7 @@ table {
 }
 
 .table--header {
-  border-bottom: 1px solid #D2D2D2;
+  border-bottom: 1px solid #D2D2D2 !important;
 }
 
 .table--cell {
@@ -190,6 +195,11 @@ table {
 
 .table--header {
   padding-bottom: 8px;
+}
+
+.tableScroll {
+  height: 547px !important;
+  overflow: auto !important;
 }
 
 .table--header--sort--indicator {

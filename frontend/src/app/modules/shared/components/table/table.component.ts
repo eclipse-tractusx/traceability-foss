@@ -27,7 +27,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Pagination } from '@core/model/pagination.model';
 import { RoleService } from '@core/user/role.service';
 import { MenuActionConfig, TableConfig, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
-import {addSelectedValues, clearAllRows, clearCurrentRows, removeSelectedValues} from '@shared/helper/table-helper';
+import { addSelectedValues, clearAllRows, clearCurrentRows, removeSelectedValues } from '@shared/helper/table-helper';
 import { FlattenObjectPipe } from '@shared/pipes/flatten-object.pipe';
 
 @Component({
@@ -72,6 +72,7 @@ export class TableComponent {
   @Input() selectedPartsActionLabel: string;
 
   @Input() tableHeader: string;
+  @Input() enableScroll: boolean;
   @Input() multiSortList: TableHeaderSort[];
 
   @Input() set paginationData({ page, pageSize, totalItems, content }: Pagination<unknown>) {

@@ -19,48 +19,32 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<mat-tab-group
-  [selectedIndex]="tabIndex$ | async"
-  (selectedTabChange)="onTabChange($event.index)"
-  appTabAsPanel
-  mat-stretch-tabs="false"
-  mat-align-tabs="start"
->
+<mat-tab-group [selectedIndex]="tabIndex$ | async" (selectedTabChange)="onTabChange($event.index)" appTabAsPanel
+  mat-stretch-tabs="false" mat-align-tabs="start">
   <mat-tab>
     <ng-template mat-tab-label>
-      <mat-icon class="mr-2">drafts</mat-icon
-      ><span [id]="receivedTabLabelId">{{ translationContext + '.tabs.received' | i18n }} </span>
+      <div [id]="receivedTabLabelId">{{ translationContext + '.tabs.received' |
+        i18n }} {{itemCountString}}</div>
     </ng-template>
-    <app-notifications-tab
-      *ngIf="menuActionsConfig"
-      [notificationsView$]="receivedNotifications$"
-      [labelId]="receivedTabLabelId"
-      [translationContext]="'commonInvestigation'"
-      [menuActionsConfig]="menuActionsConfig"
-      [optionalColumns]="receivedOptionalColumns"
-      [sortableColumns]="receivedSortableColumns"
-      [multiSortList]="receivedMultiSortList"
-      (tableConfigChanged)="onReceivedTableConfigChanged.emit($event)"
-      (selected)="selected.emit($event)"
-    ></app-notifications-tab>
+    <app-notifications-tab *ngIf="menuActionsConfig" [notificationsView$]="receivedNotifications$"
+      [labelId]="receivedTabLabelId" [translationContext]="'commonInvestigation'"
+      [menuActionsConfig]="menuActionsConfig" [optionalColumns]="receivedOptionalColumns"
+      [sortableColumns]="receivedSortableColumns" [multiSortList]="receivedMultiSortList"
+      (tableConfigChanged)="onReceivedTableConfigChanged.emit($event)" (itemCount)="onItemCountChanged($event)"
+      (selected)="selected.emit($event)"></app-notifications-tab>
   </mat-tab>
 
   <mat-tab>
     <ng-template mat-tab-label>
-      <mat-icon class="mr-2">send</mat-icon
-      ><span [id]="queuedAndRequestedTabLabelId">{{ translationContext + '.tabs.queuedAndRequested' | i18n }} </span>
+      <div [id]="queuedAndRequestedTabLabelId">{{ translationContext +
+        '.tabs.queuedAndRequested' | i18n }} {{itemCountString}}</div>
     </ng-template>
-    <app-notifications-tab
-      *ngIf="menuActionsConfig"
-      [notificationsView$]="queuedAndRequestedNotifications$"
-      [labelId]="queuedAndRequestedTabLabelId"
-      [translationContext]="'commonInvestigation'"
-      [menuActionsConfig]="menuActionsConfig"
-      [optionalColumns]="queuedAndRequestedOptionalColumns"
-      [sortableColumns]="queuedAndRequestedSortableColumns"
+    <app-notifications-tab class="headerLine" *ngIf="menuActionsConfig"
+      [notificationsView$]="queuedAndRequestedNotifications$" [labelId]="queuedAndRequestedTabLabelId"
+      [translationContext]="'commonInvestigation'" [menuActionsConfig]="menuActionsConfig"
+      [optionalColumns]="queuedAndRequestedOptionalColumns" [sortableColumns]="queuedAndRequestedSortableColumns"
       [multiSortList]="queuedAndRequestedMultiSortList"
       (tableConfigChanged)="onQueuedAndRequestedTableConfigChanged.emit($event)"
-      (selected)="selected.emit($event)"
-    ></app-notifications-tab>
+      (selected)="selected.emit($event)"></app-notifications-tab>
   </mat-tab>
 </mat-tab-group>

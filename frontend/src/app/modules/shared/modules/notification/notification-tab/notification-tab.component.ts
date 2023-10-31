@@ -45,9 +45,11 @@ export class NotificationTabComponent implements AfterViewInit {
   @Input() optionalColumns: Array<'targetDate' | 'severity' | 'createdBy' | 'sendTo'> = [];
   @Input() sortableColumns: Record<string, boolean> = {};
   @Input() multiSortList: TableHeaderSort[] = [];
+  @Input() enableScroll: boolean = true;
 
   @Output() tableConfigChanged = new EventEmitter<TableEventConfig>();
   @Output() selected = new EventEmitter<Notification>();
+  @Output() itemCount = new EventEmitter<number>();
 
   @ViewChild('idTmp') idTemplate: TemplateRef<unknown>;
   @ViewChild('statusTmp') statusTemplate: TemplateRef<unknown>;
@@ -80,6 +82,10 @@ export class NotificationTabComponent implements AfterViewInit {
       },
     };
 
+  }
+
+  public onItemCountChange(itemCount: number): void {
+    this.itemCount.emit(itemCount);
   }
 
   public selectNotification(notification: Record<string, unknown>): void {

@@ -53,13 +53,21 @@ export class NotificationComponent {
   public readonly receivedTabLabelId = this.staticIdService.generateId('Notification.receivedTab');
   public readonly queuedAndRequestedTabLabelId = this.staticIdService.generateId('Notification.queuedAndRequestedTab');
 
+  public itemCount: number = 0;
+  public itemCountString: string;
+
   constructor(
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly staticIdService: StaticIdService,
-  ) {}
+  ) { }
 
   public onTabChange(tabIndex: number): void {
     void this.router.navigate([], { queryParams: { tabIndex }, replaceUrl: true });
+  }
+
+  public onItemCountChanged(itemCount: number): void {
+    this.itemCount = itemCount;
+    this.itemCountString = `(${itemCount})`;
   }
 }

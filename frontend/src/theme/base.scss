@@ -178,41 +178,41 @@
   }
 
   h1 {
-    @apply font-medium uppercase text-dark;
+    @apply font-medium uppercase text-pendingDark;
     font-size: 56px;
   }
 
   h1,
   normal-case {
-    @apply font-medium text-dark;
+    @apply font-medium text-pendingDark;
     font-size: 56px;
     text-transform: none;
   }
 
   h2 {
-    @apply font-medium uppercase text-dark;
+    @apply font-medium uppercase text-pendingDark;
     font-size: 36px;
   }
 
   h2,
   normal-case {
-    @apply font-medium uppercase text-dark;
+    @apply font-medium uppercase text-pendingDark;
     font-size: 36px;
     text-transform: none;
   }
 
   h3 {
-    @apply font-semiBold sm:text-xl text-dark;
+    @apply font-semiBold sm:text-xl text-pendingDark;
     font-size: 24px;
   }
 
   h4 {
-    @apply font-semiBold sm:text-lg text-dark;
+    @apply font-semiBold sm:text-lg text-pendingDark;
     font-size: 18px;
   }
 
   h5 {
-    @apply font-semiBold sm:text-base text-dark;
+    @apply font-semiBold sm:text-base text-pendingDark;
     font-size: 16px;
   }
 
@@ -223,15 +223,15 @@
   }
 
   .large-text {
-    @apply font-light lg:text-base sm:text-sm text-dark;
+    @apply font-light lg:text-base sm:text-sm text-pendingDark;
   }
 
   .small-text {
-    @apply font-light lg:text-xs sm:text-tiny text-dark;
+    @apply font-light lg:text-xs sm:text-tiny text-pendingDark;
   }
 
   .component-headline {
-    @apply font-light lg:text-sm sm:text-xs text-dark;
+    @apply font-light lg:text-sm sm:text-xs text-pendingDark;
   }
 
   a {
@@ -254,12 +254,12 @@
     border-radius: 50px !important;
   }
 
-  .mat-mdc-unelevated-button > .mdc-button__label {
+  .mat-mdc-unelevated-button>.mdc-button__label {
     @apply text-interactive;
   }
 
   .mat-mdc-form-field {
-    @apply font-light lg:text-base sm:text-sm text-dark ml-0 !important;
+    @apply font-light lg:text-base sm:text-sm text-pendingDark ml-0 !important;
   }
 
   .mat-paginator,
@@ -280,14 +280,47 @@
     @apply text-black;
   }
 
-  .mat-sort-header-sorted > .mat-sort-header-content {
+  .mat-sort-header-sorted>.mat-sort-header-content {
     @apply font-semiBold;
   }
 
-  // todo check if we can remove this
-/*  .mat-mdc-form-field-infix {
-    padding-bottom: 0px !important;
-  }*/
+  .mdc-tab-indicator .mdc-tab-indicator__content--underline {
+    border-top-width: 3px !important;
+    border-radius: 100px 100px 0px 0px !important;
+    max-width: 95px !important;
+  }
+
+  .mdc-data-table__cell,
+  .mdc-data-table__header-cell {
+    padding: 0px 0px 0px 20px !important;
+  }
+
+  .mat-mdc-tab .mdc-tab__text-label,
+  .mat-mdc-tab-link .mdc-tab__text-label {
+    color: #4D4D4D;
+  }
+
+  table {
+    border-collapse: separate !important;
+    /* Don't collapse */
+  }
+
+  .mat-mdc-tab-label-container {
+    border-bottom: 1px solid #DFDFDF;
+  }
+
+  .mdc-tab__text-label {
+    @extend .label-medium;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 16px;
+    letter-spacing: 0.5px;
+    text-align: center;
+  }
+
+  .mat-mdc-card-content {
+    padding: 0 20px;
+  }
 }
 
 .mdc-text-field__input::-webkit-calendar-picker-indicator {

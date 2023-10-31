@@ -22,10 +22,11 @@ SPDX-License-Identifier: Apache-2.0
 <ng-container *viewContainer="notificationsView$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp">
 </ng-container>
 <ng-template #mainTmp let-notifications="view">
+  {{onItemCountChange(notifications.data.totalItems)}}
   <div *ngIf="notifications.data.totalItems > 0; else displayMessage">
-    <app-table [paginationData]="notifications.data" [tableConfig]="tableConfig" [noShadow]="true" [labelId]="labelId"
-      [showHover]="false" [multiSortList]="multiSortList" (selected)="selectNotification($event)"
-      (configChanged)="onTableConfigChange($event)">
+    <app-table [enableScroll]="enableScroll" [paginationData]="notifications.data" [tableConfig]="tableConfig"
+      [noShadow]="true" [labelId]="labelId" [showHover]="false" [multiSortList]="multiSortList"
+      (selected)="selectNotification($event)" (configChanged)="onTableConfigChange($event)">
     </app-table>
   </div>
   <ng-template #displayMessage>

@@ -96,8 +96,8 @@ SPDX-License-Identifier: Apache-2.0
         </div>
       </mat-card-header>
       <mat-card-content>
-        <app-notifications-tab [notificationsView$]="investigations$" [translationContext]="'commonInvestigation'"
-          [labelId]="'dashboard-investigations'" [hasPagination]="false"
+        <app-notifications-tab [enableScroll]="false" [notificationsView$]="investigations$"
+          [translationContext]="'commonInvestigation'" [labelId]="'dashboard-investigations'" [hasPagination]="false"
           [optionalColumns]="['targetDate', 'severity', 'createdBy']" (selected)="onNotificationSelected($event, true)">
           <div content1>
             <img src="/assets/images/icons/noQualityInvestigations.svg" class="center py-5" />
@@ -130,9 +130,9 @@ SPDX-License-Identifier: Apache-2.0
       </mat-card-header>
 
       <mat-card-content>
-        <app-notifications-tab [notificationsView$]="alerts$" [translationContext]="'commonAlert'"
-          [labelId]="'dashboard-alerts'" [hasPagination]="false" [optionalColumns]="[ 'severity', 'createdBy']"
-          (selected)="onNotificationSelected($event, false)">
+        <app-notifications-tab [enableScroll]="false" [notificationsView$]="alerts$"
+          [translationContext]="'commonAlert'" [labelId]="'dashboard-alerts'" [hasPagination]="false"
+          [optionalColumns]="[ 'severity', 'createdBy']" (selected)="onNotificationSelected($event, false)">
           <div content1>
             <img src="/assets/images/icons/noAlert.svg" class="center py-5" />
             <div class="noAlerts pb-3">{{ 'commonAlert.noAlerts' | i18n }}</div>
