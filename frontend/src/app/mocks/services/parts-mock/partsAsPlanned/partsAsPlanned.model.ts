@@ -26,446 +26,448 @@ import { otherPartsAssets } from '../../otherParts-mock/otherParts.model';
 
 export const mockBmwAsPlannedAssets = [
   {
-    "id": "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa01",
-    "idShort": "--",
-    "semanticModelId": "NO-341449848714937445621543",
-    "businessPartner": "BPNL00000003CML1",
-    "manufacturerName": "MyManufacturerName",
-    nameAtManufacturer: "MyAsPlannedPartName",
-    manufacturerPartId: "ManuPartID",
-    "owner": "OWN",
-    "childRelations": [],
-    "parentRelations": [],
-    "activeAlert": false,
-    "underInvestigation": false,
-    "qualityType": "Ok",
-    "van": "--",
-    "semanticDataModel": "BATCH",
-    "classification": "component",
-    "detailAspectModels": [
+    id: 'urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa01',
+    idShort: '--',
+    semanticModelId: 'NO-341449848714937445621543',
+    businessPartner: 'BPNL00000003CML1',
+    manufacturerName: 'MyManufacturerName',
+    nameAtManufacturer: 'MyAsPlannedPartName',
+    manufacturerPartId: 'ManuPartID',
+    owner: 'OWN',
+    childRelations: [],
+    parentRelations: [],
+    activeAlert: false,
+    underInvestigation: false,
+    qualityType: 'Ok',
+    van: '--',
+    semanticDataModel: 'BATCH',
+    classification: 'component',
+    detailAspectModels: [
       {
-        "type": "AS_PLANNED",
-        "data": {
-          validityPeriodFrom: "01.01.2020",
-          functionValidUntil: "01.02.2020"
-        }
+        type: 'AS_PLANNED',
+        data: {
+          validityPeriodFrom: 'Wed Aug 21 00:10:36 GMT 2023',
+          validityPeriodTo: 'Wed Aug 21 00:10:36 GMT 2023',
+        },
       },
       {
-        "type": "PART_SITE_INFORMATION_AS_PLANNED",
-        "data": {
-          "functionValidUntil": "Sat Feb 08 03:30:48 GMT 2025",
-          "function": "production",
-          "functionValidFrom": "Wed Aug 21 00:10:36 GMT 2019",
-          "catenaXSiteId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01"
-        }
-      }
-    ]
-  },
-  {
-    "id": "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa03",
-    "idShort": "--",
-    "semanticModelId": "NO-341449848714937445621543",
-    "businessPartner": "BPNL00000003CML1",
-    "manufacturerName": "MyManufacturerName",
-    nameAtManufacturer: "MyAsPlannedPartName",
-    manufacturerPartId: "ManuPartID",
-    "owner": "OWN",
-    "childRelations": [],
-    "parentRelations": [
-      {
-        "id": "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb02",
-        "idShort": null
-      }
+        type: 'PART_SITE_INFORMATION_AS_PLANNED',
+        data: {
+          functionValidUntil: 'Sat Feb 08 03:30:48 GMT 2025',
+          function: 'production',
+          functionValidFrom: 'Wed Aug 21 00:10:36 GMT 2019',
+          catenaXSiteId: 'urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01',
+        },
+      },
     ],
-    "activeAlert": false,
-    "underInvestigation": false,
-    "qualityType": "Ok",
-    "van": "--",
-    "semanticDataModel": "BATCH",
-    "classification": "component",
-    "detailAspectModels": [
-      {
-        "type": "AS_PLANNED",
-        "data": {
-          validityPeriodFrom: "01.01.2020",
-          functionValidUntil: "01.02.2020"
-        }
-      },
-      {
-        "type": "PART_SITE_INFORMATION_AS_PLANNED",
-        "data": {
-          "functionValidUntil": "Sat Feb 08 03:30:48 GMT 2025",
-          "function": "production",
-          "functionValidFrom": "Wed Aug 21 00:10:36 GMT 2019",
-          "catenaXSiteId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01"
-        }
-      }
-    ]
   },
   {
-    "id": "urn:uuid:4a5e9ff6-2d5c-4510-a90e-d55af3ba502f",
-    "idShort": "--",
-    "semanticModelId": "NO-246880451848384868750731",
-    "businessPartner": "BPNL00000003CML1",
-    "manufacturerName": "MyManufacturerName",
-    nameAtManufacturer: "MyAsPlannedPartName",
-    manufacturerPartId: "ManuPartID",
-    "owner": "OWN",
-    "childRelations": [],
-    "parentRelations": [
+    id: 'urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa03',
+    idShort: '--',
+    semanticModelId: 'NO-341449848714937445621543',
+    businessPartner: 'BPNL00000003CML1',
+    manufacturerName: 'MyManufacturerName',
+    nameAtManufacturer: 'MyAsPlannedPartName',
+    manufacturerPartId: 'ManuPartID',
+    owner: 'OWN',
+    childRelations: [],
+    parentRelations: [
       {
-        "id": "urn:uuid:f11ddc62-3bd5-468f-b7b0-110fe13ed0cd",
-        "idShort": null
-      }
+        id: 'urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb02',
+        idShort: null,
+      },
     ],
-    "activeAlert": false,
-    "underInvestigation": false,
-    "qualityType": "Ok",
-    "van": "--",
-    "semanticDataModel": "SERIALPART",
-    "classification": "component",
-    "detailAspectModels": [
+    activeAlert: false,
+    underInvestigation: false,
+    qualityType: 'Ok',
+    van: '--',
+    semanticDataModel: 'BATCH',
+    classification: 'component',
+    detailAspectModels: [
       {
-        "type": "AS_PLANNED",
-        "data": {
-          validityPeriodFrom: "01.01.2020",
-          functionValidUntil: "01.02.2020"
-        }
+        type: 'AS_PLANNED',
+        data: {
+          validityPeriodFrom: 'Wed Aug 21 00:10:36 GMT 2023',
+          validityPeriodTo: 'Wed Aug 21 00:10:36 GMT 2023',
+        },
       },
       {
-        "type": "PART_SITE_INFORMATION_AS_PLANNED",
-        "data": {
-          "functionValidUntil": "Sat Feb 08 03:30:48 GMT 2025",
-          "function": "production",
-          "functionValidFrom": "Wed Aug 21 00:10:36 GMT 2019",
-          "catenaXSiteId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01"
-        }
-      }
-    ]
-  },
-  {
-    "id": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e43842",
-    "idShort": "--",
-    "semanticModelId": "12345678ABC",
-    "businessPartner": "BPNL00000003CML1",
-    "manufacturerName": "MyManufacturerName",
-    nameAtManufacturer: "MyAsPlannedPartName",
-    manufacturerPartId: "ManuPartID",
-    "owner": "OWN",
-    "childRelations": [],
-    "parentRelations": [],
-    "activeAlert": false,
-    "underInvestigation": false,
-    "qualityType": "Ok",
-    "van": "--",
-    "semanticDataModel": "JUSTINSEQUENCE",
-    "classification": "product",
-    "detailAspectModels": [
-      {
-        "type": "AS_PLANNED",
-        "data": {
-          validityPeriodFrom: "01.01.2023",
-          validityPeriodTo: "01.02.2023",
-        }
+        type: 'PART_SITE_INFORMATION_AS_PLANNED',
+        data: {
+          functionValidUntil: 'Sat Feb 08 03:30:48 GMT 2025',
+          function: 'production',
+          functionValidFrom: 'Wed Aug 21 00:10:36 GMT 2019',
+          catenaXSiteId: 'urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01',
+        },
       },
-      {
-        "type": "PART_SITE_INFORMATION_AS_PLANNED",
-        "data": {
-          "functionValidUntil": "Sat Feb 08 03:30:48 GMT 2025",
-          "function": "production",
-          "functionValidFrom": "Wed Aug 21 00:10:36 GMT 2019",
-          "catenaXSiteId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01"
-        }
-      }
-    ]
-  },
-  {
-    "id": "urn:uuid:6ec3f1db-2798-454b-a73f-0d21a8966c74",
-    "idShort": "--",
-    "semanticModelId": "NO-613963493493659233961306",
-    "businessPartner": "BPNL00000003CML1",
-    "manufacturerName": "MyManufacturerName",
-    nameAtManufacturer: "MyAsPlannedPartName",
-    manufacturerPartId: "ManuPartID",
-    "owner": "OWN",
-    "childRelations": [{
-      "id": "urn:uuid:c47b9f8b-48d0-4ef4-8f0b-e965a225cb8d",
-      "idShort": null
-    }],
-    "parentRelations": [
-      {
-        "id": "urn:uuid:c47b9f8b-48d0-4ef4-8f0b-e965a225cb8d",
-        "idShort": null
-      }
     ],
-    "activeAlert": false,
-    "underInvestigation": false,
-    "qualityType": "Ok",
-    "van": "--",
-    "semanticDataModel": "SERIALPART",
-    "classification": "component",
-    "detailAspectModels": [
-      {
-        "type": "AS_PLANNED",
-        "data": {
-          "validityPeriodFrom": "01.01.2023",
-          "validityPeriodTo": "01.02.2023",
-        }
-      },
-      {
-        "type": "PART_SITE_INFORMATION_AS_PLANNED",
-        "data": {
-          "functionValidUntil": "Sat Feb 08 03:30:48 GMT 2025",
-          "function": "production",
-          "functionValidFrom": "Wed Aug 21 00:10:36 GMT 2019",
-          "catenaXSiteId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01"
-        }
-      }
-    ]
   },
-
-{
-  "id": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e43842",
-  "idShort": "--",
-  "semanticModelId": "12345678ABC",
-  "businessPartner": "BPNL00000003CML1",
-  "manufacturerName": "MyManufacturerName",
-  nameAtManufacturer: "MyAsPlannedPartName",
-  manufacturerPartId: "ManuPartID",
-  "owner": "OWN",
-  "childRelations": [],
-  "parentRelations": [],
-  "activeAlert": false,
-  "underInvestigation": false,
-  "qualityType": "Ok",
-  "van": "--",
-  "semanticDataModel": "JUSTINSEQUENCE",
-  "classification": "product",
-  "detailAspectModels": [
-    {
-      "type": "AS_PLANNED",
-      "data": {
-        validityPeriodFrom: "01.01.2023",
-        validityPeriodTo: "01.02.2023",
-      }
-    },
-    {
-      "type": "PART_SITE_INFORMATION_AS_PLANNED",
-      "data": {
-        "functionValidUntil": "Sat Feb 08 03:30:48 GMT 2025",
-        "function": "production",
-        "functionValidFrom": "Wed Aug 21 00:10:36 GMT 2019",
-        "catenaXSiteId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01"
-      }
-    }
-  ]
-},
-
   {
-    "id": "urn:uuid:d8030bbf-a874-49fb-b2e1-7610f0ccad12",
-    "idShort": "--",
-    "semanticModelId": "OMAYSKEITUGNVHKKX",
-    "businessPartner": "BPNL00000003CML1",
-    "manufacturerName": "MyManufacturerName",
-    nameAtManufacturer: "MyAsPlannedPartName",
-    manufacturerPartId: "ManuPartID",
-    "owner": "OWN",
-    "childRelations": [
+    id: 'urn:uuid:4a5e9ff6-2d5c-4510-a90e-d55af3ba502f',
+    idShort: '--',
+    semanticModelId: 'NO-246880451848384868750731',
+    businessPartner: 'BPNL00000003CML1',
+    manufacturerName: 'MyManufacturerName',
+    nameAtManufacturer: 'MyAsPlannedPartName',
+    manufacturerPartId: 'ManuPartID',
+    owner: 'OWN',
+    childRelations: [],
+    parentRelations: [
       {
-        "id": "urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a",
-        "idShort": null
-      }
+        id: 'urn:uuid:f11ddc62-3bd5-468f-b7b0-110fe13ed0cd',
+        idShort: null,
+      },
     ],
-    "parentRelations": [],
-    "activeAlert": false,
-    "underInvestigation": false,
-    "qualityType": "Ok",
-    "van": "OMAYSKEITUGNVHKKX",
-    "semanticDataModel": "SERIALPART",
-    "classification": "product",
-    "detailAspectModels": [
+    activeAlert: false,
+    underInvestigation: false,
+    qualityType: 'Ok',
+    van: '--',
+    semanticDataModel: 'SERIALPART',
+    classification: 'component',
+    detailAspectModels: [
       {
-        "type": "AS_PLANNED",
-        "data": {
-          validityPeriodFrom: "01.01.2023",
-          validityPeriodTo: "01.02.2023",
-        }
+        type: 'AS_PLANNED',
+        data: {
+          validityPeriodFrom: 'Wed Aug 21 00:10:36 GMT 2023',
+          validityPeriodTo: 'Wed Aug 21 00:10:36 GMT 2023',
+        },
       },
       {
-        "type": "PART_SITE_INFORMATION_AS_PLANNED",
-        "data": {
-          "functionValidUntil": "Sat Feb 08 03:30:48 GMT 2025",
-          "function": "production",
-          "functionValidFrom": "Wed Aug 21 00:10:36 GMT 2019",
-          "catenaXSiteId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01"
-        }
-      }
-    ]
+        type: 'PART_SITE_INFORMATION_AS_PLANNED',
+        data: {
+          functionValidUntil: 'Sat Feb 08 03:30:48 GMT 2025',
+          function: 'production',
+          functionValidFrom: 'Wed Aug 21 00:10:36 GMT 2019',
+          catenaXSiteId: 'urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01',
+        },
+      },
+    ],
+  },
+  {
+    id: 'urn:uuid:0733946c-59c6-41ae-9570-cb43a6e43842',
+    idShort: '--',
+    semanticModelId: '12345678ABC',
+    businessPartner: 'BPNL00000003CML1',
+    manufacturerName: 'MyManufacturerName',
+    nameAtManufacturer: 'MyAsPlannedPartName',
+    manufacturerPartId: 'ManuPartID',
+    owner: 'OWN',
+    childRelations: [],
+    parentRelations: [],
+    activeAlert: false,
+    underInvestigation: false,
+    qualityType: 'Ok',
+    van: '--',
+    semanticDataModel: 'JUSTINSEQUENCE',
+    classification: 'product',
+    detailAspectModels: [
+      {
+        type: 'AS_PLANNED',
+        data: {
+          validityPeriodFrom: 'Wed Aug 21 00:10:36 GMT 2023',
+          validityPeriodTo: 'Wed Aug 21 00:10:36 GMT 2023',
+        },
+      },
+      {
+        type: 'PART_SITE_INFORMATION_AS_PLANNED',
+        data: {
+          functionValidUntil: 'Sat Feb 08 03:30:48 GMT 2025',
+          function: 'production',
+          functionValidFrom: 'Wed Aug 21 00:10:36 GMT 2019',
+          catenaXSiteId: 'urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01',
+        },
+      },
+    ],
+  },
+  {
+    id: 'urn:uuid:6ec3f1db-2798-454b-a73f-0d21a8966c74',
+    idShort: '--',
+    semanticModelId: 'NO-613963493493659233961306',
+    businessPartner: 'BPNL00000003CML1',
+    manufacturerName: 'MyManufacturerName',
+    nameAtManufacturer: 'MyAsPlannedPartName',
+    manufacturerPartId: 'ManuPartID',
+    owner: 'OWN',
+    childRelations: [
+      {
+        id: 'urn:uuid:c47b9f8b-48d0-4ef4-8f0b-e965a225cb8d',
+        idShort: null,
+      },
+    ],
+    parentRelations: [
+      {
+        id: 'urn:uuid:c47b9f8b-48d0-4ef4-8f0b-e965a225cb8d',
+        idShort: null,
+      },
+    ],
+    activeAlert: false,
+    underInvestigation: false,
+    qualityType: 'Ok',
+    van: '--',
+    semanticDataModel: 'SERIALPART',
+    classification: 'component',
+    detailAspectModels: [
+      {
+        type: 'AS_PLANNED',
+        data: {
+          validityPeriodFrom: 'Wed Aug 21 00:10:36 GMT 2023',
+          validityPeriodTo: 'Wed Aug 21 00:10:36 GMT 2023',
+        },
+      },
+      {
+        type: 'PART_SITE_INFORMATION_AS_PLANNED',
+        data: {
+          functionValidUntil: 'Sat Feb 08 03:30:48 GMT 2025',
+          function: 'production',
+          functionValidFrom: 'Wed Aug 21 00:10:36 GMT 2019',
+          catenaXSiteId: 'urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01',
+        },
+      },
+    ],
   },
 
   {
-    "id": "urn:uuid:d8030bbf-a874-49fb-b2e1-7610f0ccvf54",
-    "idShort": "--",
-    "semanticModelId": "OMAYSKEITUGNVHKKX",
-    "businessPartner": "BPNL00000003CML1",
-    "manufacturerName": "MyManufacturerName",
-    nameAtManufacturer: "MyAsPlannedPartName",
-    manufacturerPartId: "ManuPartID",
-    "owner": "OWN",
-    "childRelations": [
+    id: 'urn:uuid:0733946c-59c6-41ae-9570-cb43a6e43842',
+    idShort: '--',
+    semanticModelId: '12345678ABC',
+    businessPartner: 'BPNL00000003CML1',
+    manufacturerName: 'MyManufacturerName',
+    nameAtManufacturer: 'MyAsPlannedPartName',
+    manufacturerPartId: 'ManuPartID',
+    owner: 'OWN',
+    childRelations: [],
+    parentRelations: [],
+    activeAlert: false,
+    underInvestigation: false,
+    qualityType: 'Ok',
+    van: '--',
+    semanticDataModel: 'JUSTINSEQUENCE',
+    classification: 'product',
+    detailAspectModels: [
       {
-        "id": "urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a",
-        "idShort": null
-      }
-    ],
-    "parentRelations": [],
-    "activeAlert": false,
-    "underInvestigation": false,
-    "qualityType": "Ok",
-    "van": "OMAYSKEITUGNVHKKX",
-    "semanticDataModel": "SERIALPART",
-    "classification": "product",
-    "detailAspectModels": [
-      {
-        "type": "AS_PLANNED",
-        "data": {
-          validityPeriodFrom: "01.01.2023",
-          validityPeriodTo: "01.02.2023",
-        }
+        type: 'AS_PLANNED',
+        data: {
+          validityPeriodFrom: 'Wed Aug 21 00:10:36 GMT 2019',
+          validityPeriodTo: 'Wed Aug 21 00:10:36 GMT 2023',
+        },
       },
       {
-        "type": "PART_SITE_INFORMATION_AS_PLANNED",
-        "data": {
-          "functionValidUntil": "Sat Feb 08 03:30:48 GMT 2025",
-          "function": "production",
-          "functionValidFrom": "Wed Aug 21 00:10:36 GMT 2019",
-          "catenaXSiteId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01"
-        }
-      }
-    ]
+        type: 'PART_SITE_INFORMATION_AS_PLANNED',
+        data: {
+          functionValidUntil: 'Sat Feb 08 03:30:48 GMT 2025',
+          function: 'production',
+          functionValidFrom: 'Wed Aug 21 00:10:36 GMT 2019',
+          catenaXSiteId: 'urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01',
+        },
+      },
+    ],
+  },
+
+  {
+    id: 'urn:uuid:d8030bbf-a874-49fb-b2e1-7610f0ccad12',
+    idShort: '--',
+    semanticModelId: 'OMAYSKEITUGNVHKKX',
+    businessPartner: 'BPNL00000003CML1',
+    manufacturerName: 'MyManufacturerName',
+    nameAtManufacturer: 'MyAsPlannedPartName',
+    manufacturerPartId: 'ManuPartID',
+    owner: 'OWN',
+    childRelations: [
+      {
+        id: 'urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a',
+        idShort: null,
+      },
+    ],
+    parentRelations: [],
+    activeAlert: false,
+    underInvestigation: false,
+    qualityType: 'Ok',
+    van: 'OMAYSKEITUGNVHKKX',
+    semanticDataModel: 'SERIALPART',
+    classification: 'product',
+    detailAspectModels: [
+      {
+        type: 'AS_PLANNED',
+        data: {
+          validityPeriodFrom: 'Wed Aug 21 00:10:36 GMT 2023',
+          validityPeriodTo: 'Wed Aug 21 00:10:36 GMT 2023',
+        },
+      },
+      {
+        type: 'PART_SITE_INFORMATION_AS_PLANNED',
+        data: {
+          functionValidUntil: 'Sat Feb 08 03:30:48 GMT 2025',
+          function: 'production',
+          functionValidFrom: 'Wed Aug 21 00:10:36 GMT 2019',
+          catenaXSiteId: 'urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01',
+        },
+      },
+    ],
+  },
+
+  {
+    id: 'urn:uuid:d8030bbf-a874-49fb-b2e1-7610f0ccvf54',
+    idShort: '--',
+    semanticModelId: 'OMAYSKEITUGNVHKKX',
+    businessPartner: 'BPNL00000003CML1',
+    manufacturerName: 'MyManufacturerName',
+    nameAtManufacturer: 'MyAsPlannedPartName',
+    manufacturerPartId: 'ManuPartID',
+    owner: 'OWN',
+    childRelations: [
+      {
+        id: 'urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a',
+        idShort: null,
+      },
+    ],
+    parentRelations: [],
+    activeAlert: false,
+    underInvestigation: false,
+    qualityType: 'Ok',
+    van: 'OMAYSKEITUGNVHKKX',
+    semanticDataModel: 'SERIALPART',
+    classification: 'product',
+    detailAspectModels: [
+      {
+        type: 'AS_PLANNED',
+        data: {
+          validityPeriodFrom: 'Wed Aug 21 00:10:36 GMT 2023',
+          validityPeriodTo: 'Wed Aug 21 00:10:36 GMT 2023',
+        },
+      },
+      {
+        type: 'PART_SITE_INFORMATION_AS_PLANNED',
+        data: {
+          functionValidUntil: 'Sat Feb 08 03:30:48 GMT 2025',
+          function: 'production',
+          functionValidFrom: 'Wed Aug 21 00:10:36 GMT 2019',
+          catenaXSiteId: 'urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01',
+        },
+      },
+    ],
   },
   {
-    "id": "urn:uuid:d8030bbf-a874-49fb-b2e1-7610f0ccaf88",
-    "idShort": "--",
-    "semanticModelId": "OMAYSKEITUGNVHKKX",
-    "businessPartner": "BPNL00000003CML1",
-    "manufacturerName": "MyManufacturerName",
-    nameAtManufacturer: "MyAsPlannedPartName",
-    manufacturerPartId: "ManuPartID",
-    "owner": "OWN",
-    "childRelations": [
+    id: 'urn:uuid:d8030bbf-a874-49fb-b2e1-7610f0ccaf88',
+    idShort: '--',
+    semanticModelId: 'OMAYSKEITUGNVHKKX',
+    businessPartner: 'BPNL00000003CML1',
+    manufacturerName: 'MyManufacturerName',
+    nameAtManufacturer: 'MyAsPlannedPartName',
+    manufacturerPartId: 'ManuPartID',
+    owner: 'OWN',
+    childRelations: [
       {
-        "id": "urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a",
-        "idShort": null
-      }
+        id: 'urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a',
+        idShort: null,
+      },
     ],
-    "parentRelations": [],
-    "activeAlert": false,
-    "underInvestigation": false,
-    "qualityType": "Ok",
-    "van": "OMAYSKEITUGNVHKKX",
-    "semanticDataModel": "SERIALPART",
-    "classification": "product",
-    "detailAspectModels": [
+    parentRelations: [],
+    activeAlert: false,
+    underInvestigation: false,
+    qualityType: 'Ok',
+    van: 'OMAYSKEITUGNVHKKX',
+    semanticDataModel: 'SERIALPART',
+    classification: 'product',
+    detailAspectModels: [
       {
-        "type": "AS_PLANNED",
-        "data": {
-          validityPeriodFrom: "01.01.2023",
-          validityPeriodTo: "01.02.2023",
-        }
+        type: 'AS_PLANNED',
+        data: {
+          validityPeriodFrom: 'Wed Aug 21 00:10:36 GMT 2023',
+          validityPeriodTo: 'Wed Aug 21 00:10:36 GMT 2023',
+        },
       },
       {
-        "type": "PART_SITE_INFORMATION_AS_PLANNED",
-        "data": {
-          "functionValidUntil": "Sat Feb 08 03:30:48 GMT 2025",
-          "function": "production",
-          "functionValidFrom": "Wed Aug 21 00:10:36 GMT 2019",
-          "catenaXSiteId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01"
-        }
-      }
-    ]
+        type: 'PART_SITE_INFORMATION_AS_PLANNED',
+        data: {
+          functionValidUntil: 'Sat Feb 08 03:30:48 GMT 2025',
+          function: 'production',
+          functionValidFrom: 'Wed Aug 21 00:10:36 GMT 2019',
+          catenaXSiteId: 'urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01',
+        },
+      },
+    ],
   },
   {
-    "id": "urn:uuid:d8030bbf-a874-49fb-b2e1-7610f0ccav85",
-    "idShort": "myShortId",
-    "semanticModelId": "OMAYSKEITUGNVHKKX",
-    "businessPartner": "BPNL00000003CML1",
-    "manufacturerName": "MyManufacturerName",
-    nameAtManufacturer: "MyAsPlannedPartName",
-    manufacturerPartId: "ManuPartID",
-    "owner": "OWN",
-    "childRelations": [
+    id: 'urn:uuid:d8030bbf-a874-49fb-b2e1-7610f0ccav85',
+    idShort: 'myShortId',
+    semanticModelId: 'OMAYSKEITUGNVHKKX',
+    businessPartner: 'BPNL00000003CML1',
+    manufacturerName: 'MyManufacturerName',
+    nameAtManufacturer: 'MyAsPlannedPartName',
+    manufacturerPartId: 'ManuPartID',
+    owner: 'OWN',
+    childRelations: [
       {
-        "id": "urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a",
-        "idShort": null
-      }
+        id: 'urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a',
+        idShort: null,
+      },
     ],
-    "parentRelations": [],
-    "activeAlert": false,
-    "underInvestigation": false,
-    "qualityType": "Ok",
-    "van": "OMAYSKEITUGNVHKKX",
-    "semanticDataModel": "SERIALPART",
-    "classification": "product",
-    "detailAspectModels": [
+    parentRelations: [],
+    activeAlert: false,
+    underInvestigation: false,
+    qualityType: 'Ok',
+    van: 'OMAYSKEITUGNVHKKX',
+    semanticDataModel: 'SERIALPART',
+    classification: 'product',
+    detailAspectModels: [
       {
-        "type": "AS_PLANNED",
-        "data": {
-          validityPeriodFrom: "01.01.2023",
-          validityPeriodTo: "01.02.2023",
-        }
+        type: 'AS_PLANNED',
+        data: {
+          validityPeriodFrom: 'Wed Aug 21 00:10:36 GMT 2023',
+          validityPeriodTo: 'Wed Aug 21 00:10:36 GMT 2023',
+        },
       },
       {
-        "type": "PART_SITE_INFORMATION_AS_PLANNED",
-        "data": {
-          "functionValidUntil": "Sat Feb 08 03:30:48 GMT 2025",
-          "function": "production",
-          "functionValidFrom": "Wed Aug 21 00:10:36 GMT 2019",
-          "catenaXSiteId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01"
-        }
-      }
-    ]
+        type: 'PART_SITE_INFORMATION_AS_PLANNED',
+        data: {
+          functionValidUntil: 'Sat Feb 08 03:30:48 GMT 2025',
+          function: 'production',
+          functionValidFrom: 'Wed Aug 21 00:10:36 GMT 2019',
+          catenaXSiteId: 'urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01',
+        },
+      },
+    ],
   },
   {
-    "id": "urn:uuid:d8030bbf-a874-49fb-b2e1-7610f0ccag25",
-    "idShort": "--",
-    "semanticModelId": "OMAYSKEITUGNVHKKX",
-    "businessPartner": "BPNL00000003CML1",
-    "manufacturerName": "MyManufacturerName",
-    nameAtManufacturer: "MyAsPlannedPartName",
-    manufacturerPartId: "ManuPartID",
-    "owner": "OWN",
-    "childRelations": [
+    id: 'urn:uuid:d8030bbf-a874-49fb-b2e1-7610f0ccag25',
+    idShort: '--',
+    semanticModelId: 'OMAYSKEITUGNVHKKX',
+    businessPartner: 'BPNL00000003CML1',
+    manufacturerName: 'MyManufacturerName',
+    nameAtManufacturer: 'MyAsPlannedPartName',
+    manufacturerPartId: 'ManuPartID',
+    owner: 'OWN',
+    childRelations: [
       {
-        "id": "urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a",
-        "idShort": null
-      }
+        id: 'urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a',
+        idShort: null,
+      },
     ],
-    "parentRelations": [],
-    "activeAlert": false,
-    "underInvestigation": false,
-    "qualityType": "Ok",
-    "van": "OMAYSKEITUGNVHKKX",
-    "semanticDataModel": "SERIALPART",
-    "classification": "product",
-    "detailAspectModels": [
+    parentRelations: [],
+    activeAlert: false,
+    underInvestigation: false,
+    qualityType: 'Ok',
+    van: 'OMAYSKEITUGNVHKKX',
+    semanticDataModel: 'SERIALPART',
+    classification: 'product',
+    detailAspectModels: [
       {
-        "type": "AS_PLANNED",
-        "data": {
-          validityPeriodFrom: "01.01.2023",
-          validityPeriodTo: "01.02.2023",
-        }
+        type: 'AS_PLANNED',
+        data: {
+          validityPeriodFrom: 'Wed Aug 21 00:10:36 GMT 2023',
+          validityPeriodTo: 'Wed Aug 21 00:10:36 GMT 2023',
+        },
       },
       {
-        "type": "PART_SITE_INFORMATION_AS_PLANNED",
-        "data": {
-          "functionValidUntil": "Sat Feb 08 03:30:48 GMT 2025",
-          "function": "production",
-          "functionValidFrom": "Wed Aug 21 00:10:36 GMT 2019",
-          "catenaXSiteId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01"
-        }
-      }
-    ]
+        type: 'PART_SITE_INFORMATION_AS_PLANNED',
+        data: {
+          functionValidUntil: 'Sat Feb 08 03:30:48 GMT 2025',
+          function: 'production',
+          functionValidFrom: 'Wed Aug 21 00:10:36 GMT 2019',
+          catenaXSiteId: 'urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01',
+        },
+      },
+    ],
   },
 ] as PartResponse[];
 
@@ -473,27 +475,29 @@ const MockEmptyPart: PartResponse = {
   id: 'urn:uuid:a000a0aa-00a0-0000-000a-0a0000a0a000',
   idShort: '--',
   businessPartner: 'OEM A',
-  semanticModelId: "emptySematicModelId",
-  "manufacturerName": "MyDefaultManufacturerName",
-  nameAtManufacturer: "MyDefaultAsPlannedPartName",
-  manufacturerPartId: "ManuDefaultPartID",
-  classification: "B-Level",
-  detailAspectModels: [{
-    type: DetailAspectType.AS_PLANNED,
-    data: {
-      validityPeriodFrom: "01.01.2023",
-      validityPeriodTo: "01.02.2023",
-    }
+  semanticModelId: 'emptySematicModelId',
+  manufacturerName: 'MyDefaultManufacturerName',
+  nameAtManufacturer: 'MyDefaultAsPlannedPartName',
+  manufacturerPartId: 'ManuDefaultPartID',
+  classification: 'B-Level',
+  detailAspectModels: [
+    {
+      type: DetailAspectType.AS_PLANNED,
+      data: {
+        validityPeriodFrom: 'Wed Aug 21 00:10:36 GMT 2023',
+        validityPeriodTo: 'Wed Aug 21 00:10:36 GMT 2023',
+      },
     },
     {
       type: DetailAspectType.PART_SITE_INFORMATION_AS_PLANNED,
       data: {
-        functionValidUntil: "Sat Feb 08 03:30:48 GMT 2025",
-        function: "production",
-        functionValidFrom: "Wed Aug 21 00:10:36 GMT 2019",
-        catenaXSiteId: "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01"
-      }
-  }] ,
+        functionValidUntil: 'Sat Feb 08 03:30:48 GMT 2025',
+        function: 'production',
+        functionValidFrom: 'Wed Aug 21 00:10:36 GMT 2019',
+        catenaXSiteId: 'urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01',
+      },
+    },
+  ],
   owner: Owner.OWN,
   childRelations: [],
   parentRelations: [],
@@ -501,10 +505,8 @@ const MockEmptyPart: PartResponse = {
   underInvestigation: false,
   qualityType: QualityType.Ok,
   van: null,
-  semanticDataModel: SemanticDataModel.PARTASPLANNED
+  semanticDataModel: SemanticDataModel.PARTASPLANNED,
 };
-
-
 
 export const getAssetAsPlannedById = (id: string) => {
   return [...mockBmwAsPlannedAssets, ...otherPartsAssets].find(asset => asset.id === id) || { ...MockEmptyPart, id };
@@ -514,4 +516,3 @@ export const getRandomAsset = () => {
   const parts = [...mockBmwAsPlannedAssets, ...otherPartsAssets];
   return parts[Math.floor(Math.random() * parts.length)];
 };
-
