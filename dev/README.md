@@ -68,13 +68,13 @@ python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.12.json -s http
 Sample invocation (STABLE A)
 
 ```
-python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.12.json -s https://traceability-stable-a.stable.demo.catena-x.net/api/submodel -edc https://trace-x-edc-stable-a.stable.demo.catena-x.net -a https://tx-registry-stable-a.stable.demo.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-edc-int-a-dataplane.int.demo.catena-x.net -p id-3.0-trace -k <apiKey> --aas3 --allowedBPNs BPNL00000003CML1 BPNL00000003CNKC BPNL00000003AZQP BPNL00000003CSGV
+python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.12.json -s https://traceability-stable-a.stable.demo.catena-x.net/api/submodel -edc https://trace-x-edc-stable-a.stable.demo.catena-x.net -a https://trace-x-registry-stable-a.stable.demo.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-edc-stable-a-dataplane.stable.demo.catena-x.net -p id-3.0-trace -k <apiKey> --aas3 --allowedBPNs BPNL00000003CML1 BPNL00000003CNKC BPNL00000003AZQP BPNL00000003CSGV
 ```
 
 Sample invocation (STABLE B)
 
 ```
-python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.12.json -s https://traceability-stable-b.stable.demo.catena-x.net/api/submodel -edc https://trace-x-edc-stable-b.stable.demo.catena-x.net -a https://tx-registry-stable-b.stable.demo.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-edc-int-b-dataplane.int.demo.catena-x.net -p id-3.0-trace -k <apiKey> --aas3 --allowedBPNs BPNL00000003CML1 BPNL00000003CNKC BPNL00000003AZQP BPNL00000003CSGV
+python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.12.json -s https://traceability-stable-b.stable.demo.catena-x.net/api/submodel -edc https://trace-x-edc-stable-b.stable.demo.catena-x.net -a https://trace-x-registry-stable-b.stable.demo.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-edc-stable-b-dataplane.stable.demo.catena-x.net -p id-3.0-trace -k <apiKey> --aas3 --allowedBPNs BPNL00000003CML1 BPNL00000003CNKC BPNL00000003AZQP BPNL00000003CSGV
 ```
 
 where:
