@@ -1,0 +1,69 @@
+#    Copyright (c) 2023 Contributors to the Eclipse Foundation
+#
+#    See the NOTICE file(s) distributed with this work for additional
+#    information regarding copyright ownership.
+#
+#    This program and the accompanying materials are made available under the
+#    terms of the Apache License, Version 2.0 which is available at
+#    https://www.apache.org/licenses/LICENSE-2.0.
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+#    License for the specific language governing permissions and limitations
+#    under the License.
+#
+#  SPDX-License-Identifier: Apache-2.0
+
+name: "[BE] Dependency check"
+
+on:
+  workflow_dispatch: # Trigger manually
+  pull_request:
+
+env:
+  GHCR_REGISTRY: ghcr.io
+  JAVA_VERSION: 17
+  DOCKER_HUB_REGISTRY_NAMESPACE: tractusx
+
+jobs:
+  Dependency-analysis:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v3
+        with:
+          java-version: '${{ env.JAVA_VERSION }}'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: install tx-models
+        run: mvn install -pl tx-models
+
+      - name: Dependency rules report # possible severity values: <'fail'|'warn'|'ignore'>
+        run: mvn -pl tx-models,tx-backend -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode site -Pdependency-check
+
+      - name: Upload Test results Tx-Backend
+        if: always()
+        uses: actions/upload-artifact@master
+        with:
+          name: Depcheck report tx-backend
+          path: tx-backend/target
+
+      - name: Upload Test results Tx-Models
+        if: always()
+        uses: actions/upload-artifact@master
+        with:
+          name: Depcheck report tx-models
+          path: tx-models/target
+
+      - name: add PR comment
+        uses: mshick/add-pr-comment@v2
+        if: failure()
+        with:
+          message: |
+            ## ‼️ Dependency Check findings ‼️
+            One or more high/critical findings have been found during dependency check. Please check the depenency report:
+            https://github.com/catenax-ng/tx-traceability-foss/actions/runs/${{ github.run_id }}

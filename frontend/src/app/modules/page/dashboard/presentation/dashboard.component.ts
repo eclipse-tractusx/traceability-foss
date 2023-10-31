@@ -22,7 +22,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { getRoute, INVESTIGATION_BASE_ROUTE } from '@core/known-route';
-import { Notification, Notifications, NotificationStatusGroup } from '@shared/model/notification.model';
+import {Notification, Notifications, NotificationStatusGroup, NotificationType} from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
 import { Observable } from 'rxjs';
@@ -69,4 +69,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     const { link } = getRoute(INVESTIGATION_BASE_ROUTE);
     this.router.navigate([`/${link}/${notification.id}`]).then();
   }
+
+    protected readonly NotificationType = NotificationType;
 }

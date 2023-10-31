@@ -20,14 +20,15 @@
  ********************************************************************************/
 
 import { AfterViewInit, Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
+import { InvestigationsType } from '@page/investigations/core/investigationsType.enum';
 import {
   CreateHeaderFromColumns,
   DisplayColumns,
-  MenuActionConfig,
+  MenuActionConfig, PartTableType,
   TableConfig,
   TableEventConfig, TableHeaderSort,
 } from '@shared/components/table/table.model';
-import { Notification, Notifications } from '@shared/model/notification.model';
+import { Notification, Notifications, NotificationType } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { Observable } from 'rxjs';
 
@@ -45,6 +46,7 @@ export class NotificationTabComponent implements AfterViewInit {
   @Input() optionalColumns: Array<'targetDate' | 'severity' | 'createdBy' | 'sendTo'> = [];
   @Input() sortableColumns: Record<string, boolean> = {};
   @Input() multiSortList: TableHeaderSort[] = [];
+  @Input() notificationType = NotificationType.INVESTIGATION
 
   @Output() tableConfigChanged = new EventEmitter<TableEventConfig>();
   @Output() selected = new EventEmitter<Notification>();
@@ -55,9 +57,11 @@ export class NotificationTabComponent implements AfterViewInit {
   @ViewChild('targetDateTmp') targetDateTemplate: TemplateRef<unknown>;
   @ViewChild('userTmp') userTemplate: TemplateRef<unknown>;
 
+
   public tableConfig: TableConfig<keyof Notification>;
 
   public ngAfterViewInit(): void {
+
     const defaultColumns: DisplayColumns<keyof Notification>[] = ['description', 'status', 'createdDate'];
     const displayedColumns: DisplayColumns<keyof Notification>[] = [...defaultColumns, ...this.optionalColumns, 'menu'];
     const sortableColumns: Record<string, boolean> = this.sortableColumns;
@@ -89,5 +93,5 @@ export class NotificationTabComponent implements AfterViewInit {
   }
 
 
-
+  protected readonly NotificationType = NotificationType;
 }
