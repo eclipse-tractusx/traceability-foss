@@ -81,6 +81,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Changed date formats of assets to have offsetDateTime instead of Date or LocalDateTime
 - Aligned date formats in the rest api for assets
 - Increased version of jetty-http from 11.0.15 to 11.0.17 and excluded from edc package
+- Bump versions in frontend dependencies
 
 ### Removed
 
