@@ -32,6 +32,7 @@
     "dependencies:validate": "./scripts/eclipse_dash.sh 0.0.1-SNAPSHOT",
     "e2e": "ng e2e",
     "cypress:open": "cypress open",
+    "cypress:open-local": "cypress open --config-file ./cypress/environment/cypress.local.config.ts",
     "cypress:run": "cypress run"
   },
   "private": true,
