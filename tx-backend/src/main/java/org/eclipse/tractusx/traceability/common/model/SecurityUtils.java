@@ -29,7 +29,7 @@ import qualitynotification.base.request.StartQualityNotificationRequest;
 import qualitynotification.base.request.UpdateQualityNotificationRequest;
 
 import java.util.List;
-import java.util.Objects;
+
 
 public class SecurityUtils {
 
@@ -96,7 +96,7 @@ public class SecurityUtils {
         String cleanNotificationId = sanitize(edcNotificationHeader.notificationId());
         String cleanSenderBPN = sanitize(edcNotificationHeader.senderBPN());
         String cleanSenderAddress = sanitize(edcNotificationHeader.senderAddress());
-        String cleanTargetDate = sanitize(Objects.requireNonNull(edcNotificationHeader.targetDate()));
+        String cleanTargetDate = sanitize(edcNotificationHeader.targetDate());
         String cleanStatus = edcNotificationHeader.status();
         String cleanClassification = edcNotificationHeader.classification();
         String cleanSeverity = sanitize(edcNotificationHeader.severity());
