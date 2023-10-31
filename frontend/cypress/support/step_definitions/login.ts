@@ -18,7 +18,7 @@ Given(/^user logged in as "supervisor"$/, () => {
 
   cy.get('input[name="username"]').type(supervisorLogin);
 
-  cy.get('input[name="password"]').focus().type(supervisorPW);
+  cy.get('input[name="password"]').click().focus().type(supervisorPW);
 
   cy.get('input[type="submit"]').click();
 
