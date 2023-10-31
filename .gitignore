@@ -66,3 +66,5 @@ tslint-report.json
 yarn-error.log
 
 scripts/download/*
+/frontend/cypress/.env.local
+/frontend/cypress/environment/cypress.local.config.js
