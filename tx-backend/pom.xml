@@ -123,7 +123,7 @@ SPDX-License-Identifier: Apache-2.0
         <dependency>
             <groupId>org.eclipse.edc</groupId>
             <artifactId>jetty-core</artifactId>
-            <version>0.3.1</version>
+            <version>0.2.1</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.edc</groupId>
