@@ -589,32 +589,32 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
                         .build(),
                 InvestigationNotificationEntity
                         .builder()
-                        .status(NotificationStatusBaseEntity.CREATED)
                         .severity(QualityNotificationSeverity.MAJOR)
+                        .status(NotificationStatusBaseEntity.CREATED)
                         .id("2")
                         .investigation(secondInvestigation)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                         .build(),
                 InvestigationNotificationEntity
                         .builder()
-                        .status(NotificationStatusBaseEntity.CREATED)
                         .severity(QualityNotificationSeverity.LIFE_THREATENING)
+                        .status(NotificationStatusBaseEntity.CREATED)
                         .id("3")
                         .investigation(thirdInvestigation)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                         .build(),
                 InvestigationNotificationEntity
                         .builder()
-                        .status(NotificationStatusBaseEntity.CREATED)
                         .severity(QualityNotificationSeverity.MINOR)
+                        .status(NotificationStatusBaseEntity.CREATED)
                         .id("4")
                         .investigation(fourthInvestigation)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                         .build(),
                 InvestigationNotificationEntity
                         .builder()
-                        .status(NotificationStatusBaseEntity.CREATED)
                         .severity(QualityNotificationSeverity.CRITICAL)
+                        .status(NotificationStatusBaseEntity.CREATED)
                         .id("5")
                         .investigation(fifthInvestigation)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")

@@ -594,24 +594,24 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                         .build(),
                 AlertNotificationEntity
                         .builder()
-                        .status(NotificationStatusBaseEntity.CREATED)
                         .severity(QualityNotificationSeverity.LIFE_THREATENING)
+                        .status(NotificationStatusBaseEntity.CREATED)
                         .id("3")
                         .alert(thirdAlert)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                         .build(),
                 AlertNotificationEntity
                         .builder()
-                        .status(NotificationStatusBaseEntity.CREATED)
                         .severity(QualityNotificationSeverity.MINOR)
+                        .status(NotificationStatusBaseEntity.CREATED)
                         .id("4")
                         .alert(fourthAlert)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                         .build(),
                 AlertNotificationEntity
                         .builder()
-                        .status(NotificationStatusBaseEntity.CREATED)
                         .severity(QualityNotificationSeverity.CRITICAL)
+                        .status(NotificationStatusBaseEntity.CREATED)
                         .id("5")
                         .alert(fifthAlert)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
