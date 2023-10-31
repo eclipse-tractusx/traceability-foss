@@ -108,6 +108,9 @@ jobs:
           wait-on-timeout: 120
           browser: chrome
           working-directory: frontend
+        env:
+          SUPERVISOR_LOGIN: ${{ secrets.ORG_IRS_JIRA_USERNAME }}
+          SUPERVISOR_PW: ${{ secrets.ORG_IRS_JIRA_USERNAME }}
 
       - name: Submit results to Xray
         # we don't want to submit results to xray when it was run by PR

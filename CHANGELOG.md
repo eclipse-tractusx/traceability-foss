@@ -19,6 +19,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - handling for invalid LocalDate string provided in filterCriteria for date related filtering
 - support for filtering join tables for Specification searchCriteria
 - added PR comment in case of HIGH/CRITICAL dependency check findings
+- Cypress Login to E2E Environment to enable cypress e2e tests.
 
 ### Changed
 - Updated user manual to reflect the table column settings feature
