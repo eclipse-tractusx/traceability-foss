@@ -41,11 +41,6 @@ import static org.eclipse.tractusx.traceability.testdata.AssetTestDataFactory.cr
 @ExtendWith(MockitoExtension.class)
 class PersistentAssetsAsBuiltRepositoryTest {
 
-    @InjectMocks
-    private AssetAsBuiltRepositoryImpl persistentAssetsRepository;
-
-    @Mock
-    private JpaAssetAsBuiltRepository jpaAssetsRepository;
 
     @Test
     void testToAsset() {
