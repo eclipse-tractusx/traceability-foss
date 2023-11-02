@@ -19,8 +19,13 @@
 
 package org.eclipse.tractusx.traceability.testdata;
 
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataAsBuilt;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.*;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
 
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +41,37 @@ public class AssetTestDataFactory {
 
     public static AssetBase createAssetTestData() {
 
-// TODO add detailAspectModels
+
+        DetailAspectDataAsBuilt detailAspectDataAsBuilt = DetailAspectDataAsBuilt.builder()
+                .partId("1")
+                .customerPartId("2")
+                .nameAtCustomer("Moritz")
+                .manufacturingCountry("Germany")
+                .manufacturingDate(OffsetDateTime.parse("2022-10-20T00:00:00Z", DateTimeFormatter.ISO_OFFSET_DATE_TIME))
+                .build();
+
+        DetailAspectModel detailAspectModel =  DetailAspectModel.builder()
+                .data(detailAspectDataAsBuilt)
+                .type(DetailAspectType.AS_BUILT)
+                .build();
+
+        DetailAspectDataAsBuilt detailAspectDataAsBuilt2 = DetailAspectDataAsBuilt.builder()
+                .partId("2")
+                .customerPartId("3")
+                .nameAtCustomer("Max")
+                .manufacturingCountry("Germany")
+                .manufacturingDate(OffsetDateTime.parse("2022-10-20T00:00:00Z", DateTimeFormatter.ISO_OFFSET_DATE_TIME))
+                .build();
+
+        DetailAspectModel detailAspectModel2 =  DetailAspectModel.builder()
+                .data(detailAspectDataAsBuilt2)
+                .type(DetailAspectType.AS_BUILT)
+                .build();
+
+
+        ArrayList<DetailAspectModel> detailAspectModels = new ArrayList<>();
+        detailAspectModels.add(detailAspectModel);
+        detailAspectModels.add(detailAspectModel2);
 
         return AssetBase.builder()
                 .id("1")
@@ -52,27 +87,7 @@ public class AssetTestDataFactory {
                 .owner(Owner.OWN)
                 .manufacturerName("manuName")
                 .manufacturerId("manuId")
-                .build();
-    }
-
-    public static AssetBase createAssetParentTestData() {
-
-// TODO add detailAspectModels
-
-        return AssetBase.builder()
-                .id("2")
-                .idShort("23456")
-                .semanticModelId("456")
-                .semanticDataModel(SemanticDataModel.SERIALPART)
-                .activeAlert(false)
-                .parentRelations(AssetTestDataFactory.provideParentRelations())
-                .childRelations(AssetTestDataFactory.provideChildRelations())
-                .van("van123")
-                .qualityType(QualityType.CRITICAL)
-                .inInvestigation(false)
-                .owner(Owner.OWN)
-                .manufacturerName("manuName")
-                .manufacturerId("manuId")
+                .detailAspectModels(detailAspectModels)
                 .build();
     }
 
