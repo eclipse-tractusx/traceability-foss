@@ -51,12 +51,12 @@ class PersistentAssetsAsBuiltRepositoryTest {
     void testToAsset() {
         // Given
         AssetAsBuiltEntity entity = AssetAsBuiltEntity.builder()
-                .id("1")
+                .id("urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01")
                 .idShort("1234")
                 .nameAtManufacturer("Manufacturer Name")
                 .manufacturerPartId("customer123")
                 .semanticModelId("PI001")
-                .manufacturerId("manuId")
+                .manufacturerId("BPNL00000003CML1")
                 .manufacturerName("manuName")
                 .nameAtCustomer("Customer Name")
                 .customerPartId("customerPartId")
@@ -65,7 +65,7 @@ class PersistentAssetsAsBuiltRepositoryTest {
                 .semanticDataModel(SemanticDataModelEntity.SERIALPART)
                 .owner(Owner.OWN)
                 .qualityType(QualityType.CRITICAL)
-                .van("van123")
+                .van("OMAOYGBDTSRCMYSCX")
                 .childDescriptors(List.of(AssetAsBuiltEntity.ChildDescription.builder()
                                 .id("child1")
                                 .idShort("desc1")

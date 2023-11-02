@@ -74,19 +74,19 @@ public class AssetTestDataFactory {
         detailAspectModels.add(detailAspectModel2);
 
         return AssetBase.builder()
-                .id("1")
+                .id("urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01")
                 .idShort("1234")
                 .semanticModelId("456")
                 .semanticDataModel(SemanticDataModel.SERIALPART)
                 .activeAlert(false)
                 .parentRelations(AssetTestDataFactory.provideParentRelations())
                 .childRelations(AssetTestDataFactory.provideChildRelations())
-                .van("van123")
+                .van("OMAOYGBDTSRCMYSCX")
                 .qualityType(QualityType.CRITICAL)
                 .inInvestigation(false)
                 .owner(Owner.OWN)
                 .manufacturerName("manuName")
-                .manufacturerId("manuId")
+                .manufacturerId("BPNL00000003CML1")
                 .detailAspectModels(detailAspectModels)
                 .build();
     }
