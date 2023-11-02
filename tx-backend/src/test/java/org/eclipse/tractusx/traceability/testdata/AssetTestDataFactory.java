@@ -75,7 +75,7 @@ public class AssetTestDataFactory {
 
         return AssetBase.builder()
                 .id("urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01")
-                .idShort("1234")
+                .idShort("a/devNTierAPlastics")
                 .semanticModelId("456")
                 .semanticDataModel(SemanticDataModel.SERIALPART)
                 .activeAlert(false)
