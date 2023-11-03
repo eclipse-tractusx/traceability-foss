@@ -11,16 +11,21 @@ Given(/^user logged in as "supervisor"$/, () => {
   cy.get('.search').click();
   cy.get('.search').type('CX-Test-Access');
   cy.get('.CX_Test_Access').click();
+  cy.wait(5000);
 
   cy.get('input[name="username"]').type(supervisorLogin);
+  cy.wait(5000);
 
   cy.get('input[name="password"]').click().focus().type(supervisorPW);
+  cy.wait(5000);
 
   cy.get('input[type="submit"]').click();
+
 
 });
 
 
 Given('user is directed to the {string}', function(string) {
+  cy.wait(5000);
   cy.get('div.layout-content').should('exist');
 });
