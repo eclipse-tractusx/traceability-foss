@@ -20,6 +20,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - support for filtering join tables for Specification searchCriteria
 - added PR comment in case of HIGH/CRITICAL dependency check findings
 - Functionality to indicate that no Dependency Check findings occur in a PR
+- Badge to show successful Dependency Check status
 
 ### Changed
 - Updated user manual to reflect the table column settings feature
