@@ -176,7 +176,7 @@ public class RestProvider {
         return given().spec(getRequestSpecification())
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/" + notificationType.label + "?&filter=channel,EQUAL,RECEIVER,AND")
+                .get("/api/" + notificationType.label + "?filter=channel,EQUAL,RECEIVER,AND")
                 .then()
                 .statusCode(HttpStatus.SC_OK)
                 .extract()
@@ -212,6 +212,7 @@ public class RestProvider {
                 .contentType(ContentType.JSON)
                 .when()
                 .get("/api/assets/as-built?owner=" + ownerFilter + "&page=0&size=50")
+//                       /api/assets/as-built?filter=owner,EQUAL,OWN&page=0&size=50
                 .then()
                 .statusCode(HttpStatus.SC_OK)
                 .extract()
