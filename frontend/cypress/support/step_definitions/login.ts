@@ -10,12 +10,12 @@ Given('user logged in as {user}', function(user) {
       loginPW = Cypress.env('SUPERVISOR_PW');
     }
     case 'user': {
-      loginMail = Cypress.env('SUPERVISOR_LOGIN');
-      loginPW = Cypress.env('SUPERVISOR_PW');
+      loginMail = Cypress.env('USER_LOGIN');
+      loginPW = Cypress.env('USER_PW');
     }
     case 'admin': {
-      loginMail = Cypress.env('SUPERVISOR_LOGIN');
-      loginPW = Cypress.env('SUPERVISOR_PW');
+      loginMail = Cypress.env('ADMIN_LOGIN');
+      loginPW = Cypress.env('ADMIN_PW');
     }
 
   }
