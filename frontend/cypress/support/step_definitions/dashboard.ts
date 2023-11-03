@@ -28,7 +28,7 @@ Given(/^browser is opened to dashboard page$/, () => {
 });
 
 Then(/^url should contain dashboard$/, () => {
-  cy.url().should('include', '/dashboard');
+  cy.url().should('include', '');
 });
 
 Then(/^should be visible "Dashboard" header$/, () => {

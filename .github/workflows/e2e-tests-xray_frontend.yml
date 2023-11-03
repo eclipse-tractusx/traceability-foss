@@ -109,8 +109,12 @@ jobs:
           browser: chrome
           working-directory: frontend
         env:
-          CYPRESS_SUPERVISOR_LOGIN: ${{ secrets.TRACE_X_USER_LOGIN }}
-          CYPRESS_SUPERVISOR_PW: ${{ secrets.TRACE_X_USER_PW }}
+          CYPRESS_SUPERVISOR_LOGIN: ${{ secrets.TRACE_X_SUPERVISOR_LOGIN }}
+          CYPRESS_SUPERVISOR_PW: ${{ secrets.TRACE_X_SUPERVISOR_PW }}
+          CYPRESS_ADMIN_LOGIN: ${{ secrets.TRACE_X_ADMIN_LOGIN }}
+          CYPRESS_ADMIN_PW: ${{ secrets.TRACE_X_ADMIN_PW }}
+          CYPRESS_USER_LOGIN: ${{ secrets.TRACE_X_USER_LOGIN }}
+          CYPRESS_USER_PW: ${{ secrets.TRACE_X_USER_PW }}
 
       - name: Submit results to Xray
         # we don't want to submit results to xray when it was run by PR
