@@ -176,7 +176,7 @@ public class RestProvider {
         return given().spec(getRequestSpecification())
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/" + notificationType.label + "/received")
+                .get("/api/" + notificationType.label + "?&filter=channel,EQUAL,RECEIVER,AND")
                 .then()
                 .statusCode(HttpStatus.SC_OK)
                 .extract()
