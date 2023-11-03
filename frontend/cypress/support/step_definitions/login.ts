@@ -1,7 +1,7 @@
 import { Given } from '@badeball/cypress-cucumber-preprocessor';
 
 
-Given(/^user logged in as {string}$/, function(user) {
+Given('user logged in as {user}', function(user) {
   let loginMail = '';
   let loginPW = '';
   switch (user) {
@@ -34,7 +34,7 @@ Given(/^user logged in as {string}$/, function(user) {
 });
 
 
-Given('user is directed to the {string}', function(value) {
+Given('user is directed to the {value}', function(value) {
   cy.wait(5000);
   cy.get('div.layout-content').should('exist');
 });
