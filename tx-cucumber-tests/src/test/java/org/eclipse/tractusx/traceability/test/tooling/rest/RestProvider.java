@@ -212,7 +212,6 @@ public class RestProvider {
                 .contentType(ContentType.JSON)
                 .when()
                 .get("/api/assets/as-built?owner=" + ownerFilter + "&page=0&size=50")
-//                       /api/assets/as-built?filter=owner,EQUAL,OWN&page=0&size=50
                 .then()
                 .statusCode(HttpStatus.SC_OK)
                 .extract()
