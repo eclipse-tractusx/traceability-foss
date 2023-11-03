@@ -7,6 +7,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [UNRELEASED - DD.MM.YYYY]
 ### Added
+- Cypress Login to E2E Environment to enable cypress e2e tests.
 ### Changed
 ### Removed
 
