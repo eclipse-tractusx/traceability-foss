@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [UNRELEASED - DD.MM.YYYY]
+### Added
+### Changed
+### Removed
+
+## [9.0.0-rc1 - 03.11.2023]
 
 ### Added
 - Added Table columns settings in part tables to show/hide/reorder table columns
@@ -82,6 +87,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Changed date formats of assets to have offsetDateTime instead of Date or LocalDateTime
 - Aligned date formats in the rest api for assets
 - Increased version of jetty-http from 11.0.15 to 11.0.17 and excluded from edc package
+- Bump versions in frontend dependencies
 
 ### Removed
 
