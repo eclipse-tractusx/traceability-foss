@@ -109,8 +109,8 @@ jobs:
           browser: chrome
           working-directory: frontend
         env:
-          CYPRESS_SUPERVISOR_LOGIN: ${{ secrets.ORG_IRS_JIRA_USERNAME }}
-          CYPRESS_SUPERVISOR_PW: ${{ secrets.ORG_IRS_JIRA_USERNAME }}
+          CYPRESS_SUPERVISOR_LOGIN: ${{ secrets.TRACE_X_USER_USER }}
+          CYPRESS_SUPERVISOR_PW: ${{ secrets.TRACE_X_USER_PW }}
 
       - name: Submit results to Xray
         # we don't want to submit results to xray when it was run by PR
