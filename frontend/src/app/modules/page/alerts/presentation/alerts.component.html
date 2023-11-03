@@ -24,6 +24,7 @@ SPDX-License-Identifier: Apache-2.0
 ></app-notification-common-modal>
 
 <app-notification
+  [notificationType]="NotificationType.ALERT"
   [queuedAndRequestedNotifications$]="alertsQueuedAndRequested$"
   [receivedNotifications$]="alertsReceived$"
   [translationContext]="TranslationContext.COMMONALERT"

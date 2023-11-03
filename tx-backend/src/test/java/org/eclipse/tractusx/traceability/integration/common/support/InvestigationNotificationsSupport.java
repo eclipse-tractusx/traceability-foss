@@ -19,6 +19,8 @@
 
 package org.eclipse.tractusx.traceability.integration.common.support;
 
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationNotificationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.repository.JpaInvestigationNotificationRepository;
@@ -46,6 +48,9 @@ public class InvestigationNotificationsSupport {
     @Autowired
     JpaInvestigationNotificationRepository jpaInvestigationNotificationRepository;
 
+    @Autowired
+    JpaAssetAsBuiltRepository jpaAssetAsBuiltRepository;
+
     public void defaultInvestigationsStored() {
         storeCreatedInvestigations();
         storeReceivedInvestigations();
@@ -69,6 +74,7 @@ public class InvestigationNotificationsSupport {
 
     private void storeCreatedInvestigations() {
         Instant now = Instant.parse("2023-10-10T10:10:10.00Z");
+        Instant monthFromNow = Instant.parse("2023-11-10T10:10:10.00Z");
 
         InvestigationEntity investigation1 = InvestigationEntity.builder()
                 .assets(Collections.emptyList())
@@ -151,7 +157,9 @@ public class InvestigationNotificationsSupport {
                         .id("1")
                         .investigation(investigation1)
                         .status(NotificationStatusBaseEntity.CREATED)
+                        .severity(QualityNotificationSeverity.MINOR)
                         .createdBy(OWN_BPN)
+                        .targetDate(monthFromNow.minus(3L, DAYS))
                         .createdByName(OWN_BPN_COMPANY_NAME)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a1")
                         .build(),
@@ -160,7 +168,9 @@ public class InvestigationNotificationsSupport {
                         .createdBy(OWN_BPN)
                         .createdByName(OWN_BPN_COMPANY_NAME)
                         .status(NotificationStatusBaseEntity.SENT)
+                        .severity(QualityNotificationSeverity.MAJOR)
                         .id("2")
+                        .targetDate(monthFromNow.minus(2L, DAYS))
                         .investigation(investigation2)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a2")
                         .build(),
@@ -168,6 +178,8 @@ public class InvestigationNotificationsSupport {
                         .builder()
                         .status(NotificationStatusBaseEntity.RECEIVED)
                         .id("3")
+                        .severity(QualityNotificationSeverity.CRITICAL)
+                        .targetDate(monthFromNow.minus(1L, DAYS))
                         .createdBy(OTHER_BPN)
                         .createdByName(OTHER_BPN_COMPANY_NAME)
                         .investigation(investigation3)
@@ -177,6 +189,8 @@ public class InvestigationNotificationsSupport {
                         .builder()
                         .status(NotificationStatusBaseEntity.ACKNOWLEDGED)
                         .id("4")
+                        .targetDate(monthFromNow)
+                        .severity(QualityNotificationSeverity.LIFE_THREATENING)
                         .createdBy(OTHER_BPN)
                         .createdByName(OTHER_BPN_COMPANY_NAME)
                         .investigation(investigation4)
@@ -185,7 +199,9 @@ public class InvestigationNotificationsSupport {
                 InvestigationNotificationEntity
                         .builder()
                         .status(NotificationStatusBaseEntity.ACCEPTED)
+                        .severity(QualityNotificationSeverity.MINOR)
                         .id("5")
+                        .targetDate(monthFromNow)
                         .createdBy(OTHER_BPN)
                         .createdByName(OTHER_BPN_COMPANY_NAME)
                         .investigation(investigation5)
@@ -194,6 +210,8 @@ public class InvestigationNotificationsSupport {
                 InvestigationNotificationEntity
                         .builder()
                         .status(NotificationStatusBaseEntity.DECLINED)
+                        .severity(QualityNotificationSeverity.MAJOR)
+                        .targetDate(monthFromNow.plus(1L, DAYS))
                         .id("6")
                         .createdBy(OTHER_BPN)
                         .createdByName(OTHER_BPN_COMPANY_NAME)
@@ -205,6 +223,8 @@ public class InvestigationNotificationsSupport {
                         .status(NotificationStatusBaseEntity.CANCELED)
                         .id("7")
                         .createdBy(OWN_BPN)
+                        .targetDate(monthFromNow.plus(2L, DAYS))
+                        .severity(QualityNotificationSeverity.CRITICAL)
                         .createdByName(OWN_BPN_COMPANY_NAME)
                         .investigation(investigation7)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a7")
@@ -212,6 +232,8 @@ public class InvestigationNotificationsSupport {
                 InvestigationNotificationEntity
                         .builder()
                         .status(NotificationStatusBaseEntity.CLOSED)
+                        .severity(QualityNotificationSeverity.LIFE_THREATENING)
+                        .targetDate(monthFromNow.plus(3L, DAYS))
                         .id("8")
                         .createdBy(OWN_BPN)
                         .createdByName(OWN_BPN_COMPANY_NAME)

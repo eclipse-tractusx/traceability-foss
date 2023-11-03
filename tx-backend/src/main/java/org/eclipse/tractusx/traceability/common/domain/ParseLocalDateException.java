@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,33 +17,10 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-.relative-context {
-  position: relative;
-  overflow: hidden;
-}
+package org.eclipse.tractusx.traceability.common.domain;
 
-.scroll-container {
-  overflow: auto;
-
-  &__left-scroll::before {
-    content: '';
-    position: absolute;
-    left: -7px;
-    top: 0;
-    width: 1px;
-    height: 100%;
-
-    box-shadow: 8px -1px 12px 1px rgb(0 0 0);
-  }
-
-  &__right-scroll::after {
-    content: '';
-    position: absolute;
-    right: -7px;
-    top: 0;
-    width: 1px;
-    height: 100%;
-
-    box-shadow: -8px -1px 12px 1px rgb(0 0 0);
-  }
+public class ParseLocalDateException extends RuntimeException {
+    public ParseLocalDateException(String localDate, String fieldName, Throwable cause) {
+        super("Could not parse '%s' for field '%s'. Accepted LocalDate format is following 'YYYY-MM-DD'".formatted(localDate, fieldName), cause);
+    }
 }
