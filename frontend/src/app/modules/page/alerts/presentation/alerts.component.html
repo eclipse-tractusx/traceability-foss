@@ -22,10 +22,16 @@ SPDX-License-Identifier: Apache-2.0
     <div class="inline-block w-full">
       <div class="flex justify-between items-center">
         <h3 class="pl-2 mb-4 flex items-center tableHeader">
-          <img class="pr-2" src="/assets/images/icons/alert.svg" alt="" />
+          <img class="pr-2" src="/assets/images/icons/alert.svg" alt="Alerts icon" />
           {{ 'pageTitle.alerts' | i18n }}
         </h3>
       </div>
+    </div>
+    <div [formGroup]="searchFormGroup">
+      <app-input color="accent" [label]="'parts.input.global-search.placeholder' | i18n" [prefixIconHover]="true"
+        (prefixIconClick)="triggerSearch()" [onEnterActive]="true" [prefixIcon]="'search'" formControlName="alertSearch"
+        [parentFormGroup]="searchFormGroup" [parentControlName]="'alertSearch'" [displayClearButton]="true"
+        prefixIconColor="accent"></app-input>
     </div>
   </mat-card-header>
   <mat-card-content>

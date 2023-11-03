@@ -17,18 +17,18 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {PartsService} from "@shared/service/parts.service";
-import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
-import {TestBed} from "@angular/core/testing";
-import {ApiService} from "@core/api/api.service";
-import {TableHeaderSort} from "@shared/components/table/table.model";
-import {Pagination} from "@core/model/pagination.model";
-import {AssetAsBuiltFilter, AssetAsPlannedFilter, Part} from "@page/parts/model/parts.model";
-import {environment} from "@env";
-import {KeycloakService} from "keycloak-angular";
-import {AuthService} from "@core/auth/auth.service";
-import {mockAssets} from "../../../mocks/services/parts-mock/partsAsPlanned/partsAsPlanned.test.model";
-import {MOCK_part_1} from "../../../mocks/services/parts-mock/partsAsBuilt/partsAsBuilt.test.model";
+import { PartsService } from "@shared/service/parts.service";
+import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
+import { TestBed } from "@angular/core/testing";
+import { ApiService } from "@core/api/api.service";
+import { TableHeaderSort } from "@shared/components/table/table.model";
+import { Pagination } from "@core/model/pagination.model";
+import { AssetAsBuiltFilter, AssetAsDesignedFilter, AssetAsOrderedFilter, AssetAsPlannedFilter, AssetAsRecycledFilter, AssetAsSupportedFilter, Part } from "@page/parts/model/parts.model";
+import { environment } from "@env";
+import { KeycloakService } from "keycloak-angular";
+import { AuthService } from "@core/auth/auth.service";
+import { mockAssets } from "../../../mocks/services/parts-mock/partsAsPlanned/partsAsPlanned.test.model";
+import { MOCK_part_1 } from "../../../mocks/services/parts-mock/partsAsBuilt/partsAsBuilt.test.model";
 
 describe('PartsService', () => {
     let service: PartsService;
@@ -108,7 +108,7 @@ describe('PartsService', () => {
             ['age', 'asc'],
             ['score', 'desc'],
         ];
-        const filter = {id: "123"} as AssetAsBuiltFilter;
+        const filter = { id: "123" } as AssetAsBuiltFilter;
 
         service.getPartsAsBuilt(page, pageSize, multiSort, filter).subscribe((parts: Pagination<Part>) => {
             expect(parts).toBeTruthy();
@@ -161,7 +161,7 @@ describe('PartsService', () => {
             ['age', 'asc'],
             ['score', 'desc'],
         ];
-        const filter = {id: "123"} as AssetAsPlannedFilter;
+        const filter = { id: "123" } as AssetAsPlannedFilter;
 
         service.getPartsAsPlanned(page, pageSize, multiSort, filter).subscribe((parts: Pagination<Part>) => {
             expect(parts).toBeTruthy();
@@ -177,4 +177,216 @@ describe('PartsService', () => {
 
         httpMock.verify();
     });
+
+    it('should call the getPartsAsDesigned API and return parts', () => {
+
+        spyOn(authService, 'getBearerToken').and.returnValue('your_mocked_token');
+
+        const page = 0;
+        const pageSize = 10;
+        const multiSort: TableHeaderSort[] = [
+            ['age', 'asc'],
+            ['score', 'desc'],
+        ];
+
+        service.getPartsAsDesigned(page, pageSize, multiSort).subscribe((parts: Pagination<Part>) => {
+            expect(parts).toBeTruthy();
+        });
+
+        const expectedUrl = `${environment.apiUrl}/assets/as-designed`;
+
+        const req = httpMock.expectOne((request) => {
+            return request.url === expectedUrl && request.method === 'GET';
+        });
+
+        req.flush(mockAssets);
+
+        httpMock.verify();
+    });
+
+    it('should call the getPartsAsDesigned API and return parts filtered', () => {
+
+        spyOn(authService, 'getBearerToken').and.returnValue('your_mocked_token');
+
+        const page = 0;
+        const pageSize = 10;
+        const multiSort: TableHeaderSort[] = [
+            ['age', 'asc'],
+            ['score', 'desc'],
+        ];
+        const filter = { id: "123" } as AssetAsDesignedFilter;
+
+        service.getPartsAsDesigned(page, pageSize, multiSort, filter).subscribe((parts: Pagination<Part>) => {
+            expect(parts).toBeTruthy();
+        });
+
+        const expectedUrl = `${environment.apiUrl}/assets/as-designed`;
+
+        const req = httpMock.expectOne((request) => {
+            return request.url === expectedUrl && request.method === 'GET';
+        });
+
+        req.flush(mockAssets);
+
+        httpMock.verify();
+    });
+
+    it('should call the getPartsAsSupported API and return parts', () => {
+
+        spyOn(authService, 'getBearerToken').and.returnValue('your_mocked_token');
+
+        const page = 0;
+        const pageSize = 10;
+        const multiSort: TableHeaderSort[] = [
+            ['age', 'asc'],
+            ['score', 'desc'],
+        ];
+
+        service.getPartsAsSupported(page, pageSize, multiSort).subscribe((parts: Pagination<Part>) => {
+            expect(parts).toBeTruthy();
+        });
+
+        const expectedUrl = `${environment.apiUrl}/assets/as-supported`;
+
+        const req = httpMock.expectOne((request) => {
+            return request.url === expectedUrl && request.method === 'GET';
+        });
+
+        req.flush(mockAssets);
+
+        httpMock.verify();
+    });
+
+    it('should call the getPartsAsSupported API and return parts filtered', () => {
+
+        spyOn(authService, 'getBearerToken').and.returnValue('your_mocked_token');
+
+        const page = 0;
+        const pageSize = 10;
+        const multiSort: TableHeaderSort[] = [
+            ['age', 'asc'],
+            ['score', 'desc'],
+        ];
+        const filter = { id: "123" } as AssetAsSupportedFilter;
+
+        service.getPartsAsSupported(page, pageSize, multiSort, filter).subscribe((parts: Pagination<Part>) => {
+            expect(parts).toBeTruthy();
+        });
+
+        const expectedUrl = `${environment.apiUrl}/assets/as-supported`;
+
+        const req = httpMock.expectOne((request) => {
+            return request.url === expectedUrl && request.method === 'GET';
+        });
+
+        req.flush(mockAssets);
+
+        httpMock.verify();
+    });
+
+    it('should call the getPartsAsOrdered API and return parts', () => {
+
+        spyOn(authService, 'getBearerToken').and.returnValue('your_mocked_token');
+
+        const page = 0;
+        const pageSize = 10;
+        const multiSort: TableHeaderSort[] = [
+            ['age', 'asc'],
+            ['score', 'desc'],
+        ];
+
+        service.getPartsAsOrdered(page, pageSize, multiSort).subscribe((parts: Pagination<Part>) => {
+            expect(parts).toBeTruthy();
+        });
+
+        const expectedUrl = `${environment.apiUrl}/assets/as-ordered`;
+
+        const req = httpMock.expectOne((request) => {
+            return request.url === expectedUrl && request.method === 'GET';
+        });
+
+        req.flush(mockAssets);
+
+        httpMock.verify();
+    });
+
+    it('should call the getPartsAsOrdered API and return parts filtered', () => {
+
+        spyOn(authService, 'getBearerToken').and.returnValue('your_mocked_token');
+
+        const page = 0;
+        const pageSize = 10;
+        const multiSort: TableHeaderSort[] = [
+            ['age', 'asc'],
+            ['score', 'desc'],
+        ];
+        const filter = { id: "123" } as AssetAsOrderedFilter;
+
+        service.getPartsAsOrdered(page, pageSize, multiSort, filter).subscribe((parts: Pagination<Part>) => {
+            expect(parts).toBeTruthy();
+        });
+
+        const expectedUrl = `${environment.apiUrl}/assets/as-ordered`;
+
+        const req = httpMock.expectOne((request) => {
+            return request.url === expectedUrl && request.method === 'GET';
+        });
+
+        req.flush(mockAssets);
+
+        httpMock.verify();
+    });
+
+    it('should call the getPartsAsRecycled API and return parts', () => {
+        spyOn(authService, 'getBearerToken').and.returnValue('your_mocked_token');
+
+        const page = 0;
+        const pageSize = 10;
+        const multiSort: TableHeaderSort[] = [
+            ['age', 'asc'],
+            ['score', 'desc'],
+        ];
+
+        service.getPartsAsRecycled(page, pageSize, multiSort).subscribe((parts: Pagination<Part>) => {
+            expect(parts).toBeTruthy();
+        });
+
+        const expectedUrl = `${environment.apiUrl}/assets/as-recycled`;
+
+        const req = httpMock.expectOne((request) => {
+            return request.url === expectedUrl && request.method === 'GET';
+        });
+
+        req.flush(mockAssets);
+
+        httpMock.verify();
+    });
+
+    it('should call the getPartsAsRecycled API and return parts filtered', () => {
+
+        spyOn(authService, 'getBearerToken').and.returnValue('your_mocked_token');
+
+        const page = 0;
+        const pageSize = 10;
+        const multiSort: TableHeaderSort[] = [
+            ['age', 'asc'],
+            ['score', 'desc'],
+        ];
+        const filter = { id: "123" } as AssetAsRecycledFilter;
+
+        service.getPartsAsRecycled(page, pageSize, multiSort, filter).subscribe((parts: Pagination<Part>) => {
+            expect(parts).toBeTruthy();
+        });
+
+        const expectedUrl = `${environment.apiUrl}/assets/as-recycled`;
+
+        const req = httpMock.expectOne((request) => {
+            return request.url === expectedUrl && request.method === 'GET';
+        });
+
+        req.flush(mockAssets);
+
+        httpMock.verify();
+    });
+
 });

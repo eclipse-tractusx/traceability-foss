@@ -18,26 +18,15 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+@import '../../../../../theme/base.scss';
+@tailwind base;
 
-import { Component, ElementRef, HostBinding, Input, ViewChild } from '@angular/core';
+.button-width {
+  width: 100px !important;
+  min-width: unset !important;
+}
 
-type ButtonVariant = 'button' | 'raised' | 'flat' | 'stroked' | 'icon' | 'fab' | 'miniFab';
-
-@Component({
-  selector: 'app-button',
-  templateUrl: './button.component.html',
-})
-export class ButtonComponent {
-  @HostBinding('style.pointer-events') get pEvents(): string {
-    return this.isDisabled ? 'none' : 'auto';
-  }
-
-  @ViewChild('ButtonElement') buttonElement: ElementRef;
-  @Input() color: 'primary' | 'accent' | 'warn';
-  @Input() variant: ButtonVariant = 'button';
-
-  @Input() label: string;
-  @Input() iconName: string;
-  @Input() isDisabled: boolean = false;
-  @Input() customClass: string;
+.mdc-button {
+  width: 163px !important;
+  height: 44px !important;
 }

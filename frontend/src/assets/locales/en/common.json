@@ -73,6 +73,7 @@
     },
     "column": {
       "id": "ID",
+      "!": "!",
       "idShort": "ID Short",
       "name": "Name",
       "manufacturer": "Manufacturer",
@@ -99,9 +100,9 @@
       "catenaXSiteId": "SiteId",
       "psFunction": "Function",
       "functionValidFrom": "Function valid from",
-      "functionValidUntil" : "Function valid until",
-      "activeAlerts" : "Active Quality alerts",
-      "activeInvestigations" : "Active Quality investigations"
+      "functionValidUntil": "Function valid until",
+      "activeAlerts": "Active Quality alerts",
+      "activeInvestigations": "Active Quality investigations"
     }
   },
   "dataLoading": {
@@ -270,6 +271,7 @@
     }
   },
   "bomLifecycleActivator": {
+    "selectLifeCycles": "Select 2 lifecycle stages",
     "asBuilt": "As Built",
     "asPlanned": "As Planned"
   },
@@ -280,7 +282,7 @@
   "parts": {
     "input": {
       "global-search": {
-        "placeholder": "Search by entering C-X ID, partInstanceId or partNumber / BPN",
+        "placeholder": "Search for C-X ID, partInstanceId, partNumber, BPN",
         "toastInfo": "By using global search on view level, the local filters on table level was removed."
       }
     }

@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
     BomLifecycleConfig,
     BomLifecycleSize
@@ -28,8 +28,12 @@ import {
 })
 export class BomLifecycleSettingsService {
     private readonly DEFAULT: BomLifecycleConfig = {
+        asDesignedActive: false,
         asBuiltActive: true,
-        asPlannedActive: true
+        asOrderedActive: false,
+        asPlannedActive: true,
+        asSupportedActive: false,
+        asRecycledActive: false
     }
 
     getUserSettings(userSettingView: UserSettingView): BomLifecycleConfig {
@@ -44,20 +48,33 @@ export class BomLifecycleSettingsService {
         let size: BomLifecycleSize;
         const userSettings: BomLifecycleConfig = this.getUserSettings(userSettingView);
 
+        const { asDesignedActive, asPlannedActive, asOrderedActive, asBuiltActive, asSupportedActive, asRecycledActive } = userSettings;
 
         if (userSettings.asPlannedActive && userSettings.asBuiltActive) {
             size = {
                 asBuiltSize: 50,
-                asPlannedSize: 50
+                asPlannedSize: 50,
+                asDesignedSize: 0,
+                asOrderedSize: 0,
+                asRecycledSize: 0,
+                asSupportedSize: 0,
             }
         } else if (userSettings.asPlannedActive) {
             size = {
+                asDesignedSize: 0,
                 asBuiltSize: 0,
+                asOrderedSize: 0,
+                asRecycledSize: 0,
+                asSupportedSize: 0,
                 asPlannedSize: 100
             }
         } else if (userSettings.asBuiltActive) {
             size = {
                 asBuiltSize: 100,
+                asDesignedSize: 0,
+                asOrderedSize: 0,
+                asRecycledSize: 0,
+                asSupportedSize: 0,
                 asPlannedSize: 0
             }
         }

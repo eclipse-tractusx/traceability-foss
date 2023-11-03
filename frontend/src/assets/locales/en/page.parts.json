@@ -7,6 +7,10 @@
   "page": {
     "asBuiltParts": "AsBuilt Lifecycle",
     "asPlannedParts": "AsPlanned Lifecycle",
+    "asDesignedParts": "AsDesigned Lifecycle",
+    "asSupportedParts": "AsSupported Lifecycle",
+    "asRecycledParts": "AsRecycled Lifecycle",
+    "asOrderedParts": "AsOrdered Lifecycle",
     "selectedParts": {
       "info_one": "{{count}} Part selected for this page.",
       "info_other": "{{count}} Parts selected for this page.",

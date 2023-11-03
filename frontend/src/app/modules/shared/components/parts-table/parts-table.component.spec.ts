@@ -17,14 +17,14 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {SharedModule} from '@shared/shared.module';
-import {screen, waitFor} from '@testing-library/angular';
-import {renderComponent} from '@tests/test-render.utils';
-import {PartsTableComponent} from "@shared/components/parts-table/parts-table.component";
-import {Pagination} from "@core/model/pagination.model";
-import {PartTableType, TableConfig} from "@shared/components/table/table.model";
-import {PartsFacade} from "@page/parts/core/parts.facade";
-import {Sort} from "@angular/material/sort";
+import { SharedModule } from '@shared/shared.module';
+import { screen, waitFor } from '@testing-library/angular';
+import { renderComponent } from '@tests/test-render.utils';
+import { PartsTableComponent } from "@shared/components/parts-table/parts-table.component";
+import { Pagination } from "@core/model/pagination.model";
+import { PartTableType, TableConfig } from "@shared/components/table/table.model";
+import { PartsFacade } from "@page/parts/core/parts.facade";
+import { Sort } from "@angular/material/sort";
 
 describe('PartsTableComponent', () => {
     const renderPartsTableComponent = (
@@ -33,19 +33,19 @@ describe('PartsTableComponent', () => {
     ) => {
         const multiSelectActive = true;
         const content = generateTableContent(size);
-        const paginationData = {page: 0, pageSize: 10, totalItems: 100, content} as Pagination<unknown>;
+        const paginationData = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
         return renderComponent(PartsTableComponent, {
             imports: [SharedModule],
             providers: [
                 // Provide the PartsFacade mock as a value for the PartsFacade token
-                {provide: PartsFacade},
+                { provide: PartsFacade },
             ],
-            componentProperties: {multiSelectActive, paginationData, tableType},
+            componentProperties: { multiSelectActive, paginationData, tableType },
         });
     };
 
     const generateTableContent = (size: number) => {
-        return Array.apply(null, Array(size)).map((_, i) => ({name: 'name_' + i, test: 'test'}));
+        return Array.apply(null, Array(size)).map((_, i) => ({ name: 'name_' + i, test: 'test' }));
     };
     const renderPartsTable = (
         size: number,
@@ -66,14 +66,14 @@ describe('PartsTableComponent', () => {
             'filterManufacturingDate',
             'filterManufacturingCountry',
         ],
-        header = {name: 'Name'},
+        header = { name: 'Name' },
         selected = jasmine.createSpy(),
         tableType: PartTableType = PartTableType.AS_BUILT_OWN
     ) => {
         const content = generateTableContent(size);
-        const data = {page: 0, pageSize: 10, totalItems: 100, content} as Pagination<unknown>;
+        const data = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
 
-        const tableConfig: TableConfig = {displayedColumns, header};
+        const tableConfig: TableConfig = { displayedColumns, header };
 
         const multiSelectActive = true;
 
@@ -104,14 +104,14 @@ describe('PartsTableComponent', () => {
 
 
     it('should have correct sizes for split areas', async () => {
-        const {fixture} = await renderPartsTableComponent(1, PartTableType.AS_BUILT_OWN);
-        const {componentInstance} = fixture;
+        const { fixture } = await renderPartsTableComponent(1, PartTableType.AS_BUILT_OWN);
+        const { componentInstance } = fixture;
         expect(componentInstance.tableType).toEqual(PartTableType.AS_BUILT_OWN);
     });
 
     it('should init the correct columns for asBuilt', async () => {
-        const {fixture} = await renderPartsTableComponent(1, PartTableType.AS_BUILT_OWN);
-        const {componentInstance} = fixture;
+        const { fixture } = await renderPartsTableComponent(1, PartTableType.AS_BUILT_OWN);
+        const { componentInstance } = fixture;
 
         componentInstance.ngOnInit();
 
@@ -138,8 +138,108 @@ describe('PartsTableComponent', () => {
     });
 
     it('should init the correct columns for asPlanned own', async () => {
-        const {fixture} = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
-        const {componentInstance} = fixture;
+        const { fixture } = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
+        const { componentInstance } = fixture;
+
+        componentInstance.ngOnInit();
+
+        expect(componentInstance.displayedColumns).toEqual([
+            'Filter',
+            'filterId',
+            'filterIdShort',
+            'filterName',
+            'filterManufacturer',
+            'filterManufacturerPartId',
+            'filterClassification',
+            'filterSemanticDataModel',
+            'filterSemanticModelId',
+            'filterValidityPeriodFrom',
+            'filterValidityPeriodTo',
+            'filterPsFunction',
+            'filterCatenaXSiteId',
+            'filterFunctionValidFrom',
+            'filterFunctionValidUntil',
+        ]);
+    });
+
+    it('should init the correct columns for asDesigned own', async () => {
+        const { fixture } = await renderPartsTableComponent(1, PartTableType.AS_DESIGNED_OWN);
+        const { componentInstance } = fixture;
+
+        componentInstance.ngOnInit();
+
+        expect(componentInstance.displayedColumns).toEqual([
+            'Filter',
+            'filterId',
+            'filterIdShort',
+            'filterName',
+            'filterManufacturer',
+            'filterManufacturerPartId',
+            'filterClassification',
+            'filterSemanticDataModel',
+            'filterSemanticModelId',
+            'filterValidityPeriodFrom',
+            'filterValidityPeriodTo',
+            'filterPsFunction',
+            'filterCatenaXSiteId',
+            'filterFunctionValidFrom',
+            'filterFunctionValidUntil',
+        ]);
+    });
+
+    it('should init the correct columns for asOrdered own', async () => {
+        const { fixture } = await renderPartsTableComponent(1, PartTableType.AS_ORDERED_OWN);
+        const { componentInstance } = fixture;
+
+        componentInstance.ngOnInit();
+
+        expect(componentInstance.displayedColumns).toEqual([
+            'Filter',
+            'filterId',
+            'filterIdShort',
+            'filterName',
+            'filterManufacturer',
+            'filterManufacturerPartId',
+            'filterClassification',
+            'filterSemanticDataModel',
+            'filterSemanticModelId',
+            'filterValidityPeriodFrom',
+            'filterValidityPeriodTo',
+            'filterPsFunction',
+            'filterCatenaXSiteId',
+            'filterFunctionValidFrom',
+            'filterFunctionValidUntil',
+        ]);
+    });
+
+    it('should init the correct columns for asSupported own', async () => {
+        const { fixture } = await renderPartsTableComponent(1, PartTableType.AS_SUPPORTED_OWN);
+        const { componentInstance } = fixture;
+
+        componentInstance.ngOnInit();
+
+        expect(componentInstance.displayedColumns).toEqual([
+            'Filter',
+            'filterId',
+            'filterIdShort',
+            'filterName',
+            'filterManufacturer',
+            'filterManufacturerPartId',
+            'filterClassification',
+            'filterSemanticDataModel',
+            'filterSemanticModelId',
+            'filterValidityPeriodFrom',
+            'filterValidityPeriodTo',
+            'filterPsFunction',
+            'filterCatenaXSiteId',
+            'filterFunctionValidFrom',
+            'filterFunctionValidUntil',
+        ]);
+    });
+
+    it('should init the correct columns for asRecycled own', async () => {
+        const { fixture } = await renderPartsTableComponent(1, PartTableType.AS_RECYCLED_OWN);
+        const { componentInstance } = fixture;
 
         componentInstance.ngOnInit();
 
@@ -164,13 +264,13 @@ describe('PartsTableComponent', () => {
 
     it('should update sorting data and emit configChanged event', async () => {
 
-        const {fixture} = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
-        const {componentInstance} = fixture;
+        const { fixture } = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
+        const { componentInstance } = fixture;
 
-        componentInstance.selection.select({id: 1, name: 'Item 1'}); // Mock a selected item
+        componentInstance.selection.select({ id: 1, name: 'Item 1' }); // Mock a selected item
 
         componentInstance.isDataLoading = false;
-        const sortEvent: Sort = {active: 'name', direction: 'asc'};
+        const sortEvent: Sort = { active: 'name', direction: 'asc' };
 
         const configChangedSpy = spyOn(componentInstance.configChanged, 'emit');
 
@@ -186,8 +286,8 @@ describe('PartsTableComponent', () => {
     });
 
     it('should update component properties and data source when PartsPaginationData is set', async () => {
-        const {fixture} = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
-        const {componentInstance} = fixture;
+        const { fixture } = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
+        const { componentInstance } = fixture;
 
         const paginationData: Pagination<unknown> = {
             pageCount: 10,
@@ -195,8 +295,8 @@ describe('PartsTableComponent', () => {
             pageSize: 10,
             totalItems: 100,
             content: [
-                {id: 1, name: 'Item 1'},
-                {id: 2, name: 'Item 2'}
+                { id: 1, name: 'Item 1' },
+                { id: 2, name: 'Item 2' }
             ],
         };
 
@@ -211,10 +311,10 @@ describe('PartsTableComponent', () => {
     });
 
     it('should select or deselect a row and emit selected event if menuActionsConfig is not defined', async () => {
-        const {fixture} = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
-        const {componentInstance} = fixture;
+        const { fixture } = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
+        const { componentInstance } = fixture;
 
-        const row1 = {id: 1, name: 'Item 1'};
+        const row1 = { id: 1, name: 'Item 1' };
 
         spyOn(componentInstance.selected, 'emit');
 
@@ -226,57 +326,57 @@ describe('PartsTableComponent', () => {
     });
 
     it('should remove selected values and emit multiSelect', async () => {
-        const {fixture} = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
-        const {componentInstance} = fixture;
+        const { fixture } = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
+        const { componentInstance } = fixture;
 
-        componentInstance.selection.select({id: 1}, {id: 2}, {id: 3});
+        componentInstance.selection.select({ id: 1 }, { id: 2 }, { id: 3 });
 
-        componentInstance.deselectTrigger = [{id: 2}, {id: 3}];
+        componentInstance.deselectTrigger = [{ id: 2 }, { id: 3 }];
 
-        expect(componentInstance.selection.selected).toEqual([{id: 1}]);
+        expect(componentInstance.selection.selected).toEqual([{ id: 1 }]);
     });
 
     it('should not remove selected values if deselectItem is not provided', async () => {
-        const {fixture} = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
-        const {componentInstance} = fixture;
+        const { fixture } = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
+        const { componentInstance } = fixture;
 
-        componentInstance.selection.select({id: 1}, {id: 2}, {id: 3});
+        componentInstance.selection.select({ id: 1 }, { id: 2 }, { id: 3 });
 
         componentInstance.deselectTrigger = null;
 
-        expect(componentInstance.selection.selected).toEqual([{id: 1}, {id: 2}, {id: 3}]);
+        expect(componentInstance.selection.selected).toEqual([{ id: 1 }, { id: 2 }, { id: 3 }]);
     });
 
     it('should emit multiSelect event', async () => {
-        const {fixture} = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
-        const {componentInstance} = fixture;
+        const { fixture } = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
+        const { componentInstance } = fixture;
 
-        componentInstance.selection.select({id: 1}, {id: 2}, {id: 3});
+        componentInstance.selection.select({ id: 1 }, { id: 2 }, { id: 3 });
 
         const multiSelectSpy = spyOn(componentInstance.multiSelect, 'emit');
 
-        componentInstance.deselectTrigger = [{id: 2}, {id: 3}];
+        componentInstance.deselectTrigger = [{ id: 2 }, { id: 3 }];
 
-        expect(multiSelectSpy).toHaveBeenCalledWith([{id: 1}]);
+        expect(multiSelectSpy).toHaveBeenCalledWith([{ id: 1 }]);
     });
 
     it('should toggle all rows correctly', async () => {
 
-        const {fixture} = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
-        const {componentInstance} = fixture;
+        const { fixture } = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
+        const { componentInstance } = fixture;
 
-        componentInstance.selection.select({id: 1}, {id: 2}, {id: 3});
+        componentInstance.selection.select({ id: 1 }, { id: 2 }, { id: 3 });
 
         componentInstance.toggleAllRows();
 
-        expect(componentInstance.selection.selected).toEqual([{id: 1}, {id: 2}, {id: 3}, {name: 'name_0', test: 'test'}]);
+        expect(componentInstance.selection.selected).toEqual([{ id: 1 }, { id: 2 }, { id: 3 }, { name: 'name_0', test: 'test' }]);
     });
 
     it('should clear all rows correctly', async () => {
 
-        const {fixture} = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
-        const {componentInstance} = fixture;
-        componentInstance.selection.select({id: 1}, {id: 2}, {id: 3});
+        const { fixture } = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
+        const { componentInstance } = fixture;
+        componentInstance.selection.select({ id: 1 }, { id: 2 }, { id: 3 });
 
         componentInstance.clearAllRows();
 
@@ -284,8 +384,8 @@ describe('PartsTableComponent', () => {
     });
 
     it('should clear current rows correctly', async () => {
-        const {fixture} = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
-        const {componentInstance} = fixture;
+        const { fixture } = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
+        const { componentInstance } = fixture;
 
         const emitMultiSelectSpy = spyOn(componentInstance.multiSelect, 'emit');
 
@@ -295,5 +395,12 @@ describe('PartsTableComponent', () => {
         expect(componentInstance.selection.selected).toEqual([]);
     });
 
-})
+    it('should return the tooltip string for the given part', async () => {
+        const { fixture } = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
+        const { componentInstance } = fixture;
+
+        expect(componentInstance.getTooltip("!")).not.toBeNull();
+    });
+
+});
 

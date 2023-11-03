@@ -16,13 +16,44 @@ under the License.
 
 SPDX-License-Identifier: Apache-2.0
 -->
-<div class="button-container">
-    <app-view-selector data-testid="as-built-button" [isDisabled]="!bomLifecycleConfig.asPlannedActive" [isSelected]=bomLifecycleConfig.asBuiltActive
-                       label="As Built Toggle" variant="flat" color="accent" (click)="toggleAsBuilt()">
-        {{ 'bomLifecycleActivator.asBuilt' | i18n }}
-    </app-view-selector>
-    <app-view-selector data-testid="as-planned-button" [isDisabled]="!bomLifecycleConfig.asBuiltActive" [isSelected]=bomLifecycleConfig.asPlannedActive
-               label="As Planned Toggle" variant="flat" color="accent" (click)="toggleAsPlanned()">
-        {{ 'bomLifecycleActivator.asPlanned' | i18n }}
-    </app-view-selector>
+<div class="button-container select">
+    <mat-form-field class="disable-label-move container" color="accent" appearance="outline">
+        <mat-select class="matSelect" [disableRipple]="true" color="primary" [(ngModel)]="selectedLifecycles"
+            [placeholder]="selectedLifecycles.length > 0 ? '': ('bomLifecycleActivator.selectLifeCycles' | i18n)"
+            (ngModelChange)="selectionChanged($event)" multiple panelClass="panel">
+            <ng-template class="options" #optionTemplate let-lifecycle="lifecycle">
+                <div class="option">
+                    <span class="optionText">
+                        {{lifecycle}}
+                    </span>
+                    <span>
+                        <mat-icon color="primary" *ngIf=" isSelected(lifecycle)">check</mat-icon>
+                    </span>
+                </div>
+            </ng-template>
+            <mat-select-trigger class="text">
+                {{'bomLifecycleActivator.selectLifeCycles' | i18n}}
+            </mat-select-trigger>
+            <mat-option class="option truncate-text" *ngFor="let lifecycle of lifecycleTypes" [value]="lifecycle"
+                [matTooltip]="lifecycle" [disabled]="disableOption(lifecycle)" [matTooltipPosition]="'right'">
+                <ng-container [ngTemplateOutlet]="optionTemplate" [ngTemplateOutletContext]="{lifecycle: lifecycle}">
+                </ng-container>
+
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <ng-template #optionTemplate let-lifecycle>
+        {{ lifecycle }}
+        <mat-icon *ngIf="isSelected(lifecycle)">check</mat-icon>
+    </ng-template>
+
+    <mat-chip-set #chipGrid class="pt-0.5">
+        <mat-chip-row class="chip" *ngFor="let lifeCycle of selectedLifecycles" (removed)="removeLifeCycle(lifeCycle)">
+            {{lifeCycle}}
+            <button matChipRemove [attr.aria-label]="'remove ' + lifeCycle">
+                <img src="/assets/images/icons/closeChip.svg" class="center py-5 closeIcon" alt="X" />
+            </button>
+        </mat-chip-row>
+    </mat-chip-set>
 </div>

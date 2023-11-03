@@ -18,40 +18,126 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+@import '../../../../../theme/base.scss';
+@tailwind base;
 
 .parts-table-container {
   width: 100%;
 }
 
 .app-bom-lifecycle-activator-container {
-  grid-column: 1 / span 2; /* This will make it span both columns */
+  grid-column: 1 / span 2;
+  /* This will make it span both columns */
   width: 100%;
+  border-bottom: 1px solid;
+  @apply border-inactiveShape;
 }
 
 .split-container-wrapper {
-  height: 65vh;
+  height: 470px;
+  padding-top: 20px;
 }
 
-// TODO: fix bottom shadow of parts Table
-.parts-as-built-table-wrapper {
-  max-height: 52vh;
-  margin: 16px;
-  overflow: auto;
-  box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+.lifecycleSizeText {
+  @apply text-secondary;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: 0.15px;
+}
+
+.asBuiltHeaderContainer {
+  position: -webkit-sticky;
+  /* For Safari */
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 1;
+}
+
+.headerContainer {
+  @extend .asBuiltHeaderContainer;
+  padding-top: 20px !important;
+}
+
+.asBuild-header {
+  @extend .title-medium;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+  padding-top: 22px;
+}
+
+.asBuilt-header-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.buttonText {
+  @extend .label-large;
+  @apply text-white;
+
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+}
+
+.mat-mdc-unelevated-button.mat-mdc-button-base {
+  height: 44px !important;
+}
+
+.createAlertButton {
+  padding-right: 10px !important;
+
+  .mat-mdc-button.mat-mdc-button-base {
+    .mdc-button {
+      width: 163px !important;
+    }
+  }
+
+  border-radius: 100px !important;
+}
+
+.lifecycle-header {
+  @extend .title-medium;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+  padding-top: 22px;
+}
+
+.button-container .search-bar {
+  width: 400px !important;
+  height: 44px !important;
+  border-radius: 44px !important;
+  border: 1px !important;
+  gap: 8px !important;
+}
+
+.parts-table-wrapper {
+  height: 100% !important;
+  overflow-y: auto !important;
 }
 
 .split-area {
-  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  height: 405px;
+}
+
+.mat-mdc-card-header {
+  padding: 20px 20px 0 20px !important;
+}
+
+.mat-mdc-card-content {
+  display: block;
+  padding: 0 20px 20px 20px !important;
 }
 
 .parts-as-planned-table-wrapper {
-  max-height: 52vh;
-  overflow: auto;
+  max-height: 505px;
   margin: 16px;
-  box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
 }
 
-.parts-search-input-wrapper{
-  padding:20px;
+.parts-search-input-wrapper {
+  padding: 20px;
 }
-

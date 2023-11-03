@@ -82,6 +82,8 @@ module.exports = {
       secondary: '#4D4D4D',
       tertiary: '#F58220',
 
+      checkbox: '#6BA13C',
+
       primaryLight: '#EA1392',
       primaryDark: '#A60F68',
 

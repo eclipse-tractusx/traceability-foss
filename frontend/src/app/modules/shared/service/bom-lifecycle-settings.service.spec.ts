@@ -17,8 +17,8 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {TestBed} from '@angular/core/testing';
-import {BomLifecycleSettingsService, UserSettingView} from "@shared/service/bom-lifecycle-settings.service";
+import { TestBed } from '@angular/core/testing';
+import { BomLifecycleSettingsService, UserSettingView } from "@shared/service/bom-lifecycle-settings.service";
 
 describe('BomLifecycleConfigUserSetting', () => {
 
@@ -41,16 +41,24 @@ describe('BomLifecycleConfigUserSetting', () => {
     it('should return default settings when no settings are stored for PARTS', () => {
         const defaultSettings = service.getUserSettings(UserSettingView.PARTS);
         expect(defaultSettings).toEqual({
+            asDesignedActive: false,
             asBuiltActive: true,
+            asOrderedActive: false,
             asPlannedActive: true,
+            asSupportedActive: false,
+            asRecycledActive: false
         });
     });
 
     it('should return default settings when no settings are stored for OTHER_PARTS', () => {
         const defaultSettings = service.getUserSettings(UserSettingView.OTHER_PARTS);
         expect(defaultSettings).toEqual({
+            asDesignedActive: false,
             asBuiltActive: true,
+            asOrderedActive: false,
             asPlannedActive: true,
+            asSupportedActive: false,
+            asRecycledActive: false
         });
     });
 
@@ -58,6 +66,10 @@ describe('BomLifecycleConfigUserSetting', () => {
         const newSettings = {
             asBuiltActive: false,
             asPlannedActive: true,
+            asDesignedActive: false,
+            asOrderedActive: false,
+            asSupportedActive: false,
+            asRecycledActive: false
         };
         service.setUserSettings(newSettings, UserSettingView.PARTS);
         const retrievedSettings = service.getUserSettings(UserSettingView.PARTS);
@@ -68,14 +80,21 @@ describe('BomLifecycleConfigUserSetting', () => {
         const newSettings = {
             asBuiltActive: false,
             asPlannedActive: true,
+            asDesignedActive: false,
+            asOrderedActive: false,
+            asSupportedActive: false,
+            asRecycledActive: false
         };
         service.setUserSettings(newSettings, UserSettingView.PARTS);
         service.clearUserSettings(UserSettingView.PARTS);
         const retrievedSettings = service.getUserSettings(UserSettingView.PARTS);
         expect(retrievedSettings).toEqual({
+            asDesignedActive: false,
             asBuiltActive: true,
+            asOrderedActive: false,
             asPlannedActive: true,
+            asSupportedActive: false,
+            asRecycledActive: false
         });
     });
-
 });

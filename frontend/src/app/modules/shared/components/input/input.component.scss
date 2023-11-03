@@ -23,3 +23,58 @@
   display: flex;
   flex-direction: column;
 }
+
+input::placeholder {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 17.02px;
+}
+
+.hideClearButton {
+  padding: 0 !important;
+  margin: 0 !important;
+  opacity: 0 !important;
+  width: 0 !important;
+}
+
+input:focus {
+  border-color: black;
+}
+
+.input .mdc-text-field--outlined .mdc-notched-outline {
+  .mdc-notched-outline__leading {
+    border-top-left-radius: 22px !important;
+    border-bottom-left-radius: 22px !important;
+    width: 22px !important;
+  }
+
+  .mdc-notched-outline__trailing {
+    border-top-right-radius: 22px !important;
+    border-bottom-right-radius: 22px !important;
+    width: 22px !important;
+  }
+}
+
+.inputField .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
+  padding-top: 4px;
+  padding-bottom: 0px;
+  margin-left: 5px !important;
+  width: 400px !important;
+}
+
+.matLabel .mdc-text-field:not(.mdc-text-field--disabled) .mdc-floating-label {
+  padding-bottom: 15px !important;
+}
+
+.matLabel {
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  line-height: 17.02px;
+}
+
+.matField .mat-mdc-form-field-flex {
+  width: 400px !important;
+  height: 44px !important;
+  border: 1px !important;
+  gap: 8px !important;
+}

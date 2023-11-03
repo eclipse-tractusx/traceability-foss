@@ -19,26 +19,30 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {HttpParams} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {ApiService} from '@core/api/api.service';
-import {Pagination} from '@core/model/pagination.model';
-import {environment} from '@env';
-import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
+import { HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { ApiService } from '@core/api/api.service';
+import { Pagination } from '@core/model/pagination.model';
+import { environment } from '@env';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import {
     AssetAsBuiltFilter,
+    AssetAsDesignedFilter,
+    AssetAsOrderedFilter,
     AssetAsPlannedFilter,
+    AssetAsRecycledFilter,
+    AssetAsSupportedFilter,
     Part,
     PartResponse,
     PartsResponse
 } from '@page/parts/model/parts.model';
-import {PartsAssembler} from '@shared/assembler/parts.assembler';
-import {TableHeaderSort} from '@shared/components/table/table.model';
+import { PartsAssembler } from '@shared/assembler/parts.assembler';
+import { TableHeaderSort } from '@shared/components/table/table.model';
 import _deepClone from 'lodash-es/cloneDeep';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
-import {SortDirection} from '../../../mocks/services/pagination.helper';
-import {enrichFilterAndGetUpdatedParams} from "@shared/helper/filter-helper";
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { SortDirection } from '../../../mocks/services/pagination.helper';
+import { enrichFilterAndGetUpdatedParams } from "@shared/helper/filter-helper";
 
 @Injectable()
 export class PartsService {
@@ -48,49 +52,27 @@ export class PartsService {
     }
 
     public getPartsAsBuilt(page: number, pageSize: number, sorting: TableHeaderSort[], assetAsBuiltFilter?: AssetAsBuiltFilter, isOrSearch?: boolean): Observable<Pagination<Part>> {
-
-        let sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
-        let filterOperator = isOrSearch ? "OR" : "AND";
-
-        let params = new HttpParams()
-            .set('page', page)
-            .set('size', pageSize)
-            .set('filter', 'owner,EQUAL,OWN')
-            .set('filterOperator', filterOperator);
-        sort.forEach(sortingItem => {
-            params = params.append('sort', sortingItem);
-        })
-
-        if (assetAsBuiltFilter) {
-            params = enrichFilterAndGetUpdatedParams(assetAsBuiltFilter, params);
-        }
-
-        return this.apiService
-            .getBy<PartsResponse>(`${this.url}/assets/as-built`, params)
-            .pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_BUILT)));
+        return this.getPagination('as-built', MainAspectType.AS_BUILT, page, pageSize, sorting, assetAsBuiltFilter, isOrSearch);
     }
 
-
     public getPartsAsPlanned(page: number, pageSize: number, sorting: TableHeaderSort[], assetAsPlannedFilter?: AssetAsPlannedFilter, isOrSearch?: boolean): Observable<Pagination<Part>> {
-        let sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
-        let filterOperator = isOrSearch ? "OR" : "AND";
-        let params = new HttpParams()
-            .set('page', page)
-            .set('size', pageSize)
-            .set('filter', 'owner,EQUAL,OWN')
-            .set('filterOperator', filterOperator);
+        return this.getPagination('as-planned', MainAspectType.AS_PLANNED, page, pageSize, sorting, assetAsPlannedFilter, isOrSearch)
+    }
 
-        sort.forEach(sortingItem => {
-            params = params.append('sort', sortingItem);
-        })
+    public getPartsAsDesigned(page: number, pageSize: number, sorting: TableHeaderSort[], assetAsDesignedFilter?: AssetAsDesignedFilter, isOrSearch?: boolean): Observable<Pagination<Part>> {
+        return this.getPagination('as-designed', MainAspectType.AS_DESIGNED, page, pageSize, sorting, assetAsDesignedFilter, isOrSearch)
+    }
 
-        if (assetAsPlannedFilter) {
-            params = enrichFilterAndGetUpdatedParams(assetAsPlannedFilter, params);
-        }
+    public getPartsAsSupported(page: number, pageSize: number, sorting: TableHeaderSort[], assetAsSupportedFilter?: AssetAsSupportedFilter, isOrSearch?: boolean): Observable<Pagination<Part>> {
+        return this.getPagination('as-supported', MainAspectType.AS_SUPPORTED, page, pageSize, sorting, assetAsSupportedFilter, isOrSearch)
+    }
 
-        return this.apiService
-            .getBy<PartsResponse>(`${this.url}/assets/as-planned`, params)
-            .pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_PLANNED)));
+    public getPartsAsOrdered(page: number, pageSize: number, sorting: TableHeaderSort[], assetAsOrderedFilter?: AssetAsOrderedFilter, isOrSearch?: boolean): Observable<Pagination<Part>> {
+        return this.getPagination('as-ordered', MainAspectType.AS_ORDERED, page, pageSize, sorting, assetAsOrderedFilter, isOrSearch)
+    }
+
+    public getPartsAsRecycled(page: number, pageSize: number, sorting: TableHeaderSort[], assetAsRecycledFilter?: AssetAsRecycledFilter, isOrSearch?: boolean): Observable<Pagination<Part>> {
+        return this.getPagination('as-recycled', MainAspectType.AS_RECYCLED, page, pageSize, sorting, assetAsRecycledFilter, isOrSearch)
     }
 
     public getPart(id: string): Observable<Part> {
@@ -109,11 +91,11 @@ export class PartsService {
     public getPartDetailOfIds(assetIds: string[]): Observable<Part[]> {
 
         let resultsAsBuilt = this.apiService
-            .post<PartResponse[]>(`${this.url}/assets/as-built/detail-information`, {assetIds})
+            .post<PartResponse[]>(`${this.url}/assets/as-built/detail-information`, { assetIds })
             .pipe(map(parts => PartsAssembler.assemblePartList(parts, MainAspectType.AS_BUILT)));
 
         let resultsAsPlanned = this.apiService
-            .post<PartResponse[]>(`${this.url}/assets/as-planned/detail-information`, {assetIds})
+            .post<PartResponse[]>(`${this.url}/assets/as-planned/detail-information`, { assetIds })
             .pipe(map(parts => PartsAssembler.assemblePartList(parts, MainAspectType.AS_PLANNED)));
 
         if (resultsAsBuilt) {
@@ -137,5 +119,27 @@ export class PartsService {
             if (a < b) return 1;
             return 0;
         });
+    }
+
+    getPagination(path: string, type: MainAspectType, page: number, pageSize: number, sorting: TableHeaderSort[], filter?: AssetAsBuiltFilter, isOrSearch?: boolean): Observable<Pagination<Part>> {
+        let sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
+        let filterOperator = isOrSearch ? "OR" : "AND";
+        let params = new HttpParams()
+            .set('page', page)
+            .set('size', pageSize)
+            .set('filter', 'owner,EQUAL,OWN')
+            .set('filterOperator', filterOperator);
+
+        sort.forEach(sortingItem => {
+            params = params.append('sort', sortingItem);
+        })
+
+        if (filter) {
+            params = enrichFilterAndGetUpdatedParams(filter, params);
+        }
+
+        return this.apiService
+            .getBy<PartsResponse>(`${this.url}/assets/${path}`, params)
+            .pipe(map(parts => PartsAssembler.assembleParts(parts, type)));
     }
 }

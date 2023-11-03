@@ -64,9 +64,9 @@ export interface Part {
     functionValidFrom?: string;
     functionValidUntil?: string;
 
-  // count of notifications
-  activeAlerts: number;
-  activeInvestigations: number;
+    // count of notifications
+    activeAlerts: number;
+    activeInvestigations: number;
 }
 
 export interface PartResponse {
@@ -86,11 +86,11 @@ export interface PartResponse {
     van: string;
     semanticDataModel: SemanticDataModel;
     classification: string;
-  detailAspectModels: DetailAspectModel[];
+    detailAspectModels: DetailAspectModel[];
 
-  // TODO: Delete ? flag when AsPlanned Parts do not return the props anymore
-  qualityAlertsInStatusActive?: number;
-  qualityInvestigationsInStatusActive?: number;
+    // TODO: Delete ? flag when AsPlanned Parts do not return the props anymore
+    qualityAlertsInStatusActive?: number;
+    qualityInvestigationsInStatusActive?: number;
 
 }
 
@@ -158,6 +158,23 @@ export interface AssetAsPlannedFilter {
     functionValidFrom?: string,
     functionValidUntil?: string,
 }
+
+export interface AssetAsDesignedFilter {
+    id?: string,
+}
+
+export interface AssetAsSupportedFilter {
+    id?: string,
+}
+
+export interface AssetAsOrderedFilter {
+    id?: string,
+}
+
+export interface AssetAsRecycledFilter {
+    id?: string,
+}
+
 
 export enum FilterOperator {
     EQUAL = 'EQUAL',

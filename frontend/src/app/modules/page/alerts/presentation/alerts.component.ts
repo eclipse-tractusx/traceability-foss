@@ -18,6 +18,7 @@
  ********************************************************************************/
 
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ALERT_BASE_ROUTE, getRoute } from '@core/known-route';
 import { AlertDetailFacade } from '@page/alerts/core/alert-detail.facade';
@@ -39,7 +40,8 @@ import { Subscription } from 'rxjs';
 export class AlertsComponent {
   @ViewChild(NotificationCommonModalComponent) notificationCommonModalComponent: NotificationCommonModalComponent;
 
-
+  public searchFormGroup = new FormGroup({});
+  public searchControl: FormControl;
   public readonly alertsReceived$;
   public readonly alertsQueuedAndRequested$;
 
@@ -51,42 +53,45 @@ export class AlertsComponent {
 
   private paramSubscription: Subscription;
 
-  private pagination: TableEventConfig = { page: 0, pageSize: 50, sorting: ['createdDate' , 'desc'] };
+  private pagination: TableEventConfig = { page: 0, pageSize: 50, sorting: ['createdDate', 'desc'] };
 
-    constructor(
-        public readonly helperService: AlertHelperService,
-        private readonly alertsFacade: AlertsFacade,
-        private readonly alertDetailFacade: AlertDetailFacade,
-        private readonly router: Router,
-        private readonly route: ActivatedRoute,
-        private readonly cd: ChangeDetectorRef
-    ) {
-        this.alertsReceived$ = this.alertsFacade.alertsReceived$;
-        this.alertsQueuedAndRequested$ = this.alertsFacade.alertsQueuedAndRequested$;
+  constructor(
+    public readonly helperService: AlertHelperService,
+    private readonly alertsFacade: AlertsFacade,
+    private readonly alertDetailFacade: AlertDetailFacade,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly cd: ChangeDetectorRef
+  ) {
+    this.alertsReceived$ = this.alertsFacade.alertsReceived$;
+    this.alertsQueuedAndRequested$ = this.alertsFacade.alertsQueuedAndRequested$;
 
-      window.addEventListener('keydown', (event) => {
-        this.ctrlKeyState = event.ctrlKey;
-      });
-      window.addEventListener('keyup', (event) => {
-        this.ctrlKeyState = event.ctrlKey;
-      });
-    }
+    window.addEventListener('keydown', (event) => {
+      this.ctrlKeyState = event.ctrlKey;
+    });
+    window.addEventListener('keyup', (event) => {
+      this.ctrlKeyState = event.ctrlKey;
+    });
+  }
 
   public ngOnInit(): void {
     this.paramSubscription = this.route.queryParams.subscribe(params => {
       this.pagination.page = params?.pageNumber;
       this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize, this.alertReceivedSortList);
       this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize, this.alertQueuedAndRequestedSortList);
-    })
+    });
+
+    this.searchFormGroup.addControl('alertSearch', new FormControl([]));
+    this.searchControl = this.searchFormGroup.get('alertSearch') as unknown as FormControl;
   }
 
-    public ngAfterViewInit(): void {
-        this.menuActionsConfig = NotificationMenuActionsAssembler.getMenuActions(
-            this.helperService,
-            this.notificationCommonModalComponent
-        );
-        this.cd.detectChanges();
-    }
+  public ngAfterViewInit(): void {
+    this.menuActionsConfig = NotificationMenuActionsAssembler.getMenuActions(
+      this.helperService,
+      this.notificationCommonModalComponent
+    );
+    this.cd.detectChanges();
+  }
 
   public ngOnDestroy(): void {
     this.alertsFacade.stopAlerts();
@@ -109,12 +114,16 @@ export class AlertsComponent {
     this.alertDetailFacade.selected = { data: notification };
     const { link } = getRoute(ALERT_BASE_ROUTE);
     const tabIndex = this.route.snapshot.queryParamMap.get('tabIndex');
-    const tabInformation: NotificationTabInformation = {tabIndex: tabIndex, pageNumber: this.pagination.page}
+    const tabInformation: NotificationTabInformation = { tabIndex: tabIndex, pageNumber: this.pagination.page }
     this.router.navigate([`/${link}/${notification.id}`], { queryParams: tabInformation });
   }
 
   public handleConfirmActionCompletedEvent() {
     this.ngOnInit();
+  }
+
+  public triggerSearch(): void {
+    // TODO: implement search
   }
 
   private setTableSortingList(sorting: TableHeaderSort, notificationTable: NotificationStatusGroup): void {

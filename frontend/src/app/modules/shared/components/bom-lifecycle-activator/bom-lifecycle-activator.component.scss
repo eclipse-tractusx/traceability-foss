@@ -16,6 +16,9 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+@import '../../../../../theme/base.scss';
+@tailwind base;
+
 .button-container {
   display: flex;
   flex-direction: row;
@@ -23,4 +26,91 @@
 
 .button-container app-button {
   /* this will make each button take up 50% of the container's width */
+}
+
+.text {
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 400;
+}
+
+.mdc-evolution-chip-set .mdc-evolution-chip-set__chips {
+  padding-top: 8px !important;
+}
+
+.chip {
+  @apply bg-secondary !important;
+  align-items: center;
+}
+
+.mat-mdc-standard-chip {
+  --mdc-chip-label-text-color: #fff;
+}
+
+.options {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.placeholder .mat-mdc-select-placeholder {
+  font-size: 20px !important;
+  line-height: 28px !important;
+  font-weight: 400 !important;
+}
+
+.option {
+  display: flex;
+  justify-content: space-between;
+}
+
+.optionText {
+  @extend .body-large;
+  font-weight: 400;
+  line-height: 20px;
+
+  white-space: nowrap !important;
+  text-overflow: ellipsis !important;
+  overflow: hidden !important;
+  width: 167px !important;
+}
+
+.panel {
+  height: 256px;
+  min-width: 227px !important;
+}
+
+.container {
+  width: 240px;
+  margin-right: 16px;
+}
+
+.checkmark {
+  width: 12px;
+  height: 9.4px;
+  margin-right: auto;
+}
+
+.mat-tooltip {
+  // to make possible place arrow pseudo element outside tooltip with absolute positioning
+  overflow: visible;
+  position: relative;
+
+  &.right {
+    border-left: 6px solid red;
+    margin-left: 5px;
+
+    &::before {
+      position: absolute;
+      content: '';
+      display: inline-block;
+      background-color: red;
+      clip-path: polygon(50% 0, 0 50%, 50% 100%);
+      left: -12px;
+      width: 15px;
+      height: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
 }

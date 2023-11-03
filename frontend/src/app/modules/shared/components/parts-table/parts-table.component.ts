@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {SelectionModel} from '@angular/cdk/collections';
+import { SelectionModel } from '@angular/cdk/collections';
 import {
     Component,
     ElementRef,
@@ -28,13 +28,14 @@ import {
     QueryList,
     ViewChild,
     ViewChildren,
+    ViewEncapsulation,
 } from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
-import {MatPaginator, PageEvent} from '@angular/material/paginator';
-import {MatSort, Sort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
-import {Pagination} from '@core/model/pagination.model';
-import {SemanticDataModel} from '@page/parts/model/parts.model';
+import { FormControl, FormGroup } from '@angular/forms';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { Pagination } from '@core/model/pagination.model';
+import { SemanticDataModel } from '@page/parts/model/parts.model';
 import {
     MultiSelectAutocompleteComponent
 } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
@@ -45,25 +46,25 @@ import {
     TableEventConfig,
     TableHeaderSort,
 } from '@shared/components/table/table.model';
-import {addSelectedValues, removeSelectedValues} from '@shared/helper/table-helper';
-import {isDateFilter} from "@shared/helper/filter-helper";
-
+import { addSelectedValues, removeSelectedValues } from '@shared/helper/table-helper';
+import { isDateFilter } from "@shared/helper/filter-helper";
 
 @Component({
     selector: 'app-parts-table',
     templateUrl: './parts-table.component.html',
-    styleUrls: ['parts-table.component.scss']
+    styleUrls: ['parts-table.component.scss'],
 })
 export class PartsTableComponent implements OnInit {
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatPaginator) paginator: MatPaginator;
-    @ViewChild('tableElement', {read: ElementRef}) tableElementRef: ElementRef<HTMLElement>;
+    @ViewChild('tableElement', { read: ElementRef }) tableElementRef: ElementRef<HTMLElement>;
     @ViewChildren(MultiSelectAutocompleteComponent) multiSelectAutocompleteComponents: QueryList<MultiSelectAutocompleteComponent>;
     @Input() multiSelectActive = false;
 
     @Input() labelId: string;
     @Input() noShadow = false;
     @Input() showHover = true;
+    @Input() showAlertButton = false;
 
     @Input() selectedPartsInfoLabel: string;
     @Input() selectedPartsActionLabel: string;
@@ -77,7 +78,7 @@ export class PartsTableComponent implements OnInit {
 
     filterKey = 'Filter';
 
-    @Input() set paginationData({page, pageSize, totalItems, content}: Pagination<unknown>) {
+    @Input() set paginationData({ page, pageSize, totalItems, content }: Pagination<unknown>) {
         this.totalItems = totalItems;
         this.pageSize = pageSize;
         this.dataSource.data = content;
@@ -130,7 +131,7 @@ export class PartsTableComponent implements OnInit {
 
     filterFormGroup = new FormGroup({});
 
-    public isDateElement(key: string){
+    public isDateElement(key: string) {
         return isDateFilter(key);
     }
     public isMultipleSearch(filter: any): boolean {
@@ -176,6 +177,7 @@ export class PartsTableComponent implements OnInit {
 
     private readonly displayedColumnsAsBuiltForTable: string[] = [
         'select',
+        '!',
         'id',
         'idShort',
         'name',
@@ -381,9 +383,18 @@ export class PartsTableComponent implements OnInit {
     ngOnInit() {
         this.handleAsBuiltTableType();
         this.handleAsPlannedTableType();
+        this.handleAsDesignedTableType();
+        this.handleAsOrderedTableType();
+        this.handleAsRecycledTableType();
+        this.handleAsSupportedTableType();
         this.filterFormGroup.valueChanges.subscribe((formValues) => {
             this.filterActivated.emit(formValues);
         });
+
+    }
+
+    ngAfterViewInit() {
+        this.paginator._intl.itemsPerPageLabel = "Show";
     }
 
     private handleAsPlannedTableType(): void {
@@ -398,6 +409,10 @@ export class PartsTableComponent implements OnInit {
                 this.setupTableConfigurations(this.displayedColumnsAsPlannedSupplierForTable, this.displayedColumnsAsPlannedSupplier, this.sortableColumnsAsPlannedSupplier, this.assetAsPlannedSupplierFilterConfiguration, this.assetAsPlannedSupplierFilterFormGroup);
                 break;
         }
+    }
+
+    public getTooltip(column: string) {
+        return column === "!" ? 'Open alerts/investigations' : 'First click: sort in ascending order ↑ Second click: sort in descending order ↓ Third click:  reset sorting';
     }
 
     private setupTableConfigurations(displayedColumnsForTable: string[], displayedColumns: string[], sortableColumns: Record<string, boolean>, filterConfiguration: any[], filterFormGroup: any): any {
@@ -431,6 +446,62 @@ export class PartsTableComponent implements OnInit {
         }
     }
 
+    private handleAsOrderedTableType(): void {
+        switch (this.tableType) {
+            case PartTableType.AS_ORDERED_CUSTOMER:
+                this.setupTableConfigurations(this.displayedColumnsAsPlannedCustomerForTable, this.displayedColumnsAsPlannedCustomer, this.sortableColumnsAsPlannedCustomer, this.assetAsPlannedCustomerFilterConfiguration, this.assetAsPlannedCustomerFilterFormGroup);
+                break;
+            case PartTableType.AS_ORDERED_OWN:
+                this.setupTableConfigurations(this.displayedColumnsAsPlannedForTable, this.displayedColumnsAsPlanned, this.sortableColumnsAsPlanned, this.assetAsPlannedFilterConfiguration, this.assetAsPlannedFilterFormGroup);
+                break;
+            case PartTableType.AS_ORDERED_SUPPLIER:
+                this.setupTableConfigurations(this.displayedColumnsAsPlannedSupplierForTable, this.displayedColumnsAsPlannedSupplier, this.sortableColumnsAsPlannedSupplier, this.assetAsPlannedSupplierFilterConfiguration, this.assetAsPlannedSupplierFilterFormGroup);
+                break;
+        }
+    }
+
+    private handleAsDesignedTableType(): void {
+        switch (this.tableType) {
+            case PartTableType.AS_DESIGNED_CUSTOMER:
+                this.setupTableConfigurations(this.displayedColumnsAsPlannedCustomerForTable, this.displayedColumnsAsPlannedCustomer, this.sortableColumnsAsPlannedCustomer, this.assetAsPlannedCustomerFilterConfiguration, this.assetAsPlannedCustomerFilterFormGroup);
+                break;
+            case PartTableType.AS_DESIGNED_OWN:
+                this.setupTableConfigurations(this.displayedColumnsAsPlannedForTable, this.displayedColumnsAsPlanned, this.sortableColumnsAsPlanned, this.assetAsPlannedFilterConfiguration, this.assetAsPlannedFilterFormGroup);
+                break;
+            case PartTableType.AS_DESIGNED_SUPPLIER:
+                this.setupTableConfigurations(this.displayedColumnsAsPlannedSupplierForTable, this.displayedColumnsAsPlannedSupplier, this.sortableColumnsAsPlannedSupplier, this.assetAsPlannedSupplierFilterConfiguration, this.assetAsPlannedSupplierFilterFormGroup);
+                break;
+        }
+    }
+
+    private handleAsSupportedTableType(): void {
+        switch (this.tableType) {
+            case PartTableType.AS_SUPPORTED_CUSTOMER:
+                this.setupTableConfigurations(this.displayedColumnsAsPlannedCustomerForTable, this.displayedColumnsAsPlannedCustomer, this.sortableColumnsAsPlannedCustomer, this.assetAsPlannedCustomerFilterConfiguration, this.assetAsPlannedCustomerFilterFormGroup);
+                break;
+            case PartTableType.AS_SUPPORTED_OWN:
+                this.setupTableConfigurations(this.displayedColumnsAsPlannedForTable, this.displayedColumnsAsPlanned, this.sortableColumnsAsPlanned, this.assetAsPlannedFilterConfiguration, this.assetAsPlannedFilterFormGroup);
+                break;
+            case PartTableType.AS_SUPPORTED_SUPPLIER:
+                this.setupTableConfigurations(this.displayedColumnsAsPlannedSupplierForTable, this.displayedColumnsAsPlannedSupplier, this.sortableColumnsAsPlannedSupplier, this.assetAsPlannedSupplierFilterConfiguration, this.assetAsPlannedSupplierFilterFormGroup);
+                break;
+        }
+    }
+
+    private handleAsRecycledTableType(): void {
+        switch (this.tableType) {
+            case PartTableType.AS_RECYCLED_CUSTOMER:
+                this.setupTableConfigurations(this.displayedColumnsAsPlannedCustomerForTable, this.displayedColumnsAsPlannedCustomer, this.sortableColumnsAsPlannedCustomer, this.assetAsPlannedCustomerFilterConfiguration, this.assetAsPlannedCustomerFilterFormGroup);
+                break;
+            case PartTableType.AS_RECYCLED_OWN:
+                this.setupTableConfigurations(this.displayedColumnsAsPlannedForTable, this.displayedColumnsAsPlanned, this.sortableColumnsAsPlanned, this.assetAsPlannedFilterConfiguration, this.assetAsPlannedFilterFormGroup);
+                break;
+            case PartTableType.AS_RECYCLED_SUPPLIER:
+                this.setupTableConfigurations(this.displayedColumnsAsPlannedSupplierForTable, this.displayedColumnsAsPlannedSupplier, this.sortableColumnsAsPlannedSupplier, this.assetAsPlannedSupplierFilterConfiguration, this.assetAsPlannedSupplierFilterFormGroup);
+                break;
+        }
+    }
+
     optionTextSearch = [];
     semanticDataModelOptions = [
         {
@@ -452,22 +523,22 @@ export class PartsTableComponent implements OnInit {
     ];
 
     public readonly assetAsBuiltFilterConfiguration: any[] = [
-        {filterKey: 'Filter', headerKey: 'Filter', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'id', headerKey: 'filterId', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'idShort', headerKey: 'filterIdShort', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'nameAtManufacturer', headerKey: 'filterName', isTextSearch: true, option: this.optionTextSearch}, // nameAtManufacturer
-        {filterKey: 'manufacturerName', headerKey: 'filterManufacturer', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'manufacturerPartId', headerKey: 'filterPartId', isTextSearch: true, option: this.optionTextSearch}, // Part number / Batch Number / JIS Number
-        {filterKey: 'manufacturerPartId', headerKey: 'filterManufacturerPartId', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'customerPartId', headerKey: 'filterCustomerPartId', isTextSearch: true, option: this.optionTextSearch}, // --> semanticModel.customerPartId
-        {filterKey: 'classification', headerKey: 'filterClassification', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'nameAtCustomer', headerKey: 'filterNameAtCustomer', isTextSearch: true, option: this.optionTextSearch}, // --> semanticModel.nameAtCustomer
-        {filterKey: 'semanticModelId', headerKey: 'filterSemanticModelId', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'semanticDataModel', headerKey: 'filterSemanticDataModel', isTextSearch: false, option: this.semanticDataModelOptions},
-        {filterKey: 'manufacturingDate', headerKey: 'filterManufacturingDate', isTextSearch: false, isDate: true, option: this.optionTextSearch},
-        {filterKey: 'manufacturingCountry', headerKey: 'filterManufacturingCountry', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'activeAlerts', headerKey: 'filterActiveAlerts', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'activeInvestigations', headerKey: 'filterActiveInvestigations', isTextSearch: true, option: this.optionTextSearch},
+        { filterKey: 'Filter', headerKey: 'Filter', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'id', headerKey: 'filterId', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'idShort', headerKey: 'filterIdShort', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'nameAtManufacturer', headerKey: 'filterName', isTextSearch: true, option: this.optionTextSearch }, // nameAtManufacturer
+        { filterKey: 'manufacturerName', headerKey: 'filterManufacturer', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'manufacturerPartId', headerKey: 'filterPartId', isTextSearch: true, option: this.optionTextSearch }, // Part number / Batch Number / JIS Number
+        { filterKey: 'manufacturerPartId', headerKey: 'filterManufacturerPartId', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'customerPartId', headerKey: 'filterCustomerPartId', isTextSearch: true, option: this.optionTextSearch }, // --> semanticModel.customerPartId
+        { filterKey: 'classification', headerKey: 'filterClassification', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'nameAtCustomer', headerKey: 'filterNameAtCustomer', isTextSearch: true, option: this.optionTextSearch }, // --> semanticModel.nameAtCustomer
+        { filterKey: 'semanticModelId', headerKey: 'filterSemanticModelId', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'semanticDataModel', headerKey: 'filterSemanticDataModel', isTextSearch: false, option: this.semanticDataModelOptions },
+        { filterKey: 'manufacturingDate', headerKey: 'filterManufacturingDate', isTextSearch: false, isDate: true, option: this.optionTextSearch },
+        { filterKey: 'manufacturingCountry', headerKey: 'filterManufacturingCountry', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'activeAlerts', headerKey: 'filterActiveAlerts', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'activeInvestigations', headerKey: 'filterActiveInvestigations', isTextSearch: true, option: this.optionTextSearch },
     ];
 
 
@@ -551,66 +622,66 @@ export class PartsTableComponent implements OnInit {
     };
 
     private readonly assetAsPlannedCustomerFilterConfiguration: any[] = [
-        {filterKey: 'Filter', headerKey: 'Filter', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'semanticDataModel', headerKey: 'filterSemanticDataModel', isTextSearch: false, option: this.semanticDataModelOptions},
-        {filterKey: 'nameAtManufacturer', headerKey: 'filterName', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'manufacturerName', headerKey: 'filterManufacturer', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'manufacturerPartId', headerKey: 'filterManufacturerPartId', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'semanticModelId', headerKey: 'filterSemanticModelId', isTextSearch: true, option: this.optionTextSearch}
+        { filterKey: 'Filter', headerKey: 'Filter', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'semanticDataModel', headerKey: 'filterSemanticDataModel', isTextSearch: false, option: this.semanticDataModelOptions },
+        { filterKey: 'nameAtManufacturer', headerKey: 'filterName', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'manufacturerName', headerKey: 'filterManufacturer', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'manufacturerPartId', headerKey: 'filterManufacturerPartId', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'semanticModelId', headerKey: 'filterSemanticModelId', isTextSearch: true, option: this.optionTextSearch }
     ];
 
     private readonly assetAsPlannedSupplierFilterConfiguration: any[] = [
-        {filterKey: 'Filter', headerKey: 'Filter', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'semanticDataModel', headerKey: 'filterSemanticDataModel', isTextSearch: false, option: this.semanticDataModelOptions},
-        {filterKey: 'nameAtManufacturer', headerKey: 'filterName', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'manufacturerName', headerKey: 'filterManufacturer', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'manufacturerPartId', headerKey: 'filterManufacturerPartId', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'semanticModelId', headerKey: 'filterSemanticModelId', isTextSearch: true, option: this.optionTextSearch}
+        { filterKey: 'Filter', headerKey: 'Filter', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'semanticDataModel', headerKey: 'filterSemanticDataModel', isTextSearch: false, option: this.semanticDataModelOptions },
+        { filterKey: 'nameAtManufacturer', headerKey: 'filterName', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'manufacturerName', headerKey: 'filterManufacturer', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'manufacturerPartId', headerKey: 'filterManufacturerPartId', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'semanticModelId', headerKey: 'filterSemanticModelId', isTextSearch: true, option: this.optionTextSearch }
     ];
 
 
     private readonly assetAsBuiltCustomerFilterConfiguration: any[] = [
-        {filterKey: 'Filter', headerKey: 'Filter', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'semanticDataModel', headerKey: 'filterSemanticDataModel', isTextSearch: false, option: this.semanticDataModelOptions},
-        {filterKey: 'nameAtManufacturer', headerKey: 'filterName', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'manufacturerName', headerKey: 'filterManufacturer', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'manufacturerPartId', headerKey: 'filterPartId', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'semanticModelId', headerKey: 'filterSemanticModelId', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'manufacturingDate', headerKey: 'filterManufacturingDate', isTextSearch: false, isDate: true, option: this.optionTextSearch},
-        {filterKey: 'activeAlerts', headerKey: 'filterActiveAlerts', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'activeInvestigations', headerKey: 'filterActiveInvestigations', isTextSearch: true, option: this.optionTextSearch},
+        { filterKey: 'Filter', headerKey: 'Filter', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'semanticDataModel', headerKey: 'filterSemanticDataModel', isTextSearch: false, option: this.semanticDataModelOptions },
+        { filterKey: 'nameAtManufacturer', headerKey: 'filterName', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'manufacturerName', headerKey: 'filterManufacturer', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'manufacturerPartId', headerKey: 'filterPartId', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'semanticModelId', headerKey: 'filterSemanticModelId', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'manufacturingDate', headerKey: 'filterManufacturingDate', isTextSearch: false, isDate: true, option: this.optionTextSearch },
+        { filterKey: 'activeAlerts', headerKey: 'filterActiveAlerts', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'activeInvestigations', headerKey: 'filterActiveInvestigations', isTextSearch: true, option: this.optionTextSearch },
     ];
 
 
     private readonly assetAsBuiltSupplierFilterConfiguration: any[] = [
-        {filterKey: 'Filter', headerKey: 'Filter', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'semanticDataModel', headerKey: 'filterSemanticDataModel', isTextSearch: false, option: this.semanticDataModelOptions},
-        {filterKey: 'nameAtManufacturer', headerKey: 'filterName', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'manufacturerName', headerKey: 'filterManufacturer', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'manufacturerPartId', headerKey: 'filterPartId', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'semanticModelId', headerKey: 'filterSemanticModelId', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'manufacturingDate', headerKey: 'filterManufacturingDate', isTextSearch: false, isDate: true, option: this.optionTextSearch},
-        {filterKey: 'activeAlerts', headerKey: 'filterActiveAlerts', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'activeInvestigations', headerKey: 'filterActiveInvestigations', isTextSearch: true, option: this.optionTextSearch},
+        { filterKey: 'Filter', headerKey: 'Filter', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'semanticDataModel', headerKey: 'filterSemanticDataModel', isTextSearch: false, option: this.semanticDataModelOptions },
+        { filterKey: 'nameAtManufacturer', headerKey: 'filterName', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'manufacturerName', headerKey: 'filterManufacturer', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'manufacturerPartId', headerKey: 'filterPartId', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'semanticModelId', headerKey: 'filterSemanticModelId', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'manufacturingDate', headerKey: 'filterManufacturingDate', isTextSearch: false, isDate: true, option: this.optionTextSearch },
+        { filterKey: 'activeAlerts', headerKey: 'filterActiveAlerts', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'activeInvestigations', headerKey: 'filterActiveInvestigations', isTextSearch: true, option: this.optionTextSearch },
     ];
 
 
     private readonly assetAsPlannedFilterConfiguration: any[] = [
-        {filterKey: 'Filter', headerKey: 'Filter', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'id', headerKey: 'filterId', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'idShort', headerKey: 'filterIdShort', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'nameAtManufacturer', headerKey: 'filterName', isTextSearch: true, option: this.optionTextSearch}, // nameAtManufacturer
-        {filterKey: 'manufacturerName', headerKey: 'filterManufacturer', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'manufacturerPartId', headerKey: 'filterManufacturerPartId', isTextSearch: true, option: this.optionTextSearch}, // Part number / Batch Number / JIS Number
-        {filterKey: 'classification', headerKey: 'filterClassification', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'semanticDataModel', headerKey: 'filterSemanticDataModel', isTextSearch: false, option: this.semanticDataModelOptions},
-        {filterKey: 'semanticModelId', headerKey: 'filterSemanticModelId', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'validityPeriodFrom', headerKey: 'filterValidityPeriodFrom', isTextSearch: false, isDate: true, option: this.optionTextSearch},
-        {filterKey: 'validityPeriodTo', headerKey: 'filterValidityPeriodTo', isTextSearch: false, isDate: true, option: this.optionTextSearch},
-        {filterKey: 'function', headerKey: 'filterPsFunction', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'catenaxSiteId', headerKey: 'filterCatenaXSiteId', isTextSearch: true, option: this.optionTextSearch},
-        {filterKey: 'functionValidFrom', headerKey: 'filterFunctionValidFrom', isTextSearch: false, isDate: true, option: this.optionTextSearch},
-        {filterKey: 'functionValidUntil', headerKey: 'filterFunctionValidUntil', isTextSearch: false, isDate: true, option: this.optionTextSearch}
+        { filterKey: 'Filter', headerKey: 'Filter', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'id', headerKey: 'filterId', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'idShort', headerKey: 'filterIdShort', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'nameAtManufacturer', headerKey: 'filterName', isTextSearch: true, option: this.optionTextSearch }, // nameAtManufacturer
+        { filterKey: 'manufacturerName', headerKey: 'filterManufacturer', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'manufacturerPartId', headerKey: 'filterManufacturerPartId', isTextSearch: true, option: this.optionTextSearch }, // Part number / Batch Number / JIS Number
+        { filterKey: 'classification', headerKey: 'filterClassification', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'semanticDataModel', headerKey: 'filterSemanticDataModel', isTextSearch: false, option: this.semanticDataModelOptions },
+        { filterKey: 'semanticModelId', headerKey: 'filterSemanticModelId', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'validityPeriodFrom', headerKey: 'filterValidityPeriodFrom', isTextSearch: false, isDate: true, option: this.optionTextSearch },
+        { filterKey: 'validityPeriodTo', headerKey: 'filterValidityPeriodTo', isTextSearch: false, isDate: true, option: this.optionTextSearch },
+        { filterKey: 'function', headerKey: 'filterPsFunction', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'catenaxSiteId', headerKey: 'filterCatenaXSiteId', isTextSearch: true, option: this.optionTextSearch },
+        { filterKey: 'functionValidFrom', headerKey: 'filterFunctionValidFrom', isTextSearch: false, isDate: true, option: this.optionTextSearch },
+        { filterKey: 'functionValidUntil', headerKey: 'filterFunctionValidUntil', isTextSearch: false, isDate: true, option: this.optionTextSearch }
     ];
 
 
@@ -636,18 +707,18 @@ export class PartsTableComponent implements OnInit {
         this.emitMultiSelect();
     }
 
-    public onPaginationChange({pageIndex, pageSize}: PageEvent): void {
+    public onPaginationChange({ pageIndex, pageSize }: PageEvent): void {
         this.pageIndex = pageIndex;
         this.isDataLoading = true;
-        this.configChanged.emit({page: pageIndex, pageSize: pageSize, sorting: this.sorting});
+        this.configChanged.emit({ page: pageIndex, pageSize: pageSize, sorting: this.sorting });
     }
 
-    public updateSortingOfData({active, direction}: Sort): void {
+    public updateSortingOfData({ active, direction }: Sort): void {
         this.selection.clear();
         this.emitMultiSelect();
         this.sorting = !direction ? null : ([active, direction] as TableHeaderSort);
         this.isDataLoading = true;
-        this.configChanged.emit({page: 0, pageSize: this.pageSize, sorting: this.sorting});
+        this.configChanged.emit({ page: 0, pageSize: this.pageSize, sorting: this.sorting });
     }
 
     public toggleSelection(row: unknown): void {

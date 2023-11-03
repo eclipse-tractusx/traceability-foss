@@ -82,7 +82,7 @@ SPDX-License-Identifier: Apache-2.0
         <div class="inline-block w-full">
           <div class="flex justify-between items-center">
             <h3 class="pl-2 mb-4 flex items-center tableHeader">
-              <img class="pr-2" src="/assets/images/icons/content_paste_search_small.svg" />
+              <img class="pr-2" src="/assets/images/icons/content_paste_search_small.svg" alt="Investigations icon" />
               {{ 'pageTitle.investigations' | i18n }}
               <span class="pl-1 latestFiveLabel">{{ 'table.latestFive' | i18n }}</span>
             </h3>
@@ -100,7 +100,8 @@ SPDX-License-Identifier: Apache-2.0
           [translationContext]="'commonInvestigation'" [labelId]="'dashboard-investigations'" [hasPagination]="false"
           [optionalColumns]="['targetDate', 'severity', 'createdBy']" (selected)="onNotificationSelected($event, true)">
           <div content1>
-            <img src="/assets/images/icons/noQualityInvestigations.svg" class="center py-5" />
+            <img src="/assets/images/icons/noQualityInvestigations.svg" class="center py-5"
+              alt="No quality investigations icon" />
             <div class="noAlerts pb-3">{{ 'commonInvestigation.noInvestigations' | i18n }}</div>
             <div class="description pb-10">{{ 'commonInvestigation.noInvestigationsDescription' | i18n }}</div>
           </div>
@@ -115,7 +116,7 @@ SPDX-License-Identifier: Apache-2.0
         <div class="inline-block w-full">
           <div class="flex justify-between items-center">
             <h3 class="pl-2 mb-4 flex items-center tableHeader">
-              <img class="pr-2" src="/assets/images/icons/alert.svg" />
+              <img class="pr-2" src="/assets/images/icons/alert.svg" alt="Alert icon" />
               {{ 'pageTitle.alerts' | i18n }}
               <span class="pl-1 latestFiveLabel">{{ 'table.latestFive' | i18n }}</span>
             </h3>
@@ -134,7 +135,7 @@ SPDX-License-Identifier: Apache-2.0
           [translationContext]="'commonAlert'" [labelId]="'dashboard-alerts'" [hasPagination]="false"
           [optionalColumns]="[ 'severity', 'createdBy']" (selected)="onNotificationSelected($event, false)">
           <div content1>
-            <img src="/assets/images/icons/noAlert.svg" class="center py-5" />
+            <img src="/assets/images/icons/noAlert.svg" class="center py-5" alt="No alert" />
             <div class="noAlerts pb-3">{{ 'commonAlert.noAlerts' | i18n }}</div>
             <div class="description pb-10">{{ 'commonAlert.noAlertsDescription' | i18n }}</div>
           </div>

@@ -28,8 +28,12 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class PartsState {
+  private readonly _partsAsDesigned$ = new State<View<Pagination<Part>>>({ loader: true });
   private readonly _partsAsBuilt$ = new State<View<Pagination<Part>>>({ loader: true });
+  private readonly _partsAsOrdered$ = new State<View<Pagination<Part>>>({ loader: true });
   private readonly _partsAsPlanned$ = new State<View<Pagination<Part>>>({ loader: true });
+  private readonly _partsAsSupported$ = new State<View<Pagination<Part>>>({ loader: true });
+  private readonly _partsAsRecycled$ = new State<View<Pagination<Part>>>({ loader: true });
 
   public get partsAsBuilt$(): Observable<View<Pagination<Part>>> {
     return this._partsAsBuilt$.observable;
@@ -55,5 +59,57 @@ export class PartsState {
 
   public get partsAsPlanned(): View<Pagination<Part>> {
     return this._partsAsPlanned$.snapshot;
+  }
+
+  public get partsAsDesigned$(): Observable<View<Pagination<Part>>> {
+    return this._partsAsDesigned$.observable;
+  }
+
+  public set partsAsDesigned({ data, loader, error }: View<Pagination<Part>>) {
+    const partsView: View<Pagination<Part>> = { data, loader, error };
+    this._partsAsDesigned$.update(partsView);
+  }
+
+  public get partsAsDesigned(): View<Pagination<Part>> {
+    return this._partsAsDesigned$.snapshot;
+  }
+
+  public get partsAsOrdered$(): Observable<View<Pagination<Part>>> {
+    return this._partsAsOrdered$.observable;
+  }
+
+  public set partsAsOrdered({ data, loader, error }: View<Pagination<Part>>) {
+    const partsView: View<Pagination<Part>> = { data, loader, error };
+    this._partsAsOrdered$.update(partsView);
+  }
+
+  public get partsAsOrdered(): View<Pagination<Part>> {
+    return this._partsAsOrdered$.snapshot;
+  }
+
+  public get partsAsSupported$(): Observable<View<Pagination<Part>>> {
+    return this._partsAsSupported$.observable;
+  }
+
+  public set partsAsSupported({ data, loader, error }: View<Pagination<Part>>) {
+    const partsView: View<Pagination<Part>> = { data, loader, error };
+    this._partsAsSupported$.update(partsView);
+  }
+
+  public get partsAsSupported(): View<Pagination<Part>> {
+    return this._partsAsSupported$.snapshot;
+  }
+
+  public get partsAsRecycled$(): Observable<View<Pagination<Part>>> {
+    return this._partsAsRecycled$.observable;
+  }
+
+  public set partsAsRecycled({ data, loader, error }: View<Pagination<Part>>) {
+    const partsView: View<Pagination<Part>> = { data, loader, error };
+    this._partsAsRecycled$.update(partsView);
+  }
+
+  public get partsAsRecycled(): View<Pagination<Part>> {
+    return this._partsAsRecycled$.snapshot;
   }
 }
