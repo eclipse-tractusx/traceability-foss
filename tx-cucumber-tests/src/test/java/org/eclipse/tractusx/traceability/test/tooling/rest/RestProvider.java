@@ -91,14 +91,14 @@ public class RestProvider {
             String description,
             Instant targetDate,
             String severity,
-            String bpn,
+            String receiverBpn,
             NotificationTypeEnum notificationType) {
         final StartQualityNotificationRequest requestBody = StartQualityNotificationRequest.builder()
                 .partIds(partIds)
                 .description(description)
                 .targetDate(targetDate)
                 .severity(severity)
-                .bpn(bpn)
+                .receiverBpn(receiverBpn)
                 .build();
         return given().log().body()
                 .spec(getRequestSpecification())
