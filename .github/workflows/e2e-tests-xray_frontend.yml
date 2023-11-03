@@ -109,7 +109,7 @@ jobs:
           browser: chrome
           working-directory: frontend
         env:
-          CYPRESS_SUPERVISOR_LOGIN: ${{ secrets.ORG_IRS_JIRA_USERNAME }}
+          CYPRESS_SUPERVISOR_LOGIN: ${{ secrets.TRACE_X_USER_LOGIN }}
           CYPRESS_SUPERVISOR_PW: ${{ secrets.TRACE_X_USER_PW }}
 
       - name: Submit results to Xray
