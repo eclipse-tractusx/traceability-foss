@@ -7,7 +7,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [UNRELEASED - DD.MM.YYYY]
 ### Added
+- Cypress Login to E2E Environment to enable cypress e2e tests.
 ### Changed
+- Fixed table-settings reset bug
 ### Removed
 
 ## [9.0.0-rc1 - 03.11.2023]
@@ -24,6 +26,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - handling for invalid LocalDate string provided in filterCriteria for date related filtering
 - support for filtering join tables for Specification searchCriteria
 - added PR comment in case of HIGH/CRITICAL dependency check findings
+- Functionality to indicate that no Dependency Check findings occur in a PR
+- Badge to show successful Dependency Check status
 
 ### Changed
 - Updated user manual to reflect the table column settings feature
@@ -41,6 +45,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - changed assetAsBuilt filtering manufacturerId to businessPartner
 - IRS-Client-Lib from 1.2.1-SNAPSHOT to 1.4.0
 - Decoupled dependency check in a separate GitHub action
+- Mitigated Dependency Check findings
 
 ### Removed
 - Removed &filterOperator=AND from filtering requests
