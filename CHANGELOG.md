@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.0.2] - 2023-11-03
+### Added
+- Updated irs version from 6.8.0 to 6.8.1
+
 ## [6.0.1] - 2023-10-23
 ### Added
 - All elements from 6.0.1-rc1,rc2,rc3,rc4
