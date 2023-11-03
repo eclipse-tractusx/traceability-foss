@@ -67,3 +67,11 @@ jobs:
             ## ‼️ Dependency Check findings ‼️
             One or more high/critical findings have been found during dependency check. Please check the depenency report:
             https://github.com/catenax-ng/tx-traceability-foss/actions/runs/${{ github.run_id }}
+
+      - name: add PR comment
+        uses: mshick/add-pr-comment@v2
+        if: success()
+        with:
+          message: |
+            ## ✅ No Dependency Check findings were found
+
