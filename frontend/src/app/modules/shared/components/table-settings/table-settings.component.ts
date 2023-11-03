@@ -149,7 +149,7 @@ export class TableSettingsComponent {
   }
 
   resetColumns() {
-    this.dialogColumns = [...this.defaultColumns];
+    this.dialogColumns = [...this.defaultColumns.filter(value => value!=='menu')];
     this.selectAll(true);
   }
 }
