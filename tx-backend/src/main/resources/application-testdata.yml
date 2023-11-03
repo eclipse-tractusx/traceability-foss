@@ -1,0 +1,57 @@
+################################################################################
+# Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+# Copyright (c) 2022, 2023 ZF Friedrichshafen AG
+# Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Apache License, Version 2.0 which is available at
+# https://www.apache.org/licenses/LICENSE-2.0.
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+################################################################################
+
+spring:
+  flyway:
+    locations: /db/migration,/db/testdata
+    placeholders:
+      assetAsBuiltId01: "'urn:uuid:6ec3f1db-2798-454b-a73f-0d21a8966c77'"
+      assetAsBuiltId02: "'urn:uuid:132fd82b-caab-476b-b453-b7273a4c7c01'"
+      assetAsBuiltId03: "'urn:uuid:c0edce5c-546f-4e79-9d86-a4cb7ca7b900'"
+      assetAsBuiltId04: "'urn:uuid:6b739098-dec0-4726-b5cb-e8cd5091a9f2'"
+      assetAsBuiltId05: "'urn:uuid:0f440d8a-4c74-417b-b217-bbcd1aebdd8d'"
+      assetAsBuiltId06: "'urn:uuid:b3707747-59f2-46f3-98c7-a5a77fdb2d2f'"
+      assetAsBuiltId07: "'urn:uuid:c032bf1f-38a6-4a73-b64c-02ce0853dc42'"
+      assetAsBuiltId08: "'urn:uuid:6d547770-01f5-4618-b055-4f0b86e2924f'"
+      assetAsBuiltId09: "'urn:uuid:c09aa1f9-c8f4-4e92-935a-ea64ac703e33'"
+      assetAsBuiltId10: "'urn:uuid:135249bf-2a52-499f-a686-1377ecc38ab7'"
+      assetAsPlannedId1: "'urn:uuid:e97699c1-89c1-474b-8a92-c3a887c6b4c0'"
+      assetAsPlannedId2: "'urn:uuid:78e5523d-73b6-4770-b5f5-5ea314c33674'"
+      assetAsPlannedId3: "'urn:uuid:0ca1fa83-9035-4083-a0fd-a617ee5c9fa9'"
+      assetAsPlannedId4: "'urn:uuid:f60de67a-95db-4fed-8ad7-22f358b6a5f7'"
+      assetAsPlannedId5: "'urn:uuid:53160549-15b9-4544-805e-bb82113f8264'"
+      assetAsPlannedId6: "'urn:uuid:732e8ac0-c22d-4d6f-960c-639e753022a1'"
+      alertId1: 1
+      alertId2: 2
+      alertId3: 3
+      alertId4: 4
+      alertNotificationId1: 1
+      alertNotificationId2: 2
+      alertNotificationId3: 3
+      alertNotificationId4: 4
+      investigationId1: 1
+      investigationId2: 2
+      investigationId3: 3
+      investigationId4: 4
+      investigationNotificationId1: 1
+      investigationNotificationId2: 2
+      investigationNotificationId3: 3
+      investigationNotificationId4: 4
