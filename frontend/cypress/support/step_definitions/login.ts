@@ -8,14 +8,17 @@ Given('user logged in as {string}', function(userType) {
     case 'supervisor': {
       loginMail = Cypress.env('SUPERVISOR_LOGIN');
       loginPW = Cypress.env('SUPERVISOR_PW');
+      break;
     }
     case 'user': {
       loginMail = Cypress.env('USER_LOGIN');
       loginPW = Cypress.env('USER_PW');
+      break;
     }
     case 'admin': {
       loginMail = Cypress.env('ADMIN_LOGIN');
       loginPW = Cypress.env('ADMIN_PW');
+      break;
     }
 
   }
