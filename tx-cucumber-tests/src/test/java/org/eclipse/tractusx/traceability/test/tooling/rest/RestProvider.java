@@ -91,14 +91,14 @@ public class RestProvider {
             String description,
             Instant targetDate,
             String severity,
-            String bpn,
+            String receiverBpn,
             NotificationTypeEnum notificationType) {
         final StartQualityNotificationRequest requestBody = StartQualityNotificationRequest.builder()
                 .partIds(partIds)
                 .description(description)
                 .targetDate(targetDate)
                 .severity(severity)
-                .bpn(bpn)
+                .receiverBpn(receiverBpn)
                 .build();
         return given().log().body()
                 .spec(getRequestSpecification())
@@ -176,7 +176,7 @@ public class RestProvider {
         return given().spec(getRequestSpecification())
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/" + notificationType.label + "/received")
+                .get("/api/" + notificationType.label + "?size=1000&filter=channel,EQUAL,RECEIVER,AND")
                 .then()
                 .statusCode(HttpStatus.SC_OK)
                 .extract()
