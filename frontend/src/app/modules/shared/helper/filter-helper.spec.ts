@@ -32,7 +32,7 @@ describe('enrichFilterAndGetUpdatedParams', () => {
         expect(result.toString()).toContain('filter=otherKey,STARTS_WITH,value3');
     });
 
-    fit('should append filter parameters for date filters', () => {
+    it('should append filter parameters for date filters', () => {
         const filter = {
             functionValidUntil: ['2023-10-13'],
             functionValidFrom: ['2023-10-14'],
