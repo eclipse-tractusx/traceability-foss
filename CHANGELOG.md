@@ -10,6 +10,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Cypress Login to E2E Environment to enable cypress e2e tests.
 ### Changed
 - Fixed table-settings reset bug
+- Fixed name of veracode backend job
 ### Removed
 
 ## [9.0.0-rc1 - 03.11.2023]
