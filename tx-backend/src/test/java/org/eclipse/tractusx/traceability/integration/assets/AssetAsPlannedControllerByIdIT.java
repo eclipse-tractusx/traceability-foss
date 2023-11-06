@@ -48,6 +48,7 @@ import static org.eclipse.tractusx.traceability.qualitynotification.infrastructu
 import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.RECEIVED;
 import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.SENT;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
@@ -98,7 +99,7 @@ class AssetAsPlannedControllerByIdIT extends IntegrationTestSpecification {
                 .log().all()
                 .statusCode(200)
                 .assertThat()
-                .body("qualityAlertsInStatusActive", is(6));
+                .body("qualityAlertsInStatusActive", hasSize(6));
     }
 
     @Test

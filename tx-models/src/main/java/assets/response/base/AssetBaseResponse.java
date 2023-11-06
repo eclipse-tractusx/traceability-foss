@@ -76,7 +76,7 @@ public class AssetBaseResponse {
     private String classification;
     private List<DetailAspectModelResponse> detailAspectModels;
     @ApiModelProperty(example = "1")
-    private Integer qualityAlertsInStatusActive;
+    private List<Long> qualityAlertsInStatusActive;
     @ApiModelProperty(example = "2")
-    private Integer qualityInvestigationsInStatusActive;
+    private List<Long> qualityInvestigationsInStatusActive;
 }
