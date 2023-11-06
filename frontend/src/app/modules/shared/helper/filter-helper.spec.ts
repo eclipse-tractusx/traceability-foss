@@ -48,7 +48,7 @@ describe('enrichFilterAndGetUpdatedParams', () => {
         expect(result.toString()).toContain('filter=validityPeriodTo,AFTER_LOCAL_DATE,2023-10-17');
     });
 
-    fit('should append filter parameters for date range filters', () => {
+    it('should append filter parameters for date range filters', () => {
       const filter = {
         manufacturingDate: '2023-10-13,2023-10-20',
       }
