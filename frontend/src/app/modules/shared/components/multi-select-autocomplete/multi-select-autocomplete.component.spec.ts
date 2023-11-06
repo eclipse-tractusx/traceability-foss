@@ -1,11 +1,9 @@
-import {renderComponent} from "@tests/test-render.utils";
-import {SharedModule} from "@shared/shared.module";
-import {
-    MultiSelectAutocompleteComponent
-} from "@shared/components/multi-select-autocomplete/multi-select-autocomplete.component";
-import {SemanticDataModel} from "@page/parts/model/parts.model";
-import {MatDatepickerInputEvent} from "@angular/material/datepicker";
-import {DatePipe} from "@angular/common";
+import { DatePipe } from '@angular/common';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { SemanticDataModel } from '@page/parts/model/parts.model';
+import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
+import { SharedModule } from '@shared/shared.module';
+import { renderComponent } from '@tests/test-render.utils';
 
 describe('MultiSelectAutocompleteComponent', () => {
     const renderMultiSelectAutoCompleteComponent = (multiple = true) => {
@@ -199,7 +197,7 @@ describe('MultiSelectAutocompleteComponent', () => {
         };
 
         // Call the function to test
-        componentInstance.dateSelectionEvent(event);
+        componentInstance.startDateSelected(event);
 
         // Expectations
         expect(componentInstance.formControl.value).toBe('2023-10-12'); // Replace with your actual form control variable

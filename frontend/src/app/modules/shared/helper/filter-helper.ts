@@ -30,11 +30,25 @@ export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, para
     const semanticDataModelKey = "semanticDataModel";
     for (const key in filter) {
         let operator: string;
-        const filterValues = filter[key];
+        const filterValues: string = filter[key];
         if (key !== semanticDataModelKey) {
             if (filterValues.length !== 0) {
                 if (isDateFilter(key)) {
-                    operator = getFilterOperatorValue(FilterOperator.AT_LOCAL_DATE);
+                  if(filterValues.includes(",")) {
+                    let dateRange = filterValues.split(',');
+                    if(dateRange[0] === dateRange[1]) {
+                      operator = getFilterOperatorValue(FilterOperator.AT_LOCAL_DATE);
+                      params = params.append('filter', `${key},${operator},${dateRange[0]},${filterOperator}`);
+                      continue;
+                    }
+                    let endDateOperator = getFilterOperatorValue(FilterOperator.BEFORE_LOCAL_DATE)
+                    operator = getFilterOperatorValue((FilterOperator.AFTER_LOCAL_DATE));
+                    params = params.append('filter', `${key},${operator},${dateRange[0]},${filterOperator}`);
+                    params = params.append('filter', `${key},${endDateOperator},${dateRange[1]},${filterOperator}`);
+                    continue;
+                  } else {
+                    operator = getFilterOperatorValue(FilterOperator.AFTER_LOCAL_DATE);
+                  }
                 } else {
                     operator = getFilterOperatorValue(FilterOperator.STARTS_WITH);
                 }

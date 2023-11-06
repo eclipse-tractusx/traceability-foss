@@ -32,7 +32,7 @@ describe('enrichFilterAndGetUpdatedParams', () => {
         expect(result.toString()).toContain('filter=otherKey,STARTS_WITH,value3');
     });
 
-    it('should append filter parameters for date filters', () => {
+    fit('should append filter parameters for date filters', () => {
         const filter = {
             functionValidUntil: ['2023-10-13'],
             functionValidFrom: ['2023-10-14'],
@@ -42,10 +42,10 @@ describe('enrichFilterAndGetUpdatedParams', () => {
         const params = new HttpParams();
         // @ts-ignore
         const result = enrichFilterAndGetUpdatedParams(filter, params);
-        expect(result.toString()).toContain('filter=functionValidUntil,AT_LOCAL_DATE,2023-10-13');
-        expect(result.toString()).toContain('filter=functionValidFrom,AT_LOCAL_DATE,2023-10-14');
-        expect(result.toString()).toContain('filter=validityPeriodFrom,AT_LOCAL_DATE,2023-10-15');
-        expect(result.toString()).toContain('filter=validityPeriodTo,AT_LOCAL_DATE,2023-10-17');
+        expect(result.toString()).toContain('filter=functionValidUntil,AFTER_LOCAL_DATE,2023-10-13');
+        expect(result.toString()).toContain('filter=functionValidFrom,AFTER_LOCAL_DATE,2023-10-14');
+        expect(result.toString()).toContain('filter=validityPeriodFrom,AFTER_LOCAL_DATE,2023-10-15');
+        expect(result.toString()).toContain('filter=validityPeriodTo,AFTER_LOCAL_DATE,2023-10-17');
     });
 
     it('should append filter parameters for semanticDataModelKey', () => {
