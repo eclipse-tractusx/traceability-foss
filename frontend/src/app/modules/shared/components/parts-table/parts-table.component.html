@@ -199,7 +199,7 @@ SPDX-License-Identifier: Apache-2.0
                             </ng-container>
 
                               <ng-container *ngIf="column === 'activeAlerts' || column === 'activeInvestigations'; else autoFormatRef">
-                         {{ element[column].length }}
+                         {{ element[column]?.length }}
                             </ng-container>
                             <ng-template #autoFormatRef>
 
