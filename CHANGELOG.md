@@ -8,7 +8,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [UNRELEASED - DD.MM.YYYY]
 ### Added
 - Cypress Login to E2E Environment to enable cypress e2e tests.
-- - Fixed bug in argo workflow which allows to successfully run on INT-A/INT-B
+- Fixed bug in argo workflow which allows to successfully run on INT-A/INT-B
 - database dumps for environments A and B, along with a README guide for database recovery.
 ### Changed
 - Fixed table-settings reset bug
