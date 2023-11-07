@@ -58,6 +58,7 @@ SPDX-License-Identifier: Apache-2.0
             <artifactId>irs-registry-client</artifactId>
             <version>${irs-client-lib.version}</version>
             <exclusions>
+                <!-- Remove once here is at least 11.0.17 provided.-->
                 <exclusion>
                     <groupId>org.eclipse.jetty</groupId>
                     <artifactId>jetty-http</artifactId>
@@ -65,6 +66,7 @@ SPDX-License-Identifier: Apache-2.0
             </exclusions>
         </dependency>
 
+        <!-- Remove once org.eclipse.tractusx.irs#irs-registry-client delivers the correct version.-->
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-http</artifactId>
