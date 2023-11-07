@@ -36,6 +36,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - changed assetAsBuilt filtering manufacturerId to businessPartner
 - IRS-Client-Lib from 1.2.1-SNAPSHOT to 1.4.0
 - Decoupled dependency check in a separate GitHub action
+- Assets response have now list of notification ids rather than count of existing notifications
 
 ### Removed
 - Removed &filterOperator=AND from filtering requests
