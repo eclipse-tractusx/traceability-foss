@@ -34,17 +34,17 @@ export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, para
         if (key !== semanticDataModelKey) {
             if (filterValues.length !== 0) {
                 if (isDateFilter(key)) {
-                  if(filterValues.includes(",")) {
-                    let dateRange = filterValues.split(',');
-                    if(dateRange[0] === dateRange[1]) {
+                  if(isDateRangeFilter(filterValues)) {
+                    const [startDate, endDate] = filterValues.split(",")
+                    if(isSameDate(startDate,endDate)) {
                       operator = getFilterOperatorValue(FilterOperator.AT_LOCAL_DATE);
-                      params = params.append('filter', `${key},${operator},${dateRange[0]},${filterOperator}`);
+                      params = params.append('filter', `${key},${operator},${startDate},${filterOperator}`);
                       continue;
                     }
                     let endDateOperator = getFilterOperatorValue(FilterOperator.BEFORE_LOCAL_DATE)
                     operator = getFilterOperatorValue((FilterOperator.AFTER_LOCAL_DATE));
-                    params = params.append('filter', `${key},${operator},${dateRange[0]},${filterOperator}`);
-                    params = params.append('filter', `${key},${endDateOperator},${dateRange[1]},${filterOperator}`);
+                    params = params.append('filter', `${key},${operator},${startDate},${filterOperator}`);
+                    params = params.append('filter', `${key},${endDateOperator},${endDate},${filterOperator}`);
                     continue;
                   } else {
                     operator = getFilterOperatorValue(FilterOperator.AFTER_LOCAL_DATE);
@@ -71,6 +71,14 @@ export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, para
 
 export function isDateFilter(key: string): boolean {
     return FILTER_KEYS.includes(key);
+}
+
+export function isDateRangeFilter(filterValues: string): boolean {
+  return filterValues.includes(",");
+}
+
+export function isSameDate(startDate: string, endDate: string): boolean {
+  return startDate === endDate;
 }
 
 export function toAssetFilter(formValues: any, isAsBuilt: boolean): AssetAsPlannedFilter | AssetAsBuiltFilter {
