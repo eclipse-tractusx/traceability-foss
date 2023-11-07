@@ -75,7 +75,6 @@ COPY ./scripts/inject-dynamic-env.js /docker-entrypoint.d/
 # Add replace base url script
 COPY ./scripts/replace-base-href.js /docker-entrypoint.d/
 
-USER root
 RUN chown nginx:nginx /etc/nginx/nginx.conf
 RUN chown nginx:nginx /etc/nginx/security-headers.conf
 
