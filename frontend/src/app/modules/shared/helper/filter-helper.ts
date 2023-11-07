@@ -25,7 +25,7 @@ import {
 } from '@page/parts/model/parts.model';
 
 export const FILTER_KEYS = ['manufacturingDate', 'functionValidFrom', 'functionValidUntil', 'validityPeriodFrom', 'validityPeriodTo'];
-
+// TODO: Refactor function as soon as multi value filter is supported
 export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, params: HttpParams, filterOperator: string): HttpParams {
     const semanticDataModelKey = "semanticDataModel";
     for (const key in filter) {
@@ -63,7 +63,6 @@ export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, para
             } else {
                 params = params.append('filter', `${key},${operator},${filterValues},${filterOperator}`);
             }
-
         }
     }
     return params;
