@@ -213,7 +213,7 @@ postgresql:
 #########################
 irs-helm:
   enabled: true
-  bpn: BPNL00000003AYRE
+  bpn: BPNL00000007QIS1
 
   nameOverride: "tx-irs-int-basf"
   fullnameOverride: "tx-irs-int-basf"
@@ -287,7 +287,7 @@ tractusx-connector:
     postgresql: false
     vault: false
   participant:
-    id: BPNL00000003AYRE
+    id: BPNL00000007QIS1
 
   controlplane:
     ingresses:
