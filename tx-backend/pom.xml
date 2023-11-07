@@ -47,23 +47,35 @@ SPDX-License-Identifier: Apache-2.0
             </snapshots>
         </repository>
     </repositories>
+    <!-- https://mvnrepository.com/artifact/org.eclipse.jetty.websocket/websocket-parent -->
+
 
 
     <dependencies>
-        <!-- IRS Client for decentral registry approach -->
+                <!-- IRS Client for decentral registry approach -->
         <dependency>
             <groupId>org.eclipse.tractusx.irs</groupId>
             <artifactId>irs-registry-client</artifactId>
             <version>${irs-client-lib.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-http</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-http</artifactId>
+            <version>11.0.17</version>
+        </dependency>
         <!-- tx-application modules -->
         <dependency>
             <groupId>org.eclipse.tractusx.traceability</groupId>
             <artifactId>tx-models</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-
         <!-- managed by spring boot -->
         <dependency>
             <groupId>org.flywaydb</groupId>
@@ -110,8 +122,8 @@ SPDX-License-Identifier: Apache-2.0
                 Can be removed once org.eclipse.edc delivers at least jetty-http 11.0.16
                 -->
                 <exclusion>
-                    <groupId>org.eclipse.jetty</groupId>
-                    <artifactId>jetty-http</artifactId>
+                    <artifactId>websocket-jakarta-server</artifactId>
+                    <groupId>org.eclipse.jetty.websocket</groupId>
                 </exclusion>
             </exclusions>
         </dependency>
