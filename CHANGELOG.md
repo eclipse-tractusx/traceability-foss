@@ -12,6 +12,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Changed
 - Fixed table-settings reset bug
 - Fixed name of veracode backend job
+- Bump jetty-http from 11.0.15 to 11.0.17
 ### Removed
 
 ## [9.0.0-rc1 - 03.11.2023]
