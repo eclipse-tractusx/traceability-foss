@@ -30,6 +30,7 @@
 FROM cypress/included:12.3.0
 # Create a new non-root user
 RUN groupadd -r cypressuser && useradd -r -g cypressuser cypressuser
+USER cypressuser
 
 RUN mkdir /ng-app
 WORKDIR /ng-app
@@ -39,8 +40,6 @@ COPY package.json  /ng-app/package.json
 COPY yarn.lock /ng-app/yarn.lock
 
 RUN chown -R cypressuser:cypressuser /ng-app
-
-USER cypressuser
 
 RUN yarn install
 # https://docs.cypress.io/guides/guides/launching-browsers#Linux-Dependencies
