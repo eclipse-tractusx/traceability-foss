@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [UNRELEASED - DD.MM.YYYY]
+### Added
+- Cypress Login to E2E Environment to enable cypress e2e tests.
+- Fixed bug in argo workflow which allows to successfully run on INT-A/INT-B
+-
+### Changed
+- Fixed table-settings reset bug
+- Fixed name of veracode backend job
+- Bump jetty-http from 11.0.15 to 11.0.17
+- Assets response have now list of notification ids rather than count of existing notifications
+-
+### Removed
+
+## [9.0.0-rc1 - 03.11.2023]
 
 ### Added
 - Added Table columns settings in part tables to show/hide/reorder table columns
@@ -19,6 +32,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - handling for invalid LocalDate string provided in filterCriteria for date related filtering
 - support for filtering join tables for Specification searchCriteria
 - added PR comment in case of HIGH/CRITICAL dependency check findings
+- Functionality to indicate that no Dependency Check findings occur in a PR
+- Badge to show successful Dependency Check status
 
 ### Changed
 - Updated user manual to reflect the table column settings feature
@@ -36,7 +51,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - changed assetAsBuilt filtering manufacturerId to businessPartner
 - IRS-Client-Lib from 1.2.1-SNAPSHOT to 1.4.0
 - Decoupled dependency check in a separate GitHub action
-- Assets response have now list of notification ids rather than count of existing notifications
+- Mitigated Dependency Check findings
 
 ### Removed
 - Removed &filterOperator=AND from filtering requests
@@ -82,6 +97,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Changed date formats of assets to have offsetDateTime instead of Date or LocalDateTime
 - Aligned date formats in the rest api for assets
 - Increased version of jetty-http from 11.0.15 to 11.0.17 and excluded from edc package
+- Bump versions in frontend dependencies
 
 ### Removed
 
