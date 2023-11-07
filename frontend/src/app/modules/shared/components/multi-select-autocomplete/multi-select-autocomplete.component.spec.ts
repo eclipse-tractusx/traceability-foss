@@ -1,11 +1,9 @@
-import {renderComponent} from "@tests/test-render.utils";
-import {SharedModule} from "@shared/shared.module";
-import {
-    MultiSelectAutocompleteComponent
-} from "@shared/components/multi-select-autocomplete/multi-select-autocomplete.component";
-import {SemanticDataModel} from "@page/parts/model/parts.model";
-import {MatDatepickerInputEvent} from "@angular/material/datepicker";
-import {DatePipe} from "@angular/common";
+import { DatePipe } from '@angular/common';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { SemanticDataModel } from '@page/parts/model/parts.model';
+import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
+import { SharedModule } from '@shared/shared.module';
+import { renderComponent } from '@tests/test-render.utils';
 
 describe('MultiSelectAutocompleteComponent', () => {
     const renderMultiSelectAutoCompleteComponent = (multiple = true) => {
@@ -53,6 +51,8 @@ describe('MultiSelectAutocompleteComponent', () => {
         componentInstance.searchInput = {value: 'initialValue'};
         componentInstance.theSearchElement = 'initialValue';
         componentInstance.selectedValue = ['initialValue'];
+        componentInstance.startDate = new Date('2022-02-04');
+        componentInstance.endDate = new Date('2022-02-04');
 
         componentInstance.clickClear();
 
@@ -199,11 +199,50 @@ describe('MultiSelectAutocompleteComponent', () => {
         };
 
         // Call the function to test
-        componentInstance.dateSelectionEvent(event);
+        componentInstance.startDateSelected(event);
 
         // Expectations
         expect(componentInstance.formControl.value).toBe('2023-10-12'); // Replace with your actual form control variable
         expect(componentInstance.selectedValue).toBe('2023-10-12');
         expect(componentInstance.theSearchElement).toBe('2023-10-12');
     });
+
+    it('should emit date range correctly when changeEvent of Datepicker is triggered', async () => {
+      const {fixture} = await renderMultiSelectAutoCompleteComponent(false);
+      const {componentInstance} = fixture;
+
+      const startDate = new Date('2023-10-12'); // Replace with your desired date
+
+      // Create a mock event with the selected date
+      const startEvent: MatDatepickerInputEvent<Date> = {
+        value: startDate,
+        target: undefined,
+        targetElement: undefined
+      };
+
+      // Call the function to test the start date
+      componentInstance.startDateSelected(startEvent);
+
+      // Expectations
+      expect(componentInstance.formControl.value).toBe('2023-10-12'); // Replace with your actual form control variable
+      expect(componentInstance.selectedValue).toBe('2023-10-12');
+      expect(componentInstance.theSearchElement).toBe('2023-10-12');
+
+      const endDate = new Date('2023-10-20'); // Replace with your desired date
+
+      // Create a mock event with the selected date
+      const endEvent: MatDatepickerInputEvent<Date> = {
+        value: endDate,
+        target: undefined,
+        targetElement: undefined
+      };
+
+      // Call the function to test the end date
+      componentInstance.endDateSelected(endEvent);
+
+      // Expectations
+      expect(componentInstance.formControl.value).toBe('2023-10-12,2023-10-20'); // Replace with your actual form control variable
+      expect(componentInstance.selectedValue).toBe('2023-10-12,2023-10-20');
+      expect(componentInstance.theSearchElement).toBe('2023-10-12,2023-10-20');
+    })
 });

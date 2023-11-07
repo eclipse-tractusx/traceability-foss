@@ -168,7 +168,9 @@ export interface AssetAsPlannedFilter {
 export enum FilterOperator {
     EQUAL = 'EQUAL',
     AT_LOCAL_DATE = 'AT_LOCAL_DATE',
-    STARTS_WITH = 'STARTS_WITH'
+    STARTS_WITH = 'STARTS_WITH',
+    BEFORE_LOCAL_DATE = "BEFORE_LOCAL_DATE",
+    AFTER_LOCAL_DATE = "AFTER_LOCAL_DATE"
 }
 
 export function getFilterOperatorValue(operator: FilterOperator) {

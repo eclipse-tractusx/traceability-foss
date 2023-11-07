@@ -17,13 +17,13 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {Component, EventEmitter, Inject, Input, LOCALE_ID, OnChanges, Output, ViewChild} from '@angular/core';
-import {FormControl} from '@angular/forms';
-import {MatDatepickerInputEvent} from "@angular/material/datepicker";
-import {DatePipe, registerLocaleData} from '@angular/common';
-import {DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
+import { DatePipe, registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
+import { Component, EventEmitter, Inject, Input, LOCALE_ID, OnChanges, Output, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 @Component({
     selector: 'app-multiselect',
@@ -76,6 +76,9 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     selectedValue: Array<any> = [];
     selectAllChecked = false;
     displayString = '';
+
+    startDate: Date;
+    endDate: Date;
 
     constructor(public datePipe: DatePipe, public _adapter: DateAdapter<any>,
                 @Inject(MAT_DATE_LOCALE) public _locale: string, @Inject(LOCALE_ID) private locale: string) {
@@ -151,13 +154,22 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
         this.selectedValue = this.theSearchElement as unknown as [];
     }
 
-    dateSelectionEvent(event: MatDatepickerInputEvent<Date>) {
-        let value = this.datePipe.transform(event.value, 'yyyy-MM-dd');
-        this.formControl.patchValue(value);
-        this.selectedValue = value as unknown as [];
-        this.theSearchElement = value;
-    }
+  startDateSelected(event: MatDatepickerInputEvent<Date>) {
+    this.startDate = event.value;
+    this.theSearchElement = this.datePipe.transform(this.startDate, 'yyyy-MM-dd');
+    this.formControl.patchValue(this.theSearchElement);
+    this.selectedValue = this.theSearchElement as unknown as [];
+  }
 
+  endDateSelected(event: MatDatepickerInputEvent<Date>) {
+    this.endDate = event.value;
+    if(!this.endDate) {
+      return;
+    }
+    this.theSearchElement += ',' + this.datePipe.transform(this.endDate, 'yyyy-MM-dd');
+    this.formControl.patchValue(this.theSearchElement);
+    this.selectedValue = this.theSearchElement as unknown as [];
+  }
     clickClear(): void {
         this.formControl.patchValue("");
         this.formControl.reset();
@@ -166,6 +178,8 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
         }
         this.theSearchElement = null;
         this.selectedValue = [];
+        this.startDate = null;
+        this.endDate = null;
     }
 
 
