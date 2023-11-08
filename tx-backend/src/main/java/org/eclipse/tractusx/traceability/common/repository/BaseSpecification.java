@@ -19,34 +19,26 @@
 
 package org.eclipse.tractusx.traceability.common.repository;
 
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import jakarta.persistence.criteria.Selection;
-import jakarta.persistence.criteria.Subquery;
 import lombok.Getter;
 import org.eclipse.tractusx.traceability.common.domain.ParseLocalDateException;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaFilter;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertEntity;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;
 import static org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy.AFTER_LOCAL_DATE;
 import static org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy.BEFORE_LOCAL_DATE;
@@ -61,9 +53,9 @@ public abstract class BaseSpecification<T> implements Specification<T> {
     }
 
     protected Predicate createPredicate(SearchCriteriaFilter criteria, Root<?> root, CriteriaBuilder builder) {
+        String expectedFieldValue = criteria.getValue();
         String fieldName = getJoinTableFieldName(criteria.getKey());
         Path<Object> fieldPath = getFieldPath(root, criteria);
-        String expectedFieldValue = criteria.getValue();
 
         if (SearchCriteriaStrategy.EQUAL.equals(criteria.getStrategy())) {
             return builder.equal(
@@ -95,19 +87,6 @@ public abstract class BaseSpecification<T> implements Specification<T> {
 
             return builder.greaterThanOrEqualTo(fieldPath.as(LocalDateTime.class),
                     LocalDateTime.of(localDate, LocalTime.MIN));
-        }
-        if (SearchCriteriaStrategy.COUNT_EQUAL.equals(criteria.getStrategy())) {
-            CriteriaQuery<Long> query = builder.createQuery(Long.class);
-//            Subquery<Long> subquery = query.subquery(Long.class);
-            Join<Object, Object> join = root.join("alerts");
-//            subquery.select(builder.count(join));
-//            subquery.from(join.getJavaType());
-//            Predicate a = builder.greaterThanOrEqualTo(builder.size(root.get("alerts")), Integer.parseInt(expectedFieldValue));
-            Predicate b = builder.equal(builder.size(root.get("alerts")), 8);
-            Predicate c = builder.equal(join.get("status").as(String.class), "CREATED");
-//            return builder.lessThanOrEqualTo(builder.size(root.get("alerts")), Integer.parseInt(expectedFieldValue));
-    return builder.and(b,c);
-//    return b;
         }
 
         return null;

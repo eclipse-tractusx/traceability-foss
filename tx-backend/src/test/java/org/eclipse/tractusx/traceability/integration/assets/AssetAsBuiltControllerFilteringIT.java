@@ -25,6 +25,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repositor
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.InvestigationsSupport;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,9 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
     @Autowired
     AlertsSupport alertsSupport;
+
+    @Autowired
+    InvestigationsSupport investigationsSupport;
 
     @Test
     void givenNoFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
@@ -350,7 +354,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
         alertsSupport.storeAlertWithStatusAndAssets(CANCELED, List.of(assetAsBuilt), null);
         alertsSupport.storeAlertWithStatusAndAssets(CLOSED, List.of(assetAsBuilt), null);
 
-        final String filter = "alerts,COUNT_EQUAL,8,AND";
+        final String filter = "qualityAlertIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,6,AND";
 
         // When
         given()
@@ -361,6 +365,36 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
                 .get("/api/assets/as-built")
                 .then()
                 .log().all()
+                .statusCode(200)
+                .assertThat()
+                .body("totalItems", equalTo(1));
+    }
+
+    @Test
+    void givenInvestigationsForAsset_whenCallAssetById_thenReturnProperCount() throws JoseException {
+        // Given
+        assetsSupport.defaultAssetsStored();
+        AssetAsBuiltEntity assetAsBuilt = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").orElseThrow();
+        investigationsSupport.storeInvestigationWithStatusAndAssets(CREATED, List.of(assetAsBuilt), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(SENT, List.of(assetAsBuilt), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(RECEIVED, List.of(assetAsBuilt), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(ACKNOWLEDGED, List.of(assetAsBuilt), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(ACCEPTED, List.of(assetAsBuilt), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(DECLINED, List.of(assetAsBuilt), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(CANCELED, List.of(assetAsBuilt), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(CLOSED, List.of(assetAsBuilt), null);
+
+        final String filter = "qualityInvestigationIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,6,AND";
+
+
+        // When
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .when()
+                .param("filter", filter)
+                .get("/api/assets/as-built")
+                .then()
                 .statusCode(200)
                 .assertThat()
                 .body("totalItems", equalTo(1));

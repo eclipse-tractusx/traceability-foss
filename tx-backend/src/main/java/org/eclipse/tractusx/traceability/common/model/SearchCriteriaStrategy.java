@@ -25,6 +25,5 @@ public enum SearchCriteriaStrategy {
     AT_LOCAL_DATE,
     AFTER_LOCAL_DATE,
     BEFORE_LOCAL_DATE,
-    COUNT_EQUAL,
-    COUNT_EQUALA
+    NOTIFICATION_COUNT_EQUAL
 }
