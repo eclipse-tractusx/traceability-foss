@@ -27,8 +27,6 @@ import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDate;
-
 import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 
@@ -100,5 +98,174 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
                 .body("pageSize", Matchers.is(10))
                 .body("content", Matchers.hasSize(2))
                 .body("totalItems", Matchers.is(2));
+    }
+
+    @Test
+    void givenAlerts_whenProvideDateRangeFilters_thenReturnExpectedResult() throws JoseException {
+        // given
+        alertNotificationsSupport.defaultAlertsStored();
+        String filter = "?filter=createdDate,AFTER_LOCAL_DATE,2023-10-09,AND&filter=createdDate,BEFORE_LOCAL_DATE,2023-10-11,AND";
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .param("page", "0")
+                .param("size", "10")
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/alerts" + filter)
+                .then()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(10))
+                .body("totalItems", Matchers.is(8))
+                .body("content", Matchers.hasSize(8));
+    }
+
+    @Test
+    void givenAlerts_whenProvideDateRangeFiltersXAnd_thenReturnExpectedResult() throws JoseException {
+        // given
+        alertNotificationsSupport.defaultAlertsStored();
+        String filter = "?filter=createdDate,AFTER_LOCAL_DATE,2023-10-13,AND&filter=createdDate,BEFORE_LOCAL_DATE,2023-10-07,AND";
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .param("page", "0")
+                .param("size", "10")
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/alerts" + filter)
+                .then()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(10))
+                .body("totalItems", Matchers.is(2))
+                .body("content", Matchers.hasSize(2));
+    }
+
+    @Test
+    void givenNonExistingFilterField_whenGetAlerts_thenBadRequest() throws JoseException {
+        // given
+        alertNotificationsSupport.defaultAlertsStored();
+        String filter = "?filter=nonExistingField,AFTER_LOCAL_DATE,2023-10-13,AND";
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .param("page", "0")
+                .param("size", "10")
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/alerts" + filter)
+                .then()
+                .statusCode(400);
+    }
+
+
+    @Test
+    void givenInvestigations_whenInvalidLocalDate_thenReturnBadRequest() throws JoseException {
+        // given
+        alertNotificationsSupport.defaultAlertsStored();
+        String filter = "?filter=createdDate,AT_LOCAL_DATE,2023-10-1111111,AND";
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .param("page", "0")
+                .param("size", "10")
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/alerts" + filter)
+                .then()
+                .statusCode(400);
+    }
+
+    @Test
+    void givenInvestigations_whenTargetDateAtLocalDate_thenExpectedResult() throws JoseException {
+        // given
+        alertNotificationsSupport.defaultAlertsStored();
+        String filter = "?filter=targetDate,AT_LOCAL_DATE,2023-11-10,AND";
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .param("page", "0")
+                .param("size", "10")
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/alerts" + filter)
+                .then()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(10))
+                .body("totalItems", Matchers.is(2))
+                .body("content", Matchers.hasSize(2));
+    }
+
+    @Test
+    void givenInvestigations_whenProvideFilterWithSeverityCritical_thenReturnAllCritical() throws JoseException {
+        // given
+        alertNotificationsSupport.defaultAlertsStored();
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .param("page", "0")
+                .param("size", "10")
+                .contentType(ContentType.JSON)
+                .when()
+                .param("filter", "severity,EQUAL,CRITICAL,AND")
+                .get("/api/alerts")
+                .then()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(10))
+                .body("totalItems", Matchers.is(2))
+                .body("content", Matchers.hasSize(2));
+    }
+
+    @Test
+    void givenInvestigations_whenProvideFilterCreatedBy_thenReturnAllCritical() throws JoseException {
+        // given
+        alertNotificationsSupport.defaultAlertsStored();
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .param("page", "0")
+                .param("size", "10")
+                .contentType(ContentType.JSON)
+                .when()
+                .param("filter", "createdBy,STARTS_WITH,BPNL00000001O,AND")
+                .get("/api/alerts")
+                .then()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(10))
+                .body("totalItems", Matchers.is(4))
+                .body("content", Matchers.hasSize(4));
+    }
+
+    @Test
+    void givenInvestigations_whenProvideFilterCreatedByName_thenReturnAllCritical() throws JoseException {
+        // given
+        alertNotificationsSupport.defaultAlertsStored();
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .param("page", "0")
+                .param("size", "10")
+                .contentType(ContentType.JSON)
+                .when()
+                .param("filter", "createdByName,STARTS_WITH,Car,AND")
+                .get("/api/alerts")
+                .then()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(10))
+                .body("totalItems", Matchers.is(4))
+                .body("content", Matchers.hasSize(4));
     }
 }

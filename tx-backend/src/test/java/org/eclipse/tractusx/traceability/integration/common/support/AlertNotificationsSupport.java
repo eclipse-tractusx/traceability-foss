@@ -19,18 +19,16 @@
 
 package org.eclipse.tractusx.traceability.integration.common.support;
 
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertNotificationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.repository.JpaAlertNotificationRepository;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationNotificationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -70,6 +68,7 @@ public class AlertNotificationsSupport {
 
     private void storeCreatedAlerts() {
         Instant now = Instant.parse("2023-10-10T10:10:10.00Z");
+        Instant monthFromNow = Instant.parse("2023-11-10T10:10:10.00Z");
 
         AlertEntity alert1 = AlertEntity.builder()
                 .assets(Collections.emptyList())
@@ -153,6 +152,8 @@ public class AlertNotificationsSupport {
                         .alert(alert1)
                         .status(NotificationStatusBaseEntity.CREATED)
                         .createdBy(OWN_BPN)
+                        .severity(QualityNotificationSeverity.MINOR)
+                        .targetDate(monthFromNow.minus(3L, DAYS))
                         .createdByName(OWN_BPN_COMPANY_NAME)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a1")
                         .build(),
@@ -161,7 +162,9 @@ public class AlertNotificationsSupport {
                         .createdBy(OWN_BPN)
                         .createdByName(OWN_BPN_COMPANY_NAME)
                         .status(NotificationStatusBaseEntity.SENT)
+                        .severity(QualityNotificationSeverity.MAJOR)
                         .id("2")
+                        .targetDate(monthFromNow.minus(2L, DAYS))
                         .alert(alert2)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a2")
                         .build(),
@@ -170,6 +173,8 @@ public class AlertNotificationsSupport {
                         .status(NotificationStatusBaseEntity.RECEIVED)
                         .id("3")
                         .createdBy(OTHER_BPN)
+                        .severity(QualityNotificationSeverity.CRITICAL)
+                        .targetDate(monthFromNow.minus(1L, DAYS))
                         .createdByName(OTHER_BPN_COMPANY_NAME)
                         .alert(alert3)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a3")
@@ -178,6 +183,8 @@ public class AlertNotificationsSupport {
                         .builder()
                         .status(NotificationStatusBaseEntity.ACKNOWLEDGED)
                         .id("4")
+                        .targetDate(monthFromNow)
+                        .severity(QualityNotificationSeverity.LIFE_THREATENING)
                         .createdBy(OTHER_BPN)
                         .createdByName(OTHER_BPN_COMPANY_NAME)
                         .alert(alert4)
@@ -187,6 +194,8 @@ public class AlertNotificationsSupport {
                         .builder()
                         .status(NotificationStatusBaseEntity.ACCEPTED)
                         .id("5")
+                        .targetDate(monthFromNow)
+                        .severity(QualityNotificationSeverity.MINOR)
                         .createdBy(OTHER_BPN)
                         .createdByName(OTHER_BPN_COMPANY_NAME)
                         .alert(alert5)
@@ -196,6 +205,8 @@ public class AlertNotificationsSupport {
                         .builder()
                         .status(NotificationStatusBaseEntity.DECLINED)
                         .id("6")
+                        .severity(QualityNotificationSeverity.MAJOR)
+                        .targetDate(monthFromNow.plus(1L, DAYS))
                         .createdBy(OTHER_BPN)
                         .createdByName(OTHER_BPN_COMPANY_NAME)
                         .alert(alert6)
@@ -205,6 +216,8 @@ public class AlertNotificationsSupport {
                         .builder()
                         .status(NotificationStatusBaseEntity.CANCELED)
                         .id("7")
+                        .targetDate(monthFromNow.plus(2L, DAYS))
+                        .severity(QualityNotificationSeverity.CRITICAL)
                         .createdBy(OWN_BPN)
                         .createdByName(OWN_BPN_COMPANY_NAME)
                         .alert(alert7)
@@ -214,6 +227,8 @@ public class AlertNotificationsSupport {
                         .builder()
                         .status(NotificationStatusBaseEntity.CLOSED)
                         .id("8")
+                        .severity(QualityNotificationSeverity.LIFE_THREATENING)
+                        .targetDate(monthFromNow.plus(3L, DAYS))
                         .createdBy(OWN_BPN)
                         .createdByName(OWN_BPN_COMPANY_NAME)
                         .alert(alert8)
@@ -231,7 +246,7 @@ public class AlertNotificationsSupport {
                 .status(NotificationStatusBaseEntity.RECEIVED)
                 .side(NotificationSideBaseEntity.RECEIVER)
                 .description("11")
-                .createdDate(now.minusSeconds(5L))
+                .createdDate(now.minus(2L, DAYS))
                 .build();
         AlertEntity alert2 = AlertEntity.builder()
                 .assets(Collections.emptyList())
@@ -239,7 +254,7 @@ public class AlertNotificationsSupport {
                 .status(NotificationStatusBaseEntity.ACKNOWLEDGED)
                 .description("22")
                 .side(NotificationSideBaseEntity.RECEIVER)
-                .createdDate(now.plusSeconds(2L))
+                .createdDate(now.minus(1L, DAYS))
                 .build();
         AlertEntity alert3 = AlertEntity.builder()
                 .assets(Collections.emptyList())
@@ -263,7 +278,7 @@ public class AlertNotificationsSupport {
                 .status(NotificationStatusBaseEntity.CANCELED)
                 .description("55")
                 .side(NotificationSideBaseEntity.RECEIVER)
-                .createdDate(now.plusSeconds(40L))
+                .createdDate(now.plusSeconds(1L))
                 .build();
         AlertEntity alert6 = AlertEntity.builder()
                 .assets(Collections.emptyList())
@@ -271,7 +286,7 @@ public class AlertNotificationsSupport {
                 .status(NotificationStatusBaseEntity.CLOSED)
                 .description("55")
                 .side(NotificationSideBaseEntity.RECEIVER)
-                .createdDate(now.plusSeconds(40L))
+                .createdDate(now.plus(2L, DAYS))
                 .build();
 
         storedAlertNotifications(

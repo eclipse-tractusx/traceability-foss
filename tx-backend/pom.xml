@@ -47,23 +47,37 @@ SPDX-License-Identifier: Apache-2.0
             </snapshots>
         </repository>
     </repositories>
+    <!-- https://mvnrepository.com/artifact/org.eclipse.jetty.websocket/websocket-parent -->
+
 
 
     <dependencies>
-        <!-- IRS Client for decentral registry approach -->
+                <!-- IRS Client for decentral registry approach -->
         <dependency>
             <groupId>org.eclipse.tractusx.irs</groupId>
             <artifactId>irs-registry-client</artifactId>
             <version>${irs-client-lib.version}</version>
+            <exclusions>
+                <!-- Remove once here is at least 11.0.17 provided.-->
+                <exclusion>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-http</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
+        <!-- Remove once org.eclipse.tractusx.irs#irs-registry-client delivers the correct version.-->
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-http</artifactId>
+            <version>11.0.17</version>
+        </dependency>
         <!-- tx-application modules -->
         <dependency>
             <groupId>org.eclipse.tractusx.traceability</groupId>
             <artifactId>tx-models</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-
         <!-- managed by spring boot -->
         <dependency>
             <groupId>org.flywaydb</groupId>
@@ -110,8 +124,8 @@ SPDX-License-Identifier: Apache-2.0
                 Can be removed once org.eclipse.edc delivers at least jetty-http 11.0.16
                 -->
                 <exclusion>
-                    <groupId>org.eclipse.jetty</groupId>
-                    <artifactId>jetty-http</artifactId>
+                    <artifactId>websocket-jakarta-server</artifactId>
+                    <groupId>org.eclipse.jetty.websocket</groupId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -171,6 +185,26 @@ SPDX-License-Identifier: Apache-2.0
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.tomcat.embed</groupId>
+                    <artifactId>tomcat-embed-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.tomcat.embed</groupId>
+                    <artifactId>tomcat-embed-websocket</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-core</artifactId>
+            <version>10.1.15</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-websocket</artifactId>
+            <version>10.1.15</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -220,7 +254,7 @@ SPDX-License-Identifier: Apache-2.0
         </dependency>
         <dependency>
             <groupId>io.github.resilience4j</groupId>
-            <artifactId>resilience4j-spring-boot2</artifactId>
+            <artifactId>resilience4j-spring-boot3</artifactId>
             <version>${resilience4j.version}</version>
         </dependency>
         <dependency>
@@ -401,12 +435,6 @@ SPDX-License-Identifier: Apache-2.0
             <artifactId>archunit</artifactId>
             <version>1.1.0</version>
             <scope>test</scope>
-        </dependency>
-        <!-- Fixes CVE-2023-36478  https://github.com/catenax-ng/tx-traceability-foss/security/code-scanning/6770-->
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-http</artifactId>
-            <version>11.0.17</version>
         </dependency>
     </dependencies>
 

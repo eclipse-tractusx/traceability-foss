@@ -426,7 +426,7 @@ npm/npmjs/-/gopd/1.0.1, MIT, approved, #4863
 npm/npmjs/-/graceful-fs/4.2.10, ISC, approved, #7413
 npm/npmjs/-/graceful-fs/4.2.11, ISC, approved, #7413
 npm/npmjs/-/grapheme-splitter/1.0.4, MIT, approved, #1645
-npm/npmjs/-/graphql/16.6.0, MIT, approved, clearlydefined
+npm/npmjs/-/graphql/16.8.1, MIT, approved, clearlydefined
 npm/npmjs/-/gzip-size/6.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/handle-thing/2.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/hard-rejection/2.1.0, MIT, approved, clearlydefined
@@ -808,7 +808,7 @@ npm/npmjs/-/postcss-selector-parser/6.0.11, MIT, approved, #5056
 npm/npmjs/-/postcss-selector-parser/6.0.12, MIT, approved, #5056
 npm/npmjs/-/postcss-value-parser/4.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/postcss/8.4.21, MIT, approved, #3545
-npm/npmjs/-/postcss/8.4.23, MIT, approved, #3545
+npm/npmjs/-/postcss/8.4.31, MIT, approved, #3545
 npm/npmjs/-/prelude-ls/1.2.1, MIT, approved, clearlydefined
 npm/npmjs/-/prettier/2.8.8, MIT AND (0BSD AND Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND CC-BY-SA-4.0 AND ISC AND MIT) AND BSD-2-Clause, approved, #6871
 npm/npmjs/-/pretty-bytes/5.6.0, MIT, approved, clearlydefined
@@ -896,10 +896,10 @@ npm/npmjs/-/schema-utils/4.0.1, MIT, approved, #8213
 npm/npmjs/-/seed-random/2.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/select-hose/2.0.0, MIT, approved, #145
 npm/npmjs/-/selfsigned/2.1.1, MIT, approved, clearlydefined
-npm/npmjs/-/semver/5.7.1, ISC, approved, #5900
-npm/npmjs/-/semver/6.3.0, ISC, approved, clearlydefined
+npm/npmjs/-/semver/5.7.2, ISC, approved, #5900
+npm/npmjs/-/semver/6.3.1, ISC, approved, clearlydefined
 npm/npmjs/-/semver/7.3.8, ISC, approved, clearlydefined
-npm/npmjs/-/semver/7.5.0, ISC, approved, clearlydefined
+npm/npmjs/-/semver/7.5.4, ISC, approved, clearlydefined
 npm/npmjs/-/send/0.18.0, MIT, approved, clearlydefined
 npm/npmjs/-/serialize-javascript/6.0.1, BSD-3-Clause, approved, clearlydefined
 npm/npmjs/-/serve-index/1.9.1, MIT, approved, clearlydefined
@@ -1090,7 +1090,7 @@ npm/npmjs/-/wide-align/1.1.5, ISC, approved, clearlydefined
 npm/npmjs/-/wildcard/2.0.1, MIT, approved, #8274
 npm/npmjs/-/winston-transport/4.5.0, MIT, approved, clearlydefined
 npm/npmjs/-/winston/3.8.2, MIT, approved, clearlydefined
-npm/npmjs/-/word-wrap/1.2.3, MIT, approved, clearlydefined
+npm/npmjs/-/word-wrap/1.2.5, MIT, approved, clearlydefined
 npm/npmjs/-/wrap-ansi/6.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/wrap-ansi/7.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/wrappy/1.0.2, ISC, approved, clearlydefined

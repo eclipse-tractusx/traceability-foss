@@ -16,6 +16,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+
 table {
   width: 100%;
   @apply font-light;
@@ -58,11 +59,6 @@ table {
 .mat-mdc-row .mat-mdc-cell {
   cursor: pointer;
 }
-
-.mat-mdc-row:hover {
-  outline: 1px solid currentColor;
-}
-
 
 .table--no-data {
   display: flex;
@@ -107,16 +103,13 @@ table {
 }
 
 .table--selected__container {
-  position: sticky;
-  top: 0;
+
+
   z-index: 1;
   display: flex;
   align-items: center;
-  padding: 0 10px;
-  // Mat row defines fixed height of 48px.
-  min-height: 48px;
+  min-height: 35px;
 
-  @apply bg-primaryLight
 }
 
 .table--selected--label {

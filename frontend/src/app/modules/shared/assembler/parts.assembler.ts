@@ -19,20 +19,21 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Pagination, PaginationResponse } from '@core/model/pagination.model';
-import { PaginationAssembler } from '@core/pagination/pagination.assembler';
+import {Pagination, PaginationResponse} from '@core/model/pagination.model';
+import {PaginationAssembler} from '@core/pagination/pagination.assembler';
 import {
   AsBuiltAspectModel,
   AsPlannedAspectModel,
   PartSiteInformationAsPlanned,
   SemanticModel,
+  TractionBatteryCode,
 } from '@page/parts/model/aspectModels.model';
-import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import { Part, PartResponse, QualityType } from '@page/parts/model/parts.model';
-import { TableHeaderSort } from '@shared/components/table/table.model';
-import { View } from '@shared/model/view.model';
-import { OperatorFunction } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
+import {Part, PartResponse, QualityType} from '@page/parts/model/parts.model';
+import {TableHeaderSort} from '@shared/components/table/table.model';
+import {View} from '@shared/model/view.model';
+import {OperatorFunction} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 export class PartsAssembler {
 
@@ -67,6 +68,11 @@ export class PartsAssembler {
     const functionValidFrom = (partResponse.detailAspectModels[1]?.data as PartSiteInformationAsPlanned)?.functionValidFrom;
     const functionValidUntil = (partResponse.detailAspectModels[1]?.data as PartSiteInformationAsPlanned)?.functionValidUntil;
 
+    // traction battery code
+    const productType = (partResponse.detailAspectModels[1]?.data as TractionBatteryCode)?.productType;
+    const tractionBatteryCode = (partResponse.detailAspectModels[1]?.data as TractionBatteryCode)?.tractionBatteryCode;
+    const subcomponents = (partResponse.detailAspectModels[1]?.data as TractionBatteryCode)?.subcomponents;
+
     let mappedPart = {
       id: partResponse.id,
       idShort: partResponse.idShort,
@@ -95,9 +101,15 @@ export class PartsAssembler {
       manufacturingDate: manufacturingDate,
       manufacturingCountry: manufacturingCountry,
 
+      // tractionBatteryCode
+      productType: productType,
+      tractionBatteryCode: tractionBatteryCode,
+      subcomponents: subcomponents,
+
       // as planned
       validityPeriodFrom: validityPeriodFrom,
       validityPeriodTo: validityPeriodTo,
+
       //partSiteInformationAsPlanned
       catenaXSiteId: catenaXSiteId,
       psFunction: psFunction,
@@ -109,7 +121,6 @@ export class PartsAssembler {
       activeInvestigations: partResponse.qualityInvestigationsInStatusActive,
 
     }
-
     return mappedPart;
   }
   public static assembleOtherPart(partResponse: PartResponse, mainAspectType: MainAspectType): Part {
@@ -202,6 +213,28 @@ export class PartsAssembler {
 
       const { nameAtCustomer, customerPartId } = viewData.data;
       return { data: { nameAtCustomer, customerPartId } as Part };
+    });
+  }
+
+  public static mapPartForTractionBatteryCodeDetailsView(): OperatorFunction<View<Part>, View<Part>> {
+    return map(viewData => {
+      if (!viewData?.data?.tractionBatteryCode) {
+        return;
+      }
+
+      const { productType, tractionBatteryCode } = viewData.data;
+      return { data: { productType, tractionBatteryCode } as Part };
+    });
+  }
+
+  public static mapPartForTractionBatteryCodeSubComponentsView(): OperatorFunction<View<Part>, View<Part>> {
+    return map(viewData => {
+      if (!viewData?.data?.tractionBatteryCode || !viewData?.data?.subcomponents?.length) {
+        return;
+      }
+
+      const { productType, tractionBatteryCode, subcomponents } = viewData.data;
+      return { data: { productType, tractionBatteryCode, subcomponents } as Part };
     });
   }
 

@@ -105,7 +105,7 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                         .toList())
                 .qualityType(asset.getQualityType())
                 .activeAlert(asset.isActiveAlert())
-                .inInvestigation(asset.isUnderInvestigation())
+                .inInvestigation(asset.isInInvestigation())
                 .semanticDataModel(SemanticDataModelEntity.from(asset.getSemanticDataModel()))
                 .catenaxSiteId(asPlannedInfo.getCatenaxSiteId())
                 .build();
@@ -126,7 +126,7 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                 .childRelations(entity.getChildDescriptors().stream()
                         .map(child -> new Descriptions(child.getId(), child.getIdShort()))
                         .toList())
-                .underInvestigation(entity.isInInvestigation())
+                .inInvestigation(entity.isInInvestigation())
                 .activeAlert(entity.isActiveAlert())
                 .qualityType(entity.getQualityType())
                 .detailAspectModels(DetailAspectModel.from(entity))

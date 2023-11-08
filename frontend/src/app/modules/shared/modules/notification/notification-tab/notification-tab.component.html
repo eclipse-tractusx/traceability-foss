@@ -25,6 +25,8 @@ SPDX-License-Identifier: Apache-2.0
 <ng-template #mainTmp let-notifications="view">
   <app-table
     [paginationData]="notifications.data"
+    [additionalTableHeader]="true"
+    [tableHeader]="(notificationType === NotificationType.INVESTIGATION) ? ('pageTitle.investigations') : ('pageTitle.alerts')"
     [tableConfig]="tableConfig"
     [noShadow]="true"
     [labelId]="labelId"

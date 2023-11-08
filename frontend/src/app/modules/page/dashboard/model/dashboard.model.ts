@@ -27,6 +27,6 @@ export interface DashboardStats {
 
 export interface DashboardStatsResponse {
   otherParts: number | null;
-  myItems: number;
+  myParts: number;
   investigations?: number;
 }

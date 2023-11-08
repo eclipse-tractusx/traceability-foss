@@ -19,8 +19,13 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
+<div *ngIf="additionalTableHeader" class="table-header-wrapper">
+  <div class="table-header-container">
+    <div class="large-text table--header--text">{{tableHeader | i18n}}</div>
+  </div>
+</div>
 <div [class.mat-elevation-z8]="!noShadow" class="table-wrapper">
-  <ng-container *ngIf="tableHeader"><p class="large-text table--header">{{tableHeader | i18n }}</p></ng-container>
+  <ng-container *ngIf="tableHeader && !additionalTableHeader"><p class="large-text table--header">{{tableHeader | i18n }}</p></ng-container>
   <ng-container *ngIf="selectedPartsInfoLabel">
     <div *appHasRole="tableConfig.columnRoles?.['select'] ?? 'user'" class="table--selected__container">
       <p class="regular-text">{{ selectedPartsInfoLabel | i18n : { count: selection?.selected?.length || 0 } }}</p>
@@ -38,7 +43,6 @@ SPDX-License-Identifier: Apache-2.0
     </div>
   </ng-container>
 
-  <app-scroll-with-shadow>
     <table
       #tableElement
       [dataSource]="dataSource"
@@ -51,7 +55,7 @@ SPDX-License-Identifier: Apache-2.0
       data-testid="table-component--test-id"
     >
       <!-- TODO: Make Header fixed to top when scrolling -->
-      <tr *matHeaderRowDef="tableConfig.displayedColumns" mat-header-row data-testid="table-component--head-row" class="table--header--row"></tr>
+      <tr *matHeaderRowDef="tableConfig.displayedColumns; sticky: true" mat-header-row data-testid="table-component--head-row" class="table--header--row"></tr>
 
       <tr
         *matRowDef="let row; columns: tableConfig.displayedColumns"
@@ -136,7 +140,7 @@ SPDX-License-Identifier: Apache-2.0
       </ng-template>
 
       <ng-template #MenuColumn>
-        <ng-container matColumnDef="menu">
+        <ng-container matColumnDef="menu" stickyEnd sticky>
           <th *matHeaderCellDef class="table--menu" mat-header-cell></th>
           <td *matCellDef="let row" class="table--menu" mat-cell [attr.colspan]="tableConfig.displayedColumns.length">
             <div class="table--menu__desktop">
@@ -166,7 +170,7 @@ SPDX-License-Identifier: Apache-2.0
         </ng-container>
       </ng-template>
 
-      <ng-container matColumnDef="expandMenuActions">
+      <ng-container matColumnDef="expandMenuActions" sticky>
         <td mat-cell *matCellDef="let row" [attr.colspan]="tableConfig.displayedColumns.length">
           <div [class.expanded]="row === selectedRow" [class.collapsed]="row !== selectedRow" class="expand-element">
             <ng-container *ngFor="let config of tableConfig.menuActionsConfig">
@@ -224,20 +228,18 @@ SPDX-License-Identifier: Apache-2.0
         </ng-container>
       </ng-template>
     </table>
-  </app-scroll-with-shadow>
-
-  <mat-paginator class="table-paginator-menu"
-    *ngIf="tableConfig.hasPagination"
-    [length]="totalItems"
-    [pageIndex]="pageIndex"
-    [pageSizeOptions]="[50, 100, 200]"
-    [attr.aria-label]="'table.selectPageSize' | i18n"
-    [attr.data-testId]="'table.selectPageSize' | i18n"
-    (page)="onPaginationChange($event)"
-    showFirstLastButtons
-  >
-  </mat-paginator>
 </div>
+<mat-paginator class="table-paginator-menu"
+               *ngIf="tableConfig.hasPagination"
+               [length]="totalItems"
+               [pageIndex]="pageIndex"
+               [pageSizeOptions]="[50, 100, 200]"
+               [attr.aria-label]="'table.selectPageSize' | i18n"
+               [attr.data-testId]="'table.selectPageSize' | i18n"
+               (page)="onPaginationChange($event)"
+               showFirstLastButtons
+>
+</mat-paginator>
 
 <ng-template #pureColumn>
   {{ pureColumn }}

@@ -19,15 +19,15 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { ApiService } from '@core/api/api.service';
-import { environment } from '@env';
-import { NotificationAssembler } from '@shared/assembler/notification.assembler';
-import { TableHeaderSort } from '@shared/components/table/table.model';
-import { Severity } from '@shared/model/severity.model';
-import type { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {HttpParams} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {ApiService} from '@core/api/api.service';
+import {environment} from '@env';
+import {NotificationAssembler} from '@shared/assembler/notification.assembler';
+import {TableHeaderSort} from '@shared/components/table/table.model';
+import {Severity} from '@shared/model/severity.model';
+import type {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {
   Notification,
   NotificationCreateResponse,
@@ -51,7 +51,7 @@ export class AlertsService {
     let params = new HttpParams()
       .set('page', page)
       .set('size', pageSize)
-      .set('filter', 'side,EQUAL,SENDER,AND')
+      .set('filter', 'channel,EQUAL,SENDER,AND')
 
     sort.forEach(sortingItem => {
       params = params.append('sort', sortingItem);
@@ -67,7 +67,7 @@ export class AlertsService {
     let params = new HttpParams()
       .set('page', page)
       .set('size', pageSize)
-      .set('filter', 'side,EQUAL,RECEIVER,AND')
+      .set('filter', 'channel,EQUAL,RECEIVER,AND')
 
     sort.forEach(sortingItem => {
       params = params.append('sort', sortingItem);

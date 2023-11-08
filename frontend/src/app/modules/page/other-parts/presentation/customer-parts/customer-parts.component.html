@@ -36,6 +36,7 @@ SPDX-License-Identifier: Apache-2.0
       (configChanged)="onAsBuiltTableConfigChange($event)"
       [multiSortList]="tableCustomerAsBuiltSortList"
       [multiSelectActive]="true"
+      [tableHeader]='"page.asBuiltParts" | i18n'
       (filterActivated)="filterActivated(true, $event )"
       [tableType]="PartTableType.AS_BUILT_CUSTOMER"
     ></app-parts-table>
@@ -58,6 +59,7 @@ SPDX-License-Identifier: Apache-2.0
       [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
       [noShadow]="true"
       [labelId]="customContext.labelId"
+      [tableHeader]='"page.asPlannedParts" | i18n'
       (selected)="onSelectItem($event)"
       (configChanged)="onAsPlannedTableConfigChange($event)"
       [multiSortList]="tableCustomerAsPlannedSortList"

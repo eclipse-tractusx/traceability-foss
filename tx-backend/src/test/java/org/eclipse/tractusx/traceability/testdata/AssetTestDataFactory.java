@@ -21,7 +21,6 @@ package org.eclipse.tractusx.traceability.testdata;
 
 import org.eclipse.tractusx.traceability.assets.domain.base.model.*;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +48,7 @@ public class AssetTestDataFactory {
                 .childRelations(AssetTestDataFactory.provideChildRelations())
                 .van("van123")
                 .qualityType(QualityType.CRITICAL)
-                .underInvestigation(false)
+                .inInvestigation(false)
                 .owner(Owner.OWN)
                 .manufacturerName("manuName")
                 .manufacturerId("manuId")
@@ -70,7 +69,7 @@ public class AssetTestDataFactory {
                 .childRelations(AssetTestDataFactory.provideChildRelations())
                 .van("van123")
                 .qualityType(QualityType.CRITICAL)
-                .underInvestigation(false)
+                .inInvestigation(false)
                 .owner(Owner.OWN)
                 .manufacturerName("manuName")
                 .manufacturerId("manuId")

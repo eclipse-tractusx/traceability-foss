@@ -20,7 +20,7 @@
  ********************************************************************************/
 
 import type { PaginationResponse } from '@core/model/pagination.model';
-import { SemanticModel } from '@page/parts/model/aspectModels.model';
+import { SemanticModel, TractionBatteryCode } from '@page/parts/model/aspectModels.model';
 import { DetailAspectModel } from '@page/parts/model/detailAspectModel.model';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Owner } from '@page/parts/model/owner.enum';
@@ -54,6 +54,10 @@ export interface Part {
     nameAtCustomer?: string;
     manufacturingDate?: string;
     manufacturingCountry?: string;
+
+    productType?: string;
+    tractionBatteryCode?: string;
+    subcomponents: TractionBatteryCode[];
 
     // as planned
     validityPeriodFrom?: string;
@@ -110,6 +114,7 @@ export enum SemanticDataModel {
     SERIALPART = 'SERIALPART',
     PARTASPLANNED = 'PARTASPLANNED',
     JUSTINSEQUENCE = 'JUSTINSEQUENCE',
+    TRACTIONBATTERYCODE = 'TRACTIONBATTERYCODE',
     UNKNOWN = 'UNKNOWN'
 }
 
@@ -118,6 +123,7 @@ export enum SemanticDataModelInCamelCase {
     SERIALPART = 'SerialPart',
     PARTASPLANNED = 'PartAsPlanned',
     JUSTINSEQUENCE = 'JustInSequence',
+    TRACTIONBATTERYCODE = 'TractionBatteryCode',
     UNKNOWN = 'Unknown'
 }
 

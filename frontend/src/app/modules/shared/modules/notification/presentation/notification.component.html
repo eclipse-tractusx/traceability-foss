@@ -33,6 +33,7 @@ SPDX-License-Identifier: Apache-2.0
     </ng-template>
     <app-notifications-tab
       *ngIf="menuActionsConfig"
+      [notificationType]="notificationType"
       [notificationsView$]="receivedNotifications$"
       [labelId]="receivedTabLabelId"
       [translationContext]="'commonInvestigation'"
@@ -52,6 +53,7 @@ SPDX-License-Identifier: Apache-2.0
     </ng-template>
     <app-notifications-tab
       *ngIf="menuActionsConfig"
+      [notificationType]="notificationType"
       [notificationsView$]="queuedAndRequestedNotifications$"
       [labelId]="queuedAndRequestedTabLabelId"
       [translationContext]="'commonInvestigation'"
