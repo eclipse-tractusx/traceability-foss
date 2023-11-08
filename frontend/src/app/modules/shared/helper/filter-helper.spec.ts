@@ -17,8 +17,8 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { HttpParams } from '@angular/common/http';
-import { enrichFilterAndGetUpdatedParams } from './filter-helper';
+import {HttpParams} from '@angular/common/http';
+import {enrichFilterAndGetUpdatedParams} from './filter-helper';
 
 describe('enrichFilterAndGetUpdatedParams', () => {
     it('should append filter parameters for non-date filters', () => {
@@ -42,11 +42,32 @@ describe('enrichFilterAndGetUpdatedParams', () => {
         const params = new HttpParams();
         // @ts-ignore
         const result = enrichFilterAndGetUpdatedParams(filter, params);
-        expect(result.toString()).toContain('filter=functionValidUntil,AT_LOCAL_DATE,2023-10-13');
-        expect(result.toString()).toContain('filter=functionValidFrom,AT_LOCAL_DATE,2023-10-14');
-        expect(result.toString()).toContain('filter=validityPeriodFrom,AT_LOCAL_DATE,2023-10-15');
-        expect(result.toString()).toContain('filter=validityPeriodTo,AT_LOCAL_DATE,2023-10-17');
+        expect(result.toString()).toContain('filter=functionValidUntil,AFTER_LOCAL_DATE,2023-10-13');
+        expect(result.toString()).toContain('filter=functionValidFrom,AFTER_LOCAL_DATE,2023-10-14');
+        expect(result.toString()).toContain('filter=validityPeriodFrom,AFTER_LOCAL_DATE,2023-10-15');
+        expect(result.toString()).toContain('filter=validityPeriodTo,AFTER_LOCAL_DATE,2023-10-17');
     });
+
+    it('should append filter parameters for date range filters', () => {
+      const filter = {
+        manufacturingDate: '2023-10-13,2023-10-20',
+      }
+      const params = new HttpParams();
+      // @ts-ignore
+      const result = enrichFilterAndGetUpdatedParams(filter, params, "AND");
+      expect(result.toString()).toContain('filter=manufacturingDate,AFTER_LOCAL_DATE,2023-10-13,AND');
+      expect(result.toString()).toContain('filter=manufacturingDate,BEFORE_LOCAL_DATE,2023-10-20,AND');
+    })
+
+    it('should append filter parameters for date range filters with same date', () => {
+        const filter = {
+            manufacturingDate: '2023-10-20,2023-10-20',
+        }
+        const params = new HttpParams();
+        // @ts-ignore
+        const result = enrichFilterAndGetUpdatedParams(filter, params, "AND");
+        expect(result.toString()).toContain('filter=manufacturingDate,AT_LOCAL_DATE,2023-10-20,AND');
+    })
 
     it('should append filter parameters for semanticDataModelKey', () => {
         const filter = {
