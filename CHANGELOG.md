@@ -17,6 +17,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Bump jetty-http from 11.0.15 to 11.0.17
 - Assets response have now list of notification ids rather than count of existing notifications
 - Frontend adapt to backend api changes for activeAlerts and activeInvestigations
+- Reconfigured all docker images user settings
+- Adapted memory / cpu requests and limits in default values helm file
 
 ### Removed
 
