@@ -283,6 +283,8 @@
   },
   "datepicker": {
     "apply": "Filter",
-    "cancel": "Zurücksetzen"
+    "cancel": "Zurücksetzen",
+    "startDate": "Startdatum",
+    "endDate": "Enddatum"
   }
 }

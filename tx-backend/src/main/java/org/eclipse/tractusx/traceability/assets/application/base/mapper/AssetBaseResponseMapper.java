@@ -46,6 +46,7 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailA
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
 
 import java.util.List;
 
@@ -134,10 +135,12 @@ public class AssetBaseResponseMapper {
         return SemanticDataModelResponse.valueOf(semanticDataModel.name());
     }
 
-    protected static Integer countNotificationsInActiveState(List<QualityNotification> notifications) {
+    protected static List<Long> gettNotificationIdsInActiveState(List<QualityNotification> notifications) {
         return emptyIfNull(notifications).stream()
                 .filter(QualityNotification::isActiveState)
-                .toList().size();
+                .map(QualityNotification::getNotificationId)
+                .map(QualityNotificationId::value)
+                .toList();
     }
 
     private static List<DetailAspectDataTractionBatteryCodeSubcomponentResponse> from(List<DetailAspectDataTractionBatteryCodeSubcomponent> subcomponents) {

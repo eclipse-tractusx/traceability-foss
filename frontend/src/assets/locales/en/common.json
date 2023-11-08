@@ -286,6 +286,8 @@
   },
   "datepicker": {
     "apply": "Filter",
-    "cancel": "Reset"
+    "cancel": "Reset",
+    "startDate": "Start Date",
+    "endDate": "End Date"
   }
 }
