@@ -21,6 +21,8 @@ Follow these steps to restore a database from a dump file using pgAdmin:
 
 6. Drag and drop the database dump file from the "database dump" folder for the corresponding environment into the upload area and confirm the action.
 
+7. This error message can be ignored
+
 ### Database dump
 
 In this project, there are two database dumps available: `database_dump_a` and `database_dump_b`. The files `database_dump_a` and `database_dump_b` are associated with different environments. Below is a list indicating which file corresponds to which environment:
