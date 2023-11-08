@@ -350,7 +350,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
         alertsSupport.storeAlertWithStatusAndAssets(CANCELED, List.of(assetAsBuilt), null);
         alertsSupport.storeAlertWithStatusAndAssets(CLOSED, List.of(assetAsBuilt), null);
 
-        final String filter = "alerts,COUNT_EQUAL,5,AND";
+        final String filter = "alerts,COUNT_EQUAL,8,AND";
 
         // When
         given()
