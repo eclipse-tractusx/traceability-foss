@@ -19,26 +19,34 @@
 
 package org.eclipse.tractusx.traceability.common.repository;
 
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.Selection;
+import jakarta.persistence.criteria.Subquery;
 import lombok.Getter;
 import org.eclipse.tractusx.traceability.common.domain.ParseLocalDateException;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaFilter;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertEntity;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;
 import static org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy.AFTER_LOCAL_DATE;
 import static org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy.BEFORE_LOCAL_DATE;
@@ -88,6 +96,21 @@ public abstract class BaseSpecification<T> implements Specification<T> {
             return builder.greaterThanOrEqualTo(fieldPath.as(LocalDateTime.class),
                     LocalDateTime.of(localDate, LocalTime.MIN));
         }
+        if (SearchCriteriaStrategy.COUNT_EQUAL.equals(criteria.getStrategy())) {
+            CriteriaQuery<Long> query = builder.createQuery(Long.class);
+            Subquery<Long> subquery = query.subquery(Long.class);
+            Join<Object, Object> join = root.join("alerts");
+//            subquery.select(builder.count(join)).from(root);
+
+
+            return builder.equal(builder.count(subquery.select(builder.count(join)).from(AlertEntity.class)), "6");
+
+//            return builder.equal(joinAlerts.get("side").as(String.class), "SENDER");
+//            return builder.equal(joinAlerts.get("assets"), joinAlerts.getParent().get("alerts"));
+         //   select a1_0.id,a1_0.active_alert,a1_0.classification,a1_0.customer_part_id,a1_0.id_short,a1_0.in_investigation,a1_0.manufacturer_id,a1_0.manufacturer_name,a1_0.manufacturer_part_id,a1_0.manufacturing_country,a1_0.manufacturing_date,a1_0.name_at_customer,a1_0.name_at_manufacturer,a1_0.owner,a1_0.product_type,a1_0.quality_type,a1_0.semantic_data_model,a1_0.semantic_model_id,a1_0.traction_battery_code,a1_0.van from assets_as_built a1_0 join assets_as_built_alerts a2_0 on a1_0.id=a2_0.asset_id where count(a2_0.alert_id)=? offset ? rows fetch first ? rows only
+
+        }
+
         return null;
     }
 

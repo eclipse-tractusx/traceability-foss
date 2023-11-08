@@ -48,7 +48,8 @@ public class AssetAsBuiltFieldMapper extends BaseRequestFieldMapper {
             Map.entry("semanticDataModel", "semanticDataModel"),
             Map.entry("semanticModelId", "semanticModelId"),
             Map.entry("van", "van"),
-            Map.entry("businessPartner", "manufacturerId")
+            Map.entry("businessPartner", "manufacturerId"),
+            Map.entry("alerts", "alerts")
     );
 
     @Override
