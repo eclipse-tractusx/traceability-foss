@@ -78,6 +78,9 @@ jobs:
    runs-on: ubuntu-latest
    steps:
       - name: ${{ github.event.inputs.environment }}
+        run: |
+          echo "### inputs" >> $GITHUB_STEP_SUMMARY
+          echo "- environment: ${{ github.event.inputs.environment }}" >> $GITHUB_STEP_SUMMARY
           
   hard_refresh_environment:
    needs: print_environment
