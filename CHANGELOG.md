@@ -11,6 +11,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Fixed bug in argo workflow which allows to successfully run on INT-A/INT-B
 - New job named 'print_environment' to the Argo-workflow that prints the selected environment to the GitHub Step Summary.
 - Added NOTIFICATION_COUNT_EQUAL filter strategy for Assets as built Specifications
+- Added new supported filter for notifications assetId that allows filtering alerts and investigations by assetId
 
 ### Changed
 - Fixed table-settings reset bug

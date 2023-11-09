@@ -341,7 +341,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenAlertsForAsset_whenCallAssetById_thenReturnProperCount() throws JoseException {
+    void givenAssetsWithAlerts_whenGetAssetsWithActiveAlertCountFilter_thenReturnProperAssets() throws JoseException {
         // Given
         assetsSupport.defaultAssetsStored();
         AssetAsBuiltEntity assetAsBuilt = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").orElseThrow();
@@ -371,7 +371,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenInvestigationsForAsset_whenCallAssetById_thenReturnProperCount() throws JoseException {
+    void givenAssetsWithInvestigations_whenGetAssetsWithActiveInvestigationCountFilter_thenReturnProperAssets() throws JoseException {
         // Given
         assetsSupport.defaultAssetsStored();
         AssetAsBuiltEntity assetAsBuilt = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").orElseThrow();
