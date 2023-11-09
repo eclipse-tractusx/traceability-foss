@@ -142,9 +142,6 @@ export class PartsTableComponent implements OnInit {
     public isDateElement(key: string){
         return isDateFilter(key);
     }
-    public isMultipleSearch(filter: any): boolean {
-        return !(filter.isDate || filter.isTextSearch);
-    }
 
     private readonly displayedColumnsAsBuilt: string[] = [
         'Filter',

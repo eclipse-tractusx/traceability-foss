@@ -27,11 +27,9 @@ import {
 export const FILTER_KEYS = ['manufacturingDate', 'functionValidFrom', 'functionValidUntil', 'validityPeriodFrom', 'validityPeriodTo'];
 // TODO: Refactor function as soon as multi value filter is supported
 export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, params: HttpParams, filterOperator: string): HttpParams {
-    const semanticDataModelKey = "semanticDataModel";
     for (const key in filter) {
         let operator: string;
         const filterValues: string = filter[key];
-        if (key !== semanticDataModelKey) {
             if (filterValues.length !== 0) {
                 if (isDateFilter(key)) {
                   if(isDateRangeFilter(filterValues)) {
@@ -49,13 +47,9 @@ export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, para
                   } else {
                     operator = getFilterOperatorValue(FilterOperator.AFTER_LOCAL_DATE);
                   }
-                } else {
-                    operator = getFilterOperatorValue(FilterOperator.STARTS_WITH);
                 }
-                params = params.append('filter', `${key},${operator},${filterValues},${filterOperator}`);
             }
-        } else {
-            operator = getFilterOperatorValue(FilterOperator.EQUAL);
+            operator = getFilterOperatorValue(FilterOperator.STARTS_WITH);
             if (Array.isArray(filterValues)) {
                 for (let value of filterValues) {
                     params = params.append('filter', `${key},${operator},${value},${filterOperator}`);
@@ -63,7 +57,6 @@ export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, para
             } else {
                 params = params.append('filter', `${key},${operator},${filterValues},${filterOperator}`);
             }
-        }
     }
     return params;
 }

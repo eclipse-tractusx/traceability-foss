@@ -185,6 +185,16 @@ app-parts, app-notification-tab {
   }
 }
 
+app-multiselect {
+  .mat-date-range-input-container {
+    text-align: center !important;
+  }
+}
+
+.app-multiselect-filter-dropdown {
+  max-height: 550px !important;
+}
+
 app-parts, app-other-parts, app-notifications-tab {
 
   .mat-mdc-table .mdc-data-table__row:last-child {

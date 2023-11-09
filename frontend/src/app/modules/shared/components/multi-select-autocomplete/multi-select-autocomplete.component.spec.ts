@@ -13,7 +13,7 @@ describe('MultiSelectAutocompleteComponent', () => {
         return renderComponent(MultiSelectAutocompleteComponent, {
             imports: [SharedModule],
             providers: [DatePipe],
-            componentProperties: {placeholder: placeholder, options: options, multiple},
+            componentProperties: {placeholder: placeholder, options: options},
         });
     };
 
@@ -49,7 +49,7 @@ describe('MultiSelectAutocompleteComponent', () => {
         const {componentInstance} = fixture;
 
         componentInstance.searchInput = {value: 'initialValue'};
-        componentInstance.theSearchElement = 'initialValue';
+        componentInstance.searchElement = 'initialValue';
         componentInstance.selectedValue = ['initialValue'];
         componentInstance.startDate = new Date('2022-02-04');
         componentInstance.endDate = new Date('2022-02-04');
@@ -58,7 +58,7 @@ describe('MultiSelectAutocompleteComponent', () => {
 
         // Assert
         expect(componentInstance.searchInput.value).toBe('');
-        expect(componentInstance.theSearchElement).toBe(null);
+        expect(componentInstance.searchElement).toBe(null);
         expect(componentInstance.selectedValue).toEqual([]);
     });
 
@@ -68,7 +68,7 @@ describe('MultiSelectAutocompleteComponent', () => {
         const {componentInstance} = fixture;
 
         componentInstance.textSearch = true;
-        componentInstance.theSearchElement = 'TestValue';
+        componentInstance.searchElement = 'TestValue';
 
         const result = componentInstance.onDisplayString();
 
@@ -204,7 +204,7 @@ describe('MultiSelectAutocompleteComponent', () => {
         // Expectations
         expect(componentInstance.formControl.value).toBe('2023-10-12'); // Replace with your actual form control variable
         expect(componentInstance.selectedValue).toBe('2023-10-12');
-        expect(componentInstance.theSearchElement).toBe('2023-10-12');
+        expect(componentInstance.searchElement).toBe('2023-10-12');
     });
 
     it('should emit date range correctly when changeEvent of Datepicker is triggered', async () => {
@@ -226,7 +226,7 @@ describe('MultiSelectAutocompleteComponent', () => {
       // Expectations
       expect(componentInstance.formControl.value).toBe('2023-10-12'); // Replace with your actual form control variable
       expect(componentInstance.selectedValue).toBe('2023-10-12');
-      expect(componentInstance.theSearchElement).toBe('2023-10-12');
+      expect(componentInstance.searchElement).toBe('2023-10-12');
 
       const endDate = new Date('2023-10-20'); // Replace with your desired date
 
@@ -243,6 +243,6 @@ describe('MultiSelectAutocompleteComponent', () => {
       // Expectations
       expect(componentInstance.formControl.value).toBe('2023-10-12,2023-10-20'); // Replace with your actual form control variable
       expect(componentInstance.selectedValue).toBe('2023-10-12,2023-10-20');
-      expect(componentInstance.theSearchElement).toBe('2023-10-12,2023-10-20');
+      expect(componentInstance.searchElement).toBe('2023-10-12,2023-10-20');
     })
 });
