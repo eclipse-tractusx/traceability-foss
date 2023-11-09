@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Added callbackurl for irs to dev
 - Migrated from irs-helm from 5.3.0 to 6.0.0
 - Migrated from irs-edc-consumer to tractusx-connector
+- Added BASF instance to int environment
 
 ## [helm-charts-1.3.9 - 26.06.2023]
 
