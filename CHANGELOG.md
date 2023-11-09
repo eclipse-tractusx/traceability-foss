@@ -20,6 +20,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Frontend adapt to backend api changes for activeAlerts and activeInvestigations
 - Reconfigured all docker images user settings
 - Adapted memory / cpu requests and limits in default values helm file
+- Migrate to not deprecated methods in HTTP security
 
 ### Removed
 
