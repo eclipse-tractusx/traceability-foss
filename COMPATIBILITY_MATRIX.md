@@ -1,6 +1,13 @@
 # Compatibility matrix v1.0
 
-## Trace-X version 1.3.14
+## Catena-X Release?
+- [x] yes -> Catena-X Release <version>
+- [ ] no
+
+
+### (Trace-X Release)  [<version>| Release Notes](https://github.com/catenax-ng/tx-traceability-foss/releases/tag/<version>)
+
+#### Trace-X version 1.3.14
 
 | Name of service                  | Version | Comments   |
 |----------------------------------|---------|------------|
