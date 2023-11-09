@@ -9,6 +9,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 - Cypress Login to E2E Environment to enable cypress e2e tests.
 - Fixed bug in argo workflow which allows to successfully run on INT-A/INT-B
+- Added NOTIFICATION_COUNT_EQUAL filter strategy for Assets as built Specifications
 
 ### Changed
 - Fixed table-settings reset bug
