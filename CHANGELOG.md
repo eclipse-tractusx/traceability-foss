@@ -20,7 +20,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Frontend adapt to backend api changes for activeAlerts and activeInvestigations
 - Reconfigured all docker images user settings
 - Adapted memory / cpu requests and limits in default values helm file
-
+- Fixed textarea field for dialog.
+- Removed duplicated cancel buttons from investigation and alerts workflows
+-
 ### Removed
 
 ## [9.0.0-rc1 - 03.11.2023]
