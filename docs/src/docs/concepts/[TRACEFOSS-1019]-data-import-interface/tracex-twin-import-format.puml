@@ -6,10 +6,9 @@ skinparam defaultFontName "Architects daughter"
 
 
 entity DigitalTwinsToImport {
-    * digitalTwinsToImport : Collection<Twin>
+    * digitalTwinsToImport : Collection<Asset>
 }
-entity Twin {
-    * twinId : String <uuid>
+entity Asset {
     * assetId : String <uuid>
     creator : String <author>
     * shells : Collection<Shell>
@@ -37,10 +36,10 @@ entity  Submodel<T>
 
 entity SerialPart
 
-DigitalTwinsToImport }o--|{ Twin
-Twin  }o--|{ Shell
+DigitalTwinsToImport }o--|{ Asset
+Asset  }o--|{ Shell
 Shell }o--|{  ShellDescription
-Twin }o-|{ SubmodelData
+Asset }o-|{ SubmodelData
 SubmodelData ||--|| Submodel
 Submodel <|-- SerialPart
 
