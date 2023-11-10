@@ -67,7 +67,6 @@ export class CancelNotificationModalComponent {
     const options: ModalData = {
       title: this.translationContext + '.modal.cancellationTitle',
       buttonRight: 'actions.cancellationConfirm',
-      buttonLeft: 'actions.cancel',
       primaryButtonColour: 'warn',
 
       template: this.modal,

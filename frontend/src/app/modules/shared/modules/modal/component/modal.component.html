@@ -31,7 +31,7 @@ SPDX-License-Identifier: Apache-2.0
 
   <mat-dialog-actions>
     <app-button *ngIf="data.buttonLeft" (click)="cancel()" variant="raised">{{ data.buttonLeft | i18n }}</app-button>
-    <app-button
+    <app-button [ngClass]="data.buttonLeft ? '' : 'centered-button'"
       *ngIf="data.buttonRight"
       (click)="confirm()"
       [color]="data.primaryButtonColour || 'primary'"
