@@ -17,16 +17,16 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { DatePipe, registerLocaleData } from '@angular/common';
+import {DatePipe, registerLocaleData} from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-import { Component, EventEmitter, Inject, Input, LOCALE_ID, OnChanges, Output, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { Owner } from '@page/parts/model/owner.enum';
-import { PartTableType } from '@shared/components/table/table.model';
-import { PartsService } from '@shared/service/parts.service';
+import {Component, EventEmitter, Inject, Input, LOCALE_ID, OnChanges, Output, ViewChild} from '@angular/core';
+import {FormControl} from '@angular/forms';
+import {DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
+import {MatDatepickerInputEvent} from '@angular/material/datepicker';
+import {Owner} from '@page/parts/model/owner.enum';
+import {PartTableType} from '@shared/components/table/table.model';
+import {PartsService} from '@shared/service/parts.service';
 
 @Component({
   selector: 'app-multiselect',
@@ -124,22 +124,32 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   }
 
   ngOnChanges(): void {
+    /*
     if (this.selectedOptions) {
       this.selectedValue = this.selectedOptions;
       this.formControl.patchValue(this.selectedValue);
-    } else if (this.formControl?.value) {
+    } else if (this.formControl?.value) {*/
       this.selectedValue = this.formControl.value;
       this.formControl.patchValue(this.selectedValue);
-    }
+    //}
   }
 
   toggleSelectAll = function(selectCheckbox: any): void {
+
     if (selectCheckbox.checked) {
-      this.filteredOptions.forEach(option => {
-        if (!this.selectedValue.includes(option[this.value])) {
-          this.selectedValue = this.selectedValue.concat([ option[this.value] ]);
-        }
-      });
+      // if there are no suggestion but the selectAll checkbox was checked
+      if(!this.filteredOptions.length) {
+        console.log(this.searchElement);
+        this.formControl.patchValue(this.searchElement);
+        this.selectedValue = this.searchElement as unknown as [];
+      } else {
+        this.filteredOptions.forEach(option => {
+          if (!this.selectedValue.includes(option[this.value])) {
+            this.selectedValue = this.selectedValue.concat([ option[this.value] ]);
+          }
+        });
+      }
+
     } else {
       const filteredValues = this.getFilteredOptionsValues();
       this.selectedValue = this.selectedValue.filter(

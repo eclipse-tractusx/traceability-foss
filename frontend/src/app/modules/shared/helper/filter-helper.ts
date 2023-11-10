@@ -16,12 +16,12 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import { HttpParams } from '@angular/common/http';
+import {HttpParams} from '@angular/common/http';
 import {
-  AssetAsBuiltFilter,
-  AssetAsPlannedFilter,
-  FilterOperator,
-  getFilterOperatorValue,
+    AssetAsBuiltFilter,
+    AssetAsPlannedFilter,
+    FilterOperator,
+    getFilterOperatorValue,
 } from '@page/parts/model/parts.model';
 
 export const DATE_FILTER_KEYS = [ 'manufacturingDate', 'functionValidFrom', 'functionValidUntil', 'validityPeriodFrom', 'validityPeriodTo' ];
@@ -49,15 +49,21 @@ export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, para
                     operator = getFilterOperatorValue(FilterOperator.AFTER_LOCAL_DATE);
                   }
                 }
-            }
-            operator = getFilterOperatorValue(FilterOperator.STARTS_WITH);
-            if (Array.isArray(filterValues)) {
-                for (let value of filterValues) {
-                    params = params.append('filter', `${key},${operator},${value},${filterOperator}`);
+                if (isNotificationCountFilter(key)) {
+
+                    operator = getFilterOperatorValue(FilterOperator.NOTIFICATION_COUNT_EQUAL);
+                } else {
+                    operator = getFilterOperatorValue(FilterOperator.STARTS_WITH);
                 }
-            } else {
-                params = params.append('filter', `${key},${operator},${filterValues},${filterOperator}`);
             }
+
+        if (Array.isArray(filterValues)) {
+            for (let value of filterValues) {
+                params = params.append('filter', `${key},${operator},${value},${filterOperator}`);
+            }
+        } else {
+            params = params.append('filter', `${key},${operator},${filterValues},${filterOperator}`);
+        }
     }
     return params;
 }
@@ -67,7 +73,7 @@ export function isStartsWithFilter(key: string): boolean {
 }
 
 export function isNotificationCountFilter(key: string): boolean {
-  return 'qualityInvestigationIdsInStatusActive' === key || 'qualityAlertIdsInStatusActive' === key;
+  return 'qualityInvestigationIdsInStatusActive' === key || 'qualityAlertIdsInStatusActive' === key || 'activeAlerts' === key || 'activeInvestigations' === key;
 }
 
 export function isDateFilter(key: string): boolean {
