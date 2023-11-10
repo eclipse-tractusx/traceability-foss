@@ -118,9 +118,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
         console.log('Timeout cleared, function aborted.');
       }
     });
-
-    //intially load suggestions
-    this.filterItem('');
   }
 
   ngOnChanges(): void {
