@@ -223,4 +223,5 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     protected readonly UserSettingView = UserSettingView;
     protected readonly PartTableType = PartTableType;
+    protected readonly MainAspectType = MainAspectType;
 }

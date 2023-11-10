@@ -37,6 +37,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Pagination } from '@core/model/pagination.model';
 import { TableSettingsService } from '@core/user/table-settings.service';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { SemanticDataModel } from '@page/parts/model/parts.model';
 import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
 import { TableViewConfig } from '@shared/components/parts-table/table-view-config.model';
@@ -75,6 +76,8 @@ export class PartsTableComponent implements OnInit {
     @Input() multiSortList: TableHeaderSort[];
 
     @Input() tableType: PartTableType;
+
+    @Input() mainAspectType: MainAspectType
 
     public tableConfig: TableConfig;
 
@@ -779,4 +782,5 @@ export class PartsTableComponent implements OnInit {
 
 
   protected readonly MenuStack = MenuStack;
+  protected readonly MainAspectType = MainAspectType;
 }

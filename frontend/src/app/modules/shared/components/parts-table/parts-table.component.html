@@ -70,6 +70,7 @@ SPDX-License-Identifier: Apache-2.0
                                      [textSearch]='filter.isTextSearch'
                                      [isDate]='filter.isDate'
                                      [filterColumn]="filter.filterKey"
+                                     [isAsBuilt] = "mainAspectType === MainAspectType.AS_BUILT"
                                      [partTableType]="tableType"
                                      ngDefaultControl
                                      [formControl]="filterFormGroup.controls[filter.filterKey]"></app-multiselect>

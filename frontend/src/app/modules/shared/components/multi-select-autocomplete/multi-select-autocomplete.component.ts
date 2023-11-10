@@ -69,6 +69,9 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   @Input()
   partTableType = PartTableType.AS_BUILT_OWN;
 
+  @Input()
+  isAsBuilt : boolean;
+
   public readonly minDate = new Date();
 
   @ViewChild('searchInput', { static: true }) searchInput: any;
@@ -164,7 +167,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
         const tableOwner = this.getOwnerOfTable(this.partTableType);
 
         try {
-          const res = await this.partsService.getDistinctFilterValues(true, tableOwner, this.filterColumn, this.searchElement).toPromise();
+          const res = await this.partsService.getDistinctFilterValues(this.isAsBuilt, tableOwner, this.filterColumn, this.searchElement).toPromise();
           this.options = res.map(option => ({ display: option, value: option }));
           this.filteredOptions = this.options;
           this.suggestionError = !this.filteredOptions.length;
