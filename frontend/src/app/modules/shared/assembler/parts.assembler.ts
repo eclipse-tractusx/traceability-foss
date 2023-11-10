@@ -117,8 +117,8 @@ export class PartsAssembler {
       functionValidUntil: functionValidUntil,
 
       // count of notifications
-      activeAlerts: partResponse.qualityAlertsInStatusActive,
-      activeInvestigations: partResponse.qualityInvestigationsInStatusActive,
+      activeAlerts: partResponse.qualityAlertIdsInStatusActive,
+      activeInvestigations: partResponse.qualityInvestigationIdsInStatusActive,
 
     }
     return mappedPart;
@@ -269,8 +269,8 @@ export class PartsAssembler {
       ['psFunction', 'function'],
       ['functionValidFrom', 'functionValidFrom'],
       ['functionValidUntil', 'functionValidUntil'],
-      [ 'activeAlerts', 'qualityAlertsInStatusActive' ],
-      [ 'activeInvestigations', 'qualityInvestigationsInStatusActive' ],
+      [ 'activeAlerts', 'qualityAlertIdsInStatusActive' ],
+      [ 'activeInvestigations', 'qualityInvestigationIdsInStatusActive' ],
 
     ]);
 

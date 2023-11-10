@@ -752,10 +752,6 @@ export class PartsTableComponent implements OnInit {
         this.multiSelect.emit(this.selection.selected);
     }
 
-    public toggleFilter(): void {
-        this.displayedFilter = !this.displayedFilter;
-    }
-
     public isSelected(row: unknown): boolean {
         return !!this.selection.selected.find(data => JSON.stringify(data) === JSON.stringify(row));
     }

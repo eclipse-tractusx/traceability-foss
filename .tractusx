@@ -1,3 +1,8 @@
 product: "Traceability FOSS"
 leadingRepository: "https://github.com/eclipse-tractusx/traceability-foss"
 repositories: []
+
+# section to explicitly skip certain release guideline checks
+skipReleaseChecks:
+  alignedBaseImage:
+    - "frontend/cypress/Dockerfile"

@@ -72,7 +72,7 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
     }
 
     @Override
-    public AssetBase getAssetByChildId(String assetId, String childId) {
+    public AssetBase getAssetByChildId(String childId) {
         return jpaAssetAsBuiltRepository.findById(childId)
                 .map(AssetAsBuiltEntity::toDomain)
                 .orElseThrow(() -> new AssetNotFoundException("Child Asset Not Found"));
