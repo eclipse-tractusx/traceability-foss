@@ -34,29 +34,10 @@
   font-weight: 400;
 }
 
-.mdc-evolution-chip-set .mdc-evolution-chip-set__chips {
-  padding-top: 8px !important;
-}
-
-.chip {
-  @apply bg-secondary !important;
-  align-items: center;
-}
-
-.mat-mdc-standard-chip {
-  --mdc-chip-label-text-color: #fff;
-}
-
 .options {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-}
-
-.placeholder .mat-mdc-select-placeholder {
-  font-size: 20px !important;
-  line-height: 28px !important;
-  font-weight: 400 !important;
 }
 
 .option {
@@ -83,34 +64,4 @@
 .container {
   width: 240px;
   margin-right: 16px;
-}
-
-.checkmark {
-  width: 12px;
-  height: 9.4px;
-  margin-right: auto;
-}
-
-.mat-tooltip {
-  // to make possible place arrow pseudo element outside tooltip with absolute positioning
-  overflow: visible;
-  position: relative;
-
-  &.right {
-    border-left: 6px solid red;
-    margin-left: 5px;
-
-    &::before {
-      position: absolute;
-      content: '';
-      display: inline-block;
-      background-color: red;
-      clip-path: polygon(50% 0, 0 50%, 50% 100%);
-      left: -12px;
-      width: 15px;
-      height: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-  }
 }

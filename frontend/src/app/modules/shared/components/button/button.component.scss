@@ -18,15 +18,3 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-@import '../../../../../theme/base.scss';
-@tailwind base;
-
-.button-width {
-  width: 100px !important;
-  min-width: unset !important;
-}
-
-.mdc-button {
-  width: 163px !important;
-  height: 44px !important;
-}

@@ -19,10 +19,8 @@ SPDX-License-Identifier: Apache-2.0
 
 <div class="detail--header">
   <div class="detail--navigation">
-    <app-button
-      [color]="'primary'"
-      (click)="this.navigateBackToAlerts()"
-        >
+    <app-button [color]="'primary'"
+      (click)="this.navigateBackToAlerts()">
       <div class="flex justify-between items-center">
         <mat-icon class="mr-2">arrow_back</mat-icon>
         {{ 'actions.goBack' | i18n }}
@@ -30,64 +28,52 @@ SPDX-License-Identifier: Apache-2.0
     </app-button>
   </div>
   <div class="detail--action">
-    <app-button
-      *ngIf="helperService.showApproveButton(selectedAlert)"
+    <app-button *ngIf="helperService.showApproveButton(selectedAlert)"
       (click)="notificationCommonModalComponent?.show('approve')"
-      [color]="'primary'"
-    >
+      [color]="'primary'">
       <div class="flex justify-between items-center">
         <mat-icon class="mr-2">share</mat-icon>
         {{ 'actions.approve' | i18n }}
       </div>
     </app-button>
-    <app-button
-      *ngIf="helperService.showCancelButton(selectedAlert)"
+    <app-button *ngIf="helperService.showCancelButton(selectedAlert)"
       (click)="notificationCommonModalComponent?.show('cancel')"
-      [color]="'primary'"
-    >
+      [color]="'primary'">
       <div class="flex justify-between items-center">
         <mat-icon class="mr-2">cancel</mat-icon>
         {{ 'actions.cancel' | i18n }}
       </div>
     </app-button>
-    <app-button
-      *ngIf="helperService.showCloseButton(selectedAlert)"
+    <app-button *ngIf="helperService.showCloseButton(selectedAlert)"
       (click)="notificationCommonModalComponent?.show('close')"
-      [color]="'primary'"
-    >
+      [color]="'primary'">
       <div class="flex justify-between items-center">
         <mat-icon class="mr-2">close</mat-icon>
         {{ 'actions.close' | i18n }}
       </div>
     </app-button>
 
-    <app-button
-      *ngIf="helperService.showAcceptButton(selectedAlert)"
+    <app-button *ngIf="helperService.showAcceptButton(selectedAlert)"
       (click)="notificationCommonModalComponent?.show('accept')"
-      [color]="'primary'"
-    >
+      [color]="'primary'">
       <div class="flex justify-between items-center">
         <mat-icon class="mr-2">assignment_turned_in</mat-icon>
         {{ 'actions.accept' | i18n }}
       </div>
     </app-button>
 
-    <app-button
-      *ngIf="helperService.showAcknowledgeButton(selectedAlert)"
+    <app-button *ngIf="helperService.showAcknowledgeButton(selectedAlert)"
       (click)="notificationCommonModalComponent?.show('acknowledge')"
-      [color]="'primary'"
-    >
+      [color]="'primary'">
       <div class="flex justify-between items-center">
         <mat-icon class="mr-2">work</mat-icon>
         {{ 'actions.acknowledge' | i18n }}
       </div>
     </app-button>
 
-    <app-button
-      *ngIf="helperService.showDeclineButton(selectedAlert)"
+    <app-button *ngIf="helperService.showDeclineButton(selectedAlert)"
       (click)="notificationCommonModalComponent?.show('decline')"
-      [color]="'primary'"
-    >
+      [color]="'primary'">
       <div class="flex justify-between items-center">
         <mat-icon class="mr-2">assignment_late</mat-icon>
         {{ 'actions.decline' | i18n }}
@@ -96,44 +82,39 @@ SPDX-License-Identifier: Apache-2.0
   </div>
 </div>
 
-<app-notification-common-modal
-  (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
+<app-notification-common-modal (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
   [helperService]="helperService"
   [selectedNotification]="selectedAlert"
-  [translationContext]="TranslationContext.COMMONALERT"
-></app-notification-common-modal>
+  [translationContext]="TranslationContext.COMMONALERT"></app-notification-common-modal>
 
 <div class="detail--wrapper">
   <mat-card>
     <mat-card-header>
-      <mat-card-title
-        ><h4>{{ 'pageAlert.info' | i18n }}</h4></mat-card-title
-      >
+      <mat-card-title>
+        <h4>{{ 'pageAlert.info' | i18n }}</h4>
+      </mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <ng-container
-        *viewContainer="selected$ | async; main: mainInfoTmp; error: errorTmp; loading: loaderTmp"
-      ></ng-container>
+        *viewContainer="selected$ | async; main: mainInfoTmp; error: errorTmp; loading: loaderTmp"></ng-container>
     </mat-card-content>
   </mat-card>
 
   <mat-card class="detail--table_wrapper--notification">
     <mat-card-header>
-      <mat-card-title
-        ><h4>
+      <mat-card-title>
+        <h4>
           {{ 'pageAlert.subHeadline.' + (isReceived ? 'affectedParts' : 'supplierParts') | i18n }}
-        </h4></mat-card-title
-      >
+        </h4>
+      </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <ng-container
-        *viewContainer="
+      <ng-container *viewContainer="
           alertPartsInformation$ | async;
           main: mainNotificationPartsTmp;
           error: errorTmp;
           loading: loaderTmp
-        "
-      ></ng-container>
+        "></ng-container>
     </mat-card-content>
   </mat-card>
 </div>
@@ -141,38 +122,38 @@ SPDX-License-Identifier: Apache-2.0
 <div class="detail--wrapper detail--wrapper__supplier">
   <mat-card class="h-full">
     <mat-card-header>
-      <mat-card-title
-        ><h4>{{ 'pageAlert.reason' | i18n }}</h4></mat-card-title
-      >
+      <mat-card-title>
+        <h4>{{ 'pageAlert.reason' | i18n }}</h4>
+      </mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <ng-container
-        *viewContainer="selected$ | async; main: reasonInfoTmp; error: errorTmp; loading: loaderTmp"
-      ></ng-container>
+        *viewContainer="selected$ | async; main: reasonInfoTmp; error: errorTmp; loading: loaderTmp"></ng-container>
     </mat-card-content>
   </mat-card>
 
-  <mat-card *ngIf="isReceived && supplierPartsDetailInformation$ | async" class="detail--table_wrapper--notification">
+  <mat-card *ngIf="isReceived && supplierPartsDetailInformation$ | async"
+    class="detail--table_wrapper--notification">
     <mat-card-header>
-      <mat-card-title
-        ><h4>{{ 'pageAlert.subHeadline.supplierParts' | i18n }}</h4></mat-card-title
-      >
+      <mat-card-title>
+        <h4>{{ 'pageAlert.subHeadline.supplierParts' | i18n }}</h4>
+      </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <ng-container
-        *viewContainer="
+      <ng-container *viewContainer="
           supplierPartsDetailInformation$ | async;
           main: mainSupplierPartsTmp;
           error: errorTmp;
           loading: loaderTmp
-        "
-      ></ng-container>
+        "></ng-container>
     </mat-card-content>
   </mat-card>
 </div>
 
-<ng-template #semanticModelIdTmp let-row="row">
-  <app-button (click)="copyToClipboard(row.semanticModelId)" [attr.data-testId]="'copy-button--' + row.id">
+<ng-template #semanticModelIdTmp
+  let-row="row">
+  <app-button (click)="copyToClipboard(row.semanticModelId)"
+    [attr.data-testId]="'copy-button--' + row.id">
     <div class="flex justify-around items-center">
       {{ row.semanticModelId }}
       <mat-icon class="alert--semantic-model-id__icon">filter_none</mat-icon>
@@ -180,20 +161,19 @@ SPDX-License-Identifier: Apache-2.0
   </app-button>
 </ng-template>
 
-<ng-template #mainNotificationPartsTmp let-view="view">
-  <app-table
-    [data]="view.data"
+<ng-template #mainNotificationPartsTmp
+  let-view="view">
+  <app-table [data]="view.data"
     [labelId]="notificationPartsTableId"
     [tableConfig]="notificationPartsTableConfig"
     [showHover]="false"
     [noShadow]="true"
-    (configChanged)="onNotificationPartsSort($event)"
-  ></app-table>
+    (configChanged)="onNotificationPartsSort($event)"></app-table>
 </ng-template>
 
-<ng-template #mainSupplierPartsTmp let-view="view">
-  <app-table
-    [data]="view.data"
+<ng-template #mainSupplierPartsTmp
+  let-view="view">
+  <app-table [data]="view.data"
     [labelId]="supplierPartsTableId"
     [tableConfig]="supplierPartsTableConfig"
     [deselectTrigger]="deselectPartTrigger$ | async"
@@ -204,34 +184,35 @@ SPDX-License-Identifier: Apache-2.0
     (clickSelectAction)="isAlertOpen$.next(true)"
     (configChanged)="onSupplierPartsSort($event)"
     selectedPartsInfoLabel="pageAlert.selectedParts"
-    selectedPartsActionLabel="pageAlert.selectPartsAction"
-  ></app-table>
+    selectedPartsActionLabel="pageAlert.selectPartsAction"></app-table>
 </ng-template>
 
-<ng-template #mainInfoTmp let-view="view">
+<ng-template #mainInfoTmp
+  let-view="view">
   <app-notification-overview [notification]="view.data"></app-notification-overview>
 </ng-template>
 
-<ng-template #reasonInfoTmp let-view="view">
+<ng-template #reasonInfoTmp
+  let-view="view">
   <app-notification-reason [notification]="view.data"></app-notification-reason>
 </ng-template>
 
-<ng-template #errorTmp let-view="view">
+<ng-template #errorTmp
+  let-view="view">
   <h1>{{ 'dataLoading.error' | i18n }}</h1>
   <p>{{ view.error | json }}</p>
 </ng-template>
 
-<ng-template #loaderTmp let-view="view">
+<ng-template #loaderTmp
+  let-view="view">
   <mat-spinner></mat-spinner>
 </ng-template>
 
-<app-sidenav-wrapper [isOpen]="isAlertOpen$ | async" (sidenavAction)="isAlertOpen$.next($event)">
-  <app-request-alert
-    *ngIf="isAlertOpen$ | async"
-    [selectedItems]="selectedItems$ | async"
+<app-sidenav-wrapper [isOpen]="isAlertOpen$ | async"
+  (sidenavAction)="isAlertOpen$.next($event)">
+  <app-request-alert *ngIf="isAlertOpen$ | async"
     (deselectPart)="removeItemFromSelection($event)"
     (restorePart)="addItemToSelection($event)"
     (clearSelected)="clearSelected()"
-    (submitted)="isAlertOpen$.next(false)"
-  ></app-request-alert>
+    (submitted)="isAlertOpen$.next(false)"></app-request-alert>
 </app-sidenav-wrapper>

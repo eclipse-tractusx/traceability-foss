@@ -100,6 +100,14 @@ describe('Parts', () => {
         expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], assetAsPlannedFilter);
     });
 
+    it('should show the RequestAlertComponent dialog when openDialog is called', async () => {
+        const { fixture } = await renderParts();
+        const { componentInstance } = fixture;
+        const requestAlertComponentSpy = spyOn(componentInstance, 'openDialog');
+        componentInstance.openDialog();
+        expect(requestAlertComponentSpy).toHaveBeenCalled();
+    });
+
     it('should call partsFacade.setPartsAsDesignedWithFilter when filter is set', async () => {
 
         const { fixture } = await renderParts();

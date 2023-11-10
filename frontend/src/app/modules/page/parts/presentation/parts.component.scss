@@ -38,82 +38,6 @@
   padding-top: 20px;
 }
 
-.lifecycleSizeText {
-  @apply text-secondary;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 20px;
-  letter-spacing: 0.15px;
-}
-
-.asBuiltHeaderContainer {
-  position: -webkit-sticky;
-  /* For Safari */
-  position: sticky;
-  top: 0;
-  background-color: white;
-  z-index: 1;
-}
-
-.headerContainer {
-  @extend .asBuiltHeaderContainer;
-  padding-top: 20px !important;
-}
-
-.asBuild-header {
-  @extend .title-medium;
-  font-weight: 600;
-  line-height: 24px;
-  letter-spacing: 0.15px;
-  padding-top: 22px;
-}
-
-.asBuilt-header-container {
-  display: flex;
-  justify-content: space-between;
-}
-
-.buttonText {
-  @extend .label-large;
-  @apply text-white;
-
-  font-weight: 600;
-  line-height: 20px;
-  letter-spacing: 0.1px;
-}
-
-.mat-mdc-unelevated-button.mat-mdc-button-base {
-  height: 44px !important;
-}
-
-.createAlertButton {
-  padding-right: 10px !important;
-
-  .mat-mdc-button.mat-mdc-button-base {
-    .mdc-button {
-      width: 163px !important;
-    }
-  }
-
-  border-radius: 100px !important;
-}
-
-.lifecycle-header {
-  @extend .title-medium;
-  font-weight: 600;
-  line-height: 24px;
-  letter-spacing: 0.15px;
-  padding-top: 22px;
-}
-
-.button-container .search-bar {
-  width: 400px !important;
-  height: 44px !important;
-  border-radius: 44px !important;
-  border: 1px !important;
-  gap: 8px !important;
-}
-
 .parts-table-wrapper {
   height: 100% !important;
   overflow-y: auto !important;
@@ -122,22 +46,4 @@
 .split-area {
   overflow-y: hidden !important;
   height: 405px;
-}
-
-.mat-mdc-card-header {
-  padding: 20px 20px 0 20px !important;
-}
-
-.mat-mdc-card-content {
-  display: block;
-  padding: 0 20px 20px 20px !important;
-}
-
-.parts-as-planned-table-wrapper {
-  max-height: 505px;
-  margin: 16px;
-}
-
-.parts-search-input-wrapper {
-  padding: 20px;
 }

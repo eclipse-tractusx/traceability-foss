@@ -36,6 +36,8 @@ import { FormControl, FormGroup } from "@angular/forms";
 import { ToastService } from "@shared/components/toasts/toast.service";
 import { PartsTableComponent } from "@shared/components/parts-table/parts-table.component";
 import { resetMultiSelectionAutoCompleteComponent } from "@page/parts/core/parts.helper";
+import { MatDialog } from '@angular/material/dialog';
+import { RequestAlertComponent } from '@shared/components/request-notification/request-alert.component';
 
 @Component({
   selector: 'app-parts',
@@ -51,7 +53,6 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   public readonly partsAsOrdered$: Observable<View<Pagination<Part>>>;
   public readonly partsAsSupported$: Observable<View<Pagination<Part>>>;
   public readonly partsAsRecycled$: Observable<View<Pagination<Part>>>;
-  public readonly isAlertOpen$ = new BehaviorSubject<boolean>(false);
 
   public readonly deselectPartTrigger$ = new Subject<Part[]>();
   public readonly addPartTrigger$ = new Subject<Part>();
@@ -78,6 +79,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly partDetailsFacade: PartDetailsFacade,
     private readonly staticIdService: StaticIdService,
     private readonly userSettingService: BomLifecycleSettingsService,
+    public dialog: MatDialog,
     public toastService: ToastService,
   ) {
     this.partsAsBuilt$ = this.partsFacade.partsAsBuilt$;
@@ -114,6 +116,12 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.partsFacade.setPartsAsPlanned();
     this.searchFormGroup.addControl('partSearch', new FormControl([]));
     this.searchControl = this.searchFormGroup.get('partSearch') as unknown as FormControl;
+  }
+
+  openDialog(): void {
+    this.dialog.open(RequestAlertComponent, {
+      data: { selectedItems: this.currentSelectedItems$.value, showHeadline: true },
+    });
   }
 
   filterActivated(type: MainAspectType, assetFilter: any): void {

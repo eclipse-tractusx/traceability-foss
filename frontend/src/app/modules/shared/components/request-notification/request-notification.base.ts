@@ -21,11 +21,13 @@
 
 import { EventEmitter } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Part } from '@page/parts/model/parts.model';
 import { DateTimeString } from '@shared/components/dateTime/dateTime.component';
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { Severity } from '@shared/model/severity.model';
 import { BehaviorSubject } from 'rxjs';
+import { ModalComponent } from '@shared/modules/modal/component/modal.component';
 
 export type RequestContext = 'requestInvestigations' | 'requestAlert';
 
@@ -41,22 +43,24 @@ export abstract class RequestNotificationBase {
   public abstract readonly context: RequestContext;
   public abstract readonly formGroup:
     | FormGroup<{
-        description: FormControl<string>;
-        severity: FormControl<Severity>;
-        targetDate: FormControl<DateTimeString>;
-      }>
+      description: FormControl<string>;
+      severity: FormControl<Severity>;
+      targetDate: FormControl<DateTimeString>;
+    }>
     | FormGroup<{
-        description: FormControl<string>;
-        severity: FormControl<Severity>;
-        bpn: FormControl<string>;
-      }>;
+      description: FormControl<string>;
+      severity: FormControl<Severity>;
+      bpn: FormControl<string>;
+    }>;
 
   public readonly isLoading$ = new BehaviorSubject(false);
   public readonly minDate = new Date();
 
   public removedItemsHistory: Part[] = [];
 
-  protected constructor( private readonly toastService: ToastService) {}
+  protected constructor(private readonly toastService: ToastService,
+    public dialog: MatDialog,
+  ) { }
 
   protected abstract submit(): void;
 
@@ -86,8 +90,8 @@ export abstract class RequestNotificationBase {
   protected openToast(count: number, link: string, linkQueryParams: Record<string, string>): void {
 
     this.toastService.success({
-      id:  `${this.context}.success`,
-      values: {count}
+      id: `${this.context}.success`,
+      values: { count }
     },
       5000,
       [
@@ -97,14 +101,25 @@ export abstract class RequestNotificationBase {
           link,
         },
       ],
-
-
-     );
+    );
   }
 
   public cancelAction(part: Part): void {
-    this.removedItemsHistory.unshift(part);
-    this.deselectPart.emit(part);
+    this.dialog.open(ModalComponent, {
+      autoFocus: false,
+      data: {
+        title: 'parts.confirmationDialog.deletePartTitle',
+        message: 'parts.confirmationDialog.deletePartMessage',
+        buttonLeft: 'parts.confirmationDialog.deletePartButton',
+        buttonRight: 'confirmationDialog.cancel',
+        primaryButtonColour: 'primary',
+        leftIsConfirm: true,
+        onConfirm: (isConfirmed: boolean) => {
+          this.deselectPart.emit(part);
+          this.selectedItems.splice(this.selectedItems.indexOf(part), 1);
+        }
+      }
+    });
   }
 
   public restoreLastItem(): void {

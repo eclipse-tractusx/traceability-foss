@@ -37,7 +37,7 @@ export class ModalComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) public readonly data: ModalData,
     private readonly matDialogRef: MatDialogRef<ModalComponent>,
-  ) {}
+  ) { }
 
   public close(value: boolean): void {
     this.matDialogRef.close(value || false);
@@ -53,6 +53,10 @@ export class ModalComponent {
 
     if (!this.data.formGroup || this.data.formGroup.valid) {
       this.close(true);
+    }
+
+    if (this.data.onConfirm) {
+      this.data.onConfirm(true);
     }
   }
 }

@@ -44,6 +44,7 @@ import { FormGroup } from "@angular/forms";
 })
 export class InputComponent extends BaseInputComponent<string> {
     @Input() class: string;
+    @Input() fieldClass: string;
 
     @Input() prefixIcon: string;
     @Input() prefixIconColor: ThemePalette;
@@ -52,6 +53,7 @@ export class InputComponent extends BaseInputComponent<string> {
     @Input() suffixIcon: string;
     @Input() suffixIconColor: ThemePalette;
     @Input() suffixIconHover: boolean = false;
+    @Input() isSearchBar: boolean = false;
 
     @Input() onEnterActive: boolean = false;
     @Input() displayClearButton: boolean = false;
@@ -73,7 +75,9 @@ export class InputComponent extends BaseInputComponent<string> {
     ngOnInit(): void {
         super.ngOnInit();
 
-        this.placeholder = this.label;
+        if (this.isSearchBar) {
+            this.placeholder = this.label;
+        }
     }
 
     shouldHideClearButton(): boolean {
@@ -81,13 +85,17 @@ export class InputComponent extends BaseInputComponent<string> {
     }
 
     onFocused() {
-        this.isFocused = true;
-        this.placeholder = "";
+        if (this.isSearchBar) {
+            this.isFocused = true;
+            this.placeholder = "";
+        }
     }
 
     onBlur() {
-        this.isFocused = false;
-        this.placeholder = this.label;
+        if (this.isSearchBar) {
+            this.isFocused = false;
+            this.placeholder = this.label;
+        }
     }
 
     @HostListener('keydown.enter', ['$event'])

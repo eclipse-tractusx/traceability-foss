@@ -24,6 +24,7 @@ import {
 } from "@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model";
 import { BomLifecycleSettingsService, UserSettingView } from "@shared/service/bom-lifecycle-settings.service";
 import { FormControl } from '@angular/forms';
+import i18next from 'i18next';
 
 @Component({
     selector: 'app-bom-lifecycle-activator',
@@ -39,9 +40,9 @@ export class BomLifecycleActivatorComponent implements OnInit {
     public lifecycleCtrl = new FormControl('');
     public selectedLifecycles: string[] = [];
 
-    constructor(public bomLifeCycleUserSetting: BomLifecycleSettingsService) {
+    private unimplementedLifecycleTypes: string[] = [BomLifecycleType.AS_DESIGNED, BomLifecycleType.AS_ORDERED, BomLifecycleType.AS_SUPPORTED, BomLifecycleType.AS_RECYCLED];
 
-    }
+    constructor(public bomLifeCycleUserSetting: BomLifecycleSettingsService) { }
 
     ngOnInit() {
         if (this.view) {
@@ -78,7 +79,7 @@ export class BomLifecycleActivatorComponent implements OnInit {
     }
 
     disableOption(value: string): boolean {
-        return this.selectedLifecycles.includes(value) === false && this.selectedLifecycles.length === 2;
+        return this.selectedLifecycles.includes(value) === false && this.selectedLifecycles.length === 2 || this.unimplementedLifecycleTypes.includes(value);
     }
 
     updateLifecycleConfig(value: string, state: boolean) {
@@ -121,6 +122,14 @@ export class BomLifecycleActivatorComponent implements OnInit {
         }, this.view);
 
         this.buttonClickEvent.emit(this.bomLifeCycleUserSetting.getSize(this.view));
+    }
+
+    getTooltip(lifecycle: string): string {
+        if (this.unimplementedLifecycleTypes.includes(lifecycle)) {
+            return `${i18next.t('bomLifecycleActivator.unImplemented')}: ${i18next.t(lifecycle)}`;
+        } else {
+            return `${i18next.t(lifecycle)}`;
+        }
     }
 
     selectionChanged(values: string[]) {

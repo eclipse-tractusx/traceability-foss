@@ -19,8 +19,9 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { ALERT_BASE_ROUTE, getRoute } from '@core/known-route';
 import { bpnRegex } from '@page/admin/presentation/bpn-configuration/bpn-configuration.component';
 import { Part, SemanticDataModel } from '@page/parts/model/parts.model';
@@ -33,35 +34,42 @@ import { ToastService } from '@shared/components/toasts/toast.service';
 import { NotificationStatusGroup } from '@shared/model/notification.model';
 import { Severity } from '@shared/model/severity.model';
 import { AlertsService } from '@shared/service/alerts.service';
+import { RequestComponentData } from './request.componenet.model';
 
 @Component({
   selector: 'app-request-alert',
+  styleUrls: ['./request-notification.base.scss'],
   templateUrl: './request-notification.base.html',
 })
 export class RequestAlertComponent extends RequestNotificationBase {
-  @Input() selectedItems: Part[];
-  @Input() showHeadline = true;
 
   @Output() deselectPart = new EventEmitter<Part>();
   @Output() restorePart = new EventEmitter<Part>();
   @Output() clearSelected = new EventEmitter<void>();
   @Output() submitted = new EventEmitter<void>();
 
+  public selectedItems: Part[] = [];
+  public showHeadline = true;
+
   public readonly context: RequestContext = 'requestAlert';
 
-  constructor(toastService: ToastService, private readonly alertsService: AlertsService) {
-    super(toastService);
+  constructor(toastService: ToastService, private readonly alertsService: AlertsService, public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) data: RequestComponentData) {
+    super(toastService, dialog);
+    this.selectedItems = data.selectedItems;
+    this.showHeadline = data.showHeadline;
   }
 
   public readonly formGroup = new FormGroup({
     description: new FormControl('', [Validators.required, Validators.maxLength(1000), Validators.minLength(15)]),
-    severity: new FormControl(Severity.MINOR, [Validators.required]),
+    severity: new FormControl(null, [Validators.required]),
     bpn: new FormControl(null, [Validators.required, BaseInputHelper.getCustomPatternValidator(bpnRegex, 'bpn')]),
   });
 
   public submit(): void {
     this.prepareSubmit();
-    if (this.formGroup.invalid) return;
+    if (this.formGroup.invalid) {
+      return;
+    }
 
     const partIds = this.selectedItems.map(part => part.id);
     // set asBuilt parameter if one of the selectedItems are a asPlanned Part

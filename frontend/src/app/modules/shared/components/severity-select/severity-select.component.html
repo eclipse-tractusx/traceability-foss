@@ -19,14 +19,14 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<app-select
+<app-select color="accent"
   [label]="translationContext + '.severity' | i18n"
   [hint]="hint"
   [options]="options"
   [optionsRenderer]="severityOptionTmp"
-  [formControl]="control"
-></app-select>
+  [formControl]="control"></app-select>
 
-<ng-template let-label="value" #severityOptionTmp>
+<ng-template let-label="value"
+  #severityOptionTmp>
   <app-severity [severity]="label"></app-severity>
 </ng-template>

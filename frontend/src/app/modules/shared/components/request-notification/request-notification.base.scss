@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -18,19 +16,11 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-@import '../../../../../../theme/base.scss';
+@import '../../../../../theme/base.scss';
 @tailwind base;
 
 .container {
-  width: 455px;
-  padding: 10px 10px 10px 10px;
-}
-
-.message-text {
-  @extend .body-large;
-  font-weight: 400;
-  line-height: 28px;
-  padding-bottom: 30px;
+  width: 804px;
 }
 
 .header {
@@ -42,7 +32,22 @@
 
   display: flex;
   justify-content: space-between;
-  padding-bottom: 9px;
+
+}
+
+.message-text {
+  @extend .body-large;
+  font-weight: 400;
+  line-height: 28px;
+  padding-bottom: 30px;
+}
+
+.selected-parts {
+  @extend .body-medium-emphasis;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 25.2px;
+  color: #49454F;
 }
 
 .button-text {
@@ -53,17 +58,24 @@
   padding: 0 5px 0 5px;
 }
 
-.right-button-text {
+.accept-button-text {
   @extend .button-text;
   @apply text-white;
 }
 
-.left-button-text {
+.cancel-button-text {
   @extend .button-text;
   @apply text-secondary;
 }
 
-.buttons-container {
-  display: flex;
-  justify-content: space-between;
+.cancel-button {
+  padding-right: 10px !important;
+
+  .mat-mdc-button.mat-mdc-button-base {
+    .mdc-button {
+      width: 163px !important;
+    }
+  }
+
+  border-radius: 100px !important;
 }

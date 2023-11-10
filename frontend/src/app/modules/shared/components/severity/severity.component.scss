@@ -18,6 +18,8 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+@import '../../../../../theme/base.scss';
+@tailwind base;
 
 .severity {
   &__container {
@@ -41,4 +43,12 @@
   &__LIFE-THREATENING {
     @apply text-severityCritical;
   }
+}
+
+.text {
+  @extend .body-large;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 28px;
+  @apply text-pendingDark;
 }

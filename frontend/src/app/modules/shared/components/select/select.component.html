@@ -19,30 +19,34 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<mat-form-field class="select--container">
+<mat-form-field color="accent"
+  class="select--container"
+  appearance="outline">
   <mat-label>{{ label }}</mat-label>
   <mat-select [formControl]="control">
     <mat-select-trigger>
       <ng-container *ngTemplateOutlet="renderWithRenderer; context: { value: control.value }"></ng-container>
     </mat-select-trigger>
-
-    <mat-option *ngFor="let option of options" [value]="option.value || option.label">
+    <mat-option *ngFor="let option of options"
+      [value]="option.value || option.label">
       <ng-container *ngTemplateOutlet="renderWithRenderer; context: { value: option.label }"></ng-container>
     </mat-option>
   </mat-select>
-  <mat-hint *ngIf="hint" align="start">{{ hint }}</mat-hint>
+  <mat-hint *ngIf="hint"
+    align="start">{{ hint }}</mat-hint>
   <mat-error>
-    <app-form-error-message [control]="control" [matcher]="matcher"></app-form-error-message>
+    <app-form-error-message [control]="control"
+      [matcher]="matcher"></app-form-error-message>
   </mat-error>
 </mat-form-field>
 
-<ng-template let-value="value" #renderWithRenderer>
-  <ng-container
-    [ngTemplateOutlet]="optionsRenderer ? optionsRenderer : normalOption"
-    [ngTemplateOutletContext]="{ value }"
-  ></ng-container>
+<ng-template let-value="value"
+  #renderWithRenderer>
+  <ng-container [ngTemplateOutlet]="optionsRenderer ? optionsRenderer : normalOption"
+    [ngTemplateOutletContext]="{ value }"></ng-container>
 </ng-template>
 
-<ng-template let-label="value" #normalOption>
+<ng-template let-label="value"
+  #normalOption>
   {{ label | valueToLable : options | i18n }}
 </ng-template>

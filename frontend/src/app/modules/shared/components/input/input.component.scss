@@ -30,7 +30,7 @@ input::placeholder {
   line-height: 17.02px;
 }
 
-.hideClearButton {
+.hide-clear-button {
   padding: 0 !important;
   margin: 0 !important;
   opacity: 0 !important;
@@ -41,7 +41,7 @@ input:focus {
   border-color: black;
 }
 
-.input .mdc-text-field--outlined .mdc-notched-outline {
+.search .mdc-text-field--outlined .mdc-notched-outline {
   .mdc-notched-outline__leading {
     border-top-left-radius: 22px !important;
     border-bottom-left-radius: 22px !important;
@@ -55,26 +55,20 @@ input:focus {
   }
 }
 
-.inputField .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
-  padding-top: 4px;
-  padding-bottom: 0px;
-  margin-left: 5px !important;
-  width: 400px !important;
-}
-
-.matLabel .mdc-text-field:not(.mdc-text-field--disabled) .mdc-floating-label {
-  padding-bottom: 15px !important;
-}
-
-.matLabel {
-  font-size: 16px !important;
-  font-weight: 400 !important;
-  line-height: 17.02px;
-}
-
-.matField .mat-mdc-form-field-flex {
+.search .mat-mdc-form-field-flex {
   width: 400px !important;
   height: 44px !important;
   border: 1px !important;
   gap: 8px !important;
+}
+
+.search .mdc-text-field--outlined {
+  height: 44px !important;
+}
+
+.search .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
+  padding-top: 7px;
+  padding-bottom: 0px;
+  margin-left: 5px !important;
+  width: 400px !important;
 }

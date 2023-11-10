@@ -22,15 +22,25 @@ SPDX-License-Identifier: Apache-2.0
     <div class="inline-block w-full">
       <div class="flex justify-between items-center">
         <h3 class="pl-2 mb-4 flex items-center tableHeader">
-          <img class="pr-2" src="/assets/images/icons/alert.svg" alt="Alerts icon" />
+          <img class="pr-2"
+            src="/assets/images/icons/alert.svg"
+            alt="Alerts icon" />
           {{ 'pageTitle.alerts' | i18n }}
         </h3>
       </div>
     </div>
     <div [formGroup]="searchFormGroup">
-      <app-input color="accent" [label]="'parts.input.global-search.placeholder' | i18n" [prefixIconHover]="true"
-        (prefixIconClick)="triggerSearch()" [onEnterActive]="true" [prefixIcon]="'search'" formControlName="alertSearch"
-        [parentFormGroup]="searchFormGroup" [parentControlName]="'alertSearch'" [displayClearButton]="true"
+      <app-input color="accent"
+        [label]="'parts.input.global-search.placeholder' | i18n"
+        [prefixIconHover]="true"
+        (prefixIconClick)="triggerSearch()"
+        [onEnterActive]="true"
+        [prefixIcon]="'search'"
+        formControlName="alertSearch"
+        [isSearchBar]="true"
+        [parentFormGroup]="searchFormGroup"
+        [parentControlName]="'alertSearch'"
+        [displayClearButton]="true"
         prefixIconColor="accent"></app-input>
     </div>
   </mat-card-header>
@@ -38,15 +48,19 @@ SPDX-License-Identifier: Apache-2.0
     <app-notification-common-modal (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
       [helperService]="helperService"
       [translationContext]="TranslationContext.COMMONALERT"></app-notification-common-modal>
-    <app-notification class="tableScroll" [queuedAndRequestedNotifications$]="alertsQueuedAndRequested$"
-      [receivedNotifications$]="alertsReceived$" [translationContext]="TranslationContext.COMMONALERT"
-      [receivedOptionalColumns]="['severity', 'createdBy']" [receivedMultiSortList]="alertReceivedSortList"
+    <app-notification class="tableScroll"
+      [queuedAndRequestedNotifications$]="alertsQueuedAndRequested$"
+      [receivedNotifications$]="alertsReceived$"
+      [translationContext]="TranslationContext.COMMONALERT"
+      [receivedOptionalColumns]="['severity', 'createdBy']"
+      [receivedMultiSortList]="alertReceivedSortList"
       [receivedSortableColumns]="{description: true, status: true, createdDate: true, severity: true, createdBy: true}"
       [queuedAndRequestedOptionalColumns]="['severity', 'sendTo']"
       [queuedAndRequestedSortableColumns]="{description: true, status: true, createdDate: true, severity: true, sendTo: true}"
       [queuedAndRequestedMultiSortList]="alertQueuedAndRequestedSortList"
       (onReceivedTableConfigChanged)="onReceivedTableConfigChange($event)"
       (onQueuedAndRequestedTableConfigChanged)="onQueuedAndRequestedTableConfigChange($event)"
-      (selected)="openDetailPage($event)" [menuActionsConfig]="menuActionsConfig"></app-notification>
+      (selected)="openDetailPage($event)"
+      [menuActionsConfig]="menuActionsConfig"></app-notification>
   </mat-card-content>
 </mat-card>

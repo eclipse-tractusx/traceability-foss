@@ -33,6 +33,7 @@ import { getRoute, INVESTIGATION_BASE_ROUTE } from '@core/known-route';
 import { NotificationStatusGroup } from '@shared/model/notification.model';
 import { InvestigationsService } from '@shared/service/investigations.service';
 import { Part } from '@page/parts/model/parts.model';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-request-investigation',
@@ -49,8 +50,8 @@ export class RequestInvestigationComponent extends RequestNotificationBase {
 
   public readonly context: RequestContext = 'requestInvestigations';
 
-  constructor(toastService: ToastService, private readonly investigationsService: InvestigationsService) {
-    super(toastService);
+  constructor(toastService: ToastService, private readonly investigationsService: InvestigationsService, public dialog: MatDialog) {
+    super(toastService, dialog);
   }
 
   public readonly formGroup = new FormGroup<{

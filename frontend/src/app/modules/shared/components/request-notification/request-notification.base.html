@@ -18,86 +18,108 @@ under the License.
 
 SPDX-License-Identifier: Apache-2.0
 -->
+<div class="container">
+  <div class="header">
+    <div *ngIf="showHeadline">{{ this.context + '.headline' | i18n }}
+    </div>
+    <div>
+      <img mat-dialog-close
+        class="pr-2"
+        src="/assets/images/icons/closeDialog_icon.svg"
+        alt="X" />
+    </div>
+  </div>
 
-<h1 class="mb-4 normal-case" *ngIf="showHeadline">{{ this.context + '.headline' | i18n }}</h1>
-
-<div class="mb-8">
-  <p class="regular-text">{{ 'requestNotification.partDescription' | i18n }}</p>
-  <mat-chip-listbox aria-label="Selected Parts">
-    <mat-chip
-      *ngFor="let part of selectedItems || []"
-      [attr.data-testid]="'mat-chip--' + part.name || part.id"
-      (removed)="cancelAction(part)"
-    >
-      <mat-icon *ngIf="part.error" [color]="'warn'" matChipAvatar>close</mat-icon>
-      <mat-spinner *ngIf="!part.name && !part.error" [diameter]="20" class="mr-3"></mat-spinner>
-      {{ part.name || part.id }}
-      <button *ngIf="selectedItems.length > 1" matChipRemove>
-        <mat-icon>cancel</mat-icon>
-      </button>
-    </mat-chip>
-  </mat-chip-listbox>
-
-  <div class="flex flex-col mt-6" *ngIf="removedItemsHistory.length">
-    <p class="regular-text mb-2">{{ 'requestNotification.restoreItem' | i18n }}</p>
-    <mat-chip-set>
-      <mat-chip
-        [attr.data-testid]="'mat-chip-history--' + removedItemsHistory[0].name || removedItemsHistory[0].id"
-        (click)="restoreLastItem()"
-        outlined="false"
-        class="cursor-pointer border-none"
-      >
-        <mat-icon matChipAvatar>restore</mat-icon>
-        {{ removedItemsHistory[0].name || removedItemsHistory[0].id }}
+  <div class="mb-8 pt-5">
+    <div class="selected-parts">{{ 'requestNotification.partDescription' | i18n }}</div>
+    <mat-chip-listbox aria-label="Selected Parts">
+      <mat-chip *ngFor="let part of selectedItems || []"
+        [attr.data-testid]="'mat-chip--' + part.name || part.id"
+        (removed)="cancelAction(part)">
+        <mat-icon *ngIf="part.error"
+          [color]="'warn'"
+          matChipAvatar>close</mat-icon>
+        <mat-spinner *ngIf="!part.name && !part.error"
+          [diameter]="20"
+          class="mr-3"></mat-spinner>
+        {{ part.name || part.id }}
+        <button *ngIf="selectedItems.length > 1"
+          matChipRemove>
+          <img src="/assets/images/icons/closeChip.svg"
+            class="center py-5 closeIcon"
+            alt="X" />
+        </button>
       </mat-chip>
-    </mat-chip-set>
+    </mat-chip-listbox>
+
+    <div class="flex flex-col mt-6"
+      *ngIf="removedItemsHistory.length">
+      <p class="regular-text mb-2">{{ 'requestNotification.restoreItem' | i18n }}</p>
+      <mat-chip-set>
+        <mat-chip [attr.data-testid]="'mat-chip-history--' + removedItemsHistory[0].name || removedItemsHistory[0].id"
+          (click)="restoreLastItem()"
+          outlined="false"
+          class="cursor-pointer border-none">
+          <mat-icon matChipAvatar>restore</mat-icon>
+          {{ removedItemsHistory[0].name || removedItemsHistory[0].id }}
+        </mat-chip>
+      </mat-chip-set>
+    </div>
   </div>
+
+  <form [formGroup]="formGroup"
+    (submit)="submit()">
+    <div class="flex flex-row justify-start mb-7">
+      <div *ngIf="!!formGroup.controls?.['targetDate']"
+        class="mr-5 w-full">
+        <app-date-time [label]="'requestNotification.targetDateLabel' | i18n"
+          [hint]="'requestNotification.targetDateDescription' | i18n"
+          [min]="minDate"
+          formControlName="targetDate"></app-date-time>
+      </div>
+
+      <div *ngIf="!!formGroup.controls?.['bpn']"
+        class="mr-5 w-full">
+        <app-input color="accent"
+          [label]="'requestNotification.bpnLabel' | i18n"
+          [hint]="'requestNotification.bpnDescription' | i18n"
+          class="bpn-config--input"
+          formControlName="bpn"></app-input>
+      </div>
+      <div class="w-full">
+        <app-severity-select [translationContext]="'requestNotification'"
+          formControlName="severity">
+        </app-severity-select>
+      </div>
+    </div>
+
+    <app-textarea [label]="'requestNotification.textAreaLabel' | i18n"
+      formControlName="description"></app-textarea>
+
+    <div class="flex flex-row justify-end mt-10 md:mt-6">
+      <app-button [variant]="'stroked'"
+        [isDisabled]="isLoading$ | async"
+        (click)="resetForm()"
+        class="mr-4">
+        <div class="cancel-button-text">{{ 'requestNotification.cancel' | i18n }}</div>
+      </app-button>
+
+      <div [matTooltip]="!formGroup.valid ? ('requestNotification.submitTooltip' | i18n) : ''"
+        matTooltipClass="table--header--tooltip"
+        matTooltipPosition="above"
+        [class.mdc-tooltip--multiline]="true"
+        [matTooltipShowDelay]="500">
+        <app-button [variant]="'flat'"
+          [color]="'primary'"
+          mat-dialog-close
+          [isDisabled]="(isLoading$ | async) || !formGroup.valid"
+          type="submit">
+          <div class="accept-button-text">{{ 'requestNotification.submit' | i18n }}</div>
+        </app-button>
+      </div>
+    </div>
+  </form>
+
+  <mat-progress-bar *ngIf="isLoading$ | async"
+    mode="indeterminate"></mat-progress-bar>
 </div>
-
-<form [formGroup]="formGroup" (submit)="submit()">
-  <div class="flex flex-row justify-start mb-7">
-    <div *ngIf="!!formGroup.controls?.['targetDate']" class="mr-5 w-full">
-      <app-date-time
-        [label]="'requestNotification.targetDateLabel' | i18n"
-        [hint]="'requestNotification.targetDateDescription' | i18n"
-        [min]="minDate"
-        formControlName="targetDate"
-      ></app-date-time>
-    </div>
-
-    <div *ngIf="!!formGroup.controls?.['bpn']" class="mr-5 w-full">
-      <app-input
-        [label]="'requestNotification.bpnLabel' | i18n"
-        [hint]="'requestNotification.bpnDescription' | i18n"
-        class="bpn-config--input"
-        formControlName="bpn"
-      ></app-input>
-    </div>
-    <div class="w-full">
-      <app-severity-select
-        [translationContext]="'requestNotification'"
-        [hint]="'requestNotification.severityDescription' | i18n"
-        formControlName="severity"
-      >
-      </app-severity-select>
-    </div>
-  </div>
-
-  <app-textarea
-    [label]="'requestNotification.textAreaLabel' | i18n"
-    [hint]="this.context + '.textAreaDescription' | i18n"
-    formControlName="description"
-  ></app-textarea>
-
-  <div class="flex flex-row justify-end mt-10 md:mt-6">
-    <app-button [variant]="'raised'" [isDisabled]="isLoading$ | async" (click)="resetForm()" class="mr-4"
-      >{{ 'requestNotification.cancel' | i18n }}</app-button
-    >
-
-    <app-button [variant]="'raised'" [color]="'primary'" [isDisabled]="isLoading$ | async" type="submit"
-      >{{ 'requestNotification.submit' | i18n }}</app-button
-    >
-  </div>
-</form>
-
-<mat-progress-bar *ngIf="isLoading$ | async" mode="indeterminate"></mat-progress-bar>

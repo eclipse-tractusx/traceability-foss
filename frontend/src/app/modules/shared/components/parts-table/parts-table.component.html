@@ -26,10 +26,16 @@ SPDX-License-Identifier: Apache-2.0
         </div>
         <div>
             <div *appHasRole="tableConfig.columnRoles?.['select'] ?? 'user'">
-                <app-button *ngIf="showAlertButton" class="createAlertButton" (click)="clickSelectAction.emit()"
-                    [isDisabled]="selection?.selected?.length === 0" [color]="'primary'" variant="flat">
+                <app-button *ngIf="showAlertButton"
+                    class="createAlertButton"
+                    (click)="clickSelectAction.emit()"
+                    [isDisabled]="selection?.selected?.length === 0"
+                    [color]="'primary'"
+                    variant="flat">
                     <div class="flex justify-between items-center">
-                        <img class="pr-2" src="/assets/images/icons/createAlert_icon.svg" alt="Create alert icon" />
+                        <img class="pr-2"
+                            src="/assets/images/icons/createAlert_icon.svg"
+                            alt="Create alert icon" />
                         <div class="buttonText">
                             {{ 'page.selectedParts.action' | i18n }}
                         </div>
@@ -41,59 +47,93 @@ SPDX-License-Identifier: Apache-2.0
 </ng-container>
 
 <div class="table-wrapper">
-    <table #tableElement [dataSource]="dataSource" [attr.aria-labelledby]="labelId"
-        [class.loading-table]="isDataLoading" (matSortChange)="updateSortingOfData($event)" mat-table matSort
-        multiTemplateDataRows data-testid="table-component--test-id">
+    <table #tableElement
+        [dataSource]="dataSource"
+        [attr.aria-labelledby]="labelId"
+        [class.loading-table]="isDataLoading"
+        (matSortChange)="updateSortingOfData($event)"
+        mat-table
+        matSort
+        multiTemplateDataRows
+        data-testid="table-component--test-id">
 
-        <tr class="header" *matHeaderRowDef="tableConfig.displayedColumns sticky: true" mat-header-row
-            data-testid="table-component--head-row" class="table--header--row"></tr>
+        <tr class="header"
+            *matHeaderRowDef="tableConfig.displayedColumns sticky: true"
+            mat-header-row
+            data-testid="table-component--head-row"
+            class="table--header--row"></tr>
 
         <ng-container matColumnDef="paginator">
-            <td mat-footer-cell *matFooterCellDef [attr.colspan]="100">
-                <mat-paginator color="accent" #paginator [length]="totalItems" [pageIndex]="pageIndex"
-                    [pageSizeOptions]="[50, 100, 200]" [attr.aria-label]="'table.selectPageSize' | i18n"
-                    [attr.data-testId]="'table.selectPageSize' | i18n" (page)="onPaginationChange($event)"
+            <td mat-footer-cell
+                *matFooterCellDef
+                [attr.colspan]="100">
+                <mat-paginator color="accent"
+                    #paginator
+                    [length]="totalItems"
+                    [pageIndex]="pageIndex"
+                    [pageSizeOptions]="[50, 100, 200]"
+                    [attr.aria-label]="'table.selectPageSize' | i18n"
+                    [attr.data-testId]="'table.selectPageSize' | i18n"
+                    (page)="onPaginationChange($event)"
                     showFirstLastButtons>
                 </mat-paginator>
             </td>
         </ng-container>
 
-        <tr mat-footer-row *matFooterRowDef="['paginator']; sticky: true"></tr>
+        <tr mat-footer-row
+            *matFooterRowDef="['paginator']; sticky: true"></tr>
 
         <ng-container *ngIf="multiSelectActive">
-            <ng-container matColumnDef="{{ filter.headerKey }}" *ngFor="let filter of filterConfiguration">
-                <th class="multi-select-header-cell" mat-header-cell *matHeaderCellDef>
-                    <app-multiselect *ngIf="filter.headerKey!==filterKey" [placeholder]="'All'"
-                        [options]="filter.option" [multiple]='isMultipleSearch(filter)'
-                        [textSearch]='filter.isTextSearch' [isDate]='filter.isDate' ngDefaultControl
+            <ng-container matColumnDef="{{ filter.headerKey }}"
+                *ngFor="let filter of filterConfiguration">
+                <th class="multi-select-header-cell"
+                    mat-header-cell
+                    *matHeaderCellDef>
+                    <app-multiselect *ngIf="filter.headerKey!==filterKey"
+                        [placeholder]="'All'"
+                        [options]="filter.option"
+                        [multiple]='isMultipleSearch(filter)'
+                        [textSearch]='filter.isTextSearch'
+                        [isDate]='filter.isDate'
+                        ngDefaultControl
                         [formControl]="filterFormGroup.controls[filter.filterKey]"></app-multiselect>
-                    <span class="filter-title" *ngIf="filter.headerKey==='Filter'">{{ 'table.filterTitle' |
+                    <span class="filter-title"
+                        *ngIf="filter.headerKey==='Filter'">{{ 'table.filterTitle' |
                         i18n
                         }}</span>
                 </th>
             </ng-container>
         </ng-container>
-        <tr *matRowDef="let row; columns: tableConfig.displayedColumns" [class.loading]="isDataLoading"
+        <tr *matRowDef="let row; columns: tableConfig.displayedColumns"
+            [class.loading]="isDataLoading"
             [class.no-hover]="!showHover"
             [ngClass]="{'highlighted': row?.activeInvestigation || row?.activeAlert, 'error': row?.errorMessage }"
-            (click)="selectElement(row)" mat-row data-testid="table-component--body-row"></tr>
+            (click)="selectElement(row)"
+            mat-row
+            data-testid="table-component--body-row"></tr>
 
         <ng-container *ngIf="!!tableConfig.menuActionsConfig">
-            <tr *matRowDef="let row; columns: ['expandMenuActions']" class="expand-row no-hover table--menu__mobile"
+            <tr *matRowDef="let row; columns: ['expandMenuActions']"
+                class="expand-row no-hover table--menu__mobile"
                 mat-row></tr>
         </ng-container>
 
-        <tr *matNoDataRow class="mat-row no-hover" data-testid="table-component--body-row">
-            <td class="mat-cell" [attr.colspan]="tableConfig?.displayedColumns.length">
+        <tr *matNoDataRow
+            class="mat-row no-hover"
+            data-testid="table-component--body-row">
+            <td class="mat-cell"
+                [attr.colspan]="tableConfig?.displayedColumns.length">
                 <div class="table--no-data">
-                    <mat-icon color="primary" class="table--no-data__icon">build</mat-icon>
+                    <mat-icon color="primary"
+                        class="table--no-data__icon">build</mat-icon>
                     <br />
                     <h3>{{ 'table.noResultFound' | i18n }}</h3>
                     <p>{{ 'table.tryAgain' | i18n }}</p>
                 </div>
             </td>
         </tr>
-        <ng-container *ngFor="let column of tableConfig?.displayedColumns" [ngSwitch]="column">
+        <ng-container *ngFor="let column of tableConfig?.displayedColumns"
+            [ngSwitch]="column">
             <ng-container *ngSwitchCase="'select'">
                 <ng-container *ngTemplateOutlet="SelectColumn"></ng-container>
             </ng-container>
@@ -104,29 +144,45 @@ SPDX-License-Identifier: Apache-2.0
 
         <ng-template #SelectColumn>
             <ng-container matColumnDef="select">
-                <th *matHeaderCellDef mat-header-cell class="checkbox selectAllCheckbox">
-                    <div class="table--select-all" [class.table--select-all__menu]="isMenuOpen">
-                        <mat-checkbox color="accent" [checked]="selection.hasValue() && areAllRowsSelected()"
+                <th *matHeaderCellDef
+                    mat-header-cell
+                    class="checkbox selectAllCheckbox">
+                    <div class="table--select-all"
+                        [class.table--select-all__menu]="isMenuOpen">
+                        <mat-checkbox color="accent"
+                            [checked]="selection.hasValue() && areAllRowsSelected()"
                             [indeterminate]="selection.hasValue() && !areAllRowsSelected()"
-                            (change)="$event ? toggleAllRows() : null" data-testid="select-all--test-id">
+                            (change)="$event ? toggleAllRows() : null"
+                            data-testid="select-all--test-id">
                         </mat-checkbox>
                     </div>
                 </th>
-                <td *matCellDef="let row" mat-cell class="checkbox table--cell">
-                    <mat-checkbox color="accent" [checked]="isSelected(row)" (click)="$event.stopPropagation()"
-                        (change)="toggleSelection(row)" data-testid="select-one--test-id">
+                <td *matCellDef="let row"
+                    mat-cell
+                    class="checkbox table--cell">
+                    <mat-checkbox color="accent"
+                        [checked]="isSelected(row)"
+                        (click)="$event.stopPropagation()"
+                        (change)="toggleSelection(row)"
+                        data-testid="select-one--test-id">
                     </mat-checkbox>
                 </td>
             </ng-container>
         </ng-template>
 
-        <ng-template #NormalColumn let-column>
+        <ng-template #NormalColumn
+            let-column>
             <ng-container matColumnDef="{{ column }}">
-                <th class="table-header-row" *matHeaderCellDef [matTooltip]="getTooltip(column)"
-                    matTooltipClass="table--header--tooltip" matTooltipPosition="above"
-                    [class.mdc-tooltip--multiline]="true" [matTooltipShowDelay]="1000"
+                <th class="table-header-row"
+                    *matHeaderCellDef
+                    [matTooltip]="getTooltip(column)"
+                    matTooltipClass="table--header--tooltip"
+                    matTooltipPosition="above"
+                    [class.mdc-tooltip--multiline]="true"
+                    [matTooltipShowDelay]="1000"
                     [mat-sort-header]="tableConfig.sortableColumns?.[column] ? '' : null"
-                    [disabled]="!tableConfig.sortableColumns?.[column]" mat-header-cell
+                    [disabled]="!tableConfig.sortableColumns?.[column]"
+                    mat-header-cell
                     [ngClass]="{ 'hasQualityAlertsHeader': column === '!'}">
 
                     <ng-container *ngIf="tableConfig?.header?.[column]; else pureColumn">{{
@@ -134,7 +190,8 @@ SPDX-License-Identifier: Apache-2.0
                         <ng-container *ngIf="multiSortList && multiSortList.length >1">
                             <ng-container *ngFor="let item of multiSortList; let i = index">
                                 <!-- Replace 'columnToMatch' with the specific column name you want to match -->
-                                <div class="table--header--sort--indicator" *ngIf="item[0] === column">
+                                <div class="table--header--sort--indicator"
+                                    *ngIf="item[0] === column">
                                     <!-- Display the array entry when it matches the column name -->
                                     {{ (i + 1) + "." }}{{ item[1] === 'asc' ? '↑' : item[1] === 'desc' ? '↓'
                                     :
@@ -144,7 +201,10 @@ SPDX-License-Identifier: Apache-2.0
                         </ng-container>
                     </ng-container>
                 </th>
-                <td *matCellDef="let element" mat-cell class="table--cell" data-testid="table-component--cell-data">
+                <td *matCellDef="let element"
+                    mat-cell
+                    class="table--cell"
+                    data-testid="table-component--cell-data">
                     <div class="table--notification--cell">
                         <span class="table--notification--cell--content">
                             <ng-container *ngIf="isDateElement(column); else autoFormatRef">
@@ -152,7 +212,9 @@ SPDX-License-Identifier: Apache-2.0
                             </ng-container>
 
                             <ng-template #autoFormatRef>
-                                <ng-container ng-container *ngIf="column !== '!'" ;
+                                <ng-container ng-container
+                                    *ngIf="column !== '!'"
+                                    ;
                                     [ngTemplateOutlet]="tableConfig?.cellRenderers?.[column] ? tableConfig?.cellRenderers?.[column] : autoFormat"
                                     [ngTemplateOutletContext]="{ value: element[column], row: element }">
                                 </ng-container>
@@ -160,7 +222,8 @@ SPDX-License-Identifier: Apache-2.0
                         </span>
                         <ng-container [ngSwitch]="column">
                             <ng-container *ngSwitchCase="'!'">
-                                <span class="hasQualityAlerts" *ngIf="element['activeAlerts'] > 0"
+                                <span class="hasQualityAlerts"
+                                    *ngIf="element['activeAlerts'] > 0"
                                     class="table--notification--cell--content--icon">
                                     <div class="ellipse"></div>
                                 </span>
@@ -177,6 +240,7 @@ SPDX-License-Identifier: Apache-2.0
     {{ pureColumn }}
 </ng-template>
 
-<ng-template #autoFormat let-value="value">
+<ng-template #autoFormat
+    let-value="value">
     {{ value | autoFormat | i18n }}
 </ng-template>

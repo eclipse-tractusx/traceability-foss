@@ -27,8 +27,10 @@ export interface ModalData {
   buttonLeft: string;
   buttonRight: string;
   primaryButtonColour?: 'primary' | 'accent' | 'warn';
+  leftIsConfirm?: boolean;
 
-  template: TemplateRef<unknown>;
+  template?: TemplateRef<unknown>;
+  message?: string;
   onConfirm: (isConfirmed: boolean) => void;
 
   formGroup?: UntypedFormGroup;
