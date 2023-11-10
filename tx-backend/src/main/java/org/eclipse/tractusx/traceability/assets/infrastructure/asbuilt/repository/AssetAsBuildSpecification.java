@@ -72,15 +72,15 @@ public class AssetAsBuildSpecification extends BaseSpecification<AssetAsBuiltEnt
 
         Subquery<Long> sub = cq.subquery(Long.class);
         Root<?> subRoot = sub.from(notificationClass);
-        Join<?,?> assetJoin = subRoot.join("assets");
+        Join<?, ?> assetJoin = subRoot.join("assets");
         sub.select(builder.count(subRoot.get("id")));
-        Join<?, ?> join = root.join(joinTableName);
+        root.join(joinTableName);
         sub.where(
                 builder.and(
                         builder.or(
                                 activeNotificationPredicates(builder, subRoot)
                         ),
-                         builder.equal(assetJoin.get("id"), root.get("id")))
+                        builder.equal(assetJoin.get("id"), root.get("id")))
 
         );
 
