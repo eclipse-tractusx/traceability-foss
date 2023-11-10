@@ -60,7 +60,6 @@ export class AcknowledgeNotificationModalComponent {
     const options: ModalData = {
       title: this.translationContext + '.modal.acknowledgeTitle',
       buttonRight: 'actions.acknowledge',
-      buttonLeft: 'actions.cancel',
 
       template: this.modal,
       onConfirm,
