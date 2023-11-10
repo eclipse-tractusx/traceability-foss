@@ -29,12 +29,10 @@ describe('CancelNotificationModalComponent', () => {
     await renderCancelModal(NotificationStatus.CREATED);
     const title = await waitFor(() => screen.getByText('commonInvestigation.modal.cancellationTitle'));
     const hint2 = await waitFor(() => screen.getByText('commonInvestigation.modal.cancellationHint'));
-    const buttonL = await waitFor(() => screen.getByText('actions.cancel'));
     const buttonR = await waitFor(() => screen.getByText('actions.cancellationConfirm'));
 
     expect(title).toBeInTheDocument();
     expect(hint2).toBeInTheDocument();
-    expect(buttonL).toBeInTheDocument();
     expect(buttonR).toBeInTheDocument();
   });
 

@@ -153,7 +153,6 @@
 }
 
 
-
 as-split-area {
   box-shadow: 0 2px 2px -3px rgba(0, 0, 0, 0.2), 0px 4px 6px -1px rgba(0, 0, 0, 0.14), 0px 1px 8px -2px rgba(0, 0, 0, 0.12);
   border-radius: 20px;
@@ -256,4 +255,11 @@ app-parts, app-other-parts, app-notifications-tab {
 
   }
 
+}
+
+/* Apply correct padding for text value inside of textarea*/
+app-textarea {
+  .mat-mdc-form-field-infix {
+    padding-top: 14px !important;
+  }
 }

@@ -70,7 +70,6 @@ export class CloseNotificationModalComponent {
     const options: ModalData = {
       title: this.translationContext + '.modal.closeTitle',
       buttonRight: 'actions.close',
-      buttonLeft: 'actions.cancel',
 
       template: this.modal,
       formGroup: this.formGroup,
