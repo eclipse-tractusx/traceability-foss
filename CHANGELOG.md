@@ -21,7 +21,14 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Reconfigured all docker images user settings
 - Adapted memory / cpu requests and limits in default values helm file
 - Migrate to not deprecated methods in HTTP security
-- Bumped versions with dependabot recommendations
+- Bump actions/setup-node@ from v3 to v4
+- Bump helm/chart-releaser-action from v1.5.0 to v1.6.0
+- Bump aquasecurity/trivy-action from 0.12.0 to 0.14.0
+- Bump cypress-io/github-action from v6.5.0 to v6.6.0
+- Bump spring-core version from 6.0.12 to 6.0.13
+- Bump compiler-plugin version 3.10.1 to 3.11.0
+- Bump commons-io version 2.13.0 to 2.15.0
+-
 
 ### Removed
 
