@@ -10,10 +10,16 @@ entity DigitalTwinsToImport {
 }
 entity Twin {
     * twinId : String <uuid>
+    * assetId : String <uuid>
     creator : String <author>
     * shells : Collection<Shell>
     * submodels : Collection<SubmodelData<T>>
 }
+ note left
+    twinId == C-X ID
+    assetId == local ID for asset company internal
+ end note
+
 entity Shell {
     descriptions : Collection<ShellDescription>
 }
