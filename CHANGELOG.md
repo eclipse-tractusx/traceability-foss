@@ -21,6 +21,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Reconfigured all docker images user settings
 - Adapted memory / cpu requests and limits in default values helm file
 - Migrate to not deprecated methods in HTTP security
+- Bumped versions with dependabot recommendations
 
 ### Removed
 
