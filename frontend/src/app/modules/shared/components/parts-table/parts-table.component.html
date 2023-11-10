@@ -223,9 +223,8 @@ SPDX-License-Identifier: Apache-2.0
                         <ng-container [ngSwitch]="column">
                             <ng-container *ngSwitchCase="'!'">
                                 <span class="hasQualityAlerts"
-                                    *ngIf="element['activeAlerts'] > 0"
-                                    class="table--notification--cell--content--icon">
-                                    <div class="ellipse"></div>
+                                    *ngIf="element['activeAlerts'] > 0">
+                                    <div class="alert-text">!</div>
                                 </span>
                             </ng-container>
                         </ng-container>

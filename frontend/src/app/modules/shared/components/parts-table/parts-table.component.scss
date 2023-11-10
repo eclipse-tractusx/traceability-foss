@@ -271,13 +271,6 @@ tr.error {
   margin-left: 5px;
 }
 
-.ellipse {
-  height: 8px;
-  width: 8px;
-  border-radius: 50%;
-  @apply bg-primary;
-}
-
 .mdc-data-table__cell,
 .mdc-data-table__header-cell {
   padding: 0 12px 0 12px;
@@ -286,6 +279,11 @@ tr.error {
 .hasQualityAlertsHeader {
   @apply text-secondary;
   padding: 0 !important;
+}
+
+.alert-text {
+  @apply text-secondary;
+  @apply font-semiBold;
 }
 
 .table--header--tooltip {
