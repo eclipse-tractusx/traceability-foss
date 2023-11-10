@@ -53,9 +53,9 @@ public abstract class BaseSpecification<T> implements Specification<T> {
     }
 
     protected Predicate createPredicate(SearchCriteriaFilter criteria, Root<?> root, CriteriaBuilder builder) {
+        String expectedFieldValue = criteria.getValue();
         String fieldName = getJoinTableFieldName(criteria.getKey());
         Path<Object> fieldPath = getFieldPath(root, criteria);
-        String expectedFieldValue = criteria.getValue();
 
         if (SearchCriteriaStrategy.EQUAL.equals(criteria.getStrategy())) {
             return builder.equal(
@@ -88,6 +88,7 @@ public abstract class BaseSpecification<T> implements Specification<T> {
             return builder.greaterThanOrEqualTo(fieldPath.as(LocalDateTime.class),
                     LocalDateTime.of(localDate, LocalTime.MIN));
         }
+
         return null;
     }
 
