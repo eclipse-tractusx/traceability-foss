@@ -33,6 +33,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Bump spring-core version from 6.0.12 to 6.0.13
 - Bump compiler-plugin version 3.10.1 to 3.11.0
 - Bump commons-io version 2.13.0 to 2.15.0
+- Update IRS-helm version from 6.8.0 to 6.9.1
+- Update EDC from 0.5.0 to 0.5.3
 - Added owner param to distinctFilterValues endpoints
 
 ### Removed
