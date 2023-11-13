@@ -20,6 +20,7 @@
 package org.eclipse.tractusx.traceability.common.repository;
 
 import lombok.experimental.UtilityClass;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,12 +30,13 @@ import java.util.Objects;
 public class SqlUtil {
 
     public static String combineWhereClause(String... clauses) {
-        List<String> nonEmptyClauses = Arrays.stream(clauses).filter(clause -> !"".equals(clause)).toList();
+        List<String> nonEmptyClauses = Arrays.stream(clauses).filter(StringUtils::isEmpty).toList();
+
         if (nonEmptyClauses.isEmpty()) {
             return "";
         }
-        String result = " WHERE " + nonEmptyClauses.get(0);
 
+        String result = " WHERE " + nonEmptyClauses.get(0);
         for (int i = 1; i < nonEmptyClauses.size(); i++) {
             result = result.concat(" AND " + nonEmptyClauses.get(i));
         }
