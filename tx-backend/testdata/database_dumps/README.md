@@ -21,7 +21,7 @@ Follow these steps to restore a database from a dump file using pgAdmin:
 
 6. Drag and drop the database dump file from the "database dump" folder for the corresponding environment into the upload area and confirm the action.
 
-7. This error message can be ignored
+7. "Process Failed" error message can be ignored
 
 ### Database dump
 
