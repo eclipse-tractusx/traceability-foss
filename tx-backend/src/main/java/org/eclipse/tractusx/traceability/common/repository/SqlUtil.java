@@ -30,7 +30,7 @@ import java.util.Objects;
 public class SqlUtil {
 
     public static String combineWhereClause(String... clauses) {
-        List<String> nonEmptyClauses = Arrays.stream(clauses).filter(StringUtils::isEmpty).toList();
+        List<String> nonEmptyClauses = Arrays.stream(clauses).filter(StringUtils::isNotEmpty).toList();
 
         if (nonEmptyClauses.isEmpty()) {
             return "";
