@@ -80,6 +80,8 @@ management:
       probes:
         enabled: true
   health:
+    irs-connection:
+      enabled: true  # Tests whether IRS is reachable (IrsConnectionHealthIndicator)
     readinessState:
       enabled: true
     livenessState:
