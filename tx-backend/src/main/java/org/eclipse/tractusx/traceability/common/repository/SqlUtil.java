@@ -21,16 +21,39 @@ package org.eclipse.tractusx.traceability.common.repository;
 
 import lombok.experimental.UtilityClass;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 @UtilityClass
 public class SqlUtil {
+
+    public static String combineWhereClause(String... clauses) {
+        List<String> nonEmptyClauses = Arrays.stream(clauses).filter(clause -> !"".equals(clause)).toList();
+        if (nonEmptyClauses.isEmpty()) {
+            return "";
+        }
+        String result = " WHERE " + nonEmptyClauses.get(0);
+
+        for (int i = 1; i < nonEmptyClauses.size(); i++) {
+            result = result.concat(" AND " + nonEmptyClauses.get(i));
+        }
+
+        return result;
+    }
 
     public static String constructLikeWildcardQuery(String databaseFieldName, String startsWith) {
         if (Objects.isNull(startsWith)) {
             return "";
         }
 
-        return " WHERE ( " + databaseFieldName + " LIKE '" + startsWith + "%')";
+        return " ( " + databaseFieldName + " LIKE '" + startsWith + "%')";
+    }
+
+    public static String constructAndOwnerWildcardQuery(String owner) {
+        if (Objects.isNull(owner)) {
+            return "";
+        }
+        return " owner='" + owner + "' ";
     }
 }

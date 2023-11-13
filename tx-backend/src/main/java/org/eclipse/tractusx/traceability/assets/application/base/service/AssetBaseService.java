@@ -49,5 +49,5 @@ public interface AssetBaseService {
 
     AssetBase updateQualityType(String assetId, QualityType qualityType);
 
-    List<String> getDistinctFilterValues(String fieldName, String startWith, Long size);
+    List<String> getDistinctFilterValues(String fieldName, String startWith, Long size, String owner);
 }

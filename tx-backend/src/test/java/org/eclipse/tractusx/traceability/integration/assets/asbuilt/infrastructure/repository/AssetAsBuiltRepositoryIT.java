@@ -52,7 +52,7 @@ class AssetAsBuiltRepositoryIT extends IntegrationTestSpecification {
         assetsSupport.defaultAssetsStored();
 
         // when
-        List<String> result = assetAsBuiltRepository.getFieldValues(fieldName, startWith, resultLimit);
+        List<String> result = assetAsBuiltRepository.getFieldValues(fieldName, startWith, resultLimit, null);
 
         // then
         assertThat(result)
