@@ -84,7 +84,6 @@ public class AssetAsBuildSpecification extends BaseSpecification<AssetAsBuiltEnt
                         builder.equal(assetJoin.get("id"), root.get("id")))
 
         );
-//            return  builder.lessThan(sub, Long.parseLong(expectedFieldValue));
         return builder.equal(sub, Integer.parseInt(expectedFieldValue));
     }
 
