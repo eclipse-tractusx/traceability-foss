@@ -1,0 +1,8 @@
+[
+  {
+    "message" : "Object of type ContractDefinition already exists with ID = {{jsonPath request.body '$.@id'}}",
+    "type" : "ObjectExists",
+    "path" : null,
+    "invalidValue" : null
+  }
+]

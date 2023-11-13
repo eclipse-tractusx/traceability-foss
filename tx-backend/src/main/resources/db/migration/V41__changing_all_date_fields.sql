@@ -27,4 +27,3 @@ DROP COLUMN manufacturing_date;
 
 ALTER TABLE IF EXISTS assets_as_built
     ADD COLUMN manufacturing_date timestamptz;
-

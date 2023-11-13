@@ -1,0 +1,9 @@
+{
+  "request": {
+    "method": "POST",
+    "urlPath": "/irs/policies"
+  },
+  "response": {
+    "status": 201
+  }
+}

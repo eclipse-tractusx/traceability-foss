@@ -89,7 +89,9 @@ $ npm install -g @angular/cli
 $ yarn install
 ```
 
-Start application with``yarn start`` and navigate to http://localhost:4200.
+Start application with ``yarn start`` and navigate to http://localhost:4200.
+
+Note: If it is desired to run the application with a different port, start application with ``yarn start --port <myPort>`` and navigate to [http://localhost:myPort](http://localhost:myPort) .
 
 ### Application authentication
 
@@ -103,6 +105,16 @@ so that you end up with a well-structured app.
 ### User guide
 
 A detailed [explanation](/docs/src/docs/user/user-manual.adoc) of how to use the application.
+
+### Running tests
+
+#### Unit tests
+
+To run unit tests invoke following command:
+
+```shell
+yarn test:ci
+```
 
 ## The backend application
 

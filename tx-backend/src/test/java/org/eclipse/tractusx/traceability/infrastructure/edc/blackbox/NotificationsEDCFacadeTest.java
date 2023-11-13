@@ -34,7 +34,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.HttpCallService;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.InvestigationsEDCFacade;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.NotificationsEDCFacade;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -51,7 +51,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class InvestigationsEDCFacadeTest {
+class NotificationsEDCFacadeTest {
     @Mock
     HttpCallService httpCallService;
     @Mock
@@ -69,7 +69,7 @@ class InvestigationsEDCFacadeTest {
     @Mock
     EndpointDataReference endpointDataReference;
     @InjectMocks
-    InvestigationsEDCFacade investigationsEDCFacade;
+    NotificationsEDCFacade notificationsEDCFacade;
 
     @Test
     void givenCorrectInvestigationMessage_whenStartEdcTransfer_thenSendIt() throws Exception {
@@ -99,7 +99,7 @@ class InvestigationsEDCFacadeTest {
         when(objectMapper.writeValueAsString(any())).thenReturn("{body}");
 
         // when
-        investigationsEDCFacade.startEdcTransfer(notificationMessage, receiverEdcUrl, senderEdcUrl);
+        notificationsEDCFacade.startEdcTransfer(notificationMessage, receiverEdcUrl, senderEdcUrl);
 
         // then
         verify(httpCallService).sendRequest(any());
@@ -134,7 +134,7 @@ class InvestigationsEDCFacadeTest {
         doThrow(new RuntimeException()).when(httpCallService).sendRequest(any());
 
         // when/then
-        assertThrows(SendNotificationException.class, () -> investigationsEDCFacade.startEdcTransfer(notificationMessage, receiverEdcUrl, senderEdcUrl));
+        assertThrows(SendNotificationException.class, () -> notificationsEDCFacade.startEdcTransfer(notificationMessage, receiverEdcUrl, senderEdcUrl));
     }
 
     @Test
@@ -157,7 +157,7 @@ class InvestigationsEDCFacadeTest {
                 .thenReturn(null);
 
         // when/then
-        assertThrows(ContractNegotiationException.class, () -> investigationsEDCFacade.startEdcTransfer(notificationMessage, receiverEdcUrl, senderEdcUrl));
+        assertThrows(ContractNegotiationException.class, () -> notificationsEDCFacade.startEdcTransfer(notificationMessage, receiverEdcUrl, senderEdcUrl));
     }
 
     @Test
@@ -175,6 +175,6 @@ class InvestigationsEDCFacadeTest {
         when(edcCatalogFacade.fetchCatalogItems(any())).thenReturn(List.of());
 
         // when/then
-        assertThrows(NoCatalogItemException.class, () -> investigationsEDCFacade.startEdcTransfer(notificationMessage, receiverEdcUrl, senderEdcUrl));
+        assertThrows(NoCatalogItemException.class, () -> notificationsEDCFacade.startEdcTransfer(notificationMessage, receiverEdcUrl, senderEdcUrl));
     }
 }

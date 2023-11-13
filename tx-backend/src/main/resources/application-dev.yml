@@ -18,3 +18,60 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 ################################################################################
+server:
+  port: 8082
+
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            authorization-grant-type: client_credentials
+            client-id: ${OAUTH2_CLIENT_ID}
+            client-secret: ${OAUTH2_CLIENT_SECRET}
+            scope: service-acct-role
+          OKTA:
+            client-id: ${OAUTH2_CLIENT_ID}
+            client-secret: ${OAUTH2_CLIENT_SECRET}
+            authorization-grant-type: client_credentials
+            scope: service-acct-role
+        provider:
+          keycloak:
+            token-uri: ${OAUTH2_PROVIDER_TOKEN_URI}
+          OKTA:
+            token-uri: ${OAUTH2_PROVIDER_TOKEN_URI}
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${OAUTH2_JWK_SET_URI:https://default}
+
+resilience4j:
+  retry:
+    instances:
+      irs-get:
+        resultPredicate: 'org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.JobRunning'
+        maxAttempts: 3
+        waitDuration: 30s
+        enableExponentialBackoff: true
+        exponentialBackoffMultiplier: 2
+      registry:
+        maxAttempts: 3
+        waitDuration: 10s
+        enableExponentialBackoff: true
+        exponentialBackoffMultiplier: 1
+
+irs:
+  policies:
+    -
+      policyId: "ID 3.0 Trace"
+      ttl: "2023-09-30T23:59:59.99Z"
+    -
+      policyId: "ID 3.2 Trace"
+      ttl: "2023-09-30T23:59:59.99Z"

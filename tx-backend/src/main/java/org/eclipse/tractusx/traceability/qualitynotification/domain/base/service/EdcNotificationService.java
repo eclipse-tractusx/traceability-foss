@@ -44,7 +44,7 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 @Service
 public class EdcNotificationService {
 
-    private final InvestigationsEDCFacade edcFacade;
+    private final NotificationsEDCFacade edcFacade;
     private final InvestigationRepository investigationRepository;
     private final AlertRepository alertRepository;
     private final DiscoveryService discoveryService;

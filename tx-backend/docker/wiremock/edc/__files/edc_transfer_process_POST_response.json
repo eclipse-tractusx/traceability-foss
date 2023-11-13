@@ -1,0 +1,21 @@
+{
+  "@context": {
+    "edc": "https://w3id.org/edc/v0.0.1/ns/"
+  },
+  "@id": "transfer-id",
+  "@type": "https://w3id.org/edc/v0.0.1/ns/TransferRequest",
+  "protocol": "dataspace-protocol-http",
+  "connectorAddress": "http://provider-address",
+  "connectorId": "provider-id",
+  "contractId": "contract-id",
+  "assetId": "asset-id",
+  "dataDestination": {
+    "type": "data-destination-type"
+  },
+  "privateProperties": {
+    "private-key": "private-value"
+  },
+  "callbackAddresses": [
+    "http://callback/url"
+  ]
+}

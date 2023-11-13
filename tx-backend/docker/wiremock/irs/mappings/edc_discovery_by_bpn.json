@@ -1,0 +1,16 @@
+{
+  "request" : {
+    "method" : "POST",
+    "urlPath" : "/api/administration/connectors/discovery"
+  },
+  "response" : {
+    "status" : 200,
+    "headers" : {
+      "Content-Type" : "application/json"
+    },
+    "bodyFileName" : "edc_discovery_bpn_response.json",
+    "transformers" : [
+      "response-template"
+    ]
+  }
+}

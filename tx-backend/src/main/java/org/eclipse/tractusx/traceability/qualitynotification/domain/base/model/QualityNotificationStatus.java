@@ -40,7 +40,7 @@ public enum QualityNotificationStatus {
     ACCEPTED(QualityNotificationSide.RECEIVER, Set.of(QualityNotificationSide.RECEIVER)),
     DECLINED(QualityNotificationSide.RECEIVER, Set.of(QualityNotificationSide.RECEIVER)),
     CANCELED(QualityNotificationSide.SENDER, Set.of(QualityNotificationSide.SENDER)),
-    CLOSED(QualityNotificationSide.SENDER, of(QualityNotificationSide.SENDER, QualityNotificationSide.RECEIVER));
+    CLOSED(QualityNotificationSide.SENDER, Set.of(QualityNotificationSide.SENDER, QualityNotificationSide.RECEIVER));
 
     private static final Map<QualityNotificationStatus, Set<QualityNotificationStatus>> STATE_MACHINE;
     private static final Set<QualityNotificationStatus> NO_TRANSITION_ALLOWED = emptySet();

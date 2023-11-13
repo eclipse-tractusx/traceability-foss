@@ -1,0 +1,9 @@
+{
+  "request" : {
+    "method" : "POST",
+    "urlPath" : "/api/qualitynotifications/update"
+  },
+  "response" : {
+    "status" : 200
+  }
+}

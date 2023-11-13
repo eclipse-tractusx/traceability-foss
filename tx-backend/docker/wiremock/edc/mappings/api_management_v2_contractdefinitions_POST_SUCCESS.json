@@ -1,0 +1,16 @@
+{
+  "priority": 10,
+  "request": {
+    "method": "POST",
+    "urlPath": "/management/v2/contractdefinitions"},
+  "response": {
+    "status": 200,
+    "bodyFileName": "PolicyDefinition_created_with_success_200.json",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "transformers": [
+      "response-template"
+    ]
+  }
+}

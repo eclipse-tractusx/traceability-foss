@@ -1,0 +1,10 @@
+{
+  "priority": 1,
+  "request": {
+    "method": "DELETE",
+    "urlPathPattern": "/management/v2/policydefinitions/.*"
+  },
+  "response": {
+    "status": 200
+  }
+}

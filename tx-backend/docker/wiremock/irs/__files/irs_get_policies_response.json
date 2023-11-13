@@ -1,0 +1,98 @@
+[
+  {
+    "policyId": "ID 3.0 Trace",
+    "createdOn": "2023-10-13T14:48:18.402213+02:00",
+    "validUntil": "2123-10-13T14:48:18.402234+02:00",
+    "permissions": [
+      {
+        "action": "USE",
+        "constraints": [
+          {
+            "and": [
+              {
+                "leftOperand": "PURPOSE",
+                "operator": "eq",
+                "rightOperand": [
+                  "ID 3.0 Trace"
+                ]
+              }
+            ],
+            "or": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "policyId": "ID 3.1 Trace",
+    "createdOn": "2023-10-13T14:48:18.40276+02:00",
+    "validUntil": "2123-10-13T14:48:18.402772+02:00",
+    "permissions": [
+      {
+        "action": "USE",
+        "constraints": [
+          {
+            "and": [
+              {
+                "leftOperand": "PURPOSE",
+                "operator": "eq",
+                "rightOperand": [
+                  "ID 3.1 Trace"
+                ]
+              }
+            ],
+            "or": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "policyId": "R2_Traceability",
+    "createdOn": "2023-10-13T14:48:18.402777+02:00",
+    "validUntil": "2123-10-13T14:48:18.402779+02:00",
+    "permissions": [
+      {
+        "action": "USE",
+        "constraints": [
+          {
+            "and": [
+              {
+                "leftOperand": "PURPOSE",
+                "operator": "eq",
+                "rightOperand": [
+                  "R2_Traceability"
+                ]
+              }
+            ],
+            "or": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "policyId": "FrameworkAgreement.traceability",
+    "createdOn": "2023-10-13T14:48:18.402782+02:00",
+    "validUntil": "2123-10-13T14:48:18.402784+02:00",
+    "permissions": [
+      {
+        "action": "USE",
+        "constraints": [
+          {
+            "and": [
+              {
+                "leftOperand": "PURPOSE",
+                "operator": "eq",
+                "rightOperand": [
+                  "FrameworkAgreement.traceability"
+                ]
+              }
+            ],
+            "or": []
+          }
+        ]
+      }
+    ]
+  }
+]

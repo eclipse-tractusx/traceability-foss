@@ -58,7 +58,7 @@ import static org.eclipse.tractusx.traceability.common.config.JsonLdConfiguratio
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class InvestigationsEDCFacade {
+public class NotificationsEDCFacade {
 
     public static final String DEFAULT_PROTOCOL = "dataspace-protocol-http";
 
@@ -109,7 +109,7 @@ public class InvestigationsEDCFacade {
                     .orElseThrow()
                     .getContractAgreementId();
         } catch (Exception e) {
-            throw new ContractNegotiationException("Failed to negotiate contract agreement. ", e);
+            throw new ContractNegotiationException("Failed to negotiate contract agreement.", e);
         }
     }
 
@@ -138,7 +138,7 @@ public class InvestigationsEDCFacade {
         }
     }
 
-    // TODO this method should be completly handled by EDCNotificationFactory.createEdcNotification which is part of this method currently
+    // TODO this method should be completely handled by EDCNotificationFactory.createEdcNotification which is part of this method currently
     private Request buildNotificationRequestNew(
             final QualityNotificationMessage notification,
             final String senderEdcUrl,

@@ -17,4 +17,3 @@ ALTER TABLE investigation_notification
     RENAME COLUMN receiver_manufacturer_name TO send_to_name;
 
 
-

@@ -38,7 +38,7 @@ import java.util.List;
 public class QualityNotificationMapper {
 
     /**
-     * Creates an QualityNotification object representing the notification received by the receiver for a given notification.
+     * Creates a QualityNotification object representing the notification received by the receiver for a given notification.
      *
      * @param bpn          the BPN of the notification
      * @param description  the description of the notification

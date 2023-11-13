@@ -1,0 +1,16 @@
+{
+  "request" : {
+    "method" : "POST",
+    "urlPath" : "/api/v2/transferprocesses"
+  },
+  "response" : {
+    "status" : 200,
+    "headers" : {
+      "Content-Type" : "application/json"
+    },
+    "bodyFileName" : "edc_transfer_process_POST_response.json",
+    "transformers" : [
+      "response-template"
+    ]
+  }
+}

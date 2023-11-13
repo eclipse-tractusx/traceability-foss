@@ -1,0 +1,16 @@
+{
+  "request" : {
+    "method" : "POST",
+    "urlPath" : "/administration/connectors/discovery/search",
+    "bodyPatterns" : [ {
+      "matchesJsonPath": "$.types[?(@ == 'bpn')]"
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "headers" : {
+      "Content-Type" : "application/json"
+    },
+    "bodyFileName" : "discovery_finder_bpn_endpoints_response.json"
+  }
+}

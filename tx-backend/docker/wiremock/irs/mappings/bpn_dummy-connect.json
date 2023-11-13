@@ -1,0 +1,9 @@
+{
+  "request" : {
+    "method" : "POST",
+    "urlPathPattern" : "/bpn/(.)*/dummy-connect"
+  },
+  "response" : {
+    "status" : 201
+  }
+}

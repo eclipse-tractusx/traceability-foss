@@ -1,0 +1,16 @@
+{
+  "request" : {
+    "method" : "POST",
+    "urlPath" : "/api/v2/contractnegotiations"
+  },
+  "response" : {
+    "status" : 200,
+    "headers" : {
+      "Content-Type" : "application/json"
+    },
+    "bodyFileName" : "edc_contract_negotiation_POST_response.json",
+    "transformers" : [
+      "response-template"
+    ]
+  }
+}

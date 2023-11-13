@@ -59,7 +59,7 @@ server:
   port: 9998
 management:
   server:
-    port: 8082
+    port: 9999
 
 logging:
   level:

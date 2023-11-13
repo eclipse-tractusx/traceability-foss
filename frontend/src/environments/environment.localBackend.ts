@@ -26,6 +26,6 @@ export const environment = {
   multiTenant: true,
   authDisabled: false,
   mockService: false,
-  keycloakUrl: 'https://centralidp.dev.demo.catena-x.net/auth',
-  apiUrl: 'http://localhost:8080/api',
+  keycloakUrl: 'http://localhost:4011',
+  apiUrl: 'http://localhost:8082/api',
 };

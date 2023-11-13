@@ -1,7 +1,6 @@
+= Trace-X Documentation
 
-# Trace-X Documentation
-
-## Notice
+== Notice
 
 This work is licensed under the [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0).
 
@@ -15,18 +14,18 @@ This work is licensed under the [Apache-2.0](https://www.apache.org/licenses/LIC
 
 * Source URL: https://github.com/eclipse-tractusx/traceability-foss
 
-## Administration Guide
+== Administration Guide
 xref:administration/administration-guide.adoc[Administration Guide]
 
-## Users Manual
+== Users Manual
 
 xref:user/user-manual.adoc[Users Manual]
 
-## API-Documentation
+== API-Documentation
 
 xref:api-specification/api-specification.adoc[OpenApi specification]
 
-## Architecture Documentation (arc42)
+== Architecture Documentation (arc42)
 
 - xref:arc42/index.adoc[Single chapters]
 - xref:arc42/full.adoc[Full document]

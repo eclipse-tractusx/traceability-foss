@@ -1,0 +1,18 @@
+{
+  "@context": {
+    "edc": "https://w3id.org/edc/v0.0.1/ns/"
+  },
+  "@type": "https://w3id.org/edc/v0.0.1/ns/ContractNegotiation",
+  "@id": "negotiation-id",
+  "edc:type": "PROVIDER",
+  "edc:protocol": "dataspace-protocol-http",
+  "edc:counterPartyId": "counter-party-id",
+  "edc:counterPartyAddress": "http://counter/party/address",
+  "edc:state": "VERIFIED",
+  "edc:contractAgreementId": "contractAgreementId",
+  "edc:errorDetail": "eventual-error-detail",
+  "createdAt": 1688465655,
+  "edc:callbackAddresses": [
+    "http://callback/url"
+  ]
+}

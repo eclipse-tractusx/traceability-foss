@@ -1,0 +1,25 @@
+{
+  "@context": {
+    "edc": "https://w3id.org/edc/v0.0.1/ns/"
+  },
+  "@type": "https://w3id.org/edc/v0.0.1/ns/TransferProcess",
+  "@id": "process-id",
+  "correlationId": "correlation-id",
+  "type": "PROVIDER",
+  "state": "STARTED",
+  "stateTimestamp": 1688465655,
+  "assetId": "asset-id",
+  "connectorId": "connectorId",
+  "contractId": "contractId",
+  "dataDestination": {
+    "type": "data-destination-type"
+  },
+  "privateProperties": {
+    "private-key": "private-value"
+  },
+  "errorDetail": "eventual-error-detail",
+  "createdAt": 1688465655,
+  "callbackAddresses": [
+    "http://callback/url"
+  ]
+}

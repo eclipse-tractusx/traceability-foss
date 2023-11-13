@@ -27,7 +27,7 @@ public record QualityNotificationId(Long value) {
 
     public QualityNotificationId {
         if (Objects.isNull(value)) {
-            throw new IllegalArgumentException("Investigation id must be present");
+            throw new IllegalArgumentException("Notification id must be present");
         }
     }
 }

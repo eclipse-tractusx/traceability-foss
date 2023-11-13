@@ -1,0 +1,16 @@
+{
+  "request" : {
+    "method" : "GET",
+    "urlPath" : "/api/v2/transferprocesses/transfer-id/state"
+  },
+  "response" : {
+    "status" : 200,
+    "headers" : {
+      "Content-Type" : "application/json"
+    },
+    "bodyFileName" : "edc_transfer_process_state_GET_response.json",
+    "transformers" : [
+      "response-template"
+    ]
+  }
+}

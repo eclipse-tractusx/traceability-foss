@@ -1,0 +1,22 @@
+{
+  "priority": 1,
+  "request": {
+    "method": "POST",
+    "urlPath": "/management/v2/contractdefinitions",
+    "bodyPatterns": [
+      {
+        "matchesJsonPath": "$.[?(@.@id == 'definition-id-already-exists')]"
+      }
+    ]
+  },
+  "response": {
+    "status": 409,
+    "bodyFileName": "ContractDefinition_already_exists_with_ID_409.json",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "transformers": [
+      "response-template"
+    ]
+  }
+}

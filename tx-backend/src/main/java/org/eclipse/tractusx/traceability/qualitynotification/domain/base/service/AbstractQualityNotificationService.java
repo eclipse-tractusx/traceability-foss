@@ -70,8 +70,8 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
     @Override
     public void approve(Long notificationId) {
         QualityNotification notification = loadOrNotFoundException(new QualityNotificationId(notificationId));
-        final QualityNotification approvedInvestigation = getNotificationPublisherService().approveNotification(notification);
-        getQualityNotificationRepository().updateQualityNotificationEntity(approvedInvestigation);
+        final QualityNotification approvedNotification = getNotificationPublisherService().approveNotification(notification);
+        getQualityNotificationRepository().updateQualityNotificationEntity(approvedNotification);
     }
 
     private PageResult<QualityNotification> getQualityNotificationsPageResult(Pageable pageable, QualityNotificationSide alertSide) {
