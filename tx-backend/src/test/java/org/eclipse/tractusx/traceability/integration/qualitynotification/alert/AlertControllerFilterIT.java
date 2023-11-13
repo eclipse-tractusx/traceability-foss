@@ -20,20 +20,45 @@
 package org.eclipse.tractusx.traceability.integration.qualitynotification.alert;
 
 import io.restassured.http.ContentType;
+import org.checkerframework.checker.units.qual.A;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertNotificationsSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
 import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
+import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.ACCEPTED;
+import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.ACKNOWLEDGED;
+import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.CANCELED;
+import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.CLOSED;
+import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.CREATED;
+import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.DECLINED;
+import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.RECEIVED;
+import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.SENT;
+import static org.hamcrest.Matchers.equalTo;
 
 
 class AlertControllerFilterIT extends IntegrationTestSpecification {
     @Autowired
     AlertNotificationsSupport alertNotificationsSupport;
+
+    @Autowired
+    AlertsSupport alertsSupport;
+
+    @Autowired
+    AssetsSupport assetsSupport;
+
+    @Autowired
+    JpaAssetAsBuiltRepository jpaAssetAsBuiltRepository;
 
     @Test
     void givenAlerts_whenProvideNoFilter_thenReturnAll() throws JoseException {
@@ -268,4 +293,36 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
                 .body("totalItems", Matchers.is(4))
                 .body("content", Matchers.hasSize(4));
     }
+
+    @Test
+    void givenAlerts_whenGetAlertsByAssetId_thenReturnOnlyRelatedAlerts() throws JoseException {
+        // Given
+        assetsSupport.defaultAssetsStored();
+        AssetAsBuiltEntity assetAsBuilt = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").orElseThrow();
+        AssetAsBuiltEntity assetAsBuilt2 = jpaAssetAsBuiltRepository.findById("urn:uuid:7fa65f10-9dc1-49fe-818a-09c7313a4562").orElseThrow();
+        alertsSupport.storeAlertWithStatusAndAssets(CREATED, List.of(assetAsBuilt), null);
+        alertsSupport.storeAlertWithStatusAndAssets(SENT, List.of(), null);
+        alertsSupport.storeAlertWithStatusAndAssets(RECEIVED, List.of(), null);
+        alertsSupport.storeAlertWithStatusAndAssets(ACKNOWLEDGED, List.of(), null);
+        alertsSupport.storeAlertWithStatusAndAssets(ACCEPTED, List.of(), null);
+        alertsSupport.storeAlertWithStatusAndAssets(DECLINED, List.of(assetAsBuilt2), null);
+        alertsSupport.storeAlertWithStatusAndAssets(CANCELED, List.of(), null);
+        alertsSupport.storeAlertWithStatusAndAssets(CLOSED, List.of(assetAsBuilt), null);
+
+        final String filter = "assetId,EQUAL,urn:uuid:7fa65f10-9dc1-49fe-818a-09c7313a4562,AND";
+
+        // When
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .when()
+                .param("filter", filter)
+                .get("/api/alerts")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .assertThat()
+                .body("totalItems", equalTo(1));
+    }
+
 }

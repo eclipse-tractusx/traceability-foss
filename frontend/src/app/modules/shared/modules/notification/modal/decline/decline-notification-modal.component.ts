@@ -70,7 +70,6 @@ export class DeclineNotificationModalComponent {
     const options: ModalData = {
       title: this.translationContext + '.modal.declineTitle',
       buttonRight: 'actions.decline',
-      buttonLeft: 'actions.cancel',
 
       template: this.modal,
       formGroup: this.formGroup,

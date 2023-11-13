@@ -170,7 +170,8 @@ export enum FilterOperator {
   AT_LOCAL_DATE = 'AT_LOCAL_DATE',
   STARTS_WITH = 'STARTS_WITH',
   BEFORE_LOCAL_DATE = 'BEFORE_LOCAL_DATE',
-  AFTER_LOCAL_DATE = 'AFTER_LOCAL_DATE'
+  AFTER_LOCAL_DATE = 'AFTER_LOCAL_DATE',
+  NOTIFICATION_COUNT_EQUAL = 'NOTIFICATION_COUNT_EQUAL'
 }
 
 export function getFilterOperatorValue(operator: FilterOperator) {
