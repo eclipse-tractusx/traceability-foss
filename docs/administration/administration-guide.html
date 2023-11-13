@@ -1017,7 +1017,7 @@ You can define the URLs as well as most of the secrets yourself.</p>
       <span class="na">cpu</span><span class="pi">:</span> <span class="s">500m</span>
       <span class="na">memory</span><span class="pi">:</span> <span class="s">512Mi</span>
     <span class="na">requests</span><span class="pi">:</span>
-      <span class="na">cpu</span><span class="pi">:</span> <span class="s">125m</span>
+      <span class="na">cpu</span><span class="pi">:</span> <span class="s">250m</span>
       <span class="na">memory</span><span class="pi">:</span> <span class="s">512Mi</span>
 
   <span class="na">nodeSelector</span><span class="pi">:</span> <span class="pi">{}</span>
@@ -1119,7 +1119,7 @@ You can define the URLs as well as most of the secrets yourself.</p>
   <span class="na">resources</span><span class="pi">:</span>
     <span class="na">limits</span><span class="pi">:</span>
       <span class="na">cpu</span><span class="pi">:</span> <span class="s">1000m</span>
-      <span class="na">memory</span><span class="pi">:</span> <span class="s">1Gi</span>
+      <span class="na">memory</span><span class="pi">:</span> <span class="s">512Mi</span>
     <span class="na">requests</span><span class="pi">:</span>
       <span class="na">cpu</span><span class="pi">:</span> <span class="s">256m</span>
       <span class="na">memory</span><span class="pi">:</span> <span class="s">512Mi</span>
@@ -1139,6 +1139,14 @@ You can define the URLs as well as most of the secrets yourself.</p>
     <span class="na">database</span><span class="pi">:</span> <span class="s2">"</span><span class="s">trace"</span>
     <span class="na">username</span><span class="pi">:</span> <span class="s2">"</span><span class="s">traceuser"</span>
 
+  <span class="na">resources</span><span class="pi">:</span>
+    <span class="na">limits</span><span class="pi">:</span>
+      <span class="na">cpu</span><span class="pi">:</span> <span class="s">500m</span>
+      <span class="na">memory</span><span class="pi">:</span> <span class="s">512Mi</span>
+    <span class="na">requests</span><span class="pi">:</span>
+      <span class="na">cpu</span><span class="pi">:</span> <span class="s">250m</span>
+      <span class="na">memory</span><span class="pi">:</span> <span class="s">512Mi</span>
+
 <span class="c1">#########################</span>
 <span class="c1"># IRS configuration     #</span>
 <span class="c1">#########################</span>
@@ -1146,6 +1154,14 @@ You can define the URLs as well as most of the secrets yourself.</p>
   <span class="na">enabled</span><span class="pi">:</span> <span class="no">false</span>  <span class="c1"># &lt;irs-helm.enabled&gt;</span>
   <span class="na">nameOverride</span><span class="pi">:</span> <span class="s2">"</span><span class="s">tracex-irs"</span>
   <span class="na">fullnameOverride</span><span class="pi">:</span> <span class="s2">"</span><span class="s">tracex-irs"</span>
+
+  <span class="na">resources</span><span class="pi">:</span>
+    <span class="na">limits</span><span class="pi">:</span>
+      <span class="na">cpu</span><span class="pi">:</span> <span class="s">500m</span>
+      <span class="na">memory</span><span class="pi">:</span> <span class="s">512Mi</span>
+    <span class="na">requests</span><span class="pi">:</span>
+      <span class="na">cpu</span><span class="pi">:</span> <span class="s">250m</span>
+      <span class="na">memory</span><span class="pi">:</span> <span class="s">512Mi</span>
 <span class="c1">###################################</span>
 <span class="c1"># EDC Consumer configuration  #</span>
 <span class="c1">###################################</span>
@@ -1155,6 +1171,14 @@ You can define the URLs as well as most of the secrets yourself.</p>
   <span class="na">fullnameOverride</span><span class="pi">:</span> <span class="s2">"</span><span class="s">tracex-consumer-edc"</span>
   <span class="na">participant</span><span class="pi">:</span>
     <span class="na">id</span><span class="pi">:</span> <span class="s2">"</span><span class="s">BPN"</span>
+
+  <span class="na">resources</span><span class="pi">:</span>
+    <span class="na">limits</span><span class="pi">:</span>
+      <span class="na">cpu</span><span class="pi">:</span> <span class="s">500m</span>
+      <span class="na">memory</span><span class="pi">:</span> <span class="s">512Mi</span>
+    <span class="na">requests</span><span class="pi">:</span>
+      <span class="na">cpu</span><span class="pi">:</span> <span class="s">250m</span>
+      <span class="na">memory</span><span class="pi">:</span> <span class="s">512Mi</span>
 
   <span class="c1">##################################</span>
   <span class="c1"># EDC Postgres Configuration #</span>
@@ -1179,7 +1203,15 @@ You can define the URLs as well as most of the secrets yourself.</p>
     <span class="na">postgresPassword</span><span class="pi">:</span> <span class="s2">"</span><span class="s">CHANGEME"</span>
     <span class="na">password</span><span class="pi">:</span> <span class="s2">"</span><span class="s">CHANGEME"</span>
     <span class="na">database</span><span class="pi">:</span> <span class="s2">"</span><span class="s">trace"</span>
-    <span class="na">username</span><span class="pi">:</span> <span class="s2">"</span><span class="s">traceuser"</span></code></pre>
+    <span class="na">username</span><span class="pi">:</span> <span class="s2">"</span><span class="s">traceuser"</span>
+
+  <span class="na">resources</span><span class="pi">:</span>
+    <span class="na">limits</span><span class="pi">:</span>
+      <span class="na">cpu</span><span class="pi">:</span> <span class="s">500m</span>
+      <span class="na">memory</span><span class="pi">:</span> <span class="s">512Mi</span>
+    <span class="na">requests</span><span class="pi">:</span>
+      <span class="na">cpu</span><span class="pi">:</span> <span class="s">250m</span>
+      <span class="na">memory</span><span class="pi">:</span> <span class="s">512Mi</span></code></pre>
 </div>
 </div>
 <div class="sect4">
@@ -1363,7 +1395,7 @@ and <a href="https://cloud.google.com/blog/products/containers-kubernetes/kubern
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-10-27 12:38:08 UTC
+Last updated 2023-11-13 08:30:00 UTC
 </div>
 </div>
 </body>

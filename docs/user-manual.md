@@ -22,17 +22,17 @@ A list of user or technical roles can be found below:
 
 Available roles: <https://portal.int.demo.catena-x.net/appusermanagement/3bbc88ae-5f0d-45cb-ab3e-8c7602ff58b4>
 
-![app_roles](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/usermanual/app_roles.png)
+![app_roles](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/app_roles.png)
 
 Assignment of roles: <https://portal.int.demo.catena-x.net/documentation/?path=docs%2F03.+User+Management%2F02.+Modify+User+Account%2F03.+User+Permissions.md>
 
-![assign_app_roles](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/usermanual/assign_app_roles.png)
+![assign_app_roles](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/assign_app_roles.png)
 
 #### Catena-X portal roles
 
 Role details: <https://portal.int.demo.catena-x.net/role-details>
 
-![cx_portal_roles](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/usermanual/cx_portal_roles.png)
+![cx_portal_roles](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/cx_portal_roles.png)
 
 User accounts: <https://portal.int.demo.catena-x.net/documentation/?path=docs%2F03.+User+Management%2F01.+User+Account>
 

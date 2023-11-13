@@ -234,7 +234,7 @@ backend:
       cpu: 500m
       memory: 512Mi
     requests:
-      cpu: 125m
+      cpu: 250m
       memory: 512Mi
 
   nodeSelector: {}
@@ -336,7 +336,7 @@ pgadmin4:
   resources:
     limits:
       cpu: 1000m
-      memory: 1Gi
+      memory: 512Mi
     requests:
       cpu: 256m
       memory: 512Mi
@@ -356,6 +356,14 @@ postgresql:
     database: "trace"
     username: "traceuser"
 
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 250m
+      memory: 512Mi
+
 #########################
 # IRS configuration     #
 #########################
@@ -363,6 +371,14 @@ irs-helm:
   enabled: false  # <irs-helm.enabled>
   nameOverride: "tracex-irs"
   fullnameOverride: "tracex-irs"
+
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 250m
+      memory: 512Mi
 ###################################
 # EDC Consumer configuration  #
 ###################################
@@ -372,6 +388,14 @@ tractusx-connector:
   fullnameOverride: "tracex-consumer-edc"
   participant:
     id: "BPN"
+
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 250m
+      memory: 512Mi
 
   ##################################
   # EDC Postgres Configuration #
@@ -397,6 +421,14 @@ edc-postgresql:
     password: "CHANGEME"
     database: "trace"
     username: "traceuser"
+
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 250m
+      memory: 512Mi
 ```
 
 #### Values explained
