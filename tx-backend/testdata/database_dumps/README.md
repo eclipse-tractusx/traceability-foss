@@ -37,4 +37,16 @@ In this project, there are two database dumps available: `database_dump_a` and `
     - `e2e-b`
     - `int-b`
 
+#### How to create a database dump
 
+To create a database dump, follow these steps:
+
+1. Open pgAdmin and connect to the database server.
+
+2. Right-click on the database you want to dump.
+
+3. Select "Backup."
+
+4. Choose the appropriate options, such as the filename for the dump file.
+
+5. Click "Backup" to generate the dump file.
