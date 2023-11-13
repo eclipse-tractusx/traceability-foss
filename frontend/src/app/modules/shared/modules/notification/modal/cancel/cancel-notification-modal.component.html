@@ -24,6 +24,6 @@ SPDX-License-Identifier: Apache-2.0
 
   <form [formGroup]="formGroup" class="mt-4">
     <mat-hint>{{ translationContext + '.modal.cancellationHint' | i18n }}</mat-hint>
-    <app-textarea formControlName="notificationId" [label]="notification?.id"></app-textarea>
+    <app-input formControlName="notificationId" [label]="notification?.id"></app-input>
   </form>
 </ng-template>
