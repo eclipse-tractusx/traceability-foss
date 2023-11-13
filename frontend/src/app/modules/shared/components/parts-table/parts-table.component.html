@@ -67,7 +67,6 @@ SPDX-License-Identifier: Apache-2.0
                     <app-multiselect *ngIf="filter.headerKey!==filterKey"
                                      [placeholder]="'multiSelect.placeholder' | i18n"
                                      [options]="filter.option"
-                                     [textSearch]='filter.isTextSearch'
                                      [isDate]='filter.isDate'
                                      [filterColumn]="filter.filterKey"
                                      [isAsBuilt] = "mainAspectType === MainAspectType.AS_BUILT"

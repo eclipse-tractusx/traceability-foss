@@ -28,49 +28,50 @@ export const DATE_FILTER_KEYS = [ 'manufacturingDate', 'functionValidFrom', 'fun
 
 // TODO: Refactor function as soon as multi value filter is supported
 export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, params: HttpParams, filterOperator: string): HttpParams {
-  const semanticDataModelKey = 'semanticDataModel';
+
   for (const key in filter) {
     let operator: string;
     const filterValues: string = filter[key];
-    if (key !== semanticDataModelKey) {
-      if (filterValues.length !== 0) {
-        if (isDateFilter(key)) {
-          if (isDateRangeFilter(filterValues)) {
-            const [ startDate, endDate ] = filterValues.split(',');
-            if (isSameDate(startDate, endDate)) {
-              operator = getFilterOperatorValue(FilterOperator.AT_LOCAL_DATE);
-              params = params.append('filter', `${ key },${ operator },${ startDate },${ filterOperator }`);
-              continue;
-            }
-            let endDateOperator = getFilterOperatorValue(FilterOperator.BEFORE_LOCAL_DATE);
-            operator = getFilterOperatorValue((FilterOperator.AFTER_LOCAL_DATE));
-            params = params.append('filter', `${ key },${ operator },${ startDate },${ filterOperator }`);
-            params = params.append('filter', `${ key },${ endDateOperator },${ endDate },${ filterOperator }`);
-            continue;
-          } else {
-            operator = getFilterOperatorValue(FilterOperator.AFTER_LOCAL_DATE);
-          }
-        } else {
-          if (isNotificationCountFilter(key)) {
-            operator = getFilterOperatorValue(FilterOperator.NOTIFICATION_COUNT_EQUAL);
-          } else {
-            operator = getFilterOperatorValue(FilterOperator.STARTS_WITH);
-          }
-
+    // has date
+    if (isDateFilter(key)) {
+      if (isDateRangeFilter(filterValues)) {
+        const [ startDate, endDate ] = filterValues.split(',');
+        if (isSameDate(startDate, endDate)) {
+          operator = getFilterOperatorValue(FilterOperator.AT_LOCAL_DATE);
+          params = params.append('filter', `${ key },${ operator },${ startDate },${ filterOperator }`);
+          continue;
         }
-        params = params.append('filter', `${ key },${ operator },${ filterValues },${ filterOperator }`);
-      }
-    } else {
-      operator = getFilterOperatorValue(FilterOperator.EQUAL);
-      if (Array.isArray(filterValues)) {
-        for (let value of filterValues) {
-          params = params.append('filter', `${ key },${ operator },${ value },${ filterOperator }`);
-        }
+        let endDateOperator = getFilterOperatorValue(FilterOperator.BEFORE_LOCAL_DATE);
+        operator = getFilterOperatorValue((FilterOperator.AFTER_LOCAL_DATE));
+        params = params.append('filter', `${ key },${ operator },${ startDate },${ filterOperator }`);
+        params = params.append('filter', `${ key },${ endDateOperator },${ endDate },${ filterOperator }`);
+        continue;
       } else {
-        params = params.append('filter', `${ key },${ operator },${ filterValues },${ filterOperator }`);
+        operator = getFilterOperatorValue(FilterOperator.AFTER_LOCAL_DATE);
       }
     }
+
+    // has multiple values
+    if (isStartsWithFilter(key) && Array.isArray(filter[key])) {
+      operator = getFilterOperatorValue(FilterOperator.EQUAL);
+
+      for (const value of filter[key]) {
+        params = params.append('filter', `${ key },${ operator },${ value },${ filterOperator }`);
+      }
+    }
+
+    // has single value
+    if (isStartsWithFilter(key) && !Array.isArray(filter[key])) {
+      operator = getFilterOperatorValue(FilterOperator.STARTS_WITH);
+      params = params.append('filter', `${ key },${ operator },${ filterValues },${ filterOperator }`);
+    }
+
+    if (isNotificationCountFilter(key)) {
+      operator = getFilterOperatorValue(FilterOperator.NOTIFICATION_COUNT_EQUAL);
+    }
+
   }
+
   return params;
 }
 
@@ -103,17 +104,18 @@ export function toAssetFilter(formValues: any, isAsBuilt: boolean): AssetAsPlann
     if (formValues[key] !== null && formValues[key] !== undefined) {
       if ('activeAlerts' === key) {
         transformedFilter['qualityAlertIdsInStatusActive'] = formValues[key];
+        continue;
       }
       if ('activeInvestigations' === key) {
         transformedFilter['qualityInvestigationIdsInStatusActive'] = formValues[key];
-      } else {
-        transformedFilter[key] = formValues[key];
+        continue;
       }
-
+      transformedFilter[key] = formValues[key];
     }
   }
 
   const filterIsSet = Object.values(transformedFilter).some(value => value !== undefined && value !== null);
+  console.log('filter', JSON.stringify(transformedFilter));
   if (filterIsSet) {
     if (isAsBuilt) {
       return transformedFilter as AssetAsBuiltFilter;

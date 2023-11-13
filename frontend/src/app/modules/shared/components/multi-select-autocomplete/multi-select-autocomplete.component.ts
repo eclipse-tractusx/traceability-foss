@@ -53,8 +53,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   selectedOptions;
 
   @Input()
-  textSearch = true;
-  @Input()
   isDate = false;
 
   // New Options
@@ -88,7 +86,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   filteredOptions: Array<any> = [];
   selectedValue: Array<any> = [];
   selectAllChecked = false;
-  displayString = '';
 
   startDate: Date;
   endDate: Date;
@@ -105,10 +102,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     this._adapter.setLocale(locale);
   }
 
-  shouldHideTextSearchOptionField(): boolean {
-    return !this.textSearch || this.textSearch && (this.searchElement === null || this.searchElement === '');
-  }
-
   ngOnInit(): void {
     this.searchElementChange.subscribe((value) => {
       if (this.delayTimeoutId) {
@@ -121,14 +114,8 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   }
 
   ngOnChanges(): void {
-    /*
-    if (this.selectedOptions) {
-      this.selectedValue = this.selectedOptions;
-      this.formControl.patchValue(this.selectedValue);
-    } else if (this.formControl?.value) {*/
       this.selectedValue = this.formControl.value;
       this.formControl.patchValue(this.selectedValue);
-    //}
   }
 
   toggleSelectAll = function(selectCheckbox: any): void {
@@ -169,7 +156,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
       this.isLoadingSuggestions = true;
 
       // when delay ended
-      if (this.textSearch) {
+   /*   if (this.textSearch) {*/
 
         const tableOwner = this.getOwnerOfTable(this.partTableType);
 
@@ -185,7 +172,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
 
         this.delayTimeoutId = null;
         this.isLoadingSuggestions = false;
-      } else {
+   /*   }*/ /*else {
         this.filteredOptions = this.options.filter(
           item => item[this.display].toLowerCase().indexOf(value.toLowerCase()) > -1,
         );
@@ -196,7 +183,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
           }
         });
         this.searchElement = '';
-      }
+      }*/
       this.delayTimeoutId = null;
       this.isLoadingSuggestions = false;
     }, 500);
@@ -213,12 +200,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
       filteredValues.push(option.value);
     });
     return filteredValues;
-  }
-
-// this seems to be the function that updates the value of a textsearch which would be sent to the request (maybe formControl)
-  updateSearchTextOptions(): void {
-    this.formControl.patchValue(this.searchElement);
-    this.selectedValue = this.searchElement as unknown as [];
   }
 
   startDateSelected(event: MatDatepickerInputEvent<Date>) {
@@ -251,40 +232,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     this.filterItem('');
   }
 
-// TODO Dont understand what this function is good for
-  onDisplayString(): string {
-    this.displayString = '';
-    if (this.textSearch) {
-      this.displayString = this.searchElement || 'All';
-      return this.displayString;
-    }
 
-    if (this.selectedValue?.length) {
-        this.handleMultipleSelectDisplay([]);
-    }
-    return this.displayString;
-  }
-
-  private handleMultipleSelectDisplay(displayOption: any) {
-    const options = displayOption;
-    // Multi select display
-    for (let i = 0; i < this.labelCount; i++) {
-      options[i] = this.options.filter(
-        option => option.value === this.selectedValue[i],
-      )[0];
-    }
-    if (options.length) {
-      for (let i = 0; i < options.length; i++) {
-        this.displayString += options[i][this.display] + ',';
-      }
-      this.displayString = this.displayString.slice(0, -1);
-      if (this.selectedValue.length === this.options.length) {
-        this.displayString = 'All';
-      } else if (this.selectedValue.length > 1) {
-        this.displayString += ` (+${ this.selectedValue.length - this.labelCount } others)`;
-      }
-    }
-  }
 
   onSelectionChange(val: any) {
 
