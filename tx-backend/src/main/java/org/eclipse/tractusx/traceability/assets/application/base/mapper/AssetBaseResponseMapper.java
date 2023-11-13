@@ -135,7 +135,7 @@ public class AssetBaseResponseMapper {
         return SemanticDataModelResponse.valueOf(semanticDataModel.name());
     }
 
-    protected static List<Long> gettNotificationIdsInActiveState(List<QualityNotification> notifications) {
+    protected static List<Long> getNotificationIdsInActiveState(List<QualityNotification> notifications) {
         return emptyIfNull(notifications).stream()
                 .filter(QualityNotification::isActiveState)
                 .map(QualityNotification::getNotificationId)

@@ -22,4 +22,11 @@
 .textarea--container {
   display: flex;
   flex-direction: column;
+  textarea{
+    min-height:280px;
+    max-height:450px;
+    margin-top:7px;
+  }
+
 }
+

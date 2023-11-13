@@ -98,7 +98,7 @@ export class PartsAssembler {
       partId: partId, // is partInstance, BatchId, jisNumber
       customerPartId: customerPartId,
       nameAtCustomer: nameAtCustomer,
-      manufacturingDate: manufacturingDate,
+      manufacturingDate: manufacturingDate === "null" ? null : manufacturingDate ,
       manufacturingCountry: manufacturingCountry,
 
       // tractionBatteryCode
@@ -107,14 +107,14 @@ export class PartsAssembler {
       subcomponents: subcomponents,
 
       // as planned
-      validityPeriodFrom: validityPeriodFrom,
-      validityPeriodTo: validityPeriodTo,
+      validityPeriodFrom: validityPeriodFrom === "null" ? null : validityPeriodFrom,
+      validityPeriodTo: validityPeriodTo === "null" ? null :  validityPeriodTo,
 
       //partSiteInformationAsPlanned
       catenaXSiteId: catenaXSiteId,
       psFunction: psFunction,
-      functionValidFrom: functionValidFrom,
-      functionValidUntil: functionValidUntil,
+      functionValidFrom:  functionValidFrom=== "null" ? null :  functionValidFrom,
+      functionValidUntil: functionValidUntil=== "null" ? null :   functionValidUntil,
 
       // count of notifications
       activeAlerts: partResponse.qualityAlertIdsInStatusActive,

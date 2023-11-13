@@ -33,6 +33,7 @@ import { enrichFilterAndGetUpdatedParams } from '@shared/helper/filter-helper';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+// TODO: merge this service with parts-service. The difference here should only be the owner parameter. (Own Parts = OWNER=OWN, supplier = OWNER=SUPPLIER, customer = OWNER=CUSTOMER
 @Injectable()
 export class OtherPartsService {
   private url = environment.apiUrl;

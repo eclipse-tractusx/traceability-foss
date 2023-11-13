@@ -47,7 +47,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Use Node.js 18.x
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 18.x
 
@@ -96,12 +96,12 @@ jobs:
           path: frontend/cypress/e2e
 
       - name: Use Node.js 18.x
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 18.x
 
       - name: Cypress run all tests
-        uses: cypress-io/github-action@v6.5.0 # use the explicit version number
+        uses: cypress-io/github-action@v6.6.0 # use the explicit version number
         with:
           start: npm run start:auth:e2ea
           wait-on: "http://localhost:4200"
@@ -158,12 +158,12 @@ jobs:
  #         path: frontend/cypress/e2e
 #
  #     - name: Use Node.js 18.x
- #       uses: actions/setup-node@v3
+  #       uses: actions/setup-node@v4
  #       with:
  #         node-version: 18.x
 #
  #     - name: Cypress run all tests
- #       uses: cypress-io/github-action@v6.5.0 # use the explicit version number
+  #       uses: cypress-io/github-action@v6.6.0 # use the explicit version number
  #       with:
  #         start: npm start
  #         wait-on: "http://localhost:4200"
@@ -212,12 +212,12 @@ jobs:
 #  Error: connect ECONNREFUSED 127.0.0.1:4200"
 
 #      - name: Use Node.js 18.x
-#        uses: actions/setup-node@v3
+  #        uses: actions/setup-node@v4
 #        with:
 #          node-version: 18.x
 
  #     - name: Use Node.js 16.x
- #       uses: actions/setup-node@v3
+  #       uses: actions/setup-node@v4
  #       with:
  #         node-version: 16.x
 #
@@ -226,7 +226,7 @@ jobs:
  #       run: npx playwright install --with-deps webkit
 #
  #     - name: Cypress run all tests
- #       uses: cypress-io/github-action@v6.5.0 # use the explicit version number
+  #       uses: cypress-io/github-action@v6.6.0 # use the explicit version number
  #       with:
  #         start: npm start:auth:e2ea
  #         wait-on: "http://localhost:4200"

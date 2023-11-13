@@ -72,9 +72,18 @@ env:
     ARGO_INT_B_TRACE_X_INSTANCE: "https://argo.int.demo.catena-x.net/api/v1/applications/traceability-foss-int-b"
     ARGO_INT_B_RegistryReload: "https://traceability-int-b.int.demo.catena-x.net/api/registry/reload"
     
-jobs:      
+jobs:     
 
+  print_environment:
+   runs-on: ubuntu-latest
+   steps:
+      - name: ${{ github.event.inputs.environment }}
+        run: |
+          echo "### inputs" >> $GITHUB_STEP_SUMMARY
+          echo "- environment: ${{ github.event.inputs.environment }}" >> $GITHUB_STEP_SUMMARY
+          
   hard_refresh_environment:
+   needs: print_environment
    runs-on: ubuntu-latest
    steps:
   
@@ -87,7 +96,7 @@ jobs:
           echo ::add-mask::$ARGO_TOKEN
           echo ARGO_TOKEN=$ARGO_TOKEN >> $GITHUB_ENV
           
-      - name: Hard refresh environment
+      - name: Hard refresh environment ${{ github.event.inputs.environment }}
         run: |
          source ./.github/argo/argo_config.sh
         
@@ -103,6 +112,7 @@ jobs:
            curl -X GET -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" "$resource?refresh=hard&appNamespace=argocd"
          done
          sleep 40
+
   delete_environment:
     needs: hard_refresh_environment
     runs-on: ubuntu-latest

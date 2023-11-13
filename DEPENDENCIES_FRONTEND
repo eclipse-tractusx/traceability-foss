@@ -1497,7 +1497,7 @@ npm/npmjs/@types/eslint/8.4.2, MIT, approved, #2429
 npm/npmjs/@types/estree/0.0.51, MIT, approved, clearlydefined
 npm/npmjs/@types/express-serve-static-core/4.17.34, MIT, approved, #6020
 npm/npmjs/@types/express/4.17.17, MIT, approved, #5760
-npm/npmjs/@types/geojson/7946.0.8, MIT, approved, clearlydefined
+npm/npmjs/@types/geojson/7946.0.8, MIT, approved, #11480
 npm/npmjs/@types/glob/7.2.0, MIT, approved, clearlydefined
 npm/npmjs/@types/http-proxy/1.17.11, MIT, approved, #8414
 npm/npmjs/@types/jasmine/4.3.1, MIT, approved, clearlydefined
