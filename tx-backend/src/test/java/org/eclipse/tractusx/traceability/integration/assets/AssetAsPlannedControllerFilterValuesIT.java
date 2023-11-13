@@ -20,9 +20,11 @@
 package org.eclipse.tractusx.traceability.integration.assets;
 
 import io.restassured.http.ContentType;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.repository.JpaAssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
 import org.jose4j.lang.JoseException;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -34,10 +36,13 @@ import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 import static org.hamcrest.Matchers.is;
 
-public class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecification {
+class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecification {
 
     @Autowired
     AssetsSupport assetsSupport;
+
+    @Autowired
+    JpaAssetAsPlannedRepository repo;
 
     @ParameterizedTest
     @MethodSource("fieldNameTestProvider")
@@ -63,6 +68,56 @@ public class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpeci
                 .statusCode(200)
                 .assertThat()
                 .body("size()", is(expectedSize));
+    }
+
+    @Test
+    void givenNotEnumTypeFieldNameAndSizeAndOwnerOwn_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+        // given
+        assetsSupport.defaultAssetsAsPlannedStored();
+        String fieldName = "id";
+        String resultLimit = "100";
+        String owner = "OWN";
+
+        // then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .param("fieldName", fieldName)
+                .param("size", resultLimit)
+                .param("owner", owner)
+                .get("/api/assets/as-planned/distinctFilterValues")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .assertThat()
+                .body("size()", is(1));
+    }
+
+    @Test
+    void givenNotEnumTypeFieldNameAndSizeAndOwnerSupplier_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+        // given
+        assetsSupport.defaultAssetsAsPlannedStored();
+        String fieldName = "id";
+        String resultLimit = "100";
+        String owner = "SUPPLIER";
+
+        // then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .param("fieldName", fieldName)
+                .param("size", resultLimit)
+                .param("owner", owner)
+                .get("/api/assets/as-planned/distinctFilterValues")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .assertThat()
+                .body("size()", is(1));
     }
 
     private static Stream<Arguments> fieldNameTestProvider() {

@@ -35,6 +35,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Bump commons-io version 2.13.0 to 2.15.0
 - Update IRS-helm version from 6.8.0 to 6.9.1
 - Update EDC from 0.5.0 to 0.5.3
+- Added owner param to distinctFilterValues endpoints
 
 ### Removed
 
