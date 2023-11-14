@@ -51,6 +51,8 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   formControl = new FormControl();
   @Input()
   placeholderMultiple;
+  @Input()
+  singleSearch = false;
 
   @Input()
   selectedOptions;
@@ -118,7 +120,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   }
 
   ngOnChanges(): void {
-    console.log("change");
     this.selectedValue = this.formControl.value;
     this.formControl.patchValue(this.selectedValue);
   }
@@ -150,7 +151,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   };
 
   changeSearchTextOption() {
-    console.log("change search text");
     this.formControl.patchValue(this.selectedValue);
     this.selectionChange.emit(this.selectedValue);
   }
@@ -175,13 +175,12 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   }
 
   filterItem(value: any): void {
-    console.log("filter item");
+
     if (!value) {
       return;
     }
 
-    if (this.isUnsupportedAutoCompleteField(this.filterColumn)) {
-      //  this.searchElementChange.emit(value);
+    if (this.singleSearch) {
       return;
     }
     // emit a event that the searchElement changed
@@ -280,6 +279,10 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
 
 
   onSelectionChange(val: any) {
+    if (this.singleSearch){
+      console.log("SINGLE");
+      console.log(val, "single val");
+    }
 console.log("sel change");
     const filteredValues = this.getFilteredOptionsValues();
 

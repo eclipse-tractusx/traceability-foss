@@ -46,7 +46,7 @@ SPDX-License-Identifier: Apache-2.0
                    [style.display]="hideOption(option) ? 'none': 'flex'">{{option.display}}
       </mat-option>
 
-      <mat-option *ngIf="isUnsupportedAutoCompleteField(this.filterColumn)" (click)="changeSearchTextOption()" [value]=this.searchElement
+      <mat-option *ngIf="singleSearch" (click)="changeSearchTextOption()" [value]=this.searchElement
                   [style.display]="this.shouldHideTextSearchOptionField() ? 'none': 'flex'">{{this.searchElement}}
       </mat-option>
       <mat-select-trigger *ngIf="selectedValue?.length > 1">

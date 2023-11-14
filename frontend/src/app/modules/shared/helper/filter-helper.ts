@@ -28,10 +28,16 @@ export const DATE_FILTER_KEYS = [ 'manufacturingDate', 'functionValidFrom', 'fun
 
 // TODO: Refactor function as soon as multi value filter is supported
 export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, params: HttpParams, filterOperator: string): HttpParams {
+console.log(filter, "THE FILTER");
 
   for (const key in filter) {
     let operator: string;
     const filterValues: string = filter[key];
+    console.log(filterValues, "values");
+    if (!filterValues){
+      console.log("!break");
+      continue;
+    }
     // has date
     if (isDateFilter(key)) {
       if (isDateRangeFilter(filterValues)) {
@@ -72,8 +78,9 @@ export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, para
       params = params.append('filter', `${ key },${ operator },${ filterValues },${ filterOperator }`);
     }
 
-    if (isNotificationCountFilter(key)) {
+    if (isNotificationCountFilter(key) && filterValues && filterValues.length != 0) {
       operator = getFilterOperatorValue(FilterOperator.NOTIFICATION_COUNT_EQUAL);
+      params = params.append('filter', `${ key },${ operator },${ filterValues },${ filterOperator }`);
     }
 
   }
@@ -86,7 +93,7 @@ export function isStartsWithFilter(key: string): boolean {
 }
 
 export function isNotificationCountFilter(key: string): boolean {
-  return 'qualityInvestigationIdsInStatusActive' === key || 'qualityAlertIdsInStatusActive' === key;
+  return 'qualityAlertIdsInStatusActive' === key || 'qualityInvestigationIdsInStatusActive' === key;
 }
 
 export function isDateFilter(key: string): boolean {

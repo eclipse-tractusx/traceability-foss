@@ -551,10 +551,10 @@ export class PartsTableComponent implements OnInit {
         {filterKey: 'nameAtCustomer', headerKey: 'filterNameAtCustomer'}, // --> semanticModel.nameAtCustomer
         {filterKey: 'semanticModelId', headerKey: 'filterSemanticModelId'},
         {filterKey: 'semanticDataModel', headerKey: 'filterSemanticDataModel'},
-        {filterKey: 'manufacturingDate', headerKey: 'filterManufacturingDate', isTextSearch: false, isDate: true},
+        {filterKey: 'manufacturingDate', headerKey: 'filterManufacturingDate', isDate: true},
         {filterKey: 'manufacturingCountry', headerKey: 'filterManufacturingCountry'},
-        {filterKey: 'activeAlerts', headerKey: 'filterActiveAlerts'},
-        {filterKey: 'activeInvestigations', headerKey: 'filterActiveInvestigations'},
+        {filterKey: 'activeAlerts', headerKey: 'filterActiveAlerts', singleSearch: true},
+        {filterKey: 'activeInvestigations', headerKey: 'filterActiveInvestigations', singleSearch: true},
     ];
 
 
@@ -662,8 +662,8 @@ export class PartsTableComponent implements OnInit {
         {filterKey: 'manufacturerPartId', headerKey: 'filterPartId'},
         {filterKey: 'semanticModelId', headerKey: 'filterSemanticModelId'},
         {filterKey: 'manufacturingDate', headerKey: 'filterManufacturingDate', isDate: true},
-        {filterKey: 'activeAlerts', headerKey: 'filterActiveAlerts'},
-        {filterKey: 'activeInvestigations', headerKey: 'filterActiveInvestigations'},
+        {filterKey: 'activeAlerts', headerKey: 'filterActiveAlerts', singleSearch: true},
+        {filterKey: 'activeInvestigations', headerKey: 'filterActiveInvestigations', singleSearch: true},
     ];
 
 
@@ -675,8 +675,8 @@ export class PartsTableComponent implements OnInit {
         {filterKey: 'manufacturerPartId', headerKey: 'filterPartId'},
         {filterKey: 'semanticModelId', headerKey: 'filterSemanticModelId'},
         {filterKey: 'manufacturingDate', headerKey: 'filterManufacturingDate', isDate: true},
-        {filterKey: 'activeAlerts', headerKey: 'filterActiveAlerts'},
-        {filterKey: 'activeInvestigations', headerKey: 'filterActiveInvestigations'},
+        {filterKey: 'activeAlerts', headerKey: 'filterActiveAlerts', singleSearch: true},
+        {filterKey: 'activeInvestigations', headerKey: 'filterActiveInvestigations', singleSearch: true},
     ];
 
 
