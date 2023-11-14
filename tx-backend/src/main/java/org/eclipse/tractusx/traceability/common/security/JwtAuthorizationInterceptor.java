@@ -69,6 +69,7 @@ public class JwtAuthorizationInterceptor implements RequestInterceptor {
 		try {
 			oAuth2AuthorizedClient = oAuth2AuthorizedClientManager.authorize(request);
 		} catch (ClientAuthorizationException e) {
+            e.printStackTrace();
 			throw new TechnicalUserAuthorizationException(e);
 		}
 

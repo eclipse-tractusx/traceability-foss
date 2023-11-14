@@ -123,7 +123,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
         Instant now = Instant.now();
         String testBpn = bpnSupport.testBpn();
 
-        AlertEntity firstInvestigation = AlertEntity.builder()
+        AlertEntity firstAlert = AlertEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn(testBpn)
                 .status(NotificationStatusBaseEntity.CREATED)
@@ -131,7 +131,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .description("1")
                 .createdDate(now.minusSeconds(10L))
                 .build();
-        AlertEntity secondInvestigation = AlertEntity.builder()
+        AlertEntity secondAlert = AlertEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn(testBpn)
                 .status(NotificationStatusBaseEntity.CREATED)
@@ -139,7 +139,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .side(NotificationSideBaseEntity.SENDER)
                 .createdDate(now.plusSeconds(21L))
                 .build();
-        AlertEntity thirdInvestigation = AlertEntity.builder()
+        AlertEntity thirdAlert = AlertEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn(testBpn)
                 .status(NotificationStatusBaseEntity.CREATED)
@@ -147,7 +147,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .side(NotificationSideBaseEntity.SENDER)
                 .createdDate(now)
                 .build();
-        AlertEntity fourthInvestigation = AlertEntity.builder()
+        AlertEntity fourthAlert = AlertEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn(testBpn)
                 .status(NotificationStatusBaseEntity.CREATED)
@@ -155,7 +155,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .side(NotificationSideBaseEntity.SENDER)
                 .createdDate(now.plusSeconds(20L))
                 .build();
-        AlertEntity fifthInvestigation = AlertEntity.builder()
+        AlertEntity fifthAlert = AlertEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn(testBpn)
                 .status(NotificationStatusBaseEntity.CREATED)
@@ -168,7 +168,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 AlertNotificationEntity
                         .builder()
                         .id("1")
-                        .alert(firstInvestigation)
+                        .alert(firstAlert)
                         .status(NotificationStatusBaseEntity.CREATED)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                         .build(),
@@ -176,28 +176,28 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                         .builder()
                         .status(NotificationStatusBaseEntity.CREATED)
                         .id("2")
-                        .alert(secondInvestigation)
+                        .alert(secondAlert)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                         .build(),
                 AlertNotificationEntity
                         .builder()
                         .status(NotificationStatusBaseEntity.CREATED)
                         .id("3")
-                        .alert(thirdInvestigation)
+                        .alert(thirdAlert)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                         .build(),
                 AlertNotificationEntity
                         .builder()
                         .status(NotificationStatusBaseEntity.CREATED)
                         .id("4")
-                        .alert(fourthInvestigation)
+                        .alert(fourthAlert)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                         .build(),
                 AlertNotificationEntity
                         .builder()
                         .status(NotificationStatusBaseEntity.CREATED)
                         .id("5")
-                        .alert(fifthInvestigation)
+                        .alert(fifthAlert)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                         .build()
         );
@@ -225,7 +225,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
         Instant now = Instant.now();
         String testBpn = bpnSupport.testBpn();
 
-        AlertEntity firstInvestigation = AlertEntity.builder()
+        AlertEntity firstAlert = AlertEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn(testBpn)
                 .status(NotificationStatusBaseEntity.CREATED)
@@ -233,7 +233,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .description("1")
                 .createdDate(now.minusSeconds(10L))
                 .build();
-        AlertEntity secondInvestigation = AlertEntity.builder()
+        AlertEntity secondAlert = AlertEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn(testBpn)
                 .status(NotificationStatusBaseEntity.CREATED)
@@ -241,7 +241,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .side(NotificationSideBaseEntity.SENDER)
                 .createdDate(now.plusSeconds(21L))
                 .build();
-        AlertEntity thirdInvestigation = AlertEntity.builder()
+        AlertEntity thirdAlert = AlertEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn(testBpn)
                 .status(NotificationStatusBaseEntity.CREATED)
@@ -249,7 +249,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .side(NotificationSideBaseEntity.SENDER)
                 .createdDate(now)
                 .build();
-        AlertEntity fourthInvestigation = AlertEntity.builder()
+        AlertEntity fourthAlert = AlertEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn(testBpn)
                 .status(NotificationStatusBaseEntity.CREATED)
@@ -257,7 +257,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .side(NotificationSideBaseEntity.SENDER)
                 .createdDate(now.plusSeconds(20L))
                 .build();
-        AlertEntity fifthInvestigation = AlertEntity.builder()
+        AlertEntity fifthAlert = AlertEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn(testBpn)
                 .status(NotificationStatusBaseEntity.CREATED)
@@ -271,7 +271,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 AlertNotificationEntity
                         .builder()
                         .id("1")
-                        .alert(firstInvestigation)
+                        .alert(firstAlert)
                         .status(NotificationStatusBaseEntity.CREATED)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                         .build(),
@@ -279,28 +279,28 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                         .builder()
                         .status(NotificationStatusBaseEntity.CREATED)
                         .id("2")
-                        .alert(secondInvestigation)
+                        .alert(secondAlert)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                         .build(),
                 AlertNotificationEntity
                         .builder()
                         .status(NotificationStatusBaseEntity.CREATED)
                         .id("3")
-                        .alert(thirdInvestigation)
+                        .alert(thirdAlert)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                         .build(),
                 AlertNotificationEntity
                         .builder()
                         .status(NotificationStatusBaseEntity.CREATED)
                         .id("4")
-                        .alert(fourthInvestigation)
+                        .alert(fourthAlert)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                         .build(),
                 AlertNotificationEntity
                         .builder()
                         .status(NotificationStatusBaseEntity.CREATED)
                         .id("5")
-                        .alert(fifthInvestigation)
+                        .alert(fifthAlert)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                         .build()
         );
@@ -759,7 +759,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
         Instant now = Instant.now();
         String testBpn = bpnSupport.testBpn();
 
-        AlertEntity firstInvestigation = AlertEntity.builder()
+        AlertEntity firstAlert = AlertEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn(testBpn)
                 .status(NotificationStatusBaseEntity.RECEIVED)
@@ -767,7 +767,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .description("1")
                 .createdDate(now.minusSeconds(5L))
                 .build();
-        AlertEntity secondInvestigation = AlertEntity.builder()
+        AlertEntity secondAlert = AlertEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn(testBpn)
                 .status(NotificationStatusBaseEntity.RECEIVED)
@@ -775,7 +775,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .side(NotificationSideBaseEntity.RECEIVER)
                 .createdDate(now.plusSeconds(2L))
                 .build();
-        AlertEntity thirdInvestigation = AlertEntity.builder()
+        AlertEntity thirdAlert = AlertEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn(testBpn)
                 .status(NotificationStatusBaseEntity.RECEIVED)
@@ -783,7 +783,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .side(NotificationSideBaseEntity.RECEIVER)
                 .createdDate(now)
                 .build();
-        AlertEntity fourthInvestigation = AlertEntity.builder()
+        AlertEntity fourthAlert = AlertEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn(testBpn)
                 .status(NotificationStatusBaseEntity.RECEIVED)
@@ -791,7 +791,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .side(NotificationSideBaseEntity.RECEIVER)
                 .createdDate(now.plusSeconds(20L))
                 .build();
-        AlertEntity fifthInvestigation = AlertEntity.builder()
+        AlertEntity fifthAlert = AlertEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn(testBpn)
                 .status(NotificationStatusBaseEntity.CREATED)
@@ -804,35 +804,35 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 AlertNotificationEntity
                         .builder()
                         .id("1")
-                        .alert(firstInvestigation)
+                        .alert(firstAlert)
                         .status(NotificationStatusBaseEntity.CREATED)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                         .build(),
                 AlertNotificationEntity
                         .builder()
                         .id("2")
-                        .alert(secondInvestigation)
+                        .alert(secondAlert)
                         .status(NotificationStatusBaseEntity.CREATED)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                         .build(),
                 AlertNotificationEntity
                         .builder()
                         .id("3")
-                        .alert(thirdInvestigation)
+                        .alert(thirdAlert)
                         .status(NotificationStatusBaseEntity.CREATED)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                         .build(),
                 AlertNotificationEntity
                         .builder()
                         .id("4")
-                        .alert(fourthInvestigation)
+                        .alert(fourthAlert)
                         .status(NotificationStatusBaseEntity.CREATED)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                         .build(),
                 AlertNotificationEntity
                         .builder()
                         .id("5")
-                        .alert(fifthInvestigation)
+                        .alert(fifthAlert)
                         .status(NotificationStatusBaseEntity.CREATED)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                         .build()

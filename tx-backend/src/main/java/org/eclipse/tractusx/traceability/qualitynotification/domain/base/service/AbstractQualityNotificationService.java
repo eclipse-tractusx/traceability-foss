@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.base.servic
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.service.QualityNotificationService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
@@ -48,8 +49,18 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
     }
 
     @Override
+    public PageResult<QualityNotification> getCreated(Pageable pageable, SearchCriteria searchCriteria) {
+        return getQualityNotificationsPageResultBySide(pageable, QualityNotificationSide.SENDER, searchCriteria);
+    }
+
+    @Override
     public PageResult<QualityNotification> getReceived(Pageable pageable) {
         return getQualityNotificationsPageResult(pageable, QualityNotificationSide.RECEIVER);
+    }
+
+    @Override
+    public PageResult<QualityNotification> getReceived(Pageable pageable, SearchCriteria searchCriteria) {
+        return getQualityNotificationsPageResultBySide(pageable, QualityNotificationSide.RECEIVER, searchCriteria);
     }
 
     @Override
@@ -79,6 +90,17 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
                 .content();
         Page<QualityNotification> alertDataPage = new PageImpl<>(alertData, pageable, getQualityNotificationRepository().countQualityNotificationEntitiesBySide(alertSide));
         return new PageResult<>(alertDataPage);
+    }
+
+    private PageResult<QualityNotification> getQualityNotificationsPageResultBySide(Pageable pageable, QualityNotificationSide notificationSide, SearchCriteria searchCriteria) {
+        List<QualityNotification> notificationList = getQualityNotificationRepository()
+                                                    .findAll(pageable, searchCriteria)
+                                                    .content()
+                                                    .stream()
+                                                    .filter(qualityNotification -> qualityNotification.getNotificationSide().equals(notificationSide))
+                                                    .toList();
+        Page<QualityNotification> notificationPage = new PageImpl<>(notificationList, pageable, getQualityNotificationRepository().countQualityNotificationEntitiesBySide(notificationSide));
+        return new PageResult<>(notificationPage);
     }
 
     @Override

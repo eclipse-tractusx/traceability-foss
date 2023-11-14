@@ -19,6 +19,7 @@
 package org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.service;
 
 import org.eclipse.tractusx.traceability.common.model.PageResult;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
@@ -91,6 +92,24 @@ class InvestigationServiceImplTest {
     }
 
     @Test
+    void testFindCreatedInvestigationsWithSearchCriteria() {
+        // given
+        when(investigationsRepositoryMock.findAll(any(Pageable.class), any(SearchCriteria.class))).thenReturn(new PageResult<>(
+                List.of(
+                        InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationSide.SENDER),
+                        InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationSide.SENDER)
+                )));
+        SearchCriteria searchCriteria = InvestigationTestDataFactory.createSearchCriteria();
+
+        // expect
+        PageResult<QualityNotification> result = investigationService.getCreated(PageRequest.of(0, 5), searchCriteria);
+
+        // then
+        assertThat(result).isNotNull();
+        assertThat(result.content()).hasSize(2);
+    }
+
+    @Test
     void testFindReceivedInvestigations() {
         // given
         when(investigationsRepositoryMock.findQualityNotificationsBySide(any(QualityNotificationSide.class), any(Pageable.class))).thenReturn(new PageResult<>(
@@ -105,6 +124,25 @@ class InvestigationServiceImplTest {
         assertThat(result).isNotNull();
         assertThat(result.content()).hasSize(1);
     }
+
+    @Test
+    void testFindReceivedInvestigationsWithSearchCriteria() {
+        // given
+        when(investigationsRepositoryMock.findAll(any(Pageable.class), any(SearchCriteria.class))).thenReturn(new PageResult<>(
+                List.of(
+                        InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationSide.RECEIVER)
+                )));
+        SearchCriteria searchCriteria = InvestigationTestDataFactory.createSearchCriteria();
+
+        // expect
+        PageResult<QualityNotification> result = investigationService.getReceived(PageRequest.of(0, 5), searchCriteria);
+
+        // then
+        assertThat(result).isNotNull();
+        assertThat(result.content()).hasSize(1);
+    }
+
+
 
     @Test
     void testLoadNotPresentInvestigationThrowsException() {

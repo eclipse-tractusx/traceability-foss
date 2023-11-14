@@ -32,6 +32,7 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
+import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
 import org.eclipse.tractusx.traceability.qualitynotification.application.alert.mapper.AlertResponseMapper;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.service.QualityNotificationService;
@@ -179,9 +180,9 @@ public class AlertController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/created")
-    public PageResult<AlertResponse> getCreatedAlerts(OwnPageable pageable) {
+    public PageResult<AlertResponse> getCreatedAlerts(OwnPageable pageable, SearchCriteriaRequestParam searchCriteriaRequestParam) {
         log.info(API_LOG_START + "/created");
-        return AlertResponseMapper.fromAsPageResult(alertService.getCreated(OwnPageable.toPageable(pageable)));
+        return AlertResponseMapper.fromAsPageResult(alertService.getCreated(OwnPageable.toPageable(pageable), searchCriteriaRequestParam.toSearchCriteria()));
     }
 
     @Operation(operationId = "getReceivedAlerts",
@@ -238,9 +239,9 @@ public class AlertController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/received")
-    public PageResult<AlertResponse> getReceivedAlerts(OwnPageable pageable) {
+    public PageResult<AlertResponse> getReceivedAlerts(OwnPageable pageable, SearchCriteriaRequestParam searchCriteriaRequestParam) {
         log.info(API_LOG_START + "/received");
-        return AlertResponseMapper.fromAsPageResult(alertService.getReceived(OwnPageable.toPageable(pageable)));
+        return AlertResponseMapper.fromAsPageResult(alertService.getReceived(OwnPageable.toPageable(pageable), searchCriteriaRequestParam.toSearchCriteria()));
     }
 
     @Operation(operationId = "getAlert",

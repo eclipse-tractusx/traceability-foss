@@ -31,9 +31,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target(PARAMETER)
 @Constraint(validatedBy = EDCNotificationValidator.class)
 public @interface ValidEDCNotification {
-	String message() default "Invalid EDCNotification";
+    String message() default "Invalid EDCNotification";
 
-	Class<?>[] groups() default {};
+    Class<?>[] groups() default {};
 
-	Class<? extends Payload>[] payload() default {};
+    Class<? extends Payload>[] payload() default {};
 }

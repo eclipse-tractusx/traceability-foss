@@ -68,7 +68,7 @@ public class SearchCriteriaRequestParam {
                                 .build());
             } catch (Exception exception) {
                 throw new InvalidFilterException(
-                        "Invalid filter param provided filter={provided} expected format is following sort=parameter,operation,value"
+                        "Invalid filter param provided filter={provided} expected format is following filter=parameter,operation,value"
                                 .replace("{provided}", filter)
                 );
             }
