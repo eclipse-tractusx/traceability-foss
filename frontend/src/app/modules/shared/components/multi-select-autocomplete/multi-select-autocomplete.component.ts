@@ -26,6 +26,7 @@ import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { Owner } from '@page/parts/model/owner.enum';
 import { PartTableType } from '@shared/components/table/table.model';
+import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
 import { PartsService } from '@shared/service/parts.service';
 
 @Component({
@@ -48,6 +49,8 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   value = 'value';
   @Input()
   formControl = new FormControl();
+  @Input()
+  placeholderMultiple;
 
   @Input()
   selectedOptions;
@@ -97,13 +100,14 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   isLoadingSuggestions: boolean;
 
   constructor(public datePipe: DatePipe, public _adapter: DateAdapter<any>,
-              @Inject(MAT_DATE_LOCALE) public _locale: string, @Inject(LOCALE_ID) private locale: string, private partsService: PartsService) {
+              @Inject(MAT_DATE_LOCALE) public _locale: string, @Inject(LOCALE_ID) private locale: string, private partsService: PartsService, private readonly formatPartSemanticDataModelToCamelCasePipe: FormatPartSemanticDataModelToCamelCasePipe) {
     registerLocaleData(localeDe, 'de', localeDeExtra);
     this._adapter.setLocale(locale);
   }
 
   ngOnInit(): void {
     this.searchElementChange.subscribe((value) => {
+      console.log("test");
       if (this.delayTimeoutId) {
         clearTimeout(this.delayTimeoutId);
         this.delayTimeoutId = null;
@@ -114,6 +118,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   }
 
   ngOnChanges(): void {
+    console.log("change");
     this.selectedValue = this.formControl.value;
     this.formControl.patchValue(this.selectedValue);
   }
@@ -145,8 +150,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   };
 
   changeSearchTextOption() {
-    console.log(this.searchElement, "the searchelement");
-    console.log(this.selectedValue, "selected value");
+    console.log("change search text");
     this.formControl.patchValue(this.selectedValue);
     this.selectionChange.emit(this.selectedValue);
   }
@@ -155,14 +159,29 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     return this.searchElement === null || this.searchElement === undefined || this.searchElement === '';
   }
 
+  displayValue() {
+    let suffix;
+    if (this.selectedValue?.length > 1) {
+      suffix = (' + ' + (this.selectedValue?.length - 1)) + ' ' + this.placeholderMultiple;
+    } else {
+      suffix = '';
+    }
+
+    if (this.filterColumn === 'semanticDataModel') {
+      return this.formatPartSemanticDataModelToCamelCasePipe.transformModel(this.selectedValue[0]) + suffix;
+    } else {
+      return this.selectedValue[0] + suffix;
+    }
+  }
+
   filterItem(value: any): void {
-    console.log("filter item method", value);
-    if (!value){
+    console.log("filter item");
+    if (!value) {
       return;
     }
 
     if (this.isUnsupportedAutoCompleteField(this.filterColumn)) {
-    //  this.searchElementChange.emit(value);
+      //  this.searchElementChange.emit(value);
       return;
     }
     // emit a event that the searchElement changed
@@ -178,7 +197,16 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
 
       try {
         const res = await this.partsService.getDistinctFilterValues(this.isAsBuilt, tableOwner, this.filterColumn, this.searchElement).toPromise();
-        this.options = res.map(option => ({ display: option, value: option }));
+
+        if (this.filterColumn === 'semanticDataModel') {
+          this.options = res.map(option => ({
+            display: this.formatPartSemanticDataModelToCamelCasePipe.transformModel(option),
+            value: option,
+          }));
+        } else {
+          this.options = res.map(option => ({ display: option, value: option }));
+        }
+
         this.filteredOptions = this.options;
         this.suggestionError = !this.filteredOptions.length;
       } catch (error) {
@@ -212,6 +240,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   }
 
   startDateSelected(event: MatDatepickerInputEvent<Date>) {
+    console.log("startdate");
     this.startDate = event.value;
     this.searchElement = this.datePipe.transform(this.startDate, 'yyyy-MM-dd');
     this.formControl.patchValue(this.searchElement);
@@ -219,6 +248,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   }
 
   endDateSelected(event: MatDatepickerInputEvent<Date>) {
+    console.log("enddate");
     this.endDate = event.value;
     if (!this.endDate) {
       return;
@@ -241,9 +271,16 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     this.filterItem('');
   }
 
+  dateFilter(){
+    console.log(this.startDate, "startdate");
+    console.log(this.endDate, "enddate");
+    console.log(this.searchElement, "element");
+    this.formControl.patchValue(this.searchElement);
+  }
+
 
   onSelectionChange(val: any) {
-
+console.log("sel change");
     const filteredValues = this.getFilteredOptionsValues();
 
     const selectedCount = this.selectedValue.filter(item => filteredValues.includes(item)).length;
@@ -252,7 +289,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     this.selectedValue = val.value;
     this.formControl.patchValue(val.value);
     this.selectionChange.emit(this.selectedValue);
-    this.searchElement = val.value;
+    this.searchElement = this.displayValue();
   }
 
   getOwnerOfTable(partTableType: PartTableType): Owner {

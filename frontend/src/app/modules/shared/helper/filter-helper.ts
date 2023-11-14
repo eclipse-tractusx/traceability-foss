@@ -47,7 +47,13 @@ export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, para
         params = params.append('filter', `${ key },${ endDateOperator },${ endDate },${ filterOperator }`);
         continue;
       } else {
-        operator = getFilterOperatorValue(FilterOperator.AFTER_LOCAL_DATE);
+        if (filterValues && filterValues.length != 0){
+          console.log(filterValues, "filtervalues");
+          operator = getFilterOperatorValue(FilterOperator.AT_LOCAL_DATE);
+          params = params.append('filter', `${ key },${ operator },${ filterValues },${ filterOperator }`);
+          continue;
+        }
+
       }
     }
 

@@ -17,6 +17,7 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 <mat-form-field>
+
     <mat-select *ngIf="!isDate" #selectElem [placeholder]="placeholder" [formControl]="formControl" (click)="filterItem('')"
                 [multiple]="true"
                 (selectionChange)="onSelectionChange($event)" panelClass="app-multiselect-filter-dropdown">
@@ -34,6 +35,7 @@ SPDX-License-Identifier: Apache-2.0
                     <mat-icon class="mat-24" aria-label="Search icon">clear</mat-icon>
                 </button>
             </div>
+
         </div>
 
       <!-- hidden element just so that the mat-select dropdown opens -->
@@ -47,19 +49,24 @@ SPDX-License-Identifier: Apache-2.0
       <mat-option *ngIf="isUnsupportedAutoCompleteField(this.filterColumn)" (click)="changeSearchTextOption()" [value]=this.searchElement
                   [style.display]="this.shouldHideTextSearchOptionField() ? 'none': 'flex'">{{this.searchElement}}
       </mat-option>
-
+      <mat-select-trigger *ngIf="selectedValue?.length > 1">
+       <div>
+         {{displayValue()}}
+       </div>
+      </mat-select-trigger>
     </mat-select>
+
 
     <div  *ngIf="isDate" class="date-search">
       <mat-date-range-input [rangePicker]="picker" disabled>
-        <input matStartDate [value]="startDate" [placeholder]="'datepicker.startDate' | i18n" (dateChange)="startDateSelected($event)" disabled="false">
+        <input matStartDate [value]="startDate" [placeholder]="'datepicker.startDate' | i18n" (dateChange)="startDateSelected($event)">
         <input matEndDate [value]="endDate" [placeholder]="'datepicker.endDate' | i18n" (dateChange)="endDateSelected($event)">
       </mat-date-range-input>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-date-range-picker #picker disabled="false">
         <mat-datepicker-actions>
           <button (click)="clickClear()" mat-button matDatepickerCancel>{{ 'datepicker.cancel' | i18n }}</button>
-          <button mat-raised-button color="primary" matDatepickerApply>{{ 'datepicker.apply' | i18n }}</button>
+          <button (click)="dateFilter()" mat-raised-button color="primary" matDatepickerApply>{{ 'datepicker.apply' | i18n }}</button>
         </mat-datepicker-actions>
       </mat-date-range-picker>
     </div>

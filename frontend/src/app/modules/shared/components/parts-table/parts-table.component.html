@@ -71,6 +71,7 @@ SPDX-License-Identifier: Apache-2.0
                                      [filterColumn]="filter.filterKey"
                                      [isAsBuilt] = "mainAspectType === MainAspectType.AS_BUILT"
                                      [partTableType]="tableType"
+                                     [placeholderMultiple]="('multiSelect.multipleResults' | i18n)"
                                      ngDefaultControl
                                      [formControl]="filterFormGroup.controls[filter.filterKey]"></app-multiselect>
                     <span class="filter-title"

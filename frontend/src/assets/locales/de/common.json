@@ -272,7 +272,8 @@
     "placeholder": "Alle",
     "searchPlaceholder": "Suche..",
     "choosePlaceholder": "Auswählen..",
-    "suggestionError": "Keine Vorschläge gefunden."
+    "suggestionError": "Keine Vorschläge gefunden.",
+    "multipleResults": "weitere"
   },
   "parts": {
     "input": {
