@@ -100,6 +100,7 @@ SPDX-License-Identifier: Apache-2.0
       <app-button [variant]="'stroked'"
         [isDisabled]="isLoading$ | async"
         (click)="resetForm()"
+        mat-dialog-close
         class="mr-4">
         <div class="cancel-button-text">{{ 'requestNotification.cancel' | i18n }}</div>
       </app-button>
