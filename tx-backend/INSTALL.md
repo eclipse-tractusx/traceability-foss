@@ -106,7 +106,11 @@ Then provide your configuration as the values.yaml of that chart.
 Create a new application in ArgoCD and point it to your repository / Helm chart folder.
 
 ## API sample endpoints
-* Swagger UI: `http://localhost:8080/api/swagger-ui/index.html`
-* API docs: `http://localhost:8080/api/v3/api-docs`
-* Application health liveness endpoint: `http://localhost:8081/actuator/health/liveness`
-* Application health readiness endpoint: `http://localhost:8081/actuator/health/readiness`
+
+[Insomnia Collection](collection) contains various insomnia collections for working with trace-X on local environment.
+
+
+* Swagger UI: `http://localhost:8082/api/swagger-ui/index.html`
+* API docs: `http://localhost:8082/api/v3/api-docs`
+* Application health liveness endpoint: `http://localhost:8080/actuator/health/liveness`
+* Application health readiness endpoint: `http://localhost:8080/actuator/health/readiness`
