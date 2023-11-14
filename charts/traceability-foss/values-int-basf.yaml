@@ -215,6 +215,14 @@ irs-helm:
   enabled: true
   bpn: BPNL00000007QIS1
 
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 512Mi
+    requests:
+      cpu: 500m
+      memory: 512Mi
+
   nameOverride: "tx-irs-int-basf"
   fullnameOverride: "tx-irs-int-basf"
 

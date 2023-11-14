@@ -213,6 +213,14 @@ irs-helm:
   bpn: BPNL00000003CML1
   enabled: true
 
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 512Mi
+    requests:
+      cpu: 500m
+      memory: 512Mi
+
   nameOverride: "tx-irs-e2e-b"
   fullnameOverride: "tx-irs-e2e-b"
 

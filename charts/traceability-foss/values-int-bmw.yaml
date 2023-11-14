@@ -215,6 +215,15 @@ irs-helm:
   enabled: true
   bpn: BPNL00000003AYRE
 
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 512Mi
+    requests:
+      cpu: 500m
+      memory: 512Mi
+
+
   nameOverride: "tx-irs-int-bmw"
   fullnameOverride: "tx-irs-int-bmw"
 
