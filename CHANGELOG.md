@@ -14,6 +14,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Added NOTIFICATION_COUNT_EQUAL filter strategy for Assets as built Specifications
 - Added new supported filter for notifications assetId that allows filtering alerts and investigations by assetId
 - Fixed bug in argo workflow which allows to successfully upload testdata
+- No logging option for cypress
 
 ### Changed
 - Fixed table-settings reset bug
