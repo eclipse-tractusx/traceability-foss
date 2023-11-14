@@ -282,7 +282,8 @@ jobs:
                     sleep 10
                   fi
                 done
-              done     
+              done    
+              sleep 120 
 
   upload_testdata:
     needs: test_state
