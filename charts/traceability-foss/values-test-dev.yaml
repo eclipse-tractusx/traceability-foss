@@ -239,6 +239,15 @@ postgresql:
 irs-helm:
   enabled: true
   bpn: BPNL00000003CML1
+
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 512Mi
+    requests:
+      cpu: 500m
+      memory: 512Mi
+
   nameOverride: "tx-irs-test"
   fullnameOverride: "tx-irs-test"
   namespace: product-traceability-foss
