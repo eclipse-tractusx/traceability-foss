@@ -39,10 +39,13 @@ SPDX-License-Identifier: Apache-2.0
       <!-- hidden element just so that the mat-select dropdown opens -->
       <mat-option [style.display]="'none'"></mat-option>
       <div class="pl-1" *ngIf="suggestionError">{{'multiSelect.suggestionError' | i18n}}</div>
-      <!-- TODO add here mat-options list for filtered values that are selected -->
 
       <mat-option  *ngFor="let option of options" [disabled]="option.disabled" [value]="option.value"
                    [style.display]="hideOption(option) ? 'none': 'flex'">{{option.display}}
+      </mat-option>
+
+      <mat-option *ngIf="isUnsupportedAutoCompleteField(this.filterColumn)" (click)="changeSearchTextOption()" [value]=this.searchElement
+                  [style.display]="this.shouldHideTextSearchOptionField() ? 'none': 'flex'">{{this.searchElement}}
       </mat-option>
 
     </mat-select>

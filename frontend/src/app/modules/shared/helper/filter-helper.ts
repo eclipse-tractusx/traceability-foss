@@ -115,7 +115,6 @@ export function toAssetFilter(formValues: any, isAsBuilt: boolean): AssetAsPlann
   }
 
   const filterIsSet = Object.values(transformedFilter).some(value => value !== undefined && value !== null);
-  console.log('filter', JSON.stringify(transformedFilter));
   if (filterIsSet) {
     if (isAsBuilt) {
       return transformedFilter as AssetAsBuiltFilter;

@@ -17,16 +17,16 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {DatePipe, registerLocaleData} from '@angular/common';
+import { DatePipe, registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-import {Component, EventEmitter, Inject, Input, LOCALE_ID, OnChanges, Output, ViewChild} from '@angular/core';
-import {FormControl} from '@angular/forms';
-import {DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
-import {MatDatepickerInputEvent} from '@angular/material/datepicker';
-import {Owner} from '@page/parts/model/owner.enum';
-import {PartTableType} from '@shared/components/table/table.model';
-import {PartsService} from '@shared/service/parts.service';
+import { Component, EventEmitter, Inject, Input, LOCALE_ID, OnChanges, Output, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { Owner } from '@page/parts/model/owner.enum';
+import { PartTableType } from '@shared/components/table/table.model';
+import { PartsService } from '@shared/service/parts.service';
 
 @Component({
   selector: 'app-multiselect',
@@ -68,7 +68,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   partTableType = PartTableType.AS_BUILT_OWN;
 
   @Input()
-  isAsBuilt : boolean;
+  isAsBuilt: boolean;
 
   public readonly minDate = new Date();
 
@@ -114,15 +114,15 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   }
 
   ngOnChanges(): void {
-      this.selectedValue = this.formControl.value;
-      this.formControl.patchValue(this.selectedValue);
+    this.selectedValue = this.formControl.value;
+    this.formControl.patchValue(this.selectedValue);
   }
 
   toggleSelectAll = function(selectCheckbox: any): void {
 
     if (selectCheckbox.checked) {
       // if there are no suggestion but the selectAll checkbox was checked
-      if(!this.filteredOptions.length) {
+      if (!this.filteredOptions.length) {
         console.log(this.searchElement);
         this.formControl.patchValue(this.searchElement);
         this.selectedValue = this.searchElement as unknown as [];
@@ -144,7 +144,27 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     this.selectionChange.emit(this.selectedValue);
   };
 
+  changeSearchTextOption() {
+    console.log(this.searchElement, "the searchelement");
+    console.log(this.selectedValue, "selected value");
+    this.formControl.patchValue(this.selectedValue);
+    this.selectionChange.emit(this.selectedValue);
+  }
+
+  shouldHideTextSearchOptionField() {
+    return this.searchElement === null || this.searchElement === undefined || this.searchElement === '';
+  }
+
   filterItem(value: any): void {
+    console.log("filter item method", value);
+    if (!value){
+      return;
+    }
+
+    if (this.isUnsupportedAutoCompleteField(this.filterColumn)) {
+    //  this.searchElementChange.emit(value);
+      return;
+    }
     // emit a event that the searchElement changed
     // if there is a timeout currently, abort the changes.
     if (this.delayTimeoutId) {
@@ -154,39 +174,28 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     // if there is no timeout currently, start the delay
     this.delayTimeoutId = setTimeout(async () => {
       this.isLoadingSuggestions = true;
+      const tableOwner = this.getOwnerOfTable(this.partTableType);
 
-      // when delay ended
-   /*   if (this.textSearch) {*/
+      try {
+        const res = await this.partsService.getDistinctFilterValues(this.isAsBuilt, tableOwner, this.filterColumn, this.searchElement).toPromise();
+        this.options = res.map(option => ({ display: option, value: option }));
+        this.filteredOptions = this.options;
+        this.suggestionError = !this.filteredOptions.length;
+      } catch (error) {
+        console.error('Error fetching data: ', error);
+        this.suggestionError = !this.filteredOptions.length;
+      }
 
-        const tableOwner = this.getOwnerOfTable(this.partTableType);
+      this.delayTimeoutId = null;
+      this.isLoadingSuggestions = false;
 
-        try {
-          const res = await this.partsService.getDistinctFilterValues(this.isAsBuilt, tableOwner, this.filterColumn, this.searchElement).toPromise();
-          this.options = res.map(option => ({ display: option, value: option }));
-          this.filteredOptions = this.options;
-          this.suggestionError = !this.filteredOptions.length;
-        } catch (error) {
-          console.error('Error fetching data: ', error);
-          this.suggestionError = !this.filteredOptions.length;
-        }
-
-        this.delayTimeoutId = null;
-        this.isLoadingSuggestions = false;
-   /*   }*/ /*else {
-        this.filteredOptions = this.options.filter(
-          item => item[this.display].toLowerCase().indexOf(value.toLowerCase()) > -1,
-        );
-        this.selectAllChecked = true;
-        this.filteredOptions.forEach(item => {
-          if (!this.selectedValue.includes(item[this.value])) {
-            this.selectAllChecked = false;
-          }
-        });
-        this.searchElement = '';
-      }*/
       this.delayTimeoutId = null;
       this.isLoadingSuggestions = false;
     }, 500);
+  }
+
+  isUnsupportedAutoCompleteField(fieldName: string) {
+    return fieldName === 'activeAlerts' || fieldName === 'activeInvestigations';
   }
 
   hideOption(option: any): boolean {
@@ -231,7 +240,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     this.endDate = null;
     this.filterItem('');
   }
-
 
 
   onSelectionChange(val: any) {

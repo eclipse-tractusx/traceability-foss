@@ -130,7 +130,8 @@ export class PartsService {
         .set('fieldName',fieldNames)
         .set('startWith',startsWith)
         .set('size',200)
-        .set('filter', 'owner,EQUAL,' + owner + ',AND')
+        .set('owner', owner)
+
       if(isAsBuilt) {
         return this.apiService
           .getBy<any>(`${ this.url }/assets/as-built/distinctFilterValues`, params);
