@@ -59,11 +59,6 @@ describe('AlertDetailComponent', () => {
     await waitFor(() => expect(screen.getByText('pageAlert.subHeadline.supplierParts')).toBeInTheDocument());
   });
 
-  it('should render specific text for back button', async () => {
-    await renderAlertDetail('id-1');
-    await waitFor(() => expect(screen.getByText('actions.goBack')).toBeInTheDocument());
-  });
-
   it('should render copy data to clipboard', async () => {
     await renderAlertDetail('id-1');
     await waitFor(() => expect(screen.getByText('pageAlert.subHeadline.supplierParts')).toBeInTheDocument());

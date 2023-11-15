@@ -41,9 +41,9 @@ describe('CloseNotificationModalComponent', () => {
 
   it('should render investigation description', async () => {
     const { notification } = await renderCloseModal(NotificationStatus.SENT);
-    const description = await waitFor(() => screen.getByText(notification.description));
+    const description = await waitFor(() => screen.getAllByText(notification.description));
 
-    expect(description).toBeInTheDocument();
+    expect(description[0]).toBeInTheDocument();
   });
 
   it('should check validation of textarea', async () => {

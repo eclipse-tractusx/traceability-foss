@@ -96,21 +96,6 @@ describe('modalComponent', () => {
     await waitFor(() => expect(spyOnClose).toHaveBeenCalledWith(false));
   });
 
-  it('should set left button as confirm when leftIsConfirm is true', async () => {
-    confirmModalData.leftIsConfirm = true;
-
-    const { fixture } = await renderModalComponent(ModalComponent);
-
-    const confirmTextElement = await waitFor(() => screen.getByText(confirmModalData.buttonLeft));
-    expect(confirmTextElement).toBeInTheDocument();
-
-    const spyOnConfirm = spyOn(fixture.componentInstance as any, 'confirm').and.callThrough();
-
-    confirmTextElement.click();
-
-    await waitFor(() => expect(spyOnConfirm).toHaveBeenCalledTimes(1));
-  });
-
   it('should click confirm button and close - with valid formGroup', async () => {
     const spyOnFormGroup = jasmine.createSpyObj('FormGroup', ['markAllAsTouched', 'updateValueAndValidity'], {
       valid: true,

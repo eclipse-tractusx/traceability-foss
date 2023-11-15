@@ -27,7 +27,6 @@ export interface ModalData {
   buttonLeft: string;
   buttonRight: string;
   primaryButtonColour?: 'primary' | 'accent' | 'warn';
-  leftIsConfirm?: boolean;
 
   template?: TemplateRef<unknown>;
   message?: string;

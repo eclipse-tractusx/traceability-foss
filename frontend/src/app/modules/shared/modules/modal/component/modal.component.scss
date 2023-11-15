@@ -22,8 +22,15 @@
 @tailwind base;
 
 .container {
+  // padding: 10px 10px 10px 10px;
+}
+
+.header-text {
+  @apply text-primary;
+}
+
+.message-modal {
   width: 455px;
-  padding: 10px 10px 10px 10px;
 }
 
 .message-text {

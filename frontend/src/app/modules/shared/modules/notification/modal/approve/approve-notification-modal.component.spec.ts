@@ -38,9 +38,9 @@ describe('ApproveNotificationModalComponent', () => {
 
   it('should render investigation description', async () => {
     const { notification } = await renderApproveModal(NotificationStatus.CREATED);
-    const description = await waitFor(() => screen.getByText(notification.description));
+    const description = await waitFor(() => screen.getAllByText(notification.description));
 
-    expect(description).toBeInTheDocument();
+    expect(description[0]).toBeInTheDocument();
   });
 
   it('should call approve function', async () => {

@@ -148,7 +148,7 @@ export class AlertDetailComponent implements AfterViewInit, OnDestroy {
 
   public navigateBackToAlerts(): void {
     const { link } = getRoute(ALERT_BASE_ROUTE);
-    this.router.navigate([`/${link}`], {queryParams: {tabIndex: this.originTabIndex, pageNumber: this.originPageNumber}});
+    this.router.navigate([`/${link}`], { queryParams: { tabIndex: this.originTabIndex, pageNumber: this.originPageNumber } });
   }
 
   public handleConfirmActionCompletedEvent(): void {

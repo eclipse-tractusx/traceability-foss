@@ -19,16 +19,16 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-.card-list--container {
-}
+.card-list--container {}
 
 .card-list--row {
   display: grid;
   grid-template-columns: 35% 65%;
   grid-template-rows: minmax(23px, auto);
   align-items: center;
+  padding-bottom: 5px;
 
-  > span {
+  >span {
     line-height: 1.25rem;
   }
 

@@ -52,3 +52,12 @@
   line-height: 28px;
   @apply text-pendingDark;
 }
+
+.alternative-text {
+  @extend .body-small;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+  color: black;
+}

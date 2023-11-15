@@ -29,6 +29,7 @@ import { Severity } from '@shared/model/severity.model';
 })
 export class SeverityComponent {
   @Input() severity: Severity;
+  @Input() alternativeTextStyle = false;
 
   public getIconBySeverity(severity: Severity): string {
     const basePath = './assets/images/icons/';

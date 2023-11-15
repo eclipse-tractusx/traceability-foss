@@ -19,9 +19,10 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<div class="container">
+<div class="container"
+  [ngClass]="data.message ? 'message-modal' : ''">
   <div class="header">
-    <div>{{ data.title | i18n }}</div>
+    <div class="header-text">{{ data.title | i18n }}</div>
     <img mat-dialog-close
       class="pr-2"
       src="/assets/images/icons/closeDialog_icon.svg"
@@ -39,14 +40,14 @@ SPDX-License-Identifier: Apache-2.0
   <div class="buttons-container">
     <app-button *ngIf="data.buttonLeft"
       [variant]="'stroked'"
-      (click)=" data.leftIsConfirm ? confirm() : cancel()">
+      (click)="cancel()">
       <div class="left-button-text">{{ data.buttonLeft| i18n }}</div>
     </app-button>
 
     <app-button *ngIf="data.buttonRight"
       [variant]="'flat'"
       [color]="'primary'"
-      (click)="data.leftIsConfirm ? cancel(): confirm()">
+      (click)="confirm()">
       <div class="right-button-text">{{ data.buttonRight| i18n }}</div>
     </app-button>
 

@@ -110,10 +110,9 @@ export abstract class RequestNotificationBase {
       data: {
         title: 'parts.confirmationDialog.deletePartTitle',
         message: 'parts.confirmationDialog.deletePartMessage',
-        buttonLeft: 'parts.confirmationDialog.deletePartButton',
-        buttonRight: 'confirmationDialog.cancel',
+        buttonLeft: 'confirmationDialog.cancel',
+        buttonRight: 'parts.confirmationDialog.deletePartButton',
         primaryButtonColour: 'primary',
-        leftIsConfirm: true,
         onConfirm: (isConfirmed: boolean) => {
           this.deselectPart.emit(part);
           this.selectedItems.splice(this.selectedItems.indexOf(part), 1);

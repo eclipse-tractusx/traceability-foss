@@ -25,7 +25,7 @@ export class DashboardAssembler {
   public static assembleDashboard(dashboard: DashboardStatsResponse): DashboardStats {
     return {
       otherParts: dashboard.otherParts,
-      myItems: dashboard.myItems,
+      myParts: dashboard.myParts,
       investigations: dashboard.investigations,
       alerts: dashboard.alerts,
     };

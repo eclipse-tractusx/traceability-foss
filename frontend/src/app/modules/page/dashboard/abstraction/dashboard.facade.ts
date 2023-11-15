@@ -83,7 +83,7 @@ export class DashboardFacade {
     this.assetNumbersSubscription?.unsubscribe();
     this.assetNumbersSubscription = this.dashboardService.getStats().subscribe({
       next: (dashboardStats: DashboardStats) => {
-        this.dashboardState.setNumberOfMyParts({ data: dashboardStats.myItems });
+        this.dashboardState.setNumberOfMyParts({ data: dashboardStats.myParts });
         this.dashboardState.setNumberOfOtherParts({ data: dashboardStats.otherParts });
         this.dashboardState.setNumberOfInvestigations({ data: dashboardStats.investigations || 0 });
         this.dashboardState.setNumberOfAlerts({ data: dashboardStats.alerts || 0 });

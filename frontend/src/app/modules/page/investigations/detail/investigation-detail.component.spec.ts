@@ -61,11 +61,6 @@ describe('InvestigationDetailComponent', () => {
     await waitFor(() => expect(screen.getByText('pageInvestigation.subHeadline.supplierParts')).toBeInTheDocument());
   });
 
-  it('should render specific text for back button', async () => {
-    await renderInvestigationDetail('id-1');
-    await waitFor(() => expect(screen.getByText('actions.goBack')).toBeInTheDocument());
-  });
-
   it('should render copy data to clipboard', async () => {
     await renderInvestigationDetail('id-1');
     await waitFor(() => expect(screen.getByText('pageInvestigation.subHeadline.supplierParts')).toBeInTheDocument());

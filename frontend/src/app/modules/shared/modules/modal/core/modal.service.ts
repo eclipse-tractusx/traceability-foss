@@ -33,13 +33,16 @@ export class ModalService {
   private dialogRef: MatDialogRef<ModalComponent>;
   private dialogConfirmSubscription: Subscription;
 
-  constructor(private readonly matDialog: MatDialog) {}
+  constructor(private readonly matDialog: MatDialog) { }
 
   public open(modalData: ModalData): void {
     const { title, template, buttonLeft, buttonRight, onConfirm, formGroup, primaryButtonColour } = modalData;
     const data = { title, template, buttonLeft, buttonRight, primaryButtonColour, formGroup };
 
-    this.dialogRef = this.matDialog.open(ModalComponent, { data });
+    this.dialogRef = this.matDialog.open(ModalComponent, {
+      autoFocus: false,
+      data
+    });
 
     this.dialogConfirmSubscription = this.dialogRef
       .afterClosed()

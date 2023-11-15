@@ -23,6 +23,6 @@ SPDX-License-Identifier: Apache-2.0
   <img class="pr-3.5"
     [src]="getIconBySeverity(severity)"
     [alt]="severity" />
-  <span class="text">{{ 'severity.' + severity
+  <span [class]="alternativeTextStyle ? 'alternative-text' : 'text'">{{ 'severity.' + severity
     | i18n }}</span>
 </p>

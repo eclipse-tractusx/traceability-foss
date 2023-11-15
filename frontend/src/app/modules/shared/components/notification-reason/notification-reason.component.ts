@@ -23,7 +23,7 @@ import { Component, Input } from '@angular/core';
 import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { Notification, NotificationUser, NotificationStatus } from '@shared/model/notification.model';
 
-type TextMessageDirection = 'left' | 'right';
+type TextMessageDirection = 'left' | 'right' | 'none';
 interface TextMessage {
   reason: string;
   direction: TextMessageDirection;
@@ -52,8 +52,8 @@ export class NotificationReasonComponent {
     const { ACCEPTED, SENT, CLOSED, CREATED, DECLINED } = NotificationStatus;
     const { accept, close, decline } = reason;
 
-    const senderDirection: TextMessageDirection = isFromSender ? 'right' : 'left';
-    const receiverDirection: TextMessageDirection = !isFromSender ? 'right' : 'left';
+    const senderDirection: TextMessageDirection = 'none';
+    const receiverDirection: TextMessageDirection = 'none';
 
     const createdMessage = {
       reason: description,

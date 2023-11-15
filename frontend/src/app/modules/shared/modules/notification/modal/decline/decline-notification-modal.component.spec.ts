@@ -40,9 +40,9 @@ describe('DeclineNotificationModalComponent', () => {
 
   it('should render investigation description', async () => {
     const { notification } = await renderDeclineModal(NotificationStatus.ACKNOWLEDGED);
-    const description = await waitFor(() => screen.getByText(notification.description));
+    const description = await waitFor(() => screen.getAllByText(notification.description));
 
-    expect(description).toBeInTheDocument();
+    expect(description[0]).toBeInTheDocument();
   });
 
   it('should check validation of textarea', async () => {

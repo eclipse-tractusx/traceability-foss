@@ -22,8 +22,9 @@ SPDX-License-Identifier: Apache-2.0
 <ng-template #Modal>
   <app-notification-modal-content [notification]="notification"></app-notification-modal-content>
 
-  <form [formGroup]="formGroup" class="mt-4">
-    <mat-hint>{{ translationContext + '.modal.declineReasonHint' | i18n }}</mat-hint>
-    <app-textarea formControlName="reason"></app-textarea>
+  <form [formGroup]="formGroup"
+    class="mt-4">
+    <app-textarea [label]="translationContext + '.modal.declineReasonHint' | i18n "
+      formControlName="reason"></app-textarea>
   </form>
 </ng-template>

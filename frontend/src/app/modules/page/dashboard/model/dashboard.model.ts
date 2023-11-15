@@ -21,14 +21,14 @@
 
 export interface DashboardStats {
   otherParts: number | null;
-  myItems: number;
+  myParts: number;
   investigations?: number;
   alerts?: number;
 }
 
 export interface DashboardStatsResponse {
   otherParts: number | null;
-  myItems: number;
+  myParts: number;
   investigations?: number;
   alerts?: number;
 }

@@ -16,36 +16,32 @@ under the License.
 
 SPDX-License-Identifier: Apache-2.0
 -->
-<app-approve-notification-modal
+<app-approve-notification-modal class="modal"
   (confirmActionCompleted)="handleModalConfirmActionCompletedEvent()"
   [approveCall]="this.helperService.approve.bind(this)"
-  [translationContext]="this.translationContext"
-></app-approve-notification-modal>
-<app-cancel-notification-modal
+  [translationContext]="this.translationContext"></app-approve-notification-modal>
+
+<app-cancel-notification-modal class="modal"
   (confirmActionCompleted)="handleModalConfirmActionCompletedEvent()"
   [cancelCall]="helperService.cancel.bind(this)"
-  [translationContext]="this.translationContext"
-></app-cancel-notification-modal>
-<app-close-notification-modal
+  [translationContext]="this.translationContext"></app-cancel-notification-modal>
+
+<app-close-notification-modal class="modal"
   (confirmActionCompleted)="handleModalConfirmActionCompletedEvent()"
   [closeCall]="helperService.close.bind(this)"
-  [translationContext]="this.translationContext"
-></app-close-notification-modal>
+  [translationContext]="this.translationContext"></app-close-notification-modal>
 
-<app-acknowledge-notification-modal
+<app-acknowledge-notification-modal class="modal"
   (confirmActionCompleted)="handleModalConfirmActionCompletedEvent()"
   [acknowledgeCall]="helperService.acknowledge.bind(this)"
-  [translationContext]="this.translationContext"
-></app-acknowledge-notification-modal>
+  [translationContext]="this.translationContext"></app-acknowledge-notification-modal>
 
-<app-accept-notification-modal
+<app-accept-notification-modal class="modal"
   (confirmActionCompleted)="handleModalConfirmActionCompletedEvent()"
   [acceptCall]="helperService.accept.bind(this)"
-  [translationContext]="this.translationContext"
-></app-accept-notification-modal>
+  [translationContext]="this.translationContext"></app-accept-notification-modal>
 
-<app-decline-notification-modal
+<app-decline-notification-modal class="modal"
   (confirmActionCompleted)="handleModalConfirmActionCompletedEvent()"
   [declineCall]="helperService.decline.bind(this)"
-  [translationContext]="this.translationContext"
-></app-decline-notification-modal>
+  [translationContext]="this.translationContext"></app-decline-notification-modal>

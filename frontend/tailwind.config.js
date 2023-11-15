@@ -89,7 +89,6 @@ module.exports = {
 
       secondaryLight: '#808080',
 
-      secondaryButton: '#000000',
       secondaryButton: '#333333',
 
       tertiaryLight: '#F58220',
@@ -156,14 +155,15 @@ module.exports = {
 
       // Status colors for notification badges
 
-      acceptedLight: '#ffffff',
-      acceptedDark: '#6BA13C80',
+      acceptedLight: '#FFFFFF',
+      acceptedDark: '#6BA13C',
+
 
       createdLight: '#f2f3fb',
       createdDark: '#111111',
 
-      receivedLight: '#e1f1fe',
-      receivedDark: '#2b4078',
+      receivedLight: '#2484C633',
+      receivedDark: '#2484C6',
 
       pendingLight: '#FDB913',
       pendingDark: '#262124',
@@ -173,6 +173,9 @@ module.exports = {
 
       declinedLight: '#FF000033',
       declinedDark: '#B62100',
+
+      queuedLight: '#FFFFFF56',
+      queuedDark: '#F58220',
 
       closedLight: '#ffffff',
       closedDark: '#000000',
@@ -186,7 +189,6 @@ module.exports = {
       acknowledgedLight: '#A6CE3980',
       acknowledgedDark: '#486D28',
 
-      white: '#ffffff',
       black: '#000000',
 
       qualityTypeOk: '#3db014',
