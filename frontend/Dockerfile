@@ -33,7 +33,7 @@ COPY ./ .
 COPY ./LICENSE /ng-app/dist/
 COPY ./DEPENDENCIES_FRONTEND /ng-app/dist/
 COPY ./SECURITY.md /ng-app/dist/
-COPY ./NOTICE.md /ng-app/dist/
+#COPY ./NOTICE.md /ng-app/dist/
 
 ## Build the angular app in production mode and store the artifacts in dist folder
 RUN yarn build:prod && mv /ng-app/dist/index.html /ng-app/dist/index.html.reference
