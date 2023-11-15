@@ -28,14 +28,11 @@ export const DATE_FILTER_KEYS = [ 'manufacturingDate', 'functionValidFrom', 'fun
 
 // TODO: Refactor function as soon as multi value filter is supported
 export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, params: HttpParams, filterOperator: string): HttpParams {
-console.log(filter, "THE FILTER");
 
   for (const key in filter) {
     let operator: string;
     const filterValues: string = filter[key];
-    console.log(filterValues, "values");
     if (!filterValues){
-      console.log("!break");
       continue;
     }
     // has date

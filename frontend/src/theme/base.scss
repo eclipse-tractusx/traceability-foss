@@ -191,7 +191,9 @@ app-multiselect {
 }
 
 .app-multiselect-filter-dropdown {
-  max-height: 550px !important;
+  max-height: 300px !important;
+  top: unset;
+  bottom: 0;
 }
 
 app-parts, app-other-parts, app-notifications-tab {

@@ -109,12 +109,10 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
 
   ngOnInit(): void {
     this.searchElementChange.subscribe((value) => {
-      console.log("test");
       if (this.delayTimeoutId) {
         clearTimeout(this.delayTimeoutId);
         this.delayTimeoutId = null;
         this.filterItem(value);
-        console.log('Timeout cleared, function aborted.');
       }
     });
   }
@@ -148,6 +146,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     }
     this.formControl.patchValue(this.selectedValue);
     this.selectionChange.emit(this.selectedValue);
+    this.searchElement = this.selectedValue;
   };
 
   changeSearchTextOption() {
@@ -160,18 +159,26 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   }
 
   displayValue() {
-    let suffix;
+    let suffix = '';
+    let displayValue;
+    // add +X others label if multiple
     if (this.selectedValue?.length > 1) {
       suffix = (' + ' + (this.selectedValue?.length - 1)) + ' ' + this.placeholderMultiple;
-    } else {
-      suffix = '';
     }
 
+    // apply CamelCase to semanticDataModel labels
     if (this.filterColumn === 'semanticDataModel') {
-      return this.formatPartSemanticDataModelToCamelCasePipe.transformModel(this.selectedValue[0]) + suffix;
+      displayValue = this.formatPartSemanticDataModelToCamelCasePipe.transformModel(this.selectedValue[0]) + suffix;
     } else {
-      return this.selectedValue[0] + suffix;
+      displayValue = this.selectedValue[0] + suffix;
     }
+
+    // if no value selected, return empty string
+    if(!this.selectedValue.length) {
+      displayValue = ''
+    }
+
+    return displayValue;
   }
 
   filterItem(value: any): void {
@@ -260,9 +267,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   clickClear(): void {
     this.formControl.patchValue('');
     this.formControl.reset();
-    if (this.searchInput) {
-      this.searchInput.value = '';
-    }
     this.searchElement = '';
     this.selectedValue = [];
     this.startDate = null;
@@ -279,11 +283,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
 
 
   onSelectionChange(val: any) {
-    if (this.singleSearch){
-      console.log("SINGLE");
-      console.log(val, "single val");
-    }
-console.log("sel change");
     const filteredValues = this.getFilteredOptionsValues();
 
     const selectedCount = this.selectedValue.filter(item => filteredValues.includes(item)).length;
