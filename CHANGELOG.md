@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [UNRELEASED - DD.MM.YYYY]
+### Added
+
+### Changed
+
+### Removed
 
 ## [9.0.0-rc2 - 15.11.2023]
 ### Added
