@@ -259,8 +259,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   startDateSelected(event: MatDatepickerInputEvent<Date>) {
     this.startDate = event.value;
     this.searchElement = this.datePipe.transform(this.startDate, 'yyyy-MM-dd');
-    this.formControl.patchValue(this.searchElement);
-    this.selectedValue = this.searchElement as unknown as [];
   }
 
   endDateSelected(event: MatDatepickerInputEvent<Date>) {
@@ -269,8 +267,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
       return;
     }
     this.searchElement += ',' + this.datePipe.transform(this.endDate, 'yyyy-MM-dd');
-    this.formControl.patchValue(this.searchElement);
-    this.selectedValue = this.searchElement as unknown as [];
   }
 
   clickClear(): void {

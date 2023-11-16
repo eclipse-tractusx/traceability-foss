@@ -26,7 +26,7 @@ import {
 
 export const DATE_FILTER_KEYS = [ 'manufacturingDate', 'functionValidFrom', 'functionValidUntil', 'validityPeriodFrom', 'validityPeriodTo' ];
 
-// TODO: Refactor function as soon as multi value filter is supported
+// TODO: Refactor function
 export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, params: HttpParams, filterOperator: string): HttpParams {
 
   for (const key in filter) {
