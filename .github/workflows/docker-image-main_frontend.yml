@@ -58,7 +58,7 @@ jobs:
         if: env.DOCKER_HUB_USER == ''
         uses: docker/build-push-action@v5
         with:
-          context: frontend
+          context: .
           push: true
           tags: ${{ env.GHCR_REGISTRY }}/${{ github.repository }}-frontend:${{ github.sha }}
 

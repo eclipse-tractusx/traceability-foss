@@ -20,7 +20,7 @@
 FROM node:18-alpine AS builder
 
 # Copy dependencies info
-COPY /frontend/package.json /frontend/yarn.lock ./
+COPY ./frontend/package.json ./frontend/yarn.lock ./
 
 # Storing node modules on a separate layer will prevent unnecessary npm installs at each build
 RUN yarn install && mkdir /ng-app && mv ./node_modules ./ng-app
