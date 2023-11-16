@@ -184,7 +184,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   }
 
   filterItem(value: any): void {
-
     if (!value) {
       return;
     }
@@ -193,48 +192,52 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
       return;
     }
 
-    // emit a event that the searchElement changed
+    // emit an event that the searchElement changed
     // if there is a timeout currently, abort the changes.
     if (this.delayTimeoutId) {
       this.searchElementChange.emit(value);
       return;
     }
+
     // if there is no timeout currently, start the delay
-    const timeoutCallback = async (): Promise<void> => {
+    const timeoutCallback = (): void => {
       this.isLoadingSuggestions = true;
       const tableOwner = this.getOwnerOfTable(this.partTableType);
 
       try {
-        const res = await firstValueFrom(this.partsService.getDistinctFilterValues(
+        firstValueFrom(this.partsService.getDistinctFilterValues(
             this.isAsBuilt,
             tableOwner,
             this.filterColumn,
             this.searchElement
-        ));
+        )).then((res) => {
+          if (this.filterColumn === 'semanticDataModel') {
+            this.options = res.map(option => ({
+              display: this.formatPartSemanticDataModelToCamelCasePipe.transformModel(option),
+              value: option,
+            }));
+          } else {
+            this.options = res.map(option => ({ display: option, value: option }));
+          }
 
-        if (this.filterColumn === 'semanticDataModel') {
-          this.options = res.map(option => ({
-            display: this.formatPartSemanticDataModelToCamelCasePipe.transformModel(option),
-            value: option,
-          }));
-        } else {
-          this.options = res.map(option => ({ display: option, value: option }));
-        }
-
-        this.filteredOptions = this.options;
-        this.suggestionError = !this.filteredOptions.length;
+          this.filteredOptions = this.options;
+          this.suggestionError = !this.filteredOptions.length;
+        }).catch((error) => {
+          console.error('Error fetching data: ', error);
+          this.suggestionError = !this.filteredOptions.length;
+        }).finally(() => {
+          this.delayTimeoutId = null;
+          this.isLoadingSuggestions = false;
+        });
       } catch (error) {
-        console.error('Error fetching data: ', error);
-        this.suggestionError = !this.filteredOptions.length;
+        console.error('Error in timeoutCallback: ', error);
       }
-
-      this.delayTimeoutId = null;
-      this.isLoadingSuggestions = false;
     };
 
     // Start the delay with the callback
     this.delayTimeoutId = setTimeout(timeoutCallback, 500);
   }
+
 
   isUnsupportedAutoCompleteField(fieldName: string) {
     return fieldName === 'activeAlerts' || fieldName === 'activeInvestigations';
