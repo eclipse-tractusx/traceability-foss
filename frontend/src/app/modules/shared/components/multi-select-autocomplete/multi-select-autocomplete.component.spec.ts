@@ -277,4 +277,39 @@ describe('MultiSelectAutocompleteComponent', () => {
         expect(isSupported).toBeTruthy();
     })
 
+    it('should subscribe to searchElementChange and call filterItem when delayTimeoutId is present', async () => {
+        const {fixture} = await renderMultiSelectAutoCompleteComponent();
+        const {componentInstance} = fixture;
+        // Mock clearTimeout function
+        let clearSpy = spyOn(window, 'clearTimeout');
+        let filterSpy = spyOn(componentInstance,'filterItem');
+
+        // Initial setup
+        componentInstance.delayTimeoutId = 123; // Mocking a non-null delayTimeoutId
+        const searchElementValue = 'mockValue';
+
+        // Trigger ngOnInit
+        fixture.detectChanges();
+        // Emit a value to simulate the searchElementChange event
+
+        componentInstance.searchElementChange.next(searchElementValue);
+        //expect(componentInstance.delayTimeoutId).toEqual(123);
+        // Expectations
+        expect(clearSpy).toHaveBeenCalledWith(123);
+        expect(filterSpy).toHaveBeenCalledWith(searchElementValue);
+        expect(componentInstance.delayTimeoutId).toBeNull();
+    });
+
+    it('should change searchtext option', async () => {
+        const {fixture} = await renderMultiSelectAutoCompleteComponent();
+        const {componentInstance} = fixture;
+
+        const searchElementChangeSpy = spyOn(componentInstance.selectionChange, 'emit');
+
+        componentInstance.selectedValue = ['test'];
+        componentInstance.changeSearchTextOption();
+        expect(componentInstance.formControl.value).toEqual(['test']);
+        expect(searchElementChangeSpy).toHaveBeenCalledWith(['test']);
+    })
+
 });
