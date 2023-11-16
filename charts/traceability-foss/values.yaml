@@ -38,7 +38,7 @@ frontend:
   fullnameOverride: "tx-frontend"
   replicaCount: 1
   image:
-    repository: tractusx/tx-traceability-foss
+    repository: tractusx/traceability-foss
     pullPolicy: Always
     CATENAX_PORTAL_API_URL: "CHANGEME"  # https://<backend.ingres.host>/api
     CATENAX_PORTAL_KEYCLOAK_URL: "CHANGEME"  # portal api keycloak example: https://keycloak.net/auth
@@ -156,7 +156,7 @@ backend:
   replicaCount: 1
 
   image:
-    repository: tractusx/tx-traceability-foss
+    repository: tractusx/traceability-foss
     pullPolicy: Always
 
   springprofile: dev  # will be set as dev

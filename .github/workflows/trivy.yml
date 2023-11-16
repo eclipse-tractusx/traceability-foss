@@ -63,13 +63,13 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: frontend
+        working-directory: .
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Build an image from Dockerfile
-        run: docker build -t localhost:5000/traceability-foss:fe_${{ github.sha }} .
+        run: docker build -t localhost:5000/traceability-foss:fe_${{ github.sha }} -f ./frontend/Dockerfile .
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@0.14.0
