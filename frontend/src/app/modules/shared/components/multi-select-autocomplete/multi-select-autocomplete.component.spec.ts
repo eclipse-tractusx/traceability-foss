@@ -125,7 +125,6 @@ describe('MultiSelectAutocompleteComponent', () => {
 
 
         componentInstance.filterItem('Display1'); // Filter based on 'Display1'
-        console.log(componentInstance.options)
 
         expect(componentInstance.options.length).toBe(2);
         expect(componentInstance.options[0]).toBe('PARTASPLANNED');
@@ -187,8 +186,6 @@ describe('MultiSelectAutocompleteComponent', () => {
         // Call the function to test
         componentInstance.startDateSelected(event);
 
-        console.log(componentInstance.startDate);
-
 
 
         // Expectations
@@ -238,7 +235,6 @@ describe('MultiSelectAutocompleteComponent', () => {
         const expectedOwners = [Owner.OWN,Owner.OWN,Owner.SUPPLIER,Owner.SUPPLIER,Owner.CUSTOMER,Owner.CUSTOMER, Owner.UNKNOWN];
         [PartTableType.AS_BUILT_OWN, PartTableType.AS_PLANNED_OWN, PartTableType.AS_BUILT_SUPPLIER, PartTableType.AS_PLANNED_SUPPLIER, PartTableType.AS_BUILT_CUSTOMER,PartTableType.AS_PLANNED_CUSTOMER, null].forEach((tableType, index) => {
             expect(componentInstance.getOwnerOfTable(tableType)).toEqual(expectedOwners[index]);
-            console.log(tableType);
         })
     })
 
