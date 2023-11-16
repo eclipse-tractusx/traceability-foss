@@ -177,8 +177,8 @@ describe('MultiSelectAutocompleteComponent', () => {
         const inputValue = new Date('2023-10-12'); // Replace with your desired date
 
         // Create a mock event with the selected date
-        const event: MatDatepickerInputEvent<Date> = {
-            value: inputValue,
+        const event: any = {
+            value: [inputValue],
             target: undefined,
             targetElement: undefined
         };
@@ -193,7 +193,7 @@ describe('MultiSelectAutocompleteComponent', () => {
         expect(componentInstance.searchElement).toEqual('2023-10-12');
     });
 
- */
+*/
     /*
     it('should emit date range correctly when changeEvent of Datepicker is triggered', async () => {
       const {fixture} = await renderMultiSelectAutoCompleteComponent(false);
@@ -240,8 +240,17 @@ describe('MultiSelectAutocompleteComponent', () => {
 
         const expectedOwners = [Owner.OWN,Owner.OWN,Owner.SUPPLIER,Owner.SUPPLIER,Owner.CUSTOMER,Owner.CUSTOMER];
         [PartTableType.AS_BUILT_OWN, PartTableType.AS_PLANNED_OWN, PartTableType.AS_BUILT_SUPPLIER, PartTableType.AS_PLANNED_SUPPLIER, PartTableType.AS_BUILT_CUSTOMER,PartTableType.AS_PLANNED_CUSTOMER].forEach((tableType, index) => {
-            console.log(tableType,expectedOwners[index]);
             expect(componentInstance.getOwnerOfTable(tableType)).toEqual(expectedOwners[index]);
         })
+    })
+
+    it('should filter date with dateFilter()', async function() {
+        const {fixture} = await renderMultiSelectAutoCompleteComponent();
+        const {componentInstance} = fixture;
+
+        // @ts-ignore
+        componentInstance.searchElement = ["2023-12-10"] as unknown as [];
+        componentInstance.dateFilter();
+        expect(componentInstance.formControl.value).toEqual(['2023-12-10']);
     })
 });

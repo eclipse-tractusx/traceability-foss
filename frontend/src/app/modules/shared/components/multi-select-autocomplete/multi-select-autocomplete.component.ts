@@ -130,7 +130,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     if (selectCheckbox.checked) {
       // if there are no suggestion but the selectAll checkbox was checked
       if (!this.filteredOptions.length) {
-        console.log(this.searchElement);
         this.formControl.patchValue(this.searchElement);
         this.selectedValue = this.searchElement as unknown as [];
       } else {
@@ -200,12 +199,10 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
       this.searchElementChange.emit(value);
       return;
     }
-    console.log("going into timeout")
     // if there is no timeout currently, start the delay
     const timeoutCallback = async (): Promise<void> => {
       this.isLoadingSuggestions = true;
       const tableOwner = this.getOwnerOfTable(this.partTableType);
-      console.log("in timeout");
 
       try {
         const res = await firstValueFrom(this.partsService.getDistinctFilterValues(
@@ -257,7 +254,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   }
 
   startDateSelected(event: MatDatepickerInputEvent<Date>) {
-    console.log("startdate");
     this.startDate = event.value;
     this.searchElement = this.datePipe.transform(this.startDate, 'yyyy-MM-dd');
     this.formControl.patchValue(this.searchElement);
@@ -265,7 +261,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   }
 
   endDateSelected(event: MatDatepickerInputEvent<Date>) {
-    console.log("enddate");
     this.endDate = event.value;
     if (!this.endDate) {
       return;
@@ -286,9 +281,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   }
 
   dateFilter(){
-    console.log(this.startDate, "startdate");
-    console.log(this.endDate, "enddate");
-    console.log(this.searchElement, "element");
     this.formControl.patchValue(this.searchElement);
   }
 
