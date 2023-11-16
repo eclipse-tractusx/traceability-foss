@@ -54,10 +54,13 @@ describe('FormatPartSemanticDataModelToCamelCasePipe', () => {
   {
     option: SemanticDataModel.UNKNOWN,
     expected: 'Unknown'
+  },
+  {option: SemanticDataModel.JUSTINSEQUENCE,
+    expected: 'JustInSequence'
   }
     ].forEach(object => {
 
-    it(`should transform semanticDataModel from ${object.option} to ${object.expected}`, function()  {
+    it(`should transform semanticDataModel from ${object.option} Part to ${object.expected}`, function()  {
       let partData = PartsAssembler.assemblePart(MOCK_part_1, MainAspectType.AS_BUILT);
       partData.semanticDataModel = object.option;
 
@@ -82,13 +85,16 @@ describe('FormatPartSemanticDataModelToCamelCasePipe', () => {
           option: SemanticDataModel.PARTASPLANNED,
           expected: 'PartAsPlanned',
         },
+      {option: SemanticDataModel.JUSTINSEQUENCE,
+        expected: 'JustInSequence'
+      },
         {
           option: SemanticDataModel.UNKNOWN,
           expected: 'Unknown'
         }
     ].forEach(object => {
 
-  it(`should transform semanticDataModel from ${object.option} to ${object.expected}`, function()  {
+  it(`should transform semanticDataModel from ${object.option} Model to ${object.expected}`, function()  {
 
     let transformedModel = formatPartSemanticDataModelToCamelCasePipe.transformModel(object.option)
 

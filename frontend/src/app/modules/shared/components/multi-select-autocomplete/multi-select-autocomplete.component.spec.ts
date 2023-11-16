@@ -226,6 +226,17 @@ describe('MultiSelectAutocompleteComponent', () => {
 
       // Expectations
       expect(componentInstance.searchElement).toBe('2023-10-12,2023-10-20');
+
+      componentInstance.searchElement = '';
+      componentInstance.endDate = null;
+        const emptyEndEvent: MatDatepickerInputEvent<Date> = {
+            value: null,
+            target: undefined,
+            targetElement: undefined
+        };
+      componentInstance.endDateSelected(emptyEndEvent);
+
+      expect(componentInstance.searchElement).toEqual('');
     })
 
     it('should retrieve correct Owner of partTableType', async() => {
@@ -247,4 +258,23 @@ describe('MultiSelectAutocompleteComponent', () => {
         componentInstance.dateFilter();
         expect(componentInstance.formControl.value).toEqual(['2023-12-10']);
     })
+
+    it('should return false if autocomplete field is supported', async function() {
+        const {fixture} = await renderMultiSelectAutoCompleteComponent();
+        const {componentInstance} = fixture;
+
+        const isSupported = componentInstance.isUnsupportedAutoCompleteField('valid');
+        expect(isSupported).toBeFalsy();
+    })
+
+    it('should return true if autocomplete field is unsupported', async function() {
+        const {fixture} = await renderMultiSelectAutoCompleteComponent();
+        const {componentInstance} = fixture;
+
+        let isSupported = componentInstance.isUnsupportedAutoCompleteField('activeAlerts');
+        expect(isSupported).toBeTruthy();
+        isSupported = componentInstance.isUnsupportedAutoCompleteField('activeInvestigations');
+        expect(isSupported).toBeTruthy();
+    })
+
 });
