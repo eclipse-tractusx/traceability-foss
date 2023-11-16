@@ -28,13 +28,12 @@ RUN yarn install && mkdir /ng-app && mv ./node_modules ./ng-app
 # Set workdir and copy
 WORKDIR /ng-app
 COPY ./ .
-# Log directory contents for debugging
-RUN ls -al
+
 # Copy license info into final artifact
-COPY ./LICENSE /ng-app/dist/
-COPY ./DEPENDENCIES_FRONTEND /ng-app/dist/
-COPY ./SECURITY.md /ng-app/dist/
-COPY ./NOTICE.md /ng-app/dist/
+COPY LICENSE /ng-app/dist/
+COPY DEPENDENCIES_FRONTEND /ng-app/dist/
+COPY SECURITY.md /ng-app/dist/
+COPY NOTICE.md /ng-app/dist/
 
 ## Build the angular app in production mode and store the artifacts in dist folder
 RUN yarn build:prod && mv /ng-app/dist/index.html /ng-app/dist/index.html.reference
