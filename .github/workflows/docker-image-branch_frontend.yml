@@ -77,5 +77,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: frontend
+          no-cache: true
           push: true
           tags: ${{ env.DOCKER_HUB_REGISTRY_NAMESPACE }}/${{ env.FRONTEND_IMAGE_DOCKER_HUB }}:${{ github.event.pull_request.head.sha }}
