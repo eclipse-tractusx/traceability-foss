@@ -248,8 +248,8 @@ public class AssetAsPlannedController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("distinctFilterValues")
-    public List<String> distinctFilterValues(@QueryParam("fieldName") String fieldName, @QueryParam("size") Long size, @QueryParam("startWith") String startWith) {
-        return assetService.getDistinctFilterValues(fieldMapper.mapRequestFieldName(fieldName), startWith, size);
+    public List<String> distinctFilterValues(@QueryParam("fieldName") String fieldName, @QueryParam("size") Long size, @QueryParam("startWith") String startWith, @QueryParam("owner") String owner) {
+        return assetService.getDistinctFilterValues(fieldMapper.mapRequestFieldName(fieldName), startWith, size, owner);
     }
 
     @Operation(operationId = "assetById",

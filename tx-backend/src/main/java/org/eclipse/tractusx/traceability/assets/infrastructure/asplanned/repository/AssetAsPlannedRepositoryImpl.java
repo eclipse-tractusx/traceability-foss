@@ -38,6 +38,8 @@ import java.util.List;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 import static org.eclipse.tractusx.traceability.common.repository.EntityNameMapper.toDatabaseName;
+import static org.eclipse.tractusx.traceability.common.repository.SqlUtil.combineWhereClause;
+import static org.eclipse.tractusx.traceability.common.repository.SqlUtil.constructAndOwnerWildcardQuery;
 import static org.eclipse.tractusx.traceability.common.repository.SqlUtil.constructLikeWildcardQuery;
 
 @RequiredArgsConstructor
@@ -121,9 +123,9 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository {
     }
 
     @Override
-    public List<String> getFieldValues(String fieldName, String startWith, Long resultLimit) {
+    public List<String> getFieldValues(String fieldName, String startWith, Long resultLimit, String owner) {
         String databaseFieldName = toDatabaseName(fieldName);
-        String getFieldValuesQuery = "SELECT DISTINCT " + databaseFieldName + " FROM assets_as_planned" + constructLikeWildcardQuery(databaseFieldName, startWith) + " ORDER BY " + databaseFieldName + " ASC LIMIT :resultLimit";
+        String getFieldValuesQuery = "SELECT DISTINCT " + databaseFieldName + " FROM assets_as_planned" + combineWhereClause(constructLikeWildcardQuery(databaseFieldName, startWith), constructAndOwnerWildcardQuery(owner)) + " ORDER BY " + databaseFieldName + " ASC LIMIT :resultLimit";
 
         return entityManager.createNativeQuery(getFieldValuesQuery, String.class)
                 .setParameter("resultLimit", resultLimit)
