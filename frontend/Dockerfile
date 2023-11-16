@@ -24,7 +24,7 @@ COPY /package.json /yarn.lock ./
 
 # Storing node modules on a separate layer will prevent unnecessary npm installs at each build
 RUN yarn install && mkdir /ng-app && mv ./node_modules ./ng-app
-COPY ../../LICENSE /ng-app/dist/
+COPY ../LICENSE /ng-app/dist/
 #COPY DEPENDENCIES_FRONTEND /ng-app/dist/
 #COPY SECURITY.md /ng-app/dist/
 #COPY NOTICE.md /ng-app/dist/
