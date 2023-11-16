@@ -17,8 +17,8 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {HttpParams} from '@angular/common/http';
-import {enrichFilterAndGetUpdatedParams} from './filter-helper';
+import { HttpParams } from '@angular/common/http';
+import { enrichFilterAndGetUpdatedParams } from './filter-helper';
 
 describe('enrichFilterAndGetUpdatedParams', () => {
     it('should append filter parameters for non-date filters', () => {
@@ -27,9 +27,9 @@ describe('enrichFilterAndGetUpdatedParams', () => {
         };
         const params = new HttpParams();
         // @ts-ignore
-        const result = enrichFilterAndGetUpdatedParams(filter, params);
+        const result = enrichFilterAndGetUpdatedParams(filter, params, "OR");
 
-        expect(result.toString()).toContain('filter=otherKey,STARTS_WITH,value3');
+        expect(result.toString()).toContain('filter=otherKey,EQUAL,value3');
     });
 
     it('should append filter parameters for date filters', () => {
@@ -41,11 +41,11 @@ describe('enrichFilterAndGetUpdatedParams', () => {
         };
         const params = new HttpParams();
         // @ts-ignore
-        const result = enrichFilterAndGetUpdatedParams(filter, params);
-        expect(result.toString()).toContain('filter=functionValidUntil,AFTER_LOCAL_DATE,2023-10-13');
-        expect(result.toString()).toContain('filter=functionValidFrom,AFTER_LOCAL_DATE,2023-10-14');
-        expect(result.toString()).toContain('filter=validityPeriodFrom,AFTER_LOCAL_DATE,2023-10-15');
-        expect(result.toString()).toContain('filter=validityPeriodTo,AFTER_LOCAL_DATE,2023-10-17');
+        const result = enrichFilterAndGetUpdatedParams(filter, params,"OR");
+        expect(result.toString()).toContain('filter=functionValidUntil,AT_LOCAL_DATE,2023-10-13');
+        expect(result.toString()).toContain('filter=functionValidFrom,AT_LOCAL_DATE,2023-10-14');
+        expect(result.toString()).toContain('filter=validityPeriodFrom,AT_LOCAL_DATE,2023-10-15');
+        expect(result.toString()).toContain('filter=validityPeriodTo,AT_LOCAL_DATE,2023-10-17');
     });
 
     it('should append filter parameters for date range filters', () => {
@@ -85,8 +85,8 @@ describe('enrichFilterAndGetUpdatedParams', () => {
         };
         const params = new HttpParams();
         // @ts-ignore
-        const result = enrichFilterAndGetUpdatedParams(filter, params);
-        expect(result.toString()).toContain('filter=semanticDataModel,EQUAL,value1');
+        const result = enrichFilterAndGetUpdatedParams(filter, params, "OR");
+        expect(result.toString()).toContain('filter=semanticDataModel,STARTS_WITH,value1,OR');
     });
 
     it('should handle empty filter values', () => {

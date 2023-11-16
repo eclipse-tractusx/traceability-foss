@@ -16,7 +16,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import { HttpParams } from '@angular/common/http';
+import {HttpParams} from '@angular/common/http';
 import {
   AssetAsBuiltFilter,
   AssetAsPlannedFilter,
@@ -26,52 +26,58 @@ import {
 
 export const DATE_FILTER_KEYS = [ 'manufacturingDate', 'functionValidFrom', 'functionValidUntil', 'validityPeriodFrom', 'validityPeriodTo' ];
 
-// TODO: Refactor function as soon as multi value filter is supported
+// TODO: Refactor function
 export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, params: HttpParams, filterOperator: string): HttpParams {
-  const semanticDataModelKey = 'semanticDataModel';
+
   for (const key in filter) {
     let operator: string;
     const filterValues: string = filter[key];
-    if (key !== semanticDataModelKey) {
-      if (filterValues.length !== 0) {
-        if (isDateFilter(key)) {
-          if (isDateRangeFilter(filterValues)) {
-            const [ startDate, endDate ] = filterValues.split(',');
-            if (isSameDate(startDate, endDate)) {
-              operator = getFilterOperatorValue(FilterOperator.AT_LOCAL_DATE);
-              params = params.append('filter', `${ key },${ operator },${ startDate },${ filterOperator }`);
-              continue;
-            }
-            let endDateOperator = getFilterOperatorValue(FilterOperator.BEFORE_LOCAL_DATE);
-            operator = getFilterOperatorValue((FilterOperator.AFTER_LOCAL_DATE));
-            params = params.append('filter', `${ key },${ operator },${ startDate },${ filterOperator }`);
-            params = params.append('filter', `${ key },${ endDateOperator },${ endDate },${ filterOperator }`);
-            continue;
-          } else {
-            operator = getFilterOperatorValue(FilterOperator.AFTER_LOCAL_DATE);
-          }
-        } else {
-          if (isNotificationCountFilter(key)) {
-            operator = getFilterOperatorValue(FilterOperator.NOTIFICATION_COUNT_EQUAL);
-          } else {
-            operator = getFilterOperatorValue(FilterOperator.STARTS_WITH);
-          }
-
+    if (!filterValues){
+      continue;
+    }
+    // has date
+    if (isDateFilter(key)) {
+      if (isDateRangeFilter(filterValues)) {
+        const [ startDate, endDate ] = filterValues.split(',');
+        if (isSameDate(startDate, endDate)) {
+          operator = getFilterOperatorValue(FilterOperator.AT_LOCAL_DATE);
+          params = params.append('filter', `${ key },${ operator },${ startDate },${ filterOperator }`);
+          continue;
         }
-        params = params.append('filter', `${ key },${ operator },${ filterValues },${ filterOperator }`);
-      }
-    } else {
-      operator = getFilterOperatorValue(FilterOperator.EQUAL);
-      if (Array.isArray(filterValues)) {
-        for (let value of filterValues) {
-          params = params.append('filter', `${ key },${ operator },${ value },${ filterOperator }`);
-        }
-      } else {
-        params = params.append('filter', `${ key },${ operator },${ filterValues },${ filterOperator }`);
+        let endDateOperator = getFilterOperatorValue(FilterOperator.BEFORE_LOCAL_DATE);
+        operator = getFilterOperatorValue((FilterOperator.AFTER_LOCAL_DATE));
+        params = params.append('filter', `${ key },${ operator },${ startDate },${ filterOperator }`);
+        params = params.append('filter', `${ key },${ endDateOperator },${ endDate },${ filterOperator }`);
+        continue;
+      } else if (filterValues && filterValues.length != 0) {
+          console.log(filterValues, "filtervalues");
+          operator = getFilterOperatorValue(FilterOperator.AT_LOCAL_DATE);
+          params = params.append('filter', `${ key },${ operator },${ filterValues },${ filterOperator }`);
       }
     }
+
+    // has multiple values
+    if (isStartsWithFilter(key) && Array.isArray(filter[key])) {
+      operator = getFilterOperatorValue(FilterOperator.EQUAL);
+
+      for (const value of filter[key]) {
+        params = params.append('filter', `${ key },${ operator },${ value },${ filterOperator }`);
+      }
+    }
+
+    // has single value
+    if (isStartsWithFilter(key) && !Array.isArray(filter[key])) {
+      operator = getFilterOperatorValue(FilterOperator.STARTS_WITH);
+      params = params.append('filter', `${ key },${ operator },${ filterValues },${ filterOperator }`);
+    }
+
+    if (isNotificationCountFilter(key) && filterValues && filterValues.length != 0) {
+      operator = getFilterOperatorValue(FilterOperator.NOTIFICATION_COUNT_EQUAL);
+      params = params.append('filter', `${ key },${ operator },${ filterValues },${ filterOperator }`);
+    }
+
   }
-  console.log(params.toString(), 'params');
+
   return params;
 }
 
@@ -80,7 +86,7 @@ export function isStartsWithFilter(key: string): boolean {
 }
 
 export function isNotificationCountFilter(key: string): boolean {
-  return 'qualityInvestigationIdsInStatusActive' === key || 'qualityAlertIdsInStatusActive' === key;
+  return 'qualityAlertIdsInStatusActive' === key || 'qualityInvestigationIdsInStatusActive' === key;
 }
 
 export function isDateFilter(key: string): boolean {
@@ -111,7 +117,6 @@ export function toAssetFilter(formValues: any, isAsBuilt: boolean): AssetAsPlann
         continue;
       }
       transformedFilter[key] = formValues[key];
-
     }
   }
 

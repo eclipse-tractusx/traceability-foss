@@ -17,14 +17,15 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {SharedModule} from '@shared/shared.module';
-import {screen, waitFor} from '@testing-library/angular';
-import {renderComponent} from '@tests/test-render.utils';
-import {PartsTableComponent} from "@shared/components/parts-table/parts-table.component";
-import {Pagination} from "@core/model/pagination.model";
-import {PartTableType, TableConfig} from "@shared/components/table/table.model";
-import {PartsFacade} from "@page/parts/core/parts.facade";
-import {Sort} from "@angular/material/sort";
+import { Sort } from '@angular/material/sort';
+import { Pagination } from '@core/model/pagination.model';
+import { PartsFacade } from '@page/parts/core/parts.facade';
+import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
+import { PartTableType } from '@shared/components/table/table.model';
+import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
+import { SharedModule } from '@shared/shared.module';
+import { screen, waitFor } from '@testing-library/angular';
+import { renderComponent } from '@tests/test-render.utils';
 
 describe('PartsTableComponent', () => {
     const renderPartsTableComponent = (
@@ -39,6 +40,7 @@ describe('PartsTableComponent', () => {
             providers: [
                 // Provide the PartsFacade mock as a value for the PartsFacade token
                 {provide: PartsFacade},
+              {provide: FormatPartSemanticDataModelToCamelCasePipe},
             ],
             componentProperties: {multiSelectActive, paginationData, tableType},
         });
@@ -47,57 +49,10 @@ describe('PartsTableComponent', () => {
     const generateTableContent = (size: number) => {
         return Array.apply(null, Array(size)).map((_, i) => ({name: 'name_' + i, test: 'test'}));
     };
-    const renderPartsTable = (
-        size: number,
-        displayedColumns = [
-            'Filter',
-            'filterId',
-            'filterIdShort',
-            'filterName', // nameAtManufacturer
-            'filterManufacturer',
-            'filterPartId', // Part number / Batch Number / JIS Number
-            'filterManufacturerPartId',
-            'filterCustomerPartId', // --> semanticModel.customerPartId
-            'filterClassification',
-            //'nameAtManufacturer', --> already in name
-            'filterNameAtCustomer', // --> semanticModel.nameAtCustomer
-            'filterSemanticModelId',
-            'filterSemanticDataModel',
-            'filterManufacturingDate',
-            'filterManufacturingCountry',
-        ],
-        header = {name: 'Name'},
-        selected = jasmine.createSpy(),
-        tableType: PartTableType = PartTableType.AS_BUILT_OWN
-    ) => {
-        const content = generateTableContent(size);
-        const data = {page: 0, pageSize: 10, totalItems: 100, content} as Pagination<unknown>;
-
-        const tableConfig: TableConfig = {displayedColumns, header};
-
-        const multiSelectActive = true;
-
-
-        return renderComponent(
-            `<app-parts-table [tableType]='tableType' [multiSelectActive]='multiSelectActive' [paginationData]='data' (selected)='selected($event)'></app-parts-table>`,
-            {
-                declarations: [PartsTableComponent],
-                imports: [SharedModule],
-                componentProperties: {
-                    data,
-                    tableConfig,
-                    selected,
-                    multiSelectActive,
-                    tableType
-                },
-            },
-        );
-    };
-
 
     it('should render parts asbuilt table', async () => {
         const tableSize = 7;
-        await renderPartsTable(tableSize);
+        await renderPartsTableComponent(tableSize, PartTableType.AS_BUILT_OWN);
 
         expect(await waitFor(() => screen.getByTestId('table-component--test-id'))).toBeInTheDocument();
     });

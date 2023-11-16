@@ -17,12 +17,14 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { TestBed } from '@angular/core/testing';
-import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import { SemanticDataModel } from '@page/parts/model/parts.model';
-import { PartsAssembler } from '@shared/assembler/parts.assembler';
-import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
-import { MOCK_part_1 } from '../../../mocks/services/parts-mock/partsAsPlanned/partsAsPlanned.test.model';
+import {TestBed} from '@angular/core/testing';
+import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
+import {SemanticDataModel} from '@page/parts/model/parts.model';
+import {PartsAssembler} from '@shared/assembler/parts.assembler';
+import {
+  FormatPartSemanticDataModelToCamelCasePipe
+} from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
+import {MOCK_part_1} from '../../../mocks/services/parts-mock/partsAsPlanned/partsAsPlanned.test.model';
 
 describe('FormatPartSemanticDataModelToCamelCasePipe', () => {
   let formatPartSemanticDataModelToCamelCasePipe: FormatPartSemanticDataModelToCamelCasePipe;
@@ -49,9 +51,16 @@ describe('FormatPartSemanticDataModelToCamelCasePipe', () => {
       option: SemanticDataModel.PARTASPLANNED,
       expected: 'PartAsPlanned',
     },
+  {
+    option: SemanticDataModel.UNKNOWN,
+    expected: 'Unknown'
+  },
+  {option: SemanticDataModel.JUSTINSEQUENCE,
+    expected: 'JustInSequence'
+  }
     ].forEach(object => {
 
-    it(`should transform semanticDataModel from ${object.option} to ${object.expected}`, function()  {
+    it(`should transform semanticDataModel from ${object.option} Part to ${object.expected}`, function()  {
       let partData = PartsAssembler.assemblePart(MOCK_part_1, MainAspectType.AS_BUILT);
       partData.semanticDataModel = object.option;
 
@@ -61,5 +70,37 @@ describe('FormatPartSemanticDataModelToCamelCasePipe', () => {
 
       expect(transformedPartData.semanticDataModel).toEqual(object.expected);
     })
+  });
+
+    [
+    {
+      option: SemanticDataModel.BATCH,
+      expected: 'Batch',
+    },
+        {
+          option: SemanticDataModel.SERIALPART,
+          expected: 'SerialPart',
+        },
+        {
+          option: SemanticDataModel.PARTASPLANNED,
+          expected: 'PartAsPlanned',
+        },
+      {option: SemanticDataModel.JUSTINSEQUENCE,
+        expected: 'JustInSequence'
+      },
+        {
+          option: SemanticDataModel.UNKNOWN,
+          expected: 'Unknown'
+        }
+    ].forEach(object => {
+
+  it(`should transform semanticDataModel from ${object.option} Model to ${object.expected}`, function()  {
+
+    let transformedModel = formatPartSemanticDataModelToCamelCasePipe.transformModel(object.option)
+
+    expect(transformedModel).toEqual(object.expected);
   })
+})
+
+
 })
