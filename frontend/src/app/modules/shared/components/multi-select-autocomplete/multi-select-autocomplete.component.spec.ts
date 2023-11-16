@@ -64,7 +64,6 @@ describe('MultiSelectAutocompleteComponent', () => {
         componentInstance.clickClear();
 
         // Assert
-        //expect(componentInstance.searchInput.value).toBe('');
         expect(componentInstance.searchElement).toBe('');
         expect(componentInstance.selectedValue).toEqual([]);
     });
@@ -293,7 +292,6 @@ describe('MultiSelectAutocompleteComponent', () => {
         // Emit a value to simulate the searchElementChange event
 
         componentInstance.searchElementChange.next(searchElementValue);
-        //expect(componentInstance.delayTimeoutId).toEqual(123);
         // Expectations
         expect(clearSpy).toHaveBeenCalledWith(123);
         expect(filterSpy).toHaveBeenCalledWith(searchElementValue);
