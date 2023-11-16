@@ -25,17 +25,11 @@ COPY ./frontend/package.json ./frontend/yarn.lock ./
 # Storing node modules on a separate layer will prevent unnecessary npm installs at each build
 RUN yarn install && mkdir /ng-app && mv ./node_modules ./ng-app
 
-COPY ./DEPENDENCIES_FRONTEND /ng-app/dist/
-COPY ./SECURITY.md /ng-app/dist/
-COPY ./NOTICE.md /ng-app/dist/
-COPY ./LICENSE /ng-app/dist/
+
 
 # Set workdir and copy
 WORKDIR /ng-app
 COPY ./frontend .
-
-# Copy license info into final artifact
-
 
 ## Build the angular app in production mode and store the artifacts in dist folder
 RUN yarn build:prod && mv /ng-app/dist/index.html /ng-app/dist/index.html.reference
@@ -51,7 +45,11 @@ RUN rm /usr/share/nginx/html/index.html && rm /etc/nginx/conf.d/default.conf
 
 # Copy project files from ‘builder’ stage copy over the artifacts in dist folder to default nginx public folder
 COPY --from=builder /ng-app/dist /usr/share/nginx/html
-
+# Copy license info into final artifact
+COPY ./DEPENDENCIES_FRONTEND /usr/share/nginx/html
+COPY ./SECURITY.md /usr/share/nginx/html
+COPY ./NOTICE.md /usr/share/nginx/html
+COPY ./LICENSE /usr/share/nginx/html
 # Give ownership to nginx user over dir with content
 
 RUN chown -R nginx:nginx /usr/share/nginx/html/
