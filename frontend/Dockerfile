@@ -32,7 +32,7 @@ COPY ./LICENSE /ng-app/dist/
 
 # Set workdir and copy
 WORKDIR /ng-app
-COPY ./ .
+COPY ./frontend .
 
 # Copy license info into final artifact
 
