@@ -8,6 +8,8 @@ import {
 } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
 import {SharedModule} from '@shared/shared.module';
 import {renderComponent} from '@tests/test-render.utils';
+import {PartTableType} from "@shared/components/table/table.model";
+import {Owner} from "@page/parts/model/owner.enum";
 
 describe('MultiSelectAutocompleteComponent', () => {
     const renderMultiSelectAutoCompleteComponent = (multiple = true) => {
@@ -231,4 +233,15 @@ describe('MultiSelectAutocompleteComponent', () => {
       expect(componentInstance.selectedValue).toBe('2023-10-12,2023-10-20');
       expect(componentInstance.searchElement).toBe('2023-10-12,2023-10-20');
     })*/
+
+    it('should retrieve correct Owner of partTableType', async() => {
+        const {fixture} = await renderMultiSelectAutoCompleteComponent();
+        const {componentInstance} = fixture;
+
+        const expectedOwners = [Owner.OWN,Owner.OWN,Owner.SUPPLIER,Owner.SUPPLIER,Owner.CUSTOMER,Owner.CUSTOMER];
+        [PartTableType.AS_BUILT_OWN, PartTableType.AS_PLANNED_OWN, PartTableType.AS_BUILT_SUPPLIER, PartTableType.AS_PLANNED_SUPPLIER, PartTableType.AS_BUILT_CUSTOMER,PartTableType.AS_PLANNED_CUSTOMER].forEach((tableType, index) => {
+            console.log(tableType,expectedOwners[index]);
+            expect(componentInstance.getOwnerOfTable(tableType)).toEqual(expectedOwners[index]);
+        })
+    })
 });

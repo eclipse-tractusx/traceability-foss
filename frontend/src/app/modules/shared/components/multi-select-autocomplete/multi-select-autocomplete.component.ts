@@ -202,12 +202,18 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     }
     console.log("going into timeout")
     // if there is no timeout currently, start the delay
-    this.delayTimeoutId = setTimeout(async (): Promise<void> => {
+    const timeoutCallback = async (): Promise<void> => {
       this.isLoadingSuggestions = true;
       const tableOwner = this.getOwnerOfTable(this.partTableType);
-      console.log("in timeout")
+      console.log("in timeout");
+
       try {
-        const res = await firstValueFrom(this.partsService.getDistinctFilterValues(this.isAsBuilt, tableOwner, this.filterColumn, this.searchElement));
+        const res = await firstValueFrom(this.partsService.getDistinctFilterValues(
+            this.isAsBuilt,
+            tableOwner,
+            this.filterColumn,
+            this.searchElement
+        ));
 
         if (this.filterColumn === 'semanticDataModel') {
           this.options = res.map(option => ({
@@ -227,10 +233,10 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
 
       this.delayTimeoutId = null;
       this.isLoadingSuggestions = false;
+    };
 
-      this.delayTimeoutId = null;
-      this.isLoadingSuggestions = false;
-    }, 500);
+    // Start the delay with the callback
+    this.delayTimeoutId = setTimeout(timeoutCallback, 500);
   }
 
   isUnsupportedAutoCompleteField(fieldName: string) {
