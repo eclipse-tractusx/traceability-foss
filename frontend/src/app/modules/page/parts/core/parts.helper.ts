@@ -17,13 +17,13 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {QueryList} from "@angular/core";
-import {PartsTableComponent} from "@shared/components/parts-table/parts-table.component";
+import { QueryList } from '@angular/core';
+import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
 
 export function resetMultiSelectionAutoCompleteComponent(partsTableComponents: QueryList<PartsTableComponent>, oneFilterSet: boolean): boolean {
     for (const partsTableComponent of partsTableComponents) {
         for (const multiSelectAutocompleteComponent of partsTableComponent.multiSelectAutocompleteComponents) {
-            multiSelectAutocompleteComponent.theSearchElement = null;
+            multiSelectAutocompleteComponent.searchElement = null;
             multiSelectAutocompleteComponent.clickClear();
             multiSelectAutocompleteComponent.formControl.reset();
             if (partsTableComponent.filterFormGroup.dirty && !oneFilterSet) {
