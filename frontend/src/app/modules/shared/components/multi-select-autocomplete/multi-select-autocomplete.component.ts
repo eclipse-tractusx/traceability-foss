@@ -17,17 +17,19 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { DatePipe, registerLocaleData } from '@angular/common';
+import {DatePipe, registerLocaleData} from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-import { Component, EventEmitter, Inject, Input, LOCALE_ID, OnChanges, Output, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { Owner } from '@page/parts/model/owner.enum';
-import { PartTableType } from '@shared/components/table/table.model';
-import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
-import { PartsService } from '@shared/service/parts.service';
+import {Component, EventEmitter, Inject, Input, LOCALE_ID, OnChanges, Output, ViewChild} from '@angular/core';
+import {FormControl} from '@angular/forms';
+import {DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
+import {MatDatepickerInputEvent} from '@angular/material/datepicker';
+import {Owner} from '@page/parts/model/owner.enum';
+import {PartTableType} from '@shared/components/table/table.model';
+import {
+  FormatPartSemanticDataModelToCamelCasePipe
+} from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
+import {PartsService} from '@shared/service/parts.service';
 
 @Component({
   selector: 'app-multiselect',
@@ -102,7 +104,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   isLoadingSuggestions: boolean;
 
   constructor(public datePipe: DatePipe, public _adapter: DateAdapter<any>,
-              @Inject(MAT_DATE_LOCALE) public _locale: string, @Inject(LOCALE_ID) private locale: string, private partsService: PartsService, private readonly formatPartSemanticDataModelToCamelCasePipe: FormatPartSemanticDataModelToCamelCasePipe) {
+              @Inject(MAT_DATE_LOCALE) public _locale: string, @Inject(LOCALE_ID) private locale: string, public partsService: PartsService, private readonly formatPartSemanticDataModelToCamelCasePipe: FormatPartSemanticDataModelToCamelCasePipe) {
     registerLocaleData(localeDe, 'de', localeDeExtra);
     this._adapter.setLocale(locale);
   }
@@ -190,17 +192,19 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     if (this.singleSearch) {
       return;
     }
+
     // emit a event that the searchElement changed
     // if there is a timeout currently, abort the changes.
     if (this.delayTimeoutId) {
       this.searchElementChange.emit(value);
       return;
     }
+    console.log("going into timeout")
     // if there is no timeout currently, start the delay
     this.delayTimeoutId = setTimeout(async () => {
       this.isLoadingSuggestions = true;
       const tableOwner = this.getOwnerOfTable(this.partTableType);
-
+      console.log("in timeout")
       try {
         const res = await this.partsService.getDistinctFilterValues(this.isAsBuilt, tableOwner, this.filterColumn, this.searchElement).toPromise();
 
