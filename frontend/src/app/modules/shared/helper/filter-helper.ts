@@ -16,7 +16,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import { HttpParams } from '@angular/common/http';
+import {HttpParams} from '@angular/common/http';
 import {
   AssetAsBuiltFilter,
   AssetAsPlannedFilter,
@@ -54,9 +54,9 @@ export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, para
           console.log(filterValues, "filtervalues");
           operator = getFilterOperatorValue(FilterOperator.AT_LOCAL_DATE);
           params = params.append('filter', `${ key },${ operator },${ filterValues },${ filterOperator }`);
+        } else {
           continue;
         }
-
       }
     }
 
