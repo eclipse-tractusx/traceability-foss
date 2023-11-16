@@ -63,7 +63,7 @@ COPY --from=builder /usr/local/include /usr/local/include
 COPY --from=builder /usr/local/bin /usr/local/bin
 
 # Copy NGINX server configuration
-COPY ./build/security-headers.conf ./build/nginx.conf /etc/nginx/
+COPY ./frontend/build/security-headers.conf ./frontend/build/nginx.conf /etc/nginx/
 
 # Copy custom script runner
 COPY ./frontend/scripts/custom-injector.sh /docker-entrypoint.d/00-custom-injector.sh
