@@ -17,9 +17,9 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {PartsTableComponent} from '@shared/components/parts-table/parts-table.component';
-import {resetMultiSelectionAutoCompleteComponent} from "@page/parts/core/parts.helper";
-import {QueryList} from "@angular/core";
+import { QueryList } from '@angular/core';
+import { resetMultiSelectionAutoCompleteComponent } from '@page/parts/core/parts.helper';
+import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
 
 describe('resetMultiSelectionAutoCompleteComponent', () => {
     it('should reset multiSelectAutocompleteComponents and set oneFilterSet to true if filterFormGroup is dirty', () => {
@@ -63,7 +63,7 @@ describe('resetMultiSelectionAutoCompleteComponent', () => {
 
         partsTableComponents.forEach((partsTableComponent) => {
             partsTableComponent.multiSelectAutocompleteComponents.forEach((multiSelectAutocompleteComponent) => {
-                expect(multiSelectAutocompleteComponent.theSearchElement).toBeNull();
+                expect(multiSelectAutocompleteComponent.searchElement).toBeNull();
                 expect(multiSelectAutocompleteComponent.clickClear).toHaveBeenCalled();
                 expect(multiSelectAutocompleteComponent.formControl.reset).toHaveBeenCalled();
             });

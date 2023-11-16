@@ -7,12 +7,20 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [UNRELEASED - DD.MM.YYYY]
 ### Added
+
+### Changed
+
+### Removed
+
+## [9.0.0-rc2 - 15.11.2023]
+### Added
 - Cypress Login to E2E Environment to enable cypress e2e tests.
 - Fixed bug in argo workflow which allows to successfully run on INT-A/INT-B
 - database dumps for environments A and B, along with a README guide for database recovery.
 - New job named 'print_environment' to the Argo-workflow that prints the selected environment to the GitHub Step Summary.
 - Added NOTIFICATION_COUNT_EQUAL filter strategy for Assets as built Specifications
 - Added new supported filter for notifications assetId that allows filtering alerts and investigations by assetId
+- Added autocompletion and local filter selection on parts table
 - Fixed bug in argo workflow which allows to successfully upload testdata
 - No logging option for cypress
 

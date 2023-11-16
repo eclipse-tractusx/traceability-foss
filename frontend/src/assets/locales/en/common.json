@@ -274,7 +274,9 @@
     "filterLabel": "Filter",
     "placeholder": "All",
     "searchPlaceholder": "Search..",
-    "choosePlaceholder": "Choose.."
+    "choosePlaceholder": "Choose..",
+    "suggestionError": "No suggestions found.",
+    "multipleResults": "others"
   },
   "parts": {
     "input": {
