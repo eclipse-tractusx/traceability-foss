@@ -76,7 +76,11 @@ public class AssetBaseResponse {
     private String classification;
     private List<DetailAspectModelResponse> detailAspectModels;
     @ApiModelProperty(dataType = "List", example = "1")
-    private List<Long> qualityAlertIdsInStatusActive;
+    private List<Long> sentQualityAlertIdsInStatusActive;
+    @ApiModelProperty(dataType = "List", example = "1")
+    private List<Long> receivedQualityAlertIdsInStatusActive;
     @ApiModelProperty(dataType = "List", example = "2")
-    private List<Long> qualityInvestigationIdsInStatusActive;
+    private List<Long> sentQualityInvestigationIdsInStatusActive;
+    @ApiModelProperty(dataType = "List", example = "2")
+    private List<Long> receivedQualityInvestigationIdsInStatusActive;
 }
