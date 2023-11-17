@@ -19,7 +19,7 @@
 
 import { Injectable } from '@angular/core';
 import { AlertsState } from '@page/alerts/core/alerts.state';
-import { TableHeaderSort } from '@shared/components/table/table.model';
+import { FilterMethod, TableFilter, TableHeaderSort } from '@shared/components/table/table.model';
 import { Notification, Notifications, NotificationStatus } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { AlertsService } from '@shared/service/alerts.service';
@@ -30,10 +30,7 @@ export class AlertsFacade {
   private alertReceivedSubscription: Subscription;
   private alertQueuedAndRequestedSubscription: Subscription;
 
-  constructor(
-    private readonly alertsService: AlertsService,
-    private readonly alertsState: AlertsState,
-  ) {}
+  constructor(private readonly alertsService: AlertsService, private readonly alertsState: AlertsState) {}
 
   public get alertsReceived$(): Observable<View<Notifications>> {
     return this.alertsState.alertsReceived$;
@@ -47,20 +44,30 @@ export class AlertsFacade {
     return this.alertsService.getAlert(id);
   }
 
-  public setReceivedAlerts(page = 0, pageSize = 50, sorting: TableHeaderSort[] = []): void {
+  public setReceivedAlerts(
+    page = 0,
+    pageSize = 50,
+    sorting: TableHeaderSort[] = [],
+    filtering: TableFilter = { filterMethod: FilterMethod.AND },
+  ): void {
     this.alertReceivedSubscription?.unsubscribe();
     this.alertReceivedSubscription = this.alertsService
-      .getReceivedAlerts(page, pageSize, sorting)
+      .getReceivedAlerts(page, pageSize, sorting, filtering)
       .subscribe({
         next: data => (this.alertsState.alertsReceived = { data }),
         error: (error: Error) => (this.alertsState.alertsReceived = { error }),
       });
   }
 
-  public setQueuedAndRequestedAlerts(page = 0, pageSize = 50, sorting: TableHeaderSort[] = []): void {
+  public setQueuedAndRequestedAlerts(
+    page = 0,
+    pageSize = 50,
+    sorting: TableHeaderSort[] = [],
+    filtering: TableFilter = { filterMethod: FilterMethod.AND },
+  ): void {
     this.alertQueuedAndRequestedSubscription?.unsubscribe();
     this.alertQueuedAndRequestedSubscription = this.alertsService
-      .getCreatedAlerts(page, pageSize, sorting)
+      .getCreatedAlerts(page, pageSize, sorting, filtering)
       .subscribe({
         next: data => (this.alertsState.alertsQueuedAndRequested = { data }),
         error: (error: Error) => (this.alertsState.alertsQueuedAndRequested = { error }),
@@ -71,7 +78,6 @@ export class AlertsFacade {
     this.alertReceivedSubscription?.unsubscribe();
     this.alertQueuedAndRequestedSubscription?.unsubscribe();
   }
-
 
   public closeAlert(alertId: string, reason: string): Observable<void> {
     return this.alertsService.closeAlert(alertId, reason);

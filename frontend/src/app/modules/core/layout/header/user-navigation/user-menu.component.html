@@ -55,7 +55,7 @@ SPDX-License-Identifier: Apache-2.0
         {{ 'layout.nav.helpdesk' | i18n }}
       </p>
 
-      <p class="label-large user-menu-item" role="menuitem">
+      <p class="label-large user-menu-item" role="menuitem" (click)="this.logOut()">
         {{ 'layout.nav.signOut' | i18n }}
       </p>
 

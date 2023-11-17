@@ -32,7 +32,6 @@ table {
   padding-left: 13px;
 }
 
-
 .table--select-all {
   display: inline-flex;
   align-items: center;
@@ -40,7 +39,7 @@ table {
   &__menu {
     background: rgba(0, 0, 0, 0.04);
 
-    &>.table--select-all__dropdown:hover {
+    & > .table--select-all__dropdown:hover {
       background: none;
     }
   }
@@ -84,13 +83,59 @@ table {
 }
 
 .table--header {
-  border-bottom: 1px solid #D2D2D2 !important;
+  border-bottom: 1px solid #d2d2d2 !important;
 }
 
 .table--cell {
   padding: 2px 12px 2px 12px;
   border: none !important;
   max-width: 332px;
+}
+.table--header--cell {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  &--content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    &--sort {
+      width: 24px;
+      height: 24px;
+      &--asc {
+        width: 10px;
+        transform: rotate(180deg);
+        margin: 9.5px 7px;
+      }
+      &--dsc {
+        width: 10px;
+        margin: 9.5px 7px;
+      }
+    }
+  }
+}
+
+.table--header--cell--filter {
+  width: 24px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  &--icon {
+    width: 12px;
+  }
+}
+
+.menu-input-field {
+  border-radius: 10px;
+  box-shadow: 0px 15px 25px 0px #3333330d, -10px -10px 15px 0px #ffffff1a, 0px 0px 25px 0px #33333308;
+}
+.menu-input-field .mat-mdc-menu-content {
+  padding: 0;
+}
+
+.mdc-menu-surface {
+  border-radius: 10px !important;
 }
 
 .mat-mdc-table .mdc-data-table__row {
@@ -193,6 +238,14 @@ table {
   font-size: 16px;
 }
 
+.table--header--row .mat-sort-header-content {
+  width: 100%;
+}
+
+.table--header--row .mat-sort-header-arrow {
+  display: none;
+}
+
 .table--header {
   padding-bottom: 8px;
 }
@@ -215,10 +268,17 @@ table {
     padding: 15px;
     font-size: 14px;
     line-height: 20px;
-
   }
 
   .mdc-tooltip--multiline {
     white-space: pre-line;
   }
+}
+.table--header--row .mdc-data-table__header-cell {
+  padding: 0 12px 0 12px !important;
+}
+
+.table--body--row .mdc-data-table__cell {
+  padding: 0 12px 0 12px !important;
+  border-bottom-style: none !important;
 }

@@ -24,7 +24,7 @@ import { Injectable } from '@angular/core';
 import { ApiService } from '@core/api/api.service';
 import { environment } from '@env';
 import { NotificationAssembler } from '@shared/assembler/notification.assembler';
-import { TableHeaderSort } from '@shared/components/table/table.model';
+import { TableFilter, TableHeaderSort } from '@shared/components/table/table.model';
 import { Severity } from '@shared/model/severity.model';
 import type { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -37,6 +37,7 @@ import {
   NotificationStatus,
   NotificationType,
 } from '../model/notification.model';
+import { addFilteringParams } from '@shared/helper/filter-helper';
 
 @Injectable({
   providedIn: 'root',
@@ -44,32 +45,42 @@ import {
 export class AlertsService {
   private readonly url = environment.apiUrl;
 
-  constructor(private readonly apiService: ApiService) { }
+  constructor(private readonly apiService: ApiService) {}
 
-  public getCreatedAlerts(page: number, pageSize: number, sorting: TableHeaderSort[]): Observable<Notifications> {
+  public getCreatedAlerts(
+    page: number,
+    pageSize: number,
+    sorting: TableHeaderSort[],
+    filtering?: TableFilter,
+  ): Observable<Notifications> {
     let sort = sorting.length ? sorting : ['createdDate,desc'];
-    let params = new HttpParams()
-      .set('page', page)
-      .set('size', pageSize)
-
+    let params = new HttpParams().set('page', page).set('size', pageSize);
+    if (filtering) {
+      params = addFilteringParams(filtering, params);
+    }
     sort.forEach(sortingItem => {
       params = params.append('sort', sortingItem);
-    })
+    });
 
     return this.apiService
       .getBy<NotificationsResponse>(`${this.url}/alerts/created`, params)
       .pipe(map(alerts => NotificationAssembler.assembleNotifications(alerts, NotificationType.ALERT)));
   }
 
-  public getReceivedAlerts(page: number, pageSize: number, sorting: TableHeaderSort[]): Observable<Notifications> {
+  public getReceivedAlerts(
+    page: number,
+    pageSize: number,
+    sorting: TableHeaderSort[],
+    filtering?: TableFilter,
+  ): Observable<Notifications> {
     let sort = sorting ? sorting : ['createdDate,desc'];
-    let params = new HttpParams()
-      .set('page', page)
-      .set('size', pageSize)
-
+    let params = new HttpParams().set('page', page).set('size', pageSize);
+    if (filtering) {
+      params = addFilteringParams(filtering, params);
+    }
     sort.forEach(sortingItem => {
       params = params.append('sort', sortingItem);
-    })
+    });
 
     return this.apiService
       .getBy<NotificationsResponse>(`${this.url}/alerts/received`, params)
@@ -82,7 +93,13 @@ export class AlertsService {
       .pipe(map(notification => NotificationAssembler.assembleNotification(notification, NotificationType.ALERT)));
   }
 
-  public postAlert(partIds: string[], description: string, severity: Severity, bpn: string, isAsBuilt: boolean): Observable<string> {
+  public postAlert(
+    partIds: string[],
+    description: string,
+    severity: Severity,
+    bpn: string,
+    isAsBuilt: boolean,
+  ): Observable<string> {
     const body = { partIds, description, severity, receiverBpn: bpn, isAsBuilt };
 
     return this.apiService.post<NotificationCreateResponse>(`${this.url}/alerts`, body).pipe(map(({ id }) => id));

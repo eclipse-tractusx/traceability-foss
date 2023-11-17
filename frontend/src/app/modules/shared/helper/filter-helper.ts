@@ -17,90 +17,129 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 import {
-    AssetAsBuiltFilter,
-    AssetAsPlannedFilter,
-    FilterOperator,
-    getFilterOperatorValue
-} from "@page/parts/model/parts.model";
-import {HttpParams} from "@angular/common/http";
+  AssetAsBuiltFilter,
+  AssetAsPlannedFilter,
+  FilterOperator,
+  getFilterOperatorValue,
+} from '@page/parts/model/parts.model';
+import { HttpParams } from '@angular/common/http';
+import { TableFilter } from '@shared/components/table/table.model';
 
-export const FILTER_KEYS = ['manufacturingDate', 'functionValidFrom', 'functionValidUntil', 'validityPeriodFrom', 'validityPeriodTo'];
+export const FILTER_KEYS = [
+  'manufacturingDate',
+  'functionValidFrom',
+  'functionValidUntil',
+  'validityPeriodFrom',
+  'validityPeriodTo',
+];
 
 export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, params: HttpParams): HttpParams {
-    const semanticDataModelKey = "semanticDataModel";
-    for (const key in filter) {
-        let operator: string;
-        const filterValues = filter[key];
-        if (key !== semanticDataModelKey) {
-            if (filterValues.length !== 0) {
-                if (isDateFilter(key)) {
-                    operator = getFilterOperatorValue(FilterOperator.AT_LOCAL_DATE);
-                } else {
-                    operator = getFilterOperatorValue(FilterOperator.STARTS_WITH);
-                }
-                params = params.append('filter', `${key},${operator},${filterValues}`);
-            }
+  const semanticDataModelKey = 'semanticDataModel';
+  for (const key in filter) {
+    let operator: string;
+    const filterValues = filter[key];
+    if (key !== semanticDataModelKey) {
+      if (filterValues.length !== 0) {
+        if (isDateFilter(key)) {
+          operator = getFilterOperatorValue(FilterOperator.AT_LOCAL_DATE);
         } else {
-            operator = getFilterOperatorValue(FilterOperator.EQUAL);
-            if (Array.isArray(filterValues)) {
-                for (let value of filterValues) {
-                    params = params.append('filter', `${key},${operator},${value}`);
-                }
-            } else {
-                params = params.append('filter', `${key},${operator},${filterValues}`);
-            }
-
+          operator = getFilterOperatorValue(FilterOperator.STARTS_WITH);
         }
+        params = params.append('filter', `${key},${operator},${filterValues}`);
+      }
+    } else {
+      operator = getFilterOperatorValue(FilterOperator.EQUAL);
+      if (Array.isArray(filterValues)) {
+        for (let value of filterValues) {
+          params = params.append('filter', `${key},${operator},${value}`);
+        }
+      } else {
+        params = params.append('filter', `${key},${operator},${filterValues}`);
+      }
     }
-    return params;
+  }
+  return params;
+}
+
+export function addFilteringParams(filtering: TableFilter, params: HttpParams): HttpParams {
+  const filterKeys = Object.keys(filtering);
+  let filterApplied = false;
+  if (filterKeys.length > 1) {
+    for (const index in filterKeys) {
+      const key = filterKeys[index];
+      if (key !== 'filterMethod') {
+        if (Array.isArray(filtering[key])) {
+          if (filtering[key].length > 0) {
+            filterApplied = true;
+            for (let value of filtering[key]) {
+              params = params.append(
+                'filter',
+                `${key},${getFilterOperatorValue(value.filterOperator)},${value.filterValue}`,
+              );
+            }
+          }
+        } else {
+          if (filtering[key].filterValue !== '') {
+            filterApplied = true;
+            params = params.append(
+              'filter',
+              `${key},${getFilterOperatorValue(filtering[key].filterOperator)},${filtering[key].filterValue}`,
+            );
+          }
+        }
+      }
+    }
+    if (filterApplied) {
+      params = params.append('filterOperator', `${filtering['filterMethod']}`);
+    }
+  }
+  return params;
 }
 
 export function isDateFilter(key: string): boolean {
-    return FILTER_KEYS.includes(key);
+  return FILTER_KEYS.includes(key);
 }
 
 export function toAssetFilter(formValues: any, isAsBuilt: boolean): AssetAsPlannedFilter | AssetAsBuiltFilter {
+  const transformedFilter: any = {};
 
-    const transformedFilter: any = {};
-
-    // Loop through each form control and add it to the transformedFilter if it has a non-null and non-undefined value
-    for (const key in formValues) {
-        if (formValues[key] !== null && formValues[key] !== undefined) {
-            transformedFilter[key] = formValues[key];
-        }
+  // Loop through each form control and add it to the transformedFilter if it has a non-null and non-undefined value
+  for (const key in formValues) {
+    if (formValues[key] !== null && formValues[key] !== undefined && formValues[key] !== '') {
+      transformedFilter[key] = formValues[key];
     }
+  }
 
-    const filterIsSet = Object.values(transformedFilter).some(value => value !== undefined && value !== null);
-    if (filterIsSet) {
-        if (isAsBuilt) {
-            return transformedFilter as AssetAsBuiltFilter;
-        } else {
-            return transformedFilter as AssetAsPlannedFilter;
-        }
+  const filterIsSet = Object.values(transformedFilter).some(value => value !== undefined && value !== null);
+  if (filterIsSet) {
+    if (isAsBuilt) {
+      return transformedFilter as AssetAsBuiltFilter;
     } else {
-        return null;
+      return transformedFilter as AssetAsPlannedFilter;
     }
-
+  } else {
+    return null;
+  }
 }
 
 export function toGlobalSearchAssetFilter(formValues: string, isAsBuilt: boolean) {
-    let filter;
-    if (isAsBuilt) {
-        filter = {
-            id: formValues,
-            semanticModelId: formValues,
-            idShort: formValues,
-            customerPartId: formValues,
-            manufacturerPartId: formValues
-        } as AssetAsBuiltFilter;
-    } else {
-        filter = {
-            id: formValues,
-            idShort: formValues,
-            semanticModelId: formValues,
-            manufacturerPartId: formValues
-        } as AssetAsPlannedFilter;
-    }
+  let filter;
+  if (isAsBuilt) {
+    filter = {
+      id: formValues,
+      semanticModelId: formValues,
+      idShort: formValues,
+      customerPartId: formValues,
+      manufacturerPartId: formValues,
+    } as AssetAsBuiltFilter;
+  } else {
+    filter = {
+      id: formValues,
+      idShort: formValues,
+      semanticModelId: formValues,
+      manufacturerPartId: formValues,
+    } as AssetAsPlannedFilter;
+  }
 
-    return filter;
+  return filter;
 }

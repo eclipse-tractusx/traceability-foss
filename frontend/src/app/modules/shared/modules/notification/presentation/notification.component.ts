@@ -43,6 +43,8 @@ export class NotificationComponent {
   @Input() queuedAndRequestedSortableColumns: Record<string, boolean> = {};
   @Input() receivedMultiSortList: TableHeaderSort[] = [];
   @Input() queuedAndRequestedMultiSortList: TableHeaderSort[] = [];
+  @Input() receivedFilterConfig: any[] = [];
+  @Input() queuedAndRequestedFilterConfig: any[] = [];
 
   @Output() onReceivedTableConfigChanged = new EventEmitter<TableEventConfig>();
   @Output() onQueuedAndRequestedTableConfigChanged = new EventEmitter<TableEventConfig>();
@@ -60,7 +62,7 @@ export class NotificationComponent {
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly staticIdService: StaticIdService,
-  ) { }
+  ) {}
 
   public onTabChange(tabIndex: number): void {
     void this.router.navigate([], { queryParams: { tabIndex }, replaceUrl: true });

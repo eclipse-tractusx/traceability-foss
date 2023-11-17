@@ -16,39 +16,107 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-
-.box-search {
-  margin: 8px;
-  border-radius: 2px;
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
-  transition: box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1);
+@import '../../../../../theme/base.scss';
+@tailwind base;
+.filter-input {
+  box-sizing: border-box;
   display: flex;
-}
-
-.box-search, input {
-  flex: 1;
-  border: none;
-  outline: none;
-}
-
-.box-select-all {
-  width: 36px;
-  line-height: 33px;
-  color: #808080;
-  text-align: center;
-}
-
-.search-button {
-  color: #808080;
-}
-
-.pl-1 {
-  padding-left: 1rem;
-}
-
-.date-search {
-  display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
-  /* Add any other necessary styling for the date-search container */
+  padding: 10px 15px 15px 15px;
+  width: 250px;
+  gap: 10px;
+  border-radius: 10px;
+  box-shadow: 0px 15px 25px 0px #3333330d, -10px -10px 15px 0px #ffffff1a, 0px 0px 25px 0px #33333308;
+
+  &__textarea-input {
+    //body-large-emphasis (but needs !important)
+    @apply font-medium m-0 p-0;
+    font-size: 20px !important;
+    letter-spacing: 0 !important;
+    line-height: 140% !important;
+  }
+  &__textarea-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+  }
+  &__option-list {
+    display: flex;
+    flex-direction: column;
+    width: 220px;
+    &-select-all-container {
+      border-bottom: 1px solid #d2d2d2;
+    }
+    &-select-all {
+      width: 24px;
+      color: #808080;
+      text-align: center;
+    }
+  }
+  &__datepicker-buttons {
+    &-reset {
+      border: 2px solid #4d4d4d !important;
+      border-radius: 100px !important;
+      padding: 10px 24px !important;
+    }
+    &-filter {
+      border-radius: 100px !important;
+      padding: 10px 24px !important;
+    }
+  }
+}
+
+.filter-input .mat-mdc-form-field-infix {
+  display: flex;
+  justify-content: center;
+}
+
+.filter-input .mat-mdc-floating-label {
+  padding-bottom: 0 !important;
+  display: flex;
+  justify-content: center;
+  @extend .body-large;
+}
+
+.mat-mdc-form-field {
+  --mat-mdc-form-field-floating-label-scale: 1;
+}
+
+.filter-input__datepicker-buttons-reset .mdc-button__label {
+  @extend .label-large;
+  color: #4d4d4d;
+}
+
+.filter-input__datepicker-buttons-filter .mdc-button__label {
+  @extend .label-large;
+  color: white;
+}
+
+.mat-datepicker-content {
+  border-radius: 10px !important;
+}
+
+.mat-datepicker-actions {
+  padding: 10px 20px 20px 20px !important;
+  justify-content: space-between !important;
+}
+
+.mat-calendar {
+  height: auto !important;
+}
+
+.mat-calendar-header {
+  padding: 0 0 0 22px !important;
+}
+
+.mat-calendar-body-label {
+  opacity: 0;
+}
+.mat-calendar-body-label[colspan='7'] {
+  display: none;
+}
+.mdc-button__label > span {
+  @extend .body-small-emphasis;
 }

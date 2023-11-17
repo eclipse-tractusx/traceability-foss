@@ -23,19 +23,26 @@ import { AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChildren } 
 import { Pagination } from '@core/model/pagination.model';
 import { PartsFacade } from '@page/parts/core/parts.facade';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import { AssetAsBuiltFilter, AssetAsDesignedFilter, AssetAsPlannedFilter, AssetAsRecycledFilter, AssetAsSupportedFilter, Part } from '@page/parts/model/parts.model';
+import {
+  AssetAsBuiltFilter,
+  AssetAsDesignedFilter,
+  AssetAsPlannedFilter,
+  AssetAsRecycledFilter,
+  AssetAsSupportedFilter,
+  Part,
+} from '@page/parts/model/parts.model';
 import { PartTableType, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { BomLifecycleSize } from "@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model";
-import { BomLifecycleSettingsService, UserSettingView } from "@shared/service/bom-lifecycle-settings.service";
-import { toAssetFilter, toGlobalSearchAssetFilter } from "@shared/helper/filter-helper";
-import { FormControl, FormGroup } from "@angular/forms";
-import { ToastService } from "@shared/components/toasts/toast.service";
-import { PartsTableComponent } from "@shared/components/parts-table/parts-table.component";
-import { resetMultiSelectionAutoCompleteComponent } from "@page/parts/core/parts.helper";
+import { BomLifecycleSize } from '@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model';
+import { BomLifecycleSettingsService, UserSettingView } from '@shared/service/bom-lifecycle-settings.service';
+import { toAssetFilter, toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
+import { FormControl, FormGroup } from '@angular/forms';
+import { ToastService } from '@shared/components/toasts/toast.service';
+import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
+import { resetMultiSelectionAutoCompleteComponent } from '@page/parts/core/parts.helper';
 import { MatDialog } from '@angular/material/dialog';
 import { RequestAlertComponent } from '@shared/components/request-notification/request-alert.component';
 
@@ -109,7 +116,12 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   public searchFormGroup = new FormGroup({});
   public searchControl: FormControl;
 
-  assetFilter: AssetAsBuiltFilter | AssetAsPlannedFilter | AssetAsDesignedFilter | AssetAsRecycledFilter | AssetAsSupportedFilter | AssetAsRecycledFilter;
+  assetFilter:
+    | AssetAsBuiltFilter
+    | AssetAsPlannedFilter
+    | AssetAsDesignedFilter
+    | AssetAsRecycledFilter
+    | AssetAsSupportedFilter;
 
   public ngOnInit(): void {
     this.partsFacade.setPartsAsBuilt();
@@ -271,7 +283,15 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private setTableSortingList(sorting: TableHeaderSort, partTable: MainAspectType): void {
     // if a sorting Columnlist exists but a column gets resetted:
-    if (!sorting && (this.tableAsBuiltSortList || this.tableAsPlannedSortList || this.tableAsDesignedSortList || this.tableAsOrderedSortList || this.tableAsSupportedSortList || this.tableAsRecycledSortList)) {
+    if (
+      !sorting &&
+      (this.tableAsBuiltSortList ||
+        this.tableAsPlannedSortList ||
+        this.tableAsDesignedSortList ||
+        this.tableAsOrderedSortList ||
+        this.tableAsSupportedSortList ||
+        this.tableAsRecycledSortList)
+    ) {
       this.resetTableSortingList(partTable);
       return;
     }
@@ -414,7 +434,12 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     if (this.assetFilter) {
-      this.partsFacade.setPartsAsDesigned(0, pageSizeValue, this.tableAsDesignedSortList, toAssetFilter(this.assetFilter, true));
+      this.partsFacade.setPartsAsDesigned(
+        0,
+        pageSizeValue,
+        this.tableAsDesignedSortList,
+        toAssetFilter(this.assetFilter, true),
+      );
     } else {
       this.partsFacade.setPartsAsDesigned(page, pageSizeValue, this.tableAsDesignedSortList);
     }
@@ -429,7 +454,12 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     if (this.assetFilter) {
-      this.partsFacade.setPartsAsOrdered(0, pageSizeValue, this.tableAsOrderedSortList, toAssetFilter(this.assetFilter, true));
+      this.partsFacade.setPartsAsOrdered(
+        0,
+        pageSizeValue,
+        this.tableAsOrderedSortList,
+        toAssetFilter(this.assetFilter, true),
+      );
     } else {
       this.partsFacade.setPartsAsOrdered(page, pageSizeValue, this.tableAsOrderedSortList);
     }
@@ -444,7 +474,12 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     if (this.assetFilter) {
-      this.partsFacade.setPartsAsSupported(0, pageSizeValue, this.tableAsSupportedSortList, toAssetFilter(this.assetFilter, true));
+      this.partsFacade.setPartsAsSupported(
+        0,
+        pageSizeValue,
+        this.tableAsSupportedSortList,
+        toAssetFilter(this.assetFilter, true),
+      );
     } else {
       this.partsFacade.setPartsAsSupported(page, pageSizeValue, this.tableAsSupportedSortList);
     }
@@ -459,7 +494,12 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     if (this.assetFilter) {
-      this.partsFacade.setPartsAsRecycled(0, pageSizeValue, this.tableAsRecycledSortList, toAssetFilter(this.assetFilter, true));
+      this.partsFacade.setPartsAsRecycled(
+        0,
+        pageSizeValue,
+        this.tableAsRecycledSortList,
+        toAssetFilter(this.assetFilter, true),
+      );
     } else {
       this.partsFacade.setPartsAsRecycled(page, pageSizeValue, this.tableAsRecycledSortList);
     }

@@ -21,25 +21,38 @@
 
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Pagination } from '@core/model/pagination.model';
 import { RoleService } from '@core/user/role.service';
-import { MenuActionConfig, TableConfig, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
+import { FilterOperator } from '@page/parts/model/parts.model';
+import {
+  MenuActionConfig,
+  TableConfig,
+  TableEventConfig,
+  TableFilter,
+  FilterMethod,
+  TableHeaderSort,
+  FilterInfo,
+  SortingOptions,
+} from '@shared/components/table/table.model';
 import { addSelectedValues, clearAllRows, clearCurrentRows, removeSelectedValues } from '@shared/helper/table-helper';
-import { FlattenObjectPipe } from '@shared/pipes/flatten-object.pipe';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['table.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class TableComponent {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('tableElement', { read: ElementRef }) tableElementRef: ElementRef<HTMLElement>;
+
+  @Input()
+  filter = false;
 
   @Input()
   set tableConfig(tableConfig: TableConfig) {
@@ -83,17 +96,6 @@ export class TableComponent {
     this.pageIndex = page;
   }
 
-  @Input() set PartsPaginationData({ page, pageSize, totalItems, content }: Pagination<unknown>) {
-    let flatter = new FlattenObjectPipe();
-    // modify the content of the partlist so that there are no subobjects
-    let newContent = content.map(part => flatter.transform(part))
-    this.totalItems = totalItems;
-    this.pageSize = pageSize;
-    this.dataSource.data = newContent;
-    this.isDataLoading = false;
-    this.pageIndex = page;
-  }
-
   @Input() set data(content: unknown[]) {
     this.dataSource.data = content;
     this.isDataLoading = false;
@@ -130,13 +132,37 @@ export class TableComponent {
   public isDataLoading: boolean;
   public selectedRow: Record<string, unknown>;
   public isMenuOpen: boolean;
+  public sortingEvent: Record<string, SortingOptions> = {};
 
   private pageSize: number;
   private sorting: TableHeaderSort;
+  private filtering: TableFilter = { filterMethod: FilterMethod.AND };
 
   private _tableConfig: TableConfig;
 
-  constructor(private readonly roleService: RoleService) { }
+  filterFormGroup = new FormGroup({});
+
+  constructor(private readonly roleService: RoleService) {}
+
+  ngOnInit() {
+    if (this.tableConfig?.filterConfig?.length > 0) {
+      this.setupFilterFormGroup();
+    }
+    if (this.tableConfig?.sortableColumns) {
+      this.setupSortingEvent();
+    }
+  }
+
+  setupSortingEvent(): void {
+    const sortingNames = Object.keys(this.tableConfig.sortableColumns);
+    sortingNames.forEach(sortName => (this.sortingEvent[sortName] = SortingOptions.NONE));
+  }
+
+  setupFilterFormGroup(): void {
+    this.tableConfig.filterConfig.forEach(filter => {
+      this.filterFormGroup.addControl(filter.filterKey, new FormControl([]));
+    });
+  }
 
   public areAllRowsSelected(): boolean {
     return this.dataSource.data.every(data => this.isSelected(data));
@@ -161,7 +187,7 @@ export class TableComponent {
   public onPaginationChange({ pageIndex, pageSize }: PageEvent): void {
     this.pageIndex = pageIndex;
     this.isDataLoading = true;
-    this.configChanged.emit({ page: pageIndex, pageSize: pageSize, sorting: this.sorting });
+    this.configChanged.emit({ page: pageIndex, pageSize: pageSize, sorting: this.sorting, filtering: this.filtering });
   }
 
   public updateSortingOfData({ active, direction }: Sort): void {
@@ -169,7 +195,7 @@ export class TableComponent {
     this.emitMultiSelect();
     this.sorting = !direction ? null : ([active, direction] as TableHeaderSort);
     this.isDataLoading = true;
-    this.configChanged.emit({ page: 0, pageSize: this.pageSize, sorting: this.sorting });
+    this.configChanged.emit({ page: 0, pageSize: this.pageSize, sorting: this.sorting, filtering: this.filtering });
   }
 
   public toggleSelection(row: unknown): void {
@@ -182,6 +208,56 @@ export class TableComponent {
 
     if (!this.tableConfig.menuActionsConfig) {
       this.selected.emit(row);
+    }
+  }
+
+  public triggerFilterAdding(filterName: string, isDate: boolean): void {
+    //Should the filtering be reset every time? Else remove the following line:
+    this.filtering = { filterMethod: FilterMethod.AND };
+    let filterAdded: FilterInfo | FilterInfo[];
+    const filterSettings = this.tableConfig.filterConfig.filter(filter => filter.filterKey === filterName)[0];
+
+    if (filterSettings.option.length > 0 && !isDate) {
+      this.filtering.filterMethod = FilterMethod.OR;
+      const filterOptions: FilterInfo[] = [];
+      filterSettings.option.forEach(option => {
+        if (option.checked) {
+          filterOptions.push({
+            filterValue: option.value,
+            filterOperator: FilterOperator.EQUAL,
+          });
+        }
+      });
+      filterAdded = filterOptions;
+    } else if (isDate) {
+      filterAdded = {
+        filterValue: this.filterFormGroup.get(filterName).value,
+        filterOperator: FilterOperator.AT_LOCAL_DATE,
+      };
+    } else {
+      filterAdded = {
+        filterValue: this.filterFormGroup.get(filterName).value,
+        filterOperator: FilterOperator.STARTS_WITH,
+      };
+    }
+    this.filtering[filterName] = filterAdded;
+    this.configChanged.emit({ page: 0, pageSize: this.pageSize, sorting: this.sorting, filtering: this.filtering });
+  }
+
+  public isMultipleSearch(filter: any): boolean {
+    return !(filter.isDate || filter.isTextSearch);
+  }
+
+  public sortingEventTrigger(column: string): void {
+    if (!this.sortingEvent[column]) {
+      return;
+    }
+    if (this.sortingEvent[column] === SortingOptions.NONE) {
+      this.sortingEvent[column] = SortingOptions.ASC;
+    } else if (this.sortingEvent[column] === SortingOptions.ASC) {
+      this.sortingEvent[column] = SortingOptions.DSC;
+    } else {
+      this.sortingEvent[column] = SortingOptions.NONE;
     }
   }
 

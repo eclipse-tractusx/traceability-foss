@@ -29,7 +29,10 @@ import { StaticIdService } from '@shared/service/staticId.service';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { getTableCheckbox, renderComponent } from '@tests/test-render.utils';
 import { sleepForTests } from '../../../../../../../test';
-import { MOCK_part_1, MOCK_part_2 } from '../../../../../../mocks/services/parts-mock/partsAsBuilt/partsAsBuilt.test.model';
+import {
+  MOCK_part_1,
+  MOCK_part_2,
+} from '../../../../../../mocks/services/parts-mock/partsAsBuilt/partsAsBuilt.test.model';
 import { StartInvestigationComponent } from './start-investigation.component';
 
 describe('StartInvestigationComponent', () => {
@@ -63,7 +66,7 @@ describe('StartInvestigationComponent', () => {
     await sleepForTests(2000);
     expect(await waitFor(() => screen.getByText('requestNotification.partDescription'))).toBeInTheDocument();
   });
-/*
+  /*
   it('should render selected items and remove them again', async function() {
     await renderStartInvestigation();
 

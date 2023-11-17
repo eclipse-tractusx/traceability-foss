@@ -276,7 +276,12 @@
   },
   "multiSelect": {
     "filterLabel": "Filter",
-    "placeholder": "Alle"
+    "placeholder": "Alle",
+    "selectAll": "Alle",
+    "filterLabelDate": "Nach Datum filtern",
+    "filterLabelSelect": "Wähle",
+    "inputLabelText": "Suchen...",
+    "inputLabelDate": "TT/MM/JJJJ"
   },
   "parts": {
     "input": {
@@ -295,6 +300,13 @@
   "datepicker": {
     "apply": "Filter",
     "cancel": "Zurücksetzen"
+  },
+  "semanticDataModels": {
+    "BATCH": "Batch",
+    "JUSTINSEQUENCE": "JustInSequence",
+    "SERIALPART": "SerialPart",
+    "UNKNOWN": "Unknown",
+    "PARTASPLANNED": "PartAsPlanned"
   },
   "confirmationDialog": {
     "cancel": "Abbrechen"
