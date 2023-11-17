@@ -27,3 +27,7 @@ truncate table
 --    submodel,
 --    traction_battery_code_subcomponent;
 
+---
+-- reset sequences
+select setval('alert_id_seq', 1, true);
+select setval('investigation_id_seq', 1, true);

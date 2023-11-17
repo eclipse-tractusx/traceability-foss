@@ -5,12 +5,12 @@
 insert into assets_as_built_childs
     (asset_as_built_id  , id                 , id_short)
 values
-    -- owner is child of customer
-    (${assetAsBuiltId01}, ${assetAsBuiltId03}, '01'), -- Xenon Left-Headlights isChildOf Osram Left-AX400
-    (${assetAsBuiltId01}, ${assetAsBuiltId05}, '02'), -- Xenon Left-Headlights isChildOf Xenon Vision Left-D3R
-    (${assetAsBuiltId02}, ${assetAsBuiltId04}, '03'), -- Xenon Right-Headlights isChildOf Osram Right-AX400
-    (${assetAsBuiltId02}, ${assetAsBuiltId06}, '04'), -- Xenon Right-Headlights isChildOf Xenon Vision Right-D3R
+    -- supplier is child of owner
+    (${assetAsBuiltId03}, ${assetAsBuiltId01}, 'H-LeftHeadLight'),  -- Osram Front Left-AX400 isChildOf Xenon Left-Headlights
+    (${assetAsBuiltId05}, ${assetAsBuiltId01}, 'H-LeftHeadLight'),  -- Phillips Front Left-D3H isChildOf Xenon Left-Headlights
+    (${assetAsBuiltId04}, ${assetAsBuiltId02}, 'H-RightHeadLight'), -- Osram Front Right-AX400 isChildOf Xenon Right-Headlights
+    (${assetAsBuiltId06}, ${assetAsBuiltId02}, 'H-RightHeadLight'), -- Phillips Front Right-D3H isChildOf Xenon Right-Headlights
 
-    -- customer is child of owner
-    (${assetAsBuiltId07}, ${assetAsBuiltId01}, '05'), -- BMW Z1 isChildOf Xenon Left-Headlights
-    (${assetAsBuiltId07}, ${assetAsBuiltId02}, '06'); -- BMW Z1 isChildOf Xenon Right-Headlights
+    -- owner is child of customer
+    (${assetAsBuiltId01}, ${assetAsBuiltId07}, 'BMW-Z1'),           -- Xenon Left-Headlights isChildOf Z1
+    (${assetAsBuiltId02}, ${assetAsBuiltId07}, 'BMW-Z1');           -- Xenon Right-Headlights isChildOf Z1
