@@ -19,7 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 import static org.eclipse.tractusx.traceability.test.validator.TestUtils.wrapStringWithTimestamp;
-import { Given, Then } from '@badeball/cypress-cucumber-preprocessor';
+import { Given, Then, And } from '@badeball/cypress-cucumber-preprocessor';
 import { DashboardPage } from '../../integration/pages/QualityInvestigationsPage';
 
 private String notificationDescription = null;
@@ -98,11 +98,20 @@ When(/^user cancel selected investigation with entering {string} id$/, (input) =
 
 Then(/^cancelation is not possible due to {string} id$/, (id) => {
 // -> extend method for both cases "wrong ID" and "no ID" ---TBD---
-  cy.contains(/This field is required!/i).should('be.visible')
+  switch (id) {
+    case 'no': {
+      cy.contains(/This field is required!/i).should('be.visible')
+      break;
+    }
+    case 'wrong': {
+      cy.contains(/This id is wrong.... TBD/i).should('be.visible') //---TBD---
+      break;
+    }
+  }
 });
 
-Then(/^cancelation is not possible due to wrong id$/, () => {
-  cy.contains(/This field is required!/i).should('be.visible')
+Then(/^informations for selected investigation are displayed as expected$/, () => {
+// ---TBD--- include: overview, supplier parts, STATUS
 });
 
 Then(/^selected {string} has been {string} as expected$/, (notificationType, expectedStatus) => {
@@ -114,6 +123,7 @@ matched = false;
         break;
       }
       case 'requested': {
+      // same as "approved"
       matched = true;
         cy.get('[title="Requested"]').should('be.visible')
         break;
@@ -154,6 +164,7 @@ matched = false;
         break;
       }
       case 'requested': {
+      // same as "approved"
       matched = true;
       //TBD selection once the environment is running up again
         cy.get('[title="Requested"]').should('not.be.visible')
