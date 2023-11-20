@@ -35,6 +35,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.excepti
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.asset.service.EdcNotificationAssetService;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.repository.QualityNotificationRepository;
 import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -68,13 +69,13 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
         if (notification.getType().equals(QualityNotificationType.ALERT)) {
             log.info("::asyncNotificationExecutor::isQualityAlert");
             sendResults = receiverUrls
-                    .stream().map(receiverUrl -> handleSendingAlert(notification, senderEdcUrl, receiverUrl)).toList();
+                    .stream().map(receiverUrl -> handleSendingNotification(notification, senderEdcUrl, receiverUrl, alertRepository)).toList();
         }
 
         if (notification.getType().equals(QualityNotificationType.INVESTIGATION)) {
             log.info("::asyncNotificationExecutor::isQualityInvestigation");
             sendResults = receiverUrls
-                    .stream().map(receiverUrl -> handleSendingInvestigation(notification, senderEdcUrl, receiverUrl)).toList();
+                    .stream().map(receiverUrl -> handleSendingNotification(notification, senderEdcUrl, receiverUrl, investigationRepository)).toList();
         }
 
         Boolean wasSent = sendResults.stream().anyMatch(Boolean.TRUE::equals);
@@ -86,36 +87,19 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
         return CompletableFuture.completedFuture(null);
     }
 
-    private boolean handleSendingAlert(QualityNotificationMessage notification, String senderEdcUrl, String receiverUrl) {
+    private boolean handleSendingNotification(QualityNotificationMessage notification, String senderEdcUrl, String receiverUrl, QualityNotificationRepository repository) {
         try {
             edcFacade.startEdcTransfer(notification, receiverUrl, senderEdcUrl);
-            alertRepository.updateQualityNotificationMessageEntity(notification);
+            repository.updateQualityNotificationMessageEntity(notification);
             return true;
         } catch (NoCatalogItemException e) {
-            log.warn("Could not send alert to {} no catalog item found. ", receiverUrl, e);
+            log.warn("Could not send notification to {} no catalog item found. ", receiverUrl, e);
         } catch (SendNotificationException e) {
-            log.warn("Could not send alert to {} ", receiverUrl, e);
+            log.warn("Could not send notification to {} ", receiverUrl, e);
         } catch (NoEndpointDataReferenceException e) {
-            log.warn("Could not send alert to {} no endpoint data reference found", receiverUrl, e);
+            log.warn("Could not send notification to {} no endpoint data reference found", receiverUrl, e);
         } catch (ContractNegotiationException e) {
-            log.warn("Could not send alert to {} could not negotiate contract agreement", receiverUrl, e);
-        }
-        return false;
-    }
-
-    private boolean handleSendingInvestigation(QualityNotificationMessage notification, String senderEdcUrl, String receiverUrl) {
-        try {
-            edcFacade.startEdcTransfer(notification, receiverUrl, senderEdcUrl);
-            investigationRepository.updateQualityNotificationMessageEntity(notification);
-            return true;
-        } catch (NoCatalogItemException e) {
-            log.warn("Could not send investigation to {} no catalog item found.", receiverUrl, e);
-        } catch (SendNotificationException e) {
-            log.warn("Could not send investigation to {} ", receiverUrl, e);
-        } catch (NoEndpointDataReferenceException e) {
-            log.warn("Could not send investigation to {} no endpoint data reference found", receiverUrl, e);
-        } catch (ContractNegotiationException e) {
-            log.warn("Could not send investigation to {} could not negotiate contract agreement", receiverUrl, e);
+            log.warn("Could not send notification to {} could not negotiate contract agreement", receiverUrl, e);
         }
         return false;
     }
