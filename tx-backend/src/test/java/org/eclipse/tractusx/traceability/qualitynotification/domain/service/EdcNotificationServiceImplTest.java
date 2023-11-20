@@ -30,7 +30,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.excepti
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.EdcNotificationService;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.EdcNotificationServiceImpl;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.InvestigationsEDCFacade;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -49,10 +49,10 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class EdcNotificationServiceTest {
+class EdcNotificationServiceImplTest {
 
     @InjectMocks
-    private EdcNotificationService notificationsService;
+    private EdcNotificationServiceImpl notificationsService;
 
     @Mock
     private InvestigationsEDCFacade edcFacade;

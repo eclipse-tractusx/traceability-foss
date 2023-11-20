@@ -34,15 +34,22 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.excepti
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.SendNotificationException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.asset.service.EdcNotificationAssetService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+import static org.eclipse.tractusx.traceability.common.config.ApplicationProfiles.NOT_INTEGRATION_TESTS;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class EdcNotificationService {
+@Profile(NOT_INTEGRATION_TESTS)
+public class EdcNotificationServiceImpl implements EdcNotificationService {
 
     private final InvestigationsEDCFacade edcFacade;
     private final InvestigationRepository investigationRepository;
@@ -51,28 +58,39 @@ public class EdcNotificationService {
 
 
     @Async(value = AssetsAsyncConfig.UPDATE_NOTIFICATION_EXECUTOR)
-    public void asyncNotificationExecutor(QualityNotificationMessage notification) {
+    public CompletableFuture<QualityNotificationMessage> asyncNotificationExecutor(QualityNotificationMessage notification) {
         log.info("::asyncNotificationExecutor::notification {}", notification);
         Discovery discovery = discoveryService.getDiscoveryByBPN(notification.getSendTo());
         String senderEdcUrl = discovery.getSenderUrl();
+        List<String> receiverUrls = emptyIfNull(discovery.getReceiverUrls());
+        List<Boolean> sendResults = null;
 
         if (notification.getType().equals(QualityNotificationType.ALERT)) {
             log.info("::asyncNotificationExecutor::isQualityAlert");
-            emptyIfNull(discovery.getReceiverUrls())
-                    .forEach(receiverUrl -> handleSendingAlert(notification, senderEdcUrl, receiverUrl));
+            sendResults = receiverUrls
+                    .stream().map(receiverUrl -> handleSendingAlert(notification, senderEdcUrl, receiverUrl)).toList();
         }
 
         if (notification.getType().equals(QualityNotificationType.INVESTIGATION)) {
             log.info("::asyncNotificationExecutor::isQualityInvestigation");
-            emptyIfNull(discovery.getReceiverUrls())
-                    .forEach(receiverUrl -> handleSendingInvestigation(notification, senderEdcUrl, receiverUrl));
+            sendResults = receiverUrls
+                    .stream().map(receiverUrl -> handleSendingInvestigation(notification, senderEdcUrl, receiverUrl)).toList();
         }
+
+        Boolean wasSent = sendResults.stream().anyMatch(Boolean.TRUE::equals);
+
+        if(Boolean.TRUE.equals(wasSent)) {
+            return CompletableFuture.completedFuture(notification);
+        }
+
+        return CompletableFuture.completedFuture(null);
     }
 
-    private void handleSendingAlert(QualityNotificationMessage notification, String senderEdcUrl, String receiverUrl) {
+    private boolean handleSendingAlert(QualityNotificationMessage notification, String senderEdcUrl, String receiverUrl) {
         try {
             edcFacade.startEdcTransfer(notification, receiverUrl, senderEdcUrl);
             alertRepository.updateQualityNotificationMessageEntity(notification);
+            return true;
         } catch (NoCatalogItemException e) {
             log.warn("Could not send alert to {} no catalog item found. ", receiverUrl, e);
         } catch (SendNotificationException e) {
@@ -82,12 +100,14 @@ public class EdcNotificationService {
         } catch (ContractNegotiationException e) {
             log.warn("Could not send alert to {} could not negotiate contract agreement", receiverUrl, e);
         }
+        return false;
     }
 
-    private void handleSendingInvestigation(QualityNotificationMessage notification, String senderEdcUrl, String receiverUrl) {
+    private boolean handleSendingInvestigation(QualityNotificationMessage notification, String senderEdcUrl, String receiverUrl) {
         try {
             edcFacade.startEdcTransfer(notification, receiverUrl, senderEdcUrl);
             investigationRepository.updateQualityNotificationMessageEntity(notification);
+            return true;
         } catch (NoCatalogItemException e) {
             log.warn("Could not send investigation to {} no catalog item found.", receiverUrl, e);
         } catch (SendNotificationException e) {
@@ -97,5 +117,6 @@ public class EdcNotificationService {
         } catch (ContractNegotiationException e) {
             log.warn("Could not send investigation to {} could not negotiate contract agreement", receiverUrl, e);
         }
+        return false;
     }
 }

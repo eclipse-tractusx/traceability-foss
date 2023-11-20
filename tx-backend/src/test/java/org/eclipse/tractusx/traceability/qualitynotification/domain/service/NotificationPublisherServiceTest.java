@@ -32,7 +32,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.exception.QualityNotificationIllegalUpdate;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.EdcNotificationService;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.EdcNotificationServiceImpl;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.NotificationPublisherService;
 import org.eclipse.tractusx.traceability.testdata.AssetTestDataFactory;
 import org.eclipse.tractusx.traceability.testdata.InvestigationTestDataFactory;
@@ -51,6 +51,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -75,7 +76,7 @@ class NotificationPublisherServiceTest {
     @Mock
     private Clock clock;
     @Mock
-    private EdcNotificationService notificationsService;
+    private EdcNotificationServiceImpl notificationsService;
     @Mock
     private BpnRepository bpnRepository;
     @Mock
@@ -144,7 +145,9 @@ class NotificationPublisherServiceTest {
         // Given
         final BPN bpn = new BPN("bpn123");
         QualityNotification investigation = InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationStatus.CREATED, QualityNotificationStatus.CREATED);
+        QualityNotificationMessage notificationMessage = investigation.getNotifications().stream().findFirst().get();
         when(traceabilityProperties.getBpn()).thenReturn(bpn);
+        when(notificationsService.asyncNotificationExecutor(any())).thenReturn(CompletableFuture.completedFuture(notificationMessage));
 
         // When
         QualityNotification result = notificationPublisherService.approveNotification(investigation);
@@ -187,6 +190,8 @@ class NotificationPublisherServiceTest {
 
         QualityNotification investigationTestData = InvestigationTestDataFactory.createInvestigationTestDataWithNotificationList(QualityNotificationStatus.RECEIVED, "recipientBPN", notifications);
         when(traceabilityProperties.getBpn()).thenReturn(bpn);
+        when(notificationsService.asyncNotificationExecutor(any())).thenReturn(CompletableFuture.completedFuture(notification2));
+
         // When
         QualityNotification result = notificationPublisherService.updateNotificationPublisher(investigationTestData, status, reason);
 
@@ -232,6 +237,7 @@ class NotificationPublisherServiceTest {
 
         QualityNotification investigationTestData = InvestigationTestDataFactory.createInvestigationTestDataWithNotificationList(QualityNotificationStatus.ACKNOWLEDGED, "recipientBPN", notifications);
         when(traceabilityProperties.getBpn()).thenReturn(bpn);
+        when(notificationsService.asyncNotificationExecutor(any())).thenReturn(CompletableFuture.completedFuture(notification2));
 
         // When
         QualityNotification result = notificationPublisherService.updateNotificationPublisher(investigationTestData, status, reason);
@@ -276,6 +282,7 @@ class NotificationPublisherServiceTest {
 
         QualityNotification investigationTestData = InvestigationTestDataFactory.createInvestigationTestDataWithNotificationList(QualityNotificationStatus.ACKNOWLEDGED, "recipientBPN", notifications);
         when(traceabilityProperties.getBpn()).thenReturn(bpn);
+        when(notificationsService.asyncNotificationExecutor(any())).thenReturn(CompletableFuture.completedFuture(notification2));
 
         // When
         QualityNotification result = notificationPublisherService.updateNotificationPublisher(investigationTestData, status, reason);
@@ -318,6 +325,8 @@ class NotificationPublisherServiceTest {
 
         QualityNotification investigationTestData = InvestigationTestDataFactory.createInvestigationTestDataWithNotificationList(QualityNotificationStatus.ACCEPTED, "senderBPN", notifications);
         when(traceabilityProperties.getBpn()).thenReturn(bpn);
+        when(notificationsService.asyncNotificationExecutor(any())).thenReturn(CompletableFuture.completedFuture(notification2));
+
         // When
         QualityNotification result = notificationPublisherService.updateNotificationPublisher(investigationTestData, status, reason);
 
