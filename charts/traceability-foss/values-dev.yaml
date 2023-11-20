@@ -134,8 +134,10 @@ backend:
     password: <path:traceability-foss/data/dev/database#tracePassword>
 
   oauth2:
-    clientId: <path:traceability-foss/data/int/keycloak/oauth2#clientId>
-    clientSecret: <path:traceability-foss/data/int/keycloak/oauth2#clientSecret>
+    #clientId: <path:traceability-foss/data/int/keycloak/oauth2#clientId>
+    #clientSecret: <path:traceability-foss/data/int/keycloak/oauth2#clientSecret>
+    clientId: <path:traceability-foss/data/int-a/keycloak/oauth2#clientId_workaround>
+    clientSecret: <path:traceability-foss/data/int-a/keycloak/oauth2#clientSecret_workaround>
     clientTokenUri: "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
     jwkSetUri: "https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs"
     resourceClient: "Cl17-CX-Part"
