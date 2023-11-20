@@ -36,6 +36,6 @@ export class DashboardService {
   public getStats(): Observable<DashboardStats> {
     return this.apiService
       .get(`${this.url}/dashboard`)
-      .pipe(map((payload: DashboardStatsResponse) => DashboardAssembler.assembleDashboard(payload)));
+      .pipe(map((payload: DashboardStatsResponse) => DashboardAssembler.assembleDashboard(payload)))
   }
 }

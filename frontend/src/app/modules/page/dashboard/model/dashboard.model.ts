@@ -20,13 +20,35 @@
  ********************************************************************************/
 
 export interface DashboardStats {
-  otherParts: number | null;
-  myItems: number;
-  investigations?: number;
+  // notification counts (where open means notficaiton status not closed)
+  myPartsWithOpenAlerts: number,
+  myPartsWithOpenInvestigations: number,
+  otherPartsWithOpenAlerts: number,
+  otherPartsWithOpenInvestigations: number,
+  // part counts
+  asBuiltCustomerParts: number,
+  asPlannedCustomerParts: number,
+  asBuiltSupplierParts: number,
+  asPlannedSupplierParts: number,
+  asBuiltOwnParts: number,
+  asPlannedOwnParts: number
+
+  // calculated counts
+  totalOwnParts: number
+  totalOtherParts: number
 }
 
 export interface DashboardStatsResponse {
-  otherParts: number | null;
-  myParts: number;
-  investigations?: number;
+  // notification counts (where open means notficaiton status not closed)
+  myPartsWithOpenAlerts: number,
+  myPartsWithOpenInvestigations: number,
+  otherPartsWithOpenAlerts: number,
+  otherPartsWithOpenInvestigations: number,
+  // part counts
+  asBuiltCustomerParts: number,
+  asPlannedCustomerParts: number,
+  asBuiltSupplierParts: number,
+  asPlannedSupplierParts: number,
+  asBuiltOwnParts: number,
+  asPlannedOwnParts: number
 }

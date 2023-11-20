@@ -28,41 +28,146 @@ import { View } from 'src/app/modules/shared/model/view.model';
 
 @Injectable()
 export class DashboardState {
-  private readonly _numberOfMyParts$: State<View<number>> = new State<View<number>>({ loader: true });
-  private readonly _numberOfOtherParts$: State<View<number>> = new State<View<number>>({ loader: true });
-  private readonly _numberOfInvestigations$: State<View<number>> = new State<View<number>>({ loader: true });
 
-  private readonly _investigations$: State<View<Notifications>> = new State<View<Notifications>>({ loader: true });
+  // part counts
+  private readonly _numberOfAsBuiltOwnParts$: State<View<number>> = new State<View<number>>({ loader: true });
+  private readonly _numberOfAsPlannedOwnParts$: State<View<number>> = new State<View<number>>({ loader: true });
+  private readonly _numberOfAsBuiltSupplierParts$: State<View<number>> = new State<View<number>>({ loader: true });
+  private readonly _numberOfAsPlannedSupplierParts$: State<View<number>> = new State<View<number>>({ loader: true });
+  private readonly _numberOfAsBuiltCustomerParts$: State<View<number>> = new State<View<number>>({ loader: true });
+  private readonly _numberOfAsPlannedCustomerParts$: State<View<number>> = new State<View<number>>({ loader: true });
 
-  public get numberOfMyParts$(): Observable<View<number>> {
-    return this._numberOfMyParts$.observable;
+  // calculated part counts
+  private readonly _numberOfTotalMyParts$: State<View<number>> = new State<View<number>>({ loader: true });
+  private readonly _numberOfTotalOtherParts$: State<View<number>> = new State<View<number>>({ loader: true });
+
+  // notification counts
+  private readonly _numberOfMyPartsWithOpenAlerts$: State<View<number>> = new State<View<number>>({ loader: true });
+  private readonly _numberOfMyPartsWithOpenInvestigations$: State<View<number>> = new State<View<number>>({ loader: true });
+  private readonly _numberOfOtherPartsWithOpenAlerts$: State<View<number>> = new State<View<number>>({ loader: true });
+  private readonly _numberOfOtherPartsWithOpenInvestigations$: State<View<number>> = new State<View<number>>({ loader: true });
+
+
+  // notifications received
+  private readonly _recentInvestigations$: State<View<Notifications>> = new State<View<Notifications>>({ loader: true });
+  private readonly _recentAlerts$: State<View<Notifications>> = new State<View<Notifications>>({ loader: true });
+
+  /**
+   * part counts getter/setter
+   */
+
+  public get numberOfAsBuiltOwnParts$(): Observable<View<number>> {
+    return this._numberOfAsBuiltOwnParts$.observable;
   }
 
-  public setNumberOfMyParts(count: View<number>): void {
-    this._numberOfMyParts$.update(count);
+  public setNumberOfAsBuiltOwnParts(count: View<number>): void {
+    this._numberOfAsBuiltOwnParts$.update(count);
   }
 
-  public get numberOfOtherParts$(): Observable<View<number>> {
-    return this._numberOfOtherParts$.observable;
+  public get numberOfAsPlannedOwnParts$(): Observable<View<number>> {
+    return this._numberOfAsPlannedOwnParts$.observable;
   }
 
-  public setNumberOfOtherParts(count: View<number>): void {
-    this._numberOfOtherParts$.update(count);
+  public setNumberOfAsPlannedOwnParts(count: View<number>): void {
+    this._numberOfAsPlannedOwnParts$.update(count);
   }
 
-  public get numberOfInvestigations$(): Observable<View<number>> {
-    return this._numberOfInvestigations$.observable;
+  public get numberOfAsBuiltSupplierParts$(): Observable<View<number>> {
+    return this._numberOfAsBuiltSupplierParts$.observable;
   }
 
-  public setNumberOfInvestigations(count: View<number>): void {
-    this._numberOfInvestigations$.update(count);
+  public setNumberOfAsBuiltSupplierParts(count: View<number>): void {
+    this._numberOfAsBuiltSupplierParts$.update(count);
   }
 
-  public get investigations$(): Observable<View<Notifications>> {
-    return this._investigations$.observable;
+  public get numberOfAsPlannedSupplierParts$(): Observable<View<number>> {
+    return this._numberOfAsPlannedSupplierParts$.observable;
   }
 
-  public setInvestigation(investigations: View<Notifications>): void {
-    this._investigations$.update(investigations);
+  public setNumberOfAsPlannedSupplierParts(count: View<number>): void {
+    this._numberOfAsPlannedSupplierParts$.update(count);
+  }
+
+  public get numberOfAsBuiltCustomerParts$(): Observable<View<number>> {
+    return this._numberOfAsBuiltCustomerParts$.observable;
+  }
+
+  public setNumberOfAsBuiltCustomerParts(count: View<number>): void {
+    this._numberOfAsBuiltCustomerParts$.update(count);
+  }
+
+  public get numberOfAsPlannedCustomerParts$(): Observable<View<number>> {
+    return this._numberOfAsPlannedCustomerParts$.observable;
+  }
+
+  public setNumberOfAsPlannedCustomerParts(count: View<number>): void {
+    this._numberOfAsPlannedCustomerParts$.update(count);
+  }
+
+  public get numberOfTotalMyParts$(): Observable<View<number>> {
+    return this._numberOfTotalMyParts$.observable;
+  }
+
+  public setNumberOfTotalMyParts(count: View<number>): void {
+    this._numberOfTotalMyParts$.update(count);
+  }
+
+
+  /**
+   * part notifications getter/setter
+   */
+
+
+  public get numberOfMyPartsWithOpenAlerts$(): Observable<View<number>> {
+    return this._numberOfMyPartsWithOpenAlerts$.observable;
+  }
+
+  public setNumberOfMyPartsWithOpenAlerts(count: View<number>): void {
+    this._numberOfMyPartsWithOpenAlerts$.update(count);
+  }
+
+  public get numberOfMyPartsWithOpenInvestigations$(): Observable<View<number>> {
+    return this._numberOfMyPartsWithOpenInvestigations$.observable;
+  }
+
+  public setNumberOfMyPartsWithOpenInvestigations(count: View<number>): void {
+    this._numberOfMyPartsWithOpenInvestigations$.update(count);
+  }
+
+  public get numberOfOtherPartsWithOpenAlerts$(): Observable<View<number>> {
+    return this._numberOfOtherPartsWithOpenAlerts$.observable;
+  }
+
+  public setNumberOfOtherPartsWithOpenAlerts(count: View<number>): void {
+    this._numberOfOtherPartsWithOpenAlerts$.update(count);
+  }
+
+  public get numberOfOtherPartsWithOpenInvestigations$(): Observable<View<number>> {
+    return this._numberOfOtherPartsWithOpenInvestigations$.observable;
+  }
+
+  public setNumberOfOtherPartsWithOpenInvestigations(count: View<number>): void {
+    this._numberOfOtherPartsWithOpenInvestigations$.update(count);
+  }
+
+  /**
+   * recent notifications getter/setter
+   */
+
+
+  public get recentInvestigations$(): Observable<View<Notifications>> {
+    return this._recentInvestigations$.observable;
+  }
+
+  public setInvestigationsReceived(investigations: View<Notifications>): void {
+    this._recentInvestigations$.update(investigations);
+  }
+
+  public get recentAlerts$(): Observable<View<Notifications>> {
+    return this._recentAlerts$.observable;
+  }
+
+  public setRecentAlerts(alerts: View<Notifications>): void {
+    this._recentAlerts$.update(alerts);
   }
 }

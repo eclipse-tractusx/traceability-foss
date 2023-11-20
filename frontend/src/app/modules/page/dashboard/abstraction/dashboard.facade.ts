@@ -22,8 +22,8 @@
 import { Injectable } from '@angular/core';
 import { Notifications } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
+import { AlertsService } from '@shared/service/alerts.service';
 import { InvestigationsService } from '@shared/service/investigations.service';
-import { PartsService } from '@shared/service/parts.service';
 import { Observable, Subscription } from 'rxjs';
 import { DashboardService } from '../core/dashboard.service';
 import { DashboardState } from '../core/dashboard.state';
@@ -33,51 +33,89 @@ import { DashboardStats } from '../model/dashboard.model';
 export class DashboardFacade {
   private assetNumbersSubscription: Subscription;
   private investigationSubscription: Subscription;
+  private alertsSubscription: Subscription;
 
   constructor(
     private readonly dashboardService: DashboardService,
     private readonly dashboardState: DashboardState,
-    private readonly partsService: PartsService,
+    // private readonly partsService: PartsService,
     private readonly investigationsService: InvestigationsService,
+    private readonly alertsService: AlertsService
   ) {}
 
   public get numberOfMyParts$(): Observable<View<number>> {
-    return this.dashboardState.numberOfMyParts$;
+    return this.dashboardState.numberOfTotalMyParts$;
   }
-
+/*
   public get numberOfOtherParts$(): Observable<View<number>> {
-    return this.dashboardState.numberOfOtherParts$;
+    return this.dashboardState.numberOfAsBuiltSupplierParts$.subscribe(next => next.data as number)
   }
 
-  public get numberOfInvestigations$(): Observable<View<number>> {
-    return this.dashboardState.numberOfInvestigations$;
+ */
+  public get numberOfMyPartsWithOpenInvestigations$(): Observable<View<number>> {
+    return this.dashboardState.numberOfMyPartsWithOpenInvestigations$;
   }
 
-  public get investigations$(): Observable<View<Notifications>> {
-    return this.dashboardState.investigations$;
+  public get recentInvestigations$(): Observable<View<Notifications>> {
+    return this.dashboardState.recentInvestigations$;
+  }
+
+  public get recentAlerts$(): Observable<View<Notifications>> {
+    return this.dashboardState.recentAlerts$;
   }
 
   public setDashboardData(): void {
     this.setAssetNumbers();
     this.setInvestigations();
+    this.setAlerts();
   }
 
   private setAssetNumbers(): void {
-    this.dashboardState.setNumberOfMyParts({ loader: true });
-    this.dashboardState.setNumberOfOtherParts({ loader: true });
-    this.dashboardState.setNumberOfInvestigations({ loader: true });
+    this.dashboardState.setNumberOfTotalMyParts({ loader: true });
+
+    this.dashboardState.setNumberOfAsBuiltOwnParts({loader: true});
+    this.dashboardState.setNumberOfAsPlannedOwnParts({loader: true});
+    this.dashboardState.setNumberOfAsBuiltSupplierParts({loader: true});
+    this.dashboardState.setNumberOfAsPlannedSupplierParts({loader: true});
+    this.dashboardState.setNumberOfAsBuiltCustomerParts({loader: true});
+    this.dashboardState.setNumberOfAsPlannedCustomerParts({loader: true});
+
+    this.dashboardState.setNumberOfMyPartsWithOpenInvestigations({loader: true});
+    this.dashboardState.setNumberOfMyPartsWithOpenAlerts({loader:true});
+    this.dashboardState.setNumberOfOtherPartsWithOpenInvestigations({loader:true});
+    this.dashboardState.setNumberOfOtherPartsWithOpenAlerts({loader:true});
 
     this.assetNumbersSubscription?.unsubscribe();
     this.assetNumbersSubscription = this.dashboardService.getStats().subscribe({
       next: (dashboardStats: DashboardStats) => {
-        this.dashboardState.setNumberOfMyParts({ data: dashboardStats.myItems });
-        this.dashboardState.setNumberOfOtherParts({ data: dashboardStats.otherParts });
-        this.dashboardState.setNumberOfInvestigations({ data: dashboardStats.investigations || 0 });
+        this.dashboardState.setNumberOfTotalMyParts({ data: dashboardStats.totalOwnParts });
+
+        this.dashboardState.setNumberOfAsBuiltOwnParts({data: dashboardStats.asBuiltOwnParts});
+        this.dashboardState.setNumberOfAsPlannedOwnParts({data: dashboardStats.asPlannedOwnParts});
+        this.dashboardState.setNumberOfAsBuiltSupplierParts({data: dashboardStats.asBuiltSupplierParts});
+        this.dashboardState.setNumberOfAsPlannedSupplierParts({data: dashboardStats.asPlannedSupplierParts});
+        this.dashboardState.setNumberOfAsBuiltCustomerParts({data: dashboardStats.asBuiltCustomerParts});
+        this.dashboardState.setNumberOfAsPlannedCustomerParts({data: dashboardStats.asPlannedCustomerParts});
+
+        this.dashboardState.setNumberOfMyPartsWithOpenInvestigations({data: dashboardStats.myPartsWithOpenInvestigations});
+        this.dashboardState.setNumberOfMyPartsWithOpenAlerts({data: dashboardStats.myPartsWithOpenAlerts});
+        this.dashboardState.setNumberOfOtherPartsWithOpenInvestigations({data: dashboardStats.otherPartsWithOpenInvestigations});
+        this.dashboardState.setNumberOfOtherPartsWithOpenAlerts({data: dashboardStats.otherPartsWithOpenAlerts});
       },
       error: error => {
-        this.dashboardState.setNumberOfMyParts({ error });
-        this.dashboardState.setNumberOfOtherParts({ error });
-        this.dashboardState.setNumberOfInvestigations({ error });
+        this.dashboardState.setNumberOfTotalMyParts({ error });
+
+        this.dashboardState.setNumberOfAsBuiltOwnParts({error});
+        this.dashboardState.setNumberOfAsPlannedOwnParts({error});
+        this.dashboardState.setNumberOfAsBuiltSupplierParts({error});
+        this.dashboardState.setNumberOfAsPlannedSupplierParts({error});
+        this.dashboardState.setNumberOfAsBuiltCustomerParts({error});
+        this.dashboardState.setNumberOfAsPlannedCustomerParts({error});
+
+        this.dashboardState.setNumberOfMyPartsWithOpenInvestigations({error});
+        this.dashboardState.setNumberOfMyPartsWithOpenAlerts({error});
+        this.dashboardState.setNumberOfOtherPartsWithOpenInvestigations({error});
+        this.dashboardState.setNumberOfOtherPartsWithOpenAlerts({error});
       },
     });
   }
@@ -89,9 +127,17 @@ export class DashboardFacade {
 
   private setInvestigations(): void {
     this.investigationSubscription?.unsubscribe();
-    this.investigationSubscription = this.investigationsService.getReceivedInvestigations(0, 5, []).subscribe({
-      next: data => this.dashboardState.setInvestigation({ data }),
-      error: (error: Error) => this.dashboardState.setInvestigation({ error }),
+    this.investigationSubscription = this.investigationsService.getReceivedInvestigations(0, 5, [['createdDate','desc']]).subscribe({
+      next: data => this.dashboardState.setInvestigationsReceived({ data }),
+      error: (error: Error) => this.dashboardState.setInvestigationsReceived({ error }),
+    });
+  }
+
+  private setAlerts(): void {
+    this.alertsSubscription?.unsubscribe();
+    this.alertsSubscription = this.alertsService.getReceivedAlerts(0, 5, [['createdDate','desc']]).subscribe({
+      next: data => this.dashboardState.setRecentAlerts({data}),
+      error: (error: Error) => this.dashboardState.setRecentAlerts({ error }),
     });
   }
 }

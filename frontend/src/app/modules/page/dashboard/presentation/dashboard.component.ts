@@ -21,8 +21,13 @@
 
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { getRoute, INVESTIGATION_BASE_ROUTE } from '@core/known-route';
-import {Notification, Notifications, NotificationStatusGroup, NotificationType} from '@shared/model/notification.model';
+import { ALERT_BASE_ROUTE, getRoute, INVESTIGATION_BASE_ROUTE } from '@core/known-route';
+import {
+  Notification,
+  Notifications,
+  NotificationStatusGroup,
+  NotificationType,
+} from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
 import { Observable } from 'rxjs';
@@ -41,20 +46,28 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public readonly numberOfInvestigations$: Observable<View<number>>;
 
   public readonly investigations$: Observable<View<Notifications>>;
+  public readonly alerts$: Observable<View<Notifications>>;
 
   public readonly investigationLink: string;
   public readonly investigationParams: Record<string, string>;
 
+  public readonly alertLink: string;
+  public readonly alertParams: Record<string, string>;
+
   constructor(private readonly dashboardFacade: DashboardFacade, private readonly router: Router) {
     this.numberOfMyParts$ = this.dashboardFacade.numberOfMyParts$;
-    this.numberOfOtherParts$ = this.dashboardFacade.numberOfOtherParts$;
-    this.numberOfInvestigations$ = this.dashboardFacade.numberOfInvestigations$;
+    //this.numberOfOtherParts$ = this.dashboardFacade.numberOfOtherParts$;
+    this.numberOfInvestigations$ = this.dashboardFacade.numberOfMyPartsWithOpenInvestigations$;
 
-    this.investigations$ = this.dashboardFacade.investigations$;
+    this.investigations$ = this.dashboardFacade.recentInvestigations$;
+    this.alerts$ = this.dashboardFacade.recentAlerts$
 
-    const { link, queryParams } = getRoute(INVESTIGATION_BASE_ROUTE, NotificationStatusGroup.RECEIVED);
-    this.investigationLink = link;
-    this.investigationParams = queryParams;
+    const { link: investigationLink, queryParams: investigationQueryParams } = getRoute(INVESTIGATION_BASE_ROUTE, NotificationStatusGroup.RECEIVED);
+    const { link: alertLink, queryParams: alertQueryParams } = getRoute(ALERT_BASE_ROUTE, NotificationStatusGroup.RECEIVED);
+    this.investigationLink = investigationLink;
+    this.investigationParams = investigationQueryParams;
+    this.alertLink = alertLink;
+    this.alertParams = alertQueryParams;
   }
 
   public ngOnInit(): void {
@@ -65,8 +78,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.dashboardFacade.stopDataLoading();
   }
 
-  public onNotificationSelected(notification: Notification): void {
+  public onInvestigationSelected(notification: Notification): void {
     const { link } = getRoute(INVESTIGATION_BASE_ROUTE);
+    this.router.navigate([`/${link}/${notification.id}`]).then();
+  }
+
+  public onAlertSelected(notification: Notification): void {
+    const { link } = getRoute(ALERT_BASE_ROUTE);
     this.router.navigate([`/${link}/${notification.id}`]).then();
   }
 

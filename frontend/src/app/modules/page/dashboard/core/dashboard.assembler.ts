@@ -24,9 +24,20 @@ import { DashboardStats, DashboardStatsResponse } from '../model/dashboard.model
 export class DashboardAssembler {
   public static assembleDashboard(dashboard: DashboardStatsResponse): DashboardStats {
     return {
-      otherParts: dashboard.otherParts,
-      myItems: dashboard.myParts,
-      investigations: dashboard.investigations,
+      // notification counts (where open means notficaiton status not closed)
+      myPartsWithOpenAlerts: dashboard.myPartsWithOpenAlerts,
+      myPartsWithOpenInvestigations: dashboard.myPartsWithOpenInvestigations,
+      otherPartsWithOpenAlerts: dashboard.otherPartsWithOpenAlerts,
+      otherPartsWithOpenInvestigations: dashboard.otherPartsWithOpenInvestigations,
+      // part counts
+      asBuiltCustomerParts: dashboard.asBuiltCustomerParts,
+      asPlannedCustomerParts: dashboard.asPlannedCustomerParts,
+      asBuiltSupplierParts: dashboard.asBuiltSupplierParts,
+      asPlannedSupplierParts: dashboard.asPlannedSupplierParts,
+      asBuiltOwnParts: dashboard.asBuiltOwnParts,
+      asPlannedOwnParts: dashboard.asPlannedOwnParts,
+      totalOwnParts: dashboard.asBuiltOwnParts + dashboard.asPlannedOwnParts,
+      totalOtherParts: dashboard.asBuiltSupplierParts + dashboard.asBuiltCustomerParts,
     };
   }
 }
