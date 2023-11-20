@@ -18,6 +18,8 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.test;
+
 import static org.eclipse.tractusx.traceability.test.validator.TestUtils.wrapStringWithTimestamp;
 import { Given, Then, And } from '@badeball/cypress-cucumber-preprocessor';
 import { DashboardPage } from '../../integration/pages/QualityInvestigationsPage';
