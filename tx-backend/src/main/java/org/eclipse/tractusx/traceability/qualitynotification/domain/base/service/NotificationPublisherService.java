@@ -210,9 +210,11 @@ public class NotificationPublisherService {
 
         // For each asset within investigation a notification was created before
         List<CompletableFuture<QualityNotificationMessage>> futures = notification.getNotifications().stream()
-                .map(edcNotificationService::asyncNotificationExecutor).filter(Objects::nonNull).toList();
+                .map(edcNotificationService::asyncNotificationMessageExecutor).filter(Objects::nonNull).toList();
         List<QualityNotificationMessage> sentMessages = futures.stream()
-                .map(CompletableFuture::join).toList();
+                .map(CompletableFuture::join)
+                .filter(Objects::nonNull)
+                .toList();
         if (!sentMessages.isEmpty()) {
             notification.send(applicationBPN);
         }
@@ -241,7 +243,7 @@ public class NotificationPublisherService {
         });
 
         List<CompletableFuture<QualityNotificationMessage>> futures = notificationsToSend.stream()
-                .map(edcNotificationService::asyncNotificationExecutor).filter(Objects::nonNull).toList();
+                .map(edcNotificationService::asyncNotificationMessageExecutor).filter(Objects::nonNull).toList();
         List<QualityNotificationMessage> sentMessages = futures.stream()
                 .map(CompletableFuture::join).toList();
 

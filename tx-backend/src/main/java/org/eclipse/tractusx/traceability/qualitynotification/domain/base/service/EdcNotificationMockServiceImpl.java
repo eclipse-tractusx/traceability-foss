@@ -34,7 +34,7 @@ import static org.eclipse.tractusx.traceability.common.config.ApplicationProfile
 @Profile(INTEGRATION_SPRING_BOOT)
 public class EdcNotificationMockServiceImpl implements EdcNotificationService {
     @Override
-    public CompletableFuture<QualityNotificationMessage> asyncNotificationExecutor(QualityNotificationMessage notification) {
+    public CompletableFuture<QualityNotificationMessage> asyncNotificationMessageExecutor(QualityNotificationMessage notification) {
         log.info("EdcNotificationMockServiceImpl: {}", notification);
         return CompletableFuture.completedFuture(notification);
     }

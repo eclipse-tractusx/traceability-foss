@@ -24,5 +24,5 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import java.util.concurrent.CompletableFuture;
 
 public interface EdcNotificationService {
-    CompletableFuture<QualityNotificationMessage> asyncNotificationExecutor(QualityNotificationMessage notification);
+    CompletableFuture<QualityNotificationMessage> asyncNotificationMessageExecutor(QualityNotificationMessage notification);
 }

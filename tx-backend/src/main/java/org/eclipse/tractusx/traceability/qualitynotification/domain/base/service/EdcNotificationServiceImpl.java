@@ -59,7 +59,7 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
 
 
     @Async(value = AssetsAsyncConfig.UPDATE_NOTIFICATION_EXECUTOR)
-    public CompletableFuture<QualityNotificationMessage> asyncNotificationExecutor(QualityNotificationMessage notification) {
+    public CompletableFuture<QualityNotificationMessage> asyncNotificationMessageExecutor(QualityNotificationMessage notification) {
         log.info("::asyncNotificationExecutor::notification {}", notification);
         Discovery discovery = discoveryService.getDiscoveryByBPN(notification.getSendTo());
         String senderEdcUrl = discovery.getSenderUrl();

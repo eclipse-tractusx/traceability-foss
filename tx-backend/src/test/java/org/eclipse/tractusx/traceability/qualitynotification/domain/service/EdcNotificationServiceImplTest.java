@@ -86,7 +86,7 @@ class EdcNotificationServiceImplTest {
                 .build();
 
         // when
-        notificationsService.asyncNotificationExecutor(notification);
+        notificationsService.asyncNotificationMessageExecutor(notification);
 
         // then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
@@ -114,7 +114,7 @@ class EdcNotificationServiceImplTest {
                 .build();
 
         // when
-        notificationsService.asyncNotificationExecutor(notification);
+        notificationsService.asyncNotificationMessageExecutor(notification);
 
         // then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
@@ -141,7 +141,7 @@ class EdcNotificationServiceImplTest {
         doThrow(new NoCatalogItemException()).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
         // when
-        notificationsService.asyncNotificationExecutor(notification);
+        notificationsService.asyncNotificationMessageExecutor(notification);
 
         // then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
@@ -168,7 +168,7 @@ class EdcNotificationServiceImplTest {
         doThrow(new SendNotificationException("message",new RuntimeException())).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
         // when
-        notificationsService.asyncNotificationExecutor(notification);
+        notificationsService.asyncNotificationMessageExecutor(notification);
 
         // then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
@@ -195,7 +195,7 @@ class EdcNotificationServiceImplTest {
         doThrow(new NoEndpointDataReferenceException("message")).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
         // when
-        notificationsService.asyncNotificationExecutor(notification);
+        notificationsService.asyncNotificationMessageExecutor(notification);
 
         // then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
@@ -222,7 +222,7 @@ class EdcNotificationServiceImplTest {
         doThrow(new ContractNegotiationException("message")).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
         // when
-        notificationsService.asyncNotificationExecutor(notification);
+        notificationsService.asyncNotificationMessageExecutor(notification);
 
         // then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
@@ -250,7 +250,7 @@ class EdcNotificationServiceImplTest {
         doThrow(new NoCatalogItemException()).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
         // when
-        notificationsService.asyncNotificationExecutor(notification);
+        notificationsService.asyncNotificationMessageExecutor(notification);
 
         // then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
@@ -277,7 +277,7 @@ class EdcNotificationServiceImplTest {
         doThrow(new SendNotificationException("message",new RuntimeException())).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
         // when
-        notificationsService.asyncNotificationExecutor(notification);
+        notificationsService.asyncNotificationMessageExecutor(notification);
 
         // then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
@@ -304,7 +304,7 @@ class EdcNotificationServiceImplTest {
         doThrow(new NoEndpointDataReferenceException("message")).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
         // when
-        notificationsService.asyncNotificationExecutor(notification);
+        notificationsService.asyncNotificationMessageExecutor(notification);
 
         // then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
@@ -331,7 +331,7 @@ class EdcNotificationServiceImplTest {
         doThrow(new ContractNegotiationException("message")).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
         // when
-        notificationsService.asyncNotificationExecutor(notification);
+        notificationsService.asyncNotificationMessageExecutor(notification);
 
         // then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
