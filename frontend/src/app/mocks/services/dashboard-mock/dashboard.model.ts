@@ -28,10 +28,10 @@ export const mockDashboardStats: DashboardStatsResponse = {
   otherPartsWithOpenAlerts: 3,
   otherPartsWithOpenInvestigations: 5,
   // part counts
-  asBuiltCustomerParts: 50,
+  asBuiltCustomerParts: 612,
   asPlannedCustomerParts: 5,
   asBuiltSupplierParts: 500,
   asPlannedSupplierParts: 5000,
-  asBuiltOwnParts: 120543,
+  asBuiltOwnParts: 20543,
   asPlannedOwnParts: 11203
 };
