@@ -67,8 +67,3 @@ Then(
     cy.url().should('include', '/investigations');
   },
 );
-
-When("user navigate to {string}", function(desiredPage) {
-// ---TBD--- add more selections: "Parts", "Quality Alerts"...
-    cy.get('[href="/otherParts"]').click();
-  });

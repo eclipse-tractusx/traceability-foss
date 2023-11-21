@@ -18,18 +18,19 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-//package org.eclipse.tractusx.traceability.test;
+package org.eclipse.tractusx.traceability.test;
 
-//import static from org.eclipse.tractusx.traceability.test.validator.TestUtils.wrapStringWithTimestamp;
+import static from org.eclipse.tractusx.traceability.test.validator.TestUtils.wrapStringWithTimestamp;
 import { When, Then, Given } from '@badeball/cypress-cucumber-preprocessor';
-import { DashboardPage } from '../../integration/pages/QualityInvestigationsPage';
+import { QualityInvestigationsPage } from '../../integration/pages/QualityInvestigationsPage';
 
 let notificationDescription = null;
 
 Then(/^select "one" other part$/, () => {
 //since IDs of desired asset are not shown in FE the selection has to be done by other number
   cy.wait(500);
-  cy.get('span').should('contain.text', 'NO-989134870198932317923938').parent('.row').get('#mat-mds-checkbox-21').click();
+  cy.get('span').should('contain.text', 'NO-989134870198932317923938').parent('.row').as('part');
+  cy.get('@part').get('#mat-mds-checkbox-21').click();
 });
 
 Then(/^start investigation creation with description {string}$/, (description) => {
