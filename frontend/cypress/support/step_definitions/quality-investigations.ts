@@ -24,7 +24,7 @@
 import { Given, Then, And } from '@badeball/cypress-cucumber-preprocessor';
 import { DashboardPage } from '../../integration/pages/QualityInvestigationsPage';
 
-private String notificationDescription = null;
+let notificationDescription = null;
 
 Then(/^select "one" other part$/, () => {
 //since IDs of desired asset are not shown in FE the selection has to be done by other number
