@@ -28,7 +28,7 @@ private String notificationDescription = null;
 
 Then(/^select "one" other part$/, () => {
 //since IDs of desired asset are not shown in FE the selection has to be done by other number
-  cy.get('span').should('contain.text', 'NO-989134870198932317923938').parent('.row').get('#mat-mds-checkbox-21').click()
+  cy.get('span').should('contain.text', 'NO-989134870198932317923938').parent('.row').get('#mat-mds-checkbox-21').click();
 ]);
 
 Then(/^start investigation creation with description {string}$/, (description) => {
@@ -61,7 +61,7 @@ Then(/^selected parts are marked as investigated$/, () => {
 });
 
 And(/^popup with information about queued investigation is shown$/, () => {
-  cy.contains(/You queued an investigation for 1 part/i).should('be.visible')
+  cy.contains(/You queued an investigation for 1 part/i).should('be.visible');
 });
 
 When(/^user navigate to "queued quality investigation" with button in popup$/, () => {
@@ -102,11 +102,11 @@ Then(/^cancelation is not possible due to {string} id$/, (id) => {
 // -> extend method for both cases "wrong ID" and "no ID" ---TBD---
   switch (id) {
     case 'no': {
-      cy.contains(/This field is required!/i).should('be.visible')
+      cy.contains(/This field is required!/i).should('be.visible');
       break;
     }
     case 'wrong': {
-      cy.contains(/This id is wrong.... TBD/i).should('be.visible') //---TBD---
+      cy.contains(/This id is wrong.... TBD/i).should('be.visible'); //---TBD---
       break;
     }
   }
@@ -121,38 +121,38 @@ matched = false;
     switch (expectedStatus) {
       case 'canceled': {
         matched = true;
-        cy.get('[title="Cancelled"]').should('be.visible')
+        cy.get('[title="Cancelled"]').should('be.visible');
         break;
       }
       case 'requested': {
       // same as "approved"
       matched = true;
-        cy.get('[title="Requested"]').should('be.visible')
+        cy.get('[title="Requested"]').should('be.visible');
         break;
       }
       case 'accepted': {
       matched = true;
-        cy.get('[title="Accepted"]').should('be.visible')
+        cy.get('[title="Accepted"]').should('be.visible');
         break;
       }
       case 'declined': {
       matched = true;
-        cy.get('[title="Declined"]').should('be.visible')
+        cy.get('[title="Declined"]').should('be.visible');
         break;
       }
       case 'acknowledged': {
       matched = true;
-        cy.get('[title="Acknowledged"]').should('be.visible')
+        cy.get('[title="Acknowledged"]').should('be.visible');
         break;
       }
       case 'closed': {
       matched = true;
-        cy.get('[title="Closed"]').should('be.visible')
+        cy.get('[title="Closed"]').should('be.visible');
         break;
       }
     }
     if (!matched) {
-      throw new Error("Set expected status '" + expectedStatus + "' is not one of valid status [canceled, requested, accepted, declined, acknowledged, closed].")
+      throw new Error("Set expected status '" + expectedStatus + "' is not one of valid status [canceled, requested, accepted, declined, acknowledged, closed].");
     }
 });
 
@@ -162,43 +162,43 @@ matched = false;
       case 'canceled': {
         matched = true;
         //TBD selection once the environment is running up again
-        cy.get('[title="Cancelled"]').should('not.be.visible')
+        cy.get('[title="Cancelled"]').should('not.be.visible');
         break;
       }
       case 'requested': {
       // same as "approved"
       matched = true;
       //TBD selection once the environment is running up again
-        cy.get('[title="Requested"]').should('not.be.visible')
+        cy.get('[title="Requested"]').should('not.be.visible');
         break;
       }
       case 'accepted': {
       matched = true;
       //TBD selection once the environment is running up again
-        cy.get('[title="Accepted"]').should('not.be.visible')
+        cy.get('[title="Accepted"]').should('not.be.visible');
         break;
       }
       case 'declined': {
       matched = true;
       //TBD selection once the environment is running up again
-        cy.get('[title="Declined"]').should('not.be.visible')
+        cy.get('[title="Declined"]').should('not.be.visible');
         break;
       }
       case 'acknowledged': {
       matched = true;
       //TBD selection once the environment is running up again
-        cy.get('[title="Acknowledged"]').should('not.be.visible')
+        cy.get('[title="Acknowledged"]').should('not.be.visible');
         break;
       }
       case 'closed': {
       matched = true;
       //TBD selection once the environment is running up again
-        cy.get('[title="Closed"]').should('not.be.visible')
+        cy.get('[title="Closed"]').should('not.be.visible');
         break;
       }
     }
     if (!matched) {
-      throw new Error("Set status '" + status + "' is not one of valid status [canceled, requested, accepted, declined, acknowledged, closed].")
+      throw new Error("Set status '" + status + "' is not one of valid status [canceled, requested, accepted, declined, acknowledged, closed].");
     }
 });
 
