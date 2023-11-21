@@ -33,8 +33,10 @@ public class DashboardResponseMapper {
                 dashboard.getAsPlannedOwnParts(),
                 dashboard.getMyPartsWithOpenAlerts(),
                 dashboard.getMyPartsWithOpenInvestigations(),
-                dashboard.getOtherPartsWithOpenAlerts(),
-                dashboard.getOtherPartsWithOpenInvestigations()
+                dashboard.getSupplierPartsWithOpenAlerts(),
+                dashboard.getCustomerPartsWithOpenAlerts(),
+                dashboard.getSupplierPartsWithOpenInvestigations(),
+                dashboard.getCustomerPartsWithOpenInvestigations()
         );
     }
 }

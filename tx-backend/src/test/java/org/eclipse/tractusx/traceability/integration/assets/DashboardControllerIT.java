@@ -95,9 +95,10 @@ class DashboardControllerIT extends IntegrationTestSpecification {
                 .body("asPlannedOwnParts", equalTo(0))
                 .body("myPartsWithOpenAlerts", equalTo(0))
                 .body("myPartsWithOpenInvestigations", equalTo(0))
-                .body("otherPartsWithOpenAlerts", equalTo(0))
-                .body("otherPartsWithOpenInvestigations", equalTo(0))
-        ;
+                .body("supplierPartsWithOpenAlerts", equalTo(0))
+                .body("customerPartsWithOpenAlerts", equalTo(0))
+                .body("supplierPartsWithOpenInvestigations", equalTo(0))
+                .body("customerPartsWithOpenInvestigations", equalTo(0));
     }
 
     @Test
@@ -130,8 +131,10 @@ class DashboardControllerIT extends IntegrationTestSpecification {
                 .body("asPlannedOwnParts", equalTo(0))
                 .body("myPartsWithOpenAlerts", equalTo(1))
                 .body("myPartsWithOpenInvestigations", equalTo(0))
-                .body("otherPartsWithOpenAlerts", equalTo(12))
-                .body("otherPartsWithOpenInvestigations", equalTo(0));
+                .body("supplierPartsWithOpenAlerts", equalTo(12))
+                .body("customerPartsWithOpenAlerts", equalTo(0))
+                .body("supplierPartsWithOpenInvestigations", equalTo(0))
+                .body("customerPartsWithOpenInvestigations", equalTo(0));
     }
 
     @Test
@@ -186,8 +189,10 @@ class DashboardControllerIT extends IntegrationTestSpecification {
                 .body("asPlannedOwnParts", equalTo(0))
                 .body("myPartsWithOpenAlerts", equalTo(0))
                 .body("myPartsWithOpenInvestigations", equalTo(0))
-                .body("otherPartsWithOpenAlerts", equalTo(0))
-                .body("otherPartsWithOpenInvestigations", equalTo(1));
+                .body("supplierPartsWithOpenAlerts", equalTo(0))
+                .body("customerPartsWithOpenAlerts", equalTo(0))
+                .body("supplierPartsWithOpenInvestigations", equalTo(1))
+                .body("customerPartsWithOpenInvestigations", equalTo(0));
     }
 
     private static Stream<Arguments> roles() {

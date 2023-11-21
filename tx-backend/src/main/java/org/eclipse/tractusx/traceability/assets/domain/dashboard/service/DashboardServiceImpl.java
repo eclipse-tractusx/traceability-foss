@@ -55,8 +55,11 @@ public class DashboardServiceImpl implements DashboardService {
         long myPartsWithSentAlerts = alertRepository.countOpenNotificationsByOwnership(List.of(Owner.OWN));
         long myPartsWithReceivedInvestigations = investigationsRepository.countOpenNotificationsByOwnership(List.of(Owner.OWN));
 
-        long otherPartsWithOpenReceivedAlerts = alertRepository.countOpenNotificationsByOwnership(List.of(Owner.CUSTOMER, Owner.SUPPLIER));
-        long otherPartsWithOpenSentInvestigations = investigationsRepository.countOpenNotificationsByOwnership(List.of(Owner.CUSTOMER, Owner.SUPPLIER));
+        long supplierPartsWithOpenReceivedAlerts = alertRepository.countOpenNotificationsByOwnership(List.of(Owner.SUPPLIER));
+        long supplierPartsWithOpenSentInvestigations = investigationsRepository.countOpenNotificationsByOwnership(List.of(Owner.SUPPLIER));
+
+        long customerPartsWithOpenReceivedAlerts = alertRepository.countOpenNotificationsByOwnership(List.of(Owner.CUSTOMER));
+        long customerPartsWithOpenSentInvestigations = investigationsRepository.countOpenNotificationsByOwnership(List.of(Owner.CUSTOMER));
 
         return Dashboard.builder()
                 .asBuiltCustomerParts(asBuiltCustomerParts)
@@ -67,8 +70,10 @@ public class DashboardServiceImpl implements DashboardService {
                 .asPlannedOwnParts(asPlannedOwnParts)
                 .myPartsWithOpenAlerts(myPartsWithSentAlerts)
                 .myPartsWithOpenInvestigations(myPartsWithReceivedInvestigations)
-                .otherPartsWithOpenAlerts(otherPartsWithOpenReceivedAlerts)
-                .otherPartsWithOpenInvestigations(otherPartsWithOpenSentInvestigations)
+                .supplierPartsWithOpenAlerts(supplierPartsWithOpenReceivedAlerts)
+                .customerPartsWithOpenAlerts(customerPartsWithOpenReceivedAlerts)
+                .supplierPartsWithOpenInvestigations(supplierPartsWithOpenSentInvestigations)
+                .customerPartsWithOpenInvestigations(customerPartsWithOpenSentInvestigations)
                 .build();
 
     }

@@ -35,6 +35,8 @@ public class Dashboard {
     long asPlannedOwnParts;
     long myPartsWithOpenAlerts;
     long myPartsWithOpenInvestigations;
-    long otherPartsWithOpenAlerts;
-    long otherPartsWithOpenInvestigations;
+    long supplierPartsWithOpenAlerts;
+    long customerPartsWithOpenAlerts;
+    long supplierPartsWithOpenInvestigations;
+    long customerPartsWithOpenInvestigations;
 }

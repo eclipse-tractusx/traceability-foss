@@ -48,8 +48,10 @@ class DashboardControllerTest {
                 .asPlannedOwnParts(111L)
                 .myPartsWithOpenAlerts(1111L)
                 .myPartsWithOpenInvestigations(1111L)
-                .otherPartsWithOpenAlerts(1111L)
-                .otherPartsWithOpenInvestigations(1111L)
+                .supplierPartsWithOpenAlerts(1111L)
+                .customerPartsWithOpenAlerts(1111L)
+                .supplierPartsWithOpenInvestigations(1111L)
+                .customerPartsWithOpenInvestigations(1111L)
                 .build();
         Mockito.when(dashboardService.getDashboard()).thenReturn(dashboard);
         Dashboard testDashboard = dashboardService.getDashboard();
@@ -61,8 +63,10 @@ class DashboardControllerTest {
         assertEquals(111, testDashboard.getAsPlannedOwnParts());
         assertEquals(1111, testDashboard.getMyPartsWithOpenAlerts());
         assertEquals(1111, testDashboard.getMyPartsWithOpenInvestigations());
-        assertEquals(1111, testDashboard.getOtherPartsWithOpenAlerts());
-        assertEquals(1111, testDashboard.getOtherPartsWithOpenInvestigations());
+        assertEquals(1111, testDashboard.getSupplierPartsWithOpenAlerts());
+        assertEquals(1111, testDashboard.getCustomerPartsWithOpenAlerts());
+        assertEquals(1111, testDashboard.getSupplierPartsWithOpenInvestigations());
+        assertEquals(1111, testDashboard.getCustomerPartsWithOpenInvestigations());
     }
 
 }

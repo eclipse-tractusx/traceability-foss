@@ -39,8 +39,12 @@ public record DashboardResponse(
         @ApiModelProperty(example = "1")
         Long myPartsWithOpenInvestigations,
         @ApiModelProperty(example = "1")
-        Long otherPartsWithOpenAlerts,
+        Long supplierPartsWithOpenAlerts,
+        @ApiModelProperty(example = "1")
+        Long customerPartsWithOpenAlerts,
         @ApiModelProperty(example = "2")
-        Long otherPartsWithOpenInvestigations) {
+        Long supplierPartsWithOpenInvestigations,
+        @ApiModelProperty(example = "2")
+        Long customerPartsWithOpenInvestigations) {
 
 }
