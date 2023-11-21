@@ -69,10 +69,6 @@ Then(
 );
 
 When("user navigate to {string}", function(desiredPage) {
+// ---TBD--- add more selections: "Parts", "Quality Alerts"...
     cy.get('[href="/otherParts"]').click();
   });
-// //user navigate to "Other parts"
-// When("user navigate to {string}", function(desiredPage) => {
-// // ---TBD--- add more selections: "Parts", "Quality Alerts"...
-//   cy.get('[href="otherParts"]').click();
-// });
