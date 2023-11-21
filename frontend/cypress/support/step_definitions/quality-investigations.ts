@@ -18,9 +18,9 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.test;
+//package org.eclipse.tractusx.traceability.test;
 
-import static from org.eclipse.tractusx.traceability.test.validator.TestUtils.wrapStringWithTimestamp;
+//import static from org.eclipse.tractusx.traceability.test.validator.TestUtils.wrapStringWithTimestamp;
 import { When, Then, Given } from '@badeball/cypress-cucumber-preprocessor';
 import { QualityInvestigationsPage } from '../../integration/pages/QualityInvestigationsPage';
 
@@ -101,14 +101,13 @@ When(/^user cancel selected investigation with entering {string} id$/, (input) =
 });
 
 Then(/^cancelation is not possible due to {string} id$/, (id) => {
-// -> extend method for both cases "wrong ID" and "no ID" ---TBD---
   switch (id) {
     case 'no': {
       cy.contains(/This field is required!/i).should('be.visible');
       break;
     }
     case 'wrong': {
-      cy.contains(/This id is wrong.... TBD/i).should('be.visible'); //---TBD---
+      cy.contains(/Please enter data that matches this pattern:/i).should('be.visible');
       break;
     }
   }
