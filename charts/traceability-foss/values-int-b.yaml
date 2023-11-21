@@ -120,11 +120,8 @@ backend:
     password: <path:traceability-foss/data/int-b/database#tracePassword>
 
   oauth2:
-    # TODO revert once technical user roles are back //20.11.2023 checked
-    #clientId: <path:traceability-foss/data/int-b/keycloak/oauth2#clientId>
-    #clientSecret: <path:traceability-foss/data/int-b/keycloak/oauth2#clientSecret>
-    clientId: <path:traceability-foss/data/int-b/keycloak/oauth2#clientId_workaround>
-    clientSecret: <path:traceability-foss/data/int-b/keycloak/oauth2#clientSecret_workaround>
+    clientId: <path:traceability-foss/data/int-b/keycloak/oauth2#clientId>
+    clientSecret: <path:traceability-foss/data/int-b/keycloak/oauth2#clientSecret>
     clientTokenUri: "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
     jwkSetUri: "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs"
     resourceClient: "app271"
