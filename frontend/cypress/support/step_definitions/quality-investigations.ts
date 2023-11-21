@@ -201,5 +201,3 @@ matched = false;
       throw new Error("Set status '" + status + "' is not one of valid status [canceled, requested, accepted, declined, acknowledged, closed].");
     }
 });
-
-);
