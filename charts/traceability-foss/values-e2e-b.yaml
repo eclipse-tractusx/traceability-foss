@@ -120,9 +120,9 @@ backend:
     password: <path:traceability-foss/data/dev/database#tracePassword>
 
   oauth2:
-    clientId: <path:traceability-foss/data/int/keycloak/oauth2-intb#clientId>
+    clientId: <path:traceability-foss/data/int/keycloak/oauth2#clientId>
     clientSecret: <path:traceability-foss/data/int/keycloak/oauth2-intb#clientSecret>
-    clientTokenUri: "https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
+    clientTokenUri: "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
     jwkSetUri: "https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs"
     resourceClient: "Cl17-CX-Part"
 
@@ -210,7 +210,7 @@ postgresql:
 # IRS configuration     #
 #########################
 irs-helm:
-  bpn: BPNL00000003CNKC
+  bpn: BPNL00000003CML1
   enabled: true
 
   resources:
@@ -260,8 +260,8 @@ irs-helm:
     oauth2:
       clientId: <path:traceability-foss/data/int/keycloak/oauth2-intb#clientId>
       clientSecret: <path:traceability-foss/data/int/keycloak/oauth2-intb#clientSecret>
-      clientTokenUri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
-      jwkSetUri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
+      clientTokenUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
+      jwkSetUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
 
   edc:
     callbackurl: http://tx-irs-e2e-b:8181/internal/endpoint-data-reference
