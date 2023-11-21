@@ -23,18 +23,24 @@ import io.swagger.annotations.ApiModelProperty;
 
 public record DashboardResponse(
         @ApiModelProperty(example = "5")
-        Long myParts,
+        Long asBuiltCustomerParts,
         @ApiModelProperty(example = "10")
-        Long otherParts,
+        Long asPlannedCustomerParts,
         @ApiModelProperty(example = "2")
-        Long investigationsReceived,
+        Long asBuiltSupplierParts,
         @ApiModelProperty(example = "3")
-        Long alertsReceived,
+        Long asPlannedSupplierParts,
         @ApiModelProperty(example = "1")
-        Long alertsSent,
+        Long asBuiltOwnParts,
+        @ApiModelProperty(example = "1")
+        Long asPlannedOwnParts,
         @ApiModelProperty(example = "1")
         Long myPartsWithOpenAlerts,
+        @ApiModelProperty(example = "1")
+        Long myPartsWithOpenInvestigations,
+        @ApiModelProperty(example = "1")
+        Long otherPartsWithOpenAlerts,
         @ApiModelProperty(example = "2")
-        Long supplierPartsWithOpenAlerts) {
+        Long otherPartsWithOpenInvestigations) {
 
 }

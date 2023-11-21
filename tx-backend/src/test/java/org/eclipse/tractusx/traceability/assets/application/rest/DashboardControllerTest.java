@@ -40,23 +40,29 @@ class DashboardControllerTest {
     @Test
     void dashboard() {
         Dashboard dashboard = Dashboard.builder()
-                .myParts(9L)
-                .otherParts(99L)
-                .investigationsReceived(999L)
-                .alertsReceived(1L)
-                .alertsSent(11L)
-                .myPartsWithOpenAlerts(111L)
-                .supplierPartsWithOpenAlerts(1111L).build();
+                .asBuiltCustomerParts(9L)
+                .asPlannedCustomerParts(99L)
+                .asBuiltSupplierParts(999L)
+                .asPlannedSupplierParts(1L)
+                .asBuiltOwnParts(11L)
+                .asPlannedOwnParts(111L)
+                .myPartsWithOpenAlerts(1111L)
+                .myPartsWithOpenInvestigations(1111L)
+                .otherPartsWithOpenAlerts(1111L)
+                .otherPartsWithOpenInvestigations(1111L)
+                .build();
         Mockito.when(dashboardService.getDashboard()).thenReturn(dashboard);
         Dashboard testDashboard = dashboardService.getDashboard();
 
-        assertEquals(9, testDashboard.getMyParts());
-        assertEquals(99, testDashboard.getOtherParts());
-        assertEquals(999, testDashboard.getInvestigationsReceived());
-        assertEquals(1, testDashboard.getAlertsReceived());
-        assertEquals(11, testDashboard.getAlertsSent());
-        assertEquals(111, testDashboard.getMyPartsWithOpenAlerts());
-        assertEquals(1111, testDashboard.getSupplierPartsWithOpenAlerts());
+        assertEquals(9, testDashboard.getAsBuiltCustomerParts());
+        assertEquals(99, testDashboard.getAsPlannedCustomerParts());
+        assertEquals(999, testDashboard.getAsBuiltSupplierParts());
+        assertEquals(11, testDashboard.getAsBuiltOwnParts());
+        assertEquals(111, testDashboard.getAsPlannedOwnParts());
+        assertEquals(1111, testDashboard.getMyPartsWithOpenAlerts());
+        assertEquals(1111, testDashboard.getMyPartsWithOpenInvestigations());
+        assertEquals(1111, testDashboard.getOtherPartsWithOpenAlerts());
+        assertEquals(1111, testDashboard.getOtherPartsWithOpenInvestigations());
     }
 
 }
