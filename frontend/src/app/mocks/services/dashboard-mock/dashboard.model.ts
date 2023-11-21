@@ -19,7 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { DashboardStatsResponse } from '@page/dashboard/model/dashboard.model';
+import {DashboardStatsResponse} from '@page/dashboard/model/dashboard.model';
 
 export const mockDashboardStats: DashboardStatsResponse = {
   // notification counts (where open means notficaiton status not closed)
@@ -32,6 +32,6 @@ export const mockDashboardStats: DashboardStatsResponse = {
   asPlannedCustomerParts: 5,
   asBuiltSupplierParts: 500,
   asPlannedSupplierParts: 5000,
-  asBuiltOwnParts: 10000,
-  asPlannedOwnParts: 555555
+  asBuiltOwnParts: 120543,
+  asPlannedOwnParts: 11203
 };

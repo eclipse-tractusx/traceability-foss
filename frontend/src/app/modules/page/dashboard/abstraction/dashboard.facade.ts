@@ -32,8 +32,11 @@ import {DashboardStats} from '../model/dashboard.model';
 @Injectable()
 export class DashboardFacade {
   private assetNumbersSubscription: Subscription;
-  private investigationSubscription: Subscription;
-  private alertsSubscription: Subscription;
+  private investigationsReceivedSubscription: Subscription;
+  private investigationsCreatedSubscription: Subscription;
+  private alertsReceivedSubscription: Subscription;
+  private alertsCreatedSubscription: Subscription;
+
 
   constructor(
     private readonly dashboardService: DashboardService,
@@ -56,18 +59,28 @@ export class DashboardFacade {
     return this.dashboardState.numberOfMyPartsWithOpenInvestigations$;
   }
 
-  public get recentInvestigations$(): Observable<View<Notifications>> {
-    return this.dashboardState.recentInvestigations$;
+  public get recentReceivedInvestigations$(): Observable<View<Notifications>> {
+    return this.dashboardState.recentReceivedInvestigations$;
   }
 
-  public get recentAlerts$(): Observable<View<Notifications>> {
-    return this.dashboardState.recentAlerts$;
+  public get recentCreatedInvestigations$(): Observable<View<Notifications>> {
+    return this.dashboardState.recentCreatedInvestigations$;
+  }
+
+  public get recentReceivedAlerts$(): Observable<View<Notifications>> {
+    return this.dashboardState.recentReceivedAlerts$;
+  }
+
+  public get recentCreatedAlerts$(): Observable<View<Notifications>> {
+    return this.dashboardState.recentCreatedAlerts$;
   }
 
   public setDashboardData(): void {
     this.setAssetNumbers();
-    this.setInvestigations();
-    this.setAlerts();
+    this.setReceivedInvestigations();
+    this.setCreatedInvestigations();
+    this.setReceivedAlerts();
+    this.setCreatedAlerts();
   }
 
   private setAssetNumbers(): void {
@@ -125,22 +138,42 @@ export class DashboardFacade {
 
   public stopDataLoading(): void {
     this.assetNumbersSubscription?.unsubscribe();
-    this.investigationSubscription?.unsubscribe();
+    this.investigationsReceivedSubscription?.unsubscribe();
+    this.investigationsCreatedSubscription?.unsubscribe();
+    this.alertsReceivedSubscription?.unsubscribe();
+    this.alertsCreatedSubscription?.unsubscribe();
   }
 
-  private setInvestigations(): void {
-    this.investigationSubscription?.unsubscribe();
-    this.investigationSubscription = this.investigationsService.getReceivedInvestigations(0, 5, [['createdDate','desc']]).subscribe({
-      next: data => this.dashboardState.setInvestigationsReceived({ data }),
-      error: (error: Error) => this.dashboardState.setInvestigationsReceived({ error }),
+  private setReceivedInvestigations(): void {
+    this.investigationsReceivedSubscription?.unsubscribe();
+    this.investigationsReceivedSubscription = this.investigationsService.getReceivedInvestigations(0, 5, [['createdDate','desc']]).subscribe({
+      next: data => this.dashboardState.setRecentReceivedInvestigations({ data }),
+      error: (error: Error) => this.dashboardState.setRecentReceivedInvestigations({ error }),
     });
   }
 
-  private setAlerts(): void {
-    this.alertsSubscription?.unsubscribe();
-    this.alertsSubscription = this.alertsService.getReceivedAlerts(0, 5, [['createdDate','desc']]).subscribe({
-      next: data => this.dashboardState.setRecentAlerts({data}),
-      error: (error: Error) => this.dashboardState.setRecentAlerts({ error }),
+  private setCreatedInvestigations(): void {
+    this.investigationsCreatedSubscription?.unsubscribe();
+    this.investigationsCreatedSubscription = this.investigationsService.getCreatedInvestigations(0, 5, [['createdDate','desc']]).subscribe({
+      next: data => this.dashboardState.setRecentCreatedInvestigations({ data }),
+      error: (error: Error) => this.dashboardState.setRecentCreatedInvestigations({ error }),
+    });
+  }
+
+  private setReceivedAlerts(): void {
+    this.alertsReceivedSubscription?.unsubscribe();
+    this.alertsReceivedSubscription = this.alertsService.getReceivedAlerts(0, 5, [['createdDate','desc']]).subscribe({
+      next: data => this.dashboardState.setRecentReceivedAlerts({data}),
+      error: (error: Error) => this.dashboardState.setRecentReceivedAlerts({ error }),
+    });
+  }
+
+
+  private setCreatedAlerts(): void {
+    this.alertsCreatedSubscription?.unsubscribe();
+    this.alertsCreatedSubscription = this.alertsService.getCreatedAlerts(0, 5, [['createdDate','desc']]).subscribe({
+      next: data => this.dashboardState.setRecentCreatedAlerts({data}),
+      error: (error: Error) => this.dashboardState.setRecentCreatedAlerts({ error }),
     });
   }
 }

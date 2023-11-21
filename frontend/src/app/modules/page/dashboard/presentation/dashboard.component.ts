@@ -47,8 +47,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public readonly numberOfTotalOtherParts$: Observable<View<number>>;
   public readonly numberOfInvestigations$: Observable<View<number>>;
 
-  public readonly investigations$: Observable<View<Notifications>>;
-  public readonly alerts$: Observable<View<Notifications>>;
+  public readonly investigationsReceived$: Observable<View<Notifications>>;
+  public readonly investigationsCreated$: Observable<View<Notifications>>;
+  public readonly alertsReceived$: Observable<View<Notifications>>;
+  public readonly alertsCreated$: Observable<View<Notifications>>;
 
   public readonly investigationLink: string;
   public readonly investigationParams: Record<string, string>;
@@ -62,8 +64,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     this.numberOfInvestigations$ = this.dashboardFacade.numberOfMyPartsWithOpenInvestigations$;
 
-    this.investigations$ = this.dashboardFacade.recentInvestigations$;
-    this.alerts$ = this.dashboardFacade.recentAlerts$
+    this.investigationsReceived$ = this.dashboardFacade.recentReceivedInvestigations$;
+    this.investigationsCreated$ = this.dashboardFacade.recentCreatedInvestigations$;
+    this.alertsReceived$ = this.dashboardFacade.recentReceivedAlerts$
+    this.alertsCreated$ = this.dashboardFacade.recentCreatedAlerts$
 
     const { link: investigationLink, queryParams: investigationQueryParams } = getRoute(INVESTIGATION_BASE_ROUTE, NotificationStatusGroup.RECEIVED);
     const { link: alertLink, queryParams: alertQueryParams } = getRoute(ALERT_BASE_ROUTE, NotificationStatusGroup.RECEIVED);
@@ -71,6 +75,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.investigationParams = investigationQueryParams;
     this.alertLink = alertLink;
     this.alertParams = alertQueryParams;
+
+    console.log(this.investigationsReceived$.subscribe((next) => console.log(next)));
   }
 
   public ngOnInit(): void {
