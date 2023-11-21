@@ -210,7 +210,7 @@ postgresql:
 # IRS configuration     #
 #########################
 irs-helm:
-  bpn: BPNL00000003CML1
+  bpn: BPNL00000003CNKC
   enabled: true
 
   resources:
@@ -258,8 +258,8 @@ irs-helm:
 
   keycloak:
     oauth2:
-      clientId: <path:traceability-foss/data/int/keycloak/oauth2#clientId>
-      clientSecret: <path:traceability-foss/data/int/keycloak/oauth2#clientSecret>
+      clientId: <path:traceability-foss/data/int/keycloak/oauth2-intb#clientId>
+      clientSecret: <path:traceability-foss/data/int/keycloak/oauth2-intb#clientSecret>
       clientTokenUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
       jwkSetUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
 
