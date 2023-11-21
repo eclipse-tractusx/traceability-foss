@@ -21,7 +21,7 @@
 //package org.eclipse.tractusx.traceability.test;
 
 //import static from org.eclipse.tractusx.traceability.test.validator.TestUtils.wrapStringWithTimestamp;
-import { Given, Then } from '@badeball/cypress-cucumber-preprocessor';
+import { When, Then, Given } from '@badeball/cypress-cucumber-preprocessor';
 import { DashboardPage } from '../../integration/pages/QualityInvestigationsPage';
 
 let notificationDescription = null;
@@ -37,12 +37,12 @@ Then(/^start investigation creation with description {string}$/, (description) =
   cy.get('mat-label').should('contain.text', 'Description').click().focus().type(notificationDescription);
 });
 
-And(/^severity {string}$/, (severity) => {
+When(/^severity {string}$/, (severity) => {
   cy.get('#mat-select-56').click(); // First the dropdown has to be opened.
   cy.get('#mat-select-56-panel').select(severity);  // Dropdown menu has own id.
 });
 
-And(/^{string} deadline$/, (deadline) => {
+When(/^{string} deadline$/, (deadline) => {
 //---TBD---
       if (deadline == 'no') {
         // do nothing
@@ -51,7 +51,7 @@ And(/^{string} deadline$/, (deadline) => {
       }
 });
 
-And(/^request the investigation$/, () => {
+When(/^request the investigation$/, () => {
   cy.get('span').should('contain.text', 'ADD TO QUEUE').click();
 });
 
@@ -60,7 +60,7 @@ Then(/^selected parts are marked as investigated$/, () => {
   //---TBD--- to check the desired assets, have to be adjusted with desired asset selection
 });
 
-And(/^popup with information about queued investigation is shown$/, () => {
+When(/^popup with information about queued investigation is shown$/, () => {
   cy.contains(/You queued an investigation for 1 part/i).should('be.visible');
 });
 
@@ -68,7 +68,7 @@ When(/^user navigate to "queued quality investigation" with button in popup$/, (
   cy.get('a').should('contain.text', 'Go to Queue').click();
 });
 
-And(/^open details of created investigation$/, () => {
+When(/^open details of created investigation$/, () => {
   cy.get('p').should('contain.text', notificationDescription).parent('.row').get('[class="mat-mdc-button-touch-target"]').click()
   cy.get('span').should('contain.text', 'View details').click();
 });
@@ -156,7 +156,7 @@ matched = false;
     }
 });
 
-And(/^selected {string} is not allowed to be {string}$/, (notificationType, status) => {
+When(/^selected {string} is not allowed to be {string}$/, (notificationType, status) => {
 matched = false;
     switch (status) {
       case 'canceled': {
