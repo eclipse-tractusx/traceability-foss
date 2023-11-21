@@ -19,19 +19,21 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import { ALERT_BASE_ROUTE, getRoute, INVESTIGATION_BASE_ROUTE } from '@core/known-route';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Router} from '@angular/router';
+import {ALERT_BASE_ROUTE, getRoute, INVESTIGATION_BASE_ROUTE} from '@core/known-route';
 import {
   Notification,
   Notifications,
   NotificationStatusGroup,
   NotificationType,
 } from '@shared/model/notification.model';
-import { View } from '@shared/model/view.model';
-import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
-import { Observable } from 'rxjs';
-import { DashboardFacade } from '../abstraction/dashboard.facade';
+import {View} from '@shared/model/view.model';
+import {
+  CloseNotificationModalComponent
+} from '@shared/modules/notification/modal/close/close-notification-modal.component';
+import {Observable} from 'rxjs';
+import {DashboardFacade} from '../abstraction/dashboard.facade';
 
 @Component({
   selector: 'app-dashboard',
@@ -41,8 +43,8 @@ import { DashboardFacade } from '../abstraction/dashboard.facade';
 export class DashboardComponent implements OnInit, OnDestroy {
   @ViewChild(CloseNotificationModalComponent) private closeModal: CloseNotificationModalComponent;
 
-  public readonly numberOfMyParts$: Observable<View<number>>;
-  public readonly numberOfOtherParts$: Observable<View<number>>;
+  public readonly numberOfTotalMyParts$: Observable<View<number>>;
+  public readonly numberOfTotalOtherParts$: Observable<View<number>>;
   public readonly numberOfInvestigations$: Observable<View<number>>;
 
   public readonly investigations$: Observable<View<Notifications>>;
@@ -55,8 +57,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public readonly alertParams: Record<string, string>;
 
   constructor(private readonly dashboardFacade: DashboardFacade, private readonly router: Router) {
-    this.numberOfMyParts$ = this.dashboardFacade.numberOfMyParts$;
-    //this.numberOfOtherParts$ = this.dashboardFacade.numberOfOtherParts$;
+    this.numberOfTotalMyParts$ = this.dashboardFacade.numberOfTotalMyParts$;
+    this.numberOfTotalOtherParts$ = this.dashboardFacade.numberOfTotalOtherParts$;
+
     this.numberOfInvestigations$ = this.dashboardFacade.numberOfMyPartsWithOpenInvestigations$;
 
     this.investigations$ = this.dashboardFacade.recentInvestigations$;

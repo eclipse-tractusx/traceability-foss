@@ -19,15 +19,15 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Injectable } from '@angular/core';
-import { Notifications } from '@shared/model/notification.model';
-import { View } from '@shared/model/view.model';
-import { AlertsService } from '@shared/service/alerts.service';
-import { InvestigationsService } from '@shared/service/investigations.service';
-import { Observable, Subscription } from 'rxjs';
-import { DashboardService } from '../core/dashboard.service';
-import { DashboardState } from '../core/dashboard.state';
-import { DashboardStats } from '../model/dashboard.model';
+import {Injectable} from '@angular/core';
+import {Notifications} from '@shared/model/notification.model';
+import {View} from '@shared/model/view.model';
+import {AlertsService} from '@shared/service/alerts.service';
+import {InvestigationsService} from '@shared/service/investigations.service';
+import {Observable, Subscription} from 'rxjs';
+import {DashboardService} from '../core/dashboard.service';
+import {DashboardState} from '../core/dashboard.state';
+import {DashboardStats} from '../model/dashboard.model';
 
 @Injectable()
 export class DashboardFacade {
@@ -43,15 +43,15 @@ export class DashboardFacade {
     private readonly alertsService: AlertsService
   ) {}
 
-  public get numberOfMyParts$(): Observable<View<number>> {
+  public get numberOfTotalMyParts$(): Observable<View<number>> {
     return this.dashboardState.numberOfTotalMyParts$;
   }
-/*
-  public get numberOfOtherParts$(): Observable<View<number>> {
-    return this.dashboardState.numberOfAsBuiltSupplierParts$.subscribe(next => next.data as number)
+
+  public get numberOfTotalOtherParts$(): Observable<View<number>> {
+    return this.dashboardState.numberOfTotalOtherParts$;
   }
 
- */
+
   public get numberOfMyPartsWithOpenInvestigations$(): Observable<View<number>> {
     return this.dashboardState.numberOfMyPartsWithOpenInvestigations$;
   }
@@ -72,6 +72,7 @@ export class DashboardFacade {
 
   private setAssetNumbers(): void {
     this.dashboardState.setNumberOfTotalMyParts({ loader: true });
+    this.dashboardState.setNumberOfTotalOtherParts({loader: true});
 
     this.dashboardState.setNumberOfAsBuiltOwnParts({loader: true});
     this.dashboardState.setNumberOfAsPlannedOwnParts({loader: true});
@@ -89,6 +90,7 @@ export class DashboardFacade {
     this.assetNumbersSubscription = this.dashboardService.getStats().subscribe({
       next: (dashboardStats: DashboardStats) => {
         this.dashboardState.setNumberOfTotalMyParts({ data: dashboardStats.totalOwnParts });
+        this.dashboardState.setNumberOfTotalOtherParts({data: dashboardStats.totalOtherParts});
 
         this.dashboardState.setNumberOfAsBuiltOwnParts({data: dashboardStats.asBuiltOwnParts});
         this.dashboardState.setNumberOfAsPlannedOwnParts({data: dashboardStats.asPlannedOwnParts});
@@ -104,6 +106,7 @@ export class DashboardFacade {
       },
       error: error => {
         this.dashboardState.setNumberOfTotalMyParts({ error });
+        this.dashboardState.setNumberOfTotalOtherParts({error});
 
         this.dashboardState.setNumberOfAsBuiltOwnParts({error});
         this.dashboardState.setNumberOfAsPlannedOwnParts({error});

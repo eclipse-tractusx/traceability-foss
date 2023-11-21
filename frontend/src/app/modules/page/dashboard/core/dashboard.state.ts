@@ -19,12 +19,12 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
-import { Notifications } from '@shared/model/notification.model';
-import { State } from '@shared/model/state';
-import { Observable } from 'rxjs';
-import { View } from 'src/app/modules/shared/model/view.model';
+import {Notifications} from '@shared/model/notification.model';
+import {State} from '@shared/model/state';
+import {Observable} from 'rxjs';
+import {View} from 'src/app/modules/shared/model/view.model';
 
 @Injectable()
 export class DashboardState {
@@ -110,6 +110,14 @@ export class DashboardState {
 
   public setNumberOfTotalMyParts(count: View<number>): void {
     this._numberOfTotalMyParts$.update(count);
+  }
+
+  public get numberOfTotalOtherParts$(): Observable<View<number>> {
+    return this._numberOfTotalOtherParts$.observable;
+  }
+
+  public setNumberOfTotalOtherParts(count: View<number>): void {
+    this._numberOfTotalOtherParts$.update(count);
   }
 
 

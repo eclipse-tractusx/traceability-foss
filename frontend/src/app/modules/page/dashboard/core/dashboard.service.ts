@@ -19,13 +19,13 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Injectable } from '@angular/core';
-import { ApiService } from '@core/api/api.service';
-import { environment } from '@env';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { DashboardStats, DashboardStatsResponse } from '../model/dashboard.model';
-import { DashboardAssembler } from './dashboard.assembler';
+import {Injectable} from '@angular/core';
+import {ApiService} from '@core/api/api.service';
+import {environment} from '@env';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {DashboardStats, DashboardStatsResponse} from '../model/dashboard.model';
+import {DashboardAssembler} from './dashboard.assembler';
 
 @Injectable()
 export class DashboardService {
@@ -36,6 +36,6 @@ export class DashboardService {
   public getStats(): Observable<DashboardStats> {
     return this.apiService
       .get(`${this.url}/dashboard`)
-      .pipe(map((payload: DashboardStatsResponse) => DashboardAssembler.assembleDashboard(payload)))
+      .pipe(map((payload: DashboardStatsResponse) => DashboardAssembler.assembleDashboard(payload)));
   }
 }
