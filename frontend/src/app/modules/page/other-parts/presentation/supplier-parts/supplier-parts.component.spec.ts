@@ -80,7 +80,7 @@ describe('SupplierPartsComponent', () => {
     let nameHeader = await screen.findByText('table.column.nameAtManufacturer');
     fireEvent.click(nameHeader);
 
-    expect(supplierPartsComponent['tableSupplierAsBuiltSortList']).toEqual([ [ 'name', 'asc' ] ]);
+    expect(supplierPartsComponent['tableSupplierAsBuiltSortList']).toEqual([ [ 'nameAtManufacturer', 'asc' ] ]);
 
   });
 

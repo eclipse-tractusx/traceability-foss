@@ -78,7 +78,7 @@
       "id": "ID",
       "idShort": "Kurz-ID",
       "name": "Name",
-      "manufacturer": "Hersteller",
+      "manufacturerName": "Hersteller",
       "partId": "Produktnummer",
       "manufacturerPartId": "Hersteller Produktnummer",
       "customerPartId": "Kunden Produktnummer",
