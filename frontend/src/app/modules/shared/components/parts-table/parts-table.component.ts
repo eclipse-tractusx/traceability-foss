@@ -30,7 +30,7 @@ import {
     ViewChild,
     ViewChildren,
 } from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormGroup} from '@angular/forms';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {MatSort, Sort} from '@angular/material/sort';
@@ -162,59 +162,9 @@ export class PartsTableComponent implements OnInit {
         return column === 'receivedActiveAlerts' || column === 'sentActiveAlerts' || column === 'receivedActiveInvestigations' || column === 'sentActiveInvestigations';
     }
 
-    public isAlertColumnCount(column: any) {
-        return column === 'receivedActiveAlerts';
-    }
-
-    public isInvestigationColumnCount(column: any) {
-        return column === 'receivedInvestigations';
-    }
-
     public isDateElement(key: string) {
         return isDateFilter(key);
     }
-
-
-    private readonly displayedColumnsAsPlannedCustomer: string[] = [
-        'filterSemanticDataModel',
-        'filterName',
-        'filterManufacturer',
-        'filterManufacturerPartId',
-        'filterSemanticModelId',
-    ];
-
-
-    private readonly displayedColumnsAsPlannedSupplier: string[] = [
-        'Filter',
-        'filterSemanticDataModel',
-        'filterName',
-        'filterManufacturer',
-        'filterManufacturerPartId',
-        'filterSemanticModelId',
-    ];
-
-
-    private readonly displayedColumnsAsPlannedSupplierForTable: string[] = [
-        'select',
-        'semanticDataModel',
-        'name',
-        'manufacturer',
-        'manufacturerPartId',
-        'semanticModelId',
-        'menu'
-    ];
-
-
-    private readonly displayedColumnsAsPlannedCustomerForTable: string[] = [
-        'semanticDataModel',
-        'name',
-        'manufacturer',
-        'manufacturerPartId',
-        'semanticModelId',
-    ];
-
-
-
 
     private initializeTableViewSettings(): void {
         switch (this.tableType) {
@@ -239,14 +189,6 @@ export class PartsTableComponent implements OnInit {
         }
     }
 
-    private readonly sortableColumnsAsPlannedSupplier: Record<string, boolean> = {
-        semanticDataModel: true,
-        name: true,
-        manufacturer: true,
-        manufacturerPartId: true,
-        semanticModelId: true,
-    };
-
     private pageSize: number;
     private sorting: TableHeaderSort;
 
@@ -269,36 +211,36 @@ export class PartsTableComponent implements OnInit {
             // if yes, check if there is a table-setting for this table type
             if (tableSettingsList[this.tableType]) {
                 // if yes, get the effective displayedcolumns from the settings and set the tableconfig after it.
-                this.setupTableConfigurations(tableSettingsList[this.tableType].columnsForTable, tableSettingsList[this.tableType].filterColumnsForTable, this.tableViewConfig.sortableColumns, this.tableViewConfig.filterConfiguration, this.tableViewConfig.filterFormGroup);
+                this.setupTableConfigurations(tableSettingsList[this.tableType].columnsForTable, tableSettingsList[this.tableType].filterColumnsForTable, this.tableViewConfig.sortableColumns, this.tableViewConfig.displayFilterColumnMappings, this.tableViewConfig.filterFormGroup);
             } else {
                 // if no, create new a table setting for this.tabletype and put it into the list. Additionally, intitialize default table configuration
                 tableSettingsList[this.tableType] = {
-                    columnsForDialog: this.tableViewConfig.displayedColumnsForTable,
+                    columnsForDialog: this.tableViewConfig.displayedColumns,
                     columnSettingsOptions: this.getDefaultColumnVisibilityMap(),
-                    columnsForTable: this.tableViewConfig.displayedColumnsForTable,
-                    filterColumnsForTable: this.tableViewConfig.displayedColumns
+                    columnsForTable: this.tableViewConfig.displayedColumns,
+                    filterColumnsForTable: this.tableViewConfig.filterColumns
                 };
                 this.tableSettingsService.storeTableSettings(this.tableType, tableSettingsList);
-                this.setupTableConfigurations(this.tableViewConfig.displayedColumnsForTable, this.tableViewConfig.displayedColumns, this.tableViewConfig.sortableColumns, this.tableViewConfig.filterConfiguration, this.tableViewConfig.filterFormGroup);
+                this.setupTableConfigurations(this.tableViewConfig.displayedColumns, this.tableViewConfig.filterColumns, this.tableViewConfig.sortableColumns, this.tableViewConfig.displayFilterColumnMappings, this.tableViewConfig.filterFormGroup);
             }
         } else {
             // if no, create new list and a settings entry for this.tabletype with default values and set correspondingly the tableconfig
             const newTableSettingsList = {
                 [this.tableType]: {
-                    columnsForDialog: this.tableViewConfig.displayedColumnsForTable,
+                    columnsForDialog: this.tableViewConfig.displayedColumns,
                     columnSettingsOptions: this.getDefaultColumnVisibilityMap(),
-                    columnsForTable: this.tableViewConfig.displayedColumnsForTable,
-                    filterColumnsForTable: this.tableViewConfig.displayedColumns
+                    columnsForTable: this.tableViewConfig.displayedColumns,
+                    filterColumnsForTable: this.tableViewConfig.filterColumns
                 }
             }
             this.tableSettingsService.storeTableSettings(this.tableType, newTableSettingsList);
-            this.setupTableConfigurations(this.tableViewConfig.displayedColumnsForTable, this.tableViewConfig.displayedColumns, this.tableViewConfig.sortableColumns, this.tableViewConfig.filterConfiguration, this.tableViewConfig.filterFormGroup);
+            this.setupTableConfigurations(this.tableViewConfig.displayedColumns, this.tableViewConfig.filterColumns, this.tableViewConfig.sortableColumns, this.tableViewConfig.displayFilterColumnMappings, this.tableViewConfig.filterFormGroup);
         }
     }
 
     private getDefaultColumnVisibilityMap(): Map<string, boolean> {
         const initialColumnMap = new Map<string, boolean>();
-        for (const column of this.tableViewConfig.displayedColumnsForTable) {
+        for (const column of this.tableViewConfig.displayedColumns) {
             initialColumnMap.set(column, true);
         }
         return initialColumnMap;
@@ -322,36 +264,6 @@ export class PartsTableComponent implements OnInit {
         }
 
     }
-
-
-    assetAsPlannedSupplierFilterFormGroup = {
-        select: new FormControl([]),
-        semanticDataModel: new FormControl([]),
-        nameAtManufacturer: new FormControl([]),
-        manufacturerName: new FormControl([]),
-        manufacturerPartId: new FormControl([]),
-        semanticModelId: new FormControl([]),
-        menu: new FormControl([])
-    };
-
-    assetAsPlannedCustomerFilterFormGroup = {
-        semanticDataModel: new FormControl([]),
-        nameAtManufacturer: new FormControl([]),
-        manufacturerName: new FormControl([]),
-        semanticModelId: new FormControl([]),
-        manufacturerPartId: new FormControl([])
-    };
-
-
-    private readonly assetAsPlannedCustomerFilterConfiguration: any[] = [
-        {filterKey: 'semanticDataModel', headerKey: 'filterSemanticDataModel'},
-        {filterKey: 'nameAtManufacturer', headerKey: 'filterName'},
-        {filterKey: 'manufacturerName', headerKey: 'filterManufacturer'},
-        {filterKey: 'manufacturerPartId', headerKey: 'filterManufacturerPartId'},
-        {filterKey: 'semanticModelId', headerKey: 'filterSemanticModelId'}
-    ];
-
-
 
     public areAllRowsSelected(): boolean {
         return this.dataSource.data.every(data => this.isSelected(data));
@@ -425,8 +337,8 @@ export class PartsTableComponent implements OnInit {
             title: "table.tableSettings.title",
             panelClass: "custom",
             tableType: this.tableType,
-            defaultColumns: this.tableViewConfig.displayedColumnsForTable,
-            defaultFilterColumns: this.tableViewConfig.displayedColumns
+            defaultColumns: this.tableViewConfig.displayedColumns,
+            defaultFilterColumns: this.tableViewConfig.filterColumns
         };
         this.dialog.open(TableSettingsComponent, config)
     }

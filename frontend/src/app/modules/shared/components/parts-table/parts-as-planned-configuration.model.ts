@@ -25,9 +25,9 @@ export class PartsAsPlannedConfigurationModel {
     public static filterConfiguration(): TableViewConfig {
 
         return {
-            displayedColumns: this.filterColumns,
-            displayedColumnsForTable: this.displayedColumns,
-            filterConfiguration: this.displayColumnsToFilterColumnsMapping,
+            filterColumns: this.filterColumns,
+            displayedColumns: this.displayedColumns,
+            displayFilterColumnMappings: this.displayColumnsToFilterColumnsMapping,
             filterFormGroup: this.formGroup,
             sortableColumns: this.sortableColumns
         }
@@ -45,7 +45,7 @@ export class PartsAsPlannedConfigurationModel {
         semanticModelId: true,
         validityPeriodFrom: true,
         validityPeriodTo: true,
-        function: true,
+        psFunction: true,
         catenaXSiteId: true,
         functionValidFrom: true,
         functionValidUntil: true,

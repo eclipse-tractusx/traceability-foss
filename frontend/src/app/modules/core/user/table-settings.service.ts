@@ -31,6 +31,7 @@ export class TableSettingsService {
   storeTableSettings(partTableType: PartTableType, tableSettingsList: any ): void {
     // before setting anything, all maps in new tableSettingList should be stringified
     Object.keys(tableSettingsList).forEach(tableSetting => {
+      console.log(tableSetting, "settings");
       const newMap = tableSettingsList[tableSetting].columnSettingsOptions;
       tableSettingsList[tableSetting].columnSettingsOptions = JSON.stringify(Array.from(newMap.entries()));
     })

@@ -25,9 +25,9 @@ export class PartsAsPlannedSupplierConfigurationModel {
     public static filterConfiguration(): TableViewConfig {
 
         return {
-            displayedColumns: this.filterColumns,
-            displayedColumnsForTable: this.displayedColumns,
-            filterConfiguration: this.displayColumnsToFilterColumnsMapping,
+            filterColumns: this.filterColumns,
+            displayedColumns: this.displayedColumns,
+            displayFilterColumnMappings: this.displayColumnsToFilterColumnsMapping,
             filterFormGroup: this.formGroup,
             sortableColumns: this.sortableColumns
         }
