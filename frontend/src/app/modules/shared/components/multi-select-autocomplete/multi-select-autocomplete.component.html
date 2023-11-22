@@ -27,6 +27,7 @@ SPDX-License-Identifier: Apache-2.0
                           (change)="toggleSelectAll($event)"></mat-checkbox>
             <input [disabled]="" #searchInput [(ngModel)]="searchElement" type="text"
                    [ngClass]="'pl-1'"
+                   (keydown)="filterKeyCommands($event)"
                    (input)="filterItem(searchInput.value)"
                    [placeholder]="('multiSelect.searchPlaceholder' | i18n)">
           <mat-spinner *ngIf="isLoadingSuggestions" [diameter]="20"></mat-spinner>
@@ -41,15 +42,16 @@ SPDX-License-Identifier: Apache-2.0
       <!-- hidden element just so that the mat-select dropdown opens -->
       <mat-option [style.display]="'none'"></mat-option>
       <div class="pl-1" *ngIf="suggestionError">{{'multiSelect.suggestionError' | i18n}}</div>
-
-      <mat-option  *ngFor="let option of options" [disabled]="option.disabled" [value]="option.value"
-                   [style.display]="hideOption(option) ? 'none': 'flex'">{{option.display}}
-      </mat-option>
+      <ng-container *ngIf="options?.length">
+        <mat-option  *ngFor="let option of options" [disabled]="option.disabled" [value]="option.value"
+                     [style.display]="hideOption(option) ? 'none': 'flex'">{{option.display}}
+        </mat-option>
+      </ng-container>
 
       <mat-option *ngIf="singleSearch" (click)="changeSearchTextOption()" [value]=this.searchElement
                   [style.display]="this.shouldHideTextSearchOptionField() ? 'none': 'flex'">{{this.searchElement}}
       </mat-option>
-      <mat-select-trigger *ngIf="selectedValue?.length > 1">
+      <mat-select-trigger  *ngIf="selectedValue?.length > 1">
        <div>
          {{displayValue()}}
        </div>
