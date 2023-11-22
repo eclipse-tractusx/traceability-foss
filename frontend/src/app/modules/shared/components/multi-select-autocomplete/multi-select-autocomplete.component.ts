@@ -238,6 +238,10 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     this.delayTimeoutId = setTimeout(timeoutCallback, 500);
   }
 
+// This is used by parent component
+  isUnsupportedAutoCompleteField(fieldName: string) {
+    return fieldName === 'activeAlerts' || fieldName === 'activeInvestigations';
+  }
 
   hideOption(option: any): boolean {
     return !(this.filteredOptions.indexOf(option) > -1);
