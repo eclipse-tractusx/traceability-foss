@@ -28,7 +28,6 @@ import {Owner} from '@page/parts/model/owner.enum';
 export interface Part {
     id: string;
     idShort: string;
-    name: string;
     manufacturerName: string;
     manufacturerPartId: string;
     nameAtManufacturer: string;

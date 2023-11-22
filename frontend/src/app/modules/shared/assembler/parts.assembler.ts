@@ -81,7 +81,6 @@ export class PartsAssembler {
             manufacturerPartId: partResponse.manufacturerPartId,
             nameAtManufacturer: partResponse.nameAtManufacturer,
             businessPartner: partResponse.businessPartner,
-            name: partResponse.nameAtManufacturer,
             children: partResponse.childRelations.map(child => child.id) || [],
             parents: partResponse.parentRelations?.map(parent => parent.id) || [],
             activeAlert: partResponse.activeAlert || false,
@@ -120,7 +119,7 @@ export class PartsAssembler {
             sentActiveAlerts: partResponse.sentQualityAlertIdsInStatusActive,
             receivedActiveAlerts: partResponse.receivedQualityAlertIdsInStatusActive,
             sentActiveInvestigations: partResponse.sentQualityInvestigationIdsInStatusActive,
-            receivedActiveInvestigations: partResponse.receivedQualityInvestigationIdsInStatusActive,
+            receivedActiveInvestigations: partResponse.receivedQualityInvestigationIdsInStatusActive
 
 
         };
@@ -153,7 +152,6 @@ export class PartsAssembler {
         }
 
         const {
-            name,
             semanticDataModel,
             semanticModelId,
             manufacturingDate,
@@ -163,7 +161,6 @@ export class PartsAssembler {
         } = viewData.data;
         return {
             data: {
-                name,
                 semanticDataModel,
                 semanticModelId,
                 manufacturingDate,
