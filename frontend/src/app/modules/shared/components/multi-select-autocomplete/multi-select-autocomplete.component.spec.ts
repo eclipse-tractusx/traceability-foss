@@ -41,6 +41,7 @@ describe('MultiSelectAutocompleteComponent', () => {
         const {fixture} = await renderMultiSelectAutoCompleteComponent();
         const {componentInstance} = fixture;
 
+        componentInstance.searchElement = 'B'
         const selectedOptions = [SemanticDataModel.BATCH];
         componentInstance.selectedValue = selectedOptions;
         fixture.detectChanges();
@@ -74,7 +75,7 @@ describe('MultiSelectAutocompleteComponent', () => {
         const {componentInstance} = fixture;
 
         componentInstance.selectedValue = ['TestValue'];
-
+        componentInstance.searchElement = 'TestValue';
         const result = componentInstance.displayValue();
 
         expect(result).toBe('TestValue');
@@ -87,6 +88,7 @@ describe('MultiSelectAutocompleteComponent', () => {
         componentInstance.selectedValue = ['value1', 'value2', 'value3']; // Replace with your test values
         componentInstance.labelCount = 2; // Replace with the number of labels you expect
 
+        componentInstance.searchElement = 'v'
         componentInstance.options = [
             {value: 'value1', display: 'Display1'},
             {value: 'value2', display: 'Display2'},
@@ -105,6 +107,7 @@ describe('MultiSelectAutocompleteComponent', () => {
 
         componentInstance.selectedValue = ['value1']; // Replace with your test value
 
+        componentInstance.searchElement = 'v';
         componentInstance.options = [
             {value: 'value1', display: 'Display1'},
             {value: 'value2', display: 'Display2'},
