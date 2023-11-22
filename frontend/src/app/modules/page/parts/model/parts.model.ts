@@ -69,8 +69,10 @@ export interface Part {
     functionValidUntil?: string;
 
     // count of notifications
-    activeAlerts: string [];
-    activeInvestigations: string [];
+    sentActiveAlerts: string [];
+    sentActiveInvestigations: string [];
+    receivedActiveAlerts: string [];
+    receivedActiveInvestigations: string [];
 }
 
 export interface PartResponse {
@@ -91,7 +93,6 @@ export interface PartResponse {
     semanticDataModel: SemanticDataModel;
     classification: string;
     detailAspectModels: DetailAspectModel[];
-
     // TODO: Delete ? flag when AsPlanned Parts do not return the props anymore
     sentQualityAlertIdsInStatusActive: string[],
     receivedQualityAlertIdsInStatusActive: string[],

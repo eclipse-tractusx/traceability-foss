@@ -161,6 +161,12 @@ as-split-area {
 }
 
 app-parts-table {
+
+  th{
+    white-space: normal!important;
+    word-wrap: break-word!important;
+  }
+
   /* Avoid sticky head to be over sidenav component*/
   th {
     z-index: 1 !important;

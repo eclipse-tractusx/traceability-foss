@@ -57,6 +57,10 @@ export const MOCK_part_5 = {
   qualityType: QualityType.LifeThreatening,
   van: 'myvan5',
   semanticDataModel: SemanticDataModel.SERIALPART,
+    sentQualityAlertIdsInStatusActive: [],
+    receivedQualityAlertIdsInStatusActive: [],
+    sentQualityInvestigationIdsInStatusActive: [],
+    receivedQualityInvestigationIdsInStatusActive: []
 };
 
 export const MOCK_part_4 = {
@@ -93,6 +97,10 @@ export const MOCK_part_4 = {
   qualityType: QualityType.Critical,
   van: 'myvan4',
   semanticDataModel: SemanticDataModel.SERIALPART,
+    sentQualityAlertIdsInStatusActive: [],
+    receivedQualityAlertIdsInStatusActive: [],
+    sentQualityInvestigationIdsInStatusActive: [],
+    receivedQualityInvestigationIdsInStatusActive: []
 };
 
 export const MOCK_part_3 = {
@@ -129,6 +137,10 @@ export const MOCK_part_3 = {
   qualityType: QualityType.Major,
   van: 'myvan3',
   semanticDataModel: SemanticDataModel.PARTASPLANNED,
+  sentQualityAlertIdsInStatusActive: [],
+  receivedQualityAlertIdsInStatusActive: [],
+  sentQualityInvestigationIdsInStatusActive: [],
+  receivedQualityInvestigationIdsInStatusActive: []
 };
 
 export const MOCK_part_2 = {
@@ -165,6 +177,10 @@ export const MOCK_part_2 = {
   qualityType: QualityType.Minor,
   van: 'myvan2',
   semanticDataModel: SemanticDataModel.SERIALPART,
+  sentQualityAlertIdsInStatusActive: [],
+  receivedQualityAlertIdsInStatusActive: [],
+  sentQualityInvestigationIdsInStatusActive: [],
+  receivedQualityInvestigationIdsInStatusActive: []
 };
 
 export const MOCK_part_1 = {
@@ -203,7 +219,11 @@ export const MOCK_part_1 = {
   underInvestigation: false,
   qualityType: QualityType.Ok,
   van: 'myvan1',
-  semanticDataModel: SemanticDataModel.SERIALPART
+  semanticDataModel: SemanticDataModel.SERIALPART,
+  sentQualityAlertIdsInStatusActive: [],
+  receivedQualityAlertIdsInStatusActive: [],
+  sentQualityInvestigationIdsInStatusActive: [],
+  receivedQualityInvestigationIdsInStatusActive: []
 };
 
 export const mockAssets: PartsResponse = {

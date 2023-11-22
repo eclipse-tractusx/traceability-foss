@@ -78,7 +78,7 @@
       "id": "ID",
       "idShort": "ID Short",
       "name": "Name",
-      "manufacturer": "Manufacturer",
+      "manufacturerName": "Manufacturer",
       "partId": "Part number",
       "manufacturerPartId": "Manufacturer part ID",
       "customerPartId": "Customer part ID",
@@ -103,8 +103,10 @@
       "psFunction": "Function",
       "functionValidFrom": "Function valid from",
       "functionValidUntil" : "Function valid until",
-      "activeAlerts" : "Active Quality alerts",
-      "activeInvestigations" : "Active Quality investigations"
+      "sentActiveAlerts" : "Active created Quality alerts",
+      "receivedActiveInvestigations" : "Active received Quality investigations",
+      "receivedActiveAlerts" : "Active received Quality alerts",
+      "sentActiveInvestigations" : "Active created Quality investigations"
     }
   },
   "dataLoading": {

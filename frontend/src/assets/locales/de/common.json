@@ -78,7 +78,7 @@
       "id": "ID",
       "idShort": "Kurz-ID",
       "name": "Name",
-      "manufacturer": "Hersteller",
+      "manufacturerName": "Hersteller",
       "partId": "Produktnummer",
       "manufacturerPartId": "Hersteller Produktnummer",
       "customerPartId": "Kunden Produktnummer",
@@ -104,8 +104,10 @@
       "psFunction": "Funktion",
       "functionValidFrom": "Funktion gültig von",
       "functionValidUntil" : "Funktion gültig bis",
-      "activeAlerts" : "Aktive Qualitätswarnungen",
-      "activeInvestigations" : "Aktive Qualitätsuntersuchungen"
+      "sentActiveAlerts" : "Aktive erstellte Qualitätswarnungen",
+      "receivedActiveInvestigations" : "Aktive empfangene Qualitätsuntersuchungen",
+      "receivedActiveAlerts" : "Aktive empfangene Qualitätswarnungen",
+      "sentActiveInvestigations" : "Aktive erstellte Qualitätsuntersuchungen"
     }
   },
   "dataLoading": {

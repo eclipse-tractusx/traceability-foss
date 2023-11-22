@@ -83,7 +83,7 @@ SPDX-License-Identifier: Apache-2.0
                 *matRowDef="let row; columns: tableConfig.displayedColumns"
                 [class.loading]="isDataLoading"
                 [class.no-hover]="!showHover"
-                [ngClass]="{'highlighted': row?.activeInvestigation || row?.activeAlert, 'error': row?.errorMessage }"
+                [ngClass]="{'highlighted': (row?.receivedActiveInvestigations?.length > 0 || row?.receivedActiveAlerts?.length > 0 || row?.sentActiveAlerts?.length > 0 || row?.sentActiveInvestigations?.length > 0), 'error': row?.errorMessage }"
                 (click)="selectElement(row)"
                 mat-row
                 data-testid="table-component--body-row"
@@ -195,7 +195,7 @@ SPDX-License-Identifier: Apache-2.0
                 <td *matCellDef="let element" mat-cell class="table--cell" data-testid="table-component--cell-data">
                     <div class="table--notification--cell">
                         <span class="table--notification--cell--content">
-                 <ng-container *ngIf="isDateElement(column) || (column === 'activeAlerts' || column === 'activeInvestigations'); else autoFormatRef">
+                 <ng-container *ngIf="isDateElement(column) || isNotificationCountColumn(column); else autoFormatRef">
   <!-- Display the content if either condition is satisfied -->
                    {{isDateElement(column) ? (element[column] | date:'yyyy-MM-dd') : element[column]?.length }}
 </ng-container>
