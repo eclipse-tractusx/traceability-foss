@@ -363,4 +363,55 @@ describe('MultiSelectAutocompleteComponent', () => {
         expect(componentInstance.selectedValue).toEqual(null);
     })
 
+    it('should stop event propagation for Enter key and Ctrl+A combination', async() => {
+        // Arrange
+        const {fixture} = await renderMultiSelectAutoCompleteComponent();
+        const {componentInstance} = fixture;
+        const eventMock = {
+            key: 'Enter',
+            ctrlKey: false,
+            stopPropagation: jasmine.createSpy('stopPropagation')
+        };
+
+        // Act
+        componentInstance.filterKeyCommands(eventMock);
+
+        // Assert
+        expect(eventMock.stopPropagation).toHaveBeenCalled();
+    });
+
+    it('should stop event propagation for Ctrl+A combination', async() => {
+        // Arrange
+        const {fixture} = await renderMultiSelectAutoCompleteComponent();
+        const {componentInstance} = fixture;
+        const eventMock = {
+            key: 'a',
+            ctrlKey: true,
+            stopPropagation: jasmine.createSpy('stopPropagation')
+        };
+
+        // Act
+        componentInstance.filterKeyCommands(eventMock);
+
+        // Assert
+        expect(eventMock.stopPropagation).toHaveBeenCalled();
+    });
+
+    it('should not stop event propagation for other keys', async() => {
+        // Arrange
+        const {fixture} = await renderMultiSelectAutoCompleteComponent();
+        const {componentInstance} = fixture;
+        const eventMock = {
+            key: 'B',
+            ctrlKey: false,
+            stopPropagation: jasmine.createSpy('stopPropagation')
+        };
+
+        // Act
+        componentInstance.filterKeyCommands(eventMock);
+
+        // Assert
+        expect(eventMock.stopPropagation).not.toHaveBeenCalled();
+    });
+
 });
