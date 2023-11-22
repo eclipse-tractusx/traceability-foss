@@ -61,12 +61,14 @@ describe('MultiSelectAutocompleteComponent', () => {
         componentInstance.selectedValue = ['initialValue'];
         componentInstance.startDate = new Date('2022-02-04');
         componentInstance.endDate = new Date('2022-02-04');
+        componentInstance.filteredOptions = ['test']
 
         componentInstance.clickClear();
 
         // Assert
         expect(componentInstance.searchElement).toBe('');
         expect(componentInstance.selectedValue).toEqual([]);
+        expect(componentInstance.filteredOptions).toEqual([]);
     });
 
     it('should return correct display string when textSearch is true', async () => {
@@ -313,7 +315,7 @@ describe('MultiSelectAutocompleteComponent', () => {
         expect(searchElementChangeSpy).toHaveBeenCalledWith(['test']);
     })
 
-    fit('should return when calling displayValue() without searchElement', async () => {
+    it('should return when calling displayValue() without searchElement', async () => {
         const {fixture} = await renderMultiSelectAutoCompleteComponent();
         const {componentInstance} = fixture;
 
@@ -322,7 +324,43 @@ describe('MultiSelectAutocompleteComponent', () => {
 
         const dValue = componentInstance.displayValue();
         expect(dValue).toEqual(undefined);
+    })
 
+    it('should return when calling filterItem() without searchElement', async () => {
+        const {fixture} = await renderMultiSelectAutoCompleteComponent();
+        const {componentInstance} = fixture;
+
+        componentInstance.searchElement = '';
+        componentInstance.filterItem('')
+
+        const option = componentInstance.filteredOptions;
+        expect(option).toEqual([]);
+    })
+
+    it('should return when calling filterItem() without value', async () => {
+        const {fixture} = await renderMultiSelectAutoCompleteComponent();
+        const {componentInstance} = fixture;
+
+        componentInstance.searchElement = 'test';
+        componentInstance.filterItem(undefined)
+
+        const option = componentInstance.filteredOptions;
+        expect(option).toEqual([]);
+    })
+
+    it('should return when calling filterItem() without value', async () => {
+        const {fixture} = await renderMultiSelectAutoCompleteComponent();
+        const {componentInstance} = fixture;
+
+        componentInstance.searchElement = ''; // Set searchElement to an empty string
+        spyOn(componentInstance, 'getFilteredOptionsValues'); // Mock any necessary methods
+
+        // Act
+        componentInstance.onSelectionChange({ value: 'someValue' });
+
+        // Assert
+        // Add assertions as needed, for example:
+        expect(componentInstance.selectedValue).toEqual(null);
     })
 
 });
