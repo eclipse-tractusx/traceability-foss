@@ -35,6 +35,7 @@ import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { buildMockInvestigations } from '../../../../../mocks/services/investigations-mock/investigations.test.model';
 import { NotificationModule } from '../notification.module';
+import { PartTableType } from '@shared/components/table/table.model';
 
 describe('NotificationsInboxComponent', () => {
   let clickHandler;
@@ -70,9 +71,9 @@ describe('NotificationsInboxComponent', () => {
           [queuedAndRequestedNotifications$]='queuedAndRequestedNotifications$'
           [receivedNotifications$]='receivedNotifications$'
           [translationContext]="'commonInvestigation'"
-          [menuActionsConfig]="'menuActionsConfig'"
-
+          [menuActionsConfig]='menuActionsConfig'
           (onReceivedPagination)='clickHandler($event)'
+          [tablesType]='tablesType'
           (onQueuedAndRequestedPagination)='clickHandler($event)'
         ></app-notification>`,
       {
@@ -83,6 +84,7 @@ describe('NotificationsInboxComponent', () => {
           receivedNotifications$,
           clickHandler,
           menuActionsConfig,
+          tablesType: [PartTableType.INVESTIGATIONS_RECEIVED, PartTableType.INVESTIGATIONS_SENT]
         },
       },
     );

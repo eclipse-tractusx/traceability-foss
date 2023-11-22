@@ -34,6 +34,7 @@ import { NotificationUserComponent } from '@shared/components/notification-user/
 import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
 import { SeveritySelectComponent } from '@shared/components/severity-select/severity-select.component';
 import { SeverityComponent } from '@shared/components/severity/severity.component';
+import { TableSettingsComponent } from '@shared/components/table-settings/table-settings.component';
 import { TextWithIconComponent } from '@shared/components/text-with-icon/text-with-icon.component';
 import {
   NotificationModalContentComponent
@@ -88,7 +89,7 @@ import { ViewSelectorComponent } from "@shared/components/view-selector/view-sel
 import {
   CountryFlagGeneratorComponent
 } from "@shared/components/country-flag-generator/country-flag-generator.component";
-
+import { DragDropModule } from '@angular/cdk/drag-drop';
 @NgModule({
   declarations: [
     ToastContainerComponent,
@@ -97,6 +98,7 @@ import {
     ButtonComponent,
     TextWithIconComponent,
     TableComponent,
+    TableSettingsComponent,
     TooltipDirective,
     RoleDirective,
     I18nPipe,
@@ -138,7 +140,7 @@ import {
     MultiSelectAutocompleteComponent,
     CountryFlagGeneratorComponent
   ],
-  imports: [TemplateModule, RouterModule, I18NextModule],
+  imports: [TemplateModule, RouterModule, I18NextModule, DragDropModule],
   exports: [
     ToastContainerComponent,
     ToastMessageComponent,

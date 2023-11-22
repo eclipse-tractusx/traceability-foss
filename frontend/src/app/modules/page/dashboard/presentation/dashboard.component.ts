@@ -27,6 +27,7 @@ import { View } from '@shared/model/view.model';
 import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
 import { Observable } from 'rxjs';
 import { DashboardFacade } from '../abstraction/dashboard.facade';
+import { PartTableType } from '@shared/components/table/table.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -48,6 +49,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public readonly alerts$: Observable<View<Notifications>>;
   public readonly alertsLink: string;
   public readonly alertsParams: Record<string, string>;
+
+  protected readonly PartTableType = PartTableType;
 
   constructor(private readonly dashboardFacade: DashboardFacade, private readonly router: Router) {
     this.numberOfMyParts$ = this.dashboardFacade.numberOfMyParts$;

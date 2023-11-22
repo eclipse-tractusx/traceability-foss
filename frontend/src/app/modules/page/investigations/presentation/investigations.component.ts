@@ -26,21 +26,25 @@ import { InvestigationDetailFacade } from '@page/investigations/core/investigati
 import { InvestigationHelperService } from '@page/investigations/core/investigation-helper.service';
 import { NotificationMenuActionsAssembler } from '@shared/assembler/notificationMenuActions.assembler';
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
-import { MenuActionConfig, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
+import { MenuActionConfig, PartTableType, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
 import { TableSortingUtil } from '@shared/components/table/tableSortingUtil';
 import { NotificationTabInformation } from '@shared/model/notification-tab-information';
 import { Notification, NotificationStatusGroup } from '@shared/model/notification.model';
 import { TranslationContext } from '@shared/model/translation-context.model';
 import { Subscription } from 'rxjs';
 import { InvestigationsFacade } from '../core/investigations.facade';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-investigations',
   templateUrl: './investigations.component.html',
+  styleUrls: ['./investigations.component.scss'],
 })
 export class InvestigationsComponent {
   @ViewChild(NotificationCommonModalComponent) notificationCommonModalComponent: NotificationCommonModalComponent;
 
+  public searchFormGroup = new FormGroup({});
+  public searchControl: FormControl;
   public readonly investigationsReceived$;
   public readonly investigationsQueuedAndRequested$;
 
@@ -52,7 +56,9 @@ export class InvestigationsComponent {
 
   private paramSubscription: Subscription;
 
-  private pagination: TableEventConfig = { page: 0, pageSize: 50, sorting: [ 'createdDate', 'desc' ] };
+  private pagination: TableEventConfig = { page: 0, pageSize: 50, sorting: ['createdDate', 'desc'] };
+
+  protected readonly PartTableType = PartTableType;
 
   constructor(
     public readonly helperService: InvestigationHelperService,
@@ -71,7 +77,6 @@ export class InvestigationsComponent {
     window.addEventListener('keyup', (event) => {
       this.ctrlKeyState = event.ctrlKey;
     });
-
   }
 
   public ngOnInit(): void {
@@ -80,6 +85,10 @@ export class InvestigationsComponent {
       this.investigationsFacade.setReceivedInvestigation(this.pagination.page, this.pagination.pageSize, this.investigationReceivedSortList);
       this.investigationsFacade.setQueuedAndRequestedInvestigations(this.pagination.page, this.pagination.pageSize, this.investigationQueuedAndRequestedSortList);
     });
+
+    const searchControlName = 'investigationSearch';
+    this.searchFormGroup.addControl(searchControlName, new FormControl([]));
+    this.searchControl = this.searchFormGroup.get(searchControlName) as unknown as FormControl;
   }
 
   public ngAfterViewInit(): void {
@@ -109,11 +118,15 @@ export class InvestigationsComponent {
     const { link } = getRoute(INVESTIGATION_BASE_ROUTE);
     const tabIndex = this.route.snapshot.queryParamMap.get('tabIndex');
     const tabInformation: NotificationTabInformation = { tabIndex: tabIndex, pageNumber: this.pagination.page };
-    this.router.navigate([ `/${ link }/${ notification.id }` ], { queryParams: tabInformation });
+    this.router.navigate([`/${link}/${notification.id}`], { queryParams: tabInformation });
   }
 
   public handleConfirmActionCompletedEvent() {
     this.ngOnInit();
+  }
+
+  public triggerSearch(): void {
+    // TODO: implement search
   }
 
   private setTableSortingList(sorting: TableHeaderSort, notificationTable: NotificationStatusGroup): void {

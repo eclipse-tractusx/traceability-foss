@@ -21,24 +21,24 @@
 
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Pagination } from '@core/model/pagination.model';
 import { RoleService } from '@core/user/role.service';
-import { FilterOperator } from '@page/parts/model/parts.model';
+import { TableSettingsService } from '@core/user/table-settings.service';
 import {
-  MenuActionConfig,
-  TableConfig,
-  TableEventConfig,
-  TableFilter,
+  CreateHeaderFromColumns, MenuActionConfig, PartTableType, TableConfig, TableEventConfig, TableHeaderSort, TableFilter,
   FilterMethod,
-  TableHeaderSort,
   FilterInfo,
   SortingOptions,
 } from '@shared/components/table/table.model';
 import { addSelectedValues, clearAllRows, clearCurrentRows, removeSelectedValues } from '@shared/helper/table-helper';
+import { TableViewConfig } from '../parts-table/table-view-config.model';
+import { TableSettingsComponent } from '../table-settings/table-settings.component';
+import { FilterOperator } from '@page/parts/model/parts.model';
 
 @Component({
   selector: 'app-table',
@@ -60,17 +60,32 @@ export class TableComponent {
       return;
     }
 
-    const { menuActionsConfig: menuActions, displayedColumns: dc, columnRoles, hasPagination = true } = tableConfig;
+    const { menuActionsConfig: menuActions, displayedColumns: dc, columnRoles, hasPagination } = tableConfig;
     const displayedColumns = dc.filter(column => this.roleService.hasAccess(columnRoles?.[column] ?? 'user'));
 
+    const cellRenderers = this._tableConfig?.cellRenderers ?? tableConfig.cellRenderers;
+
+    const viewDetailsLabel = 'actions.viewDetails';
+
     const viewDetailsMenuAction: MenuActionConfig<unknown> = {
-      label: 'actions.viewDetails',
+      label: viewDetailsLabel,
       icon: 'remove_red_eye',
       action: (data: Record<string, unknown>) => this.selected.emit(data),
     };
 
-    const menuActionsConfig = menuActions ? [viewDetailsMenuAction, ...menuActions] : null;
-    this._tableConfig = { ...tableConfig, displayedColumns, hasPagination, menuActionsConfig };
+    let menuActionsConfig: MenuActionConfig<unknown>[] = null;
+
+    if (menuActions) {
+      if (!menuActions.some((action) => {
+        return action.label === viewDetailsLabel
+      })) {
+        menuActionsConfig = [viewDetailsMenuAction, ...menuActions]
+      } else {
+        menuActionsConfig = menuActions;
+      }
+    }
+
+    this._tableConfig = { ...tableConfig, cellRenderers, displayedColumns, hasPagination, menuActionsConfig };
   }
 
   get tableConfig(): TableConfig {
@@ -80,6 +95,7 @@ export class TableComponent {
   @Input() labelId: string;
   @Input() noShadow = false;
   @Input() showHover = true;
+  @Input() tableType: PartTableType;
 
   @Input() selectedPartsInfoLabel: string;
   @Input() selectedPartsActionLabel: string;
@@ -135,23 +151,34 @@ export class TableComponent {
   public isMenuOpen: boolean;
   public sortingEvent: Record<string, SortingOptions> = {};
 
+  public filterConfiguration: any[];
+  public displayedColumns: string[];
+  public defaultColumns: string[];
+  public filterFormGroup = new FormGroup({});
+
   private pageSize: number;
   private sorting: TableHeaderSort;
   private filtering: TableFilter = { filterMethod: FilterMethod.AND };
 
   private _tableConfig: TableConfig;
+  private tableViewConfig: TableViewConfig;
 
-  filterFormGroup = new FormGroup({});
-
-  constructor(private readonly roleService: RoleService) {}
+  constructor(private readonly roleService: RoleService, private readonly tableSettingsService: TableSettingsService, private dialog: MatDialog) { }
 
   ngOnInit() {
+    this.initializeTableViewSettings();
+
     if (this.tableConfig?.filterConfig?.length > 0) {
       this.setupFilterFormGroup();
     }
     if (this.tableConfig?.sortableColumns) {
       this.setupSortingEvent();
     }
+
+    this.tableSettingsService.getEvent().subscribe(() => {
+      this.setupTableViewSettings();
+    })
+    this.setupTableViewSettings();
   }
 
   setupSortingEvent(): void {
@@ -209,6 +236,90 @@ export class TableComponent {
 
     if (!this.tableConfig.menuActionsConfig) {
       this.selected.emit(row);
+    }
+  }
+
+  private setupTableViewSettings() {
+    if (!this.tableType) {
+      this.setupTableConfigurations(this.tableViewConfig.displayedColumnsForTable, this.tableViewConfig.displayedColumns, this.tableViewConfig.sortableColumns, this.tableViewConfig.filterConfiguration, this.tableViewConfig.filterFormGroup);
+      return;
+    }
+
+    const tableSettingsList = this.tableSettingsService.getStoredTableSettings();
+    // check if there are table settings list
+    if (tableSettingsList) {
+      // if yes, check if there is a table-setting for this table type
+      if (tableSettingsList[this.tableType]) {
+        // if yes, get the effective displayedcolumns from the settings and set the tableconfig after it.
+        this.setupTableConfigurations(tableSettingsList[this.tableType].columnsForTable, tableSettingsList[this.tableType].filterColumnsForTable, this.tableViewConfig.sortableColumns, this.tableViewConfig.filterConfiguration, this.tableViewConfig.filterFormGroup);
+      } else {
+        // if no, create new a table setting for this.tabletype and put it into the list. Additionally, intitialize default table configuration
+        tableSettingsList[this.tableType] = this.createSettingsList();
+        this.tableSettingsService.storeTableSettings(this.tableType, tableSettingsList);
+        this.setupTableConfigurations(this.tableViewConfig.displayedColumnsForTable, this.tableViewConfig.displayedColumns, this.tableViewConfig.sortableColumns, this.tableViewConfig.filterConfiguration, this.tableViewConfig.filterFormGroup);
+      }
+    } else {
+      // if no, create new list and a settings entry for this.tabletype with default values and set correspondingly the tableconfig
+      const newTableSettingsList = {
+        [this.tableType]: {
+          columnsForDialog: this.tableViewConfig.displayedColumnsForTable,
+          columnSettingsOptions: this.getDefaultColumnVisibilityMap(),
+          columnsForTable: this.tableViewConfig.displayedColumnsForTable,
+          filterColumnsForTable: this.tableViewConfig.displayedColumns
+        }
+      }
+      this.tableSettingsService.storeTableSettings(this.tableType, newTableSettingsList);
+      this.setupTableConfigurations(this.tableViewConfig.displayedColumnsForTable, this.tableViewConfig.displayedColumns, this.tableViewConfig.sortableColumns, this.tableViewConfig.filterConfiguration, this.tableViewConfig.filterFormGroup);
+    }
+  }
+
+  private createSettingsList(): any {
+    return {
+      columnsForDialog: this.tableViewConfig.displayedColumnsForTable,
+      columnSettingsOptions: this.getDefaultColumnVisibilityMap(),
+      columnsForTable: this.tableViewConfig.displayedColumnsForTable,
+      filterColumnsForTable: this.tableViewConfig.displayedColumns
+    }
+  }
+
+  private setupTableConfigurations(displayedColumnsForTable: string[], displayedColumns: string[], sortableColumns: Record<string, boolean>, filterConfiguration: any[], filterFormGroup: any): any {
+    const headerKey = 'table.column';
+
+    this.tableConfig = {
+      hasPagination: this.tableConfig.hasPagination,
+      filterConfig: this.tableConfig.filterConfig,
+      menuActionsConfig: this.tableConfig.menuActionsConfig,
+      displayedColumns: displayedColumnsForTable,
+      header: CreateHeaderFromColumns(displayedColumnsForTable, headerKey),
+      sortableColumns: sortableColumns,
+    };
+
+    this.filterConfiguration = filterConfiguration;
+    this.displayedColumns = displayedColumns;
+    for (const controlName in filterFormGroup) {
+      if (filterFormGroup.hasOwnProperty(controlName)) {
+        this.filterFormGroup.addControl(controlName, filterFormGroup[controlName]);
+      }
+    }
+  }
+
+  private getDefaultColumnVisibilityMap(): Map<string, boolean> {
+    const initialColumnMap = new Map<string, boolean>();
+    for (const column of this.tableViewConfig.displayedColumnsForTable) {
+      initialColumnMap.set(column, true);
+    }
+    return initialColumnMap;
+  }
+
+  private initializeTableViewSettings(): void {
+    if (this.tableConfig) {
+      this.tableViewConfig = {
+        displayedColumns: this.tableConfig.displayedColumns,
+        displayedColumnsForTable: this.tableConfig.displayedColumns,
+        filterConfiguration: this.tableConfig.filterConfig,
+        filterFormGroup: undefined,
+        sortableColumns: this.tableConfig.sortableColumns,
+      }
     }
   }
 
@@ -277,5 +388,18 @@ export class TableComponent {
 
   private removeSelectedValues(itemsToRemove: unknown[]): void {
     removeSelectedValues(this.selection, itemsToRemove);
+  }
+
+  openDialog(): void {
+    const config = new MatDialogConfig();
+    config.autoFocus = false;
+    config.data = {
+      title: "table.tableSettings.title",
+      panelClass: "custom",
+      tableType: this.tableType,
+      defaultColumns: this.tableViewConfig.displayedColumnsForTable,
+      defaultFilterColumns: this.tableViewConfig.displayedColumns
+    };
+    this.dialog.open(TableSettingsComponent, config)
   }
 }

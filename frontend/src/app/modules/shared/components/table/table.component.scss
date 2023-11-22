@@ -28,8 +28,14 @@ table {
   width: 100%;
 }
 
-.settingsIcon {
-  padding-left: 13px;
+.table-wrapper {
+  scrollbar-width: thin;
+  overflow-x: auto;
+}
+
+.settings-icon {
+  margin-left: 50px;
+  margin-right: 25px;
 }
 
 .table--select-all {
@@ -39,7 +45,7 @@ table {
   &__menu {
     background: rgba(0, 0, 0, 0.04);
 
-    & > .table--select-all__dropdown:hover {
+    &>.table--select-all__dropdown:hover {
       background: none;
     }
   }
@@ -91,10 +97,12 @@ table {
   border: none !important;
   max-width: 332px;
 }
+
 .table--header--cell {
   display: flex;
   justify-content: space-between;
   width: 100%;
+
   &--content {
     display: flex;
     flex-direction: row;
@@ -103,11 +111,13 @@ table {
     &--sort {
       width: 24px;
       height: 24px;
+
       &--asc {
         width: 10px;
         transform: rotate(180deg);
         margin: 9.5px 7px;
       }
+
       &--dsc {
         width: 10px;
         margin: 9.5px 7px;
@@ -121,6 +131,7 @@ table {
   display: flex;
   justify-content: center;
   align-content: center;
+
   &--icon {
     width: 12px;
   }
@@ -130,6 +141,7 @@ table {
   border-radius: 10px;
   box-shadow: 0px 15px 25px 0px #3333330d, -10px -10px 15px 0px #ffffff1a, 0px 0px 25px 0px #33333308;
 }
+
 .menu-input-field .mat-mdc-menu-content {
   padding: 0;
 }
@@ -189,6 +201,7 @@ table {
     background-position: -200%;
   }
 }
+
 
 .table--menu {
   &__mobile {
@@ -250,6 +263,15 @@ table {
   padding-bottom: 8px;
 }
 
+.menu-spacer {
+  margin-left: 25px;
+  margin-right: 25px;
+}
+
+.empty-cell {
+  display: none;
+}
+
 .tableScroll {
   height: 547px !important;
   overflow: auto !important;
@@ -274,6 +296,7 @@ table {
     white-space: pre-line;
   }
 }
+
 .table--header--row .mdc-data-table__header-cell {
   padding: 0 12px 0 12px !important;
 }

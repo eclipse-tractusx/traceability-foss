@@ -27,6 +27,7 @@ import { AlertsFacade } from '@page/alerts/core/alerts.facade';
 import { NotificationMenuActionsAssembler } from '@shared/assembler/notificationMenuActions.assembler';
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
 import {
+  PartTableType,
   MenuActionConfig,
   TableEventConfig,
   TableHeaderSort,
@@ -44,6 +45,7 @@ import { NotificationStatus } from '@shared/model/notification.model';
 @Component({
   selector: 'app-alerts',
   templateUrl: './alerts.component.html',
+  styleUrls: ['./alerts.component.scss'],
 })
 export class AlertsComponent {
   @ViewChild(NotificationCommonModalComponent) notificationCommonModalComponent: NotificationCommonModalComponent;
@@ -148,6 +150,8 @@ export class AlertsComponent {
   private paramSubscription: Subscription;
 
   private pagination: TableEventConfig = { page: 0, pageSize: 50, sorting: ['createdDate', 'desc'] };
+
+  protected readonly PartTableType = PartTableType;
 
   constructor(
     public readonly helperService: AlertHelperService,

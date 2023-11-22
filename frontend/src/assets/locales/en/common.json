@@ -71,6 +71,12 @@
       "shellDescriptorsFetchDelta": "Fetch Delta",
       "endDate": "End date"
     },
+    "tableSettings": {
+      "title": "Column settings",
+      "selectAll": "All",
+      "refreshTooltip": "Reset individual table column settings to default",
+      "saveAction": "Save"
+    },
     "column": {
       "id": "ID",
       "alertId": "Alert ID",

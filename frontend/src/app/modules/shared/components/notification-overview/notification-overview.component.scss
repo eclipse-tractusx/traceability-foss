@@ -67,11 +67,13 @@
   }
 
   &--CREATED {
-    @apply bg-createdLight text-white;
+    border: solid 1px;
+    border-color: #F58220;
+    @apply bg-queuedLight text-queuedDark;
   }
 
   &--SENT {
-    @apply bg-pendingLight text-white;
+    @apply bg-requestedLight text-requestedDark;
   }
 
   &--ACCEPTED {
@@ -88,11 +90,5 @@
 
   &--DECLINED {
     @apply bg-declinedLight text-declinedDark;
-  }
-
-  &--QUEUED {
-    border: solid 1px;
-    border-color: #F58220;
-    @apply bg-queuedLight text-queuedDark;
   }
 }

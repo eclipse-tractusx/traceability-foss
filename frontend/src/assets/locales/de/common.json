@@ -71,6 +71,12 @@
       "shellDescriptorsFetchDelta": "Abruf-Delta",
       "endDate": "Enddatum"
     },
+    "tableSettings": {
+      "title": "Einstellungen der Spalte",
+      "selectAll": "Alle",
+      "refreshTooltip": "Zurücksetzen der individuellen Einstellung der Tabellenspalten auf die Standardeinstellung",
+      "saveAction": "Speichern"
+    },
     "column": {
       "id": "ID",
       "!": "!",

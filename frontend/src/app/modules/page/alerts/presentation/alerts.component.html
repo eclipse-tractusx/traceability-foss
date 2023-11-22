@@ -22,14 +22,15 @@ SPDX-License-Identifier: Apache-2.0
     <div class="inline-block w-full">
       <div class="flex justify-between items-center">
         <h3 class="pl-2 mb-4 flex items-center tableHeader">
-          <img class="pr-2" src="/assets/images/icons/alert.svg" alt="Alerts icon" />
+          <img class="pr-2"
+            src="/assets/images/icons/alert.svg"
+            alt="Alerts icon" />
           {{ 'pageTitle.alerts' | i18n }}
         </h3>
       </div>
     </div>
     <div [formGroup]="searchFormGroup">
-      <app-input
-        color="accent"
+      <app-input color="accent"
         [label]="'parts.input.global-search.placeholder' | i18n"
         [prefixIconHover]="true"
         (prefixIconClick)="triggerSearch()"
@@ -40,20 +41,17 @@ SPDX-License-Identifier: Apache-2.0
         [parentFormGroup]="searchFormGroup"
         [parentControlName]="'alertSearch'"
         [displayClearButton]="true"
-        prefixIconColor="accent"
-      ></app-input>
+        prefixIconColor="accent"></app-input>
     </div>
   </mat-card-header>
   <mat-card-content>
-    <app-notification-common-modal
-      (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
+    <app-notification-common-modal (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
       [helperService]="helperService"
-      [translationContext]="TranslationContext.COMMONALERT"
-    ></app-notification-common-modal>
-    <app-notification
-      class="tableScroll"
-      [queuedAndRequestedNotifications$]="alertsQueuedAndRequested$"
+      [translationContext]="TranslationContext.COMMONALERT">
+    </app-notification-common-modal>
+    <app-notification [queuedAndRequestedNotifications$]="alertsQueuedAndRequested$"
       [receivedNotifications$]="alertsReceived$"
+      [tablesType]="[PartTableType.ALERTS_RECEIVED, PartTableType.ALERTS_SENT]"
       [translationContext]="TranslationContext.COMMONALERT"
       [receivedOptionalColumns]="['severity', 'createdBy']"
       [receivedMultiSortList]="alertReceivedSortList"
@@ -78,12 +76,14 @@ SPDX-License-Identifier: Apache-2.0
       (onReceivedTableConfigChanged)="onReceivedTableConfigChange($event)"
       (onQueuedAndRequestedTableConfigChanged)="onQueuedAndRequestedTableConfigChange($event)"
       (selected)="openDetailPage($event)"
-      [menuActionsConfig]="menuActionsConfig"
-      ><div emptyContent>
-        <img src="/assets/images/icons/noAlert.svg" class="center py-5" alt="No alert" />
+      [menuActionsConfig]="menuActionsConfig">
+      <div emptyContent>
+        <img src="/assets/images/icons/noAlert.svg"
+          class="center py-5"
+          alt="No alert" />
         <div class="noAlerts pb-3">{{ 'commonAlert.noAlerts' | i18n }}</div>
         <div class="description pb-10">{{ 'commonAlert.noAlertsDescription' | i18n }}</div>
-      </div></app-notification
-    >
+      </div>
+    </app-notification>
   </mat-card-content>
 </mat-card>

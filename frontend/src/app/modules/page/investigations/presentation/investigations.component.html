@@ -19,24 +19,58 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<app-notification-common-modal
-  (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
-  [helperService]="helperService"
-  [translationContext]="TranslationContext.COMMONINVESTIGATION"
-></app-notification-common-modal>
-
-<app-notification
-  [queuedAndRequestedNotifications$]="investigationsQueuedAndRequested$"
-  [receivedNotifications$]="investigationsReceived$"
-  [translationContext]="TranslationContext.COMMONINVESTIGATION"
-  [receivedOptionalColumns]="['targetDate', 'severity', 'createdBy']"
-  [receivedSortableColumns]="{description: true, status: true, createdDate: true, severity: true, createdBy: true, targetDate: true}"
-  [queuedAndRequestedOptionalColumns]="['targetDate', 'severity', 'sendTo']"
-  [queuedAndRequestedSortableColumns]="{description: true, status: true, createdDate: true, severity: true, sendTo: true, targetDate: true}"
-  [receivedMultiSortList]="investigationReceivedSortList"
-  [queuedAndRequestedMultiSortList]="investigationQueuedAndRequestedSortList"
-  (onReceivedTableConfigChanged)="onReceivedTableConfigChanged($event)"
-  (onQueuedAndRequestedTableConfigChanged)="onQueuedAndRequestedTableConfigChanged($event)"
-  (selected)="openDetailPage($event)"
-  [menuActionsConfig]="menuActionsConfig"
-></app-notification>
+<mat-card>
+  <mat-card-header>
+    <div class="inline-block w-full">
+      <div class="flex justify-between items-center">
+        <h3 class="pl-2 mb-4 flex items-center tableHeader">
+          <img class="pr-2"
+            src="/assets/images/icons/content_paste_search_small.svg"
+            alt="Investigation icon" />
+          {{ 'pageTitle.investigations' | i18n }}
+        </h3>
+      </div>
+    </div>
+    <div [formGroup]="searchFormGroup">
+      <app-input color="accent"
+        [label]="'parts.input.global-search.placeholder' | i18n"
+        [prefixIconHover]="true"
+        (prefixIconClick)="triggerSearch()"
+        [onEnterActive]="true"
+        [prefixIcon]="'search'"
+        formControlName="investigationSearch"
+        [isSearchBar]="true"
+        [parentFormGroup]="searchFormGroup"
+        [parentControlName]="'investigationSearch'"
+        [displayClearButton]="true"
+        prefixIconColor="accent"></app-input>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <app-notification-common-modal (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
+      [helperService]="helperService"
+      [translationContext]="TranslationContext.COMMONINVESTIGATION"></app-notification-common-modal>
+    <app-notification [queuedAndRequestedNotifications$]="investigationsQueuedAndRequested$"
+      [receivedNotifications$]="investigationsReceived$"
+      [translationContext]="TranslationContext.COMMONINVESTIGATION"
+      [tablesType]="[PartTableType.INVESTIGATIONS_RECEIVED, PartTableType.INVESTIGATIONS_SENT]"
+      [receivedOptionalColumns]="['targetDate', 'severity', 'createdBy']"
+      [receivedSortableColumns]="{description: true, status: true, createdDate: true, severity: true, createdBy: true, targetDate: true}"
+      [queuedAndRequestedOptionalColumns]="['targetDate', 'severity', 'sendTo']"
+      [queuedAndRequestedSortableColumns]="{description: true, status: true, createdDate: true, severity: true, sendTo: true, targetDate: true}"
+      [receivedMultiSortList]="investigationReceivedSortList"
+      [queuedAndRequestedMultiSortList]="investigationQueuedAndRequestedSortList"
+      (onReceivedTableConfigChanged)="onReceivedTableConfigChanged($event)"
+      (onQueuedAndRequestedTableConfigChanged)="onQueuedAndRequestedTableConfigChanged($event)"
+      (selected)="openDetailPage($event)"
+      [menuActionsConfig]="menuActionsConfig">
+      <div emptyContent>
+        <img src="/assets/images/icons/noQualityInvestigations.svg"
+          class="center py-5"
+          alt="No quality investigations icon" />
+        <div class="no-investigations pb-3">{{ 'commonInvestigation.noInvestigations' | i18n }}</div>
+        <div class="description pb-10">{{ 'commonInvestigation.noInvestigationsDescription' | i18n }}</div>
+      </div>
+    </app-notification>
+  </mat-card-content>
+</mat-card>

@@ -22,11 +22,10 @@
 import { Pagination } from '@core/model/pagination.model';
 import { FilterOperator } from '@page/parts/model/parts.model';
 import { TableComponent } from '@shared/components/table/table.component';
-import { FilterMethod, TableConfig, TableEventConfig, TableFilter } from '@shared/components/table/table.model';
+import { FilterMethod, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
 import { SharedModule } from '@shared/shared.module';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { getInputFromChildNodes, renderComponent } from '@tests/test-render.utils';
-import exp from 'constants';
 
 describe('TableComponent', () => {
   const generateTableContent = (size: number) => {
@@ -42,15 +41,19 @@ describe('TableComponent', () => {
     const data = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
 
     const tableConfig: TableConfig = { displayedColumns, header };
+
     return renderComponent(
-      `<app-table [paginationData]='data' [tableConfig]='tableConfig' (selected)='selected($event)'></app-table>`,
+      `<app-table 
+      [paginationData]='data' 
+      [tableConfig]='tableConfig' 
+      (selected)='selected($event)'></app-table>`,
       {
         declarations: [TableComponent],
         imports: [SharedModule],
         componentProperties: {
           data,
           tableConfig,
-          selected,
+          selected
         },
       },
     );
@@ -83,7 +86,7 @@ describe('TableComponent', () => {
     const tableSize = 3;
     await renderTable(tableSize, ['name'], { name: 'Name for test' });
 
-    expect(screen.getByText('Name for test')).toBeInTheDocument();
+    expect(screen.getByText('table.column.name')).toBeInTheDocument();
   });
 
   it('should render select column', async () => {
@@ -142,7 +145,7 @@ describe('TableComponent', () => {
       },
     );
 
-    const nameElement = screen.getByText('Name Sort');
+    const nameElement = screen.getByText('table.column.name');
     nameElement.click();
 
     expect(configChange).toHaveBeenCalledWith({
@@ -198,6 +201,7 @@ describe('TableComponent', () => {
         },
       ],
     };
+
     const { fixture } = await renderComponent(TableComponent, {
       declarations: [TableComponent],
       imports: [SharedModule],
@@ -206,6 +210,7 @@ describe('TableComponent', () => {
         tableConfig,
       },
     });
+
     const { componentInstance } = fixture;
     const tabelConfigRes: TableEventConfig = {
       page: 0,
@@ -239,6 +244,7 @@ describe('TableComponent', () => {
 
     componentInstance.filterFormGroup.controls['description'].patchValue('value1');
     componentInstance.filterFormGroup.controls['createdDate'].patchValue('2023-11-11');
+
     componentInstance.tableConfig.filterConfig[2].option[0].checked = true;
 
     componentInstance.triggerFilterAdding('description', false);
