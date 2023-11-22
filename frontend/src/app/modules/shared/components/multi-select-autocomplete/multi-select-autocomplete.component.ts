@@ -141,14 +141,10 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
       }
 
     } else {
-      const filteredValues = this.getFilteredOptionsValues();
-      this.selectedValue = this.selectedValue.filter(
-        item => !filteredValues.includes(item),
-      );
+      this.selectedValue = [];
     }
     this.formControl.patchValue(this.selectedValue);
     this.selectionChange.emit(this.selectedValue);
-    this.searchElement = this.selectedValue;
   };
 
   changeSearchTextOption() {
@@ -161,6 +157,9 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   }
 
   displayValue() {
+    if(!this.searchElement.length) {
+      return;
+    }
     let suffix = '';
     let displayValue;
     // add +X others label if multiple
@@ -184,7 +183,12 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   }
 
   filterItem(value: any): void {
+    if(!this.searchElement.length) {
+      return;
+    }
+
     if (!value) {
+      this.filteredOptions = [];
       return;
     }
 
@@ -244,14 +248,20 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   }
 
   hideOption(option: any): boolean {
+    if(!this.searchElement.length) {
+      return true;
+    }
     return !(this.filteredOptions.indexOf(option) > -1);
   }
 
   // Returns plain strings array of filtered values
   getFilteredOptionsValues(): string[] {
+      console.log("getFiltered")
     const filteredValues = [];
     this.filteredOptions.forEach(option => {
-      filteredValues.push(option.value);
+      if(option.length) {
+          filteredValues.push(option.value);
+      }
     });
     return filteredValues;
   }
@@ -276,7 +286,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     this.selectedValue = [];
     this.startDate = null;
     this.endDate = null;
-    this.filterItem('');
+    this.filteredOptions = [];
   }
 
   dateFilter(){
@@ -285,6 +295,9 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
 
 
   onSelectionChange(val: any) {
+    if(!this.searchElement.length) {
+      return;
+    }
     const filteredValues = this.getFilteredOptionsValues();
 
     const selectedCount = this.selectedValue.filter(item => filteredValues.includes(item)).length;
@@ -308,4 +321,9 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     }
   }
 
+    filterKeyCommands(event: any) {
+        if (event.key === 'Enter' || (event.ctrlKey && event.key === 'a')) {
+          event.stopPropagation();
+        }
+    }
 }
