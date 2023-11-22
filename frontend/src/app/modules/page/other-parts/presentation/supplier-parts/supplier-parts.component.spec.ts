@@ -77,7 +77,7 @@ describe('SupplierPartsComponent', () => {
     const { fixture } = await renderSupplierParts({ roles: [ 'admin' ] });
     const supplierPartsComponent = fixture.componentInstance;
 
-    let nameHeader = await screen.findByText('table.column.name');
+    let nameHeader = await screen.findByText('table.column.nameAtManufacturer');
     fireEvent.click(nameHeader);
 
     expect(supplierPartsComponent['tableSupplierAsBuiltSortList']).toEqual([ [ 'name', 'asc' ] ]);
@@ -88,7 +88,7 @@ describe('SupplierPartsComponent', () => {
     const { fixture } = await renderSupplierParts({ roles: [ 'admin' ] });
     const supplierPartsComponent = fixture.componentInstance;
 
-    let nameHeader = await screen.findByText('table.column.name');
+    let nameHeader = await screen.findByText('table.column.nameAtManufacturer');
     fireEvent.click(nameHeader);
     let semanticModelIdHeader = await screen.findByText('table.column.semanticModelId');
 
@@ -120,7 +120,7 @@ describe('SupplierPartsComponent', () => {
     const { fixture } = await renderSupplierParts({ roles: [ 'admin' ] });
     const supplierPartsComponent = fixture.componentInstance;
 
-    let nameHeader = await screen.findByText('table.column.name');
+    let nameHeader = await screen.findByText('table.column.nameAtManufacturer');
     fireEvent.click(nameHeader);
     let semanticModelIdHeader = await screen.findByText('table.column.semanticModelId');
 
