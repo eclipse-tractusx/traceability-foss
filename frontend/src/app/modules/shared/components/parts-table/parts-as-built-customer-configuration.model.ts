@@ -45,14 +45,14 @@ export class PartsAsBuiltCustomerConfigurationModel{
         receivedActiveInvestigations: true,
         sentActiveAlerts: true,
         sentActiveInvestigations: true,
-        menu: false
+        //menu: false
     };
 
     private static displayedColumns = Object.keys(this.sortableColumns);
 
     private static formGroup: Record<string, FormControl> = PartsTableConfigUtils.createFormGroup(this.displayedColumns);
 
-    private static filterColumns: string[] = PartsTableConfigUtils.createFilterColumns(this.displayedColumns, true);
+    private static filterColumns: string[] = PartsTableConfigUtils.createFilterColumns(this.displayedColumns);
 
     private static dateFields = ['manufacturingDate'];
     private static singleSearchFields = ['receivedActiveAlerts', 'sentActiveAlerts', 'receivedActiveInvestigations', 'sentActiveInvestigations'];

@@ -105,7 +105,7 @@ describe('PartsTableComponent', () => {
             'filterid',
             'filteridShort',
             'filternameAtManufacturer',
-            'filtermanufacturer',
+            'filtermanufacturerName',
             'filtermanufacturerPartId',
             'filterclassification',
             'filtersemanticDataModel',

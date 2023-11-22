@@ -29,7 +29,7 @@ export interface Part {
     id: string;
     idShort: string;
     name: string;
-    manufacturer: string;
+    manufacturerName: string;
     manufacturerPartId: string;
     nameAtManufacturer: string;
     businessPartner: string;
@@ -138,7 +138,7 @@ export interface AssetAsBuiltFilter {
     id?: string,
     idShort?: string,
     name?: string,
-    manufacturer?: string,
+    manufacturerName?: string,
     partId?: string,
     manufacturerPartId?: string,
     customerPartId?: string,

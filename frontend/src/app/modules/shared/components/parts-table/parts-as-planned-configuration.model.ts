@@ -49,7 +49,7 @@ export class PartsAsPlannedConfigurationModel {
         catenaXSiteId: true,
         functionValidFrom: true,
         functionValidUntil: true,
-        menu: false
+       // menu: false
     };
 
     private static displayedColumns = Object.keys(this.sortableColumns);

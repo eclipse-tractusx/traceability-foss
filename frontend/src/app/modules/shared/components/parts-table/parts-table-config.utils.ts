@@ -14,14 +14,11 @@ export class PartsTableConfigUtils {
         return formGroup;
     }
 
-    public static createFilterColumns(displayedColumns: string[], noSelect?: boolean): string[] {
+    public static createFilterColumns(displayedColumns: string[]): string[] {
         const array = displayedColumns.filter((column: string) => 'select' !== column && 'menu' !== column).map((column: string) => 'filter' + column);
 
-        if (noSelect) {
-            return array;
-        } else {
-            return ["Filter", ...array];
-        }
+        return ["Filter", ...array];
+
 
     }
 
@@ -39,10 +36,9 @@ export class PartsTableConfigUtils {
                 let columnMapping: { filterKey: string; headerKey: string; isDate?: boolean; singleSearch?: boolean; };
                 if (dateFields?.includes(filterKey)) {
                     columnMapping = {filterKey, headerKey, isDate: true};
-                } else if (singleSearchFields?.includes(filterKey)){
+                } else if (singleSearchFields?.includes(filterKey)) {
                     columnMapping = {filterKey, headerKey, singleSearch: true};
-                }
-                else {
+                } else {
                     columnMapping = {filterKey, headerKey};
                 }
 

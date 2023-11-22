@@ -51,7 +51,7 @@ export class PartsAsBuiltConfigurationModel {
         receivedActiveInvestigations: true,
         sentActiveAlerts: true,
         sentActiveInvestigations: true,
-        menu: false
+       // menu: false
     };
 
     private static displayedColumns = Object.keys(this.sortableColumns);

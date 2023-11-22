@@ -40,12 +40,12 @@ export class PartsAsPlannedCustomerConfigurationModel {
         manufacturerName: true,
         manufacturerPartId: true,
         semanticModelId: true,
-        menu: false
+       // menu: false
     };
 
     private static displayedColumns = Object.keys(this.sortableColumns);
     private static formGroup: Record<string, FormControl> = PartsTableConfigUtils.createFormGroup(this.displayedColumns);
-    private static filterColumns: string[] = PartsTableConfigUtils.createFilterColumns(this.displayedColumns, true);
+    private static filterColumns: string[] = PartsTableConfigUtils.createFilterColumns(this.displayedColumns);
     private static displayColumnsToFilterColumnsMapping: any[] = PartsTableConfigUtils.generateFilterColumnsMapping(this.sortableColumns);
 
 

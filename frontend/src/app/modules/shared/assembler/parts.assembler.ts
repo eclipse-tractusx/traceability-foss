@@ -77,7 +77,7 @@ export class PartsAssembler {
             id: partResponse.id,
             idShort: partResponse.idShort,
             semanticModelId: partResponse.semanticModelId,
-            manufacturer: partResponse.manufacturerName,
+            manufacturerName: partResponse.manufacturerName,
             manufacturerPartId: partResponse.manufacturerPartId,
             nameAtManufacturer: partResponse.nameAtManufacturer,
             businessPartner: partResponse.businessPartner,
@@ -168,9 +168,7 @@ export class PartsAssembler {
                 semanticModelId,
                 manufacturingDate,
                 manufacturingCountry,
-                classification,
-
-
+                classification
             } as Part
         };
     }
@@ -188,19 +186,19 @@ export class PartsAssembler {
             // exclude 'van' if is a partAsPlanned
             if (viewData.data?.mainAspectType === MainAspectType.AS_BUILT) {
                 const {
-                    manufacturer,
+                    manufacturerName,
                     manufacturerPartId,
                     nameAtManufacturer,
                     van,
                 } = viewData.data;
-                return {data: {manufacturer, manufacturerPartId, nameAtManufacturer, van} as Part};
+                return {data: {manufacturerName, manufacturerPartId, nameAtManufacturer, van} as Part};
             } else {
                 const {
-                    manufacturer,
+                    manufacturerName,
                     manufacturerPartId,
                     nameAtManufacturer,
                 } = viewData.data;
-                return {data: {manufacturer, manufacturerPartId, nameAtManufacturer} as Part};
+                return {data: {manufacturerName, manufacturerPartId, nameAtManufacturer} as Part};
             }
         });
     }

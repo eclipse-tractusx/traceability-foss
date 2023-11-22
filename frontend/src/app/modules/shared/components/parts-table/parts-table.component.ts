@@ -150,13 +150,16 @@ export class PartsTableComponent implements OnInit {
     public isMenuOpen: boolean;
     public displayedFilter: boolean;
 
+    // TODO remove it and set only in tableViewConfig
     public filterConfiguration: any[];
+    // TODO remove it and set only in tableViewConfig
     public displayedColumns: string[];
+    // TODO remove it and set only in tableViewConfig
     public defaultColumns: string[];
+    // TODO remove it and set only in tableViewConfig
+    filterFormGroup = new FormGroup({});
 
     public tableViewConfig: TableViewConfig;
-
-    filterFormGroup = new FormGroup({});
 
     public isNotificationCountColumn(column: any) {
         return column === 'receivedActiveAlerts' || column === 'sentActiveAlerts' || column === 'receivedActiveInvestigations' || column === 'sentActiveInvestigations';
@@ -254,8 +257,7 @@ export class PartsTableComponent implements OnInit {
             header: CreateHeaderFromColumns(displayedColumnsForTable, headerKey),
             sortableColumns: sortableColumns,
         };
-        // todo check if this breaks
-        this.filterConfiguration = filterConfiguration;
+
         this.displayedColumns = displayedColumns;
         for (const controlName in filterFormGroup) {
             if (filterFormGroup.hasOwnProperty(controlName)) {
