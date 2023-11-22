@@ -23,7 +23,7 @@ SPDX-License-Identifier: Apache-2.0
 </ng-container>
 <ng-template #mainTmp let-notifications="view">
   {{ onItemCountChange(notifications.data.totalItems) }}
-  <div *ngIf="notifications.data.totalItems > 0; else displayMessage">
+  <div *ngIf="notifications.data.totalItems > 0 || filteredContent; else displayMessage">
     <app-table
       [enableScroll]="enableScroll"
       [paginationData]="notifications.data"
@@ -34,11 +34,12 @@ SPDX-License-Identifier: Apache-2.0
       [multiSortList]="multiSortList"
       (selected)="selectNotification($event)"
       (configChanged)="onTableConfigChange($event)"
+      (filterChange)="onFilterChange()"
     >
     </app-table>
   </div>
   <ng-template #displayMessage>
-    <ng-content select="[content1]"></ng-content>
+    <ng-content select="[emptyContent]"></ng-content>
   </ng-template>
 </ng-template>
 

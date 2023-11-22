@@ -79,6 +79,11 @@ SPDX-License-Identifier: Apache-2.0
       (onQueuedAndRequestedTableConfigChanged)="onQueuedAndRequestedTableConfigChange($event)"
       (selected)="openDetailPage($event)"
       [menuActionsConfig]="menuActionsConfig"
-    ></app-notification>
+      ><div emptyContent>
+        <img src="/assets/images/icons/noAlert.svg" class="center py-5" alt="No alert" />
+        <div class="noAlerts pb-3">{{ 'commonAlert.noAlerts' | i18n }}</div>
+        <div class="description pb-10">{{ 'commonAlert.noAlertsDescription' | i18n }}</div>
+      </div></app-notification
+    >
   </mat-card-content>
 </mat-card>

@@ -61,6 +61,7 @@ export class NotificationTabComponent implements AfterViewInit {
   @ViewChild('userTmp') userTemplate: TemplateRef<unknown>;
 
   public tableConfig: TableConfig<keyof Notification>;
+  public filteredContent = false;
 
   public ngAfterViewInit(): void {
     const defaultColumns: DisplayColumns<keyof Notification>[] = ['createdDate', 'description', 'status'];
@@ -96,5 +97,9 @@ export class NotificationTabComponent implements AfterViewInit {
 
   public onTableConfigChange(tableEventConfig: TableEventConfig): void {
     this.tableConfigChanged.emit(tableEventConfig);
+  }
+
+  public onFilterChange(): void {
+    this.filteredContent = true;
   }
 }

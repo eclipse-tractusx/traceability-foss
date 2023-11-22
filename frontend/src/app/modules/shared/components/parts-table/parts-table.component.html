@@ -163,6 +163,7 @@ SPDX-License-Identifier: Apache-2.0
           [disabled]="!tableConfig.sortableColumns?.[column]"
           mat-header-cell
           [ngClass]="{ hasQualityAlertsHeader: column === '!' }"
+          class="table--header--id: column === 'id'"
           (click)="sortingEventTrigger(column)"
         >
           <ng-container *ngIf="tableConfig?.header?.[column]; else pureColumn">
@@ -201,13 +202,16 @@ SPDX-License-Identifier: Apache-2.0
               </div>
               <mat-menu #selectMenu="matMenu" xPosition="before" class="menu-input-field">
                 <ng-container *ngFor="let filter of filterConfiguration">
-                  <div (click)="$event.stopPropagation()" *ngIf="filter.filterKey === column">
+                  <div
+                    (click)="$event.stopPropagation()"
+                    *ngIf="filter.filterKey === column || filter.column === column"
+                  >
                     <app-multiselect
-                      *ngIf="filter.filterKey === column"
                       [options]="filter.option"
                       [multiple]="isMultipleSearch(filter)"
                       [textSearch]="filter.isTextSearch"
                       [isDate]="filter.isDate"
+                      [maxDate]="filter.maxDate"
                       (triggerFilter)="triggerFilterAdding()"
                       ngDefaultControl
                       [formControl]="filterFormGroup.controls[filter.filterKey]"
@@ -231,7 +235,7 @@ SPDX-License-Identifier: Apache-2.0
           <div class="table--notification--cell">
             <span class="table--notification--cell--content">
               <ng-container *ngIf="isDateElement(column); else autoFormatRef">
-                {{ element[column] | date : 'yyyy-MM-dd' }}
+                {{ element[column] | autoFormat | i18n }}
               </ng-container>
 
               <ng-template #autoFormatRef>

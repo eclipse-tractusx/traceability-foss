@@ -35,12 +35,11 @@ import { OperatorFunction } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 export class PartsAssembler {
-
   public static createSemanticModelFromPartResponse(partResponse: PartResponse): SemanticModel {
-    let proplist= {};
-    partResponse.detailAspectModels.forEach((detailAspectModel) => {
-      proplist = {...proplist, ...detailAspectModel.data};
-    })
+    let proplist = {};
+    partResponse.detailAspectModels.forEach(detailAspectModel => {
+      proplist = { ...proplist, ...detailAspectModel.data };
+    });
 
     return proplist;
   }
@@ -64,8 +63,10 @@ export class PartsAssembler {
     const validityPeriodTo = (partResponse.detailAspectModels[0].data as AsPlannedAspectModel)?.validityPeriodTo;
     const catenaXSiteId = (partResponse.detailAspectModels[1]?.data as PartSiteInformationAsPlanned)?.catenaXSiteId;
     const psFunction = (partResponse.detailAspectModels[1]?.data as PartSiteInformationAsPlanned)?.function;
-    const functionValidFrom = (partResponse.detailAspectModels[1]?.data as PartSiteInformationAsPlanned)?.functionValidFrom;
-    const functionValidUntil = (partResponse.detailAspectModels[1]?.data as PartSiteInformationAsPlanned)?.functionValidUntil;
+    const functionValidFrom = (partResponse.detailAspectModels[1]?.data as PartSiteInformationAsPlanned)
+      ?.functionValidFrom;
+    const functionValidUntil = (partResponse.detailAspectModels[1]?.data as PartSiteInformationAsPlanned)
+      ?.functionValidUntil;
 
     let mappedPart = {
       id: partResponse.id,
@@ -107,8 +108,7 @@ export class PartsAssembler {
       // count of notifications
       activeAlerts: partResponse.qualityAlertsInStatusActive,
       activeInvestigations: partResponse.qualityInvestigationsInStatusActive,
-
-    }
+    };
 
     return mappedPart;
   }
@@ -120,7 +120,10 @@ export class PartsAssembler {
     return { ...PartsAssembler.assemblePart(partResponse, mainAspectType), qualityType: partResponse.qualityType };
   }
 
-  public static assembleParts(parts: PaginationResponse<PartResponse>, mainAspectType: MainAspectType): Pagination<Part> {
+  public static assembleParts(
+    parts: PaginationResponse<PartResponse>,
+    mainAspectType: MainAspectType,
+  ): Pagination<Part> {
     return PaginationAssembler.assemblePagination(PartsAssembler.assemblePart, parts, mainAspectType);
   }
 
@@ -129,7 +132,10 @@ export class PartsAssembler {
     return partCopy.map(part => PartsAssembler.assemblePart(part, mainAspectType));
   }
 
-  public static assembleOtherParts(parts: PaginationResponse<PartResponse>, mainAspectType: MainAspectType): Pagination<Part> {
+  public static assembleOtherParts(
+    parts: PaginationResponse<PartResponse>,
+    mainAspectType: MainAspectType,
+  ): Pagination<Part> {
     return PaginationAssembler.assemblePagination(PartsAssembler.assembleOtherPart, parts, mainAspectType);
   }
 
@@ -138,25 +144,18 @@ export class PartsAssembler {
       return viewData;
     }
 
-    const {
-      name,
-      semanticDataModel,
-      semanticModelId,
-      manufacturingDate,
-      manufacturingCountry,
-      classification ,
-
-    } = viewData.data;
-    return { data: {
+    const { name, semanticDataModel, semanticModelId, manufacturingDate, manufacturingCountry, classification } =
+      viewData.data;
+    return {
+      data: {
         name,
         semanticDataModel,
         semanticModelId,
         manufacturingDate,
         manufacturingCountry,
-        classification ,
-
-
-      } as Part };
+        classification,
+      } as Part,
+    };
   }
 
   public static mapPartForView(): OperatorFunction<View<Part>, View<Part>> {
@@ -169,23 +168,14 @@ export class PartsAssembler {
         return viewData;
       }
 
-        // exclude 'van' if is a partAsPlanned
-        if(viewData.data?.mainAspectType === MainAspectType.AS_BUILT) {
-            const {
-                manufacturer,
-                manufacturerPartId,
-                nameAtManufacturer,
-                van,
-            } = viewData.data;
-            return { data: { manufacturer, manufacturerPartId, nameAtManufacturer, van } as Part };
-        } else {
-            const {
-                manufacturer,
-                manufacturerPartId,
-                nameAtManufacturer,
-            } = viewData.data;
-            return { data: { manufacturer, manufacturerPartId, nameAtManufacturer } as Part };
-        }
+      // exclude 'van' if is a partAsPlanned
+      if (viewData.data?.mainAspectType === MainAspectType.AS_BUILT) {
+        const { manufacturer, manufacturerPartId, nameAtManufacturer, van } = viewData.data;
+        return { data: { manufacturer, manufacturerPartId, nameAtManufacturer, van } as Part };
+      } else {
+        const { manufacturer, manufacturerPartId, nameAtManufacturer } = viewData.data;
+        return { data: { manufacturer, manufacturerPartId, nameAtManufacturer } as Part };
+      }
     });
   }
 
@@ -195,7 +185,7 @@ export class PartsAssembler {
         return;
       }
       // if no customer data is available then return partSiteInformation
-      if(!viewData.data?.nameAtCustomer && !viewData.data?.customerPartId && viewData.data?.functionValidFrom) {
+      if (!viewData.data?.nameAtCustomer && !viewData.data?.customerPartId && viewData.data?.functionValidFrom) {
         const { catenaXSiteId, psFunction, functionValidFrom, functionValidUntil } = viewData.data;
         return { data: { catenaXSiteId, psFunction, functionValidFrom, functionValidUntil } as Part };
       }
@@ -210,15 +200,13 @@ export class PartsAssembler {
       return '';
     }
 
-
-
     const localToApiMapping = new Map<string, string>([
       ['id', 'id'],
       ['idShort', 'idShort'],
       ['semanticModelId', 'semanticModelId'],
       ['manufacturer', 'manufacturerName'],
       ['manufacturerPartId', 'manufacturerPartId'],
-      ['partId', "manufacturerPartId"],
+      ['partId', 'partId'],
       ['nameAtManufacturer', 'nameAtManufacturer'],
       ['businessPartner', 'businessPartner'],
       ['name', 'nameAtManufacturer'],
@@ -236,12 +224,9 @@ export class PartsAssembler {
       ['psFunction', 'function'],
       ['functionValidFrom', 'functionValidFrom'],
       ['functionValidUntil', 'functionValidUntil'],
-      [ 'activeAlerts', 'qualityAlertsInStatusActive' ],
-      [ 'activeInvestigations', 'qualityInvestigationsInStatusActive' ],
-
+      ['activeAlerts', 'qualityAlertsInStatusActive'],
+      ['activeInvestigations', 'qualityInvestigationsInStatusActive'],
     ]);
-
-
 
     return `${localToApiMapping.get(sorting[0]) || sorting},${sorting[1]}`;
   }

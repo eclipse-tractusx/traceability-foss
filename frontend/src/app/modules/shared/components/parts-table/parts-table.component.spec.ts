@@ -403,9 +403,8 @@ describe('PartsTableComponent', () => {
     const filterActivatedList = {
       id: [],
       idShort: [],
-      name: [],
-      manufacturer: [],
-      partId: [],
+      nameAtManufacturer: [],
+      manufacturerName: [],
       manufacturerPartId: [],
       customerPartId: [],
       classification: [],
@@ -414,15 +413,14 @@ describe('PartsTableComponent', () => {
       semanticDataModel: [],
       manufacturingDate: [],
       manufacturingCountry: [],
-      activeAlerts: [],
-      activeInvestigations: [],
+      qualityAlertsInStatusActive: [],
+      qualityInvestigationsInStatusActive: [],
     };
     const filterActivatedListTwo = {
       id: 'Test',
       idShort: [],
-      name: [],
-      manufacturer: [],
-      partId: [],
+      nameAtManufacturer: [],
+      manufacturerName: [],
       manufacturerPartId: [],
       customerPartId: [],
       classification: [],
@@ -431,15 +429,14 @@ describe('PartsTableComponent', () => {
       semanticDataModel: [],
       manufacturingDate: [],
       manufacturingCountry: [],
-      activeAlerts: [],
-      activeInvestigations: [],
+      qualityAlertsInStatusActive: [],
+      qualityInvestigationsInStatusActive: [],
     };
     const filterActivatedListThree = {
       id: 'Test',
       idShort: [],
-      name: [],
-      manufacturer: [],
-      partId: [],
+      nameAtManufacturer: [],
+      manufacturerName: [],
       manufacturerPartId: [],
       customerPartId: [],
       classification: [],
@@ -448,8 +445,8 @@ describe('PartsTableComponent', () => {
       semanticDataModel: [SemanticDataModel.JUSTINSEQUENCE],
       manufacturingDate: [],
       manufacturingCountry: [],
-      activeAlerts: [],
-      activeInvestigations: [],
+      qualityAlertsInStatusActive: [],
+      qualityInvestigationsInStatusActive: [],
     };
 
     spyOn(componentInstance.filterActivated, 'emit');

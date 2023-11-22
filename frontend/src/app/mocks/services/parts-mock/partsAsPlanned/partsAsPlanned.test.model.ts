@@ -21,33 +21,34 @@
 
 import { DetailAspectType } from '@page/parts/model/detailAspectModel.model';
 import { PartResponse, PartsResponse, QualityType, SemanticDataModel } from '@page/parts/model/parts.model';
-import {Owner} from '@page/parts/model/owner.enum';
+import { Owner } from '@page/parts/model/owner.enum';
 
 export const MOCK_part_5 = {
   id: 'MOCK_part_5',
   idShort: 'MOCK_part_5',
   businessPartner: 'BPNCML1000001',
   manufacturerName: 'Mercedes Benz',
-  nameAtManufacturer: "K-130",
-  manufacturerPartId: "ManuPartID",
-  classification: "A-Level",
-  semanticModelId: "semanticID",
-  detailAspectModels: [{
-    type: DetailAspectType.AS_PLANNED,
-    data: {
-      validityPeriodFrom: "01.01.2023",
-      validityPeriodTo: "01.02.2023",
-    }
-  },
+  nameAtManufacturer: 'K-130',
+  manufacturerPartId: 'ManuPartID',
+  classification: 'A-Level',
+  semanticModelId: 'semanticID',
+  detailAspectModels: [
+    {
+      type: DetailAspectType.AS_PLANNED,
+      data: {
+        validityPeriodFrom: '01.01.2023',
+        validityPeriodTo: '01.02.2023',
+      },
+    },
     {
       type: DetailAspectType.PART_SITE_INFORMATION_AS_PLANNED,
       data: {
-        functionValidUntil: "Sat Feb 08 03:30:48 GMT 2025",
-        function: "production",
-        functionValidFrom: "Wed Aug 21 00:10:36 GMT 2019",
-        catenaXSiteId: "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01"
-      }
-    }
+        functionValidUntil: 'Sat Feb 08 03:30:48 GMT 2025',
+        function: 'production',
+        functionValidFrom: 'Wed Aug 21 00:10:36 GMT 2019',
+        catenaXSiteId: 'BPNS1234567890AA',
+      },
+    },
   ],
   owner: Owner.OWN,
   childRelations: [],
@@ -64,26 +65,27 @@ export const MOCK_part_4 = {
   idShort: 'MOCK_part_4',
   businessPartner: 'BPNCML000001',
   manufacturerName: 'Daimler',
-  nameAtManufacturer: "F-Klasse",
-  manufacturerPartId: "ManuPartID",
-  semanticModelId: "semanticID",
+  nameAtManufacturer: 'F-Klasse',
+  manufacturerPartId: 'ManuPartID',
+  semanticModelId: 'semanticID',
   classification: 'B-Level',
-  detailAspectModels: [{
-    type: DetailAspectType.AS_PLANNED,
-    data: {
-      validityPeriodFrom: "01.01.2023",
-      validityPeriodTo: "01.02.2023",
-    }
-  },
+  detailAspectModels: [
+    {
+      type: DetailAspectType.AS_PLANNED,
+      data: {
+        validityPeriodFrom: '01.01.2023',
+        validityPeriodTo: '01.02.2023',
+      },
+    },
     {
       type: DetailAspectType.PART_SITE_INFORMATION_AS_PLANNED,
       data: {
-        functionValidUntil: "Sat Feb 08 03:30:48 GMT 2025",
-        function: "production",
-        functionValidFrom: "Wed Aug 21 00:10:36 GMT 2019",
-        catenaXSiteId: "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01"
-      }
-    }
+        functionValidUntil: 'Sat Feb 08 03:30:48 GMT 2025',
+        function: 'production',
+        functionValidFrom: 'Wed Aug 21 00:10:36 GMT 2019',
+        catenaXSiteId: 'BPNS1234567890BB',
+      },
+    },
   ],
   owner: Owner.OWN,
   childRelations: [],
@@ -99,30 +101,31 @@ export const MOCK_part_3 = {
   id: 'MOCK_part_3',
   idShort: 'MOCK_part_3',
   businessPartner: 'Mercedes-Benz',
-  semanticModelId: "semanticID",
+  semanticModelId: 'semanticID',
   manufacturerName: 'BWM AG',
   nameAtManufacturer: 'Back Door Left',
-  manufacturerPartId: "ManuPartID",
+  manufacturerPartId: 'ManuPartID',
   classification: 'C-Level',
-  detailAspectModels: [{
-    type: DetailAspectType.AS_PLANNED,
-    data: {
-      validityPeriodFrom: "01.01.2022",
-      validityPeriodTo: "01.02.2022",
-    }
-  },
+  detailAspectModels: [
+    {
+      type: DetailAspectType.AS_PLANNED,
+      data: {
+        validityPeriodFrom: '01.01.2022',
+        validityPeriodTo: '01.02.2022',
+      },
+    },
     {
       type: DetailAspectType.PART_SITE_INFORMATION_AS_PLANNED,
       data: {
-        functionValidUntil: "Sat Feb 08 03:30:48 GMT 2025",
-        function: "production",
-        functionValidFrom: "Wed Aug 21 00:10:36 GMT 2019",
-        catenaXSiteId: "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01"
-      }
-    }
+        functionValidUntil: 'Sat Feb 08 03:30:48 GMT 2025',
+        function: 'production',
+        functionValidFrom: 'Wed Aug 21 00:10:36 GMT 2019',
+        catenaXSiteId: 'BPNS1234567890CC',
+      },
+    },
   ],
   owner: Owner.OWN,
-  childRelations: [ { id: MOCK_part_5.id, idShort: MOCK_part_5.idShort } ],
+  childRelations: [{ id: MOCK_part_5.id, idShort: MOCK_part_5.idShort }],
   parentRelations: [],
   activeAlert: false,
   underInvestigation: false,
@@ -136,26 +139,27 @@ export const MOCK_part_2 = {
   idShort: 'MOCK_part_2',
   businessPartner: 'BMW',
   manufacturerName: 'BMW AG',
-  nameAtManufacturer: "MyAsPlannedPartName",
-  manufacturerPartId: "ManuPartID",
-  semanticModelId: "semanticID",
+  nameAtManufacturer: 'MyAsPlannedPartName',
+  manufacturerPartId: 'ManuPartID',
+  semanticModelId: 'semanticID',
   classification: 'A-Level',
-  detailAspectModels: [{
-    type: DetailAspectType.AS_PLANNED,
-    data: {
-      validityPeriodFrom: "01.01.2023",
-      validityPeriodTo: "01.02.2023",
-    }
-  },
+  detailAspectModels: [
+    {
+      type: DetailAspectType.AS_PLANNED,
+      data: {
+        validityPeriodFrom: '01.01.2023',
+        validityPeriodTo: '01.02.2023',
+      },
+    },
     {
       type: DetailAspectType.PART_SITE_INFORMATION_AS_PLANNED,
       data: {
-        functionValidUntil: "Sat Feb 08 03:30:48 GMT 2025",
-        function: "production",
-        functionValidFrom: "Wed Aug 21 00:10:36 GMT 2019",
-        catenaXSiteId: "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01"
-      }
-    }
+        functionValidUntil: 'Sat Feb 08 03:30:48 GMT 2025',
+        function: 'production',
+        functionValidFrom: 'Wed Aug 21 00:10:36 GMT 2019',
+        catenaXSiteId: 'BPNS1234567890DD',
+      },
+    },
   ],
   owner: Owner.OWN,
   childRelations: [{ id: MOCK_part_4.id, idShort: MOCK_part_4.idShort }],
@@ -171,27 +175,28 @@ export const MOCK_part_1 = {
   id: 'MOCK_part_1',
   idShort: 'MOCK_part_1',
   businessPartner: 'Audi',
-  semanticModelId: "mySemanticModelId",
+  semanticModelId: 'mySemanticModelId',
   manufacturerName: 'Audi AG',
-  nameAtManufacturer: "MyAsPlannedPartName",
-  manufacturerPartId: "ManuPartID",
+  nameAtManufacturer: 'MyAsPlannedPartName',
+  manufacturerPartId: 'ManuPartID',
   classification: 'C-Level',
-  detailAspectModels: [{
-    type: DetailAspectType.AS_PLANNED,
-    data: {
-      validityPeriodFrom: "01.01.2023",
-      validityPeriodTo: "01.02.2023",
-    }
-  },
+  detailAspectModels: [
+    {
+      type: DetailAspectType.AS_PLANNED,
+      data: {
+        validityPeriodFrom: '01.01.2023',
+        validityPeriodTo: '01.02.2023',
+      },
+    },
     {
       type: DetailAspectType.PART_SITE_INFORMATION_AS_PLANNED,
       data: {
-        functionValidUntil: "Sat Feb 08 03:30:48 GMT 2025",
-        function: "production",
-        functionValidFrom: "Wed Aug 21 00:10:36 GMT 2019",
-        catenaXSiteId: "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01"
-      }
-    }
+        functionValidUntil: 'Sat Feb 08 03:30:48 GMT 2025',
+        function: 'production',
+        functionValidFrom: 'Wed Aug 21 00:10:36 GMT 2019',
+        catenaXSiteId: 'BPNS1234567890ZZ',
+      },
+    },
   ],
   owner: Owner.OWN,
   childRelations: [
@@ -203,7 +208,7 @@ export const MOCK_part_1 = {
   underInvestigation: false,
   qualityType: QualityType.Ok,
   van: 'myvan1',
-  semanticDataModel: SemanticDataModel.SERIALPART
+  semanticDataModel: SemanticDataModel.SERIALPART,
 };
 
 export const mockAssets: PartsResponse = {

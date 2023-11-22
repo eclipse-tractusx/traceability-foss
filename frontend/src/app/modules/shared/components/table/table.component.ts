@@ -123,6 +123,7 @@ export class TableComponent {
   @Output() configChanged = new EventEmitter<TableEventConfig>();
   @Output() multiSelect = new EventEmitter<any[]>();
   @Output() clickSelectAction = new EventEmitter<void>();
+  @Output() filterChange = new EventEmitter<void>();
 
   public readonly dataSource = new MatTableDataSource<unknown>();
   public readonly selection = new SelectionModel<unknown>(true, []);
@@ -241,6 +242,7 @@ export class TableComponent {
       };
     }
     this.filtering[filterName] = filterAdded;
+    this.filterChange.emit();
     this.configChanged.emit({ page: 0, pageSize: this.pageSize, sorting: this.sorting, filtering: this.filtering });
   }
 

@@ -43,6 +43,7 @@ SPDX-License-Identifier: Apache-2.0
       (tableConfigChanged)="onReceivedTableConfigChanged.emit($event)"
       (itemCount)="onItemCountChanged($event)"
       (selected)="selected.emit($event)"
+      ><ng-content></ng-content
     ></app-notifications-tab>
   </mat-tab>
 
@@ -65,6 +66,7 @@ SPDX-License-Identifier: Apache-2.0
       [filterConfig]="queuedAndRequestedFilterConfig"
       (tableConfigChanged)="onQueuedAndRequestedTableConfigChanged.emit($event)"
       (selected)="selected.emit($event)"
+      ><ng-content></ng-content
     ></app-notifications-tab>
   </mat-tab>
 </mat-tab-group>

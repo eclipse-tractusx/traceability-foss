@@ -96,7 +96,7 @@
   justify-content: center;
 
   &__icon {
-    transform: scale(2);
+    transform: scale(1);
   }
 }
 
@@ -315,6 +315,10 @@ tr.error {
 .table--header {
   padding-bottom: 8px;
   border-bottom: 1px solid #d2d2d2 !important;
+}
+
+.table--header--id {
+  min-width: 300px;
 }
 
 .table--header--sort--indicator {

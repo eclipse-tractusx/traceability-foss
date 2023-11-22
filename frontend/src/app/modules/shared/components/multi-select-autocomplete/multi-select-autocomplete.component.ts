@@ -58,6 +58,8 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   formControl = new FormControl();
   @Input()
   panelWidth = 'auto';
+  @Input()
+  maxDate = new Date();
 
   @Input()
   multiple = false;
@@ -90,7 +92,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   displayString = '';
   selectedCheckboxOptions: Array<any> = [];
   filterActive = '';
-  maxDate: Date;
   searched = false;
 
   constructor(
@@ -100,14 +101,15 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     @Inject(LOCALE_ID) private locale: string,
   ) {
     registerLocaleData(localeDe, 'de', localeDeExtra);
-    this.maxDate = new Date();
     this._adapter.setLocale(locale);
   }
   ngOnInit(): void {
-    this.formControl.valueChanges.pipe(startWith(0), pairwise()).subscribe(([prev, next]: [any, any]) => {
-      this.theSearchElement = next;
-      this.searched = true;
-    });
+    if (this.textSearch) {
+      this.formControl.valueChanges.pipe(startWith(0), pairwise()).subscribe(([prev, next]: [any, any]) => {
+        this.theSearchElement = next;
+        this.searched = true;
+      });
+    }
     if (this.isDate) {
       this.filterName = 'filterLabelDate';
     } else if (this.multiple) {
