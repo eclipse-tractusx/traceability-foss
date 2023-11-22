@@ -19,21 +19,19 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Router} from '@angular/router';
-import {ALERT_BASE_ROUTE, getRoute, INVESTIGATION_BASE_ROUTE} from '@core/known-route';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { ALERT_BASE_ROUTE, getRoute, INVESTIGATION_BASE_ROUTE } from '@core/known-route';
 import {
   Notification,
   Notifications,
   NotificationStatusGroup,
   NotificationType,
 } from '@shared/model/notification.model';
-import {View} from '@shared/model/view.model';
-import {
-  CloseNotificationModalComponent
-} from '@shared/modules/notification/modal/close/close-notification-modal.component';
-import {Observable} from 'rxjs';
-import {DashboardFacade} from '../abstraction/dashboard.facade';
+import { View } from '@shared/model/view.model';
+import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
+import { Observable } from 'rxjs';
+import { DashboardFacade } from '../abstraction/dashboard.facade';
 
 @Component({
   selector: 'app-dashboard',
@@ -58,6 +56,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public readonly alertLink: string;
   public readonly alertParams: Record<string, string>;
 
+  public metricData: {metricLabelKey: string,value: Observable<View<number>>,metricUnitLabelKey: string}[];
+
   constructor(private readonly dashboardFacade: DashboardFacade, private readonly router: Router) {
     this.numberOfTotalMyParts$ = this.dashboardFacade.numberOfTotalMyParts$;
     this.numberOfTotalOtherParts$ = this.dashboardFacade.numberOfTotalOtherParts$;
@@ -76,7 +76,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.alertLink = alertLink;
     this.alertParams = alertQueryParams;
 
-    console.log(this.investigationsReceived$.subscribe((next) => console.log(next)));
+    this.metricData = [
+      {
+        metricLabelKey: 'numberOfTotalMyParts',
+        value: this.numberOfTotalMyParts$,
+        metricUnitLabelKey: 'parts'
+      },
+      {
+        metricLabelKey: 'numberOfTotalOtherParts',
+        value: this.numberOfTotalOtherParts$,
+        metricUnitLabelKey: 'parts'
+      },
+    ]
   }
 
   public ngOnInit(): void {

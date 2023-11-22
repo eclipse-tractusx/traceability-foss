@@ -20,7 +20,9 @@
  ********************************************************************************/
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { View } from '@shared/model/view.model';
 import { StaticIdService } from '@shared/service/staticId.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-card-icon',
@@ -35,6 +37,7 @@ export class CardIconComponent {
   @Input() label: string;
   @Input() stats: number | string;
   @Input() icon: string;
+  @Input() metricData: {metricLabelKey: string, value: Observable<View<number>>,metricUnitLabelKey: string}[];
 
   constructor(staticIdService: StaticIdService) {
     this.htmlId = staticIdService.generateId(this.htmlIdBase);

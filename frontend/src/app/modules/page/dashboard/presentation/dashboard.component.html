@@ -249,7 +249,8 @@ SPDX-License-Identifier: Apache-2.0
 </div>
 
 <ng-template #numbersMainTmp let-numbers="view" let-context="customContext">
-  <app-card-icon [label]="context.label | i18n" [icon]="context.icon" [stats]="(numbers?.data | number) | abbreviateNumber"></app-card-icon>
+  <app-card-icon [label]="context.label | i18n" [icon]="context.icon" [metricData]="metricData">
+  </app-card-icon>
 </ng-template>
 
 <ng-template #numbersErrorTmp let-context="customContext">
