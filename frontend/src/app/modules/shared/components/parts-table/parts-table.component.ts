@@ -170,24 +170,25 @@ export class PartsTableComponent implements OnInit {
     }
 
     private initializeTableViewSettings(): void {
+
         switch (this.tableType) {
             case PartTableType.AS_PLANNED_CUSTOMER:
-                this.tableViewConfig = PartsAsPlannedCustomerConfigurationModel.filterConfiguration();
+                this.tableViewConfig = new PartsAsPlannedCustomerConfigurationModel().filterConfiguration();
                 break;
             case PartTableType.AS_PLANNED_OWN:
-                this.tableViewConfig = PartsAsPlannedConfigurationModel.filterConfiguration();
+                this.tableViewConfig = new PartsAsPlannedConfigurationModel().filterConfiguration();
                 break;
             case PartTableType.AS_PLANNED_SUPPLIER:
-                this.tableViewConfig = PartsAsPlannedSupplierConfigurationModel.filterConfiguration();
+                this.tableViewConfig = new PartsAsPlannedSupplierConfigurationModel().filterConfiguration();
                 break;
             case PartTableType.AS_BUILT_OWN:
-                this.tableViewConfig = PartsAsBuiltConfigurationModel.filterConfiguration();
+                this.tableViewConfig = new PartsAsBuiltConfigurationModel().filterConfiguration();
                 break;
             case PartTableType.AS_BUILT_CUSTOMER:
-                this.tableViewConfig = PartsAsBuiltCustomerConfigurationModel.filterConfiguration();
+                this.tableViewConfig = new PartsAsBuiltCustomerConfigurationModel().filterConfiguration();
                 break;
             case PartTableType.AS_BUILT_SUPPLIER:
-                this.tableViewConfig = PartsAsBuiltSupplierConfigurationModel.filterConfiguration();
+                this.tableViewConfig = new PartsAsBuiltSupplierConfigurationModel().filterConfiguration();
                 break;
         }
     }

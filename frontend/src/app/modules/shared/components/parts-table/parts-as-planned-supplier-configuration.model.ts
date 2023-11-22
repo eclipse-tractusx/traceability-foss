@@ -16,39 +16,22 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import {FormControl} from "@angular/forms";
-import {TableViewConfig} from "@shared/components/parts-table/table-view-config.model";
-import {PartsTableConfigUtils} from "@shared/components/parts-table/parts-table-config.utils";
+import {TableFilterConfiguration} from "@shared/components/parts-table/parts-config.model";
 
-export class PartsAsPlannedSupplierConfigurationModel {
+export class PartsAsPlannedSupplierConfigurationModel extends TableFilterConfiguration {
 
-    public static filterConfiguration(): TableViewConfig {
-
-        return {
-            filterColumns: this.filterColumns,
-            displayedColumns: this.displayedColumns,
-            displayFilterColumnMappings: this.displayColumnsToFilterColumnsMapping,
-            filterFormGroup: this.formGroup,
-            sortableColumns: this.sortableColumns
-        }
+    constructor() {
+        const sortableColumns = {
+            select: false,
+            semanticDataModel: true,
+            nameAtManufacturer: true,
+            manufacturerName: true,
+            manufacturerPartId: true,
+            semanticModelId: true,
+            //menu: false
+        };
+        super(sortableColumns);
     }
-
-    private static sortableColumns: Record<string, boolean> = {
-        select: false,
-        semanticDataModel: true,
-        nameAtManufacturer: true,
-        manufacturerName: true,
-        manufacturerPartId: true,
-        semanticModelId: true,
-        //menu: false
-    };
-
-    private static displayedColumns = Object.keys(this.sortableColumns);
-
-    private static formGroup: Record<string, FormControl> = PartsTableConfigUtils.createFormGroup(this.displayedColumns);
-
-    private static filterColumns: string[] = PartsTableConfigUtils.createFilterColumns(this.displayedColumns);
-    private static displayColumnsToFilterColumnsMapping: any[] = PartsTableConfigUtils.generateFilterColumnsMapping(this.sortableColumns);
 
 
 }
