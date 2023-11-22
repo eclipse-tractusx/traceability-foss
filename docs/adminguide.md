@@ -167,7 +167,7 @@ backend:
   replicaCount: 1
 
   image:
-    repository: tractusx/tx-traceability-foss
+    repository: tractusx/traceability-foss
     pullPolicy: Always
 
   springprofile: dev  # will be set as dev

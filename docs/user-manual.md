@@ -38,9 +38,16 @@ User accounts: <https://portal.int.demo.catena-x.net/documentation/?path=docs%2F
 
 #### Technical users
 
-Documentation: <https://portal.int.demo.catena-x.net/documentation/?path=docs%2F03.+User+Management%2F01.+User+Account>
+Documentation Portal: <https://portal.int.demo.catena-x.net/documentation/?path=docs%2F03.+User+Management%2F01.+User+Account>
 
 To login use the credentials provided by the hosting company.
+
+    The application is configured with a technical user, which holds the required IRS roles:
+* Creating a policy in IRS -> admin_irs
+* Requesting jobs in IRS -> view_irs
+
+      For usage of an EDC it is necessary to provide another technical user. Required roles:
+* Identity Wallet Management Role
 
 ### Navigation
 
