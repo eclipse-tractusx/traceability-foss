@@ -88,7 +88,7 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
     }
 
     @Override
-    public List<String> getFieldValues(String fieldName, String startWith, Long resultLimit, String owner) {
+    public List<String> getFieldValues(String fieldName, String startWith, Long resultLimit, Owner owner) {
         String databaseFieldName = toDatabaseName(fieldName);
         String getFieldValuesQuery = "SELECT DISTINCT " + databaseFieldName + " FROM assets_as_built" + combineWhereClause(constructLikeWildcardQuery(databaseFieldName, startWith), constructAndOwnerWildcardQuery(owner)) + " ORDER BY " + databaseFieldName + " ASC LIMIT :resultLimit";
         return entityManager.createNativeQuery(getFieldValuesQuery, String.class)

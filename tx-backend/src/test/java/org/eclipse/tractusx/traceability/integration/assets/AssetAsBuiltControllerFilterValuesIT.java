@@ -120,6 +120,31 @@ class AssetAsBuiltControllerFilterValuesIT extends IntegrationTestSpecification 
     }
 
     @Test
+    void givenNotExistentOwnerEnumValue_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+        // given
+        assetsSupport.defaultAssetsStored();
+        String fieldName = "id";
+        String resultLimit = "100";
+        String owner = "NON_EXISTENT_ENUM_VALUE";
+
+        // then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .param("fieldName", fieldName)
+                .param("size", resultLimit)
+                .param("owner", owner)
+                .get("/api/assets/as-built/distinctFilterValues")
+                .then()
+                .log().all()
+                .statusCode(400)
+                .assertThat()
+                .body("size()", is(1));
+    }
+
+    @Test
     void givenNotEnumTypeFieldNameAndSizeAndOwnerSupplier_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
         // given
         assetsSupport.defaultAssetsStored();

@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.common.repository;
 
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 
 import java.util.Arrays;
 import java.util.List;
@@ -52,10 +53,10 @@ public class SqlUtil {
         return " ( " + databaseFieldName + " LIKE '" + startsWith + "%')";
     }
 
-    public static String constructAndOwnerWildcardQuery(String owner) {
+    public static String constructAndOwnerWildcardQuery(Owner owner) {
         if (Objects.isNull(owner)) {
             return "";
         }
-        return " owner='" + owner + "' ";
+        return " owner='" + owner.name() + "' ";
     }
 }
