@@ -313,4 +313,16 @@ describe('MultiSelectAutocompleteComponent', () => {
         expect(searchElementChangeSpy).toHaveBeenCalledWith(['test']);
     })
 
+    fit('should return when calling displayValue() without searchElement', async () => {
+        const {fixture} = await renderMultiSelectAutoCompleteComponent();
+        const {componentInstance} = fixture;
+
+        componentInstance.searchElement = '';
+        componentInstance.displayValue();
+
+        const dValue = componentInstance.displayValue();
+        expect(dValue).toEqual(undefined);
+
+    })
+
 });
