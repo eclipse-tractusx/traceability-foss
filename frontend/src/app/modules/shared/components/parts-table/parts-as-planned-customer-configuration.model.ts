@@ -36,17 +36,15 @@ export class PartsAsPlannedCustomerConfigurationModel {
     private static sortableColumns: Record<string, boolean> = {
         select: false,
         semanticDataModel: true,
-        name: true,
-        manufacturer: true,
+        nameAtManufacturer: true,
+        manufacturerName: true,
         manufacturerPartId: true,
         semanticModelId: true,
         menu: false
     };
 
     private static displayedColumns = Object.keys(this.sortableColumns);
-
     private static formGroup: Record<string, FormControl> = PartsTableConfigUtils.createFormGroup(this.displayedColumns);
-
     private static filterColumns: string[] = PartsTableConfigUtils.createFilterColumns(this.displayedColumns, true);
     private static displayColumnsToFilterColumnsMapping: any[] = PartsTableConfigUtils.generateFilterColumnsMapping(this.sortableColumns);
 

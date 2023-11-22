@@ -36,8 +36,8 @@ export class PartsAsBuiltSupplierConfigurationModel {
     private static sortableColumns: Record<string, boolean> = {
         select: false,
         semanticDataModel: true,
-        name: true,
-        manufacturer: true,
+        nameAtManufacturer: true,
+        manufacturerName: true,
         manufacturerPartId: true,
         semanticModelId: true,
         manufacturingDate: true,
