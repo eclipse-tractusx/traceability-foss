@@ -7,10 +7,15 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [UNRELEASED - DD.MM.YYYY]
 ### Added
+- DEPENDENCIES_FRONTEND, SECURITY.md, NOTICE.md, LICENSE file to frontend docker image
+- Added a step-by-step guide to register a server in pgAdmin in the database dump README
+- Documentation about technical users
 
 ### Changed
+- Fixed helm repository path for backend & frontend (wrong prefix)
 
 ### Removed
+- apk upgrade in docker image built as requested by TRG 4.02
 
 ## [9.0.0-rc2 - 15.11.2023]
 ### Added
