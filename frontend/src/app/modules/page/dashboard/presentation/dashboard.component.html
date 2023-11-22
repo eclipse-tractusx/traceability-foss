@@ -20,40 +20,53 @@ SPDX-License-Identifier: Apache-2.0
 -->
 
 <div class="dashboard-grid">
-  <section class="parts-section">
+  <section class="metrics-section">
     <ng-container
       *viewContainer="
         this.numberOfTotalMyParts$ | async;
         main: numbersMainTmp;
         error: numbersErrorTmp;
         loading: numbersLoaderTmp;
-        customContext: { label: 'pageDashboard.totalOfParts.label', icon: 'directions_car' }
+        customContext: { label: 'pageDashboard.totalOfParts.label', icon: 'directions_car', metricData: partsMetricData }
       "
     >
     </ng-container>
   </section>
 
-  <section class="parts-section">
+  <section class="metrics-section">
     <ng-container
       *viewContainer="
         this.numberOfTotalOtherParts$ | async;
         main: numbersMainTmp;
         error: numbersErrorTmp;
         loading: numbersLoaderTmp;
-        customContext: { label: 'pageDashboard.totalOfOtherParts.label', icon: 'directions_car' }
+        customContext: { label: 'pageDashboard.totalOfOtherParts.label', icon: 'directions_car', metricData: otherPartsMetricData  }
       "
     >
     </ng-container>
   </section>
 
-  <section class="parts-section">
+  <section class="metrics-section">
     <ng-container
       *viewContainer="
-        this.numberOfInvestigations$ | async;
+        this.numberOfOwnInvestigationsReceived$ | async;
         main: numbersMainTmp;
         error: numbersErrorTmp;
         loading: numbersLoaderTmp;
-        customContext: { label: 'pageDashboard.totalInvestigations.label', icon: 'find_in_page' }
+        customContext: { label: 'pageDashboard.totalInvestigations.label', icon: 'find_in_page', metricData: investigationsMetricData }
+      "
+    >
+    </ng-container>
+  </section>
+
+  <section class="metrics-section">
+    <ng-container
+            *viewContainer="
+        this.numberOfOwnAlertsReceived$ | async;
+        main: numbersMainTmp;
+        error: numbersErrorTmp;
+        loading: numbersLoaderTmp;
+        customContext: { label: 'pageDashboard.totalAlerts.label', icon: 'notification_important', metricData: alertsMetricData }
       "
     >
     </ng-container>
@@ -249,7 +262,10 @@ SPDX-License-Identifier: Apache-2.0
 </div>
 
 <ng-template #numbersMainTmp let-numbers="view" let-context="customContext">
-  <app-card-icon [label]="context.label | i18n" [icon]="context.icon" [metricData]="metricData">
+  <app-card-icon [label]="context.label | i18n"
+                 [icon]="context.icon"
+                 [metricData]="context.metricData"
+  >
   </app-card-icon>
 </ng-template>
 

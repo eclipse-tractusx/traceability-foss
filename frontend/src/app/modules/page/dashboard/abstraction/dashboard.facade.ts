@@ -75,6 +75,19 @@ export class DashboardFacade {
     return this.dashboardState.recentCreatedAlerts$;
   }
 
+  public get numberOfOwnOpenInvestigationsReceived$(): Observable<View<number>> {
+    return this.dashboardState.numberOfOwnOpenInvestigationsReceived$;
+  }
+  public get numberOfOwnOpenInvestigationsCreated$(): Observable<View<number>> {
+    return this.dashboardState.numberOfOwnOpenInvestigationsCreated$;
+  }
+  public get numberOfOwnOpenAlertsReceived$(): Observable<View<number>> {
+    return this.dashboardState.numberOfOwnOpenAlertsReceived$;
+  }
+  public get numberOfOwnOpenAlertsCreated$(): Observable<View<number>> {
+    return this.dashboardState.numberOfOwnOpenAlertsCreated$;
+  }
+
   public setDashboardData(): void {
     this.setAssetNumbers();
     this.setReceivedInvestigations();
@@ -94,10 +107,11 @@ export class DashboardFacade {
     this.dashboardState.setNumberOfAsBuiltCustomerParts({loader: true});
     this.dashboardState.setNumberOfAsPlannedCustomerParts({loader: true});
 
-    this.dashboardState.setNumberOfMyPartsWithOpenInvestigations({loader: true});
-    this.dashboardState.setNumberOfMyPartsWithOpenAlerts({loader:true});
-    this.dashboardState.setNumberOfOtherPartsWithOpenInvestigations({loader:true});
-    this.dashboardState.setNumberOfOtherPartsWithOpenAlerts({loader:true});
+    this.dashboardState.setNumberOfOwnOpenInvestigationsReceived({loader:true})
+    this.dashboardState.setNumberOfOwnOpenAlertsReceived({loader:true})
+    this.dashboardState.setNumberOfOwnOpenInvestigationsCreated({loader:true})
+    this.dashboardState.setNumberOfOwnOpenAlertsCreated({loader:true})
+
 
     this.assetNumbersSubscription?.unsubscribe();
     this.assetNumbersSubscription = this.dashboardService.getStats().subscribe({
@@ -112,10 +126,12 @@ export class DashboardFacade {
         this.dashboardState.setNumberOfAsBuiltCustomerParts({data: dashboardStats.asBuiltCustomerParts});
         this.dashboardState.setNumberOfAsPlannedCustomerParts({data: dashboardStats.asPlannedCustomerParts});
 
-        this.dashboardState.setNumberOfMyPartsWithOpenInvestigations({data: dashboardStats.myPartsWithOpenInvestigations});
-        this.dashboardState.setNumberOfMyPartsWithOpenAlerts({data: dashboardStats.myPartsWithOpenAlerts});
-        this.dashboardState.setNumberOfOtherPartsWithOpenInvestigations({data: dashboardStats.otherPartsWithOpenInvestigations});
-        this.dashboardState.setNumberOfOtherPartsWithOpenAlerts({data: dashboardStats.otherPartsWithOpenAlerts});
+        this.dashboardState.setNumberOfOwnOpenInvestigationsReceived({data: dashboardStats.ownOpenInvestigationsReceived})
+        this.dashboardState.setNumberOfOwnOpenAlertsReceived({data: dashboardStats.ownOpenAlertsReceived})
+        this.dashboardState.setNumberOfOwnOpenInvestigationsCreated({data: dashboardStats.ownOpenInvestigationsCreated})
+        this.dashboardState.setNumberOfOwnOpenAlertsCreated({data: dashboardStats.ownOpenAlertsCreated})
+
+
       },
       error: error => {
         this.dashboardState.setNumberOfTotalMyParts({ error });
@@ -132,6 +148,11 @@ export class DashboardFacade {
         this.dashboardState.setNumberOfMyPartsWithOpenAlerts({error});
         this.dashboardState.setNumberOfOtherPartsWithOpenInvestigations({error});
         this.dashboardState.setNumberOfOtherPartsWithOpenAlerts({error});
+
+        this.dashboardState.setNumberOfOwnOpenInvestigationsReceived({error})
+        this.dashboardState.setNumberOfOwnOpenAlertsReceived({error})
+        this.dashboardState.setNumberOfOwnOpenInvestigationsCreated({error})
+        this.dashboardState.setNumberOfOwnOpenAlertsCreated({error})
       },
     });
   }

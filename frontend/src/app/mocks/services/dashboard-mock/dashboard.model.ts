@@ -25,8 +25,11 @@ export const mockDashboardStats: DashboardStatsResponse = {
   // notification counts (where open means notficaiton status not closed)
   myPartsWithOpenAlerts: 10,
   myPartsWithOpenInvestigations: 8,
-  otherPartsWithOpenAlerts: 3,
-  otherPartsWithOpenInvestigations: 5,
+  supplierPartsWithOpenAlerts: 3,
+  customerPartsWithOpenAlerts: 2,
+  supplierPartsWithOpenInvestigations: 6,
+  customerPartsWithOpenInvestigations: 12,
+
   // part counts
   asBuiltCustomerParts: 612,
   asPlannedCustomerParts: 5,

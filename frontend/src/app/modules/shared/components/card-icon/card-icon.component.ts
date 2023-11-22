@@ -19,10 +19,9 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { View } from '@shared/model/view.model';
-import { StaticIdService } from '@shared/service/staticId.service';
-import { Observable } from 'rxjs';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {StaticIdService} from '@shared/service/staticId.service';
+import {MetricData} from "@page/dashboard/presentation/dashboard.model";
 
 @Component({
   selector: 'app-card-icon',
@@ -37,7 +36,7 @@ export class CardIconComponent {
   @Input() label: string;
   @Input() stats: number | string;
   @Input() icon: string;
-  @Input() metricData: {metricLabelKey: string, value: Observable<View<number>>,metricUnitLabelKey: string}[];
+  @Input() metricData: MetricData[];
 
   constructor(staticIdService: StaticIdService) {
     this.htmlId = staticIdService.generateId(this.htmlIdBase);

@@ -47,8 +47,16 @@ export class DashboardState {
   private readonly _numberOfOtherPartsWithOpenAlerts$: State<View<number>> = new State<View<number>>({ loader: true });
   private readonly _numberOfOtherPartsWithOpenInvestigations$: State<View<number>> = new State<View<number>>({ loader: true });
 
+  // calculated notification counts
+  private readonly _numberOfOwnOpenInvestigationsReceived$: State<View<number>> = new State<View<number>>({ loader: true });
+  private readonly _numberOfOwnOpenInvestigationsCreated$: State<View<number>> = new State<View<number>>({ loader: true });
+  private readonly _numberOfOwnOpenAlertsReceived$: State<View<number>> = new State<View<number>>({ loader: true });
+  private readonly _numberOfOwnOpenAlertsCreated$: State<View<number>> = new State<View<number>>({ loader: true });
 
-  // notifications received
+
+
+
+  // recent notifications
   private readonly _recentReceivedInvestigations$: State<View<Notifications>> = new State<View<Notifications>>({ loader: true });
   private readonly _recentCreatedInvestigations$: State<View<Notifications>> = new State<View<Notifications>>({ loader: true });
 
@@ -160,6 +168,43 @@ export class DashboardState {
   public setNumberOfOtherPartsWithOpenInvestigations(count: View<number>): void {
     this._numberOfOtherPartsWithOpenInvestigations$.update(count);
   }
+
+  /**
+   * calculated notifications getter/setter
+   */
+
+  public get numberOfOwnOpenInvestigationsReceived$(): Observable<View<number>> {
+    return this._numberOfOwnOpenInvestigationsReceived$.observable;
+  }
+
+  public setNumberOfOwnOpenInvestigationsReceived(count: View<number>): void {
+    this._numberOfOwnOpenInvestigationsReceived$.update(count);
+  }
+
+  public get numberOfOwnOpenInvestigationsCreated$(): Observable<View<number>> {
+    return this._numberOfOwnOpenInvestigationsCreated$.observable;
+  }
+
+  public setNumberOfOwnOpenInvestigationsCreated(count: View<number>): void {
+    this._numberOfOwnOpenInvestigationsCreated$.update(count);
+  }
+
+  public get numberOfOwnOpenAlertsReceived$(): Observable<View<number>> {
+    return this._numberOfOwnOpenAlertsReceived$.observable;
+  }
+
+  public setNumberOfOwnOpenAlertsReceived(count: View<number>): void {
+    this._numberOfOwnOpenAlertsReceived$.update(count);
+  }
+
+  public get numberOfOwnOpenAlertsCreated$(): Observable<View<number>> {
+    return this._numberOfOwnOpenAlertsCreated$.observable;
+  }
+
+  public setNumberOfOwnOpenAlertsCreated(count: View<number>): void {
+    this._numberOfOwnOpenAlertsCreated$.update(count);
+  }
+
 
   /**
    * recent notifications getter/setter

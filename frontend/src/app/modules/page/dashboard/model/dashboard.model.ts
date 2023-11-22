@@ -23,8 +23,7 @@ export interface DashboardStats {
   // notification counts (where open means notficaiton status not closed)
   myPartsWithOpenAlerts: number,
   myPartsWithOpenInvestigations: number,
-  otherPartsWithOpenAlerts: number,
-  otherPartsWithOpenInvestigations: number,
+
   // part counts
   asBuiltCustomerParts: number,
   asPlannedCustomerParts: number,
@@ -34,16 +33,24 @@ export interface DashboardStats {
   asPlannedOwnParts: number
 
   // calculated counts
-  totalOwnParts: number
-  totalOtherParts: number
+  totalOwnParts: number,
+  totalOtherParts: number,
+  ownOpenInvestigationsReceived: number,
+  ownOpenInvestigationsCreated: number,
+  ownOpenAlertsReceived: number,
+  ownOpenAlertsCreated: number
+
 }
 
 export interface DashboardStatsResponse {
   // notification counts (where open means notficaiton status not closed)
   myPartsWithOpenAlerts: number,
   myPartsWithOpenInvestigations: number,
-  otherPartsWithOpenAlerts: number,
-  otherPartsWithOpenInvestigations: number,
+  supplierPartsWithOpenInvestigations: number,
+  customerPartsWithOpenInvestigations: number,
+  supplierPartsWithOpenAlerts: number,
+  customerPartsWithOpenAlerts: number,
+
   // part counts
   asBuiltCustomerParts: number,
   asPlannedCustomerParts: number,

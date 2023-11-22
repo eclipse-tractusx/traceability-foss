@@ -19,16 +19,15 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { DashboardStats, DashboardStatsResponse } from '../model/dashboard.model';
+import {DashboardStats, DashboardStatsResponse} from '../model/dashboard.model';
 
 export class DashboardAssembler {
   public static assembleDashboard(dashboard: DashboardStatsResponse): DashboardStats {
     return {
-      // notification counts (where open means notficaiton status not closed)
+      // notification counts (where open means notfication status not closed)
       myPartsWithOpenAlerts: dashboard.myPartsWithOpenAlerts,
       myPartsWithOpenInvestigations: dashboard.myPartsWithOpenInvestigations,
-      otherPartsWithOpenAlerts: dashboard.otherPartsWithOpenAlerts,
-      otherPartsWithOpenInvestigations: dashboard.otherPartsWithOpenInvestigations,
+
       // part counts
       asBuiltCustomerParts: dashboard.asBuiltCustomerParts,
       asPlannedCustomerParts: dashboard.asPlannedCustomerParts,
@@ -36,8 +35,15 @@ export class DashboardAssembler {
       asPlannedSupplierParts: dashboard.asPlannedSupplierParts,
       asBuiltOwnParts: dashboard.asBuiltOwnParts,
       asPlannedOwnParts: dashboard.asPlannedOwnParts,
+
+      // calculated
       totalOwnParts: dashboard.asBuiltOwnParts + dashboard.asPlannedOwnParts,
       totalOtherParts: dashboard.asBuiltSupplierParts + dashboard.asBuiltCustomerParts,
+      ownOpenInvestigationsReceived: dashboard.myPartsWithOpenInvestigations,
+      ownOpenInvestigationsCreated: dashboard.supplierPartsWithOpenInvestigations + dashboard.customerPartsWithOpenInvestigations,
+      ownOpenAlertsReceived: dashboard.supplierPartsWithOpenAlerts + dashboard.customerPartsWithOpenAlerts,
+      ownOpenAlertsCreated: dashboard.myPartsWithOpenAlerts,
+
     };
   }
 }

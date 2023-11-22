@@ -19,19 +19,22 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import { ALERT_BASE_ROUTE, getRoute, INVESTIGATION_BASE_ROUTE } from '@core/known-route';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Router} from '@angular/router';
+import {ALERT_BASE_ROUTE, getRoute, INVESTIGATION_BASE_ROUTE} from '@core/known-route';
 import {
   Notification,
   Notifications,
   NotificationStatusGroup,
   NotificationType,
 } from '@shared/model/notification.model';
-import { View } from '@shared/model/view.model';
-import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
-import { Observable } from 'rxjs';
-import { DashboardFacade } from '../abstraction/dashboard.facade';
+import {View} from '@shared/model/view.model';
+import {
+  CloseNotificationModalComponent
+} from '@shared/modules/notification/modal/close/close-notification-modal.component';
+import {Observable} from 'rxjs';
+import {DashboardFacade} from '../abstraction/dashboard.facade';
+import {MetricData} from "@page/dashboard/presentation/dashboard.model";
 
 @Component({
   selector: 'app-dashboard',
@@ -45,6 +48,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public readonly numberOfTotalOtherParts$: Observable<View<number>>;
   public readonly numberOfInvestigations$: Observable<View<number>>;
 
+  public readonly numberOfOwnInvestigationsReceived$: Observable<View<number>>;
+  public readonly numberOfOwnInvestigationsCreated$: Observable<View<number>>;
+  public readonly numberOfOwnAlertsReceived$: Observable<View<number>>;
+  public readonly numberOfOwnAlertsCreated$: Observable<View<number>>;
+
   public readonly investigationsReceived$: Observable<View<Notifications>>;
   public readonly investigationsCreated$: Observable<View<Notifications>>;
   public readonly alertsReceived$: Observable<View<Notifications>>;
@@ -56,7 +64,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public readonly alertLink: string;
   public readonly alertParams: Record<string, string>;
 
-  public metricData: {metricLabelKey: string,value: Observable<View<number>>,metricUnitLabelKey: string}[];
+  public partsMetricData: MetricData[];
+  public otherPartsMetricData: MetricData[];
+  public investigationsMetricData: MetricData[];
+  public investigationsCreatedMetricData: MetricData[];
+  public alertsMetricData: MetricData[];
+  public alertsCreatedMetricData: MetricData[];
+
 
   constructor(private readonly dashboardFacade: DashboardFacade, private readonly router: Router) {
     this.numberOfTotalMyParts$ = this.dashboardFacade.numberOfTotalMyParts$;
@@ -64,30 +78,69 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     this.numberOfInvestigations$ = this.dashboardFacade.numberOfMyPartsWithOpenInvestigations$;
 
+    this.numberOfOwnInvestigationsReceived$ = this.dashboardFacade.numberOfOwnOpenInvestigationsReceived$;
+    this.numberOfOwnInvestigationsCreated$ = this.dashboardFacade.numberOfOwnOpenInvestigationsCreated$;
+    this.numberOfOwnAlertsReceived$ = this.dashboardFacade.numberOfOwnOpenAlertsReceived$;
+    this.numberOfOwnAlertsCreated$ = this.dashboardFacade.numberOfOwnOpenAlertsCreated$;
+
+
     this.investigationsReceived$ = this.dashboardFacade.recentReceivedInvestigations$;
     this.investigationsCreated$ = this.dashboardFacade.recentCreatedInvestigations$;
     this.alertsReceived$ = this.dashboardFacade.recentReceivedAlerts$
     this.alertsCreated$ = this.dashboardFacade.recentCreatedAlerts$
 
-    const { link: investigationLink, queryParams: investigationQueryParams } = getRoute(INVESTIGATION_BASE_ROUTE, NotificationStatusGroup.RECEIVED);
-    const { link: alertLink, queryParams: alertQueryParams } = getRoute(ALERT_BASE_ROUTE, NotificationStatusGroup.RECEIVED);
+    const {link: investigationLink, queryParams: investigationQueryParams} = getRoute(INVESTIGATION_BASE_ROUTE, NotificationStatusGroup.RECEIVED);
+    const {link: alertLink, queryParams: alertQueryParams} = getRoute(ALERT_BASE_ROUTE, NotificationStatusGroup.RECEIVED);
     this.investigationLink = investigationLink;
     this.investigationParams = investigationQueryParams;
     this.alertLink = alertLink;
     this.alertParams = alertQueryParams;
 
-    this.metricData = [
+    this.partsMetricData = [
       {
-        metricLabelKey: 'numberOfTotalMyParts',
+        metricName: 'totalAmount',
         value: this.numberOfTotalMyParts$,
-        metricUnitLabelKey: 'parts'
+        metricUnit: 'parts'
+      }
+
+    ]
+
+    this.otherPartsMetricData = [
+      {
+        metricName: 'totalAmount',
+        value: this.numberOfTotalOtherParts$,
+        metricUnit: 'parts'
+      }
+    ];
+
+    this.investigationsMetricData = [
+      {
+        metricName: 'amountReceived',
+        value: this.numberOfOwnInvestigationsReceived$,
+        metricUnit: 'investigations'
       },
       {
-        metricLabelKey: 'numberOfTotalOtherParts',
-        value: this.numberOfTotalOtherParts$,
-        metricUnitLabelKey: 'parts'
+        metricName: 'amountCreated',
+        value: this.numberOfOwnInvestigationsCreated$,
+        metricUnit: 'investigations'
+      }
+    ];
+
+
+    this.alertsMetricData = [
+      {
+        metricName: 'amountReceived',
+        value: this.numberOfOwnAlertsReceived$,
+        metricUnit: 'alerts'
       },
-    ]
+      {
+        metricName: 'amountCreated',
+        value: this.numberOfOwnAlertsCreated$,
+        metricUnit: 'alerts'
+      }
+    ];
+
+
   }
 
   public ngOnInit(): void {
