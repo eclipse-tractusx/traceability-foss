@@ -122,6 +122,12 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository {
         return jpaAssetAsPlannedRepository.countAssetsByOwner(owner);
     }
 
+
+    @Override
+    public List<AssetAsPlannedEntity> findByOwner(Owner owner) {
+        return jpaAssetAsPlannedRepository.findByOwner(owner);
+    }
+
     @Override
     public List<String> getFieldValues(String fieldName, String startWith, Long resultLimit, String owner) {
         String databaseFieldName = toDatabaseName(fieldName);
