@@ -35,18 +35,19 @@ Then(/^select "one" other part$/, () => {
   cy.get('#mat-mdc-checkbox-38').click();
 });
 
-Then(/^start investigation creation with description {string}$/, (description) => {
-  notificationDescription = wrapStringWithTimestamp(input.get("description"));
+Then(/^start investigation creation with description {string}$/, function (description) {
+  //notificationDescription = wrapStringWithTimestamp(input.get("description"));
+  notificationDescription = "Test 123123 description";
   cy.get('div').should('contain.text', 'Start investigation').click();
   cy.get('mat-label').should('contain.text', 'Description').click().focus().type(notificationDescription);
 });
 
-When(/^severity {string}$/, (severity) => {
+When(/^severity {string}$/, function (severity) {
   cy.get('#mat-select-56').click(); // First the dropdown has to be opened.
   cy.get('#mat-select-56-panel').select(severity);  // Dropdown menu has own id.
 });
 
-When(/^{string} deadline$/, (deadline) => {
+When(/^{string} deadline$/, function (deadline) {
 //---TBD---
       if (deadline == 'no') {
         // do nothing
