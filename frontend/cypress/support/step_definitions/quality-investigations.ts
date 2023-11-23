@@ -31,7 +31,7 @@ Then("select {string} other part", (partAmount) => {
 //   cy.wait(500);
 //   cy.get('span').should('contain.text', 'NO-989134870198932317923938').parent('.row').as('part');
 //   cy.get('@part').get('#mat-mds-checkbox-21').click();
-  cy.get('div').contains('As Planned').click(); // see comment above. This has to be done to avoid asPlanned selection
+  cy.get('span').contains('As Planned').click(); // see comment above. This has to be done to avoid asPlanned selection
   cy.get('#mat-mdc-checkbox-38').click(); //---TBD--- this is only a method to make it run, has to be changed to selected part as above!
 });
 
