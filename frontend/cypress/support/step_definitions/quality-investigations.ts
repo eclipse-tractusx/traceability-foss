@@ -69,7 +69,7 @@ When("popup with information about queued investigation is shown", () => {
   cy.contains(/You queued an investigation for 1 part/i).should('be.visible');
 });
 
-When("user navigate to "queued quality investigation" with button in popup", () => {
+When("user navigate to {string} with button in popup", (popupClick) => {
   cy.get('a').contains('Go to Queue').click();
 });
 
