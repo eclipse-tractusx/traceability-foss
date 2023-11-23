@@ -154,7 +154,7 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
     }
 
     @Override
-    public List<String> getDistinctFilterValues(String fieldName, String startWith, Long size, String owner) {
+    public List<String> getDistinctFilterValues(String fieldName, String startWith, Long size, Owner owner) {
         if (isSupportedEnumType(fieldName)) {
             return getAssetEnumFieldValues(fieldName);
         }
