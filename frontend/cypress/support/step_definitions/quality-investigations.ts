@@ -26,7 +26,7 @@ import { QualityInvestigationsPage } from '../../integration/pages/QualityInvest
 
 let notificationDescription = null;
 
-Then(/^select "one" other part$/, () => {
+Then("select "one" other part$/, () => {
 //since IDs of desired asset are not shown in FE the selection has to be done by other number
 //   cy.wait(500);
 //   cy.get('span').should('contain.text', 'NO-989134870198932317923938').parent('.row').as('part');
@@ -42,12 +42,12 @@ Then("start investigation creation with description {string}", function (descrip
   cy.get('mat-label').contains('Description').click().type(description);
 });
 
-When(/^severity {string}$/, function (severity) {
+When("severity {string}", function (severity) {
   cy.get('#mat-select-56').click(); // First the dropdown has to be opened.
   cy.get('#mat-select-56-panel').select(severity);  // Dropdown menu has own id.
 });
 
-When(/^{string} deadline$/, function (deadline) {
+When("{string} deadline", function (deadline) {
 //---TBD---
       if (deadline == 'no') {
         // do nothing
@@ -56,24 +56,24 @@ When(/^{string} deadline$/, function (deadline) {
       }
 });
 
-When(/^request the investigation$/, () => {
+When("request the investigation", () => {
   cy.get('span').contains('ADD TO QUEUE').click();
 });
 
-Then(/^selected parts are marked as investigated$/, () => {
+Then("selected parts are marked as investigated", () => {
   cy.get('class').contains('highlighted');
   //---TBD--- to check the desired assets, have to be adjusted with desired asset selection
 });
 
-When(/^popup with information about queued investigation is shown$/, () => {
+When("popup with information about queued investigation is shown", () => {
   cy.contains(/You queued an investigation for 1 part/i).should('be.visible');
 });
 
-When(/^user navigate to "queued quality investigation" with button in popup$/, () => {
+When("user navigate to "queued quality investigation" with button in popup", () => {
   cy.get('a').contains('Go to Queue').click();
 });
 
-When(/^open details of created investigation$/, () => {
+When("open details of created investigation", () => {
   cy.get('p').should('contain.text', notificationDescription).parent('.row').get('[class="mat-mdc-button-touch-target"]').click()
   cy.get('span').contains('View details').click();
 });
@@ -82,7 +82,7 @@ When(/^open details of created investigation$/, () => {
 // #include: check popup (id, description, status, created, createdby, texts, buttons (cancel, approve), then click on Delete
 // #check: Deletion is only possible after entering the expected id
 // #check: popup on the right sight is shown
-When(/^user cancel selected investigation with entering {string} id$/, (input) => {
+When("user cancel selected investigation with entering {string} id", (input) => {
   let investigationId = '';
   switch (input) {
     case 'no': {
@@ -103,7 +103,7 @@ When(/^user cancel selected investigation with entering {string} id$/, (input) =
   }
 });
 
-Then(/^cancelation is not possible due to {string} id$/, (id) => {
+Then("cancelation is not possible due to {string} id", (id) => {
   switch (id) {
     case 'no': {
       cy.contains(/This field is required!/i).should('be.visible');
@@ -116,11 +116,11 @@ Then(/^cancelation is not possible due to {string} id$/, (id) => {
   }
 });
 
-Then(/^informations for selected investigation are displayed as expected$/, () => {
+Then("informations for selected investigation are displayed as expected", () => {
 // ---TBD--- include: overview, supplier parts, STATUS
 });
 
-Then(/^selected {string} has been {string} as expected$/, (notificationType, expectedStatus) => {
+Then("selected {string} has been {string} as expected", (notificationType, expectedStatus) => {
 matched = false;
     switch (expectedStatus) {
       case 'canceled': {
@@ -160,7 +160,7 @@ matched = false;
     }
 });
 
-When(/^selected {string} is not allowed to be {string}$/, (notificationType, status) => {
+When("selected {string} is not allowed to be {string}", (notificationType, status) => {
 matched = false;
     switch (status) {
       case 'canceled': {
