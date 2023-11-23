@@ -19,7 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {DashboardStats, DashboardStatsResponse} from '../model/dashboard.model';
+import { DashboardStats, DashboardStatsResponse } from '../model/dashboard.model';
 
 export class DashboardAssembler {
   public static assembleDashboard(dashboard: DashboardStatsResponse): DashboardStats {
@@ -38,7 +38,7 @@ export class DashboardAssembler {
 
       // calculated
       totalOwnParts: dashboard.asBuiltOwnParts + dashboard.asPlannedOwnParts,
-      totalOtherParts: dashboard.asBuiltSupplierParts + dashboard.asBuiltCustomerParts,
+      totalOtherParts: dashboard.asBuiltSupplierParts + dashboard.asBuiltCustomerParts + dashboard.asPlannedSupplierParts + dashboard.asPlannedSupplierParts,
       ownOpenInvestigationsReceived: dashboard.myPartsWithOpenInvestigations,
       ownOpenInvestigationsCreated: dashboard.supplierPartsWithOpenInvestigations + dashboard.customerPartsWithOpenInvestigations,
       ownOpenAlertsReceived: dashboard.supplierPartsWithOpenAlerts + dashboard.customerPartsWithOpenAlerts,

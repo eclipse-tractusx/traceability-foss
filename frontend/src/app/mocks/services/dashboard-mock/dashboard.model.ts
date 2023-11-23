@@ -19,22 +19,22 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {DashboardStatsResponse} from '@page/dashboard/model/dashboard.model';
+import { DashboardStatsResponse } from '@page/dashboard/model/dashboard.model';
 
 export const mockDashboardStats: DashboardStatsResponse = {
   // notification counts (where open means notficaiton status not closed)
-  myPartsWithOpenAlerts: 10,
-  myPartsWithOpenInvestigations: 8,
+  myPartsWithOpenAlerts: 82,
+  myPartsWithOpenInvestigations: 33543,
   supplierPartsWithOpenAlerts: 3,
-  customerPartsWithOpenAlerts: 2,
-  supplierPartsWithOpenInvestigations: 6,
+  customerPartsWithOpenAlerts: 563,
+  supplierPartsWithOpenInvestigations: 4643,
   customerPartsWithOpenInvestigations: 12,
 
   // part counts
-  asBuiltCustomerParts: 612,
-  asPlannedCustomerParts: 5,
-  asBuiltSupplierParts: 500,
-  asPlannedSupplierParts: 5000,
-  asBuiltOwnParts: 20543,
+  asBuiltCustomerParts: 100,
+  asPlannedCustomerParts: 50,
+  asBuiltSupplierParts: 163000,
+  asPlannedSupplierParts: 2563,
+  asBuiltOwnParts: 5300000,
   asPlannedOwnParts: 11203
 };

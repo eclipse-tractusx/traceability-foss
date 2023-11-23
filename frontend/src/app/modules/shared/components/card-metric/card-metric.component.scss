@@ -1,5 +1,8 @@
 .metric-card-container {
-  width: 140px;
-  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 160px;
+  height: 110px;
   padding: 8px;
 }
