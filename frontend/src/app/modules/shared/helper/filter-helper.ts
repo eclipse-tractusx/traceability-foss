@@ -86,7 +86,7 @@ export function isStartsWithFilter(key: string): boolean {
 }
 
 export function isNotificationCountFilter(key: string): boolean {
-  return 'qualityAlertIdsInStatusActive' === key || 'qualityInvestigationIdsInStatusActive' === key;
+  return 'receivedQualityAlertIdsInStatusActive' === key || 'sentQualityAlertIdsInStatusActive' === key || 'receivedQualityInvestigationIdsInStatusActive' === key || 'sentQualityInvestigationIdsInStatusActive' === key;
 }
 
 export function isDateFilter(key: string): boolean {
@@ -108,12 +108,20 @@ export function toAssetFilter(formValues: any, isAsBuilt: boolean): AssetAsPlann
   // Loop through each form control and add it to the transformedFilter if it has a non-null and non-undefined value
   for (const key in formValues) {
     if (formValues[key] !== null && formValues[key] !== undefined) {
-      if ('activeAlerts' === key) {
-        transformedFilter['qualityAlertIdsInStatusActive'] = formValues[key];
+      if ('receivedActiveAlerts' === key) {
+        transformedFilter['receivedQualityAlertIdsInStatusActive'] = formValues[key];
         continue;
       }
-      if ('activeInvestigations' === key) {
-        transformedFilter['qualityInvestigationIdsInStatusActive'] = formValues[key];
+      if ('sentActiveAlerts' === key) {
+        transformedFilter['sentQualityAlertIdsInStatusActive'] = formValues[key];
+        continue;
+      }
+      if ('receivedActiveInvestigations' === key) {
+        transformedFilter['receivedQualityInvestigationIdsInStatusActive'] = formValues[key];
+        continue;
+      }
+      if ('sentActiveInvestigations' === key) {
+        transformedFilter['sentQualityInvestigationIdsInStatusActive'] = formValues[key];
         continue;
       }
       transformedFilter[key] = formValues[key];
