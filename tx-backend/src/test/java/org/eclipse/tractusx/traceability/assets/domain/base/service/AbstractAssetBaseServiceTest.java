@@ -28,7 +28,7 @@ class AbstractAssetBaseServiceTest {
         // given params
 
         // when
-        List<String> result = service.getDistinctFilterValues(fieldName, startWith, 10L, null);
+        List<String> result = service.getDistinctFilterValues(fieldName, startWith, 10, null);
 
         // then
         assertThat(result).containsAll(expectedValues);
@@ -40,7 +40,7 @@ class AbstractAssetBaseServiceTest {
         // given params
 
         // when
-        List<String> result = service.getDistinctFilterValues(fieldName, startWith, 10L, null);
+        List<String> result = service.getDistinctFilterValues(fieldName, startWith, 10, null);
 
         // then
         assertThat(result).containsAll(expectedValues);
