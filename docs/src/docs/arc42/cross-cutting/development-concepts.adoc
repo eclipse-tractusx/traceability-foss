@@ -48,3 +48,112 @@ Values can be overriden there to support the local dev environment.
 Other profiles should be avoided.
 Instead, the configuration can be overwritten using Spring's external configuration mechanism (see https://docs.spring.io/spring-boot/docs/2.1.9.RELEASE/reference/html/boot-features-external-config.html).
 The operator must have total control over the configuration of TraceX.
+
+== Java Style Guide
+
+We generally follow the link:https://google.github.io/styleguide/javaguide.html[Google Java Style Guide].
+
+== API Guide
+
+We generally follow the https://swagger.io/specification/
+
+== Unit and Functional Testing
+
+=== General Unit testing
+
+- Code coverage >= 80%
+- Writing methods which provide a response to be better testable (avoid void if feasible).
+- Naming of unit tests are as follows:
+
+    test_{method_under_test}_{scenario_description}() { ... }
+
+- Use given/when/then pattern for unit test structuring.
+E.g:
+
+    @Test
+    void test_isQualityNotificationOffer_returns_true() {
+        //GIVEN
+        //WHEN
+        //THEN
+    }
+
+=== Integration Testing
+
+Each public api should have at least two integration tests (positive / negative).
+
+== Clean Code
+
+We follow the rules and behaviour of: https://clean-code-developer.com/.
+
+== Secure Coding standards
+
+As there is no other guideline of C-X, we fix any Vulnerabilities, Exposures, Flaw detected by one of our SAST, DAST, Pentesting tools which is higher than "Very Low".
+
+image::../../../images/arc42/user-guide/vulnerability_level.png[]
+
+== TRACE-X Technical class responsibilities
+
+=== Controllers
+
+- Have only one dependency to a facade or a service or a validator annotation
+- Have no own logic
+- Including the swagger documentation annotations
+- For each controller exists and Integration Test class
+- Returns a ResponseEntity<T>
+
+=== DTO (Data Transfer Object)
+
+- Should be a public version of the domain object
+- It is a result of the transformation which will be done in the facade
+- Is not necessary if the domain object can be fully public
+- Is not allowed to be implemented in a repository or a DAO
+
+=== Facade
+
+* Responsible for transforming data objects (private) to data transfer objects (public)
+** Not necessary if the domain object is fully public
+* Should have multiple service classes injected
+* Returns a public object → Data Transfer Object
+* Can be implemented in a controller
+
+=== Service
+
+* Responsible for retrieving data from storage
+** Only if facade is not used will take care of transforming data objects (private) to data transfer objects (public)
+* Performs business logic
+* Can be a http client
+* Returns a jpaEntity → Domain Object
+* Can be implemented in a controller
+
+=== DAO (Data Access Object)
+
+* Please follow the common standard: https://www.oracle.com/java/technologies/data-access-object.html
+* Will be used when we need to write custom queries which cannot be added in the repository
+* Returns a jpaEntity → Domain Object
+* Is not allowed to be implemented in a controller
+
+=== Repository
+
+* The standard interface which extends JpaEntity
+* Returns a jpaEntity → Domain Object
+* Is not allowed to be implemented in a controller
+
+=== Domain Object (Entity Object?)
+
+* Is a JPA Entitiy which could be considered as public
+* Includes relations to other JPA Entities
+* Is well annotated to describe all aspects of the database model
+* Contains validation methods
+
+=== Config Object
+
+* Should have the suffix Config at the end of the class
+* Including beans which are automatically created by app startup
+
+=== Constructing objects
+
+* Using builder pattern
+** Currently we are using the constructor to create objects in our application.
+Main reason is probably to provide immutable objects.
+** As the handling with big loaded constructors is not easy and error prune, I would recommend using the builder pattern to have a clear understanding about what we creating at the point of implementation.
+* Using lombok for annotation processing
