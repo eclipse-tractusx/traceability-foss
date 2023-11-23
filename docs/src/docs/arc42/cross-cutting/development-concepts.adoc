@@ -1,1 +1,50 @@
 = Development concepts
+
+== Build, test, deploy
+
+TraceX is built using Maven and utilizes all the standard concepts of it.
+Test execution is part of the build process and a minimum test coverage of 80% is enforced.
+
+The project setup contains a multi-module Maven build.
+Commonly used classes (like the TraceX data model) should be extracted into a separate submodule and reused across the project.
+However, this is not a "one-size-fits-all" solution.
+New submodules should be created with care and require a review by the team.
+
+The Maven build alone only leads up to the JAR artifact of TraceX.
+Do create Docker images, the Docker build feature is used.
+This copies all resources into a builder image, builds the software and creates a final Docker image at the end that can then be deployed.
+
+Although the Docker image can be deployed in various ways, the standard solution are the provided Helm charts, which describe the required components as well.
+
+== Code generation
+
+There are two methods of code generation in TraceX:
+
+=== Lombok
+
+The Lombok library is heavily used to generate boilerplate code (like Constructors, Getters, Setters, Builders...).
+This way, code can be written faster and this boilerplate code is excluded from test coverage, which keeps the test base lean.
+
+=== Swagger / OpenAPI
+
+The API uses OpenAPI annotations to describe the endpoints with all necessary information.
+The annotations are then used to automatically generate the OpenAPI specification file, which can be viewed in the Swagger UI that is deployed with the application.
+
+The generated OpenAPI specification file is automatically compared to a fixed, stored version of it to avoid unwanted changes of the API.
+
+== Migration
+
+There currently is no data migration mechanism for TraceX.
+In case the model of the persisted data (Jobs) changes, data is dropped and Jobs will need to be recreated.
+
+== Configurability
+
+TraceX utilizes the configuration mechanism provided by Spring Boot.
+Configuration properties can be defined in the file `+src/main/resources/application.yml+`
+
+For local testing purposes, there is an additional configuration file called `+application-local.yml+`.
+Values can be overriden there to support the local dev environment.
+
+Other profiles should be avoided.
+Instead, the configuration can be overwritten using Spring's external configuration mechanism (see https://docs.spring.io/spring-boot/docs/2.1.9.RELEASE/reference/html/boot-features-external-config.html).
+The operator must have total control over the configuration of TraceX.
