@@ -33,9 +33,9 @@ describe('CustomerPartsComponent', () => {
 
   const renderCustomerParts = () =>
     renderComponent(CustomerPartsComponent, {
-      imports: [ OtherPartsModule ],
-      providers: [ { provide: OtherPartsState, useFactory: () => otherPartsState }, { provide: PartsState } ],
-      roles: [ 'admin', 'wip' ],
+      imports: [OtherPartsModule],
+      providers: [{ provide: OtherPartsState, useFactory: () => otherPartsState }, { provide: PartsState }],
+      roles: ['admin', 'wip'],
       componentInputs: {
         bomLifecycle: MainAspectType.AS_BUILT,
       },
@@ -61,8 +61,7 @@ describe('CustomerPartsComponent', () => {
     let nameHeader = await screen.findByText('table.column.name');
     fireEvent.click(nameHeader);
 
-    expect(customerPartsComponent['tableCustomerAsBuiltSortList']).toEqual([ [ 'name', 'asc' ] ]);
-
+    expect(customerPartsComponent['tableCustomerAsBuiltSortList']).toEqual([['name', 'asc']]);
   });
 
   it('should multisort after column name and semanticModelId', async () => {
@@ -94,46 +93,11 @@ describe('CustomerPartsComponent', () => {
     await waitFor(() => {
       fireEvent.click(semanticModelIdHeader);
     });
-    expect(customerPartsComponent['tableCustomerAsBuiltSortList']).toEqual([ [ 'name', 'asc' ], [ 'semanticModelId', 'desc' ] ]);
+    expect(customerPartsComponent['tableCustomerAsBuiltSortList']).toEqual([
+      ['name', 'asc'],
+      ['semanticModelId', 'desc'],
+    ]);
   });
-
-  it('should reset sorting on third click', async () => {
-    const { fixture } = await renderCustomerParts();
-    const customerPartsComponent = fixture.componentInstance;
-    customerPartsComponent.bomLifecycle = MainAspectType.AS_BUILT;
-    fixture.detectChanges();
-
-    let nameHeader = await screen.findByText('table.column.name');
-    fireEvent.click(nameHeader);
-    let semanticModelIdHeader = await screen.findByText('table.column.semanticModelId');
-
-    await waitFor(() => {
-      fireEvent.keyDown(semanticModelIdHeader, {
-        ctrlKey: true,
-        charCode: 17,
-      });
-    });
-    expect(customerPartsComponent['ctrlKeyState']).toBeTruthy();
-    await waitFor(() => {
-      fireEvent.click(semanticModelIdHeader);
-    });
-
-    await waitFor(() => {
-      fireEvent.keyUp(semanticModelIdHeader, {
-        ctrlKey: true,
-        charCode: 17,
-      });
-    });
-
-    await waitFor(() => {
-      fireEvent.click(semanticModelIdHeader);
-    });
-    await waitFor(() => {
-      fireEvent.click(semanticModelIdHeader);
-    });
-    expect(customerPartsComponent['tableCustomerAsBuiltSortList']).toEqual([]);
-  });
-
 
   it('should handle updateCustomerParts null', async () => {
     const { fixture } = await renderCustomerParts();
@@ -145,10 +109,8 @@ describe('CustomerPartsComponent', () => {
 
     customerPartsComponent.updateCustomerParts();
 
-
     expect(updateCustomerPartAsBuiltSpy).toHaveBeenCalledWith();
     expect(updateCustomerPartAsPlannedSpy).toHaveBeenCalledWith();
-
   });
 
   it('should handle updateCustomerParts including search', async () => {
@@ -162,10 +124,13 @@ describe('CustomerPartsComponent', () => {
     const search = 'test';
     customerPartsComponent.updateCustomerParts(search);
 
-
     expect(updateCustomerPartAsBuiltSpy).toHaveBeenCalledWith(0, 50, [], toGlobalSearchAssetFilter(search, true), true);
-    expect(updateCustomerPartAsPlannedSpy).toHaveBeenCalledWith(0, 50, [], toGlobalSearchAssetFilter(search, false), true);
-
+    expect(updateCustomerPartAsPlannedSpy).toHaveBeenCalledWith(
+      0,
+      50,
+      [],
+      toGlobalSearchAssetFilter(search, false),
+      true,
+    );
   });
-
 });

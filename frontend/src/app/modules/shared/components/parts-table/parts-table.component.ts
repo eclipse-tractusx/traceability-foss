@@ -40,7 +40,6 @@ import { MultiSelectAutocompleteComponent } from '@shared/components/multi-selec
 import {
   CreateHeaderFromColumns,
   PartTableType,
-  SortingOptions,
   TableConfig,
   TableEventConfig,
   TableHeaderSort,
@@ -63,7 +62,8 @@ export class PartsTableComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('tableElement', { read: ElementRef }) tableElementRef: ElementRef<HTMLElement>;
-  @ViewChildren(MultiSelectAutocompleteComponent) multiSelectAutocompleteComponents: QueryList<MultiSelectAutocompleteComponent>;
+  @ViewChildren(MultiSelectAutocompleteComponent)
+  multiSelectAutocompleteComponents: QueryList<MultiSelectAutocompleteComponent>;
   @Input() multiSelectActive = false;
 
   @Input() labelId: string;
@@ -291,8 +291,6 @@ export class PartsTableComponent implements OnInit {
   public filterConfiguration: any[];
   public displayedColumns: string[];
 
-  public sortingEvent: Record<string, SortingOptions> = {};
-
   filterFormGroup = new FormGroup({});
 
   public isDateElement(key: string) {
@@ -356,7 +354,7 @@ export class PartsTableComponent implements OnInit {
     'manufacturingCountry',
     'activeAlerts',
     'activeInvestigations',
-    'menu'
+    'menu',
   ];
 
   private readonly displayedColumnsAsPlannedForTable: string[] = [
@@ -375,7 +373,7 @@ export class PartsTableComponent implements OnInit {
     'catenaXSiteId',
     'functionValidFrom',
     'functionValidUntil',
-    'menu'
+    'menu',
   ];
 
   private readonly sortableColumnsAsBuilt: Record<string, boolean> = {
@@ -538,14 +536,8 @@ export class PartsTableComponent implements OnInit {
   private pageSize: number;
   private sorting: TableHeaderSort;
 
-
   ngAfterViewInit() {
     this.paginator._intl.itemsPerPageLabel = 'Show';
-  }
-
-  private setupSortingEvent(): void {
-    const sortingNames = Object.keys(this.tableConfig.sortableColumns);
-    sortingNames.forEach(sortName => (this.sortingEvent[sortName] = SortingOptions.NONE));
   }
 
   public triggerFilterAdding(): void {
@@ -560,29 +552,23 @@ export class PartsTableComponent implements OnInit {
     this.filterActivated.emit(filterValues);
   }
 
-  constructor(private readonly tableViewSettingsService: TableSettingsService, private dialog: MatDialog) { }
+  constructor(private readonly tableViewSettingsService: TableSettingsService, private dialog: MatDialog) {}
 
   public defaultColumns: string[];
 
   private tableViewConfig: TableViewConfig;
 
   ngOnInit() {
-    this.initializeTableViewSettings()
+    this.initializeTableViewSettings();
 
     this.tableViewSettingsService.getEvent().subscribe(() => {
       this.setupTableViewSettings();
-    })
+    });
     this.setupTableViewSettings();
-
-    if (this.tableConfig.sortableColumns) {
-      this.setupSortingEvent();
-    }
   }
 
   public getTooltip(column: string) {
-    return column === '!'
-      ? i18next.t('parts.openInvestigations')
-      : 'First click: sort in ascending order ↑ Second click: sort in descending order ↓ Third click:  reset sorting';
+    return column === '!' ? i18next.t('parts.openInvestigations') : i18next.t('table.sortTooltip');
   }
 
   private setupTableConfigurations(
@@ -615,12 +601,24 @@ export class PartsTableComponent implements OnInit {
       // if yes, check if there is a table-setting for this table type
       if (settingsList[this.tableType]) {
         // if yes, get the effective displayedcolumns from the settings and set the tableconfig after it.
-        this.setupTableConfigurations(settingsList[this.tableType].columnsForTable, settingsList[this.tableType].filterColumnsForTable, this.tableViewConfig.sortableColumns, this.tableViewConfig.filterConfiguration, this.tableViewConfig.filterFormGroup);
+        this.setupTableConfigurations(
+          settingsList[this.tableType].columnsForTable,
+          settingsList[this.tableType].filterColumnsForTable,
+          this.tableViewConfig.sortableColumns,
+          this.tableViewConfig.filterConfiguration,
+          this.tableViewConfig.filterFormGroup,
+        );
       } else {
         // if no, create new a table setting for this.tabletype and put it into the list. Additionally, intitialize default table configuration
         settingsList[this.tableType] = this.getSettingsList();
         this.tableViewSettingsService.storeTableSettings(this.tableType, settingsList);
-        this.setupTableConfigurations(this.tableViewConfig.displayedColumnsForTable, this.tableViewConfig.displayedColumns, this.tableViewConfig.sortableColumns, this.tableViewConfig.filterConfiguration, this.tableViewConfig.filterFormGroup);
+        this.setupTableConfigurations(
+          this.tableViewConfig.displayedColumnsForTable,
+          this.tableViewConfig.displayedColumns,
+          this.tableViewConfig.sortableColumns,
+          this.tableViewConfig.filterConfiguration,
+          this.tableViewConfig.filterFormGroup,
+        );
       }
     } else {
       // if no, create new list and a settings entry for this.tabletype with default values and set correspondingly the tableconfig
@@ -629,11 +627,17 @@ export class PartsTableComponent implements OnInit {
           columnsForDialog: this.tableViewConfig.displayedColumnsForTable,
           columnSettingsOptions: this.getDefaultColumnVisibilityMap(),
           columnsForTable: this.tableViewConfig.displayedColumnsForTable,
-          filterColumnsForTable: this.tableViewConfig.displayedColumns
-        }
-      }
+          filterColumnsForTable: this.tableViewConfig.displayedColumns,
+        },
+      };
       this.tableViewSettingsService.storeTableSettings(this.tableType, newTableSettingsList);
-      this.setupTableConfigurations(this.tableViewConfig.displayedColumnsForTable, this.tableViewConfig.displayedColumns, this.tableViewConfig.sortableColumns, this.tableViewConfig.filterConfiguration, this.tableViewConfig.filterFormGroup);
+      this.setupTableConfigurations(
+        this.tableViewConfig.displayedColumnsForTable,
+        this.tableViewConfig.displayedColumns,
+        this.tableViewConfig.sortableColumns,
+        this.tableViewConfig.filterConfiguration,
+        this.tableViewConfig.filterFormGroup,
+      );
     }
   }
 
@@ -642,8 +646,8 @@ export class PartsTableComponent implements OnInit {
       columnsForDialog: this.tableViewConfig.displayedColumnsForTable,
       columnSettingsOptions: this.getDefaultColumnVisibilityMap(),
       columnsForTable: this.tableViewConfig.displayedColumnsForTable,
-      filterColumnsForTable: this.tableViewConfig.displayedColumns
-    }
+      filterColumnsForTable: this.tableViewConfig.displayedColumns,
+    };
   }
 
   private getDefaultColumnVisibilityMap(): Map<string, boolean> {
@@ -662,8 +666,8 @@ export class PartsTableComponent implements OnInit {
           displayedColumnsForTable: this.displayedColumnsAsPlannedCustomerForTable,
           filterConfiguration: this.assetAsPlannedCustomerFilterConfiguration,
           filterFormGroup: this.assetAsPlannedCustomerFilterFormGroup,
-          sortableColumns: this.sortableColumnsAsPlannedCustomer
-        }
+          sortableColumns: this.sortableColumnsAsPlannedCustomer,
+        };
         break;
 
       // TODO add other table view configurations when they are implemented
@@ -677,8 +681,8 @@ export class PartsTableComponent implements OnInit {
           displayedColumnsForTable: this.displayedColumnsAsPlannedForTable,
           filterConfiguration: this.assetAsPlannedFilterConfiguration,
           filterFormGroup: this.assetAsPlannedFilterFormGroup,
-          sortableColumns: this.sortableColumnsAsPlanned
-        }
+          sortableColumns: this.sortableColumnsAsPlanned,
+        };
         break;
       case PartTableType.AS_PLANNED_SUPPLIER:
         this.tableViewConfig = {
@@ -686,8 +690,8 @@ export class PartsTableComponent implements OnInit {
           displayedColumnsForTable: this.displayedColumnsAsPlannedSupplierForTable,
           filterConfiguration: this.assetAsPlannedSupplierFilterConfiguration,
           filterFormGroup: this.assetAsPlannedSupplierFilterFormGroup,
-          sortableColumns: this.sortableColumnsAsPlannedSupplier
-        }
+          sortableColumns: this.sortableColumnsAsPlannedSupplier,
+        };
         break;
       case PartTableType.AS_BUILT_OWN:
         this.tableViewConfig = {
@@ -695,8 +699,8 @@ export class PartsTableComponent implements OnInit {
           displayedColumnsForTable: this.displayedColumnsAsBuiltForTable,
           filterConfiguration: this.assetAsBuiltFilterConfiguration,
           filterFormGroup: this.assetAsBuiltFilterFormGroup,
-          sortableColumns: this.sortableColumnsAsBuilt
-        }
+          sortableColumns: this.sortableColumnsAsBuilt,
+        };
         break;
       case PartTableType.AS_BUILT_CUSTOMER:
         this.tableViewConfig = {
@@ -704,8 +708,8 @@ export class PartsTableComponent implements OnInit {
           displayedColumnsForTable: this.displayedColumnsAsBuiltCustomerForTable,
           filterConfiguration: this.assetAsBuiltCustomerFilterConfiguration,
           filterFormGroup: this.assetAsBuiltCustomerFilterFormGroup,
-          sortableColumns: this.sortableColumnsAsBuiltCustomer
-        }
+          sortableColumns: this.sortableColumnsAsBuiltCustomer,
+        };
         break;
       case PartTableType.AS_BUILT_SUPPLIER:
         this.tableViewConfig = {
@@ -713,8 +717,8 @@ export class PartsTableComponent implements OnInit {
           displayedColumnsForTable: this.displayedColumnsAsBuiltSupplierForTable,
           filterConfiguration: this.assetAsBuiltSupplierFilterConfiguration,
           filterFormGroup: this.assetAsBuiltSupplierFilterFormGroup,
-          sortableColumns: this.sortableColumnsAsBuiltSupplier
-        }
+          sortableColumns: this.sortableColumnsAsBuiltSupplier,
+        };
         break;
     }
   }
@@ -877,13 +881,13 @@ export class PartsTableComponent implements OnInit {
     const config = new MatDialogConfig();
     config.autoFocus = false;
     config.data = {
-      title: "table.tableSettings.title",
-      panelClass: "custom",
+      title: 'table.tableSettings.title',
+      panelClass: 'custom',
       tableType: this.tableType,
       defaultColumns: this.tableViewConfig.displayedColumnsForTable,
-      defaultFilterColumns: this.tableViewConfig.displayedColumns
+      defaultFilterColumns: this.tableViewConfig.displayedColumns,
     };
-    this.dialog.open(TableSettingsComponent, config)
+    this.dialog.open(TableSettingsComponent, config);
   }
 
   public areAllRowsSelected(): boolean {
@@ -945,19 +949,6 @@ export class PartsTableComponent implements OnInit {
 
   public isSelected(row: unknown): boolean {
     return !!this.selection.selected.find(data => JSON.stringify(data) === JSON.stringify(row));
-  }
-
-  public sortingEventTrigger(column: string): void {
-    if (!this.sortingEvent[column]) {
-      return;
-    }
-    if (this.sortingEvent[column] === SortingOptions.NONE) {
-      this.sortingEvent[column] = SortingOptions.ASC;
-    } else if (this.sortingEvent[column] === SortingOptions.ASC) {
-      this.sortingEvent[column] = SortingOptions.DSC;
-    } else {
-      this.sortingEvent[column] = SortingOptions.NONE;
-    }
   }
 
   private addSelectedValues(newData: unknown[]): void {

@@ -30,10 +30,15 @@ import { Pagination } from '@core/model/pagination.model';
 import { RoleService } from '@core/user/role.service';
 import { TableSettingsService } from '@core/user/table-settings.service';
 import {
-  CreateHeaderFromColumns, MenuActionConfig, PartTableType, TableConfig, TableEventConfig, TableHeaderSort, TableFilter,
+  CreateHeaderFromColumns,
+  MenuActionConfig,
+  PartTableType,
+  TableConfig,
+  TableEventConfig,
+  TableHeaderSort,
+  TableFilter,
   FilterMethod,
   FilterInfo,
-  SortingOptions,
 } from '@shared/components/table/table.model';
 import { addSelectedValues, clearAllRows, clearCurrentRows, removeSelectedValues } from '@shared/helper/table-helper';
 import { TableViewConfig } from '../parts-table/table-view-config.model';
@@ -76,10 +81,12 @@ export class TableComponent {
     let menuActionsConfig: MenuActionConfig<unknown>[] = null;
 
     if (menuActions) {
-      if (!menuActions.some((action) => {
-        return action.label === viewDetailsLabel
-      })) {
-        menuActionsConfig = [viewDetailsMenuAction, ...menuActions]
+      if (
+        !menuActions.some(action => {
+          return action.label === viewDetailsLabel;
+        })
+      ) {
+        menuActionsConfig = [viewDetailsMenuAction, ...menuActions];
       } else {
         menuActionsConfig = menuActions;
       }
@@ -149,7 +156,6 @@ export class TableComponent {
   public isDataLoading: boolean;
   public selectedRow: Record<string, unknown>;
   public isMenuOpen: boolean;
-  public sortingEvent: Record<string, SortingOptions> = {};
 
   public filterConfiguration: any[];
   public displayedColumns: string[];
@@ -163,7 +169,11 @@ export class TableComponent {
   private _tableConfig: TableConfig;
   private tableViewConfig: TableViewConfig;
 
-  constructor(private readonly roleService: RoleService, private readonly tableSettingsService: TableSettingsService, private dialog: MatDialog) { }
+  constructor(
+    private readonly roleService: RoleService,
+    private readonly tableSettingsService: TableSettingsService,
+    private dialog: MatDialog,
+  ) {}
 
   ngOnInit() {
     this.initializeTableViewSettings();
@@ -171,19 +181,11 @@ export class TableComponent {
     if (this.tableConfig?.filterConfig?.length > 0) {
       this.setupFilterFormGroup();
     }
-    if (this.tableConfig?.sortableColumns) {
-      this.setupSortingEvent();
-    }
 
     this.tableSettingsService.getEvent().subscribe(() => {
       this.setupTableViewSettings();
-    })
+    });
     this.setupTableViewSettings();
-  }
-
-  setupSortingEvent(): void {
-    const sortingNames = Object.keys(this.tableConfig.sortableColumns);
-    sortingNames.forEach(sortName => (this.sortingEvent[sortName] = SortingOptions.NONE));
   }
 
   setupFilterFormGroup(): void {
@@ -241,7 +243,13 @@ export class TableComponent {
 
   private setupTableViewSettings() {
     if (!this.tableType) {
-      this.setupTableConfigurations(this.tableViewConfig.displayedColumnsForTable, this.tableViewConfig.displayedColumns, this.tableViewConfig.sortableColumns, this.tableViewConfig.filterConfiguration, this.tableViewConfig.filterFormGroup);
+      this.setupTableConfigurations(
+        this.tableViewConfig.displayedColumnsForTable,
+        this.tableViewConfig.displayedColumns,
+        this.tableViewConfig.sortableColumns,
+        this.tableViewConfig.filterConfiguration,
+        this.tableViewConfig.filterFormGroup,
+      );
       return;
     }
 
@@ -251,12 +259,24 @@ export class TableComponent {
       // if yes, check if there is a table-setting for this table type
       if (tableSettingsList[this.tableType]) {
         // if yes, get the effective displayedcolumns from the settings and set the tableconfig after it.
-        this.setupTableConfigurations(tableSettingsList[this.tableType].columnsForTable, tableSettingsList[this.tableType].filterColumnsForTable, this.tableViewConfig.sortableColumns, this.tableViewConfig.filterConfiguration, this.tableViewConfig.filterFormGroup);
+        this.setupTableConfigurations(
+          tableSettingsList[this.tableType].columnsForTable,
+          tableSettingsList[this.tableType].filterColumnsForTable,
+          this.tableViewConfig.sortableColumns,
+          this.tableViewConfig.filterConfiguration,
+          this.tableViewConfig.filterFormGroup,
+        );
       } else {
         // if no, create new a table setting for this.tabletype and put it into the list. Additionally, intitialize default table configuration
         tableSettingsList[this.tableType] = this.createSettingsList();
         this.tableSettingsService.storeTableSettings(this.tableType, tableSettingsList);
-        this.setupTableConfigurations(this.tableViewConfig.displayedColumnsForTable, this.tableViewConfig.displayedColumns, this.tableViewConfig.sortableColumns, this.tableViewConfig.filterConfiguration, this.tableViewConfig.filterFormGroup);
+        this.setupTableConfigurations(
+          this.tableViewConfig.displayedColumnsForTable,
+          this.tableViewConfig.displayedColumns,
+          this.tableViewConfig.sortableColumns,
+          this.tableViewConfig.filterConfiguration,
+          this.tableViewConfig.filterFormGroup,
+        );
       }
     } else {
       // if no, create new list and a settings entry for this.tabletype with default values and set correspondingly the tableconfig
@@ -265,11 +285,17 @@ export class TableComponent {
           columnsForDialog: this.tableViewConfig.displayedColumnsForTable,
           columnSettingsOptions: this.getDefaultColumnVisibilityMap(),
           columnsForTable: this.tableViewConfig.displayedColumnsForTable,
-          filterColumnsForTable: this.tableViewConfig.displayedColumns
-        }
-      }
+          filterColumnsForTable: this.tableViewConfig.displayedColumns,
+        },
+      };
       this.tableSettingsService.storeTableSettings(this.tableType, newTableSettingsList);
-      this.setupTableConfigurations(this.tableViewConfig.displayedColumnsForTable, this.tableViewConfig.displayedColumns, this.tableViewConfig.sortableColumns, this.tableViewConfig.filterConfiguration, this.tableViewConfig.filterFormGroup);
+      this.setupTableConfigurations(
+        this.tableViewConfig.displayedColumnsForTable,
+        this.tableViewConfig.displayedColumns,
+        this.tableViewConfig.sortableColumns,
+        this.tableViewConfig.filterConfiguration,
+        this.tableViewConfig.filterFormGroup,
+      );
     }
   }
 
@@ -278,11 +304,17 @@ export class TableComponent {
       columnsForDialog: this.tableViewConfig.displayedColumnsForTable,
       columnSettingsOptions: this.getDefaultColumnVisibilityMap(),
       columnsForTable: this.tableViewConfig.displayedColumnsForTable,
-      filterColumnsForTable: this.tableViewConfig.displayedColumns
-    }
+      filterColumnsForTable: this.tableViewConfig.displayedColumns,
+    };
   }
 
-  private setupTableConfigurations(displayedColumnsForTable: string[], displayedColumns: string[], sortableColumns: Record<string, boolean>, filterConfiguration: any[], filterFormGroup: any): any {
+  private setupTableConfigurations(
+    displayedColumnsForTable: string[],
+    displayedColumns: string[],
+    sortableColumns: Record<string, boolean>,
+    filterConfiguration: any[],
+    filterFormGroup: any,
+  ): any {
     const headerKey = 'table.column';
 
     this.tableConfig = {
@@ -319,7 +351,7 @@ export class TableComponent {
         filterConfiguration: this.tableConfig.filterConfig,
         filterFormGroup: undefined,
         sortableColumns: this.tableConfig.sortableColumns,
-      }
+      };
     }
   }
 
@@ -361,19 +393,6 @@ export class TableComponent {
     return !(filter.isDate || filter.isTextSearch);
   }
 
-  public sortingEventTrigger(column: string): void {
-    if (!this.sortingEvent[column]) {
-      return;
-    }
-    if (this.sortingEvent[column] === SortingOptions.NONE) {
-      this.sortingEvent[column] = SortingOptions.ASC;
-    } else if (this.sortingEvent[column] === SortingOptions.ASC) {
-      this.sortingEvent[column] = SortingOptions.DSC;
-    } else {
-      this.sortingEvent[column] = SortingOptions.NONE;
-    }
-  }
-
   private emitMultiSelect(): void {
     this.multiSelect.emit(this.selection.selected);
   }
@@ -394,12 +413,12 @@ export class TableComponent {
     const config = new MatDialogConfig();
     config.autoFocus = false;
     config.data = {
-      title: "table.tableSettings.title",
-      panelClass: "custom",
+      title: 'table.tableSettings.title',
+      panelClass: 'custom',
       tableType: this.tableType,
       defaultColumns: this.tableViewConfig.displayedColumnsForTable,
-      defaultFilterColumns: this.tableViewConfig.displayedColumns
+      defaultFilterColumns: this.tableViewConfig.displayedColumns,
     };
-    this.dialog.open(TableSettingsComponent, config)
+    this.dialog.open(TableSettingsComponent, config);
   }
 }

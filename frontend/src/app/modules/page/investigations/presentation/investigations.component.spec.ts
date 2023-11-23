@@ -49,7 +49,11 @@ describe('InvestigationsComponent', () => {
 
   it('should call change pagination of received investigations', async () => {
     await renderInvestigations();
-    fireEvent.click(await waitFor(() => screen.getByLabelText('pagination.nextPageLabel', { selector: 'button' })));
+    fireEvent.click(
+      await waitFor(() => screen.getByLabelText('pagination.nextPageLabel', { selector: 'button' }), {
+        timeout: 10000,
+      }),
+    );
 
     expect(await waitFor(() => screen.getByText('Investigation No 84'))).toBeInTheDocument();
     expect(await waitFor(() => screen.getByText('Investigation No 11'))).toBeInTheDocument();
@@ -58,7 +62,9 @@ describe('InvestigationsComponent', () => {
   it('should call change pagination of queued & requested investigations', async () => {
     await renderInvestigations();
 
-    fireEvent.click(await waitFor(() => screen.getByText('commonInvestigation.tabs.queuedAndRequested')));
+    fireEvent.click(await waitFor(() => screen.getByText('commonInvestigation.tabs.queuedAndRequested')), {
+      timeout: 10000,
+    });
 
     fireEvent.click(await waitFor(() => screen.getByLabelText('pagination.nextPageLabel', { selector: 'button' })));
 
@@ -68,93 +74,83 @@ describe('InvestigationsComponent', () => {
 
   it('should sort received investigations after column status', async () => {
     const { fixture } = await renderInvestigations();
-    const investigationComponent =  fixture.componentInstance;
+    const investigationComponent = fixture.componentInstance;
 
-    let setTableFunctionSpy = spyOn<any>(investigationComponent, "setTableSortingList").and.callThrough();
-    let statusColumnHeader = await screen.findByText('table.column.status');
-    await waitFor(() => {fireEvent.click(statusColumnHeader);}, {timeout: 3000});
+    let setTableFunctionSpy = spyOn<any>(investigationComponent, 'setTableSortingList').and.callThrough();
+    let statusColumnHeader = await screen.findByText('table.column.status', undefined, { timeout: 10000 });
+    await waitFor(
+      () => {
+        fireEvent.click(statusColumnHeader);
+      },
+      { timeout: 10000 },
+    );
 
+    expect(setTableFunctionSpy).toHaveBeenCalledWith(['status', 'asc'], 'received');
 
-    expect(setTableFunctionSpy).toHaveBeenCalledWith(['status', 'asc'], "received" );
-
-    expect(investigationComponent['investigationReceivedSortList']).toEqual([["status", "asc"]]);
+    expect(investigationComponent['investigationReceivedSortList']).toEqual([['status', 'asc']]);
   });
 
   it('should sort queued and requested investigations after column status', async () => {
     const { fixture } = await renderInvestigations();
-    const investigationComponent =  fixture.componentInstance;
+    const investigationComponent = fixture.componentInstance;
 
     fireEvent.click(await waitFor(() => screen.getByText('commonInvestigation.tabs.queuedAndRequested')));
 
-    let setTableFunctionSpy = spyOn<any>(investigationComponent, "setTableSortingList").and.callThrough();
-    let statusColumnHeader = await screen.findByText('table.column.status');
-    await waitFor(() => {fireEvent.click(statusColumnHeader);}, {timeout: 3000});
+    let setTableFunctionSpy = spyOn<any>(investigationComponent, 'setTableSortingList').and.callThrough();
+    let statusColumnHeader = await screen.findByText('table.column.status', undefined, { timeout: 10000 });
+    await waitFor(
+      () => {
+        fireEvent.click(statusColumnHeader);
+      },
+      { timeout: 10000 },
+    );
 
+    expect(setTableFunctionSpy).toHaveBeenCalledWith(['status', 'asc'], 'queued-and-requested');
 
-    expect(setTableFunctionSpy).toHaveBeenCalledWith(['status', 'asc'], "queued-and-requested" );
-
-    expect(investigationComponent['investigationQueuedAndRequestedSortList']).toEqual([["status", "asc"]]);
+    expect(investigationComponent['investigationQueuedAndRequestedSortList']).toEqual([['status', 'asc']]);
   });
-
 
   it('should multisort after column description and status', async () => {
     const { fixture } = await renderInvestigations();
-    const investigationsComponent =  fixture.componentInstance;
+    const investigationsComponent = fixture.componentInstance;
 
-    let setTableFunctionSpy = spyOn<any>(investigationsComponent, "setTableSortingList").and.callThrough();
-    let descriptionColumnHeader = await screen.findByText('table.column.description');
-    await waitFor(() => {fireEvent.click(descriptionColumnHeader);}, {timeout: 3000});
-    let statusHeader = await screen.findByText('table.column.status')
+    let setTableFunctionSpy = spyOn<any>(investigationsComponent, 'setTableSortingList').and.callThrough();
+    let descriptionColumnHeader = await screen.findByText('table.column.description', undefined, { timeout: 10000 });
+    await waitFor(
+      () => {
+        fireEvent.click(descriptionColumnHeader);
+      },
+      { timeout: 10000 },
+    );
+    let statusHeader = await screen.findByText('table.column.status', undefined, { timeout: 10000 });
 
-    await waitFor(() => {fireEvent.keyDown(statusHeader, {
-      ctrlKey: true,
-      charCode: 17
-    })})
+    await waitFor(() => {
+      fireEvent.keyDown(statusHeader, {
+        ctrlKey: true,
+        charCode: 17,
+      });
+    });
     expect(investigationsComponent['ctrlKeyState']).toBeTruthy();
     await waitFor(() => {
-      fireEvent.click(statusHeader)
+      fireEvent.click(statusHeader);
     });
-
-    await waitFor(() => {fireEvent.keyUp(statusHeader, {
-      ctrlKey: true,
-      charCode: 17
-    })})
-
-    await waitFor(() => {fireEvent.click(statusHeader)});
-
-
-    expect(setTableFunctionSpy).toHaveBeenCalledWith(['description', 'asc'], "received" );
-    expect(setTableFunctionSpy).toHaveBeenCalledWith(['status', 'asc'], "received" );
-    expect(investigationsComponent['investigationReceivedSortList']).toEqual([["description", "asc"], ["status", "desc"]]);
-  });
-
-  it('should reset sorting after third click', async () => {
-    const { fixture } = await renderInvestigations();
-    const investigationsComponent =  fixture.componentInstance;
-
-    let descriptionColumnHeader = await screen.findByText('table.column.description');
-    await waitFor(() => {fireEvent.click(descriptionColumnHeader);}, {timeout: 3000});
-    let statusColumnHeader = await screen.findByText('table.column.status')
-
-    await waitFor(() => {fireEvent.keyDown(statusColumnHeader, {
-      ctrlKey: true,
-      charCode: 17
-    })})
 
     await waitFor(() => {
-      fireEvent.click(statusColumnHeader)
+      fireEvent.keyUp(statusHeader, {
+        ctrlKey: true,
+        charCode: 17,
+      });
     });
 
-    await waitFor(() => {fireEvent.keyUp(statusColumnHeader, {
-      ctrlKey: true,
-      charCode: 17
-    })})
+    await waitFor(() => {
+      fireEvent.click(statusHeader);
+    });
 
-    await waitFor(() => {fireEvent.click(statusColumnHeader)});
-
-    await waitFor(() => {fireEvent.click(statusColumnHeader)});
-
-    expect(investigationsComponent['investigationReceivedSortList']).toEqual([]);
+    expect(setTableFunctionSpy).toHaveBeenCalledWith(['description', 'asc'], 'received');
+    expect(setTableFunctionSpy).toHaveBeenCalledWith(['status', 'asc'], 'received');
+    expect(investigationsComponent['investigationReceivedSortList']).toEqual([
+      ['description', 'asc'],
+      ['status', 'desc'],
+    ]);
   });
-
 });

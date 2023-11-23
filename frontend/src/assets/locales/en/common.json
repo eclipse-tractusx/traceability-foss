@@ -63,6 +63,7 @@
     "clearPage": "Clear page selections",
     "clearAll": "Clear all selections",
     "filterTitle": "Filter",
+    "sortTooltip": "First click: sort in ascending order ↑\nSecond click: sort in descending order ↓\nCtrl + click on another column: adding that column to the sorting list.\nEach following sorting column will decide over the order, if in the higher order item multiple items have the same value.",
     "adminColumn": {
       "startDate": "Start date",
       "registryLookupStatus": "Status",

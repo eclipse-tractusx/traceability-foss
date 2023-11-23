@@ -29,7 +29,7 @@ import {
 import { View } from '@shared/model/view.model';
 import { SharedModule } from '@shared/shared.module';
 import { TemplateModule } from '@shared/template.module';
-import { fireEvent, screen, within } from '@testing-library/angular';
+import { fireEvent, screen, within, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
@@ -65,6 +65,7 @@ describe('NotificationsInboxComponent', () => {
       data: { content: qarContent, page: 0, pageCount: 1, pageSize: 5, totalItems: 1 },
     }).pipe(delay(0));
     const menuActionsConfig = [];
+    const multiSortList = ['description', 'asc'];
 
     return renderComponent(
       `<app-notification
@@ -80,11 +81,12 @@ describe('NotificationsInboxComponent', () => {
         imports: [SharedModule, NotificationModule, TemplateModule],
         translations: ['common'],
         componentProperties: {
+          multiSortList,
           queuedAndRequestedNotifications$,
           receivedNotifications$,
           clickHandler,
           menuActionsConfig,
-          tablesType: [PartTableType.INVESTIGATIONS_RECEIVED, PartTableType.INVESTIGATIONS_SENT]
+          tablesType: [PartTableType.INVESTIGATIONS_RECEIVED, PartTableType.INVESTIGATIONS_SENT],
         },
       },
     );
@@ -93,13 +95,12 @@ describe('NotificationsInboxComponent', () => {
   it('should render received notifications', async () => {
     const component = await renderNotificationsInbox();
     component.detectChanges();
-    expect(await screen.findByText('Investigation No 1')).toBeInTheDocument();
+    expect(await screen.findByText('Investigation No 1', undefined, { timeout: 10000 })).toBeInTheDocument();
   });
 
   it('should render received notifications with date and status', async () => {
     await renderNotificationsInbox();
-
-    const descriptionEl = await screen.findByText('Investigation No 1');
+    const descriptionEl = await screen.findByText('Investigation No 1', undefined, { timeout: 10000 });
     const row = descriptionEl.closest('tr');
 
     expect(within(row).getByText('commonInvestigation.status.RECEIVED')).toBeInTheDocument();
@@ -107,16 +108,23 @@ describe('NotificationsInboxComponent', () => {
 
   it('should be able to change notifications page', async () => {
     await renderNotificationsInbox();
+    fireEvent.click(
+      await waitFor(() => screen.getByLabelText('pagination.nextPageLabel'), {
+        timeout: 10000,
+      }),
+    );
 
-    await screen.findByText('Investigation No 1');
-    fireEvent.click(screen.getByLabelText('pagination.nextPageLabel'));
-
-    expect(await screen.findByText('Investigation No 51')).toBeInTheDocument();
+    expect(await screen.findByText('Investigation No 51', undefined, { timeout: 10000 })).toBeInTheDocument();
   });
 
   it('should render queued & requested notifications', async () => {
     await renderNotificationsInbox();
-    fireEvent.click(screen.getByText('commonInvestigation.tabs.queuedAndRequested'));
-    expect(await screen.findByText('Investigation No 1')).toBeInTheDocument();
+
+    fireEvent.click(
+      await waitFor(() => screen.getByText('commonInvestigation.tabs.queuedAndRequested'), {
+        timeout: 10000,
+      }),
+    );
+    expect(await screen.findByText('Investigation No 1', undefined, { timeout: 10000 })).toBeInTheDocument();
   });
 });

@@ -17,7 +17,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { OtherPartsState } from '@page/other-parts/core/other-parts.state';
 import { OtherPartsModule } from '@page/other-parts/other-parts.module';
 import { PartsState } from '@page/parts/core/parts.state';
@@ -117,7 +116,6 @@ describe('SupplierPartsComponent', () => {
     fireEvent.click(nameHeader);
 
     expect(supplierPartsComponent['tableSupplierAsBuiltSortList']).toEqual([['name', 'asc']]);
-
   });
 
   it('should multisort after column name and semanticModelId', async () => {
@@ -149,44 +147,11 @@ describe('SupplierPartsComponent', () => {
     await waitFor(() => {
       fireEvent.click(semanticModelIdHeader);
     });
-    expect(supplierPartsComponent['tableSupplierAsBuiltSortList']).toEqual([['name', 'asc'], ['semanticModelId', 'desc']]);
+    expect(supplierPartsComponent['tableSupplierAsBuiltSortList']).toEqual([
+      ['name', 'asc'],
+      ['semanticModelId', 'desc'],
+    ]);
   });
-
-  it('should reset sorting on third click', async () => {
-    const { fixture } = await renderSupplierParts({ roles: ['admin'] });
-    const supplierPartsComponent = fixture.componentInstance;
-
-    let nameHeader = await screen.findByText('table.column.name');
-    fireEvent.click(nameHeader);
-    let semanticModelIdHeader = await screen.findByText('table.column.semanticModelId');
-
-    await waitFor(() => {
-      fireEvent.keyDown(semanticModelIdHeader, {
-        ctrlKey: true,
-        charCode: 17,
-      });
-    });
-    expect(supplierPartsComponent['ctrlKeyState']).toBeTruthy();
-    await waitFor(() => {
-      fireEvent.click(semanticModelIdHeader);
-    });
-
-    await waitFor(() => {
-      fireEvent.keyUp(semanticModelIdHeader, {
-        ctrlKey: true,
-        charCode: 17,
-      });
-    });
-
-    await waitFor(() => {
-      fireEvent.click(semanticModelIdHeader);
-    });
-    await waitFor(() => {
-      fireEvent.click(semanticModelIdHeader);
-    });
-    expect(supplierPartsComponent['tableSupplierAsBuiltSortList']).toEqual([]);
-  });
-
 
   it('should handle updateSupplierParts null', async () => {
     const { fixture } = await renderSupplierParts();
@@ -198,10 +163,8 @@ describe('SupplierPartsComponent', () => {
 
     supplierPartsComponent.updateSupplierParts();
 
-
     expect(updateSupplierPartAsBuiltSpy).toHaveBeenCalledWith();
     expect(updateSupplierPartAsPlannedSpy).toHaveBeenCalledWith();
-
   });
 
   it('should handle updateCustomerParts including search', async () => {
@@ -212,15 +175,16 @@ describe('SupplierPartsComponent', () => {
     const updateSupplierPartAsBuiltSpy = spyOn(otherPartsFacade, 'setSupplierPartsAsBuilt');
     const updateSupplierPartAsPlannedSpy = spyOn(otherPartsFacade, 'setSupplierPartsAsPlanned');
 
-
     const search = 'test';
     supplierPartsComponent.updateSupplierParts(search);
 
-
     expect(updateSupplierPartAsBuiltSpy).toHaveBeenCalledWith(0, 50, [], toGlobalSearchAssetFilter(search, true), true);
-    expect(updateSupplierPartAsPlannedSpy).toHaveBeenCalledWith(0, 50, [], toGlobalSearchAssetFilter(search, false), true);
-
+    expect(updateSupplierPartAsPlannedSpy).toHaveBeenCalledWith(
+      0,
+      50,
+      [],
+      toGlobalSearchAssetFilter(search, false),
+      true,
+    );
   });
-
-
 });

@@ -42,7 +42,7 @@ export class DashboardFacade {
     private readonly partsService: PartsService,
     private readonly investigationsService: InvestigationsService,
     private readonly alertsService: AlertsService,
-  ) { }
+  ) {}
 
   public get numberOfMyParts$(): Observable<View<number>> {
     return this.dashboardState.numberOfMyParts$;
@@ -87,7 +87,6 @@ export class DashboardFacade {
         this.dashboardState.setNumberOfOtherParts({ data: dashboardStats.otherParts });
         this.dashboardState.setNumberOfInvestigations({ data: dashboardStats.investigations || 0 });
         this.dashboardState.setNumberOfAlerts({ data: dashboardStats.alerts || 0 });
-
       },
       error: error => {
         this.dashboardState.setNumberOfMyParts({ error });
@@ -113,7 +112,7 @@ export class DashboardFacade {
 
   private setAlerts(): void {
     this.alertSubscription?.unsubscribe();
-    this.alertSubscription = this.alertsService.getReceivedAlerts(0, 5, null).subscribe({
+    this.alertSubscription = this.alertsService.getReceivedAlerts(0, 5, []).subscribe({
       next: data => this.dashboardState.setAlerts({ data }),
       error: (error: Error) => this.dashboardState.setAlerts({ error }),
     });

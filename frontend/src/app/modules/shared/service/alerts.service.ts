@@ -73,7 +73,7 @@ export class AlertsService {
     sorting: TableHeaderSort[],
     filtering?: TableFilter,
   ): Observable<Notifications> {
-    let sort = sorting ? sorting : ['createdDate,desc'];
+    let sort = sorting.length ? sorting : ['createdDate,desc'];
     let params = new HttpParams().set('page', page).set('size', pageSize);
     if (filtering) {
       params = addFilteringParams(filtering, params);
