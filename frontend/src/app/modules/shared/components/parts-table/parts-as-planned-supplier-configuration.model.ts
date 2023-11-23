@@ -32,7 +32,5 @@ export class PartsAsPlannedSupplierConfigurationModel extends TableFilterConfigu
         };
         super(sortableColumns);
     }
-
-
 }
 

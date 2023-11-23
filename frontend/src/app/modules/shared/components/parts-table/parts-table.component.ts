@@ -259,6 +259,7 @@ export class PartsTableComponent implements OnInit {
             sortableColumns: sortableColumns,
         };
 
+        console.log(this.tableConfig, "tableconfig");
         this.displayedColumns = displayedColumns;
         for (const controlName in filterFormGroup) {
             if (filterFormGroup.hasOwnProperty(controlName)) {

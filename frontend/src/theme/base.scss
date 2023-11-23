@@ -223,7 +223,6 @@ app-parts, app-other-parts, app-notifications-tab {
     border-radius: 24px 24px 0 0;
     background-color: rgba(0, 0, 0, 0.02);
     box-shadow: 0 3px 5px #888;
-    // box-shadow: 0 2px 2px -3px rgba(0, 0, 0, 0.2), 0px 4px 6px -1px rgba(0, 0, 0, 0.14), 0px 1px 8px -2px rgba(0, 0, 0, 0.12);
 
     .table-header-container {
       justify-content: center;
@@ -263,6 +262,26 @@ app-parts, app-other-parts, app-notifications-tab {
 
   }
 
+}
+
+/* Align icon with text centered*/
+app-table-settings{
+  .mat-mdc-checkbox label{
+    display:flex;
+    align-items:center;
+  }
+}
+
+/* Make sure multi-select text field does fit with other content and does not extend the column width */
+app-multiselect{
+  .mat-mdc-form-field{
+    width:100%;
+  }
+}
+
+/* Make sure multi-select text field does fit with other content and does not extend the column width */
+app-multiselect .mdc-text-field--no-label:not(.mdc-text-field--outlined):not(.mdc-text-field--textarea) .mat-mdc-form-field-infix{
+  width:100%;
 }
 
 /* Apply correct padding for text value inside of textarea*/

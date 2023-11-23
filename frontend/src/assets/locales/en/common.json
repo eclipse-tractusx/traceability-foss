@@ -64,7 +64,9 @@
       "selectAll": "All",
       "orderTooltip": "Table column order can be changed by selecting a column and move it up or down by clicking on the icon ↑ (up) or ↓ (down)",
       "refreshTooltip": "Reset individual table column settings to default",
-      "saveAction": "Save"
+      "saveAction": "Save",
+      "alert": "Quality Alert",
+      "investigation": "Quality Investigation"
     },
     "adminColumn": {
       "startDate": "Start date",
@@ -103,10 +105,10 @@
       "psFunction": "Function",
       "functionValidFrom": "Function valid from",
       "functionValidUntil" : "Function valid until",
-      "sentActiveAlerts" : "Active created Quality alerts",
-      "receivedActiveInvestigations" : "Active received Quality investigations",
-      "receivedActiveAlerts" : "Active received Quality alerts",
-      "sentActiveInvestigations" : "Active created Quality investigations"
+      "sentActiveAlerts" : "Created",
+      "receivedActiveInvestigations" : "Received",
+      "receivedActiveAlerts" : "Received",
+      "sentActiveInvestigations" : "Created"
     }
   },
   "dataLoading": {

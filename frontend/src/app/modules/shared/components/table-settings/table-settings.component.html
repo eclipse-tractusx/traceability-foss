@@ -63,6 +63,26 @@ SPDX-License-Identifier: Apache-2.0
       class="dialog--columns--columns--list"
     >
       {{'table.column.' + item | i18n}}
+
+      <ng-container *ngIf="item.includes('Alert')">
+                          <mat-icon matTooltip="{{'table.tableSettings.alert' | i18n}}"
+                                    matTooltipClass="table--header--tooltip"
+                                    matTooltipPosition="above"
+                                    [matTooltipShowDelay]="100"
+                                  class="table--notification--icon">notification_important</mat-icon>
+      </ng-container>
+      <ng-container *ngIf="item.includes('Investigations')">
+
+
+                          <mat-icon  matTooltip="{{'table.tableSettings.investigation' | i18n}}"
+                                     matTooltipClass="table--header--tooltip"
+                                     matTooltipPosition="above"
+                                     [matTooltipShowDelay]="100"
+                                  class="table--notification--icon">inbox</mat-icon>
+
+      </ng-container>
+
+
     </mat-checkbox>
     </ng-container>
 

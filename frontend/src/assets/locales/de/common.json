@@ -64,7 +64,9 @@
       "selectAll": "Alle",
       "orderTooltip": "Die Anordnung der Tabellenspalten kann über die Auswahl einer Spalte und einem Klick auf die Pfeilsymbole angepasst werden. ↑ (hoch) oder ↓ (runter)",
       "refreshTooltip": "Zurücksetzen der individuellen Einstellung der Tabellenspalten auf die Standardeinstellung",
-      "saveAction": "Speichern"
+      "saveAction": "Speichern",
+      "alert": "Qualitätswarnung",
+      "investigation": "Qualitätsuntersuchung"
     },
     "adminColumn": {
       "startDate": "Startdatum",
@@ -104,10 +106,10 @@
       "psFunction": "Funktion",
       "functionValidFrom": "Funktion gültig von",
       "functionValidUntil" : "Funktion gültig bis",
-      "sentActiveAlerts" : "Aktive erstellte Qualitätswarnungen",
-      "receivedActiveInvestigations" : "Aktive empfangene Qualitätsuntersuchungen",
-      "receivedActiveAlerts" : "Aktive empfangene Qualitätswarnungen",
-      "sentActiveInvestigations" : "Aktive erstellte Qualitätsuntersuchungen"
+      "sentActiveAlerts" : "Erstellte",
+      "receivedActiveInvestigations" : "Empfangene",
+      "receivedActiveAlerts" : "Empfangene",
+      "sentActiveInvestigations" : "Erstellte"
     }
   },
   "dataLoading": {

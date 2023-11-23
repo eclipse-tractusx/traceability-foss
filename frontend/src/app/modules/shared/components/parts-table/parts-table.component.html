@@ -176,9 +176,23 @@ SPDX-License-Identifier: Apache-2.0
                         mat-header-cell
                         class="table--cell table--header--normal--cell"
                 >
+                    <!-- This is the content of the first header row -->
                     <ng-container
                             *ngIf="tableConfig?.header?.[column]; else pureColumn"
                     >{{ tableConfig?.header?.[column] | i18n }}
+<ng-container *ngIf="tableConfig?.header?.[column].includes('Alerts')">
+         <span class="table--notification--cell--content--icon">
+                          <mat-icon class="table--notification--icon">notification_important</mat-icon>
+                          </span>
+</ng-container>
+
+                        <ng-container *ngIf="tableConfig?.header?.[column].includes('Investigations')">
+         <span class="table--notification--cell--content--icon">
+                          <mat-icon class="table--notification--icon">inbox</mat-icon>
+                          </span>
+                        </ng-container>
+
+
                         <ng-container *ngIf="multiSortList && multiSortList.length >1">
                             <ng-container *ngFor="let item of multiSortList; let i = index">
                                 <!-- Replace 'columnToMatch' with the specific column name you want to match -->
