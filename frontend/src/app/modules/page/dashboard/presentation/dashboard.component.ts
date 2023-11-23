@@ -19,22 +19,20 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Router} from '@angular/router';
-import {ALERT_BASE_ROUTE, getRoute, INVESTIGATION_BASE_ROUTE} from '@core/known-route';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { ALERT_BASE_ROUTE, getRoute, INVESTIGATION_BASE_ROUTE } from '@core/known-route';
+import { MetricData } from '@page/dashboard/presentation/dashboard.model';
 import {
   Notification,
   Notifications,
   NotificationStatusGroup,
   NotificationType,
 } from '@shared/model/notification.model';
-import {View} from '@shared/model/view.model';
-import {
-  CloseNotificationModalComponent
-} from '@shared/modules/notification/modal/close/close-notification-modal.component';
-import {Observable} from 'rxjs';
-import {DashboardFacade} from '../abstraction/dashboard.facade';
-import {MetricData} from "@page/dashboard/presentation/dashboard.model";
+import { View } from '@shared/model/view.model';
+import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
+import { Observable } from 'rxjs';
+import { DashboardFacade } from '../abstraction/dashboard.facade';
 
 @Component({
   selector: 'app-dashboard',
