@@ -182,13 +182,22 @@ SPDX-License-Identifier: Apache-2.0
                     >{{ tableConfig?.header?.[column] | i18n }}
 <ng-container *ngIf="tableConfig?.header?.[column].includes('Alerts')">
          <span class="table--notification--cell--content--icon">
-                          <mat-icon class="table--notification--icon">notification_important</mat-icon>
+                          <mat-icon matTooltip="{{'table.tableSettings.alert' | i18n}}"
+                                    matTooltipClass="table--header--tooltip"
+                                    matTooltipPosition="above"
+                                    [matTooltipShowDelay]="100"
+                                  class="table--notification--icon">notification_important</mat-icon>
                           </span>
 </ng-container>
 
                         <ng-container *ngIf="tableConfig?.header?.[column].includes('Investigations')">
          <span class="table--notification--cell--content--icon">
-                          <mat-icon class="table--notification--icon">inbox</mat-icon>
+                          <mat-icon matTooltip="{{'table.tableSettings.investigation' | i18n}}"
+                                    matTooltipClass="table--header--tooltip"
+                                    matTooltipPosition="above"
+                                    [matTooltipShowDelay]="100"
+
+                                  class="table--notification--icon">inbox</mat-icon>
                           </span>
                         </ng-container>
 
@@ -224,22 +233,38 @@ SPDX-License-Identifier: Apache-2.0
                         <ng-container [ngSwitch]="column">
                             <ng-container *ngSwitchCase="'receivedActiveAlerts'">
                           <span class="table--notification--cell--content--icon">
-                          <mat-icon class="table--notification--icon">notification_important</mat-icon>
+                          <mat-icon matTooltip="{{'table.tableSettings.alert' | i18n}}"
+                                    matTooltipClass="table--header--tooltip"
+                                    matTooltipPosition="above"
+                                    [matTooltipShowDelay]="100"
+                                  class="table--notification--icon">notification_important</mat-icon>
                           </span>
                             </ng-container>
                             <ng-container *ngSwitchCase="'sentActiveAlerts'">
                           <span class="table--notification--cell--content--icon">
-                          <mat-icon class="table--notification--icon">notification_important</mat-icon>
+                          <mat-icon matTooltip="{{'table.tableSettings.alert' | i18n}}"
+                                    matTooltipClass="table--header--tooltip"
+                                    matTooltipPosition="above"
+                                    [matTooltipShowDelay]="100"
+                                  class="table--notification--icon">notification_important</mat-icon>
                           </span>
                             </ng-container>
                             <ng-container *ngSwitchCase="'receivedActiveInvestigations'">
                           <span class="table--notification--cell--content--icon">
-                          <mat-icon class="table--notification--icon">inbox</mat-icon>
+                          <mat-icon matTooltip="{{'table.tableSettings.investigation' | i18n}}"
+                                    matTooltipClass="table--header--tooltip"
+                                    matTooltipPosition="above"
+                                    [matTooltipShowDelay]="100"
+                                  class="table--notification--icon">inbox</mat-icon>
                         </span>
                             </ng-container>
                             <ng-container *ngSwitchCase="'sentActiveInvestigations'">
                           <span class="table--notification--cell--content--icon">
-                          <mat-icon class="table--notification--icon">inbox</mat-icon>
+                          <mat-icon matTooltip="{{'table.tableSettings.investigation' | i18n}}"
+                                    matTooltipClass="table--header--tooltip"
+                                    matTooltipPosition="above"
+                                    [matTooltipShowDelay]="100"
+                                    class="table--notification--icon">inbox</mat-icon>
                         </span>
                             </ng-container>
                             <ng-container *ngSwitchCase="'manufacturingCountry'">
