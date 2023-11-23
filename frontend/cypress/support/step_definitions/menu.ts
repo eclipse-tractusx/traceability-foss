@@ -21,11 +21,6 @@
 
 import { Given, Then, When } from '@badeball/cypress-cucumber-preprocessor';
 
-// When("user navigate to {string}", function(desiredPage) {
-// // ---TBD--- add more selections: "Parts", "Quality Alerts"...
-//     cy.get('[href="/otherParts"]').click();
-//   });
-
 
 When("user navigate to {string}", function(desiredMenu) {
 matched = false;

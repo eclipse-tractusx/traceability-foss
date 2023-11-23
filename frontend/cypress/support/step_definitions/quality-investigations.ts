@@ -35,11 +35,11 @@ Then(/^select "one" other part$/, () => {
   cy.get('#mat-mdc-checkbox-38').click();
 });
 
-Then(/^start investigation creation with description {string}$/, function (description) {
+Then("start investigation creation with description {string}", function (description) {
   //notificationDescription = wrapStringWithTimestamp(input.get("description"));
-  notificationDescription = "Test 123123 description";
+  //notificationDescription = "Test 123123 description";
   cy.get('div').should('contain.text', 'Start investigation').click();
-  cy.get('mat-label').should('contain.text', 'Description').click().focus().type(notificationDescription);
+  cy.get('mat-label').should('contain.text', 'Description').click().focus().type(description);
 });
 
 When(/^severity {string}$/, function (severity) {
