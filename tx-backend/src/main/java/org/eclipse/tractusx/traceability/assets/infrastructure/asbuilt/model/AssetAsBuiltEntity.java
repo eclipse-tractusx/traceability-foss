@@ -42,6 +42,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetB
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.SemanticDataModelEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
+import org.hibernate.annotations.Formula;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -57,7 +58,7 @@ import static org.eclipse.tractusx.traceability.common.date.DateUtil.toInstant;
 @SuperBuilder
 @Table(name = "assets_as_built")
 public class AssetAsBuiltEntity extends AssetBaseEntity {
-
+    private static final String ACTIVE_STATUSES = "'CREATED', 'SENT', 'RECEIVED', 'ACKNOWLEDGED', 'ACCEPTED', 'DECLINED'";
     private Instant manufacturingDate;
     private String manufacturingCountry;
     private String manufacturerId;
@@ -84,6 +85,14 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
 
     @ManyToMany(mappedBy = "assets")
     private List<AlertEntity> alerts = new ArrayList<>();
+
+    @Formula("(SELECT COUNT(*) FROM assets_as_built_alerts a INNER JOIN alert b ON a.alert_id=b.id " +
+            "WHERE a.asset_id = id AND b.status IN (" + ACTIVE_STATUSES + "))")
+    private Integer noOfActiveAlerts;
+
+    @Formula("(SELECT COUNT(*) FROM assets_as_built_investigations a INNER JOIN investigation b ON a.investigation_id=b.id " +
+            "WHERE a.asset_id = id AND b.status IN (" + ACTIVE_STATUSES + "))")
+    private Integer noOfActiveInvestigations;
 
     public static AssetAsBuiltEntity from(AssetBase asset) {
         ManufacturingInfo manufacturingInfo = ManufacturingInfo.from(asset.getDetailAspectModels());

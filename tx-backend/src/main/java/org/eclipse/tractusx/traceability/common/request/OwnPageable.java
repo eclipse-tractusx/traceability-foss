@@ -82,6 +82,8 @@ public class OwnPageable {
         return switch(column) {
             case "status" -> "statusrank";
             case "notifications_status" -> "notifications_statusrank";
+            case "qualityAlertsInStatusActive" -> "noOfActiveAlerts";
+            case "qualityInvestigationsInStatusActive" -> "noOfActiveInvestigations";
             default -> column;
         };
     }
