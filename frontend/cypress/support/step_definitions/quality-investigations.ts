@@ -30,7 +30,7 @@ Then("select {string} other part", (partAmount) => {
 //since IDs of desired asset are not shown in FE the selection has to be done by other number
 //   cy.wait(500);
   //cy.get('span').contains('NO-989134870198932317923938').parent('.row').as('part');
-  cy.get('span').contains('NO-989134870198932317923938').parents('.mat-mdc-row mdc-data-table__row cdk-row ng-star-inserted').get('#mat-mds-checkbox-21').click();
+  cy.get('span').contains('NO-989134870198932317923938').parents('.mat-mdc-row mdc-data-table__row cdk-row ng-star-inserted').get('#mat-mdc-checkbox mat-primary').click();
   //cy.get('@part').get('#mat-mds-checkbox-21').click();
   //cy.get('span').contains('As Planned').click(); // see comment above. This has to be done to avoid asPlanned selection
   //cy.get('#mat-mdc-checkbox-38').click(); //---TBD--- this is only a method to make it run, has to be changed to selected part as above!
