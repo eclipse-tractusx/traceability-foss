@@ -73,10 +73,28 @@ export class AlertsComponent {
     }
 
   public ngOnInit(): void {
+
     this.paramSubscription = this.route.queryParams.subscribe(params => {
-      this.pagination.page = params?.pageNumber;
-      this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize, this.alertReceivedSortList);
-      this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize, this.alertQueuedAndRequestedSortList);
+      if (params.deeplink){
+        this.pagination.page = 0;
+        if (params.received === 'true' && params?.notificationIds?.length > 0) {
+          console.log("Received");
+          const filter = {notificationIds: params.notificationIds};
+          this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize, this.alertReceivedSortList, filter);
+          this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize, this.alertQueuedAndRequestedSortList);
+        }
+        if (params.received === 'false' && params?.notificationIds?.length > 0) {
+          console.log("Sent");
+          const filter = {notificationIds: params.notificationIds};
+          this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize, this.alertQueuedAndRequestedSortList, filter);
+          this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize, this.alertReceivedSortList);
+        }
+      } else {
+        this.pagination.page = params?.pageNumber;
+        this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize, this.alertReceivedSortList);
+        this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize, this.alertQueuedAndRequestedSortList);
+      }
+
     })
   }
 

@@ -26,7 +26,9 @@ import { View } from '@shared/model/view.model';
 import { InvestigationsService } from '@shared/service/investigations.service';
 import { Observable, Subscription } from 'rxjs';
 import { InvestigationsState } from './investigations.state';
-import {InvestigationFilter} from "../../../../mocks/services/investigations-mock/investigations.model";
+import {
+  NotificationFilter
+} from "../../../../mocks/services/investigations-mock/investigations.model";
 
 @Injectable()
 export class InvestigationsFacade {
@@ -50,7 +52,7 @@ export class InvestigationsFacade {
     return this.investigationsService.getInvestigation(id);
   }
 
-  public setReceivedInvestigation(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: InvestigationFilter): void {
+  public setReceivedInvestigation(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: NotificationFilter): void {
     this.investigationReceivedSubscription?.unsubscribe();
     this.investigationReceivedSubscription = this.investigationsService
       .getReceivedInvestigations(page, pageSize, sorting, filter)
@@ -60,10 +62,10 @@ export class InvestigationsFacade {
       });
   }
 
-  public setQueuedAndRequestedInvestigations(page = 0, pageSize = 50, sorting: TableHeaderSort[] = []): void {
+  public setQueuedAndRequestedInvestigations(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: NotificationFilter): void {
     this.investigationQueuedAndRequestedSubscription?.unsubscribe();
     this.investigationQueuedAndRequestedSubscription = this.investigationsService
-      .getCreatedInvestigations(page, pageSize, sorting, )
+      .getCreatedInvestigations(page, pageSize, sorting, filter)
       .subscribe({
         next: data => (this.investigationsState.investigationsQueuedAndRequested = { data }),
         error: (error: Error) => (this.investigationsState.investigationsQueuedAndRequested = { error }),

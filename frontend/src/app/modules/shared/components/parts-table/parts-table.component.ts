@@ -67,7 +67,7 @@ import {
     PartsAsPlannedCustomerConfigurationModel
 } from "@shared/components/parts-table/parts-as-planned-customer-configuration.model";
 import {Router} from "@angular/router";
-import {INVESTIGATION_BASE_ROUTE} from "@core/known-route";
+import {ALERT_BASE_ROUTE, INVESTIGATION_BASE_ROUTE} from "@core/known-route";
 
 
 @Component({
@@ -164,10 +164,39 @@ export class PartsTableComponent implements OnInit {
     public tableViewConfig: TableViewConfig;
 
 
-    public deeplinkToNotification(column: any){
-        console.log(column, "col");
-        this.router.navigate([INVESTIGATION_BASE_ROUTE], { queryParams: { deeplink: true } })
+    public deeplinkToNotification(column: any, notificationId: string[]) {
+        let route;
+        let received;
+        let tabIndex;
+        switch (column) {
+            case "receivedActiveAlerts": {
+                received = true;
+                route = ALERT_BASE_ROUTE;
+                tabIndex = 0;
+                break;
+            }
+            case "sentActiveAlerts": {
+                received = false;
+                route = ALERT_BASE_ROUTE;
+                tabIndex = 1;
+                break;
+            }
+            case "receivedActiveInvestigations": {
+                received = true;
+                route = INVESTIGATION_BASE_ROUTE;
+                tabIndex = 0;
+                break;
+            }
+            case "sentActiveInvestigations": {
+                received = false;
+                route = INVESTIGATION_BASE_ROUTE;
+                tabIndex = 1;
+                break;
+            }
+        }
+        this.router.navigate([route], {queryParams: {tabIndex: tabIndex, deeplink: true, received: received, notificationIds: notificationId}})
     }
+
     public isNotificationCountColumn(column: any) {
         return column === 'receivedActiveAlerts' || column === 'sentActiveAlerts' || column === 'receivedActiveInvestigations' || column === 'sentActiveInvestigations';
     }
