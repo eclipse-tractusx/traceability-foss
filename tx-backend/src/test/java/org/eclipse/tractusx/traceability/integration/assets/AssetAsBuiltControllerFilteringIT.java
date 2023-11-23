@@ -26,6 +26,7 @@ import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecificatio
 import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationsSupport;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,8 @@ import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
+import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity.RECEIVER;
+import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity.SENDER;
 import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.ACCEPTED;
 import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.ACKNOWLEDGED;
 import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.CANCELED;
@@ -353,7 +356,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
         alertsSupport.storeAlertWithStatusAndAssets(CANCELED, List.of(assetAsBuilt), null);
         alertsSupport.storeAlertWithStatusAndAssets(CLOSED, List.of(assetAsBuilt), null);
 
-        final String filter = "qualityAlertIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,6,AND";
+        final String filter = "receivedQualityAlertIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,6,AND";
 
         // When
         given()
@@ -385,7 +388,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
         alertsSupport.storeAlertWithStatusAndAssets(CANCELED, List.of(assetAsBuilt), null);
         alertsSupport.storeAlertWithStatusAndAssets(CLOSED, List.of(assetAsBuilt), null);
 
-        final String filter = "qualityAlertIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,2,AND";
+        final String filter = "receivedQualityAlertIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,2,AND";
 
         // When
         given()
@@ -402,20 +405,60 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenAssetsWithInvestigations_whenGetAssetsWithActiveInvestigationCountFilter_thenReturnProperAssets() throws JoseException {
+    void givenAssetsWithInvestigations_whenGetAssetsWithActiveSentInvestigationCountFilter_thenReturnProperAssets() throws JoseException {
         // Given
         assetsSupport.defaultAssetsStored();
         AssetAsBuiltEntity assetAsBuilt = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").orElseThrow();
-        investigationsSupport.storeInvestigationWithStatusAndAssets(CREATED, List.of(assetAsBuilt), null);
-        investigationsSupport.storeInvestigationWithStatusAndAssets(SENT, List.of(assetAsBuilt), null);
-        investigationsSupport.storeInvestigationWithStatusAndAssets(RECEIVED, List.of(assetAsBuilt), null);
-        investigationsSupport.storeInvestigationWithStatusAndAssets(ACKNOWLEDGED, List.of(assetAsBuilt), null);
-        investigationsSupport.storeInvestigationWithStatusAndAssets(ACCEPTED, List.of(assetAsBuilt), null);
-        investigationsSupport.storeInvestigationWithStatusAndAssets(DECLINED, List.of(assetAsBuilt), null);
-        investigationsSupport.storeInvestigationWithStatusAndAssets(CANCELED, List.of(assetAsBuilt), null);
-        investigationsSupport.storeInvestigationWithStatusAndAssets(CLOSED, List.of(assetAsBuilt), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(CREATED, List.of(assetAsBuilt), null, SENDER);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(SENT, List.of(assetAsBuilt), null, SENDER);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(RECEIVED, List.of(assetAsBuilt), null, SENDER);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(ACKNOWLEDGED, List.of(assetAsBuilt), null, SENDER);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(ACCEPTED, List.of(assetAsBuilt), null, SENDER);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(DECLINED, List.of(assetAsBuilt), null, SENDER);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(CANCELED, List.of(assetAsBuilt), null, SENDER);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(CLOSED, List.of(assetAsBuilt), null, SENDER);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(CREATED, List.of(assetAsBuilt), null, RECEIVER);
 
-        final String filter = "qualityInvestigationIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,6,AND";
+        final String filter = "sentQualityInvestigationIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,6,AND";
+
+
+        // When
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .when()
+                .param("filter", filter)
+                .get("/api/assets/as-built")
+                .then()
+                .statusCode(200)
+                .assertThat()
+                .body("totalItems", equalTo(1));
+    }
+
+    @Test
+    void givenAssetsWithInvestigations_whenGetAssetsWithActiveReceivedInvestigationCountFilter_thenReturnProperAssets() throws JoseException {
+        // Given
+        assetsSupport.defaultAssetsStored();
+        AssetAsBuiltEntity assetAsBuilt = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").orElseThrow();
+        investigationsSupport.storeInvestigationWithStatusAndAssets(CREATED, List.of(assetAsBuilt), null, SENDER);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(SENT, List.of(assetAsBuilt), null, SENDER);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(RECEIVED, List.of(assetAsBuilt), null, SENDER);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(ACKNOWLEDGED, List.of(assetAsBuilt), null, SENDER);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(ACCEPTED, List.of(assetAsBuilt), null, RECEIVER);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(DECLINED, List.of(assetAsBuilt), null, SENDER);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(CANCELED, List.of(assetAsBuilt), null, SENDER);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(CLOSED, List.of(assetAsBuilt), null, SENDER);
+
+        investigationsSupport.storeInvestigationWithStatusAndAssets(CREATED, List.of(assetAsBuilt), null, RECEIVER);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(SENT, List.of(assetAsBuilt), null, RECEIVER);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(RECEIVED, List.of(assetAsBuilt), null, RECEIVER);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(ACKNOWLEDGED, List.of(assetAsBuilt), null, RECEIVER);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(ACCEPTED, List.of(assetAsBuilt), null, RECEIVER);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(DECLINED, List.of(assetAsBuilt), null, RECEIVER);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(CANCELED, List.of(assetAsBuilt), null, RECEIVER);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(CLOSED, List.of(assetAsBuilt), null, RECEIVER);
+
+        final String filter = "receivedQualityInvestigationIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,7,AND";
 
 
         // When
@@ -447,7 +490,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
         investigationsSupport.storeInvestigationWithStatusAndAssets(CANCELED, List.of(assetAsBuilt), null);
         investigationsSupport.storeInvestigationWithStatusAndAssets(CLOSED, List.of(assetAsBuilt), null);
 
-        final String filter = "qualityInvestigationIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,2,AND";
+        final String filter = "receivedQualityInvestigationIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,2,AND";
 
 
         // When
@@ -479,7 +522,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
         investigationsSupport.storeInvestigationWithStatusAndAssets(CANCELED, List.of(assetAsBuilt), null);
         investigationsSupport.storeInvestigationWithStatusAndAssets(CLOSED, List.of(assetAsBuilt), null);
 
-        final String filter = "qualityInvestigationIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,0,AND";
+        final String filter = "receivedQualityInvestigationIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,0,AND";
 
 
         // When
@@ -511,7 +554,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
         investigationsSupport.storeInvestigationWithStatusAndAssets(CANCELED, List.of(assetAsBuilt), null);
         investigationsSupport.storeInvestigationWithStatusAndAssets(CLOSED, List.of(assetAsBuilt), null);
 
-        final String filter = "qualityAlertIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,0,AND";
+        final String filter = "receivedQualityAlertIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,0,AND";
 
 
         // When
@@ -543,8 +586,8 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
         investigationsSupport.storeInvestigationWithStatusAndAssets(CANCELED, List.of(assetAsBuilt), null);
         investigationsSupport.storeInvestigationWithStatusAndAssets(CLOSED, List.of(assetAsBuilt), null);
 
-        final String filter1 = "qualityAlertIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,0,AND";
-        final String filter2 = "qualityInvestigationIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,2,AND";
+        final String filter1 = "receivedQualityAlertIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,0,AND";
+        final String filter2 = "receivedQualityInvestigationIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,2,AND";
 
 
         // When
@@ -554,6 +597,51 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
                 .when()
                 .param("filter", filter1)
                 .param("filter", filter2)
+                .get("/api/assets/as-built")
+                .then()
+                .statusCode(200)
+                .assertThat()
+                .body("totalItems", equalTo(1));
+    }
+
+    @Test
+    void givenAssetsWithInvestigations_whenGetAssetsWithActiveInvestigationCountFilter6_thenReturnProperAssets() throws JoseException {
+        // Given
+        assetsSupport.defaultAssetsStored();
+        AssetAsBuiltEntity assetAsBuilt = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").orElseThrow();
+        AssetAsBuiltEntity assetAsBuilt1 = jpaAssetAsBuiltRepository.findById("urn:uuid:7fa65f10-9dc1-49fe-818a-09c7313a4562").orElseThrow();
+
+        alertsSupport.storeAlertWithStatusAndAssets(CREATED, List.of(assetAsBuilt, assetAsBuilt1), null, SENDER);
+        alertsSupport.storeAlertWithStatusAndAssets(SENT, List.of(assetAsBuilt1), null, SENDER);
+
+        investigationsSupport.storeInvestigationWithStatusAndAssets(CREATED, List.of(assetAsBuilt, assetAsBuilt1), null, SENDER);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(CREATED, List.of(assetAsBuilt, assetAsBuilt1), null, SENDER);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(SENT, List.of(assetAsBuilt1), null, SENDER);
+
+        alertsSupport.storeAlertWithStatusAndAssets(CREATED, List.of(assetAsBuilt, assetAsBuilt1), null, RECEIVER);
+        alertsSupport.storeAlertWithStatusAndAssets(SENT, List.of(assetAsBuilt), null, RECEIVER);
+        alertsSupport.storeAlertWithStatusAndAssets(SENT, List.of(assetAsBuilt), null, RECEIVER);
+
+        investigationsSupport.storeInvestigationWithStatusAndAssets(CREATED, List.of(assetAsBuilt, assetAsBuilt1), null, RECEIVER);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(CREATED, List.of(assetAsBuilt, assetAsBuilt1), null, RECEIVER);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(SENT, List.of(assetAsBuilt), null, RECEIVER);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(SENT, List.of(assetAsBuilt), null, RECEIVER);
+
+
+        final String filter1 = "receivedQualityAlertIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,3,AND";
+        final String filter2 = "receivedQualityInvestigationIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,4,AND";
+        final String filter3 = "sentQualityAlertIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,1,AND";
+        final String filter4 = "sentQualityInvestigationIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,2,AND";
+
+        // When
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .when()
+                .param("filter", filter1)
+                .param("filter", filter2)
+                .param("filter", filter3)
+                .param("filter", filter4)
                 .get("/api/assets/as-built")
                 .then()
                 .statusCode(200)
