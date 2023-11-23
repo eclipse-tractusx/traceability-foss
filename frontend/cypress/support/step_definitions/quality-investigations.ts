@@ -28,18 +28,17 @@ let notificationDescription = null;
 
 Then("select {string} other part", (partAmount) => {
 //since IDs of desired asset are not shown in FE the selection has to be done by other number
-//   cy.wait(500);
   //cy.get('span').contains('NO-989134870198932317923938').parent('.row').as('part');
-  //cy.get('span').contains('NO-989134870198932317923938')as('part');
-  //cy.get('@part').parents('.mat-mdc-row mdc-data-table__row cdk-row ng-star-inserted').get('#mat-mdc-checkbox mat-primary').click();
   //cy.get('@part').get('#mat-mds-checkbox-21').click();
-  //cy.get('span').contains('As Planned').click(); // see comment above. This has to be done to avoid asPlanned selection
-  cy.get('#mat-mdc-checkbox-38').click(); //---TBD--- this is only a method to make it run, has to be changed to selected part as above!
+  cy.get('span').contains('As Planned').click(); // see comment above. This has to be done to avoid asPlanned selection
+  // cy.get('#mat-mdc-checkbox-38').click(); //---TBD--- this is only a method to make it run, has to be changed to selected part as above!
+  cy.get('span').contains('NO-989134870198932317923938').parentsUntil('.mat-mdc-row mdc-data-table__row cdk-row ng-star-inserted').get('#mat-mdc-checkbox mat-primary').click();
 });
 
 Then("start investigation creation with description {string}", function (description) {
   //notificationDescription = wrapStringWithTimestamp(input.get("description"));
   //notificationDescription = "Test 123123 description";
+  notificationDescription = description;
   cy.get('div').contains('Start investigation').click();
   cy.get('mat-label').contains('Description').click().type(description);
 });
@@ -77,7 +76,7 @@ When("user navigate to {string} with button in popup", (popupClick) => {
 });
 
 When("open details of created investigation", () => {
-  cy.get('p').should('contain.text', notificationDescription).parent('.row').get('[class="mat-mdc-button-touch-target"]').click()
+  cy.get('p').contains(notificationDescription).parentsUntil('.mat-mdc-row mdc-data-table__row cdk-row no-hover ng-star-inserted').get('[class="mat-mdc-button-touch-target"]').click()
   cy.get('span').contains('View details').click();
 });
 
