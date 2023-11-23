@@ -32,13 +32,14 @@ Then(/^select "one" other part$/, () => {
 //   cy.get('span').should('contain.text', 'NO-989134870198932317923938').parent('.row').as('part');
 //   cy.get('@part').get('#mat-mds-checkbox-21').click();
 
-  cy.get('#mat-mdc-checkbox-38').click();
+  cy.get('#mat-mdc-checkbox-38').click(); //---TBD--- this is only a method to make it run, has to be changed to selected part as above!
 });
 
 Then("start investigation creation with description {string}", function (description) {
   //notificationDescription = wrapStringWithTimestamp(input.get("description"));
   //notificationDescription = "Test 123123 description";
-  cy.get('div').should('contain.text', 'Start investigation').click();
+  //cy.get('div').should('contain.text', 'Start investigation').click();
+  cy.get('div').contains('Start investigation').click();
   cy.get('mat-label').should('contain.text', 'Description').click().focus().type(description);
 });
 
