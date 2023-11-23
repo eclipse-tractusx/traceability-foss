@@ -350,4 +350,5 @@ export class PartsTableComponent implements OnInit {
 
     protected readonly MenuStack = MenuStack;
     protected readonly MainAspectType = MainAspectType;
+    protected readonly PartTableType = PartTableType;
 }
