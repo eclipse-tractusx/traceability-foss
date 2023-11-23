@@ -19,15 +19,15 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {Injectable} from '@angular/core';
-import {Notifications} from '@shared/model/notification.model';
-import {View} from '@shared/model/view.model';
-import {AlertsService} from '@shared/service/alerts.service';
-import {InvestigationsService} from '@shared/service/investigations.service';
-import {Observable, Subscription} from 'rxjs';
-import {DashboardService} from '../core/dashboard.service';
-import {DashboardState} from '../core/dashboard.state';
-import {DashboardStats} from '../model/dashboard.model';
+import { Injectable } from '@angular/core';
+import { Notifications } from '@shared/model/notification.model';
+import { View } from '@shared/model/view.model';
+import { AlertsService } from '@shared/service/alerts.service';
+import { InvestigationsService } from '@shared/service/investigations.service';
+import { Observable, Subscription } from 'rxjs';
+import { DashboardService } from '../core/dashboard.service';
+import { DashboardState } from '../core/dashboard.state';
+import { DashboardStats } from '../model/dashboard.model';
 
 @Injectable()
 export class DashboardFacade {
@@ -41,7 +41,6 @@ export class DashboardFacade {
   constructor(
     private readonly dashboardService: DashboardService,
     private readonly dashboardState: DashboardState,
-    // private readonly partsService: PartsService,
     private readonly investigationsService: InvestigationsService,
     private readonly alertsService: AlertsService
   ) {}
