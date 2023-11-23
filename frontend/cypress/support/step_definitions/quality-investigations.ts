@@ -38,9 +38,8 @@ Then(/^select "one" other part$/, () => {
 Then("start investigation creation with description {string}", function (description) {
   //notificationDescription = wrapStringWithTimestamp(input.get("description"));
   //notificationDescription = "Test 123123 description";
-  //cy.get('div').should('contain.text', 'Start investigation').click();
   cy.get('div').contains('Start investigation').click();
-  cy.get('mat-label').should('contain.text', 'Description').click().focus().type(description);
+  cy.get('mat-label').contains('Description').click().focus().type(description);
 });
 
 When(/^severity {string}$/, function (severity) {
@@ -58,11 +57,11 @@ When(/^{string} deadline$/, function (deadline) {
 });
 
 When(/^request the investigation$/, () => {
-  cy.get('span').should('contain.text', 'ADD TO QUEUE').click();
+  cy.get('span').contains('ADD TO QUEUE').click();
 });
 
 Then(/^selected parts are marked as investigated$/, () => {
-  cy.get('class').should('contain', 'highlighted');
+  cy.get('class').contains('highlighted');
   //---TBD--- to check the desired assets, have to be adjusted with desired asset selection
 });
 
@@ -71,12 +70,12 @@ When(/^popup with information about queued investigation is shown$/, () => {
 });
 
 When(/^user navigate to "queued quality investigation" with button in popup$/, () => {
-  cy.get('a').should('contain.text', 'Go to Queue').click();
+  cy.get('a').contains('Go to Queue').click();
 });
 
 When(/^open details of created investigation$/, () => {
   cy.get('p').should('contain.text', notificationDescription).parent('.row').get('[class="mat-mdc-button-touch-target"]').click()
-  cy.get('span').should('contain.text', 'View details').click();
+  cy.get('span').contains('View details').click();
 });
 
 //When user cancel selected investigation with entering "correct" id
@@ -87,18 +86,18 @@ When(/^user cancel selected investigation with entering {string} id$/, (input) =
   let investigationId = '';
   switch (input) {
     case 'no': {
-      cy.get('span').should('contain.text', 'Confirm cancellation').click();
+      cy.get('span').contains('Confirm cancellation').click();
       break;
     }
     case 'wrong': {
       cy.get('#mat-mdc-form-field-label-4').click().focus().type('000');
-      cy.get('span').should('contain.text', 'Confirm cancellation').click();
+      cy.get('span').contains('Confirm cancellation').click();
       break;
     }
     case 'correct': {
       //get correct id ---TBD---
       cy.get('#mat-mdc-form-field-label-4').click().focus().type(investigated);
-      cy.get('span').should('contain.text', 'Confirm cancellation').click();
+      cy.get('span').contains('Confirm cancellation').click();
       break;
     }
   }
