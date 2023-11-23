@@ -39,7 +39,7 @@ Then("start investigation creation with description {string}", function (descrip
   //notificationDescription = wrapStringWithTimestamp(input.get("description"));
   //notificationDescription = "Test 123123 description";
   cy.get('div').contains('Start investigation').click();
-  cy.get('mat-label').contains('Description').click().focus().type(description);
+  cy.get('mat-label').contains('Description').click().type(description);
 });
 
 When(/^severity {string}$/, function (severity) {
