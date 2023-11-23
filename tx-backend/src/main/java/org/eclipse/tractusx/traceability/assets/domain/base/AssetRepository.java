@@ -51,7 +51,6 @@ public interface AssetRepository {
 
     long countAssetsByOwner(Owner owner);
 
+    List<String> getFieldValues(String fieldName, String startWith, Integer resultLimit, Owner owner);
     List<? extends AssetBaseEntity> findByOwner(Owner owner);
-
-    List<String> getFieldValues(String fieldName, String startWith, Long resultLimit, String owner);
 }

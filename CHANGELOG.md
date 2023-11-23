@@ -16,6 +16,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Fixed helm repository path for backend & frontend (wrong prefix)
 - Refactored dashboard response
 - Autocomplete endpoints changed owner String type param to Owner for input validation and sql injection prevention
+- Autocomplete endpoints repository uses now criteria api rather than native query
 - Fixed several bugs in local filtering of the parts table
 
 ### Removed
