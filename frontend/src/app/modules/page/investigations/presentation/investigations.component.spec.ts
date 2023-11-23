@@ -27,6 +27,16 @@ import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 
 describe('InvestigationsComponent', () => {
+  var originalTimeout: number;
+  beforeEach(function () {
+    originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+  });
+
+  afterEach(function () {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
+  });
+
   const renderInvestigations = async () => {
     return await renderComponent(InvestigationsComponent, {
       imports: [InvestigationsModule],

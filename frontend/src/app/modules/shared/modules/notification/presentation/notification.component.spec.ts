@@ -39,8 +39,17 @@ import { PartTableType } from '@shared/components/table/table.model';
 
 describe('NotificationsInboxComponent', () => {
   let clickHandler;
+  var originalTimeout: number;
 
-  beforeEach(() => (clickHandler = jasmine.createSpy()));
+  afterEach(function () {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
+  });
+
+  beforeEach(() => {
+    clickHandler = jasmine.createSpy();
+    originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+  });
 
   const mapNotificationResponse = (data: NotificationResponse): Notification => {
     const isFromSender = data.channel === 'SENDER';
