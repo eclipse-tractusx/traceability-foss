@@ -93,6 +93,10 @@ const MockEmptyInvestigation: NotificationResponse = {
   channel: 'SENDER',
 };
 
+export interface InvestigationFilter{
+
+}
+
 export const getInvestigationById = (id: string) => {
   return [].find(investigation => investigation.id === id) || { ...MockEmptyInvestigation, id };
 };

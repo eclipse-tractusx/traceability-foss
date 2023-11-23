@@ -66,6 +66,8 @@ import {
 import {
     PartsAsPlannedCustomerConfigurationModel
 } from "@shared/components/parts-table/parts-as-planned-customer-configuration.model";
+import {Router} from "@angular/router";
+import {INVESTIGATION_BASE_ROUTE} from "@core/known-route";
 
 
 @Component({
@@ -136,7 +138,7 @@ export class PartsTableComponent implements OnInit {
     @Output() clickSelectAction = new EventEmitter<void>();
     @Output() filterActivated = new EventEmitter<any>();
 
-    constructor(private readonly tableSettingsService: TableSettingsService, private dialog: MatDialog) {
+    constructor(private readonly tableSettingsService: TableSettingsService, private dialog: MatDialog, private router: Router) {
     }
 
 
@@ -161,6 +163,11 @@ export class PartsTableComponent implements OnInit {
 
     public tableViewConfig: TableViewConfig;
 
+
+    public deeplinkToNotification(column: any){
+        console.log(column, "col");
+        this.router.navigate([INVESTIGATION_BASE_ROUTE], { queryParams: { deeplink: true } })
+    }
     public isNotificationCountColumn(column: any) {
         return column === 'receivedActiveAlerts' || column === 'sentActiveAlerts' || column === 'receivedActiveInvestigations' || column === 'sentActiveInvestigations';
     }

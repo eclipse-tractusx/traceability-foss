@@ -38,6 +38,7 @@ import {
   NotificationStatus,
   NotificationType,
 } from '../model/notification.model';
+import {InvestigationFilter} from "../../../mocks/services/investigations-mock/investigations.model";
 
 @Injectable({
   providedIn: 'root',
@@ -63,7 +64,7 @@ export class InvestigationsService {
       .pipe(map(investigations => NotificationAssembler.assembleNotifications(investigations, NotificationType.INVESTIGATION)));
   }
 
-  public getReceivedInvestigations(page: number, pageSize: number, sorting: TableHeaderSort[]): Observable<Notifications> {
+  public getReceivedInvestigations(page: number, pageSize: number, sorting: TableHeaderSort[], filter?: InvestigationFilter): Observable<Notifications> {
     let sort = sorting.length ? sorting : ['createdDate,desc'];
     let params = new HttpParams()
       .set('page', page)
@@ -73,6 +74,10 @@ export class InvestigationsService {
     sort.forEach(sortingItem => {
       params = params.append('sort', sortingItem);
     })
+
+    if (filter) {
+    //  params = enrichFilterAndGetUpdatedParams(assetAsBuiltFilter, params, filterOperator);
+    }
 
     return this.apiService
       .getBy<NotificationsResponse>(`${this.url}/investigations`, params)

@@ -75,10 +75,16 @@ export class InvestigationsComponent {
   }
 
   public ngOnInit(): void {
+
     this.paramSubscription = this.route.queryParams.subscribe(params => {
-      this.pagination.page = params?.pageNumber;
-      this.investigationsFacade.setReceivedInvestigation(this.pagination.page, this.pagination.pageSize, this.investigationReceivedSortList);
-      this.investigationsFacade.setQueuedAndRequestedInvestigations(this.pagination.page, this.pagination.pageSize, this.investigationQueuedAndRequestedSortList);
+      if (params.deeplink){
+
+      } else {
+        this.pagination.page = params?.pageNumber;
+        this.investigationsFacade.setReceivedInvestigation(this.pagination.page, this.pagination.pageSize, this.investigationReceivedSortList);
+        this.investigationsFacade.setQueuedAndRequestedInvestigations(this.pagination.page, this.pagination.pageSize, this.investigationQueuedAndRequestedSortList);
+      }
+
     });
   }
 

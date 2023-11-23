@@ -18,28 +18,29 @@ SPDX-License-Identifier: Apache-2.0
 -->
 
 
-
 <div class="table-header-wrapper">
-  <div class="table-header-container">
-    <div class="large-text table--header--text">{{tableHeader}}      <mat-icon (click)="openDialog()" class="table&#45;&#45;settings&#45;&#45;button ml-2">
-      settings
-    </mat-icon></div>
-    <div *appHasRole="tableConfig.columnRoles?.['select'] ?? 'user'" class="table&#45;&#45;selected__container">
-      <p class="regular-text table&#45;&#45;selected&#45;&#45;label">{{ selectedPartsInfoLabel | i18n : {count: selection?.selected?.length || 0} }}</p>
-      <app-button
-        *ngIf="selection?.selected?.length && (tableType !== PartTableType.AS_PLANNED_CUSTOMER && tableType !== PartTableType.AS_BUILT_CUSTOMER)"
-        (click)="clickSelectAction.emit()"
-        [variant]="'raised'"
-        [color]="'accent'"
-      >
-        <div class="flex justify-between items-center text-dark p-0.5">
-          <mat-icon class="mr-2">announcement</mat-icon>
-          {{ selectedPartsActionLabel | i18n }}
+    <div class="table-header-container">
+        <div class="large-text table--header--text">{{tableHeader}}
+            <mat-icon (click)="openDialog()" class="table&#45;&#45;settings&#45;&#45;button ml-2">
+                settings
+            </mat-icon>
         </div>
-      </app-button>
+        <div *appHasRole="tableConfig.columnRoles?.['select'] ?? 'user'" class="table&#45;&#45;selected__container">
+            <p class="regular-text table&#45;&#45;selected&#45;&#45;label">{{ selectedPartsInfoLabel | i18n : {count: selection?.selected?.length || 0} }}</p>
+            <app-button
+                    *ngIf="selection?.selected?.length && (tableType !== PartTableType.AS_PLANNED_CUSTOMER && tableType !== PartTableType.AS_BUILT_CUSTOMER)"
+                    (click)="clickSelectAction.emit()"
+                    [variant]="'raised'"
+                    [color]="'accent'"
+            >
+                <div class="flex justify-between items-center text-dark p-0.5">
+                    <mat-icon class="mr-2">announcement</mat-icon>
+                    {{ selectedPartsActionLabel | i18n }}
+                </div>
+            </app-button>
 
+        </div>
     </div>
-  </div>
 </div>
 
 <div [class.mat-elevation-z8]="!noShadow" class="table-wrapper">
@@ -58,27 +59,28 @@ SPDX-License-Identifier: Apache-2.0
             data-testid="table-component--head-row"
             class="table--header--row"></tr>
 
-            <tr class="filter-row" mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"
-                [hidden]="displayedFilter"></tr>
+        <tr class="filter-row" mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"
+            [hidden]="displayedFilter"></tr>
 
 
-            <ng-container matColumnDef="{{ filter.headerKey }}" *ngFor="let filter of tableViewConfig.displayFilterColumnMappings">
-                <th class="multi-select-header-cell" mat-header-cell *matHeaderCellDef>
-                    <app-multiselect *ngIf="filter.headerKey!==filterKey"
-                                     [placeholder]="'multiSelect.placeholder' | i18n"
-                                     [options]="filter.option"
-                                     [isDate]='filter.isDate'
-                                     [singleSearch]="filter.singleSearch"
-                                     [filterColumn]="filter.filterKey"
-                                     [isAsBuilt] = "mainAspectType === MainAspectType.AS_BUILT"
-                                     [partTableType]="tableType"
-                                     [placeholderMultiple]="('multiSelect.multipleResults' | i18n)"
-                                     ngDefaultControl
-                                     [formControl]="filterFormGroup.controls[filter.filterKey]"></app-multiselect>
-                    <span class="filter-title"
-                          *ngIf="filter.headerKey==='Filter'">{{ ''}}</span>
-                </th>
-            </ng-container>
+        <ng-container matColumnDef="{{ filter.headerKey }}"
+                      *ngFor="let filter of tableViewConfig.displayFilterColumnMappings">
+            <th class="multi-select-header-cell" mat-header-cell *matHeaderCellDef>
+                <app-multiselect *ngIf="filter.headerKey!==filterKey"
+                                 [placeholder]="'multiSelect.placeholder' | i18n"
+                                 [options]="filter.option"
+                                 [isDate]='filter.isDate'
+                                 [singleSearch]="filter.singleSearch"
+                                 [filterColumn]="filter.filterKey"
+                                 [isAsBuilt]="mainAspectType === MainAspectType.AS_BUILT"
+                                 [partTableType]="tableType"
+                                 [placeholderMultiple]="('multiSelect.multipleResults' | i18n)"
+                                 ngDefaultControl
+                                 [formControl]="filterFormGroup.controls[filter.filterKey]"></app-multiselect>
+                <span class="filter-title"
+                      *ngIf="filter.headerKey==='Filter'">{{ ''}}</span>
+            </th>
+        </ng-container>
         <tr
                 *matRowDef="let row; columns: tableConfig.displayedColumns"
                 [class.loading]="isDataLoading"
@@ -180,15 +182,15 @@ SPDX-License-Identifier: Apache-2.0
                     <ng-container
                             *ngIf="tableConfig?.header?.[column]; else pureColumn"
                     >{{ tableConfig?.header?.[column] | i18n }}
-<ng-container *ngIf="tableConfig?.header?.[column].includes('Alerts')">
+                        <ng-container *ngIf="tableConfig?.header?.[column].includes('Alerts')">
          <span class="table--notification--cell--content--icon">
                           <mat-icon matTooltip="{{'table.tableSettings.alert' | i18n}}"
                                     matTooltipClass="table--header--tooltip"
                                     matTooltipPosition="above"
                                     [matTooltipShowDelay]="100"
-                                  class="table--notification--icon">notification_important</mat-icon>
+                                    class="table--notification--icon">notification_important</mat-icon>
                           </span>
-</ng-container>
+                        </ng-container>
 
                         <ng-container *ngIf="tableConfig?.header?.[column].includes('Investigations')">
          <span class="table--notification--cell--content--icon">
@@ -197,7 +199,7 @@ SPDX-License-Identifier: Apache-2.0
                                     matTooltipPosition="above"
                                     [matTooltipShowDelay]="100"
 
-                                  class="table--notification--icon">inbox</mat-icon>
+                                    class="table--notification--icon">inbox</mat-icon>
                           </span>
                         </ng-container>
 
@@ -218,10 +220,17 @@ SPDX-License-Identifier: Apache-2.0
                 <td *matCellDef="let element" mat-cell class="table--cell" data-testid="table-component--cell-data">
                     <div class="table--notification--cell">
                         <span class="table--notification--cell--content">
-                 <ng-container *ngIf="isDateElement(column) || isNotificationCountColumn(column); else autoFormatRef">
-  <!-- Display the content if either condition is satisfied -->
-                   {{isDateElement(column) ? (element[column] | date:'yyyy-MM-dd') : element[column]?.length }}
-</ng-container>
+
+                            <ng-container *ngIf="isDateElement(column); else notificationCountElement">
+                                {{(element[column] | date:'yyyy-MM-dd')}}
+                            </ng-container>
+
+                            <ng-template #notificationCountElement>
+                                <ng-container *ngIf="isNotificationCountColumn(column); else autoFormatRef">
+                                        <span (click)="deeplinkToNotification(column)">
+                                            {{element[column]?.length}}</span>
+                                </ng-container>
+                            </ng-template>
                             <ng-template #autoFormatRef>
 
                       <ng-container
@@ -237,7 +246,7 @@ SPDX-License-Identifier: Apache-2.0
                                     matTooltipClass="table--header--tooltip"
                                     matTooltipPosition="above"
                                     [matTooltipShowDelay]="100"
-                                  class="table--notification--icon">notification_important</mat-icon>
+                                    class="table--notification--icon">notification_important</mat-icon>
                           </span>
                             </ng-container>
                             <ng-container *ngSwitchCase="'sentActiveAlerts'">
@@ -246,7 +255,7 @@ SPDX-License-Identifier: Apache-2.0
                                     matTooltipClass="table--header--tooltip"
                                     matTooltipPosition="above"
                                     [matTooltipShowDelay]="100"
-                                  class="table--notification--icon">notification_important</mat-icon>
+                                    class="table--notification--icon">notification_important</mat-icon>
                           </span>
                             </ng-container>
                             <ng-container *ngSwitchCase="'receivedActiveInvestigations'">
@@ -255,7 +264,7 @@ SPDX-License-Identifier: Apache-2.0
                                     matTooltipClass="table--header--tooltip"
                                     matTooltipPosition="above"
                                     [matTooltipShowDelay]="100"
-                                  class="table--notification--icon">inbox</mat-icon>
+                                    class="table--notification--icon">inbox</mat-icon>
                         </span>
                             </ng-container>
                             <ng-container *ngSwitchCase="'sentActiveInvestigations'">
