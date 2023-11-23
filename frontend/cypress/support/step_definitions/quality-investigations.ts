@@ -44,7 +44,8 @@ Then("start investigation creation with description {string}", function (descrip
 
 When("severity {string}", function (severity) {
   cy.get('#mat-select-56').click(); // First the dropdown has to be opened.
-  cy.get('#mat-select-56-panel').select(severity);  // Dropdown menu has own id.
+  cy.get('p').contains(severity).click();
+  //cy.get('#mat-select-56-panel').select(severity);  // Dropdown menu has own id.
 });
 
 When("{string} deadline", function (deadline) {
