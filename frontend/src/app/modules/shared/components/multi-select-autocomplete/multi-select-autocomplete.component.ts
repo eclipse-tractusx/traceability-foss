@@ -17,20 +17,18 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {DatePipe, registerLocaleData} from '@angular/common';
+import { DatePipe, registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-import {Component, EventEmitter, Inject, Input, LOCALE_ID, OnChanges, Output, ViewChild} from '@angular/core';
-import {FormControl} from '@angular/forms';
-import {DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
-import {MatDatepickerInputEvent} from '@angular/material/datepicker';
-import {Owner} from '@page/parts/model/owner.enum';
-import {PartTableType} from '@shared/components/table/table.model';
-import {
-  FormatPartSemanticDataModelToCamelCasePipe
-} from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
-import {PartsService} from '@shared/service/parts.service';
-import {firstValueFrom} from "rxjs";
+import { Component, EventEmitter, Inject, Input, LOCALE_ID, OnChanges, Output, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { Owner } from '@page/parts/model/owner.enum';
+import { PartTableType } from '@shared/components/table/table.model';
+import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
+import { PartsService } from '@shared/service/parts.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-multiselect',
@@ -141,14 +139,10 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
       }
 
     } else {
-      const filteredValues = this.getFilteredOptionsValues();
-      this.selectedValue = this.selectedValue.filter(
-        item => !filteredValues.includes(item),
-      );
+      this.selectedValue = [];
     }
     this.formControl.patchValue(this.selectedValue);
     this.selectionChange.emit(this.selectedValue);
-    this.searchElement = this.selectedValue;
   };
 
   changeSearchTextOption() {
@@ -161,6 +155,9 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   }
 
   displayValue() {
+    if(!this.searchElement.length) {
+      return;
+    }
     let suffix = '';
     let displayValue;
     // add +X others label if multiple
@@ -184,7 +181,12 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   }
 
   filterItem(value: any): void {
+    if(!this.searchElement.length) {
+      return;
+    }
+
     if (!value) {
+      this.filteredOptions = [];
       return;
     }
 
@@ -244,6 +246,9 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   }
 
   hideOption(option: any): boolean {
+    if(!this.searchElement.length) {
+      return true;
+    }
     return !(this.filteredOptions.indexOf(option) > -1);
   }
 
@@ -251,7 +256,9 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   getFilteredOptionsValues(): string[] {
     const filteredValues = [];
     this.filteredOptions.forEach(option => {
-      filteredValues.push(option.value);
+      if(option.length) {
+          filteredValues.push(option.value);
+      }
     });
     return filteredValues;
   }
@@ -276,7 +283,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     this.selectedValue = [];
     this.startDate = null;
     this.endDate = null;
-    this.filterItem('');
+    this.filteredOptions = [];
   }
 
   dateFilter(){
@@ -285,6 +292,9 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
 
 
   onSelectionChange(val: any) {
+    if(!this.searchElement.length) {
+      return;
+    }
     const filteredValues = this.getFilteredOptionsValues();
 
     const selectedCount = this.selectedValue.filter(item => filteredValues.includes(item)).length;
@@ -308,4 +318,9 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     }
   }
 
+    filterKeyCommands(event: any) {
+    if (event.key === 'Enter' || (event.ctrlKey && event.key === 'a' || event.key === ' ')) {
+          event.stopPropagation();
+        }
+    }
 }

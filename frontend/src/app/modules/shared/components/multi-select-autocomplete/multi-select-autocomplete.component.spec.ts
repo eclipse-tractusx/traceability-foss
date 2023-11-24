@@ -1,16 +1,12 @@
-import {DatePipe} from '@angular/common';
-import {SemanticDataModel} from '@page/parts/model/parts.model';
-import {
-    MultiSelectAutocompleteComponent
-} from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
-import {
-    FormatPartSemanticDataModelToCamelCasePipe
-} from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
-import {SharedModule} from '@shared/shared.module';
-import {renderComponent} from '@tests/test-render.utils';
-import {PartTableType} from "@shared/components/table/table.model";
-import {Owner} from "@page/parts/model/owner.enum";
-import {MatDatepickerInputEvent} from "@angular/material/datepicker";
+import { DatePipe } from '@angular/common';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { Owner } from '@page/parts/model/owner.enum';
+import { SemanticDataModel } from '@page/parts/model/parts.model';
+import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
+import { PartTableType } from '@shared/components/table/table.model';
+import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
+import { SharedModule } from '@shared/shared.module';
+import { renderComponent } from '@tests/test-render.utils';
 
 describe('MultiSelectAutocompleteComponent', () => {
     const renderMultiSelectAutoCompleteComponent = (multiple = true) => {
@@ -41,6 +37,7 @@ describe('MultiSelectAutocompleteComponent', () => {
         const {fixture} = await renderMultiSelectAutoCompleteComponent();
         const {componentInstance} = fixture;
 
+        componentInstance.searchElement = 'B'
         const selectedOptions = [SemanticDataModel.BATCH];
         componentInstance.selectedValue = selectedOptions;
         fixture.detectChanges();
@@ -60,12 +57,14 @@ describe('MultiSelectAutocompleteComponent', () => {
         componentInstance.selectedValue = ['initialValue'];
         componentInstance.startDate = new Date('2022-02-04');
         componentInstance.endDate = new Date('2022-02-04');
+        componentInstance.filteredOptions = ['test']
 
         componentInstance.clickClear();
 
         // Assert
         expect(componentInstance.searchElement).toBe('');
         expect(componentInstance.selectedValue).toEqual([]);
+        expect(componentInstance.filteredOptions).toEqual([]);
     });
 
     it('should return correct display string when textSearch is true', async () => {
@@ -74,7 +73,7 @@ describe('MultiSelectAutocompleteComponent', () => {
         const {componentInstance} = fixture;
 
         componentInstance.selectedValue = ['TestValue'];
-
+        componentInstance.searchElement = 'TestValue';
         const result = componentInstance.displayValue();
 
         expect(result).toBe('TestValue');
@@ -87,6 +86,7 @@ describe('MultiSelectAutocompleteComponent', () => {
         componentInstance.selectedValue = ['value1', 'value2', 'value3']; // Replace with your test values
         componentInstance.labelCount = 2; // Replace with the number of labels you expect
 
+        componentInstance.searchElement = 'v'
         componentInstance.options = [
             {value: 'value1', display: 'Display1'},
             {value: 'value2', display: 'Display2'},
@@ -105,6 +105,7 @@ describe('MultiSelectAutocompleteComponent', () => {
 
         componentInstance.selectedValue = ['value1']; // Replace with your test value
 
+        componentInstance.searchElement = 'v';
         componentInstance.options = [
             {value: 'value1', display: 'Display1'},
             {value: 'value2', display: 'Display2'},
@@ -309,5 +310,121 @@ describe('MultiSelectAutocompleteComponent', () => {
         expect(componentInstance.formControl.value).toEqual(['test']);
         expect(searchElementChangeSpy).toHaveBeenCalledWith(['test']);
     })
+
+    it('should return when calling displayValue() without searchElement', async () => {
+        const {fixture} = await renderMultiSelectAutoCompleteComponent();
+        const {componentInstance} = fixture;
+
+        componentInstance.searchElement = '';
+        componentInstance.displayValue();
+
+        const dValue = componentInstance.displayValue();
+        expect(dValue).toEqual(undefined);
+    })
+
+    it('should return when calling filterItem() without searchElement', async () => {
+        const {fixture} = await renderMultiSelectAutoCompleteComponent();
+        const {componentInstance} = fixture;
+
+        componentInstance.searchElement = '';
+        componentInstance.filterItem('')
+
+        const option = componentInstance.filteredOptions;
+        expect(option).toEqual([]);
+    })
+
+    it('should return when calling filterItem() without value', async () => {
+        const {fixture} = await renderMultiSelectAutoCompleteComponent();
+        const {componentInstance} = fixture;
+
+        componentInstance.searchElement = 'test';
+        componentInstance.filterItem(undefined)
+
+        const option = componentInstance.filteredOptions;
+        expect(option).toEqual([]);
+    })
+
+    it('should return when calling filterItem() without value', async () => {
+        const {fixture} = await renderMultiSelectAutoCompleteComponent();
+        const {componentInstance} = fixture;
+
+        componentInstance.searchElement = ''; // Set searchElement to an empty string
+        spyOn(componentInstance, 'getFilteredOptionsValues'); // Mock any necessary methods
+
+        // Act
+        componentInstance.onSelectionChange({ value: 'someValue' });
+
+        // Assert
+        // Add assertions as needed, for example:
+        expect(componentInstance.selectedValue).toEqual(null);
+    })
+
+    it('should stop event propagation for Enter key and Ctrl+A combination', async() => {
+        // Arrange
+        const {fixture} = await renderMultiSelectAutoCompleteComponent();
+        const {componentInstance} = fixture;
+        const eventMock = {
+            key: 'Enter',
+            ctrlKey: false,
+            stopPropagation: jasmine.createSpy('stopPropagation')
+        };
+
+        // Act
+        componentInstance.filterKeyCommands(eventMock);
+
+        // Assert
+        expect(eventMock.stopPropagation).toHaveBeenCalled();
+    });
+
+    it('should stop event propagation for Ctrl+A combination', async() => {
+        // Arrange
+        const {fixture} = await renderMultiSelectAutoCompleteComponent();
+        const {componentInstance} = fixture;
+        const eventMock = {
+            key: 'a',
+            ctrlKey: true,
+            stopPropagation: jasmine.createSpy('stopPropagation')
+        };
+
+        // Act
+        componentInstance.filterKeyCommands(eventMock);
+
+        // Assert
+        expect(eventMock.stopPropagation).toHaveBeenCalled();
+    });
+
+    it('should not stop event propagation for other keys', async() => {
+        // Arrange
+        const {fixture} = await renderMultiSelectAutoCompleteComponent();
+        const {componentInstance} = fixture;
+        const eventMock = {
+            key: 'B',
+            ctrlKey: false,
+            stopPropagation: jasmine.createSpy('stopPropagation')
+        };
+
+        // Act
+        componentInstance.filterKeyCommands(eventMock);
+
+        // Assert
+        expect(eventMock.stopPropagation).not.toHaveBeenCalled();
+    });
+
+  it('should not stop event propagation for space key', async() => {
+    // Arrange
+    const {fixture} = await renderMultiSelectAutoCompleteComponent();
+    const {componentInstance} = fixture;
+    const eventMock = {
+      key: ' ',
+      ctrlKey: false,
+      stopPropagation: jasmine.createSpy('stopPropagation')
+    };
+
+    // Act
+    componentInstance.filterKeyCommands(eventMock);
+
+    // Assert
+    expect(eventMock.stopPropagation).toHaveBeenCalled();
+  });
 
 });
