@@ -17,25 +17,25 @@ select setval('alert_id_seq', (select max(a.id) from alert a), true);
 ---
 -- initial message
 insert into alert_notification
-    (id                         , alert_id       , contract_agreement_id, edc_url, notification_reference_id, created_by, send_to        , target_date                           , severity, created_by_name, send_to_name, edc_notification_id        , status, created                                 , updated          , message_id                            , is_initial)
+    (id                         , alert_id       , contract_agreement_id, edc_url, notification_reference_id, created_by, send_to        , target_date                           , severity, created_by_name, send_to_name, edc_notification_id        , status   , created                                 , updated          , message_id                            , is_initial)
 values
-    (${alertNotificationSentId1}, ${alertSentId1}, null                 , null   , 'null'                   , ${bpnOwn} , ${bpnCustomer1}, current_timestamp + interval '1 month', 0       , 'Osram'        , 'Hella'     , ${alertNotificationSentId1}, 0     , current_timestamp - interval '1 seconds', current_timestamp, '42e28782-bf4c-45a2-82b7-1757aa4b8772', true);
+    (${alertNotificationSentId1}, ${alertSentId1}, null                 , null   , 'null'                   , ${bpnOwn} , ${bpnCustomer1}, current_timestamp + interval '1 month', 'MINOR' , 'Osram'        , 'Hella'     , ${alertNotificationSentId1}, 'CREATED', current_timestamp - interval '1 seconds', current_timestamp, '42e28782-bf4c-45a2-82b7-1757aa4b8772', true);
 
 ---
 -- join initial notification to asset
 insert into asset_as_built_alert_notifications
-    (alert_notification_id  , asset_id)
+    (alert_notification_id      , asset_id)
 values
     (${alertNotificationSentId1}, ${assetAsBuiltId07});
 
 ---
 -- join alert to asset
 insert into assets_as_built_alerts
-    (alert_id   , asset_id)
+    (alert_id       , asset_id)
 values
     (${alertSentId1}, ${assetAsBuiltId07});
 
 ---
-update assets_as_built
-    set active_alert = true
-    where id in (${assetAsBuiltId07});
+-- update assets_as_built
+--     set active_alert = true
+--     where id in (${assetAsBuiltId07});

@@ -34,7 +34,6 @@ SPDX-License-Identifier: Apache-2.0
         <app-input color="accent"
           [label]="'parts.input.global-search.placeholderAlertsAndInvestigations' | i18n"
           [prefixIconHover]="true"
-          (prefixIconClick)="triggerSearch()"
           [onEnterActive]="true"
           [prefixIcon]="'search'"
           formControlName="alertSearch"
@@ -68,7 +67,7 @@ SPDX-License-Identifier: Apache-2.0
     </app-notification-common-modal>
     <app-notification [queuedAndRequestedNotifications$]="alertsQueuedAndRequested$"
       [receivedNotifications$]="alertsReceived$"
-      [tablesType]="[PartTableType.ALERTS_RECEIVED, PartTableType.ALERTS_SENT]"
+      [tablesType]="[TableType.RECEIVED_ALERT, TableType.CREATED_ALERT]"
       [translationContext]="TranslationContext.COMMONALERT"
       [receivedOptionalColumns]="['severity', 'createdBy']"
       [receivedMultiSortList]="alertReceivedSortList"

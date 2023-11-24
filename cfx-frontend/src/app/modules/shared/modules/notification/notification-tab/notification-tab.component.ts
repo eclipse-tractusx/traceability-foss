@@ -20,12 +20,12 @@
  ********************************************************************************/
 
 import { AfterViewInit, Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { TableComponent } from '@shared/components/table/table.component';
 import {
   CreateHeaderFromColumns,
   DisplayColumns,
   MenuActionConfig,
-  PartTableType,
   TableConfig,
   TableEventConfig,
   TableHeaderSort,
@@ -49,7 +49,7 @@ export class NotificationTabComponent implements AfterViewInit {
   @Input() sortableColumns: Record<string, boolean> = {};
   @Input() multiSortList: TableHeaderSort[] = [];
   @Input() enableScroll = true;
-  @Input() tableType: PartTableType;
+  @Input() tableType: TableType;
   @Input() filterConfig: any[] = [];
 
   @Output() tableConfigChanged = new EventEmitter<TableEventConfig>();
@@ -63,12 +63,13 @@ export class NotificationTabComponent implements AfterViewInit {
   @ViewChild('descriptionTmp') descriptionTemplate: TemplateRef<unknown>;
   @ViewChild('targetDateTmp') targetDateTemplate: TemplateRef<unknown>;
   @ViewChild('userTmp') userTemplate: TemplateRef<unknown>;
+  @ViewChild('bpnTmp') bpnTemplate: TemplateRef<unknown>;
   @ViewChild(TableComponent) tableComponent: TableComponent;
 
   public tableConfig: TableConfig<keyof Notification>;
   public filteredContent = false;
 
-  protected readonly PartTableType = PartTableType;
+  protected readonly TableType = TableType;
 
   public ngAfterViewInit(): void {
     const defaultColumns: DisplayColumns<keyof Notification>[] = ['createdDate', 'description', 'status'];
@@ -79,22 +80,21 @@ export class NotificationTabComponent implements AfterViewInit {
       'settings',
     ];
     const sortableColumns: Record<string, boolean> = this.sortableColumns;
-    const filterConfig: any[] = this.filterConfig;
     this.tableConfig = {
       displayedColumns,
       sortableColumns,
-      filterConfig,
       header: CreateHeaderFromColumns(displayedColumns, 'table.column'),
       hasPagination: this.hasPagination,
       menuActionsConfig: this.menuActionsConfig || [],
       cellRenderers: {
-        id: this.idTemplate,
         status: this.statusTemplate,
         severity: this.severityTemplate,
         description: this.descriptionTemplate,
         targetDate: this.targetDateTemplate,
-        createdBy: this.userTemplate,
-        sendTo: this.userTemplate,
+        createdBy: this.bpnTemplate,
+        sendToName: this.userTemplate,
+        createdByName: this.userTemplate,
+        sendTo: this.bpnTemplate,
       },
     };
   }

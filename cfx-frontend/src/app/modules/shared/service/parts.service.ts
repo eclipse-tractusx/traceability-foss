@@ -43,6 +43,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SortDirection } from '../../../mocks/services/pagination.helper';
 import { enrichFilterAndGetUpdatedParams } from "@shared/helper/filter-helper";
+import { Owner } from '@page/parts/model/owner.enum';
 
 @Injectable()
 export class PartsService {
@@ -78,13 +79,12 @@ export class PartsService {
     public getPart(id: string, type: MainAspectType): Observable<Part> {
         if (type === MainAspectType.AS_PLANNED) {
             return this.apiService.get<PartResponse>(`${this.url}/assets/as-planned/${id}`)
-                .pipe(map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_PLANNED)));
+                .pipe(map(part => PartsAssembler.assemblePart(part, type)));
         }
 
         return this.apiService.get<PartResponse>(`${this.url}/assets/as-built/${id}`)
-            .pipe(map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_BUILT)));
+            .pipe(map(part => PartsAssembler.assemblePart(part, type)));
     }
-
 
     public getPartDetailOfIds(assetIds: string[]): Observable<Part[]> {
 
@@ -106,7 +106,6 @@ export class PartsService {
 
     }
 
-
     public sortParts(data: Part[], key: string, direction: SortDirection): Part[] {
         const clonedData: Part[] = _deepClone(data);
         return clonedData.sort((partA, partB) => {
@@ -125,19 +124,38 @@ export class PartsService {
         let params = new HttpParams()
             .set('page', page)
             .set('size', pageSize)
-            .set('filter', 'owner,EQUAL,OWN')
-            .set('filterOperator', filterOperator);
+            .set('filter', 'owner,EQUAL,OWN,AND');
 
         sort.forEach(sortingItem => {
             params = params.append('sort', sortingItem);
         });
 
         if (filter) {
-            params = enrichFilterAndGetUpdatedParams(filter, params);
+            params = enrichFilterAndGetUpdatedParams(filter, params, filterOperator);
         }
 
         return this.apiService
             .getBy<PartsResponse>(`${this.url}/assets/${path}`, params)
             .pipe(map(parts => PartsAssembler.assembleParts(parts, type)));
+    }
+
+    public getDistinctFilterValues(isAsBuilt: boolean, owner: Owner, fieldNames: string, startsWith: string) {
+        const mappedFieldName = PartsAssembler.mapFieldNameToApi(fieldNames);
+        const params = new HttpParams()
+            .set('fieldName', mappedFieldName)
+            .set('startWith', startsWith)
+            .set('size', 200)
+            .set('owner', owner);
+
+
+        if (isAsBuilt) {
+            return this.apiService
+                .getBy<any>(`${this.url}/assets/as-built/distinctFilterValues`, params);
+        } else {
+            return this.apiService
+                .getBy<any>(`${this.url}/assets/as-planned/distinctFilterValues`, params);
+
+
+        }
     }
 }

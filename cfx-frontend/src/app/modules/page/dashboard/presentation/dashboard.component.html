@@ -111,7 +111,7 @@ SPDX-License-Identifier: Apache-2.0
         </div>
       </mat-card-header>
       <mat-card-content>
-        <app-notifications-tab [tableType]="PartTableType.INVESTIGATIONS_RECEIVED"
+        <app-notifications-tab [tableType]="TableType.RECEIVED_INVESTIGATION"
           [enableScroll]="false"
           [notificationsView$]="investigations$"
           class="notications-tab"
@@ -180,7 +180,7 @@ SPDX-License-Identifier: Apache-2.0
       <mat-card-content>
         <app-notifications-tab [enableScroll]="false"
           [notificationsView$]="alerts$"
-          [tableType]="PartTableType.ALERTS_RECEIVED"
+          [tableType]="TableType.RECEIVED_ALERT"
           [translationContext]="'commonAlert'"
           [labelId]="'dashboard-alerts'"
           [hasPagination]="false"

@@ -17,9 +17,9 @@ select setval('alert_id_seq', (select max(a.id) from alert a), true);
 ---
 -- initial message
 insert into alert_notification
-    (id                              , alert_id           , contract_agreement_id, edc_url, notification_reference_id             , created_by     , send_to  , target_date                           , severity, created_by_name, send_to_name, edc_notification_id                   , status, created                             , updated          , message_id                            , is_initial)
+    (id                              , alert_id           , contract_agreement_id, edc_url, notification_reference_id             , created_by     , send_to  , target_date                           , severity          , created_by_name, send_to_name, edc_notification_id                   , status    , created                              , updated          , message_id                            , is_initial)
 values
-    (${alertNotificationReceivedId2a}, ${alertReceivedId2}, null                 , null   , 'cc49777f-3c8b-47d6-b1cf-f51783737292', ${bpnSupplier2}, ${bpnOwn}, current_timestamp + interval '1 month', 3       , 'Philips'      , 'Hella'     , 'cc49777f-3c8b-47d6-b1cf-f51783737292', 2     , current_timestamp - interval '2 days', current_timestamp, '68ebeb5f-158d-480e-b466-24304842c22c', false);
+    (${alertNotificationReceivedId2a}, ${alertReceivedId2}, null                 , null   , 'cc49777f-3c8b-47d6-b1cf-f51783737292', ${bpnSupplier2}, ${bpnOwn}, current_timestamp + interval '1 month', 'LIFE_THREATENING', 'Philips'      , 'Hella'     , 'cc49777f-3c8b-47d6-b1cf-f51783737292', 'RECEIVED', current_timestamp - interval '2 days', current_timestamp, '68ebeb5f-158d-480e-b466-24304842c22c', false);
 
 ---
 -- join initial notification to asset
@@ -36,17 +36,17 @@ values
     (${alertReceivedId2}, ${assetAsBuiltId06});
 
 ---
-update assets_as_built
-    set active_alert = true
-    where id in (${assetAsBuiltId06});
+-- update assets_as_built
+--     set active_alert = true
+--     where id in (${assetAsBuiltId06});
 
 ---
 ---
 -- ACK by receiver notification message
 insert into alert_notification
-    (id                              , alert_id           , contract_agreement_id, edc_url                                                 , notification_reference_id             , created_by, send_to        , target_date                           , severity , created_by_name, send_to_name, edc_notification_id                   , status, created                                , updated                                , message_id                            , is_initial)
+    (id                              , alert_id           , contract_agreement_id, edc_url                                                 , notification_reference_id             , created_by, send_to        , target_date                           , severity          , created_by_name, send_to_name, edc_notification_id                   , status        , created                                , updated                                , message_id                            , is_initial)
 values
-    (${alertNotificationReceivedId2b}, ${alertReceivedId2}, 'contractAgreementId', 'http://localhost:8082/api/qualitynotifications/receive', 'cc49777f-3c8b-47d6-b1cf-f51783737292',  ${bpnOwn}, ${bpnSupplier2}, current_timestamp + interval '1 month', 3        , 'Hella'        , 'Philips'   , 'cc49777f-3c8b-47d6-b1cf-f51783737292', 3   , current_timestamp - interval '12 hours'  , current_timestamp - interval '12 hours', 'f305046d-333a-4d44-ba3e-9a4ef1337ba6', false);
+    (${alertNotificationReceivedId2b}, ${alertReceivedId2}, 'contractAgreementId', 'http://localhost:8082/api/qualitynotifications/receive', 'cc49777f-3c8b-47d6-b1cf-f51783737292', ${bpnOwn} , ${bpnSupplier2}, current_timestamp + interval '1 month', 'LIFE_THREATENING', 'Hella'        , 'Philips'   , 'cc49777f-3c8b-47d6-b1cf-f51783737292', 'ACKNOWLEDGED', current_timestamp - interval '12 hours', current_timestamp - interval '12 hours', 'f305046d-333a-4d44-ba3e-9a4ef1337ba6', false);
 
 ---
 -- join ACK notification to asset
