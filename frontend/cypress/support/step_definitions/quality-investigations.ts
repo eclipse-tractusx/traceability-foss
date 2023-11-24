@@ -37,7 +37,7 @@ Then("select {string} other part", (partAmount) => {
 //   cy.get('span').contains('NO-989134870198932317923938').parentsUntil('.mat-mdc-cell mdc-data-table__cell cdk-cell table--cell cdk-column-semanticModelId mat-column-semanticModelId ng-star-inserted').get('[type="checkbox"]').first().click();
 
   cy.contains('NO-989134870198932317923938')
-    .parentsUntil('tr')
+    .parentsUntil('tr').first()
     .within(() => {
       // all searches are automatically rooted to the found tr element
       //cy.get('[type="checkbox"]').click()
