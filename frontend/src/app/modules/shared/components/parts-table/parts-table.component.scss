@@ -38,7 +38,7 @@
   &__menu {
     background: rgba(0, 0, 0, 0.04);
 
-    & > .table--select-all__dropdown:hover {
+    &>.table--select-all__dropdown:hover {
       background: none;
     }
   }
@@ -309,6 +309,7 @@ tr.error {
       display: flex;
       flex-direction: row;
       align-items: center;
+
       &--asc {
         width: 10px;
         transform: rotate(180deg);
@@ -319,6 +320,7 @@ tr.error {
         width: 10px;
         margin: 9.5px 7px;
       }
+
       &--indicator {
         display: flex;
         align-items: center;
@@ -352,11 +354,11 @@ tr.error {
   margin-left: 5px;
 }
 
-.table--header--row .mdc-data-table__header-cell:first-child {
+.select .table--header--row .mdc-data-table__header-cell:first-child {
   padding: 0 !important;
 }
 
-.table--body--row .mdc-data-table__cell:first-child {
+.select .table--body--row .mdc-data-table__cell:first-child {
   padding: 0 !important;
   border-bottom-style: none !important;
 }
@@ -375,8 +377,8 @@ tr.error {
   padding: 0 !important;
 }
 
-.checkbox + .mdc-data-table__header-cell,
-.checkbox + .mdc-data-table__cell {
+.checkbox+.mdc-data-table__header-cell,
+.checkbox+.mdc-data-table__cell {
   @apply text-secondary;
   padding: 0 !important;
 }
@@ -388,6 +390,7 @@ tr.error {
 
 .table--header--tooltip {
   white-space: pre-line;
+
   .mdc-tooltip__surface {
     background-color: rgb(48, 48, 48);
     @apply font-medium;

@@ -19,46 +19,37 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-.other-parts-container {
-  @apply flex flex-col;
-  height: 72vh;
-}
-
-.parts-search-input-wrapper {
-  padding: 20px;
-}
-
-.app-bom-lifecycle-activator-container {
-  grid-column: 1 / span 2; /* This will make it span both columns */
-  width: 100%;
-}
-
 .split-container {
-  height: auto;
+  height: 518px;
 }
 
-.split-container > as-split-area {
-  overflow: hidden;
-}
-
-.supplier-parts-as-built-table-wrapper {
-  max-height: 51vh;
-}
-
-.supplier-parts-as-planned-table-wrapper {
-  max-height: 51vh;
-}
-
-.customer-parts-as-built-table-wrapper {
-  max-height: 51vh;
-}
-
-.customer-parts-as-planned-table-wrapper {
-  max-height: 51vh;
+.split-container-wrapper {
+  overflow-y: hidden !important;
 }
 
 .other-parts-mat-tab-group {
-  margin: 16px;
+  width: 100%;
+  overflow-y: hidden !important;
 }
 
+.app-bom-lifecycle-activator-container {
+  grid-column: 1 / span 2;
+  /* This will make it span both columns */
+  width: 100%;
+  border-bottom: 1px solid;
+  @apply border-inactiveShape;
+}
 
+.parts-table-wrapper {
+  @extend .parts-tab-wrapper;
+}
+
+.parts-tab-wrapper {
+  height: 100% !important;
+  overflow-y: auto !important;
+}
+
+.split-area {
+  overflow-y: hidden !important;
+  height: 405px;
+}

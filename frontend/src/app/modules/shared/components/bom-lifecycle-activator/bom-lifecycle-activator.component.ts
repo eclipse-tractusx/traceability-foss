@@ -40,6 +40,8 @@ export class BomLifecycleActivatorComponent implements OnInit {
     public lifecycleCtrl = new FormControl('');
     public selectedLifecycles: string[] = [];
 
+    private currentSelectedLifeCycles: string[] = [];
+
     private unimplementedLifecycleTypes: string[] = [BomLifecycleType.AS_DESIGNED, BomLifecycleType.AS_ORDERED, BomLifecycleType.AS_SUPPORTED, BomLifecycleType.AS_RECYCLED];
 
     constructor(public bomLifeCycleUserSetting: BomLifecycleSettingsService) { }
@@ -138,6 +140,14 @@ export class BomLifecycleActivatorComponent implements OnInit {
         for (let i = 0; i < values.length; i++) {
             this.updateLifecycleConfig(values[i], true);
         }
+
+        // sort the selection based on when an item was added
+        this.currentSelectedLifeCycles = this.currentSelectedLifeCycles.filter(item => values.includes(item));
+
+        const newItem = values.filter(item => !this.currentSelectedLifeCycles.includes(item));
+        this.currentSelectedLifeCycles.push(...newItem);
+        this.selectedLifecycles = [...this.currentSelectedLifeCycles];
+
     }
 
     removeLifeCycle(lifeCycle: string): void {
@@ -146,6 +156,8 @@ export class BomLifecycleActivatorComponent implements OnInit {
         if (index >= 0) {
             this.selectedLifecycles.splice(index, 1);
             this.selectedLifecycles = Array.from(this.selectedLifecycles);
+
+            this.currentSelectedLifeCycles = [...this.selectedLifecycles];
         }
 
         this.updateLifecycleConfig(lifeCycle, false);

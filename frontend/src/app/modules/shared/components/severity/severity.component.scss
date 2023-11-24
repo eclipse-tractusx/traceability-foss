@@ -26,6 +26,8 @@
     display: flex;
     align-items: center;
     color: currentColor;
+    white-space: nowrap;
+    padding-right: 10px
   }
 
   &__MINOR {

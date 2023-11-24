@@ -358,7 +358,6 @@ export class PartsTableComponent implements OnInit {
   ];
 
   private readonly displayedColumnsAsPlannedForTable: string[] = [
-    'select',
     'id',
     'idShort',
     'name',
@@ -453,7 +452,6 @@ export class PartsTableComponent implements OnInit {
   ];
 
   private readonly displayedColumnsAsBuiltCustomerForTable: string[] = [
-    'select',
     'semanticDataModel',
     'name',
     'manufacturer',
@@ -476,7 +474,6 @@ export class PartsTableComponent implements OnInit {
   };
 
   private readonly displayedColumnsAsPlannedCustomerForTable: string[] = [
-    'select',
     'semanticDataModel',
     'name',
     'manufacturer',
@@ -517,7 +514,6 @@ export class PartsTableComponent implements OnInit {
   };
 
   private readonly displayedColumnsAsPlannedSupplierForTable: string[] = [
-    'select',
     'semanticDataModel',
     'name',
     'manufacturer',
@@ -552,7 +548,7 @@ export class PartsTableComponent implements OnInit {
     this.filterActivated.emit(filterValues);
   }
 
-  constructor(private readonly tableViewSettingsService: TableSettingsService, private dialog: MatDialog) {}
+  constructor(private readonly tableViewSettingsService: TableSettingsService, private dialog: MatDialog) { }
 
   public defaultColumns: string[];
 

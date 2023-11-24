@@ -258,7 +258,7 @@
     border-radius: 50px !important;
   }
 
-  .mat-mdc-unelevated-button > .mdc-button__label {
+  .mat-mdc-unelevated-button>.mdc-button__label {
     @apply text-interactive;
   }
 
@@ -310,7 +310,7 @@
     @apply text-black;
   }
 
-  .mat-sort-header-sorted > .mat-sort-header-content {
+  .mat-sort-header-sorted>.mat-sort-header-content {
     @apply font-semiBold;
   }
 
@@ -431,9 +431,7 @@
 
   .mat-mdc-form-field.mat-accent .mdc-text-field--invalid:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
   .mat-mdc-form-field.mat-accent .mdc-text-field--invalid:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
-  .mat-mdc-form-field.mat-accent
-    .mdc-text-field--invalid:not(.mdc-text-field--disabled)
-    .mdc-notched-outline__trailing {
+  .mat-mdc-form-field.mat-accent .mdc-text-field--invalid:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
     border-width: 2px !important;
   }
 
@@ -443,8 +441,7 @@
     line-height: 28px;
   }
 
-  .mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field
-    .mdc-notched-outline__notch {
+  .mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field .mdc-notched-outline__notch {
     border-right: none;
     border-left: none;
   }

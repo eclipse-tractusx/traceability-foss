@@ -18,89 +18,98 @@ under the License.
 
 SPDX-License-Identifier: Apache-2.0
 -->
-<div class="other-parts-container">
-  <div class="parts-search-input-wrapper" [formGroup]="searchFormGroup">
-    <app-input
-      [label]="'parts.input.global-search.placeholder' | i18n"
-      [suffixIconHover]="true"
-      [displayClearButton]="true"
-      (suffixIconClick)="triggerPartSearch()"
-      [onEnterActive]="true"
-      [suffixIcon]="'search'"
-      class="parts-search-input"
-      formControlName="partSearch"
-      [parentFormGroup]="searchFormGroup"
-      [parentControlName]="'partSearch'"
-      suffixIconColor="primary"
-    ></app-input>
-  </div>
-  <div class="app-bom-lifecycle-activator-container">
-    <app-bom-lifecycle-activator [view]="UserSettingView.OTHER_PARTS"
-                                 (buttonClickEvent)="handleTableActivationEvent($event)"></app-bom-lifecycle-activator>
-  </div>
-  <as-split direction="horizontal" class="split-container">
-    <as-split-area [size]="this.bomLifecycleSize.asBuiltSize">
-      <p class="large-text">{{'page.asBuiltParts' | i18n }}</p>
-      <mat-tab-group
-        (selectedTabChange)="onTabChange($event)"
-        appTabAsPanel
-        mat-stretch-tabs="false"
-        mat-align-tabs="start"
-        class="other-parts-mat-tab-group"
-      >
-        <mat-tab>
-          <ng-template mat-tab-label>
-            <span [id]="supplierTabLabelId">{{ 'pageOtherParts.tab.supplier' | i18n }} </span>
-          </ng-template>
 
-          <app-supplier-parts
-            [bomLifecycle]="MainAspectType.AS_BUILT"
-          ></app-supplier-parts>
-        </mat-tab>
+<mat-card>
+  <mat-card-header>
+    <div class="inline-block w-full">
+      <div class="flex justify-between items-center">
+        <h3 class="flex items-center">
+          <img class="pr-2"
+            src="/assets/images/icons/my_parts_icon_header.svg"
+            alt="My parts icon" />
+          {{ 'pageTitle.otherParts' | i18n }}
+        </h3>
+      </div>
+    </div>
+    <div [formGroup]="searchFormGroup">
+      <app-input color="accent"
+        [label]="'parts.input.global-search.placeholder' | i18n"
+        [prefixIconHover]="true"
+        (prefixIconClick)="triggerPartSearch()"
+        [onEnterActive]="true"
+        [prefixIcon]="'search'"
+        [isSearchBar]="true"
+        formControlName="partSearch"
+        [parentFormGroup]="searchFormGroup"
+        [parentControlName]="'partSearch'"
+        [displayClearButton]="true"
+        prefixIconColor="accent"></app-input>
+    </div>
+  </mat-card-header>
 
-        <mat-tab>
-          <ng-template mat-tab-label>
-            <span [id]="customerTabLabelId">{{ 'pageOtherParts.tab.customer' | i18n }} </span>
-          </ng-template>
+  <mat-card-content>
+    <div class="app-bom-lifecycle-activator-container">
+      <app-bom-lifecycle-activator [view]=UserSettingView.OTHER_PARTS
+        (buttonClickEvent)="handleTableActivationEvent($event)"></app-bom-lifecycle-activator>
+    </div>
+    <div class="split-container-wrapper">
+      <as-split direction="horizontal"
+        class="split-container">
+        <as-split-area *ngIf="bomLifecycleSize?.asBuiltSize > 0"
+          [size]="bomLifecycleSize.asBuiltSize"
+          data-testid="as-split-area-1-component--test-id"
+          class="split-area">
+          <mat-tab-group (selectedTabChange)="onTabChange($event)"
+            appTabAsPanel
+            mat-stretch-tabs="false"
+            mat-align-tabs="start"
+            class="other-parts-mat-tab-group parts-tab-wrapper">
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <div [id]="supplierTabLabelId">{{ 'pageOtherParts.tab.supplier' | i18n }} </div>
+              </ng-template>
 
-          <app-customer-parts
-            [bomLifecycle]="MainAspectType.AS_BUILT"
-          ></app-customer-parts>
-        </mat-tab>
-      </mat-tab-group>
-    </as-split-area>
-    <as-split-area [size]="this.bomLifecycleSize.asPlannedSize">
-      <p class="large-text">{{'page.asPlannedParts' | i18n }}</p>
-      <mat-tab-group
-        (selectedTabChange)="onTabChange($event)"
-        appTabAsPanel
-        mat-stretch-tabs="false"
-        mat-align-tabs="start"
-        class="other-parts-mat-tab-group"
-      >
-        <mat-tab>
-          <ng-template mat-tab-label>
-            <span [id]="supplierTabLabelId">{{ 'pageOtherParts.tab.supplier' | i18n }} </span>
-          </ng-template>
+              <app-supplier-parts [bomLifecycle]="MainAspectType.AS_BUILT"></app-supplier-parts>
+            </mat-tab>
 
-          <app-supplier-parts
-            [bomLifecycle]="MainAspectType.AS_PLANNED"
-          ></app-supplier-parts>
-        </mat-tab>
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <div [id]="customerTabLabelId">{{ 'pageOtherParts.tab.customer' | i18n }} </div>
+              </ng-template>
 
-        <mat-tab>
-          <ng-template mat-tab-label>
-            <span [id]="customerTabLabelId">{{ 'pageOtherParts.tab.customer' | i18n }} </span>
-          </ng-template>
+              <app-customer-parts [bomLifecycle]="MainAspectType.AS_BUILT"></app-customer-parts>
+            </mat-tab>
+          </mat-tab-group>
+        </as-split-area>
+        <as-split-area *ngIf="bomLifecycleSize?.asPlannedSize > 0"
+          [size]="bomLifecycleSize.asPlannedSize"
+          class="split-area">
+          <mat-tab-group (selectedTabChange)="onTabChange($event)"
+            appTabAsPanel
+            mat-stretch-tabs="false"
+            mat-align-tabs="start"
+            class="other-parts-mat-tab-group parts-tab-wrapper">
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <div [id]="supplierTabLabelId">{{ 'pageOtherParts.tab.supplier' | i18n }} </div>
+              </ng-template>
 
-          <app-customer-parts
-            [bomLifecycle]="MainAspectType.AS_PLANNED"
-          ></app-customer-parts>
-        </mat-tab>
-      </mat-tab-group>
-    </as-split-area>
-  </as-split>
+              <app-supplier-parts [bomLifecycle]="MainAspectType.AS_PLANNED"></app-supplier-parts>
+            </mat-tab>
 
-  <app-part-detail [showRelation]="false"
-                   [showStartInvestigation]="showStartInvestigationArray[selectedTab]"></app-part-detail>
-</div>
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <div [id]="customerTabLabelId">{{ 'pageOtherParts.tab.customer' | i18n }} </div>
+              </ng-template>
+
+              <app-customer-parts [bomLifecycle]="MainAspectType.AS_PLANNED"></app-customer-parts>
+            </mat-tab>
+          </mat-tab-group>
+        </as-split-area>
+      </as-split>
+
+      <app-part-detail [showRelation]="false"
+        [showStartInvestigation]="showStartInvestigationArray[selectedTab]"></app-part-detail>
+    </div>
+  </mat-card-content>
+</mat-card>
