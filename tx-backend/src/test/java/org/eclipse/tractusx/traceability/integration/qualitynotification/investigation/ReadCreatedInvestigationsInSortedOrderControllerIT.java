@@ -30,14 +30,10 @@ import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.util.Date;
-
 import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 
-class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends IntegrationTestSpecification {
+class ReadCreatedInvestigationsInSortedOrderControllerIT extends IntegrationTestSpecification {
 
     @Autowired
     BpnSupport bpnSupport;
@@ -45,164 +41,20 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
     InvestigationNotificationsSupport investigationNotificationsSupport;
 
     @Test
-    void givenFilterBySendToProvided_whenGetInvestigations_thenReturnCreatedInvestigationsFilteredBySendTo() throws JoseException {
+    void givenSortByCreatedDateProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
         // given
-        String filterString = "sendTo,EQUAL,BPNL000000000001";
+        String sortString = "createdDate,desc";
         String testBpn = bpnSupport.testBpn();
 
         InvestigationNotificationEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createSenderMajorityInvestigationNotificationEntitiesTestData(testBpn);
         investigationNotificationsSupport.storedNotifications(investigationNotificationEntities);
 
+        // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .param("page", "0")
                 .param("size", "10")
-                .param("filter", filterString)
-                .param("filterOperator", "AND")
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/api/investigations/created")
-                .then()
-                .statusCode(200)
-                .body("page", Matchers.is(0))
-                .body("pageSize", Matchers.is(10))
-                .body("content", Matchers.hasSize(2))
-                .body("totalItems", Matchers.is(2))
-                .body("content.sendTo", Matchers.hasItems("BPNL000000000001"));
-        ;
-    }
-
-    @Test
-    void givenFilterByCreatedDateProvided_whenGetInvestigations_thenReturnCreatedInvestigationsFilteredByCreatedDate() throws JoseException {
-        // given
-        Date myDate = Date.from(Instant.now());
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String formattedDate = formatter.format(myDate);
-        String filterString = "createdDate,AT_LOCAL_DATE," + formattedDate;
-        String testBpn = bpnSupport.testBpn();
-
-        InvestigationNotificationEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createSenderMajorityInvestigationNotificationEntitiesTestData(testBpn);
-        investigationNotificationsSupport.storedNotifications(investigationNotificationEntities);
-
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("filter", filterString)
-                .param("filterOperator", "AND")
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/api/investigations/created")
-                .then()
-                .statusCode(200)
-                .body("page", Matchers.is(0))
-                .body("pageSize", Matchers.is(10))
-                .body("content", Matchers.hasSize(4))
-                .body("totalItems", Matchers.is(4));
-    }
-
-    @Test
-    void givenFilterBySendToNameProvided_whenGetInvestigations_thenReturnCreatedInvestigationsFilteredBySendToName() throws JoseException {
-        // given
-        String filterString = "sendToName,EQUAL,OEM2";
-        String testBpn = bpnSupport.testBpn();
-
-        InvestigationNotificationEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createSenderMajorityInvestigationNotificationEntitiesTestData(testBpn);
-        investigationNotificationsSupport.storedNotifications(investigationNotificationEntities);
-
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("filter", filterString)
-                .param("filterOperator", "AND")
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/api/investigations/created")
-                .then()
-                .statusCode(200)
-                .body("page", Matchers.is(0))
-                .body("pageSize", Matchers.is(10))
-                .body("content", Matchers.hasSize(1))
-                .body("totalItems", Matchers.is(1))
-                .body("content.sendToName", Matchers.hasItems("OEM2"));
-        ;
-        ;
-    }
-
-    @Test
-    void givenFilterByStatusProvided_whenGetInvestigations_thenReturnCreatedInvestigationsFilteredByStatus() throws JoseException {
-        // given
-        String filterString = "status,EQUAL,ACCEPTED";
-        String testBpn = bpnSupport.testBpn();
-
-        InvestigationNotificationEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createSenderMajorityInvestigationNotificationEntitiesTestData(testBpn);
-        investigationNotificationsSupport.storedNotifications(investigationNotificationEntities);
-
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("filter", filterString)
-                .param("filterOperator", "AND")
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/api/investigations/created")
-                .then()
-                .statusCode(200)
-                .body("page", Matchers.is(0))
-                .body("pageSize", Matchers.is(10))
-                .body("content", Matchers.hasSize(1))
-                .body("totalItems", Matchers.is(1))
-                .body("content.status", Matchers.hasItems("ACCEPTED"));
-        ;
-        ;
-    }
-
-    @Test
-    void givenFilterBySeverityProvided_whenGetInvestigations_thenReturnCreatedInvestigationsFilteredBySeverity() throws JoseException {
-        // given
-        String filterString = "severity,EQUAL,3";
-        String testBpn = bpnSupport.testBpn();
-
-        InvestigationNotificationEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createSenderMajorityInvestigationNotificationEntitiesTestData(testBpn);
-        investigationNotificationsSupport.storedNotifications(investigationNotificationEntities);
-
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("filter", filterString)
-                .param("filterOperator", "AND")
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/api/investigations/created")
-                .then()
-                .statusCode(200)
-                .body("page", Matchers.is(0))
-                .body("pageSize", Matchers.is(10))
-                .body("content", Matchers.hasSize(1))
-                .body("totalItems", Matchers.is(1))
-                .body("content.severity", Matchers.hasItems("LIFE-THREATENING"));
-        ;
-        ;
-    }
-
-    @Test
-    void givenFilterByCreatedByProvided_whenGetInvestigations_thenReturnCreatedInvestigationsFilteredByCreatedBy() throws JoseException {
-        // given
-        String filterString = "createdBy,EQUAL,BPNL00000000000A";
-        String testBpn = bpnSupport.testBpn();
-
-        InvestigationNotificationEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createSenderMajorityInvestigationNotificationEntitiesTestData(testBpn);
-        investigationNotificationsSupport.storedNotifications(investigationNotificationEntities);
-
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("filter", filterString)
-                .param("filterOperator", "AND")
+                .param("sort", sortString)
                 .contentType(ContentType.JSON)
                 .when()
                 .get("/api/investigations/created")
@@ -212,15 +64,16 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
                 .body("pageSize", Matchers.is(10))
                 .body("content", Matchers.hasSize(4))
                 .body("totalItems", Matchers.is(4))
-                .body("content.createdBy", Matchers.hasItems("BPNL00000000000A"));
-        ;
-        ;
+                .body("content.description",
+                        Matchers.containsInRelativeOrder("Second Investigation on Asset2", "Fourth Investigation on Asset4",
+                                "Third Investigation on Asset3", "First Investigation on Asset1"));
     }
 
+
     @Test
-    void givenFilterByDescriptionProvided_whenGetInvestigations_thenReturnCreatedInvestigationsFilteredByDescription() throws JoseException {
+    void givenSortByDescriptionProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
         // given
-        String filterString = "description,STARTS_WITH,First";
+        String sortString = "description,desc";
         String testBpn = bpnSupport.testBpn();
 
         InvestigationNotificationEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createSenderMajorityInvestigationNotificationEntitiesTestData(testBpn);
@@ -230,8 +83,7 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .param("page", "0")
                 .param("size", "10")
-                .param("filter", filterString)
-                .param("filterOperator", "AND")
+                .param("sort", sortString)
                 .contentType(ContentType.JSON)
                 .when()
                 .get("/api/investigations/created")
@@ -239,18 +91,17 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
-                .body("content", Matchers.hasSize(1))
-                .body("totalItems", Matchers.is(1))
-                .body("content.description", Matchers.hasItems("First Investigation on Asset1"));
-        ;
-        ;
+                .body("content", Matchers.hasSize(4))
+                .body("totalItems", Matchers.is(4))
+                .body("content.description",
+                        Matchers.containsInRelativeOrder("Third Investigation on Asset3", "Second Investigation on Asset2",
+                                "Fourth Investigation on Asset4", "First Investigation on Asset1"));
     }
 
     @Test
-    void givenFilterByDescriptionAndSendToProvided_whenGetInvestigations_thenReturnCreatedInvestigationsFilteredByDescriptionAndSendTo() throws JoseException {
+    void givenSortByStatusProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
         // given
-        String filterString1 = "description,STARTS_WITH,First";
-        String filterString2 = "sendTo,EQUAL,BPNL000000000001";
+        String sortString = "status,asc";
         String testBpn = bpnSupport.testBpn();
 
         InvestigationNotificationEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createSenderMajorityInvestigationNotificationEntitiesTestData(testBpn);
@@ -260,9 +111,7 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .param("page", "0")
                 .param("size", "10")
-                .param("filter", filterString1)
-                .param("filter", filterString2)
-                .param("filterOperator", "AND")
+                .param("sort", sortString)
                 .contentType(ContentType.JSON)
                 .when()
                 .get("/api/investigations/created")
@@ -270,17 +119,15 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
-                .body("content", Matchers.hasSize(1))
-                .body("totalItems", Matchers.is(1))
-                .body("content.sendTo", Matchers.hasItems("BPNL000000000001"))
-                .body("content.description", Matchers.hasItems("First Investigation on Asset1"));
+                .body("content", Matchers.hasSize(4))
+                .body("totalItems", Matchers.is(4))
+                .body("content.status", Matchers.containsInRelativeOrder( "CREATED", "SENT", "ACKNOWLEDGED", "ACCEPTED"));
     }
 
     @Test
-    void givenFilterBySendToNameOrSendToProvided_whenGetInvestigations_thenReturnCreatedInvestigationsFilteredBySendToNameOrSendTo() throws JoseException {
+    void givenSortBySeverityProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
         // given
-        String filterString1 = "sendToName,EQUAL,OEM2";
-        String filterString2 = "sendTo,EQUAL,BPNL000000000001";
+        String sortString = "severity,asc";
         String testBpn = bpnSupport.testBpn();
 
         InvestigationNotificationEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createSenderMajorityInvestigationNotificationEntitiesTestData(testBpn);
@@ -290,9 +137,7 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .param("page", "0")
                 .param("size", "10")
-                .param("filter", filterString1)
-                .param("filter", filterString2)
-                .param("filterOperator", "OR")
+                .param("sort", sortString)
                 .contentType(ContentType.JSON)
                 .when()
                 .get("/api/investigations/created")
@@ -300,9 +145,81 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
-                .body("content", Matchers.hasSize(3))
-                .body("totalItems", Matchers.is(3))
-                .body("content.sendTo", Matchers.hasItems("BPNL000000000001"))
-                .body("content.sendToName", Matchers.hasItems("OEM2"));
+                .body("content", Matchers.hasSize(4))
+                .body("totalItems", Matchers.is(4))
+                .body("content.severity", Matchers.containsInRelativeOrder("MINOR", "MAJOR", "CRITICAL", "LIFE-THREATENING"));
+    }
+
+    @Test
+    void givenInvalidSort_whenGetCreated_thenBadRequest() throws JoseException {
+        // given
+        String sortString = "createdDate,failure";
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .param("page", "0")
+                .param("size", "10")
+                .param("sort", sortString)
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/investigations/created")
+                .then()
+                .statusCode(400)
+                .body("message", Matchers.is(
+                        "Invalid sort param provided sort=createdDate,failure expected format is following sort=parameter,order"
+                ));
+    }
+
+    @Test
+    void givenSortBySendToProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
+        // given
+        String sortString = "sendTo,desc";
+        String testBpn = bpnSupport.testBpn();
+
+        InvestigationNotificationEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createSenderMajorityInvestigationNotificationEntitiesTestData(testBpn);
+        investigationNotificationsSupport.storedNotifications(investigationNotificationEntities);
+
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .param("page", "0")
+                .param("size", "10")
+                .param("sort", sortString)
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/investigations/created")
+                .then()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(10))
+                .body("content", Matchers.hasSize(4))
+                .body("totalItems", Matchers.is(4))
+                .body("content.sendTo", Matchers.containsInRelativeOrder("BPNL000000000003", "BPNL000000000002", "BPNL000000000001", "BPNL000000000001"));
+    }
+
+    @Test
+    void givenSortByTargetDateProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
+        // given
+        String sortString = "targetDate,asc";
+        String testBpn = bpnSupport.testBpn();
+
+        InvestigationNotificationEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createSenderMajorityInvestigationNotificationEntitiesTestData(testBpn);
+        investigationNotificationsSupport.storedNotifications(investigationNotificationEntities);
+
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .param("page", "0")
+                .param("size", "10")
+                .param("sort", sortString)
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/investigations/created")
+                .then()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(10))
+                .body("content", Matchers.hasSize(4))
+                .body("totalItems", Matchers.is(4))
+                .body("content.sendToName", Matchers.containsInRelativeOrder("OEM1", "OEM2", "OEM1", "OEM3"));
     }
 }

@@ -21,7 +21,13 @@ package org.eclipse.tractusx.traceability.integration.qualitynotification.alert;
 
 import io.restassured.http.ContentType;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
+import org.eclipse.tractusx.traceability.integration.common.support.AlertNotificationsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.BpnSupport;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertNotificationEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationNotificationEntity;
+import org.eclipse.tractusx.traceability.testdata.AlertTestDataFactory;
+import org.eclipse.tractusx.traceability.testdata.InvestigationTestDataFactory;
 import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
@@ -31,6 +37,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import qualitynotification.base.request.UpdateQualityNotificationStatusRequest;
 
+import java.time.Instant;
 import java.util.stream.Stream;
 
 import static io.restassured.RestAssured.given;
@@ -42,6 +49,12 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
 
     @Autowired
     AlertsSupport alertsSupport;
+
+    @Autowired
+    AlertNotificationsSupport alertNotificationsSupport;
+
+    @Autowired
+    BpnSupport bpnSupport;
 
     @Test
     void ShouldAcknowledgeReceivedAlert() throws JoseException {
@@ -248,5 +261,4 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
                         """.replace("$status", UpdateQualityNotificationStatusRequest.DECLINED.name()))
         );
     }
-
 }
