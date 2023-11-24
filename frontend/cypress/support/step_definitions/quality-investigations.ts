@@ -33,32 +33,28 @@ Then("select {string} other part", (partAmount) => {
   cy.get('span').contains('As Planned').click(); // see comment above. This has to be done to avoid asPlanned selection
   // cy.get('#mat-mdc-checkbox-38').click(); //---TBD--- this is only a method to make it run, has to be changed to selected part as above!
 //   cy.get('span').contains('NO-989134870198932317923938').parentsUntil('.mat-mdc-row mdc-data-table__row cdk-row ng-star-inserted').first().get('[type="checkbox"]').click();
-  //cy.get('span').contains('NO-989134870198932317923938').parentsUntil('.mat-mdc-row mdc-data-table__row cdk-row ng-star-inserted').children().get('[type="checkbox"]').first().click();
+//cy.get('span').contains('NO-989134870198932317923938').parentsUntil('.mat-mdc-row mdc-data-table__row cdk-row ng-star-inserted').children().get('[type="checkbox"]').first().click();
 //   cy.get('span').contains('NO-989134870198932317923938').parentsUntil('.mat-mdc-cell mdc-data-table__cell cdk-cell table--cell cdk-column-semanticModelId mat-column-semanticModelId ng-star-inserted').get('[type="checkbox"]').first().click();
 
-
-  cy.contains('span', 'NO-989134870198932317923938')  // gives you the cell
-    .parent()                              // gives you the row
-    .within(($tr) => {                       // filters just that row
-      cy.children().get($div)//cy.get('[type="checkbox"]')//.get('[data-testid="select-one--test-id"]') // finds the buttons cell of that row
-      .click()
-      });
+  cy.contains('NO-989134870198932317923938')
+    .parent('tr')
+    .within(() => {
+      // all searches are automatically rooted to the found tr element
+      //cy.get('[type="checkbox"]').click()
+      cy.get('td').get('mat-checkbox').click()
+    });
+//   cy.contains('span', 'NO-989134870198932317923938')  // gives you the cell
+//     .parent()                              // gives you the row
+//     .within(($tr) => {                       // filters just that row
+//       cy.children().get($div)//cy.get('[type="checkbox"]')//.get('[data-testid="select-one--test-id"]') // finds the buttons cell of that row
+//       .click()
+//       });
 
 
       //     cy.contains('span', 'NO-989134870198932317923938')  // gives you the cell
       //       .siblings()                            // gives you all the other cells in the row
       //       .get('[type="checkbox"]')               // finds the delete button
       //       .click()
-
-//   cy.contains('span', 'NO-989134870198932317923938')  // gives you the cell
-//     .siblings()                            // gives you all the other cells in the row
-//     .contains('a', 'DELETE')               // finds the delete button
-//     .click()
-//     cy.contains('span', 'NO-989134870198932317923938')  // gives you the cell
-//       .siblings()                            // gives you all the other cells in the row
-//       .get('[type="checkbox"]')               // finds the delete button
-//       .click()
-
   //cy.get('span').contains('NO-989134870198932317923938').parentsUntil('.mat-mdc-cell mdc-data-table__cell cdk-cell table--cell cdk-column-semanticModelId mat-column-semanticModelId ng-star-inserted').get('[type="checkbox"]').first().click();
 });
 
