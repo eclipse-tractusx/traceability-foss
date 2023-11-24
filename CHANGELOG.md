@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+- Updated mikefarah/yq from 4.35.2 to 4.40.2
+- Upgraded maven-checkstyle-plugin from 3.3.0 to 3.3.1
+- Upgraded nimbus-jose-jwt from 9.31 to 9.37.1
+- Upgraded maven-install-plugin from 3.0.1 to 3.1.1
+- Upgraded json-unit-assertj from 2.38.0 to 3.2.2
+- Upgraded asciidoctorj-diagram from 2.2.9 to 2.2.13
+
 ## [UNRELEASED - DD.MM.YYYY]
 ### Added
 - DEPENDENCIES_FRONTEND, SECURITY.md, NOTICE.md, LICENSE file to frontend docker image
