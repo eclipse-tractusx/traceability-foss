@@ -5,6 +5,22 @@ skinparam defaultFontName "Architects daughter"
 skinparam linetype ortho
 title: Domain Model
 
+class ImportJobs {
+    importId : String (max = 255)
+    startedOn : Instant(UTC)
+    completedOn : Instant(UTC)
+    importStatus : enum()
+}
+
+class ImportedAsset{
+    assetImportId : String (max = 255)
+    importStatus : enum()
+    importMessage : String (max = 4000)
+    importedOn : Instant(UTC)
+    catenaXId : String (max = 255)
+}
+
+
 abstract Asset {
         *   id : String (max = 255)
         idShort : String (max = 255)
@@ -45,7 +61,7 @@ note left
     semantic models
 end note
 
-class SemanticPayload  {
+class SemanticPayload  #back:red;line:00FFFF {
     *   id : String
        payload : JSONObject /'Payload of semantic model'/
  }
@@ -121,4 +137,5 @@ DetailAspectModelModel  <|.. TractionBatteryCode
 DetailAspectModelModel  <|..  PartSiteInformationAsPlanned
 
 Asset ||---|| SemanticPayload
+DetailAspectModelModel ||---|| SemanticPayload
 @enduml

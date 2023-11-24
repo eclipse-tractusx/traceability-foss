@@ -5,19 +5,15 @@ skinparam linetype ortho
 skinparam defaultFontName "Architects daughter"
 
 
-entity DigitalTwinsToImport {
-    * digitalTwinsToImport : Collection<Asset>
+entity Assets {
+    * assets : Collection<Asset>
 }
 entity Asset {
-    * assetId : String <uuid>
+    * catenaXId : String <uuid>
     creator : String <author>
     * shells : Collection<Shell>
     * submodels : Collection<SubmodelData<T>>
 }
- note left
-    twinId == C-X ID
-    assetId == local ID for asset company internal
- end note
 
 entity Shell {
     descriptions : Collection<ShellDescription>
@@ -28,7 +24,6 @@ entity ShellDescription {
 entity SubmodelData<T> {
     * aspectType : String <urn>
     * identification : String <id>
-    descriptions : Collections<Tuple<String,String>>
     * payload : Submodel<T>
 }
 
@@ -36,7 +31,7 @@ entity  Submodel<T>
 
 entity SerialPart
 
-DigitalTwinsToImport }o--|{ Asset
+Assets }o--|{ Asset
 Asset  }o--|{ Shell
 Shell }o--|{  ShellDescription
 Asset }o-|{ SubmodelData
