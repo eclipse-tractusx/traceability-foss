@@ -74,7 +74,7 @@ export class TableSettingsService {
                 isInvalid = true;
             }
         }
-        for (const col of storage[tableType]?.columnsForDialog) {
+        for (const col of storageElement.columnsForDialog) {
             if (!tableViewConfig.displayedColumns.includes(col)) {
                 isInvalid = true;
             }

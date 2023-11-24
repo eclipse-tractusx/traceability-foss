@@ -67,8 +67,9 @@ import {
     PartsAsPlannedCustomerConfigurationModel
 } from "@shared/components/parts-table/parts-as-planned-customer-configuration.model";
 import {Router} from "@angular/router";
-import {ALERT_BASE_ROUTE, INVESTIGATION_BASE_ROUTE} from "@core/known-route";
 import {ToastService} from "@shared/components/toasts/toast.service";
+import {DeeplinkService} from "@shared/service/deeplink.service";
+import {NotificationColumn} from "@shared/model/notification.model";
 
 
 @Component({
@@ -143,7 +144,8 @@ export class PartsTableComponent implements OnInit {
         private readonly tableSettingsService: TableSettingsService,
         private dialog: MatDialog,
         private router: Router,
-        private toastService: ToastService) {
+        private toastService: ToastService,
+        private deeplinkService: DeeplinkService) {
     }
 
 
@@ -170,40 +172,12 @@ export class PartsTableComponent implements OnInit {
 
 
     public deeplinkToNotification(column: any, notificationId: string[]) {
-        let route;
-        let received;
-        let tabIndex;
-        switch (column) {
-            case "receivedActiveAlerts": {
-                received = true;
-                route = ALERT_BASE_ROUTE;
-                tabIndex = 0;
-                break;
-            }
-            case "sentActiveAlerts": {
-                received = false;
-                route = ALERT_BASE_ROUTE;
-                tabIndex = 1;
-                break;
-            }
-            case "receivedActiveInvestigations": {
-                received = true;
-                route = INVESTIGATION_BASE_ROUTE;
-                tabIndex = 0;
-                break;
-            }
-            case "sentActiveInvestigations": {
-                received = false;
-                route = INVESTIGATION_BASE_ROUTE;
-                tabIndex = 1;
-                break;
-            }
-        }
-        this.router.navigate([route], {queryParams: {tabIndex: tabIndex, deeplink: true, received: received, notificationIds: notificationId}})
+        const deeplinkModel = this.deeplinkService.getDeeplink(column, notificationId);
+        this.router.navigate([deeplinkModel.route], {queryParams: {tabIndex: deeplinkModel.tabIndex, deeplink: true, received: deeplinkModel.received, notificationIds: deeplinkModel.data}});
     }
 
-    public isNotificationCountColumn(column: any) {
-        return column === 'receivedActiveAlerts' || column === 'sentActiveAlerts' || column === 'receivedActiveInvestigations' || column === 'sentActiveInvestigations';
+    public isNotificationCountColumn(column: NotificationColumn) {
+        return column === NotificationColumn.RECEIVED_ALERT || column === NotificationColumn.SENT_ALERT || column === NotificationColumn.RECEIVED_INVESTIGATION || column === NotificationColumn.SENT_INVESTIGATION;
     }
 
     public isDateElement(key: string) {
