@@ -70,7 +70,7 @@ Then("selected parts are marked as investigated", () => {
 });
 
 When("popup with information about queued investigation is shown", () => {
-  cy.contains(/You queued an investigation for 1 part/i).should('be.visible');
+  cy.contains(/You queued an investigation for 5 parts/i).should('be.visible');
 });
 
 When("user navigate to {string} with button in popup", (popupClick) => {
