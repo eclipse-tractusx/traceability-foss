@@ -1,16 +1,12 @@
-import {DatePipe} from '@angular/common';
-import {SemanticDataModel} from '@page/parts/model/parts.model';
-import {
-    MultiSelectAutocompleteComponent
-} from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
-import {
-    FormatPartSemanticDataModelToCamelCasePipe
-} from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
-import {SharedModule} from '@shared/shared.module';
-import {renderComponent} from '@tests/test-render.utils';
-import {PartTableType} from "@shared/components/table/table.model";
-import {Owner} from "@page/parts/model/owner.enum";
-import {MatDatepickerInputEvent} from "@angular/material/datepicker";
+import { DatePipe } from '@angular/common';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { Owner } from '@page/parts/model/owner.enum';
+import { SemanticDataModel } from '@page/parts/model/parts.model';
+import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
+import { PartTableType } from '@shared/components/table/table.model';
+import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
+import { SharedModule } from '@shared/shared.module';
+import { renderComponent } from '@tests/test-render.utils';
 
 describe('MultiSelectAutocompleteComponent', () => {
     const renderMultiSelectAutoCompleteComponent = (multiple = true) => {
@@ -413,5 +409,22 @@ describe('MultiSelectAutocompleteComponent', () => {
         // Assert
         expect(eventMock.stopPropagation).not.toHaveBeenCalled();
     });
+
+  it('should not stop event propagation for space key', async() => {
+    // Arrange
+    const {fixture} = await renderMultiSelectAutoCompleteComponent();
+    const {componentInstance} = fixture;
+    const eventMock = {
+      key: ' ',
+      ctrlKey: false,
+      stopPropagation: jasmine.createSpy('stopPropagation')
+    };
+
+    // Act
+    componentInstance.filterKeyCommands(eventMock);
+
+    // Assert
+    expect(eventMock.stopPropagation).toHaveBeenCalled();
+  });
 
 });
