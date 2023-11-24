@@ -319,7 +319,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   }
 
     filterKeyCommands(event: any) {
-        if (event.key === 'Enter' || (event.ctrlKey && event.key === 'a')) {
+    if (event.key === 'Enter' || (event.ctrlKey && event.key === 'a' || event.key === ' ')) {
           event.stopPropagation();
         }
     }
