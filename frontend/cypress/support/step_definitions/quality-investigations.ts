@@ -40,7 +40,7 @@ Then("select {string} other part", (partAmount) => {
   cy.contains('span', 'NO-989134870198932317923938')  // gives you the cell
     .parent()                              // gives you the row
     .within(($tr) => {                       // filters just that row
-      cy.get('[type="checkbox"]')//.get('[data-testid="select-one--test-id"]') // finds the buttons cell of that row
+      //cy.get('[type="checkbox"]')//.get('[data-testid="select-one--test-id"]') // finds the buttons cell of that row
       .click()
       });
 
