@@ -40,13 +40,14 @@ Then("select {string} other part", (partAmount) => {
     .parentsUntil('tr').last()
     .within(() => {
       // all searches are automatically rooted to the found tr element
-      cy.get('[@id="mat-mdc-checkbox-234-input"]').click()
+      cy.get('[id="mat-mdc-checkbox-234-input"]').click()
       //cy.get('td').get('mat-checkbox').click()
     });
 
 //     <input type="checkbox" class="mdc-checkbox__native-control" id="mat-mdc-checkbox-234-input" tabindex="0">
 //     #mat-mdc-checkbox-234-input
     //*[@id="mat-mdc-checkbox-234-input"]
+    ///html/body/app-root/div/div/app-layout/main/div/div/div/app-other-parts/div/as-split/as-split-area[1]/mat-tab-group/div/mat-tab-body[1]/div/app-supplier-parts/div/app-parts-table/div[2]/table/tbody/tr[1]/td[1]/mat-checkbox/div/div/input
 //   cy.contains('span', 'NO-989134870198932317923938')  // gives you the cell
 //     .parent()                              // gives you the row
 //     .within(($tr) => {                       // filters just that row
