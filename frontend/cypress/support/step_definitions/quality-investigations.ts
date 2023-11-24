@@ -34,7 +34,26 @@ Then("select {string} other part", (partAmount) => {
   // cy.get('#mat-mdc-checkbox-38').click(); //---TBD--- this is only a method to make it run, has to be changed to selected part as above!
 //   cy.get('span').contains('NO-989134870198932317923938').parentsUntil('.mat-mdc-row mdc-data-table__row cdk-row ng-star-inserted').first().get('[type="checkbox"]').click();
   //cy.get('span').contains('NO-989134870198932317923938').parentsUntil('.mat-mdc-row mdc-data-table__row cdk-row ng-star-inserted').children().get('[type="checkbox"]').first().click();
-  cy.get('span').contains('NO-989134870198932317923938').parentsUntil('.mat-mdc-cell mdc-data-table__cell cdk-cell table--cell cdk-column-semanticModelId mat-column-semanticModelId ng-star-inserted').get('[type="checkbox"]').first().click();
+//   cy.get('span').contains('NO-989134870198932317923938').parentsUntil('.mat-mdc-cell mdc-data-table__cell cdk-cell table--cell cdk-column-semanticModelId mat-column-semanticModelId ng-star-inserted').get('[type="checkbox"]').first().click();
+
+
+//   cy.contains('span', 'NO-989134870198932317923938')  // gives you the cell
+//     .parent()                              // gives you the row
+//     .within($tr => {                       // filters just that row
+//       .get('td a')                         // finds the buttons cell of that row
+//       .contains('DELETE')                  // finds the delete button
+//       .click()
+
+//   cy.contains('span', 'NO-989134870198932317923938')  // gives you the cell
+//     .siblings()                            // gives you all the other cells in the row
+//     .contains('a', 'DELETE')               // finds the delete button
+//     .click()
+    cy.contains('span', 'NO-989134870198932317923938')  // gives you the cell
+      .siblings()                            // gives you all the other cells in the row
+      .get('[type="checkbox"]')               // finds the delete button
+      .click()
+
+  //cy.get('span').contains('NO-989134870198932317923938').parentsUntil('.mat-mdc-cell mdc-data-table__cell cdk-cell table--cell cdk-column-semanticModelId mat-column-semanticModelId ng-star-inserted').get('[type="checkbox"]').first().click();
 });
 
 Then("start investigation creation with description {string}", function (description) {
