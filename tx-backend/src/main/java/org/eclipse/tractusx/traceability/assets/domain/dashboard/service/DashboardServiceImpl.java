@@ -38,6 +38,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DashboardServiceImpl implements DashboardService {
 
+    //TODO: rework this to use Service classes instead of using the Repository directly
     private final AssetAsBuiltRepository assetAsBuiltRepository;
     private final AssetAsPlannedRepository assetAsPlannedRepository;
     private final InvestigationRepository investigationsRepository;
