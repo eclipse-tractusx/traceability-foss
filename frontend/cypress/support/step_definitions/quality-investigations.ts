@@ -34,7 +34,7 @@ Then("select {string} other part", (partAmount) => {
   // cy.get('#mat-mdc-checkbox-38').click(); //---TBD--- this is only a method to make it run, has to be changed to selected part as above!
 //   cy.get('span').contains('NO-989134870198932317923938').parentsUntil('.mat-mdc-row mdc-data-table__row cdk-row ng-star-inserted').first().get('[type="checkbox"]').click();
   //cy.get('span').contains('NO-989134870198932317923938').parentsUntil('.mat-mdc-row mdc-data-table__row cdk-row ng-star-inserted').children().get('[type="checkbox"]').first().click();
-  cy.get('span').contains('NO-989134870198932317923938').prevUntil('.mat-mdc-row mdc-data-table__row cdk-row ng-star-inserted').get('[type="checkbox"]').first().click();
+  cy.get('span').contains('NO-989134870198932317923938').parentsUntil('.mat-mdc-cell mdc-data-table__cell cdk-cell table--cell cdk-column-semanticModelId mat-column-semanticModelId ng-star-inserted').get('[type="checkbox"]').click();
 });
 
 Then("start investigation creation with description {string}", function (description) {
