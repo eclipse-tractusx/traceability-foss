@@ -39,10 +39,16 @@ Then("select {string} other part", (partAmount) => {
 
   cy.contains('span', 'NO-989134870198932317923938')  // gives you the cell
     .parent()                              // gives you the row
-    .within($tr => {                       // filters just that row
+    .within(($tr) => {                       // filters just that row
       .get('[data-testid="select-one--test-id"]') // finds the buttons cell of that row
       .click()
       });
+
+
+      //     cy.contains('span', 'NO-989134870198932317923938')  // gives you the cell
+      //       .siblings()                            // gives you all the other cells in the row
+      //       .get('[type="checkbox"]')               // finds the delete button
+      //       .click()
 
 //   cy.contains('span', 'NO-989134870198932317923938')  // gives you the cell
 //     .siblings()                            // gives you all the other cells in the row
