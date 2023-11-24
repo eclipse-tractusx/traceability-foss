@@ -37,21 +37,21 @@ Then("select {string} other part", (partAmount) => {
 //   cy.get('span').contains('NO-989134870198932317923938').parentsUntil('.mat-mdc-cell mdc-data-table__cell cdk-cell table--cell cdk-column-semanticModelId mat-column-semanticModelId ng-star-inserted').get('[type="checkbox"]').first().click();
 
 
-//   cy.contains('span', 'NO-989134870198932317923938')  // gives you the cell
-//     .parent()                              // gives you the row
-//     .within($tr => {                       // filters just that row
-//       .get('td a')                         // finds the buttons cell of that row
-//       .contains('DELETE')                  // finds the delete button
-//       .click()
+  cy.contains('span', 'NO-989134870198932317923938')  // gives you the cell
+    .parent()                              // gives you the row
+    .within($tr => {                       // filters just that row
+      .get('[data-testid="select-one--test-id"]')                         // finds the buttons cell of that row
+      //.contains('DELETE')                  // finds the delete button
+      .click()
 
 //   cy.contains('span', 'NO-989134870198932317923938')  // gives you the cell
 //     .siblings()                            // gives you all the other cells in the row
 //     .contains('a', 'DELETE')               // finds the delete button
 //     .click()
-    cy.contains('span', 'NO-989134870198932317923938')  // gives you the cell
-      .siblings()                            // gives you all the other cells in the row
-      .get('[type="checkbox"]')               // finds the delete button
-      .click()
+//     cy.contains('span', 'NO-989134870198932317923938')  // gives you the cell
+//       .siblings()                            // gives you all the other cells in the row
+//       .get('[type="checkbox"]')               // finds the delete button
+//       .click()
 
   //cy.get('span').contains('NO-989134870198932317923938').parentsUntil('.mat-mdc-cell mdc-data-table__cell cdk-cell table--cell cdk-column-semanticModelId mat-column-semanticModelId ng-star-inserted').get('[type="checkbox"]').first().click();
 });
