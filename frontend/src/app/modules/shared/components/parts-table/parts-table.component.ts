@@ -68,6 +68,7 @@ import {
 } from "@shared/components/parts-table/parts-as-planned-customer-configuration.model";
 import {Router} from "@angular/router";
 import {ALERT_BASE_ROUTE, INVESTIGATION_BASE_ROUTE} from "@core/known-route";
+import {ToastService} from "@shared/components/toasts/toast.service";
 
 
 @Component({
@@ -138,7 +139,11 @@ export class PartsTableComponent implements OnInit {
     @Output() clickSelectAction = new EventEmitter<void>();
     @Output() filterActivated = new EventEmitter<any>();
 
-    constructor(private readonly tableSettingsService: TableSettingsService, private dialog: MatDialog, private router: Router) {
+    constructor(
+        private readonly tableSettingsService: TableSettingsService,
+        private dialog: MatDialog,
+        private router: Router,
+        private toastService: ToastService) {
     }
 
 
@@ -246,6 +251,10 @@ export class PartsTableComponent implements OnInit {
 
     private setupTableViewSettings() {
         const tableSettingsList = this.tableSettingsService.getStoredTableSettings();
+
+        if (this.tableSettingsService.storedTableSettingsInvalid(this.tableViewConfig, this.tableType)){
+
+        }
         // check if there are table settings list
         if (tableSettingsList) {
             // if yes, check if there is a table-setting for this table type
@@ -260,7 +269,7 @@ export class PartsTableComponent implements OnInit {
                     columnsForTable: this.tableViewConfig.displayedColumns,
                     filterColumnsForTable: this.tableViewConfig.filterColumns
                 };
-                this.tableSettingsService.storeTableSettings(this.tableType, tableSettingsList);
+                this.tableSettingsService.storeTableSettings(tableSettingsList);
                 this.setupTableConfigurations(this.tableViewConfig.displayedColumns, this.tableViewConfig.filterColumns, this.tableViewConfig.sortableColumns, this.tableViewConfig.displayFilterColumnMappings, this.tableViewConfig.filterFormGroup);
             }
         } else {
@@ -273,7 +282,7 @@ export class PartsTableComponent implements OnInit {
                     filterColumnsForTable: this.tableViewConfig.filterColumns
                 }
             }
-            this.tableSettingsService.storeTableSettings(this.tableType, newTableSettingsList);
+            this.tableSettingsService.storeTableSettings(newTableSettingsList);
             this.setupTableConfigurations(this.tableViewConfig.displayedColumns, this.tableViewConfig.filterColumns, this.tableViewConfig.sortableColumns, this.tableViewConfig.displayFilterColumnMappings, this.tableViewConfig.filterFormGroup);
         }
     }

@@ -20,6 +20,7 @@
 import { Injectable } from '@angular/core';
 import { PartTableType } from '@shared/components/table/table.model';
 import { Subject } from 'rxjs';
+import {TableViewConfig} from "@shared/components/parts-table/table-view-config.model";
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +29,7 @@ export class TableSettingsService {
   private settingsKey = 'TableViewSettings';
   private changeEvent = new Subject<void>();
 
-  storeTableSettings(partTableType: PartTableType, tableSettingsList: any ): void {
+  storeTableSettings(tableSettingsList: any ): void {
     // before setting anything, all maps in new tableSettingList should be stringified
     Object.keys(tableSettingsList).forEach(tableSetting => {
       console.log(tableSetting, "settings");
@@ -50,6 +51,19 @@ export class TableSettingsService {
 
     });
     return settingsObject;
+  }
+
+  storedTableSettingsInvalid(tableViewConfig: TableViewConfig, tableType: PartTableType):boolean{
+    let isInvalid = false;
+    const storage = this.getStoredTableSettings();
+    for (const col of tableViewConfig.displayedColumns.values()){
+      if (!storage[tableType].columnsForDialog.include(col)){
+        console.warn("Found issue in tablesettings", col);
+        isInvalid = true;
+      }
+    }
+    localStorage.removeItem(this.settingsKey);
+    return isInvalid;
   }
 
   emitChangeEvent() {

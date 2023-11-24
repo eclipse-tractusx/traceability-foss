@@ -102,7 +102,7 @@ export class TableSettingsComponent {
     } as TableViewSettings;
 
     // save all values back to localstorage
-    this.tableSettingsService.storeTableSettings(this.tableType, tableSettingsList);
+    this.tableSettingsService.storeTableSettings(tableSettingsList);
 
     // trigger action that table will refresh
     this.tableSettingsService.emitChangeEvent();
