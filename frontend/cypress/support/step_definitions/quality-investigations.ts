@@ -43,6 +43,7 @@ Then("select {string} other part", (partAmount) => {
       .get('[data-testid="select-one--test-id"]')                         // finds the buttons cell of that row
       //.contains('DELETE')                  // finds the delete button
       .click()
+      });
 
 //   cy.contains('span', 'NO-989134870198932317923938')  // gives you the cell
 //     .siblings()                            // gives you all the other cells in the row
