@@ -17,20 +17,18 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {DatePipe, registerLocaleData} from '@angular/common';
+import { DatePipe, registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-import {Component, EventEmitter, Inject, Input, LOCALE_ID, OnChanges, Output, ViewChild} from '@angular/core';
-import {FormControl} from '@angular/forms';
-import {DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
-import {MatDatepickerInputEvent} from '@angular/material/datepicker';
-import {Owner} from '@page/parts/model/owner.enum';
-import {PartTableType} from '@shared/components/table/table.model';
-import {
-  FormatPartSemanticDataModelToCamelCasePipe
-} from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
-import {PartsService} from '@shared/service/parts.service';
-import {firstValueFrom} from "rxjs";
+import { Component, EventEmitter, Inject, Input, LOCALE_ID, OnChanges, Output, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { Owner } from '@page/parts/model/owner.enum';
+import { PartTableType } from '@shared/components/table/table.model';
+import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
+import { PartsService } from '@shared/service/parts.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-multiselect',
@@ -256,7 +254,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
 
   // Returns plain strings array of filtered values
   getFilteredOptionsValues(): string[] {
-      console.log("getFiltered")
     const filteredValues = [];
     this.filteredOptions.forEach(option => {
       if(option.length) {
@@ -322,7 +319,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   }
 
     filterKeyCommands(event: any) {
-        if (event.key === 'Enter' || (event.ctrlKey && event.key === 'a')) {
+    if (event.key === 'Enter' || (event.ctrlKey && event.key === 'a' || event.key === ' ')) {
           event.stopPropagation();
         }
     }
