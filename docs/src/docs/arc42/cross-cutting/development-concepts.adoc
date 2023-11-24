@@ -58,21 +58,16 @@ We generally follow the https://swagger.io/specification/
 
 === General Unit testing
 
-- Code coverage >= 80%
-- Writing methods which provide a response to be better testable (avoid void if feasible).
-- Naming of unit tests are as follows:
+* Code coverage >= 80%
+* Writing methods which provide a response to be better testable (avoid void if feasible).
+* Naming of unit tests are as follows:
 
-    test_{method_under_test}_{scenario_description}() { ... }
+image::../../../images/arc42/user-guide/unit_test_naming.png[]
 
-- Use given/when/then pattern for unit test structuring.
+* Use given/when/then pattern for unit test structuring.
 E.g:
 
-    @Test
-    void test_isQualityNotificationOffer_returns_true() {
-        //GIVEN
-        //WHEN
-        //THEN
-    }
+image::../../../images/arc42/user-guide/given_when_then_pattern.png[]
 
 === Integration Testing
 
@@ -95,19 +90,19 @@ image::../../../images/arc42/user-guide/vulnerability_level.png[]
 
 === Controllers
 
-- Have only one dependency to a facade or a service or a validator annotation
-- Have no own logic
-- Including the swagger documentation annotations
-- For each controller exists and Integration Test class
-- Uses a static mapper to transform a domain model into the response model
-- Returns a ResponseEntity<T>
+* Have only one dependency to a facade or a service or a validator annotation
+* Have no own logic
+* Including the swagger documentation annotations
+* For each controller exists and Integration Test class
+* Uses a static mapper to transform a domain model into the response model
+* Returns a ResponseEntity<T>
 
 === Response object
 
-- Should be a public version of the domain object
-- It is a result of the transformation which will be done in the facade
-- Is not necessary if the domain object can be fully public
-- Is not allowed to be implemented in a repository or a DAO
+* Should be a public version of the domain object
+* It is a result of the transformation which will be done in the facade
+* Is not necessary if the domain object can be fully public
+* Is not allowed to be implemented in a repository or a DAO
 
 === Facade
 
