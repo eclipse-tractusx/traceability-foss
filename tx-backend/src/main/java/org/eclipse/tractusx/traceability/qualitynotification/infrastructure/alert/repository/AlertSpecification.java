@@ -27,19 +27,20 @@ import org.eclipse.tractusx.traceability.common.repository.BaseSpecification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.QualityNotificationSpecificationUtil;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertNotificationEntity;
-import org.glassfish.jersey.internal.guava.Lists;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class AlertSpecification extends BaseSpecification<AlertEntity> implements Specification<AlertEntity> {
 
     private static final List<String> ATTRIBUTES_IN_ALERT_ENTITY = List.of("description", "status", "createdDate");
+
     public AlertSpecification(SearchCriteriaFilter criteria) {
         super(criteria);
     }
@@ -52,7 +53,7 @@ public class AlertSpecification extends BaseSpecification<AlertEntity> implement
     private Predicate createPredicateBasedOnJoin(SearchCriteriaFilter criteria, Root<?> root, CriteriaBuilder builder) {
         Join<AlertEntity, AlertNotificationEntity> alertJoin = root.join("notifications");
         Path predicatePath = ATTRIBUTES_IN_ALERT_ENTITY.contains(criteria.getKey()) ?
-                            root.get(criteria.getKey()):alertJoin.get(criteria.getKey());
+                root.get(criteria.getKey()) : alertJoin.get(criteria.getKey());
         if (criteria.getStrategy().equals(SearchStrategy.EQUAL)) {
             return builder.equal(
                     predicatePath.as(String.class),
@@ -75,7 +76,7 @@ public class AlertSpecification extends BaseSpecification<AlertEntity> implement
     }
 
     public static Specification<AlertEntity> toSpecification(final List<AlertSpecification> allSpecifications, SearchCriteriaOperator searchCriteriaOperator) {
-        var specifications = Lists.newArrayList(allSpecifications);
+        var specifications = new ArrayList<>(allSpecifications);
         if (specifications.isEmpty()) {
             return Specification.allOf();
         }

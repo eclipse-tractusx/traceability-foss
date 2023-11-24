@@ -28,10 +28,10 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.repository.A
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaFilter;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
 import org.eclipse.tractusx.traceability.common.repository.BaseSpecification;
-import org.glassfish.jersey.internal.guava.Lists;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -46,7 +46,7 @@ public class AssetAsBuildSpecification extends BaseSpecification<AssetAsBuiltEnt
     }
 
     public static Specification<AssetAsBuiltEntity> toSpecification(final List<AssetAsBuildSpecification> allSpecifications, SearchCriteriaOperator searchCriteriaOperator) {
-        var specifications = Lists.newArrayList(allSpecifications);
+        var specifications = new ArrayList<>(allSpecifications);
         if (specifications.isEmpty()) {
             return Specification.allOf();
         }

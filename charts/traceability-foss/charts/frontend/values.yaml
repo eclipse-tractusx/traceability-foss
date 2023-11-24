@@ -60,16 +60,22 @@ serviceAccount:
 
 podAnnotations: { }
 
-podSecurityContext: { }
-# fsGroup: 2000
+podSecurityContext:
+  fsGroup: 10100
 
 # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
 # @url: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
 securityContext:
+  seccompProfile:
+    type: RuntimeDefault
   allowPrivilegeEscalation: false
   runAsNonRoot: true
-  runAsUser: 101
-  # runAsGroup: 3000
+  runAsUser: 10100
+  runAsGroup: 10100
+  capabilities:
+    drop:
+      - ALL
+  readOnlyRootFilesystem: false  # Variables are written to the HTML files on startup, so this is not possible.
 
 service:
   type: ClusterIP

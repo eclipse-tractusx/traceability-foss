@@ -27,19 +27,20 @@ import org.eclipse.tractusx.traceability.common.repository.BaseSpecification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.QualityNotificationSpecificationUtil;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationNotificationEntity;
-import org.glassfish.jersey.internal.guava.Lists;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class InvestigationSpecification extends BaseSpecification<InvestigationEntity> implements Specification<InvestigationEntity> {
 
     private static final List<String> ATTRIBUTES_IN_INVESTIGATION_ENTITY = List.of("description", "status", "createdDate");
+
     public InvestigationSpecification(SearchCriteriaFilter criteria) {
         super(criteria);
     }
@@ -50,9 +51,9 @@ public class InvestigationSpecification extends BaseSpecification<InvestigationE
     }
 
     private Predicate createPredicateBasedOnJoin(SearchCriteriaFilter criteria, Root<?> root, CriteriaBuilder builder) {
-        Join<InvestigationEntity,InvestigationNotificationEntity> investigationJoin = root.join("notifications");
+        Join<InvestigationEntity, InvestigationNotificationEntity> investigationJoin = root.join("notifications");
         Path predicatePath = ATTRIBUTES_IN_INVESTIGATION_ENTITY.contains(criteria.getKey()) ?
-                root.get(criteria.getKey()):investigationJoin.get(criteria.getKey());
+                root.get(criteria.getKey()) : investigationJoin.get(criteria.getKey());
         if (criteria.getStrategy().equals(SearchStrategy.EQUAL)) {
             return builder.equal(
                     predicatePath.as(String.class),
@@ -75,7 +76,7 @@ public class InvestigationSpecification extends BaseSpecification<InvestigationE
     }
 
     public static Specification<InvestigationEntity> toSpecification(final List<InvestigationSpecification> allSpecifications, SearchCriteriaOperator searchCriteriaOperator) {
-        var specifications = Lists.newArrayList(allSpecifications);
+        var specifications = new ArrayList<>(allSpecifications);
         if (specifications.isEmpty()) {
             return Specification.allOf();
         }

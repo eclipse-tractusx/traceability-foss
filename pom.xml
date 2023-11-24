@@ -99,7 +99,7 @@ SPDX-License-Identifier: Apache-2.0
         <jackson.version>2.15.2</jackson.version>
         <junit-bom.version>5.9.3</junit-bom.version>
         <awaitility.version>3.0.0</awaitility.version>
-        <irs-client-lib.version>1.2.1-SNAPSHOT</irs-client-lib.version>
+        <irs-client-lib.version>1.4.1</irs-client-lib.version>
         <!-- Sonar related properties -->
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
