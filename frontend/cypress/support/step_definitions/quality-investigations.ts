@@ -41,7 +41,7 @@ Then("select {string} other part", (partAmount) => {
     .parent()                              // gives you the row
     .within(($tr) => {                       // filters just that row
       //cy.get('[type="checkbox"]')//.get('[data-testid="select-one--test-id"]') // finds the buttons cell of that row
-      .click()
+      cy.click()
       });
 
 
