@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -18,32 +16,20 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+@import '../../../../../theme/base.scss';
+@tailwind base;
 
-.detail--header {
-  display: flex;
-  justify-content: space-between;
+.header-link {
+  @apply text-textLink;
+  cursor: pointer;
 }
 
-.detail--wrapper {
-  display: grid;
-  grid-template-columns: 30% 70%;
-
-  @media (max-width: 1024px) {
-    grid-template-columns: 100%;
-  }
-}
-
-.detail--wrapper__supplier {
-  margin-top: 1.5rem;
-}
-
-.detail--table_wrapper--notification {
-  margin-left: 1.5rem;
-
-  @media (max-width: 1024px) {
-    margin-left: 0;
-    margin-top: 1.5rem;
-  }
+.header-description {
+  @extend h3;
+  max-width: 850px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .investigation--semantic-model-id__icon {
@@ -51,4 +37,86 @@
   height: 14px;
   font-size: 14px;
   margin-left: 0.5rem;
+  padding-right: 20px;
+}
+
+.detail--header__title {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.detail--header {
+  display: flex;
+}
+
+.investigation-copy-button {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.detail--wrapper {
+  display: grid;
+  grid-template-columns: 35% 65%;
+  padding: 20px;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 100%;
+  }
+}
+
+.detail--tables--wrapper {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  padding: 20px;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 100%;
+  }
+}
+
+.detail--table_wrapper--notification {
+  overflow: auto;
+
+  @media (max-width: 1024px) {
+    margin-left: 0;
+  }
+}
+
+.detail--table_wrapper--content {
+  padding: 10px;
+}
+
+.section-details {
+  padding-right: 20px;
+}
+
+.section-status-content {
+  padding-right: 5px;
+  height: 225px;
+  overflow-y: auto;
+}
+
+
+.button-text {
+  @extend .label-large;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+  padding: 0 5px 0 5px;
+}
+
+.button-text {
+  @extend .button-text;
+  @apply text-white;
+}
+
+.action-button {
+  padding-left: 20px;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 20px 20px 20px;
 }

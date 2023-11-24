@@ -30,9 +30,9 @@ SPDX-License-Identifier: Apache-2.0
         <img class="pr-2"
           src="/assets/images/icons/chevron_left.svg"
           alt="<" />
-        <span class="header-description">
+        <div class="header-description">
           {{ selectedAlert?.description }}
-        </span>
+        </div>
       </h3>
     </div>
     <img (click)="navigateBackToAlerts()"
@@ -76,11 +76,9 @@ SPDX-License-Identifier: Apache-2.0
   <div class="detail--tables--wrapper detail--wrapper__supplier">
     <div class="detail--table_wrapper--notification">
       <div>
-        <div>
-          <h4>
-            {{ 'pageAlert.subHeadline.' + (isReceived ? 'affectedParts' : 'supplierParts') | i18n }}
-          </h4>
-        </div>
+        <h4>
+          {{ 'pageAlert.subHeadline.' + (isReceived ? 'affectedParts' : 'supplierParts') | i18n }}
+        </h4>
       </div>
       <div class="detail--table_wrapper--content">
         <ng-container *viewContainer="
@@ -95,9 +93,7 @@ SPDX-License-Identifier: Apache-2.0
     <div *ngIf="isReceived && supplierPartsDetailInformation$ | async"
       class="detail--table_wrapper--notification">
       <div>
-        <div>
-          <h4>{{ 'pageAlert.subHeadline.supplierParts' | i18n }}</h4>
-        </div>
+        <h4>{{ 'pageAlert.subHeadline.supplierParts' | i18n }}</h4>
       </div>
       <div class="detail--table_wrapper--content">
         <ng-container *viewContainer="
@@ -174,10 +170,12 @@ SPDX-License-Identifier: Apache-2.0
 
   <ng-template #semanticModelIdTmp
     let-row="row">
-    <app-button (click)="copyToClipboard(row.semanticModelId)"
+    <app-button class="pl-2 alert-copy-button"
+      (click)="copyToClipboard(row.semanticModelId)"
       [attr.data-testId]="'copy-button--' + row.id">
       <div class="flex justify-around items-center">
         {{ row.semanticModelId }}
+        <mat-icon class="alert--semantic-model-id__icon">filter_none</mat-icon>
       </div>
     </app-button>
   </ng-template>
