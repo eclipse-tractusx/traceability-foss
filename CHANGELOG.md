@@ -13,6 +13,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 - Fixed helm repository path for backend & frontend (wrong prefix)
+- Updated user manual
 
 ### Removed
 - apk upgrade in docker image built as requested by TRG 4.02

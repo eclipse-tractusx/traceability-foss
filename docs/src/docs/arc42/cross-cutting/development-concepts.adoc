@@ -42,9 +42,6 @@ In case the model of the persisted data (Jobs) changes, data is dropped and Jobs
 TraceX utilizes the configuration mechanism provided by Spring Boot.
 Configuration properties can be defined in the file `+src/main/resources/application.yml+`
 
-For local testing purposes, there is an additional configuration file called `+application-local.yml+`.
-Values can be overriden there to support the local dev environment.
-
 Other profiles should be avoided.
 Instead, the configuration can be overwritten using Spring's external configuration mechanism (see https://docs.spring.io/spring-boot/docs/2.1.9.RELEASE/reference/html/boot-features-external-config.html).
 The operator must have total control over the configuration of TraceX.
@@ -80,6 +77,9 @@ E.g:
 === Integration Testing
 
 Each public api should have at least two integration tests (positive / negative).
+For integration testing, the `+tx-backend/src/main/resources/application-integration.yml+` is used.
+Additionally, you need to have a local Docker environment running.
+For this, we recommend link:https://rancherdesktop.io/[Rancher Dektop].
 
 == Clean Code
 
@@ -99,9 +99,10 @@ image::../../../images/arc42/user-guide/vulnerability_level.png[]
 - Have no own logic
 - Including the swagger documentation annotations
 - For each controller exists and Integration Test class
+- Uses a static mapper to transform a domain model into the response model
 - Returns a ResponseEntity<T>
 
-=== DTO (Data Transfer Object)
+=== Response object
 
 - Should be a public version of the domain object
 - It is a result of the transformation which will be done in the facade
@@ -110,40 +111,25 @@ image::../../../images/arc42/user-guide/vulnerability_level.png[]
 
 === Facade
 
-* Responsible for transforming data objects (private) to data transfer objects (public)
-** Not necessary if the domain object is fully public
 * Should have multiple service classes injected
-* Returns a public object → Data Transfer Object
 * Can be implemented in a controller
 
-=== Service
+=== ServiceImpl
 
 * Responsible for retrieving data from storage
-** Only if facade is not used will take care of transforming data objects (private) to data transfer objects (public)
 * Performs business logic
 * Can be a http client
 * Returns a jpaEntity → Domain Object
-* Can be implemented in a controller
-
-=== DAO (Data Access Object)
-
-* Please follow the common standard: https://www.oracle.com/java/technologies/data-access-object.html
-* Will be used when we need to write custom queries which cannot be added in the repository
-* Returns a jpaEntity → Domain Object
-* Is not allowed to be implemented in a controller
+* Should only be implemented in a controller through an interface
 
 === Repository
 
-* The standard interface which extends JpaEntity
-* Returns a jpaEntity → Domain Object
-* Is not allowed to be implemented in a controller
+* Represents an interface to the underlying repository implementation which uses then the spring repository
 
-=== Domain Object (Entity Object?)
+=== Domain Object
 
-* Is a JPA Entitiy which could be considered as public
-* Includes relations to other JPA Entities
-* Is well annotated to describe all aspects of the database model
-* Contains validation methods
+* Mapped from an entity or external data received
+* Will be used as working model until it will be finally transformed to a response object or another domain which will be later on persisted
 
 === Config Object
 
