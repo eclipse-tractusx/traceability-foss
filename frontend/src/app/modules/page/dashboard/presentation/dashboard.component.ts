@@ -33,6 +33,7 @@ import { View } from '@shared/model/view.model';
 import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
 import { Observable } from 'rxjs';
 import { DashboardFacade } from '../abstraction/dashboard.facade';
+import {DashboardStats, DashboardStatsResponse} from "@page/dashboard/model/dashboard.model";
 
 @Component({
   selector: 'app-dashboard',
@@ -51,6 +52,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public readonly numberOfOwnAlertsReceived$: Observable<View<number>>;
   public readonly numberOfOwnAlertsCreated$: Observable<View<number>>;
 
+  public readonly dashboardStats$: Observable<View<DashboardStats>>
   public readonly investigationsReceived$: Observable<View<Notifications>>;
   public readonly investigationsCreated$: Observable<View<Notifications>>;
   public readonly alertsReceived$: Observable<View<Notifications>>;
@@ -71,6 +73,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
 
   constructor(private readonly dashboardFacade: DashboardFacade, private readonly router: Router) {
+    this.dashboardStats$ = this.dashboardFacade.dashboardStats$;
     this.numberOfTotalMyParts$ = this.dashboardFacade.numberOfTotalMyParts$;
     this.numberOfTotalOtherParts$ = this.dashboardFacade.numberOfTotalOtherParts$;
 
@@ -80,6 +83,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.numberOfOwnInvestigationsCreated$ = this.dashboardFacade.numberOfOwnOpenInvestigationsCreated$;
     this.numberOfOwnAlertsReceived$ = this.dashboardFacade.numberOfOwnOpenAlertsReceived$;
     this.numberOfOwnAlertsCreated$ = this.dashboardFacade.numberOfOwnOpenAlertsCreated$;
+
 
 
     this.investigationsReceived$ = this.dashboardFacade.recentReceivedInvestigations$;
@@ -94,6 +98,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.alertLink = alertLink;
     this.alertParams = alertQueryParams;
 
+    // TODO make sure you load data from dashboard state
+    this.dashboardStats$.subscribe(value => {
+      value.data.totalOwnParts;
+    })
+    // todo replace attribute with the one from dashboardstate
+
     this.partsMetricData = [
       {
         metricName: 'totalAmount',
@@ -102,6 +112,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       }
 
     ]
+// todo replace attribute with the one from dashboardstate
 
     this.otherPartsMetricData = [
       {
@@ -110,7 +121,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         metricUnit: 'parts'
       }
     ];
-
+// todo replace attribute with the one from dashboardstate
     this.investigationsMetricData = [
       {
         metricName: 'amountReceived',

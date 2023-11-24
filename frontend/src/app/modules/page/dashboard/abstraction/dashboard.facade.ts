@@ -45,6 +45,9 @@ export class DashboardFacade {
     private readonly alertsService: AlertsService
   ) {}
 
+  public get dashboardStats$(): Observable<View<DashboardStats>> {
+    return this.dashboardState.dashboardStats$;
+  }
   public get numberOfTotalMyParts$(): Observable<View<number>> {
     return this.dashboardState.numberOfTotalMyParts$;
   }
@@ -129,7 +132,7 @@ export class DashboardFacade {
         this.dashboardState.setNumberOfOwnOpenAlertsReceived({data: dashboardStats.ownOpenAlertsReceived})
         this.dashboardState.setNumberOfOwnOpenInvestigationsCreated({data: dashboardStats.ownOpenInvestigationsCreated})
         this.dashboardState.setNumberOfOwnOpenAlertsCreated({data: dashboardStats.ownOpenAlertsCreated})
-
+        this.dashboardState.setDashboardStats({data: dashboardStats})
 
       },
       error: error => {

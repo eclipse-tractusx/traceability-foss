@@ -25,6 +25,7 @@ import {Notifications} from '@shared/model/notification.model';
 import {State} from '@shared/model/state';
 import {Observable} from 'rxjs';
 import {View} from 'src/app/modules/shared/model/view.model';
+import {DashboardStats} from "@page/dashboard/model/dashboard.model";
 
 @Injectable()
 export class DashboardState {
@@ -52,9 +53,7 @@ export class DashboardState {
   private readonly _numberOfOwnOpenInvestigationsCreated$: State<View<number>> = new State<View<number>>({ loader: true });
   private readonly _numberOfOwnOpenAlertsReceived$: State<View<number>> = new State<View<number>>({ loader: true });
   private readonly _numberOfOwnOpenAlertsCreated$: State<View<number>> = new State<View<number>>({ loader: true });
-
-
-
+  private readonly _dashboardStats$: State<View<DashboardStats>> = new State<View<DashboardStats>>({ loader: true });
 
   // recent notifications
   private readonly _recentReceivedInvestigations$: State<View<Notifications>> = new State<View<Notifications>>({ loader: true });
@@ -205,12 +204,17 @@ export class DashboardState {
     this._numberOfOwnOpenAlertsCreated$.update(count);
   }
 
+  public setDashboardStats(dashboardStatus: View<DashboardStats>): void {
+    this._dashboardStats$.update(dashboardStatus);
+  }
+
+  public get dashboardStats$(): Observable<View<DashboardStats>> {
+    return this._dashboardStats$.observable;
+  }
 
   /**
    * recent notifications getter/setter
    */
-
-
   public get recentReceivedInvestigations$(): Observable<View<Notifications>> {
     return this._recentReceivedInvestigations$.observable;
   }
