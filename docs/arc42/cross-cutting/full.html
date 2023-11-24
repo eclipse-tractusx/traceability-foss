@@ -443,19 +443,48 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_domain_concepts">Domain concepts</a></li>
+<li><a href="#_domain_concepts">Domain concepts</a>
+<ul class="sectlevel2">
+<li><a href="#_api_model">API Model</a></li>
+</ul>
+</li>
 <li><a href="#_safety_and_security_concepts">Safety and security concepts</a>
 <ul class="sectlevel2">
 <li><a href="#_authentication_authorization">Authentication / Authorization</a></li>
 <li><a href="#_credentials">Credentials</a></li>
 </ul>
 </li>
-<li><a href="#_architecture_and_design_patterns">Architecture and design patterns</a></li>
-<li><a href="#_under_the_hood_concepts">"Under-the-hood" concepts</a></li>
-<li><a href="#_development_concepts">Development concepts</a></li>
+<li><a href="#_architecture_and_design_patterns">Architecture and design patterns</a>
+<ul class="sectlevel2">
+<li><a href="#_module_package_structure">Module / Package structure</a></li>
+</ul>
+</li>
+<li><a href="#_under_the_hood_concepts">"Under-the-hood" concepts</a>
+<ul class="sectlevel2">
+<li><a href="#_exception_and_error_handling">Exception and error handling</a></li>
+</ul>
+</li>
+<li><a href="#_development_concepts">Development concepts</a>
+<ul class="sectlevel2">
+<li><a href="#_build_test_deploy">Build, test, deploy</a></li>
+<li><a href="#_code_generation">Code generation</a></li>
+<li><a href="#_migration">Migration</a></li>
+<li><a href="#_configurability">Configurability</a></li>
+<li><a href="#_java_style_guide">Java Style Guide</a></li>
+<li><a href="#_api_guide">API Guide</a></li>
+<li><a href="#_unit_and_functional_testing">Unit and Functional Testing</a></li>
+<li><a href="#_clean_code">Clean Code</a></li>
+<li><a href="#_secure_coding_standards">Secure Coding standards</a></li>
+<li><a href="#_trace_x_technical_class_responsibilities">TRACE-X Technical class responsibilities</a></li>
+</ul>
+</li>
 <li><a href="#_operational_concepts">Operational concepts</a>
 <ul class="sectlevel2">
 <li><a href="#_administration">Administration</a></li>
+<li><a href="#_scaling">Scaling</a></li>
+<li><a href="#_clustering">Clustering</a></li>
+<li><a href="#_logging">Logging</a></li>
+<li><a href="#_monitoring">Monitoring</a></li>
 </ul>
 </li>
 </ul>
@@ -465,7 +494,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect1">
 <h2 id="_domain_concepts">Domain concepts</h2>
 <div class="sectionbody">
-
+<div class="sect2">
+<h3 id="_api_model">API Model</h3>
+<div class="paragraph">
+<p>For detailed information about the API model, please refer to the <a href="https://catenax-ng.github.io/tx-traceability-foss/docs/api-specification/api-specification.html">API specification</a>.</p>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -682,19 +716,434 @@ This component requires authentication via a Verifiable Credential (VC), which i
 <div class="sect1">
 <h2 id="_architecture_and_design_patterns">Architecture and design patterns</h2>
 <div class="sectionbody">
-
+<div class="sect2">
+<h3 id="_module_package_structure">Module / Package structure</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Main domain name</p>
+<div class="ulist">
+<ul>
+<li>
+<p>application</p>
+<div class="ulist">
+<ul>
+<li>
+<p>optional: subdomain name (in case of inheritance) → following same structure as main domain</p>
+</li>
+<li>
+<p>mapper: holds the mapper of transforming domain models to response models</p>
+</li>
+<li>
+<p>service: holds the interface for implementation in the domain package</p>
+</li>
+<li>
+<p>rest: holds the controller for providing the api for the domain</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>domain</p>
+<div class="ulist">
+<ul>
+<li>
+<p>optional: subdomain name (in case of inheritance)</p>
+</li>
+<li>
+<p>model: holds the domain model</p>
+</li>
+<li>
+<p>service: Implementation of the interface provided in the application package</p>
+</li>
+<li>
+<p>repository: holds the interface for accessing the infrastructure package</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>infrastructure</p>
+<div class="ulist">
+<ul>
+<li>
+<p>optional: subdomain name (in case of inheritance)</p>
+</li>
+<li>
+<p>model: holds the technical entities</p>
+</li>
+<li>
+<p>repository: holds the data access layer</p>
+<div class="ulist">
+<ul>
+<li>
+<p>e.g. JPARepository / Impl</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>All models (Request / Response) used in the API should be saved in the tx-model project.
+To be reusable for cucumber testing.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_under_the_hood_concepts">"Under-the-hood" concepts</h2>
 <div class="sectionbody">
-
+<div class="sect2">
+<h3 id="_exception_and_error_handling">Exception and error handling</h3>
+<div class="paragraph">
+<p>There are two types of potential errors in TraceX:</p>
+</div>
+<div class="sect3">
+<h4 id="_technical_errors">Technical errors</h4>
+<div class="paragraph">
+<p>Technical errors occur when there is a problem with the application itself, its configuration or directly connected infrastructure, e.g. the Postgres database.
+Usually, the application cannot solve these problems by itself and requires some external support (manual work or automated recovery mechanisms, e.g. Kubernetes liveness probes).</p>
+</div>
+<div class="paragraph">
+<p>These errors are printed mainly to the application log and are relevant for the healthchecks.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_functional_errors">Functional errors</h4>
+<div class="paragraph">
+<p>Functional errors occur when there is a problem with the data that is being processed or external systems are unavailable and data cannot be sent / fetched as required for the process.
+While the system might not be able to provide the required function at that moment, it may work with a different dataset or as soon as the external systems recover.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_rules_for_exception_handling">Rules for exception handling</h4>
+<div class="sect4">
+<h5 id="_throw_or_log_dont_do_both">Throw or log, don&#8217;t do both</h5>
+<div class="paragraph">
+<p>When catching an exception, either log the exception and handle the problem or rethrow it, so it can be handled at a higher level of the code.
+By doing both, an exception might be written to the log multiple times, which can be confusing.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_write_own_base_exceptions_for_internal_interfaces">Write own base exceptions for (internal) interfaces</h5>
+<div class="paragraph">
+<p>By defining a common (checked) base exception for an interface, the caller is forced to handle potential errors, but can keep the logic simple.
+On the other hand, you still have the possibility to derive various, meaningful exceptions for different error cases, which can then be thrown via the API.</p>
+</div>
+<div class="paragraph">
+<p>Of course, when using only RuntimeExceptions, this is not necessary - but those can be overlooked quite easily, so be careful there.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_central_fallback_exception_handler">Central fallback exception handler</h5>
+<div class="paragraph">
+<p>There will always be some exception that cannot be handled inside of the code correctly - or it may just have been unforeseen.
+A central fallback exception handler is required so all problems are visible in the log and the API always returns meaningful responses.
+In some cases, this is as simple as a HTTP 500.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_dont_expose_too_much_exception_details_over_api">Dont expose too much exception details over API</h5>
+<div class="paragraph">
+<p>It&#8217;s good to inform the user, why their request did not work, but only if they can do something about it (HTTP 4xx).
+So in case of application problems, you should not expose details of the problem to the caller.
+This way, we avoid opening potential attack vectors.</p>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_development_concepts">Development concepts</h2>
 <div class="sectionbody">
-
+<div class="sect2">
+<h3 id="_build_test_deploy">Build, test, deploy</h3>
+<div class="paragraph">
+<p>TraceX is built using Maven and utilizes all the standard concepts of it.
+Test execution is part of the build process and a minimum test coverage of 80% is enforced.</p>
+</div>
+<div class="paragraph">
+<p>The project setup contains a multi-module Maven build.
+Commonly used classes (like the TraceX data model) should be extracted into a separate submodule and reused across the project.
+However, this is not a "one-size-fits-all" solution.
+New submodules should be created with care and require a review by the team.</p>
+</div>
+<div class="paragraph">
+<p>The Maven build alone only leads up to the JAR artifact of TraceX.
+Do create Docker images, the Docker build feature is used.
+This copies all resources into a builder image, builds the software and creates a final Docker image at the end that can then be deployed.</p>
+</div>
+<div class="paragraph">
+<p>Although the Docker image can be deployed in various ways, the standard solution are the provided Helm charts, which describe the required components as well.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_code_generation">Code generation</h3>
+<div class="paragraph">
+<p>There are two methods of code generation in TraceX:</p>
+</div>
+<div class="sect3">
+<h4 id="_lombok">Lombok</h4>
+<div class="paragraph">
+<p>The Lombok library is heavily used to generate boilerplate code (like Constructors, Getters, Setters, Builders&#8230;&#8203;).
+This way, code can be written faster and this boilerplate code is excluded from test coverage, which keeps the test base lean.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_swagger_openapi">Swagger / OpenAPI</h4>
+<div class="paragraph">
+<p>The API uses OpenAPI annotations to describe the endpoints with all necessary information.
+The annotations are then used to automatically generate the OpenAPI specification file, which can be viewed in the Swagger UI that is deployed with the application.</p>
+</div>
+<div class="paragraph">
+<p>The generated OpenAPI specification file is automatically compared to a fixed, stored version of it to avoid unwanted changes of the API.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_migration">Migration</h3>
+<div class="paragraph">
+<p>There currently is no data migration mechanism for TraceX.
+In case the model of the persisted data (Jobs) changes, data is dropped and Jobs will need to be recreated.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_configurability">Configurability</h3>
+<div class="paragraph">
+<p>TraceX utilizes the configuration mechanism provided by Spring Boot.
+Configuration properties can be defined in the file <code>src/main/resources/application.yml</code></p>
+</div>
+<div class="paragraph">
+<p>Other profiles should be avoided.
+Instead, the configuration can be overwritten using Spring&#8217;s external configuration mechanism (see <a href="https://docs.spring.io/spring-boot/docs/2.1.9.RELEASE/reference/html/boot-features-external-config.html" class="bare">https://docs.spring.io/spring-boot/docs/2.1.9.RELEASE/reference/html/boot-features-external-config.html</a>).
+The operator must have total control over the configuration of TraceX.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_java_style_guide">Java Style Guide</h3>
+<div class="paragraph">
+<p>We generally follow the <a href="https://google.github.io/styleguide/javaguide.html">Google Java Style Guide</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_api_guide">API Guide</h3>
+<div class="paragraph">
+<p>We generally follow the <a href="https://swagger.io/specification/" class="bare">https://swagger.io/specification/</a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_unit_and_functional_testing">Unit and Functional Testing</h3>
+<div class="sect3">
+<h4 id="_general_unit_testing">General Unit testing</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Code coverage &gt;= 80%</p>
+</li>
+<li>
+<p>Writing methods which provide a response to be better testable (avoid void if feasible).</p>
+</li>
+<li>
+<p>Naming of unit tests are as follows:</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/unit_test_naming.png" alt="unit test naming">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Use given/when/then pattern for unit test structuring.
+E.g:</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/given_when_then_pattern.png" alt="given when then pattern">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_integration_testing">Integration Testing</h4>
+<div class="paragraph">
+<p>Each public api should have at least two integration tests (positive / negative).
+For integration testing, the <code>tx-backend/src/main/resources/application-integration.yml</code> is used.
+Additionally, you need to have a local Docker environment running.
+For this, we recommend <a href="https://rancherdesktop.io/">Rancher Dektop</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_clean_code">Clean Code</h3>
+<div class="paragraph">
+<p>We follow the rules and behaviour of: <a href="https://clean-code-developer.com/" class="bare">https://clean-code-developer.com/</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_secure_coding_standards">Secure Coding standards</h3>
+<div class="paragraph">
+<p>As there is no other guideline of C-X, we fix any Vulnerabilities, Exposures, Flaw detected by one of our SAST, DAST, Pentesting tools which is higher than "Very Low".</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/vulnerability_level.png" alt="vulnerability level">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_trace_x_technical_class_responsibilities">TRACE-X Technical class responsibilities</h3>
+<div class="sect3">
+<h4 id="_controllers">Controllers</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Have only one dependency to a facade or a service or a validator annotation</p>
+</li>
+<li>
+<p>Have no own logic</p>
+</li>
+<li>
+<p>Including the swagger documentation annotations</p>
+</li>
+<li>
+<p>For each controller exists and Integration Test class</p>
+</li>
+<li>
+<p>Uses a static mapper to transform a domain model into the response model</p>
+</li>
+<li>
+<p>Returns a ResponseEntity&lt;T&gt;</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_response_object">Response object</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Should be a public version of the domain object</p>
+</li>
+<li>
+<p>It is a result of the transformation which will be done in the facade</p>
+</li>
+<li>
+<p>Is not necessary if the domain object can be fully public</p>
+</li>
+<li>
+<p>Is not allowed to be implemented in a repository or a DAO</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_facade">Facade</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Should have multiple service classes injected</p>
+</li>
+<li>
+<p>Can be implemented in a controller</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_serviceimpl">ServiceImpl</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Responsible for retrieving data from storage</p>
+</li>
+<li>
+<p>Performs business logic</p>
+</li>
+<li>
+<p>Can be a http client</p>
+</li>
+<li>
+<p>Returns a jpaEntity → Domain Object</p>
+</li>
+<li>
+<p>Should only be implemented in a controller through an interface</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_repository">Repository</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Represents an interface to the underlying repository implementation which uses then the spring repository</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_domain_object">Domain Object</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Mapped from an entity or external data received</p>
+</li>
+<li>
+<p>Will be used as working model until it will be finally transformed to a response object or another domain which will be later on persisted</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_config_object">Config Object</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Should have the suffix Config at the end of the class</p>
+</li>
+<li>
+<p>Including beans which are automatically created by app startup</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_constructing_objects">Constructing objects</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Using builder pattern</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Currently we are using the constructor to create objects in our application.
+Main reason is probably to provide immutable objects.</p>
+</li>
+<li>
+<p>As the handling with big loaded constructors is not easy and error prune, I would recommend using the builder pattern to have a clear understanding about what we creating at the point of implementation.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Using lombok for annotation processing</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -702,14 +1151,60 @@ This component requires authentication via a Verifiable Credential (VC), which i
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_administration">Administration</h3>
-
+<div class="sect3">
+<h4 id="_configuration">Configuration</h4>
+<div class="paragraph">
+<p>TraceX can be configured using two mechanisms:</p>
+</div>
+<div class="sect4">
+<h5 id="_application_yml">application.yml</h5>
+<div class="paragraph">
+<p>If you build TraceX yourself, you can modify the application.yml config that is shipped with TraceX.
+This file contains all possible config entries for the application.
+Once the Docker image has been built, these values can only be overwritten using the Spring external config mechanism (see <a href="https://docs.spring.io/spring-boot/docs/2.1.9.RELEASE/reference/html/boot-features-external-config.html" class="bare">https://docs.spring.io/spring-boot/docs/2.1.9.RELEASE/reference/html/boot-features-external-config.html</a>), e.g. by mounting a config file in the right path or using environment variables.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_helm_chart">Helm Chart</h5>
+<div class="paragraph">
+<p>The most relevant config properties are exposed as environment variables and must be set in the Helm chart so the application can run at all.
+Check the TraceX Helm chart in Git for all available variables.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_scaling">Scaling</h3>
+<div class="paragraph">
+<p>If the number of consumers raises, TraceX can be scaled up by using more resources for the Deployment Pod.
+Those resources can be used to utilize more parallel threads to handle Job execution.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_clustering">Clustering</h3>
+<div class="paragraph">
+<p>TraceX can run in clustered mode, as each running job is only present in one pod at a time.
+Note: as soon as a resume feature is implemented, this needs to be addressed here.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_logging">Logging</h3>
+<div class="paragraph">
+<p>Logs are being written directly to stdout and are picked up by the cluster management.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_monitoring">Monitoring</h3>
+<div class="paragraph">
+<p>Currently, there is on monitoring supported in TraceX.</p>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-11-22 13:56:27 UTC
+Last updated 2023-11-24 13:09:55 UTC
 </div>
 </div>
 </body>

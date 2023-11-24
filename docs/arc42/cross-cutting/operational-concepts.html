@@ -443,7 +443,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_administration">Administration</a></li>
+<li><a href="#_administration">Administration</a>
+<ul class="sectlevel2">
+<li><a href="#_configuration">Configuration</a></li>
+</ul>
+</li>
+<li><a href="#_scaling">Scaling</a></li>
+<li><a href="#_clustering">Clustering</a></li>
+<li><a href="#_logging">Logging</a></li>
+<li><a href="#_monitoring">Monitoring</a></li>
 </ul>
 </div>
 </div>
@@ -451,13 +459,67 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect1">
 <h2 id="_administration">Administration</h2>
 <div class="sectionbody">
-
+<div class="sect2">
+<h3 id="_configuration">Configuration</h3>
+<div class="paragraph">
+<p>TraceX can be configured using two mechanisms:</p>
+</div>
+<div class="sect3">
+<h4 id="_application_yml">application.yml</h4>
+<div class="paragraph">
+<p>If you build TraceX yourself, you can modify the application.yml config that is shipped with TraceX.
+This file contains all possible config entries for the application.
+Once the Docker image has been built, these values can only be overwritten using the Spring external config mechanism (see <a href="https://docs.spring.io/spring-boot/docs/2.1.9.RELEASE/reference/html/boot-features-external-config.html" class="bare">https://docs.spring.io/spring-boot/docs/2.1.9.RELEASE/reference/html/boot-features-external-config.html</a>), e.g. by mounting a config file in the right path or using environment variables.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_helm_chart">Helm Chart</h4>
+<div class="paragraph">
+<p>The most relevant config properties are exposed as environment variables and must be set in the Helm chart so the application can run at all.
+Check the TraceX Helm chart in Git for all available variables.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_scaling">Scaling</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If the number of consumers raises, TraceX can be scaled up by using more resources for the Deployment Pod.
+Those resources can be used to utilize more parallel threads to handle Job execution.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_clustering">Clustering</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>TraceX can run in clustered mode, as each running job is only present in one pod at a time.
+Note: as soon as a resume feature is implemented, this needs to be addressed here.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_logging">Logging</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Logs are being written directly to stdout and are picked up by the cluster management.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_monitoring">Monitoring</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Currently, there is on monitoring supported in TraceX.</p>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-11-22 13:56:27 UTC
+Last updated 2023-11-24 13:09:55 UTC
 </div>
 </div>
 </body>

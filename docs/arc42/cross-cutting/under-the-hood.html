@@ -437,16 +437,88 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body class="article">
+<body class="article toc2 toc-left">
 <div id="header">
 <h1>"Under-the-hood" concepts</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_exception_and_error_handling">Exception and error handling</a>
+<ul class="sectlevel2">
+<li><a href="#_technical_errors">Technical errors</a></li>
+<li><a href="#_functional_errors">Functional errors</a></li>
+<li><a href="#_rules_for_exception_handling">Rules for exception handling</a></li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 <div id="content">
-
+<div class="sect1">
+<h2 id="_exception_and_error_handling">Exception and error handling</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There are two types of potential errors in TraceX:</p>
+</div>
+<div class="sect2">
+<h3 id="_technical_errors">Technical errors</h3>
+<div class="paragraph">
+<p>Technical errors occur when there is a problem with the application itself, its configuration or directly connected infrastructure, e.g. the Postgres database.
+Usually, the application cannot solve these problems by itself and requires some external support (manual work or automated recovery mechanisms, e.g. Kubernetes liveness probes).</p>
+</div>
+<div class="paragraph">
+<p>These errors are printed mainly to the application log and are relevant for the healthchecks.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_functional_errors">Functional errors</h3>
+<div class="paragraph">
+<p>Functional errors occur when there is a problem with the data that is being processed or external systems are unavailable and data cannot be sent / fetched as required for the process.
+While the system might not be able to provide the required function at that moment, it may work with a different dataset or as soon as the external systems recover.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_rules_for_exception_handling">Rules for exception handling</h3>
+<div class="sect3">
+<h4 id="_throw_or_log_dont_do_both">Throw or log, don&#8217;t do both</h4>
+<div class="paragraph">
+<p>When catching an exception, either log the exception and handle the problem or rethrow it, so it can be handled at a higher level of the code.
+By doing both, an exception might be written to the log multiple times, which can be confusing.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_write_own_base_exceptions_for_internal_interfaces">Write own base exceptions for (internal) interfaces</h4>
+<div class="paragraph">
+<p>By defining a common (checked) base exception for an interface, the caller is forced to handle potential errors, but can keep the logic simple.
+On the other hand, you still have the possibility to derive various, meaningful exceptions for different error cases, which can then be thrown via the API.</p>
+</div>
+<div class="paragraph">
+<p>Of course, when using only RuntimeExceptions, this is not necessary - but those can be overlooked quite easily, so be careful there.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_central_fallback_exception_handler">Central fallback exception handler</h4>
+<div class="paragraph">
+<p>There will always be some exception that cannot be handled inside of the code correctly - or it may just have been unforeseen.
+A central fallback exception handler is required so all problems are visible in the log and the API always returns meaningful responses.
+In some cases, this is as simple as a HTTP 500.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_dont_expose_too_much_exception_details_over_api">Dont expose too much exception details over API</h4>
+<div class="paragraph">
+<p>It&#8217;s good to inform the user, why their request did not work, but only if they can do something about it (HTTP 4xx).
+So in case of application problems, you should not expose details of the problem to the caller.
+This way, we avoid opening potential attack vectors.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-11-22 13:56:27 UTC
+Last updated 2023-11-24 13:09:55 UTC
 </div>
 </div>
 </body>
