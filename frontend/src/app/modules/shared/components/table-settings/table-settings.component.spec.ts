@@ -123,7 +123,7 @@ describe('TableSettingsComponent', () => {
     component.save();
 
     // Check that setColumnVisibilitySettings was called with the updated settings
-    expect(tableSettingsService.storeTableSettings).toHaveBeenCalledWith(PartTableType.AS_BUILT_OWN, {
+    expect(tableSettingsService.storeTableSettings).toHaveBeenCalledWith({
       [PartTableType.AS_BUILT_OWN]: {
         columnSettingsOptions: columnOptions,
         columnsForDialog: ['column1', 'column2'],
