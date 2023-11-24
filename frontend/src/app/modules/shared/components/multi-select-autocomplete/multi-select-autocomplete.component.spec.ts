@@ -424,7 +424,7 @@ describe('MultiSelectAutocompleteComponent', () => {
     componentInstance.filterKeyCommands(eventMock);
 
     // Assert
-    expect(eventMock.stopPropagation).not.toHaveBeenCalled();
+    expect(eventMock.stopPropagation).toHaveBeenCalled();
   });
 
 });
