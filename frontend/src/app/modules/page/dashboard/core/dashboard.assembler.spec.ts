@@ -26,13 +26,38 @@ describe('DashboardAssembler', () => {
     it('should map response', () => {
       expect(
         DashboardAssembler.assembleDashboard({
-          otherParts: 100,
-          myParts: 200,
+          asBuiltOwnParts: 200,
+          asBuiltCustomerParts: 0,
+          asBuiltSupplierParts: 10,
+          asPlannedCustomerParts: 0,
+          asPlannedOwnParts: 0,
+          asPlannedSupplierParts: 0,
+          customerPartsWithOpenAlerts: 0,
+          customerPartsWithOpenInvestigations: 0,
+          myPartsWithOpenAlerts: 0,
+          myPartsWithOpenInvestigations: 0,
+          supplierPartsWithOpenAlerts: 0,
+          supplierPartsWithOpenInvestigations: 0,
+
         }),
       ).toEqual({
-        otherParts: 100,
-        myItems: 200,
-        investigations: undefined,
+        asBuiltCustomerParts: 0,
+        asBuiltSupplierParts: 10,
+        asPlannedCustomerParts: 0,
+        asPlannedOwnParts: 0,
+        asPlannedSupplierParts: 0,
+        asBuiltOwnParts: 200,
+
+        totalOwnParts: 200,
+        totalOtherParts: 10,
+
+        ownOpenInvestigationsReceived: 0,
+        ownOpenInvestigationsCreated: 0,
+        ownOpenAlertsReceived: 0,
+        ownOpenAlertsCreated: 0,
+
+        myPartsWithOpenAlerts: 0,
+        myPartsWithOpenInvestigations: 0
       });
     });
   });

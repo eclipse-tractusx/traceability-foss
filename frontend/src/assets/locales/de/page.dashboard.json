@@ -1,13 +1,23 @@
 {
   "pageDashboard": {
     "totalInvestigations": {
-      "label": "Anzahl offener Untersuchungen"
+      "label": "Qualitätsuntersuchungen"
+    },
+    "totalAlerts": {
+      "label": "Qualitätswarnungen"
     },
     "totalOfParts": {
-      "label": "Anzahl Produkte"
+      "label": "Produkte"
     },
     "totalOfOtherParts": {
-      "label": "Anzahl anderer Produkte"
-    }
+      "label": "Andere Produkte"
+    },
+    "totalAmount": "Gesamtanzahl",
+    "parts": "Produkte",
+    "investigations": "Untersuchungen",
+    "alerts": "Warnungen",
+    "amountReceived": "Anzahl zugewiesen",
+    "amountCreated": "Anzahl erstellt",
+    "million": "Mio."
   }
 }
