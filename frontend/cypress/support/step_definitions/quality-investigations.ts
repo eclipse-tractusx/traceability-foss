@@ -130,7 +130,7 @@ When("user cancel selected investigation with entering {string} id", (input) => 
       break;
     }
     case 'correct': {                   //get correct id ---TBD---
-      cy.get('mat-label').invoke('val').as('cancelId');
+      cy.get('mat-label').invoke('text').as('cancelId');
      // cy.log('@cancelId');
 //       cy.get('mat-label').then(function($elem){
 //                           cy.get($elem.text()).as('cancelId')});
