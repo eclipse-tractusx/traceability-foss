@@ -107,7 +107,6 @@ When("open details of created investigation", () => {
   //cy.get('p').contains(notificationDescription).parentsUntil('.mat-mdc-row mdc-data-table__row cdk-row no-hover ng-star-inserted').get('[class="mat-mdc-button-touch-target"]').click()
   cy.get('[data-testid="table-menu-button"]').first().click();
   cy.get('[data-testid="table-menu-button--actions.viewDetails"]').first().click();
-  //cy.get('span').contains('View details').click();
 });
 
 //When user cancel selected investigation with entering "correct" id
@@ -116,6 +115,7 @@ When("open details of created investigation", () => {
 // #check: popup on the right sight is shown
 When("user cancel selected investigation with entering {string} id", (input) => {
   let investigationId = '';
+  cy.get('div').contains('Cancel').click();
   switch (input) {
     case 'no': {
       cy.get('span').contains('Confirm cancellation').click();
