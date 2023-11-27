@@ -208,27 +208,27 @@ matched = false;
       }
       case 'approved': {
       matched = true;
-        cy.get('div').contains('Approve').should('not.exist');
+        cy.get('div').contains('/^Approve$/', {matchCase: true}).should('not.exist');
         break;
       }
       case 'accepted': {
       matched = true;
-        cy.get('div').contains('Accept').should('not.exist');
+        cy.get('div').contains('/^Accept$/', {matchCase: true}).should('not.exist');
         break;
       }
       case 'declined': {
       matched = true;
-        cy.get('div').contains('Decline').should('not.exist');
+        cy.get('div').contains('/^Decline$/', {matchCase: true}).should('not.exist');
         break;
       }
       case 'acknowledged': {
       matched = true;
-        cy.get('div').contains('Acknowledge').should('not.exist');
+        cy.get('div').contains('/^Acknowledge$/', {matchCase: true}).should('not.exist');
         break;
       }
       case 'closed': {
       matched = true;
-        cy.get('div').contains('Close').should('not.exist');
+        cy.get('div').contains('/^Close$/', {matchCase: true}).should('not.exist');
         break;
       }
     }
