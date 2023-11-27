@@ -40,6 +40,9 @@ on:
       argo_token:
         description: Argo Token
         required: true 
+      api-token:
+        description: Api Token 
+        required: true
       
 env:
     ARGO_TEST_REGISTRY: "https://argo.dev.demo.catena-x.net/api/v1/applications/tracex-dt-registry-test"
@@ -247,6 +250,7 @@ jobs:
             ARGO_TOKEN=$(jq -r '.inputs.argo_token' $GITHUB_EVENT_PATH)
             echo ::add-mask::$ARGO_TOKEN
             echo ARGO_TOKEN=$ARGO_TOKEN >> $GITHUB_ENV
+            
         - name: test apps state
           run: |
            source ./.github/argo/argo_config.sh
@@ -297,25 +301,31 @@ jobs:
        uses: actions/setup-python@v4
        with:
         python-version: '3.11'
-    
+        
+     - name: mask token
+       run: |
+         API_TOKEN=$(jq -r '.inputs.api-token' $GITHUB_EVENT_PATH)
+         echo ::add-mask::$API_TOKEN
+         echo API_TOKEN=$API_TOKEN >> $GITHUB_ENV
+         
      - name: Upload testdata
        run: |
         python -m pip install requests
         curl -o transform-and-upload.py https://raw.githubusercontent.com/catenax-ng/tx-item-relationship-service/main/local/testing/testdata/transform-and-upload.py
         if [ "${{ github.event.inputs.environment }}" == "Dev/Test" ]; then
-          python transform-and-upload.py -f ./tx-backend/testdata/CX_Testdata_MessagingTest_v${{ github.event.inputs.testdata_version }}.json -s https://traceability-test.dev.demo.catena-x.net/api/submodel -edc https://trace-x-test-edc.dev.demo.catena-x.net -a https://trace-x-registry-test.dev.demo.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-test-edc-dataplane.dev.demo.catena-x.net -p id-3.0-trace -k ${{ secrets.TRACE_X_API_KEY_DEV }}
+          python transform-and-upload.py -f ./tx-backend/testdata/CX_Testdata_MessagingTest_v${{ github.event.inputs.testdata_version }}.json -s https://traceability-test.dev.demo.catena-x.net/api/submodel -edc https://trace-x-test-edc.dev.demo.catena-x.net -a https://trace-x-registry-test.dev.demo.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-test-edc-dataplane.dev.demo.catena-x.net -p id-3.0-trace -k ${{ env.API_TOKEN }}
           sleep 10
-          python transform-and-upload.py -f ./tx-backend/testdata/CX_Testdata_MessagingTest_v${{ github.event.inputs.testdata_version }}.json -s https://traceability.dev.demo.catena-x.net/api/submodel -edc https://trace-x-edc.dev.demo.catena-x.net -a https://trace-x-registry.dev.demo.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-edc-dataplane.dev.demo.catena-x.net -p id-3.0-trace -k ${{ secrets.TRACE_X_API_KEY_DEV }}
+          python transform-and-upload.py -f ./tx-backend/testdata/CX_Testdata_MessagingTest_v${{ github.event.inputs.testdata_version }}.json -s https://traceability.dev.demo.catena-x.net/api/submodel -edc https://trace-x-edc.dev.demo.catena-x.net -a https://trace-x-registry.dev.demo.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-edc-dataplane.dev.demo.catena-x.net -p id-3.0-trace -k ${{ env.API_TOKEN }}
           sleep 10
         elif [ "${{ github.event.inputs.environment }}" == "E2E-A/E2E-B" ]; then
-          python transform-and-upload.py -f ./tx-backend/testdata/CX_Testdata_MessagingTest_v${{ github.event.inputs.testdata_version }}.json -s https://traceability-e2e-a.dev.demo.catena-x.net/api/submodel -edc https://trace-x-edc-e2e-a.dev.demo.catena-x.net -a https://trace-x-registry-e2e-a.dev.demo.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-edc-e2e-a-dataplane.dev.demo.catena-x.net -p id-3.0-trace -k ${{ secrets.TRACE_X_API_KEY_DEV }}
+          python transform-and-upload.py -f ./tx-backend/testdata/CX_Testdata_MessagingTest_v${{ github.event.inputs.testdata_version }}.json -s https://traceability-e2e-a.dev.demo.catena-x.net/api/submodel -edc https://trace-x-edc-e2e-a.dev.demo.catena-x.net -a https://trace-x-registry-e2e-a.dev.demo.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-edc-e2e-a-dataplane.dev.demo.catena-x.net -p id-3.0-trace -k ${{ env.API_TOKEN }}
           sleep 10
-          python transform-and-upload.py -f ./tx-backend/testdata/CX_Testdata_MessagingTest_v${{ github.event.inputs.testdata_version }}.json -s https://traceability-e2e-b.dev.demo.catena-x.net/api/submodel -edc https://trace-x-edc-e2e-b.dev.demo.catena-x.net -a https://trace-x-registry-e2e-b.dev.demo.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-edc-e2e-b-dataplane.dev.demo.catena-x.net -p id-3.0-trace -k ${{ secrets.TRACE_X_API_KEY_DEV }}
+          python transform-and-upload.py -f ./tx-backend/testdata/CX_Testdata_MessagingTest_v${{ github.event.inputs.testdata_version }}.json -s https://traceability-e2e-b.dev.demo.catena-x.net/api/submodel -edc https://trace-x-edc-e2e-b.dev.demo.catena-x.net -a https://trace-x-registry-e2e-b.dev.demo.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-edc-e2e-b-dataplane.dev.demo.catena-x.net -p id-3.0-trace -k ${{ env.API_TOKEN }}
           sleep 10
         elif [ "${{ github.event.inputs.environment }}" == "int-a/int-b" ]; then
-          python transform-and-upload.py -f ./tx-backend/testdata/CX_Testdata_MessagingTest_v${{ github.event.inputs.testdata_version }}.json -s https://traceability-int-a.int.demo.catena-x.net/api/submodel -edc https://trace-x-edc-int-a.int.demo.catena-x.net -a https://trace-x-registry-int-a.int.demo.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-edc-int-a-dataplane.int.demo.catena-x.net -p id-3.0-trace -k ${{ secrets.TRACE_X_API_KEY_INT_A }}
+          python transform-and-upload.py -f ./tx-backend/testdata/CX_Testdata_MessagingTest_v${{ github.event.inputs.testdata_version }}.json -s https://traceability-int-a.int.demo.catena-x.net/api/submodel -edc https://trace-x-edc-int-a.int.demo.catena-x.net -a https://trace-x-registry-int-a.int.demo.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-edc-int-a-dataplane.int.demo.catena-x.net -p id-3.0-trace -k ${{ env.API_TOKEN }}
           sleep 10
-          python transform-and-upload.py -f ./tx-backend/testdata/CX_Testdata_MessagingTest_v${{ github.event.inputs.testdata_version }}.json -s https://traceability-int-b.int.demo.catena-x.net/api/submodel -edc https://trace-x-edc-int-b.int.demo.catena-x.net -a https://trace-x-registry-int-b.int.demo.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-edc-int-b-dataplane.int.demo.catena-x.net -p id-3.0-trace -k ${{ secrets.TRACE_X_API_KEY_INT_B }}
+          python transform-and-upload.py -f ./tx-backend/testdata/CX_Testdata_MessagingTest_v${{ github.event.inputs.testdata_version }}.json -s https://traceability-int-b.int.demo.catena-x.net/api/submodel -edc https://trace-x-edc-int-b.int.demo.catena-x.net -a https://trace-x-registry-int-b.int.demo.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-edc-int-b-dataplane.int.demo.catena-x.net -p id-3.0-trace -k ${{ env.API_TOKEN }}
           sleep 10
         fi
   registry_reload:
