@@ -129,17 +129,12 @@ When("user cancel selected investigation with entering {string} id", (input) => 
       cy.get('span').contains('Confirm cancellation').click();
       break;
     }
-    case 'correct': {                   //get correct id ---TBD---
+    case 'correct': {
       cy.get('mat-label').invoke('text').as('cancelId');
-     // cy.log('@cancelId');
-//       cy.get('mat-label').then(function($elem){
-//                           cy.get($elem.text()).as('cancelId')});
-
       cy.get('@cancelId').then((cancelId) => {
         cy.log('Cancel Id ' + cancelId)
         cy.get('#mat-input-0').click().type(cancelId);
       });
-
       cy.get('span').contains('Confirm cancellation').click();
       break;
     }
@@ -208,43 +203,36 @@ matched = false;
     switch (status) {
       case 'canceled': {
         matched = true;
-        //TBD selection once the environment is running up again
-        cy.get('[title="Cancelled"]').should('not.be.visible');
+        cy.get('div').contains('Cancel').should('not.exist');
         break;
       }
-      case 'requested': {
-      // same as "approved"
+      case 'approved': {
       matched = true;
-      //TBD selection once the environment is running up again
-        cy.get('[title="Requested"]').should('not.be.visible');
+        cy.get('div').contains('Approve').should('not.exist');
         break;
       }
       case 'accepted': {
       matched = true;
-      //TBD selection once the environment is running up again
-        cy.get('[title="Accepted"]').should('not.be.visible');
+        cy.get('div').contains('Accept').should('not.exist');
         break;
       }
       case 'declined': {
       matched = true;
-      //TBD selection once the environment is running up again
-        cy.get('[title="Declined"]').should('not.be.visible');
+        cy.get('div').contains('Decline').should('not.exist');
         break;
       }
       case 'acknowledged': {
       matched = true;
-      //TBD selection once the environment is running up again
-        cy.get('[title="Acknowledged"]').should('not.be.visible');
+        cy.get('div').contains('Acknowledge').should('not.exist');
         break;
       }
       case 'closed': {
       matched = true;
-      //TBD selection once the environment is running up again
-        cy.get('[title="Closed"]').should('not.be.visible');
+        cy.get('div').contains('Close').should('not.exist');
         break;
       }
     }
     if (!matched) {
-      throw new Error("Set status '" + status + "' is not one of valid status [canceled, requested, accepted, declined, acknowledged, closed].");
+      throw new Error("Set status '" + status + "' is not one of valid status [canceled, approved, accepted, declined, acknowledged, closed].");
     }
 });
