@@ -4,27 +4,34 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-
 ## [UNRELEASED - DD.MM.YYYY]
+### Added
+- new filtering capabilities ( receivedQualityAlertIdsInStatusActive, sentQualityAlertIdsInStatusActive, receivedQualityInvestigationIdsInStatusActive, sentQualityInvestigationIdsInStatusActive )
+- Validation check if table-settings correct and reset on invalid state
+### Changed
+- Filter configuration for tables to be resuable and easy to adapt
+- Realigned some mappings e.g. (manufacturer / manufacturerName) to be more clear
+
+### Removed
+- removed asset filters ( qualityInvestigationIdsInStatusActive, qualityInvestigationIdsInStatusActive )
+
+## [9.0.0-rc3 - 27.11.2023]
 ### Added
 - DEPENDENCIES_FRONTEND, SECURITY.md, NOTICE.md, LICENSE file to frontend docker image
 - Added a step-by-step guide to register a server in pgAdmin in the database dump README
 - Documentation about technical users
-- new filtering capabilities ( receivedQualityAlertIdsInStatusActive, sentQualityAlertIdsInStatusActive, receivedQualityInvestigationIdsInStatusActive, sentQualityInvestigationIdsInStatusActive )
-- Validation check if table-settings correct and reset on invalid state
+- Added new dashboard layout and additional widgets
 
 ### Changed
 - Fixed helm repository path for backend & frontend (wrong prefix)
-- Filter configuration for tables to be resuable and easy to adapt
+- Refactored dashboard response
 - Updated user manual
 - Autocomplete endpoints changed owner String type param to Owner for input validation and sql injection prevention
 - Autocomplete endpoints repository uses now criteria api rather than native query
 - Fixed several bugs in local filtering of the parts table
-- Realigned some mappings e.g. (manufacturer / manufacturerName) to be more clear
 
 ### Removed
 - apk upgrade in docker image built as requested by TRG 4.02
-- removed asset filters ( qualityInvestigationIdsInStatusActive, qualityInvestigationIdsInStatusActive )
 
 ## [9.0.0-rc2 - 15.11.2023]
 ### Added
