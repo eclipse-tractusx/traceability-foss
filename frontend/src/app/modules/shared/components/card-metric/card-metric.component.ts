@@ -1,6 +1,4 @@
-import {Component, Input} from '@angular/core';
-import {Observable} from "rxjs";
-import {View} from "@shared/model/view.model";
+import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'app-card-metric',
@@ -9,7 +7,7 @@ import {View} from "@shared/model/view.model";
 })
 export class CardMetricComponent {
     @Input() headerLabelKey: string;
-    @Input() value: Observable<View<number>>;
+    @Input() value: number;
     @Input() footerLabelKey: string;
 
 }

@@ -1,6 +1,7 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SharedModule } from '@shared/shared.module';
 
-import {CardMetricComponent} from './card-metric.component';
+import { CardMetricComponent } from './card-metric.component';
 
 describe('CardMetricComponent', () => {
   let component: CardMetricComponent;
@@ -8,7 +9,8 @@ describe('CardMetricComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CardMetricComponent ]
+      declarations: [ CardMetricComponent ],
+      imports: [SharedModule]
     })
     .compileComponents();
 

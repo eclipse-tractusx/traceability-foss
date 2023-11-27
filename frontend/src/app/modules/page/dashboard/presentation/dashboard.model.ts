@@ -1,8 +1,7 @@
-import {Observable} from "rxjs";
-import {View} from "@shared/model/view.model";
+import { Observable } from 'rxjs';
 
 export interface MetricData {
     metricName: string,
-    value: Observable<View<number>>,
+    value: Observable<number>,
     metricUnit: string,
 }

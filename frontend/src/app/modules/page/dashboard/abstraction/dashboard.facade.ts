@@ -31,7 +31,7 @@ import { DashboardStats } from '../model/dashboard.model';
 
 @Injectable()
 export class DashboardFacade {
-  private assetNumbersSubscription: Subscription;
+  private dashboardStatsSubscription: Subscription;
   private investigationsReceivedSubscription: Subscription;
   private investigationsCreatedSubscription: Subscription;
   private alertsReceivedSubscription: Subscription;
@@ -47,18 +47,6 @@ export class DashboardFacade {
 
   public get dashboardStats$(): Observable<View<DashboardStats>> {
     return this.dashboardState.dashboardStats$;
-  }
-  public get numberOfTotalMyParts$(): Observable<View<number>> {
-    return this.dashboardState.numberOfTotalMyParts$;
-  }
-
-  public get numberOfTotalOtherParts$(): Observable<View<number>> {
-    return this.dashboardState.numberOfTotalOtherParts$;
-  }
-
-
-  public get numberOfMyPartsWithOpenInvestigations$(): Observable<View<number>> {
-    return this.dashboardState.numberOfMyPartsWithOpenInvestigations$;
   }
 
   public get recentReceivedInvestigations$(): Observable<View<Notifications>> {
@@ -77,90 +65,31 @@ export class DashboardFacade {
     return this.dashboardState.recentCreatedAlerts$;
   }
 
-  public get numberOfOwnOpenInvestigationsReceived$(): Observable<View<number>> {
-    return this.dashboardState.numberOfOwnOpenInvestigationsReceived$;
-  }
-  public get numberOfOwnOpenInvestigationsCreated$(): Observable<View<number>> {
-    return this.dashboardState.numberOfOwnOpenInvestigationsCreated$;
-  }
-  public get numberOfOwnOpenAlertsReceived$(): Observable<View<number>> {
-    return this.dashboardState.numberOfOwnOpenAlertsReceived$;
-  }
-  public get numberOfOwnOpenAlertsCreated$(): Observable<View<number>> {
-    return this.dashboardState.numberOfOwnOpenAlertsCreated$;
-  }
-
   public setDashboardData(): void {
-    this.setAssetNumbers();
+    this.setDashboardMetricData();
     this.setReceivedInvestigations();
     this.setCreatedInvestigations();
     this.setReceivedAlerts();
     this.setCreatedAlerts();
   }
 
-  private setAssetNumbers(): void {
-    this.dashboardState.setNumberOfTotalMyParts({ loader: true });
-    this.dashboardState.setNumberOfTotalOtherParts({loader: true});
+  private setDashboardMetricData(): void {
+    this.dashboardState.setDashboardStats({loader: true})
 
-    this.dashboardState.setNumberOfAsBuiltOwnParts({loader: true});
-    this.dashboardState.setNumberOfAsPlannedOwnParts({loader: true});
-    this.dashboardState.setNumberOfAsBuiltSupplierParts({loader: true});
-    this.dashboardState.setNumberOfAsPlannedSupplierParts({loader: true});
-    this.dashboardState.setNumberOfAsBuiltCustomerParts({loader: true});
-    this.dashboardState.setNumberOfAsPlannedCustomerParts({loader: true});
-
-    this.dashboardState.setNumberOfOwnOpenInvestigationsReceived({loader:true})
-    this.dashboardState.setNumberOfOwnOpenAlertsReceived({loader:true})
-    this.dashboardState.setNumberOfOwnOpenInvestigationsCreated({loader:true})
-    this.dashboardState.setNumberOfOwnOpenAlertsCreated({loader:true})
-
-
-    this.assetNumbersSubscription?.unsubscribe();
-    this.assetNumbersSubscription = this.dashboardService.getStats().subscribe({
+    this.dashboardStatsSubscription?.unsubscribe();
+    this.dashboardStatsSubscription = this.dashboardService.getStats().subscribe({
       next: (dashboardStats: DashboardStats) => {
-        this.dashboardState.setNumberOfTotalMyParts({ data: dashboardStats.totalOwnParts });
-        this.dashboardState.setNumberOfTotalOtherParts({data: dashboardStats.totalOtherParts});
-
-        this.dashboardState.setNumberOfAsBuiltOwnParts({data: dashboardStats.asBuiltOwnParts});
-        this.dashboardState.setNumberOfAsPlannedOwnParts({data: dashboardStats.asPlannedOwnParts});
-        this.dashboardState.setNumberOfAsBuiltSupplierParts({data: dashboardStats.asBuiltSupplierParts});
-        this.dashboardState.setNumberOfAsPlannedSupplierParts({data: dashboardStats.asPlannedSupplierParts});
-        this.dashboardState.setNumberOfAsBuiltCustomerParts({data: dashboardStats.asBuiltCustomerParts});
-        this.dashboardState.setNumberOfAsPlannedCustomerParts({data: dashboardStats.asPlannedCustomerParts});
-
-        this.dashboardState.setNumberOfOwnOpenInvestigationsReceived({data: dashboardStats.ownOpenInvestigationsReceived})
-        this.dashboardState.setNumberOfOwnOpenAlertsReceived({data: dashboardStats.ownOpenAlertsReceived})
-        this.dashboardState.setNumberOfOwnOpenInvestigationsCreated({data: dashboardStats.ownOpenInvestigationsCreated})
-        this.dashboardState.setNumberOfOwnOpenAlertsCreated({data: dashboardStats.ownOpenAlertsCreated})
         this.dashboardState.setDashboardStats({data: dashboardStats})
 
       },
       error: error => {
-        this.dashboardState.setNumberOfTotalMyParts({ error });
-        this.dashboardState.setNumberOfTotalOtherParts({error});
-
-        this.dashboardState.setNumberOfAsBuiltOwnParts({error});
-        this.dashboardState.setNumberOfAsPlannedOwnParts({error});
-        this.dashboardState.setNumberOfAsBuiltSupplierParts({error});
-        this.dashboardState.setNumberOfAsPlannedSupplierParts({error});
-        this.dashboardState.setNumberOfAsBuiltCustomerParts({error});
-        this.dashboardState.setNumberOfAsPlannedCustomerParts({error});
-
-        this.dashboardState.setNumberOfMyPartsWithOpenInvestigations({error});
-        this.dashboardState.setNumberOfMyPartsWithOpenAlerts({error});
-        this.dashboardState.setNumberOfOtherPartsWithOpenInvestigations({error});
-        this.dashboardState.setNumberOfOtherPartsWithOpenAlerts({error});
-
-        this.dashboardState.setNumberOfOwnOpenInvestigationsReceived({error})
-        this.dashboardState.setNumberOfOwnOpenAlertsReceived({error})
-        this.dashboardState.setNumberOfOwnOpenInvestigationsCreated({error})
-        this.dashboardState.setNumberOfOwnOpenAlertsCreated({error})
+        this.dashboardState.setDashboardStats({error})
       },
     });
   }
 
   public stopDataLoading(): void {
-    this.assetNumbersSubscription?.unsubscribe();
+    this.dashboardStatsSubscription?.unsubscribe();
     this.investigationsReceivedSubscription?.unsubscribe();
     this.investigationsCreatedSubscription?.unsubscribe();
     this.alertsReceivedSubscription?.unsubscribe();

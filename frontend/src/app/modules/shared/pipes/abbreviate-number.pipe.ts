@@ -1,8 +1,8 @@
-import { Inject, LOCALE_ID, Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({ name: 'abbreviateNumber', pure: false })
 export class AbbreviateNumberPipe implements PipeTransform {
-    constructor(@Inject(LOCALE_ID) private locale: string) {}
+    constructor() {}
 
     transform(value: string ): string {
         if(!value) {
@@ -16,15 +16,9 @@ export class AbbreviateNumberPipe implements PipeTransform {
         }
 
         if (numericValue >= 1000000) {
-            if (this.locale === 'de') {
-                return (numericValue / 1000000).toFixed(1) + ' Mio.';
-            } else if (this.locale === 'en') {
-                return (numericValue / 1000000).toFixed(1) + ' M.';
-            } else {
-                return value;
-            }
+          return (numericValue / 1000000).toFixed(1);
         }  else {
-            return value;
+            return String(value);
         }
     }
 }

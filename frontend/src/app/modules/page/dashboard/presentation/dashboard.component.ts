@@ -19,9 +19,10 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ALERT_BASE_ROUTE, getRoute, INVESTIGATION_BASE_ROUTE } from '@core/known-route';
+import { DashboardStats } from '@page/dashboard/model/dashboard.model';
 import { MetricData } from '@page/dashboard/presentation/dashboard.model';
 import {
   Notification,
@@ -30,10 +31,9 @@ import {
   NotificationType,
 } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
-import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { DashboardFacade } from '../abstraction/dashboard.facade';
-import {DashboardStats, DashboardStatsResponse} from "@page/dashboard/model/dashboard.model";
 
 @Component({
   selector: 'app-dashboard',
@@ -41,16 +41,6 @@ import {DashboardStats, DashboardStatsResponse} from "@page/dashboard/model/dash
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-  @ViewChild(CloseNotificationModalComponent) private closeModal: CloseNotificationModalComponent;
-
-  public readonly numberOfTotalMyParts$: Observable<View<number>>;
-  public readonly numberOfTotalOtherParts$: Observable<View<number>>;
-  public readonly numberOfInvestigations$: Observable<View<number>>;
-
-  public readonly numberOfOwnInvestigationsReceived$: Observable<View<number>>;
-  public readonly numberOfOwnInvestigationsCreated$: Observable<View<number>>;
-  public readonly numberOfOwnAlertsReceived$: Observable<View<number>>;
-  public readonly numberOfOwnAlertsCreated$: Observable<View<number>>;
 
   public readonly dashboardStats$: Observable<View<DashboardStats>>
   public readonly investigationsReceived$: Observable<View<Notifications>>;
@@ -67,24 +57,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public partsMetricData: MetricData[];
   public otherPartsMetricData: MetricData[];
   public investigationsMetricData: MetricData[];
-  public investigationsCreatedMetricData: MetricData[];
   public alertsMetricData: MetricData[];
-  public alertsCreatedMetricData: MetricData[];
 
 
   constructor(private readonly dashboardFacade: DashboardFacade, private readonly router: Router) {
     this.dashboardStats$ = this.dashboardFacade.dashboardStats$;
-    this.numberOfTotalMyParts$ = this.dashboardFacade.numberOfTotalMyParts$;
-    this.numberOfTotalOtherParts$ = this.dashboardFacade.numberOfTotalOtherParts$;
-
-    this.numberOfInvestigations$ = this.dashboardFacade.numberOfMyPartsWithOpenInvestigations$;
-
-    this.numberOfOwnInvestigationsReceived$ = this.dashboardFacade.numberOfOwnOpenInvestigationsReceived$;
-    this.numberOfOwnInvestigationsCreated$ = this.dashboardFacade.numberOfOwnOpenInvestigationsCreated$;
-    this.numberOfOwnAlertsReceived$ = this.dashboardFacade.numberOfOwnOpenAlertsReceived$;
-    this.numberOfOwnAlertsCreated$ = this.dashboardFacade.numberOfOwnOpenAlertsCreated$;
-
-
 
     this.investigationsReceived$ = this.dashboardFacade.recentReceivedInvestigations$;
     this.investigationsCreated$ = this.dashboardFacade.recentCreatedInvestigations$;
@@ -98,39 +75,32 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.alertLink = alertLink;
     this.alertParams = alertQueryParams;
 
-    // TODO make sure you load data from dashboard state
-    this.dashboardStats$.subscribe(value => {
-      value.data.totalOwnParts;
-    })
-    // todo replace attribute with the one from dashboardstate
-
     this.partsMetricData = [
       {
         metricName: 'totalAmount',
-        value: this.numberOfTotalMyParts$,
+        value: this.dashboardStats$.pipe(map(dashboardStats => dashboardStats.data.totalOwnParts)),
         metricUnit: 'parts'
       }
 
     ]
-// todo replace attribute with the one from dashboardstate
 
     this.otherPartsMetricData = [
       {
         metricName: 'totalAmount',
-        value: this.numberOfTotalOtherParts$,
+        value: this.dashboardStats$.pipe(map(dashboardStats => dashboardStats.data.totalOtherParts)),
         metricUnit: 'parts'
       }
     ];
-// todo replace attribute with the one from dashboardstate
+
     this.investigationsMetricData = [
       {
         metricName: 'amountReceived',
-        value: this.numberOfOwnInvestigationsReceived$,
+        value: this.dashboardStats$.pipe(map(dashboardStats => dashboardStats.data.ownOpenInvestigationsReceived)),
         metricUnit: 'investigations'
       },
       {
         metricName: 'amountCreated',
-        value: this.numberOfOwnInvestigationsCreated$,
+        value: this.dashboardStats$.pipe(map(dashboardStats => dashboardStats.data.ownOpenInvestigationsCreated)),
         metricUnit: 'investigations'
       }
     ];
@@ -139,16 +109,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.alertsMetricData = [
       {
         metricName: 'amountReceived',
-        value: this.numberOfOwnAlertsReceived$,
+        value: this.dashboardStats$.pipe(map(dashboardStats => dashboardStats.data.ownOpenAlertsReceived)),
         metricUnit: 'alerts'
       },
       {
         metricName: 'amountCreated',
-        value: this.numberOfOwnAlertsCreated$,
+        value: this.dashboardStats$.pipe(map(dashboardStats => dashboardStats.data.ownOpenAlertsCreated)),
         metricUnit: 'alerts'
       }
     ];
-
 
   }
 

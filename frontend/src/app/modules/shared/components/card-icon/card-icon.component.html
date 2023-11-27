@@ -36,7 +36,7 @@ SPDX-License-Identifier: Apache-2.0
       <ng-container *ngFor="let card of metricData" >
         <app-card-metric
                 [headerLabelKey]="'pageDashboard.' + card.metricName | i18n"
-                [value]="card.value"
+                [value]="card.value | async"
                 [footerLabelKey]="'pageDashboard.' + card.metricUnit | i18n"
         ></app-card-metric>
       </ng-container>

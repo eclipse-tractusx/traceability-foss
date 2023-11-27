@@ -17,7 +17,8 @@
     "investigations": "Investigations",
     "alerts": "Alerts",
     "amountReceived": "Amount Received",
-    "amountCreated": "Amount Created"
+    "amountCreated": "Amount Created",
+    "million": "M."
 
   }
 }
