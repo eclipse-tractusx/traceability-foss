@@ -20,7 +20,7 @@
  ********************************************************************************/
 //package org.eclipse.tractusx.traceability.test;
 
-import * from org.eclipse.tractusx.traceability.test.validator.TestUtils.wrapStringWithTimestamp;
+// import * from org.eclipse.tractusx.traceability.test.validator.TestUtils.wrapStringWithTimestamp;
 import { When, Then, Given } from '@badeball/cypress-cucumber-preprocessor';
 import { QualityInvestigationsPage } from '../../integration/pages/QualityInvestigationsPage';
 
@@ -65,8 +65,8 @@ Then("select {string} other part", (partAmount) => {
 
 
 Then("start investigation creation with description {string}", function (description) {
-  notificationDescription = wrapStringWithTimestamp(input.get("description"));
-  //notificationDescription = description;
+  //notificationDescription = wrapStringWithTimestamp(input.get("description"));
+  notificationDescription = description + cy.clock(now);
   cy.get('div').contains('Start investigation').click();
   cy.get('mat-label').contains('Description').click().type(notificationDescription);
 });
