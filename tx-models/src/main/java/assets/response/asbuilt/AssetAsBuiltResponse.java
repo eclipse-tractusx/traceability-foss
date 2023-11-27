@@ -20,13 +20,24 @@
 package assets.response.asbuilt;
 
 import assets.response.base.AssetBaseResponse;
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.experimental.SuperBuilder;
+
+import java.util.List;
 
 @SuperBuilder
 @ArraySchema(arraySchema = @Schema(description = "Assets", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
 public class AssetAsBuiltResponse extends AssetBaseResponse {
 
+    @ApiModelProperty(dataType = "List", example = "1")
+    private List<Long> sentQualityAlertIdsInStatusActive;
+    @ApiModelProperty(dataType = "List", example = "1")
+    private List<Long> receivedQualityAlertIdsInStatusActive;
+    @ApiModelProperty(dataType = "List", example = "2")
+    private List<Long> sentQualityInvestigationIdsInStatusActive;
+    @ApiModelProperty(dataType = "List", example = "2")
+    private List<Long> receivedQualityInvestigationIdsInStatusActive;
 
 }

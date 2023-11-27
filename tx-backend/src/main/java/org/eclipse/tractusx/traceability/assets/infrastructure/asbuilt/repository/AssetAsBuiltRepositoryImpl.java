@@ -128,4 +128,9 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
     public long countAssetsByOwner(Owner owner) {
         return jpaAssetAsBuiltRepository.countAssetsByOwner(owner);
     }
+
+    @Override
+    public List<AssetAsBuiltEntity> findByOwner(Owner owner) {
+        return jpaAssetAsBuiltRepository.findByOwner(owner);
+    }
 }

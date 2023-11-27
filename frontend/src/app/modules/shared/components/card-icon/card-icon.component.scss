@@ -24,11 +24,12 @@
 }
 
 .card-container {
-  @apply flex flex-row gap-x-5 items-center;
+  @apply flex flex-row gap-x-5 items-start;
 }
 
 .avatar-container {
-  @apply flex flex-col items-center justify-center;
+  height: 100%;
+  @apply flex flex-col items-start justify-start;
 }
 
 .avatar {
@@ -50,4 +51,11 @@ p:empty {
   background: #dedfe1 linear-gradient(to right, #dedfe1 0%, #f2f3f5 20%, #dedfe1 40%, #dedfe1 100%) no-repeat;
   width: 100px;
   height: 10px;
+}
+
+.card--icon--card--metrics--container {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 3px;
 }

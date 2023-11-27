@@ -14,9 +14,11 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - DEPENDENCIES_FRONTEND, SECURITY.md, NOTICE.md, LICENSE file to frontend docker image
 - Added a step-by-step guide to register a server in pgAdmin in the database dump README
 - Documentation about technical users
+- Added new dashboard layout and additional widgets
 
 ### Changed
 - Fixed helm repository path for backend & frontend (wrong prefix)
+- Refactored dashboard response
 - Updated user manual
 - Autocomplete endpoints changed owner String type param to Owner for input validation and sql injection prevention
 - Autocomplete endpoints repository uses now criteria api rather than native query

@@ -32,6 +32,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -45,4 +46,6 @@ public interface JpaInvestigationRepository extends JpaRepository<InvestigationE
 
     @Query("SELECT investigation FROM InvestigationEntity investigation JOIN investigation.notifications notification WHERE notification.edcNotificationId = :edcNotificationId")
     Optional<InvestigationEntity> findByNotificationsEdcNotificationId(@Param("edcNotificationId") String edcNotificationId);
+
+    List<InvestigationEntity> findAllByStatusIn(List<NotificationStatusBaseEntity> statuses);
 }

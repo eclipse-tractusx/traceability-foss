@@ -152,6 +152,17 @@ public class AlertsRepositoryImpl implements AlertRepository {
     }
 
     @Override
+    public long countOpenNotificationsByOwnership(List<Owner> owners) {
+        return jpaAlertRepository.findAllByStatusIn(NotificationStatusBaseEntity.from(QualityNotificationStatus.ACTIVE_STATES))
+                .stream()
+                .map(AlertEntity::getAssets)
+                .flatMap(Collection::stream)
+                .filter(assetAsBuiltEntity -> owners.contains(assetAsBuiltEntity.getOwner()))
+                .distinct()
+                .toList().size();
+    }
+
+    @Override
     public Optional<QualityNotification> findByEdcNotificationId(String edcNotificationId) {
         return jpaAlertRepository.findByNotificationsEdcNotificationId(edcNotificationId)
                 .map(AlertEntity::toDomain);
@@ -228,4 +239,6 @@ public class AlertsRepositoryImpl implements AlertRepository {
                 .filter(it -> notificationAffectedAssetIds.contains(it.getId()))
                 .toList();
     }
+
+
 }
