@@ -128,10 +128,11 @@ When("user cancel selected investigation with entering {string} id", (input) => 
     }
     case 'correct': {                   //get correct id ---TBD---
       cy.get('mat-label').as('cancelId');
+      cy.log('@cancelId');
 //       cy.get('mat-label').then(function($elem){
 //                           cy.get($elem.text()).as('cancelId')});
 
-      cy.get('#mat-mdc-form-field-label-4').click().focus().type('@cancelId');
+      cy.get('#mat-input-0').click().type('@cancelId');
       cy.get('span').contains('Confirm cancellation').click();
       break;
     }
