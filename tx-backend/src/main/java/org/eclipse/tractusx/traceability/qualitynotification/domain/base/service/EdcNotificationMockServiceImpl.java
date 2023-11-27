@@ -19,10 +19,23 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.domain.base.service;
 
+
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Service;
 
 import java.util.concurrent.CompletableFuture;
 
-public interface EdcNotificationService {
-    CompletableFuture<QualityNotificationMessage> asyncNotificationMessageExecutor(QualityNotificationMessage notification);
+import static org.eclipse.tractusx.traceability.common.config.ApplicationProfiles.INTEGRATION_SPRING_BOOT;
+
+@Slf4j
+@Service
+@Profile(INTEGRATION_SPRING_BOOT)
+public class EdcNotificationMockServiceImpl implements EdcNotificationService {
+    @Override
+    public CompletableFuture<QualityNotificationMessage> asyncNotificationMessageExecutor(QualityNotificationMessage notification) {
+        log.info("EdcNotificationMockServiceImpl: {}", notification);
+        return CompletableFuture.completedFuture(notification);
+    }
 }

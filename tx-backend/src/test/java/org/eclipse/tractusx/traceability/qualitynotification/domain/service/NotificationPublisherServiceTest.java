@@ -51,6 +51,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -144,14 +145,32 @@ class NotificationPublisherServiceTest {
         // Given
         final BPN bpn = new BPN("bpn123");
         QualityNotification investigation = InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationStatus.CREATED, QualityNotificationStatus.CREATED);
+        QualityNotificationMessage notificationMessage = investigation.getNotifications().stream().findFirst().get();
         when(traceabilityProperties.getBpn()).thenReturn(bpn);
+        when(notificationsService.asyncNotificationMessageExecutor(any())).thenReturn(CompletableFuture.completedFuture(notificationMessage));
 
         // When
         QualityNotification result = notificationPublisherService.approveNotification(investigation);
 
         // Then
         assertThat(result.getNotificationStatus()).isEqualTo(QualityNotificationStatus.SENT);
-        verify(notificationsService).asyncNotificationExecutor(any());
+        verify(notificationsService).asyncNotificationMessageExecutor(any());
+    }
+
+    @Test
+    void testSendInvestigationFailed() {
+        // Given
+        final BPN bpn = new BPN("bpn123");
+        QualityNotification investigation = InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationStatus.CREATED, QualityNotificationStatus.CREATED);
+        when(traceabilityProperties.getBpn()).thenReturn(bpn);
+        when(notificationsService.asyncNotificationMessageExecutor(any())).thenReturn(CompletableFuture.completedFuture(null));
+
+        // When
+        QualityNotification result = notificationPublisherService.approveNotification(investigation);
+
+        // Then
+        assertThat(result.getNotificationStatus()).isEqualTo(QualityNotificationStatus.CREATED);
+        verify(notificationsService).asyncNotificationMessageExecutor(any());
     }
 
     @Test
@@ -187,6 +206,8 @@ class NotificationPublisherServiceTest {
 
         QualityNotification investigationTestData = InvestigationTestDataFactory.createInvestigationTestDataWithNotificationList(QualityNotificationStatus.RECEIVED, "recipientBPN", notifications);
         when(traceabilityProperties.getBpn()).thenReturn(bpn);
+        when(notificationsService.asyncNotificationMessageExecutor(any())).thenReturn(CompletableFuture.completedFuture(notification2));
+
         // When
         QualityNotification result = notificationPublisherService.updateNotificationPublisher(investigationTestData, status, reason);
 
@@ -195,7 +216,7 @@ class NotificationPublisherServiceTest {
         assertThat(result.getDeclineReason()).isNull();
         assertThat(result.getCloseReason()).isNull();
         assertThat(result.getDeclineReason()).isNull();
-        Mockito.verify(notificationsService, times(1)).asyncNotificationExecutor(any(QualityNotificationMessage.class));
+        Mockito.verify(notificationsService, times(1)).asyncNotificationMessageExecutor(any(QualityNotificationMessage.class));
     }
 
     @Test
@@ -232,6 +253,7 @@ class NotificationPublisherServiceTest {
 
         QualityNotification investigationTestData = InvestigationTestDataFactory.createInvestigationTestDataWithNotificationList(QualityNotificationStatus.ACKNOWLEDGED, "recipientBPN", notifications);
         when(traceabilityProperties.getBpn()).thenReturn(bpn);
+        when(notificationsService.asyncNotificationMessageExecutor(any())).thenReturn(CompletableFuture.completedFuture(notification2));
 
         // When
         QualityNotification result = notificationPublisherService.updateNotificationPublisher(investigationTestData, status, reason);
@@ -239,7 +261,7 @@ class NotificationPublisherServiceTest {
         // Then
         assertThat(result.getNotificationStatus()).isEqualTo(QualityNotificationStatus.ACCEPTED);
         assertThat(result.getAcceptReason()).isEqualTo(reason);
-        Mockito.verify(notificationsService, times(1)).asyncNotificationExecutor(any(QualityNotificationMessage.class));
+        Mockito.verify(notificationsService, times(1)).asyncNotificationMessageExecutor(any(QualityNotificationMessage.class));
     }
 
     @Test
@@ -276,6 +298,7 @@ class NotificationPublisherServiceTest {
 
         QualityNotification investigationTestData = InvestigationTestDataFactory.createInvestigationTestDataWithNotificationList(QualityNotificationStatus.ACKNOWLEDGED, "recipientBPN", notifications);
         when(traceabilityProperties.getBpn()).thenReturn(bpn);
+        when(notificationsService.asyncNotificationMessageExecutor(any())).thenReturn(CompletableFuture.completedFuture(notification2));
 
         // When
         QualityNotification result = notificationPublisherService.updateNotificationPublisher(investigationTestData, status, reason);
@@ -283,7 +306,7 @@ class NotificationPublisherServiceTest {
         // Then
         assertThat(result.getNotificationStatus()).isEqualTo(QualityNotificationStatus.DECLINED);
         assertThat(result.getDeclineReason()).isEqualTo(reason);
-        Mockito.verify(notificationsService, times(1)).asyncNotificationExecutor(any(QualityNotificationMessage.class));
+        Mockito.verify(notificationsService, times(1)).asyncNotificationMessageExecutor(any(QualityNotificationMessage.class));
     }
 
     @Test
@@ -318,13 +341,15 @@ class NotificationPublisherServiceTest {
 
         QualityNotification investigationTestData = InvestigationTestDataFactory.createInvestigationTestDataWithNotificationList(QualityNotificationStatus.ACCEPTED, "senderBPN", notifications);
         when(traceabilityProperties.getBpn()).thenReturn(bpn);
+        when(notificationsService.asyncNotificationMessageExecutor(any())).thenReturn(CompletableFuture.completedFuture(notification2));
+
         // When
         QualityNotification result = notificationPublisherService.updateNotificationPublisher(investigationTestData, status, reason);
 
         // Then
         assertThat(result.getNotificationStatus()).isEqualTo(QualityNotificationStatus.CLOSED);
         assertThat(result.getCloseReason()).isEqualTo(reason);
-        Mockito.verify(notificationsService, times(1)).asyncNotificationExecutor(any(QualityNotificationMessage.class));
+        Mockito.verify(notificationsService, times(1)).asyncNotificationMessageExecutor(any(QualityNotificationMessage.class));
     }
 
     @Test
@@ -354,7 +379,7 @@ class NotificationPublisherServiceTest {
 
         // Then
         Mockito.verify(repository, never()).updateQualityNotificationEntity(investigationTestData);
-        Mockito.verify(notificationsService, never()).asyncNotificationExecutor(any(QualityNotificationMessage.class));
+        Mockito.verify(notificationsService, never()).asyncNotificationMessageExecutor(any(QualityNotificationMessage.class));
     }
 
 }
