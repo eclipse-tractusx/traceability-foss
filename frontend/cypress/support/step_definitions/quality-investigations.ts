@@ -163,6 +163,10 @@ When("user {string} selected investigation", (action) => {
   }
 });
 
+When("user confirm approval of selected investigation", (action) => {
+        cy.get('span').contains('Approve').click();
+});
+
 Then("informations for selected investigation are displayed as expected", () => {
 // ---TBD--- include: overview, supplier parts, STATUS
 });
