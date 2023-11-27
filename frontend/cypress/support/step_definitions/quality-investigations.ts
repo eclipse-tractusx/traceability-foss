@@ -63,6 +63,7 @@ Then("select {string} other part", (partAmount) => {
   //cy.get('span').contains('NO-989134870198932317923938').parentsUntil('.mat-mdc-cell mdc-data-table__cell cdk-cell table--cell cdk-column-semanticModelId mat-column-semanticModelId ng-star-inserted').get('[type="checkbox"]').first().click();
 });
 
+
 Then("start investigation creation with description {string}", function (description) {
   //notificationDescription = wrapStringWithTimestamp(input.get("description"));
   //notificationDescription = "Test 123123 description";
@@ -71,14 +72,15 @@ Then("start investigation creation with description {string}", function (descrip
   cy.get('mat-label').contains('Description').click().type(description);
 });
 
+
 When("severity {string}", function (severity) {
   cy.get('#mat-select-56').click(); // First the dropdown has to be opened.
   cy.get('p').contains(severity).click();
   //cy.get('#mat-select-56-panel').select(severity);  // Dropdown menu has own id.
 });
 
+
 When("{string} deadline", function (deadline) {
-//---TBD---
       if (deadline == 'no') {
         // do nothing
       } else {
@@ -86,33 +88,37 @@ When("{string} deadline", function (deadline) {
       }
 });
 
+
 When("request the investigation", () => {
   cy.get('span').contains('ADD TO QUEUE').click();
 });
+
 
 Then("selected parts are marked as investigated", () => {
   //cy.get('class').contains('highlighted');
   //---TBD--- to check the desired assets, have to be adjusted with desired asset selection
 });
 
+
 When("popup with information about queued investigation is shown", () => {
   cy.contains(/You queued an investigation for 1 part/i).should('be.visible');
 });
+
 
 When("user navigate to {string} with button in popup", (popupClick) => {
   cy.get('a').contains('Go to Queue').click();
 });
 
+
 When("open details of created investigation", () => {
   //cy.get('p').contains(notificationDescription).parentsUntil('.mat-mdc-row mdc-data-table__row cdk-row no-hover ng-star-inserted').get('[class="mat-mdc-button-touch-target"]').click()
-  cy.get('[data-testid="table-menu-button"]').first().click();
+  cy.get('[data-testid="table-menu-button"]').first().click(); //the first investigation will be opened
   cy.get('[data-testid="table-menu-button--actions.viewDetails"]').first().click();
 });
 
-//When user cancel selected investigation with entering "correct" id
-// #include: check popup (id, description, status, created, createdby, texts, buttons (cancel, approve), then click on Delete
-// #check: Deletion is only possible after entering the expected id
-// #check: popup on the right sight is shown
+
+// --- TBD --- check id, description, status, created, createdby, text
+// --- TBD --- #check: popup on the right sight is shown
 When("user confirm cancelation of selected investigation with entering {string} id", (input) => {
   let investigationId = '';
   switch (input) {
@@ -137,6 +143,7 @@ When("user confirm cancelation of selected investigation with entering {string} 
   }
 });
 
+
 Then("cancelation is not possible due to {string} id", (id) => {
   switch (id) {
     case 'no': {
@@ -150,7 +157,9 @@ Then("cancelation is not possible due to {string} id", (id) => {
   }
 });
 
+
 When("user {string} selected investigation", (action) => {
+//within opened detail view of quality investigation
   switch (action) {
       case 'approve': {
         cy.get('div').contains('Approve').click();
@@ -160,16 +169,43 @@ When("user {string} selected investigation", (action) => {
         cy.get('div').contains('Cancel').click();
         break;
       }
+      case 'close': {
+        cy.get('div').contains('Close').click();
+        break;
+      }
+      case 'acknowledge': {
+        cy.get('div').contains('Acknowledge').click();
+        break;
+      }
+      case 'accept': {
+        cy.get('div').contains('Accept').click();
+        break;
+      }
+      case 'decline': {
+        cy.get('div').contains('Decline').click();
+        break;
+      }
   }
 });
 
+
 When("user confirm approval of selected investigation", (action) => {
-        cy.get('span').contains('Approve').last().click();
+        //cy.get('span').contains('Approve').last().click();
+
+        cy.get('have.variant', 'raised')
+          .within(() => {
+            cy.get('span').contains('Approve').click();
+            //return cy.contains('Child element').should('have.class', 'some-child')
+          })
+
+        /////////////////////////////////////////
 });
 
+
 Then("informations for selected investigation are displayed as expected", () => {
-// ---TBD--- include: overview, supplier parts, STATUS
+// --- TBD --- include: overview, supplier parts, STATUS
 });
+
 
 Then("selected {string} has been {string} as expected", (notificationType, expectedStatus) => {
 matched = false;
@@ -210,6 +246,7 @@ matched = false;
       throw new Error("Set expected status '" + expectedStatus + "' is not one of valid status [canceled, requested, accepted, declined, acknowledged, closed].");
     }
 });
+
 
 When("selected {string} is not allowed to be {string}", (notificationType, status) => {
 matched = false;
