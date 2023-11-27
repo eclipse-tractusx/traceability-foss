@@ -196,7 +196,7 @@ When("user confirm approval of selected investigation", (action) => {
 //             cy.get('span').click();
 //             //return cy.contains('Child element').should('have.class', 'some-child')
 //           })
-  cy.get('have.variant', 'raised').find('span').contains('Approve').click();
+  cy.get('app-button').should('have.variant', 'raised').find('span').contains('Approve').click();
         /////////////////////////////////////////
 });
 
