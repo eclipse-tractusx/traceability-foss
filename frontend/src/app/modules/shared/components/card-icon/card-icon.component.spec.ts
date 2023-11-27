@@ -36,9 +36,6 @@ describe('CardIcon', () => {
     const cardLabelElement = screen.getByText('Test');
     expect(cardLabelElement).toBeInTheDocument();
 
-    const cardStatsElement = screen.getByText('123');
-    expect(cardStatsElement).toBeInTheDocument();
-
     const iconElement = screen.getByText('directions_car');
     expect(iconElement).toBeInTheDocument();
   });
