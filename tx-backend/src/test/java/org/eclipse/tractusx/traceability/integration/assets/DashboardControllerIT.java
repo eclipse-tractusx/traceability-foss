@@ -86,13 +86,19 @@ class DashboardControllerIT extends IntegrationTestSpecification {
                 .log().all()
                 .when().get("/api/dashboard")
                 .then().statusCode(200)
-                .body("myParts", equalTo(1))
-                .body("otherParts", equalTo(12))
-                .body("investigationsReceived", equalTo(0))
-                .body("alertsReceived", equalTo(0))
-                .body("alertsSent", equalTo(0))
+                .log().all()
+                .body("asBuiltCustomerParts", equalTo(0))
+                .body("asPlannedCustomerParts", equalTo(0))
+                .body("asBuiltSupplierParts", equalTo(12))
+                .body("asPlannedSupplierParts", equalTo(0))
+                .body("asBuiltOwnParts", equalTo(1))
+                .body("asPlannedOwnParts", equalTo(0))
                 .body("myPartsWithOpenAlerts", equalTo(0))
-                .body("supplierPartsWithOpenAlerts", equalTo(0));
+                .body("myPartsWithOpenInvestigations", equalTo(0))
+                .body("supplierPartsWithOpenAlerts", equalTo(0))
+                .body("customerPartsWithOpenAlerts", equalTo(0))
+                .body("supplierPartsWithOpenInvestigations", equalTo(0))
+                .body("customerPartsWithOpenInvestigations", equalTo(0));
     }
 
     @Test
@@ -116,13 +122,19 @@ class DashboardControllerIT extends IntegrationTestSpecification {
                 .log().all()
                 .when().get("/api/dashboard")
                 .then().statusCode(200)
-                .body("myParts", equalTo(1))
-                .body("otherParts", equalTo(12))
-                .body("investigationsReceived", equalTo(0))
-                .body("alertsReceived", equalTo(1))
-                .body("alertsSent", equalTo(1))
+                .log().all()
+                .body("asBuiltCustomerParts", equalTo(0))
+                .body("asPlannedCustomerParts", equalTo(0))
+                .body("asBuiltSupplierParts", equalTo(12))
+                .body("asPlannedSupplierParts", equalTo(0))
+                .body("asBuiltOwnParts", equalTo(1))
+                .body("asPlannedOwnParts", equalTo(0))
                 .body("myPartsWithOpenAlerts", equalTo(1))
-                .body("supplierPartsWithOpenAlerts", equalTo(12));
+                .body("myPartsWithOpenInvestigations", equalTo(0))
+                .body("supplierPartsWithOpenAlerts", equalTo(12))
+                .body("customerPartsWithOpenAlerts", equalTo(0))
+                .body("supplierPartsWithOpenInvestigations", equalTo(0))
+                .body("customerPartsWithOpenInvestigations", equalTo(0));
     }
 
     @Test
@@ -168,13 +180,19 @@ class DashboardControllerIT extends IntegrationTestSpecification {
                 .log().all()
                 .when().get("/api/dashboard")
                 .then().statusCode(200)
-                .body("myParts", equalTo(1))
-                .body("otherParts", equalTo(12))
-                .body("investigationsReceived", equalTo(1))
-                .body("alertsReceived", equalTo(0))
-                .body("alertsSent", equalTo(0))
+                .log().all()
+                .body("asBuiltCustomerParts", equalTo(0))
+                .body("asPlannedCustomerParts", equalTo(0))
+                .body("asBuiltSupplierParts", equalTo(12))
+                .body("asPlannedSupplierParts", equalTo(0))
+                .body("asBuiltOwnParts", equalTo(1))
+                .body("asPlannedOwnParts", equalTo(0))
                 .body("myPartsWithOpenAlerts", equalTo(0))
-                .body("supplierPartsWithOpenAlerts", equalTo(0));
+                .body("myPartsWithOpenInvestigations", equalTo(0))
+                .body("supplierPartsWithOpenAlerts", equalTo(0))
+                .body("customerPartsWithOpenAlerts", equalTo(0))
+                .body("supplierPartsWithOpenInvestigations", equalTo(1))
+                .body("customerPartsWithOpenInvestigations", equalTo(0));
     }
 
     private static Stream<Arguments> roles() {

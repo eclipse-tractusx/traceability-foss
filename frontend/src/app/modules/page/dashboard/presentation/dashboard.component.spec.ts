@@ -23,6 +23,7 @@ import { PartsModule } from '@page/parts/parts.module';
 import { SharedModule } from '@shared/shared.module';
 import { screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
+import { of } from 'rxjs';
 import { DashboardModule } from '../dashboard.module';
 import { DashboardComponent } from './dashboard.component';
 
@@ -35,14 +36,13 @@ describe('Dashboard', () => {
     });
 
   it('should render total of parts', async () => {
-    await renderDashboard();
+    const {fixture} = await renderDashboard();
+    const {componentInstance } = fixture;
+
+    componentInstance.partsMetricData = [{metricUnit: 'parts', value: of(3), metricName: 'parts'}]
 
     expect(await waitFor(() => screen.getByText('3'))).toBeInTheDocument();
 
-    expect(screen.getByText('pageDashboard.totalOfParts.label')).toHaveAttribute(
-      'id',
-      screen.getByText('3').getAttribute('aria-describedby'),
-    );
   });
 
   it('should render supervisor section when supervisor user', async () => {
@@ -63,14 +63,12 @@ describe('Dashboard', () => {
 
   describe('investigations', () => {
     it('should render count for investigations', async () => {
-      await renderDashboard();
+      const {fixture} = await renderDashboard();
+      const {componentInstance } = fixture;
+
+      componentInstance.partsMetricData = [{metricUnit: 'investigations', value: of(20), metricName: 'investigations'}]
 
       expect(await waitFor(() => screen.getByText('20'))).toBeInTheDocument();
-
-      expect(screen.getByText('pageDashboard.totalInvestigations.label')).toHaveAttribute(
-        'id',
-        screen.getByText('20').getAttribute('aria-describedby'),
-      );
     });
   });
 });

@@ -23,8 +23,6 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.reposito
 
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -37,7 +35,7 @@ import java.util.List;
 public interface JpaAssetAsBuiltRepository extends JpaRepository<AssetAsBuiltEntity, String>, JpaSpecificationExecutor<AssetAsBuiltEntity> {
 
     @Query("SELECT asset FROM AssetAsBuiltEntity asset WHERE asset.owner = :owner")
-    Page<AssetAsBuiltEntity> findByOwner(Pageable pageable, @Param("owner") Owner owner);
+    List<AssetAsBuiltEntity> findByOwner(@Param("owner") Owner owner);
 
     List<AssetAsBuiltEntity> findByIdIn(List<String> assetIds);
 

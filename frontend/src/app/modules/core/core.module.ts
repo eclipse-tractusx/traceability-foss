@@ -19,32 +19,37 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { APP_INITIALIZER, NgModule } from '@angular/core';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { environment } from '@env';
-import { LayoutModule } from '@layout/layout.module';
-import { AboutModule } from '@page/about/about.module';
-import { AdminModule } from '@page/admin/admin.module';
-import { DashboardModule } from '@page/dashboard/dashboard.module';
-import { OtherPartsModule } from '@page/other-parts/other-parts.module';
-import { PartsModule } from '@page/parts/parts.module';
-import { ToastService } from '@shared/components/toasts/toast.service';
-import { I18NextModule } from 'angular-i18next';
-import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
-import { ApiInterceptor } from './api/api.interceptor';
-import { ApiService } from './api/api.service';
-import { HttpErrorInterceptor } from './api/http-error.interceptor';
-import { AppComponent } from './app/app.component';
-import { AuthService } from './auth/auth.service';
-import { KeycloakHelper } from './auth/keycloak.helper';
-import { MockedKeycloakService } from './auth/mocked-keycloak.service';
-import { CoreRoutingModule } from './core.routing';
-import { I18N_PROVIDERS } from './i18n/global-i18n.providers';
-import { UserService } from './user/user.service';
-import { ErrorPageModule } from '@page/error-page/error-page.module';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
+import {MAT_DATE_LOCALE} from '@angular/material/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {environment} from '@env';
+import {LayoutModule} from '@layout/layout.module';
+import {AboutModule} from '@page/about/about.module';
+import {AdminModule} from '@page/admin/admin.module';
+import {DashboardModule} from '@page/dashboard/dashboard.module';
+import {OtherPartsModule} from '@page/other-parts/other-parts.module';
+import {PartsModule} from '@page/parts/parts.module';
+import {ToastService} from '@shared/components/toasts/toast.service';
+import {I18NextModule} from 'angular-i18next';
+import {KeycloakAngularModule, KeycloakService} from 'keycloak-angular';
+import {ApiInterceptor} from './api/api.interceptor';
+import {ApiService} from './api/api.service';
+import {HttpErrorInterceptor} from './api/http-error.interceptor';
+import {AppComponent} from './app/app.component';
+import {AuthService} from './auth/auth.service';
+import {KeycloakHelper} from './auth/keycloak.helper';
+import {MockedKeycloakService} from './auth/mocked-keycloak.service';
+import {CoreRoutingModule} from './core.routing';
+import {I18N_PROVIDERS} from './i18n/global-i18n.providers';
+import {UserService} from './user/user.service';
+import {ErrorPageModule} from '@page/error-page/error-page.module';
+import {registerLocaleData} from "@angular/common";
+import localeDe from '@angular/common/locales/de';
+import localeDeExtra from '@angular/common/locales/extra/de';
+
+registerLocaleData(localeDe, 'de', localeDeExtra)
 
 @NgModule({
   declarations: [AppComponent],
