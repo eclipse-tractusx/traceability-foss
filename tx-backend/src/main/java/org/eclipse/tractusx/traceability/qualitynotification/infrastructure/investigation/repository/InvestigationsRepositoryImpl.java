@@ -23,6 +23,7 @@ package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.inv
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
@@ -45,6 +46,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.Clock;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -80,6 +82,17 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
                 .toList();
         Specification<InvestigationEntity> specification = InvestigationSpecification.toSpecification(investigationSpecifications);
         return new PageResult<>(jpaInvestigationRepository.findAll(specification, pageable), InvestigationEntity::toDomain);
+    }
+
+    @Override
+    public long countOpenNotificationsByOwnership(List<Owner> owners) {
+        return jpaInvestigationRepository.findAllByStatusIn(NotificationStatusBaseEntity.from(QualityNotificationStatus.ACTIVE_STATES))
+                .stream()
+                .map(InvestigationEntity::getAssets)
+                .flatMap(Collection::stream)
+                .filter(assetAsBuiltEntity -> owners.contains(assetAsBuiltEntity.getOwner()))
+                .distinct()
+                .toList().size();
     }
 
     @Override
