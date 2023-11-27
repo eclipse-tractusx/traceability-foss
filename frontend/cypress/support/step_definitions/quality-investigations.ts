@@ -130,12 +130,16 @@ When("user cancel selected investigation with entering {string} id", (input) => 
       break;
     }
     case 'correct': {                   //get correct id ---TBD---
-      cy.get('mat-label').as('cancelId');
-      cy.log('@cancelId');
+      cy.get('mat-label').invoke('val').as('cancelId');
+     // cy.log('@cancelId');
 //       cy.get('mat-label').then(function($elem){
 //                           cy.get($elem.text()).as('cancelId')});
 
-      cy.get('#mat-input-0').click().type('@cancelId');
+      cy.get('@cancelId').then((cancelId) => {
+        cy.log('Cancel Id ' + cancelId)
+        cy.get('#mat-input-0').click().type(cancelId);
+      });
+
       cy.get('span').contains('Confirm cancellation').click();
       break;
     }
