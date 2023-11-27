@@ -106,7 +106,8 @@ When("user navigate to {string} with button in popup", (popupClick) => {
 When("open details of created investigation", () => {
   //cy.get('p').contains(notificationDescription).parentsUntil('.mat-mdc-row mdc-data-table__row cdk-row no-hover ng-star-inserted').get('[class="mat-mdc-button-touch-target"]').click()
   cy.get('[data-testid="table-menu-button"]').first().click();
-  cy.get('span').contains('View details').click();
+  cy.get('[data-testid="table-menu-button--actions.viewDetails"]').first().click();
+  //cy.get('span').contains('View details').click();
 });
 
 //When user cancel selected investigation with entering "correct" id
