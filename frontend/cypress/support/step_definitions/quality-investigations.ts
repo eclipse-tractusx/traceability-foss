@@ -134,7 +134,6 @@ When("user confirm cancelation of selected investigation with entering {string} 
     case 'correct': {
       cy.get('mat-label').invoke('text').as('cancelId');
       cy.get('@cancelId').then((cancelId) => {
-        cy.log('Cancel Id ' + cancelId)
         cy.get('#mat-input-0').click().type(cancelId);
       });
       cy.get('span').contains('Confirm cancellation').click();
@@ -196,7 +195,8 @@ When("user confirm approval of selected investigation", (action) => {
 //             cy.get('span').click();
 //             //return cy.contains('Child element').should('have.class', 'some-child')
 //           })
-  cy.get('app-button').should('have.variant', 'raised').find('span').contains('Approve').click();
+  //cy.get('app-button').should('have.variant', 'raised').find('span').contains('Approve').click();
+  cy.get('app-confirm').should('have.variant', 'raised').find('span').contains('Approve').click();
         /////////////////////////////////////////
 });
 
