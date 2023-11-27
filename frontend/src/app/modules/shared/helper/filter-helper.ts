@@ -142,7 +142,7 @@ export function toAssetFilter(formValues: any, isAsBuilt: boolean): AssetAsPlann
 }
 
 export function enrichDeeplinkFilterAndGetUpdatedParams(filter: any, httpParams: HttpParams): HttpParams {
-
+console.log(filter, "filter");
     if (filter?.notificationIds) {
         filter.notificationIds.forEach(notificationId => {
             httpParams = httpParams.append('filter', 'id,EQUAL,' + notificationId + ',OR')

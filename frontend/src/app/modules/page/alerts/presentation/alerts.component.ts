@@ -31,6 +31,7 @@ import { NotificationTabInformation } from '@shared/model/notification-tab-infor
 import { Notification, NotificationStatusGroup, NotificationType } from '@shared/model/notification.model';
 import { TranslationContext } from '@shared/model/translation-context.model';
 import { Subscription } from 'rxjs';
+import {createDeeplinkNotificationFilter} from "@shared/helper/notification-helper";
 
 @Component({
   selector: 'app-alerts',
@@ -75,26 +76,12 @@ export class AlertsComponent {
   public ngOnInit(): void {
 
     this.paramSubscription = this.route.queryParams.subscribe(params => {
-      if (params.deeplink){
-        this.pagination.page = 0;
-        if (params.received === 'true' && params?.notificationIds?.length > 0) {
-          console.log("Received");
-          const filter = {notificationIds: params.notificationIds};
-          this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize, this.alertReceivedSortList, filter);
-          this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize, this.alertQueuedAndRequestedSortList);
-        }
-        if (params.received === 'false' && params?.notificationIds?.length > 0) {
-          console.log("Sent");
-          const filter = {notificationIds: params.notificationIds};
-          this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize, this.alertQueuedAndRequestedSortList, filter);
-          this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize, this.alertReceivedSortList);
-        }
-      } else {
-        this.pagination.page = params?.pageNumber;
-        this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize, this.alertReceivedSortList);
-        this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize, this.alertQueuedAndRequestedSortList);
-      }
 
+      let deeplinkNotificationFilter = createDeeplinkNotificationFilter(params);
+      this.pagination.page = params?.pageNumber ? params.pageNumber : 0;
+        this.pagination.page = params?.pageNumber;
+        this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize, this.alertReceivedSortList, deeplinkNotificationFilter?.receivedFilter);
+        this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize, this.alertQueuedAndRequestedSortList, deeplinkNotificationFilter?.sentFilter);
     })
   }
 

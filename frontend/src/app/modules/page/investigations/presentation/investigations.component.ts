@@ -35,6 +35,7 @@ import {Notification, NotificationStatusGroup, NotificationType} from '@shared/m
 import {TranslationContext} from '@shared/model/translation-context.model';
 import {Subscription} from 'rxjs';
 import {InvestigationsFacade} from '../core/investigations.facade';
+import {createDeeplinkNotificationFilter} from "@shared/helper/notification-helper";
 
 @Component({
     selector: 'app-investigations',
@@ -77,25 +78,11 @@ export class InvestigationsComponent {
     }
 
     public ngOnInit(): void {
-
         this.paramSubscription = this.route.queryParams.subscribe(params => {
-            if (params.deeplink) {
-                this.pagination.page = 0;
-                if (params.received === 'true' && params?.notificationIds?.length > 0) {
-                    const filter = {notificationIds: params.notificationIds};
-                    this.investigationsFacade.setReceivedInvestigation(this.pagination.page, this.pagination.pageSize, this.investigationReceivedSortList, filter);
-                    this.investigationsFacade.setQueuedAndRequestedInvestigations(this.pagination.page, this.pagination.pageSize, this.investigationReceivedSortList,);
-                }
-                if (params.received === 'false' && params?.notificationIds?.length > 0) {
-                    const filter = {notificationIds: params.notificationIds};
-                    this.investigationsFacade.setQueuedAndRequestedInvestigations(this.pagination.page, this.pagination.pageSize, this.investigationReceivedSortList, filter);
-                    this.investigationsFacade.setReceivedInvestigation(this.pagination.page, this.pagination.pageSize, this.investigationReceivedSortList);
-                }
-            } else {
-                this.pagination.page = params?.pageNumber;
-                this.investigationsFacade.setReceivedInvestigation(this.pagination.page, this.pagination.pageSize, this.investigationReceivedSortList);
-                this.investigationsFacade.setQueuedAndRequestedInvestigations(this.pagination.page, this.pagination.pageSize, this.investigationQueuedAndRequestedSortList);
-            }
+            this.pagination.page = params?.pageNumber ? params.pageNumber : 0;
+            let deeplinkNotificationFilter = createDeeplinkNotificationFilter(params);
+            this.investigationsFacade.setReceivedInvestigation(this.pagination.page, this.pagination.pageSize, this.investigationReceivedSortList, deeplinkNotificationFilter?.receivedFilter);
+            this.investigationsFacade.setQueuedAndRequestedInvestigations(this.pagination.page, this.pagination.pageSize, this.investigationQueuedAndRequestedSortList, deeplinkNotificationFilter?.sentFilter);
         })
     }
 
