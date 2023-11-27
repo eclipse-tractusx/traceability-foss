@@ -191,13 +191,12 @@ When("user {string} selected investigation", (action) => {
 
 When("user confirm approval of selected investigation", (action) => {
         //cy.get('span').contains('Approve').last().click();
-
-        cy.get('have.variant', 'raised')
-          .within(() => {
-            cy.get('span').click();
-            //return cy.contains('Child element').should('have.class', 'some-child')
-          })
-
+//         cy.get('have.variant', 'raised')
+//           .within(() => {
+//             cy.get('span').click();
+//             //return cy.contains('Child element').should('have.class', 'some-child')
+//           })
+  cy.get('have.variant', 'raised').find('span').contains('Approve').click();
         /////////////////////////////////////////
 });
 
