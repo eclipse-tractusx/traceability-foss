@@ -164,7 +164,7 @@ When("user {string} selected investigation", (action) => {
 });
 
 When("user confirm approval of selected investigation", (action) => {
-        cy.get('span').contains('Approve').click();
+        cy.get('span').contains('Approve').last().click();
 });
 
 Then("informations for selected investigation are displayed as expected", () => {
