@@ -194,7 +194,7 @@ When("user confirm approval of selected investigation", (action) => {
 
         cy.get('have.variant', 'raised')
           .within(() => {
-            cy.get('span').contains('Approve').click();
+            cy.get('span').click();
             //return cy.contains('Child element').should('have.class', 'some-child')
           })
 
