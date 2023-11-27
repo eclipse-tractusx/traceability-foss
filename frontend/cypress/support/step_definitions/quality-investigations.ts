@@ -109,13 +109,16 @@ When("open details of created investigation", () => {
   cy.get('[data-testid="table-menu-button--actions.viewDetails"]').first().click();
 });
 
+When("user start cancelation", () => {
+  cy.get('div').contains('Cancel').click();
+});
+
 //When user cancel selected investigation with entering "correct" id
 // #include: check popup (id, description, status, created, createdby, texts, buttons (cancel, approve), then click on Delete
 // #check: Deletion is only possible after entering the expected id
 // #check: popup on the right sight is shown
 When("user cancel selected investigation with entering {string} id", (input) => {
   let investigationId = '';
-  cy.get('div').contains('Cancel').click();
   switch (input) {
     case 'no': {
       cy.get('span').contains('Confirm cancellation').click();
