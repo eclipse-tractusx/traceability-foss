@@ -4,21 +4,33 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+
 ## [UNRELEASED - DD.MM.YYYY]
 ### Added
 ### Changed
+- Updated mikefarah/yq from 4.35.2 to 4.40.2
+- Upgraded maven-checkstyle-plugin from 3.3.0 to 3.3.1
+- Upgraded nimbus-jose-jwt from 9.31 to 9.37.1
+- Upgraded maven-install-plugin from 3.0.1 to 3.1.1
+- Upgraded json-unit-assertj from 2.38.0 to 3.2.2
+- Upgraded asciidoctorj-diagram from 2.2.9 to 2.2.13
+
 ### Removed
+
+## [9.0.0-rc4 - xx.xx.2023]
+### Added
+- Added new dashboard layout and additional widgets
+- Refactored dashboard response
 
 ## [9.0.0-rc3 - 27.11.2023]
 ### Added
 - DEPENDENCIES_FRONTEND, SECURITY.md, NOTICE.md, LICENSE file to frontend docker image
 - Added a step-by-step guide to register a server in pgAdmin in the database dump README
 - Documentation about technical users
-- Added new dashboard layout and additional widgets
 
 ### Changed
 - Fixed helm repository path for backend & frontend (wrong prefix)
-- Refactored dashboard response
 - Updated user manual
 - Autocomplete endpoints changed owner String type param to Owner for input validation and sql injection prevention
 - Autocomplete endpoints repository uses now criteria api rather than native query
