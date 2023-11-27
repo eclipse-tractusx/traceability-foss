@@ -11,6 +11,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Added a step-by-step guide to register a server in pgAdmin in the database dump README
 - Documentation about technical users
 - new filtering capabilities ( receivedQualityAlertIdsInStatusActive, sentQualityAlertIdsInStatusActive, receivedQualityInvestigationIdsInStatusActive, sentQualityInvestigationIdsInStatusActive )
+- Validation check if table-settings correct and reset on invalid state
 
 ### Changed
 - Fixed helm repository path for backend & frontend (wrong prefix)
@@ -19,6 +20,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Autocomplete endpoints changed owner String type param to Owner for input validation and sql injection prevention
 - Autocomplete endpoints repository uses now criteria api rather than native query
 - Fixed several bugs in local filtering of the parts table
+- Realigned some mappings e.g. (manufacturer / manufacturerName) to be more clear
 
 ### Removed
 - apk upgrade in docker image built as requested by TRG 4.02
