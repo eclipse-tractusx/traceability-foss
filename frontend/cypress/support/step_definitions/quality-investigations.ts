@@ -20,7 +20,7 @@
  ********************************************************************************/
 //package org.eclipse.tractusx.traceability.test;
 
-//import static from org.eclipse.tractusx.traceability.test.validator.TestUtils.wrapStringWithTimestamp;
+import static from org.eclipse.tractusx.traceability.test.validator.TestUtils.wrapStringWithTimestamp;
 import { When, Then, Given } from '@badeball/cypress-cucumber-preprocessor';
 import { QualityInvestigationsPage } from '../../integration/pages/QualityInvestigationsPage';
 
