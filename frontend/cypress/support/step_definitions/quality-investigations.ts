@@ -42,7 +42,7 @@ Then("select {string} other part", (partAmount) => {
 //       // all searches are automatically rooted to the found tr element
 //       cy.get('[id="mat-mdc-checkbox-234-input"]').click()
       //cy.get('td').get('mat-checkbox').click()
-    });
+ //   });
 
 //     <input type="checkbox" class="mdc-checkbox__native-control" id="mat-mdc-checkbox-234-input" tabindex="0">
 //     #mat-mdc-checkbox-234-input
