@@ -65,18 +65,16 @@ Then("select {string} other part", (partAmount) => {
 
 
 Then("start investigation creation with description {string}", function (description) {
-  //notificationDescription = wrapStringWithTimestamp(input.get("description"));
-  //notificationDescription = "Test 123123 description";
-  notificationDescription = description;
+  notificationDescription = wrapStringWithTimestamp(input.get("description"));
+  //notificationDescription = description;
   cy.get('div').contains('Start investigation').click();
-  cy.get('mat-label').contains('Description').click().type(description);
+  cy.get('mat-label').contains('Description').click().type(notificationDescription);
 });
 
 
 When("severity {string}", function (severity) {
   cy.get('#mat-select-56').click(); // First the dropdown has to be opened.
   cy.get('p').contains(severity).click();
-  //cy.get('#mat-select-56-panel').select(severity);  // Dropdown menu has own id.
 });
 
 
@@ -189,16 +187,7 @@ When("user {string} selected investigation", (action) => {
 
 
 When("user confirm approval of selected investigation", (action) => {
-        //cy.get('span').contains('Approve').last().click();
-//         cy.get('have.variant', 'raised')
-//           .within(() => {
-//             cy.get('span').click();
-//             //return cy.contains('Child element').should('have.class', 'some-child')
-//           })
-  //cy.get('app-button').should('have.variant', 'raised').find('span').contains('Approve').click();
-//   cy.get('app-confirm').should('have.variant', 'raised').find('span').contains('Approve').click();
   cy.get('app-confirm').find('span').contains('Approve').click();
-        /////////////////////////////////////////
 });
 
 
