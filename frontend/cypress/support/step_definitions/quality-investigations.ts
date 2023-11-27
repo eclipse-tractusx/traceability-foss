@@ -215,8 +215,8 @@ matched = false;
         cy.get('[title="Cancelled"]').should('be.visible');
         break;
       }
-      case 'requested': {
-      // same as "approved"
+      case 'approved': {
+      // same as "requested"
       matched = true;
         cy.get('[title="Requested"]').should('be.visible');
         break;
@@ -243,7 +243,7 @@ matched = false;
       }
     }
     if (!matched) {
-      throw new Error("Set expected status '" + expectedStatus + "' is not one of valid status [canceled, requested, accepted, declined, acknowledged, closed].");
+      throw new Error("Set expected status '" + expectedStatus + "' is not one of valid status [canceled, approved, accepted, declined, acknowledged, closed].");
     }
 });
 
