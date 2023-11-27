@@ -29,7 +29,6 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.dashboard.model.Dashboard;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.AlertRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -46,24 +45,37 @@ public class DashboardServiceImpl implements DashboardService {
 
     @Override
     public Dashboard getDashboard() {
-        long customerParts = assetAsBuiltRepository.countAssetsByOwner(Owner.CUSTOMER) + assetAsPlannedRepository.countAssetsByOwner(Owner.CUSTOMER);
-        long supplierParts = assetAsBuiltRepository.countAssetsByOwner(Owner.SUPPLIER) + assetAsPlannedRepository.countAssetsByOwner(Owner.SUPPLIER);
-        long otherParts = customerParts + supplierParts;
-        long ownParts = assetAsBuiltRepository.countAssetsByOwner(Owner.OWN) + assetAsPlannedRepository.countAssetsByOwner(Owner.OWN);
-        long investigationsInReceivedState = investigationsRepository.countQualityNotificationEntitiesByStatus(QualityNotificationStatus.RECEIVED);
-        long alertsInReceivedState = alertRepository.countQualityNotificationEntitiesByStatus(QualityNotificationStatus.RECEIVED);
-        long alertsInSentState = alertRepository.countQualityNotificationEntitiesByStatus(QualityNotificationStatus.SENT);
-        long myPartsWithOpenAlerts = alertRepository.countPartsByStatusAndOwnership(List.of(QualityNotificationStatus.SENT), Owner.OWN);
-        long supplierPartsWithOpenAlerts = alertRepository.countPartsByStatusAndOwnership(List.of(QualityNotificationStatus.RECEIVED), Owner.SUPPLIER);
+        long asBuiltCustomerParts = assetAsBuiltRepository.countAssetsByOwner(Owner.CUSTOMER);
+        long asPlannedCustomerParts = assetAsPlannedRepository.countAssetsByOwner(Owner.CUSTOMER);
+        long asBuiltSupplierParts = assetAsBuiltRepository.countAssetsByOwner(Owner.SUPPLIER);
+        long asPlannedSupplierParts = assetAsPlannedRepository.countAssetsByOwner(Owner.SUPPLIER);
+        long asBuiltOwnParts = assetAsBuiltRepository.countAssetsByOwner(Owner.OWN);
+        long asPlannedOwnParts = assetAsPlannedRepository.countAssetsByOwner(Owner.OWN);
+
+
+        long myPartsWithSentAlerts = alertRepository.countOpenNotificationsByOwnership(List.of(Owner.OWN));
+        long myPartsWithReceivedInvestigations = investigationsRepository.countOpenNotificationsByOwnership(List.of(Owner.OWN));
+
+        long supplierPartsWithOpenReceivedAlerts = alertRepository.countOpenNotificationsByOwnership(List.of(Owner.SUPPLIER));
+        long supplierPartsWithOpenSentInvestigations = investigationsRepository.countOpenNotificationsByOwnership(List.of(Owner.SUPPLIER));
+
+        long customerPartsWithOpenReceivedAlerts = alertRepository.countOpenNotificationsByOwnership(List.of(Owner.CUSTOMER));
+        long customerPartsWithOpenSentInvestigations = investigationsRepository.countOpenNotificationsByOwnership(List.of(Owner.CUSTOMER));
 
         return Dashboard.builder()
-                .myParts(ownParts)
-                .otherParts(otherParts)
-                .investigationsReceived(investigationsInReceivedState)
-                .alertsReceived(alertsInReceivedState)
-                .alertsSent(alertsInSentState)
-                .myPartsWithOpenAlerts(myPartsWithOpenAlerts)
-                .supplierPartsWithOpenAlerts(supplierPartsWithOpenAlerts)
+                .asBuiltCustomerParts(asBuiltCustomerParts)
+                .asPlannedCustomerParts(asPlannedCustomerParts)
+                .asBuiltSupplierParts(asBuiltSupplierParts)
+                .asPlannedSupplierParts(asPlannedSupplierParts)
+                .asBuiltOwnParts(asBuiltOwnParts)
+                .asPlannedOwnParts(asPlannedOwnParts)
+                .myPartsWithOpenAlerts(myPartsWithSentAlerts)
+                .myPartsWithOpenInvestigations(myPartsWithReceivedInvestigations)
+                .supplierPartsWithOpenAlerts(supplierPartsWithOpenReceivedAlerts)
+                .customerPartsWithOpenAlerts(customerPartsWithOpenReceivedAlerts)
+                .supplierPartsWithOpenInvestigations(supplierPartsWithOpenSentInvestigations)
+                .customerPartsWithOpenInvestigations(customerPartsWithOpenSentInvestigations)
                 .build();
+
     }
 }
