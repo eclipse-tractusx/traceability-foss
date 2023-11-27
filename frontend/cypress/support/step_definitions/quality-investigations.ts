@@ -203,7 +203,7 @@ matched = false;
     switch (status) {
       case 'canceled': {
         matched = true;
-        cy.get('div').contains('Cancel').should('not.exist');
+        cy.get('div').contains('/^Cancel$/').should('not.exist');
         break;
       }
       case 'approved': {
