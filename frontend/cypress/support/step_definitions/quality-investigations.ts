@@ -103,6 +103,10 @@ When("user confirm cancelation of selected investigation with entering {string} 
       cy.get('span').contains('Confirm cancellation').click();
       break;
     }
+    default: {
+      throw new Error("Set cancelation id '" + input + "' is not one of valid actions [no, wrong, correct].");
+      break;
+    }
   }
 });
 
@@ -115,6 +119,10 @@ Then("cancelation is not possible due to {string} id", (id) => {
     }
     case 'wrong': {
       cy.contains(/Please enter data that matches this pattern:/i).should('be.visible');
+      break;
+    }
+    default: {
+      throw new Error("Set cancelation action '" + id + "' is not one of valid actions [no, wrong].");
       break;
     }
   }
