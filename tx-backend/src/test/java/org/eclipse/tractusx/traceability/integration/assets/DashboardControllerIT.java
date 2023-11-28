@@ -98,7 +98,11 @@ class DashboardControllerIT extends IntegrationTestSpecification {
                 .body("supplierPartsWithOpenAlerts", equalTo(0))
                 .body("customerPartsWithOpenAlerts", equalTo(0))
                 .body("supplierPartsWithOpenInvestigations", equalTo(0))
-                .body("customerPartsWithOpenInvestigations", equalTo(0));
+                .body("customerPartsWithOpenInvestigations", equalTo(0))
+                .body("receivedActiveAlerts", equalTo(0))
+                .body("receivedActiveInvestigations", equalTo(0))
+                .body("sentActiveAlerts", equalTo(0))
+                .body("sentActiveInvestigations", equalTo(0));
     }
 
     @Test
@@ -134,7 +138,11 @@ class DashboardControllerIT extends IntegrationTestSpecification {
                 .body("supplierPartsWithOpenAlerts", equalTo(12))
                 .body("customerPartsWithOpenAlerts", equalTo(0))
                 .body("supplierPartsWithOpenInvestigations", equalTo(0))
-                .body("customerPartsWithOpenInvestigations", equalTo(0));
+                .body("customerPartsWithOpenInvestigations", equalTo(0))
+                .body("receivedActiveAlerts", equalTo(2))
+                .body("receivedActiveInvestigations", equalTo(0))
+                .body("sentActiveAlerts", equalTo(0))
+                .body("sentActiveInvestigations", equalTo(0));
     }
 
     @Test
@@ -192,7 +200,11 @@ class DashboardControllerIT extends IntegrationTestSpecification {
                 .body("supplierPartsWithOpenAlerts", equalTo(0))
                 .body("customerPartsWithOpenAlerts", equalTo(0))
                 .body("supplierPartsWithOpenInvestigations", equalTo(1))
-                .body("customerPartsWithOpenInvestigations", equalTo(0));
+                .body("customerPartsWithOpenInvestigations", equalTo(0))
+                .body("receivedActiveAlerts", equalTo(0))
+                .body("receivedActiveInvestigations", equalTo(1))
+                .body("sentActiveAlerts", equalTo(0))
+                .body("sentActiveInvestigations", equalTo(1));
     }
 
     private static Stream<Arguments> roles() {
