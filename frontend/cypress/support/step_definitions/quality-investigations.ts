@@ -24,40 +24,10 @@ import { QualityInvestigationsPage } from '../../integration/pages/QualityInvest
 let notificationDescription = null;
 
 Then("select {string} other part", (partAmount) => {
-//since IDs of desired asset are not shown in FE the selection has to be done by other number
-  //cy.get('span').contains('NO-989134870198932317923938').parent('.row').as('part');
-  //cy.get('@part').get('#mat-mds-checkbox-21').click();
-  cy.get('span').contains('As Planned').click(); // see comment above. This has to be done to avoid asPlanned selection
-  cy.get('#mat-mdc-checkbox-38*').click(); //---TBD--- this is only a method to make it run, has to be changed to selected part as above!
-//   cy.get('span').contains('NO-989134870198932317923938').parentsUntil('.mat-mdc-row mdc-data-table__row cdk-row ng-star-inserted').first().get('[type="checkbox"]').click();
-//cy.get('span').contains('NO-989134870198932317923938').parentsUntil('.mat-mdc-row mdc-data-table__row cdk-row ng-star-inserted').children().get('[type="checkbox"]').first().click();
-//   cy.get('span').contains('NO-989134870198932317923938').parentsUntil('.mat-mdc-cell mdc-data-table__cell cdk-cell table--cell cdk-column-semanticModelId mat-column-semanticModelId ng-star-inserted').get('[type="checkbox"]').first().click();
+//since IDs of desired asset are not shown in FE the selection has to be done by other number.
+  cy.get('span').contains('As Planned').click(); // This has to be done to avoid asPlanned selection
+  cy.get('#mat-mdc-checkbox-38*').click(); //---TBD--- this is only a method to make it run, has to be changed to selected part.
 
-//   cy.contains('NO-989134870198932317923938')
-//     .parentsUntil('tr').last()
-//     .within(() => {
-//       // all searches are automatically rooted to the found tr element
-//       cy.get('[id="mat-mdc-checkbox-234-input"]').click()
-      //cy.get('td').get('mat-checkbox').click()
- //   });
-
-//     <input type="checkbox" class="mdc-checkbox__native-control" id="mat-mdc-checkbox-234-input" tabindex="0">
-//     #mat-mdc-checkbox-234-input
-    //*[@id="mat-mdc-checkbox-234-input"]
-    ///html/body/app-root/div/div/app-layout/main/div/div/div/app-other-parts/div/as-split/as-split-area[1]/mat-tab-group/div/mat-tab-body[1]/div/app-supplier-parts/div/app-parts-table/div[2]/table/tbody/tr[1]/td[1]/mat-checkbox/div/div/input
-//   cy.contains('span', 'NO-989134870198932317923938')  // gives you the cell
-//     .parent()                              // gives you the row
-//     .within(($tr) => {                       // filters just that row
-//       cy.children().get($div)//cy.get('[type="checkbox"]')//.get('[data-testid="select-one--test-id"]') // finds the buttons cell of that row
-//       .click()
-//       });
-
-
-      //     cy.contains('span', 'NO-989134870198932317923938')  // gives you the cell
-      //       .siblings()                            // gives you all the other cells in the row
-      //       .get('[type="checkbox"]')               // finds the delete button
-      //       .click()
-  //cy.get('span').contains('NO-989134870198932317923938').parentsUntil('.mat-mdc-cell mdc-data-table__cell cdk-cell table--cell cdk-column-semanticModelId mat-column-semanticModelId ng-star-inserted').get('[type="checkbox"]').first().click();
 });
 
 
@@ -79,7 +49,7 @@ When("{string} deadline", function (deadline) {
       if (deadline == 'no') {
         // do nothing
       } else {
-       // ---TBD---
+       // ---TBD--- implement timepicker once it´s necessary.
       }
 });
 
@@ -106,7 +76,6 @@ When("user navigate to {string} with button in popup", (popupClick) => {
 
 
 When("open details of created investigation", () => {
-  //cy.get('p').contains(notificationDescription).parentsUntil('.mat-mdc-row mdc-data-table__row cdk-row no-hover ng-star-inserted').get('[class="mat-mdc-button-touch-target"]').click()
   cy.get('[data-testid="table-menu-button"]').first().click(); //the first investigation will be opened
   cy.get('[data-testid="table-menu-button--actions.viewDetails"]').first().click();
 });
