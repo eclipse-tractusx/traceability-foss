@@ -39,6 +39,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.exception.QualityNotificationIllegalUpdate;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.repository.QualityNotificationRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.Clock;
@@ -265,6 +266,7 @@ public class NotificationPublisherService {
         if (sentMessages.isEmpty()) {
             throw new SendNotificationException("No Message was sent");
         }
+//        sentMessages.forEach(repository::updateQualityNotificationMessageEntity);
 
         return notification;
     }

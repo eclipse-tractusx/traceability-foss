@@ -90,7 +90,7 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
     private boolean handleSendingNotification(QualityNotificationMessage notification, String senderEdcUrl, String receiverUrl, QualityNotificationRepository repository) {
         try {
             edcFacade.startEdcTransfer(notification, receiverUrl, senderEdcUrl);
-            repository.updateQualityNotificationMessageEntity(notification);
+//            repository.updateQualityNotificationMessageEntity(notification);
             return true;
         } catch (NoCatalogItemException e) {
             log.warn("Could not send notification to {} no catalog item found. ", receiverUrl, e);
