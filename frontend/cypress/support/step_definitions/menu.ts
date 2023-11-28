@@ -55,8 +55,9 @@ matched = false;
         cy.get('[href="/about"]').click();
         break;
       }
-    }
-    if (!matched) {
-      throw new Error("Set header menu '" + desiredMenu + "' is not one of valid status [Dashboard, Parts, Other parts, Quality investigations, Quality alerts, About].");
+      default: {
+        throw new Error("Set header menu '" + desiredMenu + "' is not one of valid status [Dashboard, Parts, Other parts, Quality investigations, Quality alerts, About].");
+        break;
+      }
     }
 });
