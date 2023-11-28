@@ -66,7 +66,8 @@ Then("select {string} other part", (partAmount) => {
 
 Then("start investigation creation with description {string}", function (description) {
   //notificationDescription = wrapStringWithTimestamp(input.get("description"));
-  notificationDescription = description + cy.clock(now);
+  const date = new Date().getTime();
+  notificationDescription = description + date;
   cy.get('div').contains('Start investigation').click();
   cy.get('mat-label').contains('Description').click().type(notificationDescription);
 });
