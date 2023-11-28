@@ -139,7 +139,7 @@ class DashboardControllerIT extends IntegrationTestSpecification {
                 .body("customerPartsWithOpenAlerts", equalTo(0))
                 .body("supplierPartsWithOpenInvestigations", equalTo(0))
                 .body("customerPartsWithOpenInvestigations", equalTo(0))
-                .body("receivedActiveAlerts", equalTo(0))
+                .body("receivedActiveAlerts", equalTo(2))
                 .body("receivedActiveInvestigations", equalTo(0))
                 .body("sentActiveAlerts", equalTo(0))
                 .body("sentActiveInvestigations", equalTo(0));
@@ -204,7 +204,7 @@ class DashboardControllerIT extends IntegrationTestSpecification {
                 .body("receivedActiveAlerts", equalTo(0))
                 .body("receivedActiveInvestigations", equalTo(0))
                 .body("sentActiveAlerts", equalTo(0))
-                .body("sentActiveInvestigations", equalTo(0));
+                .body("sentActiveInvestigations", equalTo(1));
     }
 
     private static Stream<Arguments> roles() {
