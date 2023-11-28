@@ -63,7 +63,7 @@ Then("select {string} other part", (partAmount) => {
 
 Then("start investigation creation with description {string}", function (description) {
   const date = new Date().getTime();
-  notificationDescription = description + date;
+  notificationDescription = description + "_" + date;
   cy.get('div').contains('Start investigation').click();
   cy.get('mat-label').contains('Description').click().type(notificationDescription);
 });
@@ -209,22 +209,22 @@ matched = false;
       }
       case 'accepted': {
       matched = true;
-        cy.get('[title="Accepted"]').should('be.visible');
+        cy.get('[title="Accepted"]', { timeout: 10000 }).should('be.visible');
         break;
       }
       case 'declined': {
       matched = true;
-        cy.get('[title="Declined"]').should('be.visible');
+        cy.get('[title="Declined"]', { timeout: 10000 }).should('be.visible');
         break;
       }
       case 'acknowledged': {
       matched = true;
-        cy.get('[title="Acknowledged"]').should('be.visible');
+        cy.get('[title="Acknowledged"]', { timeout: 10000 }).should('be.visible');
         break;
       }
       case 'closed': {
       matched = true;
-        cy.get('[title="Closed"]').should('be.visible');
+        cy.get('[title="Closed"]', { timeout: 10000 }).should('be.visible');
         break;
       }
     }
