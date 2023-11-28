@@ -50,8 +50,10 @@ public class AssetAsBuiltFieldMapper extends BaseRequestFieldMapper {
             Map.entry("van", "van"),
             Map.entry("businessPartner", "manufacturerId"),
             Map.entry("alerts", "alerts"),
-            Map.entry("qualityAlertIdsInStatusActive", "activeAlertsCount"),
-            Map.entry("qualityInvestigationIdsInStatusActive", "activeInvestigationsCount")
+            Map.entry("sentQualityAlertIdsInStatusActive", "sentActiveAlertsCount"),
+            Map.entry("sentQualityInvestigationIdsInStatusActive", "sentActiveInvestigationsCount"),
+            Map.entry("receivedQualityAlertIdsInStatusActive", "receivedActiveAlertsCount"),
+            Map.entry("receivedQualityInvestigationIdsInStatusActive", "receivedActiveInvestigationsCount")
     );
 
     @Override

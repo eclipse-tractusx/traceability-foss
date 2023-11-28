@@ -31,6 +31,7 @@ import { NotificationTabInformation } from '@shared/model/notification-tab-infor
 import { Notification, NotificationStatusGroup, NotificationType } from '@shared/model/notification.model';
 import { TranslationContext } from '@shared/model/translation-context.model';
 import { Subscription } from 'rxjs';
+import {createDeeplinkNotificationFilter} from "@shared/helper/notification-helper";
 
 @Component({
   selector: 'app-alerts',
@@ -73,10 +74,14 @@ export class AlertsComponent {
     }
 
   public ngOnInit(): void {
+
     this.paramSubscription = this.route.queryParams.subscribe(params => {
-      this.pagination.page = params?.pageNumber;
-      this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize, this.alertReceivedSortList);
-      this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize, this.alertQueuedAndRequestedSortList);
+
+      let deeplinkNotificationFilter = createDeeplinkNotificationFilter(params);
+      this.pagination.page = params?.pageNumber ? params.pageNumber : 0;
+        this.pagination.page = params?.pageNumber;
+        this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize, this.alertReceivedSortList, deeplinkNotificationFilter?.receivedFilter);
+        this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize, this.alertQueuedAndRequestedSortList, deeplinkNotificationFilter?.sentFilter);
     })
   }
 

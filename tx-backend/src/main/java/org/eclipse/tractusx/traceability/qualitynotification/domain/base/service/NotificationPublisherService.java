@@ -48,8 +48,10 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 import static java.util.stream.Collectors.groupingBy;
 
@@ -205,11 +207,17 @@ public class NotificationPublisherService {
      */
     public QualityNotification approveNotification(QualityNotification notification) {
         BPN applicationBPN = traceabilityProperties.getBpn();
-        notification.send(applicationBPN);
 
         // For each asset within investigation a notification was created before
-        notification.getNotifications().forEach(edcNotificationService::asyncNotificationExecutor);
-
+        List<CompletableFuture<QualityNotificationMessage>> futures = notification.getNotifications().stream()
+                .map(edcNotificationService::asyncNotificationMessageExecutor).filter(Objects::nonNull).toList();
+        List<QualityNotificationMessage> sentMessages = futures.stream()
+                .map(CompletableFuture::join)
+                .filter(Objects::nonNull)
+                .toList();
+        if (!sentMessages.isEmpty()) {
+            notification.send(applicationBPN);
+        }
         return notification;
     }
 
@@ -229,19 +237,27 @@ public class NotificationPublisherService {
         log.info("::updateNotificationPublisher::allLatestNotificationForEdcNotificationId {}", allLatestNotificationForEdcNotificationId);
         allLatestNotificationForEdcNotificationId.forEach(qNotification -> {
             QualityNotificationMessage notificationToSend = qNotification.copyAndSwitchSenderAndReceiver(applicationBPN);
-            switch (status) {
-                case ACKNOWLEDGED -> notification.acknowledge(notificationToSend);
-                case ACCEPTED -> notification.accept(reason, notificationToSend);
-                case DECLINED -> notification.decline(reason, notificationToSend);
-                case CLOSED -> notification.close(reason, notificationToSend);
-                default ->
-                        throw new QualityNotificationIllegalUpdate("Transition from status '%s' to status '%s' is not allowed for notification with id '%s'".formatted(notification.getNotificationStatus().name(), status, notification.getNotificationId()));
-            }
             log.info("::updateNotificationPublisher::notificationToSend {}", notificationToSend);
             notification.addNotification(notificationToSend);
             notificationsToSend.add(notificationToSend);
         });
-        notificationsToSend.forEach(edcNotificationService::asyncNotificationExecutor);
+
+        List<CompletableFuture<QualityNotificationMessage>> futures = notificationsToSend.stream()
+                .map(edcNotificationService::asyncNotificationMessageExecutor).filter(Objects::nonNull).toList();
+        List<QualityNotificationMessage> sentMessages = futures.stream()
+                .map(CompletableFuture::join).toList();
+
+        sentMessages.forEach(message -> {
+            switch (status) {
+                case ACKNOWLEDGED -> notification.acknowledge(message);
+                case ACCEPTED -> notification.accept(reason, message);
+                case DECLINED -> notification.decline(reason, message);
+                case CLOSED -> notification.close(reason, message);
+                default ->
+                        throw new QualityNotificationIllegalUpdate("Transition from status '%s' to status '%s' is not allowed for notification with id '%s'".formatted(notification.getNotificationStatus().name(), status, notification.getNotificationId()));
+            }
+        });
+
         return notification;
     }
 

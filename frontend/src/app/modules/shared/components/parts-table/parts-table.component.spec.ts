@@ -73,22 +73,24 @@ describe('PartsTableComponent', () => {
         // Expect that the event was emitted with the correct data
         expect(componentInstance.displayedColumns).toEqual([
             'Filter',
-            'filterId',
-            'filterIdShort',
-            'filterName', // nameAtManufacturer
-            'filterManufacturer',
-            'filterPartId', // Part number / Batch Number / JIS Number
-            'filterManufacturerPartId',
-            'filterCustomerPartId', // --> semanticModel.customerPartId
-            'filterClassification',
+            'filterid',
+            'filteridShort',
+            'filternameAtManufacturer', // nameAtManufacturer
+            'filtermanufacturerName',
+            'filterpartId', // Part number / Batch Number / JIS Number
+            'filtermanufacturerPartId',
+            'filtercustomerPartId', // --> semanticModel.customerPartId
+            'filterclassification',
             //'nameAtManufacturer', --> already in name
-            'filterNameAtCustomer', // --> semanticModel.nameAtCustomer
-            'filterSemanticModelId',
-            'filterSemanticDataModel',
-            'filterManufacturingDate',
-            'filterManufacturingCountry',
-            'filterActiveAlerts',
-            'filterActiveInvestigations',
+            'filternameAtCustomer', // --> semanticModel.nameAtCustomer
+            'filtersemanticModelId',
+            'filtersemanticDataModel',
+            'filtermanufacturingDate',
+            'filtermanufacturingCountry',
+            'filterreceivedActiveAlerts',
+            'filterreceivedActiveInvestigations',
+            'filtersentActiveAlerts',
+            'filtersentActiveInvestigations',
         ]);
     });
 
@@ -100,20 +102,20 @@ describe('PartsTableComponent', () => {
 
         expect(componentInstance.displayedColumns).toEqual([
             'Filter',
-            'filterId',
-            'filterIdShort',
-            'filterName',
-            'filterManufacturer',
-            'filterManufacturerPartId',
-            'filterClassification',
-            'filterSemanticDataModel',
-            'filterSemanticModelId',
-            'filterValidityPeriodFrom',
-            'filterValidityPeriodTo',
-            'filterPsFunction',
-            'filterCatenaXSiteId',
-            'filterFunctionValidFrom',
-            'filterFunctionValidUntil',
+            'filterid',
+            'filteridShort',
+            'filternameAtManufacturer',
+            'filtermanufacturerName',
+            'filtermanufacturerPartId',
+            'filterclassification',
+            'filtersemanticDataModel',
+            'filtersemanticModelId',
+            'filtervalidityPeriodFrom',
+            'filtervalidityPeriodTo',
+            'filterpsFunction',
+            'filtercatenaXSiteId',
+            'filterfunctionValidFrom',
+            'filterfunctionValidUntil',
         ]);
     });
 

@@ -31,8 +31,8 @@ export const mockBmwAssets = [
         "semanticModelId": "NO-613963493493659233961306",
         "businessPartner": "BPNL00000003CML1",
         "manufacturerName": "BMW AG",
-        nameAtManufacturer: "MyAsBuiltPartName",
-      manufacturerPartId: "ManuPartID",
+        "nameAtManufacturer": "MyAsBuiltPartName",
+        "manufacturerPartId": "ManuPartID",
         "owner": "OWN",
         "childRelations": [
           {
@@ -64,8 +64,10 @@ export const mockBmwAssets = [
                 }
             }
         ],
-      qualityAlertIdsInStatusActive: [],
-      qualityInvestigationIdsInStatusActive: [],
+        'sentQualityAlertIdsInStatusActive': [],
+        'receivedQualityAlertIdsInStatusActive': [],
+        'sentQualityInvestigationIdsInStatusActive': [],
+        'receivedQualityInvestigationIdsInStatusActive': [],
     },
     {
         "id": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e43842",
@@ -73,8 +75,8 @@ export const mockBmwAssets = [
         "semanticModelId": "12345678ABC",
         "businessPartner": "BPNL00000003CML1",
       "manufacturerName": "BMW AG",
-      nameAtManufacturer: "MyAsBuiltPartName",
-      manufacturerPartId: "ManuPartID",
+      "nameAtManufacturer": "MyAsBuiltPartName",
+      "manufacturerPartId": "ManuPartID",
         "owner": "OWN",
         "childRelations": [],
         "parentRelations": [],
@@ -96,8 +98,10 @@ export const mockBmwAssets = [
                 }
             }
         ],
-      qualityAlertIdsInStatusActive:[],
-      qualityInvestigationIdsInStatusActive: [],
+        'sentQualityAlertIdsInStatusActive': [],
+        'receivedQualityAlertIdsInStatusActive': [],
+        'sentQualityInvestigationIdsInStatusActive': [],
+        'receivedQualityInvestigationIdsInStatusActive': [],
     },
     {
         "id": "urn:uuid:4a5e9ff6-2d5c-4510-a90e-d55af3ba502f",
@@ -105,8 +109,8 @@ export const mockBmwAssets = [
         "semanticModelId": "NO-246880451848384868750731",
         "businessPartner": "BPNL00000003CML1",
       "manufacturerName": "BMW AG",
-      nameAtManufacturer: "MyAsBuiltPartName",
-      manufacturerPartId: "ManuPartID",
+      "nameAtManufacturer": "MyAsBuiltPartName",
+      "manufacturerPartId": "ManuPartID",
         "owner": "OWN",
       "childRelations": [{
         "id": "urn:uuid:c47b9f8b-48d0-4ef4-8f0b-e965a225cb8d",
@@ -136,8 +140,10 @@ export const mockBmwAssets = [
                 }
             }
         ],
-      qualityAlertIdsInStatusActive:[],
-      qualityInvestigationIdsInStatusActive: [],
+        'sentQualityAlertIdsInStatusActive': [],
+        'receivedQualityAlertIdsInStatusActive': [],
+        'sentQualityInvestigationIdsInStatusActive': [],
+        'receivedQualityInvestigationIdsInStatusActive': [],
     },
     {
         "id": "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa03",
@@ -145,8 +151,8 @@ export const mockBmwAssets = [
         "semanticModelId": "NO-341449848714937445621543",
         "businessPartner": "BPNL00000003CML1",
       "manufacturerName": "BMW AG",
-      nameAtManufacturer: "MyAsBuiltPartName",
-      manufacturerPartId: "ManuPartID",
+      "nameAtManufacturer": "MyAsBuiltPartName",
+      "manufacturerPartId": "ManuPartID",
         "owner": "OWN",
         "childRelations": [],
         "parentRelations": [
@@ -173,8 +179,10 @@ export const mockBmwAssets = [
                 }
             }
         ],
-      qualityAlertIdsInStatusActive: [],
-      qualityInvestigationIdsInStatusActive: [],
+        'sentQualityAlertIdsInStatusActive': [],
+        'receivedQualityAlertIdsInStatusActive': [],
+        'sentQualityInvestigationIdsInStatusActive': [],
+        'receivedQualityInvestigationIdsInStatusActive': [],
     },
     {
         "id": "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa01",
@@ -182,8 +190,8 @@ export const mockBmwAssets = [
         "semanticModelId": "NO-341449848714937445621543",
         "businessPartner": "BPNL00000003CML1",
       "manufacturerName": "BMW AG",
-      nameAtManufacturer: "MyAsBuiltPartName",
-      manufacturerPartId: "ManuPartID",
+      "nameAtManufacturer": "MyAsBuiltPartName",
+      "manufacturerPartId": "ManuPartID",
         "owner": "OWN",
         "childRelations": [],
         "parentRelations": [],
@@ -205,8 +213,10 @@ export const mockBmwAssets = [
                 }
             }
         ],
-      qualityAlertIdsInStatusActive: [],
-      qualityInvestigationIdsInStatusActive: [],
+        'sentQualityAlertIdsInStatusActive': [],
+        'receivedQualityAlertIdsInStatusActive': [],
+        'sentQualityInvestigationIdsInStatusActive': [],
+        'receivedQualityInvestigationIdsInStatusActive': [],
     },
     {
         "id": "urn:uuid:d8030bbf-a874-49fb-b2e1-7610f0ccad12",
@@ -214,8 +224,8 @@ export const mockBmwAssets = [
         "semanticModelId": "OMAYSKEITUGNVHKKX",
         "businessPartner": "BPNL00000003CML1",
       "manufacturerName": "BMW AG",
-      nameAtManufacturer: "MyAsBuiltPartName",
-      manufacturerPartId: "ManuPartID",
+      "nameAtManufacturer": "MyAsBuiltPartName",
+      "manufacturerPartId": "ManuPartID",
         "owner": "OWN",
         "childRelations": [
             {
@@ -242,8 +252,10 @@ export const mockBmwAssets = [
                 }
             }
         ],
-      qualityAlertIdsInStatusActive: [],
-      qualityInvestigationIdsInStatusActive: [],
+        'sentQualityAlertIdsInStatusActive': [],
+        'receivedQualityAlertIdsInStatusActive': [],
+        'sentQualityInvestigationIdsInStatusActive': [],
+        'receivedQualityInvestigationIdsInStatusActive': [],
     },
     {
         "id": "urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a",
@@ -251,8 +263,8 @@ export const mockBmwAssets = [
         "semanticModelId": "NO-989134870198932317923938",
         "businessPartner": "BPNL00000003CNKC",
       "manufacturerName": "BMW AG",
-      nameAtManufacturer: "MyAsBuiltPartName",
-      manufacturerPartId: "ManuPartID",
+      "nameAtManufacturer": "MyAsBuiltPartName",
+      "manufacturerPartId": "ManuPartID",
         "owner": "OWN",
         "childRelations": [],
         "parentRelations": [],
@@ -274,8 +286,10 @@ export const mockBmwAssets = [
                 }
             }
         ],
-      qualityAlertIdsInStatusActive: [],
-      qualityInvestigationIdsInStatusActive: [],
+        'sentQualityAlertIdsInStatusActive': [],
+        'receivedQualityAlertIdsInStatusActive': [],
+        'sentQualityInvestigationIdsInStatusActive': [],
+        'receivedQualityInvestigationIdsInStatusActive': [],
     },
     {
         "id": "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa02",
@@ -283,8 +297,8 @@ export const mockBmwAssets = [
         "semanticModelId": "NO-341449848714937445621543",
         "businessPartner": "BPNL00000003CML1",
       "manufacturerName": "BMW AG",
-      nameAtManufacturer: "MyAsBuiltPartName",
-      manufacturerPartId: "ManuPartID",
+      "nameAtManufacturer": "MyAsBuiltPartName",
+      "manufacturerPartId": "ManuPartID",
         "owner": "OWN",
         "childRelations": [
             {
@@ -311,8 +325,10 @@ export const mockBmwAssets = [
                 }
             }
         ],
-      qualityAlertIdsInStatusActive: [],
-      qualityInvestigationIdsInStatusActive:[],
+        'sentQualityAlertIdsInStatusActive': [],
+        'receivedQualityAlertIdsInStatusActive': [],
+        'sentQualityInvestigationIdsInStatusActive': [],
+        'receivedQualityInvestigationIdsInStatusActive': [],
     },
     {
         "id": "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb01",
@@ -320,8 +336,8 @@ export const mockBmwAssets = [
         "semanticModelId": "NO-341449848714937445621543",
         "businessPartner": "BPNL00000003CNKC",
         "manufacturerName": "TEST_BPN_IRS_1",
-      nameAtManufacturer: "MyAsBuiltPartName",
-      manufacturerPartId: "ManuPartID",
+      "nameAtManufacturer": "MyAsBuiltPartName",
+      "manufacturerPartId": "ManuPartID",
         "owner": "OWN",
         "childRelations": [],
         "parentRelations": [],
@@ -343,8 +359,10 @@ export const mockBmwAssets = [
                 }
             }
         ],
-      qualityAlertIdsInStatusActive: [],
-      qualityInvestigationIdsInStatusActive: [],
+        'sentQualityAlertIdsInStatusActive': [],
+        'receivedQualityAlertIdsInStatusActive': [],
+        'sentQualityInvestigationIdsInStatusActive': [],
+        'receivedQualityInvestigationIdsInStatusActive': [],
     },
     {
         "id": "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22",
@@ -352,8 +370,8 @@ export const mockBmwAssets = [
         "semanticModelId": "OMAOYGBDTSRCMYSCX",
         "businessPartner": "BPNL00000003CML1",
         "manufacturerName": "MyAsBuiltPart",
-      nameAtManufacturer: "MyAsBuiltPartName",
-      manufacturerPartId: "ManuPartID",
+      "nameAtManufacturer": "MyAsBuiltPartName",
+      "manufacturerPartId": "ManuPartID",
         "owner": "OWN",
         "childRelations": [
             {
@@ -380,8 +398,10 @@ export const mockBmwAssets = [
                 }
             }
         ],
-      qualityAlertIdsInStatusActive: [],
-      qualityInvestigationIdsInStatusActive: [],
+        'sentQualityAlertIdsInStatusActive': [],
+        'receivedQualityAlertIdsInStatusActive': [],
+        'sentQualityInvestigationIdsInStatusActive': [],
+        'receivedQualityInvestigationIdsInStatusActive': [],
     },
     {
         "id": "urn:uuid:c47b9f8b-48d0-4ef4-8f0b-e965a225cb8d",
@@ -389,8 +409,8 @@ export const mockBmwAssets = [
         "semanticModelId": "NO-477013846751358222215326",
         "businessPartner": "BPNL00000003CNKC",
         "manufacturerName": "TEST_BPN_IRS_1",
-      nameAtManufacturer: "MyAsBuiltPartName",
-      manufacturerPartId: "ManuPartID",
+      "nameAtManufacturer": "MyAsBuiltPartName",
+      "manufacturerPartId": "ManuPartID",
         "owner": "OWN",
         "childRelations": [],
         "parentRelations": [],
@@ -412,8 +432,10 @@ export const mockBmwAssets = [
                 }
             }
         ],
-      qualityAlertIdsInStatusActive: [],
-      qualityInvestigationIdsInStatusActive: [],
+        'sentQualityAlertIdsInStatusActive': [],
+        'receivedQualityAlertIdsInStatusActive': [],
+        'sentQualityInvestigationIdsInStatusActive': [],
+        'receivedQualityInvestigationIdsInStatusActive': [],
     },
     {
         "id": "urn:uuid:f11ddc62-3bd5-468f-b7b0-110fe13ed0cd",
@@ -421,8 +443,8 @@ export const mockBmwAssets = [
         "semanticModelId": "NO-004314332935115065980115",
         "businessPartner": "BPNL00000003CNKC",
         "manufacturerName": "TEST_BPN_IRS_1",
-      nameAtManufacturer: "MyAsBuiltPartName",
-      manufacturerPartId: "ManuPartID",
+      "nameAtManufacturer": "MyAsBuiltPartName",
+      "manufacturerPartId": "ManuPartID",
         "owner": "OWN",
         "childRelations": [],
         "parentRelations": [],
@@ -444,8 +466,10 @@ export const mockBmwAssets = [
                 }
             }
         ],
-      qualityAlertIdsInStatusActive: [],
-      qualityInvestigationIdsInStatusActive: [],
+        'sentQualityAlertIdsInStatusActive': [],
+        'receivedQualityAlertIdsInStatusActive': [],
+        'sentQualityInvestigationIdsInStatusActive': [],
+        'receivedQualityInvestigationIdsInStatusActive': [],
     },
     {
         "id": "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb02",
@@ -453,8 +477,8 @@ export const mockBmwAssets = [
         "semanticModelId": "NO-341449848714937445621543",
         "businessPartner": "BPNL00000003CNKC",
         "manufacturerName": "TEST_BPN_IRS_1",
-      nameAtManufacturer: "MyAsBuiltPartName",
-      manufacturerPartId: "ManuPartID",
+      "nameAtManufacturer": "MyAsBuiltPartName",
+      "manufacturerPartId": "ManuPartID",
         "owner": "OWN",
         "childRelations": [],
         "parentRelations": [],
@@ -476,8 +500,10 @@ export const mockBmwAssets = [
                 }
             }
         ],
-      qualityAlertIdsInStatusActive: [],
-      qualityInvestigationIdsInStatusActive:[],
+        'sentQualityAlertIdsInStatusActive': [],
+        'receivedQualityAlertIdsInStatusActive': [],
+        'sentQualityInvestigationIdsInStatusActive': [],
+        'receivedQualityInvestigationIdsInStatusActive': [],
     },
     {
         "id": "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd",
@@ -485,8 +511,8 @@ export const mockBmwAssets = [
         "semanticModelId": "NO-313869652971440618042264",
         "businessPartner": "BPNL00000003CNKC",
         "manufacturerName": "TEST_BPN_IRS_1",
-      nameAtManufacturer: "MyAsBuiltPartName",
-      manufacturerPartId: "ManuPartID",
+      "nameAtManufacturer": "MyAsBuiltPartName",
+      "manufacturerPartId": "ManuPartID",
         "owner": "OWN",
         "childRelations": [],
         "parentRelations": [],
@@ -508,8 +534,10 @@ export const mockBmwAssets = [
                 }
             }
         ],
-      qualityAlertIdsInStatusActive:[],
-      qualityInvestigationIdsInStatusActive: [],
+        'sentQualityAlertIdsInStatusActive': [],
+        'receivedQualityAlertIdsInStatusActive': [],
+        'sentQualityInvestigationIdsInStatusActive': [],
+        'receivedQualityInvestigationIdsInStatusActive': [],
     },
 ] as PartResponse[];
 
@@ -541,8 +569,10 @@ const MockEmptyPart: PartResponse = {
   qualityType: QualityType.Ok,
   van: null,
   semanticDataModel: SemanticDataModel.SERIALPART,
-  qualityAlertIdsInStatusActive: [],
-  qualityInvestigationIdsInStatusActive: [],
+  sentQualityAlertIdsInStatusActive: [],
+  receivedQualityAlertIdsInStatusActive: [],
+  sentQualityInvestigationIdsInStatusActive: [],
+  receivedQualityInvestigationIdsInStatusActive: []
 };
 
 

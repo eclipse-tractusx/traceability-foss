@@ -12,7 +12,7 @@
     "semanticModelId": "Semantic Model ID",
     "qualityType": "Quality type",
     "productionDate": "Production date",
-    "manufacturer": "Manufacturer",
+    "manufacturerName": "Manufacturer",
     "manufacturerPartId": "Manufacturer part ID",
     "nameAtManufacturer": "Name at manufacturer",
     "nameAtCustomer": "Name at customer",

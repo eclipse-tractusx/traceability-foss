@@ -116,12 +116,10 @@ describe('PartsAssembler', () => {
           id,
           idShort: idShort,
           semanticModelId: semanticModelId,
-
-          manufacturer: manufacturerName,
+          manufacturerName: manufacturerName,
           manufacturerPartId: manufacturerPartId,
           nameAtManufacturer: nameAtManufacturer,
           businessPartner: businessPartner,
-          name: nameAtManufacturer,
           children: [],
           parents: [],
           activeAlert: false,
@@ -130,11 +128,8 @@ describe('PartsAssembler', () => {
           van: 'van',
           semanticDataModel: SemanticDataModel.BATCH,
           classification: classification,
-
           semanticModel: semanticModel,
-
           mainAspectType: mainAspectType,
-
           partId: partId, // is partInstance, BatchId, jisNumber
           customerPartId: customerPartId,
           nameAtCustomer: nameAtCustomer,
@@ -154,10 +149,11 @@ describe('PartsAssembler', () => {
     const manufacturingCountry = 'manufacturingCountry';
     const classification = 'classification';
 
+
     it('should clean up data for part view', () => {
       const data = { semanticDataModel, semanticModelId, manufacturingDate, manufacturingCountry, classification, test: '' } as unknown as Part;
       expect(PartsAssembler.filterPartForView({ data })).toEqual({
-        data: { name: undefined, manufacturingDate, semanticModelId, semanticDataModel, manufacturingCountry, classification } as unknown as Part,
+        data: { manufacturingDate, semanticModelId, semanticDataModel, manufacturingCountry, classification } as unknown as Part,
       });
     });
 
@@ -169,19 +165,19 @@ describe('PartsAssembler', () => {
   });
 
   describe('mapPartForManufacturerView', () => {
-    const manufacturer = 'manufacturer';
+    const manufacturerName = 'manufacturerName';
     const manufacturerPartId = 'manufacturerPartId';
     const nameAtManufacturer = 'nameAtManufacturer';
     const van = 'van';
     const mainAspectType = MainAspectType.AS_BUILT
 
     it('should clean up data for manufacturer view', done => {
-      const data = { manufacturer, manufacturerPartId, nameAtManufacturer, test: '', van, mainAspectType } as unknown as Part;
+      const data = { manufacturerName, manufacturerPartId, nameAtManufacturer, test: '', van, mainAspectType } as unknown as Part;
       of({ data })
         .pipe(PartsAssembler.mapPartForManufacturerView())
         .subscribe(result => {
           expect(result).toEqual({
-            data: { manufacturer, manufacturerPartId, nameAtManufacturer, van } as unknown as Part,
+            data: { manufacturerName, manufacturerPartId, nameAtManufacturer, van } as unknown as Part,
           });
           done();
         });
