@@ -36,5 +36,9 @@ export const mockDashboardStats: DashboardStatsResponse = {
   asBuiltSupplierParts: 163000,
   asPlannedSupplierParts: 2563,
   asBuiltOwnParts: 5300000,
-  asPlannedOwnParts: 11203
+  asPlannedOwnParts: 11203,
+  receivedActiveAlerts: 5000,
+  receivedActiveInvestigations: 2000,
+  sentActiveAlerts: 7000,
+  sentActiveInvestigations: 5
 };

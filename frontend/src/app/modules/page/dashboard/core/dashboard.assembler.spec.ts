@@ -19,46 +19,54 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { DashboardAssembler } from './dashboard.assembler';
+import {DashboardAssembler} from './dashboard.assembler';
 
 describe('DashboardAssembler', () => {
-  describe('assembleDashboard', () => {
-    it('should map response', () => {
-      expect(
-        DashboardAssembler.assembleDashboard({
-          asBuiltOwnParts: 200,
-          asBuiltCustomerParts: 0,
-          asBuiltSupplierParts: 10,
-          asPlannedCustomerParts: 0,
-          asPlannedOwnParts: 0,
-          asPlannedSupplierParts: 0,
-          customerPartsWithOpenAlerts: 0,
-          customerPartsWithOpenInvestigations: 0,
-          myPartsWithOpenAlerts: 0,
-          myPartsWithOpenInvestigations: 0,
-          supplierPartsWithOpenAlerts: 0,
-          supplierPartsWithOpenInvestigations: 0,
+    describe('assembleDashboard', () => {
+        it('should map response', () => {
+            expect(
+                DashboardAssembler.assembleDashboard({
+                    asBuiltOwnParts: 200,
+                    asBuiltCustomerParts: 0,
+                    asBuiltSupplierParts: 10,
+                    asPlannedCustomerParts: 0,
+                    asPlannedOwnParts: 0,
+                    asPlannedSupplierParts: 0,
+                    customerPartsWithOpenAlerts: 0,
+                    customerPartsWithOpenInvestigations: 0,
+                    myPartsWithOpenAlerts: 0,
+                    myPartsWithOpenInvestigations: 0,
+                    supplierPartsWithOpenAlerts: 0,
+                    supplierPartsWithOpenInvestigations: 0,
+                    receivedActiveAlerts: 0,
+                    receivedActiveInvestigations: 0,
+                    sentActiveInvestigations: 0,
+                    sentActiveAlerts: 0
 
-        }),
-      ).toEqual({
-        asBuiltCustomerParts: 0,
-        asBuiltSupplierParts: 10,
-        asPlannedCustomerParts: 0,
-        asPlannedOwnParts: 0,
-        asPlannedSupplierParts: 0,
-        asBuiltOwnParts: 200,
+                }),
+            ).toEqual({
+                asBuiltCustomerParts: 0,
+                asBuiltSupplierParts: 10,
+                asPlannedCustomerParts: 0,
+                asPlannedOwnParts: 0,
+                asPlannedSupplierParts: 0,
+                asBuiltOwnParts: 200,
 
-        totalOwnParts: 200,
-        totalOtherParts: 10,
+                totalOwnParts: 200,
+                totalOtherParts: 10,
 
-        ownOpenInvestigationsReceived: 0,
-        ownOpenInvestigationsCreated: 0,
-        ownOpenAlertsReceived: 0,
-        ownOpenAlertsCreated: 0,
+                ownOpenInvestigationsReceived: 0,
+                ownOpenInvestigationsCreated: 0,
+                ownOpenAlertsReceived: 0,
+                ownOpenAlertsCreated: 0,
 
-        myPartsWithOpenAlerts: 0,
-        myPartsWithOpenInvestigations: 0
-      });
+                myPartsWithOpenAlerts: 0,
+                myPartsWithOpenInvestigations: 0,
+                receivedActiveAlerts: 0,
+                receivedActiveInvestigations: 0,
+                sentActiveAlerts: 0,
+                sentActiveInvestigations: 0
+            });
+        });
     });
-  });
 });

@@ -39,4 +39,8 @@ public class Dashboard {
     long customerPartsWithOpenAlerts;
     long supplierPartsWithOpenInvestigations;
     long customerPartsWithOpenInvestigations;
+    long receivedActiveAlerts;
+    long receivedActiveInvestigations;
+    long sentActiveAlerts;
+    long sentActiveInvestigations;
 }
