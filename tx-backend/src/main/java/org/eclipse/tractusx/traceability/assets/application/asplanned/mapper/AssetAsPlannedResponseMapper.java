@@ -54,8 +54,10 @@ public class AssetAsPlannedResponseMapper extends AssetBaseResponseMapper {
                 .van(asset.getVan())
                 .semanticDataModel(from(asset.getSemanticDataModel()))
                 .detailAspectModels(fromList(asset.getDetailAspectModels()))
-                .qualityAlertIdsInStatusActive(getNotificationIdsInActiveState(asset.getQualityAlerts()))
-                .qualityInvestigationIdsInStatusActive(getNotificationIdsInActiveState(asset.getQualityInvestigations()))
+                .sentQualityAlertIdsInStatusActive(getNotificationIdsInActiveState(asset.getSentQualityAlerts()))
+                .receivedQualityAlertIdsInStatusActive(getNotificationIdsInActiveState(asset.getReceivedQualityAlerts()))
+                .sentQualityInvestigationIdsInStatusActive(getNotificationIdsInActiveState(asset.getSentQualityInvestigations()))
+                .receivedQualityInvestigationIdsInStatusActive(getNotificationIdsInActiveState(asset.getReceivedQualityInvestigations()))
                 .build();
     }
 

@@ -24,6 +24,7 @@ import { Notification, Notifications, NotificationStatus } from '@shared/model/n
 import { View } from '@shared/model/view.model';
 import { AlertsService } from '@shared/service/alerts.service';
 import { Observable, Subscription } from 'rxjs';
+import {NotificationFilter} from "../../../../mocks/services/investigations-mock/investigations.model";
 
 @Injectable()
 export class AlertsFacade {
@@ -47,20 +48,20 @@ export class AlertsFacade {
     return this.alertsService.getAlert(id);
   }
 
-  public setReceivedAlerts(page = 0, pageSize = 50, sorting: TableHeaderSort[] = []): void {
+  public setReceivedAlerts(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: NotificationFilter): void {
     this.alertReceivedSubscription?.unsubscribe();
     this.alertReceivedSubscription = this.alertsService
-      .getReceivedAlerts(page, pageSize, sorting)
+      .getReceivedAlerts(page, pageSize, sorting, filter)
       .subscribe({
         next: data => (this.alertsState.alertsReceived = { data }),
         error: (error: Error) => (this.alertsState.alertsReceived = { error }),
       });
   }
 
-  public setQueuedAndRequestedAlerts(page = 0, pageSize = 50, sorting: TableHeaderSort[] = []): void {
+  public setQueuedAndRequestedAlerts(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: NotificationFilter): void {
     this.alertQueuedAndRequestedSubscription?.unsubscribe();
     this.alertQueuedAndRequestedSubscription = this.alertsService
-      .getCreatedAlerts(page, pageSize, sorting)
+      .getCreatedAlerts(page, pageSize, sorting,filter)
       .subscribe({
         next: data => (this.alertsState.alertsQueuedAndRequested = { data }),
         error: (error: Error) => (this.alertsState.alertsQueuedAndRequested = { error }),

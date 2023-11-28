@@ -52,8 +52,10 @@ export const MOCK_part_5 = {
       }
     }
   ],
-  'qualityAlertsInStatusActive': 0,
-  'qualityInvestigationsInStatusActive': 0,
+  'sentQualityAlertIdsInStatusActive': [],
+  'receivedQualityAlertIdsInStatusActive': [],
+  'sentQualityInvestigationIdsInStatusActive': [],
+  'receivedQualityInvestigationIdsInStatusActive': [],
 };
 
 export const MOCK_part_4 = {
@@ -90,8 +92,10 @@ export const MOCK_part_4 = {
       }
     }
   ],
-  'qualityAlertsInStatusActive': 0,
-  'qualityInvestigationsInStatusActive': 0,
+  'sentQualityAlertIdsInStatusActive': [],
+  'receivedQualityAlertIdsInStatusActive': [],
+  'sentQualityInvestigationIdsInStatusActive': [],
+  'receivedQualityInvestigationIdsInStatusActive': [],
 };
 
 export const MOCK_part_3 = {
@@ -129,8 +133,10 @@ export const MOCK_part_3 = {
       }
     }
   ],
-  'qualityAlertsInStatusActive': 0,
-  'qualityInvestigationsInStatusActive': 0,
+  'sentQualityAlertIdsInStatusActive': [],
+  'receivedQualityAlertIdsInStatusActive': [],
+  'sentQualityInvestigationIdsInStatusActive': [],
+  'receivedQualityInvestigationIdsInStatusActive': [],
 };
 
 export const MOCK_part_2 = {
@@ -172,8 +178,10 @@ export const MOCK_part_2 = {
       }
     }
   ],
-  'qualityAlertsInStatusActive': 0,
-  'qualityInvestigationsInStatusActive': 0,
+  'sentQualityAlertIdsInStatusActive': [],
+  'receivedQualityAlertIdsInStatusActive': [],
+  'sentQualityInvestigationIdsInStatusActive': [],
+  'receivedQualityInvestigationIdsInStatusActive': [],
 };
 
 export const MOCK_part_1 = {
@@ -212,8 +220,10 @@ export const MOCK_part_1 = {
       }
     }
   ],
-  'qualityAlertsInStatusActive': 0,
-  'qualityInvestigationsInStatusActive': 0,
+  'sentQualityAlertIdsInStatusActive': [],
+  'receivedQualityAlertIdsInStatusActive': [],
+  'sentQualityInvestigationIdsInStatusActive': [],
+  'receivedQualityInvestigationIdsInStatusActive': [],
 };
 
 export const mockAssets: PartsResponse = {
