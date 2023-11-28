@@ -28,7 +28,7 @@ Given('user logged in as {string}', function(userType) {
   cy.get('.search').type('CX-Test-Access');
   cy.get('.CX_Test_Access').click();
   cy.get('input[name="username"]').type(loginMail);
-  cy.get('input[name="password"]').click().focus().type(loginPW);
+  cy.get('input[name="password"]').click().focus().type(loginPW, {log:false});
   cy.get('input[type="submit"]').click();
 });
 

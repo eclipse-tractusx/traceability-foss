@@ -148,6 +148,10 @@ When("user {string} selected investigation", (action) => {
         cy.get('div').contains('Decline').click();
         break;
       }
+      default: {
+        throw new Error("Set action '" + action + "' is not one of valid actions [approve, cancel, close, acknowledge, accept, decline].");
+        break;
+      }
   }
 });
 
@@ -196,9 +200,10 @@ matched = false;
         cy.get('[title="Closed"]', { timeout: 10000 }).should('be.visible');
         break;
       }
-    }
-    if (!matched) {
-      throw new Error("Set expected status '" + expectedStatus + "' is not one of valid status [canceled, approved, accepted, declined, acknowledged, closed].");
+      default: {
+        throw new Error("Set expected status '" + expectedStatus + "' is not one of valid status [canceled, approved, accepted, declined, acknowledged, closed].");
+        break;
+      }
     }
 });
 
@@ -236,8 +241,9 @@ matched = false;
         cy.get('div').contains('/^Close$/', {matchCase: true}).should('not.exist');
         break;
       }
-    }
-    if (!matched) {
-      throw new Error("Set status '" + status + "' is not one of valid status [canceled, approved, accepted, declined, acknowledged, closed].");
+      default: {
+        throw new Error("Set status '" + status + "' is not one of valid status [canceled, approved, accepted, declined, acknowledged, closed].");
+        break;
+      }
     }
 });
