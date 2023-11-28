@@ -18,6 +18,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.eclipse.tractusx.traceability.common.date.CustomOffSetDateTimeNullOnException;
@@ -30,6 +31,12 @@ public record Site(
         @JsonDeserialize(using = CustomOffSetDateTimeNullOnException.class)
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss", timezone = "UTC") OffsetDateTime functionValidFrom,
         String function,
+        // As long as no clear spelling is defined, be lax with it. https://github.com/eclipse-tractusx/sldt-semantic-models/issues/470
+        // JsonFormat.Feature.ACCEPT_CASE_INSENSITIVE_PROPERTIES is not working, as it is a global feature.
+        @JsonAlias({
+                "catenaXSiteId", "catenaxSiteId", "catenaXsiteId", "catenaxsiteId",
+                "catenaXSiteid", "catenaxSiteid", "catenaXsiteid", "catenaxsiteid"})
         String catenaXSiteId
 ) {
+
 }

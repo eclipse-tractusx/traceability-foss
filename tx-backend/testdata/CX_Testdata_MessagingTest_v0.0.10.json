@@ -1213,7 +1213,7 @@
           "sites" : [
             {
               "functionValidUntil" : "2027-05-23T09:16:30.000Z",
-              "catenaXsiteId" : "BPNS000004711DMY",
+              "catenaXSiteId" : "BPNS000004711DMY",
               "function" : "production",
               "functionValidFrom" : "2013-11-17T23:59:54.000Z"
             }
@@ -1286,7 +1286,7 @@
           "sites" : [
             {
               "functionValidUntil" : "2025-04-04T04:14:11.000Z",
-              "catenaXsiteId" : "BPNS000004711DMY",
+              "catenaXSiteId" : "BPNS000004711DMY",
               "function" : "production",
               "functionValidFrom" : "2018-03-24T13:38:32.000Z"
             }
@@ -1338,7 +1338,7 @@
           "sites" : [
             {
               "functionValidUntil" : "2031-11-21T03:24:27.000Z",
-              "catenaXsiteId" : "BPNS000004711DMY",
+              "catenaXSiteId" : "BPNS000004711DMY",
               "function" : "production",
               "functionValidFrom" : "2020-06-07T07:30:47.000Z"
             }

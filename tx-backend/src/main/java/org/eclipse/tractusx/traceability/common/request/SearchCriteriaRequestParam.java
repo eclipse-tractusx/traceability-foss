@@ -28,7 +28,6 @@ import org.eclipse.tractusx.traceability.common.model.SearchCriteriaFilter;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
 import org.eclipse.tractusx.traceability.common.model.SearchStrategy;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -37,6 +36,7 @@ import static java.util.Objects.isNull;
 @Data
 @AllArgsConstructor
 public class SearchCriteriaRequestParam {
+
     @ArraySchema(arraySchema = @Schema(description = "Filter Criteria", additionalProperties = Schema.AdditionalPropertiesValue.FALSE, example = "owner,EQUAL,OWN"), maxItems = Integer.MAX_VALUE)
     private List<String> filter;
 
@@ -44,47 +44,52 @@ public class SearchCriteriaRequestParam {
     private String filterOperator;
 
     public SearchCriteria toSearchCriteria() {
-        ArrayList<SearchCriteriaFilter> filters = new ArrayList<>();
-        List<String> inputFilters = filter;
-        if (isNull(this.filter)) {
-            inputFilters = Collections.emptyList();
-        }
+
         if (!isNull(this.filter) && isNull(this.filterOperator)) {
             throw new InvalidFilterException(
-                    "No filter operator found. Please add param filterOperator=AND or filterOperator=OR");
+                    "No filter operator found. Please add param filterOperator=AND or filterOperator=OR.");
         }
         if (isNull(this.filter) && isNull(this.filterOperator)) {
             return SearchCriteria.builder().build();
         }
 
-        for (String filter : inputFilters) {
-            try {
-                String[] filterParams = filter.split(",");
-                filters.add(
-                        SearchCriteriaFilter.builder()
-                                .key(filterParams[0])
+        final List<String> inputFilters = (filter != null) ? filter : Collections.emptyList();
+
+        final List<SearchCriteriaFilter> filters = inputFilters
+                .stream()
+                .map(inputFilter -> {
+                    try {
+                        final String[] filterParams = inputFilter.split(",");
+                        return SearchCriteriaFilter.builder()
+                                .key(handleFilterParameter(filterParams[0]))
                                 .strategy(SearchStrategy.valueOf(filterParams[1]))
                                 .value(filterParams[2])
-                                .build());
-            } catch (Exception exception) {
+                                .build();
+            } catch (final Exception exception) {
                 throw new InvalidFilterException(
                         "Invalid filter param provided filter={provided} expected format is following filter=parameter,operation,value"
-                                .replace("{provided}", filter)
+                                .replace("{provided}", inputFilter)
                 );
             }
 
-        }
+        })
+                .toList();
 
-        SearchCriteriaOperator operator;
+        final SearchCriteriaOperator operator;
         try {
             operator = SearchCriteriaOperator.valueOf(filterOperator);
-        } catch (Exception exception) {
+        } catch (final Exception exception) {
             throw new InvalidFilterException(
                     "Invalid filter operator provided filterOperator={provided} expected format is following filterOperator=value. Where value is one of AND, OR"
                             .replace("{provided}", filterOperator)
             );
         }
+
         return SearchCriteria.builder().searchCriteriaOperator(operator).searchCriteriaFilterList(filters).build();
     }
 
+    private static String handleFilterParameter(final String filterParameter) {
+        // As long as no clear spelling is defined, be lax with it. https://github.com/eclipse-tractusx/sldt-semantic-models/issues/470
+        return filterParameter.equalsIgnoreCase("catenaxsiteid") ? "catenaXSiteId" : filterParameter;
+    }
 }

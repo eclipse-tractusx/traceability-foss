@@ -79,7 +79,7 @@ public class OwnPageable {
     }
 
     private static String handleEnumColumns(final String column) {
-        return switch(column) {
+        return switch (column) {
             case "status" -> "statusrank";
             case "notifications_status" -> "notifications_statusrank";
             // Include the notification table based attributes
@@ -88,7 +88,10 @@ public class OwnPageable {
             case "sendTo" -> "notifications.sendTo";
             case "qualityAlertsInStatusActive" -> "noOfActiveAlerts";
             case "qualityInvestigationsInStatusActive" -> "noOfActiveInvestigations";
-            default -> column;
+            // As long as no clear spelling is defined, be lax with it. https://github.com/eclipse-tractusx/sldt-semantic-models/issues/470
+            default -> column.equalsIgnoreCase("catenaxsiteid")
+                    ? "catenaXSiteId"
+                    : column;
         };
     }
 }

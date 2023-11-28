@@ -59,7 +59,13 @@ public class AssetsSupport {
     }
 
     public void defaultAssetsAsPlannedStored() {
-        assetRepositoryProvider.assetAsPlannedRepository().saveAll(assetRepositoryProvider.assetsConverter().readAndConvertAssetsAsPlannedForTests());
+        // Test data contains different spellings for 'catenaXSiteId', as long as no clear spelling is defined. https://github.com/eclipse-tractusx/sldt-semantic-models/issues/470
+        defaultAssetsAsPlannedStored("/data/irs_assets_as_planned_v4.json");
+    }
+
+    public void defaultAssetsAsPlannedStored(final String resourceName) {
+        assetRepositoryProvider.assetAsPlannedRepository().saveAll(
+                assetRepositoryProvider.assetsConverter().readAndConvertAssetsAsPlannedForTests(resourceName));
     }
 
     public void defaultAssetsStoredWithOnGoingInvestigation(NotificationStatusBaseEntity investigationStatus, boolean inInvestigation) {

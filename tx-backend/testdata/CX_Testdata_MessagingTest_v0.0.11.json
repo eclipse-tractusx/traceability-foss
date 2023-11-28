@@ -1281,7 +1281,7 @@
           "sites" : [
             {
               "functionValidUntil" : "2027-05-23T09:16:30.000Z",
-              "catenaXsiteId" : "BPNS000004711DMY",
+              "catenaXSiteId" : "BPNS000004711DMY",
               "function" : "production",
               "functionValidFrom" : "2013-11-17T23:59:54.000Z"
             }
@@ -1354,7 +1354,7 @@
           "sites" : [
             {
               "functionValidUntil" : "2025-04-04T04:14:11.000Z",
-              "catenaXsiteId" : "BPNS000004711DMY",
+              "catenaXSiteId" : "BPNS000004711DMY",
               "function" : "production",
               "functionValidFrom" : "2018-03-24T13:38:32.000Z"
             }
@@ -1406,7 +1406,7 @@
           "sites" : [
             {
               "functionValidUntil" : "2031-11-21T03:24:27.000Z",
-              "catenaXsiteId" : "BPNS000004711DMY",
+              "catenaXSiteId" : "BPNS000004711DMY",
               "function" : "production",
               "functionValidFrom" : "2020-06-07T07:30:47.000Z"
             }
@@ -1479,7 +1479,7 @@
           "sites" : [
             {
               "functionValidUntil" : "2028-04-27T13:34:20.000Z",
-              "catenaXsiteId" : "BPNS000004711DMY",
+              "catenaXSiteId" : "BPNS000004711DMY",
               "function" : "production",
               "functionValidFrom" : "2017-05-03T09:10:04.000Z"
             }
@@ -1530,7 +1530,7 @@
           "sites" : [
             {
               "functionValidUntil" : "2027-05-23T09:16:30.000Z",
-              "catenaXsiteId" : "BPNS000004711DMY",
+              "catenaXSiteId" : "BPNS000004711DMY",
               "function" : "production",
               "functionValidFrom" : "2013-11-17T23:59:54.000Z"
             }
@@ -1582,7 +1582,7 @@
           "sites" : [
             {
               "functionValidUntil" : "2025-03-05T00:33:55.000Z",
-              "catenaXsiteId" : "BPNS00000003B0Q0",
+              "catenaXSiteId" : "BPNS00000003B0Q0",
               "function" : "production",
               "functionValidFrom" : "2019-09-10T14:41:50.000Z"
             }

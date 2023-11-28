@@ -90,7 +90,7 @@ public class DetailAspectModel {
         DetailAspectModel partSiteInfo = DetailAspectModel.builder()
                 .type(DetailAspectType.PART_SITE_INFORMATION_AS_PLANNED)
                 .data(DetailAspectDataPartSiteInformationAsPlanned.builder()
-                        .catenaXSiteId(entity.getCatenaxSiteId())
+                        .catenaXSiteId(entity.getCatenaXSiteId())
                         .functionValidFrom(toOffsetDateTime(entity.getFunctionValidFrom()))
                         .function(entity.getFunction())
                         .functionValidUntil(toOffsetDateTime(entity.getFunctionValidUntil()))

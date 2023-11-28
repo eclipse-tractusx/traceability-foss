@@ -19,6 +19,7 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model;
 
 import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
@@ -58,8 +59,8 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
     private Instant functionValidUntil;
     private String function;
     private Instant functionValidFrom;
-    private String catenaxSiteId;
-
+    @Column(name = "catenax_site_id")
+    private String catenaXSiteId;
 
     @ElementCollection
     @CollectionTable(name = "assets_as_planned_childs", joinColumns = {@JoinColumn(name = "asset_as_planned_id")})
@@ -107,7 +108,7 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                 .activeAlert(asset.isActiveAlert())
                 .inInvestigation(asset.isUnderInvestigation())
                 .semanticDataModel(SemanticDataModelEntity.from(asset.getSemanticDataModel()))
-                .catenaxSiteId(asPlannedInfo.getCatenaxSiteId())
+                .catenaXSiteId(asPlannedInfo.getCatenaXSiteId())
                 .build();
     }
 

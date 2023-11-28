@@ -379,7 +379,7 @@
             "functionValidUntil": "2025-02-08T04:30:48.000Z",
             "function": "production",
             "functionValidFrom": "2019-08-21T02:10:36.000Z",
-            "catenaXSiteId": "BPNS000004711DMY"
+            "catenaxSiteId": "BPNS000004711DMY"
           }
         ]
       }
@@ -410,7 +410,7 @@
             "functionValidUntil": "2025-02-08T04:30:48.000Z",
             "function": "production",
             "functionValidFrom": "2019-08-21T02:10:36.000Z",
-            "catenaXSiteId": "BPNS000004711DMY"
+            "catenaXsiteId": "BPNS000004711DMY"
           }
         ]
       }

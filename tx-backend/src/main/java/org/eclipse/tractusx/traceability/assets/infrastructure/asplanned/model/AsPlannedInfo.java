@@ -19,7 +19,7 @@ public class AsPlannedInfo {
     private String function;
     private OffsetDateTime validityPeriodFrom;
     private OffsetDateTime validityPeriodTo;
-    private String catenaxSiteId;
+    private String catenaXSiteId;
 
     public static AsPlannedInfo from(List<DetailAspectModel> detailAspectModels) {
         Optional<DetailAspectModel> asPlannedInfo = detailAspectModels
@@ -52,7 +52,7 @@ public class AsPlannedInfo {
                 .map(org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataPartSiteInformationAsPlanned::getFunctionValidFrom)
                 .orElse(null);
 
-        String catenaxSiteId = partSiteInfo.map(detailAspectModel -> (DetailAspectDataPartSiteInformationAsPlanned) detailAspectModel.getData())
+        String catenaXSiteId = partSiteInfo.map(detailAspectModel -> (DetailAspectDataPartSiteInformationAsPlanned) detailAspectModel.getData())
                 .map(org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataPartSiteInformationAsPlanned::getCatenaXSiteId)
                 .orElse("");
 
@@ -62,7 +62,7 @@ public class AsPlannedInfo {
                 .function(function)
                 .validityPeriodFrom(validityPeriodFrom)
                 .validityPeriodTo(validityPeriodTo)
-                .catenaxSiteId(catenaxSiteId)
+                .catenaXSiteId(catenaXSiteId)
                 .build();
     }
 }
