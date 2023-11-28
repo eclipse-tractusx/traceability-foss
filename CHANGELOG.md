@@ -9,6 +9,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - new filtering capabilities ( receivedQualityAlertIdsInStatusActive, sentQualityAlertIdsInStatusActive, receivedQualityInvestigationIdsInStatusActive, sentQualityInvestigationIdsInStatusActive )
 - Validation check if table-settings correct and reset on invalid state
 - Added Api-Input in Argo Workflow to fix bugs
+- Added implementation for cucumber tests for quality investigations
 ### Changed
 - Filter configuration for tables to be resuable and easy to adapt
 - Realigned some mappings e.g. (manufacturer / manufacturerName) to be more clear
