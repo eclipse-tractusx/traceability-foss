@@ -22,9 +22,9 @@ import { NotificationTabInformation } from '@shared/model/notification-tab-infor
 import { AlertsService } from '@shared/service/alerts.service';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
-
 import { AlertsComponent } from './alerts.component';
-import { TableEventConfig } from '@shared/components/table/table.model';
+import { FilterMethod, TableEventConfig } from '@shared/components/table/table.model';
+import { FilterOperator } from '@page/parts/model/parts.model';
 
 describe('AlertsComponent', () => {
   const renderAlerts = async () => {
@@ -118,4 +118,56 @@ describe('AlertsComponent', () => {
 
     expect(alertsComponent.alertReceivedSortList).toEqual([['description', 'asc']]);
   });
+
+  it('should set the default Pagination by recieving a size change event', async () => {
+    const { fixture } = await renderAlerts();
+    const alertsComponent = fixture.componentInstance;
+
+    alertsComponent.onDefaultPaginationSizeChange(100);
+    expect(alertsComponent.DEFAULT_PAGE_SIZE).toEqual(100);
+  });
+
+  it('should use the default page size if the page size in the ReceivedConfig is given as 0', async () => {
+    const { fixture } = await renderAlerts();
+    const alertsComponent = fixture.componentInstance;
+
+    const pagination: TableEventConfig = { page: 0, pageSize: 0, sorting: ['description', 'asc'] };
+    spyOn(alertsComponent.alertsFacade, 'setReceivedAlerts');
+
+    alertsComponent.onReceivedTableConfigChange(pagination);
+    fixture.detectChanges();
+    expect(alertsComponent.alertsFacade.setReceivedAlerts).toHaveBeenCalledWith(0, 50, [['description', 'asc']], Object({ filterMethod: 'AND' }));
+
+  });
+
+  it('should use the default page size if the page size in the QueuedAndRequestedConfig is given as 0', async () => {
+    const { fixture } = await renderAlerts();
+    const alertsComponent = fixture.componentInstance;
+
+    const pagination: TableEventConfig = { page: 0, pageSize: 0, sorting: ['description', 'asc'] };
+    spyOn(alertsComponent.alertsFacade, 'setQueuedAndRequestedAlerts');
+
+    alertsComponent.onQueuedAndRequestedTableConfigChange(pagination);
+    fixture.detectChanges();
+    expect(alertsComponent.alertsFacade.setQueuedAndRequestedAlerts).toHaveBeenCalledWith(0, 50, [['description', 'asc']], Object({ filterMethod: 'AND' }));
+  });
+
+  it('should pass on the filtering to the api services', async () => {
+    const { fixture } = await renderAlerts();
+    const alertsComponent = fixture.componentInstance;
+
+    const pagination: TableEventConfig = { page: 0, pageSize: 50, sorting: ['description', 'asc'], filtering: { filterMethod: FilterMethod.AND, description: { filterOperator: FilterOperator.STARTS_WITH, filterValue: 'value1' } } };
+    spyOn(alertsComponent.alertsFacade, 'setQueuedAndRequestedAlerts');
+
+    alertsComponent.onQueuedAndRequestedTableConfigChange(pagination);
+    fixture.detectChanges();
+    expect(alertsComponent.alertsFacade.setQueuedAndRequestedAlerts).toHaveBeenCalledWith(0, 50, [['description', 'asc']], Object({ filterMethod: 'AND', description: { filterOperator: FilterOperator.STARTS_WITH, filterValue: 'value1' } }));
+
+    spyOn(alertsComponent.alertsFacade, 'setReceivedAlerts');
+
+    alertsComponent.onReceivedTableConfigChange(pagination);
+    fixture.detectChanges();
+    expect(alertsComponent.alertsFacade.setReceivedAlerts).toHaveBeenCalledWith(0, 50, [['description', 'asc']], Object({ filterMethod: 'AND', description: { filterOperator: FilterOperator.STARTS_WITH, filterValue: 'value1' } }));
+  });
+
 });

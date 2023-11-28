@@ -20,7 +20,7 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
-import { TableHeaderSort } from '@shared/components/table/table.model';
+import { FilterMethod, TableFilter, TableHeaderSort } from '@shared/components/table/table.model';
 import { Notification, Notifications, NotificationStatus } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { InvestigationsService } from '@shared/service/investigations.service';
@@ -35,7 +35,7 @@ export class InvestigationsFacade {
   constructor(
     private readonly investigationsService: InvestigationsService,
     private readonly investigationsState: InvestigationsState,
-  ) {}
+  ) { }
 
   public get investigationsReceived$(): Observable<View<Notifications>> {
     return this.investigationsState.investigationsReceived$;
@@ -49,20 +49,30 @@ export class InvestigationsFacade {
     return this.investigationsService.getInvestigation(id);
   }
 
-  public setReceivedInvestigation(page = 0, pageSize = 50, sorting: TableHeaderSort[] = []): void {
+  public setReceivedInvestigations(
+    page = 0,
+    pageSize = 50,
+    sorting: TableHeaderSort[] = [],
+    filtering: TableFilter = { filterMethod: FilterMethod.AND },
+  ): void {
     this.investigationReceivedSubscription?.unsubscribe();
     this.investigationReceivedSubscription = this.investigationsService
-      .getReceivedInvestigations(page, pageSize, sorting)
+      .getReceivedInvestigations(page, pageSize, sorting, filtering)
       .subscribe({
         next: data => (this.investigationsState.investigationsReceived = { data }),
         error: (error: Error) => (this.investigationsState.investigationsReceived = { error }),
       });
   }
 
-  public setQueuedAndRequestedInvestigations(page = 0, pageSize = 50, sorting: TableHeaderSort[] = []): void {
+  public setQueuedAndRequestedInvestigations(
+    page = 0,
+    pageSize = 50,
+    sorting: TableHeaderSort[] = [],
+    filtering: TableFilter = { filterMethod: FilterMethod.AND },
+  ): void {
     this.investigationQueuedAndRequestedSubscription?.unsubscribe();
     this.investigationQueuedAndRequestedSubscription = this.investigationsService
-      .getCreatedInvestigations(page, pageSize, sorting, )
+      .getCreatedInvestigations(page, pageSize, sorting, filtering)
       .subscribe({
         next: data => (this.investigationsState.investigationsQueuedAndRequested = { data }),
         error: (error: Error) => (this.investigationsState.investigationsQueuedAndRequested = { error }),

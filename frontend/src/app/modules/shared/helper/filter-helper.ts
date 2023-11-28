@@ -79,11 +79,12 @@ export function addFilteringParams(filtering: TableFilter, params: HttpParams): 
             }
           }
         } else {
-          if (filtering[key].filterValue !== '') {
+          const { filterValue } = filtering[key];
+          if (filterValue !== '' && filterValue !== null) {
             filterApplied = true;
             params = params.append(
               'filter',
-              `${key},${getFilterOperatorValue(filtering[key].filterOperator)},${filtering[key].filterValue}`,
+              `${key},${getFilterOperatorValue(filtering[key].filterOperator)},${filterValue}`,
             );
           }
         }

@@ -288,7 +288,9 @@
     "filterLabelDate": "Nach Datum filtern",
     "filterLabelSelect": "Wähle",
     "inputLabelText": "Suchen...",
-    "inputLabelDate": "TT/MM/JJJJ"
+    "inputLabelDate": "TT/MM/JJJJ",
+    "inputTextHint": "Filtert vom Anfang des Werts.",
+    "inputOptionsHint": "Auswahl mit Enter bestätigen."
   },
   "parts": {
     "input": {

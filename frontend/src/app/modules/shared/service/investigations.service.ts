@@ -24,7 +24,7 @@ import { Injectable } from '@angular/core';
 import { ApiService } from '@core/api/api.service';
 import { environment } from '@env';
 import { DateTimeString } from '@shared/components/dateTime/dateTime.component';
-import { TableHeaderSort } from '@shared/components/table/table.model';
+import { TableFilter, TableHeaderSort } from '@shared/components/table/table.model';
 import { Severity } from '@shared/model/severity.model';
 import type { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -38,6 +38,7 @@ import {
   NotificationStatus,
   NotificationType,
 } from '../model/notification.model';
+import { addFilteringParams } from '@shared/helper/filter-helper';
 
 @Injectable({
   providedIn: 'root',
@@ -47,40 +48,60 @@ export class InvestigationsService {
 
   constructor(private readonly apiService: ApiService) {}
 
-  public getCreatedInvestigations(page: number, pageSize: number, sorting: TableHeaderSort[]): Observable<Notifications> {
+  public getCreatedInvestigations(
+    page: number,
+    pageSize: number,
+    sorting: TableHeaderSort[],
+    filtering?: TableFilter,
+  ): Observable<Notifications> {
     let sort = sorting.length ? sorting : ['createdDate,desc'];
-    let params = new HttpParams()
-      .set('page', page)
-      .set('size', pageSize)
-
+    let params = new HttpParams().set('page', page).set('size', pageSize);
+    if (filtering) {
+      params = addFilteringParams(filtering, params);
+    }
     sort.forEach(sortingItem => {
       params = params.append('sort', sortingItem);
-    })
+    });
 
     return this.apiService
       .getBy<NotificationsResponse>(`${this.url}/investigations/created`, params)
-      .pipe(map(investigations => NotificationAssembler.assembleNotifications(investigations, NotificationType.INVESTIGATION)));
+      .pipe(
+        map(investigations =>
+          NotificationAssembler.assembleNotifications(investigations, NotificationType.INVESTIGATION),
+        ),
+      );
   }
 
-  public getReceivedInvestigations(page: number, pageSize: number, sorting: TableHeaderSort[]): Observable<Notifications> {
+  public getReceivedInvestigations(
+    page: number,
+    pageSize: number,
+    sorting: TableHeaderSort[],
+    filtering?: TableFilter,
+  ): Observable<Notifications> {
     let sort = sorting.length ? sorting : ['createdDate,desc'];
-    let params = new HttpParams()
-      .set('page', page)
-      .set('size', pageSize)
-
+    let params = new HttpParams().set('page', page).set('size', pageSize);
+    if (filtering) {
+      params = addFilteringParams(filtering, params);
+    }
     sort.forEach(sortingItem => {
       params = params.append('sort', sortingItem);
-    })
+    });
 
     return this.apiService
       .getBy<NotificationsResponse>(`${this.url}/investigations/received`, params)
-      .pipe(map(investigations => NotificationAssembler.assembleNotifications(investigations, NotificationType.INVESTIGATION)));
+      .pipe(
+        map(investigations =>
+          NotificationAssembler.assembleNotifications(investigations, NotificationType.INVESTIGATION),
+        ),
+      );
   }
 
   public getInvestigation(id: string): Observable<Notification> {
     return this.apiService
       .get<NotificationResponse>(`${this.url}/investigations/${id}`)
-      .pipe(map(notification => NotificationAssembler.assembleNotification(notification, NotificationType.INVESTIGATION)));
+      .pipe(
+        map(notification => NotificationAssembler.assembleNotification(notification, NotificationType.INVESTIGATION)),
+      );
   }
 
   public postInvestigation(

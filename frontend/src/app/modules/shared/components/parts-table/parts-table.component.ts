@@ -35,10 +35,10 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Pagination } from '@core/model/pagination.model';
-import { SemanticDataModel } from '@page/parts/model/parts.model';
 import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
 import {
   CreateHeaderFromColumns,
+  FilterConfig,
   PartTableType,
   TableConfig,
   TableEventConfig,
@@ -51,6 +51,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TableSettingsService } from '@core/user/table-settings.service';
 import { TableViewConfig } from './table-view-config.model';
 import { TableSettingsComponent } from '../table-settings/table-settings.component';
+import { FilterCongigOptions } from '@shared/model/filter-config';
 
 @Component({
   selector: 'app-parts-table',
@@ -122,173 +123,16 @@ export class PartsTableComponent implements OnInit {
 
   public readonly dataSource = new MatTableDataSource<unknown>();
   public readonly selection = new SelectionModel<unknown>(true, []);
-
-  optionTextSearch = [];
-  semanticDataModelOptions = [
-    {
-      display: 'semanticDataModels.' + SemanticDataModel.BATCH,
-      value: SemanticDataModel.BATCH,
-      checked: false,
-    },
-    {
-      display: 'semanticDataModels.' + SemanticDataModel.JUSTINSEQUENCE,
-      value: SemanticDataModel.JUSTINSEQUENCE,
-      checked: false,
-    },
-    {
-      display: 'semanticDataModels.' + SemanticDataModel.SERIALPART,
-      value: SemanticDataModel.SERIALPART,
-      checked: false,
-    },
-    {
-      display: 'semanticDataModels.' + SemanticDataModel.UNKNOWN,
-      value: SemanticDataModel.UNKNOWN,
-      checked: false,
-    },
-    {
-      display: 'semanticDataModels.' + SemanticDataModel.PARTASPLANNED,
-      value: SemanticDataModel.PARTASPLANNED,
-      checked: false,
-    },
-  ];
-
-  public filterKeyOptions = {
-    filter: { filterKey: 'Filter', headerKey: 'Filter', isTextSearch: true, option: this.optionTextSearch },
-    id: { filterKey: 'id', headerKey: 'filterId', isTextSearch: true, option: this.optionTextSearch },
-    idShort: { filterKey: 'idShort', headerKey: 'filterIdShort', isTextSearch: true, option: this.optionTextSearch },
-    nameAtManufacturer: {
-      filterKey: 'nameAtManufacturer',
-      headerKey: 'filterName',
-      isTextSearch: true,
-      option: this.optionTextSearch,
-      column: 'name',
-    },
-    manufacturerName: {
-      filterKey: 'manufacturerName',
-      headerKey: 'filterManufacturer',
-      isTextSearch: true,
-      option: this.optionTextSearch,
-      column: 'manufacturer',
-    },
-    manufacturerPartId: {
-      filterKey: 'manufacturerPartId',
-      headerKey: 'filterManufacturerPartId',
-      isTextSearch: true,
-      option: this.optionTextSearch,
-    },
-    customerPartId: {
-      filterKey: 'customerPartId',
-      headerKey: 'filterCustomerPartId',
-      isTextSearch: true,
-      option: this.optionTextSearch,
-    }, // --> semanticModel.customerPartId
-    classification: {
-      filterKey: 'classification',
-      headerKey: 'filterClassification',
-      isTextSearch: true,
-      option: this.optionTextSearch,
-    },
-    nameAtCustomer: {
-      filterKey: 'nameAtCustomer',
-      headerKey: 'filterNameAtCustomer',
-      isTextSearch: true,
-      option: this.optionTextSearch,
-    }, // --> semanticModel.nameAtCustomer
-    semanticModelId: {
-      filterKey: 'semanticModelId',
-      headerKey: 'filterSemanticModelId',
-      isTextSearch: true,
-      option: this.optionTextSearch,
-    },
-    semanticDataModel: {
-      filterKey: 'semanticDataModel',
-      headerKey: 'filterSemanticDataModel',
-      isTextSearch: false,
-      option: this.semanticDataModelOptions,
-    },
-    manufacturingDate: {
-      filterKey: 'manufacturingDate',
-      headerKey: 'filterManufacturingDate',
-      isTextSearch: false,
-      isDate: true,
-      maxDate: new Date(),
-      option: this.optionTextSearch,
-    },
-    manufacturingCountry: {
-      filterKey: 'manufacturingCountry',
-      headerKey: 'filterManufacturingCountry',
-      isTextSearch: true,
-      option: this.optionTextSearch,
-    },
-    activeAlerts: {
-      filterKey: 'qualityAlertsInStatusActive',
-      headerKey: 'filterActiveAlerts',
-      isTextSearch: true,
-      option: this.optionTextSearch,
-      column: 'activeAlerts',
-    },
-    activeInvestigations: {
-      filterKey: 'qualityInvestigationsInStatusActive',
-      headerKey: 'filterActiveInvestigations',
-      isTextSearch: true,
-      option: this.optionTextSearch,
-      column: 'activeInvestigations',
-    },
-    validityPeriodFrom: {
-      filterKey: 'validityPeriodFrom',
-      headerKey: 'filterValidityPeriodFrom',
-      isTextSearch: false,
-      isDate: true,
-      option: this.optionTextSearch,
-      maxDate: new Date(),
-    },
-    validityPeriodTo: {
-      filterKey: 'validityPeriodTo',
-      headerKey: 'filterValidityPeriodTo',
-      isTextSearch: false,
-      isDate: true,
-      option: this.optionTextSearch,
-      maxDate: null,
-    },
-    function: {
-      filterKey: 'function',
-      headerKey: 'filterPsFunction',
-      isTextSearch: true,
-      option: this.optionTextSearch,
-      column: 'psFunction',
-    },
-    catenaXSiteId: {
-      filterKey: 'catenaXSiteId',
-      headerKey: 'filterCatenaXSiteId',
-      isTextSearch: true,
-      option: this.optionTextSearch,
-    },
-    functionValidFrom: {
-      filterKey: 'functionValidFrom',
-      headerKey: 'filterFunctionValidFrom',
-      isTextSearch: false,
-      isDate: true,
-      option: this.optionTextSearch,
-      maxDate: new Date(),
-    },
-    functionValidUntil: {
-      filterKey: 'functionValidUntil',
-      headerKey: 'filterFunctionValidUntil',
-      isTextSearch: false,
-      isDate: true,
-      option: this.optionTextSearch,
-      maxDate: null,
-    },
-  };
-
+  public readonly filterConfigOptions = new FilterCongigOptions();
+  public semanticDataModelOptions = [...this.filterConfigOptions.filterKeyOptionsAssets.semanticDataModel.option];
   public totalItems: number;
   public pageIndex: number;
   public isDataLoading: boolean;
   public selectedRow: Record<string, unknown>;
   public isMenuOpen: boolean;
   public displayedFilter: boolean;
-
-  public filterConfiguration: any[];
+  public filterActive: any = {};
+  public filterConfiguration: FilterConfig[];
   public displayedColumns: string[];
 
   filterFormGroup = new FormGroup({});
@@ -306,7 +150,6 @@ export class PartsTableComponent implements OnInit {
     'filterIdShort',
     'filterName', // nameAtManufacturer
     'filterManufacturer',
-    'filterPartId', // Part number / Batch Number / JIS Number
     'filterManufacturerPartId',
     'filterCustomerPartId', // --> semanticModel.customerPartId
     'filterClassification',
@@ -545,6 +388,19 @@ export class PartsTableComponent implements OnInit {
       }
     }
     filterValues['semanticDataModel'] = selectedSemanticDataModelOptions;
+    this.filterConfiguration.forEach(filter => {
+      if (filter.filterKey !== 'Filter') {
+        let filterName: string;
+        if (filter.column) {
+          filterName = filter.column;
+        } else {
+          filterName = filter.filterKey;
+        }
+
+        this.filterActive[filterName] =
+          filterValues[filter.filterKey] !== null && filterValues[filter.filterKey].length !== 0;
+      }
+    });
     this.filterActivated.emit(filterValues);
   }
 
@@ -555,6 +411,7 @@ export class PartsTableComponent implements OnInit {
   private tableViewConfig: TableViewConfig;
 
   ngOnInit() {
+    this.setupFilterConfig();
     this.initializeTableViewSettings();
 
     this.tableViewSettingsService.getEvent().subscribe(() => {
@@ -571,7 +428,7 @@ export class PartsTableComponent implements OnInit {
     displayedColumnsForTable: string[],
     displayedColumns: string[],
     sortableColumns: Record<string, boolean>,
-    filterConfiguration: any[],
+    filterConfiguration: FilterConfig[],
     filterFormGroup: any,
   ): any {
     const headerKey = 'table.column';
@@ -588,6 +445,13 @@ export class PartsTableComponent implements OnInit {
         this.filterFormGroup.addControl(controlName, filterFormGroup[controlName]);
       }
     }
+    this.filterConfiguration.forEach(filter => {
+      if (filter.column) {
+        this.filterActive[filter.column] = false;
+      } else {
+        this.filterActive[filter.filterKey] = false;
+      }
+    });
   }
 
   private setupTableViewSettings() {
@@ -634,6 +498,125 @@ export class PartsTableComponent implements OnInit {
         this.tableViewConfig.filterConfiguration,
         this.tableViewConfig.filterFormGroup,
       );
+    }
+  }
+
+  private setupFilterConfig() {
+    const {
+      filter,
+      id,
+      idShort,
+      nameAtManufacturer,
+      manufacturerName,
+      manufacturerPartId,
+      customerPartId,
+      classification,
+      nameAtCustomer,
+      semanticDataModel,
+      semanticModelId,
+      manufacturingDate,
+      manufacturingCountry,
+      activeAlerts,
+      activeInvestigations,
+      validityPeriodFrom,
+      validityPeriodTo,
+      psFunction,
+      catenaXSiteId,
+      functionValidFrom,
+      functionValidUntil,
+    } = this.filterConfigOptions.filterKeyOptionsAssets;
+
+    switch (this.tableType) {
+      case PartTableType.AS_PLANNED_CUSTOMER:
+        this.assetAsPlannedCustomerFilterConfiguration = [
+          filter,
+          semanticDataModel,
+          nameAtManufacturer,
+          manufacturerName,
+          manufacturerPartId,
+          semanticModelId,
+        ];
+        break;
+
+      // TODO add other table view configurations when they are implemented
+      case PartTableType.AS_ORDERED_OWN:
+      case PartTableType.AS_SUPPORTED_OWN:
+      case PartTableType.AS_RECYCLED_OWN:
+      case PartTableType.AS_DESIGNED_OWN:
+      case PartTableType.AS_PLANNED_OWN:
+        this.assetAsPlannedFilterConfiguration = [
+          filter,
+          id,
+          idShort,
+          nameAtManufacturer,
+          manufacturerName,
+          manufacturerPartId,
+          classification,
+          semanticDataModel,
+          semanticModelId,
+          validityPeriodFrom,
+          validityPeriodTo,
+          psFunction,
+          catenaXSiteId,
+          functionValidFrom,
+          functionValidUntil,
+        ];
+        break;
+      case PartTableType.AS_PLANNED_SUPPLIER:
+        this.assetAsPlannedSupplierFilterConfiguration = [
+          filter,
+          semanticDataModel,
+          nameAtManufacturer,
+          manufacturerName,
+          manufacturerPartId,
+          semanticModelId,
+        ];
+        break;
+      case PartTableType.AS_BUILT_OWN:
+        this.assetAsBuiltFilterConfiguration = [
+          filter,
+          id,
+          idShort,
+          nameAtManufacturer,
+          manufacturerName,
+          manufacturerPartId,
+          customerPartId,
+          classification,
+          nameAtCustomer,
+          semanticDataModel,
+          semanticModelId,
+          manufacturingDate,
+          manufacturingCountry,
+          activeAlerts,
+          activeInvestigations,
+        ];
+        break;
+      case PartTableType.AS_BUILT_CUSTOMER:
+        this.assetAsBuiltCustomerFilterConfiguration = [
+          filter,
+          semanticDataModel,
+          nameAtManufacturer,
+          manufacturerName,
+          manufacturerPartId,
+          semanticModelId,
+          manufacturingDate,
+          activeAlerts,
+          activeInvestigations,
+        ];
+        break;
+      case PartTableType.AS_BUILT_SUPPLIER:
+        this.assetAsBuiltSupplierFilterConfiguration = [
+          filter,
+          semanticDataModel,
+          nameAtManufacturer,
+          manufacturerName,
+          manufacturerPartId,
+          semanticModelId,
+          manufacturingDate,
+          activeAlerts,
+          activeInvestigations,
+        ];
+        break;
     }
   }
 
@@ -719,24 +702,6 @@ export class PartsTableComponent implements OnInit {
     }
   }
 
-  public readonly assetAsBuiltFilterConfiguration: any[] = [
-    this.filterKeyOptions.filter,
-    this.filterKeyOptions.id,
-    this.filterKeyOptions.idShort,
-    this.filterKeyOptions.nameAtManufacturer,
-    this.filterKeyOptions.manufacturerName,
-    this.filterKeyOptions.manufacturerPartId,
-    this.filterKeyOptions.customerPartId,
-    this.filterKeyOptions.classification,
-    this.filterKeyOptions.nameAtCustomer,
-    this.filterKeyOptions.semanticModelId,
-    this.filterKeyOptions.semanticDataModel,
-    this.filterKeyOptions.manufacturingDate,
-    this.filterKeyOptions.manufacturingCountry,
-    this.filterKeyOptions.activeAlerts,
-    this.filterKeyOptions.activeInvestigations,
-  ];
-
   assetAsBuiltFilterFormGroup = {
     id: new FormControl([]),
     idShort: new FormControl([]),
@@ -813,65 +778,17 @@ export class PartsTableComponent implements OnInit {
     qualityInvestigationsInStatusActive: new FormControl([]),
   };
 
-  private readonly assetAsPlannedCustomerFilterConfiguration: any[] = [
-    this.filterKeyOptions.filter,
-    this.filterKeyOptions.semanticDataModel,
-    this.filterKeyOptions.nameAtManufacturer,
-    this.filterKeyOptions.manufacturerName,
-    this.filterKeyOptions.manufacturerPartId,
-    this.filterKeyOptions.semanticModelId,
-  ];
+  private assetAsBuiltFilterConfiguration: FilterConfig[];
 
-  private readonly assetAsPlannedSupplierFilterConfiguration: any[] = [
-    this.filterKeyOptions.filter,
-    this.filterKeyOptions.semanticDataModel,
-    this.filterKeyOptions.nameAtManufacturer,
-    this.filterKeyOptions.manufacturerName,
-    this.filterKeyOptions.manufacturerPartId,
-    this.filterKeyOptions.semanticModelId,
-  ];
+  private assetAsPlannedCustomerFilterConfiguration: FilterConfig[];
 
-  private readonly assetAsBuiltCustomerFilterConfiguration: any[] = [
-    this.filterKeyOptions.filter,
-    this.filterKeyOptions.semanticDataModel,
-    this.filterKeyOptions.nameAtManufacturer,
-    this.filterKeyOptions.manufacturerName,
-    this.filterKeyOptions.manufacturerPartId,
-    this.filterKeyOptions.semanticModelId,
-    this.filterKeyOptions.manufacturingDate,
-    this.filterKeyOptions.activeAlerts,
-    this.filterKeyOptions.activeInvestigations,
-  ];
+  private assetAsPlannedSupplierFilterConfiguration: FilterConfig[];
 
-  private readonly assetAsBuiltSupplierFilterConfiguration: any[] = [
-    this.filterKeyOptions.filter,
-    this.filterKeyOptions.semanticDataModel,
-    this.filterKeyOptions.nameAtManufacturer,
-    this.filterKeyOptions.manufacturerName,
-    this.filterKeyOptions.manufacturerPartId,
-    this.filterKeyOptions.semanticModelId,
-    this.filterKeyOptions.manufacturingDate,
-    this.filterKeyOptions.activeAlerts,
-    this.filterKeyOptions.activeInvestigations,
-  ];
+  private assetAsBuiltCustomerFilterConfiguration: FilterConfig[];
 
-  private readonly assetAsPlannedFilterConfiguration: any[] = [
-    this.filterKeyOptions.filter,
-    this.filterKeyOptions.id,
-    this.filterKeyOptions.idShort,
-    this.filterKeyOptions.nameAtManufacturer,
-    this.filterKeyOptions.manufacturerName,
-    this.filterKeyOptions.manufacturerPartId,
-    this.filterKeyOptions.classification,
-    this.filterKeyOptions.semanticDataModel,
-    this.filterKeyOptions.semanticModelId,
-    this.filterKeyOptions.validityPeriodFrom,
-    this.filterKeyOptions.validityPeriodTo,
-    this.filterKeyOptions.function,
-    this.filterKeyOptions.catenaXSiteId,
-    this.filterKeyOptions.functionValidFrom,
-    this.filterKeyOptions.functionValidUntil,
-  ];
+  private assetAsBuiltSupplierFilterConfiguration: FilterConfig[];
+
+  private assetAsPlannedFilterConfiguration: FilterConfig[];
 
   openDialog(): void {
     const config = new MatDialogConfig();

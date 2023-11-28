@@ -286,13 +286,15 @@
     "unImplemented": "Coming soon"
   },
   "multiSelect": {
-    "filterLabel": "Filter",
     "placeHolder": "All",
     "selectAll": "All",
+    "filterLabel": "Filter",
     "filterLabelDate": "Filter by date",
     "filterLabelSelect": "Choose",
     "inputLabelText": "Search...",
-    "inputLabelDate": "DD/MM/YYYY"
+    "inputLabelDate": "DD/MM/YYYY",
+    "inputTextHint": "Checks if value starts with the filter.",
+    "inputOptionsHint": "Please confirm your selection with enter."
   },
   "parts": {
     "input": {

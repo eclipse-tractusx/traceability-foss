@@ -54,6 +54,7 @@ export class NotificationTabComponent implements AfterViewInit {
   @Output() tableConfigChanged = new EventEmitter<TableEventConfig>();
   @Output() selected = new EventEmitter<Notification>();
   @Output() itemCount = new EventEmitter<number>();
+  @Output() onPaginationPageSizeChange = new EventEmitter<number>();
 
   @ViewChild('idTmp') idTemplate: TemplateRef<unknown>;
   @ViewChild('statusTmp') statusTemplate: TemplateRef<unknown>;
@@ -69,7 +70,12 @@ export class NotificationTabComponent implements AfterViewInit {
 
   public ngAfterViewInit(): void {
     const defaultColumns: DisplayColumns<keyof Notification>[] = ['createdDate', 'description', 'status'];
-    const displayedColumns: DisplayColumns<keyof Notification>[] = [...defaultColumns, ...this.optionalColumns, 'menu', 'settings'];
+    const displayedColumns: DisplayColumns<keyof Notification>[] = [
+      ...defaultColumns,
+      ...this.optionalColumns,
+      'menu',
+      'settings',
+    ];
     const sortableColumns: Record<string, boolean> = this.sortableColumns;
     const filterConfig: any[] = this.filterConfig;
     this.tableConfig = {

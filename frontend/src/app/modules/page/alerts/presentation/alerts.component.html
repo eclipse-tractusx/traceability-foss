@@ -73,6 +73,7 @@ SPDX-License-Identifier: Apache-2.0
       }"
       [queuedAndRequestedMultiSortList]="alertQueuedAndRequestedSortList"
       [queuedAndRequestedFilterConfig]="alertsQueuedAndRequestedFilterConfiguration"
+      (onPaginationPageSizeChange)="onDefaultPaginationSizeChange($event)"
       (onReceivedTableConfigChanged)="onReceivedTableConfigChange($event)"
       (onQueuedAndRequestedTableConfigChanged)="onQueuedAndRequestedTableConfigChange($event)"
       (selected)="openDetailPage($event)"

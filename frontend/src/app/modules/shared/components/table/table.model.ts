@@ -39,8 +39,10 @@ export interface TableConfig<Columns extends string = string> {
 export interface FilterConfig {
   filterKey: string;
   isTextSearch: boolean;
-  isDate: boolean;
+  isDate?: boolean;
   option: Option[];
+  maxDate?: Date | null;
+  column?: string;
 }
 
 export interface Option {

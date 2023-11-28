@@ -254,8 +254,8 @@ SPDX-License-Identifier: Apache-2.0
           mat-header-cell
           class="notification-table--header"
         >
-          <ng-container *ngIf="tableConfig?.header?.[column]; else pureColumn"
-            ><div class="notification-table--header--cell">
+          <ng-container *ngIf="tableConfig?.header?.[column]; else pureColumn">
+            <div class="notification-table--header--cell">
               <div class="notification-table--header--cell--content">
                 {{ tableConfig?.header?.[column] | i18n
                 }}
@@ -291,11 +291,21 @@ SPDX-License-Identifier: Apache-2.0
                 (menuOpened)="isMenuOpen = true"
                 (menuClosed)="isMenuOpen = false"
               >
-                <img
-                  src="\assets\images\icons\filterAltIcon.svg"
-                  alt="filterIcon"
-                  class="notification-table--header--cell--filter--icon"
-                />
+                <div class="notification-table--header--cell--filter--border--top"></div>
+                <div class="notification-table--header--cell--filter--content">
+                  <img
+                    src="\assets\images\icons\filterAltIcon.svg"
+                    alt="filterIcon"
+                    class="notification-table--header--cell--filter--icon"
+                  />
+                </div>
+                <div
+                  [class]="
+                    filterActive[column]
+                      ? 'notification-table--header--cell--filter--border--bottom--enabled'
+                      : 'notification-table--header--cell--filter--border--bottom--disabled'
+                  "
+                ></div>
                 <mat-menu #selectMenu="matMenu" xPosition="before" class="menu-input-field">
                   <ng-container *ngFor="let filter of tableConfig.filterConfig">
                     <div (click)="$event.stopPropagation()" *ngIf="filter.filterKey === column">
@@ -305,6 +315,7 @@ SPDX-License-Identifier: Apache-2.0
                         [multiple]="isMultipleSearch(filter)"
                         [textSearch]="filter.isTextSearch"
                         [isDate]="filter.isDate"
+                        [maxDate]="filter.maxDate"
                         (triggerFilter)="triggerFilterAdding(filter.filterKey, filter.isDate)"
                         ngDefaultControl
                         [formControl]="filterFormGroup.controls[filter.filterKey]"

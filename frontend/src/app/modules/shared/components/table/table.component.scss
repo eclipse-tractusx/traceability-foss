@@ -134,13 +134,29 @@ table {
 }
 
 .notification-table--header--cell--filter {
-  width: 24px;
   display: flex;
-  justify-content: center;
-  align-content: center;
-
-  &--icon {
-    width: 12px;
+  flex-direction: column;
+  height: 40px;
+  justify-content: space-between;
+  &--border--bottom--disabled,
+  &--border--top {
+    height: 3px;
+    width: 100%;
+    background: none;
+  }
+  &--border--bottom--enabled {
+    height: 3px;
+    width: 100%;
+    background: linear-gradient(90deg, #fdb913 0%, #d31184 100%);
+  }
+  &--content {
+    width: 24px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    &--icon {
+      width: 12px;
+    }
   }
 }
 

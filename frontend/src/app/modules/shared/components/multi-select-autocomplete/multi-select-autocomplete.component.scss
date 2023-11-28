@@ -54,69 +54,77 @@
       color: #808080;
       text-align: center;
     }
+    &-hint {
+      @apply font-regular text-gray;
+      font-size: 14px;
+      padding-top: 10px;
+    }
   }
   &__datepicker-buttons {
     &-reset {
       border: 2px solid #4d4d4d !important;
       border-radius: 100px !important;
       padding: 10px 24px !important;
+      .mdc-button__label {
+        @extend .label-large;
+        color: #4d4d4d;
+      }
     }
     &-filter {
       border-radius: 100px !important;
       padding: 10px 24px !important;
+      .mdc-button__label {
+        @extend .label-large;
+        color: white;
+      }
     }
+  }
+  .mat-mdc-form-field-infix {
+    display: flex;
+    justify-content: center;
+  }
+  .mat-mdc-floating-label {
+    padding-bottom: 0 !important;
+    display: flex;
+    justify-content: center;
+    @extend .body-large;
   }
 }
 
-.filter-input .mat-mdc-form-field-infix {
-  display: flex;
-  justify-content: center;
-}
-
-.filter-input .mat-mdc-floating-label {
-  padding-bottom: 0 !important;
-  display: flex;
-  justify-content: center;
-  @extend .body-large;
-}
-
-.mat-mdc-form-field {
+app-multiselect .mat-mdc-form-field {
   --mat-mdc-form-field-floating-label-scale: 1;
 }
 
-.filter-input__datepicker-buttons-reset .mdc-button__label {
-  @extend .label-large;
-  color: #4d4d4d;
-}
-
-.filter-input__datepicker-buttons-filter .mdc-button__label {
-  @extend .label-large;
-  color: white;
-}
-
-.mat-datepicker-content {
+app-multiselect .mat-datepicker-content {
   border-radius: 10px !important;
 }
 
-.mat-datepicker-actions {
+app-multiselect .mat-datepicker-actions {
   padding: 10px 20px 20px 20px !important;
   justify-content: space-between !important;
 }
 
-.mat-calendar {
+app-multiselect .mat-calendar {
   height: auto !important;
 }
 
-.mat-calendar-header {
+app-multiselect .mat-calendar-header {
   padding: 0 0 0 22px !important;
 }
 
-.mat-calendar-body-label {
+app-multiselect .mat-calendar-body-label {
   opacity: 0;
 }
-.mat-calendar-body-label[colspan='7'] {
+app-multiselect .mat-calendar-body-label[colspan='7'] {
   display: none;
 }
-.mdc-button__label > span {
+app-multiselect .mdc-button__label > span {
   @extend .body-small-emphasis;
+}
+
+.filter-input__textarea .mat-mdc-form-field-subscript-wrapper {
+  display: block;
+  .mat-mdc-form-field-hint-wrapper {
+    padding: 0;
+  }
 }

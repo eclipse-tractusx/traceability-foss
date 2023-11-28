@@ -21,7 +21,12 @@
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MenuActionConfig, PartTableType, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
+import {
+  MenuActionConfig,
+  PartTableType,
+  TableEventConfig,
+  TableHeaderSort,
+} from '@shared/components/table/table.model';
 import { Notification, Notifications } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { StaticIdService } from '@shared/service/staticId.service';
@@ -50,6 +55,7 @@ export class NotificationComponent {
   @Output() onReceivedTableConfigChanged = new EventEmitter<TableEventConfig>();
   @Output() onQueuedAndRequestedTableConfigChanged = new EventEmitter<TableEventConfig>();
   @Output() selected = new EventEmitter<Notification>();
+  @Output() onPaginationPageSizeChange = new EventEmitter<number>();
 
   public readonly tabIndex$ = this.route.queryParams.pipe(map(params => parseInt(params.tabIndex, 10) || 0));
 
@@ -64,7 +70,7 @@ export class NotificationComponent {
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly staticIdService: StaticIdService,
-  ) { }
+  ) {}
 
   public onTabChange(tabIndex: number): void {
     void this.router.navigate([], { queryParams: { tabIndex }, replaceUrl: true });

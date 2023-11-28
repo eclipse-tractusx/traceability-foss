@@ -147,6 +147,7 @@ export class TableComponent {
   @Output() multiSelect = new EventEmitter<any[]>();
   @Output() clickSelectAction = new EventEmitter<void>();
   @Output() filterChange = new EventEmitter<void>();
+  @Output() onPaginationPageSizeChange = new EventEmitter<number>();
 
   public readonly dataSource = new MatTableDataSource<unknown>();
   public readonly selection = new SelectionModel<unknown>(true, []);
@@ -165,6 +166,7 @@ export class TableComponent {
   private pageSize: number;
   private sorting: TableHeaderSort;
   private filtering: TableFilter = { filterMethod: FilterMethod.AND };
+  public filterActive: any = {};
 
   private _tableConfig: TableConfig;
   private tableViewConfig: TableViewConfig;
@@ -173,13 +175,13 @@ export class TableComponent {
     private readonly roleService: RoleService,
     private readonly tableSettingsService: TableSettingsService,
     private dialog: MatDialog,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.initializeTableViewSettings();
 
     if (this.tableConfig?.filterConfig?.length > 0) {
-      this.setupFilterFormGroup();
+      this.setupFilter();
     }
 
     this.tableSettingsService.getEvent().subscribe(() => {
@@ -188,8 +190,9 @@ export class TableComponent {
     this.setupTableViewSettings();
   }
 
-  setupFilterFormGroup(): void {
+  setupFilter(): void {
     this.tableConfig.filterConfig.forEach(filter => {
+      this.filterActive[filter.filterKey] = false;
       this.filterFormGroup.addControl(filter.filterKey, new FormControl([]));
     });
   }
@@ -217,6 +220,7 @@ export class TableComponent {
   public onPaginationChange({ pageIndex, pageSize }: PageEvent): void {
     this.pageIndex = pageIndex;
     this.isDataLoading = true;
+    this.onPaginationPageSizeChange.emit(pageSize);
     this.configChanged.emit({ page: pageIndex, pageSize: pageSize, sorting: this.sorting, filtering: this.filtering });
   }
 
@@ -356,13 +360,12 @@ export class TableComponent {
   }
 
   public triggerFilterAdding(filterName: string, isDate: boolean): void {
-    //Should the filtering be reset every time? Else remove the following line:
-    this.filtering = { filterMethod: FilterMethod.AND };
+    //Should the filtering be reset every time? then add the following line:
+    // this.filtering = { filterMethod: FilterMethod.AND };
     let filterAdded: FilterInfo | FilterInfo[];
     const filterSettings = this.tableConfig.filterConfig.filter(filter => filter.filterKey === filterName)[0];
 
     if (filterSettings.option.length > 0 && !isDate) {
-      this.filtering.filterMethod = FilterMethod.OR;
       const filterOptions: FilterInfo[] = [];
       filterSettings.option.forEach(option => {
         if (option.checked) {
@@ -373,16 +376,19 @@ export class TableComponent {
         }
       });
       filterAdded = filterOptions;
+      this.filterActive[filterName] = filterAdded.length > 0;
     } else if (isDate) {
       filterAdded = {
         filterValue: this.filterFormGroup.get(filterName).value,
         filterOperator: FilterOperator.AT_LOCAL_DATE,
       };
+      this.filterActive[filterName] = filterAdded.filterValue !== null;
     } else {
       filterAdded = {
         filterValue: this.filterFormGroup.get(filterName).value,
         filterOperator: FilterOperator.STARTS_WITH,
       };
+      this.filterActive[filterName] = filterAdded.filterValue !== '';
     }
     this.filtering[filterName] = filterAdded;
     this.filterChange.emit();

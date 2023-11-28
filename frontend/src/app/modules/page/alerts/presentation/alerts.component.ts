@@ -35,12 +35,11 @@ import {
   FilterMethod,
 } from '@shared/components/table/table.model';
 import { TableSortingUtil } from '@shared/components/table/tableSortingUtil';
+import { FilterCongigOptions } from '@shared/model/filter-config';
 import { NotificationTabInformation } from '@shared/model/notification-tab-information';
 import { Notification, NotificationStatusGroup } from '@shared/model/notification.model';
 import { TranslationContext } from '@shared/model/translation-context.model';
 import { Subscription } from 'rxjs';
-import { Severity } from '@shared/model/severity.model';
-import { NotificationStatus } from '@shared/model/notification.model';
 
 @Component({
   selector: 'app-alerts',
@@ -49,7 +48,6 @@ import { NotificationStatus } from '@shared/model/notification.model';
 })
 export class AlertsComponent {
   @ViewChild(NotificationCommonModalComponent) notificationCommonModalComponent: NotificationCommonModalComponent;
-
   public searchFormGroup = new FormGroup({});
   public searchControl: FormControl;
   public readonly alertsReceived$;
@@ -61,101 +59,28 @@ export class AlertsComponent {
   public alertQueuedAndRequestedSortList: TableHeaderSort[] = [];
   public filterReceived: TableFilter = { filterMethod: FilterMethod.AND };
   public filterQueuedAndRequested: TableFilter = { filterMethod: FilterMethod.AND };
+  public readonly filterConfigOptions = new FilterCongigOptions();
 
-  optionTextSearch = [];
-  severityOptions = [
-    {
-      display: 'severity.' + Severity.MINOR,
-      value: 0,
-      checked: false,
-    },
-    {
-      display: 'severity.' + Severity.MAJOR,
-      value: 1,
-      checked: false,
-    },
-    {
-      display: 'severity.' + Severity.CRITICAL,
-      value: 2,
-      checked: false,
-    },
-    {
-      display: 'severity.' + Severity.LIFE_THREATENING,
-      value: 3,
-      checked: false,
-    },
-  ];
-  //Approved and Requested only exist in the frontend
-  statusOptions = [
-    {
-      display: 'commonAlert.status.' + NotificationStatus.ACCEPTED,
-      value: NotificationStatus.ACCEPTED,
-      checked: false,
-    },
-    {
-      display: 'commonAlert.status.' + NotificationStatus.ACKNOWLEDGED,
-      value: NotificationStatus.ACKNOWLEDGED,
-      checked: false,
-    },
-    {
-      display: 'commonAlert.status.' + NotificationStatus.CANCELED,
-      value: NotificationStatus.CANCELED,
-      checked: false,
-    },
-    {
-      display: 'commonAlert.status.' + NotificationStatus.CLOSED,
-      value: NotificationStatus.CLOSED,
-      checked: false,
-    },
-    {
-      display: 'commonAlert.status.' + NotificationStatus.CREATED,
-      value: NotificationStatus.CREATED,
-      checked: false,
-    },
-    {
-      display: 'commonAlert.status.' + NotificationStatus.DECLINED,
-      value: NotificationStatus.DECLINED,
-      checked: false,
-    },
-    {
-      display: 'commonAlert.status.' + NotificationStatus.RECEIVED,
-      value: NotificationStatus.RECEIVED,
-      checked: false,
-    },
-    {
-      display: 'commonAlert.status.' + NotificationStatus.SENT,
-      value: NotificationStatus.SENT,
-      checked: false,
-    },
-  ];
+  public alertsReceivedFilterConfiguration: any[];
 
-  public readonly alertsReceivedFilterConfiguration: any[] = [
-    { filterKey: 'createdDate', isTextSearch: false, isDate: true, option: this.optionTextSearch },
-    { filterKey: 'description', isTextSearch: true, option: this.optionTextSearch },
-    { filterKey: 'status', isTextSearch: false, option: this.statusOptions },
-    { filterKey: 'severity', isTextSearch: false, option: this.severityOptions },
-    { filterKey: 'createdBy', isTextSearch: true, option: this.optionTextSearch },
-  ];
-
-  public readonly alertsQueuedAndRequestedFilterConfiguration: any[] = [
-    { filterKey: 'createdDate', isTextSearch: false, isDate: true, option: this.optionTextSearch },
-    { filterKey: 'description', isTextSearch: true, option: this.optionTextSearch },
-    { filterKey: 'status', isTextSearch: false, option: this.statusOptions },
-    { filterKey: 'severity', isTextSearch: false, option: this.severityOptions },
-    { filterKey: 'sendTo', isTextSearch: true, option: this.optionTextSearch },
-  ];
+  public alertsQueuedAndRequestedFilterConfiguration: any[];
 
   private ctrlKeyState: boolean = false;
+  public DEFAULT_PAGE_SIZE = 50;
 
   private paramSubscription: Subscription;
 
-  private pagination: TableEventConfig = { page: 0, pageSize: 50, sorting: ['createdDate', 'desc'] };
+  private pagination: TableEventConfig = {
+    page: 0,
+    pageSize: this.DEFAULT_PAGE_SIZE,
+    sorting: ['createdDate', 'desc'],
+  };
 
   protected readonly PartTableType = PartTableType;
 
   constructor(
     public readonly helperService: AlertHelperService,
-    private readonly alertsFacade: AlertsFacade,
+    public readonly alertsFacade: AlertsFacade,
     private readonly alertDetailFacade: AlertDetailFacade,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
@@ -188,7 +113,7 @@ export class AlertsComponent {
         this.filterQueuedAndRequested,
       );
     });
-
+    this.setupFilterConfig();
     this.searchFormGroup.addControl('alertSearch', new FormControl([]));
     this.searchControl = this.searchFormGroup.get('alertSearch') as unknown as FormControl;
   }
@@ -206,8 +131,30 @@ export class AlertsComponent {
     this.paramSubscription?.unsubscribe();
   }
 
+  private setupFilterConfig() {
+    const { createdDate, description, status, severity, createdBy, sendTo } =
+      this.filterConfigOptions.filterKeyOptionsNotifications;
+    this.alertsReceivedFilterConfiguration = [
+      createdDate,
+      description,
+      status(TranslationContext.COMMONALERT),
+      severity,
+      createdBy,
+    ];
+    this.alertsQueuedAndRequestedFilterConfiguration = [
+      createdDate,
+      description,
+      status(TranslationContext.COMMONALERT),
+      severity,
+      sendTo,
+    ];
+  }
+
   public onReceivedTableConfigChange(pagination: TableEventConfig) {
     this.pagination = pagination;
+    if (this.pagination.pageSize === 0) {
+      this.pagination.pageSize = this.DEFAULT_PAGE_SIZE;
+    }
     this.setTableSortingList(pagination.sorting, NotificationStatusGroup.RECEIVED);
     if (pagination.filtering) {
       this.filterReceived = pagination.filtering;
@@ -222,6 +169,9 @@ export class AlertsComponent {
 
   public onQueuedAndRequestedTableConfigChange(pagination: TableEventConfig) {
     this.pagination = pagination;
+    if (this.pagination.pageSize === 0) {
+      this.pagination.pageSize = this.DEFAULT_PAGE_SIZE;
+    }
     this.setTableSortingList(pagination.sorting, NotificationStatusGroup.QUEUED_AND_REQUESTED);
     if (pagination.filtering) {
       this.filterQueuedAndRequested = pagination.filtering;
@@ -232,6 +182,10 @@ export class AlertsComponent {
       this.alertQueuedAndRequestedSortList,
       this.filterQueuedAndRequested,
     );
+  }
+
+  public onDefaultPaginationSizeChange(pageSize: number) {
+    this.DEFAULT_PAGE_SIZE = pageSize;
   }
 
   public openDetailPage(notification: Notification): void {

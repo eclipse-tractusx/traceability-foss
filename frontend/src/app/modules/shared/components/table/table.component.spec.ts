@@ -220,6 +220,7 @@ describe('TableComponent', () => {
       sorting: undefined,
       filtering: {
         filterMethod: FilterMethod.AND,
+        description: { filterValue: 'value1', filterOperator: FilterOperator.STARTS_WITH },
         createdDate: { filterValue: '2023-11-11', filterOperator: FilterOperator.AT_LOCAL_DATE },
       },
     };
@@ -228,7 +229,9 @@ describe('TableComponent', () => {
       pageSize: 10,
       sorting: undefined,
       filtering: {
-        filterMethod: FilterMethod.OR,
+        filterMethod: FilterMethod.AND,
+        description: { filterValue: 'value1', filterOperator: FilterOperator.STARTS_WITH },
+        createdDate: { filterValue: '2023-11-11', filterOperator: FilterOperator.AT_LOCAL_DATE },
         status: [{ filterValue: 'status1', filterOperator: FilterOperator.EQUAL }],
       },
     };
@@ -236,20 +239,17 @@ describe('TableComponent', () => {
     spyOn(componentInstance.configChanged, 'emit');
 
     componentInstance.filterFormGroup.controls['description'].patchValue('value1');
-    componentInstance.filterFormGroup.controls['createdDate'].patchValue('2023-11-11');
-
-    componentInstance.tableConfig.filterConfig[2].option[0].checked = true;
-
     componentInstance.triggerFilterAdding('description', false);
-    componentInstance.triggerFilterAdding('createdDate', true);
-    componentInstance.triggerFilterAdding('status', false);
-
     fixture.detectChanges();
     expect(componentInstance.configChanged.emit).toHaveBeenCalledWith(tabelConfigRes);
 
+    componentInstance.filterFormGroup.controls['createdDate'].patchValue('2023-11-11');
+    componentInstance.triggerFilterAdding('createdDate', true);
     fixture.detectChanges();
     expect(componentInstance.configChanged.emit).toHaveBeenCalledWith(tabelConfigResTwo);
 
+    componentInstance.tableConfig.filterConfig[2].option[0].checked = true;
+    componentInstance.triggerFilterAdding('status', false);
     fixture.detectChanges();
     expect(componentInstance.configChanged.emit).toHaveBeenCalledWith(tabelConfigResThree);
   });
