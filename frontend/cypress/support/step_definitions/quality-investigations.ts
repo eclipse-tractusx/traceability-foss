@@ -18,9 +18,6 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-//package org.eclipse.tractusx.traceability.test;
-
-// import * from org.eclipse.tractusx.traceability.test.validator.TestUtils.wrapStringWithTimestamp;
 import { When, Then, Given } from '@badeball/cypress-cucumber-preprocessor';
 import { QualityInvestigationsPage } from '../../integration/pages/QualityInvestigationsPage';
 
@@ -65,7 +62,6 @@ Then("select {string} other part", (partAmount) => {
 
 
 Then("start investigation creation with description {string}", function (description) {
-  //notificationDescription = wrapStringWithTimestamp(input.get("description"));
   const date = new Date().getTime();
   notificationDescription = description + date;
   cy.get('div').contains('Start investigation').click();
@@ -188,6 +184,7 @@ When("user {string} selected investigation", (action) => {
 
 
 When("user confirm approval of selected investigation", (action) => {
+  cy.wait(50);
   cy.get('app-confirm').find('span').contains('Approve').click();
 });
 
