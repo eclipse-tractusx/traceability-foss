@@ -11,6 +11,6 @@ values
 
     -- owner is parent of supplier
     (${assetAsBuiltId01}, ${assetAsBuiltId03}, 'O-LeftHeadBulb'),   -- Xenon Left-Headlights isParentOf Osram Front Left-AX400
-    (${assetAsBuiltId01}, ${assetAsBuiltId05}, 'P-LeftHeadBulb'),   -- Xenon Left-Headlights isParentOf Phillips Front Left-D3H
+    (${assetAsBuiltId01}, ${assetAsBuiltId05}, 'P-LeftHeadBulb'),   -- Xenon Left-Headlights isParentOf Philips Front Left-D3H
     (${assetAsBuiltId02}, ${assetAsBuiltId04}, 'O-RightHeadBulb'),  -- Xenon Right-Headlights isParentOf Osram Front Right-AX400
-    (${assetAsBuiltId02}, ${assetAsBuiltId06}, 'P-RightHeadBulb');  -- Xenon Right-Headlights isParentOf Phillips Front Right-D3H
+    (${assetAsBuiltId02}, ${assetAsBuiltId06}, 'P-RightHeadBulb');  -- Xenon Right-Headlights isParentOf Philips Front Right-D3H
