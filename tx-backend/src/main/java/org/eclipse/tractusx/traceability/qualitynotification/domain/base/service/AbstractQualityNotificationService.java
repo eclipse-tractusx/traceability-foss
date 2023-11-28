@@ -23,6 +23,7 @@ import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBu
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.service.QualityNotificationService;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.SendNotificationException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
@@ -63,7 +64,13 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
     @Override
     public void update(Long notificationId, QualityNotificationStatus notificationStatus, String reason) {
         QualityNotification alert = loadOrNotFoundException(new QualityNotificationId(notificationId));
-        QualityNotification updatedAlert = getNotificationPublisherService().updateNotificationPublisher(alert, notificationStatus, reason);
+        QualityNotification updatedAlert;
+        try {
+             updatedAlert= getNotificationPublisherService().updateNotificationPublisher(alert, notificationStatus, reason);
+        }catch (SendNotificationException exception) {
+            log.info("Notification status rollback", exception);
+            return;
+        }
 
         getAssetAsBuiltServiceImpl().setAssetsAlertStatus(updatedAlert);
         getQualityNotificationRepository().updateQualityNotificationEntity(updatedAlert);
@@ -78,7 +85,13 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
     @Override
     public void approve(Long notificationId) {
         QualityNotification notification = loadOrNotFoundException(new QualityNotificationId(notificationId));
-        final QualityNotification approvedInvestigation = getNotificationPublisherService().approveNotification(notification);
+        final QualityNotification approvedInvestigation;
+        try {
+             approvedInvestigation = getNotificationPublisherService().approveNotification(notification);
+        } catch (SendNotificationException exception) {
+            log.info("Notification status rollback", exception);
+            return;
+        }
         getQualityNotificationRepository().updateQualityNotificationEntity(approvedInvestigation);
     }
 
