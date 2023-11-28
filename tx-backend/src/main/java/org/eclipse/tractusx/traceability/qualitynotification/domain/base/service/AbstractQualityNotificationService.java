@@ -66,7 +66,7 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
         QualityNotification alert = loadOrNotFoundException(new QualityNotificationId(notificationId));
         QualityNotification updatedAlert;
         try {
-             updatedAlert= getNotificationPublisherService().updateNotificationPublisher(alert, notificationStatus, reason);
+             updatedAlert = getNotificationPublisherService().updateNotificationPublisher(alert, notificationStatus, reason);
         }catch (SendNotificationException exception) {
             log.info("Notification status rollback", exception);
             return;
