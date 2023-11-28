@@ -184,7 +184,6 @@ When("user {string} selected investigation", (action) => {
 
 
 When("user confirm approval of selected investigation", (action) => {
-  cy.wait(50);
   cy.get('app-confirm').find('span').contains('Approve').click();
 });
 
@@ -205,7 +204,7 @@ matched = false;
       case 'approved': {
       // same as "requested"
       matched = true;
-        cy.get('[title="Requested"]').should('be.visible');
+        cy.get('[title="Requested"]', { timeout: 10000 }).should('be.visible');
         break;
       }
       case 'accepted': {
