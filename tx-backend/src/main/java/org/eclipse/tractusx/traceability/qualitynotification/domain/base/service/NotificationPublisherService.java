@@ -245,7 +245,7 @@ public class NotificationPublisherService {
             notificationsToSend.add(notificationToSend);
         });
 
-        allLatestNotificationForEdcNotificationId.forEach(
+        notificationsToSend.forEach(
                 message -> {
                     switch (status) {
                         case ACKNOWLEDGED -> notification.acknowledge(message);
