@@ -202,7 +202,7 @@ class DashboardControllerIT extends IntegrationTestSpecification {
                 .body("supplierPartsWithOpenInvestigations", equalTo(1))
                 .body("customerPartsWithOpenInvestigations", equalTo(0))
                 .body("receivedActiveAlerts", equalTo(0))
-                .body("receivedActiveInvestigations", equalTo(0))
+                .body("receivedActiveInvestigations", equalTo(1))
                 .body("sentActiveAlerts", equalTo(0))
                 .body("sentActiveInvestigations", equalTo(1));
     }
