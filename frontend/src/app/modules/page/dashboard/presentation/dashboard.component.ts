@@ -95,12 +95,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.investigationsMetricData = [
       {
         metricName: 'amountReceived',
-        value: this.dashboardStats$.pipe(map(dashboardStats => dashboardStats.data.ownOpenInvestigationsReceived)),
+        value: this.dashboardStats$.pipe(map(dashboardStats => dashboardStats.data.receivedActiveInvestigations)),
         metricUnit: 'investigations'
       },
       {
         metricName: 'amountCreated',
-        value: this.dashboardStats$.pipe(map(dashboardStats => dashboardStats.data.ownOpenInvestigationsCreated)),
+        value: this.dashboardStats$.pipe(map(dashboardStats => dashboardStats.data.sentActiveInvestigations)),
         metricUnit: 'investigations'
       }
     ];
@@ -109,12 +109,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.alertsMetricData = [
       {
         metricName: 'amountReceived',
-        value: this.dashboardStats$.pipe(map(dashboardStats => dashboardStats.data.ownOpenAlertsReceived)),
+        value: this.dashboardStats$.pipe(map(dashboardStats => dashboardStats.data.receivedActiveAlerts)),
         metricUnit: 'alerts'
       },
       {
         metricName: 'amountCreated',
-        value: this.dashboardStats$.pipe(map(dashboardStats => dashboardStats.data.ownOpenAlertsCreated)),
+        value: this.dashboardStats$.pipe(map(dashboardStats => dashboardStats.data.sentActiveAlerts)),
         metricUnit: 'alerts'
       }
     ];

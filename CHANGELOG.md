@@ -26,6 +26,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 - Added new dashboard layout and additional widgets
 - Refactored dashboard response
+- Added new fields to dashboard response
 
 ## [9.0.0-rc3 - 27.11.2023]
 ### Added
