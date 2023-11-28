@@ -10,7 +10,7 @@ entity Assets {
 }
 entity Asset {
     * catenaXId : String <uuid>
-    creator : String <author>
+    * creator : String <author>
     * shells : Collection<Shell>
     * submodels : Collection<SubmodelData<T>>
 }
