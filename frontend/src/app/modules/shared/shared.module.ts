@@ -19,23 +19,22 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {DatePipe, TitleCasePipe} from '@angular/common';
-import {NgModule} from '@angular/core';
-import {MatPaginatorIntl} from '@angular/material/paginator';
-import {RouterModule} from '@angular/router';
-import {BomLifecycleActivatorComponent } from '@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.component';
+import { DatePipe, TitleCasePipe } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { MatPaginatorIntl } from '@angular/material/paginator';
+import { RouterModule } from '@angular/router';
+import { BomLifecycleActivatorComponent } from '@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.component';
+import { CardMetricComponent } from '@shared/components/card-metric/card-metric.component';
 import { CountryFlagGeneratorComponent } from '@shared/components/country-flag-generator/country-flag-generator.component';
 import { DateTimeComponent } from '@shared/components/dateTime/dateTime.component';
 import { FormErrorMessageComponent } from '@shared/components/formErrorMessage/formErrorMessage.component';
 import { InputComponent } from '@shared/components/input/input.component';
-import {
-    MultiSelectAutocompleteComponent
-} from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
-import {NotificationOverviewComponent} from '@shared/components/notification-overview/notification-overview.component';
-import {NotificationReasonComponent} from '@shared/components/notification-reason/notification-reason.component';
-import {NotificationUserComponent} from '@shared/components/notification-user/notification-user.component';
-import {PartsTableComponent} from '@shared/components/parts-table/parts-table.component';
-import {RequestInvestigationComponent } from '@shared/components/request-notification';
+import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
+import { NotificationOverviewComponent } from '@shared/components/notification-overview/notification-overview.component';
+import { NotificationReasonComponent } from '@shared/components/notification-reason/notification-reason.component';
+import { NotificationUserComponent } from '@shared/components/notification-user/notification-user.component';
+import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
+import { RequestInvestigationComponent } from '@shared/components/request-notification';
 import { RequestAlertComponent } from '@shared/components/request-notification/request-alert.component';
 import { SeveritySelectComponent } from '@shared/components/severity-select/severity-select.component';
 import { SeverityComponent } from '@shared/components/severity/severity.component';
@@ -43,6 +42,7 @@ import { TableSettingsComponent } from '@shared/components/table-settings/table-
 import { TextWithIconComponent } from '@shared/components/text-with-icon/text-with-icon.component';
 import { ViewSelectorComponent } from '@shared/components/view-selector/view-selector.component';
 import { NotificationModalContentComponent } from '@shared/modules/notification/modal/content/notification-modal-content.component';
+import { AbbreviateNumberPipe } from '@shared/pipes/abbreviate-number.pipe';
 import { FlattenObjectPipe } from '@shared/pipes/flatten-object.pipe';
 import { FormatPaginationSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-pagination-semantic-data-model-to-camelcase.pipe';
 import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
@@ -126,8 +126,10 @@ import { TemplateModule } from './template.module';
         ViewSelectorComponent,
         MultiSelectAutocompleteComponent,
         CountryFlagGeneratorComponent,
-    TableSettingsComponent,
-  ],
+        TableSettingsComponent,
+        AbbreviateNumberPipe,
+        CardMetricComponent,
+    ],
   imports: [TemplateModule, RouterModule, I18NextModule],
     exports: [
         ToastContainerComponent,
@@ -175,6 +177,8 @@ import { TemplateModule } from './template.module';
         PartsTableComponent,
         MultiSelectAutocompleteComponent,
         CountryFlagGeneratorComponent,
+        AbbreviateNumberPipe,
+        CardMetricComponent,
     ],
     providers: [
         FormatDatePipe,

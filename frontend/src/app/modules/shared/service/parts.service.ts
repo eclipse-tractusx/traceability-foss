@@ -25,6 +25,7 @@ import { ApiService } from '@core/api/api.service';
 import { Pagination } from '@core/model/pagination.model';
 import { environment } from '@env';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
+import { Owner } from '@page/parts/model/owner.enum';
 import {
   AssetAsBuiltFilter,
   AssetAsPlannedFilter,
@@ -124,6 +125,21 @@ export class PartsService {
 
     }
 
+    public getDistinctFilterValues(isAsBuilt: boolean, owner: Owner, fieldNames: string, startsWith: string) {
+      let params = new HttpParams()
+        .set('fieldName',fieldNames)
+        .set('startWith',startsWith)
+        .set('size',200)
+        .set('owner', owner)
+
+      if(isAsBuilt) {
+        return this.apiService
+          .getBy<any>(`${ this.url }/assets/as-built/distinctFilterValues`, params);
+      } else {
+        return this.apiService
+          .getBy<any>(`${ this.url }/assets/as-planned/distinctFilterValues`, params);
+      }
+    }
 
     public sortParts(data: Part[], key: string, direction: SortDirection): Part[] {
         const clonedData: Part[] = _deepClone(data);

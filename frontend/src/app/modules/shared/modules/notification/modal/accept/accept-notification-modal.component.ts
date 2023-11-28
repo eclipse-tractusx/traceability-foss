@@ -72,8 +72,6 @@ export class AcceptNotificationModalComponent {
     const options: ModalData = {
       title: this.translationContext + '.modal.acceptTitle',
       buttonRight: 'actions.accept',
-      buttonLeft: 'actions.cancel',
-
       template: this.modal,
       formGroup: this.formGroup,
       onConfirm,

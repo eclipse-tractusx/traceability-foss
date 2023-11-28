@@ -27,11 +27,9 @@ SPDX-License-Identifier: Apache-2.0
       [formControl]="control"
       [attr.data-testId]="htmlId"
       [errorStateMatcher]="matcher"
+      style="line-height: 1.5;"
       matInput
-      cdkTextareaAutosize
-      #autosize="cdkTextareaAutosize"
-      cdkAutosizeMinRows="1"
-      cdkAutosizeMaxRows="5"
+
     ></textarea>
     <mat-icon *ngIf="matcher.isErrorState(control)" color="warn" matSuffix>error_outline</mat-icon>
     <mat-hint *ngIf="hint" align="start">{{ hint }}</mat-hint>

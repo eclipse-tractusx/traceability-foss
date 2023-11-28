@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.assets.domain.base;
 
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.springframework.data.domain.Pageable;
@@ -50,5 +51,7 @@ public interface AssetRepository {
 
     long countAssetsByOwner(Owner owner);
 
-    List<String> getFieldValues(String fieldName, String startWith, Long resultLimit);
+    List<String> getFieldValues(String fieldName, String startWith, Integer resultLimit, Owner owner);
+
+    List<? extends AssetBaseEntity> findByOwner(Owner owner);
 }

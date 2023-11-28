@@ -43,7 +43,6 @@ import static org.eclipse.tractusx.traceability.qualitynotification.infrastructu
 import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.RECEIVED;
 import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.SENT;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasSize;
 
 class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
@@ -371,6 +370,38 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     }
 
     @Test
+    void givenAssetsWithAlerts_whenGetAssetsWithActiveAlertCountFilter2_thenReturnProperAssets() throws JoseException {
+        // Given
+        assetsSupport.defaultAssetsStored();
+        AssetAsBuiltEntity assetAsBuilt = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").orElseThrow();
+        AssetAsBuiltEntity assetAsBuilt1 = jpaAssetAsBuiltRepository.findById("urn:uuid:7fa65f10-9dc1-49fe-818a-09c7313a4562").orElseThrow();
+        alertsSupport.storeAlertWithStatusAndAssets(CREATED, List.of(assetAsBuilt, assetAsBuilt1), null);
+        alertsSupport.storeAlertWithStatusAndAssets(SENT, List.of(assetAsBuilt1), null);
+        alertsSupport.storeAlertWithStatusAndAssets(SENT, List.of(assetAsBuilt), null);
+        alertsSupport.storeAlertWithStatusAndAssets(RECEIVED, List.of(assetAsBuilt), null);
+        alertsSupport.storeAlertWithStatusAndAssets(ACKNOWLEDGED, List.of(assetAsBuilt), null);
+        alertsSupport.storeAlertWithStatusAndAssets(ACCEPTED, List.of(assetAsBuilt), null);
+        alertsSupport.storeAlertWithStatusAndAssets(DECLINED, List.of(assetAsBuilt), null);
+        alertsSupport.storeAlertWithStatusAndAssets(CANCELED, List.of(assetAsBuilt), null);
+        alertsSupport.storeAlertWithStatusAndAssets(CLOSED, List.of(assetAsBuilt), null);
+
+        final String filter = "qualityAlertIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,2,AND";
+
+        // When
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .when()
+                .param("filter", filter)
+                .get("/api/assets/as-built")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .assertThat()
+                .body("totalItems", equalTo(1));
+    }
+
+    @Test
     void givenAssetsWithInvestigations_whenGetAssetsWithActiveInvestigationCountFilter_thenReturnProperAssets() throws JoseException {
         // Given
         assetsSupport.defaultAssetsStored();
@@ -393,6 +424,136 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .when()
                 .param("filter", filter)
+                .get("/api/assets/as-built")
+                .then()
+                .statusCode(200)
+                .assertThat()
+                .body("totalItems", equalTo(1));
+    }
+
+    @Test
+    void givenAssetsWithInvestigations_whenGetAssetsWithActiveInvestigationCountFilter2_thenReturnProperAssets() throws JoseException {
+        // Given
+        assetsSupport.defaultAssetsStored();
+        AssetAsBuiltEntity assetAsBuilt = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").orElseThrow();
+        AssetAsBuiltEntity assetAsBuilt1 = jpaAssetAsBuiltRepository.findById("urn:uuid:7fa65f10-9dc1-49fe-818a-09c7313a4562").orElseThrow();
+        investigationsSupport.storeInvestigationWithStatusAndAssets(CREATED, List.of(assetAsBuilt, assetAsBuilt1), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(SENT, List.of(assetAsBuilt1), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(SENT, List.of(assetAsBuilt), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(RECEIVED, List.of(assetAsBuilt), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(ACKNOWLEDGED, List.of(assetAsBuilt), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(ACCEPTED, List.of(assetAsBuilt), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(DECLINED, List.of(assetAsBuilt), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(CANCELED, List.of(assetAsBuilt), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(CLOSED, List.of(assetAsBuilt), null);
+
+        final String filter = "qualityInvestigationIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,2,AND";
+
+
+        // When
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .when()
+                .param("filter", filter)
+                .get("/api/assets/as-built")
+                .then()
+                .statusCode(200)
+                .assertThat()
+                .body("totalItems", equalTo(1));
+    }
+
+    @Test
+    void givenAssetsWithInvestigations_whenGetAssetsWithActiveInvestigationCountFilter3_thenReturnProperAssets() throws JoseException {
+        // Given
+        assetsSupport.defaultAssetsStored();
+        AssetAsBuiltEntity assetAsBuilt = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").orElseThrow();
+        AssetAsBuiltEntity assetAsBuilt1 = jpaAssetAsBuiltRepository.findById("urn:uuid:7fa65f10-9dc1-49fe-818a-09c7313a4562").orElseThrow();
+        investigationsSupport.storeInvestigationWithStatusAndAssets(CREATED, List.of(assetAsBuilt, assetAsBuilt1), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(SENT, List.of(assetAsBuilt1), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(SENT, List.of(assetAsBuilt), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(RECEIVED, List.of(assetAsBuilt), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(ACKNOWLEDGED, List.of(assetAsBuilt), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(ACCEPTED, List.of(assetAsBuilt), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(DECLINED, List.of(assetAsBuilt), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(CANCELED, List.of(assetAsBuilt), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(CLOSED, List.of(assetAsBuilt), null);
+
+        final String filter = "qualityInvestigationIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,0,AND";
+
+
+        // When
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .when()
+                .param("filter", filter)
+                .get("/api/assets/as-built")
+                .then()
+                .statusCode(200)
+                .assertThat()
+                .body("totalItems", equalTo(11));
+    }
+
+    @Test
+    void givenAssetsWithInvestigations_whenGetAssetsWithActiveInvestigationCountFilter4_thenReturnProperAssets() throws JoseException {
+        // Given
+        assetsSupport.defaultAssetsStored();
+        AssetAsBuiltEntity assetAsBuilt = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").orElseThrow();
+        AssetAsBuiltEntity assetAsBuilt1 = jpaAssetAsBuiltRepository.findById("urn:uuid:7fa65f10-9dc1-49fe-818a-09c7313a4562").orElseThrow();
+        investigationsSupport.storeInvestigationWithStatusAndAssets(CREATED, List.of(assetAsBuilt, assetAsBuilt1), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(SENT, List.of(assetAsBuilt1), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(SENT, List.of(assetAsBuilt), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(RECEIVED, List.of(assetAsBuilt), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(ACKNOWLEDGED, List.of(assetAsBuilt), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(ACCEPTED, List.of(assetAsBuilt), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(DECLINED, List.of(assetAsBuilt), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(CANCELED, List.of(assetAsBuilt), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(CLOSED, List.of(assetAsBuilt), null);
+
+        final String filter = "qualityAlertIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,0,AND";
+
+
+        // When
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .when()
+                .param("filter", filter)
+                .get("/api/assets/as-built")
+                .then()
+                .statusCode(200)
+                .assertThat()
+                .body("totalItems", equalTo(13));
+    }
+
+    @Test
+    void givenAssetsWithInvestigations_whenGetAssetsWithActiveInvestigationCountFilter5_thenReturnProperAssets() throws JoseException {
+        // Given
+        assetsSupport.defaultAssetsStored();
+        AssetAsBuiltEntity assetAsBuilt = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").orElseThrow();
+        AssetAsBuiltEntity assetAsBuilt1 = jpaAssetAsBuiltRepository.findById("urn:uuid:7fa65f10-9dc1-49fe-818a-09c7313a4562").orElseThrow();
+        investigationsSupport.storeInvestigationWithStatusAndAssets(CREATED, List.of(assetAsBuilt, assetAsBuilt1), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(SENT, List.of(assetAsBuilt1), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(SENT, List.of(assetAsBuilt), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(RECEIVED, List.of(assetAsBuilt), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(ACKNOWLEDGED, List.of(assetAsBuilt), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(ACCEPTED, List.of(assetAsBuilt), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(DECLINED, List.of(assetAsBuilt), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(CANCELED, List.of(assetAsBuilt), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(CLOSED, List.of(assetAsBuilt), null);
+
+        final String filter1 = "qualityAlertIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,0,AND";
+        final String filter2 = "qualityInvestigationIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,2,AND";
+
+
+        // When
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .when()
+                .param("filter", filter1)
+                .param("filter", filter2)
                 .get("/api/assets/as-built")
                 .then()
                 .statusCode(200)

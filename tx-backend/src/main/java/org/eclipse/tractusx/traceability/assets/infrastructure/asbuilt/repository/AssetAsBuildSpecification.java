@@ -21,6 +21,8 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.reposito
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import jakarta.persistence.criteria.Subquery;
@@ -71,14 +73,17 @@ public class AssetAsBuildSpecification extends BaseSpecification<AssetAsBuiltEnt
 
         Subquery<Long> sub = cq.subquery(Long.class);
         Root<?> subRoot = sub.from(notificationClass);
+        Join<?, ?> assetJoin = subRoot.join("assets");
         sub.select(builder.count(subRoot.get("id")));
+        root.join(joinTableName, JoinType.LEFT);
         sub.where(
-                builder.or(
-                        activeNotificationPredicates(builder, subRoot)
-                )
-        );
-        root.join(joinTableName);
+                builder.and(
+                        builder.or(
+                                activeNotificationPredicates(builder, subRoot)
+                        ),
+                        builder.equal(assetJoin.get("id"), root.get("id")))
 
+        );
         return builder.equal(sub, Integer.parseInt(expectedFieldValue));
     }
 

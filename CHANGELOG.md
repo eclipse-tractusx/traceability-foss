@@ -5,13 +5,52 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
 ## [UNRELEASED - DD.MM.YYYY]
+### Added
+- Added Api-Input in Argo Workflow to fix bugs
+### Changed
+- Updated mikefarah/yq from 4.35.2 to 4.40.2
+- Upgraded maven-checkstyle-plugin from 3.3.0 to 3.3.1
+- Upgraded nimbus-jose-jwt from 9.31 to 9.37.1
+- Upgraded maven-install-plugin from 3.0.1 to 3.1.1
+- Upgraded json-unit-assertj from 2.38.0 to 3.2.2
+- Upgraded asciidoctorj-diagram from 2.2.9 to 2.2.13
+
+### Removed
+
+## [9.0.0-rc4 - xx.xx.2023]
+### Added
+- Added new dashboard layout and additional widgets
+- Refactored dashboard response
+
+## [9.0.0-rc3 - 27.11.2023]
+### Added
+- DEPENDENCIES_FRONTEND, SECURITY.md, NOTICE.md, LICENSE file to frontend docker image
+- Added a step-by-step guide to register a server in pgAdmin in the database dump README
+- Documentation about technical users
+
+### Changed
+- Fixed helm repository path for backend & frontend (wrong prefix)
+- Updated user manual
+- Autocomplete endpoints changed owner String type param to Owner for input validation and sql injection prevention
+- Autocomplete endpoints repository uses now criteria api rather than native query
+- Fixed several bugs in local filtering of the parts table
+
+### Removed
+- apk upgrade in docker image built as requested by TRG 4.02
+
+## [9.0.0-rc2 - 15.11.2023]
 ### Added
 - Cypress Login to E2E Environment to enable cypress e2e tests.
 - Fixed bug in argo workflow which allows to successfully run on INT-A/INT-B
+- database dumps for environments A and B, along with a README guide for database recovery.
 - New job named 'print_environment' to the Argo-workflow that prints the selected environment to the GitHub Step Summary.
 - Added NOTIFICATION_COUNT_EQUAL filter strategy for Assets as built Specifications
 - Added new supported filter for notifications assetId that allows filtering alerts and investigations by assetId
+- Added autocompletion and local filter selection on parts table
+- Fixed bug in argo workflow which allows to successfully upload testdata
+- No logging option for cypress
 
 ### Changed
 - Fixed table-settings reset bug
@@ -22,6 +61,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Frontend adapt to backend api changes for activeAlerts and activeInvestigations
 - Reconfigured all docker images user settings
 - Adapted memory / cpu requests and limits in default values helm file
+- Fixed textarea field for dialog.
+- Removed duplicated cancel buttons from investigation and alerts workflows
+
 - Migrate to not deprecated methods in HTTP security
 - Bump actions/setup-node@ from v3 to v4
 - Bump helm/chart-releaser-action from v1.5.0 to v1.6.0
@@ -30,7 +72,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Bump spring-core version from 6.0.12 to 6.0.13
 - Bump compiler-plugin version 3.10.1 to 3.11.0
 - Bump commons-io version 2.13.0 to 2.15.0
--
+- Update IRS-helm version from 6.8.0 to 6.9.1
+- Update EDC from 0.5.0 to 0.5.3
+- Added owner param to distinctFilterValues endpoints
 
 ### Removed
 

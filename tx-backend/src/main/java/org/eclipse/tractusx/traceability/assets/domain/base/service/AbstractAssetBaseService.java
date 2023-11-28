@@ -154,14 +154,14 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
     }
 
     @Override
-    public List<String> getDistinctFilterValues(String fieldName, String startWith, Long size) {
+    public List<String> getDistinctFilterValues(String fieldName, String startWith, Integer size, Owner owner) {
         if (isSupportedEnumType(fieldName)) {
             return getAssetEnumFieldValues(fieldName);
         }
         if (isBooleanType(fieldName)) {
             return List.of("true", "false");
         }
-        return getAssetRepository().getFieldValues(fieldName, startWith, size);
+        return getAssetRepository().getFieldValues(fieldName, startWith, size, owner);
     }
 
     private boolean isBooleanType(String fieldName) {

@@ -58,7 +58,6 @@ SPDX-License-Identifier: Apache-2.0
             data-testid="table-component--head-row"
             class="table--header--row"></tr>
 
-        <ng-container *ngIf="multiSelectActive">
             <tr class="filter-row" mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"
                 [hidden]="displayedFilter"></tr>
 
@@ -68,16 +67,18 @@ SPDX-License-Identifier: Apache-2.0
                     <app-multiselect *ngIf="filter.headerKey!==filterKey"
                                      [placeholder]="'multiSelect.placeholder' | i18n"
                                      [options]="filter.option"
-                                     [multiple]='isMultipleSearch(filter)'
-                                     [textSearch]='filter.isTextSearch'
                                      [isDate]='filter.isDate'
+                                     [singleSearch]="filter.singleSearch"
+                                     [filterColumn]="filter.filterKey"
+                                     [isAsBuilt] = "mainAspectType === MainAspectType.AS_BUILT"
+                                     [partTableType]="tableType"
+                                     [placeholderMultiple]="('multiSelect.multipleResults' | i18n)"
                                      ngDefaultControl
                                      [formControl]="filterFormGroup.controls[filter.filterKey]"></app-multiselect>
                     <span class="filter-title"
                           *ngIf="filter.headerKey==='Filter'">{{ ''}}</span>
                 </th>
             </ng-container>
-        </ng-container>
         <tr
                 *matRowDef="let row; columns: tableConfig.displayedColumns"
                 [class.loading]="isDataLoading"

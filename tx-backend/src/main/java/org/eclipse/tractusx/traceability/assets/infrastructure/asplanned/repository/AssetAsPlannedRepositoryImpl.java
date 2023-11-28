@@ -29,6 +29,7 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
+import org.eclipse.tractusx.traceability.common.repository.CriteriaUtility;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
@@ -37,8 +38,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
-import static org.eclipse.tractusx.traceability.common.repository.EntityNameMapper.toDatabaseName;
-import static org.eclipse.tractusx.traceability.common.repository.SqlUtil.constructLikeWildcardQuery;
 
 @RequiredArgsConstructor
 @Component
@@ -120,13 +119,14 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository {
         return jpaAssetAsPlannedRepository.countAssetsByOwner(owner);
     }
 
-    @Override
-    public List<String> getFieldValues(String fieldName, String startWith, Long resultLimit) {
-        String databaseFieldName = toDatabaseName(fieldName);
-        String getFieldValuesQuery = "SELECT DISTINCT " + databaseFieldName + " FROM assets_as_planned" + constructLikeWildcardQuery(databaseFieldName, startWith) + " ORDER BY " + databaseFieldName + " ASC LIMIT :resultLimit";
 
-        return entityManager.createNativeQuery(getFieldValuesQuery, String.class)
-                .setParameter("resultLimit", resultLimit)
-                .getResultList();
+    @Override
+    public List<AssetAsPlannedEntity> findByOwner(Owner owner) {
+        return jpaAssetAsPlannedRepository.findByOwner(owner);
+    }
+
+    @Override
+    public List<String> getFieldValues(String fieldName, String startWith, Integer resultLimit, Owner owner) {
+        return CriteriaUtility.getDistinctAssetFieldValues(fieldName, startWith, resultLimit, owner, AssetAsPlannedEntity.class, entityManager);
     }
 }

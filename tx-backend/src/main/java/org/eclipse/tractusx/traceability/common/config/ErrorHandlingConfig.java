@@ -57,6 +57,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.io.IOException;
 import java.util.NoSuchElementException;
@@ -259,5 +260,13 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
         log.warn("handleSubmodelNotFoundException", exception);
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse(errorMessage));
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatchException(final MethodArgumentTypeMismatchException exception) {
+        log.error("MethodArgumentTypeMismatchException exception", exception);
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(exception.getMessage()));
     }
 }

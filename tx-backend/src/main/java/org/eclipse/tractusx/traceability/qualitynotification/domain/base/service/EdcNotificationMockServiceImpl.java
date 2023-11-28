@@ -17,20 +17,25 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.common.repository;
+package org.eclipse.tractusx.traceability.qualitynotification.domain.base.service;
 
-import lombok.experimental.UtilityClass;
 
-import java.util.Objects;
+import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Service;
 
-@UtilityClass
-public class SqlUtil {
+import java.util.concurrent.CompletableFuture;
 
-    public static String constructLikeWildcardQuery(String databaseFieldName, String startsWith) {
-        if (Objects.isNull(startsWith)) {
-            return "";
-        }
+import static org.eclipse.tractusx.traceability.common.config.ApplicationProfiles.INTEGRATION_SPRING_BOOT;
 
-        return " WHERE ( " + databaseFieldName + " LIKE '" + startsWith + "%')";
+@Slf4j
+@Service
+@Profile(INTEGRATION_SPRING_BOOT)
+public class EdcNotificationMockServiceImpl implements EdcNotificationService {
+    @Override
+    public CompletableFuture<QualityNotificationMessage> asyncNotificationMessageExecutor(QualityNotificationMessage notification) {
+        log.info("EdcNotificationMockServiceImpl: {}", notification);
+        return CompletableFuture.completedFuture(notification);
     }
 }
