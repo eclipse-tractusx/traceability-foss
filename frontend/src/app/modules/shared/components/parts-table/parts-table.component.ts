@@ -277,8 +277,6 @@ export class PartsTableComponent implements OnInit {
             header: CreateHeaderFromColumns(displayedColumnsForTable, headerKey),
             sortableColumns: sortableColumns,
         };
-
-        console.log(this.tableConfig, "tableconfig");
         this.displayedColumns = displayedColumns;
         for (const controlName in filterFormGroup) {
             if (filterFormGroup.hasOwnProperty(controlName)) {

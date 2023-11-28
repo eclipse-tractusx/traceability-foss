@@ -28,10 +28,6 @@ import {NotificationColumn} from "@shared/model/notification.model";
     providedIn: 'root',
 })
 export class DeeplinkService {
-
-    constructor() {
-    }
-
     public getDeeplink(column: NotificationColumn, data: any[]): DeeplinkModel {
         let route;
         let received;

@@ -57,12 +57,12 @@ export class TableSettingsService {
         let isInvalid = false;
 
         const storage = this.getStoredTableSettings();
-        if (!storage ||  !storage[tableType]){
+        if (!storage?.[tableType]){
             return false;
         }
         const storageElement = storage[tableType];
 
-        if (!storageElement || !storageElement.columnsForDialog) {
+        if (!storageElement?.columnsForDialog) {
             return false;
         }
 

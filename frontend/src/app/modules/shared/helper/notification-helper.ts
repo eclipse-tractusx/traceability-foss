@@ -18,14 +18,17 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import {DeeplinkModel} from "@shared/model/deeplink.model";
 
-export interface DeeplinkNotificationFilter{
-    receivedFilter: any,
-    sentFilter: any
+export interface DeeplinkNotificationFilter {
+    receivedFilter: DeeplinkAssetNotificationIds,
+    sentFilter: DeeplinkAssetNotificationIds
 }
 
-export function createDeeplinkNotificationFilter(params: any): DeeplinkNotificationFilter{
+export interface DeeplinkAssetNotificationIds {
+    notificationIds: string[]
+}
+
+export function createDeeplinkNotificationFilter(params: any): DeeplinkNotificationFilter {
     let receivedFilter = null;
     let sentFilter = null;
     if (params.deeplink) {
