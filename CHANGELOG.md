@@ -4,12 +4,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-
-
 ## [UNRELEASED - DD.MM.YYYY]
 ### Added
+- new filtering capabilities ( receivedQualityAlertIdsInStatusActive, sentQualityAlertIdsInStatusActive, receivedQualityInvestigationIdsInStatusActive, sentQualityInvestigationIdsInStatusActive )
+- Validation check if table-settings correct and reset on invalid state
 - Added Api-Input in Argo Workflow to fix bugs
 ### Changed
+- Filter configuration for tables to be resuable and easy to adapt
+- Realigned some mappings e.g. (manufacturer / manufacturerName) to be more clear
 - Updated mikefarah/yq from 4.35.2 to 4.40.2
 - Upgraded maven-checkstyle-plugin from 3.3.0 to 3.3.1
 - Upgraded nimbus-jose-jwt from 9.31 to 9.37.1
@@ -18,6 +20,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Upgraded asciidoctorj-diagram from 2.2.9 to 2.2.13
 
 ### Removed
+- removed asset filters ( qualityInvestigationIdsInStatusActive, qualityInvestigationIdsInStatusActive )
 
 ## [9.0.0-rc4 - xx.xx.2023]
 ### Added

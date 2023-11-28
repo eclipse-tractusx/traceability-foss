@@ -77,10 +77,10 @@ describe('SupplierPartsComponent', () => {
     const { fixture } = await renderSupplierParts({ roles: [ 'admin' ] });
     const supplierPartsComponent = fixture.componentInstance;
 
-    let nameHeader = await screen.findByText('table.column.name');
+    let nameHeader = await screen.findByText('table.column.nameAtManufacturer');
     fireEvent.click(nameHeader);
 
-    expect(supplierPartsComponent['tableSupplierAsBuiltSortList']).toEqual([ [ 'name', 'asc' ] ]);
+    expect(supplierPartsComponent['tableSupplierAsBuiltSortList']).toEqual([ [ 'nameAtManufacturer', 'asc' ] ]);
 
   });
 
@@ -88,7 +88,7 @@ describe('SupplierPartsComponent', () => {
     const { fixture } = await renderSupplierParts({ roles: [ 'admin' ] });
     const supplierPartsComponent = fixture.componentInstance;
 
-    let nameHeader = await screen.findByText('table.column.name');
+    let nameHeader = await screen.findByText('table.column.nameAtManufacturer');
     fireEvent.click(nameHeader);
     let semanticModelIdHeader = await screen.findByText('table.column.semanticModelId');
 
@@ -113,14 +113,14 @@ describe('SupplierPartsComponent', () => {
     await waitFor(() => {
       fireEvent.click(semanticModelIdHeader);
     });
-    expect(supplierPartsComponent['tableSupplierAsBuiltSortList']).toEqual([ [ 'name', 'asc' ], [ 'semanticModelId', 'desc' ] ]);
+    expect(supplierPartsComponent['tableSupplierAsBuiltSortList']).toEqual([ [ 'nameAtManufacturer', 'asc' ], [ 'semanticModelId', 'desc' ] ]);
   });
 
   it('should reset sorting on third click', async () => {
     const { fixture } = await renderSupplierParts({ roles: [ 'admin' ] });
     const supplierPartsComponent = fixture.componentInstance;
 
-    let nameHeader = await screen.findByText('table.column.name');
+    let nameHeader = await screen.findByText('table.column.nameAtManufacturer');
     fireEvent.click(nameHeader);
     let semanticModelIdHeader = await screen.findByText('table.column.semanticModelId');
 

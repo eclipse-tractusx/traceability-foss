@@ -143,6 +143,7 @@
 .mdc-text-field__input::-webkit-calendar-picker-indicator {
   display: flex !important;
 }
+
 /* Make slider of split area always visible and align with containers */
 .as-split-gutter {
   height: auto !important;
@@ -156,37 +157,45 @@
 as-split-area {
   box-shadow: 0 2px 2px -3px rgba(0, 0, 0, 0.2), 0px 4px 6px -1px rgba(0, 0, 0, 0.14), 0px 1px 8px -2px rgba(0, 0, 0, 0.12);
   border-radius: 20px;
-  overflow:hidden!important;
-  height:55vh;
+  overflow: hidden !important;
+  height: 55vh;
 }
 
 app-parts-table {
+
   /* Avoid sticky head to be over sidenav component*/
   th {
     z-index: 1 !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
   }
 }
 
-as-split{
-  height: 61vh!important;
+as-split {
+  height: 61vh !important;
 }
+
 app-other-parts {
-  .table-wrapper{
+  .table-wrapper {
     background-color: white;
-    height:40.5vh;
+    height: 40.5vh;
   }
 }
 
 app-parts, app-notification-tab {
-  .table-wrapper{
+  .table-wrapper {
     background-color: white;
-    height:45vh;
+    height: 45vh;
   }
 }
 
 app-multiselect {
   .mat-date-range-input-container {
     text-align: center !important;
+  }
+  /* Make sure multi-select text field does fit with other content and does not extend the column width */
+  .mat-mdc-form-field {
+    width: 100%;
   }
 }
 
@@ -199,7 +208,7 @@ app-multiselect {
 app-parts, app-other-parts, app-notifications-tab {
 
   .mat-mdc-table .mdc-data-table__row:last-child {
-   border-bottom: 1px solid lightgrey;
+    border-bottom: 1px solid lightgrey;
   }
 
   .app-bom-lifecycle-activator-container {
@@ -217,7 +226,6 @@ app-parts, app-other-parts, app-notifications-tab {
     border-radius: 24px 24px 0 0;
     background-color: rgba(0, 0, 0, 0.02);
     box-shadow: 0 3px 5px #888;
-    // box-shadow: 0 2px 2px -3px rgba(0, 0, 0, 0.2), 0px 4px 6px -1px rgba(0, 0, 0, 0.14), 0px 1px 8px -2px rgba(0, 0, 0, 0.12);
 
     .table-header-container {
       justify-content: center;
@@ -257,6 +265,20 @@ app-parts, app-other-parts, app-notifications-tab {
 
   }
 
+}
+
+/* Align icon with text centered*/
+app-table-settings {
+  .mat-mdc-checkbox label {
+    display: flex;
+    align-items: center;
+  }
+}
+
+
+/* Make sure multi-select text field does fit with other content and does not extend the column width */
+app-multiselect .mdc-text-field--no-label:not(.mdc-text-field--outlined):not(.mdc-text-field--textarea) .mat-mdc-form-field-infix {
+  width: 100%;
 }
 
 /* Apply correct padding for text value inside of textarea*/

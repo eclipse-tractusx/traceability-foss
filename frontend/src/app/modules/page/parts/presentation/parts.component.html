@@ -53,7 +53,7 @@ SPDX-License-Identifier: Apache-2.0
                             *viewContainer="partsAsBuilt$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
                     <ng-template #mainTmp let-parts="view">
                         <!-- asBuilt Parts Table-->
-                        <app-parts-table class="parts-asBuilt-table"
+                       <app-parts-table class="parts-asBuilt-table"
                                          [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
                                          [labelId]="titleId"
                                          [multiSelectActive]="true"

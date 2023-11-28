@@ -25,7 +25,7 @@ import _deepClone from 'lodash-es/cloneDeep';
 
 export class RelationsAssembler {
   public static assemblePartForRelation(part: Part, idFallback?: string): TreeElement {
-    const { id, name: text = idFallback, semanticDataModel, children, parents } = part || {};
+    const { id, nameAtManufacturer: text = idFallback, semanticDataModel, children, parents } = part || {};
 
     const mapBatchToState = (type: SemanticDataModel): SemanticDataModel | string => {
       if(type && type.toUpperCase() in SemanticDataModel) {

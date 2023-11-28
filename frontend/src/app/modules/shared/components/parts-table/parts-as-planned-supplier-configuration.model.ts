@@ -16,10 +16,21 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-export interface TableViewConfig {
-  displayedColumns: string[],
-  filterColumns: string[],
-  sortableColumns: Record<string,boolean>,
-  displayFilterColumnMappings: any[],
-  filterFormGroup: any
+import {TableFilterConfiguration} from "@shared/components/parts-table/parts-config.model";
+
+export class PartsAsPlannedSupplierConfigurationModel extends TableFilterConfiguration {
+
+    constructor() {
+        const sortableColumns = {
+            select: false,
+            semanticDataModel: true,
+            nameAtManufacturer: true,
+            manufacturerName: true,
+            manufacturerPartId: true,
+            semanticModelId: true,
+            //menu: false
+        };
+        super(sortableColumns);
+    }
 }
+

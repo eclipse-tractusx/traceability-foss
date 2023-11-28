@@ -26,7 +26,7 @@ import { TreeElement, TreeStructure } from '@shared/modules/relations/model/rela
 describe('Relations assembler', () => {
   describe('assemblePartForRelation', () => {
     it('should assemble loading part', () => {
-      const part = { id: 'id', name: 'name', semanticModelId: 'semanticModelId', children: null, parents: null } as Part;
+      const part = { id: 'id', nameAtManufacturer: 'name', semanticModelId: 'semanticModelId', children: null, parents: null } as Part;
       const expected = {
         children: null,
         parents: null,
@@ -38,7 +38,7 @@ describe('Relations assembler', () => {
       expect(RelationsAssembler.assemblePartForRelation(part)).toEqual(expected);
     });
     it('should assemble finished loading part', () => {
-      const part = { id: 'id', name: 'name', semanticModelId: 'semanticModelId', children: [], parents: [] } as Part;
+      const part = { id: 'id', nameAtManufacturer: 'name', semanticModelId: 'semanticModelId', children: [], parents: [] } as Part;
       const expected = {
         children: [],
         parents: [],

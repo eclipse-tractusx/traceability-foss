@@ -16,10 +16,23 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-export interface TableViewConfig {
-  displayedColumns: string[],
-  filterColumns: string[],
-  sortableColumns: Record<string,boolean>,
-  displayFilterColumnMappings: any[],
-  filterFormGroup: any
-}
+
+import {TestBed} from "@angular/core/testing";
+import {TableSettingsService} from "@core/user/table-settings.service";
+
+describe('TableSettingsService', () => {
+    let service: TableSettingsService;
+
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            imports: [],
+            providers: [TableSettingsService],
+        });
+        service = TestBed.inject(TableSettingsService);
+    });
+
+
+    it('should be created', () => {
+        expect(service).toBeTruthy();
+    });
+});
