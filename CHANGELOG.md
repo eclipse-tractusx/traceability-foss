@@ -9,6 +9,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [UNRELEASED - DD.MM.YYYY]
 ### Added
 - Added Api-Input in Argo Workflow to fix bugs
+- Added implementation for cucumber tests for quality investigations
 ### Changed
 - Updated mikefarah/yq from 4.35.2 to 4.40.2
 - Upgraded maven-checkstyle-plugin from 3.3.0 to 3.3.1
