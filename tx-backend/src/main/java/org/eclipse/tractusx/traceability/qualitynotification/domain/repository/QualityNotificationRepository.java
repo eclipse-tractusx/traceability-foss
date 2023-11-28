@@ -55,4 +55,5 @@ public interface QualityNotificationRepository {
     PageResult<QualityNotification> getNotifications(Pageable pageable, SearchCriteria searchCriteria);
 
     long countOpenNotificationsByOwnership(List<Owner> owners);
+
 }
