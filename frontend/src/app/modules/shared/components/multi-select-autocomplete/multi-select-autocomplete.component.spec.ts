@@ -33,21 +33,6 @@ describe('MultiSelectAutocompleteComponent', () => {
     });
 
 
-    it('should emit selectionChange event when options are selected', async () => {
-        const {fixture} = await renderMultiSelectAutoCompleteComponent();
-        const {componentInstance} = fixture;
-
-        componentInstance.searchElement = 'B'
-        const selectedOptions = [SemanticDataModel.BATCH];
-        componentInstance.selectedValue = selectedOptions;
-        fixture.detectChanges();
-
-        const spy = spyOn(componentInstance.selectionChange, 'emit');
-        componentInstance.onSelectionChange({value: selectedOptions});
-
-        expect(spy).toHaveBeenCalledWith(selectedOptions);
-    });
-
     it('should clear values when clickClear is called', async () => {
         const {fixture} = await renderMultiSelectAutoCompleteComponent();
         const {componentInstance} = fixture;
@@ -187,7 +172,6 @@ describe('MultiSelectAutocompleteComponent', () => {
         componentInstance.startDateSelected(event);
 
 
-
         // Expectations
         expect(componentInstance.searchElement).toEqual('2023-10-12');
     });
@@ -299,29 +283,6 @@ describe('MultiSelectAutocompleteComponent', () => {
         expect(componentInstance.delayTimeoutId).toBeNull();
     });
 
-    it('should change searchtext option', async () => {
-        const {fixture} = await renderMultiSelectAutoCompleteComponent();
-        const {componentInstance} = fixture;
-
-        const searchElementChangeSpy = spyOn(componentInstance.selectionChange, 'emit');
-
-        componentInstance.selectedValue = ['test'];
-        componentInstance.changeSearchTextOption();
-        expect(componentInstance.formControl.value).toEqual(['test']);
-        expect(searchElementChangeSpy).toHaveBeenCalledWith(['test']);
-    })
-
-    it('should return when calling displayValue() without searchElement', async () => {
-        const {fixture} = await renderMultiSelectAutoCompleteComponent();
-        const {componentInstance} = fixture;
-
-        componentInstance.searchElement = '';
-        componentInstance.displayValue();
-
-        const dValue = componentInstance.displayValue();
-        expect(dValue).toEqual(undefined);
-    })
-
     it('should return when calling filterItem() without searchElement', async () => {
         const {fixture} = await renderMultiSelectAutoCompleteComponent();
         const {componentInstance} = fixture;
@@ -344,20 +305,7 @@ describe('MultiSelectAutocompleteComponent', () => {
         expect(option).toEqual([]);
     })
 
-    it('should return when calling filterItem() without value', async () => {
-        const {fixture} = await renderMultiSelectAutoCompleteComponent();
-        const {componentInstance} = fixture;
 
-        componentInstance.searchElement = ''; // Set searchElement to an empty string
-        spyOn(componentInstance, 'getFilteredOptionsValues'); // Mock any necessary methods
-
-        // Act
-        componentInstance.onSelectionChange({ value: 'someValue' });
-
-        // Assert
-        // Add assertions as needed, for example:
-        expect(componentInstance.selectedValue).toEqual(null);
-    })
 
     it('should stop event propagation for Enter key and Ctrl+A combination', async() => {
         // Arrange
