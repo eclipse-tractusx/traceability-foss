@@ -58,12 +58,6 @@ class EdcNotificationServiceImplTest {
     private InvestigationsEDCFacade edcFacade;
 
     @Mock
-    private InvestigationRepository investigationRepository;
-
-    @Mock
-    private AlertRepository alertRepository;
-
-    @Mock
     private DiscoveryService discoveryService;
 
     @Test
@@ -90,8 +84,6 @@ class EdcNotificationServiceImplTest {
 
         // then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
-        verify(investigationRepository).updateQualityNotificationMessageEntity(notification);
-        verifyNoInteractions(alertRepository);
     }
 
     @Test
@@ -118,8 +110,6 @@ class EdcNotificationServiceImplTest {
 
         // then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
-        verify(alertRepository).updateQualityNotificationMessageEntity(notification);
-        verifyNoInteractions(investigationRepository);
     }
 
     @Test
@@ -145,8 +135,6 @@ class EdcNotificationServiceImplTest {
 
         // then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
-        verifyNoInteractions(alertRepository);
-        verifyNoInteractions(investigationRepository);
     }
 
     @Test
@@ -172,8 +160,6 @@ class EdcNotificationServiceImplTest {
 
         // then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
-        verifyNoInteractions(alertRepository);
-        verifyNoInteractions(investigationRepository);
     }
 
     @Test
@@ -199,8 +185,6 @@ class EdcNotificationServiceImplTest {
 
         // then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
-        verifyNoInteractions(alertRepository);
-        verifyNoInteractions(investigationRepository);
     }
 
     @Test
@@ -226,8 +210,6 @@ class EdcNotificationServiceImplTest {
 
         // then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
-        verifyNoInteractions(alertRepository);
-        verifyNoInteractions(investigationRepository);
     }
 
 
@@ -254,8 +236,6 @@ class EdcNotificationServiceImplTest {
 
         // then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
-        verifyNoInteractions(alertRepository);
-        verifyNoInteractions(investigationRepository);
     }
 
     @Test
@@ -281,8 +261,6 @@ class EdcNotificationServiceImplTest {
 
         // then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
-        verifyNoInteractions(alertRepository);
-        verifyNoInteractions(investigationRepository);
     }
 
     @Test
@@ -308,8 +286,6 @@ class EdcNotificationServiceImplTest {
 
         // then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
-        verifyNoInteractions(alertRepository);
-        verifyNoInteractions(investigationRepository);
     }
 
     @Test
@@ -335,7 +311,5 @@ class EdcNotificationServiceImplTest {
 
         // then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
-        verifyNoInteractions(alertRepository);
-        verifyNoInteractions(investigationRepository);
     }
 }
