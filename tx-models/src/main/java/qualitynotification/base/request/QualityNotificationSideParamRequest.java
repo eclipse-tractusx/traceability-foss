@@ -16,12 +16,13 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package qualitynotification.base.response;
+
+package qualitynotification.base.request;
 
 import io.swagger.annotations.ApiModel;
 
 @ApiModel(description = "Describes the side of quality notification")
-public enum QualityNotificationSideResponse {
+public enum QualityNotificationSideParamRequest {
     SENDER,
     RECEIVER
 }
