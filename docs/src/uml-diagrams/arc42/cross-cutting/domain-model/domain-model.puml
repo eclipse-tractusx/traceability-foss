@@ -10,6 +10,7 @@ class ImportJobs {
     startedOn : Instant(UTC)
     completedOn : Instant(UTC)
     importStatus : enum()
+    importedAsset : Collection<ImportedAsset>
 }
 
 class ImportedAsset{
@@ -17,7 +18,7 @@ class ImportedAsset{
     importStatus : enum()
     importMessage : String (max = 4000)
     importedOn : Instant(UTC)
-    catenaXId : String (max = 255)
+    asset : Asset
 }
 
 
@@ -125,6 +126,11 @@ class PartSiteInformationAsPlanned {
 
 }
 
+ImportedAsset ||---|| Asset
+ImportJobs ||---o{ ImportedAsset
+note left
+    1 ... 10.000 ImportedAsset per ImportJobs
+end note
 SemanticDataModelType <-- Asset
 DetailSemanticDataModelType <-- DetailAspectModelModel
 Asset <|.. AsBuiltAspectModel

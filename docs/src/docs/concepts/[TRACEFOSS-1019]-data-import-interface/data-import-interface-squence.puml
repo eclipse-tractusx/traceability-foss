@@ -38,7 +38,15 @@ end alt
 Backend -> Persistence : Import assets to database
 
     loop for each asset in file
-
+        Backend -> Backend : get user from OAuth access token.
+        note left
+              "resource_access": {
+                "Cl17-CX-Part": {
+                  "roles": [
+                    "Supervisor"
+                  ]
+                },
+        end note
         alt asset does not exist
             Persistence --> Database : save(asset) with  state TRANSIENT
             Persistence <-- Database : success
