@@ -23,11 +23,11 @@ import { QualityInvestigationsPage } from '../../integration/pages/QualityInvest
 
 let notificationDescription = null;
 
-Then("select {string} other part", (partAmount) => {
+Then("select other part with semantic-model-id {string}", (semanticModelId) => {
 //since IDs of desired asset are not shown in FE the selection has to be done by other number.
   cy.get('span').contains('As Planned').click(); // This has to be done to avoid asPlanned selection
-  cy.get('#mat-mdc-checkbox-38*').click(); //---TBD--- this is only a method to make it run, has to be changed to selected part.
-
+  //cy.get('span').contains('NO-989134870198932317923938').closest('tr').find('.mdc-checkbox').click();
+  cy.get('span').contains(semanticModelId).closest('tr').find('.mdc-checkbox').click();
 });
 
 
