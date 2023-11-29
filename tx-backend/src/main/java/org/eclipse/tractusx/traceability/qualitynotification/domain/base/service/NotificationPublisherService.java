@@ -31,6 +31,7 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.SendNotificationException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationAffectedPart;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
@@ -38,6 +39,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.exception.QualityNotificationIllegalUpdate;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.repository.QualityNotificationRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.Clock;
@@ -207,16 +209,18 @@ public class NotificationPublisherService {
      */
     public QualityNotification approveNotification(QualityNotification notification) {
         BPN applicationBPN = traceabilityProperties.getBpn();
-
+        notification.send(applicationBPN);
         // For each asset within investigation a notification was created before
         List<CompletableFuture<QualityNotificationMessage>> futures = notification.getNotifications().stream()
-                .map(edcNotificationService::asyncNotificationMessageExecutor).filter(Objects::nonNull).toList();
+                .map(edcNotificationService::asyncNotificationMessageExecutor)
+                .filter(Objects::nonNull)
+                .toList();
         List<QualityNotificationMessage> sentMessages = futures.stream()
                 .map(CompletableFuture::join)
                 .filter(Objects::nonNull)
                 .toList();
-        if (!sentMessages.isEmpty()) {
-            notification.send(applicationBPN);
+        if (sentMessages.isEmpty()) {
+            throw new SendNotificationException("No Message was sent");
         }
         return notification;
     }
@@ -237,26 +241,31 @@ public class NotificationPublisherService {
         log.info("::updateNotificationPublisher::allLatestNotificationForEdcNotificationId {}", allLatestNotificationForEdcNotificationId);
         allLatestNotificationForEdcNotificationId.forEach(qNotification -> {
             QualityNotificationMessage notificationToSend = qNotification.copyAndSwitchSenderAndReceiver(applicationBPN);
+            switch (status) {
+                case ACKNOWLEDGED -> notification.acknowledge(notificationToSend);
+                case ACCEPTED -> notification.accept(reason, notificationToSend);
+                case DECLINED -> notification.decline(reason, notificationToSend);
+                case CLOSED -> notification.close(reason, notificationToSend);
+                default ->
+                        throw new QualityNotificationIllegalUpdate("Transition from status '%s' to status '%s' is not allowed for notification with id '%s'".formatted(notification.getNotificationStatus().name(), status, notification.getNotificationId()));
+            }
             log.info("::updateNotificationPublisher::notificationToSend {}", notificationToSend);
             notification.addNotification(notificationToSend);
             notificationsToSend.add(notificationToSend);
         });
 
         List<CompletableFuture<QualityNotificationMessage>> futures = notificationsToSend.stream()
-                .map(edcNotificationService::asyncNotificationMessageExecutor).filter(Objects::nonNull).toList();
+                .map(edcNotificationService::asyncNotificationMessageExecutor)
+                .filter(Objects::nonNull)
+                .toList();
         List<QualityNotificationMessage> sentMessages = futures.stream()
-                .map(CompletableFuture::join).toList();
+                .map(CompletableFuture::join)
+                .filter(Objects::nonNull)
+                .toList();
 
-        sentMessages.forEach(message -> {
-            switch (status) {
-                case ACKNOWLEDGED -> notification.acknowledge(message);
-                case ACCEPTED -> notification.accept(reason, message);
-                case DECLINED -> notification.decline(reason, message);
-                case CLOSED -> notification.close(reason, message);
-                default ->
-                        throw new QualityNotificationIllegalUpdate("Transition from status '%s' to status '%s' is not allowed for notification with id '%s'".formatted(notification.getNotificationStatus().name(), status, notification.getNotificationId()));
-            }
-        });
+        if (sentMessages.isEmpty()) {
+            throw new SendNotificationException("No Message was sent");
+        }
 
         return notification;
     }

@@ -23,4 +23,8 @@ public class SendNotificationException extends RuntimeException {
     public SendNotificationException(final String message, final Throwable exception) {
         super(message, exception);
     }
+
+    public SendNotificationException(final String message) {
+        super(message);
+    }
 }

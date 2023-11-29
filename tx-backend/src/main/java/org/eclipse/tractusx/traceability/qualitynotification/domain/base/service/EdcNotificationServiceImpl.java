@@ -26,16 +26,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
 import org.eclipse.tractusx.traceability.discovery.domain.model.Discovery;
 import org.eclipse.tractusx.traceability.discovery.domain.service.DiscoveryService;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.AlertRepository;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.ContractNegotiationException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.NoCatalogItemException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.NoEndpointDataReferenceException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.SendNotificationException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.asset.service.EdcNotificationAssetService;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.repository.QualityNotificationRepository;
 import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -53,8 +49,6 @@ import static org.eclipse.tractusx.traceability.common.config.ApplicationProfile
 public class EdcNotificationServiceImpl implements EdcNotificationService {
 
     private final InvestigationsEDCFacade edcFacade;
-    private final InvestigationRepository investigationRepository;
-    private final AlertRepository alertRepository;
     private final DiscoveryService discoveryService;
 
 
@@ -69,28 +63,27 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
         if (notification.getType().equals(QualityNotificationType.ALERT)) {
             log.info("::asyncNotificationExecutor::isQualityAlert");
             sendResults = receiverUrls
-                    .stream().map(receiverUrl -> handleSendingNotification(notification, senderEdcUrl, receiverUrl, alertRepository)).toList();
+                    .stream().map(receiverUrl -> handleSendingNotification(notification, senderEdcUrl, receiverUrl)).toList();
         }
 
         if (notification.getType().equals(QualityNotificationType.INVESTIGATION)) {
             log.info("::asyncNotificationExecutor::isQualityInvestigation");
             sendResults = receiverUrls
-                    .stream().map(receiverUrl -> handleSendingNotification(notification, senderEdcUrl, receiverUrl, investigationRepository)).toList();
+                    .stream().map(receiverUrl -> handleSendingNotification(notification, senderEdcUrl, receiverUrl)).toList();
         }
 
         Boolean wasSent = sendResults.stream().anyMatch(Boolean.TRUE::equals);
 
-        if(Boolean.TRUE.equals(wasSent)) {
+        if (Boolean.TRUE.equals(wasSent)) {
             return CompletableFuture.completedFuture(notification);
         }
 
         return CompletableFuture.completedFuture(null);
     }
 
-    private boolean handleSendingNotification(QualityNotificationMessage notification, String senderEdcUrl, String receiverUrl, QualityNotificationRepository repository) {
+    private boolean handleSendingNotification(QualityNotificationMessage notification, String senderEdcUrl, String receiverUrl) {
         try {
             edcFacade.startEdcTransfer(notification, receiverUrl, senderEdcUrl);
-            repository.updateQualityNotificationMessageEntity(notification);
             return true;
         } catch (NoCatalogItemException e) {
             log.warn("Could not send notification to {} no catalog item found. ", receiverUrl, e);
