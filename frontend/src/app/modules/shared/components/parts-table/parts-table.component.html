@@ -86,14 +86,13 @@ SPDX-License-Identifier: Apache-2.0
                 [class.loading]="isDataLoading"
                 [class.no-hover]="!showHover"
                 [ngClass]="{'highlighted': (row?.receivedActiveInvestigations?.length > 0 || row?.receivedActiveAlerts?.length > 0 || row?.sentActiveAlerts?.length > 0 || row?.sentActiveInvestigations?.length > 0), 'error': row?.errorMessage }"
-                (click)="selectElement(row)"
                 mat-row
                 data-testid="table-component--body-row"
         ></tr>
 
         <ng-container *ngIf="!!tableConfig.menuActionsConfig">
             <tr
-                    *matRowDef="let row; columns: ['expandMenuActions']"
+                    *matRowDef="let row; columns: ['menu']"
                     class="expand-row no-hover table--menu__mobile"
                     mat-row
             ></tr>
