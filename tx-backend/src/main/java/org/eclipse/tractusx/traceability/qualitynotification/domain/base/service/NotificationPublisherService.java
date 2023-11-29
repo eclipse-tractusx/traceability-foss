@@ -266,7 +266,6 @@ public class NotificationPublisherService {
         if (sentMessages.isEmpty()) {
             throw new SendNotificationException("No Message was sent");
         }
-//        sentMessages.forEach(repository::updateQualityNotificationMessageEntity);
 
         return notification;
     }
