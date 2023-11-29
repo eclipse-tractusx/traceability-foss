@@ -218,16 +218,17 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
                             value: option,
                         }));
                     } else {
+                        console.log(this.selectedValue, "values selected");
+                        console.log(res, "res");
+                        console.log(this.selectedValue.includes(res[0]));
                         // add filter for not selected
-                        this.options = res
-                            .filter(option => !this.selectedValue.includes(option.value))
-                            .map(option => ({display: option, value: option}));
                         this.searchedOptions = res
-                            .filter(option => !this.selectedValue.includes(option.value))
+                            .filter(option => !this.selectedValue.includes(option))
                             .map(option => ({display: option, value: option}));
+                        this.options = this.searchedOptions;
                     }
 
-                    this.filteredOptions = this.options;
+                    this.filteredOptions = this.searchedOptions;
                     this.suggestionError = !this.filteredOptions.length;
                 }).catch((error) => {
                     console.error('Error fetching data: ', error);
