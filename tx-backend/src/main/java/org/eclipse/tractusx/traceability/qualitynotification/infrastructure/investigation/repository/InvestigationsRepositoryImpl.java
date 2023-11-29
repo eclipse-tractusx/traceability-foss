@@ -39,7 +39,6 @@ import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.inve
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationNotificationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
@@ -69,13 +68,6 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
     private final Clock clock;
 
     @Override
-    public void updateQualityNotificationMessageEntity(QualityNotificationMessage notification) {
-        InvestigationNotificationEntity entity = notificationRepository.findById(notification.getId())
-                .orElseThrow(() -> new IllegalArgumentException(String.format("Notification with id %s not found!", notification.getId())));
-        handleNotificationUpdate(entity, notification);
-    }
-
-    @Override
     public PageResult<QualityNotification> getNotifications(Pageable pageable, SearchCriteria searchCriteria) {
         List<InvestigationSpecification> investigationSpecifications = emptyIfNull(searchCriteria.getSearchCriteriaFilterList()).stream()
                 .map(InvestigationSpecification::new)
@@ -93,6 +85,11 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
                 .filter(assetAsBuiltEntity -> owners.contains(assetAsBuiltEntity.getOwner()))
                 .distinct()
                 .toList().size();
+    }
+
+    @Override
+    public List<String> getDistinctFieldValues(String fieldName, String startWith, Integer resultLimit, QualityNotificationSide channel) {
+        return null; // TODO : Implement
     }
 
     @Override
@@ -132,20 +129,9 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
     }
 
     @Override
-    public PageResult<QualityNotification> findQualityNotificationsBySide(QualityNotificationSide investigationSide, Pageable pageable) {
-        Page<InvestigationEntity> entities = jpaInvestigationRepository.findAllBySideEquals(NotificationSideBaseEntity.valueOf(investigationSide.name()), pageable);
-        return new PageResult<>(entities, InvestigationEntity::toDomain);
-    }
-
-    @Override
     public Optional<QualityNotification> findOptionalQualityNotificationById(QualityNotificationId investigationId) {
         return jpaInvestigationRepository.findById(investigationId.value())
                 .map(InvestigationEntity::toDomain);
-    }
-
-    @Override
-    public long countQualityNotificationEntitiesByStatus(QualityNotificationStatus qualityNotificationStatus) {
-        return jpaInvestigationRepository.countAllByStatusEquals(NotificationStatusBaseEntity.valueOf(qualityNotificationStatus.name()));
     }
 
     @Override

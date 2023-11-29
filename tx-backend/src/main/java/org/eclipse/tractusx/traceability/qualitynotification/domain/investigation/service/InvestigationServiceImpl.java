@@ -31,9 +31,6 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationNotFoundException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.repository.QualityNotificationRepository;
 import org.springframework.stereotype.Service;
-import qualitynotification.base.request.QualityNotificationSideParamRequest;
-
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -78,11 +75,6 @@ public class InvestigationServiceImpl extends AbstractQualityNotificationService
     public QualityNotification loadByEdcNotificationIdOrNotFoundException(String edcNotificationId) {
         return getQualityNotificationRepository().findByEdcNotificationId(edcNotificationId)
                 .orElseThrow(() -> new InvestigationNotFoundException(edcNotificationId));
-    }
-
-    @Override
-    public List<String> getDistinctFilterValues(String s, String startWith, Integer size, QualityNotificationSideParamRequest channel) {
-        return null; // TODO: Implement
     }
 
     @Override

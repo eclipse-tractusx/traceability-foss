@@ -41,6 +41,7 @@ import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.mapper.QualityNotificationFieldMapper;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.service.QualityNotificationService;
 import org.eclipse.tractusx.traceability.qualitynotification.application.investigation.mapper.InvestigationResponseMapper;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -557,7 +558,7 @@ public class InvestigationsController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("distinctFilterValues")
     public List<String> distinctFilterValues(@QueryParam("fieldName") String fieldName, @QueryParam("size") Integer size, @QueryParam("startWith") String startWith, @QueryParam("channel") QualityNotificationSideParamRequest channel) {
-        return investigationService.getDistinctFilterValues(fieldMapper.mapRequestFieldName(fieldName), startWith, size, channel);
+        return investigationService.getDistinctFilterValues(fieldMapper.mapRequestFieldName(fieldName), startWith, size, QualityNotificationSide.valueOf(channel.name()));
     }
 }
 

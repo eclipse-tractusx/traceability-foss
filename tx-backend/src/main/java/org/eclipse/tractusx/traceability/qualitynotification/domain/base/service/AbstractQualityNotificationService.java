@@ -29,8 +29,6 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.repository.QualityNotificationRepository;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -43,18 +41,6 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
     protected abstract AssetAsBuiltServiceImpl getAssetAsBuiltServiceImpl();
 
     protected abstract void setAssetStatus(QualityNotification qualityNotification);
-
-    @Deprecated
-    @Override
-    public PageResult<QualityNotification> getCreated(Pageable pageable) {
-        return getQualityNotificationsPageResult(pageable, QualityNotificationSide.SENDER);
-    }
-
-    @Deprecated
-    @Override
-    public PageResult<QualityNotification> getReceived(Pageable pageable) {
-        return getQualityNotificationsPageResult(pageable, QualityNotificationSide.RECEIVER);
-    }
 
     @Override
     public PageResult<QualityNotification> getNotifications(Pageable pageable, SearchCriteria searchCriteria){
@@ -95,13 +81,6 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
         getQualityNotificationRepository().updateQualityNotificationEntity(approvedInvestigation);
     }
 
-    private PageResult<QualityNotification> getQualityNotificationsPageResult(Pageable pageable, QualityNotificationSide alertSide) {
-        List<QualityNotification> alertData = getQualityNotificationRepository().findQualityNotificationsBySide(alertSide, pageable)
-                .content();
-        Page<QualityNotification> alertDataPage = new PageImpl<>(alertData, pageable, getQualityNotificationRepository().countQualityNotificationEntitiesBySide(alertSide));
-        return new PageResult<>(alertDataPage);
-    }
-
     @Override
     public void cancel(Long notificationId) {
         QualityNotification qualityNotification = loadOrNotFoundException(new QualityNotificationId(notificationId));
@@ -109,5 +88,11 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
 
         setAssetStatus(canceledQualityNotification);
         getQualityNotificationRepository().updateQualityNotificationEntity(canceledQualityNotification);
+    }
+
+    @Override
+    public List<String> getDistinctFilterValues(String fieldName, String startWith, Integer size, QualityNotificationSide side) {
+        getQualityNotificationRepository().getDistinctFieldValues(fieldName, startWith, size, side);
+        return null; // TODO: Implement
     }
 }

@@ -73,13 +73,6 @@ public class AlertsRepositoryImpl implements AlertRepository {
     private final Clock clock;
 
     @Override
-    public void updateQualityNotificationMessageEntity(QualityNotificationMessage notification) {
-        AlertNotificationEntity entity = notificationRepository.findById(notification.getId())
-                .orElseThrow(() -> new IllegalArgumentException(String.format("Notification with id %s not found!", notification.getId())));
-        handleNotificationUpdate(entity, notification);
-    }
-
-    @Override
     public PageResult<QualityNotification> getNotifications(Pageable pageable, SearchCriteria searchCriteria) {
         List<AlertSpecification> alertsSpecifications = emptyIfNull(searchCriteria.getSearchCriteriaFilterList()).stream()
                 .map(AlertSpecification::new)
@@ -123,20 +116,9 @@ public class AlertsRepositoryImpl implements AlertRepository {
     }
 
     @Override
-    public PageResult<QualityNotification> findQualityNotificationsBySide(QualityNotificationSide alertSide, Pageable pageable) {
-        Page<AlertEntity> entities = jpaAlertRepository.findAllBySideEquals(NotificationSideBaseEntity.valueOf(alertSide.name()), pageable);
-        return new PageResult<>(entities, AlertEntity::toDomain);
-    }
-
-    @Override
     public Optional<QualityNotification> findOptionalQualityNotificationById(QualityNotificationId alertId) {
         return jpaAlertRepository.findById(alertId.value())
                 .map(AlertEntity::toDomain);
-    }
-
-    @Override
-    public long countQualityNotificationEntitiesByStatus(QualityNotificationStatus qualityNotificationStatus) {
-        return jpaAlertRepository.countAllByStatusEquals(NotificationStatusBaseEntity.valueOf(qualityNotificationStatus.name()));
     }
 
     @Transactional
@@ -160,6 +142,11 @@ public class AlertsRepositoryImpl implements AlertRepository {
                 .filter(assetAsBuiltEntity -> owners.contains(assetAsBuiltEntity.getOwner()))
                 .distinct()
                 .toList().size();
+    }
+
+    @Override
+    public List<String> getDistinctFieldValues(String fieldName, String startWith, Integer resultLimit, QualityNotificationSide owner) {
+        return null; // TODO : Implement
     }
 
     @Override
