@@ -31,6 +31,7 @@ abstract Asset {
         nameAtManufacturer : String  (max = 255) /' partTypeInformation.nameAtManufacturer '/
         manufacturerPartId : String (max = 255) /' partTypeInformation.manufacturerPartId '/
 
+        assetSyncStatus : AssetSyncStatus /' Status of asset in database'/
         owner : OwnerResponse
         activeAlert: boolean
         qualityType : QualityType
@@ -55,6 +56,7 @@ end note
 
 abstract DetailAspectModelModel {
     detailSemanticDataModelType : DetailSemanticDataModelType
+    semanticPayload : SemanticPayload
 }
 note left
     DetailAspectModelModel
@@ -79,6 +81,12 @@ enum SemanticDataModelType {
     PARTASPLANNED
 }
 
+enum AssetSyncStatus {
+    TRANSIENT,
+    SYNCHRONIZED,
+    IN_SYNCHRONIZATION,
+    FORCE_DELETED
+}
 
 enum DetailSemanticDataModelType {
     TRACTIONBATTERYCODE,
@@ -132,6 +140,7 @@ note left
     1 ... 10.000 ImportedAsset per ImportJobs
 end note
 SemanticDataModelType <-- Asset
+AssetSyncStatus <-- Asset
 DetailSemanticDataModelType <-- DetailAspectModelModel
 Asset <|.. AsBuiltAspectModel
 Asset <|... AsPlannedAspectModel

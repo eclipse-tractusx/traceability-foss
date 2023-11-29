@@ -6,8 +6,8 @@ skinparam defaultFontName "Architects daughter"
 autonumber "<b>[000]"
 
 actor Actor
-participant "Trace-X Backend" as Backend
-participant "Persistence Layer" as Persistence
+participant "ImportService" as Backend
+participant "DaoImportService" as Persistence
 participant "ImportProtocolService" as ImportProtocolService
 database "Database" as Database
 Actor -> Backend : POST /assets/import
@@ -34,6 +34,10 @@ else  check input
         Actor <-- Backend : 200 OK
     end alt
 end alt
+
+ref over  ImportService
+    Validation of input file
+end ref
 
 Backend -> Persistence : Import assets to database
 
