@@ -25,6 +25,7 @@ import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.SendNotificationException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationAffectedPart;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
@@ -165,11 +166,8 @@ class NotificationPublisherServiceTest {
         when(traceabilityProperties.getBpn()).thenReturn(bpn);
         when(notificationsService.asyncNotificationMessageExecutor(any())).thenReturn(CompletableFuture.completedFuture(null));
 
-        // When
-        QualityNotification result = notificationPublisherService.approveNotification(investigation);
-
-        // Then
-        assertThat(result.getNotificationStatus()).isEqualTo(QualityNotificationStatus.CREATED);
+        // When/Then
+        assertThrows(SendNotificationException.class, () -> notificationPublisherService.approveNotification(investigation));
         verify(notificationsService).asyncNotificationMessageExecutor(any());
     }
 
