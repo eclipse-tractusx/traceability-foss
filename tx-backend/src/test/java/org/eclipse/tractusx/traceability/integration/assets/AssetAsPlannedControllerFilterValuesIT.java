@@ -23,6 +23,7 @@ import io.restassured.http.ContentType;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
 import org.jose4j.lang.JoseException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -34,45 +35,46 @@ import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 import static org.hamcrest.Matchers.is;
 
-public class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecification {
+class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecification {
 
     @Autowired
     AssetsSupport assetsSupport;
 
+    @BeforeEach
+    void before() {
+        assetsSupport.defaultAssetsAsPlannedStored();
+    }
+
+    private static Stream<Arguments> fieldNameTestProvider() {
+        return Stream.of(
+            Arguments.of("id", 10L, 2),
+            Arguments.of("id", 1L, 1),
+            Arguments.of("inInvestigation", 10L, 1),
+            Arguments.of("owner", 10L, 4),
+            Arguments.of("semanticDataModel", 10L, 5),
+            Arguments.of("qualityType", 10L, 5)
+        );
+    }
+
     @ParameterizedTest
     @MethodSource("fieldNameTestProvider")
     void givenNotEnumTypeFieldNameAndSize_whenCallDistinctFilterValues_thenProperResponse(
-            String fieldName,
-            Long resultLimit,
-            Integer expectedSize
+            final String fieldName,
+            final Long resultLimit,
+            final Integer expectedSize
     ) throws JoseException {
-        // given
-        assetsSupport.defaultAssetsAsPlannedStored();
-        final String fieldNameParam = "fieldName=" + fieldName;
-        final String sizeParam = "size=" + resultLimit.toString();
-
-        // then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
+                .param("fieldName", fieldName)
+                .param("size", resultLimit)
                 .log().all()
                 .when()
-                .get("/api/assets/as-planned/distinctFilterValues?" + fieldNameParam + "&" + sizeParam)
+                .get("/api/assets/as-planned/distinctFilterValues")
                 .then()
                 .log().all()
                 .statusCode(200)
                 .assertThat()
                 .body("size()", is(expectedSize));
-    }
-
-    private static Stream<Arguments> fieldNameTestProvider() {
-        return Stream.of(
-                Arguments.of("id", 10L, 2),
-                Arguments.of("id", 1L, 1),
-                Arguments.of("inInvestigation", 10L, 1),
-                Arguments.of("owner", 10L, 4),
-                Arguments.of("semanticDataModel", 10L, 5),
-                Arguments.of("qualityType", 10L, 5)
-        );
     }
 }

@@ -47,25 +47,28 @@ public class AssetsSupport {
     }
 
     public void defaultAssetsStored() {
-        assetRepositoryProvider.assetAsBuiltRepository().saveAll(assetRepositoryProvider.assetsConverter().readAndConvertAssetsForTests());
+        assetRepositoryProvider.assetAsBuiltRepository()
+                .saveAll(assetRepositoryProvider.assetsConverter().readAndConvertAssetsForTests());
     }
 
     public void defaultMultipleAssetsAsBuiltStored() {
-        assetRepositoryProvider.assetAsBuiltRepository().saveAll(assetRepositoryProvider.assetsConverter().readAndConvertMultipleAssetsAsBuiltForTests());
+        assetRepositoryProvider.assetAsBuiltRepository()
+                .saveAll(assetRepositoryProvider.assetsConverter().readAndConvertMultipleAssetsAsBuiltForTests());
     }
 
     public void tractionBatteryCodeAssetsStored() {
-        assetRepositoryProvider.assetAsBuiltRepository().saveAll(assetRepositoryProvider.assetsConverter().readAndConvertTractionBatteryCodeAssetsForTests());
+        assetRepositoryProvider.assetAsBuiltRepository()
+                .saveAll(assetRepositoryProvider.assetsConverter().readAndConvertTractionBatteryCodeAssetsForTests());
     }
 
     public void defaultAssetsAsPlannedStored() {
-        // Test data contains different spellings for 'catenaXSiteId', as long as no clear spelling is defined. https://github.com/eclipse-tractusx/sldt-semantic-models/issues/470
-        defaultAssetsAsPlannedStored("/data/irs_assets_as_planned_v4.json");
+        assetRepositoryProvider.assetAsPlannedRepository()
+                .saveAll(assetRepositoryProvider.assetsConverter().readAndConvertAssetsAsPlannedForTests());
     }
 
-    public void defaultAssetsAsPlannedStored(final String resourceName) {
-        assetRepositoryProvider.assetAsPlannedRepository().saveAll(
-                assetRepositoryProvider.assetsConverter().readAndConvertAssetsAsPlannedForTests(resourceName));
+    public void assetsAsPlannedStored(final String resourceName) {
+        assetRepositoryProvider.assetAsPlannedRepository()
+                .saveAll(assetRepositoryProvider.assetsConverter().readAndConvertAssetsAsPlannedForTests(resourceName));
     }
 
     public void defaultAssetsStoredWithOnGoingInvestigation(NotificationStatusBaseEntity investigationStatus, boolean inInvestigation) {

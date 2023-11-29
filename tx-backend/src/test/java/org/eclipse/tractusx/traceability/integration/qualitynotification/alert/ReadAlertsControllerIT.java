@@ -124,17 +124,15 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
 
         IntStream.range(1, 101)
                 .forEach(
-                        number -> {
-                            alertsSupport.storedAlert(
-                                    AlertEntity.builder()
-                                            .assets(Collections.emptyList())
-                                            .bpn(testBpn)
-                                            .status(NotificationStatusBaseEntity.CREATED)
-                                            .side(NotificationSideBaseEntity.SENDER)
-                                            .createdDate(now)
-                                            .build()
-                            );
-                        }
+                        number -> alertsSupport.storedAlert(
+                                AlertEntity.builder()
+                                        .assets(Collections.emptyList())
+                                        .bpn(testBpn)
+                                        .status(NotificationStatusBaseEntity.CREATED)
+                                        .side(NotificationSideBaseEntity.SENDER)
+                                        .createdDate(now)
+                                        .build()
+                        )
                 );
 
         // when/then
@@ -263,17 +261,20 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
         notificationEntity.setAlert(persistedAlert);
         alertNotificationsSupport.storedAlertNotification(notificationEntity);
 
-        Long alertId = persistedAlert.getId();
+        final var alertId = persistedAlert.getId().intValue();
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
+                .log().all()
                 .when()
-                .get("/api/alerts/$alertId".replace("$alertId", alertId.toString()))
+                .pathParam("alertId", alertId)
+                .get("/api/alerts/{alertId}")
                 .then()
+                .log().all()
                 .statusCode(200)
-                .body("id", Matchers.is(alertId.intValue()))
+                .body("id", Matchers.is(alertId))
                 .body("status", Matchers.is("RECEIVED"))
                 .body("description", Matchers.is("1"))
                 .body("assetIds", Matchers.empty())

@@ -361,9 +361,9 @@ public class InvestigationsController {
     }
 
     @Operation(operationId = "cancelInvestigation",
-            summary = "Cancles investigations by id",
+            summary = "Cancels investigations by id",
             tags = {"Investigations"},
-            description = "The endpoint cancles investigations by their id.",
+            description = "The endpoint cancels investigations by their id.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {
             @ApiResponse(

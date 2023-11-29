@@ -28,11 +28,10 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobDetailResponse;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
 import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
 public class AssetTestData {
 
@@ -43,47 +42,34 @@ public class AssetTestData {
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     List<AssetBase> readAndConvertAssetsForTests() {
-        try {
-            InputStream file = AssetTestData.class.getResourceAsStream("/testdata/irs_assets_1_v4.json");
-            JobDetailResponse response = mapper.readValue(file, JobDetailResponse.class);
-            return response.convertAssets();
-        } catch (IOException e) {
-            return Collections.emptyList();
-        }
+        return getAssetBases("/testdata/irs_assets_as_built_1_v4.json");
     }
 
     List<AssetBase> readAndConvertMultipleAssetsAsBuiltForTests() {
-        try {
-            // Asset 1
-            List<AssetBase> assetBaseList = readAndConvertAssetsForTests();
+        // Asset 1
+        final List<AssetBase> assetBaseList = readAndConvertAssetsForTests();
 
-            // Asset 2
-            InputStream file = AssetTestData.class.getResourceAsStream("/testdata/irs_assets_2_v4.json");
-            JobDetailResponse response = mapper.readValue(file, JobDetailResponse.class);
-            assetBaseList.addAll(response.convertAssets());
-            return assetBaseList;
-        } catch (IOException e) {
-            return Collections.emptyList();
-        }
+        // Asset 2
+        assetBaseList.addAll(getAssetBases("/testdata/irs_assets_as_built_2_v4.json"));
+        return assetBaseList;
     }
 
     List<AssetBase> readAndConvertTractionBatteryCodeAssetsForTests() {
-        try {
-            InputStream file = AssetTestData.class.getResourceAsStream("/data/irs_assets_tractionbatterycode.json");
-            JobDetailResponse response = mapper.readValue(file, JobDetailResponse.class);
-            return response.convertAssets();
-        } catch (IOException e) {
-            return Collections.emptyList();
-        }
+        return getAssetBases("/testdata/irs_assets_tractionbatterycode.json");
     }
 
     List<AssetBase> readAndConvertAssetsAsPlannedForTests() {
         // Test data contains different spellings for 'catenaXSiteId', as long as no clear spelling is defined. https://github.com/eclipse-tractusx/sldt-semantic-models/issues/470
-        return readAndConvertAssetsAsPlannedForTests("/data/irs_assets_as_planned_v4.json");
+        return getAssetBases("/testdata/irs_assets_as_planned_v4.json");
     }
 
-    @SneakyThrows(IOException.class)
     List<AssetBase> readAndConvertAssetsAsPlannedForTests(final String resourceName) {
+        return getAssetBases(resourceName);
+    }
+
+    @NotNull
+    @SneakyThrows(IOException.class)
+    private List<AssetBase> getAssetBases(final String resourceName) {
         final var file = AssetTestData.class.getResourceAsStream(resourceName);
         final var response = mapper.readValue(file, JobDetailResponse.class);
         return response.convertAssets();

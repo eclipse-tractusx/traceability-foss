@@ -43,8 +43,7 @@ class AssetAsPlannedControllerSortValuesIT extends IntegrationTestSpecification 
     @BeforeEach
     void before() {
         // Test data contains different spellings for 'catenaXSiteId', as long as no clear spelling is defined. https://github.com/eclipse-tractusx/sldt-semantic-models/issues/470
-        assetsSupport.defaultAssetsAsPlannedStored(
-                "/testdata/irs_assets_as_planned_v4_long_list_distinct_catenaxsiteid.json");
+        assetsSupport.assetsAsPlannedStored("/testdata/irs_assets_as_planned_v4_long_list_distinct_catenaxsiteid.json");
     }
 
     private static Stream<Arguments> sortArguments() {
