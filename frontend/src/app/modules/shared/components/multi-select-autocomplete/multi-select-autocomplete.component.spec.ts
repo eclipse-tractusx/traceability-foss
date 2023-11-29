@@ -43,6 +43,7 @@ describe('MultiSelectAutocompleteComponent', () => {
         componentInstance.startDate = new Date('2022-02-04');
         componentInstance.endDate = new Date('2022-02-04');
         componentInstance.filteredOptions = ['test']
+        componentInstance.searchedOptions = [];
 
         componentInstance.clickClear();
 

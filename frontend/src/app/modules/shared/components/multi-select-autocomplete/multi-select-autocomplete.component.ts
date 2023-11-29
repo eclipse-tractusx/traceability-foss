@@ -291,6 +291,10 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
         this.startDate = null;
         this.endDate = null;
         this.filteredOptions = [];
+        this.updateOptionsAndSelections();
+    }
+
+    private updateOptionsAndSelections() {
         this.options = this.searchedOptions.filter(option => !this.selectedValue.includes(option.value));
 
         const filter = this.searchedOptions.filter(val => this.selectedValue.includes(val));
@@ -315,14 +319,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
         this.selectedValue = matSelectChange.value;
         this.formControl.patchValue(matSelectChange.value);
 
-        this.options = this.searchedOptions.filter(option => !this.selectedValue.includes(option.value));
-
-        const filter = this.searchedOptions.filter(val => this.selectedValue.includes(val));
-        for (const selected of this.selectedValue) {
-            filter.push({display: selected, value: selected})
-        }
-        this.optionsSelected = filter;
-
+        this.updateOptionsAndSelections();
 
     }
 
