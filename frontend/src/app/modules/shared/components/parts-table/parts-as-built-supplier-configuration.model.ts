@@ -16,7 +16,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import {TableFilterConfiguration} from "@shared/components/parts-table/parts-config.model";
+import { TableFilterConfiguration } from '@shared/components/parts-table/parts-config.model';
 
 export class PartsAsBuiltSupplierConfigurationModel extends TableFilterConfiguration {
     constructor() {
@@ -32,7 +32,7 @@ export class PartsAsBuiltSupplierConfigurationModel extends TableFilterConfigura
             receivedActiveInvestigations: true,
             sentActiveAlerts: true,
             sentActiveInvestigations: true,
-            //menu: false
+            menu: false
         };
         const dateFields = ['manufacturingDate'];
         const singleSearchFields = ['receivedActiveAlerts', 'sentActiveAlerts', 'receivedActiveInvestigations', 'sentActiveInvestigations'];

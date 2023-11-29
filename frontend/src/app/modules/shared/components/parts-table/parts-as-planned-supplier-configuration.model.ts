@@ -16,7 +16,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import {TableFilterConfiguration} from "@shared/components/parts-table/parts-config.model";
+import { TableFilterConfiguration } from '@shared/components/parts-table/parts-config.model';
 
 export class PartsAsPlannedSupplierConfigurationModel extends TableFilterConfiguration {
 
@@ -28,7 +28,7 @@ export class PartsAsPlannedSupplierConfigurationModel extends TableFilterConfigu
             manufacturerName: true,
             manufacturerPartId: true,
             semanticModelId: true,
-            //menu: false
+            menu: false
         };
         super(sortableColumns);
     }

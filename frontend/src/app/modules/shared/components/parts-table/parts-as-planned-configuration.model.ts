@@ -16,7 +16,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import {TableFilterConfiguration} from "@shared/components/parts-table/parts-config.model";
+import { TableFilterConfiguration } from '@shared/components/parts-table/parts-config.model';
 
 export class PartsAsPlannedConfigurationModel extends TableFilterConfiguration {
 
@@ -37,7 +37,7 @@ export class PartsAsPlannedConfigurationModel extends TableFilterConfiguration {
             catenaXSiteId: true,
             functionValidFrom: true,
             functionValidUntil: true,
-            // menu: false
+            menu: false
         };
 
         const dateFields = ['validityPeriodFrom', 'validityPeriodTo', 'functionValidFrom', 'functionValidUntil'];
