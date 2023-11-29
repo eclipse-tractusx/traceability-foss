@@ -88,11 +88,6 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
     }
 
     @Override
-    public List<String> getDistinctFieldValues(String fieldName, String startWith, Integer resultLimit, QualityNotificationSide channel) {
-        return null; // TODO : Implement
-    }
-
-    @Override
     public QualityNotificationId updateQualityNotificationEntity(QualityNotification investigation) {
         InvestigationEntity investigationEntity = jpaInvestigationRepository.findById(investigation.getNotificationId().value())
                 .orElseThrow(() -> new IllegalArgumentException(String.format("Investigation with id %s not found!", investigation.getNotificationId().value())));
@@ -203,5 +198,10 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
         return assets.stream()
                 .filter(it -> notificationAffectedAssetIds.contains(it.getId()))
                 .toList();
+    }
+
+    @Override
+    public List<String> getDistinctFieldValues(String fieldName, String startWith, Integer resultLimit, QualityNotificationSide channel) {
+        return null; // TODO : Implement
     }
 }

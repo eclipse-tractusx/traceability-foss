@@ -31,9 +31,6 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.NotificationPublisherService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.repository.QualityNotificationRepository;
 import org.springframework.stereotype.Service;
-import qualitynotification.base.request.QualityNotificationSideParamRequest;
-
-import java.util.List;
 
 @Slf4j
 @Service("alertServiceImpl")
@@ -90,13 +87,7 @@ public class AlertServiceImpl extends AbstractQualityNotificationService {
     }
 
     @Override
-    public List<String> getDistinctFilterValues(String s, String startWith, Integer size, QualityNotificationSideParamRequest channel) {
-        return null; // TODO: Implement
-    }
-
-    @Override
     public void setAssetStatus(QualityNotification qualityNotification) {
         assetService.setAssetsAlertStatus(qualityNotification);
     }
-
 }

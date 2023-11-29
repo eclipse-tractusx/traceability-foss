@@ -145,11 +145,6 @@ public class AlertsRepositoryImpl implements AlertRepository {
     }
 
     @Override
-    public List<String> getDistinctFieldValues(String fieldName, String startWith, Integer resultLimit, QualityNotificationSide owner) {
-        return null; // TODO : Implement
-    }
-
-    @Override
     public Optional<QualityNotification> findByEdcNotificationId(String edcNotificationId) {
         return jpaAlertRepository.findByNotificationsEdcNotificationId(edcNotificationId)
                 .map(AlertEntity::toDomain);
@@ -227,5 +222,8 @@ public class AlertsRepositoryImpl implements AlertRepository {
                 .toList();
     }
 
-
+    @Override
+    public List<String> getDistinctFieldValues(String fieldName, String startWith, Integer resultLimit, QualityNotificationSide owner) {
+        return null; // TODO : Implement
+    }
 }

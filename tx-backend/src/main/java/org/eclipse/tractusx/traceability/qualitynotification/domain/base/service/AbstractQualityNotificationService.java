@@ -92,7 +92,6 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
 
     @Override
     public List<String> getDistinctFilterValues(String fieldName, String startWith, Integer size, QualityNotificationSide side) {
-        getQualityNotificationRepository().getDistinctFieldValues(fieldName, startWith, size, side);
-        return null; // TODO: Implement
+        return getQualityNotificationRepository().getDistinctFieldValues(fieldName, startWith, size, side);
     }
 }
