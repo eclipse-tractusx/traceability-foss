@@ -89,9 +89,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
 
     searchElementChange: EventEmitter<any> = new EventEmitter();
 
-    /*  @Output()*/
-    selectionChange: EventEmitter<any> = new EventEmitter();
-
     @ViewChild('selectElem', {static: true}) selectElem: any;
 
     filteredOptions: Array<any> = [];
@@ -148,12 +145,10 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
             this.selectedValue = [];
         }
         this.formControl.patchValue(this.selectedValue);
-        /* this.selectionChange.emit(this.selectedValue);*/
     };
 
     changeSearchTextOptionSingleSearch() {
         this.formControl.patchValue(this.selectedValue);
-        /*    this.selectionChange.emit(this.selectedValue);*/
     }
 
     shouldHideTextSearchOptionFieldSingleSearch() {
@@ -161,9 +156,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     }
 
     displayValue() {
-        /*  if(!this.searchElement.length) {
-            return;
-          }*/
         let suffix = '';
         let displayValue;
         // add +X others label if multiple
