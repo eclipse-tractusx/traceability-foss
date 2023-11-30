@@ -4,12 +4,17 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+
 ## [UNRELEASED - DD.MM.YYYY]
 ### Added
 - new filtering capabilities ( receivedQualityAlertIdsInStatusActive, sentQualityAlertIdsInStatusActive, receivedQualityInvestigationIdsInStatusActive, sentQualityInvestigationIdsInStatusActive )
 - Validation check if table-settings correct and reset on invalid state
 - Added Api-Input in Argo Workflow to fix bugs
 - Added implementation for cucumber tests for quality investigations
+- Separation of auto complete mechanism (selected / searched elements)
+- Added new step definition for cucumber tests "I use assets with ids {string}" allowing to specify assets used for notification creation
+
 ### Changed
 - Filter configuration for tables to be resuable and easy to adapt
 - Realigned some mappings e.g. (manufacturer / manufacturerName) to be more clear
@@ -19,9 +24,12 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Upgraded maven-install-plugin from 3.0.1 to 3.1.1
 - Upgraded json-unit-assertj from 2.38.0 to 3.2.2
 - Upgraded asciidoctorj-diagram from 2.2.9 to 2.2.13
+- Cucumber test steps for creating notifications no longer support default assetId when no asset is provided with previous step
+- Upgraded the Upload_Testdata job in Argo Workflow to fix bugs
 
 ### Removed
 - removed asset filters ( qualityInvestigationIdsInStatusActive, qualityInvestigationIdsInStatusActive )
+- Removed Cucumber tests steps for creating alerts with two parts as new step definition is enough for the same feature
 
 ## [9.0.0-rc4 - xx.xx.2023]
 ### Added

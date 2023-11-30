@@ -29,6 +29,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import lombok.extern.slf4j.Slf4j;
 import org.awaitility.Duration;
+import org.eclipse.tractusx.traceability.test.exteption.MissingStepDefinitionException;
 import org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum;
 import org.eclipse.tractusx.traceability.test.tooling.rest.RestProvider;
 import org.eclipse.tractusx.traceability.test.tooling.rest.response.QualityNotificationResponse;
@@ -37,12 +38,14 @@ import org.hamcrest.Matchers;
 import qualitynotification.base.response.QualityNotificationIdResponse;
 
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
+import static org.apache.commons.lang3.ObjectUtils.isEmpty;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
 import static org.eclipse.tractusx.traceability.test.tooling.NotificationTypeEnum.ALERT;
@@ -63,6 +66,7 @@ public class TraceabilityTestStepDefinition {
     private Long notificationID_TXB = null;
     private String notificationDescription = null;
     private List<AssetAsBuiltResponse> requestedAssets;
+    private List<String> testAssets;
 
 
     @ParameterType("TRACE_X_A|TRACE_X_B")
@@ -80,10 +84,18 @@ public class TraceabilityTestStepDefinition {
         restProvider.loginToEnvironment(environment);
     }
 
+    @Given("I use assets with ids {string}")
+    public void iUseAssetWithIds(String assetIds) {
+        testAssets = Arrays.stream(assetIds.split(",")).toList();
+    }
+
     @Given("I create quality investigation")
     public void iCreateQualityInvestigation(DataTable dataTable) {
         final Map<String, String> input = normalize(dataTable.asMap());
-        final String assetId = "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd";
+
+        if (isEmpty(testAssets)) {
+            throw MissingStepDefinitionException.missingAssetDefinition();
+        }
 
         notificationDescription = wrapStringWithTimestamp(input.get("description"));
 
@@ -92,7 +104,7 @@ public class TraceabilityTestStepDefinition {
         final String severity = input.get("severity");
 
         final QualityNotificationIdResponse idResponse = restProvider.createNotification(
-                List.of(assetId),
+                testAssets,
                 notificationDescription,
                 targetDate,
                 severity,
@@ -106,18 +118,18 @@ public class TraceabilityTestStepDefinition {
     @When("I check, if quality investigation has proper values")
     public void iCheckIfQualityInvestigationHasProperValues(DataTable dataTable) {
         await()
-                .atMost(Duration.TWO_MINUTES)
+                .atMost(Duration.FIVE_MINUTES)
                 .pollInterval(1, TimeUnit.SECONDS)
                 .ignoreExceptions()
                 .until(() -> {
-                    try {
-                        QualityNotificationResponse result = restProvider.getNotification(getNotificationIdBasedOnEnv(), INVESTIGATION);
-                        NotificationValidator.assertHasFields(result, normalize(dataTable.asMap()));
-                        return true;
-                    } catch (AssertionError assertionError) {
-                        assertionError.printStackTrace();
-                        return false;
-                    }
+                            try {
+                                QualityNotificationResponse result = restProvider.getNotification(getNotificationIdBasedOnEnv(), INVESTIGATION);
+                                NotificationValidator.assertHasFields(result, normalize(dataTable.asMap()));
+                                return true;
+                            } catch (AssertionError assertionError) {
+                                assertionError.printStackTrace();
+                                return false;
+                            }
                         }
                 );
     }
@@ -151,10 +163,10 @@ public class TraceabilityTestStepDefinition {
     public void iCanSeeNotificationWasReceived() {
         System.out.println("searching for notificationDescription: " + notificationDescription);
         final QualityNotificationResponse notification = await()
-                .atMost(Duration.TWO_MINUTES)
+                .atMost(Duration.FIVE_MINUTES)
                 .pollInterval(1, TimeUnit.SECONDS)
                 .until(() -> {
-                    final List<QualityNotificationResponse> result = restProvider.getReceivedNotifications(INVESTIGATION);
+                            final List<QualityNotificationResponse> result = restProvider.getReceivedNotifications(INVESTIGATION);
                             result.stream().map(QualityNotificationResponse::getDescription).forEach(System.out::println);
                             return result.stream().filter(qn -> Objects.equals(qn.getDescription(), notificationDescription)).findFirst().orElse(null);
                         }, Matchers.notNullValue()
@@ -230,62 +242,14 @@ public class TraceabilityTestStepDefinition {
         requestedAssets.forEach(asset -> assertThat(ownerFilter).isEqualTo(asset.getOwner().toString()));
     }
 
-    @And("I create quality investigation with two parts")
-    public void iCreateQualityInvestigationWithTwoParts(DataTable dataTable) {
-        final Map<String, String> input = normalize(dataTable.asMap());
-        final String[] assetId = {
-                "urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a",
-                "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd"
-        };
-        notificationDescription = wrapStringWithTimestamp(input.get("description"));
-
-        final Instant targetDate = input.get("targetDate") == null ? null : Instant.parse(input.get("targetDate"));
-
-        final String severity = input.get("severity");
-
-        final QualityNotificationIdResponse idResponse = restProvider.createNotification(
-                List.of(assetId),
-                notificationDescription,
-                targetDate,
-                severity,
-                null,
-                INVESTIGATION
-        );
-        notificationID_TXA = idResponse.id();
-        assertThat(dataTable).isNotNull();
-    }
-
-    @And("I create quality alert with two parts")
-    public void iCreateQualityAlertWithTwoParts(DataTable dataTable) {
-        final Map<String, String> input = normalize(dataTable.asMap());
-        final String[] assetId = {
-                "urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a",
-                "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd"
-        };
-        notificationDescription = wrapStringWithTimestamp(input.get("description"));
-
-        final Instant targetDate = input.get("targetDate") == null ? null : Instant.parse(input.get("targetDate"));
-
-        final String severity = input.get("severity");
-
-        final QualityNotificationIdResponse idResponse = restProvider.createNotification(
-                List.of(assetId),
-                notificationDescription,
-                targetDate,
-                severity,
-                "BPNL00000003CNKC",
-                ALERT
-        );
-        notificationID_TXA = idResponse.id();
-        assertThat(dataTable).isNotNull();
-    }
-
-
     @Given("I create quality alert")
     public void iCreateQualityAlert(DataTable dataTable) {
 
         final Map<String, String> input = normalize(dataTable.asMap());
-        final String assetId = "urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a";
+
+        if (isEmpty(testAssets)) {
+            throw MissingStepDefinitionException.missingAssetDefinition();
+        }
 
         notificationDescription = wrapStringWithTimestamp(input.get("description"));
 
@@ -294,7 +258,7 @@ public class TraceabilityTestStepDefinition {
         final String severity = input.get("severity");
 
         final QualityNotificationIdResponse idResponse = restProvider.createNotification(
-                List.of(assetId),
+                testAssets,
                 notificationDescription,
                 targetDate,
                 severity,
@@ -308,18 +272,18 @@ public class TraceabilityTestStepDefinition {
     @When("I check, if quality alert has proper values")
     public void iCheckIfQualityAlertHasProperValues(DataTable dataTable) {
         await()
-                .atMost(Duration.TWO_MINUTES)
+                .atMost(Duration.FIVE_MINUTES)
                 .pollInterval(1, TimeUnit.SECONDS)
                 .ignoreExceptions()
                 .until(() -> {
-                    try {
-                        QualityNotificationResponse result = restProvider.getNotification(getNotificationIdBasedOnEnv(), ALERT);
-                        NotificationValidator.assertHasFields(result, normalize(dataTable.asMap()));
-                        return true;
-                    } catch (AssertionError assertionError) {
-                        assertionError.printStackTrace();
-                        return false;
-                    }
+                            try {
+                                QualityNotificationResponse result = restProvider.getNotification(getNotificationIdBasedOnEnv(), ALERT);
+                                NotificationValidator.assertHasFields(result, normalize(dataTable.asMap()));
+                                return true;
+                            } catch (AssertionError assertionError) {
+                                assertionError.printStackTrace();
+                                return false;
+                            }
                         }
                 );
     }
@@ -335,7 +299,7 @@ public class TraceabilityTestStepDefinition {
     public void iCanSeeQualityAlertWasReceived() {
         System.out.println("searching for notificationDescription: " + notificationDescription);
         final QualityNotificationResponse notification = await()
-                .atMost(Duration.TWO_MINUTES)
+                .atMost(Duration.FIVE_MINUTES)
                 .pollInterval(1, TimeUnit.SECONDS)
                 .until(() -> {
                             final List<QualityNotificationResponse> result = restProvider.getReceivedNotifications(ALERT);

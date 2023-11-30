@@ -23,6 +23,7 @@ Feature: 🪓⭐[BE] Add information to notification inbox
   @TRACEFOSS-1344 @TRACEFOSS-1920 @TRACEFOSS-1101 @TRACEFOSS-1138 @TRACEFOSS-1673 @TEST-1217 @TRACEFOSS-1139 @TEST-904 @INTEGRATION_TEST
   Scenario: [BE] Check correct processing of bpn names in quality investigation
     When I am logged into TRACE_X_A application
+    When I use assets with ids 'urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd'
     And I create quality investigation
       | "description" | "Testing BPNs TRACEFOSS-1344" |
       | "severity"    | "MINOR"                       |

@@ -17,14 +17,14 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception;
+package org.eclipse.tractusx.traceability.test.exteption;
 
-public class SendNotificationException extends RuntimeException {
-    public SendNotificationException(final String message, final Throwable exception) {
-        super(message, exception);
+public class MissingStepDefinitionException extends RuntimeException {
+    private MissingStepDefinitionException(String message) {
+        super(message);
     }
 
-    public SendNotificationException(final String message) {
-        super(message);
+    public static MissingStepDefinitionException missingAssetDefinition() {
+        return new MissingStepDefinitionException("Current step requires assets to be specified with following step: 'I use assets with ids {string}' where input param contains list of assetIds separated with ',' .");
     }
 }
