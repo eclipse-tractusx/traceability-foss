@@ -27,7 +27,7 @@ import { Role } from '@core/user/role.model';
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.scss'],
+  styleUrls: [ './admin.component.scss' ],
 })
 export class AdminComponent {
   public activeUrl: string;

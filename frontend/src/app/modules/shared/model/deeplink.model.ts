@@ -19,8 +19,8 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 export interface DeeplinkModel {
-    route: string;
-    received: boolean;
-    tabIndex: number;
-    data: any[];
+  route: string;
+  received: boolean;
+  tabIndex: number;
+  data: any[];
 }

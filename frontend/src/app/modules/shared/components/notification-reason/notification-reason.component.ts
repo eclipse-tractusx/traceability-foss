@@ -24,6 +24,7 @@ import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { Notification, NotificationUser, NotificationStatus } from '@shared/model/notification.model';
 
 type TextMessageDirection = 'left' | 'right';
+
 interface TextMessage {
   reason: string;
   direction: TextMessageDirection;
@@ -35,20 +36,20 @@ interface TextMessage {
 @Component({
   selector: 'app-notification-reason',
   templateUrl: './notification-reason.component.html',
-  styleUrls: ['./notification-reason.component.scss'],
+  styleUrls: [ './notification-reason.component.scss' ],
 })
 export class NotificationReasonComponent {
   public textMessages: TextMessage[];
 
   @Input() set notification({
-    description,
-    reason,
-    status,
-    isFromSender,
-    createdDate,
-    createdBy,
-    sendTo,
-  }: Notification) {
+                              description,
+                              reason,
+                              status,
+                              isFromSender,
+                              createdDate,
+                              createdBy,
+                              sendTo,
+                            }: Notification) {
     const { ACCEPTED, SENT, CLOSED, CREATED, DECLINED } = NotificationStatus;
     const { accept, close, decline } = reason;
 
@@ -59,13 +60,13 @@ export class NotificationReasonComponent {
       reason: description,
       direction: senderDirection,
       user: createdBy,
-      status: [CREATED, SENT].includes(status) ? status : SENT,
+      status: [ CREATED, SENT ].includes(status) ? status : SENT,
       date: createdDate,
     };
 
     const acceptedMessage = { reason: accept, direction: receiverDirection, user: sendTo, status: ACCEPTED };
     const declinedMessage = { reason: decline, direction: receiverDirection, user: sendTo, status: DECLINED };
     const closedMessage = { reason: close, direction: senderDirection, user: createdBy, status: CLOSED };
-    this.textMessages = [createdMessage, acceptedMessage, declinedMessage, closedMessage];
+    this.textMessages = [ createdMessage, acceptedMessage, declinedMessage, closedMessage ];
   }
 }

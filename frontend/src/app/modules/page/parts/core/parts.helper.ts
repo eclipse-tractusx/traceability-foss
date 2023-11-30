@@ -21,15 +21,15 @@ import { QueryList } from '@angular/core';
 import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
 
 export function resetMultiSelectionAutoCompleteComponent(partsTableComponents: QueryList<PartsTableComponent>, oneFilterSet: boolean): boolean {
-    for (const partsTableComponent of partsTableComponents) {
-        for (const multiSelectAutocompleteComponent of partsTableComponent.multiSelectAutocompleteComponents) {
-            multiSelectAutocompleteComponent.searchElement = null;
-            multiSelectAutocompleteComponent.clickClear();
-            multiSelectAutocompleteComponent.formControl.reset();
-            if (partsTableComponent.filterFormGroup.dirty && !oneFilterSet) {
-                oneFilterSet = true;
-            }
-        }
+  for (const partsTableComponent of partsTableComponents) {
+    for (const multiSelectAutocompleteComponent of partsTableComponent.multiSelectAutocompleteComponents) {
+      multiSelectAutocompleteComponent.searchElement = null;
+      multiSelectAutocompleteComponent.clickClear();
+      multiSelectAutocompleteComponent.formControl.reset();
+      if (partsTableComponent.filterFormGroup.dirty && !oneFilterSet) {
+        oneFilterSet = true;
+      }
     }
-    return oneFilterSet;
+  }
+  return oneFilterSet;
 }

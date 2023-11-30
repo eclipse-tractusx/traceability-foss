@@ -45,6 +45,7 @@ class AcceptModalComponent implements AfterViewInit {
   @ViewChild(AcceptNotificationModalComponent) modal: AcceptNotificationModalComponent;
   @Input() notification: Notification;
   public call = (id: string) => of(null);
+
   public ngAfterViewInit() {
     this.modal.show(this.notification);
   }
@@ -61,6 +62,7 @@ class AcknowledgeModalComponent implements AfterViewInit {
   @ViewChild(AcknowledgeNotificationModalComponent) modal: AcknowledgeNotificationModalComponent;
   @Input() notification: Notification;
   public call = (id: string) => of(null);
+
   public ngAfterViewInit() {
     this.modal.show(this.notification);
   }
@@ -77,6 +79,7 @@ class ApproveModalComponent implements AfterViewInit {
   @ViewChild(ApproveNotificationModalComponent) modal: ApproveNotificationModalComponent;
   @Input() notification: Notification;
   public call = (id: string) => of(null);
+
   public ngAfterViewInit() {
     this.modal.show(this.notification);
   }
@@ -93,6 +96,7 @@ class CancelModalComponent implements AfterViewInit {
   @ViewChild(CancelNotificationModalComponent) modal: CancelNotificationModalComponent;
   @Input() notification: Notification;
   public call = (id: string) => of(null);
+
   public ngAfterViewInit() {
     this.modal.show(this.notification);
   }
@@ -109,6 +113,7 @@ class DeclineModalComponent implements AfterViewInit {
   @ViewChild(DeclineNotificationModalComponent) modal: DeclineNotificationModalComponent;
   @Input() notification: Notification;
   public call = (id: string) => of(null);
+
   public ngAfterViewInit() {
     this.modal.show(this.notification);
   }
@@ -125,6 +130,7 @@ class CloseModalComponent implements AfterViewInit {
   @ViewChild(CloseNotificationModalComponent) modal: CloseNotificationModalComponent;
   @Input() notification: Notification;
   public call = (id: string) => of(null);
+
   public ngAfterViewInit() {
     this.modal.show(this.notification);
   }
@@ -139,7 +145,7 @@ export const notificationTemplate: Notification = {
   sendTo: { name: 'OEM xxxxxxxxxxxxxxx B', bpn: 'BPN20000000OEM0B' },
   reason: { close: '', accept: '', decline: '' },
   isFromSender: false,
-  assetIds: ['MOCK_part_1'],
+  assetIds: [ 'MOCK_part_1' ],
   status: null,
   severity: Severity.MINOR,
   createdDate: new CalendarDateModel('2022-05-01T10:34:12.000Z'),
@@ -148,8 +154,8 @@ export const notificationTemplate: Notification = {
 export const renderAcceptModal = async (status: NotificationStatus) => {
   const notification = { ...notificationTemplate, status };
   const { fixture } = await renderComponent(AcceptModalComponent, {
-    declarations: [AcceptModalComponent],
-    imports: [NotificationModule, SharedModule, TemplateModule],
+    declarations: [ AcceptModalComponent ],
+    imports: [ NotificationModule, SharedModule, TemplateModule ],
     componentProperties: { notification },
   });
 
@@ -159,8 +165,8 @@ export const renderAcceptModal = async (status: NotificationStatus) => {
 export const renderAcknowledgeModal = async (status: NotificationStatus) => {
   const notification = { ...notificationTemplate, status };
   const { fixture } = await renderComponent(AcknowledgeModalComponent, {
-    declarations: [AcknowledgeModalComponent],
-    imports: [NotificationModule, SharedModule, TemplateModule],
+    declarations: [ AcknowledgeModalComponent ],
+    imports: [ NotificationModule, SharedModule, TemplateModule ],
     componentProperties: { notification },
   });
 
@@ -170,8 +176,8 @@ export const renderAcknowledgeModal = async (status: NotificationStatus) => {
 export const renderApproveModal = async (status: NotificationStatus) => {
   const notification = { ...notificationTemplate, status };
   const { fixture } = await renderComponent(ApproveModalComponent, {
-    declarations: [ApproveModalComponent],
-    imports: [NotificationModule, SharedModule, TemplateModule],
+    declarations: [ ApproveModalComponent ],
+    imports: [ NotificationModule, SharedModule, TemplateModule ],
     componentProperties: { notification },
   });
 
@@ -181,8 +187,8 @@ export const renderApproveModal = async (status: NotificationStatus) => {
 export const renderCancelModal = async (status: NotificationStatus) => {
   const notification = { ...notificationTemplate, status };
   const { fixture } = await renderComponent(CancelModalComponent, {
-    declarations: [CancelModalComponent],
-    imports: [NotificationModule, SharedModule, TemplateModule],
+    declarations: [ CancelModalComponent ],
+    imports: [ NotificationModule, SharedModule, TemplateModule ],
     componentProperties: { notification },
   });
 
@@ -192,8 +198,8 @@ export const renderCancelModal = async (status: NotificationStatus) => {
 export const renderCloseModal = async (status: NotificationStatus) => {
   const notification = { ...notificationTemplate, status };
   const { fixture } = await renderComponent(CloseModalComponent, {
-    declarations: [CloseModalComponent],
-    imports: [NotificationModule, SharedModule, TemplateModule],
+    declarations: [ CloseModalComponent ],
+    imports: [ NotificationModule, SharedModule, TemplateModule ],
     componentProperties: { notification },
   });
 
@@ -203,8 +209,8 @@ export const renderCloseModal = async (status: NotificationStatus) => {
 export const renderDeclineModal = async (status: NotificationStatus) => {
   const notification = { ...notificationTemplate, status };
   const { fixture } = await renderComponent(DeclineModalComponent, {
-    declarations: [DeclineModalComponent],
-    imports: [NotificationModule, SharedModule, TemplateModule],
+    declarations: [ DeclineModalComponent ],
+    imports: [ NotificationModule, SharedModule, TemplateModule ],
     componentProperties: { notification },
   });
 

@@ -31,7 +31,7 @@ import { ErrorPageType } from '@page/error-page/model/error-page.model';
 describe('ErrorPageComponent', () => {
   const renderErrorPageComponent = ({ errorPage = {}, roles = [] } = {}) =>
     renderComponent(ErrorPageComponent, {
-      imports: [ErrorPageModule, SharedModule],
+      imports: [ ErrorPageModule, SharedModule ],
       providers: [
         {
           provide: ActivatedRoute,
@@ -46,7 +46,7 @@ describe('ErrorPageComponent', () => {
     });
 
   it('should render generic error page - with user role', async () => {
-    const { fixture } = await renderErrorPageComponent({ errorPage: {}, roles: ['user'] });
+    const { fixture } = await renderErrorPageComponent({ errorPage: {}, roles: [ 'user' ] });
 
     await fixture.whenStable();
     fixture.detectChanges();
@@ -70,7 +70,7 @@ describe('ErrorPageComponent', () => {
   it('should render page-not-found page - with user role', async () => {
     const { fixture } = await renderErrorPageComponent({
       errorPage: { type: ErrorPageType.pageNotFound },
-      roles: ['user'],
+      roles: [ 'user' ],
     });
 
     await fixture.whenStable();
@@ -98,7 +98,7 @@ describe('ErrorPageComponent', () => {
   it('should render no-permissions page - with user role', async () => {
     const { fixture } = await renderErrorPageComponent({
       errorPage: { type: ErrorPageType.noPermissions },
-      roles: ['user'],
+      roles: [ 'user' ],
     });
 
     await fixture.whenStable();

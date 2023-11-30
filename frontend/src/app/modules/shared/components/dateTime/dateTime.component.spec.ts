@@ -35,10 +35,10 @@ describe('DateTimeComponent', () => {
     const { fixture } = await renderComponent(
       `
       <form [formGroup]="form">
-        <app-date-time formControlName="formField" [label]="'${label}'"></app-date-time>
+        <app-date-time formControlName="formField" [label]="'${ label }'"></app-date-time>
       </form>`,
       {
-        declarations: [DateTimeComponent],
+        declarations: [ DateTimeComponent ],
         componentProperties: { form },
       },
     );
@@ -59,7 +59,7 @@ describe('DateTimeComponent', () => {
     const minDate = new Date('2022-02-20T12:00');
     const dateInput = '2021-02-20T12:00';
 
-    const { form } = await renderDateTime(label, [DateValidators.min(minDate)]);
+    const { form } = await renderDateTime(label, [ DateValidators.min(minDate) ]);
 
     const inputElement = screen.getByTestId('BaseInputElement-0');
     expect(inputElement).toBeInTheDocument();
@@ -80,7 +80,7 @@ describe('DateTimeComponent', () => {
     const maxDate = new Date('2022-02-20T12:00');
     const dateInput = '2023-02-20T12:00';
 
-    const { form } = await renderDateTime(label, [DateValidators.max(maxDate)]);
+    const { form } = await renderDateTime(label, [ DateValidators.max(maxDate) ]);
 
     const inputElement = screen.getByTestId('BaseInputElement-0');
     expect(inputElement).toBeInTheDocument();
@@ -98,7 +98,7 @@ describe('DateTimeComponent', () => {
     const label = 'Some label';
     const dateInput = new Date().toISOString().substring(0, 16);
 
-    const { form } = await renderDateTime(label, [DateValidators.atLeastNow()]);
+    const { form } = await renderDateTime(label, [ DateValidators.atLeastNow() ]);
 
     const inputElement = screen.getByTestId('BaseInputElement-0');
     expect(inputElement).toBeInTheDocument();

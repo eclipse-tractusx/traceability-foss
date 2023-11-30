@@ -27,7 +27,7 @@ import { SharedModule } from '..';
 describe('AutoFormatPipe', () => {
   it('should format CalendarDateModel as short date', async () => {
     await renderComponent(`{{ rawValue | autoFormat }}`, {
-      imports: [SharedModule],
+      imports: [ SharedModule ],
       componentProperties: {
         rawValue: new CalendarDateModel('2022-07-15T10:00:00.000Z'),
       },
@@ -38,7 +38,7 @@ describe('AutoFormatPipe', () => {
 
   it('should format string as it is', async () => {
     await renderComponent(`{{ rawValue | autoFormat }}`, {
-      imports: [SharedModule],
+      imports: [ SharedModule ],
       componentProperties: {
         rawValue: 'some text',
       },
@@ -49,7 +49,7 @@ describe('AutoFormatPipe', () => {
 
   it('should format number as a string', async () => {
     await renderComponent(`{{ rawValue | autoFormat }}`, {
-      imports: [SharedModule],
+      imports: [ SharedModule ],
       componentProperties: {
         rawValue: 100000.11234,
       },
@@ -60,7 +60,7 @@ describe('AutoFormatPipe', () => {
 
   it('should format object as a string', async () => {
     await renderComponent(`{{ rawValue | autoFormat }}`, {
-      imports: [SharedModule],
+      imports: [ SharedModule ],
       componentProperties: {
         rawValue: {},
       },

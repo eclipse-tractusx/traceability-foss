@@ -28,7 +28,7 @@ import { MOCK_part_1 } from '../parts-mock/partsAsPlanned/partsAsPlanned.test.mo
 export const InvestigationIdPrefix = 'id-';
 
 // TODO: rethink this approach
-const severities = [Severity.MINOR, Severity.MAJOR, Severity.CRITICAL, Severity.LIFE_THREATENING];
+const severities = [ Severity.MINOR, Severity.MAJOR, Severity.CRITICAL, Severity.LIFE_THREATENING ];
 export const buildMockInvestigations = (
   statuses: NotificationStatus[],
   channel: 'SENDER' | 'RECEIVER',
@@ -40,11 +40,11 @@ export const buildMockInvestigations = (
     const month = (index % 12) + 1;
     const day = (index % 28) + 1;
     // every 10th alert should have an error
-    const errorInvestigation = (index+1) % 10 === 0 ? "The Services returned an Error while processing this Investigation" : undefined;
+    const errorInvestigation = (index + 1) % 10 === 0 ? 'The Services returned an Error while processing this Investigation' : undefined;
 
     return {
-      id: `${InvestigationIdPrefix}${index + 1}`,
-      description: `Investigation No ${index + 1}`,
+      id: `${ InvestigationIdPrefix }${ index + 1 }`,
+      description: `Investigation No ${ index + 1 }`,
       status,
       severity,
       channel,
@@ -53,14 +53,14 @@ export const buildMockInvestigations = (
       sendTo: 'BPN20000000OEM0B',
       sendToName: 'OEM xxxxxxxxxxxxxxx B',
       reason: { close: '', accept: '', decline: '' },
-      createdDate: `2022-${numberToString(month)}-${numberToString(day)}T12:34:12`,
-      assetIds: [MOCK_part_1.id, getRandomAsset().id, getRandomAsset().id, getRandomAsset().id],
-      errorMessage: errorInvestigation
+      createdDate: `2022-${ numberToString(month) }-${ numberToString(day) }T12:34:12`,
+      assetIds: [ MOCK_part_1.id, getRandomAsset().id, getRandomAsset().id, getRandomAsset().id ],
+      errorMessage: errorInvestigation,
     };
   });
 
 const MockEmptyInvestigation: NotificationResponse = {
-  id: `${InvestigationIdPrefix}000`,
+  id: `${ InvestigationIdPrefix }000`,
   description: `Investigation No 000`,
   status: NotificationStatus.CREATED,
   severity: Severity.MINOR,
@@ -70,7 +70,7 @@ const MockEmptyInvestigation: NotificationResponse = {
   sendToName: 'OEM xxxxxxxxxxxxxxx B',
   reason: { close: '', accept: '', decline: '' },
   createdDate: `2022-05-01T12:34:12`,
-  assetIds: [getRandomAsset().id],
+  assetIds: [ getRandomAsset().id ],
   channel: 'SENDER',
 };
 

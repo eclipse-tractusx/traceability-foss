@@ -49,6 +49,7 @@ declare function ExtendedRenderFn<WrapperType = WrapperComponent>(
   template: string,
   renderOptions?: RenderTemplateOptions<WrapperType> & RenderFnOptionsExtension,
 ): Promise<RenderResult<WrapperType>>;
+
 declare class WrapperComponent {
   static ɵfac: ɵɵFactoryDeclaration<WrapperComponent, never>;
   static ɵcmp: ɵɵComponentDeclaration<WrapperComponent, 'atl-wrapper-component', never, {}, {}, never, never>;
@@ -56,7 +57,7 @@ declare class WrapperComponent {
 
 export const renderComponent: typeof ExtendedRenderFn = (
   cmp,
-  { imports = [], providers = [], translations = [], roles = ['user'], ...restConfig },
+  { imports = [], providers = [], translations = [], roles = [ 'user' ], ...restConfig },
 ) =>
   render(cmp, {
     imports: [
@@ -83,11 +84,11 @@ export const renderComponent: typeof ExtendedRenderFn = (
           return () =>
             i18next.init({
               lng: 'en',
-              supportedLngs: ['en', 'de'],
+              supportedLngs: [ 'en', 'de' ],
               resources: {},
             });
         },
-        deps: [I18NEXT_SERVICE],
+        deps: [ I18NEXT_SERVICE ],
         multi: true,
       },
     ],

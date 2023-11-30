@@ -26,7 +26,7 @@ import { BpnConfigurationComponent } from '@page/admin/presentation/bpn-configur
 import { sleepForTests } from '../../../../../../test';
 
 describe('BpnConfigurationComponent', () => {
-  const renderBpnConfigurationComponent = () => renderComponent(BpnConfigurationComponent, { imports: [AdminModule] });
+  const renderBpnConfigurationComponent = () => renderComponent(BpnConfigurationComponent, { imports: [ AdminModule ] });
 
   it('should create', async () => {
     await renderBpnConfigurationComponent();

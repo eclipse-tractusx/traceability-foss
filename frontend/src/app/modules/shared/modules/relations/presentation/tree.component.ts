@@ -44,7 +44,7 @@ import { RelationComponentState } from '@shared/modules/relations/core/component
   selector: 'app-tree',
   template: '',
   encapsulation: ViewEncapsulation.None,
-  providers: [RelationComponentState, RelationsFacade],
+  providers: [ RelationComponentState, RelationsFacade ],
 })
 export class TreeComponent implements OnDestroy, AfterViewInit {
   @Input() showMiniMap = false;
@@ -98,11 +98,11 @@ export class TreeComponent implements OnDestroy, AfterViewInit {
 
   public ngAfterViewInit(): void {
     this.isComponentInitialized = true;
-    const combined = combineLatest([this.relationsFacade.openElements$, this.loadedElementsFacade.loadedElements$]);
+    const combined = combineLatest([ this.relationsFacade.openElements$, this.loadedElementsFacade.loadedElements$ ]);
     const openElementsSubscription = combined
       .pipe(
         debounceTime(100),
-        tap(([openElements]) => this.renderTreeWithOpenElements(openElements)),
+        tap(([ openElements ]) => this.renderTreeWithOpenElements(openElements)),
       )
       .subscribe();
 

@@ -25,7 +25,7 @@ import { ToastMessage } from './toast-message.model';
 @Component({
   selector: 'app-toast-message',
   templateUrl: './toast-message.component.html',
-  styleUrls: ['./toast-message.component.scss'],
+  styleUrls: [ './toast-message.component.scss' ],
 })
 export class ToastMessageComponent {
   @Input() toastMessage: ToastMessage;

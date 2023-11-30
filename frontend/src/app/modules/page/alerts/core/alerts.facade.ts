@@ -24,7 +24,7 @@ import { Notification, Notifications, NotificationStatus } from '@shared/model/n
 import { View } from '@shared/model/view.model';
 import { AlertsService } from '@shared/service/alerts.service';
 import { Observable, Subscription } from 'rxjs';
-import {NotificationFilter} from "../../../../mocks/services/investigations-mock/investigations.model";
+import { NotificationFilter } from '../../../../mocks/services/investigations-mock/investigations.model';
 
 @Injectable()
 export class AlertsFacade {
@@ -34,7 +34,8 @@ export class AlertsFacade {
   constructor(
     private readonly alertsService: AlertsService,
     private readonly alertsState: AlertsState,
-  ) {}
+  ) {
+  }
 
   public get alertsReceived$(): Observable<View<Notifications>> {
     return this.alertsState.alertsReceived$;
@@ -61,7 +62,7 @@ export class AlertsFacade {
   public setQueuedAndRequestedAlerts(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: NotificationFilter): void {
     this.alertQueuedAndRequestedSubscription?.unsubscribe();
     this.alertQueuedAndRequestedSubscription = this.alertsService
-      .getCreatedAlerts(page, pageSize, sorting,filter)
+      .getCreatedAlerts(page, pageSize, sorting, filter)
       .subscribe({
         next: data => (this.alertsState.alertsQueuedAndRequested = { data }),
         error: (error: Error) => (this.alertsState.alertsQueuedAndRequested = { error }),

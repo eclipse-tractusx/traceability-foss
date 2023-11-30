@@ -40,7 +40,8 @@ type GuardValue = Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | b
   providedIn: 'root',
 })
 export class RoleGuard implements CanActivate, CanActivateChild, CanDeactivate<unknown>, CanMatch {
-  constructor(private readonly roleService: RoleService, private readonly router: Router) {}
+  constructor(private readonly roleService: RoleService, private readonly router: Router) {
+  }
 
   public canActivate(next: ActivatedRouteSnapshot, _state: RouterStateSnapshot): GuardValue {
     return this.validateUserRole(next);
@@ -66,7 +67,7 @@ export class RoleGuard implements CanActivate, CanActivateChild, CanDeactivate<u
     }
 
     // we use skipLocationChange = true, to don't lose context
-    void this.router.navigate(['no-permissions'], { skipLocationChange: true });
+    void this.router.navigate([ 'no-permissions' ], { skipLocationChange: true });
     return false;
   }
 }

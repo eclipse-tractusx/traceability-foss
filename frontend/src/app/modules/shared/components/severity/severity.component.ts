@@ -25,17 +25,17 @@ import { Severity } from '@shared/model/severity.model';
 @Component({
   selector: 'app-severity',
   templateUrl: './severity.component.html',
-  styleUrls: ['./severity.component.scss'],
+  styleUrls: [ './severity.component.scss' ],
 })
 export class SeverityComponent {
   @Input() severity: Severity;
 
   public getIconBySeverity(severity: Severity): string {
     const iconMap = new Map<Severity, string>([
-      [Severity.MINOR, 'info'],
-      [Severity.MAJOR, 'warning'],
-      [Severity.CRITICAL, 'error_outline'],
-      [Severity.LIFE_THREATENING, 'error'],
+      [ Severity.MINOR, 'info' ],
+      [ Severity.MAJOR, 'warning' ],
+      [ Severity.CRITICAL, 'error_outline' ],
+      [ Severity.LIFE_THREATENING, 'error' ],
     ]);
     return iconMap.get(severity) || '';
   }

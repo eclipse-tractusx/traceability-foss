@@ -20,40 +20,40 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Part, SemanticDataModel, SemanticDataModelInCamelCase } from '@page/parts/model/parts.model';
 
 @Pipe({
-  name: 'formatPartSemanticDataModelToCamelCase'
+  name: 'formatPartSemanticDataModelToCamelCase',
 })
 export class FormatPartSemanticDataModelToCamelCasePipe implements PipeTransform {
 
   transform(part: Part): Part {
     let camelCase;
-        switch (part.semanticDataModel.toString().toLowerCase()) {
-          case 'batch': {
-            camelCase = SemanticDataModelInCamelCase.BATCH;
-            break;
-          }
-          case 'serialpart': {
-            camelCase = SemanticDataModelInCamelCase.SERIALPART;
-            break;
-          }
-          case 'partasplanned': {
-            camelCase = SemanticDataModelInCamelCase.PARTASPLANNED;
-            break;
-          }
-          case 'justinsequence': {
-            camelCase = SemanticDataModelInCamelCase.JUSTINSEQUENCE;
-            break;
-          }
-          default: {
-            camelCase = SemanticDataModelInCamelCase.UNKNOWN
-            break;
-          }
+    switch (part.semanticDataModel.toString().toLowerCase()) {
+      case 'batch': {
+        camelCase = SemanticDataModelInCamelCase.BATCH;
+        break;
+      }
+      case 'serialpart': {
+        camelCase = SemanticDataModelInCamelCase.SERIALPART;
+        break;
+      }
+      case 'partasplanned': {
+        camelCase = SemanticDataModelInCamelCase.PARTASPLANNED;
+        break;
+      }
+      case 'justinsequence': {
+        camelCase = SemanticDataModelInCamelCase.JUSTINSEQUENCE;
+        break;
+      }
+      default: {
+        camelCase = SemanticDataModelInCamelCase.UNKNOWN;
+        break;
+      }
 
-        }
+    }
 
-      return {
-        ...part,
-        semanticDataModel: camelCase
-      };
+    return {
+      ...part,
+      semanticDataModel: camelCase,
+    };
 
   }
 
@@ -77,7 +77,7 @@ export class FormatPartSemanticDataModelToCamelCasePipe implements PipeTransform
         break;
       }
       default: {
-        camelCase = SemanticDataModelInCamelCase.UNKNOWN
+        camelCase = SemanticDataModelInCamelCase.UNKNOWN;
         break;
       }
 

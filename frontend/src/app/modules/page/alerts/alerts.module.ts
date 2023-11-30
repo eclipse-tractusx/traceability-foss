@@ -39,7 +39,7 @@ import { AlertsComponent } from './presentation/alerts.component';
 
 @NgModule({
   declarations: [
-    AlertsComponent, AlertDetailComponent
+    AlertsComponent, AlertDetailComponent,
   ],
   imports: [
     CommonModule,
@@ -47,7 +47,7 @@ import { AlertsComponent } from './presentation/alerts.component';
     SharedModule,
     AlertsRoutingModule,
     NotificationModule,
-    PartsModule
+    PartsModule,
   ],
   providers: [
     AlertsFacade,
@@ -59,6 +59,7 @@ import { AlertsComponent } from './presentation/alerts.component';
     FormatPaginationSemanticDataModelToCamelCasePipe,
     FormatPartlistSemanticDataModelToCamelCasePipe,
     ...getI18nPageProvider('page.alert'),
-  ]
+  ],
 })
-export class AlertsModule { }
+export class AlertsModule {
+}

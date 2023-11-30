@@ -52,7 +52,7 @@ export class NotificationAssembler {
       sendTo: _sendTo = '',
       sendToName: _sendToName = '',
       targetDate: _targetDate = '',
-      errorMessage: _errorMessage= '',
+      errorMessage: _errorMessage = '',
     } = response;
 
     const isFromSender = channel === 'SENDER';
@@ -78,9 +78,9 @@ export class NotificationAssembler {
       createdDate,
       targetDate,
       bpn,
-      notificationType
+      notificationType,
     };
 
-    return errorMessage ? {...assembled, errorMessage: errorMessage} : assembled;
+    return errorMessage ? { ...assembled, errorMessage: errorMessage } : assembled;
   }
 }

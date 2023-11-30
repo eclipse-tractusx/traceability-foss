@@ -137,4 +137,5 @@ import { MatTreeModule } from '@angular/material/tree';
     MatTabsModule,
   ],
 })
-export class TemplateModule {}
+export class TemplateModule {
+}

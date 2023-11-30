@@ -30,7 +30,7 @@ import { SeverityComponent } from './severity.component';
 describe('SeverityComponent', () => {
   const renderSeverity = (severity: Severity) => {
     return renderComponent(`<app-severity [severity]='severity'>Test</app-severity>`, {
-      imports: [SharedModule],
+      imports: [ SharedModule ],
       componentProperties: { severity },
     });
   };
