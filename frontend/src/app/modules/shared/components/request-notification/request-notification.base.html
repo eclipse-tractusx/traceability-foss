@@ -91,11 +91,11 @@ SPDX-License-Identifier: Apache-2.0
 
   <div class="flex flex-row justify-end mt-10 md:mt-6">
     <app-button [variant]="'raised'" [isDisabled]="isLoading$ | async" (click)="resetForm()" class="mr-4"
-      >{{ 'requestNotification.cancel' | i18n }}</app-button
+    >{{ 'requestNotification.cancel' | i18n }}</app-button
     >
 
     <app-button [variant]="'raised'" [color]="'primary'" [isDisabled]="isLoading$ | async" type="submit"
-      >{{ 'requestNotification.submit' | i18n }}</app-button
+    >{{ 'requestNotification.submit' | i18n }}</app-button
     >
   </div>
 </form>

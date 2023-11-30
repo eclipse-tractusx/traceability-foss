@@ -30,16 +30,16 @@ import { DashboardComponent } from './dashboard.component';
 describe('Dashboard', () => {
   const renderDashboard = ({ roles = [] } = {}) =>
     renderComponent(DashboardComponent, {
-      imports: [DashboardModule, SharedModule, PartsModule],
-      translations: ['page.dashboard'],
+      imports: [ DashboardModule, SharedModule, PartsModule ],
+      translations: [ 'page.dashboard' ],
       roles,
     });
 
   it('should render total of parts', async () => {
-    const {fixture} = await renderDashboard();
-    const {componentInstance } = fixture;
+    const { fixture } = await renderDashboard();
+    const { componentInstance } = fixture;
 
-    componentInstance.partsMetricData = [{metricUnit: 'parts', value: of(3), metricName: 'parts'}]
+    componentInstance.partsMetricData = [ { metricUnit: 'parts', value: of(3), metricName: 'parts' } ];
 
     expect(await waitFor(() => screen.getByText('3'))).toBeInTheDocument();
 
@@ -47,7 +47,7 @@ describe('Dashboard', () => {
 
   it('should render supervisor section when supervisor user', async () => {
     await renderDashboard({
-      roles: ['supervisor'],
+      roles: [ 'supervisor' ],
     });
 
     expect(await screen.findByText('pageDashboard.totalOfOtherParts.label')).toBeInTheDocument();
@@ -55,7 +55,7 @@ describe('Dashboard', () => {
 
   it('should render supervisor section when admin user', async () => {
     await renderDashboard({
-      roles: ['admin'],
+      roles: [ 'admin' ],
     });
 
     expect(await screen.findByText('pageDashboard.totalOfParts.label')).toBeInTheDocument();
@@ -63,10 +63,14 @@ describe('Dashboard', () => {
 
   describe('investigations', () => {
     it('should render count for investigations', async () => {
-      const {fixture} = await renderDashboard();
-      const {componentInstance } = fixture;
+      const { fixture } = await renderDashboard();
+      const { componentInstance } = fixture;
 
-      componentInstance.partsMetricData = [{metricUnit: 'investigations', value: of(20), metricName: 'investigations'}]
+      componentInstance.partsMetricData = [ {
+        metricUnit: 'investigations',
+        value: of(20),
+        metricName: 'investigations',
+      } ];
 
       expect(await waitFor(() => screen.getByText('20'))).toBeInTheDocument();
     });

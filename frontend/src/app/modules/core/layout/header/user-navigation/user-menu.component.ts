@@ -29,7 +29,7 @@ import { NavigableUrls } from '@core/known-route';
 @Component({
   selector: 'app-user-navigation',
   templateUrl: './user-menu.component.html',
-  styleUrls: ['./user-menu.component.scss'],
+  styleUrls: [ './user-menu.component.scss' ],
 })
 export class UserMenuComponent {
   public isExpanded = false;
@@ -62,7 +62,7 @@ export class UserMenuComponent {
   }
 
   public navigateToHome(): void {
-    this.router.navigate(['']).then();
+    this.router.navigate([ '' ]).then();
   }
 
   @HostListener('window:click', [])

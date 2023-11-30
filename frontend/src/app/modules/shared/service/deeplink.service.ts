@@ -19,46 +19,46 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {Injectable} from '@angular/core';
-import {ALERT_BASE_ROUTE, INVESTIGATION_BASE_ROUTE} from "@core/known-route";
-import {DeeplinkModel} from "@shared/model/deeplink.model";
-import {NotificationColumn} from "@shared/model/notification.model";
+import { Injectable } from '@angular/core';
+import { ALERT_BASE_ROUTE, INVESTIGATION_BASE_ROUTE } from '@core/known-route';
+import { DeeplinkModel } from '@shared/model/deeplink.model';
+import { NotificationColumn } from '@shared/model/notification.model';
 
 @Injectable({
-    providedIn: 'root',
+  providedIn: 'root',
 })
 export class DeeplinkService {
-    public getDeeplink(column: NotificationColumn, data: any[]): DeeplinkModel {
-        let route;
-        let received;
-        let tabIndex;
-        switch (column) {
-            case NotificationColumn.RECEIVED_ALERT: {
-                received = true;
-                route = ALERT_BASE_ROUTE;
-                tabIndex = 0;
-                break;
-            }
-            case NotificationColumn.SENT_ALERT: {
-                received = false;
-                route = ALERT_BASE_ROUTE;
-                tabIndex = 1;
-                break;
-            }
-            case NotificationColumn.RECEIVED_INVESTIGATION: {
-                received = true;
-                route = INVESTIGATION_BASE_ROUTE;
-                tabIndex = 0;
-                break;
-            }
-            case NotificationColumn.SENT_INVESTIGATION: {
-                received = false;
-                route = INVESTIGATION_BASE_ROUTE;
-                tabIndex = 1;
-                break;
-            }
-        }
-        return {route, received, tabIndex, data}
+  public getDeeplink(column: NotificationColumn, data: any[]): DeeplinkModel {
+    let route;
+    let received;
+    let tabIndex;
+    switch (column) {
+      case NotificationColumn.RECEIVED_ALERT: {
+        received = true;
+        route = ALERT_BASE_ROUTE;
+        tabIndex = 0;
+        break;
+      }
+      case NotificationColumn.SENT_ALERT: {
+        received = false;
+        route = ALERT_BASE_ROUTE;
+        tabIndex = 1;
+        break;
+      }
+      case NotificationColumn.RECEIVED_INVESTIGATION: {
+        received = true;
+        route = INVESTIGATION_BASE_ROUTE;
+        tabIndex = 0;
+        break;
+      }
+      case NotificationColumn.SENT_INVESTIGATION: {
+        received = false;
+        route = INVESTIGATION_BASE_ROUTE;
+        tabIndex = 1;
+        break;
+      }
     }
+    return { route, received, tabIndex, data };
+  }
 
 }

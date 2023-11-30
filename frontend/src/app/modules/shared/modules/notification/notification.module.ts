@@ -46,7 +46,7 @@ import { NotificationComponent } from './presentation/notification.component';
     DeclineNotificationModalComponent,
     NotificationCommonModalComponent,
   ],
-  imports: [CommonModule, TemplateModule, SharedModule, ModalModule, ],
+  imports: [ CommonModule, TemplateModule, SharedModule, ModalModule ],
   exports: [
     NotificationCommonModalComponent,
     NotificationComponent,
@@ -59,4 +59,5 @@ import { NotificationComponent } from './presentation/notification.component';
     DeclineNotificationModalComponent,
   ],
 })
-export class NotificationModule {}
+export class NotificationModule {
+}

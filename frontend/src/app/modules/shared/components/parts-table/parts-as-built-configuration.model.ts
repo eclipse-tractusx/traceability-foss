@@ -16,35 +16,35 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import {TableFilterConfiguration} from "@shared/components/parts-table/parts-config.model";
+import { TableFilterConfiguration } from '@shared/components/parts-table/parts-config.model';
 
 export class PartsAsBuiltConfigurationModel extends TableFilterConfiguration {
-    constructor() {
-        const sortableColumns = {
-            select: false,
-            id: true,
-            idShort: true,
-            nameAtManufacturer: true,
-            manufacturerName: true,
-            partId: true,
-            manufacturerPartId: true,
-            customerPartId: true,
-            classification: true,
-            nameAtCustomer: true,
-            semanticModelId: true,
-            semanticDataModel: true,
-            manufacturingDate: true,
-            manufacturingCountry: true,
-            receivedActiveAlerts: true,
-            receivedActiveInvestigations: true,
-            sentActiveAlerts: true,
-            sentActiveInvestigations: true,
-            // menu: false
-        };
+  constructor() {
+    const sortableColumns = {
+      select: false,
+      id: true,
+      idShort: true,
+      nameAtManufacturer: true,
+      manufacturerName: true,
+      partId: true,
+      manufacturerPartId: true,
+      customerPartId: true,
+      classification: true,
+      nameAtCustomer: true,
+      semanticModelId: true,
+      semanticDataModel: true,
+      manufacturingDate: true,
+      manufacturingCountry: true,
+      receivedActiveAlerts: true,
+      receivedActiveInvestigations: true,
+      sentActiveAlerts: true,
+      sentActiveInvestigations: true,
+      // menu: false
+    };
 
-        const dateFields = ['manufacturingDate'];
-        const singleSearchFields = ['receivedActiveAlerts', 'sentActiveAlerts', 'receivedActiveInvestigations', 'sentActiveInvestigations'];
-        super(sortableColumns, dateFields, singleSearchFields);
-    }
+    const dateFields = [ 'manufacturingDate' ];
+    const singleSearchFields = [ 'receivedActiveAlerts', 'sentActiveAlerts', 'receivedActiveInvestigations', 'sentActiveInvestigations' ];
+    super(sortableColumns, dateFields, singleSearchFields);
+  }
 
 }

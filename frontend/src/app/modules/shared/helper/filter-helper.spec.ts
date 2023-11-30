@@ -21,81 +21,81 @@ import { HttpParams } from '@angular/common/http';
 import { enrichFilterAndGetUpdatedParams } from './filter-helper';
 
 describe('enrichFilterAndGetUpdatedParams', () => {
-    it('should append filter parameters for non-date filters', () => {
-        const filter = {
-            otherKey: ['value3']
-        };
-        const params = new HttpParams();
-        // @ts-ignore
-        const result = enrichFilterAndGetUpdatedParams(filter, params, "OR");
+  it('should append filter parameters for non-date filters', () => {
+    const filter = {
+      otherKey: [ 'value3' ],
+    };
+    const params = new HttpParams();
+    // @ts-ignore
+    const result = enrichFilterAndGetUpdatedParams(filter, params, 'OR');
 
-        expect(result.toString()).toContain('filter=otherKey,EQUAL,value3');
-    });
+    expect(result.toString()).toContain('filter=otherKey,EQUAL,value3');
+  });
 
-    it('should append filter parameters for date filters', () => {
-        const filter = {
-            functionValidUntil: ['2023-10-13'],
-            functionValidFrom: ['2023-10-14'],
-            validityPeriodFrom: ['2023-10-15'],
-            validityPeriodTo: ['2023-10-17']
-        };
-        const params = new HttpParams();
-        // @ts-ignore
-        const result = enrichFilterAndGetUpdatedParams(filter, params,"OR");
-        expect(result.toString()).toContain('filter=functionValidUntil,AT_LOCAL_DATE,2023-10-13');
-        expect(result.toString()).toContain('filter=functionValidFrom,AT_LOCAL_DATE,2023-10-14');
-        expect(result.toString()).toContain('filter=validityPeriodFrom,AT_LOCAL_DATE,2023-10-15');
-        expect(result.toString()).toContain('filter=validityPeriodTo,AT_LOCAL_DATE,2023-10-17');
-    });
+  it('should append filter parameters for date filters', () => {
+    const filter = {
+      functionValidUntil: [ '2023-10-13' ],
+      functionValidFrom: [ '2023-10-14' ],
+      validityPeriodFrom: [ '2023-10-15' ],
+      validityPeriodTo: [ '2023-10-17' ],
+    };
+    const params = new HttpParams();
+    // @ts-ignore
+    const result = enrichFilterAndGetUpdatedParams(filter, params, 'OR');
+    expect(result.toString()).toContain('filter=functionValidUntil,AT_LOCAL_DATE,2023-10-13');
+    expect(result.toString()).toContain('filter=functionValidFrom,AT_LOCAL_DATE,2023-10-14');
+    expect(result.toString()).toContain('filter=validityPeriodFrom,AT_LOCAL_DATE,2023-10-15');
+    expect(result.toString()).toContain('filter=validityPeriodTo,AT_LOCAL_DATE,2023-10-17');
+  });
 
-    it('should append filter parameters for date range filters', () => {
-      const filter = {
-        manufacturingDate: '2023-10-13,2023-10-20',
-      }
-      const params = new HttpParams();
-      // @ts-ignore
-      const result = enrichFilterAndGetUpdatedParams(filter, params, "AND");
-      expect(result.toString()).toContain('filter=manufacturingDate,AFTER_LOCAL_DATE,2023-10-13,AND');
-      expect(result.toString()).toContain('filter=manufacturingDate,BEFORE_LOCAL_DATE,2023-10-20,AND');
-    })
+  it('should append filter parameters for date range filters', () => {
+    const filter = {
+      manufacturingDate: '2023-10-13,2023-10-20',
+    };
+    const params = new HttpParams();
+    // @ts-ignore
+    const result = enrichFilterAndGetUpdatedParams(filter, params, 'AND');
+    expect(result.toString()).toContain('filter=manufacturingDate,AFTER_LOCAL_DATE,2023-10-13,AND');
+    expect(result.toString()).toContain('filter=manufacturingDate,BEFORE_LOCAL_DATE,2023-10-20,AND');
+  });
 
-    it('should append filter parameters for date range filters with same date', () => {
-        const filter = {
-            manufacturingDate: '2023-10-20,2023-10-20',
-        }
-        const params = new HttpParams();
-        // @ts-ignore
-        const result = enrichFilterAndGetUpdatedParams(filter, params, "AND");
-        expect(result.toString()).toContain('filter=manufacturingDate,AT_LOCAL_DATE,2023-10-20,AND');
-    })
+  it('should append filter parameters for date range filters with same date', () => {
+    const filter = {
+      manufacturingDate: '2023-10-20,2023-10-20',
+    };
+    const params = new HttpParams();
+    // @ts-ignore
+    const result = enrichFilterAndGetUpdatedParams(filter, params, 'AND');
+    expect(result.toString()).toContain('filter=manufacturingDate,AT_LOCAL_DATE,2023-10-20,AND');
+  });
 
-    it('should append filter parameters for semanticDataModelKey', () => {
-        const filter = {
-            semanticDataModel: ['value1', 'value2'],
-        };
-        const params = new HttpParams();
-        const result = enrichFilterAndGetUpdatedParams(filter, params, "OR");
-        expect(result.toString()).toContain('filter=semanticDataModel,EQUAL,value1');
-        expect(result.toString()).toContain('filter=semanticDataModel,EQUAL,value2');
-    });
+  it('should append filter parameters for semanticDataModelKey', () => {
+    const filter = {
+      semanticDataModel: [ 'value1', 'value2' ],
+    };
+    const params = new HttpParams();
+    const result = enrichFilterAndGetUpdatedParams(filter, params, 'OR');
+    expect(result.toString()).toContain('filter=semanticDataModel,EQUAL,value1');
+    expect(result.toString()).toContain('filter=semanticDataModel,EQUAL,value2');
+  });
 
-    it('should handle single value for semanticDataModelKey', () => {
-        const filter = {
-            semanticDataModel: 'value1',
-        };
-        const params = new HttpParams();
-        // @ts-ignore
-        const result = enrichFilterAndGetUpdatedParams(filter, params, "OR");
-        expect(result.toString()).toContain('filter=semanticDataModel,STARTS_WITH,value1,OR');
-    });
+  it('should handle single value for semanticDataModelKey', () => {
+    const filter = {
+      semanticDataModel: 'value1',
+    };
+    const params = new HttpParams();
+    // @ts-ignore
+    const result = enrichFilterAndGetUpdatedParams(filter, params, 'OR');
+    expect(result.toString()).toContain('filter=semanticDataModel,STARTS_WITH,value1,OR');
+  });
 
-    it('should handle empty filter values', () => {
-        const filter = {
-            emptyFilter: [],
-        };
-        const params = new HttpParams();
-        // @ts-ignore
-        const result = enrichFilterAndGetUpdatedParams(filter, params);
-        expect(result.toString()).not.toContain('filter=emptyFilter');
-    });
+  it('should handle empty filter values', () => {
+    const filter = {
+      emptyFilter: [],
+    };
+    const params = new HttpParams();
+    // @ts-ignore
+    const result = enrichFilterAndGetUpdatedParams(filter, params);
+    expect(result.toString()).not.toContain('filter=emptyFilter');
+  });
 });

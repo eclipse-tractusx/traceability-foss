@@ -31,28 +31,29 @@ SPDX-License-Identifier: Apache-2.0
       [attr.data-testId]="htmlId + '-icon'"
       (click)="suffixIconClick.emit()"
       matSuffix
-      >{{ suffixIcon }}</mat-icon
+    >{{ suffixIcon }}</mat-icon
     >
     <mat-icon
-            *ngIf="!matcher.isErrorState(control) && displayClearButton"
-            [color]="suffixIconColor"
-            [class.cursor-pointer]="suffixIconHover"
-            [attr.data-testId]="htmlId + '-icon-clear'"
-            (click)="clearIconClick()"
-            matSuffix
-    >clear</mat-icon
+      *ngIf="!matcher.isErrorState(control) && displayClearButton"
+      [color]="suffixIconColor"
+      [class.cursor-pointer]="suffixIconHover"
+      [attr.data-testId]="htmlId + '-icon-clear'"
+      (click)="clearIconClick()"
+      matSuffix
+    >clear
+    </mat-icon
     >
 
     <mat-hint *ngIf="hint" align="start">{{ hint }}</mat-hint>
     <mat-hint align="end" *ngIf="!!maxLength && !!minLength">{{
-      'input.minMaxLengthHint' | i18n : { current: control?.value?.length || 0, max: maxLength, min: minLength }
-    }}</mat-hint>
+      'input.minMaxLengthHint' | i18n : {current: control?.value?.length || 0, max: maxLength, min: minLength}
+      }}</mat-hint>
     <mat-hint align="end" *ngIf="!maxLength && !!minLength">{{
-      'input.minLengthHint' | i18n : { current: control?.value?.length || 0, min: minLength }
-    }}</mat-hint>
+      'input.minLengthHint' | i18n : {current: control?.value?.length || 0, min: minLength}
+      }}</mat-hint>
     <mat-hint align="end" *ngIf="!!maxLength && !minLength">{{
-      'input.maxLengthHint' | i18n : { rest: maxLength - (control?.value?.length || 0) }
-    }}</mat-hint>
+      'input.maxLengthHint' | i18n : {rest: maxLength - (control?.value?.length || 0)}
+      }}</mat-hint>
     <mat-error>
       <app-form-error-message [control]="control" [matcher]="matcher"></app-form-error-message>
     </mat-error>

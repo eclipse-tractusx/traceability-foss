@@ -27,8 +27,8 @@ import { InvestigationsService } from '@shared/service/investigations.service';
 import { Observable, Subscription } from 'rxjs';
 import { InvestigationsState } from './investigations.state';
 import {
-  NotificationFilter
-} from "../../../../mocks/services/investigations-mock/investigations.model";
+  NotificationFilter,
+} from '../../../../mocks/services/investigations-mock/investigations.model';
 
 @Injectable()
 export class InvestigationsFacade {
@@ -38,7 +38,8 @@ export class InvestigationsFacade {
   constructor(
     private readonly investigationsService: InvestigationsService,
     private readonly investigationsState: InvestigationsState,
-  ) {}
+  ) {
+  }
 
   public get investigationsReceived$(): Observable<View<Notifications>> {
     return this.investigationsState.investigationsReceived$;

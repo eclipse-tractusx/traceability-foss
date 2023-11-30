@@ -50,7 +50,7 @@ describe('InvestigationsAssembler', () => {
       createdDate: new CalendarDateModel(null),
       targetDate: new CalendarDateModel(null),
       bpn: '',
-      notificationType: NotificationType.INVESTIGATION
+      notificationType: NotificationType.INVESTIGATION,
     };
 
     expect(NotificationAssembler.assembleNotification({} as NotificationResponse, NotificationType.INVESTIGATION)).toEqual(expected);
@@ -77,7 +77,7 @@ describe('InvestigationsAssembler', () => {
             sendTo: '',
             reason: { close: '', accept: '', decline: '' },
             assetIds: [],
-            errorMessage: ''
+            errorMessage: '',
           },
           {
             id: 'test-2',
@@ -114,7 +114,7 @@ describe('InvestigationsAssembler', () => {
           reason: { close: '', accept: '', decline: '' },
           isFromSender: true,
           assetIds: [],
-          notificationType: NotificationType.INVESTIGATION
+          notificationType: NotificationType.INVESTIGATION,
         },
         {
           id: 'test-2',
@@ -129,7 +129,7 @@ describe('InvestigationsAssembler', () => {
           reason: { close: '', accept: '', decline: '' },
           isFromSender: true,
           assetIds: [],
-          notificationType: NotificationType.INVESTIGATION
+          notificationType: NotificationType.INVESTIGATION,
         },
       ],
     });

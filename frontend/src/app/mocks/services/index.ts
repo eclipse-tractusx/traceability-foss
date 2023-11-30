@@ -22,7 +22,12 @@
 export { dashboardHandler } from './dashboard-mock/dashboard.handler';
 export { partsAsBuiltHandlers, partsHandlersTest } from './parts-mock/partsAsBuilt/partsAsBuilt.handler';
 export { partsAsPlannedHandlers } from './parts-mock/partsAsPlanned/partsAsPlanned.handler';
-export { otherPartsAsBuiltHandlers, otherPartsAsBuiltHandlersTest, otherPartsAsPlannedHandlers, otherPartsAsPlannedHandlersTest } from './otherParts-mock/otherParts.handler';
+export {
+  otherPartsAsBuiltHandlers,
+  otherPartsAsBuiltHandlersTest,
+  otherPartsAsPlannedHandlers,
+  otherPartsAsPlannedHandlersTest,
+} from './otherParts-mock/otherParts.handler';
 export { investigationsHandlers, investigationsTestHandlers } from './investigations-mock/investigations.handler';
 export { adminHandler } from './admin-mock/admin.handler';
 export { errorHandler } from './error-mock/error.handler';
