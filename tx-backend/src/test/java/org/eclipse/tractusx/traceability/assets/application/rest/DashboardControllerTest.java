@@ -52,6 +52,10 @@ class DashboardControllerTest {
                 .customerPartsWithOpenAlerts(1111L)
                 .supplierPartsWithOpenInvestigations(1111L)
                 .customerPartsWithOpenInvestigations(1111L)
+                .sentActiveInvestigations(5000L)
+                .sentActiveAlerts(2000L)
+                .receivedActiveInvestigations(2500L)
+                .receivedActiveAlerts(3000L)
                 .build();
         Mockito.when(dashboardService.getDashboard()).thenReturn(dashboard);
         Dashboard testDashboard = dashboardService.getDashboard();
@@ -67,6 +71,11 @@ class DashboardControllerTest {
         assertEquals(1111, testDashboard.getCustomerPartsWithOpenAlerts());
         assertEquals(1111, testDashboard.getSupplierPartsWithOpenInvestigations());
         assertEquals(1111, testDashboard.getCustomerPartsWithOpenInvestigations());
+        assertEquals(5000, testDashboard.getSentActiveInvestigations());
+        assertEquals(2000, testDashboard.getSentActiveAlerts());
+        assertEquals(3000, testDashboard.getReceivedActiveAlerts());
+        assertEquals(2500, testDashboard.getReceivedActiveInvestigations());
+
     }
 
 }

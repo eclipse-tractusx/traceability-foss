@@ -101,7 +101,7 @@ class AssetAsBuiltControllerByIdIT extends IntegrationTestSpecification {
                 .log().all()
                 .statusCode(200)
                 .assertThat()
-                .body("qualityAlertIdsInStatusActive", hasSize(6));
+                .body("receivedQualityAlertIdsInStatusActive", hasSize(6));
     }
 
     @Test
@@ -127,7 +127,7 @@ class AssetAsBuiltControllerByIdIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(200)
                 .assertThat()
-                .body("qualityInvestigationIdsInStatusActive", hasSize(6));
+                .body("receivedQualityInvestigationIdsInStatusActive", hasSize(6));
     }
 
     @Test

@@ -43,6 +43,10 @@ export class DashboardAssembler {
       ownOpenInvestigationsCreated: dashboard.supplierPartsWithOpenInvestigations + dashboard.customerPartsWithOpenInvestigations,
       ownOpenAlertsReceived: dashboard.supplierPartsWithOpenAlerts + dashboard.customerPartsWithOpenAlerts,
       ownOpenAlertsCreated: dashboard.myPartsWithOpenAlerts,
+      receivedActiveAlerts: dashboard.receivedActiveAlerts,
+      sentActiveAlerts: dashboard.sentActiveAlerts,
+      receivedActiveInvestigations: dashboard.receivedActiveInvestigations,
+      sentActiveInvestigations: dashboard.sentActiveInvestigations
 
     };
   }

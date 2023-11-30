@@ -31,13 +31,5 @@ import java.util.List;
 @ArraySchema(arraySchema = @Schema(description = "Assets", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
 public class AssetAsBuiltResponse extends AssetBaseResponse {
 
-    @ApiModelProperty(dataType = "List", example = "1")
-    private List<Long> sentQualityAlertIdsInStatusActive;
-    @ApiModelProperty(dataType = "List", example = "1")
-    private List<Long> receivedQualityAlertIdsInStatusActive;
-    @ApiModelProperty(dataType = "List", example = "2")
-    private List<Long> sentQualityInvestigationIdsInStatusActive;
-    @ApiModelProperty(dataType = "List", example = "2")
-    private List<Long> receivedQualityInvestigationIdsInStatusActive;
 
 }

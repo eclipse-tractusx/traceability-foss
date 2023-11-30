@@ -29,6 +29,7 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.dashboard.model.Dashboard;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.AlertRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -62,6 +63,12 @@ public class DashboardServiceImpl implements DashboardService {
         long customerPartsWithOpenReceivedAlerts = alertRepository.countOpenNotificationsByOwnership(List.of(Owner.CUSTOMER));
         long customerPartsWithOpenSentInvestigations = investigationsRepository.countOpenNotificationsByOwnership(List.of(Owner.CUSTOMER));
 
+        long receivedActiveInvestigations = investigationsRepository.countQualityNotificationEntitiesBySide(QualityNotificationSide.RECEIVER);
+        long sentActiveInvestigations = investigationsRepository.countQualityNotificationEntitiesBySide(QualityNotificationSide.SENDER);
+
+        long receivedActiveAlerts = alertRepository.countQualityNotificationEntitiesBySide(QualityNotificationSide.RECEIVER);
+        long sentActiveAlerts = alertRepository.countQualityNotificationEntitiesBySide(QualityNotificationSide.SENDER);
+
         return Dashboard.builder()
                 .asBuiltCustomerParts(asBuiltCustomerParts)
                 .asPlannedCustomerParts(asPlannedCustomerParts)
@@ -75,6 +82,10 @@ public class DashboardServiceImpl implements DashboardService {
                 .customerPartsWithOpenAlerts(customerPartsWithOpenReceivedAlerts)
                 .supplierPartsWithOpenInvestigations(supplierPartsWithOpenSentInvestigations)
                 .customerPartsWithOpenInvestigations(customerPartsWithOpenSentInvestigations)
+                .receivedActiveAlerts(receivedActiveAlerts)
+                .receivedActiveInvestigations(receivedActiveInvestigations)
+                .sentActiveAlerts(sentActiveAlerts)
+                .sentActiveInvestigations(sentActiveInvestigations)
                 .build();
 
     }

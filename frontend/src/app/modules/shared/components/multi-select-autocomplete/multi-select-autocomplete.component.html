@@ -41,15 +41,21 @@ SPDX-License-Identifier: Apache-2.0
 
       <!-- hidden element just so that the mat-select dropdown opens -->
       <mat-option [style.display]="'none'"></mat-option>
+
       <div class="pl-1" *ngIf="suggestionError">{{'multiSelect.suggestionError' | i18n}}</div>
+        <ng-container>
+            <mat-option  *ngFor="let option of optionsSelected" [disabled]="option.disabled" [value]="option.value">{{option.display}}
+            </mat-option>
+        </ng-container>
+
+      <mat-divider></mat-divider>
       <ng-container *ngIf="options?.length">
-        <mat-option  *ngFor="let option of options" [disabled]="option.disabled" [value]="option.value"
-                     [style.display]="hideOption(option) ? 'none': 'flex'">{{option.display}}
+        <mat-option  *ngFor="let option of options" [disabled]="option.disabled" [value]="option.value">{{option.display}}
         </mat-option>
       </ng-container>
 
-      <mat-option *ngIf="singleSearch" (click)="changeSearchTextOption()" [value]=this.searchElement
-                  [style.display]="this.shouldHideTextSearchOptionField() ? 'none': 'flex'">{{this.searchElement}}
+      <mat-option *ngIf="singleSearch" (click)="changeSearchTextOptionSingleSearch()" [value]=this.searchElement
+                  [style.display]="this.shouldHideTextSearchOptionFieldSingleSearch() ? 'none': 'flex'">{{this.searchElement}}
       </mat-option>
       <mat-select-trigger  *ngIf="selectedValue?.length > 1">
        <div>

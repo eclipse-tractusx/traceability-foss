@@ -43,7 +43,7 @@ describe('TableSettingsComponent', () => {
           columnSettingsOptions: new Map<string, boolean>(),
           columnsForDialog: ['column1', 'column2'],
           columnsForTable: ['column1'],
-          filterColumnsForTable: ['filterColumn1'],
+          filterColumnsForTable: ['filtercolumn1'],
         },
       };
     });
@@ -72,7 +72,7 @@ describe('TableSettingsComponent', () => {
             panelClass: 'test-dialog',
             tableType: PartTableType.AS_BUILT_OWN,
             defaultColumns: ['column1', 'column2'],
-            defaultFilterColumns: ['filterColumn1', 'filterColumn2'],
+            defaultFilterColumns: ['filtercolumn1', 'filtercolumn2'],
           },
         },
         {
@@ -111,7 +111,7 @@ describe('TableSettingsComponent', () => {
     expect(component.panelClass).toEqual('test-dialog');
     expect(component.tableType).toEqual(PartTableType.AS_BUILT_OWN);
     expect(component.defaultColumns).toEqual(['column1', 'column2']);
-    expect(component.defaultFilterColumns).toEqual(['filterColumn1', 'filterColumn2']);
+    expect(component.defaultFilterColumns).toEqual(['filtercolumn1', 'filtercolumn2']);
     expect(component.isCustomerTable).toEqual(false);
   });
 
@@ -123,12 +123,12 @@ describe('TableSettingsComponent', () => {
     component.save();
 
     // Check that setColumnVisibilitySettings was called with the updated settings
-    expect(tableSettingsService.storeTableSettings).toHaveBeenCalledWith(PartTableType.AS_BUILT_OWN, {
+    expect(tableSettingsService.storeTableSettings).toHaveBeenCalledWith({
       [PartTableType.AS_BUILT_OWN]: {
         columnSettingsOptions: columnOptions,
         columnsForDialog: ['column1', 'column2'],
         columnsForTable: ['column1'],
-        filterColumnsForTable: ['filterColumn1'],
+        filterColumnsForTable: ['filtercolumn1'],
       },
     });
   });

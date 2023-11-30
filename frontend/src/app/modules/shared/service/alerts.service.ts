@@ -37,6 +37,8 @@ import {
   NotificationStatus,
   NotificationType,
 } from '../model/notification.model';
+import {NotificationFilter} from "../../../mocks/services/investigations-mock/investigations.model";
+import {enrichDeeplinkFilterAndGetUpdatedParams} from "@shared/helper/filter-helper";
 
 @Injectable({
   providedIn: 'root',
@@ -46,7 +48,7 @@ export class AlertsService {
 
   constructor(private readonly apiService: ApiService) {}
 
-  public getCreatedAlerts(page: number, pageSize: number, sorting: TableHeaderSort[]): Observable<Notifications> {
+  public getCreatedAlerts(page: number, pageSize: number, sorting: TableHeaderSort[], filter?: NotificationFilter): Observable<Notifications> {
     let sort = sorting.length ? sorting : ['createdDate,desc'];
     let params = new HttpParams()
       .set('page', page)
@@ -57,12 +59,14 @@ export class AlertsService {
       params = params.append('sort', sortingItem);
     })
 
+    params = enrichDeeplinkFilterAndGetUpdatedParams(filter, params);
+
     return this.apiService
       .getBy<NotificationsResponse>(`${this.url}/alerts`, params)
       .pipe(map(alerts => NotificationAssembler.assembleNotifications(alerts, NotificationType.ALERT)));
   }
 
-  public getReceivedAlerts(page: number, pageSize: number, sorting: TableHeaderSort[]): Observable<Notifications> {
+  public getReceivedAlerts(page: number, pageSize: number, sorting: TableHeaderSort[], filter?: NotificationFilter): Observable<Notifications> {
     let sort = sorting.length ? sorting : ['createdDate,desc'];
     let params = new HttpParams()
       .set('page', page)
@@ -72,6 +76,8 @@ export class AlertsService {
     sort.forEach(sortingItem => {
       params = params.append('sort', sortingItem);
     })
+
+    params = enrichDeeplinkFilterAndGetUpdatedParams(filter, params);
 
     return this.apiService
       .getBy<NotificationsResponse>(`${this.url}/alerts`, params)

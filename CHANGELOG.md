@@ -8,10 +8,16 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [UNRELEASED - DD.MM.YYYY]
 ### Added
+- new filtering capabilities ( receivedQualityAlertIdsInStatusActive, sentQualityAlertIdsInStatusActive, receivedQualityInvestigationIdsInStatusActive, sentQualityInvestigationIdsInStatusActive )
+- Validation check if table-settings correct and reset on invalid state
 - Added Api-Input in Argo Workflow to fix bugs
+- Added implementation for cucumber tests for quality investigations
+- Separation of auto complete mechanism (selected / searched elements)
 - Added new step definition for cucumber tests "I use assets with ids {string}" allowing to specify assets used for notification creation
 
 ### Changed
+- Filter configuration for tables to be resuable and easy to adapt
+- Realigned some mappings e.g. (manufacturer / manufacturerName) to be more clear
 - Updated mikefarah/yq from 4.35.2 to 4.40.2
 - Upgraded maven-checkstyle-plugin from 3.3.0 to 3.3.1
 - Upgraded nimbus-jose-jwt from 9.31 to 9.37.1
@@ -21,12 +27,14 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Cucumber test steps for creating notifications no longer support default assetId when no asset is provided with previous step
 
 ### Removed
+- removed asset filters ( qualityInvestigationIdsInStatusActive, qualityInvestigationIdsInStatusActive )
 - Removed Cucumber tests steps for creating alerts with two parts as new step definition is enough for the same feature
 
 ## [9.0.0-rc4 - xx.xx.2023]
 ### Added
 - Added new dashboard layout and additional widgets
 - Refactored dashboard response
+- Added new fields to dashboard response
 
 ## [9.0.0-rc3 - 27.11.2023]
 ### Added

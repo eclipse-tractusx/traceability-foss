@@ -19,83 +19,90 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import type { CalendarDateModel } from '@core/model/calendar-date.model';
-import type { Pagination, PaginationResponse } from '@core/model/pagination.model';
-import { Severity } from '@shared/model/severity.model';
+import type {CalendarDateModel} from '@core/model/calendar-date.model';
+import type {Pagination, PaginationResponse} from '@core/model/pagination.model';
+import {Severity} from '@shared/model/severity.model';
 
 export enum NotificationStatus {
-  ACCEPTED = 'ACCEPTED',
-  ACKNOWLEDGED = 'ACKNOWLEDGED',
-  APPROVED = 'APPROVED',
-  CANCELED = 'CANCELED',
-  CLOSED = 'CLOSED',
-  CREATED = 'CREATED',
-  DECLINED = 'DECLINED',
-  RECEIVED = 'RECEIVED',
-  SENT = 'SENT',
+    ACCEPTED = 'ACCEPTED',
+    ACKNOWLEDGED = 'ACKNOWLEDGED',
+    APPROVED = 'APPROVED',
+    CANCELED = 'CANCELED',
+    CLOSED = 'CLOSED',
+    CREATED = 'CREATED',
+    DECLINED = 'DECLINED',
+    RECEIVED = 'RECEIVED',
+    SENT = 'SENT',
 }
 
 export enum NotificationStatusGroup {
-  RECEIVED = 'received',
-  QUEUED_AND_REQUESTED = 'queued-and-requested',
+    RECEIVED = 'received',
+    QUEUED_AND_REQUESTED = 'queued-and-requested',
 }
 
 export interface NotificationCreateResponse {
-  id: string;
+    id: string;
 }
 
 export interface NotificationReason {
-  close: string | null;
-  accept: string | null;
-  decline: string | null;
+    close: string | null;
+    accept: string | null;
+    decline: string | null;
 }
 
 export interface NotificationUser {
-  bpn?: string;
-  name?: string;
+    bpn?: string;
+    name?: string;
 }
 
 export enum NotificationType {
-  INVESTIGATION = "Investigation",
-  ALERT = "Alert"
+    INVESTIGATION = "Investigation",
+    ALERT = "Alert"
 }
 
 export interface NotificationResponse {
-  id: string;
-  description: string;
-  status: NotificationStatus;
-  severity: Severity;
+    id: string;
+    description: string;
+    status: NotificationStatus;
+    severity: Severity;
 
-  createdDate: string;
-  createdBy: string;
-  createdByName?: string;
-  sendTo: string;
-  sendToName?: string;
-  reason: NotificationReason;
-  assetIds: string[];
-  channel: 'SENDER' | 'RECEIVER';
-  targetDate?: string;
-  bpn?: string;
-  errorMessage?: string
+    createdDate: string;
+    createdBy: string;
+    createdByName?: string;
+    sendTo: string;
+    sendToName?: string;
+    reason: NotificationReason;
+    assetIds: string[];
+    channel: 'SENDER' | 'RECEIVER';
+    targetDate?: string;
+    bpn?: string;
+    errorMessage?: string
 }
 
 export interface Notification {
-  id: string;
-  description: string;
-  status: NotificationStatus | null;
-  severity: Severity | null;
+    id: string;
+    description: string;
+    status: NotificationStatus | null;
+    severity: Severity | null;
 
-  createdDate: CalendarDateModel;
-  createdBy: NotificationUser;
-  sendTo: NotificationUser;
-  reason: NotificationReason;
-  assetIds: string[];
-  isFromSender: boolean;
-  targetDate?: CalendarDateModel;
-  bpn?: string;
-  errorMessage?: string;
+    createdDate: CalendarDateModel;
+    createdBy: NotificationUser;
+    sendTo: NotificationUser;
+    reason: NotificationReason;
+    assetIds: string[];
+    isFromSender: boolean;
+    targetDate?: CalendarDateModel;
+    bpn?: string;
+    errorMessage?: string;
 
-  notificationType?: NotificationType;
+    notificationType?: NotificationType;
+}
+
+export enum NotificationColumn {
+    RECEIVED_ALERT = 'receivedActiveAlerts',
+    SENT_ALERT = 'sentActiveAlerts',
+    RECEIVED_INVESTIGATION = 'receivedActiveInvestigations',
+    SENT_INVESTIGATION = 'sentActiveInvestigations'
 }
 
 export type NotificationsResponse = PaginationResponse<NotificationResponse>;

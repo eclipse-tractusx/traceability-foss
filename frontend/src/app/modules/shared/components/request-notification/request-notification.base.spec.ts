@@ -33,7 +33,7 @@ describe('requestInvestigationComponent', () => {
   let deselectPartMock: jasmine.Spy<jasmine.Func>;
   let clearSelectedMock: jasmine.Spy<jasmine.Func>;
   let submittedMock: jasmine.Spy<jasmine.Func>;
-  const currentSelectedItems = [{ name: 'part_1' }, { name: 'part_2' }, { name: 'part_3' }];
+  const currentSelectedItems = [{ nameAtManufacturer: 'part_1' }, { nameAtManufacturer: 'part_2' }, { nameAtManufacturer: 'part_3' }];
 
   const renderRequestInvestigationComponent = async () => {
     return renderComponent(
