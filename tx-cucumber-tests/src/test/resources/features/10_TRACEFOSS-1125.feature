@@ -36,6 +36,7 @@ Feature: ⭐[BE] User select severity for Quality Investigation
   @TRACEFOSS-1220 @TRACEFOSS-1920 @TEST-1217 @TRACEFOSS-1138 @TRACEFOSS-1139 @TRACEFOSS-1101 @TRACEFOSS-1673 @TEST-904 @INTEGRATION_TEST
   Scenario Outline: [BE] Check correct processing of severity in quality investigation
     When I am logged into TRACE_X_A application
+    When I use assets with ids 'urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd'
     And I create quality investigation
       | "severity"    | <severity>                        |
       | "description" | "Testing severity TRACEFOSS-1220" |
