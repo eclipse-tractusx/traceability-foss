@@ -27,20 +27,20 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties("traceability")
 public class TraceabilityProperties {
 
-	private final BPN bpn;
+    private final BPN bpn;
 
-	private final String url;
+    private final String url;
 
-	public TraceabilityProperties(String bpn, String url) {
-		this.bpn = new BPN(bpn);
-		this.url = url;
-	}
+    public TraceabilityProperties(String bpn, String url) {
+        this.bpn = new BPN(bpn);
+        this.url = url;
+    }
 
-	public BPN getBpn() {
-		return bpn;
-	}
+    public BPN getBpn() {
+        return bpn;
+    }
 
-	public String getUrl() {
-		return url;
-	}
+    public String getUrl() {
+        return url;
+    }
 }

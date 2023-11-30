@@ -153,7 +153,7 @@ class EdcNotificationServiceImplTest {
                 .severity(QualityNotificationSeverity.MINOR)
                 .isInitial(false)
                 .build();
-        doThrow(new SendNotificationException("message",new RuntimeException())).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
+        doThrow(new SendNotificationException("message", new RuntimeException())).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
         // when
         notificationsService.asyncNotificationMessageExecutor(notification);
@@ -254,7 +254,7 @@ class EdcNotificationServiceImplTest {
                 .severity(QualityNotificationSeverity.MINOR)
                 .isInitial(false)
                 .build();
-        doThrow(new SendNotificationException("message",new RuntimeException())).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
+        doThrow(new SendNotificationException("message", new RuntimeException())).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
         // when
         notificationsService.asyncNotificationMessageExecutor(notification);

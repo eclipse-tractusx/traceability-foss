@@ -124,14 +124,15 @@ class BpnMappingControllerIT extends IntegrationTestSpecification {
                 .body("[0].bpn", Matchers.equalTo("BPN456"))
                 .body("[0].url", Matchers.equalTo("https://test456.de"));
     }
+
     @Test
     void givenBadRequest_whenCreateBpnConfig_thenReturn400() throws JoseException {
         // given
         var request = """
-                                    [
-                                        "url" : "https://test.de"
-                                    ]
-                                """;
+                    [
+                        "url" : "https://test.de"
+                    ]
+                """;
         given()
                 .contentType(ContentType.JSON)
                 .body(request)
@@ -146,11 +147,11 @@ class BpnMappingControllerIT extends IntegrationTestSpecification {
     void givenMalformedRequest_whenCreateBpnMapping_thenReturn400() throws JoseException {
         // given
         var request = """
-                                    [
-                                        "url" : "https://test.de",
-                                        "abc" : "de"
-                                    ]
-                                """;
+                    [
+                        "url" : "https://test.de",
+                        "abc" : "de"
+                    ]
+                """;
         given()
                 .contentType(ContentType.JSON)
                 .body(request)

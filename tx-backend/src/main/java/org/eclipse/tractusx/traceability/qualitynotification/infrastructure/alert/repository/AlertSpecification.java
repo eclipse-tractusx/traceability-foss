@@ -34,6 +34,7 @@ public class AlertSpecification extends BaseSpecification<AlertEntity> implement
     public AlertSpecification(SearchCriteriaFilter criteria) {
         super(criteria);
     }
+
     @Override
     public Predicate toPredicate(@NotNull Root<AlertEntity> root, @NotNull CriteriaQuery<?> query, @NotNull CriteriaBuilder builder) {
         return createPredicate(getSearchCriteriaFilter(), root, builder);

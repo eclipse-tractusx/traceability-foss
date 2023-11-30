@@ -202,7 +202,7 @@ public class SemanticDataModel {
         return catenaXId;
     }
 
-    public String identification(){
+    public String identification() {
         return identification;
     }
 
