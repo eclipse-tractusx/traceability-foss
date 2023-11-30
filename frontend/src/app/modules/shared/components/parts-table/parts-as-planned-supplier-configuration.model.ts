@@ -20,18 +20,18 @@ import { TableFilterConfiguration } from '@shared/components/parts-table/parts-c
 
 export class PartsAsPlannedSupplierConfigurationModel extends TableFilterConfiguration {
 
-    constructor() {
-        const sortableColumns = {
-            select: false,
-            semanticDataModel: true,
-            nameAtManufacturer: true,
-            businessPartner: true,
-            manufacturerName: true,
-            manufacturerPartId: true,
-            semanticModelId: true,
-            menu: false
-        };
-        super(sortableColumns);
-    }
+  constructor() {
+    const sortableColumns = {
+      select: false,
+      semanticDataModel: true,
+      nameAtManufacturer: true,
+      businessPartner: true,
+      manufacturerName: true,
+      manufacturerPartId: true,
+      semanticModelId: true,
+      menu: false,
+    };
+    super(sortableColumns);
+  }
 }
 

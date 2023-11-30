@@ -56,14 +56,14 @@ export class TableSettingsComponent {
     this.isCustomerTable = data.tableType === PartTableType.AS_BUILT_CUSTOMER || data.tableType === PartTableType.AS_PLANNED_CUSTOMER;
     // Passed Data
     this.tableType = data.tableType;
-    this.defaultColumns = data.defaultColumns
-    this.defaultFilterColumns = data.defaultFilterColumns
+    this.defaultColumns = data.defaultColumns;
+    this.defaultFilterColumns = data.defaultFilterColumns;
 
     // Storage Data
     this.columnOptions = tableSettingsService.getStoredTableSettings()[this.tableType].columnSettingsOptions;
-    this.dialogColumns = tableSettingsService.getStoredTableSettings()[this.tableType].columnsForDialog
-    this.tableColumns = tableSettingsService.getStoredTableSettings()[this.tableType].columnsForTable
-    this.filterColumns = tableSettingsService.getStoredTableSettings()[this.tableType].filterColumnsForTable
+    this.dialogColumns = tableSettingsService.getStoredTableSettings()[this.tableType].columnsForDialog;
+    this.tableColumns = tableSettingsService.getStoredTableSettings()[this.tableType].columnsForTable;
+    this.filterColumns = tableSettingsService.getStoredTableSettings()[this.tableType].filterColumnsForTable;
 
     this.selectAllSelected = this.dialogColumns.length === this.tableColumns.length;
 
@@ -73,21 +73,20 @@ export class TableSettingsComponent {
     // build new tableColumns how they should be displayed
     let newTableColumns: string[] = [];
     let newTableFilterColumns: string[] = [];
-      // iterate over dialogColumns
-      for(const column of this.dialogColumns) {
-        // if item in dialogColumns is true in columnOptions --> add to new tableColumns
-        if(this.columnOptions.get(column)) {
-          newTableColumns.push(column);
-          // ignore select column in customertable
-          if(column === 'select') {
-            newTableFilterColumns.push('Filter');
-          }
-          else if(column === 'menu') {}
-          else {
-            newTableFilterColumns.push('filter'+ column)
-          }
+    // iterate over dialogColumns
+    for (const column of this.dialogColumns) {
+      // if item in dialogColumns is true in columnOptions --> add to new tableColumns
+      if (this.columnOptions.get(column)) {
+        newTableColumns.push(column);
+        // ignore select column in customertable
+        if (column === 'select') {
+          newTableFilterColumns.push('Filter');
+        } else if (column === 'menu') {
+        } else {
+          newTableFilterColumns.push('filter' + column);
         }
       }
+    }
 
     // get Settingslist
     let tableSettingsList = this.tableSettingsService.getStoredTableSettings();
@@ -151,7 +150,7 @@ export class TableSettingsComponent {
   }
 
   resetColumns() {
-    this.dialogColumns = this.defaultColumns
+    this.dialogColumns = this.defaultColumns;
     this.selectAll(true);
   }
 }

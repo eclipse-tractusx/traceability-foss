@@ -27,43 +27,45 @@ SPDX-License-Identifier: Apache-2.0
     </div>
     <div class="dialog--content--container">
 
-  <div class="dialog--content--menu--order">
-    <mat-icon
-      (click)="handleSortListItem('down')"
-      matTooltip="{{'table.tableSettings.orderTooltip' | i18n}}"
-      matTooltipClass="table--header--tooltip"
-      matTooltipPosition="above"
-      [class.mdc-tooltip--multiline]="true"
-      [matTooltipShowDelay]="500"
-    >arrow_downward</mat-icon>
-    <mat-icon
-      (click)="handleSortListItem('up')"
-      matTooltip="{{'table.tableSettings.orderTooltip' | i18n}}"
-      matTooltipClass="table--header--tooltip"
-      matTooltipPosition="above"
-      [class.mdc-tooltip--multiline]="true"
-      [matTooltipShowDelay]="500"
-    >arrow_upward</mat-icon>
-  </div>
-  <div class="dialog--columns--container">
-  <mat-checkbox
-    color="primary"
-    (change)="selectAll($event.checked)"
-    [checked]="selectAllSelected"
-    >{{'table.tableSettings.selectAll' | i18n}}
-  </mat-checkbox>
-  <mat-divider></mat-divider>
-    <ng-container class="dialog--columns--columns--list" *ngFor="let item of dialogColumns; let index=index">
-    <mat-checkbox *ngIf="item !== 'select' && item !== 'menu'"
-      color="primary"
-      [checked]="columnOptions.get(item)"
-      [value]="item"
-      [class.selected-item]="selectedColumn === item"
-      (change)="$event ? handleCheckBoxChange(item, $event.checked) : null"
-      (click) = "handleListItemClick($event, item)"
-      class="dialog--columns--columns--list"
-    >
-      {{'table.column.' + item | i18n}}
+      <div class="dialog--content--menu--order">
+        <mat-icon
+          (click)="handleSortListItem('down')"
+          matTooltip="{{'table.tableSettings.orderTooltip' | i18n}}"
+          matTooltipClass="table--header--tooltip"
+          matTooltipPosition="above"
+          [class.mdc-tooltip--multiline]="true"
+          [matTooltipShowDelay]="500"
+        >arrow_downward
+        </mat-icon>
+        <mat-icon
+          (click)="handleSortListItem('up')"
+          matTooltip="{{'table.tableSettings.orderTooltip' | i18n}}"
+          matTooltipClass="table--header--tooltip"
+          matTooltipPosition="above"
+          [class.mdc-tooltip--multiline]="true"
+          [matTooltipShowDelay]="500"
+        >arrow_upward
+        </mat-icon>
+      </div>
+      <div class="dialog--columns--container">
+        <mat-checkbox
+          color="primary"
+          (change)="selectAll($event.checked)"
+          [checked]="selectAllSelected"
+        >{{'table.tableSettings.selectAll' | i18n}}
+        </mat-checkbox>
+        <mat-divider></mat-divider>
+        <ng-container class="dialog--columns--columns--list" *ngFor="let item of dialogColumns; let index=index">
+          <mat-checkbox *ngIf="item !== 'select' && item !== 'menu'"
+                        color="primary"
+                        [checked]="columnOptions.get(item)"
+                        [value]="item"
+                        [class.selected-item]="selectedColumn === item"
+                        (change)="$event ? handleCheckBoxChange(item, $event.checked) : null"
+                        (click)="handleListItemClick($event, item)"
+                        class="dialog--columns--columns--list"
+          >
+            {{'table.column.' + item | i18n}}
 
             <ng-container *ngIf="item.includes('Alert')">
               <mat-icon matTooltip="{{'table.tableSettings.alert' | i18n}}"

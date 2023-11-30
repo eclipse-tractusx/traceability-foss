@@ -64,40 +64,40 @@ SPDX-License-Identifier: Apache-2.0
         [hidden]="displayedFilter"></tr>
 
 
-        <ng-container matColumnDef="{{ filter.headerKey }}"
-                      *ngFor="let filter of tableViewConfig.displayFilterColumnMappings">
-            <th class="multi-select-header-cell" mat-header-cell *matHeaderCellDef>
-                <app-multiselect *ngIf="filter.headerKey!==filterKey"
-                                 [placeholder]="'multiSelect.placeholder' | i18n"
-                                 [options]="filter.option"
-                                 [isDate]='filter.isDate'
-                                 [singleSearch]="filter.singleSearch"
-                                 [filterColumn]="filter.filterKey"
-                                 [isAsBuilt]="mainAspectType === MainAspectType.AS_BUILT"
-                                 [partTableType]="tableType"
-                                 [placeholderMultiple]="('multiSelect.multipleResults' | i18n)"
-                                 ngDefaultControl
-                                 [formControl]="filterFormGroup.controls[filter.filterKey]"></app-multiselect>
-                <span class="filter-title"
-                      *ngIf="filter.headerKey==='Filter'">{{ ''}}</span>
-            </th>
-        </ng-container>
-        <tr
-                *matRowDef="let row; columns: tableConfig.displayedColumns"
-                [class.loading]="isDataLoading"
-                [class.no-hover]="!showHover"
-                [ngClass]="{'highlighted': (row?.receivedActiveInvestigations?.length > 0 || row?.receivedActiveAlerts?.length > 0 || row?.sentActiveAlerts?.length > 0 || row?.sentActiveInvestigations?.length > 0), 'error': row?.errorMessage }"
-                mat-row
-                data-testid="table-component--body-row"
-        ></tr>
+    <ng-container matColumnDef="{{ filter.headerKey }}"
+                  *ngFor="let filter of tableViewConfig.displayFilterColumnMappings">
+      <th class="multi-select-header-cell" mat-header-cell *matHeaderCellDef>
+        <app-multiselect *ngIf="filter.headerKey!==filterKey"
+                         [placeholder]="'multiSelect.placeholder' | i18n"
+                         [options]="filter.option"
+                         [isDate]="filter.isDate"
+                         [singleSearch]="filter.singleSearch"
+                         [filterColumn]="filter.filterKey"
+                         [isAsBuilt]="mainAspectType === MainAspectType.AS_BUILT"
+                         [partTableType]="tableType"
+                         [placeholderMultiple]="('multiSelect.multipleResults' | i18n)"
+                         ngDefaultControl
+                         [formControl]="filterFormGroup.controls[filter.filterKey]"></app-multiselect>
+        <span class="filter-title"
+              *ngIf="filter.headerKey==='Filter'">{{ ''}}</span>
+      </th>
+    </ng-container>
+    <tr
+      *matRowDef="let row; columns: tableConfig.displayedColumns"
+      [class.loading]="isDataLoading"
+      [class.no-hover]="!showHover"
+      [ngClass]="{'highlighted': (row?.receivedActiveInvestigations?.length > 0 || row?.receivedActiveAlerts?.length > 0 || row?.sentActiveAlerts?.length > 0 || row?.sentActiveInvestigations?.length > 0), 'error': row?.errorMessage }"
+      mat-row
+      data-testid="table-component--body-row"
+    ></tr>
 
-        <ng-container *ngIf="!!tableConfig.menuActionsConfig">
-            <tr
-                    *matRowDef="let row; columns: ['menu']"
-                    class="expand-row no-hover table--menu__mobile"
-                    mat-row
-            ></tr>
-        </ng-container>
+    <ng-container *ngIf="!!tableConfig.menuActionsConfig">
+      <tr
+        *matRowDef="let row; columns: ['menu']"
+        class="expand-row no-hover table--menu__mobile"
+        mat-row
+      ></tr>
+    </ng-container>
 
     <tr *matNoDataRow class="mat-row no-hover" data-testid="table-component--body-row">
       <td class="mat-cell" [attr.colspan]="tableConfig?.displayedColumns.length">

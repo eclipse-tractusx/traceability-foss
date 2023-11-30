@@ -165,23 +165,23 @@ describe('PartsTableComponent', () => {
     expect(componentInstance.pageIndex).toEqual(paginationData.page);
     expect(componentInstance.isDataLoading).toBe(false);
 
-    });
-/* emit with correct event data to fix test instead of selectElement
-    it('should select or deselect a row and emit selected event if menuActionsConfig is not defined', async () => {
-        const {fixture} = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
-        const {componentInstance} = fixture;
+  });
+  /* emit with correct event data to fix test instead of selectElement
+      it('should select or deselect a row and emit selected event if menuActionsConfig is not defined', async () => {
+          const {fixture} = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
+          const {componentInstance} = fixture;
 
-    const row1 = { id: 1, name: 'Item 1' };
+      const row1 = { id: 1, name: 'Item 1' };
 
-    spyOn(componentInstance.selected, 'emit');
+      spyOn(componentInstance.selected, 'emit');
 
-    componentInstance.selectElement(row1);
+      componentInstance.selectElement(row1);
 
-    expect(componentInstance.selected.emit).toHaveBeenCalledWith(row1);
-    expect(componentInstance.selectedRow).toEqual(row1);
+      expect(componentInstance.selected.emit).toHaveBeenCalledWith(row1);
+      expect(componentInstance.selectedRow).toEqual(row1);
 
-    });
-    */
+      });
+      */
 
 
   it('should remove selected values and emit multiSelect', async () => {

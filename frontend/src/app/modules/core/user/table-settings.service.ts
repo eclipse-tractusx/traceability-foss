@@ -66,24 +66,24 @@ export class TableSettingsService {
       return false;
     }
 
-        if (tableViewConfig.displayedColumns.length !== storageElement.columnsForDialog.length) {
-            isInvalid = true;
-        }
-        for (const col of tableViewConfig.displayedColumns.values()) {
-            if (col !== 'menu' && !storageElement.columnsForDialog.includes(col) ) {
-                isInvalid = true;
-            }
-        }
-        for (const col of storageElement.columnsForDialog) {
-            if (col !== 'menu' && !tableViewConfig.displayedColumns.includes(col)) {
-                isInvalid = true;
-            }
-        }
-        if (isInvalid) {
-            localStorage.removeItem(this.settingsKey);
-        }
-        return isInvalid;
+    if (tableViewConfig.displayedColumns.length !== storageElement.columnsForDialog.length) {
+      isInvalid = true;
     }
+    for (const col of tableViewConfig.displayedColumns.values()) {
+      if (col !== 'menu' && !storageElement.columnsForDialog.includes(col)) {
+        isInvalid = true;
+      }
+    }
+    for (const col of storageElement.columnsForDialog) {
+      if (col !== 'menu' && !tableViewConfig.displayedColumns.includes(col)) {
+        isInvalid = true;
+      }
+    }
+    if (isInvalid) {
+      localStorage.removeItem(this.settingsKey);
+    }
+    return isInvalid;
+  }
 
   emitChangeEvent() {
     this.changeEvent.next();

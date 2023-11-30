@@ -267,24 +267,24 @@ export class PartsTableComponent implements OnInit {
   }
 
 
-    private setupTableConfigurations(displayedColumnsForTable: string[], displayedColumns: string[], sortableColumns: Record<string, boolean>, filterConfiguration: any[], filterFormGroup: any): any {
-        const headerKey = 'table.column';
-        this.tableConfig = {
-            displayedColumns: displayedColumnsForTable,
-            header: CreateHeaderFromColumns(displayedColumnsForTable, headerKey),
-            sortableColumns: sortableColumns,
-            menuActionsConfig: [{
-              label: 'actions.viewDetails',
-              icon: 'remove_red_eye',
-              action: (data: Record<string, unknown>) => this.selected.emit(data),
-          }]
-      };
-        this.displayedColumns = displayedColumns;
-        for (const controlName in filterFormGroup) {
-            if (filterFormGroup.hasOwnProperty(controlName)) {
-                this.filterFormGroup.addControl(controlName, filterFormGroup[controlName]);
-            }
-        }
+  private setupTableConfigurations(displayedColumnsForTable: string[], displayedColumns: string[], sortableColumns: Record<string, boolean>, filterConfiguration: any[], filterFormGroup: any): any {
+    const headerKey = 'table.column';
+    this.tableConfig = {
+      displayedColumns: displayedColumnsForTable,
+      header: CreateHeaderFromColumns(displayedColumnsForTable, headerKey),
+      sortableColumns: sortableColumns,
+      menuActionsConfig: [ {
+        label: 'actions.viewDetails',
+        icon: 'remove_red_eye',
+        action: (data: Record<string, unknown>) => this.selected.emit(data),
+      } ],
+    };
+    this.displayedColumns = displayedColumns;
+    for (const controlName in filterFormGroup) {
+      if (filterFormGroup.hasOwnProperty(controlName)) {
+        this.filterFormGroup.addControl(controlName, filterFormGroup[controlName]);
+      }
+    }
 
   }
 
@@ -329,9 +329,9 @@ export class PartsTableComponent implements OnInit {
     this.emitMultiSelect();
   }
 
-    private emitMultiSelect(): void {
-        this.multiSelect.emit(this.selection.selected);
-    }
+  private emitMultiSelect(): void {
+    this.multiSelect.emit(this.selection.selected);
+  }
 
   public isSelected(row: unknown): boolean {
     return !!this.selection.selected.find(data => JSON.stringify(data) === JSON.stringify(row));
