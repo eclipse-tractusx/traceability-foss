@@ -31,7 +31,8 @@
     },
     "footer": {
       "imprint": "Impressum",
-      "version": "Version Updates"
+      "version": "Version Updates",
+      "imprintLink": "https://www.cofinity-x.com/de/kontakt/impressum/"
     }
   },
   "actions": {

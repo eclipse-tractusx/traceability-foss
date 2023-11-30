@@ -2,17 +2,15 @@
   <div class="footer--items-container">
     <div class="footer--items">
       <ng-container
-        *ngTemplateOutlet="menuItem; context: { value: 'imprint', role: 'user', origin: 'layout.footer' }"
-      ></ng-container>
-      <ng-container
+        *ngTemplateOutlet="menuItemExtern; context: { value: 'imprint', role: 'user', origin: 'layout.footer', link: 'imprintLink' }"></ng-container>
+      <!--<ng-container
         *ngTemplateOutlet="menuItem; context: { value: 'faqs', role: 'user', origin: 'layout.nav' }"
-      ></ng-container>
+      ></ng-container>-->
       <ng-container
-        *ngTemplateOutlet="menuItem; context: { value: 'about', role: 'user', origin: 'routing' }"
-      ></ng-container>
-      <ng-container
+        *ngTemplateOutlet="menuItem; context: { value: 'about', role: 'user', origin: 'routing' }"></ng-container>
+      <!--<ng-container
         *ngTemplateOutlet="menuItem; context: { value: 'version', role: 'user', origin: 'layout.footer' }"
-      ></ng-container>
+      ></ng-container>-->
     </div>
     <div class="footer--copyright">
       <p class="footer--text">© Cofinity-X GmbH - All rights reserved.</p>
@@ -20,8 +18,27 @@
   </div>
 </footer>
 
-<ng-template let-type="value" let-role="role" let-origin="origin" #menuItem>
-  <a *appHasRole="[role]" [routerLink]="['/' + type]" [class.selected]="type === activeMenu">
+<ng-template let-type="value"
+  let-role="role"
+  let-origin="origin"
+  #menuItem>
+  <a *appHasRole="[role]"
+    [routerLink]="['/' + type]"
+    [class.selected]="type === activeMenu">
+    <p class="footer--text">{{ origin + '.' + type | i18n }}</p>
+  </a>
+</ng-template>
+
+<ng-template let-type="value"
+  let-role="role"
+  let-origin="origin"
+  let-link="link"
+  #menuItemExtern>
+  <a *appHasRole="[role]"
+    href="{{ origin + '.' + link | i18n }}"
+    target="_blank"
+    rel="noopener"
+    [class.selected]="type === activeMenu">
     <p class="footer--text">{{ origin + '.' + type | i18n }}</p>
   </a>
 </ng-template>

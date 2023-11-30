@@ -23,23 +23,26 @@ SPDX-License-Identifier: Apache-2.0
   <!-- Profile dropdown -->
   <div class="user-menu-content">
     <div (click)="this.expand($event)">
-      <button class="user-menu-btn" data-testid="user-menu" id="user-menu" aria-haspopup="true">
-        <img *ngIf="!this.isExpanded" class="user-menu-btn__icon" src="/assets/images/icons/user_menu_icon.svg" />
-        <img
-          *ngIf="this.isExpanded"
+      <button class="user-menu-btn"
+        data-testid="user-menu"
+        id="user-menu"
+        aria-haspopup="true">
+        <img *ngIf="!this.isExpanded"
+          class="user-menu-btn__icon"
+          src="/assets/images/icons/user_menu_icon.svg"
+          alt="open user menu button" />
+        <img *ngIf="this.isExpanded"
           class="user-menu-btn__icon-close"
           src="/assets/images/icons/user_menu_close_icon.svg"
-        />
+          alt="close user menu button" />
       </button>
     </div>
-    <div
-      *ngIf="this.isExpanded"
+    <div *ngIf="this.isExpanded"
       [class.expand]="isExpanded"
       class="user-menu-items-container"
       role="menu"
       aria-orientation="vertical"
-      aria-labelledby="user-menu"
-    >
+      aria-labelledby="user-menu">
       <section class="flex flex-col">
         <p class="label-large text-primary">{{ this.userDetails.name }}</p>
         <p class="body-small">{{ this.userDetails.role }}</p>
@@ -47,15 +50,19 @@ SPDX-License-Identifier: Apache-2.0
 
       <mat-divider class="user-menu-mat-divider"></mat-divider>
 
-      <p class="label-large user-menu-item" role="menuitem" (click)="this.navigateToFaqs()">
+      <!--<p class="label-large user-menu-item" role="menuitem" (click)="this.navigateToFaqs()">
         {{ 'layout.nav.faqs' | i18n }}
-      </p>
+      </p>-->
 
-      <p class="label-large user-menu-item" role="menuitem" (click)="this.openPortalPage()">
+      <p class="label-large user-menu-item"
+        role="menuitem"
+        (click)="this.openPortalPage()">
         {{ 'layout.nav.helpdesk' | i18n }}
       </p>
 
-      <p class="label-large user-menu-item" role="menuitem" (click)="this.logOut()">
+      <p class="label-large user-menu-item"
+        role="menuitem"
+        (click)="this.logOut()">
         {{ 'layout.nav.signOut' | i18n }}
       </p>
 
