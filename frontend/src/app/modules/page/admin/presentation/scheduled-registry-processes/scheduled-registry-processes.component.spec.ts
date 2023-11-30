@@ -26,7 +26,7 @@ import { ScheduledRegistryProcessesComponent } from './scheduled-registry-proces
 
 describe('ScheduledRegistryProcessesComponent', () => {
   const renderRegistryProcessesComponent = () =>
-    renderComponent(ScheduledRegistryProcessesComponent, { imports: [AdminModule] });
+    renderComponent(ScheduledRegistryProcessesComponent, { imports: [ AdminModule ] });
 
   it('should create', async () => {
     await renderRegistryProcessesComponent();

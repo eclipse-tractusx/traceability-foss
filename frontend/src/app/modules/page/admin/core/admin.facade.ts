@@ -33,7 +33,8 @@ import { Observable, Subscription } from 'rxjs';
 export class AdminFacade {
   private scheduledRegistryProcessesSubscription: Subscription;
 
-  constructor(private readonly adminState: AdminState, private readonly adminService: AdminService) {}
+  constructor(private readonly adminState: AdminState, private readonly adminService: AdminService) {
+  }
 
   public get scheduledRegistryProcesses$(): Observable<View<Pagination<RegistryProcess>>> {
     return this.adminState.scheduledRegistryProcesses$;

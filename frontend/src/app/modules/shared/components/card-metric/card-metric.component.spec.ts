@@ -10,9 +10,9 @@ describe('CardMetricComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ CardMetricComponent ],
-      imports: [SharedModule]
+      imports: [ SharedModule ],
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(CardMetricComponent);
     component = fixture.componentInstance;

@@ -27,15 +27,15 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Pagination } from '@core/model/pagination.model';
 import { RoleService } from '@core/user/role.service';
 import { MenuActionConfig, TableConfig, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
-import {addSelectedValues, clearAllRows, clearCurrentRows, removeSelectedValues} from '@shared/helper/table-helper';
+import { addSelectedValues, clearAllRows, clearCurrentRows, removeSelectedValues } from '@shared/helper/table-helper';
 import { NotificationType } from '@shared/model/notification.model';
 import { FlattenObjectPipe } from '@shared/pipes/flatten-object.pipe';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
-  styleUrls: ['table.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: [ 'table.component.scss' ],
+  encapsulation: ViewEncapsulation.None,
 })
 export class TableComponent {
   @ViewChild(MatSort) sort: MatSort;
@@ -43,6 +43,7 @@ export class TableComponent {
   @ViewChild('tableElement', { read: ElementRef }) tableElementRef: ElementRef<HTMLElement>;
 
   @Input() additionalTableHeader = false;
+
   @Input()
   set tableConfig(tableConfig: TableConfig) {
     if (!tableConfig) {
@@ -58,7 +59,7 @@ export class TableComponent {
       action: (data: Record<string, unknown>) => this.selected.emit(data),
     };
 
-    const menuActionsConfig = menuActions ? [viewDetailsMenuAction, ...menuActions] : null;
+    const menuActionsConfig = menuActions ? [ viewDetailsMenuAction, ...menuActions ] : null;
     this._tableConfig = { ...tableConfig, displayedColumns, hasPagination, menuActionsConfig };
   }
 
@@ -84,10 +85,10 @@ export class TableComponent {
     this.pageIndex = page;
   }
 
-  @Input() set PartsPaginationData({page, pageSize, totalItems, content}: Pagination<unknown>) {
+  @Input() set PartsPaginationData({ page, pageSize, totalItems, content }: Pagination<unknown>) {
     let flatter = new FlattenObjectPipe();
     // modify the content of the partlist so that there are no subobjects
-    let newContent = content.map(part => flatter.transform(part))
+    let newContent = content.map(part => flatter.transform(part));
     this.totalItems = totalItems;
     this.pageSize = pageSize;
     this.dataSource.data = newContent;
@@ -138,7 +139,8 @@ export class TableComponent {
 
   private _tableConfig: TableConfig;
 
-  constructor(private readonly roleService: RoleService) {}
+  constructor(private readonly roleService: RoleService) {
+  }
 
   public areAllRowsSelected(): boolean {
     return this.dataSource.data.every(data => this.isSelected(data));
@@ -169,13 +171,13 @@ export class TableComponent {
   public updateSortingOfData({ active, direction }: Sort): void {
     this.selection.clear();
     this.emitMultiSelect();
-    this.sorting = !direction ? null : ([active, direction] as TableHeaderSort);
+    this.sorting = !direction ? null : ([ active, direction ] as TableHeaderSort);
     this.isDataLoading = true;
     this.configChanged.emit({ page: 0, pageSize: this.pageSize, sorting: this.sorting });
   }
 
   public toggleSelection(row: unknown): void {
-    this.isSelected(row) ? this.removeSelectedValues([row]) : this.addSelectedValues([row]);
+    this.isSelected(row) ? this.removeSelectedValues([ row ]) : this.addSelectedValues([ row ]);
     this.emitMultiSelect();
   }
 

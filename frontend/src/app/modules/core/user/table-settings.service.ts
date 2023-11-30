@@ -17,79 +17,79 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {Injectable} from '@angular/core';
-import {PartTableType} from '@shared/components/table/table.model';
-import {Subject} from 'rxjs';
-import {TableViewConfig} from "@shared/components/parts-table/table-view-config.model";
+import { Injectable } from '@angular/core';
+import { PartTableType } from '@shared/components/table/table.model';
+import { Subject } from 'rxjs';
+import { TableViewConfig } from '@shared/components/parts-table/table-view-config.model';
 
 @Injectable({
-    providedIn: 'root',
+  providedIn: 'root',
 })
 export class TableSettingsService {
-    private settingsKey = 'TableViewSettings';
-    private changeEvent = new Subject<void>();
+  private settingsKey = 'TableViewSettings';
+  private changeEvent = new Subject<void>();
 
-    storeTableSettings(tableSettingsList: any): void {
-        // before setting anything, all maps in new tableSettingList should be stringified
-        Object.keys(tableSettingsList).forEach(tableSetting => {
-            const newMap = tableSettingsList[tableSetting].columnSettingsOptions;
-            tableSettingsList[tableSetting].columnSettingsOptions = JSON.stringify(Array.from(newMap.entries()));
-        })
-        localStorage.setItem(this.settingsKey, JSON.stringify(tableSettingsList));
+  storeTableSettings(tableSettingsList: any): void {
+    // before setting anything, all maps in new tableSettingList should be stringified
+    Object.keys(tableSettingsList).forEach(tableSetting => {
+      const newMap = tableSettingsList[tableSetting].columnSettingsOptions;
+      tableSettingsList[tableSetting].columnSettingsOptions = JSON.stringify(Array.from(newMap.entries()));
+    });
+    localStorage.setItem(this.settingsKey, JSON.stringify(tableSettingsList));
+  }
+
+  // this returns whole settings whether empty / not for part / etc.
+  getStoredTableSettings(): any {
+    const settingsJson = localStorage.getItem(this.settingsKey);
+    let settingsObject = settingsJson ? JSON.parse(settingsJson) : null;
+    if (!settingsObject) return;
+
+    // iterate through all tabletypes and parse columnSettingsOption to a map
+    Object.keys(settingsObject).forEach(tableSetting => {
+      settingsObject[tableSetting].columnSettingsOptions = new Map(JSON.parse(settingsObject[tableSetting].columnSettingsOptions));
+
+    });
+
+    return settingsObject;
+  }
+
+  storedTableSettingsInvalid(tableViewConfig: TableViewConfig, tableType: PartTableType): boolean {
+    let isInvalid = false;
+
+    const storage = this.getStoredTableSettings();
+    if (!storage?.[tableType]) {
+      return false;
+    }
+    const storageElement = storage[tableType];
+
+    if (!storageElement?.columnsForDialog) {
+      return false;
     }
 
-    // this returns whole settings whether empty / not for part / etc.
-    getStoredTableSettings(): any {
-        const settingsJson = localStorage.getItem(this.settingsKey);
-        let settingsObject = settingsJson ? JSON.parse(settingsJson) : null;
-        if (!settingsObject) return;
-
-        // iterate through all tabletypes and parse columnSettingsOption to a map
-        Object.keys(settingsObject).forEach(tableSetting => {
-            settingsObject[tableSetting].columnSettingsOptions = new Map(JSON.parse(settingsObject[tableSetting].columnSettingsOptions));
-
-        });
-
-        return settingsObject;
+    if (tableViewConfig.displayedColumns.length !== storageElement.columnsForDialog.length) {
+      isInvalid = true;
     }
-
-    storedTableSettingsInvalid(tableViewConfig: TableViewConfig, tableType: PartTableType): boolean {
-        let isInvalid = false;
-
-        const storage = this.getStoredTableSettings();
-        if (!storage?.[tableType]){
-            return false;
-        }
-        const storageElement = storage[tableType];
-
-        if (!storageElement?.columnsForDialog) {
-            return false;
-        }
-
-        if (tableViewConfig.displayedColumns.length !== storageElement.columnsForDialog.length) {
-            isInvalid = true;
-        }
-        for (const col of tableViewConfig.displayedColumns.values()) {
-            if (!storageElement.columnsForDialog.includes(col)) {
-                isInvalid = true;
-            }
-        }
-        for (const col of storageElement.columnsForDialog) {
-            if (!tableViewConfig.displayedColumns.includes(col)) {
-                isInvalid = true;
-            }
-        }
-        if (isInvalid) {
-            localStorage.removeItem(this.settingsKey);
-        }
-        return isInvalid;
+    for (const col of tableViewConfig.displayedColumns.values()) {
+      if (!storageElement.columnsForDialog.includes(col)) {
+        isInvalid = true;
+      }
     }
-
-    emitChangeEvent() {
-        this.changeEvent.next();
+    for (const col of storageElement.columnsForDialog) {
+      if (!tableViewConfig.displayedColumns.includes(col)) {
+        isInvalid = true;
+      }
     }
-
-    getEvent() {
-        return this.changeEvent.asObservable();
+    if (isInvalid) {
+      localStorage.removeItem(this.settingsKey);
     }
+    return isInvalid;
+  }
+
+  emitChangeEvent() {
+    this.changeEvent.next();
+  }
+
+  getEvent() {
+    return this.changeEvent.asObservable();
+  }
 }

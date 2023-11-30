@@ -48,8 +48,8 @@ describe('PartDetailComponent', () => {
 
   const renderPartDetailComponent = async ({ roles = [] } = {}) => {
     return await renderComponent(`<app-sidenav></app-sidenav><app-part-detail></app-part-detail>`, {
-      declarations: [SidenavComponent, PartDetailComponent],
-      imports: [PartDetailsModule, LayoutModule],
+      declarations: [ SidenavComponent, PartDetailComponent ],
+      imports: [ PartDetailsModule, LayoutModule ],
       providers: [
         PartDetailsFacade,
         { provide: PartsState, useFactory: () => PartsStateMock },
@@ -71,7 +71,7 @@ describe('PartDetailComponent', () => {
     await renderPartDetailComponent();
 
     const sideNavElement = await waitFor(() => screen.getByTestId('sidenav--test-id'));
-    const nameElement = await screen.findByText("BMW AG");
+    const nameElement = await screen.findByText('BMW AG');
     const productionDateElement = await screen.findByText('2022-02-04T13:48:54');
 
     expect(sideNavElement).toBeInTheDocument();
@@ -82,7 +82,7 @@ describe('PartDetailComponent', () => {
   });
 
   it('should render child-component table', async () => {
-    await renderPartDetailComponent({ roles: ['user'] });
+    await renderPartDetailComponent({ roles: [ 'user' ] });
 
     const childTableHeadline = await screen.findByText('partDetail.investigation.headline');
     expect(childTableHeadline).toBeInTheDocument();

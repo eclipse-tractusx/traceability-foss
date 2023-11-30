@@ -28,7 +28,7 @@ import { renderComponent } from '@tests/test-render.utils';
 describe('QualityTypeComponent', () => {
   const renderQualityType = (qualityType: QualityType) => {
     return renderComponent(`<app-quality-type [type]='qualityType'>Test</app-quality-type>`, {
-      imports: [SharedModule],
+      imports: [ SharedModule ],
       componentProperties: { qualityType },
     });
   };

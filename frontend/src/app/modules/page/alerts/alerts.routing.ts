@@ -29,21 +29,22 @@ const ALERTS_ROUTING: Routes = [
     path: '',
     pathMatch: 'full',
     component: AlertsComponent,
-    data: { i18nextNamespaces: ['page.alert'] },
+    data: { i18nextNamespaces: [ 'page.alert' ] },
     resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
   },
   {
     path: ':alertId',
     pathMatch: 'full',
     component: AlertDetailComponent,
-    data: { i18nextNamespaces: ['page.alert'] },
+    data: { i18nextNamespaces: [ 'page.alert' ] },
     resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(ALERTS_ROUTING)],
-  exports: [RouterModule],
+  imports: [ RouterModule.forChild(ALERTS_ROUTING) ],
+  exports: [ RouterModule ],
 })
-export class AlertsRoutingModule {}
+export class AlertsRoutingModule {
+}
 
