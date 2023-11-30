@@ -66,9 +66,9 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
 
   private subscription: Subscription;
   private selectedInvestigationTmpStore: Notification;
-  public selectedInvestigation: Notification;
-
   private paramSubscription: Subscription
+
+  public selectedInvestigation: Notification;
 
   constructor(
     public readonly helperService: InvestigationHelperService,
@@ -150,7 +150,7 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
 
   public navigateBackToInvestigations(): void {
     const { link } = getRoute(INVESTIGATION_BASE_ROUTE);
-    this.router.navigate([`/${link}`], {queryParams: {tabIndex: this.originTabIndex, pageNumber: this.originPageNumber}});
+    this.router.navigate([`/${link}`], { queryParams: { tabIndex: this.originTabIndex, pageNumber: this.originPageNumber } });
   }
 
   public handleConfirmActionCompletedEvent(): void {

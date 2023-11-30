@@ -65,7 +65,9 @@ SPDX-License-Identifier: Apache-2.0
                 let-parts="view">
                 <!-- asBuilt Parts Table-->
                 <app-parts-table [tableHeader]="'page.asBuiltParts' | i18n"
-                  [showAlertButton]="true"
+                  [showActionButton]="true"
+                  [actionIcon]="'/assets/images/icons/createAlert_icon.svg'"
+                  [actionIconAlternative]="'Create alert icon'"
                   [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
                   [labelId]="titleId"
                   [multiSelectActive]="true"
@@ -151,7 +153,7 @@ SPDX-License-Identifier: Apache-2.0
                 *viewContainer="partsAsOrdered$ | async; main: myTmp; error: errorTmp; loading: loaderTmp"></ng-container>
               <ng-template #myTmp
                 let-parts="view">
-                <!-- asOrded Parts Table-->
+                <!-- asOrdered Parts Table-->
                 <app-parts-table [tableHeader]="'page.asOrderedParts' | i18n"
                   [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
                   [labelId]="titleId"

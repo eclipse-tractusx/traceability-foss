@@ -30,7 +30,9 @@ SPDX-License-Identifier: Apache-2.0
     let-parts="view"
     let-customContext="customContext">
     <app-parts-table [tableHeader]="'page.asBuiltParts' | i18n"
-      [showAlertButton]="true"
+      [showActionButton]="true"
+      [actionIcon]="'/assets/images/icons/create_investigation_icon.svg'"
+      [actionIconAlternative]="'Create alert icon'"
       [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
       [selectedPartsInfoLabel]="'page.selectedParts.info'"
       [selectedPartsActionLabel]="'page.selectedParts.action'"
@@ -44,7 +46,9 @@ SPDX-License-Identifier: Apache-2.0
       (selected)="onSelectItem($event)"
       (configChanged)="onAsBuiltTableConfigChange($event)"
       (multiSelect)="onMultiSelect($event)"
-      (clickSelectAction)="isInvestigationOpen$.next(true)"
+      (clickSelectAction)="openDialog()"
+      [multiSortList]="tableSupplierAsBuiltSortList"
+      [multiSelectActive]="true"
       (filterActivated)="filterActivated(true, $event )"
       (onPaginationPageSizeChange)="onDefaultPaginationSizeChange($event)"></app-parts-table>
   </ng-template>
@@ -76,7 +80,9 @@ SPDX-License-Identifier: Apache-2.0
       (selected)="onSelectItem($event)"
       (configChanged)="onAsPlannedTableConfigChange($event)"
       (multiSelect)="onMultiSelect($event)"
-      (clickSelectAction)="isInvestigationOpen$.next(true)"
+      (clickSelectAction)="openDialog()"
+      [multiSortList]="tableSupplierAsPlannedSortList"
+      [multiSelectActive]="true"
       (filterActivated)="filterActivated(false, $event )"
       (onPaginationPageSizeChange)="onDefaultPaginationSizeChange($event)"></app-parts-table>
   </ng-template>
@@ -91,13 +97,3 @@ SPDX-License-Identifier: Apache-2.0
   let-parts="view">
   <mat-spinner></mat-spinner>
 </ng-template>
-
-<app-sidenav-wrapper [isOpen]="isInvestigationOpen$ | async"
-  (sidenavAction)="isInvestigationOpen$.next($event)">
-  <app-request-investigation *ngIf="isInvestigationOpen$ | async"
-    [selectedItems]="currentSelectedItems"
-    (deselectPart)="removeItemFromSelection($event)"
-    (restorePart)="addItemToSelection($event)"
-    (clearSelected)="clearSelected()"
-    (submitted)="submit()"></app-request-investigation>
-</app-sidenav-wrapper>

@@ -391,7 +391,6 @@
 
   .mat-mdc-paginator-page-size-select {
     margin: 0 4px;
-    // width: 38px !important;
     height: 20px !important;
   }
 
@@ -419,6 +418,7 @@
     @extend .body-large-emphasis;
     font-size: 20px;
     line-height: 28px;
+    padding-left: 16px;
   }
 
   .mat-mdc-form-field.mat-accent .mdc-text-field--invalid .mdc-text-field__input {
@@ -522,6 +522,18 @@
 
   .mat-mdc-card-content {
     padding: 0 20px;
+  }
+
+  .mat-mdc-card-content:last-child {
+    padding-bottom: 16px !important;
+  }
+
+  .mat-datepicker-toggle .mat-icon-button {
+    /* Disable pointer events */
+    pointer-events: none;
+    /* Disable ripple effect */
+    --mat-ripple-fg-opacity: 0 !important;
+    /* Use !important to ensure overriding */
   }
 
   .mat-mdc-card-header {

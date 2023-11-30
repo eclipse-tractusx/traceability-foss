@@ -28,11 +28,9 @@ import { sleepForTests } from '../../../../../test';
 import { RequestInvestigationComponent } from '@shared/components/request-notification/request-investigation.component';
 import { RequestAlertComponent } from '@shared/components/request-notification/request-alert.component';
 import { RequestContext } from '@shared/components/request-notification/request-notification.base';
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { cloneDeep } from 'lodash-es';
 import { RequestComponentData } from './request.componenet.model';
-import { Severity } from '@shared/model/severity.model';
 import { By } from '@angular/platform-browser';
 
 describe('requestInvestigationComponent', () => {
@@ -49,28 +47,41 @@ describe('requestInvestigationComponent', () => {
 
   let requestData = requestDataDefault;
 
-  // TODO fix tests when create investigation is ready
-  // const renderRequestInvestigationComponent = (component = `<app-request-investigation (submitted)='submittedMock($event)'></app-request-investigation>` as any) => {
-  //   return renderComponent(component, {
-  //     declarations: [RequestInvestigationComponent],
-  //     providers: [
-  //       { provide: MAT_DIALOG_DATA, useValue: requestData },
-  //       {
-  //         provide: MatDialogRef, useValue: {
-  //           close: jasmine.createSpy(),
-  //         }
-  //       },
-  //     ],
-  //     imports: [SharedModule, LayoutModule, OtherPartsModule],
-  //     translations: ['page.otherParts', 'partDetail'],
-  //     componentProperties: {
-  //       deselectPartMock,
-  //       clearSelectedMock,
-  //       submittedMock,
-  //       currentSelectedItems,
-  //     },
-  //   });
-  // };
+  const renderRequestInvestigationComponent = (component = `<app-request-investigation (submitted)='submittedMock($event)'></app-request-investigation>` as any) => {
+    return renderComponent(component, {
+      declarations: [RequestInvestigationComponent],
+      providers: [
+        { provide: MAT_DIALOG_DATA, useValue: requestData },
+        {
+          provide: MatDialogRef, useValue: {
+            close: jasmine.createSpy(),
+          }
+        },
+      ],
+      imports: [SharedModule, LayoutModule, OtherPartsModule],
+      translations: ['page.otherParts', 'partDetail'],
+      componentProperties: {
+        deselectPartMock,
+        clearSelectedMock,
+        submittedMock,
+        currentSelectedItems,
+      },
+    });
+  };
+
+  const renderRequestInvestigationComponentObject = () => {
+    return renderComponent(RequestInvestigationComponent, {
+      imports: [SharedModule, LayoutModule, OtherPartsModule],
+      providers: [
+        { provide: MAT_DIALOG_DATA, useValue: requestData },
+        {
+          provide: MatDialogRef, useValue: {
+            close: jasmine.createSpy(),
+          }
+        },
+      ],
+    });
+  };
 
   // by default we use component as a string, but when need to use spyOn we pass componend class
   const renderRequestAlertComponent = (component = `<app-request-alert (submitted)='submittedMock($event)'></app-request-alert>` as any) => {
@@ -95,37 +106,45 @@ describe('requestInvestigationComponent', () => {
     });
   };
 
-  // describe('Request Investigation', () => {
-  //   beforeEach(() => {
-  //     requestData = cloneDeep(requestDataDefault)
-  //     submittedMock = jasmine.createSpy();
-  //   });
+  describe('Request Investigation', () => {
+    beforeEach(() => {
+      requestData = cloneDeep(requestDataDefault)
+      submittedMock = jasmine.createSpy();
+    });
 
-  //   it('should render', async () => {
-  //     await renderRequestInvestigationComponent();
-  //     await shouldRender('requestInvestigations');
-  //   });
+    it('should render', async () => {
+      await renderRequestInvestigationComponent();
+      await shouldRender('requestInvestigations');
+    });
 
-  //   it('should render parts in chips', async () => {
-  //     await renderRequestInvestigationComponent();
-  //     await shouldRenderPartsInChips();
-  //   });
+    it('should render parts in chips', async () => {
+      await renderRequestInvestigationComponent();
+      await shouldRenderPartsInChips();
+    });
 
-  //   it('should render textarea', async () => {
-  //     await renderRequestInvestigationComponent();
-  //     await shouldRenderTextarea();
-  //   });
+    it('should render textarea', async () => {
+      await renderRequestInvestigationComponent();
+      await shouldRenderTextarea();
+    });
 
-  //   it('should render buttons', async () => {
-  //     await renderRequestInvestigationComponent();
-  //     await shouldRenderButtons();
-  //   });
+    it('should render buttons', async () => {
+      await renderRequestInvestigationComponent();
+      await shouldRenderButtons();
+    });
 
-  //   it('should submit parts', async () => {
-  //     await renderRequestInvestigationComponent();
-  //     await shouldSubmitParts('requestInvestigations');
-  //   });
-  // });
+    it('should submit parts', async () => {
+      const { fixture } = await renderRequestInvestigationComponent();
+      await shouldSubmitParts('requestInvestigations', fixture);
+    });
+
+    it('should submit', async () => {
+      const { fixture } = await renderRequestInvestigationComponentObject();
+      const { componentInstance } = fixture;
+      const requestInvestigationComponentSpy = spyOn(componentInstance, 'submit');
+      componentInstance.submit();
+      expect(requestInvestigationComponentSpy).toHaveBeenCalled();
+    });
+  });
 
   describe('Request Alert', () => {
     beforeEach(() => {

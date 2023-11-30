@@ -199,7 +199,6 @@ describe('SupplierPartsComponent', () => {
     );
   });
 
-
   it('should set the default Pagination by recieving a size change event', async () => {
     const { fixture } = await renderSupplierPartsAsBuilt();
     const supplierPartsComponent = fixture.componentInstance;

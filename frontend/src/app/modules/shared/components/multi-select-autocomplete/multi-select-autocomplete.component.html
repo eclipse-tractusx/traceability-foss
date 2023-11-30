@@ -89,14 +89,14 @@ SPDX-License-Identifier: Apache-2.0
           (click)="clickClear(); this.triggerFilter.emit()"
           mat-button
           matDatepickerCancel>
-          {{ 'datepicker.cancel' | i18n }}
+          {{ 'datepicker.reset' | i18n }}
         </button>
         <button class="filter-input__datepicker-buttons-filter"
           mat-raised-button
           color="primary"
           matDatepickerApply
           (click)="this.triggerFilter.emit()">
-          {{ 'datepicker.apply' | i18n }}
+          {{ 'datepicker.filter' | i18n }}
         </button>
       </mat-datepicker-actions>
     </mat-datepicker>

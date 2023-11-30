@@ -26,6 +26,7 @@ import { MyErrorStateMatcher } from '@shared/abstraction/baseInput/baseInput.hel
 @Component({
   selector: 'app-form-error-message',
   templateUrl: './formErrorMessage.component.html',
+  styleUrls: ['./formErrorMessage.component.scss'],
 })
 export class FormErrorMessageComponent {
   @Input() control: AbstractControl;

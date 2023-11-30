@@ -19,7 +19,10 @@
 
 export function removeSelectedValues(selection: any, itemsToRemove: unknown[]): void {
     const shouldDelete = (row: unknown) => !!itemsToRemove.find(data => JSON.stringify(data) === JSON.stringify(row));
-    const rowsToDelete = selection.selected.filter(data => shouldDelete(data));
+    let rowsToDelete = selection.selected.filter(data => shouldDelete(data));
+    if (rowsToDelete.length === 0) {
+        rowsToDelete = selection.selected.filter(data => !!itemsToRemove.find(item => (item as any).id === data.id));
+    }
 
     selection.deselect(...rowsToDelete);
 };

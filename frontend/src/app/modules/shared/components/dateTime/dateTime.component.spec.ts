@@ -25,6 +25,7 @@ import { DateValidators } from '@shared/components/dateTime/dateValidators.model
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 import { sleepForTests } from '../../../../../test';
+import { SharedModule } from '@shared/shared.module';
 
 describe('DateTimeComponent', () => {
   const renderDateTime = async (label = 'Label', validators: ValidatorFn[] = []) => {
@@ -35,7 +36,7 @@ describe('DateTimeComponent', () => {
     const { fixture } = await renderComponent(
       `
       <form [formGroup]="form">
-        <app-date-time formControlName="formField" [label]="'${label}'"></app-date-time>
+        <app-date-time formControlName="formField" [max]="maxDate" [label]="'${label}'"></app-date-time>
       </form>`,
       {
         declarations: [DateTimeComponent],
@@ -44,6 +45,15 @@ describe('DateTimeComponent', () => {
     );
 
     return { form, fixture };
+  };
+
+  const renderDateTimeComponenet = async (maxDate = null) => {
+    return await renderComponent(DateTimeComponent, {
+      imports: [SharedModule],
+      componentInputs: {
+        max: maxDate,
+      }
+    });
   };
 
   it('should render', async () => {
@@ -57,7 +67,7 @@ describe('DateTimeComponent', () => {
   it('should render minimum date error message', async () => {
     const label = 'Some label';
     const minDate = new Date('2022-02-20T12:00');
-    const dateInput = '2021-02-20T12:00';
+    const dateInput = 'Sat, 20 Feb 2021 12:00:00 GMT';
 
     const { form } = await renderDateTime(label, [DateValidators.min(minDate)]);
 
@@ -74,11 +84,20 @@ describe('DateTimeComponent', () => {
     expect(form.controls.formField.errors).toEqual({ minDate: { actualValue: dateInput, date: minDate } });
   });
 
+  it('should set the maximum date', async () => {
+    const label = 'Some label';
+
+    const maxDate = new Date('2022-02-20T12:00');
+
+    const { fixture } = await renderDateTimeComponenet(maxDate);
+    expect(fixture.componentInstance.maxDate).toEqual(maxDate);
+  });
+
   it('should render maximum date error message', async () => {
     const label = 'Some label';
 
     const maxDate = new Date('2022-02-20T12:00');
-    const dateInput = '2023-02-20T12:00';
+    const dateInput = 'Mon, 20 Feb 2023 11:00:00 GMT';
 
     const { form } = await renderDateTime(label, [DateValidators.max(maxDate)]);
 
@@ -91,6 +110,7 @@ describe('DateTimeComponent', () => {
     await sleepForTests(1000);
     const errorMessageLabel = await waitFor(() => screen.getByText('errorMessage.maxDate'));
     expect(errorMessageLabel).toBeInTheDocument();
+
     expect(form.controls.formField.errors).toEqual({ maxDate: { actualValue: dateInput, date: maxDate } });
   });
 

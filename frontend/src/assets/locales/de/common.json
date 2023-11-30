@@ -299,13 +299,15 @@
     "openInvestigations": "Offene Warnungen/Untersuchungen",
     "confirmationDialog": {
       "deletePartTitle": "Part löschen?",
-      "deletePartMessage": "Wenn Sie diesen Part löschen, wird er vollständig aus der aktuellen Auswahl der Ausschreibung entfernt.",
+      "deletePartMessage": "Wenn Sie dieses Part löschen, wird er vollständig aus der aktuellen Auswahl entfernt.",
       "deletePartButton": "Löschen"
     }
   },
   "datepicker": {
-    "apply": "Filter",
-    "cancel": "Zurücksetzen"
+    "apply": "Bewerbung",
+    "cancel": "Abbrechen",
+    "filter": "Filter",
+    "reset": "Zurücksetzen"
   },
   "semanticDataModels": {
     "BATCH": "Batch",

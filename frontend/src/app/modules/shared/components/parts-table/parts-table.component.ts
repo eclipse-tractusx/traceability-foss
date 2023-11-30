@@ -69,7 +69,9 @@ export class PartsTableComponent implements OnInit {
   @Input() labelId: string;
   @Input() noShadow = false;
   @Input() showHover = true;
-  @Input() showAlertButton = false;
+  @Input() actionIcon;
+  @Input() actionIconAlternative;
+  @Input() showActionButton = false;
 
   @Input() selectedPartsInfoLabel: string;
   @Input() selectedPartsActionLabel: string;

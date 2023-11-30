@@ -25,18 +25,18 @@ SPDX-License-Identifier: Apache-2.0
     </div>
     <div>
       <div *appHasRole="tableConfig.columnRoles?.['select'] ?? 'user'">
-        <app-button *ngIf="showAlertButton"
-          class="createAlertButton"
+        <app-button *ngIf="showActionButton"
+          class="create-action-button"
           (click)="clickSelectAction.emit()"
           [isDisabled]="selection?.selected?.length === 0"
           [color]="'primary'"
           variant="flat">
           <div class="flex justify-between items-center">
             <img class="pr-2"
-              src="/assets/images/icons/createAlert_icon.svg"
-              alt="Create alert icon" />
+              [src]="actionIcon"
+              [alt]="actionIconAlternative" />
             <div class="buttonText">
-              {{ 'page.selectedParts.action' | i18n }}
+              {{ selectedPartsActionLabel | i18n }}
             </div>
           </div>
         </app-button>
@@ -87,7 +87,6 @@ SPDX-License-Identifier: Apache-2.0
       *matRowDef="let row; columns: tableConfig.displayedColumns"
       [class.loading]="isDataLoading"
       [class.no-hover]="!showHover"
-      [ngClass]="{ highlighted: row?.activeInvestigation || row?.activeAlert, error: row?.errorMessage }"
       (click)="selectElement(row)"
       mat-row
       data-testid="table-component--body-row"></tr>

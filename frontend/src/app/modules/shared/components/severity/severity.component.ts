@@ -31,14 +31,15 @@ export class SeverityComponent {
   @Input() severity: Severity;
   @Input() alternativeTextStyle = false;
 
+  private basePath = './assets/images/icons/';
+  private readonly iconMap = new Map<Severity, string>([
+    [Severity.MINOR, 'info'],
+    [Severity.MAJOR, 'warning'],
+    [Severity.CRITICAL, 'error_outline'],
+    [Severity.LIFE_THREATENING, 'error'],
+  ]);
+
   public getIconBySeverity(severity: Severity): string {
-    const basePath = './assets/images/icons/';
-    const iconMap = new Map<Severity, string>([
-      [Severity.MINOR, 'info'],
-      [Severity.MAJOR, 'warning'],
-      [Severity.CRITICAL, 'error_outline'],
-      [Severity.LIFE_THREATENING, 'error'],
-    ]);
-    return `${basePath}${iconMap.get(severity)}.svg` || '';
+    return this.iconMap.has(severity) === false ? '' : `${this.basePath}${this.iconMap.get(severity)}.svg`;
   }
 }

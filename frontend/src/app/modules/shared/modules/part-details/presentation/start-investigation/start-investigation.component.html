@@ -22,44 +22,42 @@ SPDX-License-Identifier: Apache-2.0
 <h2 class="mb-4 mt-4 normal-case text-center text-primary">{{ 'partDetail.investigation.headline' | i18n }}</h2>
 <div class="start-investigation--wrapper">
   <ng-container *viewContainer="childParts$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
-
-  <app-request-investigation
-    *ngIf="(selectedChildParts$ | async)?.length"
+  <app-request-investigation *ngIf="(selectedChildParts$ | async)?.length"
     (deselectPart)="removeChildPartFromSelection($event)"
     (restorePart)="addChildPartToSelection($event)"
     (clearSelected)="clearSelectedChildParts()"
     (submitted)="submitted.emit()"
-    [selectedItems]="selectedChildParts$ | async"
-    [showHeadline]="false"
-    class="start-investigation start-investigation--data"
-  ></app-request-investigation>
+    class="start-investigation start-investigation--data"></app-request-investigation>
 
-  <div *ngIf="!(selectedChildParts$ | async)?.length" class="start-investigation start-investigation--no-data">
-    <mat-icon color="primary" class="scale-150">no_sim</mat-icon>
+  <div *ngIf="!(selectedChildParts$ | async)?.length"
+    class="start-investigation start-investigation--no-data">
+    <mat-icon color="primary"
+      class="scale-150">no_sim</mat-icon>
     <h3 class="upper-case">{{ 'partDetail.investigation.noSelection.header' | i18n }}</h3>
     <p>{{ 'partDetail.investigation.noSelection.text' | i18n }}</p>
   </div>
 </div>
 
-<ng-template #mainTmp let-view="view">
-  <app-table
-    [data]="view.data"
+<ng-template #mainTmp
+  let-view="view">
+  <app-table [data]="view.data"
     [labelId]="childPartsLabel"
     [tableConfig]="tableConfig"
     [showHover]="false"
     [deselectTrigger]="deselectPartTrigger$ | async"
     [addTrigger]="addPartTrigger$ | async"
     (multiSelect)="onMultiSelect($event)"
-    (configChanged)="onChildPartsSort($event)"
-  >
+    (configChanged)="onChildPartsSort($event)">
   </app-table>
 </ng-template>
 
-<ng-template #errorTmp let-view="view">
+<ng-template #errorTmp
+  let-view="view">
   <h1>{{ 'dataLoading.error' | i18n }}</h1>
   <p>{{ view.error }}</p>
 </ng-template>
 
-<ng-template #loaderTmp let-view="view">
+<ng-template #loaderTmp
+  let-view="view">
   <mat-spinner></mat-spinner>
 </ng-template>

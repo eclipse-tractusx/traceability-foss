@@ -19,20 +19,17 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<mat-tab-group
-  [selectedIndex]="tabIndex$ | async"
+<mat-tab-group [selectedIndex]="tabIndex$ | async"
   (selectedTabChange)="onTabChange($event.index)"
   appTabAsPanel
   mat-stretch-tabs="false"
-  mat-align-tabs="start"
->
+  mat-align-tabs="start">
   <mat-tab>
     <ng-template mat-tab-label>
       <div [id]="receivedTabLabelId">{{ translationContext + '.tabs.received' | i18n }}</div>
-      <div>({{ itemCount[tabIndex$ | async] }})</div>
+      <div>({{ itemCount[0] }})</div>
     </ng-template>
-    <app-notifications-tab
-      *ngIf="menuActionsConfig"
+    <app-notifications-tab *ngIf="menuActionsConfig"
       [tableType]="tablesType[0]"
       [notificationsView$]="receivedNotifications$"
       [labelId]="receivedTabLabelId"
@@ -45,10 +42,8 @@ SPDX-License-Identifier: Apache-2.0
       (tableConfigChanged)="onReceivedTableConfigChanged.emit($event)"
       (itemCount)="onItemCountChanged($event, 0)"
       (selected)="selected.emit($event)"
-      (onPaginationPageSizeChange)="onPaginationPageSizeChange.emit($event)"
-    >
-      <ng-content></ng-content
-    ></app-notifications-tab>
+      (onPaginationPageSizeChange)="onPaginationPageSizeChange.emit($event)">
+      <ng-content></ng-content></app-notifications-tab>
   </mat-tab>
 
   <mat-tab>
@@ -56,10 +51,9 @@ SPDX-License-Identifier: Apache-2.0
       <div [id]="queuedAndRequestedTabLabelId">
         {{ translationContext + '.tabs.queuedAndRequested' | i18n }}
       </div>
-      <div>({{ itemCount[tabIndex$ | async] }})</div>
+      <div>({{ itemCount[1] }})</div>
     </ng-template>
-    <app-notifications-tab
-      class="headerLine"
+    <app-notifications-tab class="headerLine"
       *ngIf="menuActionsConfig"
       [tableType]="tablesType[1]"
       [notificationsView$]="queuedAndRequestedNotifications$"
@@ -73,8 +67,6 @@ SPDX-License-Identifier: Apache-2.0
       (itemCount)="onItemCountChanged($event, 1)"
       (tableConfigChanged)="onQueuedAndRequestedTableConfigChanged.emit($event)"
       (selected)="selected.emit($event)"
-      (onPaginationPageSizeChange)="onPaginationPageSizeChange.emit($event)"
-      ><ng-content></ng-content
-    ></app-notifications-tab>
+      (onPaginationPageSizeChange)="onPaginationPageSizeChange.emit($event)"><ng-content></ng-content></app-notifications-tab>
   </mat-tab>
 </mat-tab-group>

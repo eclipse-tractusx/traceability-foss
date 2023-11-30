@@ -303,13 +303,15 @@
     "openInvestigations": "Open alerts/investigations",
     "confirmationDialog": {
       "deletePartTitle": "Delete part?",
-      "deletePartMessage": "If you delete this part, it will be fully removed from the current alert selection",
+      "deletePartMessage": "If you delete this part, it will be fully removed from the current selection",
       "deletePartButton": "Delete"
     }
   },
   "datepicker": {
-    "apply": "Filter",
-    "cancel": "Reset"
+    "apply": "Apply",
+    "cancel": "Cancel",
+    "filter": "Filter",
+    "reset": "Reset"
   },
   "semanticDataModels": {
     "BATCH": "Batch",
