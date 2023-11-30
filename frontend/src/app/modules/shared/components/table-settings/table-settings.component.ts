@@ -17,11 +17,11 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {Component, EventEmitter, Inject, Output} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {TableViewSettings} from '@core/user/table-settings.model';
-import {TableSettingsService} from '@core/user/table-settings.service';
-import {PartTableType} from '@shared/components/table/table.model';
+import { Component, EventEmitter, Inject, Output } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { TableViewSettings } from '@core/user/table-settings.model';
+import { TableSettingsService } from '@core/user/table-settings.service';
+import { PartTableType } from '@shared/components/table/table.model';
 
 @Component({
   selector: 'app-table-settings',
@@ -56,14 +56,14 @@ export class TableSettingsComponent {
     this.isCustomerTable = data.tableType === PartTableType.AS_BUILT_CUSTOMER || data.tableType === PartTableType.AS_PLANNED_CUSTOMER
     // Passed Data
     this.tableType = data.tableType;
-    this.defaultColumns = data.defaultColumns.filter((column: string) => column !== 'menu');
-    this.defaultFilterColumns = data.defaultFilterColumns.filter((column: string) => column !== 'menu');
+    this.defaultColumns = data.defaultColumns
+    this.defaultFilterColumns = data.defaultFilterColumns
 
     // Storage Data
     this.columnOptions = tableSettingsService.getStoredTableSettings()[this.tableType].columnSettingsOptions;
-    this.dialogColumns = tableSettingsService.getStoredTableSettings()[this.tableType].columnsForDialog.filter((column: string) => column !== 'menu');;
-    this.tableColumns = tableSettingsService.getStoredTableSettings()[this.tableType].columnsForTable.filter((column: string) => column !== 'menu');;
-    this.filterColumns = tableSettingsService.getStoredTableSettings()[this.tableType].filterColumnsForTable.filter((column: string) => column !== 'menu');;
+    this.dialogColumns = tableSettingsService.getStoredTableSettings()[this.tableType].columnsForDialog
+    this.tableColumns = tableSettingsService.getStoredTableSettings()[this.tableType].columnsForTable
+    this.filterColumns = tableSettingsService.getStoredTableSettings()[this.tableType].filterColumnsForTable
 
     this.selectAllSelected = this.dialogColumns.length === this.tableColumns.length;
 
@@ -82,6 +82,7 @@ export class TableSettingsComponent {
           if(column === 'select') {
             newTableFilterColumns.push('Filter');
           }
+          else if(column === 'menu') {}
           else {
             newTableFilterColumns.push('filter'+ column)
           }
@@ -98,7 +99,7 @@ export class TableSettingsComponent {
       columnsForTable: newTableColumns,
       filterColumnsForTable: newTableFilterColumns
     } as TableViewSettings;
-
+    console.log(tableSettingsList[this.tableType]);
     // save all values back to localstorage
     this.tableSettingsService.storeTableSettings(tableSettingsList);
 
@@ -150,8 +151,7 @@ export class TableSettingsComponent {
   }
 
   resetColumns() {
-
-    this.dialogColumns = [...this.defaultColumns.filter(value => value!=='menu')];
+    this.dialogColumns = this.defaultColumns
     this.selectAll(true);
   }
 }

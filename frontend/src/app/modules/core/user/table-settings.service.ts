@@ -17,10 +17,10 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {Injectable} from '@angular/core';
-import {PartTableType} from '@shared/components/table/table.model';
-import {Subject} from 'rxjs';
-import {TableViewConfig} from "@shared/components/parts-table/table-view-config.model";
+import { Injectable } from '@angular/core';
+import { TableViewConfig } from '@shared/components/parts-table/table-view-config.model';
+import { PartTableType } from '@shared/components/table/table.model';
+import { Subject } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -70,12 +70,12 @@ export class TableSettingsService {
             isInvalid = true;
         }
         for (const col of tableViewConfig.displayedColumns.values()) {
-            if (!storageElement.columnsForDialog.includes(col)) {
+            if (col !== 'menu' && !storageElement.columnsForDialog.includes(col) ) {
                 isInvalid = true;
             }
         }
         for (const col of storageElement.columnsForDialog) {
-            if (!tableViewConfig.displayedColumns.includes(col)) {
+            if (col !== 'menu' && !tableViewConfig.displayedColumns.includes(col)) {
                 isInvalid = true;
             }
         }
