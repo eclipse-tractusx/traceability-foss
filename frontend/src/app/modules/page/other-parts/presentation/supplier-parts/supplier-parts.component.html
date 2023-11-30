@@ -38,14 +38,15 @@ SPDX-License-Identifier: Apache-2.0
       [addTrigger]="addPartTrigger$ | async"
       [noShadow]="true"
       [labelId]="customContext.labelId"
+      [multiSortList]="tableSupplierAsBuiltSortList"
+      [multiSelectActive]="true"
+      [tableType]="PartTableType.AS_BUILT_SUPPLIER"
       (selected)="onSelectItem($event)"
       (configChanged)="onAsBuiltTableConfigChange($event)"
       (multiSelect)="onMultiSelect($event)"
       (clickSelectAction)="isInvestigationOpen$.next(true)"
-      [multiSortList]="tableSupplierAsBuiltSortList"
-      [multiSelectActive]="true"
       (filterActivated)="filterActivated(true, $event )"
-      [tableType]="PartTableType.AS_BUILT_SUPPLIER"></app-parts-table>
+      (onPaginationPageSizeChange)="onDefaultPaginationSizeChange($event)"></app-parts-table>
   </ng-template>
 </div>
 <div class="parts-table-wrapper pt-5"
@@ -69,14 +70,15 @@ SPDX-License-Identifier: Apache-2.0
       [addTrigger]="addPartTrigger$ | async"
       [noShadow]="true"
       [labelId]="customContext.labelId"
+      [multiSortList]="tableSupplierAsPlannedSortList"
+      [multiSelectActive]="true"
+      [tableType]="PartTableType.AS_PLANNED_SUPPLIER"
       (selected)="onSelectItem($event)"
       (configChanged)="onAsPlannedTableConfigChange($event)"
       (multiSelect)="onMultiSelect($event)"
       (clickSelectAction)="isInvestigationOpen$.next(true)"
-      [multiSortList]="tableSupplierAsPlannedSortList"
-      [multiSelectActive]="true"
       (filterActivated)="filterActivated(false, $event )"
-      [tableType]="PartTableType.AS_PLANNED_SUPPLIER"></app-parts-table>
+      (onPaginationPageSizeChange)="onDefaultPaginationSizeChange($event)"></app-parts-table>
   </ng-template>
 </div>
 

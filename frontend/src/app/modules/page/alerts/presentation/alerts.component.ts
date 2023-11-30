@@ -137,14 +137,14 @@ export class AlertsComponent {
     this.alertsReceivedFilterConfiguration = [
       createdDate,
       description,
-      status(TranslationContext.COMMONALERT),
+      status(TranslationContext.COMMONALERT, true),
       severity,
       createdBy,
     ];
     this.alertsQueuedAndRequestedFilterConfiguration = [
       createdDate,
       description,
-      status(TranslationContext.COMMONALERT),
+      status(TranslationContext.COMMONALERT, false),
       severity,
       sendTo,
     ];

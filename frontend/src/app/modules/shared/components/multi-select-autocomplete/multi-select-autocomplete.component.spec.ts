@@ -122,7 +122,7 @@ describe('MultiSelectAutocompleteComponent', () => {
     ];
 
     const val = { checked: true };
-    componentInstance.toggleSelectAll(val);
+    componentInstance.toggleSelect(val, true);
 
     expect(componentInstance.options).toEqual([
       { value: 'value1', display: 'Display1', checked: true },
@@ -143,7 +143,7 @@ describe('MultiSelectAutocompleteComponent', () => {
 
     const val = { checked: false };
 
-    componentInstance.toggleSelectAll(val);
+    componentInstance.toggleSelect(val, true);
 
     expect(componentInstance.options).toEqual([
       { value: 'value1', display: 'Display1', checked: false },
@@ -163,7 +163,7 @@ describe('MultiSelectAutocompleteComponent', () => {
     ];
     const val = { checked: true };
 
-    componentInstance.toggleSelectOne(val);
+    componentInstance.toggleSelect(val, false);
 
     expect(componentInstance.selectAllChecked).toEqual(true);
   });
@@ -181,7 +181,7 @@ describe('MultiSelectAutocompleteComponent', () => {
 
     const val = { checked: false };
 
-    componentInstance.toggleSelectOne(val);
+    componentInstance.toggleSelect(val, false);
 
     expect(componentInstance.selectAllChecked).toEqual(false);
   });

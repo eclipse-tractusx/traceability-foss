@@ -46,7 +46,6 @@ import {
 } from '@shared/components/table/table.model';
 import { addSelectedValues, removeSelectedValues } from '@shared/helper/table-helper';
 import { isDateFilter } from '@shared/helper/filter-helper';
-import i18next from 'i18next';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TableSettingsService } from '@core/user/table-settings.service';
 import { TableViewConfig } from './table-view-config.model';
@@ -120,6 +119,7 @@ export class PartsTableComponent implements OnInit {
   @Output() multiSelect = new EventEmitter<any[]>();
   @Output() clickSelectAction = new EventEmitter<void>();
   @Output() filterActivated = new EventEmitter<any>();
+  @Output() onPaginationPageSizeChange = new EventEmitter<number>();
 
   public readonly dataSource = new MatTableDataSource<unknown>();
   public readonly selection = new SelectionModel<unknown>(true, []);
@@ -275,7 +275,7 @@ export class PartsTableComponent implements OnInit {
     'filterSemanticDataModel',
     'filterName',
     'filterManufacturer',
-    'filterPartId',
+    'filterManufacturerPartId',
     'filterSemanticModelId',
     'filterManufacturingDate',
     'filterActiveAlerts',
@@ -287,7 +287,7 @@ export class PartsTableComponent implements OnInit {
     'filterSemanticDataModel',
     'filterName',
     'filterManufacturer',
-    'filterPartId',
+    'filterManufacturerPartId',
     'filterSemanticModelId',
     'filterManufacturingDate',
     'filterActiveAlerts',
@@ -418,10 +418,6 @@ export class PartsTableComponent implements OnInit {
       this.setupTableViewSettings();
     });
     this.setupTableViewSettings();
-  }
-
-  public getTooltip(column: string) {
-    return column === '!' ? i18next.t('parts.openInvestigations') : i18next.t('table.sortTooltip');
   }
 
   private setupTableConfigurations(
@@ -828,6 +824,7 @@ export class PartsTableComponent implements OnInit {
   public onPaginationChange({ pageIndex, pageSize }: PageEvent): void {
     this.pageIndex = pageIndex;
     this.isDataLoading = true;
+    this.onPaginationPageSizeChange.emit(pageSize);
     this.configChanged.emit({ page: pageIndex, pageSize: pageSize, sorting: this.sorting });
   }
 

@@ -138,7 +138,7 @@ export class InvestigationsComponent {
     this.investigationsReceivedFilterConfiguration = [
       createdDate,
       description,
-      status(TranslationContext.COMMONINVESTIGATION),
+      status(TranslationContext.COMMONINVESTIGATION, true),
       targetDate,
       severity,
       createdBy,
@@ -146,7 +146,7 @@ export class InvestigationsComponent {
     this.investigationsQueuedAndRequestedFilterConfiguration = [
       createdDate,
       description,
-      status(TranslationContext.COMMONINVESTIGATION),
+      status(TranslationContext.COMMONINVESTIGATION, false),
       targetDate,
       severity,
       sendTo,

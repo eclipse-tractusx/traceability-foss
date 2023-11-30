@@ -64,7 +64,6 @@
     "clearPage": "Markierungen auf dieser Seite aufheben",
     "clearAll": "Alle Markierungen aufheben",
     "filterTitle": "Filter",
-    "sortTooltip": "Erster Klick: In aufsteigender Reihenfolge sortieren ↑\nZweiter Klick: In absteigender Reihenfolge sortieren ↓\nStrg + Klick auf eine andere Spalte: Fügt diese Spalte zur Sortierliste hinzu.\nJede folgende Sortierspalte entscheidet über die Reihenfolge, wenn im höhergeordneten Element, mehrere Elemente den gleichen Wert haben.",
     "adminColumn": {
       "startDate": "Startdatum",
       "registryLookupStatus": "Status",
@@ -204,7 +203,6 @@
       "CLOSED": "Abgeschlossen",
       "ACCEPTED": "Akzeptiert",
       "ACKNOWLEDGED": "Bestätigt",
-      "REQUESTED": "Angefordert",
       "DECLINED": "Abgelehnt"
     },
     "modal": {
@@ -247,7 +245,6 @@
       "CANCELED": "Abgebrochen",
       "CLOSED": "Abgeschlossen",
       "ACCEPTED": "Akzeptiert",
-      "REQUESTED": "Angefordert",
       "ACKNOWLEDGED": "Bestätigt",
       "DECLINED": "Abgelehnt"
     },
@@ -290,8 +287,7 @@
     "filterLabelSelect": "Wähle",
     "inputLabelText": "Suchen...",
     "inputLabelDate": "TT/MM/JJJJ",
-    "inputTextHint": "Filtert vom Anfang des Werts.",
-    "inputOptionsHint": "Auswahl mit Enter bestätigen."
+    "inputTextHint": "Filtert vom Anfang des Werts."
   },
   "parts": {
     "input": {
@@ -300,7 +296,7 @@
         "toastInfo": "Lokale Filterung auf Tabellenebene wurde zurückgesetzt."
       }
     },
-    "openInvestigations": "Offene Ausschreibungen/Ermittlungen",
+    "openInvestigations": "Offene Warnungen/Untersuchungen",
     "confirmationDialog": {
       "deletePartTitle": "Part löschen?",
       "deletePartMessage": "Wenn Sie diesen Part löschen, wird er vollständig aus der aktuellen Auswahl der Ausschreibung entfernt.",

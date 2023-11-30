@@ -81,18 +81,19 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   theSearchElement: string = '';
 
   @Output() triggerFilter = new EventEmitter<void>();
-  @Output()
+
   selectionChange: EventEmitter<any> = new EventEmitter();
 
   @ViewChild('selectElem', { static: true }) selectElem: MatSelect;
-  filterName: String = 'filterLabel';
-  filteredOptions: Array<any> = [];
-  selectedValue: Array<any> = [];
-  selectAllChecked = false;
-  displayString = '';
-  selectedCheckboxOptions: Array<any> = [];
-  filterActive = '';
-  searched = false;
+  public filterName: String = 'filterLabel';
+  public filteredOptions: Array<any> = [];
+  public selectedValue: Array<any> = [];
+  public selectAllChecked = false;
+  public displayString = '';
+  public selectedCheckboxOptions: Array<any> = [];
+  public filterActive = '';
+  public searched = false;
+  private inputTimer;
 
   constructor(
     public datePipe: DatePipe,
@@ -108,9 +109,9 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
       this.formControl.valueChanges.pipe(startWith(0), pairwise()).subscribe(([prev, next]: [any, any]) => {
         this.theSearchElement = next;
         this.searched = true;
+        this.triggerFilteringTimeout(true);
       });
-    }
-    if (this.isDate) {
+    } else if (this.isDate) {
       this.filterName = 'filterLabelDate';
     } else if (this.multiple) {
       this.filterName = 'filterLabelSelect';
@@ -126,40 +127,50 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     }
   }
 
-  toggleSelectAll = function (val: any): void {
-    if (val.checked) {
-      this.options.forEach(option => {
-        option.checked = true;
-      });
-    } else {
-      this.options.forEach(option => (option.checked = false));
-    }
-  };
-
-  toggleSelectOne(val: any): void {
-    if (!val.checked && this.selectAllChecked) {
-      this.selectAllChecked = false;
-    } else if (val.checked && !this.selectAllChecked && this.options.filter(option => !option.checked).length === 0) {
-      this.selectAllChecked = true;
-    }
+  private triggerFilteringTimeout(isTextSearch: boolean): void {
+    clearTimeout(this.inputTimer);
+    this.inputTimer = setTimeout(() => {
+      if (isTextSearch) {
+        this.setFilterActive()
+      }
+      this.triggerFilter.emit();
+    }, 500)
   }
 
-  someSelected(): boolean {
+  public toggleSelect = function (val: any, isSelectAll: boolean): void {
+    if (isSelectAll) {
+      if (val.checked) {
+        this.options.forEach(option => {
+          option.checked = true;
+        });
+      } else {
+        this.options.forEach(option => (option.checked = false));
+      }
+    } else if (!isSelectAll && !val.checked && this.selectAllChecked) {
+      this.selectAllChecked = false;
+    } else if (!isSelectAll && val.checked && !this.selectAllChecked && this.options.filter(option => !option.checked).length === 0) {
+      this.selectAllChecked = true;
+    }
+    this.triggerFilteringTimeout(false);
+  };
+
+
+  public someSelected(): boolean {
     return this.options.filter(option => option.checked).length > 0 && !this.selectAllChecked;
   }
 
-  setFilterActive(): void {
+  public setFilterActive(): void {
     this.filterActive = this.theSearchElement;
   }
 
-  dateSelectionEvent(event: MatDatepickerInputEvent<Date>) {
+  public dateSelectionEvent(event: MatDatepickerInputEvent<Date>) {
     let value = this.datePipe.transform(event.value, 'yyyy-MM-dd');
     this.formControl.patchValue(value);
     this.selectedValue = value as unknown as [];
     this.theSearchElement = value;
   }
 
-  clickClear(): void {
+  public clickClear(): void {
     this.formControl.patchValue('');
     this.formControl.reset();
     if (this.searchInput) {

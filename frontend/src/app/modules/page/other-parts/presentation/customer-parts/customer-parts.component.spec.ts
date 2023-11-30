@@ -21,17 +21,18 @@ import { OtherPartsState } from '@page/other-parts/core/other-parts.state';
 import { OtherPartsModule } from '@page/other-parts/other-parts.module';
 import { PartsState } from '@page/parts/core/parts.state';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import { toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
+import { toAssetFilter, toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 
 import { CustomerPartsComponent } from './customer-parts.component';
+import { TableEventConfig } from '@shared/components/table/table.model';
 
 describe('CustomerPartsComponent', () => {
   let otherPartsState: OtherPartsState;
   beforeEach(() => (otherPartsState = new OtherPartsState()));
 
-  const renderCustomerParts = () =>
+  const renderCustomerPartsAsBuilt = () =>
     renderComponent(CustomerPartsComponent, {
       imports: [OtherPartsModule],
       providers: [{ provide: OtherPartsState, useFactory: () => otherPartsState }, { provide: PartsState }],
@@ -40,22 +41,31 @@ describe('CustomerPartsComponent', () => {
         bomLifecycle: MainAspectType.AS_BUILT,
       },
     });
+  const renderCustomerPartsAsPlanned = () =>
+    renderComponent(CustomerPartsComponent, {
+      imports: [OtherPartsModule],
+      providers: [{ provide: OtherPartsState, useFactory: () => otherPartsState }, { provide: PartsState }],
+      roles: ['admin', 'wip'],
+      componentInputs: {
+        bomLifecycle: MainAspectType.AS_PLANNED,
+      },
+    });
 
   it('should render part table', async () => {
-    await renderCustomerParts();
+    await renderCustomerPartsAsBuilt();
     const tableElements = await waitFor(() => screen.getAllByTestId('table-component--test-id'));
     expect(tableElements.length).toEqual(1);
   });
 
   it('should render table and display correct amount of rows', async () => {
-    await renderCustomerParts();
+    await renderCustomerPartsAsBuilt();
     const tableElement = await waitFor(() => screen.getByTestId('table-component--test-id'));
     expect(tableElement).toBeInTheDocument();
     expect(tableElement.children[1].childElementCount).toEqual(5);
   });
 
   it('sort customer parts after name column', async () => {
-    const { fixture } = await renderCustomerParts();
+    const { fixture } = await renderCustomerPartsAsBuilt();
     const customerPartsComponent = fixture.componentInstance;
 
     let nameHeader = await screen.findByText('table.column.name');
@@ -65,7 +75,7 @@ describe('CustomerPartsComponent', () => {
   });
 
   it('should multisort after column name and semanticModelId', async () => {
-    const { fixture } = await renderCustomerParts();
+    const { fixture } = await renderCustomerPartsAsBuilt();
     const customerPartsComponent = fixture.componentInstance;
 
     let nameHeader = await screen.findByText('table.column.name');
@@ -100,7 +110,7 @@ describe('CustomerPartsComponent', () => {
   });
 
   it('should handle updateCustomerParts null', async () => {
-    const { fixture } = await renderCustomerParts();
+    const { fixture } = await renderCustomerPartsAsBuilt();
     const customerPartsComponent = fixture.componentInstance;
 
     const otherPartsFacade = (customerPartsComponent as any)['otherPartsFacade'];
@@ -114,7 +124,7 @@ describe('CustomerPartsComponent', () => {
   });
 
   it('should handle updateCustomerParts including search', async () => {
-    const { fixture } = await renderCustomerParts();
+    const { fixture } = await renderCustomerPartsAsBuilt();
     const customerPartsComponent = fixture.componentInstance;
 
     const otherPartsFacade = (customerPartsComponent as any)['otherPartsFacade'];
@@ -133,4 +143,106 @@ describe('CustomerPartsComponent', () => {
       true,
     );
   });
+
+
+  it('should set the default Pagination by recieving a size change event', async () => {
+    const { fixture } = await renderCustomerPartsAsBuilt();
+    const customerPartsComponent = fixture.componentInstance;
+
+    customerPartsComponent.onDefaultPaginationSizeChange(100);
+    expect(customerPartsComponent.DEFAULT_PAGE_SIZE).toEqual(100);
+  });
+
+  it('should use the default page size if the page size in the onAsBuiltTableConfigChange is given as 0', async () => {
+    const { fixture } = await renderCustomerPartsAsBuilt();
+    const customerPartsComponent = fixture.componentInstance;
+
+    const pagination: TableEventConfig = { page: 0, pageSize: 0, sorting: ['name', 'asc'] };
+    spyOn(customerPartsComponent.otherPartsFacade, 'setCustomerPartsAsBuilt');
+
+    customerPartsComponent.onAsBuiltTableConfigChange(pagination);
+    fixture.detectChanges();
+    expect(customerPartsComponent.otherPartsFacade.setCustomerPartsAsBuilt).toHaveBeenCalledWith(0, 50, [['name', 'asc']], toAssetFilter(null, true));
+
+  });
+
+  it('should use the given page size if the page size in the onAsBuiltTableConfigChange is given as not 0', async () => {
+    const { fixture } = await renderCustomerPartsAsBuilt();
+    const customerPartsComponent = fixture.componentInstance;
+
+    const pagination: TableEventConfig = { page: 0, pageSize: 10, sorting: ['name', 'asc'] };
+    spyOn(customerPartsComponent.otherPartsFacade, 'setCustomerPartsAsBuilt');
+
+    customerPartsComponent.onAsBuiltTableConfigChange(pagination);
+    fixture.detectChanges();
+    expect(customerPartsComponent.otherPartsFacade.setCustomerPartsAsBuilt).toHaveBeenCalledWith(0, 10, [['name', 'asc']], toAssetFilter(null, true));
+
+  });
+
+  it('should use the default page size if the page size in the onAsPlannedTableConfigChange is given as 0', async () => {
+    const { fixture } = await renderCustomerPartsAsPlanned();
+    const customerPartsComponent = fixture.componentInstance;
+
+    const pagination: TableEventConfig = { page: 0, pageSize: 0, sorting: ['name', 'asc'] };
+    spyOn(customerPartsComponent.otherPartsFacade, 'setCustomerPartsAsPlanned');
+
+    customerPartsComponent.onAsPlannedTableConfigChange(pagination);
+    fixture.detectChanges();
+    expect(customerPartsComponent.otherPartsFacade.setCustomerPartsAsPlanned).toHaveBeenCalledWith(0, 50, [['name', 'asc']], toAssetFilter(null, false));
+  });
+
+  it('should use the given page size if the page size in the onAsPlannedTableConfigChange is given as not 0', async () => {
+    const { fixture } = await renderCustomerPartsAsPlanned();
+    const customerPartsComponent = fixture.componentInstance;
+
+    const pagination: TableEventConfig = { page: 0, pageSize: 10, sorting: ['name', 'asc'] };
+    spyOn(customerPartsComponent.otherPartsFacade, 'setCustomerPartsAsPlanned');
+
+    customerPartsComponent.onAsPlannedTableConfigChange(pagination);
+    fixture.detectChanges();
+    expect(customerPartsComponent.otherPartsFacade.setCustomerPartsAsPlanned).toHaveBeenCalledWith(0, 10, [['name', 'asc']], toAssetFilter(null, false));
+  });
+
+  it('should pass on the filtering to the api services for As_Built', async () => {
+    const { fixture } = await renderCustomerPartsAsBuilt();
+    const customerPartsComponent = fixture.componentInstance;
+
+    const assetFilterAsBuilt = {
+      "select": [],
+      "semanticDataModel": [],
+      "nameAtManufacturer": "value1",
+      "manufacturerName": [],
+      "manufacturerPartId": [],
+      "semanticModelId": [],
+      "manufacturingDate": [],
+      "qualityAlertsInStatusActive": [],
+      "qualityInvestigationsInStatusActive": []
+    };
+    spyOn(customerPartsComponent.otherPartsFacade, 'setCustomerPartsAsBuilt');
+
+
+    customerPartsComponent.filterActivated(true, assetFilterAsBuilt);
+    fixture.detectChanges();
+    expect(customerPartsComponent.otherPartsFacade.setCustomerPartsAsBuilt).toHaveBeenCalledWith(0, 50, [], toAssetFilter(assetFilterAsBuilt, true));
+  });
+
+  it('should pass on the filtering to the api services for As_Planned', async () => {
+    const { fixture } = await renderCustomerPartsAsPlanned();
+    const customerPartsComponent = fixture.componentInstance;
+
+    const assetFilterAsPlanned = {
+      "select": [],
+      "semanticDataModel": [],
+      "nameAtManufacturer": "value2",
+      "manufacturerName": [],
+      "semanticModelId": [],
+      "manufacturerPartId": []
+    };
+    spyOn(customerPartsComponent.otherPartsFacade, 'setCustomerPartsAsPlanned');
+
+    customerPartsComponent.filterActivated(false, assetFilterAsPlanned);
+    fixture.detectChanges();
+    expect(customerPartsComponent.otherPartsFacade.setCustomerPartsAsPlanned).toHaveBeenCalledWith(0, 50, [], toAssetFilter(assetFilterAsPlanned, false));
+  });
+
 });

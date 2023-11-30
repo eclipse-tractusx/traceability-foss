@@ -290,7 +290,7 @@ describe('Parts', () => {
         expect(componentInstance['tableAsBuiltSortList']).toBeTruthy();
 
         // Assert
-        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsBuiltSortList']);
+        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsBuiltSortList'], null);
     });
 
     it('should call partsFacade.setPartsAsBuilt with the correct parameters no ctrlkey pressed', async () => {
@@ -310,7 +310,7 @@ describe('Parts', () => {
         componentInstance['onAsBuiltTableConfigChange']({ page, pageSize, sorting }); // Access private method
 
         // Assert
-        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsBuiltSortList']);
+        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsBuiltSortList'], null);
     });
 
     it('should call partsFacade.setPartsAsPlanned with the correct parameters', async () => {
@@ -330,7 +330,7 @@ describe('Parts', () => {
         componentInstance['onAsPlannedTableConfigChange']({ page, pageSize, sorting }); // Access private method
 
         // Assert
-        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsPlannedSortList']);
+        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsPlannedSortList'], null);
     });
 
     it('should call partsFacade.setPartsAsPlanned with the correct parameters  and ctrlkey not pressed', async () => {
@@ -350,7 +350,7 @@ describe('Parts', () => {
         componentInstance['onAsPlannedTableConfigChange']({ page, pageSize, sorting }); // Access private method
 
         // Assert
-        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsPlannedSortList']);
+        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsPlannedSortList'], null);
     });
 
     it('should call partsFacade.setPartsAsDesigned with the correct parameters', async () => {
@@ -370,7 +370,7 @@ describe('Parts', () => {
         componentInstance['onAsDesignedTableConfigChange']({ page, pageSize, sorting }); // Access private method
 
         // Assert
-        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsDesignedSortList']);
+        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsDesignedSortList'], null);
     });
 
     it('should call partsFacade.setPartsAsOrdered with the correct parameters', async () => {
@@ -390,7 +390,7 @@ describe('Parts', () => {
         componentInstance['onAsOrderedTableConfigChange']({ page, pageSize, sorting }); // Access private method
 
         // Assert
-        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsOrderedSortList']);
+        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsOrderedSortList'], null);
     });
 
     it('should call partsFacade.setPartsAsSupported with the correct parameters', async () => {
@@ -410,7 +410,7 @@ describe('Parts', () => {
         componentInstance['onAsSupportedTableConfigChange']({ page, pageSize, sorting }); // Access private method
 
         // Assert
-        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsSupportedSortList']);
+        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsSupportedSortList'], null);
     });
 
     it('should call partsFacade.setPartsAsRecycled with the correct parameters', async () => {
@@ -430,7 +430,7 @@ describe('Parts', () => {
         componentInstance['onAsRecycledTableConfigChange']({ page, pageSize, sorting }); // Access private method
 
         // Assert
-        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsRecycledSortList']);
+        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsRecycledSortList'], null);
     });
 
     it('should set selectedPart in PartDetailsFacade correctly', async () => {
@@ -459,7 +459,7 @@ describe('Parts', () => {
         componentInstance['onAsBuiltTableConfigChange']({ page, pageSize, sorting }); // Access private method
 
         // Assert
-        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsBuiltSortList']);
+        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsBuiltSortList'], null);
     });
 
     it('should reset AsBuilt part table when resetTableSortingList is called', async () => {
@@ -637,6 +637,14 @@ describe('Parts', () => {
 
         // Assert
         expect(componentInstance.bomLifecycleSize).toEqual(bomLifecycleSize);
+    });
+
+    it('should set the default Pagination by recieving a size change event', async () => {
+        const { fixture } = await renderParts();
+        const alertsComponent = fixture.componentInstance;
+
+        alertsComponent.onDefaultPaginationSizeChange(100);
+        expect(alertsComponent.DEFAULT_PAGE_SIZE).toEqual(100);
     });
 
 });

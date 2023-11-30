@@ -18,101 +18,84 @@ SPDX-License-Identifier: Apache-2.0
 -->
 <div class="filter-input">
   <mat-label class="label-medium">{{ 'multiSelect.' + filterName | i18n }}</mat-label>
-  <mat-form-field
-    class="filter-input__textarea"
+  <mat-form-field class="filter-input__textarea"
     appearance="outline"
     color="accent"
     [floatLabel]="'auto'"
-    *ngIf="!isDate && !multiple"
-  >
+    *ngIf="!isDate && !multiple">
     <mat-label>{{ 'multiSelect.inputLabelText' | i18n }}</mat-label>
-    <input
-      #searchInput
+    <input #searchInput
       [formControl]="formControl"
       matInput
       class="filter-input__textarea-input"
-      (keydown.enter)="this.triggerFilter.emit(); setFilterActive()"
-      data-testid="multi-select-autocomplete--text-search-input"
-    />
+      data-testid="multi-select-autocomplete--text-search-input" />
     <mat-hint>{{ 'multiSelect.inputTextHint' | i18n }}</mat-hint>
   </mat-form-field>
 
-  <button
-    *ngIf="!isDate && !multiple && searched && (this.filterActive !== '' || this.theSearchElement !== '')"
+  <button *ngIf="!isDate && !multiple && searched && (this.filterActive !== '' || this.theSearchElement !== '')"
     type="button"
     class="filter-input__textarea-button"
     (click)="this.triggerFilter.emit(); setFilterActive()"
-    data-testid="multi-select-autocomplete--text-search-button"
-  >
+    data-testid="multi-select-autocomplete--text-search-button">
     <div class="body-large">{{ this.filterActive === '' ? this.theSearchElement : this.filterActive }}</div>
-    <img
-      *ngIf="filterActive === theSearchElement"
+    <img *ngIf="filterActive === theSearchElement"
       src="\assets\images\icons\filerActiveIcon.svg"
-      alt="filter active icon"
-    />
+      alt="filter active icon" />
   </button>
 
-  <div class="filter-input__option-list" *ngIf="!isDate && multiple" (keydown.enter)="this.triggerFilter.emit()">
+  <div class="filter-input__option-list"
+    *ngIf="!isDate && multiple">
     <div class="filter-input__option-list-select-all-container">
-      <mat-checkbox
-        color="accent"
+      <mat-checkbox color="accent"
         class="body-large filter-input__option-list-select-all"
         [(ngModel)]="selectAllChecked"
-        (change)="toggleSelectAll($event)"
+        (change)="toggleSelect($event, true)"
         [checked]="selectAllChecked"
         [indeterminate]="someSelected()"
-        data-testid="multi-select-autocomplete--multi-option-search-selct-all"
-        >{{ 'multiSelect.selectAll' | i18n }}</mat-checkbox
-      >
+        data-testid="multi-select-autocomplete--multi-option-search-selct-all">{{ 'multiSelect.selectAll' | i18n
+        }}</mat-checkbox>
     </div>
     <div *ngFor="let option of options">
-      <mat-checkbox
-        color="accent"
+      <mat-checkbox color="accent"
         class="body-large"
         [(ngModel)]="option.checked"
-        (change)="toggleSelectOne($event)"
-        data-testid="multi-select-autocomplete--multi-option-search-selct-one"
-        >{{ option[display] | i18n }}</mat-checkbox
-      >
+        (change)="toggleSelect($event, false)"
+        data-testid="multi-select-autocomplete--multi-option-search-selct-one">{{ option[display] | i18n
+        }}</mat-checkbox>
     </div>
-    <div class="filter-input__option-list-hint">{{ 'multiSelect.inputOptionsHint' | i18n }}</div>
   </div>
 
-  <mat-form-field
-    color="accent"
+  <mat-form-field color="accent"
     appearance="outline"
     [floatLabel]="'auto'"
     *ngIf="isDate"
-    data-testid="multi-select-autocomplete--date-search-form"
-  >
+    data-testid="multi-select-autocomplete--date-search-form">
     <mat-label>{{ 'multiSelect.inputLabelDate' | i18n }}</mat-label>
-    <input
-      [value]="theSearchElement"
+    <input [value]="theSearchElement"
       matInput
       [matDatepicker]="datepicker"
       [max]="maxDate"
       (dateInput)="dateSelectionEvent($event)"
       (dateChange)="dateSelectionEvent($event)"
-      disabled
-    />
-    <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
-    <mat-datepicker disabled="false" #datepicker color="primary" class="Test">
+      disabled />
+    <mat-datepicker-toggle matIconSuffix
+      [for]="datepicker"></mat-datepicker-toggle>
+    <mat-datepicker disabled="false"
+      #datepicker
+      color="primary"
+      class="Test">
       <mat-datepicker-actions>
-        <button
-          class="filter-input__datepicker-buttons-reset"
+        <button class="filter-input__datepicker-buttons-reset"
           (click)="clickClear(); this.triggerFilter.emit()"
           mat-button
-          matDatepickerCancel
-        >
+          matDatepickerCancel>
           {{ 'datepicker.cancel' | i18n }}
         </button>
-        <button
-          class="filter-input__datepicker-buttons-filter"
+        <button class="filter-input__datepicker-buttons-filter"
           mat-raised-button
           color="primary"
           matDatepickerApply
-          (click)="this.triggerFilter.emit()"
-        >
+          (click)="this.triggerFilter.emit()">
           {{ 'datepicker.apply' | i18n }}
         </button>
       </mat-datepicker-actions>

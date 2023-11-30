@@ -27,49 +27,55 @@ export class FilterCongigOptions {
     },
   ];
   //Approved and Requested only exist in the frontend commonInvestigation
-  private statusOptions(type: string): any[] {
-    return [
-      {
-        display: type + '.status.' + NotificationStatus.ACCEPTED,
-        value: NotificationStatus.ACCEPTED,
-        checked: false,
-      },
-      {
-        display: type + '.status.' + NotificationStatus.ACKNOWLEDGED,
-        value: NotificationStatus.ACKNOWLEDGED,
-        checked: false,
-      },
-      {
-        display: type + '.status.' + NotificationStatus.CANCELED,
-        value: NotificationStatus.CANCELED,
-        checked: false,
-      },
-      {
-        display: type + '.status.' + NotificationStatus.CLOSED,
-        value: NotificationStatus.CLOSED,
-        checked: false,
-      },
-      {
-        display: type + '.status.' + NotificationStatus.CREATED,
-        value: NotificationStatus.CREATED,
-        checked: false,
-      },
-      {
-        display: type + '.status.' + NotificationStatus.DECLINED,
-        value: NotificationStatus.DECLINED,
-        checked: false,
-      },
-      {
-        display: type + '.status.' + NotificationStatus.RECEIVED,
-        value: NotificationStatus.RECEIVED,
-        checked: false,
-      },
-      {
-        display: type + '.status.' + NotificationStatus.SENT,
-        value: NotificationStatus.SENT,
-        checked: false,
-      },
-    ];
+  private statusOptions(type: string, isReceivedTable: boolean): any[] {
+    const returnList = [];
+    const accepted = {
+      display: type + '.status.' + NotificationStatus.ACCEPTED,
+      value: NotificationStatus.ACCEPTED,
+      checked: false,
+    };
+    const acknowledged = {
+      display: type + '.status.' + NotificationStatus.ACKNOWLEDGED,
+      value: NotificationStatus.ACKNOWLEDGED,
+      checked: false,
+    };
+    const canceled = {
+      display: type + '.status.' + NotificationStatus.CANCELED,
+      value: NotificationStatus.CANCELED,
+      checked: false,
+    };
+    const closed = {
+      display: type + '.status.' + NotificationStatus.CLOSED,
+      value: NotificationStatus.CLOSED,
+      checked: false,
+    };
+    const created = {
+      display: type + '.status.' + NotificationStatus.CREATED,
+      value: NotificationStatus.CREATED,
+      checked: false,
+    };
+    const declined = {
+      display: type + '.status.' + NotificationStatus.DECLINED,
+      value: NotificationStatus.DECLINED,
+      checked: false,
+    };
+    const received = {
+      display: type + '.status.' + NotificationStatus.RECEIVED,
+      value: NotificationStatus.RECEIVED,
+      checked: false,
+    };
+    const sent = {
+      display: type + '.status.' + NotificationStatus.SENT,
+      value: NotificationStatus.SENT,
+      checked: false,
+    }
+
+    if (isReceivedTable) {
+      returnList.push(received, acknowledged, accepted, declined, closed)
+    } else {
+      returnList.push(created, canceled, sent, acknowledged, accepted, declined, closed)
+    }
+    return returnList;
   }
   private semanticDataModelOptions = [
     {
@@ -108,10 +114,10 @@ export class FilterCongigOptions {
       maxDate: new Date(),
     },
     description: { filterKey: 'description', isTextSearch: true, option: this.optionTextSearch },
-    status: (typeTranslationPath: string) => ({
+    status: (typeTranslationPath: string, isReceivedTable: boolean) => ({
       filterKey: 'status',
       isTextSearch: false,
-      option: this.statusOptions(typeTranslationPath),
+      option: this.statusOptions(typeTranslationPath, isReceivedTable),
     }),
     severity: { filterKey: 'severity', isTextSearch: false, option: this.severityOptions },
     targetDate: {
