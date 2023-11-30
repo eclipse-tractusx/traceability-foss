@@ -26,6 +26,7 @@ export class PartsAsPlannedConfigurationModel extends TableFilterConfiguration {
             id: true,
             idShort: true,
             nameAtManufacturer: true,
+            businessPartner: true,
             manufacturerName: true,
             manufacturerPartId: true,
             classification: true,
