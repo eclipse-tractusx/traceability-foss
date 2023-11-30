@@ -91,14 +91,6 @@ SPDX-License-Identifier: Apache-2.0
       data-testid="table-component--body-row"
     ></tr>
 
-    <ng-container *ngIf="!!tableConfig.menuActionsConfig">
-      <tr
-        *matRowDef="let row; columns: ['menu']"
-        class="expand-row no-hover table--menu__mobile"
-        mat-row
-      ></tr>
-    </ng-container>
-
     <tr *matNoDataRow class="mat-row no-hover" data-testid="table-component--body-row">
       <td class="mat-cell" [attr.colspan]="tableConfig?.displayedColumns.length">
         <div class="table--no-data">
