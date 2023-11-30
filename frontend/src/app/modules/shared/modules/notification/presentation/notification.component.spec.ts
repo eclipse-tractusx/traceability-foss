@@ -53,8 +53,8 @@ describe('NotificationsInboxComponent', () => {
   };
 
   const renderNotificationsInbox = () => {
-    const qContent = buildMockInvestigations([NotificationStatus.CREATED], 'SENDER').map(mapNotificationResponse);
-    const qarContent = buildMockInvestigations([NotificationStatus.RECEIVED], 'RECEIVER').map(mapNotificationResponse);
+    const qContent = buildMockInvestigations([ NotificationStatus.CREATED ], 'SENDER').map(mapNotificationResponse);
+    const qarContent = buildMockInvestigations([ NotificationStatus.RECEIVED ], 'RECEIVER').map(mapNotificationResponse);
 
     const queuedAndRequestedNotifications$: Observable<View<Notifications>> = of({
       data: { content: qContent, page: 0, pageCount: 1, pageSize: 5, totalItems: 1 },
@@ -76,8 +76,8 @@ describe('NotificationsInboxComponent', () => {
           (onQueuedAndRequestedPagination)='clickHandler($event)'
         ></app-notification>`,
       {
-        imports: [SharedModule, NotificationModule, TemplateModule],
-        translations: ['common'],
+        imports: [ SharedModule, NotificationModule, TemplateModule ],
+        translations: [ 'common' ],
         componentProperties: {
           queuedAndRequestedNotifications$,
           receivedNotifications$,

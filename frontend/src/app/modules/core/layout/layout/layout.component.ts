@@ -24,11 +24,12 @@ import { Component, ElementRef, Renderer2, ViewEncapsulation } from '@angular/co
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.scss'],
+  styleUrls: [ './layout.component.scss' ],
   encapsulation: ViewEncapsulation.None,
 })
 export class LayoutComponent {
-  constructor(private renderer: Renderer2, private elementRef: ElementRef) {}
+  constructor(private renderer: Renderer2, private elementRef: ElementRef) {
+  }
 
   public ngOnInit() {
     /**
@@ -38,7 +39,7 @@ export class LayoutComponent {
     const headerBreadCrumbRef = this.elementRef.nativeElement.querySelector('.header--breadcrumb-container');
     const toastLayoutRef = this.elementRef.nativeElement.querySelector('.layout-toast-component');
     const elementTopDistance = headerBreadCrumbRef.getBoundingClientRect().top;
-    this.renderer.setStyle(toastLayoutRef, 'top',`${elementTopDistance}px`)
+    this.renderer.setStyle(toastLayoutRef, 'top', `${ elementTopDistance }px`);
   }
 
 }

@@ -31,7 +31,7 @@ import { NotificationTabInformation } from '@shared/model/notification-tab-infor
 import { Notification, NotificationStatusGroup, NotificationType } from '@shared/model/notification.model';
 import { TranslationContext } from '@shared/model/translation-context.model';
 import { Subscription } from 'rxjs';
-import {createDeeplinkNotificationFilter} from "@shared/helper/notification-helper";
+import { createDeeplinkNotificationFilter } from '@shared/helper/notification-helper';
 
 @Component({
   selector: 'app-alerts',
@@ -52,26 +52,26 @@ export class AlertsComponent {
 
   private paramSubscription: Subscription;
 
-  private pagination: TableEventConfig = { page: 0, pageSize: 50, sorting: ['createdDate' , 'desc'] };
+  private pagination: TableEventConfig = { page: 0, pageSize: 50, sorting: [ 'createdDate', 'desc' ] };
 
-    constructor(
-        public readonly helperService: AlertHelperService,
-        private readonly alertsFacade: AlertsFacade,
-        private readonly alertDetailFacade: AlertDetailFacade,
-        private readonly router: Router,
-        private readonly route: ActivatedRoute,
-        private readonly cd: ChangeDetectorRef
-    ) {
-        this.alertsReceived$ = this.alertsFacade.alertsReceived$;
-        this.alertsQueuedAndRequested$ = this.alertsFacade.alertsQueuedAndRequested$;
+  constructor(
+    public readonly helperService: AlertHelperService,
+    private readonly alertsFacade: AlertsFacade,
+    private readonly alertDetailFacade: AlertDetailFacade,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly cd: ChangeDetectorRef,
+  ) {
+    this.alertsReceived$ = this.alertsFacade.alertsReceived$;
+    this.alertsQueuedAndRequested$ = this.alertsFacade.alertsQueuedAndRequested$;
 
-      window.addEventListener('keydown', (event) => {
-        this.ctrlKeyState = event.ctrlKey;
-      });
-      window.addEventListener('keyup', (event) => {
-        this.ctrlKeyState = event.ctrlKey;
-      });
-    }
+    window.addEventListener('keydown', (event) => {
+      this.ctrlKeyState = event.ctrlKey;
+    });
+    window.addEventListener('keyup', (event) => {
+      this.ctrlKeyState = event.ctrlKey;
+    });
+  }
 
   public ngOnInit(): void {
 
@@ -79,19 +79,19 @@ export class AlertsComponent {
 
       let deeplinkNotificationFilter = createDeeplinkNotificationFilter(params);
       this.pagination.page = params?.pageNumber ? params.pageNumber : 0;
-        this.pagination.page = params?.pageNumber;
-        this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize, this.alertReceivedSortList, deeplinkNotificationFilter?.receivedFilter);
-        this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize, this.alertQueuedAndRequestedSortList, deeplinkNotificationFilter?.sentFilter);
-    })
+      this.pagination.page = params?.pageNumber;
+      this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize, this.alertReceivedSortList, deeplinkNotificationFilter?.receivedFilter);
+      this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize, this.alertQueuedAndRequestedSortList, deeplinkNotificationFilter?.sentFilter);
+    });
   }
 
-    public ngAfterViewInit(): void {
-        this.menuActionsConfig = NotificationMenuActionsAssembler.getMenuActions(
-            this.helperService,
-            this.notificationCommonModalComponent
-        );
-        this.cd.detectChanges();
-    }
+  public ngAfterViewInit(): void {
+    this.menuActionsConfig = NotificationMenuActionsAssembler.getMenuActions(
+      this.helperService,
+      this.notificationCommonModalComponent,
+    );
+    this.cd.detectChanges();
+  }
 
   public ngOnDestroy(): void {
     this.alertsFacade.stopAlerts();
@@ -114,8 +114,8 @@ export class AlertsComponent {
     this.alertDetailFacade.selected = { data: notification };
     const { link } = getRoute(ALERT_BASE_ROUTE);
     const tabIndex = this.route.snapshot.queryParamMap.get('tabIndex');
-    const tabInformation: NotificationTabInformation = {tabIndex: tabIndex, pageNumber: this.pagination.page}
-    this.router.navigate([`/${link}/${notification.id}`], { queryParams: tabInformation });
+    const tabInformation: NotificationTabInformation = { tabIndex: tabIndex, pageNumber: this.pagination.page };
+    this.router.navigate([ `/${ link }/${ notification.id }` ], { queryParams: tabInformation });
   }
 
   public handleConfirmActionCompletedEvent() {

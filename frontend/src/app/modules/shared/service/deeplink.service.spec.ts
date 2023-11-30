@@ -19,88 +19,88 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {ALERT_BASE_ROUTE, INVESTIGATION_BASE_ROUTE} from "@core/known-route";
-import {DeeplinkModel} from "@shared/model/deeplink.model";
-import {TestBed} from "@angular/core/testing";
-import {DeeplinkService} from "@shared/service/deeplink.service";
-import {NotificationColumn} from "@shared/model/notification.model";
+import { ALERT_BASE_ROUTE, INVESTIGATION_BASE_ROUTE } from '@core/known-route';
+import { DeeplinkModel } from '@shared/model/deeplink.model';
+import { TestBed } from '@angular/core/testing';
+import { DeeplinkService } from '@shared/service/deeplink.service';
+import { NotificationColumn } from '@shared/model/notification.model';
 
 describe('DeeplinkService', () => {
-    let service: DeeplinkService;
+  let service: DeeplinkService;
 
-    beforeEach(() => {
-        TestBed.configureTestingModule({
-            imports: [],
-            providers: [DeeplinkService],
-        });
-        service = TestBed.inject(DeeplinkService);
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [],
+      providers: [ DeeplinkService ],
     });
+    service = TestBed.inject(DeeplinkService);
+  });
 
-    it('should be created', () => {
-        expect(service).toBeTruthy();
-    });
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
 
-    it('should handle received alert deeplink', () => {
+  it('should handle received alert deeplink', () => {
 
-        const received = true;
-        const tabIndex = 0;
-        const data = ['123'];
-        const route = ALERT_BASE_ROUTE;
-        const expected: DeeplinkModel = {received, tabIndex, data, route};
+    const received = true;
+    const tabIndex = 0;
+    const data = [ '123' ];
+    const route = ALERT_BASE_ROUTE;
+    const expected: DeeplinkModel = { received, tabIndex, data, route };
 
-        const column = NotificationColumn.RECEIVED_ALERT;
-        const ids = ['123'];
+    const column = NotificationColumn.RECEIVED_ALERT;
+    const ids = [ '123' ];
 
-        const actual = service.getDeeplink(column, ids);
-        expect(actual).toEqual(expected);
+    const actual = service.getDeeplink(column, ids);
+    expect(actual).toEqual(expected);
 
-    });
+  });
 
-    it('should handle received investigation deeplink', () => {
+  it('should handle received investigation deeplink', () => {
 
-        const received = true;
-        const tabIndex = 0;
-        const data = ['123'];
-        const route = INVESTIGATION_BASE_ROUTE;
-        const expected: DeeplinkModel = {received, tabIndex, data, route};
+    const received = true;
+    const tabIndex = 0;
+    const data = [ '123' ];
+    const route = INVESTIGATION_BASE_ROUTE;
+    const expected: DeeplinkModel = { received, tabIndex, data, route };
 
-        const column = NotificationColumn.RECEIVED_INVESTIGATION;
-        const ids = ['123'];
+    const column = NotificationColumn.RECEIVED_INVESTIGATION;
+    const ids = [ '123' ];
 
-        const actual = service.getDeeplink(column, ids);
-        expect(actual).toEqual(expected);
+    const actual = service.getDeeplink(column, ids);
+    expect(actual).toEqual(expected);
 
-    });
+  });
 
-    it('should handle sent alert deeplink', () => {
+  it('should handle sent alert deeplink', () => {
 
-        const received = false;
-        const tabIndex = 1;
-        const data = ['123'];
-        const route = ALERT_BASE_ROUTE;
-        const expected: DeeplinkModel = {received, tabIndex, data, route};
+    const received = false;
+    const tabIndex = 1;
+    const data = [ '123' ];
+    const route = ALERT_BASE_ROUTE;
+    const expected: DeeplinkModel = { received, tabIndex, data, route };
 
-        const column = NotificationColumn.SENT_ALERT;
-        const ids = ['123'];
+    const column = NotificationColumn.SENT_ALERT;
+    const ids = [ '123' ];
 
-        const actual = service.getDeeplink(column, ids);
-        expect(actual).toEqual(expected);
+    const actual = service.getDeeplink(column, ids);
+    expect(actual).toEqual(expected);
 
-    });
+  });
 
-    it('should handle sent investigation deeplink', () => {
+  it('should handle sent investigation deeplink', () => {
 
-        const received = false;
-        const tabIndex = 1;
-        const data = ['123'];
-        const route = INVESTIGATION_BASE_ROUTE;
-        const expected: DeeplinkModel = {received, tabIndex, data, route};
+    const received = false;
+    const tabIndex = 1;
+    const data = [ '123' ];
+    const route = INVESTIGATION_BASE_ROUTE;
+    const expected: DeeplinkModel = { received, tabIndex, data, route };
 
-        const column = NotificationColumn.SENT_INVESTIGATION;
-        const ids = ['123'];
+    const column = NotificationColumn.SENT_INVESTIGATION;
+    const ids = [ '123' ];
 
-        const actual = service.getDeeplink(column, ids);
-        expect(actual).toEqual(expected);
+    const actual = service.getDeeplink(column, ids);
+    expect(actual).toEqual(expected);
 
-    });
+  });
 });

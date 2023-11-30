@@ -30,13 +30,14 @@ const PARTS_ROUTING: Routes = [
     path: '',
     pathMatch: 'full',
     component: OtherPartsComponent,
-    data: { i18nextNamespaces: ['page.otherParts', 'partDetail'] },
+    data: { i18nextNamespaces: [ 'page.otherParts', 'partDetail' ] },
     resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(PARTS_ROUTING)],
-  exports: [RouterModule],
+  imports: [ RouterModule.forChild(PARTS_ROUTING) ],
+  exports: [ RouterModule ],
 })
-export class OtherPartsRoutingModule {}
+export class OtherPartsRoutingModule {
+}

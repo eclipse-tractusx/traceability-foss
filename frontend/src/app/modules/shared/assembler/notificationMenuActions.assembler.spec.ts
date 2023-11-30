@@ -51,7 +51,7 @@ describe('NotificationMenuActionsAssembler', () => {
         InvestigationsState,
         NotificationCommonModalComponent,
         NotificationMenuActionsAssembler,
-        CloseNotificationModalComponent
+        CloseNotificationModalComponent,
       ],
     });
     notificationCommonModalComponent = TestBed.inject(NotificationCommonModalComponent);
@@ -69,7 +69,7 @@ describe('NotificationMenuActionsAssembler', () => {
       sendTo: { name: 'OEM xxxxxxxxxxxxxxx B', bpn: 'BPN20000000OEM0B' },
       reason: { close: '', accept: '', decline: '' },
       isFromSender: true,
-      assetIds: ['MOCK_part_1'],
+      assetIds: [ 'MOCK_part_1' ],
       status: NotificationStatus.ACKNOWLEDGED,
       severity: Severity.MINOR,
       createdDate: new CalendarDateModel('2022-05-01T10:34:12.000Z'),

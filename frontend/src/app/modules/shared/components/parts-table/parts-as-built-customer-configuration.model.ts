@@ -16,28 +16,28 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import {TableFilterConfiguration} from "@shared/components/parts-table/parts-config.model";
+import { TableFilterConfiguration } from '@shared/components/parts-table/parts-config.model';
 
 export class PartsAsBuiltCustomerConfigurationModel extends TableFilterConfiguration {
 
-    constructor() {
-        const sortableColumns = {
-            select: false,
-            semanticDataModel: true,
-            nameAtManufacturer: true,
-            manufacturerName: true,
-            manufacturerPartId: true,
-            semanticModelId: true,
-            manufacturingDate: true,
-            receivedActiveAlerts: true,
-            receivedActiveInvestigations: true,
-            sentActiveAlerts: true,
-            sentActiveInvestigations: true,
-            //menu: false
-        };
-        const dateFields = ['manufacturingDate'];
-        const singleSearchFields = ['receivedActiveAlerts', 'sentActiveAlerts', 'receivedActiveInvestigations', 'sentActiveInvestigations'];
-        super(sortableColumns, dateFields, singleSearchFields);
-    }
+  constructor() {
+    const sortableColumns = {
+      select: false,
+      semanticDataModel: true,
+      nameAtManufacturer: true,
+      manufacturerName: true,
+      manufacturerPartId: true,
+      semanticModelId: true,
+      manufacturingDate: true,
+      receivedActiveAlerts: true,
+      receivedActiveInvestigations: true,
+      sentActiveAlerts: true,
+      sentActiveInvestigations: true,
+      //menu: false
+    };
+    const dateFields = [ 'manufacturingDate' ];
+    const singleSearchFields = [ 'receivedActiveAlerts', 'sentActiveAlerts', 'receivedActiveInvestigations', 'sentActiveInvestigations' ];
+    super(sortableColumns, dateFields, singleSearchFields);
+  }
 }
 

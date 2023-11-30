@@ -33,7 +33,7 @@ describe('requestInvestigationComponent', () => {
   let deselectPartMock: jasmine.Spy<jasmine.Func>;
   let clearSelectedMock: jasmine.Spy<jasmine.Func>;
   let submittedMock: jasmine.Spy<jasmine.Func>;
-  const currentSelectedItems = [{ nameAtManufacturer: 'part_1' }, { nameAtManufacturer: 'part_2' }, { nameAtManufacturer: 'part_3' }];
+  const currentSelectedItems = [ { nameAtManufacturer: 'part_1' }, { nameAtManufacturer: 'part_2' }, { nameAtManufacturer: 'part_3' } ];
 
   const renderRequestInvestigationComponent = async () => {
     return renderComponent(
@@ -44,9 +44,9 @@ describe('requestInvestigationComponent', () => {
         [selectedItems]='currentSelectedItems'
         ></app-request-investigation>`,
       {
-        declarations: [RequestInvestigationComponent],
-        imports: [SharedModule, LayoutModule, OtherPartsModule],
-        translations: ['page.otherParts', 'partDetail'],
+        declarations: [ RequestInvestigationComponent ],
+        imports: [ SharedModule, LayoutModule, OtherPartsModule ],
+        translations: [ 'page.otherParts', 'partDetail' ],
         componentProperties: {
           deselectPartMock,
           clearSelectedMock,
@@ -66,9 +66,9 @@ describe('requestInvestigationComponent', () => {
         [selectedItems]='currentSelectedItems'
         ></app-request-alert>`,
       {
-        declarations: [RequestAlertComponent],
-        imports: [SharedModule, LayoutModule, OtherPartsModule],
-        translations: ['page.otherParts', 'partDetail'],
+        declarations: [ RequestAlertComponent ],
+        imports: [ SharedModule, LayoutModule, OtherPartsModule ],
+        translations: [ 'page.otherParts', 'partDetail' ],
         componentProperties: {
           deselectPartMock,
           clearSelectedMock,

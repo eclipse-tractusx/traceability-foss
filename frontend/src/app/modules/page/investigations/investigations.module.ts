@@ -37,8 +37,8 @@ import { InvestigationsRoutingModule } from './investigations.routing';
 import { InvestigationsComponent } from './presentation/investigations.component';
 
 @NgModule({
-  declarations: [InvestigationsComponent, InvestigationDetailComponent],
-  imports: [CommonModule, TemplateModule, SharedModule, InvestigationsRoutingModule, NotificationModule, PartsModule],
+  declarations: [ InvestigationsComponent, InvestigationDetailComponent ],
+  imports: [ CommonModule, TemplateModule, SharedModule, InvestigationsRoutingModule, NotificationModule, PartsModule ],
   providers: [
     InvestigationsFacade,
     InvestigationsState,
@@ -49,4 +49,5 @@ import { InvestigationsComponent } from './presentation/investigations.component
     ...getI18nPageProvider('page.investigation'),
   ],
 })
-export class InvestigationsModule {}
+export class InvestigationsModule {
+}

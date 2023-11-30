@@ -24,7 +24,7 @@ SPDX-License-Identifier: Apache-2.0
     <app-button
       [color]="'primary'"
       (click)="this.navigateBackToInvestigations()"
-        >
+    >
       <div class="flex justify-between items-center">
         <mat-icon class="mr-2">arrow_back</mat-icon>
         {{ 'actions.goBack' | i18n }}
@@ -103,13 +103,13 @@ SPDX-License-Identifier: Apache-2.0
   [helperService]="helperService"
   [selectedNotification]="selectedInvestigation"
   [translationContext]="TranslationContext.COMMONINVESTIGATION"
-  ></app-notification-common-modal>
+></app-notification-common-modal>
 
 <div class="detail--wrapper">
   <mat-card>
     <mat-card-header>
       <mat-card-title
-        ><h4>{{ 'pageInvestigation.info' | i18n }}</h4></mat-card-title
+      ><h4>{{ 'pageInvestigation.info' | i18n }}</h4></mat-card-title
       >
     </mat-card-header>
     <mat-card-content>
@@ -122,9 +122,9 @@ SPDX-License-Identifier: Apache-2.0
   <mat-card class="detail--table_wrapper--notification">
     <mat-card-header>
       <mat-card-title
-        ><h4>
-          {{ 'pageInvestigation.subHeadline.' + (isReceived ? 'affectedParts' : 'supplierParts') | i18n }}
-        </h4></mat-card-title
+      ><h4>
+        {{ 'pageInvestigation.subHeadline.' + (isReceived ? 'affectedParts' : 'supplierParts') | i18n }}
+      </h4></mat-card-title
       >
     </mat-card-header>
     <mat-card-content>
@@ -144,7 +144,7 @@ SPDX-License-Identifier: Apache-2.0
   <mat-card class="h-full">
     <mat-card-header>
       <mat-card-title
-        ><h4>{{ 'pageInvestigation.reason' | i18n }}</h4></mat-card-title
+      ><h4>{{ 'pageInvestigation.reason' | i18n }}</h4></mat-card-title
       >
     </mat-card-header>
     <mat-card-content>
@@ -157,7 +157,7 @@ SPDX-License-Identifier: Apache-2.0
   <mat-card *ngIf="isReceived && supplierPartsDetailInformation$ | async" class="detail--table_wrapper--notification">
     <mat-card-header>
       <mat-card-title
-        ><h4>{{ 'pageInvestigation.subHeadline.supplierParts' | i18n }}</h4></mat-card-title
+      ><h4>{{ 'pageInvestigation.subHeadline.supplierParts' | i18n }}</h4></mat-card-title
       >
     </mat-card-header>
     <mat-card-content>
