@@ -92,6 +92,7 @@ SPDX-License-Identifier: Apache-2.0
         <springdoc.version>2.0.4</springdoc.version>
         <assertj.version>3.24.2</assertj.version>
         <commons-logging.version>1.2</commons-logging.version>
+        <commons-collections.version>4.4</commons-collections.version>
         <lombok.version>1.18.28</lombok.version>
         <json-unit-assertj.version>3.2.2</json-unit-assertj.version>
         <cucumber.version>7.12.1</cucumber.version>
