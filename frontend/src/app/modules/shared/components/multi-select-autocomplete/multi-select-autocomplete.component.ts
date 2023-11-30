@@ -45,6 +45,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     placeholder: string;
     @Input()
     options: any;
+    allOptions: any;
     searchedOptions: any;
     optionsSelected: any;
     @Input()
@@ -213,23 +214,23 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
                     this.searchElement
                 )).then((res) => {
                     if (this.filterColumn === 'semanticDataModel') {
-                        this.options = res.map(option => ({
-                            display: this.formatPartSemanticDataModelToCamelCasePipe.transformModel(option),
-                            value: option,
-                        }));
+                        this.searchedOptions = res
+                            .filter(option => !this.selectedValue.includes(option))
+                            .map(option => ({display: this.formatPartSemanticDataModelToCamelCasePipe.transformModel(option), value: option}));
+                        this.options = this.searchedOptions;
+                        this.allOptions = res.map(option => ({display: this.formatPartSemanticDataModelToCamelCasePipe.transformModel(option), value: option}));
+
                     } else {
-                        console.log(this.selectedValue, "values selected");
-                        console.log(res, "res");
-                        console.log(this.selectedValue.includes(res[0]));
                         // add filter for not selected
                         this.searchedOptions = res
                             .filter(option => !this.selectedValue.includes(option))
                             .map(option => ({display: option, value: option}));
                         this.options = this.searchedOptions;
+                        this.allOptions = res.map(option => ({display: option, value: option}));
                     }
 
                     this.filteredOptions = this.searchedOptions;
-                    this.suggestionError = !this.filteredOptions.length;
+                    this.suggestionError = !this.filteredOptions?.length;
                 }).catch((error) => {
                     console.error('Error fetching data: ', error);
                     this.suggestionError = !this.filteredOptions.length;
@@ -280,15 +281,29 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
         this.formControl.patchValue('');
         this.formControl.reset();
         this.searchElement = '';
-        this.selectedValue = [];
+
         this.startDate = null;
         this.endDate = null;
         this.filteredOptions = [];
         this.updateOptionsAndSelections();
+        this.selectedValue = [];
     }
 
     private updateOptionsAndSelections() {
-        this.options = this.searchedOptions.filter(option => !this.selectedValue.includes(option.value));
+        if (this.singleSearch) {
+            return;
+        }
+        // TODO the issue is that the selectedValue is already empty but still needs to be readded to the options if unselected
+        this.options = this.allOptions.filter(option => !this.selectedValue.includes(option.value));
+        if (!this.selectedValue) {
+            this.options = this.allOptions;
+        }
+
+
+        console.log("search options after update", this.searchedOptions);
+        console.log("options after update", this.options);
+
+        console.log(this.allOptions, "all options in change");
 
         const filter = this.searchedOptions.filter(val => this.selectedValue.includes(val));
         for (const selected of this.selectedValue) {
@@ -305,15 +320,12 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     onSelectionChange(matSelectChange: MatSelectChange) {
 
         const filteredValues = this.getFilteredOptionsValues();
-
         const selectedCount = this.selectedValue.filter(item => filteredValues.includes(item)).length;
         this.selectAllChecked = selectedCount === this.filteredOptions.length;
 
         this.selectedValue = matSelectChange.value;
         this.formControl.patchValue(matSelectChange.value);
-
         this.updateOptionsAndSelections();
-
     }
 
     getOwnerOfTable(partTableType: PartTableType): Owner {
