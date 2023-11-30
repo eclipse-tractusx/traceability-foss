@@ -29,6 +29,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import lombok.extern.slf4j.Slf4j;
 import org.awaitility.Duration;
+import org.eclipse.tractusx.traceability.test.exteption.MissingStepDefinitionException;
 import org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum;
 import org.eclipse.tractusx.traceability.test.tooling.rest.RestProvider;
 import org.eclipse.tractusx.traceability.test.tooling.rest.response.QualityNotificationResponse;
@@ -92,9 +93,8 @@ public class TraceabilityTestStepDefinition {
     public void iCreateQualityInvestigation(DataTable dataTable) {
         final Map<String, String> input = normalize(dataTable.asMap());
 
-        List<String> assetIds = testAssets;
         if (isEmpty(testAssets)) {
-            assetIds = List.of("urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd");
+            throw MissingStepDefinitionException.missingAssetDefinition();
         }
 
         notificationDescription = wrapStringWithTimestamp(input.get("description"));
@@ -104,7 +104,7 @@ public class TraceabilityTestStepDefinition {
         final String severity = input.get("severity");
 
         final QualityNotificationIdResponse idResponse = restProvider.createNotification(
-                assetIds,
+                testAssets,
                 notificationDescription,
                 targetDate,
                 severity,
@@ -247,10 +247,8 @@ public class TraceabilityTestStepDefinition {
 
         final Map<String, String> input = normalize(dataTable.asMap());
 
-        List<String> assetIds = testAssets;
         if (isEmpty(testAssets)) {
-            assetIds = List.of(
-                    "urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a");
+            throw MissingStepDefinitionException.missingAssetDefinition();
         }
 
         notificationDescription = wrapStringWithTimestamp(input.get("description"));
@@ -260,7 +258,7 @@ public class TraceabilityTestStepDefinition {
         final String severity = input.get("severity");
 
         final QualityNotificationIdResponse idResponse = restProvider.createNotification(
-                assetIds,
+                testAssets,
                 notificationDescription,
                 targetDate,
                 severity,
