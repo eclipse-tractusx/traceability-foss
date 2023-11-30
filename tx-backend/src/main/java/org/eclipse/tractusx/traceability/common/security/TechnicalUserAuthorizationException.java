@@ -23,11 +23,11 @@ package org.eclipse.tractusx.traceability.common.security;
 
 public class TechnicalUserAuthorizationException extends RuntimeException {
 
-	public TechnicalUserAuthorizationException(String message) {
-		super(message);
-	}
+    public TechnicalUserAuthorizationException(String message) {
+        super(message);
+    }
 
-	public TechnicalUserAuthorizationException(Throwable cause) {
-		super(cause);
-	}
+    public TechnicalUserAuthorizationException(Throwable cause) {
+        super(cause);
+    }
 }

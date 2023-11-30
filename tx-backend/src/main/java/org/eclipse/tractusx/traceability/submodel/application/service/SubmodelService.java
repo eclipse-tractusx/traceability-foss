@@ -23,6 +23,8 @@ import org.eclipse.tractusx.traceability.submodel.domain.model.Submodel;
 
 public interface SubmodelService {
     Submodel getById(String submodelId);
+
     void save(Submodel submodelId);
+
     void deleteAll();
 }

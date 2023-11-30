@@ -39,40 +39,40 @@ import static org.springframework.security.core.authority.AuthorityUtils.createA
 
 public class JwtAuthorizationInterceptor implements RequestInterceptor {
 
-	private final Logger logger = LoggerFactory.getLogger(JwtAuthorizationInterceptor.class);
+    private final Logger logger = LoggerFactory.getLogger(JwtAuthorizationInterceptor.class);
 
-	private final OAuth2AuthorizedClientManager oAuth2AuthorizedClientManager;
+    private final OAuth2AuthorizedClientManager oAuth2AuthorizedClientManager;
 
-	public JwtAuthorizationInterceptor(OAuth2AuthorizedClientManager oAuth2AuthorizedClientManager) {
-		this.oAuth2AuthorizedClientManager = oAuth2AuthorizedClientManager;
-	}
+    public JwtAuthorizationInterceptor(OAuth2AuthorizedClientManager oAuth2AuthorizedClientManager) {
+        this.oAuth2AuthorizedClientManager = oAuth2AuthorizedClientManager;
+    }
 
-	@Override
-	public void apply(RequestTemplate template) {
-		if (!template.headers().containsKey(HttpHeaders.AUTHORIZATION)) {
-			OAuth2AccessToken accessToken = getAccessToken()
-				.orElseThrow(() -> new TechnicalUserAuthorizationException("Couldn't obtain access token for technical user"));
+    @Override
+    public void apply(RequestTemplate template) {
+        if (!template.headers().containsKey(HttpHeaders.AUTHORIZATION)) {
+            OAuth2AccessToken accessToken = getAccessToken()
+                    .orElseThrow(() -> new TechnicalUserAuthorizationException("Couldn't obtain access token for technical user"));
 
-			logger.debug("Injecting access token of type {}", accessToken.getTokenType());
+            logger.debug("Injecting access token of type {}", accessToken.getTokenType());
 
-			template.header(HttpHeaders.AUTHORIZATION, "Bearer %s".formatted(accessToken.getTokenValue()));
-		}
-	}
+            template.header(HttpHeaders.AUTHORIZATION, "Bearer %s".formatted(accessToken.getTokenValue()));
+        }
+    }
 
-	private Optional<OAuth2AccessToken> getAccessToken() {
-		OAuth2AuthorizeRequest request = OAuth2AuthorizeRequest.withClientRegistrationId("OKTA")
-			.principal(new AnonymousAuthenticationToken("feignClient", "feignClient", createAuthorityList("ROLE_ANONYMOUS")))
-			.build();
+    private Optional<OAuth2AccessToken> getAccessToken() {
+        OAuth2AuthorizeRequest request = OAuth2AuthorizeRequest.withClientRegistrationId("OKTA")
+                .principal(new AnonymousAuthenticationToken("feignClient", "feignClient", createAuthorityList("ROLE_ANONYMOUS")))
+                .build();
 
-		final OAuth2AuthorizedClient oAuth2AuthorizedClient;
+        final OAuth2AuthorizedClient oAuth2AuthorizedClient;
 
-		try {
-			oAuth2AuthorizedClient = oAuth2AuthorizedClientManager.authorize(request);
-		} catch (ClientAuthorizationException e) {
-			throw new TechnicalUserAuthorizationException(e);
-		}
+        try {
+            oAuth2AuthorizedClient = oAuth2AuthorizedClientManager.authorize(request);
+        } catch (ClientAuthorizationException e) {
+            throw new TechnicalUserAuthorizationException(e);
+        }
 
-		return Optional.ofNullable(oAuth2AuthorizedClient)
-			.map(OAuth2AuthorizedClient::getAccessToken);
-	}
+        return Optional.ofNullable(oAuth2AuthorizedClient)
+                .map(OAuth2AuthorizedClient::getAccessToken);
+    }
 }

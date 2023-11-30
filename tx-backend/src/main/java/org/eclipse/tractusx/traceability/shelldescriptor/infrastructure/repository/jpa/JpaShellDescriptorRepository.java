@@ -31,5 +31,5 @@ import java.util.Optional;
 @Repository
 public interface JpaShellDescriptorRepository extends JpaRepository<ShellDescriptorEntity, Long> {
 
-	void deleteAllByUpdatedBefore(ZonedDateTime dateTime);
+    void deleteAllByUpdatedBefore(ZonedDateTime dateTime);
 }
