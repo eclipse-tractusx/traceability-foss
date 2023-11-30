@@ -81,8 +81,7 @@ export class TableSettingsComponent {
         // ignore select column in customertable
         if (column === 'select') {
           newTableFilterColumns.push('Filter');
-        } else if (column === 'menu') {
-        } else {
+        } else if (column !== 'menu') {
           newTableFilterColumns.push('filter' + column);
         }
       }
