@@ -46,8 +46,8 @@ import java.util.stream.Collectors;
 @Slf4j
 public abstract class AbstractAssetBaseService implements AssetBaseService {
 
-    private static List<String> SUPPORTED_ENUM_FIELDS = List.of("owner", "qualityType", "semanticDataModel");
-    private static List<String> SUPPORTED_BOOLEAN_FIELDS = List.of("activeAlert", "underInvestigation");
+    private static final List<String> SUPPORTED_ENUM_FIELDS = List.of("owner", "qualityType", "semanticDataModel");
+    private static final List<String> SUPPORTED_BOOLEAN_FIELDS = List.of("activeAlert", "underInvestigation");
 
     protected abstract AssetRepository getAssetRepository();
 

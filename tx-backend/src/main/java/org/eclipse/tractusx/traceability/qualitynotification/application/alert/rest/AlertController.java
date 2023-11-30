@@ -53,7 +53,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import qualitynotification.alert.response.AlertResponse;
 import qualitynotification.base.request.CloseQualityNotificationRequest;
-import qualitynotification.base.request.QualityNotificationSideParamRequest;
 import qualitynotification.base.request.QualityNotificationStatusRequest;
 import qualitynotification.base.request.StartQualityNotificationRequest;
 import qualitynotification.base.request.UpdateQualityNotificationRequest;
@@ -568,8 +567,8 @@ public class AlertController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("distinctFilterValues")
-    public List<String> distinctFilterValues(@QueryParam("fieldName") String fieldName, @QueryParam("size") Integer size, @QueryParam("startWith") String startWith, @QueryParam("channel") QualityNotificationSideParamRequest channel) {
-        return alertService.getDistinctFilterValues(fieldMapper.mapRequestFieldName(fieldName), startWith, size, QualityNotificationSide.valueOf(channel.name()));
+    public List<String> distinctFilterValues(@QueryParam("fieldName") String fieldName, @QueryParam("size") Integer size, @QueryParam("startWith") String startWith, @QueryParam("channel") QualityNotificationSide channel) {
+        return alertService.getDistinctFilterValues(fieldMapper.mapRequestFieldName(fieldName), startWith, size, channel);
     }
 }
 
