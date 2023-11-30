@@ -26,6 +26,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Upgraded asciidoctorj-diagram from 2.2.9 to 2.2.13
 - Cucumber test steps for creating notifications no longer support default assetId when no asset is provided with previous step
 - Upgraded the Upload_Testdata job in Argo Workflow to fix bugs
+- Auto format for frontend source code applied
 
 ### Removed
 - removed asset filters ( qualityInvestigationIdsInStatusActive, qualityInvestigationIdsInStatusActive )
