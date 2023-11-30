@@ -29,7 +29,7 @@ describe('NotificationReasonComponent', () => {
   const defaultNotification = Object.assign({ ...notificationTemplate });
   const renderReason = (notification: Notification = defaultNotification) => {
     return renderComponent(`<app-notification-reason [notification]='notification'></app-notification-reason>`, {
-      imports: [SharedModule],
+      imports: [ SharedModule ],
       componentProperties: { notification },
     });
   };

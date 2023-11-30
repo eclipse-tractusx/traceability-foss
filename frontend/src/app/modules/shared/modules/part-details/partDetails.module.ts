@@ -33,15 +33,16 @@ import { PartDetailComponent } from './presentation/part-detail.component';
 import { StartInvestigationComponent } from './presentation/start-investigation/start-investigation.component';
 
 @NgModule({
-  declarations: [PartDetailComponent, StartInvestigationComponent],
-  imports: [CommonModule, TemplateModule, SharedModule, RelationsModule],
+  declarations: [ PartDetailComponent, StartInvestigationComponent ],
+  imports: [ CommonModule, TemplateModule, SharedModule, RelationsModule ],
   providers: [
     PartDetailsState,
     PartDetailsFacade,
     LoadedElementsFacade,
     LoadedElementsState,
-    ...getI18nPageProvider(['page.parts', 'partDetail']),
+    ...getI18nPageProvider([ 'page.parts', 'partDetail' ]),
   ],
-  exports: [PartDetailComponent],
+  exports: [ PartDetailComponent ],
 })
-export class PartDetailsModule {}
+export class PartDetailsModule {
+}

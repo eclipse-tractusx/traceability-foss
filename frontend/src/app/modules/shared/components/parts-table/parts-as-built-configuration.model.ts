@@ -42,9 +42,9 @@ export class PartsAsBuiltConfigurationModel extends TableFilterConfiguration {
             menu: false
         };
 
-        const dateFields = ['manufacturingDate'];
-        const singleSearchFields = ['receivedActiveAlerts', 'sentActiveAlerts', 'receivedActiveInvestigations', 'sentActiveInvestigations'];
-        super(sortableColumns, dateFields, singleSearchFields);
-    }
+    const dateFields = [ 'manufacturingDate' ];
+    const singleSearchFields = [ 'receivedActiveAlerts', 'sentActiveAlerts', 'receivedActiveInvestigations', 'sentActiveInvestigations' ];
+    super(sortableColumns, dateFields, singleSearchFields);
+  }
 
 }

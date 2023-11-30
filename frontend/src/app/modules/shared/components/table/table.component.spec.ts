@@ -32,7 +32,7 @@ describe('TableComponent', () => {
   };
   const renderTable = (
     size: number,
-    displayedColumns = ['name'],
+    displayedColumns = [ 'name' ],
     header = { name: 'Name' },
     selected = jasmine.createSpy(),
   ) => {
@@ -43,8 +43,8 @@ describe('TableComponent', () => {
     return renderComponent(
       `<app-table [paginationData]='data' [tableConfig]='tableConfig' (selected)='selected($event)'></app-table>`,
       {
-        declarations: [TableComponent],
-        imports: [SharedModule],
+        declarations: [ TableComponent ],
+        imports: [ SharedModule ],
         componentProperties: {
           data,
           tableConfig,
@@ -79,14 +79,14 @@ describe('TableComponent', () => {
 
   it('should render correct amount of table headers', async () => {
     const tableSize = 3;
-    await renderTable(tableSize, ['name'], { name: 'Name for test' });
+    await renderTable(tableSize, [ 'name' ], { name: 'Name for test' });
 
     expect(screen.getByText('Name for test')).toBeInTheDocument();
   });
 
   it('should render select column', async () => {
     const tableSize = 3;
-    await renderTable(tableSize, ['select', 'name']);
+    await renderTable(tableSize, [ 'select', 'name' ]);
 
     const selectAllElement = screen.getByTestId('select-all--test-id');
     expect(selectAllElement).toBeInTheDocument();
@@ -97,7 +97,7 @@ describe('TableComponent', () => {
 
   it('should select all items and deselect all', async () => {
     const tableSize = 3;
-    await renderTable(tableSize, ['select', 'name']);
+    await renderTable(tableSize, [ 'select', 'name' ]);
 
     const checkboxSelectAll = getInputFromChildNodes(
       screen.getByTestId('select-all--test-id').firstChild.firstChild.childNodes,
@@ -121,7 +121,7 @@ describe('TableComponent', () => {
     const data = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
 
     const tableConfig: TableConfig = {
-      displayedColumns: ['name'],
+      displayedColumns: [ 'name' ],
       header: { name: 'Name Sort' },
       sortableColumns: { name: true },
     };
@@ -130,8 +130,8 @@ describe('TableComponent', () => {
     const component = await renderComponent(
       `<app-table  [paginationData]='data' [tableConfig]='tableConfig' (configChanged)='configChange($event)'></app-table>`,
       {
-        declarations: [TableComponent],
-        imports: [SharedModule],
+        declarations: [ TableComponent ],
+        imports: [ SharedModule ],
         componentProperties: {
           data,
           tableConfig,
@@ -143,23 +143,23 @@ describe('TableComponent', () => {
     const nameElement = screen.getByText('Name Sort');
     nameElement.click();
 
-    expect(configChange).toHaveBeenCalledWith({ page: 0, pageSize: 10, sorting: ['name', 'asc'] });
+    expect(configChange).toHaveBeenCalledWith({ page: 0, pageSize: 10, sorting: [ 'name', 'asc' ] });
     nameElement.click();
-    expect(configChange).toHaveBeenCalledWith({ page: 0, pageSize: 10, sorting: ['name', 'desc'] });
+    expect(configChange).toHaveBeenCalledWith({ page: 0, pageSize: 10, sorting: [ 'name', 'desc' ] });
     nameElement.click();
-    expect(configChange).toHaveBeenCalledWith({ page: 0, pageSize: 10, sorting: ['name', 'desc'] });
+    expect(configChange).toHaveBeenCalledWith({ page: 0, pageSize: 10, sorting: [ 'name', 'desc' ] });
   });
 
   it('should display menu icon', async () => {
     const tableSize = 3;
-    await renderTable(tableSize, ['name', 'menu'], { name: 'Name for test' });
+    await renderTable(tableSize, [ 'name', 'menu' ], { name: 'Name for test' });
     expect(screen.getAllByText('more_vert').length).toBe(tableSize);
   });
 
   it('should select one item', async () => {
     const tableSize = 3;
     const selected = jasmine.createSpy();
-    await renderTable(tableSize, ['name'], { name: 'Name for test' }, selected);
+    await renderTable(tableSize, [ 'name' ], { name: 'Name for test' }, selected);
 
     const tableElement = screen.getByText('name_0');
     expect(tableElement).toBeInTheDocument();

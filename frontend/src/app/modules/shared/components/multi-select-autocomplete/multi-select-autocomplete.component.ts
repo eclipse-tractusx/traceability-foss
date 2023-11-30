@@ -20,15 +20,18 @@
 import { DatePipe, registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-import { Component, EventEmitter, Inject, Input, LOCALE_ID, OnChanges, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, LOCALE_ID, OnChanges, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { Owner } from '@page/parts/model/owner.enum';
 import { PartTableType } from '@shared/components/table/table.model';
-import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
+import {
+  FormatPartSemanticDataModelToCamelCasePipe,
+} from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
 import { PartsService } from '@shared/service/parts.service';
 import { firstValueFrom } from 'rxjs';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-multiselect',
@@ -42,6 +45,9 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   placeholder: string;
   @Input()
   options: any;
+  allOptions: any;
+  searchedOptions: any;
+  optionsSelected: any;
   @Input()
   disabled = false;
   @Input()
@@ -84,9 +90,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
 
   searchElementChange: EventEmitter<any> = new EventEmitter();
 
-  @Output()
-  selectionChange: EventEmitter<any> = new EventEmitter();
-
   @ViewChild('selectElem', { static: true }) selectElem: any;
 
   filteredOptions: Array<any> = [];
@@ -116,6 +119,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
         this.filterItem(value);
       }
     });
+
   }
 
   ngOnChanges(): void {
@@ -142,22 +146,17 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
       this.selectedValue = [];
     }
     this.formControl.patchValue(this.selectedValue);
-    this.selectionChange.emit(this.selectedValue);
   };
 
-  changeSearchTextOption() {
+  changeSearchTextOptionSingleSearch() {
     this.formControl.patchValue(this.selectedValue);
-    this.selectionChange.emit(this.selectedValue);
   }
 
-  shouldHideTextSearchOptionField() {
+  shouldHideTextSearchOptionFieldSingleSearch() {
     return this.searchElement === null || this.searchElement === undefined || this.searchElement === '';
   }
 
   displayValue() {
-    if(!this.searchElement.length) {
-      return;
-    }
     let suffix = '';
     let displayValue;
     // add +X others label if multiple
@@ -173,15 +172,16 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     }
 
     // if no value selected, return empty string
-    if(!this.selectedValue.length) {
-      displayValue = ''
+    if (!this.selectedValue.length) {
+      displayValue = '';
     }
 
     return displayValue;
   }
 
   filterItem(value: any): void {
-    if(!this.searchElement.length) {
+
+    if (!this.searchElement.length) {
       return;
     }
 
@@ -208,22 +208,35 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
 
       try {
         firstValueFrom(this.partsService.getDistinctFilterValues(
-            this.isAsBuilt,
-            tableOwner,
-            this.filterColumn,
-            this.searchElement
+          this.isAsBuilt,
+          tableOwner,
+          this.filterColumn,
+          this.searchElement,
         )).then((res) => {
           if (this.filterColumn === 'semanticDataModel') {
-            this.options = res.map(option => ({
+            this.searchedOptions = res
+              .filter(option => !this.selectedValue.includes(option))
+              .map(option => ({
+                display: this.formatPartSemanticDataModelToCamelCasePipe.transformModel(option),
+                value: option,
+              }));
+            this.options = this.searchedOptions;
+            this.allOptions = res.map(option => ({
               display: this.formatPartSemanticDataModelToCamelCasePipe.transformModel(option),
               value: option,
             }));
+
           } else {
-            this.options = res.map(option => ({ display: option, value: option }));
+            // add filter for not selected
+            this.searchedOptions = res
+              .filter(option => !this.selectedValue.includes(option))
+              .map(option => ({ display: option, value: option }));
+            this.options = this.searchedOptions;
+            this.allOptions = res.map(option => ({ display: option, value: option }));
           }
 
-          this.filteredOptions = this.options;
-          this.suggestionError = !this.filteredOptions.length;
+          this.filteredOptions = this.searchedOptions;
+          this.suggestionError = !this.filteredOptions?.length;
         }).catch((error) => {
           console.error('Error fetching data: ', error);
           this.suggestionError = !this.filteredOptions.length;
@@ -240,24 +253,18 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     this.delayTimeoutId = setTimeout(timeoutCallback, 500);
   }
 
-// This is used by parent component
+  // DO NOT REMOVE: Used by parent component
   isUnsupportedAutoCompleteField(fieldName: string) {
     return fieldName === 'activeAlerts' || fieldName === 'activeInvestigations';
   }
 
-  hideOption(option: any): boolean {
-    if(!this.searchElement.length) {
-      return true;
-    }
-    return !(this.filteredOptions.indexOf(option) > -1);
-  }
 
   // Returns plain strings array of filtered values
   getFilteredOptionsValues(): string[] {
     const filteredValues = [];
     this.filteredOptions.forEach(option => {
-      if(option.length) {
-          filteredValues.push(option.value);
+      if (option.length) {
+        filteredValues.push(option.value);
       }
     });
     return filteredValues;
@@ -280,30 +287,51 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     this.formControl.patchValue('');
     this.formControl.reset();
     this.searchElement = '';
-    this.selectedValue = [];
+
     this.startDate = null;
     this.endDate = null;
     this.filteredOptions = [];
+    this.updateOptionsAndSelections();
+    this.selectedValue = [];
   }
 
-  dateFilter(){
+  private updateOptionsAndSelections() {
+    if (this.singleSearch) {
+      return;
+    }
+    // TODO the issue is that the selectedValue is already empty but still needs to be readded to the options if unselected
+    this.options = this.allOptions.filter(option => !this.selectedValue.includes(option.value));
+    if (!this.selectedValue) {
+      this.options = this.allOptions;
+    }
+
+
+    console.log('search options after update', this.searchedOptions);
+    console.log('options after update', this.options);
+
+    console.log(this.allOptions, 'all options in change');
+
+    const filter = this.searchedOptions.filter(val => this.selectedValue.includes(val));
+    for (const selected of this.selectedValue) {
+      filter.push({ display: selected, value: selected });
+    }
+    this.optionsSelected = filter;
+  }
+
+  dateFilter() {
     this.formControl.patchValue(this.searchElement);
   }
 
 
-  onSelectionChange(val: any) {
-    if(!this.searchElement.length) {
-      return;
-    }
-    const filteredValues = this.getFilteredOptionsValues();
+  onSelectionChange(matSelectChange: MatSelectChange) {
 
+    const filteredValues = this.getFilteredOptionsValues();
     const selectedCount = this.selectedValue.filter(item => filteredValues.includes(item)).length;
     this.selectAllChecked = selectedCount === this.filteredOptions.length;
 
-    this.selectedValue = val.value;
-    this.formControl.patchValue(val.value);
-    this.selectionChange.emit(this.selectedValue);
-    this.searchElement = this.displayValue();
+    this.selectedValue = matSelectChange.value;
+    this.formControl.patchValue(matSelectChange.value);
+    this.updateOptionsAndSelections();
   }
 
   getOwnerOfTable(partTableType: PartTableType): Owner {
@@ -318,9 +346,9 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     }
   }
 
-    filterKeyCommands(event: any) {
+  filterKeyCommands(event: any) {
     if (event.key === 'Enter' || (event.ctrlKey && event.key === 'a' || event.key === ' ')) {
-          event.stopPropagation();
-        }
+      event.stopPropagation();
     }
+  }
 }

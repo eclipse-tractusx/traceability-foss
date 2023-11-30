@@ -36,7 +36,7 @@ export class TableSettingsComponent {
 
   tableType: PartTableType;
   defaultColumns: string[];
-  defaultFilterColumns: string[]
+  defaultFilterColumns: string[];
 
   columnOptions: Map<string, boolean>;
   dialogColumns: string[];
@@ -53,7 +53,7 @@ export class TableSettingsComponent {
     // Layout
     this.title = data.title;
     this.panelClass = data.panelClass;
-    this.isCustomerTable = data.tableType === PartTableType.AS_BUILT_CUSTOMER || data.tableType === PartTableType.AS_PLANNED_CUSTOMER
+    this.isCustomerTable = data.tableType === PartTableType.AS_BUILT_CUSTOMER || data.tableType === PartTableType.AS_PLANNED_CUSTOMER;
     // Passed Data
     this.tableType = data.tableType;
     this.defaultColumns = data.defaultColumns
@@ -97,7 +97,7 @@ export class TableSettingsComponent {
       columnSettingsOptions: this.columnOptions,
       columnsForDialog: this.dialogColumns,
       columnsForTable: newTableColumns,
-      filterColumnsForTable: newTableFilterColumns
+      filterColumnsForTable: newTableFilterColumns,
     } as TableViewSettings;
     console.log(tableSettingsList[this.tableType]);
     // save all values back to localstorage
@@ -123,29 +123,29 @@ export class TableSettingsComponent {
 
 
   handleSortListItem(direction: string) {
-    if(!this.selectedColumn) {
+    if (!this.selectedColumn) {
       return;
     }
 
     let oldPosition = this.dialogColumns.indexOf(this.selectedColumn);
     // in non customer table we have the select Column as first and why
-    let upperLimit = this.isCustomerTable ? 0 : 1
+    let upperLimit = this.isCustomerTable ? 0 : 1;
     let step = direction === 'up' ? -1 : 1;
-    console.log(oldPosition, upperLimit, step)
-    if((oldPosition == upperLimit && direction === 'up') || (oldPosition === this.dialogColumns.length-1 && direction === 'down')) {
+    console.log(oldPosition, upperLimit, step);
+    if ((oldPosition == upperLimit && direction === 'up') || (oldPosition === this.dialogColumns.length - 1 && direction === 'down')) {
       return;
     }
-    let temp = this.dialogColumns[oldPosition+step];
-    this.dialogColumns[oldPosition+step] = this.selectedColumn;
+    let temp = this.dialogColumns[oldPosition + step];
+    this.dialogColumns[oldPosition + step] = this.selectedColumn;
     this.dialogColumns[oldPosition] = temp;
   }
 
   selectAll(isChecked: boolean) {
-    for(let column of this.dialogColumns) {
-      if(column === 'select' || column === 'menu'){
+    for (let column of this.dialogColumns) {
+      if (column === 'select' || column === 'menu') {
         continue;
       }
-      this.columnOptions.set(column,isChecked);
+      this.columnOptions.set(column, isChecked);
     }
     this.selectAllSelected = true;
   }

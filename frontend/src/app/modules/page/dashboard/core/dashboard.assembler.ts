@@ -46,7 +46,7 @@ export class DashboardAssembler {
       receivedActiveAlerts: dashboard.receivedActiveAlerts,
       sentActiveAlerts: dashboard.sentActiveAlerts,
       receivedActiveInvestigations: dashboard.receivedActiveInvestigations,
-      sentActiveInvestigations: dashboard.sentActiveInvestigations
+      sentActiveInvestigations: dashboard.sentActiveInvestigations,
 
     };
   }

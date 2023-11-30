@@ -35,7 +35,7 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-notifications-tab',
   templateUrl: './notification-tab.component.html',
-  styleUrls: ['./notification-tab.component.scss'],
+  styleUrls: [ './notification-tab.component.scss' ],
 })
 export class NotificationTabComponent implements AfterViewInit {
   @Input() notificationsView$: Observable<View<Notifications>>;
@@ -46,7 +46,7 @@ export class NotificationTabComponent implements AfterViewInit {
   @Input() optionalColumns: Array<'targetDate' | 'severity' | 'createdBy' | 'sendTo'> = [];
   @Input() sortableColumns: Record<string, boolean> = {};
   @Input() multiSortList: TableHeaderSort[] = [];
-  @Input() notificationType = NotificationType.INVESTIGATION
+  @Input() notificationType = NotificationType.INVESTIGATION;
 
   @Output() tableConfigChanged = new EventEmitter<TableEventConfig>();
   @Output() selected = new EventEmitter<Notification>();
@@ -62,8 +62,8 @@ export class NotificationTabComponent implements AfterViewInit {
 
   public ngAfterViewInit(): void {
 
-    const defaultColumns: DisplayColumns<keyof Notification>[] = ['description', 'status', 'createdDate'];
-    const displayedColumns: DisplayColumns<keyof Notification>[] = [...defaultColumns, ...this.optionalColumns, 'menu'];
+    const defaultColumns: DisplayColumns<keyof Notification>[] = [ 'description', 'status', 'createdDate' ];
+    const displayedColumns: DisplayColumns<keyof Notification>[] = [ ...defaultColumns, ...this.optionalColumns, 'menu' ];
     const sortableColumns: Record<string, boolean> = this.sortableColumns;
 
     this.tableConfig = {

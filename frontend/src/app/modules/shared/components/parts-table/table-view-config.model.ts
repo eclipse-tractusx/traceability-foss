@@ -19,7 +19,7 @@
 export interface TableViewConfig {
   displayedColumns: string[],
   filterColumns: string[],
-  sortableColumns: Record<string,boolean>,
+  sortableColumns: Record<string, boolean>,
   displayFilterColumnMappings: any[],
   filterFormGroup: any
 }

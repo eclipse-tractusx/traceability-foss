@@ -34,7 +34,7 @@ export interface PaginationFilters {
 export const extractPagination = (req: RestRequest): PaginationFilters => {
   const page = parseInt(req.url.searchParams.get('page') ?? '0', 10);
   const size = parseInt(req.url.searchParams.get('size') ?? '5', 10);
-  const [sortItem, sortDirection] = (req.url.searchParams.get('sort') ?? ',').split(',');
+  const [ sortItem, sortDirection ] = (req.url.searchParams.get('sort') ?? ',').split(',');
 
   return {
     page,

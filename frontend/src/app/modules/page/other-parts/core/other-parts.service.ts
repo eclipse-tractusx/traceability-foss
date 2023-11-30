@@ -45,7 +45,7 @@ export class OtherPartsService {
   public getOtherPartsAsBuilt(page: number, pageSize: number, sorting: TableHeaderSort[], owner: Owner, filter?: AssetAsBuiltFilter, isOrSearch?: boolean): Observable<Pagination<Part>> {
     let sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
     let params = this.buildHttpParams(page, pageSize, owner);
-    let filterOperator = isOrSearch? "OR":"AND";
+    let filterOperator = isOrSearch ? 'OR' : 'AND';
 
     sort.forEach(sortingItem => {
       params = params.append('sort', sortingItem);
@@ -64,7 +64,7 @@ export class OtherPartsService {
 
 
     let params = this.buildHttpParams(page, pageSize, owner);
-    let filterOperator = isOrSearch? "OR":"AND";
+    let filterOperator = isOrSearch ? 'OR' : 'AND';
 
 
     sort.forEach(sortingItem => {
@@ -79,8 +79,8 @@ export class OtherPartsService {
       .pipe(map(parts => PartsAssembler.assembleOtherParts(parts, MainAspectType.AS_PLANNED)));
   }
 
-  private buildHttpParams(page: number, pageSize: number, owner: Owner): HttpParams{
-   return new HttpParams()
+  private buildHttpParams(page: number, pageSize: number, owner: Owner): HttpParams {
+    return new HttpParams()
       .set('page', page)
       .set('size', pageSize)
       .set('filter', 'owner,EQUAL,' + owner + ',AND');

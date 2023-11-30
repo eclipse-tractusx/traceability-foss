@@ -29,7 +29,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class InvestigationHelperService {
-  constructor(private readonly roleService: RoleService, private readonly investigationsFacade: InvestigationsFacade) {}
+  constructor(private readonly roleService: RoleService, private readonly investigationsFacade: InvestigationsFacade) {
+  }
 
   public approve(id: string): Observable<void> {
     return this.investigationsFacade.approveInvestigation(id);
@@ -64,7 +65,7 @@ export class InvestigationHelperService {
   }
 
   public showCloseButton({ status, isFromSender } = {} as Notification): boolean {
-    const disallowedStatus = [NotificationStatus.CREATED, NotificationStatus.CLOSED, NotificationStatus.CANCELED];
+    const disallowedStatus = [ NotificationStatus.CREATED, NotificationStatus.CLOSED, NotificationStatus.CANCELED ];
     return isFromSender && !disallowedStatus.includes(status) && this.roleService.isAtLeastSupervisor();
   }
 

@@ -28,17 +28,17 @@ export class RelationsAssembler {
     const { id, nameAtManufacturer: text = idFallback, semanticDataModel, children, parents } = part || {};
 
     const mapBatchToState = (type: SemanticDataModel): SemanticDataModel | string => {
-      if(type && type.toUpperCase() in SemanticDataModel) {
+      if (type && type.toUpperCase() in SemanticDataModel) {
         return type;
       }
       return 'done';
-    }
+    };
     const loadingOrErrorStatus = id ? 'loading' : 'error';
 
     const mappedOrFallbackStatus = mapBatchToState(semanticDataModel);
     const state = !!children ? mappedOrFallbackStatus : loadingOrErrorStatus;
 
-    const title = `${text || '--'} | ${/*semanticModelId ||*/ id}`;
+    const title = `${ text || '--' } | ${/*semanticModelId ||*/ id }`;
 
     return { id: id || idFallback, text, title, state, children, parents };
   }
@@ -51,11 +51,11 @@ export class RelationsAssembler {
 
     const children: TreeStructure[] = nodes
       ? nodes.map(childId => ({
-          id: childId,
-          title: childId,
-          state: 'loading',
-          children: null,
-        }))
+        id: childId,
+        title: childId,
+        state: 'loading',
+        children: null,
+      }))
       : null;
 
     return { ...clonedElement, state: clonedElement.state || 'done', children };

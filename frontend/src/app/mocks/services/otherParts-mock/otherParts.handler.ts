@@ -27,9 +27,9 @@ import { mockCustomerAssets, mockSupplierAssets } from './otherParts.test.model'
 import { supplierPartsAsPlannedAssets } from './supplierPartsAsPlanned.model';
 
 export const otherPartsAsBuiltHandlers = [
-  rest.get(`*${environment.apiUrl}/assets/as-built`, (req, res, ctx) => {
+  rest.get(`*${ environment.apiUrl }/assets/as-built`, (req, res, ctx) => {
     const pagination = extractPagination(req);
-    const ownerSearchQuery = req.url.searchParams.get('filter').replace("owner,EQUAL,", "");
+    const ownerSearchQuery = req.url.searchParams.get('filter').replace('owner,EQUAL,', '');
     switch (ownerSearchQuery) {
       case 'SUPPLIER,AND':
         return res(ctx.status(200), ctx.json(mockSupplierAssets));
@@ -42,8 +42,8 @@ export const otherPartsAsBuiltHandlers = [
 ];
 
 export const otherPartsAsBuiltHandlersTest = [
-  rest.get(`*${environment.apiUrl}/assets/as-built`, (req, res, ctx) => {
-    const owner = req.url.searchParams.get('filter').replace("owner,EQUAL,", "");
+  rest.get(`*${ environment.apiUrl }/assets/as-built`, (req, res, ctx) => {
+    const owner = req.url.searchParams.get('filter').replace('owner,EQUAL,', '');
 
     switch (owner) {
       case 'SUPPLIER,AND':
@@ -57,9 +57,9 @@ export const otherPartsAsBuiltHandlersTest = [
 ];
 
 export const otherPartsAsPlannedHandlers = [
-  rest.get(`*${environment.apiUrl}/assets/as-planned`, (req, res, ctx) => {
+  rest.get(`*${ environment.apiUrl }/assets/as-planned`, (req, res, ctx) => {
     const pagination = extractPagination(req);
-    const owner = req.url.searchParams.get('filter').replace("owner,EQUAL,", "");
+    const owner = req.url.searchParams.get('filter').replace('owner,EQUAL,', '');
 
     switch (owner) {
       case 'SUPPLIER,AND':
@@ -73,9 +73,9 @@ export const otherPartsAsPlannedHandlers = [
 ];
 
 export const otherPartsAsPlannedHandlersTest = [
-  rest.get(`*${environment.apiUrl}/assets/as-planned`, (req, res, ctx) => {
+  rest.get(`*${ environment.apiUrl }/assets/as-planned`, (req, res, ctx) => {
     const pagination = extractPagination(req);
-    const owner = req.url.searchParams.get('filter').replace("owner,EQUAL,", "");
+    const owner = req.url.searchParams.get('filter').replace('owner,EQUAL,', '');
 
     switch (owner) {
       case 'SUPPLIER,AND':

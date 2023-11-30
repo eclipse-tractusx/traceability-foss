@@ -31,20 +31,21 @@ const INVESTIGATIONS_ROUTING: Routes = [
     path: '',
     pathMatch: 'full',
     component: InvestigationsComponent,
-    data: { i18nextNamespaces: ['page.investigation'] },
+    data: { i18nextNamespaces: [ 'page.investigation' ] },
     resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
   },
   {
     path: ':investigationId',
     pathMatch: 'full',
     component: InvestigationDetailComponent,
-    data: { i18nextNamespaces: ['page.investigation'] },
+    data: { i18nextNamespaces: [ 'page.investigation' ] },
     resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(INVESTIGATIONS_ROUTING)],
-  exports: [RouterModule],
+  imports: [ RouterModule.forChild(INVESTIGATIONS_ROUTING) ],
+  exports: [ RouterModule ],
 })
-export class InvestigationsRoutingModule {}
+export class InvestigationsRoutingModule {
+}
