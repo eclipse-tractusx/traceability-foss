@@ -39,7 +39,9 @@ import java.util.List;
 public abstract class AbstractQualityNotificationService implements QualityNotificationService {
 
     protected abstract NotificationPublisherService getNotificationPublisherService();
+
     protected abstract QualityNotificationRepository getQualityNotificationRepository();
+
     protected abstract AssetAsBuiltServiceImpl getAssetAsBuiltServiceImpl();
 
     protected abstract void setAssetStatus(QualityNotification qualityNotification);
@@ -57,7 +59,7 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
     }
 
     @Override
-    public PageResult<QualityNotification> getNotifications(Pageable pageable, SearchCriteria searchCriteria){
+    public PageResult<QualityNotification> getNotifications(Pageable pageable, SearchCriteria searchCriteria) {
         return getQualityNotificationRepository().getNotifications(pageable, searchCriteria);
     }
 
@@ -66,8 +68,8 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
         QualityNotification alert = loadOrNotFoundException(new QualityNotificationId(notificationId));
         QualityNotification updatedAlert;
         try {
-             updatedAlert = getNotificationPublisherService().updateNotificationPublisher(alert, notificationStatus, reason);
-        }catch (SendNotificationException exception) {
+            updatedAlert = getNotificationPublisherService().updateNotificationPublisher(alert, notificationStatus, reason);
+        } catch (SendNotificationException exception) {
             log.info("Notification status rollback", exception);
             return;
         }
@@ -87,7 +89,7 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
         QualityNotification notification = loadOrNotFoundException(new QualityNotificationId(notificationId));
         final QualityNotification approvedInvestigation;
         try {
-             approvedInvestigation = getNotificationPublisherService().approveNotification(notification);
+            approvedInvestigation = getNotificationPublisherService().approveNotification(notification);
         } catch (SendNotificationException exception) {
             log.info("Notification status rollback", exception);
             return;

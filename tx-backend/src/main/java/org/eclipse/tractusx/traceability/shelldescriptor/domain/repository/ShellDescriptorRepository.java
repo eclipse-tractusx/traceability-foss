@@ -29,11 +29,15 @@ import java.util.Collection;
 import java.util.List;
 
 public interface ShellDescriptorRepository {
-	List<ShellDescriptor> findAll();
-	void update(ShellDescriptor shellDescriptor);
-	void saveAll(Collection<ShellDescriptor> values);
+    List<ShellDescriptor> findAll();
+
+    void update(ShellDescriptor shellDescriptor);
+
+    void saveAll(Collection<ShellDescriptor> values);
+
     void save(ShellDescriptor descriptor);
-	void removeDescriptorsByUpdatedBefore(ZonedDateTime now);
+
+    void removeDescriptorsByUpdatedBefore(ZonedDateTime now);
 
     void deleteAll();
 }

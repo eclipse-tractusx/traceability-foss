@@ -62,7 +62,7 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
                 });
     }
 
-    public void deleteAll(){
+    public void deleteAll() {
         shellDescriptorsService.deleteAll();
         log.info("Deleted all shell descriptors");
     }
