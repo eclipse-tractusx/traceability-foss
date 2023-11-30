@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,28 +17,14 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.common.properties;
+package org.eclipse.tractusx.traceability.test.exteption;
 
-import org.eclipse.tractusx.traceability.common.model.BPN;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
-@ConfigurationProperties("traceability")
-public class TraceabilityProperties {
-
-    private final BPN bpn;
-
-    private final String url;
-
-    public TraceabilityProperties(String bpn, String url) {
-        this.bpn = new BPN(bpn);
-        this.url = url;
+public class MissingStepDefinitionException extends RuntimeException {
+    private MissingStepDefinitionException(String message) {
+        super(message);
     }
 
-    public BPN getBpn() {
-        return bpn;
-    }
-
-    public String getUrl() {
-        return url;
+    public static MissingStepDefinitionException missingAssetDefinition() {
+        return new MissingStepDefinitionException("Current step requires assets to be specified with following step: 'I use assets with ids {string}' where input param contains list of assetIds separated with ',' .");
     }
 }

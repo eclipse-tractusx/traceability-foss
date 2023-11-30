@@ -33,7 +33,8 @@ export class PartDetailsFacade {
   constructor(
     private readonly partsService: PartsService,
     private readonly partDetailsState: PartDetailsState,
-  ) {}
+  ) {
+  }
 
   public get selectedPart$(): Observable<View<Part>> {
     return this.partDetailsState.selectedPart$;

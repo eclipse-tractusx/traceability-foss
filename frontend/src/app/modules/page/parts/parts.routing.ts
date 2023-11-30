@@ -31,27 +31,28 @@ const PARTS_ROUTING: Routes = [
     path: '',
     pathMatch: 'full',
     component: PartsComponent,
-    data: { i18nextNamespaces: ['page.parts', 'partDetail'] },
+    data: { i18nextNamespaces: [ 'page.parts', 'partDetail' ] },
     resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
   },
   {
     path: 'relations',
     pathMatch: 'full',
     component: RelationComponent,
-    data: { i18nextNamespaces: ['page.parts', 'partDetail'] },
+    data: { i18nextNamespaces: [ 'page.parts', 'partDetail' ] },
     resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
   },
   {
     path: 'relations/:partId',
     pathMatch: 'full',
     component: RelationComponent,
-    data: { i18nextNamespaces: ['page.parts', 'partDetail'] },
+    data: { i18nextNamespaces: [ 'page.parts', 'partDetail' ] },
     resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(PARTS_ROUTING)],
-  exports: [RouterModule],
+  imports: [ RouterModule.forChild(PARTS_ROUTING) ],
+  exports: [ RouterModule ],
 })
-export class PartsRoutingModule {}
+export class PartsRoutingModule {
+}

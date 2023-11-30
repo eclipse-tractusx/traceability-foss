@@ -41,22 +41,23 @@ export abstract class RequestNotificationBase {
   public abstract readonly context: RequestContext;
   public abstract readonly formGroup:
     | FormGroup<{
-        description: FormControl<string>;
-        severity: FormControl<Severity>;
-        targetDate: FormControl<DateTimeString>;
-      }>
+    description: FormControl<string>;
+    severity: FormControl<Severity>;
+    targetDate: FormControl<DateTimeString>;
+  }>
     | FormGroup<{
-        description: FormControl<string>;
-        severity: FormControl<Severity>;
-        bpn: FormControl<string>;
-      }>;
+    description: FormControl<string>;
+    severity: FormControl<Severity>;
+    bpn: FormControl<string>;
+  }>;
 
   public readonly isLoading$ = new BehaviorSubject(false);
   public readonly minDate = new Date();
 
   public removedItemsHistory: Part[] = [];
 
-  protected constructor( private readonly toastService: ToastService) {}
+  protected constructor(private readonly toastService: ToastService) {
+  }
 
   protected abstract submit(): void;
 
@@ -86,9 +87,9 @@ export abstract class RequestNotificationBase {
   protected openToast(count: number, link: string, linkQueryParams: Record<string, string>): void {
 
     this.toastService.success({
-      id:  `${this.context}.success`,
-      values: {count}
-    },
+        id: `${ this.context }.success`,
+        values: { count },
+      },
       5000,
       [
         {
@@ -97,9 +98,7 @@ export abstract class RequestNotificationBase {
           link,
         },
       ],
-
-
-     );
+    );
   }
 
   public cancelAction(part: Part): void {

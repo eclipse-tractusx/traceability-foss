@@ -16,32 +16,32 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import {TableFilterConfiguration} from "@shared/components/parts-table/parts-config.model";
+import { TableFilterConfiguration } from '@shared/components/parts-table/parts-config.model';
 
 export class PartsAsPlannedConfigurationModel extends TableFilterConfiguration {
 
-    constructor() {
-        const sortableColumns = {
-            select: false,
-            id: true,
-            idShort: true,
-            nameAtManufacturer: true,
-            manufacturerName: true,
-            manufacturerPartId: true,
-            classification: true,
-            semanticDataModel: true,
-            semanticModelId: true,
-            validityPeriodFrom: true,
-            validityPeriodTo: true,
-            psFunction: true,
-            catenaXSiteId: true,
-            functionValidFrom: true,
-            functionValidUntil: true,
-            // menu: false
-        };
+  constructor() {
+    const sortableColumns = {
+      select: false,
+      id: true,
+      idShort: true,
+      nameAtManufacturer: true,
+      manufacturerName: true,
+      manufacturerPartId: true,
+      classification: true,
+      semanticDataModel: true,
+      semanticModelId: true,
+      validityPeriodFrom: true,
+      validityPeriodTo: true,
+      psFunction: true,
+      catenaXSiteId: true,
+      functionValidFrom: true,
+      functionValidUntil: true,
+      // menu: false
+    };
 
-        const dateFields = ['validityPeriodFrom', 'validityPeriodTo', 'functionValidFrom', 'functionValidUntil'];
-        super(sortableColumns, dateFields);
-    }
+    const dateFields = [ 'validityPeriodFrom', 'validityPeriodTo', 'functionValidFrom', 'functionValidUntil' ];
+    super(sortableColumns, dateFields);
+  }
 }
 

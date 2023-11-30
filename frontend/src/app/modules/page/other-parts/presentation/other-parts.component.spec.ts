@@ -203,13 +203,13 @@ describe('Other Parts', () => {
 
 
       const updateSupplierPartsSpy = spyOn(
-          SupplierPartsComponent.prototype,
-          'updateSupplierParts',
+        SupplierPartsComponent.prototype,
+        'updateSupplierParts',
       );
 
       const updateCustomerPartsSpy = spyOn(
-          CustomerPartsComponent.prototype,
-          'updateCustomerParts',
+        CustomerPartsComponent.prototype,
+        'updateCustomerParts',
       );
 
       componentInstance.searchControl.setValue(searchValue);

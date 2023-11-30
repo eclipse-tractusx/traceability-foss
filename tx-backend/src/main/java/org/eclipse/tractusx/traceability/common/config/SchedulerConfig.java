@@ -37,17 +37,17 @@ import static org.eclipse.tractusx.traceability.common.config.ApplicationProfile
 @Profile(NOT_INTEGRATION_TESTS)
 public class SchedulerConfig {
 
-	@Bean
-	public ThreadPoolTaskScheduler threadPoolTaskScheduler() {
-		ThreadPoolTaskScheduler threadPoolTaskScheduler = new ThreadPoolTaskScheduler();
-		threadPoolTaskScheduler.setPoolSize(5);
-		threadPoolTaskScheduler.setThreadNamePrefix("ThreadPoolTaskScheduler");
-		return threadPoolTaskScheduler;
-	}
+    @Bean
+    public ThreadPoolTaskScheduler threadPoolTaskScheduler() {
+        ThreadPoolTaskScheduler threadPoolTaskScheduler = new ThreadPoolTaskScheduler();
+        threadPoolTaskScheduler.setPoolSize(5);
+        threadPoolTaskScheduler.setThreadNamePrefix("ThreadPoolTaskScheduler");
+        return threadPoolTaskScheduler;
+    }
 
-	@Bean
-	public LockProvider lockProvider(DataSource dataSource) {
-		return new JdbcTemplateLockProvider(dataSource);
-	}
+    @Bean
+    public LockProvider lockProvider(DataSource dataSource) {
+        return new JdbcTemplateLockProvider(dataSource);
+    }
 
 }

@@ -22,7 +22,7 @@ SPDX-License-Identifier: Apache-2.0
 <mat-card>
   <mat-card-header>
     <mat-card-title
-      ><h3>{{ 'pageAdmin.bpnConfig.title' | i18n }}</h3></mat-card-title
+    ><h3>{{ 'pageAdmin.bpnConfig.title' | i18n }}</h3></mat-card-title
     >
   </mat-card-header>
   <mat-card-content>
@@ -60,15 +60,15 @@ SPDX-License-Identifier: Apache-2.0
 
       <div class="bpn-config--save" *ngIf="changeInformation$ | async as info">
         <app-text-with-icon [testId]="'text-with-icon--deleted'" iconName="delete" color="warn"
-          >{{ 'pageAdmin.bpnConfig.deleted' | i18n }}: {{ info.deleted.length }}</app-text-with-icon
+        >{{ 'pageAdmin.bpnConfig.deleted' | i18n }}: {{ info.deleted.length }}</app-text-with-icon
         >
 
         <app-text-with-icon [testId]="'text-with-icon--added'" iconName="add" color="primary"
-          >{{ 'pageAdmin.bpnConfig.added' | i18n }}: {{ info.added.length }}</app-text-with-icon
+        >{{ 'pageAdmin.bpnConfig.added' | i18n }}: {{ info.added.length }}</app-text-with-icon
         >
 
         <app-text-with-icon [testId]="'text-with-icon--changed'" iconName="edit"
-          >{{ 'pageAdmin.bpnConfig.changed' | i18n }}: {{ info.changed.length }}</app-text-with-icon
+        >{{ 'pageAdmin.bpnConfig.changed' | i18n }}: {{ info.changed.length }}</app-text-with-icon
         >
 
         <app-button
@@ -107,7 +107,7 @@ SPDX-License-Identifier: Apache-2.0
                     variant="raised"
                   >
                     <app-text-with-icon (click)="onBpnRemove(i)" iconName="delete"
-                      >{{ 'actions.remove' | i18n }}
+                    >{{ 'actions.remove' | i18n }}
                     </app-text-with-icon>
                   </app-button>
                 </div>
@@ -153,7 +153,7 @@ SPDX-License-Identifier: Apache-2.0
                   >
                     <app-text-with-icon (click)="onBpnDelete(i, bpnConfig)" iconName="delete">{{
                       'actions.delete' | i18n
-                    }}</app-text-with-icon>
+                      }}</app-text-with-icon>
                   </app-button>
                 </div>
               </ng-container>

@@ -29,8 +29,8 @@ import { renderComponent } from '@tests/test-render.utils';
 describe('CardIcon', () => {
   it('should render card icon', async () => {
     await renderComponent(`<app-card-icon label='Test' stats='123' icon='directions_car'></app-card-icon>`, {
-      declarations: [CardIconComponent],
-      imports: [MatCardModule, MatIconModule, SharedModule],
+      declarations: [ CardIconComponent ],
+      imports: [ MatCardModule, MatIconModule, SharedModule ],
     });
 
     const cardLabelElement = screen.getByText('Test');
@@ -47,8 +47,8 @@ describe('CardIcon', () => {
       <app-card-icon label='Test01' stats='' icon=''></app-card-icon>
     `,
       {
-        declarations: [CardIconComponent],
-        imports: [MatCardModule, MatIconModule, SharedModule],
+        declarations: [ CardIconComponent ],
+        imports: [ MatCardModule, MatIconModule, SharedModule ],
       },
     );
 

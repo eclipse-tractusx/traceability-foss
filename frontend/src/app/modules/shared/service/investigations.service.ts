@@ -19,114 +19,114 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {HttpParams} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {ApiService} from '@core/api/api.service';
-import {environment} from '@env';
-import {DateTimeString} from '@shared/components/dateTime/dateTime.component';
-import {TableHeaderSort} from '@shared/components/table/table.model';
-import {Severity} from '@shared/model/severity.model';
-import type {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
-import {NotificationAssembler} from '../assembler/notification.assembler';
+import { HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { ApiService } from '@core/api/api.service';
+import { environment } from '@env';
+import { DateTimeString } from '@shared/components/dateTime/dateTime.component';
+import { TableHeaderSort } from '@shared/components/table/table.model';
+import { Severity } from '@shared/model/severity.model';
+import type { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { NotificationAssembler } from '../assembler/notification.assembler';
 import {
-    Notification,
-    NotificationCreateResponse,
-    NotificationResponse,
-    Notifications,
-    NotificationsResponse,
-    NotificationStatus,
-    NotificationType,
+  Notification,
+  NotificationCreateResponse,
+  NotificationResponse,
+  Notifications,
+  NotificationsResponse,
+  NotificationStatus,
+  NotificationType,
 } from '../model/notification.model';
-import {NotificationFilter} from "../../../mocks/services/investigations-mock/investigations.model";
-import {enrichDeeplinkFilterAndGetUpdatedParams} from "@shared/helper/filter-helper";
+import { NotificationFilter } from '../../../mocks/services/investigations-mock/investigations.model';
+import { enrichDeeplinkFilterAndGetUpdatedParams } from '@shared/helper/filter-helper';
 
 @Injectable({
-    providedIn: 'root',
+  providedIn: 'root',
 })
 export class InvestigationsService {
-    private readonly url = environment.apiUrl;
+  private readonly url = environment.apiUrl;
 
-    constructor(private readonly apiService: ApiService) {
-    }
+  constructor(private readonly apiService: ApiService) {
+  }
 
-    public getCreatedInvestigations(page: number, pageSize: number, sorting: TableHeaderSort[], filter?: NotificationFilter): Observable<Notifications> {
-        let sort = sorting.length ? sorting : ['createdDate,desc'];
-        let params = new HttpParams()
-            .set('page', page)
-            .set('size', pageSize)
-            .set('filter', 'channel,EQUAL,SENDER,AND')
+  public getCreatedInvestigations(page: number, pageSize: number, sorting: TableHeaderSort[], filter?: NotificationFilter): Observable<Notifications> {
+    let sort = sorting.length ? sorting : [ 'createdDate,desc' ];
+    let params = new HttpParams()
+      .set('page', page)
+      .set('size', pageSize)
+      .set('filter', 'channel,EQUAL,SENDER,AND');
 
-        sort.forEach(sortingItem => {
-            params = params.append('sort', sortingItem);
-        })
+    sort.forEach(sortingItem => {
+      params = params.append('sort', sortingItem);
+    });
 
-        params = enrichDeeplinkFilterAndGetUpdatedParams(filter, params);
+    params = enrichDeeplinkFilterAndGetUpdatedParams(filter, params);
 
-        return this.apiService
-            .getBy<NotificationsResponse>(`${this.url}/investigations`, params)
-            .pipe(map(investigations => NotificationAssembler.assembleNotifications(investigations, NotificationType.INVESTIGATION)));
-    }
+    return this.apiService
+      .getBy<NotificationsResponse>(`${ this.url }/investigations`, params)
+      .pipe(map(investigations => NotificationAssembler.assembleNotifications(investigations, NotificationType.INVESTIGATION)));
+  }
 
-    public getReceivedInvestigations(page: number, pageSize: number, sorting: TableHeaderSort[], filter?: NotificationFilter): Observable<Notifications> {
-        let sort = sorting.length ? sorting : ['createdDate,desc'];
+  public getReceivedInvestigations(page: number, pageSize: number, sorting: TableHeaderSort[], filter?: NotificationFilter): Observable<Notifications> {
+    let sort = sorting.length ? sorting : [ 'createdDate,desc' ];
 
-        let params = new HttpParams()
-            .set('page', page)
-            .set('size', pageSize)
-            .set('filter', 'channel,EQUAL,RECEIVER,AND')
+    let params = new HttpParams()
+      .set('page', page)
+      .set('size', pageSize)
+      .set('filter', 'channel,EQUAL,RECEIVER,AND');
 
-        sort.forEach(sortingItem => {
-            params = params.append('sort', sortingItem);
-        })
-        params = enrichDeeplinkFilterAndGetUpdatedParams(filter, params);
+    sort.forEach(sortingItem => {
+      params = params.append('sort', sortingItem);
+    });
+    params = enrichDeeplinkFilterAndGetUpdatedParams(filter, params);
 
-        return this.apiService
-            .getBy<NotificationsResponse>(`${this.url}/investigations`, params)
-            .pipe(map(investigations => NotificationAssembler.assembleNotifications(investigations, NotificationType.INVESTIGATION)));
-    }
+    return this.apiService
+      .getBy<NotificationsResponse>(`${ this.url }/investigations`, params)
+      .pipe(map(investigations => NotificationAssembler.assembleNotifications(investigations, NotificationType.INVESTIGATION)));
+  }
 
-    public getInvestigation(id: string): Observable<Notification> {
-        return this.apiService
-            .get<NotificationResponse>(`${this.url}/investigations/${id}`)
-            .pipe(map(notification => NotificationAssembler.assembleNotification(notification, NotificationType.INVESTIGATION)));
-    }
+  public getInvestigation(id: string): Observable<Notification> {
+    return this.apiService
+      .get<NotificationResponse>(`${ this.url }/investigations/${ id }`)
+      .pipe(map(notification => NotificationAssembler.assembleNotification(notification, NotificationType.INVESTIGATION)));
+  }
 
-    public postInvestigation(
-        partIds: string[],
-        description: string,
-        severity: Severity,
-        dateString: DateTimeString,
-    ): Observable<string> {
-        // targetDate is an optional field
-        const targetDate = null === dateString ? null : new Date(dateString).toISOString();
-        const body = {partIds, description, severity, targetDate};
+  public postInvestigation(
+    partIds: string[],
+    description: string,
+    severity: Severity,
+    dateString: DateTimeString,
+  ): Observable<string> {
+    // targetDate is an optional field
+    const targetDate = null === dateString ? null : new Date(dateString).toISOString();
+    const body = { partIds, description, severity, targetDate };
 
-        return this.apiService
-            .post<NotificationCreateResponse>(`${this.url}/investigations`, body)
-            .pipe(map(({id}) => id));
-    }
+    return this.apiService
+      .post<NotificationCreateResponse>(`${ this.url }/investigations`, body)
+      .pipe(map(({ id }) => id));
+  }
 
-    public closeInvestigation(id: string, reason: string): Observable<void> {
-        const body = {reason};
+  public closeInvestigation(id: string, reason: string): Observable<void> {
+    const body = { reason };
 
-        return this.apiService.post<void>(`${this.url}/investigations/${id}/close`, body);
-    }
+    return this.apiService.post<void>(`${ this.url }/investigations/${ id }/close`, body);
+  }
 
-    public approveInvestigation(id: string): Observable<void> {
-        return this.apiService.post<void>(`${this.url}/investigations/${id}/approve`);
-    }
+  public approveInvestigation(id: string): Observable<void> {
+    return this.apiService.post<void>(`${ this.url }/investigations/${ id }/approve`);
+  }
 
-    public cancelInvestigation(id: string): Observable<void> {
-        return this.apiService.post<void>(`${this.url}/investigations/${id}/cancel`);
-    }
+  public cancelInvestigation(id: string): Observable<void> {
+    return this.apiService.post<void>(`${ this.url }/investigations/${ id }/cancel`);
+  }
 
-    public updateInvestigation(
-        id: string,
-        status: NotificationStatus.ACKNOWLEDGED | NotificationStatus.ACCEPTED | NotificationStatus.DECLINED,
-        reason = '',
-    ): Observable<void> {
-        const body = {reason, status};
-        return this.apiService.post<void>(`${this.url}/investigations/${id}/update`, body);
-    }
+  public updateInvestigation(
+    id: string,
+    status: NotificationStatus.ACKNOWLEDGED | NotificationStatus.ACCEPTED | NotificationStatus.DECLINED,
+    reason = '',
+  ): Observable<void> {
+    const body = { reason, status };
+    return this.apiService.post<void>(`${ this.url }/investigations/${ id }/update`, body);
+  }
 }

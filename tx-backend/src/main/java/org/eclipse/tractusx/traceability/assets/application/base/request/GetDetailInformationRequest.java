@@ -24,6 +24,7 @@ package org.eclipse.tractusx.traceability.assets.application.base.request;
 import io.swagger.annotations.ApiModelProperty;
 
 import jakarta.validation.constraints.Size;
+
 import java.util.List;
 
 public record GetDetailInformationRequest(

@@ -22,7 +22,7 @@
 import { TemplateRef } from '@angular/core';
 import { Role } from '@core/user/role.model';
 
-export type TableHeaderSort = [string, 'asc' | 'desc'];
+export type TableHeaderSort = [ string, 'asc' | 'desc' ];
 
 export interface TableConfig<Columns extends string = string> {
   displayedColumns: DisplayColumns<Columns>[];
@@ -35,18 +35,18 @@ export interface TableConfig<Columns extends string = string> {
 }
 
 export enum PartTableType {
-  AS_BUILT_OWN = "AS_BUILT_OWN",
-  AS_PLANNED_OWN = "AS_PLANNED_OWN",
-  AS_BUILT_SUPPLIER = "AS_BUILT_SUPPLIER",
-  AS_BUILT_CUSTOMER = "AS_BUILT_CUSTOMER",
-  AS_PLANNED_SUPPLIER = "AS_PLANNED_SUPPLIER",
-  AS_PLANNED_CUSTOMER = "AS_PLANNED_CUSTOMER"
+  AS_BUILT_OWN = 'AS_BUILT_OWN',
+  AS_PLANNED_OWN = 'AS_PLANNED_OWN',
+  AS_BUILT_SUPPLIER = 'AS_BUILT_SUPPLIER',
+  AS_BUILT_CUSTOMER = 'AS_BUILT_CUSTOMER',
+  AS_PLANNED_SUPPLIER = 'AS_PLANNED_SUPPLIER',
+  AS_PLANNED_CUSTOMER = 'AS_PLANNED_CUSTOMER'
 }
 
 export type DisplayColumns<T> = 'select' | 'menu' | T;
 
 export const CreateHeaderFromColumns = (columns: string[], headerKey: string): Record<string, string> => {
-  return columns.reduce((header, column) => ({ ...header, [column]: `${headerKey}.${column}` }), {});
+  return columns.reduce((header, column) => ({ ...header, [column]: `${ headerKey }.${ column }` }), {});
 };
 
 export interface TablePaginationEventConfig {

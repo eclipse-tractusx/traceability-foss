@@ -40,7 +40,8 @@ export class RelationsFacade {
     private readonly partsService: PartsService,
     private readonly loadedElementsFacade: LoadedElementsFacade,
     private readonly relationComponentState: RelationComponentState,
-  ) {}
+  ) {
+  }
 
   public get openElements$(): Observable<OpenElements> {
     return this.relationComponentState.openElements$.pipe(debounceTime(100));
@@ -134,7 +135,7 @@ export class RelationsFacade {
       bufferTime(500),
       filter(nodeList => !!nodeList.length),
       switchMap(nodeList => {
-        nodes = nodeList.reduce((p, c) => [...p, ...c], []);
+        nodes = nodeList.reduce((p, c) => [ ...p, ...c ], []);
         return this.partsService.getPartDetailOfIds(nodes);
       }),
       catchError(_ => of(nodes.map(id => ({ id, ...empty } as Part)))),

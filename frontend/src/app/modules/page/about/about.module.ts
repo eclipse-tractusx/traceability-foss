@@ -28,8 +28,9 @@ import { AboutRoutingModule } from './about.routing';
 import { AboutComponent } from './presentation/about.component';
 
 @NgModule({
-  declarations: [AboutComponent],
-  imports: [CommonModule, TemplateModule, SharedModule, AboutRoutingModule],
-  providers: [...getI18nPageProvider('page.about')],
+  declarations: [ AboutComponent ],
+  imports: [ CommonModule, TemplateModule, SharedModule, AboutRoutingModule ],
+  providers: [ ...getI18nPageProvider('page.about') ],
 })
-export class AboutModule {}
+export class AboutModule {
+}

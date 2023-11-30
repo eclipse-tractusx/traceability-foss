@@ -45,13 +45,13 @@ export class D3RenderHelper {
       .x(({ y }) => D3RenderHelper.modifyYByDirection(direction, y))
       .y(({ x }) => x);
 
-    let paths = d3.select(`#${id}--paths`);
+    let paths = d3.select(`#${ id }--paths`);
 
     if (paths.empty()) {
       paths = svg
         .append('g')
-        .attr('id', `${id}--paths`)
-        .attr('data-testid', `${id}--paths`)
+        .attr('id', `${ id }--paths`)
+        .attr('data-testid', `${ id }--paths`)
         .classed('tree--element__path', true);
     }
 
@@ -67,19 +67,19 @@ export class D3RenderHelper {
       const el = d3.select(this);
       const { x, y } = dataNode;
 
-      let circleNode = el.select(`#${id}--Circle`);
+      let circleNode = el.select(`#${ id }--Circle`);
 
       if (circleNode.empty()) {
         circleNode = el
           .append('a')
-          .attr('id', `${id}--Circle`)
+          .attr('id', `${ id }--Circle`)
           .append('circle')
           .attr('r', r)
-          .attr('data-testid', ({ data }: TreeNode) => `tree--element__circle-${data.state}`)
-          .attr('class', ({ data }: TreeNode) => `tree--element__circle-${data.state}`);
+          .attr('data-testid', ({ data }: TreeNode) => `tree--element__circle-${ data.state }`)
+          .attr('class', ({ data }: TreeNode) => `tree--element__circle-${ data.state }`);
       }
 
-      circleNode.attr('transform', () => `translate(${y},${x})`);
+      circleNode.attr('transform', () => `translate(${ y },${ x })`);
     }
 
     D3RenderHelper.renderNodes(svg, root, r, id, renderElements);
@@ -116,12 +116,12 @@ export class D3RenderHelper {
   ) {
     const { data, x, y } = dataNode;
 
-    let circleNode = el.select(`#${id}--Circle`);
+    let circleNode = el.select(`#${ id }--Circle`);
 
     if (circleNode.empty()) {
       circleNode = el
         .append('a')
-        .attr('id', `${id}--Circle`)
+        .attr('id', `${ id }--Circle`)
         .on('click', () => callback(data));
 
       circleNode
@@ -141,7 +141,7 @@ export class D3RenderHelper {
         .text(() => HelperD3.shortenText(data.text || data.id));
     }
 
-    circleNode.attr('transform', () => `translate(${D3RenderHelper.modifyYByDirection(direction, y)},${x})`);
+    circleNode.attr('transform', () => `translate(${ D3RenderHelper.modifyYByDirection(direction, y) },${ x })`);
   }
 
   public static renderStatusBorder(
@@ -154,7 +154,7 @@ export class D3RenderHelper {
     const { data, x, y } = dataNode;
     const isLoaded = data.state !== 'loading';
 
-    let statusBorder = el.select(`#${id}--StatusBorder`);
+    let statusBorder = el.select(`#${ id }--StatusBorder`);
 
     if (!isLoaded) {
       statusBorder.remove();
@@ -162,7 +162,7 @@ export class D3RenderHelper {
     }
 
     if (statusBorder.empty()) {
-      statusBorder = el.append('a').attr('id', `${id}--StatusBorder`);
+      statusBorder = el.append('a').attr('id', `${ id }--StatusBorder`);
 
       const addBorder = (innerRadius: number, outerRadius: number, startAngle: number, endAngle: number) => {
         const arc = d3
@@ -188,10 +188,10 @@ export class D3RenderHelper {
       borderData.forEach(a => addBorder(r + a.inner, r + a.outer, a.start * Math.PI, a.end * Math.PI));
     }
 
-    const statusBorderColor = data.state === SemanticDataModel.BATCH ? 'Batch' : data.state.toString()
+    const statusBorderColor = data.state === SemanticDataModel.BATCH ? 'Batch' : data.state.toString();
     statusBorder
-      .attr('class', () => `tree--element__border tree--element__border-${statusBorderColor}`)
-      .attr('transform', () => `translate(${D3RenderHelper.modifyYByDirection(direction, y)},${x})`);
+      .attr('class', () => `tree--element__border tree--element__border-${ statusBorderColor }`)
+      .attr('transform', () => `translate(${ D3RenderHelper.modifyYByDirection(direction, y) },${ x })`);
   }
 
   public static renderLoading(direction: TreeDirection, el: SVGSelection, dataNode: TreeNode, r: number, id: string) {
@@ -199,7 +199,7 @@ export class D3RenderHelper {
 
     const isLoading = data.state === 'loading';
 
-    el.select(`${id}--Loading`).remove();
+    el.select(`${ id }--Loading`).remove();
 
     if (!isLoading) {
       return;
@@ -215,10 +215,10 @@ export class D3RenderHelper {
 
     const border = el
       .append('a')
-      .attr(id, `${id}--Loading`)
+      .attr(id, `${ id }--Loading`)
       .attr('data-testid', 'tree--element__border-loading')
       .classed('tree--element__border-loading', true)
-      .attr('transform', () => `translate(${D3RenderHelper.modifyYByDirection(direction, y)},${x})`)
+      .attr('transform', () => `translate(${ D3RenderHelper.modifyYByDirection(direction, y) },${ x })`)
       .append('g');
 
     arcs.forEach((node, index) =>
@@ -240,13 +240,13 @@ export class D3RenderHelper {
 
     closingButton
       .append('text')
-      .attr('id', `${id}-text`)
+      .attr('id', `${ id }-text`)
       .attr('x', xOffset + 20)
       .attr('y', yOffset + 25)
       .attr('width', 20)
       .attr('height', 20)
       .text(' x ')
-      .attr('data-testid', `${id}-text`)
+      .attr('data-testid', `${ id }-text`)
       .classed('tree--element__text', true);
   }
 
@@ -264,8 +264,8 @@ export class D3RenderHelper {
     const isLoadedAndHasData = isLoaded && data.children?.length > 0;
     const isLoadedAndHasRelations = isLoaded && data.relations?.length > 0;
 
-    el.select(`#${id}--RelationExpander`).remove();
-    const createExpander = () => el.append('a').attr('id', `${id}--RelationExpander`);
+    el.select(`#${ id }--RelationExpander`).remove();
+    const createExpander = () => el.append('a').attr('id', `${ id }--RelationExpander`);
 
     if (isLoadedAndHasData) {
       this.renderRelationCollapse(direction, createExpander(), dataNode, r, callback);
@@ -286,7 +286,7 @@ export class D3RenderHelper {
     const circleRadius = 15;
     el.attr(
       'transform',
-      () => `translate(${D3RenderHelper.modifyYByDirection(direction, y + r + circleRadius + 5)},${x})`,
+      () => `translate(${ D3RenderHelper.modifyYByDirection(direction, y + r + circleRadius + 5) },${ x })`,
     )
       .on('click', () => callback(data, direction))
       .attr('data-testid', 'tree--element__closing')
@@ -327,7 +327,7 @@ export class D3RenderHelper {
       .endAngle(({ data }) => (data.children?.length ? 0 : endAngleFactor) * Math.PI);
 
     el.append('path')
-      .attr('transform', () => `translate(${D3RenderHelper.modifyYByDirection(direction, y)},${x})`)
+      .attr('transform', () => `translate(${ D3RenderHelper.modifyYByDirection(direction, y) },${ x })`)
       .attr('d', () => arc(dataNode))
       .attr('data-testid', 'tree--element__arrow')
       .classed('tree--element__arrow', true);
@@ -353,7 +353,7 @@ export class D3RenderHelper {
       .y0(r / 2);
 
     el.append('path')
-      .attr('transform', () => `translate(${D3RenderHelper.modifyYByDirection(direction, y)},${x})`)
+      .attr('transform', () => `translate(${ D3RenderHelper.modifyYByDirection(direction, y) },${ x })`)
       .attr('d', () => curveFunc(data.children?.length ? [] : arrow))
       .attr('data-testid', 'tree--element__arrow')
       .classed('tree--element__arrow', true);
@@ -366,10 +366,10 @@ export class D3RenderHelper {
     id: string,
     renderElements: (dataNode: TreeNode) => void,
   ): void {
-    let nodes = d3.select(`#${id}--nodes`);
+    let nodes = d3.select(`#${ id }--nodes`);
 
     if (nodes.empty()) {
-      nodes = svg.append('g').attr('id', `${id}--nodes`).attr('data-testid', `${id}--nodes`);
+      nodes = svg.append('g').attr('id', `${ id }--nodes`).attr('data-testid', `${ id }--nodes`);
     }
 
     nodes

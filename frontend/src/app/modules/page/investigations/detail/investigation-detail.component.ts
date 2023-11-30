@@ -39,7 +39,7 @@ import { filter, first, tap } from 'rxjs/operators';
 @Component({
   selector: 'app-investigation-detail',
   templateUrl: './investigation-detail.component.html',
-  styleUrls: ['./investigation-detail.component.scss'],
+  styleUrls: [ './investigation-detail.component.scss' ],
 })
 export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
   @ViewChild(NotificationCommonModalComponent) notificationCommonModalComponent: NotificationCommonModalComponent;
@@ -68,7 +68,7 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
   private selectedInvestigationTmpStore: Notification;
   public selectedInvestigation: Notification;
 
-  private paramSubscription: Subscription
+  private paramSubscription: Subscription;
 
   constructor(
     public readonly helperService: InvestigationHelperService,
@@ -87,7 +87,7 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
     this.paramSubscription = this.route.queryParams.subscribe(params => {
       this.originPageNumber = params.pageNumber;
       this.originTabIndex = params?.tabIndex;
-    })
+    });
 
   }
 
@@ -114,12 +114,12 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
   }
 
   public onNotificationPartsSort({ sorting }: TableEventConfig): void {
-    const [name, direction] = sorting || ['', ''];
+    const [ name, direction ] = sorting || [ '', '' ];
     this.investigationDetailFacade.sortNotificationParts(name, direction);
   }
 
   public onSupplierPartsSort({ sorting }: TableEventConfig): void {
-    const [name, direction] = sorting || ['', ''];
+    const [ name, direction ] = sorting || [ '', '' ];
     this.investigationDetailFacade.sortSupplierParts(name, direction);
   }
 
@@ -129,7 +129,7 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
   }
 
   public removeItemFromSelection(part: Part): void {
-    this.deselectPartTrigger$.next([part]);
+    this.deselectPartTrigger$.next([ part ]);
     this.selectedItems$.next(this.selectedItems$.getValue().filter(({ id }) => id !== part.id));
   }
 
@@ -140,7 +140,7 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
 
   public addItemToSelection(part: Part): void {
     this.addPartTrigger$.next(part);
-    this.selectedItems$.next([...this.selectedItems$.getValue(), part]);
+    this.selectedItems$.next([ ...this.selectedItems$.getValue(), part ]);
   }
 
   public copyToClipboard(semanticModelId: string): void {
@@ -150,7 +150,12 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
 
   public navigateBackToInvestigations(): void {
     const { link } = getRoute(INVESTIGATION_BASE_ROUTE);
-    this.router.navigate([`/${link}`], {queryParams: {tabIndex: this.originTabIndex, pageNumber: this.originPageNumber}});
+    this.router.navigate([ `/${ link }` ], {
+      queryParams: {
+        tabIndex: this.originTabIndex,
+        pageNumber: this.originPageNumber,
+      },
+    });
   }
 
   public handleConfirmActionCompletedEvent(): void {
@@ -162,7 +167,7 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
   private setTableConfigs(data: Notification): void {
     this.isReceived = !data.isFromSender;
 
-    const displayedColumns = ['id', 'semanticDataModel', 'name', 'semanticModelId'];
+    const displayedColumns = [ 'id', 'semanticDataModel', 'name', 'semanticModelId' ];
     const sortableColumns = { id: true, semanticDataModel: true, name: true, semanticModelId: true };
 
     const tableConfig = {
@@ -185,8 +190,8 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
     this.investigationDetailFacade.setAndSupplierPartsInformation();
     this.supplierPartsTableConfig = {
       ...tableConfig,
-      displayedColumns: ['select', ...displayedColumns],
-      header: CreateHeaderFromColumns(['select', ...displayedColumns], 'table.column'),
+      displayedColumns: [ 'select', ...displayedColumns ],
+      header: CreateHeaderFromColumns([ 'select', ...displayedColumns ], 'table.column'),
     };
   }
 

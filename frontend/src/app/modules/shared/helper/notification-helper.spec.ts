@@ -18,53 +18,53 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import {createDeeplinkNotificationFilter} from "@shared/helper/notification-helper";
+import { createDeeplinkNotificationFilter } from '@shared/helper/notification-helper';
 
 
 describe('NotificationHelper', () => {
-    it('should create received deeplink notification filter', () => {
+  it('should create received deeplink notification filter', () => {
 
 
-        const params = {
-            deeplink: 'true',
-            received: 'true',
-            notificationIds: ['1']
-        }
+    const params = {
+      deeplink: 'true',
+      received: 'true',
+      notificationIds: [ '1' ],
+    };
 
-        // @ts-ignore
-        const result = createDeeplinkNotificationFilter(params);
+    // @ts-ignore
+    const result = createDeeplinkNotificationFilter(params);
 
-        expect(result.receivedFilter).toEqual({notificationIds: ['1']});
-        expect(result.sentFilter).toBeNull();
-    });
-    it('should create sent deeplink notification filter', () => {
+    expect(result.receivedFilter).toEqual({ notificationIds: [ '1' ] });
+    expect(result.sentFilter).toBeNull();
+  });
+  it('should create sent deeplink notification filter', () => {
 
 
-        const params = {
-            deeplink: 'true',
-            received: 'false',
-            notificationIds: ['2']
-        }
+    const params = {
+      deeplink: 'true',
+      received: 'false',
+      notificationIds: [ '2' ],
+    };
 
-        // @ts-ignore
-        const result = createDeeplinkNotificationFilter(params);
+    // @ts-ignore
+    const result = createDeeplinkNotificationFilter(params);
 
-        expect(result.sentFilter).toEqual({notificationIds: ['2']});
-        expect(result.receivedFilter).toBeNull();
-    });
+    expect(result.sentFilter).toEqual({ notificationIds: [ '2' ] });
+    expect(result.receivedFilter).toBeNull();
+  });
 
-    it('should not create deeplink notification filter', () => {
+  it('should not create deeplink notification filter', () => {
 
-        const params = {
-            deeplink: 'false'
-        }
+    const params = {
+      deeplink: 'false',
+    };
 
-        // @ts-ignore
-        const result = createDeeplinkNotificationFilter(params);
+    // @ts-ignore
+    const result = createDeeplinkNotificationFilter(params);
 
-        expect(result.sentFilter).toBeNull();
-        expect(result.receivedFilter).toBeNull();
-    });
+    expect(result.sentFilter).toBeNull();
+    expect(result.receivedFilter).toBeNull();
+  });
 
 
 });

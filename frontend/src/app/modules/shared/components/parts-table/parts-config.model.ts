@@ -18,37 +18,37 @@
  ********************************************************************************/
 
 
-import {TableViewConfig} from "@shared/components/parts-table/table-view-config.model";
+import { TableViewConfig } from '@shared/components/parts-table/table-view-config.model';
 
 
-import {PartsTableConfigUtils} from "@shared/components/parts-table/parts-table-config.utils";
+import { PartsTableConfigUtils } from '@shared/components/parts-table/parts-table-config.utils';
 
 
 export class TableFilterConfiguration implements TableViewConfig {
-    filterColumns: any;
-    displayedColumns: any;
-    displayFilterColumnMappings: any;
-    filterFormGroup: any;
-    sortableColumns: any;
+  filterColumns: any;
+  displayedColumns: any;
+  displayFilterColumnMappings: any;
+  filterFormGroup: any;
+  sortableColumns: any;
 
-    constructor(sortableColumns: any, dateFields?: any, singleSearchFields?: any) {
-        this.displayedColumns = Object.keys(sortableColumns);
-        this.filterFormGroup = PartsTableConfigUtils.createFormGroup(this.displayedColumns);
-        this.filterColumns = PartsTableConfigUtils.createFilterColumns(this.displayedColumns);
-        this.sortableColumns = sortableColumns;
-        this.displayFilterColumnMappings = PartsTableConfigUtils.generateFilterColumnsMapping(sortableColumns, dateFields, singleSearchFields);
+  constructor(sortableColumns: any, dateFields?: any, singleSearchFields?: any) {
+    this.displayedColumns = Object.keys(sortableColumns);
+    this.filterFormGroup = PartsTableConfigUtils.createFormGroup(this.displayedColumns);
+    this.filterColumns = PartsTableConfigUtils.createFilterColumns(this.displayedColumns);
+    this.sortableColumns = sortableColumns;
+    this.displayFilterColumnMappings = PartsTableConfigUtils.generateFilterColumnsMapping(sortableColumns, dateFields, singleSearchFields);
 
-    }
+  }
 
-    public filterConfiguration(): TableViewConfig {
-        return {
-            filterColumns: this.filterColumns,
-            displayedColumns: this.displayedColumns,
-            displayFilterColumnMappings: this.displayFilterColumnMappings,
-            filterFormGroup: this.filterFormGroup,
-            sortableColumns: this.sortableColumns
-        }
-    }
+  public filterConfiguration(): TableViewConfig {
+    return {
+      filterColumns: this.filterColumns,
+      displayedColumns: this.displayedColumns,
+      displayFilterColumnMappings: this.displayFilterColumnMappings,
+      filterFormGroup: this.filterFormGroup,
+      sortableColumns: this.sortableColumns,
+    };
+  }
 
 }
 

@@ -28,7 +28,7 @@ describe('FormatDatePipe', () => {
   it('should format date having the 1970 value for the year', async () => {
     const date = new CalendarDateModel(null);
     await renderComponent(`{{ date | formatDate }}`, {
-      imports: [SharedModule],
+      imports: [ SharedModule ],
       componentProperties: { date },
     });
 
@@ -38,7 +38,7 @@ describe('FormatDatePipe', () => {
   it('should format date without issues', async () => {
     const date = new CalendarDateModel('2022-02-04T13:48:54Z');
     await renderComponent(`{{ date | formatDate }}`, {
-      imports: [SharedModule],
+      imports: [ SharedModule ],
       componentProperties: { date },
     });
 
@@ -48,7 +48,7 @@ describe('FormatDatePipe', () => {
   it('should format date with options', async () => {
     const date = new CalendarDateModel('2022-02-04T13:48:54Z');
     await renderComponent(`{{ date | formatDate: {dateStyle: 'medium', timeStyle: 'short', timeZone: 'UTC'} }}`, {
-      imports: [SharedModule],
+      imports: [ SharedModule ],
       componentProperties: { date },
     });
 
@@ -57,7 +57,7 @@ describe('FormatDatePipe', () => {
 
   it('should return -- if string is empty', async () => {
     await renderComponent(`{{ '' | formatDate }}`, {
-      imports: [SharedModule],
+      imports: [ SharedModule ],
     });
 
     expect(screen.getByText('--')).toBeInTheDocument();

@@ -26,7 +26,7 @@ import { ModalData } from '@shared/modules/modal/core/modal.model';
 @Component({
   selector: 'app-confirm',
   templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.scss'],
+  styleUrls: [ './modal.component.scss' ],
 })
 export class ModalComponent {
   @HostListener('keydown.esc')
@@ -37,7 +37,8 @@ export class ModalComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) public readonly data: ModalData,
     private readonly matDialogRef: MatDialogRef<ModalComponent>,
-  ) {}
+  ) {
+  }
 
   public close(value: boolean): void {
     this.matDialogRef.close(value || false);

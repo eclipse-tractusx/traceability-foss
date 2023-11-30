@@ -40,5 +40,5 @@ export const mockDashboardStats: DashboardStatsResponse = {
   receivedActiveAlerts: 5000,
   receivedActiveInvestigations: 2000,
   sentActiveAlerts: 7000,
-  sentActiveInvestigations: 5
+  sentActiveInvestigations: 5,
 };
