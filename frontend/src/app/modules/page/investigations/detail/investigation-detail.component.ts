@@ -66,7 +66,7 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
 
   private subscription: Subscription;
   private selectedInvestigationTmpStore: Notification;
-  private paramSubscription: Subscription
+  private paramSubscription: Subscription;
 
   public selectedInvestigation: Notification;
 
@@ -87,7 +87,7 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
     this.paramSubscription = this.route.queryParams.subscribe(params => {
       this.originPageNumber = params.pageNumber;
       this.originTabIndex = params?.tabIndex;
-    })
+    });
 
   }
 

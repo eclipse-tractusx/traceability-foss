@@ -33,6 +33,10 @@ export const FILTER_KEYS = [
   'validityPeriodTo',
 ];
 
+export function isDateFilter(key: string): boolean {
+  return FILTER_KEYS.includes(key);
+}
+
 export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, params: HttpParams): HttpParams {
   const semanticDataModelKey = 'semanticDataModel';
   for (const key in filter) {
@@ -50,7 +54,7 @@ export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, para
     } else {
       operator = getFilterOperatorValue(FilterOperator.EQUAL);
       if (Array.isArray(filterValues)) {
-        for (let value of filterValues) {
+        for (const value of filterValues) {
           params = params.append('filter', `${key},${operator},${value}`);
         }
       } else {
@@ -71,7 +75,7 @@ export function addFilteringParams(filtering: TableFilter, params: HttpParams): 
         if (Array.isArray(filtering[key])) {
           if (filtering[key].length > 0) {
             filterApplied = true;
-            for (let value of filtering[key]) {
+            for (const value of filtering[key]) {
               params = params.append(
                 'filter',
                 `${key},${getFilterOperatorValue(value.filterOperator)},${value.filterValue}`,
@@ -95,10 +99,6 @@ export function addFilteringParams(filtering: TableFilter, params: HttpParams): 
     }
   }
   return params;
-}
-
-export function isDateFilter(key: string): boolean {
-  return FILTER_KEYS.includes(key);
 }
 
 export function toAssetFilter(formValues: any, isAsBuilt: boolean): AssetAsPlannedFilter | AssetAsBuiltFilter {

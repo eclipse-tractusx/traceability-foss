@@ -236,7 +236,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private resetFilterAndShowToast() {
-    let filterIsSet = resetMultiSelectionAutoCompleteComponent(this.partsTableComponents, false);
+    const filterIsSet = resetMultiSelectionAutoCompleteComponent(this.partsTableComponents, false);
     if (filterIsSet) {
       this.toastService.info('parts.input.global-search.toastInfo');
     }

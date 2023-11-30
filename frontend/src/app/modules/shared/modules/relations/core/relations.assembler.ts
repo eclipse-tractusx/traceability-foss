@@ -32,11 +32,11 @@ export class RelationsAssembler {
         return type;
       }
       return 'done';
-    }
+    };
     const loadingOrErrorStatus = id ? 'loading' : 'error';
 
     const mappedOrFallbackStatus = mapBatchToState(semanticDataModel);
-    const state = !!children ? mappedOrFallbackStatus : loadingOrErrorStatus;
+    const state = children ? mappedOrFallbackStatus : loadingOrErrorStatus;
 
     const title = `${text || '--'} | ${/*semanticModelId ||*/ id}`;
 

@@ -42,7 +42,7 @@ export class TableSettingsComponent {
 
   tableType: PartTableType;
   defaultColumns: string[];
-  defaultFilterColumns: string[]
+  defaultFilterColumns: string[];
 
   columnOptions: Map<string, boolean>;
   dialogColumns: string[];
@@ -60,7 +60,7 @@ export class TableSettingsComponent {
     // Layout
     this.title = data.title;
     this.panelClass = data.panelClass;
-    this.isCustomerTable = data.tableType === PartTableType.AS_BUILT_CUSTOMER || data.tableType === PartTableType.AS_PLANNED_CUSTOMER
+    this.isCustomerTable = data.tableType === PartTableType.AS_BUILT_CUSTOMER || data.tableType === PartTableType.AS_PLANNED_CUSTOMER;
     // Passed Data
     this.tableType = data.tableType;
     this.defaultColumns = data.defaultColumns;
@@ -75,15 +75,15 @@ export class TableSettingsComponent {
     this.selectAllSelected = this.dialogColumns.length === this.tableColumns.length;
 
     if (dialogRef?.afterClosed)
-      dialogRef.afterClosed().subscribe(result => {
+      dialogRef.afterClosed().subscribe(() => {
         this.save();
       });
   }
 
   save() {
     // build new tableColumns how they should be displayed
-    let newTableColumns: string[] = [];
-    let newTableFilterColumns: string[] = [];
+    const newTableColumns: string[] = [];
+    const newTableFilterColumns: string[] = [];
     // iterate over dialogColumns
     for (const column of this.dialogColumns) {
       // if item in dialogColumns is true in columnOptions --> add to new tableColumns
@@ -93,13 +93,13 @@ export class TableSettingsComponent {
         if ((column === 'select') && !this.isCustomerTable) {
           newTableFilterColumns.push('Filter');
         } else {
-          newTableFilterColumns.push('filter' + column.charAt(0).toUpperCase() + column.slice(1))
+          newTableFilterColumns.push('filter' + column.charAt(0).toUpperCase() + column.slice(1));
         }
       }
     }
 
     // get Settingslist
-    let tableSettingsList = this.tableSettingsService.getStoredTableSettings();
+    const tableSettingsList = this.tableSettingsService.getStoredTableSettings();
 
     // set this tableType Settings from SettingsList to the new one
     tableSettingsList[this.tableType] = {
@@ -121,7 +121,7 @@ export class TableSettingsComponent {
   }
 
   handleListItemClick(event: MouseEvent, item: string) {
-    let element = event.target as HTMLElement;
+    const element = event.target as HTMLElement;
 
     if (element.tagName !== 'INPUT') {
       this.selectedColumn = item;
@@ -134,7 +134,7 @@ export class TableSettingsComponent {
   }
 
   selectAll(isChecked: boolean) {
-    for (let column of this.dialogColumns) {
+    for (const column of this.dialogColumns) {
       if (column === 'select' || column === 'menu' || column === 'settings') {
         continue;
       }

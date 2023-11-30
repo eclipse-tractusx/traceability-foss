@@ -23,6 +23,10 @@ import {
     BomLifecycleSize
 } from "@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model";
 
+export enum UserSettingView {
+    PARTS = 'parts', OTHER_PARTS = 'other_parts'
+}
+
 @Injectable({
     providedIn: 'root',
 })
@@ -34,21 +38,19 @@ export class BomLifecycleSettingsService {
         asPlannedActive: true,
         asSupportedActive: false,
         asRecycledActive: false
-    }
+    };
 
     getUserSettings(userSettingView: UserSettingView): BomLifecycleConfig {
         const settingsJson = localStorage.getItem(userSettingView.toString());
         if (settingsJson) {
             return JSON.parse(settingsJson);
         }
-        return this.DEFAULT
+        return this.DEFAULT;
     };
 
     getSize(userSettingView: UserSettingView): BomLifecycleSize {
         let size: BomLifecycleSize;
         const userSettings: BomLifecycleConfig = this.getUserSettings(userSettingView);
-
-        const { asDesignedActive, asPlannedActive, asOrderedActive, asBuiltActive, asSupportedActive, asRecycledActive } = userSettings;
 
         if (userSettings.asPlannedActive && userSettings.asBuiltActive) {
             size = {
@@ -58,7 +60,7 @@ export class BomLifecycleSettingsService {
                 asOrderedSize: 0,
                 asRecycledSize: 0,
                 asSupportedSize: 0,
-            }
+            };
         } else if (userSettings.asPlannedActive) {
             size = {
                 asDesignedSize: 0,
@@ -67,7 +69,7 @@ export class BomLifecycleSettingsService {
                 asRecycledSize: 0,
                 asSupportedSize: 0,
                 asPlannedSize: 100
-            }
+            };
         } else if (userSettings.asBuiltActive) {
             size = {
                 asBuiltSize: 100,
@@ -76,7 +78,7 @@ export class BomLifecycleSettingsService {
                 asRecycledSize: 0,
                 asSupportedSize: 0,
                 asPlannedSize: 0
-            }
+            };
         }
         return size;
     }
@@ -88,8 +90,4 @@ export class BomLifecycleSettingsService {
     clearUserSettings(userSettingView: UserSettingView): void {
         localStorage.removeItem(userSettingView.toString());
     }
-}
-
-export enum UserSettingView {
-    PARTS = 'parts', OTHER_PARTS = 'other_parts'
 }

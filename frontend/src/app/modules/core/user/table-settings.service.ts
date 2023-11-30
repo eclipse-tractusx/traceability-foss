@@ -28,19 +28,19 @@ export class TableSettingsService {
   private settingsKey = 'TableViewSettings';
   private changeEvent = new Subject<void>();
 
-  storeTableSettings(partTableType: PartTableType, tableSettingsList: any ): void {
+  storeTableSettings(partTableType: PartTableType, tableSettingsList: any): void {
     // before setting anything, all maps in new tableSettingList should be stringified
     Object.keys(tableSettingsList).forEach(tableSetting => {
       const newMap = tableSettingsList[tableSetting].columnSettingsOptions;
       tableSettingsList[tableSetting].columnSettingsOptions = JSON.stringify(Array.from(newMap.entries()));
-    })
+    });
     localStorage.setItem(this.settingsKey, JSON.stringify(tableSettingsList));
   }
 
   // this returns whole settings whether empty / not for part / etc.
   getStoredTableSettings(): any {
     const settingsJson = localStorage.getItem(this.settingsKey);
-    let settingsObject = settingsJson ? JSON.parse(settingsJson) : null;
+    const settingsObject = settingsJson ? JSON.parse(settingsJson) : null;
     if(!settingsObject) return;
 
     // iterate through all tabletypes and parse columnSettingsOption to a map

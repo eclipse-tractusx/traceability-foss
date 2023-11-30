@@ -123,7 +123,7 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
   public onAsBuiltTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
     let pageSizeValue = this.DEFAULT_PAGE_SIZE;
     if (pageSize !== 0) {
-      pageSizeValue = pageSize
+      pageSizeValue = pageSize;
     }
     this.setTableSortingList(sorting, MainAspectType.AS_BUILT);
     this.otherPartsFacade.setCustomerPartsAsBuilt(page, pageSizeValue, this.tableCustomerAsBuiltSortList, toAssetFilter(this.assetAsBuiltFilter, true),);
@@ -132,7 +132,7 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
   public onAsPlannedTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
     let pageSizeValue = this.DEFAULT_PAGE_SIZE;
     if (pageSize !== 0) {
-      pageSizeValue = pageSize
+      pageSizeValue = pageSize;
     }
     this.setTableSortingList(sorting, MainAspectType.AS_PLANNED);
     this.otherPartsFacade.setCustomerPartsAsPlanned(page, pageSizeValue, this.tableCustomerAsPlannedSortList, toAssetFilter(this.assetAsPlannedFilter, false),);

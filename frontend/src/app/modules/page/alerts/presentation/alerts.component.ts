@@ -65,7 +65,7 @@ export class AlertsComponent {
 
   public alertsQueuedAndRequestedFilterConfiguration: any[];
 
-  private ctrlKeyState: boolean = false;
+  private ctrlKeyState = false;
   public DEFAULT_PAGE_SIZE = 50;
 
   private paramSubscription: Subscription;

@@ -35,7 +35,7 @@ export class ViewSelectorComponent {
   @Input() color: 'primary' | 'accent' | 'warn';
   @Input() variant: ButtonVariant = 'flat';
   @Input() label: string;
-  @Input() isDisabled: boolean = false;
+  @Input() isDisabled = false;
   @Input() isSelected: boolean;
 
 }

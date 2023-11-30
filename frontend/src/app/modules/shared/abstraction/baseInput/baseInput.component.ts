@@ -85,6 +85,7 @@ export class BaseInputComponent<T> implements ControlValueAccessor, OnInit {
 
   public onChange = (value: T | null): T | null => value;
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   public onTouch = (): void => { };
 
   public ngOnDestroy(): void {

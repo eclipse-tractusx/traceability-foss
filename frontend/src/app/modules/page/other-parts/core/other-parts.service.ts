@@ -42,7 +42,7 @@ export class OtherPartsService {
 
 
   public getOtherPartsAsBuilt(page: number, pageSize: number, sorting: TableHeaderSort[], owner: Owner, filter?: AssetAsBuiltFilter, isOrSearch?: boolean): Observable<Pagination<Part>> {
-    let sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
+    const sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
     let params = this.buildHttpParams(page, pageSize, isOrSearch, owner);
 
     sort.forEach(sortingItem => {
@@ -58,7 +58,7 @@ export class OtherPartsService {
   }
 
   public getOtherPartsAsPlanned(page: number, pageSize: number, sorting: TableHeaderSort[], owner: Owner, filter?: AssetAsPlannedFilter, isOrSearch?: boolean): Observable<Pagination<Part>> {
-    let sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
+    const sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
 
 
     let params = this.buildHttpParams(page, pageSize, isOrSearch, owner);
@@ -76,7 +76,7 @@ export class OtherPartsService {
   }
 
   private buildHttpParams(page: number, pageSize: number, isOrSearch: boolean, owner: Owner): HttpParams{
-    let filterOperator = isOrSearch ? 'OR' : 'AND';
+    const filterOperator = isOrSearch ? 'OR' : 'AND';
    return new HttpParams()
       .set('page', page)
       .set('size', pageSize)

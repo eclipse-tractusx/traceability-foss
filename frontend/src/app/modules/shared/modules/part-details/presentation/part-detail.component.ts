@@ -69,9 +69,9 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
     this.customerOrPartSiteDetails$ = this.partDetailsFacade.selectedPart$.pipe(PartsAssembler.mapPartForCustomerOrPartSiteView());
     this.customerOrPartSiteDetailsHeader$ = this.customerOrPartSiteDetails$?.subscribe(data=> {
       if(data?.data?.functionValidFrom){
-        this.customerOrPartSiteHeader = 'partDetail.partSiteInformationData'
+        this.customerOrPartSiteHeader = 'partDetail.partSiteInformationData';
       } else {
-        this.customerOrPartSiteHeader = 'partDetail.customerData'
+        this.customerOrPartSiteHeader = 'partDetail.customerData';
       }
     });
 

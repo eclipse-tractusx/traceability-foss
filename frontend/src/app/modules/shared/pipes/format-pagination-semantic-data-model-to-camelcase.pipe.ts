@@ -46,7 +46,7 @@ export class FormatPaginationSemanticDataModelToCamelCasePipe implements PipeTra
               break;
             }
             default: {
-              part.semanticDataModel = SemanticDataModelInCamelCase.UNKNOWN
+              part.semanticDataModel = SemanticDataModelInCamelCase.UNKNOWN;
               break;
             }
 

@@ -54,7 +54,7 @@ export class InvestigationsService {
     sorting: TableHeaderSort[],
     filtering?: TableFilter,
   ): Observable<Notifications> {
-    let sort = sorting.length ? sorting : ['createdDate,desc'];
+    const sort = sorting.length ? sorting : ['createdDate,desc'];
     let params = new HttpParams().set('page', page).set('size', pageSize);
     if (filtering) {
       params = addFilteringParams(filtering, params);
@@ -78,7 +78,7 @@ export class InvestigationsService {
     sorting: TableHeaderSort[],
     filtering?: TableFilter,
   ): Observable<Notifications> {
-    let sort = sorting.length ? sorting : ['createdDate,desc'];
+    const sort = sorting.length ? sorting : ['createdDate,desc'];
     let params = new HttpParams().set('page', page).set('size', pageSize);
     if (filtering) {
       params = addFilteringParams(filtering, params);

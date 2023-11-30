@@ -88,13 +88,13 @@ export class OtherPartsComponent implements OnDestroy, OnInit {
 
 
     private resetFilterAndShowToast() {
-        let oneFilterSet = false;
+        const oneFilterSet = false;
 
         const resetComponents = (
             components: QueryList<SupplierPartsComponent> | QueryList<CustomerPartsComponent>
         ) => {
             for (const component of components) {
-                let filterIsSet = resetMultiSelectionAutoCompleteComponent(component.partsTableComponents, oneFilterSet);
+                const filterIsSet = resetMultiSelectionAutoCompleteComponent(component.partsTableComponents, oneFilterSet);
                 if (filterIsSet) {
                     this.toastService.info("parts.input.global-search.toastInfo");
                 }

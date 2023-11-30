@@ -47,7 +47,7 @@ export class NotificationTabComponent implements AfterViewInit {
   @Input() optionalColumns: Array<'targetDate' | 'severity' | 'createdBy' | 'sendTo'> = [];
   @Input() sortableColumns: Record<string, boolean> = {};
   @Input() multiSortList: TableHeaderSort[] = [];
-  @Input() enableScroll: boolean = true;
+  @Input() enableScroll = true;
   @Input() tableType: PartTableType;
   @Input() filterConfig: any[] = [];
 

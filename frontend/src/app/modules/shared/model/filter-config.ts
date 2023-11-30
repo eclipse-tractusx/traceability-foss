@@ -68,12 +68,12 @@ export class FilterCongigOptions {
       display: type + '.status.' + NotificationStatus.SENT,
       value: NotificationStatus.SENT,
       checked: false,
-    }
+    };
 
     if (isReceivedTable) {
-      returnList.push(received, acknowledged, accepted, declined, closed)
+      returnList.push(received, acknowledged, accepted, declined, closed);
     } else {
-      returnList.push(created, canceled, sent, acknowledged, accepted, declined, closed)
+      returnList.push(created, canceled, sent, acknowledged, accepted, declined, closed);
     }
     return returnList;
   }

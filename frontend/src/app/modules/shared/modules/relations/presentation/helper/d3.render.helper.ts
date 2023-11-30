@@ -188,7 +188,7 @@ export class D3RenderHelper {
       borderData.forEach(a => addBorder(r + a.inner, r + a.outer, a.start * Math.PI, a.end * Math.PI));
     }
 
-    const statusBorderColor = data.state === SemanticDataModel.BATCH ? 'Batch' : data.state.toString()
+    const statusBorderColor = data.state === SemanticDataModel.BATCH ? 'Batch' : data.state.toString();
     statusBorder
       .attr('class', () => `tree--element__border tree--element__border-${statusBorderColor}`)
       .attr('transform', () => `translate(${D3RenderHelper.modifyYByDirection(direction, y)},${x})`);

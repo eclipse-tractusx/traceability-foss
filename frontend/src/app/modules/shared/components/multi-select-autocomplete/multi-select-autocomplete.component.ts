@@ -78,14 +78,14 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
 
   @ViewChild('searchInput', { static: true }) searchInput: any;
 
-  theSearchElement: string = '';
+  theSearchElement = '';
 
   @Output() triggerFilter = new EventEmitter<void>();
 
   selectionChange: EventEmitter<any> = new EventEmitter();
 
   @ViewChild('selectElem', { static: true }) selectElem: MatSelect;
-  public filterName: String = 'filterLabel';
+  public filterName = 'filterLabel';
   public filteredOptions: Array<any> = [];
   public selectedValue: Array<any> = [];
   public selectAllChecked = false;
@@ -106,7 +106,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   }
   ngOnInit(): void {
     if (this.textSearch) {
-      this.formControl.valueChanges.pipe(startWith(0), pairwise()).subscribe(([prev, next]: [any, any]) => {
+      this.formControl.valueChanges.pipe(startWith(0), pairwise()).subscribe(([_prev, next]: [any, any]) => {
         this.theSearchElement = next;
         this.searched = true;
         this.triggerFilteringTimeout(true);
@@ -131,10 +131,10 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     clearTimeout(this.inputTimer);
     this.inputTimer = setTimeout(() => {
       if (isTextSearch) {
-        this.setFilterActive()
+        this.setFilterActive();
       }
       this.triggerFilter.emit();
-    }, 500)
+    }, 500);
   }
 
   public toggleSelect = function (val: any, isSelectAll: boolean): void {
@@ -164,7 +164,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   }
 
   public dateSelectionEvent(event: MatDatepickerInputEvent<Date>) {
-    let value = this.datePipe.transform(event.value, 'yyyy-MM-dd');
+    const value = this.datePipe.transform(event.value, 'yyyy-MM-dd');
     this.formControl.patchValue(value);
     this.selectedValue = value as unknown as [];
     this.theSearchElement = value;

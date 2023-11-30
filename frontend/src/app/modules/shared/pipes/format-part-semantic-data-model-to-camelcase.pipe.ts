@@ -44,7 +44,7 @@ export class FormatPartSemanticDataModelToCamelCasePipe implements PipeTransform
             break;
           }
           default: {
-            camelCase = SemanticDataModelInCamelCase.UNKNOWN
+            camelCase = SemanticDataModelInCamelCase.UNKNOWN;
             break;
           }
 

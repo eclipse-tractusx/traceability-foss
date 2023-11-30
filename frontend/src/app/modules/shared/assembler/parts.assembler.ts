@@ -49,7 +49,7 @@ export class PartsAssembler {
       return null;
     }
 
-    let createdSemanticModel = PartsAssembler.createSemanticModelFromPartResponse(partResponse);
+    const createdSemanticModel = PartsAssembler.createSemanticModelFromPartResponse(partResponse);
 
     // Access the partId property
 
@@ -68,7 +68,7 @@ export class PartsAssembler {
     const functionValidUntil = (partResponse.detailAspectModels[1]?.data as PartSiteInformationAsPlanned)
       ?.functionValidUntil;
 
-    let mappedPart = {
+    const mappedPart = {
       id: partResponse.id,
       idShort: partResponse.idShort,
       semanticModelId: partResponse.semanticModelId,

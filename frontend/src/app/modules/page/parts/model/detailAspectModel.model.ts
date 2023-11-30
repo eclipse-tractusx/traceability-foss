@@ -22,13 +22,6 @@ import {
   TractionBatteryCode,
 } from '@page/parts/model/aspectModels.model';
 
-export interface DetailAspectModel {
-  type: DetailAspectType,
-  data: TractionBatteryCode | PartSiteInformationAsPlanned | AsBuiltAspectModel | AsPlannedAspectModel
-}
-
-
-
 export enum DetailAspectType {
   AS_BUILT = "AS_BUILT",
   AS_PLANNED = "AS_PLANNED",
@@ -38,8 +31,11 @@ export enum DetailAspectType {
 
   // Detail aspect of as planed parts
   PART_SITE_INFORMATION_AS_PLANNED = "PART_SITE_INFORMATION_AS_PLANNED",
+}
 
-
+export interface DetailAspectModel {
+  type: DetailAspectType,
+  data: TractionBatteryCode | PartSiteInformationAsPlanned | AsBuiltAspectModel | AsPlannedAspectModel
 }
 
 export enum DetailSemanticDataModelTypeCamelCase {

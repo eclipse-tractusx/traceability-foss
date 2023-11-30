@@ -35,7 +35,7 @@ export class UserMenuComponent {
   public isExpanded = false;
   public userInitials = '';
   public userDetails = { name: '', email: '', role: '' };
-  public activeItem: string = '';
+  public activeItem = '';
   public portalUrl = environment.portalUrl;
 
   constructor(private readonly layoutFacade: LayoutFacade, private readonly router: Router) {

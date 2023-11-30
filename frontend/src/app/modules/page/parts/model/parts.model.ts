@@ -25,77 +25,6 @@ import { DetailAspectModel } from '@page/parts/model/detailAspectModel.model';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Owner } from '@page/parts/model/owner.enum';
 
-export interface Part {
-  id: string;
-  idShort: string;
-  name: string;
-  manufacturer: string;
-  manufacturerPartId: string;
-  nameAtManufacturer: string;
-  businessPartner: string;
-  semanticModel?: SemanticModel;
-  semanticModelId: string;
-  qualityType: QualityType;
-  children: string[];
-  parents?: string[];
-  error?: boolean;
-  activeInvestigation?: boolean;
-  activeAlert: boolean;
-  van: string;
-  semanticDataModel: SemanticDataModel;
-  semanticDataModelInCamelCase?: SemanticDataModelInCamelCase;
-  classification: string;
-
-  mainAspectType: MainAspectType;
-
-  // aspectmodel props are temporarely hardcoded here because Tables and Views only accept root level prop array
-  // as built
-  partId?: string;
-  customerPartId?: string;
-  nameAtCustomer?: string;
-  manufacturingDate?: string;
-  manufacturingCountry?: string;
-
-  // as planned
-  validityPeriodFrom?: string;
-  validityPeriodTo?: string;
-  //partSiteInformationAsPlanned
-  catenaXSiteId: string;
-  psFunction: string;
-  functionValidFrom?: string;
-  functionValidUntil?: string;
-
-  // count of notifications
-  activeAlerts: number;
-  activeInvestigations: number;
-}
-
-export interface PartResponse {
-  id: string;
-  idShort: string;
-  semanticModelId: string;
-  manufacturerPartId: string;
-  businessPartner: string;
-  manufacturerName: string;
-  nameAtManufacturer: string;
-  owner: Owner;
-  childRelations: Relation[];
-  parentRelations: Relation[];
-  activeAlert: boolean;
-  underInvestigation: boolean;
-  qualityType: QualityType;
-  van: string;
-  semanticDataModel: SemanticDataModel;
-  classification: string;
-  detailAspectModels: DetailAspectModel[];
-
-  // TODO: Delete ? flag when AsPlanned Parts do not return the props anymore
-  qualityAlertsInStatusActive?: number;
-  qualityInvestigationsInStatusActive?: number;
-}
-
-export type PartsResponse = PaginationResponse<PartResponse>;
-
 // TODO: needs to be aligned with Severity in the future in terms of coding standards and use
 export enum QualityType {
   Ok = 'Ok',
@@ -184,3 +113,74 @@ export enum FilterOperator {
 export function getFilterOperatorValue(operator: FilterOperator) {
   return operator as string;
 }
+
+export interface Part {
+  id: string;
+  idShort: string;
+  name: string;
+  manufacturer: string;
+  manufacturerPartId: string;
+  nameAtManufacturer: string;
+  businessPartner: string;
+  semanticModel?: SemanticModel;
+  semanticModelId: string;
+  qualityType: QualityType;
+  children: string[];
+  parents?: string[];
+  error?: boolean;
+  activeInvestigation?: boolean;
+  activeAlert: boolean;
+  van: string;
+  semanticDataModel: SemanticDataModel;
+  semanticDataModelInCamelCase?: SemanticDataModelInCamelCase;
+  classification: string;
+
+  mainAspectType: MainAspectType;
+
+  // aspectmodel props are temporarely hardcoded here because Tables and Views only accept root level prop array
+  // as built
+  partId?: string;
+  customerPartId?: string;
+  nameAtCustomer?: string;
+  manufacturingDate?: string;
+  manufacturingCountry?: string;
+
+  // as planned
+  validityPeriodFrom?: string;
+  validityPeriodTo?: string;
+  //partSiteInformationAsPlanned
+  catenaXSiteId: string;
+  psFunction: string;
+  functionValidFrom?: string;
+  functionValidUntil?: string;
+
+  // count of notifications
+  activeAlerts: number;
+  activeInvestigations: number;
+}
+
+export interface PartResponse {
+  id: string;
+  idShort: string;
+  semanticModelId: string;
+  manufacturerPartId: string;
+  businessPartner: string;
+  manufacturerName: string;
+  nameAtManufacturer: string;
+  owner: Owner;
+  childRelations: Relation[];
+  parentRelations: Relation[];
+  activeAlert: boolean;
+  underInvestigation: boolean;
+  qualityType: QualityType;
+  van: string;
+  semanticDataModel: SemanticDataModel;
+  classification: string;
+  detailAspectModels: DetailAspectModel[];
+
+  // TODO: Delete ? flag when AsPlanned Parts do not return the props anymore
+  qualityAlertsInStatusActive?: number;
+  qualityInvestigationsInStatusActive?: number;
+}
+
+export type PartsResponse = PaginationResponse<PartResponse>;

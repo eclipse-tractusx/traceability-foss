@@ -21,7 +21,7 @@
 
 import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { KnownUrl, NavigableUrls } from '@core/known-route';
+import { NavigableUrls } from '@core/known-route';
 import { filter } from 'rxjs/operators';
 
 @Component({

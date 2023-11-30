@@ -132,7 +132,7 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
 
     dialogRef?.componentInstance.deselectPart.subscribe(callback);
     if (dialogRef?.afterClosed) {
-      dialogRef.afterClosed().subscribe((part: Part) => {
+      dialogRef.afterClosed().subscribe((_part: Part) => {
         dialogRef.componentInstance.deselectPart.unsubscribe();
       });
     }
@@ -160,7 +160,7 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
   public onAsBuiltTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
     let pageSizeValue = this.DEFAULT_PAGE_SIZE;
     if (pageSize !== 0) {
-      pageSizeValue = pageSize
+      pageSizeValue = pageSize;
     }
     this.setTableSortingList(sorting, MainAspectType.AS_BUILT);
     this.otherPartsFacade.setSupplierPartsAsBuilt(page, pageSizeValue, this.tableSupplierAsBuiltSortList, toAssetFilter(this.assetAsBuiltFilter, true));
@@ -169,7 +169,7 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
   public onAsPlannedTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
     let pageSizeValue = this.DEFAULT_PAGE_SIZE;
     if (pageSize !== 0) {
-      pageSizeValue = pageSize
+      pageSizeValue = pageSize;
     }
     this.setTableSortingList(sorting, MainAspectType.AS_PLANNED);
     this.otherPartsFacade.setSupplierPartsAsPlanned(page, pageSizeValue, this.tableSupplierAsPlannedSortList, toAssetFilter(this.assetAsPlannedFilter, false));

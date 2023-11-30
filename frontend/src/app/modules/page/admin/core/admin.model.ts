@@ -27,6 +27,12 @@ export enum KnownAdminRouts {
   BPN = 'configure-bpn',
 }
 
+export enum RegistryLookupStatus {
+  SUCCESSFUL = 'SUCCESSFUL',
+  PARTIALLY_SUCCESS = 'PARTIALLY_SUCCESS',
+  ERROR = 'ERROR',
+}
+
 export interface RegistryProcess {
   startDate: CalendarDateModel;
   registryLookupStatus: RegistryLookupStatus;
@@ -43,12 +49,6 @@ export interface RegistryProcessResponse {
   failedShellDescriptorsFetchCount: number;
   shellDescriptorsFetchDelta: number;
   endDate: string; // ISO8601
-}
-
-export enum RegistryLookupStatus {
-  SUCCESSFUL = 'SUCCESSFUL',
-  PARTIALLY_SUCCESS = 'PARTIALLY_SUCCESS',
-  ERROR = 'ERROR',
 }
 
 export interface BpnConfigResponse {

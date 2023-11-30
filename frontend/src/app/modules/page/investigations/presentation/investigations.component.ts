@@ -67,7 +67,7 @@ export class InvestigationsComponent {
   public investigationsReceivedFilterConfiguration: any[];
   public investigationsQueuedAndRequestedFilterConfiguration: any[];
   private paramSubscription: Subscription;
-  private ctrlKeyState: boolean = false;
+  private ctrlKeyState = false;
   public DEFAULT_PAGE_SIZE = 50;
 
   private pagination: TableEventConfig = {

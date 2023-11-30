@@ -66,7 +66,7 @@ export class AlertDetailComponent implements AfterViewInit, OnDestroy {
   private selectedAlertTmpStore: Notification;
   public selectedAlert: Notification;
 
-  private paramSubscription: Subscription
+  private paramSubscription: Subscription;
 
   constructor(
     public readonly helperService: AlertHelperService,
@@ -85,7 +85,7 @@ export class AlertDetailComponent implements AfterViewInit, OnDestroy {
     this.paramSubscription = this.route.queryParams.subscribe(params => {
       this.originPageNumber = params.pageNumber;
       this.originTabIndex = params?.tabIndex;
-    })
+    });
 
   }
 

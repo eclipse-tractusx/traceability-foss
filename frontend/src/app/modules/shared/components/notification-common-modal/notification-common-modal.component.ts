@@ -64,11 +64,11 @@ export class NotificationCommonModalComponent {
 
 
   public handleModalConfirmActionCompletedEvent(): void {
-    this.confirmActionCompleted.emit()
+    this.confirmActionCompleted.emit();
   }
 
   public show(modalContext: string, notification?: Notification) {
-    let notificationToShow = notification || this.selectedNotification
+    const notificationToShow = notification || this.selectedNotification;
     switch (modalContext) {
       case 'approve': {
         this.approveModal.show(notificationToShow);

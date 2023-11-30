@@ -48,7 +48,6 @@ export class NotificationAssembler {
       severity: _severity,
       createdDate: _createdDate = '',
       createdBy: _createdBy = '',
-      createdByName: _createdByName = '',
       sendTo: _sendTo = '',
       sendToName: _sendToName = '',
       targetDate: _targetDate = '',
@@ -65,7 +64,7 @@ export class NotificationAssembler {
     const errorMessage = _errorMessage || undefined;
     const notificationType = myNotificationType || undefined;
 
-    let assembled = {
+    const assembled = {
       id,
       description,
       createdBy,
