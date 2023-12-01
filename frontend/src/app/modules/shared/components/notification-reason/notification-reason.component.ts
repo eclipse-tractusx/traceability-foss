@@ -21,14 +21,15 @@
 
 import { Component, Input } from '@angular/core';
 import { CalendarDateModel } from '@core/model/calendar-date.model';
-import { Notification, NotificationUser, NotificationStatus } from '@shared/model/notification.model';
+import { Notification, NotificationStatus } from '@shared/model/notification.model';
 
 type TextMessageDirection = 'left' | 'right';
 
 interface TextMessage {
   reason: string;
   direction: TextMessageDirection;
-  user: NotificationUser;
+  user: string;
+  bpn: string;
   status: NotificationStatus;
   date?: CalendarDateModel;
 }
@@ -48,7 +49,9 @@ export class NotificationReasonComponent {
                               isFromSender,
                               createdDate,
                               createdBy,
+                              createdByName,
                               sendTo,
+                              sendToName,
                             }: Notification) {
     const { ACCEPTED, SENT, CLOSED, CREATED, DECLINED } = NotificationStatus;
     const { accept, close, decline } = reason;
@@ -60,13 +63,30 @@ export class NotificationReasonComponent {
       reason: description,
       direction: senderDirection,
       user: createdBy,
+      bpn: createdByName,
       status: [ CREATED, SENT ].includes(status) ? status : SENT,
       date: createdDate,
     };
 
-    const acceptedMessage = { reason: accept, direction: receiverDirection, user: sendTo, status: ACCEPTED };
-    const declinedMessage = { reason: decline, direction: receiverDirection, user: sendTo, status: DECLINED };
-    const closedMessage = { reason: close, direction: senderDirection, user: createdBy, status: CLOSED };
+    const acceptedMessage = {
+        reason: accept, direction: receiverDirection, user: sendTo, bpn: sendToName, status:
+        ACCEPTED,
+      }
+    ;
+    const declinedMessage = {
+      reason: decline,
+      direction: receiverDirection,
+      user: sendTo,
+      bpn: sendToName,
+      status: DECLINED,
+    };
+    const closedMessage = {
+      reason: close,
+      direction: senderDirection,
+      user: createdBy,
+      bpn: createdByName,
+      status: CLOSED,
+    };
     this.textMessages = [ createdMessage, acceptedMessage, declinedMessage, closedMessage ];
   }
 }
