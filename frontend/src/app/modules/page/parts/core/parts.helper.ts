@@ -18,6 +18,8 @@
  ********************************************************************************/
 
 import { QueryList } from '@angular/core';
+import { Pagination } from '@core/model/pagination.model';
+import { Part } from '@page/parts/model/parts.model';
 import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
 
 export function resetMultiSelectionAutoCompleteComponent(partsTableComponents: QueryList<PartsTableComponent>, oneFilterSet: boolean): boolean {
@@ -32,4 +34,21 @@ export function resetMultiSelectionAutoCompleteComponent(partsTableComponents: Q
     }
   }
   return oneFilterSet;
+}
+
+export function provideDataObject(data: Pagination<Part>){
+  let usedData: Pagination<Part>;
+  if (!data.content?.length){
+    usedData = {
+      content: [],
+      page: 0,
+      pageCount: 0,
+      pageSize: 0,
+      totalItems: 0
+    };
+
+  } else {
+    usedData = data;
+  }
+  return usedData
 }
