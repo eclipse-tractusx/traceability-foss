@@ -15,6 +15,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Separation of auto complete mechanism (selected / searched elements)
 - Added new step definition for cucumber tests "I use assets with ids {string}" allowing to specify assets used for notification creation
 - Added BPN column to parts table
+- Emit change check to observables in frontend
 
 ### Changed
 - Filter configuration for tables to be resuable and easy to adapt
@@ -28,6 +29,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Cucumber test steps for creating notifications no longer support default assetId when no asset is provided with previous step
 - Upgraded the Upload_Testdata job in Argo Workflow to fix bugs
 - Auto format for frontend source code applied
+- Default pagination size to 50.
 - Split up bpn column in notification table views to show bpn and name separately
 - Changed detailed part view action from clicking on list item to a menu action column
 

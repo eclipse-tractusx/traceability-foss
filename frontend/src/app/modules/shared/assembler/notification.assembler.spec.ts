@@ -31,7 +31,7 @@ import { NotificationAssembler } from './notification.assembler';
 
 describe('InvestigationsAssembler', () => {
   it('should handle null response', () => {
-    const emptyPage = { content: [], page: 0, pageCount: 0, pageSize: 0, totalItems: 0 };
+    const emptyPage = { content: [], page: 0, pageCount: 0, pageSize: 50, totalItems: 0 };
     expect(NotificationAssembler.assembleNotifications(null, NotificationType.INVESTIGATION)).toEqual(emptyPage);
     expect(NotificationAssembler.assembleNotifications(undefined, NotificationType.INVESTIGATION)).toEqual(emptyPage);
   });
