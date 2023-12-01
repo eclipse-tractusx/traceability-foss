@@ -25,10 +25,11 @@ export class PartsAsPlannedSupplierConfigurationModel extends TableFilterConfigu
       select: false,
       semanticDataModel: true,
       nameAtManufacturer: true,
+      businessPartner: true,
       manufacturerName: true,
       manufacturerPartId: true,
       semanticModelId: true,
-      //menu: false
+      menu: false,
     };
     super(sortableColumns);
   }
