@@ -86,8 +86,10 @@ export interface Notification {
   severity: Severity | null;
 
   createdDate: CalendarDateModel;
-  createdBy: NotificationUser;
-  sendTo: NotificationUser;
+  createdBy: string;
+  createdByName: string;
+  sendTo: string;
+  sendToName: string;
   reason: NotificationReason;
   assetIds: string[];
   isFromSender: boolean;

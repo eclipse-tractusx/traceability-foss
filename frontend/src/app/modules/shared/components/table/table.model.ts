@@ -43,7 +43,7 @@ export enum PartTableType {
   AS_PLANNED_CUSTOMER = 'AS_PLANNED_CUSTOMER'
 }
 
-export type DisplayColumns<T> = 'select' | 'menu' | T;
+export type DisplayColumns<T> = 'select' | 'menu' | 'sendToName' | 'createdByName' | T;
 
 export const CreateHeaderFromColumns = (columns: string[], headerKey: string): Record<string, string> => {
   return columns.reduce((header, column) => ({ ...header, [column]: `${ headerKey }.${ column }` }), {});
