@@ -97,7 +97,6 @@ export class TableSettingsComponent {
       columnsForTable: newTableColumns,
       filterColumnsForTable: newTableFilterColumns,
     } as TableViewSettings;
-    console.log(tableSettingsList[this.tableType]);
     // save all values back to localstorage
     this.tableSettingsService.storeTableSettings(tableSettingsList);
 
