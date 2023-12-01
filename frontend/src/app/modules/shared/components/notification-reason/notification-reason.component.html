@@ -27,8 +27,8 @@ SPDX-License-Identifier: Apache-2.0
 <ng-template #chatBubble let-message="message">
   <ng-container *ngIf="message.reason">
     <div class="message--separator"></div>
-    <p class="message--username__{{ message.direction }}" title="{{ message.user.name }} | {{ message.user.bpn }}">
-      {{ message.user.name || message.user.bpn }}
+    <p class="message--username__{{ message.direction }}" title="{{ message.user }} | {{ message.bpn }}">
+      {{ message.user || message.bpn }}
     </p>
     <div class="message--text message--text__{{ message.direction }} message--text-arrow__{{ message.direction }}">
       <p>{{ message.reason }}</p>

@@ -65,8 +65,10 @@ describe('NotificationMenuActionsAssembler', () => {
     const notificationTemplate: Notification = {
       id: 'id-1',
       description: 'Investigation No 1',
-      createdBy: { name: 'OEM xxxxxxxxxxxxxxx A', bpn: 'BPN10000000OEM0A' },
-      sendTo: { name: 'OEM xxxxxxxxxxxxxxx B', bpn: 'BPN20000000OEM0B' },
+      createdBy: '',
+      createdByName: '',
+      sendTo: '',
+      sendToName: '',
       reason: { close: '', accept: '', decline: '' },
       isFromSender: true,
       assetIds: [ 'MOCK_part_1' ],
