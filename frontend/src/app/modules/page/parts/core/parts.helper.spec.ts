@@ -72,7 +72,7 @@ describe('PartsHelper', () => {
     });
   });
 
-  it('should reset multiSelectAutocompleteComponents and set oneFilterSet to true if filterFormGroup is dirty', () => {
+  it('should handle default pagination', () => {
 
     let data: Pagination<Part> = {
       content: [],
