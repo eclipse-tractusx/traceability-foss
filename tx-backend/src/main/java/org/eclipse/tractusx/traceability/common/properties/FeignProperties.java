@@ -23,34 +23,34 @@ package org.eclipse.tractusx.traceability.common.properties;
 
 public class FeignProperties {
 
-	private final Long connectionTimeoutMillis;
-	private final Long readTimeoutMillis;
-	private final int maxIdleConnections;
-	private final Long keepAliveDurationMinutes;
+    private final Long connectionTimeoutMillis;
+    private final Long readTimeoutMillis;
+    private final int maxIdleConnections;
+    private final Long keepAliveDurationMinutes;
 
-	public FeignProperties(Long connectionTimeoutMillis,
-						   Long readTimeoutMillis,
-						   int maxIdleConnections,
-						   Long keepAliveDurationMinutes) {
-		this.connectionTimeoutMillis = connectionTimeoutMillis;
-		this.readTimeoutMillis = readTimeoutMillis;
-		this.maxIdleConnections = maxIdleConnections;
-		this.keepAliveDurationMinutes = keepAliveDurationMinutes;
-	}
+    public FeignProperties(Long connectionTimeoutMillis,
+                           Long readTimeoutMillis,
+                           int maxIdleConnections,
+                           Long keepAliveDurationMinutes) {
+        this.connectionTimeoutMillis = connectionTimeoutMillis;
+        this.readTimeoutMillis = readTimeoutMillis;
+        this.maxIdleConnections = maxIdleConnections;
+        this.keepAliveDurationMinutes = keepAliveDurationMinutes;
+    }
 
-	public Long getConnectionTimeoutMillis() {
-		return connectionTimeoutMillis;
-	}
+    public Long getConnectionTimeoutMillis() {
+        return connectionTimeoutMillis;
+    }
 
-	public Long getReadTimeoutMillis() {
-		return readTimeoutMillis;
-	}
+    public Long getReadTimeoutMillis() {
+        return readTimeoutMillis;
+    }
 
-	public int getMaxIdleConnections() {
-		return maxIdleConnections;
-	}
+    public int getMaxIdleConnections() {
+        return maxIdleConnections;
+    }
 
-	public Long getKeepAliveDurationMinutes() {
-		return keepAliveDurationMinutes;
-	}
+    public Long getKeepAliveDurationMinutes() {
+        return keepAliveDurationMinutes;
+    }
 }

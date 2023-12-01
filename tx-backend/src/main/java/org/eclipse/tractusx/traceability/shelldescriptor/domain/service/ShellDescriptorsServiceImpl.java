@@ -83,7 +83,7 @@ public class ShellDescriptorsServiceImpl implements ShellDescriptorService {
 
     }
 
-    private void persistDescriptor(ShellDescriptor shellDescriptor){
+    private void persistDescriptor(ShellDescriptor shellDescriptor) {
         try {
             shellDescriptorRepository.save(shellDescriptor);
         } catch (DataIntegrityViolationException exception) {
@@ -93,13 +93,13 @@ public class ShellDescriptorsServiceImpl implements ShellDescriptorService {
 
     @Override
     @Transactional
-    public void deleteAll(){
+    public void deleteAll() {
         shellDescriptorRepository.deleteAll();
     }
 
     @Override
     @Transactional
-    public List<ShellDescriptor> findAll(){
+    public List<ShellDescriptor> findAll() {
         return shellDescriptorRepository.findAll();
     }
 }

@@ -19,113 +19,111 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {
-    FormatPartlistSemanticDataModelToCamelCasePipe
-} from '@shared/pipes/format-partlist-semantic-data-model-to-camelcase.pipe';
-import {Injectable} from '@angular/core';
-import {InvestigationDetailState} from '@page/investigations/core/investigation-detail.state';
-import {Part} from '@page/parts/model/parts.model';
-import {Notification} from '@shared/model/notification.model';
-import {View} from '@shared/model/view.model';
-import {PartsService} from '@shared/service/parts.service';
-import {Observable, of, Subscription} from 'rxjs';
-import {filter, map, switchMap} from 'rxjs/operators';
-import {SortDirection} from '../../../../mocks/services/pagination.helper';
+import { Injectable } from '@angular/core';
+import { InvestigationDetailState } from '@page/investigations/core/investigation-detail.state';
+import { Part } from '@page/parts/model/parts.model';
+import { Notification } from '@shared/model/notification.model';
+import { View } from '@shared/model/view.model';
+import { FormatPartlistSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-partlist-semantic-data-model-to-camelcase.pipe';
+import { PartsService } from '@shared/service/parts.service';
+import { Observable, of, Subscription } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
+import { SortDirection } from '../../../../mocks/services/pagination.helper';
 
 @Injectable()
 export class InvestigationDetailFacade {
-    private notificationPartsInformationDescription: Subscription;
-    private supplierPartsSubscription: Subscription;
+  private notificationPartsInformationDescription: Subscription;
+  private supplierPartsSubscription: Subscription;
 
-    constructor(
-        private readonly partsService: PartsService,
-        private readonly investigationDetailState: InvestigationDetailState,
-        private readonly formatPartlistSemanticDataModelToCamelCasePipe: FormatPartlistSemanticDataModelToCamelCasePipe,
-    ) {
+  constructor(
+    private readonly partsService: PartsService,
+    private readonly investigationDetailState: InvestigationDetailState,
+    private readonly formatPartlistSemanticDataModelToCamelCasePipe: FormatPartlistSemanticDataModelToCamelCasePipe,
+  ) {
+  }
+
+  public get notificationPartsInformation$(): Observable<View<Part[]>> {
+    return this.investigationDetailState.investigationPartsInformation$;
+  }
+
+  public get supplierPartsInformation$(): Observable<View<Part[]>> {
+    return this.investigationDetailState.supplierPartsInformation$;
+  }
+
+  public get selected$(): Observable<View<Notification>> {
+    return this.investigationDetailState.selected$;
+  }
+
+  public set selected(selectedInvestigation: View<Notification>) {
+    this.investigationDetailState.selected = selectedInvestigation;
+  }
+
+  public get selected(): View<Notification> {
+    return this.investigationDetailState.selected;
+  }
+
+  public setInvestigationPartsInformation(notification: Notification): void {
+    this.notificationPartsInformationDescription?.unsubscribe();
+    this.investigationDetailState.investigationPartsInformation = { loader: true };
+
+    if (!notification.assetIds.length) {
+      this.investigationDetailState.investigationPartsInformation = { data: [] };
+      return;
     }
 
-    public get notificationPartsInformation$(): Observable<View<Part[]>> {
-        return this.investigationDetailState.investigationPartsInformation$;
-    }
+    this.notificationPartsInformationDescription = this.partsService
+      .getPartDetailOfIds(notification.assetIds)
+      .subscribe({
+        next: data => {
+          this.formatPartlistSemanticDataModelToCamelCasePipe.transform(data);
+          this.investigationDetailState.investigationPartsInformation = { data };
+        },
+        error: error => (this.investigationDetailState.investigationPartsInformation = { error }),
+      });
+  }
 
-    public get supplierPartsInformation$(): Observable<View<Part[]>> {
-        return this.investigationDetailState.supplierPartsInformation$;
-    }
+  public setAndSupplierPartsInformation(): void {
+    this.supplierPartsSubscription?.unsubscribe();
+    this.investigationDetailState.supplierPartsInformation = { loader: true };
 
-    public get selected$(): Observable<View<Notification>> {
-        return this.investigationDetailState.selected$;
-    }
+    this.supplierPartsSubscription = this.investigationDetailState.investigationPartsInformation$
+      .pipe(
+        filter(view => !!view.data),
+        map(({ data }) => this.getIdsFromPartList(data)),
+        switchMap(partIds => (!!partIds && !!partIds.length ? this.partsService.getPartDetailOfIds(partIds) : of([]))),
+      )
+      .subscribe({
+        next: data => {
+          this.formatPartlistSemanticDataModelToCamelCasePipe.transform(data);
+          this.investigationDetailState.supplierPartsInformation = { data };
+        },
+        error: error => (this.investigationDetailState.supplierPartsInformation = { error }),
+      });
+  }
 
-    public set selected(selectedInvestigation: View<Notification>) {
-        this.investigationDetailState.selected = selectedInvestigation;
-    }
+  public sortNotificationParts(key: string, direction: SortDirection): void {
+    const { data } = this.investigationDetailState.investigationPartsInformation;
+    if (!data) return;
 
-    public get selected(): View<Notification> {
-        return this.investigationDetailState.selected;
-    }
+    const sortedData = this.partsService.sortParts(data, key, direction);
+    this.investigationDetailState.investigationPartsInformation = { data: [ ...sortedData ] };
+  }
 
-    public setInvestigationPartsInformation(notification: Notification): void {
-        this.notificationPartsInformationDescription?.unsubscribe();
-        this.investigationDetailState.investigationPartsInformation = {loader: true};
+  public sortSupplierParts(key: string, direction: SortDirection): void {
+    const { data } = this.investigationDetailState.supplierPartsInformation;
+    if (!data) return;
 
-        if (!notification.assetIds.length) {
-            this.investigationDetailState.investigationPartsInformation = {data: []};
-            return;
-        }
+    const sortedData = this.partsService.sortParts(data, key, direction);
+    this.investigationDetailState.supplierPartsInformation = { data: [ ...sortedData ] };
+  }
 
-        this.notificationPartsInformationDescription = this.partsService
-            .getPartDetailOfIds(notification.assetIds)
-            .subscribe({
-                next: data => {
-                    this.formatPartlistSemanticDataModelToCamelCasePipe.transform(data);
-                    this.investigationDetailState.investigationPartsInformation = {data};
-                },
-                error: error => (this.investigationDetailState.investigationPartsInformation = {error}),
-            });
-    }
+  public unsubscribeSubscriptions(): void {
+    this.notificationPartsInformationDescription?.unsubscribe();
+    this.supplierPartsSubscription?.unsubscribe();
+  }
 
-    public setAndSupplierPartsInformation(): void {
-        this.supplierPartsSubscription?.unsubscribe();
-        this.investigationDetailState.supplierPartsInformation = {loader: true};
-
-        this.supplierPartsSubscription = this.investigationDetailState.investigationPartsInformation$
-            .pipe(
-                filter(view => !!view.data),
-                map(({data}) => this.getIdsFromPartList(data)),
-                switchMap(partIds => (!!partIds && !!partIds.length ? this.partsService.getPartDetailOfIds(partIds) : of([]))),
-            )
-            .subscribe({
-                next: data => {
-                    this.formatPartlistSemanticDataModelToCamelCasePipe.transform(data);
-                    this.investigationDetailState.supplierPartsInformation = {data};
-                },
-                error: error => (this.investigationDetailState.supplierPartsInformation = {error}),
-            });
-    }
-
-    public sortNotificationParts(key: string, direction: SortDirection): void {
-        const {data} = this.investigationDetailState.investigationPartsInformation;
-        if (!data) return;
-
-        const sortedData = this.partsService.sortParts(data, key, direction);
-        this.investigationDetailState.investigationPartsInformation = {data: [...sortedData]};
-    }
-
-    public sortSupplierParts(key: string, direction: SortDirection): void {
-        const {data} = this.investigationDetailState.supplierPartsInformation;
-        if (!data) return;
-
-        const sortedData = this.partsService.sortParts(data, key, direction);
-        this.investigationDetailState.supplierPartsInformation = {data: [...sortedData]};
-    }
-
-    public unsubscribeSubscriptions(): void {
-        this.notificationPartsInformationDescription?.unsubscribe();
-        this.supplierPartsSubscription?.unsubscribe();
-    }
-
-    private getIdsFromPartList(parts: Part[]): string[] {
-        const childIds = parts.map(part => part.children).reduce((p, c) => [...p, ...c], []);
-        return [...new Set(childIds)];
-    }
+  private getIdsFromPartList(parts: Part[]): string[] {
+    const childIds = parts.map(part => part.children).reduce((p, c) => [ ...p, ...c ], []);
+    return [ ...new Set(childIds) ];
+  }
 }

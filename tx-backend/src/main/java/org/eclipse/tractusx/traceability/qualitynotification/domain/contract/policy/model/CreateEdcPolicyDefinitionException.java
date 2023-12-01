@@ -22,11 +22,11 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.contract.po
 
 public class CreateEdcPolicyDefinitionException extends RuntimeException {
 
-	public CreateEdcPolicyDefinitionException(String message) {
-		super(message);
-	}
+    public CreateEdcPolicyDefinitionException(String message) {
+        super(message);
+    }
 
-	public CreateEdcPolicyDefinitionException(Throwable cause) {
-		super(cause);
-	}
+    public CreateEdcPolicyDefinitionException(Throwable cause) {
+        super(cause);
+    }
 }

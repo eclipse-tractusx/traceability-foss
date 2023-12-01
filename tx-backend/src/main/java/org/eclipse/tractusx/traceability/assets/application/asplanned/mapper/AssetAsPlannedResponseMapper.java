@@ -62,7 +62,6 @@ public class AssetAsPlannedResponseMapper extends AssetBaseResponseMapper {
     }
 
 
-
     public static PageResult<AssetAsPlannedResponse> from(final PageResult<AssetBase> assetPageResult) {
         return new PageResult<>(
                 assetPageResult.content().stream()

@@ -295,6 +295,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .statusCode(404)
                 .body("message", Matchers.is("Alert not found for 1234 id"));
     }
+
     @Test
     void shouldReturnInvestigationById() throws JoseException {
         // given

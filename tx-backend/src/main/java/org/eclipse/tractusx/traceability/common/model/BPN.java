@@ -25,18 +25,18 @@ import org.springframework.util.StringUtils;
 
 public record BPN(String value) {
 
-	public BPN {
-		if (!StringUtils.hasText(value)) {
-			throw new IllegalArgumentException("BPN must be present");
-		}
-	}
+    public BPN {
+        if (!StringUtils.hasText(value)) {
+            throw new IllegalArgumentException("BPN must be present");
+        }
+    }
 
-	public static BPN of(String value) {
-		return new BPN(value);
-	}
+    public static BPN of(String value) {
+        return new BPN(value);
+    }
 
-	@Override
-	public String toString() {
-		return value;
-	}
+    @Override
+    public String toString() {
+        return value;
+    }
 }

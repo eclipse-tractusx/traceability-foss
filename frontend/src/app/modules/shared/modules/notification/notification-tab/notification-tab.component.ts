@@ -20,13 +20,13 @@
  ********************************************************************************/
 
 import { AfterViewInit, Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
-import { InvestigationsType } from '@page/investigations/core/investigationsType.enum';
 import {
   CreateHeaderFromColumns,
   DisplayColumns,
-  MenuActionConfig, PartTableType,
+  MenuActionConfig,
   TableConfig,
-  TableEventConfig, TableHeaderSort,
+  TableEventConfig,
+  TableHeaderSort,
 } from '@shared/components/table/table.model';
 import { Notification, Notifications, NotificationType } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
@@ -43,7 +43,7 @@ export class NotificationTabComponent implements AfterViewInit {
   @Input() hasPagination = true;
   @Input() translationContext: 'commonInvestigation' | 'commonAlert';
   @Input() menuActionsConfig: MenuActionConfig<Notification>[];
-  @Input() optionalColumns: Array<'targetDate' | 'severity' | 'createdBy' | 'sendTo'> = [];
+  @Input() optionalColumns: Array<'targetDate' | 'severity' | 'createdBy' | 'sendTo' | 'sendToName' | 'createdByName'> = [];
   @Input() sortableColumns: Record<string, boolean> = {};
   @Input() multiSortList: TableHeaderSort[] = [];
   @Input() notificationType = NotificationType.INVESTIGATION;
@@ -56,6 +56,7 @@ export class NotificationTabComponent implements AfterViewInit {
   @ViewChild('descriptionTmp') descriptionTemplate: TemplateRef<unknown>;
   @ViewChild('targetDateTmp') targetDateTemplate: TemplateRef<unknown>;
   @ViewChild('userTmp') userTemplate: TemplateRef<unknown>;
+  @ViewChild('bpnTmp') bpnTemplate: TemplateRef<unknown>
 
 
   public tableConfig: TableConfig<keyof Notification>;
@@ -77,8 +78,10 @@ export class NotificationTabComponent implements AfterViewInit {
         severity: this.severityTemplate,
         description: this.descriptionTemplate,
         targetDate: this.targetDateTemplate,
-        createdBy: this.userTemplate,
-        sendTo: this.userTemplate,
+        createdBy: this.bpnTemplate,
+        sendToName: this.userTemplate,
+        createdByName: this.userTemplate,
+        sendTo: this.bpnTemplate,
       },
     };
 

@@ -22,11 +22,11 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.contract.as
 
 public class CreateEdcAssetException extends RuntimeException {
 
-	public CreateEdcAssetException(String message) {
-		super(message);
-	}
+    public CreateEdcAssetException(String message) {
+        super(message);
+    }
 
-	public CreateEdcAssetException(Throwable cause) {
-		super(cause);
-	}
+    public CreateEdcAssetException(Throwable cause) {
+        super(cause);
+    }
 }
