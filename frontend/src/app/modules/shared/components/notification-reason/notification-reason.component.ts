@@ -62,29 +62,29 @@ export class NotificationReasonComponent {
     const createdMessage = {
       reason: description,
       direction: senderDirection,
-      user: createdBy,
-      bpn: createdByName,
+      user: createdByName,
+      bpn: createdBy,
       status: [ CREATED, SENT ].includes(status) ? status : SENT,
       date: createdDate,
     };
 
     const acceptedMessage = {
-        reason: accept, direction: receiverDirection, user: sendTo, bpn: sendToName, status:
+        reason: accept, direction: receiverDirection, user: sendToName, bpn: sendTo, status:
         ACCEPTED,
       }
     ;
     const declinedMessage = {
       reason: decline,
       direction: receiverDirection,
-      user: sendTo,
-      bpn: sendToName,
+      user: sendToName,
+      bpn: sendTo,
       status: DECLINED,
     };
     const closedMessage = {
       reason: close,
       direction: senderDirection,
-      user: createdBy,
-      bpn: createdByName,
+      user: createdByName,
+      bpn: createdBy,
       status: CLOSED,
     };
     this.textMessages = [ createdMessage, acceptedMessage, declinedMessage, closedMessage ];
