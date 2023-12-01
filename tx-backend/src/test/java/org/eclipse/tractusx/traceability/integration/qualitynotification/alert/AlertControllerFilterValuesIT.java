@@ -95,6 +95,60 @@ class AlertControllerFilterValuesIT extends IntegrationTestSpecification {
     }
 
     @Test
+    void givenDescriptionFieldStartWithAndReceiver_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+        // given
+        alertNotificationsSupport.defaultAlertsStored();
+        final String fieldName = "description";
+        final Integer size = 200;
+        final String startWith = "1";
+        final String channel = "RECEIVER";
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .param("fieldName", fieldName)
+                .param("size", size)
+                .param("startWith", startWith)
+                .param("channel", channel)
+                .get("/api/alerts/distinctFilterValues")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .assertThat()
+                .body(".", Matchers.containsInRelativeOrder(List.of("11").toArray()));
+    }
+
+    @Test
+    void givenDescriptionFieldStartWithAndSender_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+        // given
+        alertNotificationsSupport.defaultAlertsStored();
+        final String fieldName = "description";
+        final Integer size = 200;
+        final String startWith = "1";
+        final String channel = "SENDER";
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .param("fieldName", fieldName)
+                .param("size", size)
+                .param("startWith", startWith)
+                .param("channel", channel)
+                .get("/api/alerts/distinctFilterValues")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .assertThat()
+                .body(".", Matchers.containsInRelativeOrder(List.of("1").toArray()));
+    }
+
+    @Test
     void givenBpnField_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
         // given
         alertNotificationsSupport.defaultAlertsStored();
@@ -109,6 +163,56 @@ class AlertControllerFilterValuesIT extends IntegrationTestSpecification {
                 .when()
                 .param("fieldName", fieldName)
                 .param("size", size)
+                .get("/api/alerts/distinctFilterValues")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .assertThat()
+                .body(".", Matchers.containsInRelativeOrder(List.of("BPNL00000001OWN", "BPNL00000002OTHER").toArray()));
+    }
+
+    @Test
+    void givenBpnFieldStartWithCaseInsensitive1_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+        // given
+        alertNotificationsSupport.defaultAlertsStored();
+        final String fieldName = "bpn";
+        final Integer size = 200;
+        final String startWith = "bpnl";
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .param("fieldName", fieldName)
+                .param("size", size)
+                .param("startWith", startWith)
+                .get("/api/alerts/distinctFilterValues")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .assertThat()
+                .body(".", Matchers.containsInRelativeOrder(List.of("BPNL00000001OWN", "BPNL00000002OTHER").toArray()));
+    }
+
+    @Test
+    void givenBpnFieldStartWithCaseInsensitive2_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+        // given
+        alertNotificationsSupport.defaultAlertsStored();
+        final String fieldName = "bpn";
+        final Integer size = 200;
+        final String startWith = "bpNl";
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .param("fieldName", fieldName)
+                .param("size", size)
+                .param("startWith", startWith)
                 .get("/api/alerts/distinctFilterValues")
                 .then()
                 .log().all()
@@ -149,7 +253,7 @@ class AlertControllerFilterValuesIT extends IntegrationTestSpecification {
                         "2023-10-13 10:10:10").toArray()));
     }
 
-    //    @Test
+    @Test
     void givenCreatedByField_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
         // given
         alertNotificationsSupport.defaultAlertsStored();
@@ -170,6 +274,56 @@ class AlertControllerFilterValuesIT extends IntegrationTestSpecification {
                 .statusCode(200)
                 .assertThat()
                 .body(".", Matchers.containsInRelativeOrder(List.of("BPNL00000001OWN", "BPNL00000002OTHER").toArray()));
+    }
+
+    @Test
+    void givenCreatedByFieldAndSender_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+        // given
+        alertNotificationsSupport.defaultAlertsStored();
+        final String fieldName = "createdBy";
+        Integer size = 200;
+        final String channel = "SENDER";
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .param("fieldName", fieldName)
+                .param("size", size)
+                .param("channel", channel)
+                .get("/api/alerts/distinctFilterValues")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .assertThat()
+                .body(".", Matchers.containsInRelativeOrder(List.of("BPNL00000001OWN", "BPNL00000002OTHER").toArray()));
+    }
+
+    @Test
+    void givenCreatedByFieldAndReceiver_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+        // given
+        alertNotificationsSupport.defaultAlertsStored();
+        final String fieldName = "createdBy";
+        Integer size = 200;
+        final String channel = "RECEIVER";
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .param("fieldName", fieldName)
+                .param("size", size)
+                .param("channel", channel)
+                .get("/api/alerts/distinctFilterValues")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .assertThat()
+                .body(".", Matchers.containsInRelativeOrder(List.of("BPNL00000002OTHER").toArray()));
     }
 
     @ParameterizedTest

@@ -301,6 +301,7 @@ public class InvestigationNotificationsSupport {
                         .builder()
                         .id("11")
                         .investigation(investigation1)
+                        .createdBy(OTHER_BPN)
                         .status(NotificationStatusBaseEntity.RECEIVED)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a11")
                         .build(),
@@ -308,6 +309,7 @@ public class InvestigationNotificationsSupport {
                         .builder()
                         .id("22")
                         .investigation(investigation2)
+                        .createdBy(OTHER_BPN)
                         .status(NotificationStatusBaseEntity.ACKNOWLEDGED)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a22")
                         .build(),
@@ -315,6 +317,7 @@ public class InvestigationNotificationsSupport {
                         .builder()
                         .id("33")
                         .investigation(investigation3)
+                        .createdBy(OTHER_BPN)
                         .status(NotificationStatusBaseEntity.ACCEPTED)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a33")
                         .build(),
@@ -322,6 +325,7 @@ public class InvestigationNotificationsSupport {
                         .builder()
                         .id("44")
                         .investigation(investigation4)
+                        .createdBy(OTHER_BPN)
                         .status(NotificationStatusBaseEntity.DECLINED)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a44")
                         .build(),
@@ -336,6 +340,7 @@ public class InvestigationNotificationsSupport {
                         .builder()
                         .id("66")
                         .investigation(investigation6)
+                        .createdBy(OTHER_BPN)
                         .status(NotificationStatusBaseEntity.CLOSED)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a66")
                         .build()

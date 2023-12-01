@@ -294,6 +294,7 @@ public class AlertNotificationsSupport {
                         .builder()
                         .id("11")
                         .alert(alert1)
+                        .createdBy(OTHER_BPN)
                         .status(NotificationStatusBaseEntity.RECEIVED)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a11")
                         .build(),
@@ -301,6 +302,7 @@ public class AlertNotificationsSupport {
                         .builder()
                         .id("22")
                         .alert(alert2)
+                        .createdBy(OTHER_BPN)
                         .status(NotificationStatusBaseEntity.ACKNOWLEDGED)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a22")
                         .build(),
@@ -308,6 +310,7 @@ public class AlertNotificationsSupport {
                         .builder()
                         .id("33")
                         .alert(alert3)
+                        .createdBy(OTHER_BPN)
                         .status(NotificationStatusBaseEntity.ACCEPTED)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a33")
                         .build(),
@@ -315,6 +318,7 @@ public class AlertNotificationsSupport {
                         .builder()
                         .id("44")
                         .alert(alert4)
+                        .createdBy(OTHER_BPN)
                         .status(NotificationStatusBaseEntity.DECLINED)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a44")
                         .build(),
@@ -322,6 +326,7 @@ public class AlertNotificationsSupport {
                         .builder()
                         .id("55")
                         .alert(alert5)
+                        .createdBy(OTHER_BPN)
                         .status(NotificationStatusBaseEntity.CANCELED)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a55")
                         .build(),
@@ -329,6 +334,7 @@ public class AlertNotificationsSupport {
                         .builder()
                         .id("66")
                         .alert(alert6)
+                        .createdBy(OTHER_BPN)
                         .status(NotificationStatusBaseEntity.CLOSED)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a66")
                         .build()
