@@ -25,8 +25,8 @@ export class PartsAsBuiltConfigurationModel extends TableFilterConfiguration {
       id: true,
       idShort: true,
       nameAtManufacturer: true,
+      businessPartner: true,
       manufacturerName: true,
-      partId: true,
       manufacturerPartId: true,
       customerPartId: true,
       classification: true,
@@ -39,7 +39,7 @@ export class PartsAsBuiltConfigurationModel extends TableFilterConfiguration {
       receivedActiveInvestigations: true,
       sentActiveAlerts: true,
       sentActiveInvestigations: true,
-      // menu: false
+      menu: false,
     };
 
     const dateFields = [ 'manufacturingDate' ];
