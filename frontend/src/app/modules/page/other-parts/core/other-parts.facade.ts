@@ -23,6 +23,7 @@ import { Injectable } from '@angular/core';
 import { Pagination } from '@core/model/pagination.model';
 import { OtherPartsService } from '@page/other-parts/core/other-parts.service';
 import { OtherPartsState } from '@page/other-parts/core/other-parts.state';
+import { provideDataObject } from '@page/parts/core/parts.helper';
 import { Owner } from '@page/parts/model/owner.enum';
 import { AssetAsBuiltFilter, AssetAsPlannedFilter, Part } from '@page/parts/model/parts.model';
 import { TableHeaderSort } from '@shared/components/table/table.model';
@@ -63,7 +64,7 @@ export class OtherPartsFacade {
   public setCustomerPartsAsBuilt(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: AssetAsBuiltFilter, isOrSearch?: boolean): void {
     this.customerPartsAsBuiltSubscription?.unsubscribe();
     this.customerPartsAsBuiltSubscription = this.otherPartsService.getOtherPartsAsBuilt(page, pageSize, sorting, Owner.CUSTOMER, filter, isOrSearch).subscribe({
-      next: data => (this.otherPartsState.customerPartsAsBuilt = { data }),
+      next: data => (this.otherPartsState.customerPartsAsBuilt = { data: provideDataObject(data) }),
       error: error => (this.otherPartsState.customerPartsAsBuilt = { error }),
     });
   }
@@ -71,21 +72,15 @@ export class OtherPartsFacade {
   public setCustomerPartsAsPlanned(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: AssetAsPlannedFilter, isOrSearch?: boolean): void {
     this.customerPartsAsPlannedSubscription?.unsubscribe();
     this.customerPartsAsPlannedSubscription = this.otherPartsService.getOtherPartsAsPlanned(page, pageSize, sorting, Owner.CUSTOMER, filter, isOrSearch).subscribe({
-      next: data => {
-        const usedData = this.provideDataObject(data);
-        this.otherPartsState.customerPartsAsPlanned = { data: usedData };
-      },
-      error: error => {
-        console.error('Error occurred:', error);
-        this.otherPartsState.customerPartsAsPlanned = { error };
-      },
+      next: data => {  this.otherPartsState.customerPartsAsPlanned = { data: provideDataObject(data) }},
+      error: error => {this.otherPartsState.customerPartsAsPlanned = { error }},
     });
   }
 
   public setSupplierPartsAsBuilt(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: AssetAsBuiltFilter, isOrSearch?: boolean): void {
     this.supplierPartsAsBuiltSubscription?.unsubscribe();
     this.supplierPartsAsBuiltSubscription = this.otherPartsService.getOtherPartsAsBuilt(page, pageSize, sorting, Owner.SUPPLIER, filter, isOrSearch).subscribe({
-      next: data => (this.otherPartsState.supplierPartsAsBuilt = { data: this.provideDataObject(data) }),
+      next: data => (this.otherPartsState.supplierPartsAsBuilt = { data: provideDataObject(data) }),
       error: error => (this.otherPartsState.supplierPartsAsBuilt = { error }),
     });
   }
@@ -93,26 +88,9 @@ export class OtherPartsFacade {
   public setSupplierPartsAsPlanned(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: AssetAsPlannedFilter, isOrSearch?: boolean): void {
     this.supplierPartsAsPlannedSubscription?.unsubscribe();
     this.supplierPartsAsPlannedSubscription = this.otherPartsService.getOtherPartsAsPlanned(page, pageSize, sorting, Owner.SUPPLIER, filter, isOrSearch).subscribe({
-      next: data => (this.otherPartsState.supplierPartsAsPlanned = { data }),
+      next: data => (this.otherPartsState.supplierPartsAsPlanned = { data: provideDataObject(data) }),
       error: error => (this.otherPartsState.supplierPartsAsPlanned = { error }),
     });
-  }
-
-  private provideDataObject(data: Pagination<Part>){
-    let usedData: Pagination<Part>;
-    if (!data.content?.length){
-      usedData = {
-        content: [],
-        page: 0,
-        pageCount: 0,
-        pageSize: 0,
-        totalItems: 0
-      };
-
-    } else {
-      usedData = data;
-    }
-    return usedData
   }
 
   public unsubscribeParts(): void {

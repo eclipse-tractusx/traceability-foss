@@ -18,10 +18,12 @@
  ********************************************************************************/
 
 import { QueryList } from '@angular/core';
-import { resetMultiSelectionAutoCompleteComponent } from '@page/parts/core/parts.helper';
+import { Pagination } from '@core/model/pagination.model';
+import { provideDataObject, resetMultiSelectionAutoCompleteComponent } from '@page/parts/core/parts.helper';
+import { Part } from '@page/parts/model/parts.model';
 import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
 
-describe('resetMultiSelectionAutoCompleteComponent', () => {
+describe('PartsHelper', () => {
   it('should reset multiSelectAutocompleteComponents and set oneFilterSet to true if filterFormGroup is dirty', () => {
     // Arrange
 
@@ -69,4 +71,18 @@ describe('resetMultiSelectionAutoCompleteComponent', () => {
       });
     });
   });
+
+  it('should reset multiSelectAutocompleteComponents and set oneFilterSet to true if filterFormGroup is dirty', () => {
+
+    let data: Pagination<Part> = {
+      content: [],
+      page: 0,
+      pageCount: 0,
+      pageSize: 0,
+      totalItems: 0
+    };
+
+    const actual = provideDataObject(data);
+    expect(actual).toEqual(data);
+  })
 });
