@@ -35,12 +35,17 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { Pagination } from '@core/model/pagination.model';
 import { TableSettingsService } from '@core/user/table-settings.service';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import {
-  MultiSelectAutocompleteComponent,
-} from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
+import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
+import { PartsAsBuiltConfigurationModel } from '@shared/components/parts-table/parts-as-built-configuration.model';
+import { PartsAsBuiltCustomerConfigurationModel } from '@shared/components/parts-table/parts-as-built-customer-configuration.model';
+import { PartsAsBuiltSupplierConfigurationModel } from '@shared/components/parts-table/parts-as-built-supplier-configuration.model';
+import { PartsAsPlannedConfigurationModel } from '@shared/components/parts-table/parts-as-planned-configuration.model';
+import { PartsAsPlannedCustomerConfigurationModel } from '@shared/components/parts-table/parts-as-planned-customer-configuration.model';
+import { PartsAsPlannedSupplierConfigurationModel } from '@shared/components/parts-table/parts-as-planned-supplier-configuration.model';
 import { TableViewConfig } from '@shared/components/parts-table/table-view-config.model';
 import { TableSettingsComponent } from '@shared/components/table-settings/table-settings.component';
 import {
@@ -50,26 +55,11 @@ import {
   TableEventConfig,
   TableHeaderSort,
 } from '@shared/components/table/table.model';
+import { ToastService } from '@shared/components/toasts/toast.service';
 import { isDateFilter } from '@shared/helper/filter-helper';
 import { addSelectedValues, removeSelectedValues } from '@shared/helper/table-helper';
-import { PartsAsBuiltConfigurationModel } from '@shared/components/parts-table/parts-as-built-configuration.model';
-import {
-  PartsAsBuiltSupplierConfigurationModel,
-} from '@shared/components/parts-table/parts-as-built-supplier-configuration.model';
-import {
-  PartsAsBuiltCustomerConfigurationModel,
-} from '@shared/components/parts-table/parts-as-built-customer-configuration.model';
-import { PartsAsPlannedConfigurationModel } from '@shared/components/parts-table/parts-as-planned-configuration.model';
-import {
-  PartsAsPlannedSupplierConfigurationModel,
-} from '@shared/components/parts-table/parts-as-planned-supplier-configuration.model';
-import {
-  PartsAsPlannedCustomerConfigurationModel,
-} from '@shared/components/parts-table/parts-as-planned-customer-configuration.model';
-import { Router } from '@angular/router';
-import { ToastService } from '@shared/components/toasts/toast.service';
-import { DeeplinkService } from '@shared/service/deeplink.service';
 import { NotificationColumn } from '@shared/model/notification.model';
+import { DeeplinkService } from '@shared/service/deeplink.service';
 
 
 @Component({
@@ -283,6 +273,11 @@ export class PartsTableComponent implements OnInit {
       displayedColumns: displayedColumnsForTable,
       header: CreateHeaderFromColumns(displayedColumnsForTable, headerKey),
       sortableColumns: sortableColumns,
+      menuActionsConfig: [ {
+        label: 'actions.viewDetails',
+        icon: 'remove_red_eye',
+        action: (data: Record<string, unknown>) => this.selected.emit(data),
+      } ],
     };
     this.displayedColumns = displayedColumns;
     for (const controlName in filterFormGroup) {
@@ -333,15 +328,6 @@ export class PartsTableComponent implements OnInit {
     this.isSelected(row) ? this.removeSelectedValues([ row ]) : this.addSelectedValues([ row ]);
     this.emitMultiSelect();
   }
-
-  public selectElement(row: Record<string, unknown>) {
-    this.selectedRow = this.selectedRow === row ? null : row;
-
-    if (!this.tableConfig.menuActionsConfig) {
-      this.selected.emit(row);
-    }
-  }
-
 
   private emitMultiSelect(): void {
     this.multiSelect.emit(this.selection.selected);

@@ -82,6 +82,7 @@
       "idShort": "Kurz-ID",
       "name": "Name",
       "manufacturerName": "Hersteller",
+      "businessPartner": "Business Partner Nummer",
       "partId": "Produktnummer",
       "manufacturerPartId": "Hersteller Produktnummer",
       "customerPartId": "Kunden Produktnummer",

@@ -83,6 +83,7 @@
       "name": "Name",
       "manufacturerName": "Manufacturer",
       "partId": "Part number",
+      "businessPartner": "Business partner number",
       "manufacturerPartId": "Manufacturer part ID",
       "customerPartId": "Customer part ID",
       "classification": "Classification",

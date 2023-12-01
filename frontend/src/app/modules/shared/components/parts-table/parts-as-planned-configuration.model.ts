@@ -26,6 +26,7 @@ export class PartsAsPlannedConfigurationModel extends TableFilterConfiguration {
       id: true,
       idShort: true,
       nameAtManufacturer: true,
+      businessPartner: true,
       manufacturerName: true,
       manufacturerPartId: true,
       classification: true,
@@ -37,7 +38,7 @@ export class PartsAsPlannedConfigurationModel extends TableFilterConfiguration {
       catenaXSiteId: true,
       functionValidFrom: true,
       functionValidUntil: true,
-      // menu: false
+      menu: false,
     };
 
     const dateFields = [ 'validityPeriodFrom', 'validityPeriodTo', 'functionValidFrom', 'functionValidUntil' ];

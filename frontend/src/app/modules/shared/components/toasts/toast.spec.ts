@@ -19,50 +19,50 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {TestBed} from '@angular/core/testing';
-import {SharedModule} from '@shared/shared.module';
-import {screen} from '@testing-library/angular';
-import {renderComponent} from '@tests/test-render.utils';
-import {ToastService} from './toast.service';
+import { TestBed } from '@angular/core/testing';
+import { SharedModule } from '@shared/shared.module';
+import { screen } from '@testing-library/angular';
+import { renderComponent } from '@tests/test-render.utils';
+import { ToastService } from './toast.service';
 
 describe('toasts', () => {
-    const renderToastLayout = async () => {
-        await renderComponent(`<app-toast-container></app-toast-container>`, {imports: [SharedModule]});
-        return TestBed.inject(ToastService);
-    };
+  const renderToastLayout = async () => {
+    await renderComponent(`<app-toast-container></app-toast-container>`, { imports: [ SharedModule ] });
+    return TestBed.inject(ToastService);
+  };
 
-    it('should render success toast', async () => {
-        const toastService = await renderToastLayout();
-        toastService.success('some success');
+  it('should render success toast', async () => {
+    const toastService = await renderToastLayout();
+    toastService.success('some success');
 
-        const toast = await screen.findByTestId('toast-container');
-        expect(toast).toHaveClass('toast-icon-check');
-    });
+    const toast = await screen.findByTestId('toast-container');
+    expect(toast).toHaveClass('toast-icon-check');
+  });
 
-    it('should render info toast', async () => {
-        const toastService = await renderToastLayout();
-        toastService.info('some info');
+  it('should render info toast', async () => {
+    const toastService = await renderToastLayout();
+    toastService.info('some info');
 
-        const toast = await screen.findByTestId('toast-container');
+    const toast = await screen.findByTestId('toast-container');
 
-        expect(toast).toHaveClass('toast-icon-info');
-    });
+    expect(toast).toHaveClass('toast-icon-info');
+  });
 
-    it('should render warning toast', async () => {
-        const toastService = await renderToastLayout();
-        toastService.warning('some warning');
+  it('should render warning toast', async () => {
+    const toastService = await renderToastLayout();
+    toastService.warning('some warning');
 
-        const toast = await screen.findByTestId('toast-container');
+    const toast = await screen.findByTestId('toast-container');
 
-        expect(toast).toHaveClass('toast-icon-warning');
-    });
+    expect(toast).toHaveClass('toast-icon-warning');
+  });
 
-    it('should render error toast', async () => {
-        const toastService = await renderToastLayout();
-        toastService.error('some error');
+  it('should render error toast', async () => {
+    const toastService = await renderToastLayout();
+    toastService.error('some error');
 
-        const toast = await screen.findByTestId('toast-container');
+    const toast = await screen.findByTestId('toast-container');
 
-        expect(toast).toHaveClass('toast-icon-error');
-    });
+    expect(toast).toHaveClass('toast-icon-error');
+  });
 });
