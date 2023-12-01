@@ -48,7 +48,7 @@ export class PartsFacade {
   public setPartsAsBuilt(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], assetAsBuiltFilter?: AssetAsBuiltFilter, isOrSearch?: boolean): void {
     this.partsAsBuiltSubscription?.unsubscribe();
     this.partsAsBuiltSubscription = this.partsService.getPartsAsBuilt(page, pageSize, sorting, assetAsBuiltFilter, isOrSearch).subscribe({
-      next: data => (this.partsState.partsAsBuilt = { data }),
+      next: data => (this.partsState.partsAsBuilt = { data: this.provideDataObject(data) }),
       error: error => (this.partsState.partsAsBuilt = { error }),
     });
   }
@@ -56,9 +56,26 @@ export class PartsFacade {
   public setPartsAsPlanned(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], assetAsPlannedFilter?: AssetAsPlannedFilter, isOrSearch?: boolean): void {
     this.partsAsPlannedSubscription?.unsubscribe();
     this.partsAsPlannedSubscription = this.partsService.getPartsAsPlanned(page, pageSize, sorting, assetAsPlannedFilter, isOrSearch).subscribe({
-      next: data => (this.partsState.partsAsPlanned = { data }),
+      next: data => (this.partsState.partsAsPlanned = { data: this.provideDataObject(data) }),
       error: error => (this.partsState.partsAsPlanned = { error }),
     });
+  }
+
+  private provideDataObject(data: Pagination<Part>){
+    let usedData: Pagination<Part>;
+    if (!data.content?.length){
+      usedData = {
+        content: [],
+        page: 0,
+        pageCount: 0,
+        pageSize: 0,
+        totalItems: 0
+      };
+
+    } else {
+      usedData = data;
+    }
+    return usedData
   }
 
   public unsubscribeParts(): void {

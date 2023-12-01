@@ -111,7 +111,6 @@ export class PartsTableComponent implements OnInit {
   }
 
   @Input() set data(content: unknown[]) {
-
     this.dataSource.data = content;
     this.isDataLoading = false;
   }
@@ -322,6 +321,9 @@ export class PartsTableComponent implements OnInit {
   }
 
   public updateSortingOfData({ active, direction }: Sort): void {
+    if (this.pageSize === 0) {
+      this.pageSize = 50;
+    }
     this.selection.clear();
     this.emitMultiSelect();
     this.sorting = !direction ? null : ([ active, direction ] as TableHeaderSort);

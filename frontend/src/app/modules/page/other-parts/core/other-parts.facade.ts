@@ -71,15 +71,21 @@ export class OtherPartsFacade {
   public setCustomerPartsAsPlanned(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: AssetAsPlannedFilter, isOrSearch?: boolean): void {
     this.customerPartsAsPlannedSubscription?.unsubscribe();
     this.customerPartsAsPlannedSubscription = this.otherPartsService.getOtherPartsAsPlanned(page, pageSize, sorting, Owner.CUSTOMER, filter, isOrSearch).subscribe({
-      next: data => (this.otherPartsState.customerPartsAsPlanned = { data }),
-      error: error => (this.otherPartsState.customerPartsAsPlanned = { error }),
+      next: data => {
+        const usedData = this.provideDataObject(data);
+        this.otherPartsState.customerPartsAsPlanned = { data: usedData };
+      },
+      error: error => {
+        console.error('Error occurred:', error);
+        this.otherPartsState.customerPartsAsPlanned = { error };
+      },
     });
   }
 
   public setSupplierPartsAsBuilt(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: AssetAsBuiltFilter, isOrSearch?: boolean): void {
     this.supplierPartsAsBuiltSubscription?.unsubscribe();
     this.supplierPartsAsBuiltSubscription = this.otherPartsService.getOtherPartsAsBuilt(page, pageSize, sorting, Owner.SUPPLIER, filter, isOrSearch).subscribe({
-      next: data => (this.otherPartsState.supplierPartsAsBuilt = { data }),
+      next: data => (this.otherPartsState.supplierPartsAsBuilt = { data: this.provideDataObject(data) }),
       error: error => (this.otherPartsState.supplierPartsAsBuilt = { error }),
     });
   }
@@ -92,6 +98,22 @@ export class OtherPartsFacade {
     });
   }
 
+  private provideDataObject(data: Pagination<Part>){
+    let usedData: Pagination<Part>;
+    if (!data.content?.length){
+      usedData = {
+        content: [],
+        page: 0,
+        pageCount: 0,
+        pageSize: 0,
+        totalItems: 0
+      };
+
+    } else {
+      usedData = data;
+    }
+    return usedData
+  }
 
   public unsubscribeParts(): void {
     this.customerPartsAsBuiltSubscription?.unsubscribe();
