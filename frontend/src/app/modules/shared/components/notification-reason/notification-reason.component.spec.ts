@@ -46,13 +46,13 @@ describe('NotificationReasonComponent', () => {
     await renderReason({ ...defaultNotification, reason, status });
     expect(screen.getByText(reason.accept)).toBeInTheDocument();
     expect(screen.getByText('commonInvestigation.status.SENT')).toBeInTheDocument();
-
-    expect(screen.getByText(defaultNotification.createdBy.name)).toBeInTheDocument();
-    expect(screen.getByText(defaultNotification.sendTo.name)).toBeInTheDocument();
+    expect(screen.getByText(defaultNotification.createdByName)).toBeInTheDocument();
+    expect(screen.getByText(defaultNotification.sendToName)).toBeInTheDocument();
   });
+
 
   it('should render username from sender', async () => {
     await renderReason();
-    expect(screen.getByText(defaultNotification.createdBy.name)).toBeInTheDocument();
+    expect(screen.getByText(defaultNotification.createdByName)).toBeInTheDocument();
   });
 });

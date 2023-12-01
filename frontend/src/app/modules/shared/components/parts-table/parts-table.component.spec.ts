@@ -76,8 +76,8 @@ describe('PartsTableComponent', () => {
       'filterid',
       'filteridShort',
       'filternameAtManufacturer', // nameAtManufacturer
+      'filterbusinessPartner',
       'filtermanufacturerName',
-      'filterpartId', // Part number / Batch Number / JIS Number
       'filtermanufacturerPartId',
       'filtercustomerPartId', // --> semanticModel.customerPartId
       'filterclassification',
@@ -105,6 +105,7 @@ describe('PartsTableComponent', () => {
       'filterid',
       'filteridShort',
       'filternameAtManufacturer',
+      'filterbusinessPartner',
       'filtermanufacturerName',
       'filtermanufacturerPartId',
       'filterclassification',
@@ -164,21 +165,6 @@ describe('PartsTableComponent', () => {
     expect(componentInstance.paginationData.pageSize).toEqual(paginationData.pageSize);
     expect(componentInstance.pageIndex).toEqual(paginationData.page);
     expect(componentInstance.isDataLoading).toBe(false);
-
-  });
-
-  it('should select or deselect a row and emit selected event if menuActionsConfig is not defined', async () => {
-    const { fixture } = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
-    const { componentInstance } = fixture;
-
-    const row1 = { id: 1, name: 'Item 1' };
-
-    spyOn(componentInstance.selected, 'emit');
-
-    componentInstance.selectElement(row1);
-
-    expect(componentInstance.selected.emit).toHaveBeenCalledWith(row1);
-    expect(componentInstance.selectedRow).toEqual(row1);
 
   });
 

@@ -32,7 +32,6 @@ import { InputComponent } from '@shared/components/input/input.component';
 import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
 import { NotificationOverviewComponent } from '@shared/components/notification-overview/notification-overview.component';
 import { NotificationReasonComponent } from '@shared/components/notification-reason/notification-reason.component';
-import { NotificationUserComponent } from '@shared/components/notification-user/notification-user.component';
 import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
 import { RequestInvestigationComponent } from '@shared/components/request-notification';
 import { RequestAlertComponent } from '@shared/components/request-notification/request-alert.component';
@@ -120,7 +119,6 @@ import { TemplateModule } from './template.module';
     FormErrorMessageComponent,
     SeverityComponent,
     SeveritySelectComponent,
-    NotificationUserComponent,
     InputComponent,
     BomLifecycleActivatorComponent,
     ViewSelectorComponent,
@@ -166,7 +164,6 @@ import { TemplateModule } from './template.module';
     BaseInputComponent,
     SeverityComponent,
     SeveritySelectComponent,
-    NotificationUserComponent,
     InputComponent,
     FormatPaginationSemanticDataModelToCamelCasePipe,
     FlattenObjectPipe,
