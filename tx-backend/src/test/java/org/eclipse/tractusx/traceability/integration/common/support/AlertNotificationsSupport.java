@@ -151,6 +151,7 @@ public class AlertNotificationsSupport {
                         .id("1")
                         .alert(alert1)
                         .status(NotificationStatusBaseEntity.CREATED)
+                        .sendTo(OTHER_BPN)
                         .createdBy(OWN_BPN)
                         .severity(QualityNotificationSeverity.MINOR)
                         .targetDate(monthFromNow.minus(3L, DAYS))
@@ -159,6 +160,7 @@ public class AlertNotificationsSupport {
                         .build(),
                 AlertNotificationEntity
                         .builder()
+                        .sendTo(OTHER_BPN)
                         .createdBy(OWN_BPN)
                         .createdByName(OWN_BPN_COMPANY_NAME)
                         .status(NotificationStatusBaseEntity.SENT)
@@ -172,6 +174,7 @@ public class AlertNotificationsSupport {
                         .builder()
                         .status(NotificationStatusBaseEntity.RECEIVED)
                         .id("3")
+                        .sendTo(OWN_BPN)
                         .createdBy(OTHER_BPN)
                         .severity(QualityNotificationSeverity.CRITICAL)
                         .targetDate(monthFromNow.minus(1L, DAYS))
