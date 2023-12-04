@@ -34,8 +34,11 @@ table {
 }
 
 .settings-icon {
-  margin-left: 50px;
-  margin-right: 25px;
+  margin: 0;
+  min-width: 24px;
+  min-height: 24px;
+  padding: 0px;
+  cursor: pointer;
 }
 
 .notification-table--select-all {
@@ -90,6 +93,14 @@ table {
 
 .notification-table--header {
   border-bottom: 1px solid #d2d2d2 !important;
+
+  &--sticky {
+    position: sticky !important;
+    right: 0;
+    top: 0;
+    width: 41px;
+    max-width: 41px;
+  }
 }
 
 .notification-table--cell {
@@ -97,6 +108,7 @@ table {
   border: none !important;
   max-width: 332px;
 }
+
 
 .notification-table--header--cell {
   display: flex;
@@ -226,8 +238,22 @@ table {
 }
 
 .notification-table--menu {
+  &--action {
+    display: flex;
+    justify-content: center;
+  }
+
+  &--empty {
+    display: none;
+  }
+
   &__mobile {
     display: none;
+  }
+
+  &__desktop {
+    padding-top: 5px;
+    padding-left: 4px;
   }
 
   @media (max-width: 768px) {
@@ -323,4 +349,21 @@ table {
 .notification-table--body--row .mdc-data-table__cell {
   padding: 0 12px 0 12px !important;
   border-bottom-style: none !important;
+}
+
+.notification-table--body--row .notification-table--body--cell {
+  &--sticky {
+    position: sticky !important;
+    right: 0;
+    top: 0;
+    width: 41px;
+    padding: 0px !important;
+  }
+
+  .mdc-icon-button {
+    margin: 0;
+    width: 24px;
+    height: 24px;
+    padding: 0px;
+  }
 }

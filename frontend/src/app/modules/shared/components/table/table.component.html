@@ -166,7 +166,7 @@ SPDX-License-Identifier: Apache-2.0
     <ng-template #SettingsColumn>
       <ng-container matColumnDef="settings">
         <th *matHeaderCellDef
-          class="notification-table--menu"
+          class="notification-table--menu notification-table--header--sticky"
           mat-header-cell>
           <img class="settings-icon"
             src="/assets/images/icons/table_settings_icon.svg"
@@ -183,10 +183,10 @@ SPDX-License-Identifier: Apache-2.0
     <ng-template #MenuColumn>
       <ng-container matColumnDef="menu">
         <th *matHeaderCellDef
-          class="notification-table--menu menu-spacer"
+          class="notification-table--menu notification-table--menu--empty menu-spacer"
           mat-header-cell></th>
         <td *matCellDef="let row"
-          class="notification-table--menu notification-table--body--cell"
+          class="notification-table--body--cell--sticky"
           mat-cell
           [attr.colspan]="tableConfig?.displayedColumns.length">
           <div class="notification-table--menu__desktop">

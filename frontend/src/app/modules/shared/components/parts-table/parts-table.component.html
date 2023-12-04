@@ -127,14 +127,14 @@ SPDX-License-Identifier: Apache-2.0
     <ng-template #MenuColumn>
       <ng-container matColumnDef="menu">
         <th *matHeaderCellDef
-          mat-header-cell>
+          mat-header-cell class="table--header--sticky">
           <img class="settings-icon table-menu"
             src="/assets/images/icons/table_settings_icon.svg"
             alt="*"
             (click)="openDialog()" />
         </th>
         <td *matCellDef="let row"
-          class="table-menu table--cell"
+          class="table-menu table--cell table--cell--sticky"
           mat-cell>
           <div class="table--menu__desktop table-menu"></div>
         </td>
