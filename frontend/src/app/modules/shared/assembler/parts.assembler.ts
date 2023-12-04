@@ -238,42 +238,54 @@ export class PartsAssembler {
     });
   }
 
+  public static mapFieldNameToApi(fieldName: string) {
+    if (!fieldName) {
+      return;
+    }
+
+    if(this.localToApiMapping.has(fieldName)) {
+      return this.localToApiMapping.get(fieldName);
+    } else {
+      return fieldName;
+    }
+
+  }
+
   public static mapSortToApiSort(sorting: TableHeaderSort): string {
     if (!sorting) {
       return '';
     }
 
-
-    const localToApiMapping = new Map<string, string>([
-      [ 'id', 'id' ],
-      [ 'idShort', 'idShort' ],
-      [ 'semanticModelId', 'semanticModelId' ],
-      [ 'manufacturer', 'manufacturerName' ],
-      [ 'manufacturerPartId', 'manufacturerPartId' ],
-      [ 'partId', 'manufacturerPartId' ],
-      [ 'nameAtManufacturer', 'nameAtManufacturer' ],
-      [ 'businessPartner', 'businessPartner' ],
-      [ 'name', 'nameAtManufacturer' ],
-      [ 'qualityType', 'qualityType' ],
-      [ 'van', 'van' ],
-      [ 'semanticDataModel', 'semanticDataModel' ],
-      [ 'classification', 'classification' ],
-      [ 'customerPartId', 'customerPartId' ],
-      [ 'nameAtCustomer', 'nameAtCustomer' ],
-      [ 'manufacturingDate', 'manufacturingDate' ],
-      [ 'manufacturingCountry', 'manufacturingCountry' ],
-      [ 'validityPeriodFrom', 'validityPeriodFrom' ],
-      [ 'validityPeriodTo', 'validityPeriodTo' ],
-      [ 'catenaXSiteId', 'catenaXSiteId' ],
-      [ 'psFunction', 'function' ],
-      [ 'functionValidFrom', 'functionValidFrom' ],
-      [ 'functionValidUntil', 'functionValidUntil' ],
-      [ 'sentActiveAlerts', 'sentQualityAlertIdsInStatusActive' ],
-      [ 'receivedActiveAlerts', 'receivedQualityAlertIdsInStatusActive' ],
-      [ 'sentActiveInvestigations', 'receivedQualityAlertIdsInStatusActive' ],
-      [ 'receivedActiveInvestigations', 'receivedQualityAlertIdsInStatusActive' ],
-    ]);
-
-    return `${ localToApiMapping.get(sorting[0]) || sorting },${ sorting[1] }`;
+    return `${ this.localToApiMapping.get(sorting[0]) || sorting },${ sorting[1] }`;
   }
+
+  public static localToApiMapping = new Map<string, string>([
+    [ 'id', 'id' ],
+    [ 'idShort', 'idShort' ],
+    [ 'semanticModelId', 'semanticModelId' ],
+    [ 'manufacturer', 'manufacturerName' ],
+    [ 'manufacturerPartId', 'manufacturerPartId' ],
+    [ 'partId', 'manufacturerPartId' ],
+    [ 'nameAtManufacturer', 'nameAtManufacturer' ],
+    [ 'businessPartner', 'businessPartner' ],
+    [ 'name', 'nameAtManufacturer' ],
+    [ 'qualityType', 'qualityType' ],
+    [ 'van', 'van' ],
+    [ 'semanticDataModel', 'semanticDataModel' ],
+    [ 'classification', 'classification' ],
+    [ 'customerPartId', 'customerPartId' ],
+    [ 'nameAtCustomer', 'nameAtCustomer' ],
+    [ 'manufacturingDate', 'manufacturingDate' ],
+    [ 'manufacturingCountry', 'manufacturingCountry' ],
+    [ 'validityPeriodFrom', 'validityPeriodFrom' ],
+    [ 'validityPeriodTo', 'validityPeriodTo' ],
+    [ 'catenaXSiteId', 'catenaxSiteId' ],
+    [ 'psFunction', 'function' ],
+    [ 'functionValidFrom', 'functionValidFrom' ],
+    [ 'functionValidUntil', 'functionValidUntil' ],
+    [ 'sentActiveAlerts', 'sentQualityAlertIdsInStatusActive' ],
+    [ 'receivedActiveAlerts', 'receivedQualityAlertIdsInStatusActive' ],
+    [ 'sentActiveInvestigations', 'receivedQualityAlertIdsInStatusActive' ],
+    [ 'receivedActiveInvestigations', 'receivedQualityAlertIdsInStatusActive' ],
+  ]);
 }
