@@ -133,16 +133,16 @@ table {
 }
 
 tr.highlighted {
-  @apply bg-warning bg-opacity-30;
+  background-color: #ffe581;
   &:hover {
-    @apply bg-warning bg-opacity-30;
+    background-color: #ffe271;
   }
 }
 
 tr.error {
-  @apply bg-danger bg-opacity-20;
+  background-color: #ff878c;
   &:hover {
-    @apply bg-danger bg-opacity-20;
+    background-color: #ff5960;
   }
 }
 
@@ -162,7 +162,7 @@ tr.error {
 }
 
 .table--menu {
-  background-color: white;
+  //background-color: white;
 
   &__mobile {
     display: none;
@@ -176,6 +176,20 @@ tr.error {
     &__mobile {
       display: table-row;
     }
+  }
+}
+
+.table--menu.highlighted {
+  background-color: #ffe581;
+  &:hover {
+    background-color: #ffe271;
+  }
+}
+
+.table--menu.error {
+  background-color: #ff878c;
+  &:hover {
+    background-color: #ff5960;
   }
 }
 
