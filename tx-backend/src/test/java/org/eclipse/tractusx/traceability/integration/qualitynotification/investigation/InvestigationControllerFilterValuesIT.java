@@ -253,6 +253,35 @@ class InvestigationControllerFilterValuesIT extends IntegrationTestSpecification
     }
 
     @Test
+    void givenCreatedDateFieldAndNoSize_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+        // given
+        investigationNotificationsSupport.defaultInvestigationsStored();
+        final String fieldName = "createdDate";
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .param("fieldName", fieldName)
+                .get("/api/investigations/distinctFilterValues")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .assertThat()
+                .body(".", Matchers.containsInRelativeOrder(List.of(
+                        "2023-10-07 10:10:10",
+                        "2023-10-08 10:10:10",
+                        "2023-10-09 10:10:10",
+                        "2023-10-10 10:10:10",
+                        "2023-10-10 10:10:30",
+                        "2023-10-11 10:10:10",
+                        "2023-10-12 10:10:10",
+                        "2023-10-13 10:10:10").toArray()));
+    }
+
+    @Test
     void givenCreatedByField_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
         // given
         investigationNotificationsSupport.defaultInvestigationsStored();

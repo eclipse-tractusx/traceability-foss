@@ -34,6 +34,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 public abstract class AbstractQualityNotificationService implements QualityNotificationService {
@@ -98,10 +99,12 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
 
     @Override
     public List<String> getDistinctFilterValues(String fieldName, String startWith, Integer size, QualityNotificationSide side) {
+        final Integer resultSize = Objects.isNull(size) ? Integer.MAX_VALUE : size;
+
         if (isSupportedEnumType(fieldName)) {
             return getAssetEnumFieldValues(fieldName);
         }
-        return getQualityNotificationRepository().getDistinctFieldValues(fieldName, startWith, size, side);
+        return getQualityNotificationRepository().getDistinctFieldValues(fieldName, startWith, resultSize, side);
     }
 
     private boolean isSupportedEnumType(String fieldName) {

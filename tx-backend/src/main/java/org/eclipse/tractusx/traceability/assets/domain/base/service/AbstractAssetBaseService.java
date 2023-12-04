@@ -41,6 +41,7 @@ import org.springframework.scheduling.annotation.Async;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -155,13 +156,15 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
 
     @Override
     public List<String> getDistinctFilterValues(String fieldName, String startWith, Integer size, Owner owner) {
+        final Integer resultSize = Objects.isNull(size) ? Integer.MAX_VALUE : size;
+
         if (isSupportedEnumType(fieldName)) {
             return getAssetEnumFieldValues(fieldName);
         }
         if (isBooleanType(fieldName)) {
             return List.of("true", "false");
         }
-        return getAssetRepository().getFieldValues(fieldName, startWith, size, owner);
+        return getAssetRepository().getFieldValues(fieldName, startWith, resultSize, owner);
     }
 
     private boolean isBooleanType(String fieldName) {
