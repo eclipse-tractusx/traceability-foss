@@ -10,6 +10,10 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Removed
 
 ## [9.0.0-rc3 - 27.11.2023]
+### Changed
+- Upgraded irs-client library from 1.4.1-SNAPSHOT to 1.4.1
+
+## [9.0.0-rc3 - 27.11.2023]
 ### Added
 - DEPENDENCIES_FRONTEND, SECURITY.md, NOTICE.md, LICENSE file to frontend docker image
 - Added a step-by-step guide to register a server in pgAdmin in the database dump README
