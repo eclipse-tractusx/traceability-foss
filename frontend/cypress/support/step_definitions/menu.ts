@@ -61,3 +61,21 @@ matched = false;
       }
     }
 });
+
+When("user change language to {string}", function(language) {
+cy.get('[data-testid="user-menu"]').click();
+      switch (language) {
+        case 'german': {
+          cy.get('button').contains('DE').click();
+          break;
+        }
+        case 'english': {
+          cy.get('button').contains('EN').click();
+          break;
+        }
+        default: {
+          throw new Error("Set language '" + language + "' is not one of valid language [german, english].");
+          break;
+        }
+      }
+});

@@ -22,11 +22,11 @@ import { When, Then, Given } from '@badeball/cypress-cucumber-preprocessor';
 import { QualityInvestigationsPage } from '../../integration/pages/QualityInvestigationsPage';
 
 let notificationDescription = null;
+let desiredSemanticModelId = null;
 
 Then("select other part with semantic-model-id {string}", (semanticModelId) => {
 //since IDs of desired asset are not shown in FE the selection has to be done by other number.
-  cy.get('span').contains('As Planned').click(); // This has to be done to avoid asPlanned selection
-  //cy.get('span').contains('NO-989134870198932317923938').closest('tr').find('.mdc-checkbox').click();
+  desiredSemanticModelId = semanticModelId;
   cy.get('span').contains(semanticModelId).closest('tr').find('.mdc-checkbox').click();
 });
 
@@ -40,7 +40,7 @@ Then("start investigation creation with description {string}", function (descrip
 
 
 When("severity {string}", function (severity) {
-  cy.get('#mat-select-56').click(); // First the dropdown has to be opened.
+  cy.get('div').contains('Severity').click(); // First the dropdown has to be opened.
   cy.get('p').contains(severity).click();
 });
 
@@ -60,7 +60,7 @@ When("request the investigation", () => {
 
 
 Then("selected parts are marked as investigated", () => {
-  //cy.get('class').contains('highlighted');
+  cy.get('span').contains(desiredSemanticModelId).closest('tr')               .find('.mdc-checkbox').click();
   //---TBD--- to check the desired assets, have to be adjusted with desired asset selection
 });
 
