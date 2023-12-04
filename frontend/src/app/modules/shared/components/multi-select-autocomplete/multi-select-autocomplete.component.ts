@@ -24,14 +24,12 @@ import { Component, EventEmitter, Inject, Input, LOCALE_ID, OnChanges, ViewChild
 import { FormControl } from '@angular/forms';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { MatSelectChange } from '@angular/material/select';
 import { Owner } from '@page/parts/model/owner.enum';
 import { PartTableType } from '@shared/components/table/table.model';
-import {
-  FormatPartSemanticDataModelToCamelCasePipe,
-} from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
+import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
 import { PartsService } from '@shared/service/parts.service';
 import { firstValueFrom } from 'rxjs';
-import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-multiselect',
@@ -299,18 +297,17 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     if (this.singleSearch) {
       return;
     }
-    // TODO the issue is that the selectedValue is already empty but still needs to be readded to the options if unselected
+    if (!this.allOptions) {
+      this.allOptions = [];
+    }
     this.options = this.allOptions.filter(option => !this.selectedValue.includes(option.value));
     if (!this.selectedValue) {
       this.options = this.allOptions;
     }
 
-
-    console.log('search options after update', this.searchedOptions);
-    console.log('options after update', this.options);
-
-    console.log(this.allOptions, 'all options in change');
-
+    if (!this.searchedOptions) {
+      this.searchedOptions = [];
+    }
     const filter = this.searchedOptions.filter(val => this.selectedValue.includes(val));
     for (const selected of this.selectedValue) {
       filter.push({ display: selected, value: selected });
