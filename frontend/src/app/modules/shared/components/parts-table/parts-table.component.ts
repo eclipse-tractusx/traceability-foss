@@ -36,7 +36,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { Pagination } from '@core/model/pagination.model';
+import { EmptyPagination, Pagination } from '@core/model/pagination.model';
 import { TableSettingsService } from '@core/user/table-settings.service';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
@@ -101,7 +101,6 @@ export class PartsTableComponent implements OnInit {
   }
 
   @Input() set data(content: unknown[]) {
-
     this.dataSource.data = content;
     this.isDataLoading = false;
   }
@@ -317,6 +316,7 @@ export class PartsTableComponent implements OnInit {
   }
 
   public updateSortingOfData({ active, direction }: Sort): void {
+    this.pageSize = this.pageSize === 0 ? EmptyPagination.pageSize : this.pageSize;
     this.selection.clear();
     this.emitMultiSelect();
     this.sorting = !direction ? null : ([ active, direction ] as TableHeaderSort);
