@@ -86,7 +86,7 @@ table {
 .table--notification--cell {
   display: flex;
   align-items: center;
-  cursor: pointer;
+  cursor: default;
 }
 
 .table--notification--cell--content {
@@ -256,5 +256,9 @@ tr.error {
 
 .table--header--select--cell {
   width: 90px;
+}
+
+.table--notification--cell--notification--count {
+  cursor: pointer;
 }
 
