@@ -21,7 +21,7 @@
 
 spring:
   flyway:
-    locations: /db/migration,/db/local
+    locations: /db/migration,/db/testdata-b
     placeholders:
       assetAsBuiltId01: "'urn:uuid:6ec3f1db-2798-454b-a73f-0d21a8966c77'"
       assetAsBuiltId02: "'urn:uuid:132fd82b-caab-476b-b453-b7273a4c7c01'"
