@@ -58,8 +58,12 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
   public assetAsBuiltFilter: AssetAsBuiltFilter;
   public assetAsPlannedFilter: AssetAsPlannedFilter;
 
+  public readonly searchListAsBuilt: string[];
+  public readonly searchListAsPlanned: string[];
+
   public DEFAULT_PAGE_SIZE = 50;
-  private ctrlKeyState = false;
+  public ctrlKeyState = false;
+  public globalSearchActive = false;
 
   @Input()
   public bomLifecycle: MainAspectType;
@@ -72,7 +76,19 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
     private readonly staticIdService: StaticIdService,
     public dialog: MatDialog,
   ) {
-
+    this.searchListAsBuilt = [
+      'semanticDataModel',
+      'nameAtManufacturer',
+      'manufacturerName',
+      'manufacturerPartId',
+      'semanticModelId',
+      'manufacturingDate'];
+    this.searchListAsPlanned = [
+      'semanticDataModel',
+      'nameAtManufacturer',
+      'manufacturerName',
+      'manufacturerPartId',
+      'semanticModelId'];
     window.addEventListener('keydown', (event) => {
       this.ctrlKeyState = event.ctrlKey;
     });
@@ -111,12 +127,24 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
   }
 
   updateSupplierParts(searchValue?: string): void {
-    if (searchValue || searchValue === '') {
-      this.otherPartsFacade.setSupplierPartsAsBuilt(0, this.DEFAULT_PAGE_SIZE, [], toGlobalSearchAssetFilter(searchValue, true), true);
-      this.otherPartsFacade.setSupplierPartsAsPlanned(0, this.DEFAULT_PAGE_SIZE, [], toGlobalSearchAssetFilter(searchValue, false), true);
+    if (searchValue && searchValue !== '') {
+      this.globalSearchActive = true;
+      this.assetAsBuiltFilter = toGlobalSearchAssetFilter(searchValue, false, this.searchListAsBuilt);
+      this.assetAsPlannedFilter = toGlobalSearchAssetFilter(searchValue, true, this.searchListAsPlanned);
+      if (this.bomLifecycle === MainAspectType.AS_BUILT) {
+        this.otherPartsFacade.setSupplierPartsAsBuilt(0, this.DEFAULT_PAGE_SIZE, [], this.assetAsBuiltFilter, this.globalSearchActive);
+      } else {
+        this.otherPartsFacade.setSupplierPartsAsPlanned(0, this.DEFAULT_PAGE_SIZE, [], this.assetAsPlannedFilter, this.globalSearchActive);
+      }
     } else {
-      this.otherPartsFacade.setSupplierPartsAsBuilt();
-      this.otherPartsFacade.setSupplierPartsAsPlanned();
+      this.globalSearchActive = false;
+      this.assetAsBuiltFilter = {};
+      this.assetAsPlannedFilter = {};
+      if (this.bomLifecycle === MainAspectType.AS_BUILT) {
+        this.otherPartsFacade.setSupplierPartsAsBuilt(0, this.DEFAULT_PAGE_SIZE);
+      } else {
+        this.otherPartsFacade.setSupplierPartsAsPlanned(0, this.DEFAULT_PAGE_SIZE);
+      }
     }
   }
 
@@ -140,12 +168,13 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
   }
 
   filterActivated(isAsBuilt: boolean, assetFilter: any): void {
+    this.globalSearchActive = false;
     if (isAsBuilt) {
       this.assetAsBuiltFilter = assetFilter;
-      this.otherPartsFacade.setSupplierPartsAsBuilt(0, this.DEFAULT_PAGE_SIZE, this.tableSupplierAsBuiltSortList, toAssetFilter(this.assetAsBuiltFilter, true));
+      this.otherPartsFacade.setSupplierPartsAsBuilt(0, this.DEFAULT_PAGE_SIZE, this.tableSupplierAsBuiltSortList, toAssetFilter(this.assetAsBuiltFilter, true), this.globalSearchActive);
     } else {
       this.assetAsPlannedFilter = assetFilter;
-      this.otherPartsFacade.setSupplierPartsAsPlanned(0, this.DEFAULT_PAGE_SIZE, this.tableSupplierAsPlannedSortList, toAssetFilter(this.assetAsPlannedFilter, false));
+      this.otherPartsFacade.setSupplierPartsAsPlanned(0, this.DEFAULT_PAGE_SIZE, this.tableSupplierAsPlannedSortList, toAssetFilter(this.assetAsPlannedFilter, false), this.globalSearchActive);
     }
   }
 
@@ -163,7 +192,7 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
       pageSizeValue = pageSize;
     }
     this.setTableSortingList(sorting, MainAspectType.AS_BUILT);
-    this.otherPartsFacade.setSupplierPartsAsBuilt(page, pageSizeValue, this.tableSupplierAsBuiltSortList, toAssetFilter(this.assetAsBuiltFilter, true));
+    this.otherPartsFacade.setSupplierPartsAsBuilt(page, pageSizeValue, this.tableSupplierAsBuiltSortList, toAssetFilter(this.assetAsBuiltFilter, true), this.globalSearchActive);
   }
 
   public onAsPlannedTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
@@ -172,7 +201,7 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
       pageSizeValue = pageSize;
     }
     this.setTableSortingList(sorting, MainAspectType.AS_PLANNED);
-    this.otherPartsFacade.setSupplierPartsAsPlanned(page, pageSizeValue, this.tableSupplierAsPlannedSortList, toAssetFilter(this.assetAsPlannedFilter, false));
+    this.otherPartsFacade.setSupplierPartsAsPlanned(page, pageSizeValue, this.tableSupplierAsPlannedSortList, toAssetFilter(this.assetAsPlannedFilter, false), this.globalSearchActive);
   }
 
   public onMultiSelect(event: unknown[]): void {

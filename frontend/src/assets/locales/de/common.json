@@ -292,7 +292,8 @@
   "parts": {
     "input": {
       "global-search": {
-        "placeholder": "Suche nach C-X ID, partInstanceId, partNumber, BPN",
+        "placeholderAsset": "Suchen nach IDs, Namen, Hersteller, Kunden Produkt...",
+        "placeholderAlertsAndInvestigations": "Suchen nach Beschreibung und BPN ",
         "toastInfo": "Lokale Filterung auf Tabellenebene wurde zurückgesetzt."
       }
     },

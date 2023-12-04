@@ -20,7 +20,7 @@
  ********************************************************************************/
 
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, QueryList, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -44,6 +44,7 @@ import { addSelectedValues, clearAllRows, clearCurrentRows, removeSelectedValues
 import { TableViewConfig } from '../parts-table/table-view-config.model';
 import { TableSettingsComponent } from '../table-settings/table-settings.component';
 import { FilterOperator } from '@page/parts/model/parts.model';
+import { MultiSelectAutocompleteComponent } from '../multi-select-autocomplete/multi-select-autocomplete.component';
 
 @Component({
   selector: 'app-table',
@@ -55,7 +56,7 @@ export class TableComponent {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('tableElement', { read: ElementRef }) tableElementRef: ElementRef<HTMLElement>;
-
+  @ViewChildren(MultiSelectAutocompleteComponent) multiSelectAutocompleteComponents: QueryList<MultiSelectAutocompleteComponent>;
   @Input()
   filter = false;
 
@@ -427,5 +428,13 @@ export class TableComponent {
       defaultFilterColumns: this.tableViewConfig.displayedColumns,
     };
     this.dialog.open(TableSettingsComponent, config);
+  }
+
+  public resetFilter(): void {
+    const filterNames = Object.keys(this.filterActive);
+    for (const filterName of filterNames) {
+      this.filterActive[filterName] = false;
+    }
+    this.filtering = { filterMethod: FilterMethod.AND };
   }
 }

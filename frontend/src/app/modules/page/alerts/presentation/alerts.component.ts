@@ -24,6 +24,7 @@ import { ALERT_BASE_ROUTE, getRoute } from '@core/known-route';
 import { AlertDetailFacade } from '@page/alerts/core/alert-detail.facade';
 import { AlertHelperService } from '@page/alerts/core/alert-helper.service';
 import { AlertsFacade } from '@page/alerts/core/alerts.facade';
+import { FilterOperator } from '@page/parts/model/parts.model';
 import { NotificationMenuActionsAssembler } from '@shared/assembler/notificationMenuActions.assembler';
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
 import {
@@ -33,12 +34,16 @@ import {
   TableHeaderSort,
   TableFilter,
   FilterMethod,
+  FilterInfo,
 } from '@shared/components/table/table.model';
 import { TableSortingUtil } from '@shared/components/table/tableSortingUtil';
+import { SearchHelper } from '@shared/helper/search-helper';
+import { ToastService } from '@shared/index';
 import { FilterCongigOptions } from '@shared/model/filter-config';
 import { NotificationTabInformation } from '@shared/model/notification-tab-information';
 import { Notification, NotificationStatusGroup } from '@shared/model/notification.model';
 import { TranslationContext } from '@shared/model/translation-context.model';
+import { NotificationComponent } from '@shared/modules/notification/presentation/notification.component';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -48,6 +53,8 @@ import { Subscription } from 'rxjs';
 })
 export class AlertsComponent {
   @ViewChild(NotificationCommonModalComponent) notificationCommonModalComponent: NotificationCommonModalComponent;
+  @ViewChild(NotificationComponent) notificationComponent: NotificationComponent;
+
   public searchFormGroup = new FormGroup({});
   public searchControl: FormControl;
   public readonly alertsReceived$;
@@ -68,6 +75,7 @@ export class AlertsComponent {
   private ctrlKeyState = false;
   public DEFAULT_PAGE_SIZE = 50;
 
+  public readonly searchHelper = new SearchHelper();
   private paramSubscription: Subscription;
 
   private pagination: TableEventConfig = {
@@ -85,6 +93,7 @@ export class AlertsComponent {
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly cd: ChangeDetectorRef,
+    public toastService: ToastService,
   ) {
     this.alertsReceived$ = this.alertsFacade.alertsReceived$;
     this.alertsQueuedAndRequested$ = this.alertsFacade.alertsQueuedAndRequested$;
@@ -156,7 +165,7 @@ export class AlertsComponent {
       this.pagination.pageSize = this.DEFAULT_PAGE_SIZE;
     }
     this.setTableSortingList(pagination.sorting, NotificationStatusGroup.RECEIVED);
-    if (pagination.filtering) {
+    if (pagination.filtering && Object.keys(pagination.filtering).length > 1) {
       this.filterReceived = pagination.filtering;
     }
     this.alertsFacade.setReceivedAlerts(
@@ -173,7 +182,7 @@ export class AlertsComponent {
       this.pagination.pageSize = this.DEFAULT_PAGE_SIZE;
     }
     this.setTableSortingList(pagination.sorting, NotificationStatusGroup.QUEUED_AND_REQUESTED);
-    if (pagination.filtering) {
+    if (pagination.filtering && Object.keys(pagination.filtering).length > 1) {
       this.filterQueuedAndRequested = pagination.filtering;
     }
     this.alertsFacade.setQueuedAndRequestedAlerts(
@@ -201,7 +210,14 @@ export class AlertsComponent {
   }
 
   public triggerSearch(): void {
-    // TODO: implement search
+    this.searchHelper.resetFilterAndShowToast(false, this.notificationComponent, this.toastService);
+    const searchValue = this.searchControl.value;
+    const filterInfo: FilterInfo = { filterValue: searchValue, filterOperator: FilterOperator.STARTS_WITH };
+    this.filterReceived = { filterMethod: FilterMethod.OR, description: filterInfo, createdBy: filterInfo };
+    this.filterQueuedAndRequested = { filterMethod: FilterMethod.OR, description: filterInfo, sendTo: filterInfo };
+
+    this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize, this.alertReceivedSortList, this.filterReceived);
+    this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize, this.alertQueuedAndRequestedSortList, this.filterQueuedAndRequested);
   }
 
   private setTableSortingList(sorting: TableHeaderSort, notificationTable: NotificationStatusGroup): void {

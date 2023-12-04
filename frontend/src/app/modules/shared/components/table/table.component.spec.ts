@@ -290,6 +290,7 @@ describe('TableComponent', () => {
     fixture.detectChanges();
     expect(componentInstance.configChanged.emit).toHaveBeenCalledWith(tabelConfigRes);
   });
+
   it('should fire the correct page change event for changing the number of shown items', async () => {
     const tableSize = 3;
     const content = generateTableContent(tableSize);
@@ -325,5 +326,43 @@ describe('TableComponent', () => {
 
     fixture.detectChanges();
     expect(componentInstance.configChanged.emit).toHaveBeenCalledWith(tabelConfigRes);
+  });
+
+  it('should reset the filterActive value on activating the resetFilterActive function', async () => {
+    const tableSize = 3;
+    const content = generateTableContent(tableSize);
+    const paginationData = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
+
+    const tableConfig: TableConfig = {
+      displayedColumns: ['description', 'createdDate', 'status'],
+      header: { name: 'Name Sort' },
+      filterConfig: [
+        { filterKey: 'description', isTextSearch: true, isDate: false, option: [] },
+        { filterKey: 'createdDate', isTextSearch: false, isDate: true, option: [] },
+        {
+          filterKey: 'status',
+          isTextSearch: false,
+          isDate: false,
+          option: [{ display: 'status1', value: 'status1', checked: false }],
+        },
+      ],
+    };
+
+    const { fixture } = await renderComponent(TableComponent, {
+      declarations: [TableComponent],
+      imports: [SharedModule],
+      componentProperties: {
+        paginationData,
+        tableConfig,
+      },
+    });
+    const { componentInstance } = fixture;
+
+    const filterActiveExpected = { description: false, createdDate: false, status: false };
+
+    componentInstance.filterActive['description'] = true;
+    componentInstance.resetFilter();
+
+    expect(componentInstance.filterActive).toEqual(filterActiveExpected);
   });
 });

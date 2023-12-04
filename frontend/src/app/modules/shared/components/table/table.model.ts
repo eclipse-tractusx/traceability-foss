@@ -71,11 +71,6 @@ export const CreateHeaderFromColumns = (columns: string[], headerKey: string): R
   return columns?.reduce((header, column) => ({ ...header, [column]: `${headerKey}.${column}` }), {});
 };
 
-export interface TablePaginationEventConfig {
-  page: number;
-  pageSize: number;
-}
-
 export interface FilterInfo {
   filterValue: string;
   filterOperator: FilterOperator;
@@ -94,6 +89,11 @@ export interface TableFilter {
   severity?: FilterInfo[];
   createdBy?: FilterInfo;
   sendTo?: FilterInfo;
+}
+
+export interface TablePaginationEventConfig {
+  page: number;
+  pageSize: number;
 }
 
 export interface TableEventConfig extends TablePaginationEventConfig {

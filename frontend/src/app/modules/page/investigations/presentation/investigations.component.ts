@@ -33,6 +33,7 @@ import {
   TableHeaderSort,
   TableFilter,
   FilterMethod,
+  FilterInfo,
 } from '@shared/components/table/table.model';
 import { TableSortingUtil } from '@shared/components/table/tableSortingUtil';
 import { FilterCongigOptions } from '@shared/model/filter-config';
@@ -42,6 +43,10 @@ import { TranslationContext } from '@shared/model/translation-context.model';
 import { Subscription } from 'rxjs';
 import { InvestigationsFacade } from '../core/investigations.facade';
 import { FormGroup, FormControl } from '@angular/forms';
+import { SearchHelper } from '@shared/helper/search-helper';
+import { ToastService } from '@shared/index';
+import { NotificationComponent } from '@shared/modules/notification/presentation/notification.component';
+import { FilterOperator } from '@page/parts/model/parts.model';
 
 @Component({
   selector: 'app-investigations',
@@ -50,6 +55,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 })
 export class InvestigationsComponent {
   @ViewChild(NotificationCommonModalComponent) notificationCommonModalComponent: NotificationCommonModalComponent;
+  @ViewChild(NotificationComponent) notificationComponent: NotificationComponent;
 
   public searchFormGroup = new FormGroup({});
   public searchControl: FormControl;
@@ -77,6 +83,7 @@ export class InvestigationsComponent {
   };
 
   protected readonly PartTableType = PartTableType;
+  public readonly searchHelper = new SearchHelper();
 
   constructor(
     public readonly helperService: InvestigationHelperService,
@@ -85,6 +92,7 @@ export class InvestigationsComponent {
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly cd: ChangeDetectorRef,
+    public toastService: ToastService,
   ) {
     this.investigationsReceived$ = this.investigationsFacade.investigationsReceived$;
     this.investigationsQueuedAndRequested$ = this.investigationsFacade.investigationsQueuedAndRequested$;
@@ -159,7 +167,7 @@ export class InvestigationsComponent {
       this.pagination.pageSize = this.DEFAULT_PAGE_SIZE;
     }
     this.setTableSortingList(pagination.sorting, NotificationStatusGroup.RECEIVED);
-    if (pagination.filtering) {
+    if (pagination.filtering && Object.keys(pagination.filtering).length > 1) {
       this.filterReceived = pagination.filtering;
     }
     this.investigationsFacade.setReceivedInvestigations(
@@ -176,7 +184,7 @@ export class InvestigationsComponent {
       this.pagination.pageSize = this.DEFAULT_PAGE_SIZE;
     }
     this.setTableSortingList(pagination.sorting, NotificationStatusGroup.QUEUED_AND_REQUESTED);
-    if (pagination.filtering) {
+    if (pagination.filtering && Object.keys(pagination.filtering).length > 1) {
       this.filterQueuedAndRequested = pagination.filtering;
     }
     this.investigationsFacade.setQueuedAndRequestedInvestigations(
@@ -204,7 +212,14 @@ export class InvestigationsComponent {
   }
 
   public triggerSearch(): void {
-    // TODO: implement search
+    this.searchHelper.resetFilterAndShowToast(false, this.notificationComponent, this.toastService);
+    const searchValue = this.searchControl.value;
+    const filterInfo: FilterInfo = { filterValue: searchValue, filterOperator: FilterOperator.STARTS_WITH };
+    this.filterReceived = { filterMethod: FilterMethod.OR, description: filterInfo, createdBy: filterInfo };
+    this.filterQueuedAndRequested = { filterMethod: FilterMethod.OR, description: filterInfo, sendTo: filterInfo };
+
+    this.investigationsFacade.setReceivedInvestigations(this.pagination.page, this.pagination.pageSize, this.investigationReceivedSortList, this.filterReceived);
+    this.investigationsFacade.setQueuedAndRequestedInvestigations(this.pagination.page, this.pagination.pageSize, this.investigationQueuedAndRequestedSortList, this.filterQueuedAndRequested);
   }
 
   private setTableSortingList(sorting: TableHeaderSort, notificationTable: NotificationStatusGroup): void {

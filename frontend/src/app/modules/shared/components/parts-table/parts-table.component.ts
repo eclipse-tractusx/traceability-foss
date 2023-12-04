@@ -871,4 +871,14 @@ export class PartsTableComponent implements OnInit {
   private removeSelectedValues(itemsToRemove: unknown[]): void {
     removeSelectedValues(this.selection, itemsToRemove);
   }
+
+  public resetFilterActive(): void {
+    this.filterConfiguration.forEach(filter => {
+      if (filter.column) {
+        this.filterActive[filter.column] = false;
+      } else {
+        this.filterActive[filter.filterKey] = false;
+      }
+    });
+  }
 }

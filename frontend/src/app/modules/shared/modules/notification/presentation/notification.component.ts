@@ -19,7 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, QueryList, ViewChildren } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   MenuActionConfig,
@@ -32,12 +32,15 @@ import { View } from '@shared/model/view.model';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { NotificationTabComponent } from '../notification-tab/notification-tab.component';
 
 @Component({
   selector: 'app-notification',
   templateUrl: './notification.component.html',
 })
 export class NotificationComponent {
+  @ViewChildren(NotificationTabComponent) notificationTabComponents: QueryList<NotificationTabComponent>;
+
   @Input() receivedNotifications$: Observable<View<Notifications>>;
   @Input() queuedAndRequestedNotifications$: Observable<View<Notifications>>;
   @Input() translationContext: 'commonInvestigation' | 'commonAlert';
@@ -70,7 +73,7 @@ export class NotificationComponent {
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly staticIdService: StaticIdService,
-  ) {}
+  ) { }
 
   public onTabChange(tabIndex: number): void {
     void this.router.navigate([], { queryParams: { tabIndex }, replaceUrl: true });

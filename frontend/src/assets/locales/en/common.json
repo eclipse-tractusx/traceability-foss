@@ -296,7 +296,8 @@
   "parts": {
     "input": {
       "global-search": {
-        "placeholder": "Search for C-X ID, partInstanceId, partNumber, BPN",
+        "placeholderAsset": "Search for IDs, Name, Manufacturer, Customer Part...",
+        "placeholderAlertsAndInvestigations": "Search for Description and BPN ",
         "toastInfo": "By using global search on view level, the local filters on table level was removed."
       }
     },

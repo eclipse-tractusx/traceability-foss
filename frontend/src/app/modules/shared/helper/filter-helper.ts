@@ -123,24 +123,18 @@ export function toAssetFilter(formValues: any, isAsBuilt: boolean): AssetAsPlann
   }
 }
 
-export function toGlobalSearchAssetFilter(formValues: string, isAsBuilt: boolean) {
-  let filter;
+export function toGlobalSearchAssetFilter(formValues: string, isAsBuilt: boolean, filterItemList: string[]) {
+  const filter = {};
   if (isAsBuilt) {
-    filter = {
-      id: formValues,
-      semanticModelId: formValues,
-      idShort: formValues,
-      customerPartId: formValues,
-      manufacturerPartId: formValues,
-    } as AssetAsBuiltFilter;
+    for (const filterItem of filterItemList) {
+      filter[filterItem] = formValues;
+    };
+    filter as AssetAsBuiltFilter;
   } else {
-    filter = {
-      id: formValues,
-      idShort: formValues,
-      semanticModelId: formValues,
-      manufacturerPartId: formValues,
-    } as AssetAsPlannedFilter;
+    for (const filterItem of filterItemList) {
+      filter[filterItem] = formValues;
+    };
+    filter as AssetAsPlannedFilter;
   }
-
   return filter;
 }

@@ -79,7 +79,7 @@ describe('Parts', () => {
         componentInstance.filterActivated(MainAspectType.AS_BUILT, assetAsBuiltFilter);
 
 
-        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], assetAsBuiltFilter);
+        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], assetAsBuiltFilter, false);
     });
 
     it('should call partsFacade.setPartsAsPlannedWithFilter when filter is set', async () => {
@@ -97,7 +97,7 @@ describe('Parts', () => {
         componentInstance.filterActivated(MainAspectType.AS_PLANNED, assetAsPlannedFilter);
 
 
-        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], assetAsPlannedFilter);
+        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], assetAsPlannedFilter, false);
     });
 
     it('should show the RequestAlertComponent dialog when openDialog is called', async () => {
@@ -122,7 +122,7 @@ describe('Parts', () => {
         componentInstance.filterActivated(MainAspectType.AS_DESIGNED, assetAsDesignedFilter);
 
 
-        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], assetAsDesignedFilter);
+        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], assetAsDesignedFilter, false);
     });
 
     it('should call partsFacade.setPartsAsOrderedWithFilter when filter is set', async () => {
@@ -139,7 +139,7 @@ describe('Parts', () => {
         componentInstance.filterActivated(MainAspectType.AS_ORDERED, assetAsOrderedFilter);
 
 
-        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], assetAsOrderedFilter);
+        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], assetAsOrderedFilter, false);
     });
 
     it('should call partsFacade.setPartsAsSupportedWithFilter when filter is set', async () => {
@@ -156,7 +156,7 @@ describe('Parts', () => {
         componentInstance.filterActivated(MainAspectType.AS_SUPPORTED, assetAsSupportedFilter);
 
 
-        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], assetAsSupportedFilter);
+        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], assetAsSupportedFilter, false);
     });
 
     it('should call partsFacade.setPartsAsRecycledWithFilter when filter is set', async () => {
@@ -173,7 +173,7 @@ describe('Parts', () => {
         componentInstance.filterActivated(MainAspectType.AS_RECYCLED, assetAsRecycledFilter);
 
 
-        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], assetAsRecycledFilter);
+        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], assetAsRecycledFilter, false);
     });
 
     it('should call partsFacade.setPartsAsBuilt when filter is not set', async () => {
@@ -189,7 +189,7 @@ describe('Parts', () => {
         componentInstance.filterActivated(MainAspectType.AS_BUILT, assetAsBuiltFilter);
 
         // Assert
-        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], null);
+        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], null, false);
     });
 
     it('should call partsFacade.setPartsAsPlanned when filter is not set', async () => {
@@ -205,7 +205,7 @@ describe('Parts', () => {
         componentInstance.filterActivated(MainAspectType.AS_PLANNED, assetAsPlannedFilter);
 
         // Assert
-        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], null);
+        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], null, false);
     });
 
     it('should call partsFacade.setPartsAsDesigned when filter is not set', async () => {
@@ -221,7 +221,7 @@ describe('Parts', () => {
         componentInstance.filterActivated(MainAspectType.AS_DESIGNED, assetFilter);
 
         // Assert
-        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], null);
+        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], null, false);
     });
 
     it('should call partsFacade.setPartsAsOrdered when filter is not set', async () => {
@@ -237,7 +237,7 @@ describe('Parts', () => {
         componentInstance.filterActivated(MainAspectType.AS_ORDERED, assetFilter);
 
         // Assert
-        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], null);
+        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], null, false);
     });
 
     it('should call partsFacade.setPartsAsSupported when filter is not set', async () => {
@@ -253,7 +253,7 @@ describe('Parts', () => {
         componentInstance.filterActivated(MainAspectType.AS_SUPPORTED, assetFilter);
 
         // Assert
-        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], null);
+        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], null, false);
     });
 
     it('should call partsFacade.setPartsAsRecycled when filter is not set', async () => {
@@ -269,7 +269,7 @@ describe('Parts', () => {
         componentInstance.filterActivated(MainAspectType.AS_RECYCLED, assetFilter);
 
         // Assert
-        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], null);
+        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], null, false);
     });
 
     it('should call partsFacade.setPartsAsBuilt with the correct parameters', async () => {
@@ -290,7 +290,7 @@ describe('Parts', () => {
         expect(componentInstance['tableAsBuiltSortList']).toBeTruthy();
 
         // Assert
-        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsBuiltSortList'], null);
+        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsBuiltSortList'], null, false);
     });
 
     it('should call partsFacade.setPartsAsBuilt with the correct parameters no ctrlkey pressed', async () => {
@@ -310,7 +310,7 @@ describe('Parts', () => {
         componentInstance['onAsBuiltTableConfigChange']({ page, pageSize, sorting }); // Access private method
 
         // Assert
-        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsBuiltSortList'], null);
+        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsBuiltSortList'], null, false);
     });
 
     it('should call partsFacade.setPartsAsPlanned with the correct parameters', async () => {
@@ -330,7 +330,7 @@ describe('Parts', () => {
         componentInstance['onAsPlannedTableConfigChange']({ page, pageSize, sorting }); // Access private method
 
         // Assert
-        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsPlannedSortList'], null);
+        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsPlannedSortList'], null, false);
     });
 
     it('should call partsFacade.setPartsAsPlanned with the correct parameters  and ctrlkey not pressed', async () => {
@@ -350,7 +350,7 @@ describe('Parts', () => {
         componentInstance['onAsPlannedTableConfigChange']({ page, pageSize, sorting }); // Access private method
 
         // Assert
-        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsPlannedSortList'], null);
+        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsPlannedSortList'], null, false);
     });
 
     it('should call partsFacade.setPartsAsDesigned with the correct parameters', async () => {
@@ -370,7 +370,7 @@ describe('Parts', () => {
         componentInstance['onAsDesignedTableConfigChange']({ page, pageSize, sorting }); // Access private method
 
         // Assert
-        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsDesignedSortList'], null);
+        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsDesignedSortList'], null, false);
     });
 
     it('should call partsFacade.setPartsAsOrdered with the correct parameters', async () => {
@@ -390,7 +390,7 @@ describe('Parts', () => {
         componentInstance['onAsOrderedTableConfigChange']({ page, pageSize, sorting }); // Access private method
 
         // Assert
-        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsOrderedSortList'], null);
+        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsOrderedSortList'], null, false);
     });
 
     it('should call partsFacade.setPartsAsSupported with the correct parameters', async () => {
@@ -410,7 +410,7 @@ describe('Parts', () => {
         componentInstance['onAsSupportedTableConfigChange']({ page, pageSize, sorting }); // Access private method
 
         // Assert
-        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsSupportedSortList'], null);
+        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsSupportedSortList'], null, false);
     });
 
     it('should call partsFacade.setPartsAsRecycled with the correct parameters', async () => {
@@ -430,7 +430,7 @@ describe('Parts', () => {
         componentInstance['onAsRecycledTableConfigChange']({ page, pageSize, sorting }); // Access private method
 
         // Assert
-        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsRecycledSortList'], null);
+        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsRecycledSortList'], null, false);
     });
 
     it('should set selectedPart in PartDetailsFacade correctly', async () => {
@@ -459,7 +459,7 @@ describe('Parts', () => {
         componentInstance['onAsBuiltTableConfigChange']({ page, pageSize, sorting }); // Access private method
 
         // Assert
-        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsBuiltSortList'], null);
+        expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsBuiltSortList'], null, false);
     });
 
     it('should reset AsBuilt part table when resetTableSortingList is called', async () => {
@@ -594,8 +594,8 @@ describe('Parts', () => {
         componentInstance.triggerPartSearch();
 
         // Assert
-        expect(partsFacadeAsPlannedSpy).toHaveBeenCalledWith(0, 50, [], toGlobalSearchAssetFilter(searchValue, false), true);
-        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], toGlobalSearchAssetFilter(searchValue, true), true);
+        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], toGlobalSearchAssetFilter(searchValue, true, componentInstance.searchListAsBuilt), true);
+        expect(partsFacadeAsPlannedSpy).toHaveBeenCalledWith(0, 50, [], toGlobalSearchAssetFilter(searchValue, false, componentInstance.searchListAsPlanned), true);
     });
 
     it('should not filter if filter search is unset', async () => {
@@ -614,8 +614,8 @@ describe('Parts', () => {
         componentInstance.triggerPartSearch();
 
         // Assert
-        expect(partsFacadeAsPlannedSpy).toHaveBeenCalledWith();
-        expect(partsFacadeSpy).toHaveBeenCalledWith();
+        expect(partsFacadeAsPlannedSpy).toHaveBeenCalledWith(0, 50);
+        expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50);
     });
 
     it('should update the bomLifecycleSize when handleTableActivationEvent is called', async () => {

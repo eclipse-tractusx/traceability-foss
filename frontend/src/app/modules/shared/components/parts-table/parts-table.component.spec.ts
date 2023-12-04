@@ -467,4 +467,24 @@ describe('PartsTableComponent', () => {
     expect(componentInstance.filterActivated.emit).toHaveBeenCalledWith(filterActivatedListTwo);
     expect(componentInstance.filterActivated.emit).toHaveBeenCalledWith(filterActivatedListThree);
   });
+
+  it('should reset the filterActive value on activating the resetFilterActive function', async () => {
+    const { fixture } = await renderPartsTableComponent(2, PartTableType.AS_BUILT_OWN);
+    const { componentInstance } = fixture;
+
+    const filterActiveExpected = {};
+    componentInstance.filterConfiguration.forEach(filter => {
+      if (filter.column) {
+        filterActiveExpected[filter.column] = false;
+      } else {
+        filterActiveExpected[filter.filterKey] = false;
+      }
+    });
+
+    componentInstance.filterActive['name'] = true;
+
+    componentInstance.resetFilterActive();
+
+    expect(componentInstance.filterActive).toEqual(filterActiveExpected);
+  });
 });

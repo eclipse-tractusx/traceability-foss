@@ -28,10 +28,10 @@ import { SupplierPartsComponent } from '@page/other-parts/presentation/supplier-
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { BomLifecycleSize } from '@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model';
 import { ToastService } from '@shared/components/toasts/toast.service';
+import { SearchHelper } from '@shared/helper/search-helper';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { BomLifecycleSettingsService, UserSettingView } from '@shared/service/bom-lifecycle-settings.service';
 import { StaticIdService } from '@shared/service/staticId.service';
-import { resetMultiSelectionAutoCompleteComponent } from "@page/parts/core/parts.helper";
 
 @Component({
     selector: 'app-other-parts',
@@ -39,12 +39,12 @@ import { resetMultiSelectionAutoCompleteComponent } from "@page/parts/core/parts
     styleUrls: ['./other-parts.component.scss'],
 })
 export class OtherPartsComponent implements OnDestroy, OnInit {
-
     public selectedTab = 0;
     public showStartInvestigationArray = [true, false];
 
     public readonly supplierTabLabelId = this.staticIdService.generateId('OtherParts.supplierTabLabel');
     public readonly customerTabLabelId = this.staticIdService.generateId('OtherParts.customerTabLabel');
+    public readonly searchHelper = new SearchHelper();
 
     public searchFormGroup = new FormGroup({});
     public searchControl: FormControl;
@@ -57,14 +57,12 @@ export class OtherPartsComponent implements OnDestroy, OnInit {
         private readonly staticIdService: StaticIdService,
         public userSettings: BomLifecycleSettingsService,
         public toastService: ToastService,
-    ) {
-    }
+    ) { }
 
     ngOnInit(): void {
         this.searchFormGroup.addControl('partSearch', new FormControl([]));
         this.searchControl = this.searchFormGroup.get('partSearch') as unknown as FormControl;
     }
-
 
     public bomLifecycleSize: BomLifecycleSize = this.userSettings.getSize(UserSettingView.OTHER_PARTS);
 
@@ -73,7 +71,6 @@ export class OtherPartsComponent implements OnDestroy, OnInit {
     }
 
     triggerPartSearch() {
-
         this.resetFilterAndShowToast();
 
         const searchValue = this.searchFormGroup.get('partSearch').value;
@@ -86,25 +83,18 @@ export class OtherPartsComponent implements OnDestroy, OnInit {
         }
     }
 
-
     private resetFilterAndShowToast() {
-        const oneFilterSet = false;
-
-        const resetComponents = (
-            components: QueryList<SupplierPartsComponent> | QueryList<CustomerPartsComponent>
-        ) => {
+        const resetComponents = (components: QueryList<SupplierPartsComponent> | QueryList<CustomerPartsComponent>) => {
             for (const component of components) {
-                const filterIsSet = resetMultiSelectionAutoCompleteComponent(component.partsTableComponents, oneFilterSet);
+                const filterIsSet = this.searchHelper.resetFilterForAssetComponents(component.partsTableComponents, false);
                 if (filterIsSet) {
-                    this.toastService.info("parts.input.global-search.toastInfo");
+                    this.toastService.info('parts.input.global-search.toastInfo');
                 }
             }
         };
-
         resetComponents(this.supplierPartsComponents);
         resetComponents(this.customerPartsComponents);
     }
-
 
     public onTabChange({ index }: MatTabChangeEvent): void {
         this.selectedTab = index;

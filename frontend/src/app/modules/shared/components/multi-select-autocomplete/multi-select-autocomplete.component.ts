@@ -170,13 +170,23 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     this.theSearchElement = value;
   }
 
-  public clickClear(): void {
-    this.formControl.patchValue('');
-    this.formControl.reset();
+  public clickClear(extern = false): boolean {
+    let wasSet = false;
     if (this.searchInput) {
       this.searchInput.value = '';
     }
-    this.theSearchElement = null;
+    this.theSearchElement = '';
     this.selectedValue = [];
+    wasSet = this.formControl.value !== null && ((Array.isArray(this.formControl.value) && this.formControl.value.length > 0) || (!Array.isArray(this.formControl.value) && this.formControl.value !== ''));
+    this.formControl.patchValue('');
+    this.formControl.reset();
+    if (extern) {
+      clearTimeout(this.inputTimer);
+      this.filterActive = '';
+      this.searched = false;
+    }
+
+    return wasSet;
+
   }
 }

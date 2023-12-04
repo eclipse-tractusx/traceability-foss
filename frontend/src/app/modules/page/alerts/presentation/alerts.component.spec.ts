@@ -23,7 +23,7 @@ import { AlertsService } from '@shared/service/alerts.service';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 import { AlertsComponent } from './alerts.component';
-import { FilterMethod, TableEventConfig } from '@shared/components/table/table.model';
+import { FilterInfo, FilterMethod, TableEventConfig, TableFilter } from '@shared/components/table/table.model';
 import { FilterOperator } from '@page/parts/model/parts.model';
 
 describe('AlertsComponent', () => {
@@ -60,7 +60,6 @@ describe('AlertsComponent', () => {
     const paginationOne: TableEventConfig = { page: 0, pageSize: 50, sorting: ['description', 'asc'] };
     const paginationTwo: TableEventConfig = { page: 0, pageSize: 50, sorting: ['status', 'asc'] };
     const paginationThree: TableEventConfig = { page: 0, pageSize: 50, sorting: ['status', 'desc'] };
-
     alertsComponent.onReceivedTableConfigChange(paginationOne);
 
     expect(alertsComponent.alertReceivedSortList).toEqual([['description', 'asc']]);
@@ -70,14 +69,12 @@ describe('AlertsComponent', () => {
       ctrlKey: true,
       charCode: 17,
     });
-
     alertsComponent.onReceivedTableConfigChange(paginationTwo);
 
     expect(alertsComponent.alertReceivedSortList).toEqual([
       ['description', 'asc'],
       ['status', 'asc'],
     ]);
-
     alertsComponent.onReceivedTableConfigChange(paginationThree);
 
     expect(alertsComponent.alertReceivedSortList).toEqual([
@@ -133,7 +130,6 @@ describe('AlertsComponent', () => {
 
     const pagination: TableEventConfig = { page: 0, pageSize: 0, sorting: ['description', 'asc'] };
     spyOn(alertsComponent.alertsFacade, 'setReceivedAlerts');
-
     alertsComponent.onReceivedTableConfigChange(pagination);
     fixture.detectChanges();
     expect(alertsComponent.alertsFacade.setReceivedAlerts).toHaveBeenCalledWith(0, 50, [['description', 'asc']], Object({ filterMethod: 'AND' }));
@@ -170,4 +166,30 @@ describe('AlertsComponent', () => {
     expect(alertsComponent.alertsFacade.setReceivedAlerts).toHaveBeenCalledWith(0, 50, [['description', 'asc']], Object({ filterMethod: 'AND', description: { filterOperator: FilterOperator.STARTS_WITH, filterValue: 'value1' } }));
   });
 
+  it('should set the correct filters on triggering the global search', async () => {
+    const { fixture } = await renderAlerts();
+    const alertsComponent = fixture.componentInstance;
+
+    const searchValue = 'value 1';
+    const filterInfo: FilterInfo = { filterValue: searchValue, filterOperator: FilterOperator.STARTS_WITH };
+    const alertsReceivedFilters: TableFilter = {
+      filterMethod: FilterMethod.OR,
+      description: filterInfo,
+      createdBy: filterInfo
+    };
+    const alertsCreatedFilters: TableFilter = {
+      filterMethod: FilterMethod.OR,
+      description: filterInfo,
+      sendTo: filterInfo
+    };
+    const spy1 = spyOn(alertsComponent.alertsFacade, 'setReceivedAlerts');
+    const spy2 = spyOn(alertsComponent.alertsFacade, 'setQueuedAndRequestedAlerts');
+    const spy3 = spyOn(alertsComponent.searchHelper, 'resetFilterAndShowToast');
+
+    alertsComponent.searchControl.patchValue(searchValue);
+    alertsComponent.triggerSearch();
+
+    expect(alertsComponent.filterReceived).toEqual(alertsReceivedFilters);
+    expect(alertsComponent.filterQueuedAndRequested).toEqual(alertsCreatedFilters);
+  });
 });

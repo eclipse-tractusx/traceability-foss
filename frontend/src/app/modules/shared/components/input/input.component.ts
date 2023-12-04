@@ -67,6 +67,7 @@ export class InputComponent extends BaseInputComponent<string> {
 
     public placeholder: string;
     public isFocused = false;
+    private inputTimer;
 
     constructor(@Inject(Injector) injector: Injector, staticIdService: StaticIdService) {
         super(injector, staticIdService);
@@ -77,7 +78,17 @@ export class InputComponent extends BaseInputComponent<string> {
 
         if (this.isSearchBar) {
             this.placeholder = this.label;
+            this.control.valueChanges.subscribe(() => {
+                this.triggerFilteringTimeout();
+            });
         }
+    }
+
+    triggerFilteringTimeout(): void {
+        clearTimeout(this.inputTimer);
+        this.inputTimer = setTimeout(() => {
+            this.prefixIconClick.emit();
+        }, 500);
     }
 
     shouldHideClearButton(): boolean {

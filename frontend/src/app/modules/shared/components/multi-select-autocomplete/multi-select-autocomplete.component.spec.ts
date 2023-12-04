@@ -111,6 +111,30 @@ describe('MultiSelectAutocompleteComponent', () => {
     expect(componentInstance.selectedValue).toEqual([]);
   });
 
+  it('should clear values when clickClear is called from a external source', async () => {
+    const { fixture } = await renderMultiSelectAutoCompleteComponent();
+    const { componentInstance } = fixture;
+
+    componentInstance.searchInput = { value: 'initialValue' };
+    componentInstance.theSearchElement = 'initialValue';
+    componentInstance.selectedValue = ['initialValue'];
+    componentInstance.searched = true;
+    componentInstance.filterActive = 'initialValue';
+    componentInstance.formControl.patchValue('initalValue');
+
+
+    const wasSet = componentInstance.clickClear(true);
+
+    // Assert
+    expect(componentInstance.searchInput.value).toBe('');
+    expect(componentInstance.theSearchElement).toBe(null);
+    expect(componentInstance.selectedValue).toEqual([]);
+    expect(wasSet).toBe(true);
+    expect(componentInstance.searched).toBe(false);
+    expect(componentInstance.filterActive).toBe('');
+
+  });
+
   it('should select all options when val is true for toggleAll', async () => {
     const { fixture } = await renderMultiSelectAutoCompleteComponent();
     const { componentInstance } = fixture;

@@ -164,37 +164,60 @@ describe('SupplierPartsComponent', () => {
     ]);
   });
 
-  it('should handle updateSupplierParts null', async () => {
+  it('should handle updateSupplierParts null for AsBuilt', async () => {
     const { fixture } = await renderSupplierPartsAsBuilt();
     const supplierPartsComponent = fixture.componentInstance;
 
-    const otherPartsFacade = (supplierPartsComponent as any)['otherPartsFacade'];
-    const updateSupplierPartAsBuiltSpy = spyOn(otherPartsFacade, 'setSupplierPartsAsBuilt');
-    const updateSupplierPartAsPlannedSpy = spyOn(otherPartsFacade, 'setSupplierPartsAsPlanned');
+    spyOn(supplierPartsComponent.otherPartsFacade, 'setSupplierPartsAsBuilt');
 
     supplierPartsComponent.updateSupplierParts();
 
-    expect(updateSupplierPartAsBuiltSpy).toHaveBeenCalledWith();
-    expect(updateSupplierPartAsPlannedSpy).toHaveBeenCalledWith();
+    expect(supplierPartsComponent.otherPartsFacade.setSupplierPartsAsBuilt).toHaveBeenCalledWith(0, 50);
   });
 
-  it('should handle updateSupplierParts including search', async () => {
+  it('should handle updateSupplierParts null for AsPlanned', async () => {
+    const { fixture } = await renderSupplierPartsAsPlanned();
+    const supplierPartsComponent = fixture.componentInstance;
+
+    spyOn(supplierPartsComponent.otherPartsFacade, 'setSupplierPartsAsPlanned');
+
+    supplierPartsComponent.updateSupplierParts();
+
+    expect(supplierPartsComponent.otherPartsFacade.setSupplierPartsAsPlanned).toHaveBeenCalledWith(0, 50);
+  });
+
+  it('should handle updateSupplierParts including search for AsBuilt', async () => {
     const { fixture } = await renderSupplierPartsAsBuilt();
     const supplierPartsComponent = fixture.componentInstance;
 
-    const otherPartsFacade = (supplierPartsComponent as any)['otherPartsFacade'];
-    const updateSupplierPartAsBuiltSpy = spyOn(otherPartsFacade, 'setSupplierPartsAsBuilt');
-    const updateSupplierPartAsPlannedSpy = spyOn(otherPartsFacade, 'setSupplierPartsAsPlanned');
+    spyOn(supplierPartsComponent.otherPartsFacade, 'setSupplierPartsAsBuilt');
 
     const search = 'test';
     supplierPartsComponent.updateSupplierParts(search);
 
-    expect(updateSupplierPartAsBuiltSpy).toHaveBeenCalledWith(0, 50, [], toGlobalSearchAssetFilter(search, true), true);
-    expect(updateSupplierPartAsPlannedSpy).toHaveBeenCalledWith(
+    expect(supplierPartsComponent.otherPartsFacade.setSupplierPartsAsBuilt).toHaveBeenCalledWith(
       0,
       50,
       [],
-      toGlobalSearchAssetFilter(search, false),
+      toGlobalSearchAssetFilter(search, true, supplierPartsComponent.searchListAsBuilt),
+      true,
+    );
+  });
+
+  it('should handle updateSupplierParts including search for AsPlanned', async () => {
+    const { fixture } = await renderSupplierPartsAsPlanned();
+    const supplierPartsComponent = fixture.componentInstance;
+
+    spyOn(supplierPartsComponent.otherPartsFacade, 'setSupplierPartsAsPlanned');
+
+    const search = 'test';
+    supplierPartsComponent.updateSupplierParts(search);
+
+    expect(supplierPartsComponent.otherPartsFacade.setSupplierPartsAsPlanned).toHaveBeenCalledWith(
+      0,
+      50,
+      [],
+      toGlobalSearchAssetFilter(search, false, supplierPartsComponent.searchListAsPlanned),
       true,
     );
   });
@@ -216,7 +239,7 @@ describe('SupplierPartsComponent', () => {
 
     supplierPartsComponent.onAsBuiltTableConfigChange(pagination);
     fixture.detectChanges();
-    expect(supplierPartsComponent.otherPartsFacade.setSupplierPartsAsBuilt).toHaveBeenCalledWith(0, 50, [['name', 'asc']], toAssetFilter(null, true));
+    expect(supplierPartsComponent.otherPartsFacade.setSupplierPartsAsBuilt).toHaveBeenCalledWith(0, 50, [['name', 'asc']], toAssetFilter(null, true), false);
 
   });
 
@@ -229,7 +252,7 @@ describe('SupplierPartsComponent', () => {
 
     supplierPartsComponent.onAsBuiltTableConfigChange(pagination);
     fixture.detectChanges();
-    expect(supplierPartsComponent.otherPartsFacade.setSupplierPartsAsBuilt).toHaveBeenCalledWith(0, 10, [['name', 'asc']], toAssetFilter(null, true));
+    expect(supplierPartsComponent.otherPartsFacade.setSupplierPartsAsBuilt).toHaveBeenCalledWith(0, 10, [['name', 'asc']], toAssetFilter(null, true), false);
 
   });
 
@@ -242,7 +265,7 @@ describe('SupplierPartsComponent', () => {
 
     supplierPartsComponent.onAsPlannedTableConfigChange(pagination);
     fixture.detectChanges();
-    expect(supplierPartsComponent.otherPartsFacade.setSupplierPartsAsPlanned).toHaveBeenCalledWith(0, 50, [['name', 'asc']], toAssetFilter(null, false));
+    expect(supplierPartsComponent.otherPartsFacade.setSupplierPartsAsPlanned).toHaveBeenCalledWith(0, 50, [['name', 'asc']], toAssetFilter(null, false), false);
   });
 
   it('should use the given page size if the page size in the onAsPlannedTableConfigChange is given as not 0', async () => {
@@ -254,7 +277,7 @@ describe('SupplierPartsComponent', () => {
 
     supplierPartsComponent.onAsPlannedTableConfigChange(pagination);
     fixture.detectChanges();
-    expect(supplierPartsComponent.otherPartsFacade.setSupplierPartsAsPlanned).toHaveBeenCalledWith(0, 10, [['name', 'asc']], toAssetFilter(null, false));
+    expect(supplierPartsComponent.otherPartsFacade.setSupplierPartsAsPlanned).toHaveBeenCalledWith(0, 10, [['name', 'asc']], toAssetFilter(null, false), false);
   });
 
   it('should pass on the filtering to the api services for As_Built', async () => {
@@ -277,7 +300,7 @@ describe('SupplierPartsComponent', () => {
 
     supplierPartsComponent.filterActivated(true, assetFilterAsBuilt);
     fixture.detectChanges();
-    expect(supplierPartsComponent.otherPartsFacade.setSupplierPartsAsBuilt).toHaveBeenCalledWith(0, 50, [], toAssetFilter(assetFilterAsBuilt, true));
+    expect(supplierPartsComponent.otherPartsFacade.setSupplierPartsAsBuilt).toHaveBeenCalledWith(0, 50, [], toAssetFilter(assetFilterAsBuilt, true), false);
   });
 
   it('should pass on the filtering to the api services for As_Planned', async () => {
@@ -296,6 +319,6 @@ describe('SupplierPartsComponent', () => {
 
     supplierPartsComponent.filterActivated(false, assetFilterAsPlanned);
     fixture.detectChanges();
-    expect(supplierPartsComponent.otherPartsFacade.setSupplierPartsAsPlanned).toHaveBeenCalledWith(0, 50, [], toAssetFilter(assetFilterAsPlanned, false));
+    expect(supplierPartsComponent.otherPartsFacade.setSupplierPartsAsPlanned).toHaveBeenCalledWith(0, 50, [], toAssetFilter(assetFilterAsPlanned, false), false);
   });
 });

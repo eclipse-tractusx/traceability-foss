@@ -22,7 +22,7 @@
 import { InvestigationsModule } from '@page/investigations/investigations.module';
 import { InvestigationsComponent } from '@page/investigations/presentation/investigations.component';
 import { FilterOperator } from '@page/parts/model/parts.model';
-import { FilterMethod, TableEventConfig } from '@shared/components/table/table.model';
+import { FilterInfo, FilterMethod, TableEventConfig, TableFilter } from '@shared/components/table/table.model';
 import { NotificationTabInformation } from '@shared/model/notification-tab-information';
 import { InvestigationsService } from '@shared/service/investigations.service';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
@@ -123,52 +123,78 @@ describe('InvestigationsComponent', () => {
 
   it('should set the default Pagination by recieving a size change event', async () => {
     const { fixture } = await renderInvestigations();
-    const alertsComponent = fixture.componentInstance;
+    const investigationsComponent = fixture.componentInstance;
 
-    alertsComponent.onDefaultPaginationSizeChange(100);
-    expect(alertsComponent.DEFAULT_PAGE_SIZE).toEqual(100);
+    investigationsComponent.onDefaultPaginationSizeChange(100);
+    expect(investigationsComponent.DEFAULT_PAGE_SIZE).toEqual(100);
   });
 
   it('should use the default page size if the page size in the ReceivedConfig is given as 0', async () => {
     const { fixture } = await renderInvestigations();
-    const alertsComponent = fixture.componentInstance;
+    const investigationsComponent = fixture.componentInstance;
 
     const pagination: TableEventConfig = { page: 0, pageSize: 0, sorting: ['description', 'asc'] };
-    spyOn(alertsComponent.investigationsFacade, 'setReceivedInvestigations');
+    spyOn(investigationsComponent.investigationsFacade, 'setReceivedInvestigations');
 
-    alertsComponent.onReceivedTableConfigChanged(pagination);
+    investigationsComponent.onReceivedTableConfigChanged(pagination);
     fixture.detectChanges();
-    expect(alertsComponent.investigationsFacade.setReceivedInvestigations).toHaveBeenCalledWith(0, 50, [['description', 'asc']], Object({ filterMethod: 'AND' }));
+    expect(investigationsComponent.investigationsFacade.setReceivedInvestigations).toHaveBeenCalledWith(0, 50, [['description', 'asc']], Object({ filterMethod: 'AND' }));
   });
 
   it('should use the default page size if the page size in the queuedAndRequestedConfig is given as 0', async () => {
     const { fixture } = await renderInvestigations();
-    const alertsComponent = fixture.componentInstance;
+    const investigationsComponent = fixture.componentInstance;
 
     const pagination: TableEventConfig = { page: 0, pageSize: 0, sorting: ['description', 'asc'] };
-    spyOn(alertsComponent.investigationsFacade, 'setQueuedAndRequestedInvestigations');
+    spyOn(investigationsComponent.investigationsFacade, 'setQueuedAndRequestedInvestigations');
 
-    alertsComponent.onQueuedAndRequestedTableConfigChanged(pagination);
+    investigationsComponent.onQueuedAndRequestedTableConfigChanged(pagination);
     fixture.detectChanges();
-    expect(alertsComponent.investigationsFacade.setQueuedAndRequestedInvestigations).toHaveBeenCalledWith(0, 50, [['description', 'asc']], Object({ filterMethod: 'AND' }));
+    expect(investigationsComponent.investigationsFacade.setQueuedAndRequestedInvestigations).toHaveBeenCalledWith(0, 50, [['description', 'asc']], Object({ filterMethod: 'AND' }));
   });
 
   it('should pass on the filtering to the api services', async () => {
     const { fixture } = await renderInvestigations();
-    const alertsComponent = fixture.componentInstance;
+    const investigationsComponent = fixture.componentInstance;
 
     const pagination: TableEventConfig = { page: 0, pageSize: 50, sorting: ['description', 'asc'], filtering: { filterMethod: FilterMethod.AND, description: { filterOperator: FilterOperator.STARTS_WITH, filterValue: 'value1' } } };
-    spyOn(alertsComponent.investigationsFacade, 'setQueuedAndRequestedInvestigations');
+    spyOn(investigationsComponent.investigationsFacade, 'setQueuedAndRequestedInvestigations');
 
-    alertsComponent.onQueuedAndRequestedTableConfigChanged(pagination);
+    investigationsComponent.onQueuedAndRequestedTableConfigChanged(pagination);
     fixture.detectChanges();
-    expect(alertsComponent.investigationsFacade.setQueuedAndRequestedInvestigations).toHaveBeenCalledWith(0, 50, [['description', 'asc']], Object({ filterMethod: 'AND', description: { filterOperator: FilterOperator.STARTS_WITH, filterValue: 'value1' } }));
+    expect(investigationsComponent.investigationsFacade.setQueuedAndRequestedInvestigations).toHaveBeenCalledWith(0, 50, [['description', 'asc']], Object({ filterMethod: 'AND', description: { filterOperator: FilterOperator.STARTS_WITH, filterValue: 'value1' } }));
 
-    spyOn(alertsComponent.investigationsFacade, 'setReceivedInvestigations');
+    spyOn(investigationsComponent.investigationsFacade, 'setReceivedInvestigations');
 
-    alertsComponent.onReceivedTableConfigChanged(pagination);
+    investigationsComponent.onReceivedTableConfigChanged(pagination);
     fixture.detectChanges();
-    expect(alertsComponent.investigationsFacade.setReceivedInvestigations).toHaveBeenCalledWith(0, 50, [['description', 'asc']], Object({ filterMethod: 'AND', description: { filterOperator: FilterOperator.STARTS_WITH, filterValue: 'value1' } }));
+    expect(investigationsComponent.investigationsFacade.setReceivedInvestigations).toHaveBeenCalledWith(0, 50, [['description', 'asc']], Object({ filterMethod: 'AND', description: { filterOperator: FilterOperator.STARTS_WITH, filterValue: 'value1' } }));
   });
 
+  it('should set the correct filters on triggering the global search', async () => {
+    const { fixture } = await renderInvestigations();
+    const investigationsComponent = fixture.componentInstance;
+
+    const searchValue = 'value 1';
+    const filterInfo: FilterInfo = { filterValue: searchValue, filterOperator: FilterOperator.STARTS_WITH };
+    const investigationsReceivedFilters: TableFilter = {
+      filterMethod: FilterMethod.OR,
+      description: filterInfo,
+      createdBy: filterInfo
+    };
+    const investigationsCreatedFilters: TableFilter = {
+      filterMethod: FilterMethod.OR,
+      description: filterInfo,
+      sendTo: filterInfo
+    };
+    const spy1 = spyOn(investigationsComponent.investigationsFacade, 'setReceivedInvestigations');
+    const spy2 = spyOn(investigationsComponent.investigationsFacade, 'setQueuedAndRequestedInvestigations');
+    const spy3 = spyOn(investigationsComponent.searchHelper, 'resetFilterAndShowToast');
+
+    investigationsComponent.searchControl.patchValue(searchValue);
+    investigationsComponent.triggerSearch();
+
+    expect(investigationsComponent.filterReceived).toEqual(investigationsReceivedFilters);
+    expect(investigationsComponent.filterQueuedAndRequested).toEqual(investigationsCreatedFilters);
+  });
 });
