@@ -126,8 +126,9 @@ export class PartsService {
   }
 
   public getDistinctFilterValues(isAsBuilt: boolean, owner: Owner, fieldNames: string, startsWith: string) {
+    const mappedFieldName = PartsAssembler.mapFieldNameToApi(fieldNames);
     let params = new HttpParams()
-      .set('fieldName', fieldNames)
+      .set('fieldName', mappedFieldName)
       .set('startWith', startsWith)
       .set('size', 200)
       .set('owner', owner);
