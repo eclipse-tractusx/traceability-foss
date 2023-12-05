@@ -13,6 +13,10 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Changed
 - Upgraded irs-client library from 1.4.1-SNAPSHOT to 1.4.1
 
+### Known knowns
+
+- Backend/Frontend [TRACEFOSS-2728]: Investigations / Alerts: Transition of the message status will take some time. If it fails the user will not be informed.
+
 ## [9.0.0-rc3 - 27.11.2023]
 ### Added
 - DEPENDENCIES_FRONTEND, SECURITY.md, NOTICE.md, LICENSE file to frontend docker image
