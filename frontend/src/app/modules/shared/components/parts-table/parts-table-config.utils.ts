@@ -46,7 +46,6 @@ export class PartsTableConfigUtils {
         filterColumnsMapping.push(columnMapping);
       }
     }
-    console.log(filterColumnsMapping);
 
     return [ firstElement, ...filterColumnsMapping, lastElement ];
 
