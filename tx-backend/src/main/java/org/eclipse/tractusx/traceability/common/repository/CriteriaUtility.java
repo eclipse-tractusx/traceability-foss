@@ -22,11 +22,15 @@ package org.eclipse.tractusx.traceability.common.repository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.experimental.UtilityClass;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaFilter;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,5 +69,63 @@ public class CriteriaUtility {
         return entityManager.createQuery(cq)
                 .setMaxResults(resultLimit)
                 .getResultList();
+    }
+
+    public List<String> getDistinctNotificationFieldValues(
+            String fieldName,
+            String startWith,
+            Integer resultLimit,
+            QualityNotificationSide side,
+            Class<?> notificationEntityClass,
+            EntityManager entityManager) {
+
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<String> cq = builder.createQuery(String.class);
+        Root<?> root = cq.from(notificationEntityClass);
+
+        Path<String> fieldPath1 = getFieldPath(root, fieldName);
+
+        cq.select(fieldPath1.as(String.class))
+                .distinct(true)
+                .orderBy(List.of(builder.asc(fieldPath1.as(String.class))));
+
+        List<Predicate> predicates = new ArrayList<>();
+        if (nonNull(startWith)) {
+            predicates.add(
+                    builder.like(
+                            builder.lower(fieldPath1),
+                            startWith.toLowerCase() + "%")
+            );
+        }
+
+        if (nonNull(side)) {
+            predicates.add(builder.equal(root.get("side").as(String.class), side.name()));
+        }
+        cq.where(predicates.toArray(new Predicate[0]));
+        return entityManager.createQuery(cq)
+                .setMaxResults(resultLimit)
+                .getResultList();
+    }
+
+    private Path<String> getFieldPath(Root<?> root, String fieldName) {
+        if (isJoinQueryFieldName(fieldName)) {
+            Join<?, ?> join = root.join(getJoinTableName(fieldName), JoinType.LEFT);
+            return join.get(getJoinTableFieldName(fieldName));
+        }
+        return root.get(fieldName);
+    }
+
+    private boolean isJoinQueryFieldName(String fieldName) {
+        return fieldName.contains("_");
+    }
+
+    private String getJoinTableName(String joinQueryFieldName) {
+        String[] split = joinQueryFieldName.split("_");
+        return split[0];
+    }
+
+    private String getJoinTableFieldName(String joinQueryFieldName) {
+        String[] split = joinQueryFieldName.split("_");
+        return split.length == 2 ? split[1] : split[0];
     }
 }

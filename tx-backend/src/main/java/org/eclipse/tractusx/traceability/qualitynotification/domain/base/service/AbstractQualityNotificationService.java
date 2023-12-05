@@ -26,17 +26,20 @@ import org.eclipse.tractusx.traceability.qualitynotification.application.base.se
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.SendNotificationException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.repository.QualityNotificationRepository;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 public abstract class AbstractQualityNotificationService implements QualityNotificationService {
+
+    private static final List<String> SUPPORTED_ENUM_FIELDS = List.of("status", "side", "notifications_severity");
 
     protected abstract NotificationPublisherService getNotificationPublisherService();
 
@@ -45,18 +48,6 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
     protected abstract AssetAsBuiltServiceImpl getAssetAsBuiltServiceImpl();
 
     protected abstract void setAssetStatus(QualityNotification qualityNotification);
-
-    @Deprecated
-    @Override
-    public PageResult<QualityNotification> getCreated(Pageable pageable) {
-        return getQualityNotificationsPageResult(pageable, QualityNotificationSide.SENDER);
-    }
-
-    @Deprecated
-    @Override
-    public PageResult<QualityNotification> getReceived(Pageable pageable) {
-        return getQualityNotificationsPageResult(pageable, QualityNotificationSide.RECEIVER);
-    }
 
     @Override
     public PageResult<QualityNotification> getNotifications(Pageable pageable, SearchCriteria searchCriteria) {
@@ -97,13 +88,6 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
         getQualityNotificationRepository().updateQualityNotificationEntity(approvedInvestigation);
     }
 
-    private PageResult<QualityNotification> getQualityNotificationsPageResult(Pageable pageable, QualityNotificationSide alertSide) {
-        List<QualityNotification> alertData = getQualityNotificationRepository().findQualityNotificationsBySide(alertSide, pageable)
-                .content();
-        Page<QualityNotification> alertDataPage = new PageImpl<>(alertData, pageable, getQualityNotificationRepository().countQualityNotificationEntitiesBySide(alertSide));
-        return new PageResult<>(alertDataPage);
-    }
-
     @Override
     public void cancel(Long notificationId) {
         QualityNotification qualityNotification = loadOrNotFoundException(new QualityNotificationId(notificationId));
@@ -111,5 +95,29 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
 
         setAssetStatus(canceledQualityNotification);
         getQualityNotificationRepository().updateQualityNotificationEntity(canceledQualityNotification);
+    }
+
+    @Override
+    public List<String> getDistinctFilterValues(String fieldName, String startWith, Integer size, QualityNotificationSide side) {
+        final Integer resultSize = Objects.isNull(size) ? Integer.MAX_VALUE : size;
+
+        if (isSupportedEnumType(fieldName)) {
+            return getAssetEnumFieldValues(fieldName);
+        }
+        return getQualityNotificationRepository().getDistinctFieldValues(fieldName, startWith, resultSize, side);
+    }
+
+    private boolean isSupportedEnumType(String fieldName) {
+        return SUPPORTED_ENUM_FIELDS.contains(fieldName);
+    }
+
+    private List<String> getAssetEnumFieldValues(String fieldName) {
+        return switch (fieldName) {
+            case "status" -> Arrays.stream(QualityNotificationStatus.values()).map(Enum::name).toList();
+            case "side" -> Arrays.stream(QualityNotificationSide.values()).map(Enum::name).toList();
+            case "notifications_severity" ->
+                    Arrays.stream(QualityNotificationSeverity.values()).map(Enum::name).toList();
+            default -> null;
+        };
     }
 }

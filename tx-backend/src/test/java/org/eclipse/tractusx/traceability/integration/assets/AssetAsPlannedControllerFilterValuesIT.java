@@ -96,6 +96,29 @@ class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecificatio
     }
 
     @Test
+    void givenNotEnumTypeFieldNameAndOwnerOwn_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+        // given
+        assetsSupport.defaultAssetsAsPlannedStored();
+        String fieldName = "id";
+        String owner = "OWN";
+
+        // then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .param("fieldName", fieldName)
+                .param("owner", owner)
+                .get("/api/assets/as-planned/distinctFilterValues")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .assertThat()
+                .body("size()", is(1));
+    }
+
+    @Test
     void givenWrongOwnerEnum_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
         // given
         assetsSupport.defaultAssetsAsPlannedStored();

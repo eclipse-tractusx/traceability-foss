@@ -145,6 +145,27 @@ class AssetAsBuiltControllerFilterValuesIT extends IntegrationTestSpecification 
     }
 
     @Test
+    void givenIdFieldNameAndNoResultLimit_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+        // given
+        assetsSupport.defaultAssetsStored();
+        String fieldName = "id";
+
+        // then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .param("fieldName", fieldName)
+                .get("/api/assets/as-built/distinctFilterValues")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .assertThat()
+                .body("size()", is(13));
+    }
+
+    @Test
     void givenNotEnumTypeFieldNameAndSizeAndOwnerSupplier_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
         // given
         assetsSupport.defaultAssetsStored();

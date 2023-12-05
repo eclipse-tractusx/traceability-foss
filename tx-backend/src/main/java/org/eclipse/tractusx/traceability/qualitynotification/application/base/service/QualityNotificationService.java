@@ -23,16 +23,15 @@ import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.StartQualityNotificationDomain;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 public interface QualityNotificationService {
 
     QualityNotificationId start(StartQualityNotificationDomain startQualityAlertDomain);
-
-    PageResult<QualityNotification> getCreated(Pageable pageable);
-
-    PageResult<QualityNotification> getReceived(Pageable pageable);
 
     QualityNotification find(Long notificationId);
 
@@ -47,4 +46,6 @@ public interface QualityNotificationService {
     void update(Long notificationId, QualityNotificationStatus notificationStatus, String reason);
 
     PageResult<QualityNotification> getNotifications(Pageable pageable, SearchCriteria searchCriteria);
+
+    List<String> getDistinctFilterValues(String fieldName, String startWith, Integer size, QualityNotificationSide side);
 }

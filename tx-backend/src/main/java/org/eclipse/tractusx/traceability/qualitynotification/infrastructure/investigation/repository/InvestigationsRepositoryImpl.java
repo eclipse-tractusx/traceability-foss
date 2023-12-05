@@ -21,6 +21,8 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.repository;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
@@ -28,6 +30,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.Ass
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
+import org.eclipse.tractusx.traceability.common.repository.CriteriaUtility;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationAffectedPart;
@@ -39,7 +42,6 @@ import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.inve
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationNotificationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
@@ -68,12 +70,8 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
 
     private final Clock clock;
 
-    @Override
-    public void updateQualityNotificationMessageEntity(QualityNotificationMessage notification) {
-        InvestigationNotificationEntity entity = notificationRepository.findById(notification.getId())
-                .orElseThrow(() -> new IllegalArgumentException(String.format("Notification with id %s not found!", notification.getId())));
-        handleNotificationUpdate(entity, notification);
-    }
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public PageResult<QualityNotification> getNotifications(Pageable pageable, SearchCriteria searchCriteria) {
@@ -132,20 +130,9 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
     }
 
     @Override
-    public PageResult<QualityNotification> findQualityNotificationsBySide(QualityNotificationSide investigationSide, Pageable pageable) {
-        Page<InvestigationEntity> entities = jpaInvestigationRepository.findAllBySideEquals(NotificationSideBaseEntity.valueOf(investigationSide.name()), pageable);
-        return new PageResult<>(entities, InvestigationEntity::toDomain);
-    }
-
-    @Override
     public Optional<QualityNotification> findOptionalQualityNotificationById(QualityNotificationId investigationId) {
         return jpaInvestigationRepository.findById(investigationId.value())
                 .map(InvestigationEntity::toDomain);
-    }
-
-    @Override
-    public long countQualityNotificationEntitiesByStatus(QualityNotificationStatus qualityNotificationStatus) {
-        return jpaInvestigationRepository.countAllByStatusEquals(NotificationStatusBaseEntity.valueOf(qualityNotificationStatus.name()));
     }
 
     @Override
@@ -217,5 +204,10 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
         return assets.stream()
                 .filter(it -> notificationAffectedAssetIds.contains(it.getId()))
                 .toList();
+    }
+
+    @Override
+    public List<String> getDistinctFieldValues(String fieldName, String startWith, Integer resultLimit, QualityNotificationSide side) {
+        return CriteriaUtility.getDistinctNotificationFieldValues(fieldName, startWith, resultLimit, side, InvestigationEntity.class, entityManager);
     }
 }
