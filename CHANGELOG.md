@@ -17,6 +17,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Added autocomplete endpoints for notifications
 - Added BPN column to parts table
 - Emit change check to observables in frontend
+- Added an Entity Relationship Model (ERM) into the Architecture Documentation to visually represent our tables and their relationships.
 
 ### Changed
 - Filter configuration for tables to be resuable and easy to adapt
