@@ -76,6 +76,10 @@ jobs:
   test_input:
    runs-on: ubuntu-latest
    steps:
+   
+      - name: Checkout-Repository
+        uses: actions/checkout@v4
+
       - name: mask token
         run: |
           ARGO_TOKEN=$(jq -r '.inputs.argo_token' $GITHUB_EVENT_PATH)
