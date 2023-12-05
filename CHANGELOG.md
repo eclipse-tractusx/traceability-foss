@@ -37,6 +37,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Changed detailed part view action from clicking on list item to a menu action column
 - Changed FE fieldName mapping to fix bug for properties catenaxSiteId and function
 - Fix of global search field
+- Parts autocomplete API now is case insensitive when using "startWith" parameter
 
 ### Removed
 - removed asset filters ( qualityInvestigationIdsInStatusActive, qualityInvestigationIdsInStatusActive )
