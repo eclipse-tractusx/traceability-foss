@@ -24,19 +24,19 @@ import { QualityInvestigationsPage } from '../../integration/pages/QualityInvest
 let notificationDescription = null;
 let desiredSemanticModelId = null;
 
-Then("select other part with semantic-model-id {string}", (semanticModelId) => {
+Then("select other part with semantic-model-id {string}", function(semanticModelId) {
 //since IDs of desired asset are not shown in FE the selection has to be done by other number.
   desiredSemanticModelId = semanticModelId;
   cy.get('span').contains(semanticModelId).closest('tr').find('.mdc-checkbox').click();
 });
 
-Then("select part with id {string}", (id) => {
+Then("select part with id {string}", function(id) {
 //   desiredSemanticModelId = semanticModelId;
   cy.get('span').contains(id).closest('tr').find('.mdc-checkbox').click();
 });
 
 
-Then("start {string} creation with description {string}", function (notificationType, description) {
+Then("start {string} creation with description {string}", function(notificationType, description) {
   const date = new Date().getTime();
   notificationDescription = description + "_" + date;
   switch (notificationType) {
@@ -56,18 +56,18 @@ Then("start {string} creation with description {string}", function (notification
   cy.get('mat-label').contains(/^Description$/i).click().type(notificationDescription);
 });
 
-When("receiver BPN {string}", function(receiverBPN) => {
+When("receiver BPN {string}", function(receiverBPN) {
   cy.get('mat-label').contains(/^BPN$/i).click().type(receiverBPN);
 });
 
 
-When("severity {string}", function (severity) {
+When("severity {string}", function(severity) {
   cy.get('div').contains('Severity').click(); // First the dropdown has to be opened.
   cy.get('p').contains(severity).click();
 });
 
 
-When("{string} deadline", function (deadline) {
+When("{string} deadline", function(deadline) {
       if (deadline == 'no') {
         // do nothing
       } else {
@@ -105,7 +105,7 @@ When("popup with information about queued {string} is shown", function(notificat
 });
 
 
-When("user navigate to {string} with button in popup", (popupClick) => {
+When("user navigate to {string} with button in popup", function(popupClick) {
   cy.get('a').contains('Go to Queue').click();
 });
 
@@ -118,7 +118,7 @@ When("open details of created investigation", () => {
 
 // --- TBD --- check id, description, status, created, createdby, text
 // --- TBD --- #check: popup on the right sight is shown
-When("user confirm cancelation of selected {string} with entering {string} id", (notificationType, input) => {
+When("user confirm cancelation of selected {string} with entering {string} id", function(notificationType, input) {
   let investigationId = '';
   switch (input) {
     case 'no': {
@@ -146,7 +146,7 @@ When("user confirm cancelation of selected {string} with entering {string} id", 
 });
 
 
-Then("cancelation is not possible due to {string} id", (id) => {
+Then("cancelation is not possible due to {string} id", function(id) {
   switch (id) {
     case 'no': {
       cy.contains(/This field is required!/i).should('be.visible');
@@ -164,7 +164,7 @@ Then("cancelation is not possible due to {string} id", (id) => {
 });
 
 
-When("user {string} selected {string}", (action) => {
+When("user {string} selected {string}", function(action) {
 //within opened detail view of quality investigation
   switch (action) {
       case 'approve': {
@@ -199,7 +199,7 @@ When("user {string} selected {string}", (action) => {
 });
 
 
-When("user confirm approval of selected {string}", (action) => {
+When("user confirm approval of selected {string}", function(action) {
   cy.get('app-confirm').find('span').contains('Approve').click();
 });
 
@@ -209,7 +209,7 @@ Then("informations for selected investigation are displayed as expected", () => 
 });
 
 
-Then("selected {string} has been {string} as expected", (notificationType, expectedStatus) => {
+Then("selected {string} has been {string} as expected", function(notificationType, expectedStatus) {
 matched = false;
     switch (expectedStatus) {
       case 'canceled': {
@@ -251,7 +251,7 @@ matched = false;
 });
 
 
-When("selected {string} is not allowed to be {string}", (notificationType, status) => {
+When("selected {string} is not allowed to be {string}", function(notificationType, status) {
 matched = false;
     switch (status) {
       case 'canceled': {
