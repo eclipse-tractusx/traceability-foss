@@ -35,6 +35,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Default pagination size to 50.
 - Split up bpn column in notification table views to show bpn and name separately
 - Changed detailed part view action from clicking on list item to a menu action column
+- Changed FE fieldName mapping to fix bug for properties catenaxSiteId and function
+- Fix of global search field
+
 
 ### Removed
 - removed asset filters ( qualityInvestigationIdsInStatusActive, qualityInvestigationIdsInStatusActive )

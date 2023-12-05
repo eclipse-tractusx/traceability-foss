@@ -249,7 +249,8 @@ app-parts, app-other-parts, app-notifications-tab {
   }
 
   .mat-mdc-row:hover {
-    background-color: rgba(0, 0, 0, 0.04) !important;
+    transition: 0.1s ease !important;
+    filter: brightness(0.9) !important;
     border: none !important;
   }
 

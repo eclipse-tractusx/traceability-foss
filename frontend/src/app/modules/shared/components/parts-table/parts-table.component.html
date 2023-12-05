@@ -219,7 +219,7 @@ SPDX-License-Identifier: Apache-2.0
 
                             <ng-template #notificationCountElement>
                                 <ng-container *ngIf="isNotificationCountColumn(column); else autoFormatRef">
-                                        <span (click)="deeplinkToNotification(column, element[column])">
+                                        <span (click)="deeplinkToNotification(column, element[column])" class="table--notification--cell--notification--count">
                                             {{element[column]?.length}}</span>
                                 </ng-container>
                             </ng-template>
