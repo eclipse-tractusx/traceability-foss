@@ -9,7 +9,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Changed
 ### Removed
 
-## [9.0.0-rc3 - 27.11.2023]
+## [9.0.0 - 05.12.2023]
 ### Changed
 - Upgraded irs-client library from 1.4.1-SNAPSHOT to 1.4.1
 
