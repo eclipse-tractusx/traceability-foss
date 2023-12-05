@@ -30,12 +30,34 @@ Then("select other part with semantic-model-id {string}", (semanticModelId) => {
   cy.get('span').contains(semanticModelId).closest('tr').find('.mdc-checkbox').click();
 });
 
+Then("select part with id {string}", (id) => {
+//   desiredSemanticModelId = semanticModelId;
+  cy.get('span').contains(id).closest('tr').find('.mdc-checkbox').click();
+});
 
-Then("start investigation creation with description {string}", function (description) {
+
+Then("start {string} creation with description {string}", function (notificationType, description) {
   const date = new Date().getTime();
   notificationDescription = description + "_" + date;
-  cy.get('div').contains('Start investigation').click();
-  cy.get('mat-label').contains('Description').click().type(notificationDescription);
+  switch (notificationType) {
+    case 'investigation': {
+      cy.get('div').contains('Start investigation').click();
+      break;
+    }
+    case 'alert': {
+      cy.get('div').contains('Create alert').click();
+      break;
+    }
+    default: {
+      throw new Error("Set notification type '" + notificationType + "' is not one of valid types [investigation, alert].");
+      break;
+    }
+  }
+  cy.get('mat-label').contains(/^Description$/i).click().type(notificationDescription);
+});
+
+When("receiver BPN {string}", function(receiverBPN) => {
+  cy.get('mat-label').contains(/^BPN$/i).click().type(receiverBPN);
 });
 
 
@@ -54,7 +76,7 @@ When("{string} deadline", function (deadline) {
 });
 
 
-When("request the investigation", () => {
+When("request the {string}", function(notificationType) {
   cy.get('span').contains('ADD TO QUEUE').click();
 });
 
@@ -65,8 +87,21 @@ Then("selected parts are marked as investigated", () => {
 });
 
 
-When("popup with information about queued investigation is shown", () => {
-  cy.contains(/You queued an investigation for 1 part/i).should('be.visible');
+When("popup with information about queued {string} is shown", function(notificationType) {
+  switch (notificationType) {
+    case 'investigation': {
+      cy.contains(/You queued an investigation for 1 part/i).should('be.visible');
+      break;
+    }
+    case 'alert': {
+      cy.contains(/You queued an alert for 1 part/i).should('be.visible');
+      break;
+    }
+    default: {
+      throw new Error("Set notificationType '" + notificationType + "' is not one of valid types [investigation, alert].");
+      break;
+    }
+  }
 });
 
 
@@ -83,7 +118,7 @@ When("open details of created investigation", () => {
 
 // --- TBD --- check id, description, status, created, createdby, text
 // --- TBD --- #check: popup on the right sight is shown
-When("user confirm cancelation of selected investigation with entering {string} id", (input) => {
+When("user confirm cancelation of selected {string} with entering {string} id", (notificationType, input) => {
   let investigationId = '';
   switch (input) {
     case 'no': {
@@ -129,7 +164,7 @@ Then("cancelation is not possible due to {string} id", (id) => {
 });
 
 
-When("user {string} selected investigation", (action) => {
+When("user {string} selected {string}", (action) => {
 //within opened detail view of quality investigation
   switch (action) {
       case 'approve': {
@@ -164,7 +199,7 @@ When("user {string} selected investigation", (action) => {
 });
 
 
-When("user confirm approval of selected investigation", (action) => {
+When("user confirm approval of selected {string}", (action) => {
   cy.get('app-confirm').find('span').contains('Approve').click();
 });
 
