@@ -38,25 +38,28 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Changed FE fieldName mapping to fix bug for properties catenaxSiteId and function
 - Fix of global search field
 
-
 ### Removed
 - removed asset filters ( qualityInvestigationIdsInStatusActive, qualityInvestigationIdsInStatusActive )
 - Removed Cucumber tests steps for creating alerts with two parts as new step definition is enough for the same feature
 
-## [9.0.0-rc4 - xx.xx.2023]
-### Added
-- Added new dashboard layout and additional widgets
-- Refactored dashboard response
-- Added new fields to dashboard response
+## [9.0.0 - 05.12.2023]
+### Changed
+- Upgraded irs-client library from 1.4.1-SNAPSHOT to 1.4.1
+
+### Known knowns
+
+- Backend/Frontend [TRACEFOSS-2728]: Investigations / Alerts: Transition of the message status will take some time. If it fails the user will not be informed.
 
 ## [9.0.0-rc3 - 27.11.2023]
 ### Added
 - DEPENDENCIES_FRONTEND, SECURITY.md, NOTICE.md, LICENSE file to frontend docker image
 - Added a step-by-step guide to register a server in pgAdmin in the database dump README
 - Documentation about technical users
+- Added new dashboard layout and additional widgets
 
 ### Changed
 - Fixed helm repository path for backend & frontend (wrong prefix)
+- Refactored dashboard response
 - Updated user manual
 - Autocomplete endpoints changed owner String type param to Owner for input validation and sql injection prevention
 - Autocomplete endpoints repository uses now criteria api rather than native query
