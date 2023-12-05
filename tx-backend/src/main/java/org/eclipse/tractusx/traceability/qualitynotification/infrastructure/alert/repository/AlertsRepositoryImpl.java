@@ -19,6 +19,8 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.repository;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +32,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.reposit
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
+import org.eclipse.tractusx.traceability.common.repository.CriteriaUtility;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.AlertRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationAffectedPart;
@@ -41,7 +44,6 @@ import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.aler
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertNotificationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
@@ -72,12 +74,8 @@ public class AlertsRepositoryImpl implements AlertRepository {
 
     private final Clock clock;
 
-    @Override
-    public void updateQualityNotificationMessageEntity(QualityNotificationMessage notification) {
-        AlertNotificationEntity entity = notificationRepository.findById(notification.getId())
-                .orElseThrow(() -> new IllegalArgumentException(String.format("Notification with id %s not found!", notification.getId())));
-        handleNotificationUpdate(entity, notification);
-    }
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public PageResult<QualityNotification> getNotifications(Pageable pageable, SearchCriteria searchCriteria) {
@@ -123,20 +121,9 @@ public class AlertsRepositoryImpl implements AlertRepository {
     }
 
     @Override
-    public PageResult<QualityNotification> findQualityNotificationsBySide(QualityNotificationSide alertSide, Pageable pageable) {
-        Page<AlertEntity> entities = jpaAlertRepository.findAllBySideEquals(NotificationSideBaseEntity.valueOf(alertSide.name()), pageable);
-        return new PageResult<>(entities, AlertEntity::toDomain);
-    }
-
-    @Override
     public Optional<QualityNotification> findOptionalQualityNotificationById(QualityNotificationId alertId) {
         return jpaAlertRepository.findById(alertId.value())
                 .map(AlertEntity::toDomain);
-    }
-
-    @Override
-    public long countQualityNotificationEntitiesByStatus(QualityNotificationStatus qualityNotificationStatus) {
-        return jpaAlertRepository.countAllByStatusEquals(NotificationStatusBaseEntity.valueOf(qualityNotificationStatus.name()));
     }
 
     @Transactional
@@ -240,5 +227,8 @@ public class AlertsRepositoryImpl implements AlertRepository {
                 .toList();
     }
 
-
+    @Override
+    public List<String> getDistinctFieldValues(String fieldName, String startWith, Integer resultLimit, QualityNotificationSide side) {
+        return CriteriaUtility.getDistinctNotificationFieldValues(fieldName, startWith, resultLimit, side, AlertEntity.class, entityManager);
+    }
 }
