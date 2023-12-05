@@ -110,7 +110,7 @@ When("user navigate to {string} with button in popup", function(popupClick) {
 });
 
 
-When("open details of created investigation", () => {
+When("open details of created {string}", () => {
   cy.get('[data-testid="table-menu-button"]').first().click(); //the first investigation will be opened
   cy.get('[data-testid="table-menu-button--actions.viewDetails"]').first().click();
 });
