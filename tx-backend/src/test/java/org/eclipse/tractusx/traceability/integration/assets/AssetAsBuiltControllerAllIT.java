@@ -76,7 +76,6 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
                 .body("content.manufacturerName", everyItem(not(equalTo(assetsSupport.emptyText()))));
     }
 
-    // Deprecated please remove once controller has been removed
     @Test
     void shoulReturnSupplierAssets() throws JoseException {
         //GIVEN
@@ -94,7 +93,6 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
                 .body("totalItems", equalTo(12));
     }
 
-    // Deprecated please remove once controller has been removed
     @Test
     void shouldReturnOwnAssets() throws JoseException {
         //GIVEN

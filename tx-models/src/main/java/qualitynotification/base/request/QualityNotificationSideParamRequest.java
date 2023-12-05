@@ -16,8 +16,13 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response;
 
-// TODO add bpn here to be able to map the bpn to the assetsasplanned
-public record Parameter(String direction, String bomLifecycle) {
+package qualitynotification.base.request;
+
+import io.swagger.annotations.ApiModel;
+
+@ApiModel(description = "Describes the side of quality notification")
+public enum QualityNotificationSideParamRequest {
+    SENDER,
+    RECEIVER
 }

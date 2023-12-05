@@ -23,6 +23,7 @@ import io.restassured.http.ContentType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.repository.JpaAssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
+import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -93,6 +94,79 @@ class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecificatio
                 .statusCode(200)
                 .assertThat()
                 .body("size()", is(1));
+    }
+
+    @Test
+    void givenNotEnumTypeFieldNameAndOwnerOwn_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+        // given
+        assetsSupport.defaultAssetsAsPlannedStored();
+        String fieldName = "id";
+        String owner = "OWN";
+
+        // then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .param("fieldName", fieldName)
+                .param("owner", owner)
+                .get("/api/assets/as-planned/distinctFilterValues")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .assertThat()
+                .body("size()", is(1));
+    }
+
+    @Test
+    void givenIdShortLowerCase_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+        // given
+        assetsSupport.defaultAssetsAsPlannedStored();
+        String fieldName = "idShort";
+        String startWith = "vehicle";
+
+        // then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .param("fieldName", fieldName)
+                .param("startWith", startWith)
+                .get("/api/assets/as-planned/distinctFilterValues")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .assertThat()
+                .body(".", Matchers.containsInRelativeOrder(
+                        "VehicleModelA",
+                        "VehicleModelB"));
+    }
+
+    @Test
+    void givenIdShortMixedCase_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+        // given
+        assetsSupport.defaultAssetsAsPlannedStored();
+        String fieldName = "idShort";
+        String startWith = "vehicleMODEL";
+
+        // then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .param("fieldName", fieldName)
+                .param("startWith", startWith)
+                .get("/api/assets/as-planned/distinctFilterValues")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .assertThat()
+                .body(".", Matchers.containsInRelativeOrder(
+                        "VehicleModelA",
+                        "VehicleModelB"));
     }
 
     @Test
