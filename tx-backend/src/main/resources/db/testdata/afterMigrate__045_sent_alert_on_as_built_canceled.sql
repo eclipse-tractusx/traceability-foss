@@ -6,9 +6,9 @@
 
 ---
 insert into alert
-    (id             , bpn               , close_reason, created                              , description                            , status    , side    , accept_reason, decline_reason, updated          , error_message)
+    (id             , bpn      , close_reason, created                              , description                            , status    , side    , accept_reason, decline_reason, updated          , error_message)
 values
-    (${alertSentId6}, 'BPNL000000000001', null        , current_timestamp - interval '3 days', 'Cancelled Alert about Fog lights left', 'CANCELED', 'SENDER', null         , null          , current_timestamp, null);
+    (${alertSentId6}, ${bpnOwn}, null        , current_timestamp - interval '3 days', 'Cancelled Alert about Fog lights left', 'CANCELED', 'SENDER', null         , null          , current_timestamp, null);
 
 ---
 -- reset sequence to highest next-val
@@ -17,9 +17,9 @@ select setval('alert_id_seq', (select max(a.id) from alert a), true);
 ---
 -- initial message
 insert into alert_notification
-    (id                         , alert_id       , contract_agreement_id, edc_url                                                 , notification_reference_id, created_by        , send_to           , target_date                           , severity, created_by_name, send_to_name, edc_notification_id       , status, created                               , updated          , message_id                            , is_initial)
+    (id                         , alert_id       , contract_agreement_id, edc_url                                                 , notification_reference_id, created_by, send_to        , target_date                           , severity, created_by_name, send_to_name, edc_notification_id       , status, created                               , updated          , message_id                            , is_initial)
 values
-    (${alertNotificationSentId6}, ${alertSentId6}, 'contractAgreementId', 'http://localhost:8082/api/qualitynotifications/receive', 'null'                   , 'BPNL000000000001', 'BPNL000CUSTOMER1', current_timestamp + interval '1 month', 0       , 'Hella'        , 'BMW AG'    , ${alertNotificationSentId6}, 6     , current_timestamp - interval '3 days', current_timestamp, '7e744fd6-26e8-44b8-9f70-0b788c35fac2', true);
+    (${alertNotificationSentId6}, ${alertSentId6}, 'contractAgreementId', 'http://localhost:8082/api/qualitynotifications/receive', 'null'                   , ${bpnOwn} , ${bpnCustomer1}, current_timestamp + interval '1 month', 0       , 'Hella'        , 'BMW AG'    , ${alertNotificationSentId6}, 6     , current_timestamp - interval '3 days', current_timestamp, '7e744fd6-26e8-44b8-9f70-0b788c35fac2', true);
 
 ---
 -- join initial notification to asset

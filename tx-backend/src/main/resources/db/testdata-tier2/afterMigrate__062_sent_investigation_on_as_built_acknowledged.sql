@@ -6,9 +6,9 @@
 
 ---
 insert into investigation
-    (id                     , bpn               , close_reason, created                              , description                            , status        , side    , accept_reason, decline_reason, updated                              , error_message)
+    (id                     , bpn            , close_reason, created                              , description                            , status        , side    , accept_reason, decline_reason, updated                              , error_message)
 values
-    (${investigationSentId2}, 'BPNL000000000001', null        , current_timestamp - interval '3 days', 'Investigation on Schott Glass bulb.'  , 'ACKNOWLEDGED', 'SENDER', null         , null          , current_timestamp - interval '1 hour', null);
+    (${investigationSentId2}, ${bpnCustomer1}, null        , current_timestamp - interval '3 days', 'Investigation on Schott Glass bulb.'  , 'ACKNOWLEDGED', 'SENDER', null         , null          , current_timestamp - interval '1 hour', null);
 
 ---
 -- reset sequence to highest next-val
@@ -16,9 +16,9 @@ select setval('investigation_id_seq', (select max(i.id) from investigation i), t
 
 ---
 insert into investigation_notification
-    (id                                 , contract_agreement_id, edc_url                                                 , notification_reference_id, created_by         , send_to           , investigation_id       , target_date                          , severity, created_by_name, send_to_name , edc_notification_id                   , status, created                               , updated                              , message_id                            , is_initial)
+    (id                                 , contract_agreement_id, edc_url                                                 , notification_reference_id, created_by, send_to        , investigation_id       , target_date                          , severity, created_by_name, send_to_name , edc_notification_id                   , status, created                               , updated                              , message_id                            , is_initial)
 values
-    (${investigationNotificationSentId2a}, 'contractAgreementId', 'http://localhost:8082/api/qualitynotifications/receive', null                     , 'BPNL000SUPPLIER1', 'BPNL00SUPPLIER21', ${investigationSentId2}, current_timestamp + interval '4 days', 3       , 'Osram'        , 'Schott'     , '3ac2239a-e63f-4c19-b3b3-e6a2e5a240da', 3     , current_timestamp - interval '3 days', current_timestamp - interval '1 hour', '749b31e9-9e73-4699-9470-dbee67ebc7a7', true);
+    (${investigationNotificationSentId2a}, 'contractAgreementId', 'http://localhost:8082/api/qualitynotifications/receive', null                     , ${bpnOwn}, ${bpnSupplier1}, ${investigationSentId2}, current_timestamp + interval '4 days', 3       , 'Osram'        , 'Schott'     , '3ac2239a-e63f-4c19-b3b3-e6a2e5a240da', 3     , current_timestamp - interval '3 days', current_timestamp - interval '1 hour', '749b31e9-9e73-4699-9470-dbee67ebc7a7', true);
 
 ---
 -- join investigation to asset
@@ -42,9 +42,9 @@ update assets_as_built
 ---
 -- ACK by receiver notification message
 insert into investigation_notification
-    (id                                  , contract_agreement_id, edc_url                                                 , notification_reference_id, created_by        , send_to           , investigation_id       , target_date                          , severity, created_by_name, send_to_name, edc_notification_id                   , status , created                               , updated                              , message_id                            , is_initial)
+    (id                                  , contract_agreement_id, edc_url                                                 , notification_reference_id, created_by     , send_to  , investigation_id       , target_date                          , severity, created_by_name, send_to_name, edc_notification_id                   , status , created                              , updated                              , message_id                            , is_initial)
 values
-    (${investigationNotificationSentId2b}, 'contractAgreementId', 'http://localhost:8082/api/qualitynotifications/receive', null                     , 'BPNL00SUPPLIER21', 'BPNL000SUPPLIER1', ${investigationSentId2}, current_timestamp + interval '4 days', 3       , 'Schott'       , 'Osram'     , '8925f21f-09eb-4789-81fb-ec221e9e1561', 3      , current_timestamp - interval '3 days', current_timestamp - interval '1 hour', '207ba6cf-217b-401d-a5da-69cac8b154a5', false);
+    (${investigationNotificationSentId2b}, 'contractAgreementId', 'http://localhost:8082/api/qualitynotifications/receive', null                     , ${bpnSupplier1}, ${bpnOwn}, ${investigationSentId2}, current_timestamp + interval '4 days', 3       , 'Schott'       , 'Osram'     , '8925f21f-09eb-4789-81fb-ec221e9e1561', 3      , current_timestamp - interval '3 days', current_timestamp - interval '1 hour', '207ba6cf-217b-401d-a5da-69cac8b154a5', false);
 
 ---
 -- join ACK notification to asset

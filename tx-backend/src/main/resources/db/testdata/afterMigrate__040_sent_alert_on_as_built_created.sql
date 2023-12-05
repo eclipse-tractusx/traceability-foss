@@ -6,9 +6,9 @@
 
 ---
 insert into alert
-    (id         , bpn                , close_reason, created          , description                  , status   , side    , accept_reason, decline_reason, updated, error_message)
+    (id         , bpn          , close_reason, created          , description                         , status   , side    , accept_reason, decline_reason, updated, error_message)
 values
-    (${alertSentId1}, 'BPNL000000000001', null        , current_timestamp, 'Second Alert about Left Headlights', 'CREATED', 'SENDER', null         , null          , null   , null);
+    (${alertSentId1}, ${bpnOwn}, null        , current_timestamp, 'Second Alert about Left Headlights', 'CREATED', 'SENDER', null         , null          , null   , null);
 
 ---
 -- reset sequence to highest next-val
@@ -17,9 +17,9 @@ select setval('alert_id_seq', (select max(a.id) from alert a), true);
 ---
 -- initial message
 insert into alert_notification
-    (id                     , alert_id   , contract_agreement_id, edc_url, notification_reference_id, created_by        , send_to           , target_date                           , severity, created_by_name, send_to_name, edc_notification_id    , status, created                                 , updated          , message_id                            , is_initial)
+    (id                         , alert_id       , contract_agreement_id, edc_url, notification_reference_id, created_by, send_to        , target_date                           , severity, created_by_name, send_to_name, edc_notification_id        , status, created                                 , updated          , message_id                            , is_initial)
 values
-    (${alertNotificationSentId1}, ${alertSentId1}, null                 , null   , 'null'                   , 'BPNL000000000001', 'BPNL000CUSTOMER1', current_timestamp + interval '1 month', 0       , 'Hella'        , 'BMW AG'    , ${alertNotificationSentId1}, 0     , current_timestamp - interval '1 seconds', current_timestamp, '42e28782-bf4c-45a2-82b7-1757aa4b8772', true);
+    (${alertNotificationSentId1}, ${alertSentId1}, null                 , null   , 'null'                   , ${bpnOwn} , ${bpnCustomer1}, current_timestamp + interval '1 month', 0       , 'Hella'        , 'BMW AG'    , ${alertNotificationSentId1}, 0     , current_timestamp - interval '1 seconds', current_timestamp, '42e28782-bf4c-45a2-82b7-1757aa4b8772', true);
 
 ---
 -- join initial notification to asset
