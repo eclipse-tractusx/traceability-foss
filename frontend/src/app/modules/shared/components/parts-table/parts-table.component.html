@@ -68,7 +68,6 @@ SPDX-License-Identifier: Apache-2.0
                   *ngFor="let filter of tableViewConfig.displayFilterColumnMappings">
       <th class="multi-select-header-cell" mat-header-cell *matHeaderCellDef [ngClass]="{'menu-column': filter.headerKey === 'Menu'}">
         <app-multiselect *ngIf="filter.headerKey!==filterKey && filter.headerKey !== 'Menu'"
-
                          [placeholder]="'multiSelect.placeholder' | i18n"
                          [options]="filter.option"
                          [isDate]="filter.isDate"
