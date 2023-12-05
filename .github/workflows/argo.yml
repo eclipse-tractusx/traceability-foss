@@ -35,7 +35,7 @@ on:
         - E2E-A/E2E-B
         - int-a/int-b
       testdata_version:
-        description: Which Testdata Version CX_Testdata_MessagingTest_v<X.X.X>.json
+        description: Which Testdata Version CX_Testdata_MessagingTest_v<X.X.X>.json e.g., 1.1.12"
         required: true
       argo_token:
         description: Argo Token
@@ -73,8 +73,46 @@ env:
     ARGO_INT_B_RegistryReload: "https://traceability-int-b.int.demo.catena-x.net/api/registry/reload"
 
 jobs:
+  test_input:
+   runs-on: ubuntu-latest
+   steps:
+      - name: mask token
+        run: |
+          ARGO_TOKEN=$(jq -r '.inputs.argo_token' $GITHUB_EVENT_PATH)
+          echo ::add-mask::$ARGO_TOKEN
+          echo ARGO_TOKEN=$ARGO_TOKEN >> $GITHUB_ENV
+          
+      - name: Check Testdata Version Format
+        run: |
+         if [[ ! "${{ github.event.inputs.testdata_version }}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          echo "Invalid Testdata Version format. Please use X.X.X, e.g., 1.1.12"
+          exit 1
+         fi
+         
+      - name: Check Argo Token
+        run: |
+         
+          source ./.github/argo/argo_config.sh
+           if [ "${{ github.event.inputs.environment }}" == "Dev/Test" ]; then
+              resources=("${DEV_TEST_RESOURCES[2]}")
+            elif [ "${{ github.event.inputs.environment }}" == "E2E-A/E2E-B" ]; then
+              resources=("${E2E_RESOURCES[2]}")
+            elif [ "${{ github.event.inputs.environment }}" == "int-a/int-b" ]; then
+              resources=("${INT_RESOURCES[2]}")
+            fi
 
+          json_data=$(curl -X GET -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" "$resources")
+
+          if [status=$(echo "$json_data" | jq -r '.status.sync.status') != null ]; then
+             echo "Argo Token is valid."
+          else
+            echo "Argo Token is invalid."
+            exit 1
+          fi
+            
+      
   print_environment:
+   needs: test_input
    runs-on: ubuntu-latest
    steps:
       - name: ${{ github.event.inputs.environment }}
