@@ -91,7 +91,7 @@ describe('PartsTableComponent', () => {
       'filterreceivedActiveInvestigations',
       'filtersentActiveAlerts',
       'filtersentActiveInvestigations',
-      'menu'
+      'Menu'
     ]);
   });
 
@@ -118,7 +118,7 @@ describe('PartsTableComponent', () => {
       'filtercatenaXSiteId',
       'filterfunctionValidFrom',
       'filterfunctionValidUntil',
-      'menu'
+      'Menu'
     ]);
   });
 
