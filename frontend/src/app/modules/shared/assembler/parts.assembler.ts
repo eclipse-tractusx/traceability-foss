@@ -19,8 +19,8 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {Pagination, PaginationResponse} from '@core/model/pagination.model';
-import {PaginationAssembler} from '@core/pagination/pagination.assembler';
+import { Pagination, PaginationResponse } from '@core/model/pagination.model';
+import { PaginationAssembler } from '@core/pagination/pagination.assembler';
 import {
   AsBuiltAspectModel,
   AsPlannedAspectModel,
@@ -28,20 +28,20 @@ import {
   SemanticModel,
   TractionBatteryCode,
 } from '@page/parts/model/aspectModels.model';
-import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
-import {Part, PartResponse, QualityType} from '@page/parts/model/parts.model';
-import {TableHeaderSort} from '@shared/components/table/table.model';
-import {View} from '@shared/model/view.model';
-import {OperatorFunction} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
+import { Part, PartResponse, QualityType } from '@page/parts/model/parts.model';
+import { TableHeaderSort } from '@shared/components/table/table.model';
+import { View } from '@shared/model/view.model';
+import { OperatorFunction } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 export class PartsAssembler {
 
   public static createSemanticModelFromPartResponse(partResponse: PartResponse): SemanticModel {
-    let proplist= {};
+    let proplist = {};
     partResponse.detailAspectModels.forEach((detailAspectModel) => {
-      proplist = {...proplist, ...detailAspectModel.data};
-    })
+      proplist = { ...proplist, ...detailAspectModel.data };
+    });
 
     return proplist;
   }
@@ -73,15 +73,14 @@ export class PartsAssembler {
     const tractionBatteryCode = (partResponse.detailAspectModels[1]?.data as TractionBatteryCode)?.tractionBatteryCode;
     const subcomponents = (partResponse.detailAspectModels[1]?.data as TractionBatteryCode)?.subcomponents;
 
-    let mappedPart = {
+    return {
       id: partResponse.id,
       idShort: partResponse.idShort,
       semanticModelId: partResponse.semanticModelId,
-      manufacturer: partResponse.manufacturerName,
+      manufacturerName: partResponse.manufacturerName,
       manufacturerPartId: partResponse.manufacturerPartId,
       nameAtManufacturer: partResponse.nameAtManufacturer,
       businessPartner: partResponse.businessPartner,
-      name: partResponse.nameAtManufacturer,
       children: partResponse.childRelations.map(child => child.id) || [],
       parents: partResponse.parentRelations?.map(parent => parent.id) || [],
       activeAlert: partResponse.activeAlert || false,
@@ -98,7 +97,7 @@ export class PartsAssembler {
       partId: partId, // is partInstance, BatchId, jisNumber
       customerPartId: customerPartId,
       nameAtCustomer: nameAtCustomer,
-      manufacturingDate: manufacturingDate === "null" ? null : manufacturingDate ,
+      manufacturingDate: manufacturingDate === 'null' ? null : manufacturingDate,
       manufacturingCountry: manufacturingCountry,
 
       // tractionBatteryCode
@@ -107,22 +106,25 @@ export class PartsAssembler {
       subcomponents: subcomponents,
 
       // as planned
-      validityPeriodFrom: validityPeriodFrom === "null" ? null : validityPeriodFrom,
-      validityPeriodTo: validityPeriodTo === "null" ? null :  validityPeriodTo,
+      validityPeriodFrom: validityPeriodFrom === 'null' ? null : validityPeriodFrom,
+      validityPeriodTo: validityPeriodTo === 'null' ? null : validityPeriodTo,
 
       //partSiteInformationAsPlanned
       catenaXSiteId: catenaXSiteId,
       psFunction: psFunction,
-      functionValidFrom:  functionValidFrom=== "null" ? null :  functionValidFrom,
-      functionValidUntil: functionValidUntil=== "null" ? null :   functionValidUntil,
+      functionValidFrom: functionValidFrom === 'null' ? null : functionValidFrom,
+      functionValidUntil: functionValidUntil === 'null' ? null : functionValidUntil,
 
       // count of notifications
-      activeAlerts: partResponse.qualityAlertIdsInStatusActive,
-      activeInvestigations: partResponse.qualityInvestigationIdsInStatusActive,
+      sentActiveAlerts: partResponse.sentQualityAlertIdsInStatusActive,
+      receivedActiveAlerts: partResponse.receivedQualityAlertIdsInStatusActive,
+      sentActiveInvestigations: partResponse.sentQualityInvestigationIdsInStatusActive,
+      receivedActiveInvestigations: partResponse.receivedQualityInvestigationIdsInStatusActive,
 
-    }
-    return mappedPart;
+
+    };
   }
+
   public static assembleOtherPart(partResponse: PartResponse, mainAspectType: MainAspectType): Part {
     if (!partResponse) {
       return null;
@@ -136,7 +138,7 @@ export class PartsAssembler {
   }
 
   public static assemblePartList(parts: PartResponse[], mainAspectType: MainAspectType): Part[] {
-    const partCopy = [...parts];
+    const partCopy = [ ...parts ];
     return partCopy.map(part => PartsAssembler.assemblePart(part, mainAspectType));
   }
 
@@ -150,24 +152,22 @@ export class PartsAssembler {
     }
 
     const {
-      name,
       semanticDataModel,
       semanticModelId,
       manufacturingDate,
       manufacturingCountry,
-      classification ,
+      classification,
 
     } = viewData.data;
-    return { data: {
-        name,
+    return {
+      data: {
         semanticDataModel,
         semanticModelId,
         manufacturingDate,
         manufacturingCountry,
-        classification ,
-
-
-      } as Part };
+        classification,
+      } as Part,
+    };
   }
 
   public static mapPartForView(): OperatorFunction<View<Part>, View<Part>> {
@@ -180,23 +180,23 @@ export class PartsAssembler {
         return viewData;
       }
 
-        // exclude 'van' if is a partAsPlanned
-        if(viewData.data?.mainAspectType === MainAspectType.AS_BUILT) {
-            const {
-                manufacturer,
-                manufacturerPartId,
-                nameAtManufacturer,
-                van,
-            } = viewData.data;
-            return { data: { manufacturer, manufacturerPartId, nameAtManufacturer, van } as Part };
-        } else {
-            const {
-                manufacturer,
-                manufacturerPartId,
-                nameAtManufacturer,
-            } = viewData.data;
-            return { data: { manufacturer, manufacturerPartId, nameAtManufacturer } as Part };
-        }
+      // exclude 'van' if is a partAsPlanned
+      if (viewData.data?.mainAspectType === MainAspectType.AS_BUILT) {
+        const {
+          manufacturerName,
+          manufacturerPartId,
+          nameAtManufacturer,
+          van,
+        } = viewData.data;
+        return { data: { manufacturerName, manufacturerPartId, nameAtManufacturer, van } as Part };
+      } else {
+        const {
+          manufacturerName,
+          manufacturerPartId,
+          nameAtManufacturer,
+        } = viewData.data;
+        return { data: { manufacturerName, manufacturerPartId, nameAtManufacturer } as Part };
+      }
     });
   }
 
@@ -206,7 +206,7 @@ export class PartsAssembler {
         return;
       }
       // if no customer data is available then return partSiteInformation
-      if(!viewData.data?.nameAtCustomer && !viewData.data?.customerPartId && viewData.data?.functionValidFrom) {
+      if (!viewData.data?.nameAtCustomer && !viewData.data?.customerPartId && viewData.data?.functionValidFrom) {
         const { catenaXSiteId, psFunction, functionValidFrom, functionValidUntil } = viewData.data;
         return { data: { catenaXSiteId, psFunction, functionValidFrom, functionValidUntil } as Part };
       }
@@ -238,44 +238,54 @@ export class PartsAssembler {
     });
   }
 
+  public static mapFieldNameToApi(fieldName: string) {
+    if (!fieldName) {
+      return;
+    }
+
+    if(this.localToApiMapping.has(fieldName)) {
+      return this.localToApiMapping.get(fieldName);
+    } else {
+      return fieldName;
+    }
+
+  }
+
   public static mapSortToApiSort(sorting: TableHeaderSort): string {
     if (!sorting) {
       return '';
     }
 
-
-
-    const localToApiMapping = new Map<string, string>([
-      ['id', 'id'],
-      ['idShort', 'idShort'],
-      ['semanticModelId', 'semanticModelId'],
-      ['manufacturer', 'manufacturerName'],
-      ['manufacturerPartId', 'manufacturerPartId'],
-      ['partId', "manufacturerPartId"],
-      ['nameAtManufacturer', 'nameAtManufacturer'],
-      ['businessPartner', 'businessPartner'],
-      ['name', 'nameAtManufacturer'],
-      ['qualityType', 'qualityType'],
-      ['van', 'van'],
-      ['semanticDataModel', 'semanticDataModel'],
-      ['classification', 'classification'],
-      ['customerPartId', 'customerPartId'],
-      ['nameAtCustomer', 'nameAtCustomer'],
-      ['manufacturingDate', 'manufacturingDate'],
-      ['manufacturingCountry', 'manufacturingCountry'],
-      ['validityPeriodFrom', 'validityPeriodFrom'],
-      ['validityPeriodTo', 'validityPeriodTo'],
-      ['catenaXSiteId', 'catenaXSiteId'],
-      ['psFunction', 'function'],
-      ['functionValidFrom', 'functionValidFrom'],
-      ['functionValidUntil', 'functionValidUntil'],
-      [ 'activeAlerts', 'qualityAlertIdsInStatusActive' ],
-      [ 'activeInvestigations', 'qualityInvestigationIdsInStatusActive' ],
-
-    ]);
-
-
-
-    return `${localToApiMapping.get(sorting[0]) || sorting},${sorting[1]}`;
+    return `${ this.localToApiMapping.get(sorting[0]) || sorting },${ sorting[1] }`;
   }
+
+  public static localToApiMapping = new Map<string, string>([
+    [ 'id', 'id' ],
+    [ 'idShort', 'idShort' ],
+    [ 'semanticModelId', 'semanticModelId' ],
+    [ 'manufacturer', 'manufacturerName' ],
+    [ 'manufacturerPartId', 'manufacturerPartId' ],
+    [ 'partId', 'manufacturerPartId' ],
+    [ 'nameAtManufacturer', 'nameAtManufacturer' ],
+    [ 'businessPartner', 'businessPartner' ],
+    [ 'name', 'nameAtManufacturer' ],
+    [ 'qualityType', 'qualityType' ],
+    [ 'van', 'van' ],
+    [ 'semanticDataModel', 'semanticDataModel' ],
+    [ 'classification', 'classification' ],
+    [ 'customerPartId', 'customerPartId' ],
+    [ 'nameAtCustomer', 'nameAtCustomer' ],
+    [ 'manufacturingDate', 'manufacturingDate' ],
+    [ 'manufacturingCountry', 'manufacturingCountry' ],
+    [ 'validityPeriodFrom', 'validityPeriodFrom' ],
+    [ 'validityPeriodTo', 'validityPeriodTo' ],
+    [ 'catenaXSiteId', 'catenaxSiteId' ],
+    [ 'psFunction', 'function' ],
+    [ 'functionValidFrom', 'functionValidFrom' ],
+    [ 'functionValidUntil', 'functionValidUntil' ],
+    [ 'sentActiveAlerts', 'sentQualityAlertIdsInStatusActive' ],
+    [ 'receivedActiveAlerts', 'receivedQualityAlertIdsInStatusActive' ],
+    [ 'sentActiveInvestigations', 'receivedQualityAlertIdsInStatusActive' ],
+    [ 'receivedActiveInvestigations', 'receivedQualityAlertIdsInStatusActive' ],
+  ]);
 }

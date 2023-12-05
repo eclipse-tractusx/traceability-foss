@@ -44,8 +44,8 @@ public class OpenApiConfig {
         components.addSecuritySchemes("oAuth2", new SecurityScheme().type(SecurityScheme.Type.OAUTH2)
                 .flows(new OAuthFlows().clientCredentials(
                         new OAuthFlow().scopes(
-                                        new Scopes().addString(
-                                                "profile email", "")))));
+                                new Scopes().addString(
+                                        "profile email", "")))));
         return new OpenAPI()
                 .components(components)
                 .addSecurityItem(new SecurityRequirement().addList("oAuth2", "profile email"))

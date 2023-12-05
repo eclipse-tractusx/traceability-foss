@@ -21,26 +21,22 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.domain.repository;
 
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface QualityNotificationRepository {
 
-    PageResult<QualityNotification> findQualityNotificationsBySide(QualityNotificationSide investigationSide, Pageable pageable);
-
     Optional<QualityNotification> findOptionalQualityNotificationById(QualityNotificationId investigationId);
 
     Optional<QualityNotification> findByEdcNotificationId(String edcNotificationId);
-
-    long countQualityNotificationEntitiesByStatus(QualityNotificationStatus qualityNotificationStatus);
 
     long countQualityNotificationEntitiesBySide(QualityNotificationSide investigationSide);
 
@@ -48,7 +44,10 @@ public interface QualityNotificationRepository {
 
     QualityNotificationId updateQualityNotificationEntity(QualityNotification investigation);
 
-    void updateQualityNotificationMessageEntity(QualityNotificationMessage notification);
-
     PageResult<QualityNotification> getNotifications(Pageable pageable, SearchCriteria searchCriteria);
+
+    long countOpenNotificationsByOwnership(List<Owner> owners);
+
+    List<String> getDistinctFieldValues(String fieldName, String startWith, Integer resultLimit, QualityNotificationSide owner);
+
 }

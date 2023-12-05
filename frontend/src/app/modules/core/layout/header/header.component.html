@@ -27,13 +27,14 @@ SPDX-License-Identifier: Apache-2.0
       <ng-container *ngTemplateOutlet="menuItem; context: { value: 'dashboard', role: 'user' }"></ng-container>
       <ng-container *ngTemplateOutlet="menuItem; context: { value: 'parts', role: 'user' }"></ng-container>
       <ng-container *ngTemplateOutlet="menuItem; context: { value: 'otherParts', role: 'user' }"></ng-container>
-      <ng-container *ngTemplateOutlet="menuItem; context: { value: 'investigations', role: 'user' }"></ng-container>
+      <ng-container
+        *ngTemplateOutlet="menuItem; context: { value: 'investigations', role: 'user' }"></ng-container>
       <ng-container *ngTemplateOutlet="menuItem; context: { value: 'alerts', role: 'user' }"></ng-container>
       <ng-container *ngTemplateOutlet="menuItem; context: { value: 'about', role: 'user' }"></ng-container>
     </div>
 
     <div class="header--user">
-      <app-button variant="flat" color="accent" (click)="openDocumentation()" >
+      <app-button variant="flat" color="accent" (click)="openDocumentation()">
         {{ 'actions.help' | i18n }}
       </app-button>
 

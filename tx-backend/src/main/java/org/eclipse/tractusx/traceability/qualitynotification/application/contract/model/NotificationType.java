@@ -21,16 +21,16 @@
 package org.eclipse.tractusx.traceability.qualitynotification.application.contract.model;
 
 public enum NotificationType {
-	QUALITY_INVESTIGATION("qualityinvestigation"),
-	QUALITY_ALERT("qualityalert");
+    QUALITY_INVESTIGATION("qualityinvestigation"),
+    QUALITY_ALERT("qualityalert");
 
-	private final String value;
+    private final String value;
 
-	NotificationType(String value) {
-		this.value = value;
-	}
+    NotificationType(String value) {
+        this.value = value;
+    }
 
-	public String getValue() {
-		return value;
-	}
+    public String getValue() {
+        return value;
+    }
 }

@@ -60,11 +60,14 @@
     "multiSortingTooltip": "First click: sort in ascending order ↑ Second click: sort in descending order ↓ Third click: reset sorting",
     "filterTitle": "Filter",
     "tableSettings": {
+      "invalid": "Due to an error table settings have been reset",
       "title": "Table column settings",
       "selectAll": "All",
       "orderTooltip": "Table column order can be changed by selecting a column and move it up or down by clicking on the icon ↑ (up) or ↓ (down)",
       "refreshTooltip": "Reset individual table column settings to default",
-      "saveAction": "Save"
+      "saveAction": "Save",
+      "alert": "Quality Alert",
+      "investigation": "Quality Investigation"
     },
     "adminColumn": {
       "startDate": "Start date",
@@ -78,8 +81,9 @@
       "id": "ID",
       "idShort": "ID Short",
       "name": "Name",
-      "manufacturer": "Manufacturer",
+      "manufacturerName": "Manufacturer",
       "partId": "Part number",
+      "businessPartner": "Business partner number",
       "manufacturerPartId": "Manufacturer part ID",
       "customerPartId": "Customer part ID",
       "classification": "Classification",
@@ -95,16 +99,20 @@
       "status": "Status",
       "targetDate": "Deadline",
       "createdDate": "Created",
-      "createdBy": "Created by",
-      "sendTo": "Send to",
+      "createdBy": "Created by BPN",
+      "createdByName": "Created by Manufacturer",
+      "sendTo": "Sent to BPN",
+      "sendToName": "Sent to Manufacturer",
       "severity": "Severity",
       "semanticDataModel": "Semantic Data Model",
       "catenaXSiteId": "SiteId",
       "psFunction": "Function",
       "functionValidFrom": "Function valid from",
       "functionValidUntil" : "Function valid until",
-      "activeAlerts" : "Active Quality alerts",
-      "activeInvestigations" : "Active Quality investigations"
+      "sentActiveAlerts" : "Created",
+      "receivedActiveInvestigations" : "Received",
+      "receivedActiveAlerts" : "Received",
+      "sentActiveInvestigations" : "Created"
     }
   },
   "dataLoading": {
@@ -229,7 +237,7 @@
     "viewAll": "View all",
     "tabs": {
       "received": "Received",
-      "queuedAndRequested": "Queued & Sent"
+      "queuedAndRequested": "Queued & Requested"
     },
     "status": {
       "SENT": "Sent",

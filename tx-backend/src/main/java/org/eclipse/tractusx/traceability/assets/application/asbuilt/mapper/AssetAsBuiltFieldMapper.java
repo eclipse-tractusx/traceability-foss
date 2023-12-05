@@ -31,11 +31,11 @@ public class AssetAsBuiltFieldMapper extends BaseRequestFieldMapper {
             Map.entry("manufacturingDate", "manufacturingDate"),
             Map.entry("manufacturingCountry", "manufacturingCountry"),
             Map.entry("manufacturerId", "manufacturerId"),
-            Map.entry("nameAtCustomer","nameAtCustomer"),
+            Map.entry("nameAtCustomer", "nameAtCustomer"),
             Map.entry("customerPartId", "customerPartId"),
-            Map.entry("productType","productType"),
-            Map.entry("tractionBatteryCode","tractionBatteryCode"),
-            Map.entry("id","id"),
+            Map.entry("productType", "productType"),
+            Map.entry("tractionBatteryCode", "tractionBatteryCode"),
+            Map.entry("id", "id"),
             Map.entry("idShort", "idShort"),
             Map.entry("owner", "owner"),
             Map.entry("classification", "classification"),
@@ -50,8 +50,10 @@ public class AssetAsBuiltFieldMapper extends BaseRequestFieldMapper {
             Map.entry("van", "van"),
             Map.entry("businessPartner", "manufacturerId"),
             Map.entry("alerts", "alerts"),
-            Map.entry("qualityAlertIdsInStatusActive", "activeAlertsCount"),
-            Map.entry("qualityInvestigationIdsInStatusActive", "activeInvestigationsCount")
+            Map.entry("sentQualityAlertIdsInStatusActive", "sentActiveAlertsCount"),
+            Map.entry("sentQualityInvestigationIdsInStatusActive", "sentActiveInvestigationsCount"),
+            Map.entry("receivedQualityAlertIdsInStatusActive", "receivedActiveAlertsCount"),
+            Map.entry("receivedQualityInvestigationIdsInStatusActive", "receivedActiveInvestigationsCount")
     );
 
     @Override

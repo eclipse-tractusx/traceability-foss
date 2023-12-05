@@ -37,8 +37,9 @@ import { PartsComponent } from './presentation/parts.component';
 import { RelationComponent } from './presentation/relation/relation.component';
 
 @NgModule({
-  declarations: [PartsComponent, RelationComponent],
-    imports: [CommonModule, TemplateModule, SharedModule, PartsRoutingModule, RelationsModule, PartDetailsModule, AngularSplitModule, MatDialogModule],
-  providers: [PartsState, BomLifecycleSettingsService, PartsFacade, FormatPartSemanticDataModelToCamelCasePipe, ...getI18nPageProvider(['page.parts', 'partDetail'])],
+  declarations: [ PartsComponent, RelationComponent ],
+  imports: [ CommonModule, TemplateModule, SharedModule, PartsRoutingModule, RelationsModule, PartDetailsModule, AngularSplitModule, MatDialogModule ],
+  providers: [ PartsState, BomLifecycleSettingsService, PartsFacade, FormatPartSemanticDataModelToCamelCasePipe, ...getI18nPageProvider([ 'page.parts', 'partDetail' ]) ],
 })
-export class PartsModule {}
+export class PartsModule {
+}

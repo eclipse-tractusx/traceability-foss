@@ -33,7 +33,8 @@ export class ModalService {
   private dialogRef: MatDialogRef<ModalComponent>;
   private dialogConfirmSubscription: Subscription;
 
-  constructor(private readonly matDialog: MatDialog) {}
+  constructor(private readonly matDialog: MatDialog) {
+  }
 
   public open(modalData: ModalData): void {
     const { title, template, buttonLeft, buttonRight, onConfirm, formGroup, primaryButtonColour } = modalData;

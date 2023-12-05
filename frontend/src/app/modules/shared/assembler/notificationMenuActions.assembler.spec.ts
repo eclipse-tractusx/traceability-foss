@@ -51,7 +51,7 @@ describe('NotificationMenuActionsAssembler', () => {
         InvestigationsState,
         NotificationCommonModalComponent,
         NotificationMenuActionsAssembler,
-        CloseNotificationModalComponent
+        CloseNotificationModalComponent,
       ],
     });
     notificationCommonModalComponent = TestBed.inject(NotificationCommonModalComponent);
@@ -65,11 +65,13 @@ describe('NotificationMenuActionsAssembler', () => {
     const notificationTemplate: Notification = {
       id: 'id-1',
       description: 'Investigation No 1',
-      createdBy: { name: 'OEM xxxxxxxxxxxxxxx A', bpn: 'BPN10000000OEM0A' },
-      sendTo: { name: 'OEM xxxxxxxxxxxxxxx B', bpn: 'BPN20000000OEM0B' },
+      createdBy: '',
+      createdByName: '',
+      sendTo: '',
+      sendToName: '',
       reason: { close: '', accept: '', decline: '' },
       isFromSender: true,
-      assetIds: ['MOCK_part_1'],
+      assetIds: [ 'MOCK_part_1' ],
       status: NotificationStatus.ACKNOWLEDGED,
       severity: Severity.MINOR,
       createdDate: new CalendarDateModel('2022-05-01T10:34:12.000Z'),

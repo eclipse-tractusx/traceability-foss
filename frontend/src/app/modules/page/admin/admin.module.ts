@@ -35,8 +35,9 @@ import { SaveBpnConfigModal } from './presentation/bpn-configuration/save-modal/
 import { ModalModule } from '@shared/modules/modal/modal.module';
 
 @NgModule({
-  declarations: [AdminComponent, ScheduledRegistryProcessesComponent, BpnConfigurationComponent, SaveBpnConfigModal],
-  imports: [CommonModule, TemplateModule, SharedModule, AdminRoutingModule, ModalModule],
-  providers: [...getI18nPageProvider('page.admin'), AdminService, AdminFacade, AdminState],
+  declarations: [ AdminComponent, ScheduledRegistryProcessesComponent, BpnConfigurationComponent, SaveBpnConfigModal ],
+  imports: [ CommonModule, TemplateModule, SharedModule, AdminRoutingModule, ModalModule ],
+  providers: [ ...getI18nPageProvider('page.admin'), AdminService, AdminFacade, AdminState ],
 })
-export class AdminModule {}
+export class AdminModule {
+}

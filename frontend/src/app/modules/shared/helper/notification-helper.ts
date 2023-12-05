@@ -19,16 +19,25 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, Input } from '@angular/core';
-import { NotificationUser } from '@shared/model/notification.model';
+export interface DeeplinkNotificationFilter {
+  receivedFilter: DeeplinkAssetNotificationIds,
+  sentFilter: DeeplinkAssetNotificationIds
+}
 
-@Component({
-  selector: 'app-notification-user',
-  templateUrl: './notification-user.component.html',
-})
-export class NotificationUserComponent {
-  @Input()
-  user: NotificationUser;
-  @Input()
-  mode: 'normal' | 'sup';
+export interface DeeplinkAssetNotificationIds {
+  notificationIds: string[];
+}
+
+export function createDeeplinkNotificationFilter(params: any): DeeplinkNotificationFilter {
+  let receivedFilter = null;
+  let sentFilter = null;
+  if (params.deeplink) {
+    if (params.received === 'true' && params?.notificationIds?.length > 0) {
+      receivedFilter = { notificationIds: params.notificationIds };
+    }
+    if (params.received === 'false' && params?.notificationIds?.length > 0) {
+      sentFilter = { notificationIds: params.notificationIds };
+    }
+    return { receivedFilter, sentFilter };
+  }
 }

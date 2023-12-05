@@ -28,8 +28,7 @@ import { Owner } from '@page/parts/model/owner.enum';
 export interface Part {
   id: string;
   idShort: string;
-  name: string;
-  manufacturer: string;
+  manufacturerName: string;
   manufacturerPartId: string;
   nameAtManufacturer: string;
   businessPartner: string;
@@ -69,8 +68,10 @@ export interface Part {
   functionValidUntil?: string;
 
   // count of notifications
-  activeAlerts: string [];
-  activeInvestigations: string [];
+  sentActiveAlerts: string [];
+  sentActiveInvestigations: string [];
+  receivedActiveAlerts: string [];
+  receivedActiveInvestigations: string [];
 }
 
 export interface PartResponse {
@@ -91,11 +92,11 @@ export interface PartResponse {
   semanticDataModel: SemanticDataModel;
   classification: string;
   detailAspectModels: DetailAspectModel[];
-
   // TODO: Delete ? flag when AsPlanned Parts do not return the props anymore
-  qualityAlertIdsInStatusActive?: string[];
-  qualityInvestigationIdsInStatusActive?: string[];
-
+  sentQualityAlertIdsInStatusActive: string[],
+  receivedQualityAlertIdsInStatusActive: string[],
+  sentQualityInvestigationIdsInStatusActive: string[],
+  receivedQualityInvestigationIdsInStatusActive: string[]
 }
 
 export type PartsResponse = PaginationResponse<PartResponse>;
@@ -136,7 +137,7 @@ export interface AssetAsBuiltFilter {
   id?: string,
   idShort?: string,
   name?: string,
-  manufacturer?: string,
+  manufacturerName?: string,
   partId?: string,
   manufacturerPartId?: string,
   customerPartId?: string,

@@ -43,7 +43,7 @@ spring:
   flyway:
     enabled: true
   jpa:
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
         format_sql: true
@@ -60,6 +60,9 @@ resilience4j:
         waitDuration: 10s
         enableExponentialBackoff: true
         exponentialBackoffMultiplier: 2
+      registry:
+        maxAttempts: 1
+        waitDuration: 2s
 server:
   port: 9998
 management:

@@ -43,113 +43,114 @@ import { SortDirection } from '../../../mocks/services/pagination.helper';
 
 @Injectable()
 export class PartsService {
-    private readonly url = environment.apiUrl;
+  private readonly url = environment.apiUrl;
 
-    constructor(private readonly apiService: ApiService) {
+  constructor(private readonly apiService: ApiService) {
+  }
+
+  public getPartsAsBuilt(page: number, pageSize: number, sorting: TableHeaderSort[], assetAsBuiltFilter?: AssetAsBuiltFilter, isOrSearch?: boolean): Observable<Pagination<Part>> {
+
+    let sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
+    let filterOperator = isOrSearch ? 'OR' : 'AND';
+
+    let params = new HttpParams()
+      .set('page', page)
+      .set('size', pageSize)
+      .set('filter', 'owner,EQUAL,OWN,AND');
+    sort.forEach(sortingItem => {
+      params = params.append('sort', sortingItem);
+    });
+
+    if (assetAsBuiltFilter) {
+      params = enrichFilterAndGetUpdatedParams(assetAsBuiltFilter, params, filterOperator);
     }
 
-    public getPartsAsBuilt(page: number, pageSize: number, sorting: TableHeaderSort[], assetAsBuiltFilter?: AssetAsBuiltFilter, isOrSearch?: boolean): Observable<Pagination<Part>> {
+    return this.apiService
+      .getBy<PartsResponse>(`${ this.url }/assets/as-built`, params)
+      .pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_BUILT)));
+  }
 
-        let sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
-        let filterOperator = isOrSearch ? "OR" : "AND";
 
-        let params = new HttpParams()
-            .set('page', page)
-            .set('size', pageSize)
-            .set('filter', "owner,EQUAL,OWN,AND")
-        sort.forEach(sortingItem => {
-            params = params.append('sort', sortingItem);
-        })
+  public getPartsAsPlanned(page: number, pageSize: number, sorting: TableHeaderSort[], assetAsPlannedFilter?: AssetAsPlannedFilter, isOrSearch?: boolean): Observable<Pagination<Part>> {
+    let sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
+    let filterOperator = isOrSearch ? 'OR' : 'AND';
+    let params = new HttpParams()
+      .set('page', page)
+      .set('size', pageSize)
+      .set('filter', 'owner,EQUAL,OWN,AND');
 
-        if (assetAsBuiltFilter) {
-            params = enrichFilterAndGetUpdatedParams(assetAsBuiltFilter, params, filterOperator);
-        }
+    sort.forEach(sortingItem => {
+      params = params.append('sort', sortingItem);
+    });
 
-        return this.apiService
-            .getBy<PartsResponse>(`${this.url}/assets/as-built`, params)
-            .pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_BUILT)));
+    if (assetAsPlannedFilter) {
+      params = enrichFilterAndGetUpdatedParams(assetAsPlannedFilter, params, filterOperator);
     }
 
+    return this.apiService
+      .getBy<PartsResponse>(`${ this.url }/assets/as-planned`, params)
+      .pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_PLANNED)));
+  }
 
-    public getPartsAsPlanned(page: number, pageSize: number, sorting: TableHeaderSort[], assetAsPlannedFilter?: AssetAsPlannedFilter, isOrSearch?: boolean): Observable<Pagination<Part>> {
-        let sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
-        let filterOperator = isOrSearch ? "OR" : "AND";
-        let params = new HttpParams()
-            .set('page', page)
-            .set('size', pageSize)
-            .set('filter', "owner,EQUAL,OWN,AND")
+  public getPart(id: string): Observable<Part> {
 
-        sort.forEach(sortingItem => {
-            params = params.append('sort', sortingItem);
-        })
+    let resultsAsBuilt = this.apiService.get<PartResponse>(`${ this.url }/assets/as-built/${ id }`)
+      .pipe(map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_BUILT)));
 
-        if (assetAsPlannedFilter) {
-            params = enrichFilterAndGetUpdatedParams(assetAsPlannedFilter, params, filterOperator);
-        }
+    let resultsAsPlanned = this.apiService.get<PartResponse>(`${ this.url }/assets/as-planned/${ id }`)
+      .pipe(map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_PLANNED)));
 
-        return this.apiService
-            .getBy<PartsResponse>(`${this.url}/assets/as-planned`, params)
-            .pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_PLANNED)));
+    return resultsAsBuilt || resultsAsPlanned;
+
+  }
+
+
+  public getPartDetailOfIds(assetIds: string[]): Observable<Part[]> {
+
+    let resultsAsBuilt = this.apiService
+      .post<PartResponse[]>(`${ this.url }/assets/as-built/detail-information`, { assetIds })
+      .pipe(map(parts => PartsAssembler.assemblePartList(parts, MainAspectType.AS_BUILT)));
+
+    let resultsAsPlanned = this.apiService
+      .post<PartResponse[]>(`${ this.url }/assets/as-planned/detail-information`, { assetIds })
+      .pipe(map(parts => PartsAssembler.assemblePartList(parts, MainAspectType.AS_PLANNED)));
+
+    if (resultsAsBuilt) {
+      return resultsAsBuilt;
     }
 
-    public getPart(id: string): Observable<Part> {
-
-        let resultsAsBuilt = this.apiService.get<PartResponse>(`${this.url}/assets/as-built/${id}`)
-            .pipe(map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_BUILT)));
-
-        let resultsAsPlanned = this.apiService.get<PartResponse>(`${this.url}/assets/as-planned/${id}`)
-            .pipe(map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_PLANNED)));
-
-        return resultsAsBuilt || resultsAsPlanned;
-
+    if (resultsAsPlanned) {
+      return resultsAsPlanned;
     }
 
+  }
 
-    public getPartDetailOfIds(assetIds: string[]): Observable<Part[]> {
+  public getDistinctFilterValues(isAsBuilt: boolean, owner: Owner, fieldNames: string, startsWith: string) {
+    const mappedFieldName = PartsAssembler.mapFieldNameToApi(fieldNames);
+    let params = new HttpParams()
+      .set('fieldName', mappedFieldName)
+      .set('startWith', startsWith)
+      .set('size', 200)
+      .set('owner', owner);
 
-        let resultsAsBuilt = this.apiService
-            .post<PartResponse[]>(`${this.url}/assets/as-built/detail-information`, {assetIds})
-            .pipe(map(parts => PartsAssembler.assemblePartList(parts, MainAspectType.AS_BUILT)));
-
-        let resultsAsPlanned = this.apiService
-            .post<PartResponse[]>(`${this.url}/assets/as-planned/detail-information`, {assetIds})
-            .pipe(map(parts => PartsAssembler.assemblePartList(parts, MainAspectType.AS_PLANNED)));
-
-        if (resultsAsBuilt) {
-            return resultsAsBuilt;
-        }
-
-        if (resultsAsPlanned) {
-            return resultsAsPlanned
-        }
-
+    if (isAsBuilt) {
+      return this.apiService
+        .getBy<any>(`${ this.url }/assets/as-built/distinctFilterValues`, params);
+    } else {
+      return this.apiService
+        .getBy<any>(`${ this.url }/assets/as-planned/distinctFilterValues`, params);
     }
+  }
 
-    public getDistinctFilterValues(isAsBuilt: boolean, owner: Owner, fieldNames: string, startsWith: string) {
-      let params = new HttpParams()
-        .set('fieldName',fieldNames)
-        .set('startWith',startsWith)
-        .set('size',200)
-        .set('owner', owner)
+  public sortParts(data: Part[], key: string, direction: SortDirection): Part[] {
+    const clonedData: Part[] = _deepClone(data);
+    return clonedData.sort((partA, partB) => {
+      const a = direction === 'desc' ? partA[key] : partB[key];
+      const b = direction === 'desc' ? partB[key] : partA[key];
 
-      if(isAsBuilt) {
-        return this.apiService
-          .getBy<any>(`${ this.url }/assets/as-built/distinctFilterValues`, params);
-      } else {
-        return this.apiService
-          .getBy<any>(`${ this.url }/assets/as-planned/distinctFilterValues`, params);
-      }
-    }
-
-    public sortParts(data: Part[], key: string, direction: SortDirection): Part[] {
-        const clonedData: Part[] = _deepClone(data);
-        return clonedData.sort((partA, partB) => {
-            const a = direction === 'desc' ? partA[key] : partB[key];
-            const b = direction === 'desc' ? partB[key] : partA[key];
-
-            if (a > b) return -1;
-            if (a < b) return 1;
-            return 0;
-        });
-    }
+      if (a > b) return -1;
+      if (a < b) return 1;
+      return 0;
+    });
+  }
 }

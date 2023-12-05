@@ -18,11 +18,11 @@
  ********************************************************************************/
 
 export interface BomLifecycleSize {
-    asPlannedSize: number,
-    asBuiltSize: number
+  asPlannedSize: number,
+  asBuiltSize: number
 }
 
 export interface BomLifecycleConfig {
-    asPlannedActive: boolean,
-    asBuiltActive: boolean
+  asPlannedActive: boolean,
+  asBuiltActive: boolean
 }

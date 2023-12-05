@@ -30,7 +30,7 @@ describe('AlertDetailComponent', () => {
 
   const renderAlertDetail = async (id?: string) => {
     return await renderComponent(AlertDetailComponent, {
-      imports: [AlertsModule],
+      imports: [ AlertsModule ],
       providers: [
         AlertsService,
         {
@@ -41,7 +41,7 @@ describe('AlertDetailComponent', () => {
                 get: () => id || 'id-2',
               },
             },
-            queryParams: of({ pageNumber: 0, tabIndex: 0 })
+            queryParams: of({ pageNumber: 0, tabIndex: 0 }),
           },
         },
       ],
@@ -71,6 +71,6 @@ describe('AlertDetailComponent', () => {
     const spy = spyOn(navigator.clipboard, 'writeText').and.returnValue(new Promise(null));
     fireEvent.click(await waitFor(() => screen.getByTestId('copy-button--' + MOCK_part_1.id)));
 
-    expect(spy).toHaveBeenCalledWith("NO-341449848714937445621543");
+    expect(spy).toHaveBeenCalledWith('NO-341449848714937445621543');
   });
 });

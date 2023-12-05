@@ -19,24 +19,24 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {AfterViewInit, Component, Input, OnDestroy} from '@angular/core';
-import {FormControl} from '@angular/forms';
-import {Router} from '@angular/router';
-import {Pagination} from '@core/model/pagination.model';
-import {TractionBatteryCode} from '@page/parts/model/aspectModels.model';
-import {Part, QualityType} from '@page/parts/model/parts.model';
-import {PartsAssembler} from '@shared/assembler/parts.assembler';
-import {SelectOption} from '@shared/components/select/select.component';
-import {State} from '@shared/model/state';
-import {View} from '@shared/model/view.model';
-import {PartDetailsFacade} from '@shared/modules/part-details/core/partDetails.facade';
-import {Observable, Subscription} from 'rxjs';
-import {filter, tap} from 'rxjs/operators';
+import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Pagination } from '@core/model/pagination.model';
+import { TractionBatteryCode } from '@page/parts/model/aspectModels.model';
+import { Part, QualityType } from '@page/parts/model/parts.model';
+import { PartsAssembler } from '@shared/assembler/parts.assembler';
+import { SelectOption } from '@shared/components/select/select.component';
+import { State } from '@shared/model/state';
+import { View } from '@shared/model/view.model';
+import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
+import { Observable, Subscription } from 'rxjs';
+import { filter, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-part-detail',
   templateUrl: './part-detail.component.html',
-  styleUrls: ['../../../components/card-list/card-list.component.scss', './part-detail.component.scss'],
+  styleUrls: [ '../../../components/card-list/card-list.component.scss', './part-detail.component.scss' ],
 })
 export class PartDetailComponent implements AfterViewInit, OnDestroy {
   @Input() showRelation = true;
@@ -78,11 +78,11 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
     this.tractionBatteryDetails$ = this.partDetailsFacade.selectedPart$.pipe(PartsAssembler.mapPartForTractionBatteryCodeDetailsView());
     this.tractionBatterySubcomponents$ = this.partDetailsFacade.selectedPart$.pipe(PartsAssembler.mapPartForTractionBatteryCodeSubComponentsView()) as unknown as Observable<View<TractionBatteryCode>>;
 
-    this.customerOrPartSiteDetailsHeader$ = this.customerOrPartSiteDetails$?.subscribe(data=> {
-      if(data?.data?.functionValidFrom){
-        this.customerOrPartSiteHeader = 'partDetail.partSiteInformationData'
+    this.customerOrPartSiteDetailsHeader$ = this.customerOrPartSiteDetails$?.subscribe(data => {
+      if (data?.data?.functionValidFrom) {
+        this.customerOrPartSiteHeader = 'partDetail.partSiteInformationData';
       } else {
-        this.customerOrPartSiteHeader = 'partDetail.customerData'
+        this.customerOrPartSiteHeader = 'partDetail.customerData';
       }
     });
 
@@ -91,7 +91,7 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
       label: value,
       value: value,
     }));
-    this.displayedColumns = ["position", "productType", "tractionBatteryCode"]
+    this.displayedColumns = [ 'position', 'productType', 'tractionBatteryCode' ];
   }
 
   public ngOnDestroy(): void {
@@ -112,7 +112,7 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
 
   public openRelationPage(part: Part): void {
     this.partDetailsFacade.selectedPart = null;
-    this.router.navigate([`parts/relations/${part.id}`]).then(_ => window.location.reload());
+    this.router.navigate([ `parts/relations/${ part.id }` ]).then(_ => window.location.reload());
   }
 
 }

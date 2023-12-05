@@ -26,12 +26,12 @@ SPDX-License-Identifier: Apache-2.0
   <mat-chip-listbox aria-label="Selected Parts">
     <mat-chip
       *ngFor="let part of selectedItems || []"
-      [attr.data-testid]="'mat-chip--' + part.name || part.id"
+      [attr.data-testid]="'mat-chip--' + part.nameAtManufacturer || part.id"
       (removed)="cancelAction(part)"
     >
       <mat-icon *ngIf="part.error" [color]="'warn'" matChipAvatar>close</mat-icon>
-      <mat-spinner *ngIf="!part.name && !part.error" [diameter]="20" class="mr-3"></mat-spinner>
-      {{ part.name || part.id }}
+      <mat-spinner *ngIf="!part.nameAtManufacturer && !part.error" [diameter]="20" class="mr-3"></mat-spinner>
+      {{ part.nameAtManufacturer || part.id }}
       <button *ngIf="selectedItems.length > 1" matChipRemove>
         <mat-icon>cancel</mat-icon>
       </button>
@@ -42,13 +42,13 @@ SPDX-License-Identifier: Apache-2.0
     <p class="regular-text mb-2">{{ 'requestNotification.restoreItem' | i18n }}</p>
     <mat-chip-set>
       <mat-chip
-        [attr.data-testid]="'mat-chip-history--' + removedItemsHistory[0].name || removedItemsHistory[0].id"
+        [attr.data-testid]="'mat-chip-history--' + removedItemsHistory[0].nameAtManufacturer || removedItemsHistory[0].id"
         (click)="restoreLastItem()"
         outlined="false"
         class="cursor-pointer border-none"
       >
         <mat-icon matChipAvatar>restore</mat-icon>
-        {{ removedItemsHistory[0].name || removedItemsHistory[0].id }}
+        {{ removedItemsHistory[0].nameAtManufacturer || removedItemsHistory[0].id }}
       </mat-chip>
     </mat-chip-set>
   </div>
@@ -91,11 +91,11 @@ SPDX-License-Identifier: Apache-2.0
 
   <div class="flex flex-row justify-end mt-10 md:mt-6">
     <app-button [variant]="'raised'" [isDisabled]="isLoading$ | async" (click)="resetForm()" class="mr-4"
-      >{{ 'requestNotification.cancel' | i18n }}</app-button
+    >{{ 'requestNotification.cancel' | i18n }}</app-button
     >
 
     <app-button [variant]="'raised'" [color]="'primary'" [isDisabled]="isLoading$ | async" type="submit"
-      >{{ 'requestNotification.submit' | i18n }}</app-button
+    >{{ 'requestNotification.submit' | i18n }}</app-button
     >
   </div>
 </form>

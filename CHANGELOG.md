@@ -5,15 +5,65 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
 ## [UNRELEASED - DD.MM.YYYY]
+### Added
+- new filtering capabilities ( receivedQualityAlertIdsInStatusActive, sentQualityAlertIdsInStatusActive, receivedQualityInvestigationIdsInStatusActive, sentQualityInvestigationIdsInStatusActive )
+- Validation check if table-settings correct and reset on invalid state
+- Added Api-Input in Argo Workflow to fix bugs
+- Added implementation for cucumber tests for quality investigations
+- Separation of auto complete mechanism (selected / searched elements)
+- Added new step definition for cucumber tests "I use assets with ids {string}" allowing to specify assets used for notification creation
+- Added autocomplete endpoints for notifications
+- Added BPN column to parts table
+- Emit change check to observables in frontend
+- Added an Entity Relationship Model (ERM) into the Architecture Documentation to visually represent our tables and their relationships.
+
+### Changed
+- Filter configuration for tables to be resuable and easy to adapt
+- Realigned some mappings e.g. (manufacturer / manufacturerName) to be more clear
+- Updated mikefarah/yq from 4.35.2 to 4.40.2
+- Upgraded maven-checkstyle-plugin from 3.3.0 to 3.3.1
+- Upgraded nimbus-jose-jwt from 9.31 to 9.37.1
+- Upgraded maven-install-plugin from 3.0.1 to 3.1.1
+- Upgraded json-unit-assertj from 2.38.0 to 3.2.2
+- Upgraded asciidoctorj-diagram from 2.2.9 to 2.2.13
+- Cucumber test steps for creating notifications no longer support default assetId when no asset is provided with previous step
+- Upgraded the Upload_Testdata job in Argo Workflow to fix bugs
+- Auto format for frontend source code applied
+- Updated user-manual for Parts filtering autocomplete functionality
+- Fixed issue when requesting autocomplete api endpoints with no size provided
+- Default pagination size to 50.
+- Split up bpn column in notification table views to show bpn and name separately
+- Changed detailed part view action from clicking on list item to a menu action column
+- Changed FE fieldName mapping to fix bug for properties catenaxSiteId and function
+- Fix of global search field
+
+### Removed
+- removed asset filters ( qualityInvestigationIdsInStatusActive, qualityInvestigationIdsInStatusActive )
+- Removed Cucumber tests steps for creating alerts with two parts as new step definition is enough for the same feature
+
+## [9.0.0 - 05.12.2023]
+### Changed
+- Upgraded irs-client library from 1.4.1-SNAPSHOT to 1.4.1
+
+### Known knowns
+
+- Backend/Frontend [TRACEFOSS-2728]: Investigations / Alerts: Transition of the message status will take some time. If it fails the user will not be informed.
+
+## [9.0.0-rc3 - 27.11.2023]
 ### Added
 - DEPENDENCIES_FRONTEND, SECURITY.md, NOTICE.md, LICENSE file to frontend docker image
 - Added a step-by-step guide to register a server in pgAdmin in the database dump README
 - Documentation about technical users
-- Added an Entity Relationship Model (ERM) into the Architecture Documentation to visually represent our tables and their relationships.
+- Added new dashboard layout and additional widgets
 
 ### Changed
 - Fixed helm repository path for backend & frontend (wrong prefix)
+- Refactored dashboard response
+- Updated user manual
+- Autocomplete endpoints changed owner String type param to Owner for input validation and sql injection prevention
+- Autocomplete endpoints repository uses now criteria api rather than native query
 - Fixed several bugs in local filtering of the parts table
 
 ### Removed

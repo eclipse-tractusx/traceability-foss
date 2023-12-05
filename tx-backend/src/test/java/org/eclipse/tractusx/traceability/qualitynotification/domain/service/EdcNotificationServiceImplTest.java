@@ -30,7 +30,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.excepti
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.EdcNotificationService;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.EdcNotificationServiceImpl;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.InvestigationsEDCFacade;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -49,19 +49,13 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class EdcNotificationServiceTest {
+class EdcNotificationServiceImplTest {
 
     @InjectMocks
-    private EdcNotificationService notificationsService;
+    private EdcNotificationServiceImpl notificationsService;
 
     @Mock
     private InvestigationsEDCFacade edcFacade;
-
-    @Mock
-    private InvestigationRepository investigationRepository;
-
-    @Mock
-    private AlertRepository alertRepository;
 
     @Mock
     private DiscoveryService discoveryService;
@@ -86,12 +80,10 @@ class EdcNotificationServiceTest {
                 .build();
 
         // when
-        notificationsService.asyncNotificationExecutor(notification);
+        notificationsService.asyncNotificationMessageExecutor(notification);
 
         // then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
-        verify(investigationRepository).updateQualityNotificationMessageEntity(notification);
-        verifyNoInteractions(alertRepository);
     }
 
     @Test
@@ -114,12 +106,10 @@ class EdcNotificationServiceTest {
                 .build();
 
         // when
-        notificationsService.asyncNotificationExecutor(notification);
+        notificationsService.asyncNotificationMessageExecutor(notification);
 
         // then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
-        verify(alertRepository).updateQualityNotificationMessageEntity(notification);
-        verifyNoInteractions(investigationRepository);
     }
 
     @Test
@@ -141,12 +131,10 @@ class EdcNotificationServiceTest {
         doThrow(new NoCatalogItemException()).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
         // when
-        notificationsService.asyncNotificationExecutor(notification);
+        notificationsService.asyncNotificationMessageExecutor(notification);
 
         // then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
-        verifyNoInteractions(alertRepository);
-        verifyNoInteractions(investigationRepository);
     }
 
     @Test
@@ -165,15 +153,13 @@ class EdcNotificationServiceTest {
                 .severity(QualityNotificationSeverity.MINOR)
                 .isInitial(false)
                 .build();
-        doThrow(new SendNotificationException("message",new RuntimeException())).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
+        doThrow(new SendNotificationException("message", new RuntimeException())).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
         // when
-        notificationsService.asyncNotificationExecutor(notification);
+        notificationsService.asyncNotificationMessageExecutor(notification);
 
         // then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
-        verifyNoInteractions(alertRepository);
-        verifyNoInteractions(investigationRepository);
     }
 
     @Test
@@ -195,12 +181,10 @@ class EdcNotificationServiceTest {
         doThrow(new NoEndpointDataReferenceException("message")).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
         // when
-        notificationsService.asyncNotificationExecutor(notification);
+        notificationsService.asyncNotificationMessageExecutor(notification);
 
         // then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
-        verifyNoInteractions(alertRepository);
-        verifyNoInteractions(investigationRepository);
     }
 
     @Test
@@ -222,12 +206,10 @@ class EdcNotificationServiceTest {
         doThrow(new ContractNegotiationException("message")).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
         // when
-        notificationsService.asyncNotificationExecutor(notification);
+        notificationsService.asyncNotificationMessageExecutor(notification);
 
         // then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
-        verifyNoInteractions(alertRepository);
-        verifyNoInteractions(investigationRepository);
     }
 
 
@@ -250,12 +232,10 @@ class EdcNotificationServiceTest {
         doThrow(new NoCatalogItemException()).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
         // when
-        notificationsService.asyncNotificationExecutor(notification);
+        notificationsService.asyncNotificationMessageExecutor(notification);
 
         // then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
-        verifyNoInteractions(alertRepository);
-        verifyNoInteractions(investigationRepository);
     }
 
     @Test
@@ -274,15 +254,13 @@ class EdcNotificationServiceTest {
                 .severity(QualityNotificationSeverity.MINOR)
                 .isInitial(false)
                 .build();
-        doThrow(new SendNotificationException("message",new RuntimeException())).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
+        doThrow(new SendNotificationException("message", new RuntimeException())).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
         // when
-        notificationsService.asyncNotificationExecutor(notification);
+        notificationsService.asyncNotificationMessageExecutor(notification);
 
         // then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
-        verifyNoInteractions(alertRepository);
-        verifyNoInteractions(investigationRepository);
     }
 
     @Test
@@ -304,12 +282,10 @@ class EdcNotificationServiceTest {
         doThrow(new NoEndpointDataReferenceException("message")).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
         // when
-        notificationsService.asyncNotificationExecutor(notification);
+        notificationsService.asyncNotificationMessageExecutor(notification);
 
         // then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
-        verifyNoInteractions(alertRepository);
-        verifyNoInteractions(investigationRepository);
     }
 
     @Test
@@ -331,11 +307,9 @@ class EdcNotificationServiceTest {
         doThrow(new ContractNegotiationException("message")).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
         // when
-        notificationsService.asyncNotificationExecutor(notification);
+        notificationsService.asyncNotificationMessageExecutor(notification);
 
         // then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
-        verifyNoInteractions(alertRepository);
-        verifyNoInteractions(investigationRepository);
     }
 }

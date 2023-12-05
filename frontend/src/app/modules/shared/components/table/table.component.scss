@@ -127,6 +127,8 @@ tr.error {
 }
 
 .table--menu {
+  background-color: white;
+
   &__mobile {
     display: none;
   }
@@ -181,7 +183,7 @@ tr.error {
 
 .table--header--tooltip {
   .mdc-tooltip__surface {
-    background-color: rgb(48,48,48);
+    background-color: rgb(48, 48, 48);
     @apply font-medium;
     color: white;
     max-width: 300px;
@@ -190,6 +192,7 @@ tr.error {
     line-height: 20px;
 
   }
+
   .mdc-tooltip--multiline {
     white-space: pre-line;
   }

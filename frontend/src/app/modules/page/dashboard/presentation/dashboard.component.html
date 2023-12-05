@@ -20,85 +20,261 @@ SPDX-License-Identifier: Apache-2.0
 -->
 
 <div class="dashboard-grid">
-  <section class="parts-section">
+  <section class="metrics-section">
     <ng-container
       *viewContainer="
-        this.numberOfMyParts$ | async;
+        this.dashboardStats$ | async;
         main: numbersMainTmp;
         error: numbersErrorTmp;
         loading: numbersLoaderTmp;
-        customContext: { label: 'pageDashboard.totalOfParts.label', icon: 'directions_car' }
+        customContext: { label: 'pageDashboard.totalOfParts.label', icon: 'directions_car', metricData: partsMetricData }
       "
     >
     </ng-container>
   </section>
 
-  <section class="parts-section">
+  <section class="metrics-section">
     <ng-container
       *viewContainer="
-        this.numberOfOtherParts$ | async;
+        this.dashboardStats$ | async;
         main: numbersMainTmp;
         error: numbersErrorTmp;
         loading: numbersLoaderTmp;
-        customContext: { label: 'pageDashboard.totalOfOtherParts.label', icon: 'directions_car' }
+        customContext: { label: 'pageDashboard.totalOfOtherParts.label', icon: 'directions_car', metricData: otherPartsMetricData  }
       "
     >
     </ng-container>
   </section>
 
-  <section class="parts-section">
+  <section class="metrics-section">
     <ng-container
       *viewContainer="
-        this.numberOfInvestigations$ | async;
+        this.dashboardStats$ | async;
         main: numbersMainTmp;
         error: numbersErrorTmp;
         loading: numbersLoaderTmp;
-        customContext: { label: 'pageDashboard.totalInvestigations.label', icon: 'find_in_page' }
+        customContext: { label: 'pageDashboard.totalInvestigations.label', icon: 'find_in_page', metricData: investigationsMetricData }
       "
     >
     </ng-container>
   </section>
+
+  <section class="metrics-section">
+    <ng-container
+      *viewContainer="
+        this.dashboardStats$ | async;
+        main: numbersMainTmp;
+        error: numbersErrorTmp;
+        loading: numbersLoaderTmp;
+        customContext: { label: 'pageDashboard.totalAlerts.label', icon: 'notification_important', metricData: alertsMetricData }
+      "
+    >
+    </ng-container>
+  </section>
+
   <section class="dashboard--investigation">
-    <mat-card>
-      <mat-card-header>
-        <div class="inline-block w-full">
-          <div class="flex justify-between items-center">
-            <h3 class="mb-4 flex items-center">
-              <mat-icon>find_in_page</mat-icon>
-              {{ 'pageTitle.investigations' | i18n }}
-            </h3>
-            <app-button
-              [color]="'primary'"
-              [routerLink]="[investigationLink]"
-              [queryParams]="investigationParams"
-              [relativeTo]="null"
+    <mat-expansion-panel expanded>
+      <mat-expansion-panel-header>
+        <h3 class="flex items-center">
+          <mat-icon>find_in_page</mat-icon>
+          {{ 'pageTitle.investigations' | i18n }}
+        </h3>
+      </mat-expansion-panel-header>
+      <mat-tab-group
+        mat-stretch-tabs="false"
+        mat-align-tabs="start"
+      >
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon class="mr-2">drafts
+            </mat-icon
             >
-              <div class="flex justify-between items-center">
-                <mat-icon class="mr-2">remove_red_eye</mat-icon>
-                {{ 'commonInvestigation.viewAll' | i18n }}
-              </div>
-            </app-button>
-          </div>
-        </div>
-      </mat-card-header>
+            <span>{{ 'commonInvestigation.tabs.received' | i18n }} </span>
+          </ng-template>
+          <mat-card>
+            <mat-card-header>
+              <div class="inline-block w-full">
+                <div class="mb-2 flex justify-end items-center">
 
-      <mat-card-content>
-        <app-notifications-tab
-          [notificationType]="NotificationType.INVESTIGATION"
-          [notificationsView$]="investigations$"
-          [translationContext]="'commonInvestigation'"
-          [labelId]="'dashboard-investigations'"
-          [hasPagination]="false"
-          [optionalColumns]="['targetDate', 'severity', 'createdBy']"
-          (selected)="onNotificationSelected($event)"
-        ></app-notifications-tab>
-      </mat-card-content>
-    </mat-card>
+                  <app-button
+                    [color]="'primary'"
+                    [routerLink]="[investigationLink]"
+                    [queryParams]="investigationParams"
+                    [relativeTo]="null"
+                  >
+                    <div class="flex justify-between items-center">
+                      <mat-icon class="mr-2">remove_red_eye</mat-icon>
+                      {{ 'commonInvestigation.viewAll' | i18n }}
+                    </div>
+                  </app-button>
+                </div>
+              </div>
+            </mat-card-header>
+
+            <mat-card-content>
+              <app-notifications-tab
+                [notificationType]="NotificationType.INVESTIGATION"
+                [notificationsView$]="investigationsReceived$"
+                [translationContext]="'commonInvestigation'"
+                [labelId]="'dashboard-investigations-received'"
+                [hasPagination]="false"
+                [optionalColumns]="['targetDate', 'severity', 'createdBy']"
+                (selected)="onInvestigationSelected($event)"
+              ></app-notifications-tab>
+            </mat-card-content>
+          </mat-card>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon class="mr-2">drafts
+            </mat-icon
+            >
+            <span>{{ 'commonInvestigation.tabs.queuedAndRequested' | i18n }} </span>
+          </ng-template>
+          <mat-card>
+            <mat-card-header>
+              <div class="inline-block w-full">
+                <div class="mb-2 flex justify-end items-center">
+
+                  <app-button
+                    [color]="'primary'"
+                    [routerLink]="[investigationLink]"
+                    [queryParams]="investigationParams"
+                    [relativeTo]="null"
+                  >
+                    <div class="flex justify-between items-center">
+                      <mat-icon class="mr-2">remove_red_eye</mat-icon>
+                      {{ 'commonInvestigation.viewAll' | i18n }}
+                    </div>
+                  </app-button>
+                </div>
+              </div>
+            </mat-card-header>
+
+            <mat-card-content>
+              <app-notifications-tab
+                [notificationType]="NotificationType.INVESTIGATION"
+                [notificationsView$]="investigationsCreated$"
+                [translationContext]="'commonInvestigation'"
+                [labelId]="'dashboard-investigations-created'"
+                [hasPagination]="false"
+                [optionalColumns]="['targetDate', 'severity', 'createdBy']"
+                (selected)="onInvestigationSelected($event)"
+              ></app-notifications-tab>
+            </mat-card-content>
+          </mat-card>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-expansion-panel>
+
   </section>
+
+  <section class="dashboard--alert">
+    <mat-expansion-panel expanded>
+      <mat-expansion-panel-header>
+        <h3 class="flex items-center">
+          <mat-icon>find_in_page</mat-icon>
+          {{ 'pageTitle.alerts' | i18n }}
+        </h3>
+      </mat-expansion-panel-header>
+      <mat-tab-group
+        mat-stretch-tabs="false"
+        mat-align-tabs="start"
+      >
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon class="mr-2">drafts
+            </mat-icon
+            >
+            <span>{{ 'commonAlert.tabs.received' | i18n }} </span>
+          </ng-template>
+          <mat-card>
+            <mat-card-header>
+              <div class="inline-block w-full">
+                <div class=" mb-2 flex justify-end items-center">
+
+                  <app-button
+                    [color]="'primary'"
+                    [routerLink]="[alertLink]"
+                    [queryParams]="alertParams"
+                    [relativeTo]="null"
+                  >
+                    <div class="flex justify-between items-center">
+                      <mat-icon class="mr-2">remove_red_eye</mat-icon>
+                      {{ 'commonAlert.viewAll' | i18n }}
+                    </div>
+                  </app-button>
+                </div>
+              </div>
+            </mat-card-header>
+
+            <mat-card-content>
+              <app-notifications-tab
+                [notificationType]="NotificationType.ALERT"
+                [notificationsView$]="alertsReceived$"
+                [translationContext]="'commonAlert'"
+                [labelId]="'dashboard-alerts-received'"
+                [hasPagination]="false"
+                [optionalColumns]="['targetDate', 'severity', 'createdBy']"
+                (selected)="onAlertSelected($event)"
+              ></app-notifications-tab>
+            </mat-card-content>
+          </mat-card>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon class="mr-2">drafts
+            </mat-icon
+            >
+            <span>{{ 'commonAlert.tabs.queuedAndRequested' | i18n }} </span>
+          </ng-template>
+          <mat-card>
+            <mat-card-header>
+              <div class="inline-block w-full">
+                <div class=" mb-2 flex justify-end items-center">
+
+                  <app-button
+                    [color]="'primary'"
+                    [routerLink]="[alertLink]"
+                    [queryParams]="alertParams"
+                    [relativeTo]="null"
+                  >
+                    <div class="flex justify-between items-center">
+                      <mat-icon class="mr-2">remove_red_eye</mat-icon>
+                      {{ 'commonAlert.viewAll' | i18n }}
+                    </div>
+                  </app-button>
+                </div>
+              </div>
+            </mat-card-header>
+
+            <mat-card-content>
+              <app-notifications-tab
+                [notificationType]="NotificationType.ALERT"
+                [notificationsView$]="alertsCreated$"
+                [translationContext]="'commonAlert'"
+                [labelId]="'dashboard-alerts-created'"
+                [hasPagination]="false"
+                [optionalColumns]="['targetDate', 'severity', 'createdBy']"
+                (selected)="onAlertSelected($event)"
+              ></app-notifications-tab>
+            </mat-card-content>
+          </mat-card>
+        </mat-tab>
+      </mat-tab-group>
+
+    </mat-expansion-panel>
+
+  </section>
+
 </div>
 
 <ng-template #numbersMainTmp let-numbers="view" let-context="customContext">
-  <app-card-icon [label]="context.label | i18n" [icon]="context.icon" [stats]="numbers?.data"></app-card-icon>
+  <app-card-icon [label]="context.label | i18n"
+                 [icon]="context.icon"
+                 [metricData]="context.metricData"
+  >
+  </app-card-icon>
 </ng-template>
 
 <ng-template #numbersErrorTmp let-context="customContext">

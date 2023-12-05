@@ -26,7 +26,7 @@ import io.swagger.annotations.ApiModelProperty;
 import jakarta.validation.constraints.NotNull;
 
 public record UpdateAssetRequest(
-	@NotNull(message = "qualityType must be present")
-    @ApiModelProperty(example = "Ok" )
-    QualityTypeRequest qualityType) {
+        @NotNull(message = "qualityType must be present")
+        @ApiModelProperty(example = "Ok")
+        QualityTypeRequest qualityType) {
 }

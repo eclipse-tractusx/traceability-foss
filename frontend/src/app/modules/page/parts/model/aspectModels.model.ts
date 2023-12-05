@@ -17,9 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 // should be mapped into
-export type SemanticModel = {
-
-}
+export type SemanticModel = {}
 
 export type AsBuiltAspectModel = {
   partId: string;

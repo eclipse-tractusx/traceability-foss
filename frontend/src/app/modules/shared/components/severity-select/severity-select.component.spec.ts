@@ -32,7 +32,7 @@ describe('SeveritySelectComponent', () => {
     const formControl = new FormControl(selectedValue);
 
     return renderComponent(`<app-severity-select [formControl]="formControl">Test</app-severity-select>`, {
-      imports: [SharedModule],
+      imports: [ SharedModule ],
       componentProperties: { formControl },
     });
   };

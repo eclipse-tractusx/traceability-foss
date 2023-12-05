@@ -16,7 +16,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import {HttpParams} from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 import {
   AssetAsBuiltFilter,
   AssetAsPlannedFilter,
@@ -32,7 +32,7 @@ export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, para
   for (const key in filter) {
     let operator: string;
     const filterValues: string = filter[key];
-    if (!filterValues){
+    if (!filterValues) {
       continue;
     }
     // has date
@@ -50,9 +50,8 @@ export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, para
         params = params.append('filter', `${ key },${ endDateOperator },${ endDate },${ filterOperator }`);
         continue;
       } else if (filterValues && filterValues.length != 0) {
-          console.log(filterValues, "filtervalues");
-          operator = getFilterOperatorValue(FilterOperator.AT_LOCAL_DATE);
-          params = params.append('filter', `${ key },${ operator },${ filterValues },${ filterOperator }`);
+        operator = getFilterOperatorValue(FilterOperator.AT_LOCAL_DATE);
+        params = params.append('filter', `${ key },${ operator },${ filterValues },${ filterOperator }`);
       }
     }
 
@@ -86,7 +85,7 @@ export function isStartsWithFilter(key: string): boolean {
 }
 
 export function isNotificationCountFilter(key: string): boolean {
-  return 'qualityAlertIdsInStatusActive' === key || 'qualityInvestigationIdsInStatusActive' === key;
+  return 'receivedQualityAlertIdsInStatusActive' === key || 'sentQualityAlertIdsInStatusActive' === key || 'receivedQualityInvestigationIdsInStatusActive' === key || 'sentQualityInvestigationIdsInStatusActive' === key;
 }
 
 export function isDateFilter(key: string): boolean {
@@ -108,12 +107,20 @@ export function toAssetFilter(formValues: any, isAsBuilt: boolean): AssetAsPlann
   // Loop through each form control and add it to the transformedFilter if it has a non-null and non-undefined value
   for (const key in formValues) {
     if (formValues[key] !== null && formValues[key] !== undefined) {
-      if ('activeAlerts' === key) {
-        transformedFilter['qualityAlertIdsInStatusActive'] = formValues[key];
+      if ('receivedActiveAlerts' === key) {
+        transformedFilter['receivedQualityAlertIdsInStatusActive'] = formValues[key];
         continue;
       }
-      if ('activeInvestigations' === key) {
-        transformedFilter['qualityInvestigationIdsInStatusActive'] = formValues[key];
+      if ('sentActiveAlerts' === key) {
+        transformedFilter['sentQualityAlertIdsInStatusActive'] = formValues[key];
+        continue;
+      }
+      if ('receivedActiveInvestigations' === key) {
+        transformedFilter['receivedQualityInvestigationIdsInStatusActive'] = formValues[key];
+        continue;
+      }
+      if ('sentActiveInvestigations' === key) {
+        transformedFilter['sentQualityInvestigationIdsInStatusActive'] = formValues[key];
         continue;
       }
       transformedFilter[key] = formValues[key];
@@ -132,6 +139,17 @@ export function toAssetFilter(formValues: any, isAsBuilt: boolean): AssetAsPlann
   }
 
 }
+
+export function enrichDeeplinkFilterAndGetUpdatedParams(filter: any, httpParams: HttpParams): HttpParams {
+  if (filter?.notificationIds) {
+    filter.notificationIds.forEach(notificationId => {
+      httpParams = httpParams.append('filter', 'id,EQUAL,' + notificationId + ',OR');
+    });
+  }
+  return httpParams;
+
+}
+
 
 export function toGlobalSearchAssetFilter(formValues: string, isAsBuilt: boolean) {
   let filter;

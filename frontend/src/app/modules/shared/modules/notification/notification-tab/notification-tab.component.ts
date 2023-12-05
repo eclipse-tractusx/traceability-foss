@@ -20,13 +20,13 @@
  ********************************************************************************/
 
 import { AfterViewInit, Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
-import { InvestigationsType } from '@page/investigations/core/investigationsType.enum';
 import {
   CreateHeaderFromColumns,
   DisplayColumns,
-  MenuActionConfig, PartTableType,
+  MenuActionConfig,
   TableConfig,
-  TableEventConfig, TableHeaderSort,
+  TableEventConfig,
+  TableHeaderSort,
 } from '@shared/components/table/table.model';
 import { Notification, Notifications, NotificationType } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
@@ -35,7 +35,7 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-notifications-tab',
   templateUrl: './notification-tab.component.html',
-  styleUrls: ['./notification-tab.component.scss'],
+  styleUrls: [ './notification-tab.component.scss' ],
 })
 export class NotificationTabComponent implements AfterViewInit {
   @Input() notificationsView$: Observable<View<Notifications>>;
@@ -43,10 +43,10 @@ export class NotificationTabComponent implements AfterViewInit {
   @Input() hasPagination = true;
   @Input() translationContext: 'commonInvestigation' | 'commonAlert';
   @Input() menuActionsConfig: MenuActionConfig<Notification>[];
-  @Input() optionalColumns: Array<'targetDate' | 'severity' | 'createdBy' | 'sendTo'> = [];
+  @Input() optionalColumns: Array<'targetDate' | 'severity' | 'createdBy' | 'sendTo' | 'sendToName' | 'createdByName'> = [];
   @Input() sortableColumns: Record<string, boolean> = {};
   @Input() multiSortList: TableHeaderSort[] = [];
-  @Input() notificationType = NotificationType.INVESTIGATION
+  @Input() notificationType = NotificationType.INVESTIGATION;
 
   @Output() tableConfigChanged = new EventEmitter<TableEventConfig>();
   @Output() selected = new EventEmitter<Notification>();
@@ -56,14 +56,15 @@ export class NotificationTabComponent implements AfterViewInit {
   @ViewChild('descriptionTmp') descriptionTemplate: TemplateRef<unknown>;
   @ViewChild('targetDateTmp') targetDateTemplate: TemplateRef<unknown>;
   @ViewChild('userTmp') userTemplate: TemplateRef<unknown>;
+  @ViewChild('bpnTmp') bpnTemplate: TemplateRef<unknown>
 
 
   public tableConfig: TableConfig<keyof Notification>;
 
   public ngAfterViewInit(): void {
 
-    const defaultColumns: DisplayColumns<keyof Notification>[] = ['description', 'status', 'createdDate'];
-    const displayedColumns: DisplayColumns<keyof Notification>[] = [...defaultColumns, ...this.optionalColumns, 'menu'];
+    const defaultColumns: DisplayColumns<keyof Notification>[] = [ 'description', 'status', 'createdDate' ];
+    const displayedColumns: DisplayColumns<keyof Notification>[] = [ ...defaultColumns, ...this.optionalColumns, 'menu' ];
     const sortableColumns: Record<string, boolean> = this.sortableColumns;
 
     this.tableConfig = {
@@ -77,8 +78,10 @@ export class NotificationTabComponent implements AfterViewInit {
         severity: this.severityTemplate,
         description: this.descriptionTemplate,
         targetDate: this.targetDateTemplate,
-        createdBy: this.userTemplate,
-        sendTo: this.userTemplate,
+        createdBy: this.bpnTemplate,
+        sendToName: this.userTemplate,
+        createdByName: this.userTemplate,
+        sendTo: this.bpnTemplate,
       },
     };
 

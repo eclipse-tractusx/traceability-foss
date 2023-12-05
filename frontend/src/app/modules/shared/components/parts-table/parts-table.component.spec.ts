@@ -28,227 +28,218 @@ import { screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 
 describe('PartsTableComponent', () => {
-    const renderPartsTableComponent = (
-        size: number,
-        tableType: PartTableType = PartTableType.AS_BUILT_OWN
-    ) => {
-        const multiSelectActive = true;
-        const content = generateTableContent(size);
-        const paginationData = {page: 0, pageSize: 10, totalItems: 100, content} as Pagination<unknown>;
-        return renderComponent(PartsTableComponent, {
-            imports: [SharedModule],
-            providers: [
-                // Provide the PartsFacade mock as a value for the PartsFacade token
-                {provide: PartsFacade},
-              {provide: FormatPartSemanticDataModelToCamelCasePipe},
-            ],
-            componentProperties: {multiSelectActive, paginationData, tableType},
-        });
+  const renderPartsTableComponent = (
+    size: number,
+    tableType: PartTableType = PartTableType.AS_BUILT_OWN,
+  ) => {
+    const multiSelectActive = true;
+    const content = generateTableContent(size);
+    const paginationData = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
+    return renderComponent(PartsTableComponent, {
+      imports: [ SharedModule ],
+      providers: [
+        // Provide the PartsFacade mock as a value for the PartsFacade token
+        { provide: PartsFacade },
+        { provide: FormatPartSemanticDataModelToCamelCasePipe },
+      ],
+      componentProperties: { multiSelectActive, paginationData, tableType },
+    });
+  };
+
+  const generateTableContent = (size: number) => {
+    return Array.apply(null, Array(size)).map((_, i) => ({ name: 'name_' + i, test: 'test' }));
+  };
+
+  it('should render parts asbuilt table', async () => {
+    const tableSize = 7;
+    await renderPartsTableComponent(tableSize, PartTableType.AS_BUILT_OWN);
+
+    expect(await waitFor(() => screen.getByTestId('table-component--test-id'))).toBeInTheDocument();
+  });
+
+
+  it('should have correct sizes for split areas', async () => {
+    const { fixture } = await renderPartsTableComponent(1, PartTableType.AS_BUILT_OWN);
+    const { componentInstance } = fixture;
+    expect(componentInstance.tableType).toEqual(PartTableType.AS_BUILT_OWN);
+  });
+
+  it('should init the correct columns for asBuilt', async () => {
+    const { fixture } = await renderPartsTableComponent(1, PartTableType.AS_BUILT_OWN);
+    const { componentInstance } = fixture;
+
+    componentInstance.ngOnInit();
+
+    // Expect that the event was emitted with the correct data
+    expect(componentInstance.displayedColumns).toEqual([
+      'Filter',
+      'filterid',
+      'filteridShort',
+      'filternameAtManufacturer', // nameAtManufacturer
+      'filterbusinessPartner',
+      'filtermanufacturerName',
+      'filtermanufacturerPartId',
+      'filtercustomerPartId', // --> semanticModel.customerPartId
+      'filterclassification',
+      //'nameAtManufacturer', --> already in name
+      'filternameAtCustomer', // --> semanticModel.nameAtCustomer
+      'filtersemanticModelId',
+      'filtersemanticDataModel',
+      'filtermanufacturingDate',
+      'filtermanufacturingCountry',
+      'filterreceivedActiveAlerts',
+      'filterreceivedActiveInvestigations',
+      'filtersentActiveAlerts',
+      'filtersentActiveInvestigations',
+    ]);
+  });
+
+  it('should init the correct columns for asPlanned own', async () => {
+    const { fixture } = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
+    const { componentInstance } = fixture;
+
+    componentInstance.ngOnInit();
+
+    expect(componentInstance.displayedColumns).toEqual([
+      'Filter',
+      'filterid',
+      'filteridShort',
+      'filternameAtManufacturer',
+      'filterbusinessPartner',
+      'filtermanufacturerName',
+      'filtermanufacturerPartId',
+      'filterclassification',
+      'filtersemanticDataModel',
+      'filtersemanticModelId',
+      'filtervalidityPeriodFrom',
+      'filtervalidityPeriodTo',
+      'filterpsFunction',
+      'filtercatenaXSiteId',
+      'filterfunctionValidFrom',
+      'filterfunctionValidUntil',
+    ]);
+  });
+
+  it('should update sorting data and emit configChanged event', async () => {
+
+    const { fixture } = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
+    const { componentInstance } = fixture;
+
+    componentInstance.selection.select({ id: 1, name: 'Item 1' }); // Mock a selected item
+
+    componentInstance.isDataLoading = false;
+    const sortEvent: Sort = { active: 'name', direction: 'asc' };
+
+    const configChangedSpy = spyOn(componentInstance.configChanged, 'emit');
+
+    componentInstance.updateSortingOfData(sortEvent);
+
+    expect(componentInstance.selection.isEmpty()).toBe(true); // Selection should be cleared
+    expect(componentInstance.isDataLoading).toBe(true); // isDataLoading should be set to true
+    expect(configChangedSpy).toHaveBeenCalledWith({
+      page: 0,
+      pageSize: componentInstance.paginationData.pageSize,
+      sorting: [ 'name', 'asc' ],
+    });
+  });
+
+  it('should update component properties and data source when PartsPaginationData is set', async () => {
+    const { fixture } = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
+    const { componentInstance } = fixture;
+
+    const paginationData: Pagination<unknown> = {
+      pageCount: 10,
+      page: 2,
+      pageSize: 10,
+      totalItems: 100,
+      content: [
+        { id: 1, name: 'Item 1' },
+        { id: 2, name: 'Item 2' },
+      ],
     };
 
-    const generateTableContent = (size: number) => {
-        return Array.apply(null, Array(size)).map((_, i) => ({name: 'name_' + i, test: 'test'}));
-    };
 
-    it('should render parts asbuilt table', async () => {
-        const tableSize = 7;
-        await renderPartsTableComponent(tableSize, PartTableType.AS_BUILT_OWN);
+    componentInstance.paginationData = paginationData;
 
-        expect(await waitFor(() => screen.getByTestId('table-component--test-id'))).toBeInTheDocument();
-    });
+    expect(componentInstance.totalItems).toEqual(paginationData.totalItems);
+    expect(componentInstance.paginationData.pageSize).toEqual(paginationData.pageSize);
+    expect(componentInstance.pageIndex).toEqual(paginationData.page);
+    expect(componentInstance.isDataLoading).toBe(false);
 
+  });
 
-    it('should have correct sizes for split areas', async () => {
-        const {fixture} = await renderPartsTableComponent(1, PartTableType.AS_BUILT_OWN);
-        const {componentInstance} = fixture;
-        expect(componentInstance.tableType).toEqual(PartTableType.AS_BUILT_OWN);
-    });
+  it('should remove selected values and emit multiSelect', async () => {
+    const { fixture } = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
+    const { componentInstance } = fixture;
 
-    it('should init the correct columns for asBuilt', async () => {
-        const {fixture} = await renderPartsTableComponent(1, PartTableType.AS_BUILT_OWN);
-        const {componentInstance} = fixture;
+    componentInstance.selection.select({ id: 1 }, { id: 2 }, { id: 3 });
 
-        componentInstance.ngOnInit();
+    componentInstance.deselectTrigger = [ { id: 2 }, { id: 3 } ];
 
-        // Expect that the event was emitted with the correct data
-        expect(componentInstance.displayedColumns).toEqual([
-            'Filter',
-            'filterId',
-            'filterIdShort',
-            'filterName', // nameAtManufacturer
-            'filterManufacturer',
-            'filterPartId', // Part number / Batch Number / JIS Number
-            'filterManufacturerPartId',
-            'filterCustomerPartId', // --> semanticModel.customerPartId
-            'filterClassification',
-            //'nameAtManufacturer', --> already in name
-            'filterNameAtCustomer', // --> semanticModel.nameAtCustomer
-            'filterSemanticModelId',
-            'filterSemanticDataModel',
-            'filterManufacturingDate',
-            'filterManufacturingCountry',
-            'filterActiveAlerts',
-            'filterActiveInvestigations',
-        ]);
-    });
+    expect(componentInstance.selection.selected).toEqual([ { id: 1 } ]);
+  });
 
-    it('should init the correct columns for asPlanned own', async () => {
-        const {fixture} = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
-        const {componentInstance} = fixture;
+  it('should not remove selected values if deselectItem is not provided', async () => {
+    const { fixture } = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
+    const { componentInstance } = fixture;
 
-        componentInstance.ngOnInit();
+    componentInstance.selection.select({ id: 1 }, { id: 2 }, { id: 3 });
 
-        expect(componentInstance.displayedColumns).toEqual([
-            'Filter',
-            'filterId',
-            'filterIdShort',
-            'filterName',
-            'filterManufacturer',
-            'filterManufacturerPartId',
-            'filterClassification',
-            'filterSemanticDataModel',
-            'filterSemanticModelId',
-            'filterValidityPeriodFrom',
-            'filterValidityPeriodTo',
-            'filterPsFunction',
-            'filterCatenaXSiteId',
-            'filterFunctionValidFrom',
-            'filterFunctionValidUntil',
-        ]);
-    });
+    componentInstance.deselectTrigger = null;
 
-    it('should update sorting data and emit configChanged event', async () => {
+    expect(componentInstance.selection.selected).toEqual([ { id: 1 }, { id: 2 }, { id: 3 } ]);
+  });
 
-        const {fixture} = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
-        const {componentInstance} = fixture;
+  it('should emit multiSelect event', async () => {
+    const { fixture } = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
+    const { componentInstance } = fixture;
 
-        componentInstance.selection.select({id: 1, name: 'Item 1'}); // Mock a selected item
+    componentInstance.selection.select({ id: 1 }, { id: 2 }, { id: 3 });
 
-        componentInstance.isDataLoading = false;
-        const sortEvent: Sort = {active: 'name', direction: 'asc'};
+    const multiSelectSpy = spyOn(componentInstance.multiSelect, 'emit');
 
-        const configChangedSpy = spyOn(componentInstance.configChanged, 'emit');
+    componentInstance.deselectTrigger = [ { id: 2 }, { id: 3 } ];
 
-        componentInstance.updateSortingOfData(sortEvent);
+    expect(multiSelectSpy).toHaveBeenCalledWith([ { id: 1 } ]);
+  });
 
-        expect(componentInstance.selection.isEmpty()).toBe(true); // Selection should be cleared
-        expect(componentInstance.isDataLoading).toBe(true); // isDataLoading should be set to true
-        expect(configChangedSpy).toHaveBeenCalledWith({
-            page: 0,
-            pageSize: componentInstance.paginationData.pageSize,
-            sorting: ['name', 'asc'],
-        });
-    });
+  it('should toggle all rows correctly', async () => {
 
-    it('should update component properties and data source when PartsPaginationData is set', async () => {
-        const {fixture} = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
-        const {componentInstance} = fixture;
+    const { fixture } = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
+    const { componentInstance } = fixture;
 
-        const paginationData: Pagination<unknown> = {
-            pageCount: 10,
-            page: 2,
-            pageSize: 10,
-            totalItems: 100,
-            content: [
-                {id: 1, name: 'Item 1'},
-                {id: 2, name: 'Item 2'}
-            ],
-        };
+    componentInstance.selection.select({ id: 1 }, { id: 2 }, { id: 3 });
 
+    componentInstance.toggleAllRows();
 
-        componentInstance.paginationData = paginationData;
+    expect(componentInstance.selection.selected).toEqual([ { id: 1 }, { id: 2 }, { id: 3 }, {
+      name: 'name_0',
+      test: 'test',
+    } ]);
+  });
 
-        expect(componentInstance.totalItems).toEqual(paginationData.totalItems);
-        expect(componentInstance.paginationData.pageSize).toEqual(paginationData.pageSize);
-        expect(componentInstance.pageIndex).toEqual(paginationData.page);
-        expect(componentInstance.isDataLoading).toBe(false);
+  it('should clear all rows correctly', async () => {
 
-    });
+    const { fixture } = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
+    const { componentInstance } = fixture;
+    componentInstance.selection.select({ id: 1 }, { id: 2 }, { id: 3 });
 
-    it('should select or deselect a row and emit selected event if menuActionsConfig is not defined', async () => {
-        const {fixture} = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
-        const {componentInstance} = fixture;
+    componentInstance.clearAllRows();
 
-        const row1 = {id: 1, name: 'Item 1'};
+    expect(componentInstance.selection.selected).toEqual([]);
+  });
 
-        spyOn(componentInstance.selected, 'emit');
+  it('should clear current rows correctly', async () => {
+    const { fixture } = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
+    const { componentInstance } = fixture;
 
-        componentInstance.selectElement(row1);
+    const emitMultiSelectSpy = spyOn(componentInstance.multiSelect, 'emit');
 
-        expect(componentInstance.selected.emit).toHaveBeenCalledWith(row1);
-        expect(componentInstance.selectedRow).toEqual(row1);
+    componentInstance.clearCurrentRows();
 
-    });
+    expect(emitMultiSelectSpy).toHaveBeenCalled();
+    expect(componentInstance.selection.selected).toEqual([]);
+  });
 
-    it('should remove selected values and emit multiSelect', async () => {
-        const {fixture} = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
-        const {componentInstance} = fixture;
-
-        componentInstance.selection.select({id: 1}, {id: 2}, {id: 3});
-
-        componentInstance.deselectTrigger = [{id: 2}, {id: 3}];
-
-        expect(componentInstance.selection.selected).toEqual([{id: 1}]);
-    });
-
-    it('should not remove selected values if deselectItem is not provided', async () => {
-        const {fixture} = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
-        const {componentInstance} = fixture;
-
-        componentInstance.selection.select({id: 1}, {id: 2}, {id: 3});
-
-        componentInstance.deselectTrigger = null;
-
-        expect(componentInstance.selection.selected).toEqual([{id: 1}, {id: 2}, {id: 3}]);
-    });
-
-    it('should emit multiSelect event', async () => {
-        const {fixture} = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
-        const {componentInstance} = fixture;
-
-        componentInstance.selection.select({id: 1}, {id: 2}, {id: 3});
-
-        const multiSelectSpy = spyOn(componentInstance.multiSelect, 'emit');
-
-        componentInstance.deselectTrigger = [{id: 2}, {id: 3}];
-
-        expect(multiSelectSpy).toHaveBeenCalledWith([{id: 1}]);
-    });
-
-    it('should toggle all rows correctly', async () => {
-
-        const {fixture} = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
-        const {componentInstance} = fixture;
-
-        componentInstance.selection.select({id: 1}, {id: 2}, {id: 3});
-
-        componentInstance.toggleAllRows();
-
-        expect(componentInstance.selection.selected).toEqual([{id: 1}, {id: 2}, {id: 3}, {name: 'name_0', test: 'test'}]);
-    });
-
-    it('should clear all rows correctly', async () => {
-
-        const {fixture} = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
-        const {componentInstance} = fixture;
-        componentInstance.selection.select({id: 1}, {id: 2}, {id: 3});
-
-        componentInstance.clearAllRows();
-
-        expect(componentInstance.selection.selected).toEqual([]);
-    });
-
-    it('should clear current rows correctly', async () => {
-        const {fixture} = await renderPartsTableComponent(1, PartTableType.AS_PLANNED_OWN);
-        const {componentInstance} = fixture;
-
-        const emitMultiSelectSpy = spyOn(componentInstance.multiSelect, 'emit');
-
-        componentInstance.clearCurrentRows();
-
-        expect(emitMultiSelectSpy).toHaveBeenCalled();
-        expect(componentInstance.selection.selected).toEqual([]);
-    });
-
-})
+});
 

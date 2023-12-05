@@ -22,9 +22,9 @@
   flex-direction: column;
   width: 35vw;
 
-  .table--header--tooltip{
+  .table--header--tooltip {
     .mdc-tooltip__surface {
-      background-color: rgb(48,48,48);
+      background-color: rgb(48, 48, 48);
       @apply font-medium;
       color: white;
       max-width: 300px;
@@ -33,6 +33,7 @@
       line-height: 20px;
 
     }
+
     .mdc-tooltip--multiline {
       white-space: pre-line;
     }
@@ -43,6 +44,7 @@
     display: flex;
     padding-bottom: 24px;
   }
+
 
   .mat-icon {
     width: 32px;
@@ -99,8 +101,6 @@
   }
 
 }
-
-
 
 
 .dialog--actions--container {

@@ -27,28 +27,28 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public enum JwtRole {
-	USER("User"),
-	SUPERVISOR("Supervisor"),
-	ADMIN("Admin");
+    USER("User"),
+    SUPERVISOR("Supervisor"),
+    ADMIN("Admin");
 
-	private final String description;
+    private final String description;
 
-	private static final Map<String, JwtRole> ROLE_MAPPINGS;
+    private static final Map<String, JwtRole> ROLE_MAPPINGS;
 
-	static {
-		ROLE_MAPPINGS = Arrays.stream(JwtRole.values())
-			.collect(Collectors.toMap(jwtRole -> jwtRole.description, jwtRole -> jwtRole));
-	}
+    static {
+        ROLE_MAPPINGS = Arrays.stream(JwtRole.values())
+                .collect(Collectors.toMap(jwtRole -> jwtRole.description, jwtRole -> jwtRole));
+    }
 
-	JwtRole(String description) {
-		this.description = description;
-	}
+    JwtRole(String description) {
+        this.description = description;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public static Optional<JwtRole> parse(String roleRaw) {
-		return Optional.ofNullable(ROLE_MAPPINGS.get(roleRaw));
-	}
+    public static Optional<JwtRole> parse(String roleRaw) {
+        return Optional.ofNullable(ROLE_MAPPINGS.get(roleRaw));
+    }
 }

@@ -27,13 +27,13 @@ import java.util.Map;
 @Component
 public class AssetAsPlannedFieldMapper extends BaseRequestFieldMapper {
     private static final Map<String, String> SUPPORTED_ASSETS_AS_PLANNED_FILTER_FIELDS = Map.ofEntries(
-            Map.entry("validityPeriodFrom","validityPeriodFrom"),
-            Map.entry("validityPeriodTo","validityPeriodTo"),
-            Map.entry("functionValidUntil","functionValidUntil"),
-            Map.entry("function","function"),
-            Map.entry("functionValidFrom","functionValidFrom"),
-            Map.entry("catenaxSiteId","catenaxSiteId"),
-            Map.entry("id","id"),
+            Map.entry("validityPeriodFrom", "validityPeriodFrom"),
+            Map.entry("validityPeriodTo", "validityPeriodTo"),
+            Map.entry("functionValidUntil", "functionValidUntil"),
+            Map.entry("function", "function"),
+            Map.entry("functionValidFrom", "functionValidFrom"),
+            Map.entry("catenaxSiteId", "catenaxSiteId"),
+            Map.entry("id", "id"),
             Map.entry("idShort", "idShort"),
             Map.entry("owner", "owner"),
             Map.entry("classification", "classification"),

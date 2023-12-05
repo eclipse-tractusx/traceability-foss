@@ -55,6 +55,8 @@ public class AssetBase {
     private SemanticDataModel semanticDataModel;
     private String classification;
     private List<DetailAspectModel> detailAspectModels;
-    private List<QualityNotification> qualityAlerts;
-    private List<QualityNotification> qualityInvestigations;
+    private List<QualityNotification> sentQualityAlerts;
+    private List<QualityNotification> receivedQualityAlerts;
+    private List<QualityNotification> sentQualityInvestigations;
+    private List<QualityNotification> receivedQualityInvestigations;
 }

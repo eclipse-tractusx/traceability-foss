@@ -34,6 +34,7 @@ public class InvestigationSpecification extends BaseSpecification<InvestigationE
     public InvestigationSpecification(SearchCriteriaFilter criteria) {
         super(criteria);
     }
+
     @Override
     public Predicate toPredicate(@NotNull Root<InvestigationEntity> root, @NotNull CriteriaQuery<?> query, @NotNull CriteriaBuilder builder) {
         return createPredicate(getSearchCriteriaFilter(), root, builder);

@@ -18,73 +18,100 @@ SPDX-License-Identifier: Apache-2.0
 -->
 <mat-dialog-content>
   <div class="dialog--content">
-  <div class="dialog--header--container pt-0.5 pr-0.5">
-    <p mat-dialog-title class="dialog--header--text">{{title | i18n}}</p>
-    <mat-icon
-      (click)="dialogRef.close()"
-    >close</mat-icon>
-  </div>
-  <div class="dialog--content--container">
+    <div class="dialog--header--container pt-0.5 pr-0.5">
+      <p mat-dialog-title class="dialog--header--text">{{title | i18n}}</p>
+      <mat-icon
+        (click)="dialogRef.close()"
+      >close
+      </mat-icon>
+    </div>
+    <div class="dialog--content--container">
 
-  <div class="dialog--content--menu--order">
-    <mat-icon
-      (click)="handleSortListItem('down')"
-      matTooltip="{{'table.tableSettings.orderTooltip' | i18n}}"
-      matTooltipClass="table--header--tooltip"
-      matTooltipPosition="above"
-      [class.mdc-tooltip--multiline]="true"
-      [matTooltipShowDelay]="500"
-    >arrow_downward</mat-icon>
-    <mat-icon
-      (click)="handleSortListItem('up')"
-      matTooltip="{{'table.tableSettings.orderTooltip' | i18n}}"
-      matTooltipClass="table--header--tooltip"
-      matTooltipPosition="above"
-      [class.mdc-tooltip--multiline]="true"
-      [matTooltipShowDelay]="500"
-    >arrow_upward</mat-icon>
-  </div>
-  <div class="dialog--columns--container">
-  <mat-checkbox
-    color="primary"
-    (change)="selectAll($event.checked)"
-    [checked]="selectAllSelected"
-    >{{'table.tableSettings.selectAll' | i18n}}
-  </mat-checkbox>
-  <mat-divider></mat-divider>
-    <ng-container class="dialog--columns--columns--list" *ngFor="let item of dialogColumns; let index=index">
-    <mat-checkbox *ngIf="item !== 'select'"
-      color="primary"
-      [checked]="columnOptions.get(item)"
-      [value]="item"
-      [class.selected-item]="selectedColumn === item"
-      (change)="$event ? handleCheckBoxChange(item, $event.checked) : null"
-      (click) = "handleListItemClick($event, item)"
-      class="dialog--columns--columns--list"
-    >
-      {{'table.column.' + item | i18n}}
-    </mat-checkbox>
-    </ng-container>
+      <div class="dialog--content--menu--order">
+        <mat-icon
+          (click)="handleSortListItem('down')"
+          matTooltip="{{'table.tableSettings.orderTooltip' | i18n}}"
+          matTooltipClass="table--header--tooltip"
+          matTooltipPosition="above"
+          [class.mdc-tooltip--multiline]="true"
+          [matTooltipShowDelay]="500"
+        >arrow_downward
+        </mat-icon>
+        <mat-icon
+          (click)="handleSortListItem('up')"
+          matTooltip="{{'table.tableSettings.orderTooltip' | i18n}}"
+          matTooltipClass="table--header--tooltip"
+          matTooltipPosition="above"
+          [class.mdc-tooltip--multiline]="true"
+          [matTooltipShowDelay]="500"
+        >arrow_upward
+        </mat-icon>
+      </div>
+      <div class="dialog--columns--container">
+        <mat-checkbox
+          color="primary"
+          (change)="selectAll($event.checked)"
+          [checked]="selectAllSelected"
+        >{{'table.tableSettings.selectAll' | i18n}}
+        </mat-checkbox>
+        <mat-divider></mat-divider>
+        <ng-container class="dialog--columns--columns--list" *ngFor="let item of dialogColumns; let index=index">
+          <mat-checkbox *ngIf="item !== 'select' && item !== 'menu'"
+                        color="primary"
+                        [checked]="columnOptions.get(item)"
+                        [value]="item"
+                        [class.selected-item]="selectedColumn === item"
+                        (change)="$event ? handleCheckBoxChange(item, $event.checked) : null"
+                        (click)="handleListItemClick($event, item)"
+                        class="dialog--columns--columns--list"
+          >
+            {{'table.column.' + item | i18n}}
 
-  </div>
-  <div class="dialog--content--menu--refresh"
-       matTooltip="{{'table.tableSettings.refreshTooltip' | i18n}}"
-       matTooltipClass="table--header--tooltip"
-       matTooltipPosition="above"
-       [class.mdc-tooltip--multiline]="true"
-       [matTooltipShowDelay]="1000"
-  >
-    <mat-icon
-    (click)="resetColumns()"
-    >refresh</mat-icon>
-  </div>
-  </div>
+            <ng-container *ngIf="item.includes('Alert')">
+              <mat-icon matTooltip="{{'table.tableSettings.alert' | i18n}}"
+                        matTooltipClass="table--header--tooltip"
+                        matTooltipPosition="above"
+                        [matTooltipShowDelay]="100"
+                        class="table--notification--icon">notification_important
+              </mat-icon>
+            </ng-container>
+            <ng-container *ngIf="item.includes('Investigations')">
+
+
+              <mat-icon matTooltip="{{'table.tableSettings.investigation' | i18n}}"
+                        matTooltipClass="table--header--tooltip"
+                        matTooltipPosition="above"
+                        [matTooltipShowDelay]="100"
+                        class="table--notification--icon">inbox
+              </mat-icon>
+
+            </ng-container>
+
+
+          </mat-checkbox>
+        </ng-container>
+
+      </div>
+      <div class="dialog--content--menu--refresh"
+           matTooltip="{{'table.tableSettings.refreshTooltip' | i18n}}"
+           matTooltipClass="table--header--tooltip"
+           matTooltipPosition="above"
+           [class.mdc-tooltip--multiline]="true"
+           [matTooltipShowDelay]="1000"
+      >
+        <mat-icon
+          (click)="resetColumns()"
+        >refresh
+        </mat-icon>
+      </div>
+    </div>
   </div>
 </mat-dialog-content>
 
 <mat-dialog-actions class="dialog--actions--container">
   <div class="dialog--actions--container">
-    <button class="mat-raised-button mat-primary dialog--actions--save--button" (click)="save()">{{'table.tableSettings.saveAction' | i18n }}</button>
+    <button class="mat-raised-button mat-primary dialog--actions--save--button"
+            (click)="save()">{{'table.tableSettings.saveAction' | i18n }}</button>
   </div>
 </mat-dialog-actions>
 
