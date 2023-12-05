@@ -8,7 +8,7 @@
 insert into alert
     (id         , bpn                , close_reason, created          , description                        , status, side    , accept_reason, decline_reason, updated          , error_message)
 values
-    (${alertSentId3}, 'BPNL000000000001', null        , current_timestamp - interval '1 day', 'Alert about Brake lights left', 'ACKNOWLEDGED', 'SENDER', null         , null          , current_timestamp, null);
+    (${alertSentId3}, ${bpnOwn}, null        , current_timestamp - interval '1 day', 'Alert about Brake lights left', 'ACKNOWLEDGED', 'SENDER', null         , null          , current_timestamp, null);
 
 ---
 -- reset sequence to highest next-val
@@ -19,7 +19,7 @@ select setval('alert_id_seq', (select max(a.id) from alert a), true);
 insert into alert_notification
     (id                          , alert_id       , contract_agreement_id, edc_url                                                 , notification_reference_id, created_by        , send_to           , target_date                         , severity, created_by_name, send_to_name, edc_notification_id         , status, created                              , updated          , message_id                            , is_initial)
 values
-    (${alertNotificationSentId3a}, ${alertSentId3}, 'contractAgreementId', 'http://localhost:8082/api/qualitynotifications/receive', 'null'                   , 'BPNL000000000001', 'BPNL000CUSTOMER2', current_timestamp + interval '1 day', 3       , 'Hella'        , 'Audi AG'    , ${alertNotificationSentId3a}, 0     , current_timestamp - interval '1 day', current_timestamp, '2cf84b7c-5e42-46f2-8869-12b053b9a276', true);
+    (${alertNotificationSentId3a}, ${alertSentId3}, 'contractAgreementId', 'http://localhost:8082/api/qualitynotifications/receive', 'null'                   , ${bpnOwn}, ${bpnCustomer2}, current_timestamp + interval '1 day', 3       , 'Hella'        , 'Audi AG'    , ${alertNotificationSentId3a}, 0     , current_timestamp - interval '1 day', current_timestamp, '2cf84b7c-5e42-46f2-8869-12b053b9a276', true);
 
 ---
 -- join initial notification to asset
@@ -45,7 +45,7 @@ update assets_as_built
 insert into alert_notification
     (id                          , alert_id       , contract_agreement_id, edc_url                                                 , notification_reference_id             , created_by        , send_to           , target_date                         , severity, created_by_name, send_to_name, edc_notification_id                   , status, created                                , updated                                , message_id                            , is_initial)
 values
-    (${alertNotificationSentId3b}, ${alertSentId3}, 'contractAgreementId', 'http://localhost:8082/api/qualitynotifications/receive', 'cc49777f-3c8b-47d6-b1cf-f51783737292', 'BPNL000CUSTOMER2', 'BPNL000000000001', current_timestamp + interval '1 day', 3       , 'Audi AG'      , 'Hella'     , 'cc49777f-3c8b-47d6-b1cf-f51783737292', 3     , current_timestamp - interval '12 hours', current_timestamp - interval '12 hours', 'f305046d-333a-4d44-ba3e-9a4ef1337ba6', false);
+    (${alertNotificationSentId3b}, ${alertSentId3}, 'contractAgreementId', 'http://localhost:8082/api/qualitynotifications/receive', 'cc49777f-3c8b-47d6-b1cf-f51783737292', ${bpnCustomer2}, ${bpnOwn}, current_timestamp + interval '1 day', 3       , 'Audi AG'      , 'Hella'     , 'cc49777f-3c8b-47d6-b1cf-f51783737292', 3     , current_timestamp - interval '12 hours', current_timestamp - interval '12 hours', 'f305046d-333a-4d44-ba3e-9a4ef1337ba6', false);
 
 ---
 -- join ACK notification to asset
