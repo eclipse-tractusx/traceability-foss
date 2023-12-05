@@ -22,6 +22,7 @@ package org.eclipse.tractusx.traceability.integration.assets;
 import io.restassured.http.ContentType;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
+import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -117,6 +118,68 @@ class AssetAsBuiltControllerFilterValuesIT extends IntegrationTestSpecification 
                 .statusCode(200)
                 .assertThat()
                 .body("size()", is(1));
+    }
+
+    @Test
+    void givenBusinessPartnerLowercase_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+        // given
+        assetsSupport.defaultAssetsStored();
+        String fieldName = "businessPartner";
+        String resultLimit = "100";
+        String startWith = "bpnl";
+
+        // then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .param("fieldName", fieldName)
+                .param("size", resultLimit)
+                .param("startWith", startWith)
+                .get("/api/assets/as-built/distinctFilterValues")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .assertThat()
+                .body(".", Matchers.containsInRelativeOrder(
+                        "BPNL00000003AXS3",
+                        "BPNL00000003AYRE",
+                        "BPNL00000003B0Q0",
+                        "BPNL00000003B2OM",
+                        "BPNL00000003B3NX",
+                        "BPNL00000003B5MJ"));
+    }
+
+    @Test
+    void givenBusinessPartnerMixedCase_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+        // given
+        assetsSupport.defaultAssetsStored();
+        String fieldName = "businessPartner";
+        String resultLimit = "100";
+        String startWith = "bpNl";
+
+        // then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .param("fieldName", fieldName)
+                .param("size", resultLimit)
+                .param("startWith", startWith)
+                .get("/api/assets/as-built/distinctFilterValues")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .assertThat()
+                .body(".", Matchers.containsInRelativeOrder(
+                        "BPNL00000003AXS3",
+                        "BPNL00000003AYRE",
+                        "BPNL00000003B0Q0",
+                        "BPNL00000003B2OM",
+                        "BPNL00000003B3NX",
+                        "BPNL00000003B5MJ"));
     }
 
     @Test

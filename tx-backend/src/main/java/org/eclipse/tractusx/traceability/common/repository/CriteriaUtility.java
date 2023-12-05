@@ -59,7 +59,11 @@ public class CriteriaUtility {
 
         List<Predicate> predicates = new ArrayList<>();
         if (nonNull(startWith)) {
-            predicates.add(builder.like(fieldPath, startWith + "%"));
+            predicates.add(
+                    builder.like(
+                            builder.lower(fieldPath),
+                            startWith.toLowerCase() + "%")
+            );
         }
 
         if (nonNull(owner)) {
