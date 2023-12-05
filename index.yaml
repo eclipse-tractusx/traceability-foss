@@ -2,6 +2,47 @@ apiVersion: v1
 entries:
   traceability-foss:
   - apiVersion: v2
+    appVersion: 9.0.0
+    created: "2023-12-05T06:48:38.454870874Z"
+    dependencies:
+    - name: frontend
+      repository: file://charts/frontend
+      version: 1.3.23
+    - name: backend
+      repository: file://charts/backend
+      version: 1.3.23
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 12.1.6
+    - condition: pgadmin4.enabled
+      name: pgadmin4
+      repository: https://helm.runix.net
+      version: 1.13.6
+    - condition: irs-helm.enabled
+      name: irs-helm
+      repository: https://eclipse-tractusx.github.io/item-relationship-service
+      version: 6.9.1
+    - condition: tractusx-connector.enabled
+      name: tractusx-connector
+      repository: https://eclipse-tractusx.github.io/tractusx-edc
+      version: 0.5.3
+    - alias: edc-postgresql
+      condition: edc-postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 12.1.6
+    description: An umbrella Helm chart for eclipse-tractusx/traceability-foss project
+    digest: d51d27e5e4f5799af0b497aaeb5764c6b92e2d08510f7fa621aff62e427b38fe
+    home: https://eclipse-tractusx.github.io/
+    name: traceability-foss
+    sources:
+    - https://github.com/eclipse-tractusx/traceability-foss
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/traceability-foss/releases/download/helm-charts-1.3.23/traceability-foss-1.3.23.tgz
+    version: 1.3.23
+  - apiVersion: v2
     appVersion: 9.0.0-rc3
     created: "2023-11-27T14:35:10.433890913Z"
     dependencies:
@@ -768,4 +809,4 @@ entries:
     urls:
     - https://github.com/eclipse-tractusx/traceability-foss-frontend/releases/download/tx-traceability-foss-frontend-1.1.0/tx-traceability-foss-frontend-1.1.0.tgz
     version: 1.1.0
-generated: "2023-11-27T14:35:10.434088553Z"
+generated: "2023-12-05T06:48:38.455055048Z"
