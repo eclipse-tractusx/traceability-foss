@@ -20,7 +20,6 @@
 package org.eclipse.tractusx.traceability.integration.qualitynotification.alert;
 
 import io.restassured.http.ContentType;
-import org.checkerframework.checker.units.qual.A;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
@@ -292,6 +291,55 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
                 .body("pageSize", Matchers.is(10))
                 .body("totalItems", Matchers.is(4))
                 .body("content", Matchers.hasSize(4));
+    }
+
+    @Test
+    void givenInvestigations_whenProvideFilterSendTo_thenReturnExpectedResults() throws JoseException {
+        // given
+        alertNotificationsSupport.defaultAlertsStored();
+        final String filterString = "sendTo,STARTS_WITH,B,AND";
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .param("page", "0")
+                .param("size", "10")
+                .contentType(ContentType.JSON)
+                .when()
+                .param("filter", filterString)
+                .get("/api/alerts")
+                .then()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(10))
+                .body("totalItems", Matchers.is(3))
+                .body("content", Matchers.hasSize(3));
+    }
+
+    @Test
+    void givenInvestigations_whenProvideFilterSendToSort_thenReturnExpectedResults() throws JoseException {
+        // given
+        alertNotificationsSupport.defaultAlertsStored();
+        final String filterString = "sendTo,STARTS_WITH,B,AND";
+        String sortString = "sendTo,ASC";
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .param("page", "0")
+                .param("size", "10")
+                .contentType(ContentType.JSON)
+                .when()
+                .param("filter", filterString)
+                .param("sort", sortString)
+                .get("/api/alerts")
+                .then()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(10))
+                .body("totalItems", Matchers.is(3))
+                .body("content", Matchers.hasSize(3))
+                .body("content.sendTo", Matchers.containsInRelativeOrder("BPNL00000001OWN", "BPNL00000002OTHER", "BPNL00000002OTHER"));
     }
 
     @Test
