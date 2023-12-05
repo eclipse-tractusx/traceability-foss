@@ -111,6 +111,10 @@ Alternatively, you can use the view toggle to adjust the visibility of the table
 Both tables can be sorted, filtered and searched.
 The global search bar at the top returns part results from both Tables.
 
+Choosing filter input field for column and typing in any character will show filter suggestions that can be used for search functionality that starts with given characters or phrase.
+
+![parts-autosuggestion-filtering](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/parts-autosuggestion-filtering.png)
+
 #### AsBuilt Lifecycle Parts
 
 List view of own Parts with AsBuilt Lifecycle.
