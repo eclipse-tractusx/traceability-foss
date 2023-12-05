@@ -21,16 +21,8 @@
 
 spring:
   flyway:
-    locations: /db/migration,/db/local
+    locations: /db/migration,/db/testdata-a
     placeholders:
-      bpnOwn:       "'BPNL000000000001'"
-      bpnSupplier1: "'BPNL000SUPPLIER1'"
-      bpnSupplier2: "'BPNL000SUPPLIER2'"
-      bpnSupplier3: "'BPNL000SUPPLIER3'"
-      bpnCustomer1: "'BPNL000CUSTOMER1'"
-      bpnCustomer2: "'BPNL000CUSTOMER2'"
-      bpnCustomer3: "'BPNL000CUSTOMER3'"
-
       assetAsBuiltId01: "'urn:uuid:6ec3f1db-2798-454b-a73f-0d21a8966c77'"
       assetAsBuiltId02: "'urn:uuid:132fd82b-caab-476b-b453-b7273a4c7c01'"
       assetAsBuiltId03: "'urn:uuid:c0edce5c-546f-4e79-9d86-a4cb7ca7b900'"
