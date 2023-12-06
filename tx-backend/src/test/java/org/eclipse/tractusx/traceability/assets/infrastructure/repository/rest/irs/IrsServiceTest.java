@@ -204,7 +204,7 @@ class IrsServiceTest {
                 new Date(),
                 new Date(),
                 "globalAsset123",
-                new Parameter(direction, "asBuilt")
+                new Parameter(direction, "asBuilt", "BPN0000X")
         );
 
         List<Shell> shells = Arrays.asList(

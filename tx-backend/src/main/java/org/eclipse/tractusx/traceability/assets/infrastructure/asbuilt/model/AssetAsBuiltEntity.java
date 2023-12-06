@@ -61,7 +61,6 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
 
     private Instant manufacturingDate;
     private String manufacturingCountry;
-    private String manufacturerId;
     private String nameAtCustomer;
     private String customerPartId;
     private String productType;
