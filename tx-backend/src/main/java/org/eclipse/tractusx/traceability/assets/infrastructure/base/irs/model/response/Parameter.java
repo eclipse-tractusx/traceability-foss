@@ -19,5 +19,8 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response;
 
 // TODO add bpn here to be able to map the bpn to the assetsasplanned
-public record Parameter(String direction, String bomLifecycle) {
+public record Parameter(
+        String direction,
+        String bomLifecycle,
+        String bpn) {
 }

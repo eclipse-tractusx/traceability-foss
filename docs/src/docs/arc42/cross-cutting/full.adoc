@@ -1,5 +1,6 @@
 = Cross-cutting concepts
 
+include::entity-relationship-model.adoc[leveloffset=+1]
 include::domain-concepts.adoc[leveloffset=+1]
 include::safety-security.adoc[leveloffset=+1]
 include::architecture-design-patterns.adoc[leveloffset=+1]

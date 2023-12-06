@@ -42,11 +42,13 @@ public class AssetBaseEntity {
     @Enumerated(EnumType.STRING)
     private Owner owner;
     private String classification;
+    // TODO: get rid of boolean values as we are now able to distinguish active alerts and investigations by linked investigations and alerts that are now returned on FE side TRACEFOSS-3009
     private boolean inInvestigation;
     private boolean activeAlert;
     @Enumerated(EnumType.STRING)
     private QualityType qualityType;
     private String manufacturerPartId;
+    private String manufacturerId;
     private String manufacturerName;
     private String nameAtManufacturer;
     @Enumerated(EnumType.STRING)
