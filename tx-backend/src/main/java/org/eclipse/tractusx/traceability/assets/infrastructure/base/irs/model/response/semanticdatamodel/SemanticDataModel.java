@@ -148,10 +148,14 @@ public class SemanticDataModel {
     }
 
 
-    public AssetBase toDomainAsPlanned(Map<String, String> shortIds, Owner owner, Map<String, String> bpns, List<Descriptions> parentRelations, List<Descriptions> childRelations) {
-        final String manufacturerName = bpns.get(manufacturerId());
-        final String[] manufacturerId = {"--"};
-        bpns.values().stream().filter(s -> s.equals(manufacturerName)).findFirst().ifPresent(s -> manufacturerId[0] = s);
+    public AssetBase toDomainAsPlanned(
+            Map<String, String> shortIds,
+            Owner owner,
+            Map<String, String> bpns,
+            List<Descriptions> parentRelations,
+            List<Descriptions> childRelations,
+            String ownerBpn) {
+        final String manufacturerName = bpns.get(ownerBpn);
 
         List<DetailAspectModel> partSiteInfoAsPlanned = extractDetailAspectModelsPartSiteInformationAsPlanned(sites());
         DetailAspectModel asPlanned = extractDetailAspectModelsAsPlanned(validityPeriod);
@@ -162,7 +166,7 @@ public class SemanticDataModel {
         return AssetBase.builder()
                 .id(catenaXId())
                 .idShort(defaultValue(shortIds.get(catenaXId())))
-                .manufacturerId(manufacturerId[0])
+                .manufacturerId(ownerBpn)
                 .manufacturerName(defaultValue(manufacturerName))
                 .nameAtManufacturer(partTypeInformation.nameAtManufacturer())
                 .manufacturerPartId(partTypeInformation.manufacturerPartId())
