@@ -46,6 +46,14 @@ table {
 
 }
 
+.menu-column {
+  position: sticky;
+  right: 0;
+  background-color: white;
+  z-index: 2;
+}
+
+
 .table--select-all__dropdown {
   margin-left: -5px;
 
@@ -162,7 +170,6 @@ tr.error {
 }
 
 .table--menu {
-
   &__mobile {
     display: none;
   }
