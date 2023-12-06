@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.18">
-<title>Runtime view</title>
+<title>Entity Relationship Model</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -437,82 +437,17 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body class="article toc2 toc-left">
+<body class="article">
 <div id="header">
-<h1>Runtime view</h1>
-<div id="toc" class="toc2">
-<div id="toctitle">Table of Contents</div>
-<ul class="sectlevel1">
-<li><a href="#_overall">Overall</a></li>
-<li><a href="#_scenario_1_return_assets">Scenario 1: Return Assets</a>
-<ul class="sectlevel4">
-<li><a href="#_overview">Overview</a></li>
-</ul>
-</li>
-<li><a href="#_scenario_2_return_specific_assets">Scenario 2: Return specific Assets</a>
-<ul class="sectlevel4">
-<li><a href="#_overview_2">Overview</a></li>
-</ul>
-</li>
-</ul>
-</div>
+<h1>Entity Relationship Model</h1>
 </div>
 <div id="content">
-<div class="sect1">
-<h2 id="_overall">Overall</h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>This section describes the overall flow of the TraceX-FOSS application</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_scenario_1_return_assets">Scenario 1: Return Assets</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>This section describes what happens when user lists stored assets.
-In this example, the user requests as built assets.
-The same can be done with as planned assets.</p>
+<p>Please be informed that the 'as-planned' version currently lacks the database relations. However, kindly maintain the Entity-Relationship Model (ERM) in its current state.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="return-all-assets.svg" alt="return all assets" width="1180" height="542">
-</div>
-</div>
-<div class="sect4">
-<h5 id="_overview">Overview</h5>
-<div class="paragraph">
-<p>When a user requests stored assets, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER').
-If yes, then the endpoint returns a pageable result of assets.</p>
-</div>
-<div class="paragraph">
-<p>The returned pageable result can be empty if no suitable asset has been found.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_scenario_2_return_specific_assets">Scenario 2: Return specific Assets</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>This section describes what happens when user searches for a specific asset.
-This example shows the request of one as built asset.
-The same can be done with as planned assets.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="return-specific-assets.svg" alt="return specific assets" width="1309" height="542">
-</div>
-</div>
-<div class="sect4">
-<h5 id="_overview_2">Overview</h5>
-<div class="paragraph">
-<p>When a user requests a specific asset, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER'). If yes, then the endpoint returns a precise Asset for the given assetId, if it is found.</p>
-</div>
-<div class="paragraph">
-<p>If no asset has been found for the given ID, an AssetNotFoundException is thrown.</p>
-</div>
-</div>
+<img src="diag-plantuml-md5-769f2d19fc9889d38b355a0b0c7a2064.svg" alt="Diagram" width="2598" height="1922">
 </div>
 </div>
 </div>

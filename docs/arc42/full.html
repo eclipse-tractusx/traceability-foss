@@ -488,6 +488,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_deployment_view">Deployment view</a></li>
 <li><a href="#_cross_cutting_concepts">Cross-cutting concepts</a>
 <ul class="sectlevel2">
+<li><a href="#_entity_relationship_model">Entity Relationship Model</a></li>
 <li><a href="#_domain_concepts">Domain concepts</a></li>
 <li><a href="#_safety_and_security_concepts">Safety and security concepts</a></li>
 <li><a href="#_architecture_and_design_patterns">Architecture and design patterns</a></li>
@@ -580,6 +581,12 @@ in which context the service runs and which stakeholders are involved.</p>
 <ul>
 <li>
 <p>List and view manufactured parts based on BoM AsBuild</p>
+</li>
+<li>
+<p>List and view planned parts based on BoM AsPlanned</p>
+</li>
+<li>
+<p>Filter and search functionality on part views</p>
 </li>
 <li>
 <p>Show detailed information on manufactured parts from AAS description assets and Aspects</p>
@@ -1279,6 +1286,17 @@ The same can be done with as planned assets.</p>
 <div class="sect1">
 <h2 id="_cross_cutting_concepts">Cross-cutting concepts</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_entity_relationship_model">Entity Relationship Model</h3>
+<div class="paragraph">
+<p>Please be informed that the 'as-planned' version currently lacks the database relations. However, kindly maintain the Entity-Relationship Model (ERM) in its current state.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="architecture-constraints/diag-plantuml-md5-769f2d19fc9889d38b355a0b0c7a2064.svg" alt="Diagram" width="2598" height="1922">
+</div>
+</div>
+</div>
 <div class="sect2">
 <h3 id="_domain_concepts">Domain concepts</h3>
 <div class="sect3">
@@ -2140,7 +2158,7 @@ Note: as soon as a resume feature is implemented, this needs to be addressed her
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-12-05 08:33:44 UTC
+Last updated 2023-12-06 14:19:13 UTC
 </div>
 </div>
 </body>
