@@ -106,9 +106,9 @@ jobs:
               resources="${INT_RESOURCES[2]}"
             fi
 
-           json_data=$(curl -X GET -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" "$resources")
-           status=$(echo "$json_data" | jq -r '.status.sync.status')
-           if [ $status != null ]; then
+           data=$(curl -X GET -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" "$resources")
+           status_app=$(echo "$data" | jq -r '.status.sync.status')
+           if [ $status_app != null ]; then
              echo "Argo Token is valid."
            else
             echo "Argo Token is invalid."
@@ -211,14 +211,14 @@ jobs:
               old_TargetRevision2=$(echo "$json_data2" | jq -r '.spec.source.targetRevision')
 
               if [ "$old_TargetRevision1" != "$new_target_revision" ]; then
-                updated_json=$(echo "$json_data1" | jq ".spec.source.targetRevision = \"$new_target_revision\"")
-                curl -X PUT -H "Content-Type: application/json" -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" -d "$updated_json" "$ARGO_TEST_TRACE_X_INSTANCE"
+                updated_json1=$(echo "$json_data1" | jq ".spec.source.targetRevision = \"$new_target_revision\"")
+                curl -X PUT -H "Content-Type: application/json" -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" -d "$updated_json1" "$ARGO_TEST_TRACE_X_INSTANCE"
                 echo "Target Revision for Test overwritten"
               fi
 
               if [ "$old_TargetRevision2" != "$new_target_revision" ]; then
-                updated_json=$(echo "$json_data2" | jq ".spec.source.targetRevision = \"$new_target_revision\"")
-                curl -X PUT -H "Content-Type: application/json" -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" -d "$updated_json" "$ARGO_DEV_TRACE_X_INSTANCE"
+                updated_json2=$(echo "$json_data2" | jq ".spec.source.targetRevision = \"$new_target_revision\"")
+                curl -X PUT -H "Content-Type: application/json" -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" -d "$updated_json2" "$ARGO_DEV_TRACE_X_INSTANCE"
                 echo "Target Revision for Dev overwritten"
               fi
 
@@ -231,14 +231,14 @@ jobs:
               old_TargetRevision2=$(echo "$json_data2" | jq -r '.spec.source.targetRevision')
 
               if [ "$old_TargetRevision1" != "$new_target_revision" ]; then
-                updated_json=$(echo "$json_data1" | jq ".spec.source.targetRevision = \"$new_target_revision\"")
-                curl -X PUT -H "Content-Type: application/json" -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" -d "$updated_json" "$ARGO_E2E_A_TRACE_X_INSTANCE"
+                updated_json1=$(echo "$json_data1" | jq ".spec.source.targetRevision = \"$new_target_revision\"")
+                curl -X PUT -H "Content-Type: application/json" -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" -d "$updated_json1" "$ARGO_E2E_A_TRACE_X_INSTANCE"
                 echo "Target Revision for e2e-a overwritten"
               fi
 
               if [ "$old_TargetRevision2" != "$new_target_revision" ]; then
-                updated_json=$(echo "$json_data2" | jq ".spec.source.targetRevision = \"$new_target_revision\"")
-                curl -X PUT -H "Content-Type: application/json" -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" -d "$updated_json" "$ARGO_E2E_B_TRACE_X_INSTANCE"
+                updated_json2=$(echo "$json_data2" | jq ".spec.source.targetRevision = \"$new_target_revision\"")
+                curl -X PUT -H "Content-Type: application/json" -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" -d "$updated_json2" "$ARGO_E2E_B_TRACE_X_INSTANCE"
                 echo "Target Revision for e2e-b overwritten"
               fi
 
