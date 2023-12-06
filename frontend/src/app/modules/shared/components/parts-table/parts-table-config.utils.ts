@@ -17,7 +17,7 @@ export class PartsTableConfigUtils {
   public static createFilterColumns(displayedColumns: string[]): string[] {
     const array = displayedColumns.filter((column: string) => 'select' !== column && 'menu' !== column).map((column: string) => 'filter' + column);
 
-    return [ 'Filter', ...array ];
+    return [ 'Filter', ...array, 'Menu' ];
 
 
   }
@@ -25,6 +25,7 @@ export class PartsTableConfigUtils {
   public static generateFilterColumnsMapping(sortableColumns: any, dateFields?: string[], singleSearchFields?: string[]): any[] {
     const filterColumnsMapping: any[] = [];
     const firstElement = { filterKey: 'Filter', headerKey: 'Filter' };
+    const lastElement = {filterKey: 'Menu', headerKey: 'Menu'};
 
     const excludedFields = [ 'select', 'menu' ];
     for (const key in sortableColumns) {
@@ -46,7 +47,7 @@ export class PartsTableConfigUtils {
       }
     }
 
-    return [ firstElement, ...filterColumnsMapping ];
+    return [ firstElement, ...filterColumnsMapping, lastElement ];
 
   }
 }
