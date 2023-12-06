@@ -107,8 +107,8 @@ jobs:
             fi
 
            json_data=$(curl -X GET -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" "$resources")
-
-           if [status=$(echo "$json_data" | jq -r '.status.sync.status') != null ]; then
+           status=$(echo "$json_data" | jq -r '.status.sync.status')
+           if [ $status != null ]; then
              echo "Argo Token is valid."
            else
             echo "Argo Token is invalid."
