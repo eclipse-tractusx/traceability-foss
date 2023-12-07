@@ -41,6 +41,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Fix of global search field
 - Parts autocomplete API now is case insensitive when using "startWith" parameter
 - changed mapping for manufacturerName when syncing assets_as_planned so it is being resolved when assets are resolved
+- Behaviour of auto complete toggle selections
 
 ### Removed
 - removed asset filters ( qualityInvestigationIdsInStatusActive, qualityInvestigationIdsInStatusActive )

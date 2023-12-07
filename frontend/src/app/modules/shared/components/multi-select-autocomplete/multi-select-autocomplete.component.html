@@ -24,7 +24,7 @@ SPDX-License-Identifier: Apache-2.0
               (selectionChange)="onSelectionChange($event)" panelClass="app-multiselect-filter-dropdown">
 
     <div class="box-search">
-      <mat-checkbox color="primary" class="box-select-all" [(ngModel)]="selectAllChecked"
+      <mat-checkbox color="primary" class="box-select-all" [disabled]="!searchedOptions?.length && !optionsSelected?.length" [(ngModel)]="selectAllChecked"
                     (change)="toggleSelectAll($event)"></mat-checkbox>
       <input [disabled]="" #searchInput [(ngModel)]="searchElement" type="text"
              [ngClass]="'pl-1'"

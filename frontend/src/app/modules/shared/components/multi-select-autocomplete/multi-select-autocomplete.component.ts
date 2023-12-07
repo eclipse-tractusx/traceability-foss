@@ -90,7 +90,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
 
   @ViewChild('selectElem', { static: true }) selectElem: any;
 
-  filteredOptions: Array<any> = [];
   selectedValue: Array<any> = [];
   selectAllChecked = false;
 
@@ -125,23 +124,24 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     this.formControl.patchValue(this.selectedValue);
   }
 
-  toggleSelectAll = function(selectCheckbox: any): void {
-
+  toggleSelectAll(selectCheckbox: any): void {
     if (selectCheckbox.checked) {
       // if there are no suggestion but the selectAll checkbox was checked
-      if (!this.filteredOptions.length) {
+      if (!this.searchedOptions.length) {
         this.formControl.patchValue(this.searchElement);
         this.selectedValue = this.searchElement as unknown as [];
       } else {
-        this.filteredOptions.forEach(option => {
+        this.searchedOptions.forEach(option => {
           if (!this.selectedValue.includes(option[this.value])) {
             this.selectedValue = this.selectedValue.concat([ option[this.value] ]);
           }
         });
       }
+      this.updateOptionsAndSelections();
 
     } else {
       this.selectedValue = [];
+      this.updateOptionsAndSelections();
     }
     this.formControl.patchValue(this.selectedValue);
   };
@@ -184,7 +184,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     }
 
     if (!value) {
-      this.filteredOptions = [];
+      this.searchedOptions = [];
       return;
     }
 
@@ -233,11 +233,10 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
             this.allOptions = res.map(option => ({ display: option, value: option }));
           }
 
-          this.filteredOptions = this.searchedOptions;
-          this.suggestionError = !this.filteredOptions?.length;
+          this.suggestionError = !this.searchedOptions?.length;
         }).catch((error) => {
           console.error('Error fetching data: ', error);
-          this.suggestionError = !this.filteredOptions.length;
+          this.suggestionError = !this.searchedOptions.length;
         }).finally(() => {
           this.delayTimeoutId = null;
           this.isLoadingSuggestions = false;
@@ -254,18 +253,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   // DO NOT REMOVE: Used by parent component
   isUnsupportedAutoCompleteField(fieldName: string) {
     return fieldName === 'activeAlerts' || fieldName === 'activeInvestigations';
-  }
-
-
-  // Returns plain strings array of filtered values
-  getFilteredOptionsValues(): string[] {
-    const filteredValues = [];
-    this.filteredOptions.forEach(option => {
-      if (option.length) {
-        filteredValues.push(option.value);
-      }
-    });
-    return filteredValues;
   }
 
   startDateSelected(event: MatDatepickerInputEvent<Date>) {
@@ -288,9 +275,15 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
 
     this.startDate = null;
     this.endDate = null;
-    this.filteredOptions = [];
-    this.updateOptionsAndSelections();
+    this.searchedOptions = [];
+    this.allOptions = [];
+    this.optionsSelected = [];
+    this.options = [];
     this.selectedValue = [];
+    this.suggestionError = false;
+    this.updateOptionsAndSelections();
+
+
   }
 
   private updateOptionsAndSelections() {
@@ -313,22 +306,25 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
       filter.push({ display: selected, value: selected });
     }
     this.optionsSelected = filter;
+    this.handleAllSelectedCheckbox();
   }
 
   dateFilter() {
     this.formControl.patchValue(this.searchElement);
   }
 
-
   onSelectionChange(matSelectChange: MatSelectChange) {
-
-    const filteredValues = this.getFilteredOptionsValues();
-    const selectedCount = this.selectedValue.filter(item => filteredValues.includes(item)).length;
-    this.selectAllChecked = selectedCount === this.filteredOptions.length;
-
     this.selectedValue = matSelectChange.value;
     this.formControl.patchValue(matSelectChange.value);
     this.updateOptionsAndSelections();
+  }
+
+  private handleAllSelectedCheckbox() {
+    if (this.selectedValue?.length === 0) {
+      this.selectAllChecked = false;
+    } else {
+      this.selectAllChecked = this.allOptions?.length === this.selectedValue?.length;
+    }
   }
 
   getOwnerOfTable(partTableType: PartTableType): Owner {
