@@ -18,6 +18,8 @@
 #
 #  SPDX-License-Identifier: Apache-2.0
 #
+overrides:
+  frontent: &fe_name_override 'tx-frontend-test'
 
 #########################
 # Frontend Chart Values configuration     #
@@ -29,9 +31,6 @@ frontend:
     CATENAX_PORTAL_BACKEND_DOMAIN: '<path:traceability-foss/data/test/frontend#catenax_portal_backend_domain>'
     CATENAX_PORTAL_URL: '<path:traceability-foss/data/test/frontend#catenax_portal_url>'
     CATENAX_PORTAL_CLIENT_ID: '<path:traceability-foss/data/test/frontend#catenax_portal_client_id>'
-
-  nameOverride: "tx-frontend-test"
-  fullnameOverride: "tx-frontend-test"
 
   ingress:
     hosts:
