@@ -170,7 +170,7 @@ backend:
     clientId: *service_account_id
     clientSecret: *service_account_password
     clientTokenUri: *central_idp_token_uri
-    jwkSetUri: *central_idp_jwk_uri
+    jwkSetUri: 'https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs'
     resourceClient: *central_idp_resource_client
 
   edc:
