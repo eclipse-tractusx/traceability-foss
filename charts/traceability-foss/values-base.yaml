@@ -120,7 +120,7 @@ backend:
       cpu: 100m
       memory: 256Mi
 
-  springprofile: 'CHANGE_ME'
+  springprofile: dev
 
   ingress:
     enabled: true
@@ -171,7 +171,7 @@ backend:
     baseUrl: 'CHANGE_ME'
 
   config:
-    allowedCorsOriginFirst: 'CHANGE_ME'
+    allowedCorsOriginFirst: "http://localhost:4200/"
     allowedCorsOriginSecond: 'CHANGE_ME'
 
   dependencies:
@@ -231,7 +231,7 @@ postgresql:
     postgresPassword: 'CHANGE_ME'
     password: 'CHANGE_ME'
     database: "trace"
-    username: "trace"
+    username: "trace"  # extract to vault
 
 #########################
 # IRS configuration     #
@@ -251,7 +251,7 @@ irs-helm:
   nameOverride: 'CHANGE_ME'
   fullnameOverride: 'CHANGE_ME'
   namespace: product-traceability-foss
-  springprofile: 'CHANGE_ME'
+  springprofile: dev
   irsUrl: 'CHANGE_ME'
   ingress:
     enabled: true
