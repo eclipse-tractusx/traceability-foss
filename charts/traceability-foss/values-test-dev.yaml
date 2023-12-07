@@ -159,8 +159,6 @@ irs-helm:
   nameOverride: *irs_name
   fullnameOverride: *irs_name
   bpn: *bpn
-  namespace: product-traceability-foss
-  springprofile: dev
   irsUrl: "https://tx-irs-test.dev.demo.catena-x.net"
   ingress:
     hosts:
