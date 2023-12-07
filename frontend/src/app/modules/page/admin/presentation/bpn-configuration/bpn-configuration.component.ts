@@ -34,7 +34,7 @@ export const bpnRegex = /^BPN[ALS][0-9A-Za-z]{10}[0-9A-Za-z]{2}$/;
 @Component({
   selector: 'app-bpn-configuration',
   templateUrl: './bpn-configuration.component.html',
-  styleUrls: ['./bpn-configuration.component.scss'],
+  styleUrls: [ './bpn-configuration.component.scss' ],
 })
 export class BpnConfigurationComponent implements OnInit, OnDestroy {
   @ViewChild(SaveBpnConfigModal) private saveBpnConfigModal: SaveBpnConfigModal;
@@ -96,7 +96,7 @@ export class BpnConfigurationComponent implements OnInit, OnDestroy {
     }
 
     const bpnConfig = this.newEntryGroup.getRawValue();
-    const added = [...this.changeInformation$.value.added, bpnConfig];
+    const added = [ ...this.changeInformation$.value.added, bpnConfig ];
     this.changeInformation$.next({ ...this.changeInformation$.value, added });
 
     this.newBpnConfig.push(BpnConfigurationComponent.createBpnConfigFormGroup(bpnConfig));
@@ -143,9 +143,9 @@ export class BpnConfigurationComponent implements OnInit, OnDestroy {
     const updateCall = changed.length ? this.adminFacade.updateBpnFallbackConfig(changed) : of(null);
     const deleteCalls = deleted.length
       ? deleted.map(({ bpn }) => this.adminFacade.deleteBpnFallbackConfig(bpn))
-      : [of(null)];
+      : [ of(null) ];
 
-    return combineLatest([addCall, updateCall, ...deleteCalls]).pipe(
+    return combineLatest([ addCall, updateCall, ...deleteCalls ]).pipe(
       tap(_ => {
         this.resetPageTrigger$.next(null);
         while (this.newBpnConfig.length !== 0) this.newBpnConfig.removeAt(0, { emitEvent: false });
@@ -165,18 +165,18 @@ export class BpnConfigurationComponent implements OnInit, OnDestroy {
 
     const urlRegex = new RegExp(
       '^(https?:\\/\\/)?' + // protocol
-        '((?:[a-z\\d](?:[a-z\\d-]*[a-z\\d])?\\.)+[a-z]{2,}|' + // domain name
-        '(?:\\d{1,3}\\.){3}\\d{1,3})' + // OR ip (v4) address
-        '(?::\\d+)?' + // port
-        '(?:\\/[-a-z\\d%_.~+]*)*' + // path
-        '(?:\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-        '(?:#[-a-z\\d_]*)?$', // fragment locator
+      '((?:[a-z\\d](?:[a-z\\d-]*[a-z\\d])?\\.)+[a-z]{2,}|' + // domain name
+      '(?:\\d{1,3}\\.){3}\\d{1,3})' + // OR ip (v4) address
+      '(?::\\d+)?' + // port
+      '(?:\\/[-a-z\\d%_.~+]*)*' + // path
+      '(?:\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+      '(?:#[-a-z\\d_]*)?$', // fragment locator
       'i',
     );
 
     return new FormGroup({
-      bpn: new FormControl(bpn, [Validators.required, BaseInputHelper.getCustomPatternValidator(bpnRegex, 'bpn')]),
-      url: new FormControl(url, [Validators.required, BaseInputHelper.getCustomPatternValidator(urlRegex, 'url')]),
+      bpn: new FormControl(bpn, [ Validators.required, BaseInputHelper.getCustomPatternValidator(bpnRegex, 'bpn') ]),
+      url: new FormControl(url, [ Validators.required, BaseInputHelper.getCustomPatternValidator(urlRegex, 'url') ]),
     });
   }
 
@@ -203,7 +203,7 @@ export class BpnConfigurationComponent implements OnInit, OnDestroy {
       this.changeInformation$.next({
         deleted,
         changed,
-        added: [...bpnConfig, ...this.newBpnConfig.getRawValue()],
+        added: [ ...bpnConfig, ...this.newBpnConfig.getRawValue() ],
       });
     });
   }
@@ -211,7 +211,7 @@ export class BpnConfigurationComponent implements OnInit, OnDestroy {
   private initSearchListener(): void {
     const sub = this.searchControl.valueChanges.subscribe(searchValue => {
       const search = searchValue.toLowerCase();
-      const listOfItems = [...this.editBpnConfig.getRawValue(), ...this.newBpnConfig.getRawValue()];
+      const listOfItems = [ ...this.editBpnConfig.getRawValue(), ...this.newBpnConfig.getRawValue() ];
 
       const itemsToExclude = listOfItems
         .map(bpnConfig => {

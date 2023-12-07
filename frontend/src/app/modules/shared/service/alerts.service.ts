@@ -19,15 +19,15 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {HttpParams} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {ApiService} from '@core/api/api.service';
-import {environment} from '@env';
-import {NotificationAssembler} from '@shared/assembler/notification.assembler';
-import {TableHeaderSort} from '@shared/components/table/table.model';
-import {Severity} from '@shared/model/severity.model';
-import type {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { ApiService } from '@core/api/api.service';
+import { environment } from '@env';
+import { NotificationAssembler } from '@shared/assembler/notification.assembler';
+import { TableHeaderSort } from '@shared/components/table/table.model';
+import { Severity } from '@shared/model/severity.model';
+import type { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import {
   Notification,
   NotificationCreateResponse,
@@ -37,8 +37,8 @@ import {
   NotificationStatus,
   NotificationType,
 } from '../model/notification.model';
-import {NotificationFilter} from "../../../mocks/services/investigations-mock/investigations.model";
-import {enrichDeeplinkFilterAndGetUpdatedParams} from "@shared/helper/filter-helper";
+import { NotificationFilter } from '../../../mocks/services/investigations-mock/investigations.model';
+import { enrichDeeplinkFilterAndGetUpdatedParams } from '@shared/helper/filter-helper';
 
 @Injectable({
   providedIn: 'root',
@@ -46,68 +46,69 @@ import {enrichDeeplinkFilterAndGetUpdatedParams} from "@shared/helper/filter-hel
 export class AlertsService {
   private readonly url = environment.apiUrl;
 
-  constructor(private readonly apiService: ApiService) {}
+  constructor(private readonly apiService: ApiService) {
+  }
 
   public getCreatedAlerts(page: number, pageSize: number, sorting: TableHeaderSort[], filter?: NotificationFilter): Observable<Notifications> {
-    let sort = sorting.length ? sorting : ['createdDate,desc'];
+    let sort = sorting.length ? sorting : [ 'createdDate,desc' ];
     let params = new HttpParams()
       .set('page', page)
       .set('size', pageSize)
-      .set('filter', 'channel,EQUAL,SENDER,AND')
+      .set('filter', 'channel,EQUAL,SENDER,AND');
 
     sort.forEach(sortingItem => {
       params = params.append('sort', sortingItem);
-    })
+    });
 
     params = enrichDeeplinkFilterAndGetUpdatedParams(filter, params);
 
     return this.apiService
-      .getBy<NotificationsResponse>(`${this.url}/alerts`, params)
+      .getBy<NotificationsResponse>(`${ this.url }/alerts`, params)
       .pipe(map(alerts => NotificationAssembler.assembleNotifications(alerts, NotificationType.ALERT)));
   }
 
   public getReceivedAlerts(page: number, pageSize: number, sorting: TableHeaderSort[], filter?: NotificationFilter): Observable<Notifications> {
-    let sort = sorting.length ? sorting : ['createdDate,desc'];
+    let sort = sorting.length ? sorting : [ 'createdDate,desc' ];
     let params = new HttpParams()
       .set('page', page)
       .set('size', pageSize)
-      .set('filter', 'channel,EQUAL,RECEIVER,AND')
+      .set('filter', 'channel,EQUAL,RECEIVER,AND');
 
     sort.forEach(sortingItem => {
       params = params.append('sort', sortingItem);
-    })
+    });
 
     params = enrichDeeplinkFilterAndGetUpdatedParams(filter, params);
 
     return this.apiService
-      .getBy<NotificationsResponse>(`${this.url}/alerts`, params)
+      .getBy<NotificationsResponse>(`${ this.url }/alerts`, params)
       .pipe(map(alerts => NotificationAssembler.assembleNotifications(alerts, NotificationType.ALERT)));
   }
 
   public getAlert(id: string): Observable<Notification> {
     return this.apiService
-      .get<NotificationResponse>(`${this.url}/alerts/${id}`)
+      .get<NotificationResponse>(`${ this.url }/alerts/${ id }`)
       .pipe(map(notification => NotificationAssembler.assembleNotification(notification, NotificationType.ALERT)));
   }
 
   public postAlert(partIds: string[], description: string, severity: Severity, bpn: string, isAsBuilt: boolean): Observable<string> {
     const body = { partIds, description, severity, receiverBpn: bpn, isAsBuilt };
 
-    return this.apiService.post<NotificationCreateResponse>(`${this.url}/alerts`, body).pipe(map(({ id }) => id));
+    return this.apiService.post<NotificationCreateResponse>(`${ this.url }/alerts`, body).pipe(map(({ id }) => id));
   }
 
   public closeAlert(id: string, reason: string): Observable<void> {
     const body = { reason };
 
-    return this.apiService.post<void>(`${this.url}/alerts/${id}/close`, body);
+    return this.apiService.post<void>(`${ this.url }/alerts/${ id }/close`, body);
   }
 
   public approveAlert(id: string): Observable<void> {
-    return this.apiService.post<void>(`${this.url}/alerts/${id}/approve`);
+    return this.apiService.post<void>(`${ this.url }/alerts/${ id }/approve`);
   }
 
   public cancelAlert(id: string): Observable<void> {
-    return this.apiService.post<void>(`${this.url}/alerts/${id}/cancel`);
+    return this.apiService.post<void>(`${ this.url }/alerts/${ id }/cancel`);
   }
 
   public updateAlert(
@@ -116,6 +117,6 @@ export class AlertsService {
     reason = '',
   ): Observable<void> {
     const body = { reason, status };
-    return this.apiService.post<void>(`${this.url}/alerts/${id}/update`, body);
+    return this.apiService.post<void>(`${ this.url }/alerts/${ id }/update`, body);
   }
 }

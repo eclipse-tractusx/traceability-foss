@@ -44,6 +44,7 @@
     transform: translateX(50px);
   }
 }
+
 @keyframes slide-right {
   0% {
     -webkit-transform: translateX(0);
@@ -70,6 +71,7 @@
     transform: translateX(-50px);
   }
 }
+
 @keyframes slide-left {
   0% {
     -webkit-transform: translateX(0);

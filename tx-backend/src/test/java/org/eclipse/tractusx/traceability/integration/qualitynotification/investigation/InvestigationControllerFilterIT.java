@@ -165,6 +165,54 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
     }
 
     @Test
+    void givenInvestigations_whenSendToFilter_thenExpectedResult() throws JoseException {
+        // given
+        investigationNotificationSupport.defaultInvestigationsStored();
+        String filterString = "sendTo,STARTS_WITH,B,AND";
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .param("page", "0")
+                .param("size", "10")
+                .contentType(ContentType.JSON)
+                .when()
+                .param("filter", filterString)
+                .get("/api/investigations")
+                .then()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(10))
+                .body("totalItems", Matchers.is(8))
+                .body("content", Matchers.hasSize(8));
+    }
+
+    @Test
+    void givenInvestigations_whenSendToFilterAndSort_thenExpectedResult() throws JoseException {
+        // given
+        investigationNotificationSupport.defaultInvestigationsStored();
+        String filterString = "sendTo,STARTS_WITH,B,AND";
+        String sortString = "sendTo,ASC";
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .param("page", "0")
+                .param("size", "10")
+                .contentType(ContentType.JSON)
+                .when()
+                .param("filter", filterString)
+                .param("sort", sortString)
+                .get("/api/investigations")
+                .then()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(10))
+                .body("totalItems", Matchers.is(8))
+                .body("content", Matchers.hasSize(8));
+    }
+
+    @Test
     void givenInvestigations_whenProvideFilterWithSeverityCritical_thenReturnAllCritical() throws JoseException {
         // given
         investigationNotificationSupport.defaultInvestigationsStored();

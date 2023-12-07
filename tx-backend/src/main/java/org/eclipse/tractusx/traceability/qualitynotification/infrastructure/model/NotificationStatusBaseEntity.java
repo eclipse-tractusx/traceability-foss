@@ -76,6 +76,7 @@ public enum NotificationStatusBaseEntity {
     public static NotificationStatusBaseEntity from(QualityNotificationStatus status) {
         return NotificationStatusBaseEntity.valueOf(status.name());
     }
+
     public static List<NotificationStatusBaseEntity> from(List<QualityNotificationStatus> statuses) {
         return statuses.stream().map(NotificationStatusBaseEntity::from).toList();
     }

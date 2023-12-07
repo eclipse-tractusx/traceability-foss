@@ -45,16 +45,18 @@ describe('NotificationsInboxComponent', () => {
     const isFromSender = data.channel === 'SENDER';
     const createdDate = new CalendarDateModel(data.createdDate);
     const targetDate = new CalendarDateModel(data.targetDate);
-    const createdBy = { bpn: data.createdBy, name: data.createdByName };
-    const sendTo = { bpn: data.createdBy, name: data.createdByName };
+    const createdBy = data.createdBy
+    const createdByName = data.createdByName
+    const sendTo = data.sendTo
+    const sendToName = data.sendToName;
     delete data.channel;
 
-    return { ...data, createdDate, targetDate, isFromSender, createdBy, sendTo };
+    return { ...data, createdDate, targetDate, isFromSender, createdBy, createdByName, sendTo, sendToName };
   };
 
   const renderNotificationsInbox = () => {
-    const qContent = buildMockInvestigations([NotificationStatus.CREATED], 'SENDER').map(mapNotificationResponse);
-    const qarContent = buildMockInvestigations([NotificationStatus.RECEIVED], 'RECEIVER').map(mapNotificationResponse);
+    const qContent = buildMockInvestigations([ NotificationStatus.CREATED ], 'SENDER').map(mapNotificationResponse);
+    const qarContent = buildMockInvestigations([ NotificationStatus.RECEIVED ], 'RECEIVER').map(mapNotificationResponse);
 
     const queuedAndRequestedNotifications$: Observable<View<Notifications>> = of({
       data: { content: qContent, page: 0, pageCount: 1, pageSize: 5, totalItems: 1 },
@@ -76,8 +78,8 @@ describe('NotificationsInboxComponent', () => {
           (onQueuedAndRequestedPagination)='clickHandler($event)'
         ></app-notification>`,
       {
-        imports: [SharedModule, NotificationModule, TemplateModule],
-        translations: ['common'],
+        imports: [ SharedModule, NotificationModule, TemplateModule ],
+        translations: [ 'common' ],
         componentProperties: {
           queuedAndRequestedNotifications$,
           receivedNotifications$,

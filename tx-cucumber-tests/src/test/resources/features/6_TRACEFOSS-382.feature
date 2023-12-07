@@ -34,7 +34,8 @@ Feature: Create Request for quality investigation / store in queue
   @TRACEFOSS-1652 @TRACEFOSS-1101 @INTEGRATION_TEST
   Scenario: [BE] Check correct processing of several parts in quality investigation
     When I am logged into TRACE_X_A application
-    And I create quality investigation with two parts
+    When I use assets with ids 'urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd,urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a'
+    And I create quality investigation
       | "severity"    | "MINOR"                           |
       | "description" | "Testing severity TRACEFOSS-1652" |
     Then I check, if quality investigation has proper values

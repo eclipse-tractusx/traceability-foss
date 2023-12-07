@@ -26,8 +26,8 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import java.util.function.Predicate;
 
 public class JobRunning implements Predicate<JobDetailResponse> {
-	@Override
-	public boolean test(JobDetailResponse jobResponse) {
-		return jobResponse.isRunning();
-	}
+    @Override
+    public boolean test(JobDetailResponse jobResponse) {
+        return jobResponse.isRunning();
+    }
 }

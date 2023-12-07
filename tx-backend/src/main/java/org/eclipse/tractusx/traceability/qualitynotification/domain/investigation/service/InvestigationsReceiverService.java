@@ -65,7 +65,8 @@ public class InvestigationsReceiverService {
             case ACCEPTED -> investigation.accept(edcNotification.getInformation(), notification);
             case DECLINED -> investigation.decline(edcNotification.getInformation(), notification);
             case CLOSED -> investigation.close(BPN.of(investigation.getBpn()), edcNotification.getInformation());
-            default -> throw new InvestigationIllegalUpdate("Failed to handle notification due to unhandled %s status".formatted(edcNotification.convertNotificationStatus()));
+            default ->
+                    throw new InvestigationIllegalUpdate("Failed to handle notification due to unhandled %s status".formatted(edcNotification.convertNotificationStatus()));
         }
         investigation.addNotification(notification);
         assetService.setAssetsInvestigationStatus(investigation);

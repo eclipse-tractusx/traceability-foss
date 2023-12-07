@@ -21,17 +21,17 @@
 package org.eclipse.tractusx.traceability.qualitynotification.application.contract.model;
 
 public enum NotificationMethod {
-	RECEIVE("receive"),
-	UPDATE("update"),
-	RESOLVE("resolve");
+    RECEIVE("receive"),
+    UPDATE("update"),
+    RESOLVE("resolve");
 
-	private final String value;
+    private final String value;
 
-	NotificationMethod(String value) {
-		this.value = value;
-	}
+    NotificationMethod(String value) {
+        this.value = value;
+    }
 
-	public String getValue() {
-		return value;
-	}
+    public String getValue() {
+        return value;
+    }
 }

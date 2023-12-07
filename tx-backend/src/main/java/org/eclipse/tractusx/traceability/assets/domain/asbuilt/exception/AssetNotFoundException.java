@@ -22,7 +22,7 @@
 package org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception;
 
 public class AssetNotFoundException extends RuntimeException {
-	public AssetNotFoundException(String message) {
-		super(message);
-	}
+    public AssetNotFoundException(String message) {
+        super(message);
+    }
 }

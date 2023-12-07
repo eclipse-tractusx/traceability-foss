@@ -20,10 +20,11 @@
 import { DatePipe, registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-import { Component, EventEmitter, Inject, Input, LOCALE_ID, OnChanges, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, LOCALE_ID, OnChanges, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { MatSelectChange } from '@angular/material/select';
 import { Owner } from '@page/parts/model/owner.enum';
 import { PartTableType } from '@shared/components/table/table.model';
 import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
@@ -42,6 +43,9 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   placeholder: string;
   @Input()
   options: any;
+  allOptions: any;
+  searchedOptions: any;
+  optionsSelected: any;
   @Input()
   disabled = false;
   @Input()
@@ -84,12 +88,8 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
 
   searchElementChange: EventEmitter<any> = new EventEmitter();
 
-  @Output()
-  selectionChange: EventEmitter<any> = new EventEmitter();
-
   @ViewChild('selectElem', { static: true }) selectElem: any;
 
-  filteredOptions: Array<any> = [];
   selectedValue: Array<any> = [];
   selectAllChecked = false;
 
@@ -116,6 +116,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
         this.filterItem(value);
       }
     });
+
   }
 
   ngOnChanges(): void {
@@ -123,41 +124,37 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     this.formControl.patchValue(this.selectedValue);
   }
 
-  toggleSelectAll = function(selectCheckbox: any): void {
-
+  toggleSelectAll(selectCheckbox: any): void {
     if (selectCheckbox.checked) {
       // if there are no suggestion but the selectAll checkbox was checked
-      if (!this.filteredOptions.length) {
+      if (!this.searchedOptions.length) {
         this.formControl.patchValue(this.searchElement);
         this.selectedValue = this.searchElement as unknown as [];
       } else {
-        this.filteredOptions.forEach(option => {
+        this.searchedOptions.forEach(option => {
           if (!this.selectedValue.includes(option[this.value])) {
             this.selectedValue = this.selectedValue.concat([ option[this.value] ]);
           }
         });
       }
+      this.updateOptionsAndSelections();
 
     } else {
       this.selectedValue = [];
+      this.updateOptionsAndSelections();
     }
     this.formControl.patchValue(this.selectedValue);
-    this.selectionChange.emit(this.selectedValue);
   };
 
-  changeSearchTextOption() {
+  changeSearchTextOptionSingleSearch() {
     this.formControl.patchValue(this.selectedValue);
-    this.selectionChange.emit(this.selectedValue);
   }
 
-  shouldHideTextSearchOptionField() {
+  shouldHideTextSearchOptionFieldSingleSearch() {
     return this.searchElement === null || this.searchElement === undefined || this.searchElement === '';
   }
 
   displayValue() {
-    if(!this.searchElement.length) {
-      return;
-    }
     let suffix = '';
     let displayValue;
     // add +X others label if multiple
@@ -173,20 +170,21 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     }
 
     // if no value selected, return empty string
-    if(!this.selectedValue.length) {
-      displayValue = ''
+    if (!this.selectedValue.length) {
+      displayValue = '';
     }
 
     return displayValue;
   }
 
   filterItem(value: any): void {
-    if(!this.searchElement.length) {
+
+    if (!this.searchElement.length) {
       return;
     }
 
     if (!value) {
-      this.filteredOptions = [];
+      this.searchedOptions = [];
       return;
     }
 
@@ -208,25 +206,38 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
 
       try {
         firstValueFrom(this.partsService.getDistinctFilterValues(
-            this.isAsBuilt,
-            tableOwner,
-            this.filterColumn,
-            this.searchElement
+          this.isAsBuilt,
+          tableOwner,
+          this.filterColumn,
+          this.searchElement,
         )).then((res) => {
           if (this.filterColumn === 'semanticDataModel') {
-            this.options = res.map(option => ({
+            this.searchedOptions = res
+              .filter(option => !this.selectedValue.includes(option))
+              .map(option => ({
+                display: this.formatPartSemanticDataModelToCamelCasePipe.transformModel(option),
+                value: option,
+              }));
+            this.options = this.searchedOptions;
+            this.allOptions = res.map(option => ({
               display: this.formatPartSemanticDataModelToCamelCasePipe.transformModel(option),
               value: option,
             }));
+
           } else {
-            this.options = res.map(option => ({ display: option, value: option }));
+            // add filter for not selected
+            this.searchedOptions = res
+              .filter(option => !this.selectedValue.includes(option))
+              .map(option => ({ display: option, value: option }));
+            this.options = this.searchedOptions;
+            this.allOptions = res.map(option => ({ display: option, value: option }));
+            this.handleAllSelectedCheckbox();
           }
 
-          this.filteredOptions = this.options;
-          this.suggestionError = !this.filteredOptions.length;
+          this.suggestionError = !this.searchedOptions?.length;
         }).catch((error) => {
           console.error('Error fetching data: ', error);
-          this.suggestionError = !this.filteredOptions.length;
+          this.suggestionError = !this.searchedOptions.length;
         }).finally(() => {
           this.delayTimeoutId = null;
           this.isLoadingSuggestions = false;
@@ -240,27 +251,9 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     this.delayTimeoutId = setTimeout(timeoutCallback, 500);
   }
 
-// This is used by parent component
+  // DO NOT REMOVE: Used by parent component
   isUnsupportedAutoCompleteField(fieldName: string) {
     return fieldName === 'activeAlerts' || fieldName === 'activeInvestigations';
-  }
-
-  hideOption(option: any): boolean {
-    if(!this.searchElement.length) {
-      return true;
-    }
-    return !(this.filteredOptions.indexOf(option) > -1);
-  }
-
-  // Returns plain strings array of filtered values
-  getFilteredOptionsValues(): string[] {
-    const filteredValues = [];
-    this.filteredOptions.forEach(option => {
-      if(option.length) {
-          filteredValues.push(option.value);
-      }
-    });
-    return filteredValues;
   }
 
   startDateSelected(event: MatDatepickerInputEvent<Date>) {
@@ -277,34 +270,61 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   }
 
   clickClear(): void {
+    this.selectAllChecked = false;
     this.formControl.patchValue('');
     this.formControl.reset();
     this.searchElement = '';
-    this.selectedValue = [];
+
     this.startDate = null;
     this.endDate = null;
-    this.filteredOptions = [];
+    this.searchedOptions = [];
+    this.allOptions = [];
+    this.optionsSelected = [];
+    this.options = [];
+    this.selectedValue = [];
+    this.suggestionError = false;
+    this.updateOptionsAndSelections();
   }
 
-  dateFilter(){
+  private updateOptionsAndSelections() {
+    if (this.singleSearch) {
+      return;
+    }
+    if (!this.allOptions) {
+      this.allOptions = [];
+    }
+    this.options = this.allOptions.filter(option => !this.selectedValue.includes(option.value));
+    if (!this.selectedValue) {
+      this.options = this.allOptions;
+    }
+
+    if (!this.searchedOptions) {
+      this.searchedOptions = [];
+    }
+    const filter = this.searchedOptions.filter(val => this.selectedValue.includes(val));
+    for (const selected of this.selectedValue) {
+      filter.push({ display: selected, value: selected });
+    }
+    this.optionsSelected = filter;
+    this.handleAllSelectedCheckbox();
+  }
+
+  dateFilter() {
     this.formControl.patchValue(this.searchElement);
   }
 
-
-  onSelectionChange(val: any) {
-    if(!this.searchElement.length) {
-      return;
-    }
-    const filteredValues = this.getFilteredOptionsValues();
-
-    const selectedCount = this.selectedValue.filter(item => filteredValues.includes(item)).length;
-    this.selectAllChecked = selectedCount === this.filteredOptions.length;
-
-    this.selectedValue = val.value;
-    this.formControl.patchValue(val.value);
-    this.selectionChange.emit(this.selectedValue);
-    this.searchElement = this.displayValue();
+  onSelectionChange(matSelectChange: MatSelectChange) {
+    this.selectedValue = matSelectChange.value;
+    this.formControl.patchValue(matSelectChange.value);
+    this.updateOptionsAndSelections();
   }
+
+  private handleAllSelectedCheckbox() {
+    const noSelectedValues = this.selectedValue?.length === 0;
+    const oneOptionSelected = this.optionsSelected?.length === 1 && this.allOptions?.length === 0;
+    this.selectAllChecked = noSelectedValues ? false : oneOptionSelected || this.allOptions?.length + this.optionsSelected?.length === this.selectedValue?.length;
+  }
+
 
   getOwnerOfTable(partTableType: PartTableType): Owner {
     if (partTableType === PartTableType.AS_BUILT_OWN || partTableType === PartTableType.AS_PLANNED_OWN) {
@@ -318,9 +338,9 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     }
   }
 
-    filterKeyCommands(event: any) {
+  filterKeyCommands(event: any) {
     if (event.key === 'Enter' || (event.ctrlKey && event.key === 'a' || event.key === ' ')) {
-          event.stopPropagation();
-        }
+      event.stopPropagation();
     }
+  }
 }

@@ -1,0 +1,8 @@
+= Entity Relationship Model
+
+Please be informed that the 'as-planned' version currently lacks the database relations. However, kindly maintain the Entity-Relationship Model (ERM) in its current state.
+
+[plantuml, format=svg]
+....
+include::../../../uml-diagrams/arc42/cross-cutting/erm-trace-x.puml[]
+....

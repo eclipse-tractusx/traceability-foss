@@ -37,9 +37,9 @@ export class NotificationComponent {
   @Input() queuedAndRequestedNotifications$: Observable<View<Notifications>>;
   @Input() translationContext: 'commonInvestigation' | 'commonAlert';
   @Input() menuActionsConfig: MenuActionConfig<Notification>[];
-  @Input() receivedOptionalColumns: Array<'targetDate' | 'severity' | 'createdBy'> = [];
+  @Input() receivedOptionalColumns: Array<'targetDate' | 'severity' | 'createdBy' | 'createdByName'> = [];
   @Input() receivedSortableColumns: Record<string, boolean> = {};
-  @Input() queuedAndRequestedOptionalColumns: Array<'targetDate' | 'severity' | 'sendTo'> = [];
+  @Input() queuedAndRequestedOptionalColumns: Array<'targetDate' | 'severity' | 'sendTo'| 'sendToName'> = [];
   @Input() queuedAndRequestedSortableColumns: Record<string, boolean> = {};
   @Input() receivedMultiSortList: TableHeaderSort[] = [];
   @Input() queuedAndRequestedMultiSortList: TableHeaderSort[] = [];
@@ -58,7 +58,8 @@ export class NotificationComponent {
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly staticIdService: StaticIdService,
-  ) {}
+  ) {
+  }
 
   public onTabChange(tabIndex: number): void {
     void this.router.navigate([], { queryParams: { tabIndex }, replaceUrl: true });

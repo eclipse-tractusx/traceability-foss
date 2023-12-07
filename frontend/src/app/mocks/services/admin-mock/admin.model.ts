@@ -37,8 +37,8 @@ export const buildMockRegistryProcesses = (): RegistryProcessResponse[] =>
 
     return {
       registryLookupStatus,
-      startDate: `${year}-${numberToString(month)}-${numberToString(day)}T12:34:12`,
-      endDate: `${year}-${numberToString(month + 1)}-${numberToString(day)}T12:34:12`,
+      startDate: `${ year }-${ numberToString(month) }-${ numberToString(day) }T12:34:12`,
+      endDate: `${ year }-${ numberToString(month + 1) }-${ numberToString(day) }T12:34:12`,
 
       successShellDescriptorsFetchCount: failedCount,
       failedShellDescriptorsFetchCount: successCount,

@@ -17,22 +17,22 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {TestBed} from "@angular/core/testing";
-import {TableSettingsService} from "@core/user/table-settings.service";
+import { TestBed } from '@angular/core/testing';
+import { TableSettingsService } from '@core/user/table-settings.service';
 
 describe('TableSettingsService', () => {
-    let service: TableSettingsService;
+  let service: TableSettingsService;
 
-    beforeEach(() => {
-        TestBed.configureTestingModule({
-            imports: [],
-            providers: [TableSettingsService],
-        });
-        service = TestBed.inject(TableSettingsService);
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [],
+      providers: [ TableSettingsService ],
     });
+    service = TestBed.inject(TableSettingsService);
+  });
 
 
-    it('should be created', () => {
-        expect(service).toBeTruthy();
-    });
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
 });

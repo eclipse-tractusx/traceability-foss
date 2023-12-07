@@ -20,24 +20,24 @@
  ********************************************************************************/
 
 export interface DeeplinkNotificationFilter {
-    receivedFilter: DeeplinkAssetNotificationIds,
-    sentFilter: DeeplinkAssetNotificationIds
+  receivedFilter: DeeplinkAssetNotificationIds,
+  sentFilter: DeeplinkAssetNotificationIds
 }
 
 export interface DeeplinkAssetNotificationIds {
-    notificationIds: string[]
+  notificationIds: string[];
 }
 
 export function createDeeplinkNotificationFilter(params: any): DeeplinkNotificationFilter {
-    let receivedFilter = null;
-    let sentFilter = null;
-    if (params.deeplink) {
-        if (params.received === 'true' && params?.notificationIds?.length > 0) {
-            receivedFilter = {notificationIds: params.notificationIds};
-        }
-        if (params.received === 'false' && params?.notificationIds?.length > 0) {
-            sentFilter = {notificationIds: params.notificationIds};
-        }
-        return {receivedFilter, sentFilter};
+  let receivedFilter = null;
+  let sentFilter = null;
+  if (params.deeplink) {
+    if (params.received === 'true' && params?.notificationIds?.length > 0) {
+      receivedFilter = { notificationIds: params.notificationIds };
     }
+    if (params.received === 'false' && params?.notificationIds?.length > 0) {
+      sentFilter = { notificationIds: params.notificationIds };
+    }
+    return { receivedFilter, sentFilter };
+  }
 }

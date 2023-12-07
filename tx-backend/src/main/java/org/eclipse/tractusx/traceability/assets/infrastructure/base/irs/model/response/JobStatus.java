@@ -30,4 +30,5 @@ public record JobStatus(
         Date lastModifiedOn,
         String globalAssetId,
         Parameter parameter
-) {}
+) {
+}

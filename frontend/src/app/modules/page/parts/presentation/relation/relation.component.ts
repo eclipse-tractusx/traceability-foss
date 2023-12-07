@@ -25,4 +25,5 @@ import { Component } from '@angular/core';
   selector: 'app-relation',
   templateUrl: './relation.component.html',
 })
-export class RelationComponent {}
+export class RelationComponent {
+}

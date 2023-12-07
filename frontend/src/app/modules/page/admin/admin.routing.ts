@@ -38,21 +38,22 @@ const ADMIN_ROUTING: Routes = [
     path: KnownAdminRouts.REGISTRY,
     pathMatch: 'full',
     component: ScheduledRegistryProcessesComponent,
-    data: { i18nextNamespaces: ['page.admin'] },
+    data: { i18nextNamespaces: [ 'page.admin' ] },
     resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
   },
   {
     path: KnownAdminRouts.BPN,
     pathMatch: 'full',
     component: BpnConfigurationComponent,
-    data: { i18nextNamespaces: ['page.admin'] },
+    data: { i18nextNamespaces: [ 'page.admin' ] },
     resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
-    canActivate: [RoleGuard],
+    canActivate: [ RoleGuard ],
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(ADMIN_ROUTING)],
-  exports: [RouterModule],
+  imports: [ RouterModule.forChild(ADMIN_ROUTING) ],
+  exports: [ RouterModule ],
 })
-export class AdminRoutingModule {}
+export class AdminRoutingModule {
+}

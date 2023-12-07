@@ -38,11 +38,11 @@ import { DashboardFacade } from '../abstraction/dashboard.facade';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
+  styleUrls: [ './dashboard.component.scss' ],
 })
 export class DashboardComponent implements OnInit, OnDestroy {
 
-  public readonly dashboardStats$: Observable<View<DashboardStats>>
+  public readonly dashboardStats$: Observable<View<DashboardStats>>;
   public readonly investigationsReceived$: Observable<View<Notifications>>;
   public readonly investigationsCreated$: Observable<View<Notifications>>;
   public readonly alertsReceived$: Observable<View<Notifications>>;
@@ -65,11 +65,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     this.investigationsReceived$ = this.dashboardFacade.recentReceivedInvestigations$;
     this.investigationsCreated$ = this.dashboardFacade.recentCreatedInvestigations$;
-    this.alertsReceived$ = this.dashboardFacade.recentReceivedAlerts$
-    this.alertsCreated$ = this.dashboardFacade.recentCreatedAlerts$
+    this.alertsReceived$ = this.dashboardFacade.recentReceivedAlerts$;
+    this.alertsCreated$ = this.dashboardFacade.recentCreatedAlerts$;
 
-    const {link: investigationLink, queryParams: investigationQueryParams} = getRoute(INVESTIGATION_BASE_ROUTE, NotificationStatusGroup.RECEIVED);
-    const {link: alertLink, queryParams: alertQueryParams} = getRoute(ALERT_BASE_ROUTE, NotificationStatusGroup.RECEIVED);
+    const {
+      link: investigationLink,
+      queryParams: investigationQueryParams,
+    } = getRoute(INVESTIGATION_BASE_ROUTE, NotificationStatusGroup.RECEIVED);
+    const {
+      link: alertLink,
+      queryParams: alertQueryParams,
+    } = getRoute(ALERT_BASE_ROUTE, NotificationStatusGroup.RECEIVED);
     this.investigationLink = investigationLink;
     this.investigationParams = investigationQueryParams;
     this.alertLink = alertLink;
@@ -79,30 +85,30 @@ export class DashboardComponent implements OnInit, OnDestroy {
       {
         metricName: 'totalAmount',
         value: this.dashboardStats$.pipe(map(dashboardStats => dashboardStats.data.totalOwnParts)),
-        metricUnit: 'parts'
-      }
+        metricUnit: 'parts',
+      },
 
-    ]
+    ];
 
     this.otherPartsMetricData = [
       {
         metricName: 'totalAmount',
         value: this.dashboardStats$.pipe(map(dashboardStats => dashboardStats.data.totalOtherParts)),
-        metricUnit: 'parts'
-      }
+        metricUnit: 'parts',
+      },
     ];
 
     this.investigationsMetricData = [
       {
         metricName: 'amountReceived',
         value: this.dashboardStats$.pipe(map(dashboardStats => dashboardStats.data.receivedActiveInvestigations)),
-        metricUnit: 'investigations'
+        metricUnit: 'investigations',
       },
       {
         metricName: 'amountCreated',
         value: this.dashboardStats$.pipe(map(dashboardStats => dashboardStats.data.sentActiveInvestigations)),
-        metricUnit: 'investigations'
-      }
+        metricUnit: 'investigations',
+      },
     ];
 
 
@@ -110,13 +116,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
       {
         metricName: 'amountReceived',
         value: this.dashboardStats$.pipe(map(dashboardStats => dashboardStats.data.receivedActiveAlerts)),
-        metricUnit: 'alerts'
+        metricUnit: 'alerts',
       },
       {
         metricName: 'amountCreated',
         value: this.dashboardStats$.pipe(map(dashboardStats => dashboardStats.data.sentActiveAlerts)),
-        metricUnit: 'alerts'
-      }
+        metricUnit: 'alerts',
+      },
     ];
 
   }
@@ -131,13 +137,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   public onInvestigationSelected(notification: Notification): void {
     const { link } = getRoute(INVESTIGATION_BASE_ROUTE);
-    this.router.navigate([`/${link}/${notification.id}`]).then();
+    this.router.navigate([ `/${ link }/${ notification.id }` ]).then();
   }
 
   public onAlertSelected(notification: Notification): void {
     const { link } = getRoute(ALERT_BASE_ROUTE);
-    this.router.navigate([`/${link}/${notification.id}`]).then();
+    this.router.navigate([ `/${ link }/${ notification.id }` ]).then();
   }
 
-    protected readonly NotificationType = NotificationType;
+  protected readonly NotificationType = NotificationType;
 }

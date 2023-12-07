@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,16 +17,14 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, Input } from '@angular/core';
-import { NotificationUser } from '@shared/model/notification.model';
+package org.eclipse.tractusx.traceability.test.exteption;
 
-@Component({
-  selector: 'app-notification-user',
-  templateUrl: './notification-user.component.html',
-})
-export class NotificationUserComponent {
-  @Input()
-  user: NotificationUser;
-  @Input()
-  mode: 'normal' | 'sup';
+public class MissingStepDefinitionException extends RuntimeException {
+    private MissingStepDefinitionException(String message) {
+        super(message);
+    }
+
+    public static MissingStepDefinitionException missingAssetDefinition() {
+        return new MissingStepDefinitionException("Current step requires assets to be specified with following step: 'I use assets with ids {string}' where input param contains list of assetIds separated with ',' .");
+    }
 }

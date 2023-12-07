@@ -50,7 +50,7 @@ public class AssetTestDataFactory {
                 .manufacturingDate(OffsetDateTime.parse("2022-10-20T00:00:00Z", DateTimeFormatter.ISO_OFFSET_DATE_TIME))
                 .build();
 
-        DetailAspectModel detailAspectModel =  DetailAspectModel.builder()
+        DetailAspectModel detailAspectModel = DetailAspectModel.builder()
                 .data(detailAspectDataAsBuilt)
                 .type(DetailAspectType.AS_BUILT)
                 .build();
@@ -63,7 +63,7 @@ public class AssetTestDataFactory {
                 .manufacturingDate(OffsetDateTime.parse("2022-10-20T00:00:00Z", DateTimeFormatter.ISO_OFFSET_DATE_TIME))
                 .build();
 
-        DetailAspectModel detailAspectModel2 =  DetailAspectModel.builder()
+        DetailAspectModel detailAspectModel2 = DetailAspectModel.builder()
                 .data(detailAspectDataAsBuilt2)
                 .type(DetailAspectType.AS_BUILT)
                 .build();

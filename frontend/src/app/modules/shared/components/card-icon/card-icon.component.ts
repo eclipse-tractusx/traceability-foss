@@ -19,14 +19,14 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {StaticIdService} from '@shared/service/staticId.service';
-import {MetricData} from "@page/dashboard/presentation/dashboard.model";
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { StaticIdService } from '@shared/service/staticId.service';
+import { MetricData } from '@page/dashboard/presentation/dashboard.model';
 
 @Component({
   selector: 'app-card-icon',
   templateUrl: './card-icon.component.html',
-  styleUrls: ['./card-icon.component.scss'],
+  styleUrls: [ './card-icon.component.scss' ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CardIconComponent {
