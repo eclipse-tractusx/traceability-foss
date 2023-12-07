@@ -83,7 +83,7 @@ When("request the {string}", function(notificationType) {
 });
 
 
-Then("selected parts are marked as {string}", () => {
+Then("selected parts are marked as {string}", function() {
   cy.get('span').contains(desiredId).closest('tr').should('have.class', "highlighted");
 });
 
