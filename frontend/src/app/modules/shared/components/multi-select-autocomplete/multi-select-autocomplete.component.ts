@@ -320,18 +320,11 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   }
 
   private handleAllSelectedCheckbox() {
-    if (this.selectedValue?.length === 0) {
-      this.selectAllChecked = false;
-    } else {
-      if (this.optionsSelected?.length === 1 && this.allOptions?.length === 0){
-        this.selectAllChecked = true;
-      } else {
-        console.log(this.allOptions?.length, "this.allOptions?.length")
-        console.log(this.optionsSelected?.length, "this.optionsSelected?.length")
-        this.selectAllChecked = this.allOptions?.length + this.optionsSelected?.length === this.selectedValue?.length;
-      }
-    }
+    const noSelectedValues = this.selectedValue?.length === 0;
+    const oneOptionSelected = this.optionsSelected?.length === 1 && this.allOptions?.length === 0;
+    this.selectAllChecked = noSelectedValues ? false : oneOptionSelected || this.allOptions?.length + this.optionsSelected?.length === this.selectedValue?.length;
   }
+
 
   getOwnerOfTable(partTableType: PartTableType): Owner {
     if (partTableType === PartTableType.AS_BUILT_OWN || partTableType === PartTableType.AS_PLANNED_OWN) {
