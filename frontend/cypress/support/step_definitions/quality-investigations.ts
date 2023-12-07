@@ -83,8 +83,21 @@ When("request the {string}", function(notificationType) {
 });
 
 
-Then("selected parts are marked as {string}", function() {
-  cy.get('span').contains(desiredId).closest('tr').should('have.class', "highlighted");
+Then("selected parts are marked as {string}", function(notificationType) {
+  switch (notificationType) {
+    case 'investigated': {
+      cy.get('span').contains(desiredSemanticModelId).closest('tr').should('have.class', "highlighted");
+      break;
+    }
+    case 'alerted': {
+      cy.get('span').contains(desiredId).closest('tr').should('have.class', "highlighted");
+      break;
+    }
+    default: {
+      throw new Error("Set notificationType change'" + notificationType + "' is not one of valid types [investigated, alerted].");
+      break;
+    }
+  }
 });
 
 
