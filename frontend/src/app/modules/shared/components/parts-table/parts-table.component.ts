@@ -305,6 +305,7 @@ export class PartsTableComponent implements OnInit {
     'manufacturingDate',
     'activeAlerts',
     'activeInvestigations',
+    'menu'
   ];
 
   private readonly sortableColumnsAsBuiltCustomer: Record<string, boolean> = {
@@ -324,6 +325,7 @@ export class PartsTableComponent implements OnInit {
     'manufacturer',
     'manufacturerPartId',
     'semanticModelId',
+    'menu'
   ];
 
   private readonly sortableColumnsAsPlannedCustomer: Record<string, boolean> = {
@@ -345,6 +347,7 @@ export class PartsTableComponent implements OnInit {
     'manufacturingDate',
     'activeAlerts',
     'activeInvestigations',
+    'menu'
   ];
 
   private readonly sortableColumnsAsBuiltSupplier: Record<string, boolean> = {
@@ -364,6 +367,7 @@ export class PartsTableComponent implements OnInit {
     'manufacturer',
     'manufacturerPartId',
     'semanticModelId',
+    'menu'
   ];
 
   private readonly sortableColumnsAsPlannedSupplier: Record<string, boolean> = {
@@ -438,6 +442,7 @@ export class PartsTableComponent implements OnInit {
     };
     this.filterConfiguration = filterConfiguration;
     this.displayedColumns = displayedColumns;
+
     for (const controlName in filterFormGroup) {
       // eslint-disable-next-line no-prototype-builtins
       if (filterFormGroup.hasOwnProperty(controlName)) {

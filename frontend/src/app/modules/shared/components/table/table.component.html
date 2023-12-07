@@ -168,10 +168,12 @@ SPDX-License-Identifier: Apache-2.0
         <th *matHeaderCellDef
           class="notification-table--menu notification-table--header--sticky"
           mat-header-cell>
-          <img class="settings-icon"
-            src="/assets/images/icons/table_settings_icon.svg"
+          <button (click)="openDialog()" mat-icon-button>
+            <img class="settings-icon"
+            src="/assets/images/settingsIcon.svg"
             alt="*"
-            (click)="openDialog()" />
+            />
+          </button>
         </th>
         <td *matCellDef="let row"
           mat-cell
