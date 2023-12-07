@@ -18,9 +18,6 @@
 #
 #  SPDX-License-Identifier: Apache-2.0
 #
-overrides:
-  frontent:  'CHANGE_ME'
-
 
 #########################
 # Global Values configuration     #

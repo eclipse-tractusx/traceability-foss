@@ -18,15 +18,31 @@
 #
 #  SPDX-License-Identifier: Apache-2.0
 #
-overrides:
-  frontent: &fe_name_override 'tx-frontend-test'
+configuration:
+  env:
+    bpn: &bpn 'BPNL00000003CML1'
+  frontend:
+    name: &fe_name 'tx-frontend-test'
+  backend:
+    name: &backend_name 'tx-backend-test'
+  backendDatabase:
+    name: &backend_database_name "tx-backend-postgresql-test"
+  pgadmin4:
+    name: &pgadmin_name 'tx-pgadmin-test'
+  irs:
+    name: &irs_name 'tx-irs-test'
+  edc:
+    name: &edc_name 'tx-edc-consumer-test'
+  edcDatabase:
+    name: &edc_database_name 'tx-edc-consumer-postgresql-test'
+
 
 #########################
 # Frontend Chart Values configuration     #
 #########################
 frontend:
-  nameOverride: *fe_name_override
-  fullnameOverride: *fe_name_override
+  nameOverride: *fe_name
+  fullnameOverride: *fe_name
   image:
     CATENAX_PORTAL_API_URL: '<path:traceability-foss/data/test/frontend#catenax_portal_api_url>'
     CATENAX_PORTAL_KEYCLOAK_URL: '<path:traceability-foss/data/test/frontend#catenax_portal_keycloak_url>'
@@ -49,8 +65,8 @@ frontend:
 # Backend Chart Values configuration     #
 #########################
 backend:
-  nameOverride: "tx-backend-test"
-  fullnameOverride: "tx-backend-test"
+  nameOverride: *backend_name
+  fullnameOverride: *backend_name
 
   springprofile: dev
 
@@ -66,7 +82,7 @@ backend:
         secretName: tls-secret
 
   traceability:
-    bpn: "BPNL00000003CNKC"
+    bpn: *bpn
     url: "https://traceability-test.dev.demo.catena-x.net"
 
   datasource:
@@ -109,8 +125,8 @@ backend:
 # PG Admin configuration     #
 #########################
 pgadmin4:
-  nameOverride: "tx-pgadmin-test"
-  fullnameOverride: "tx-pgadmin-test"
+  nameOverride: *pgadmin_name
+  fullnameOverride: *pgadmin_name
   ingress:
     hosts:
       - host: tx-pgadmin-test.dev.demo.catena-x.net
@@ -128,8 +144,8 @@ pgadmin4:
 # Postgres configuration     #
 #########################
 postgresql:
-  nameOverride: "tx-backend-postgresql-test"
-  fullnameOverride: "tx-backend-postgresql-test"
+  nameOverride: *backend_database_name
+  fullnameOverride: *backend_database_name
 
   auth:
     postgresPassword: "<path:traceability-foss/data/dev/database#postgresPassword>"
@@ -139,10 +155,9 @@ postgresql:
 # IRS configuration     #
 #########################
 irs-helm:
-  bpn: BPNL00000003CML1
-
-  nameOverride: "tx-irs-test"
-  fullnameOverride: "tx-irs-test"
+  nameOverride: *irs_name
+  fullnameOverride: *irs_name
+  bpn: *bpn
   namespace: product-traceability-foss
   springprofile: dev
   irsUrl: "https://tx-irs-test.dev.demo.catena-x.net"
@@ -195,10 +210,10 @@ irs-helm:
 # EDC Consumer configuration  #
 ###################################
 tractusx-connector:
-  nameOverride: "tx-edc-consumer-test"
-  fullnameOverride: "tx-edc-consumer-test"
+  nameOverride: *edc_name
+  fullnameOverride: *edc_name
   participant:
-    id: BPNL00000003CML1
+    id: *bpn
 
   controlplane:
     ingresses:
@@ -272,8 +287,8 @@ tractusx-connector:
 # EDC Postgres Configuration #
 ###################################
 edc-postgresql:
-  nameOverride: "tx-edc-consumer-postgresql-test"
-  fullnameOverride: "tx-edc-consumer-postgresql-test"
+  nameOverride: *edc_database_name
+  fullnameOverride: *edc_database_name
   auth:
     username: <path:traceability-foss/data/dev/edc/database#user>
     postgresPassword: <path:traceability-foss/data/dev/edc/database#password>
