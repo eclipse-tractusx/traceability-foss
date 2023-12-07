@@ -27,5 +27,5 @@
 # Frontend Chart Values configuration     #
 #########################
 frontend:
-  nameOverride: "tx-frontend-test"
-  fullnameOverride: "tx-frontend-test"
+  nameOverride: "tx-frontend-test-2"
+  fullnameOverride: "tx-frontend-test-2"
