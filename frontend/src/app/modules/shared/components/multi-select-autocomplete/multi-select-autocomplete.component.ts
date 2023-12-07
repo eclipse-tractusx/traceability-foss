@@ -231,6 +231,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
               .map(option => ({ display: option, value: option }));
             this.options = this.searchedOptions;
             this.allOptions = res.map(option => ({ display: option, value: option }));
+            this.handleAllSelectedCheckbox();
           }
 
           this.suggestionError = !this.searchedOptions?.length;
@@ -269,6 +270,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   }
 
   clickClear(): void {
+    this.selectAllChecked = false;
     this.formControl.patchValue('');
     this.formControl.reset();
     this.searchElement = '';
@@ -282,8 +284,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     this.selectedValue = [];
     this.suggestionError = false;
     this.updateOptionsAndSelections();
-
-
   }
 
   private updateOptionsAndSelections() {
@@ -323,7 +323,13 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     if (this.selectedValue?.length === 0) {
       this.selectAllChecked = false;
     } else {
-      this.selectAllChecked = this.allOptions?.length === this.selectedValue?.length;
+      if (this.optionsSelected?.length === 1 && this.allOptions?.length === 0){
+        this.selectAllChecked = true;
+      } else {
+        console.log(this.allOptions?.length, "this.allOptions?.length")
+        console.log(this.optionsSelected?.length, "this.optionsSelected?.length")
+        this.selectAllChecked = this.allOptions?.length + this.optionsSelected?.length === this.selectedValue?.length;
+      }
     }
   }
 
