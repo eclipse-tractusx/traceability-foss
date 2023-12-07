@@ -38,6 +38,7 @@ public class AssetAsPlannedResponseMapper extends AssetBaseResponseMapper {
                 .nameAtManufacturer(asset.getNameAtManufacturer())
                 .manufacturerPartId(asset.getManufacturerPartId())
                 .owner(from(asset.getOwner()))
+                .businessPartner(asset.getManufacturerId())
                 .childRelations(
                         asset.getChildRelations().stream()
                                 .map(AssetAsPlannedResponseMapper::from)

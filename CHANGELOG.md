@@ -18,6 +18,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Added BPN column to parts table
 - Emit change check to observables in frontend
 - Added an Entity Relationship Model (ERM) into the Architecture Documentation to visually represent our tables and their relationships.
+- Added manufacturer_id to assets_as_planned
 
 ### Changed
 - Filter configuration for tables to be resuable and easy to adapt
@@ -39,6 +40,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Changed FE fieldName mapping to fix bug for properties catenaxSiteId and function
 - Fix of global search field
 - Parts autocomplete API now is case insensitive when using "startWith" parameter
+- changed mapping for manufacturerName when syncing assets_as_planned so it is being resolved when assets are resolved
+- Behaviour of auto complete toggle selections
 
 ### Removed
 - removed asset filters ( qualityInvestigationIdsInStatusActive, qualityInvestigationIdsInStatusActive )

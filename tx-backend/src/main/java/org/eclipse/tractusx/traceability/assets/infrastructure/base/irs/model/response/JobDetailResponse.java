@@ -181,11 +181,18 @@ public record JobDetailResponse(
         addPartSiteInformationAsPlannedToOwnPartsAsPlanned(otherParts, isPartSiteInformationAsPlanned);
         log.info(":: mapToOtherPartsAsPlanned()");
         log.info(":: otherParts: {}", otherParts);
+
+        String ownerBpn = jobStatus.parameter().bpn();
+
         final List<AssetBase> assets = otherParts
                 .stream()
-                .map(semanticDataModel -> semanticDataModel.toDomainAsPlanned(shortIds, owner, bpnMapping,
+                .map(semanticDataModel -> semanticDataModel.toDomainAsPlanned(
+                        shortIds,
+                        owner,
+                        bpnMapping,
                         Collections.emptyList(),
-                        Collections.emptyList()))
+                        Collections.emptyList(),
+                        ownerBpn))
                 .toList();
         log.info(":: mapped assets: {}", assets);
         return assets;
@@ -212,11 +219,17 @@ public record JobDetailResponse(
                 .filter(relationship -> SINGLE_LEVEL_BOM_AS_PLANNED.equals(relationship.aspectType().getAspectName()))
                 .collect(Collectors.groupingBy(Relationship::catenaXId, Collectors.toList()));
 
+        String ownerBpn = jobStatus.parameter().bpn();
+
         final List<AssetBase> assets = ownPartsAsPlanned
                 .stream()
-                .map(semanticDataModel -> semanticDataModel.toDomainAsPlanned(shortIds, Owner.OWN, bpnMapping,
+                .map(semanticDataModel -> semanticDataModel.toDomainAsPlanned(
+                        shortIds,
+                        Owner.OWN,
+                        bpnMapping,
                         Collections.emptyList(),
-                        getChildParts(singleLevelBomRelationship, shortIds, semanticDataModel.catenaXId())))
+                        getChildParts(singleLevelBomRelationship, shortIds, semanticDataModel.catenaXId()),
+                        ownerBpn))
                 .toList();
         log.info(":: mapped assets: {}", assets);
         return assets;

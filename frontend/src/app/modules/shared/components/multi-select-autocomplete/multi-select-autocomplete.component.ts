@@ -97,7 +97,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
 
   @ViewChild('selectElem', { static: true }) selectElem: any;
 
-  filteredOptions: Array<any> = [];
   selectedValue: Array<any> = [];
   selectAllChecked = false;
 
@@ -137,23 +136,24 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
 
   }
 
-  toggleSelectAll = function(selectCheckbox: any): void {
-
+  toggleSelectAll(selectCheckbox: any): void {
     if (selectCheckbox.checked) {
       // if there are no suggestion but the selectAll checkbox was checked
-      if (!this.filteredOptions.length) {
+      if (!this.searchedOptions.length) {
         this.formControl.patchValue(this.searchElement);
         this.selectedValue = this.searchElement as unknown as [];
       } else {
-        this.filteredOptions.forEach(option => {
+        this.searchedOptions.forEach(option => {
           if (!this.selectedValue.includes(option[this.value])) {
             this.selectedValue = this.selectedValue.concat([ option[this.value] ]);
           }
         });
       }
+      this.updateOptionsAndSelections();
 
     } else {
       this.selectedValue = [];
+      this.updateOptionsAndSelections();
     }
     this.formControl.patchValue(this.selectedValue);
   };
@@ -196,7 +196,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     }
 
     if (!value) {
-      this.filteredOptions = [];
+      this.searchedOptions = [];
       return;
     }
 
@@ -261,13 +261,13 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
             this.options = this.searchedOptions;
             // @ts-ignore
             this.allOptions = res.map(option => ({ display: option, value: option }));
+            this.handleAllSelectedCheckbox();
           }
 
-          this.filteredOptions = this.searchedOptions;
-          this.suggestionError = !this.filteredOptions?.length;
+          this.suggestionError = !this.searchedOptions?.length;
         }).catch((error) => {
           console.error('Error fetching data: ', error);
-          this.suggestionError = !this.filteredOptions.length;
+          this.suggestionError = !this.searchedOptions.length;
         }).finally(() => {
           this.delayTimeoutId = null;
           this.isLoadingSuggestions = false;
@@ -286,18 +286,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     return fieldName === 'activeAlerts' || fieldName === 'activeInvestigations';
   }
 
-
-  // Returns plain strings array of filtered values
-  getFilteredOptionsValues(): string[] {
-    const filteredValues = [];
-    this.filteredOptions.forEach(option => {
-      if (option.length) {
-        filteredValues.push(option.value);
-      }
-    });
-    return filteredValues;
-  }
-
   startDateSelected(event: MatDatepickerInputEvent<Date>) {
     this.startDate = event.value;
     this.searchElement = this.datePipe.transform(this.startDate, 'yyyy-MM-dd');
@@ -312,15 +300,20 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   }
 
   clickClear(): void {
+    this.selectAllChecked = false;
     this.formControl.patchValue('');
     this.formControl.reset();
     this.searchElement = '';
 
     this.startDate = null;
     this.endDate = null;
-    this.filteredOptions = [];
-    this.updateOptionsAndSelections();
+    this.searchedOptions = [];
+    this.allOptions = [];
+    this.optionsSelected = [];
+    this.options = [];
     this.selectedValue = [];
+    this.suggestionError = false;
+    this.updateOptionsAndSelections();
   }
 
   private updateOptionsAndSelections() {
@@ -343,26 +336,25 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
       filter.push({ display: selected, value: selected });
     }
     this.optionsSelected = filter;
+    this.handleAllSelectedCheckbox();
   }
 
   dateFilter() {
     this.formControl.patchValue(this.searchElement);
   }
 
-
   onSelectionChange(matSelectChange: MatSelectChange) {
-
-    const filteredValues = this.getFilteredOptionsValues();
-    const selectedCount = this.selectedValue.filter(item => filteredValues.includes(item)).length;
-    this.selectAllChecked = selectedCount === this.filteredOptions.length;
-
     this.selectedValue = matSelectChange.value;
     this.formControl.patchValue(matSelectChange.value);
     this.updateOptionsAndSelections();
   }
 
-  // Owner / channel by parttable type
-  // TODO 2. make tableType dependend on channel of notifications switch case with notifications (PartTableType extend with notification table types)
+  private handleAllSelectedCheckbox() {
+    const noSelectedValues = this.selectedValue?.length === 0;
+    const oneOptionSelected = this.optionsSelected?.length === 1 && this.allOptions?.length === 0;
+    this.selectAllChecked = noSelectedValues ? false : oneOptionSelected || this.allOptions?.length + this.optionsSelected?.length === this.selectedValue?.length;
+  }
+
   getOwnerOfTable(partTableType: PartTableType): Owner {
     if (partTableType === PartTableType.AS_BUILT_OWN || partTableType === PartTableType.AS_PLANNED_OWN) {
       return Owner.OWN;
