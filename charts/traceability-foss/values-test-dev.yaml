@@ -20,12 +20,265 @@
 #
 
 #########################
-# Global Values configuration     #
-#########################
-
-#########################
 # Frontend Chart Values configuration     #
 #########################
 frontend:
-  nameOverride: "tx-frontend-test-3"
-  fullnameOverride: "tx-frontend-test-3"
+  image:
+    repository: ghcr.io/catenax-ng/tx-traceability-foss
+    tag: $ARGOCD_APP_REVISION
+    CATENAX_PORTAL_API_URL: '<path:traceability-foss/data/test/frontend#catenax_portal_api_url>'
+    CATENAX_PORTAL_KEYCLOAK_URL: '<path:traceability-foss/data/test/frontend#catenax_portal_keycloak_url>'
+    CATENAX_PORTAL_BACKEND_DOMAIN: '<path:traceability-foss/data/test/frontend#catenax_portal_backend_domain>'
+    CATENAX_PORTAL_URL: '<path:traceability-foss/data/test/frontend#catenax_portal_url>'
+    CATENAX_PORTAL_CLIENT_ID: '<path:traceability-foss/data/test/frontend#catenax_portal_client_id>'
+
+  ingress:
+    hosts:
+      - host: "traceability-portal-test.dev.demo.catena-x.net"
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls:
+      - hosts:
+          - "traceability-portal-test.dev.demo.catena-x.net"
+        secretName: "traceability-portal-test.dev.demo.catena-x.net-tls"
+
+#########################
+# Backend Chart Values configuration     #
+#########################
+backend:
+  image:
+    repository: ghcr.io/catenax-ng/tx-traceability-foss
+    tag: $ARGOCD_APP_REVISION
+
+  nameOverride: "tx-backend-test"
+  fullnameOverride: "tx-backend-test"
+
+
+  springprofile: dev
+
+  ingress:
+    hosts:
+      - host: "traceability-test.dev.demo.catena-x.net"
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls:
+      - hosts:
+          - "traceability-test.dev.demo.catena-x.net"
+        secretName: tls-secret
+
+  traceability:
+    bpn: "BPNL00000003CNKC"
+    url: "https://traceability-test.dev.demo.catena-x.net"
+
+  datasource:
+    url: jdbc:postgresql://tx-backend-postgresql-test-hl:5432/trace
+    username: trace
+    password: <path:traceability-foss/data/dev/database#tracePassword>
+
+  oauth2:
+    clientId: <path:traceability-foss/data/int/keycloak/oauth2#clientId>
+    clientSecret: <path:traceability-foss/data/int/keycloak/oauth2#clientSecret>
+    clientTokenUri: "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
+    jwkSetUri: "https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs"
+    resourceClient: "Cl17-CX-Part"
+
+  edc:
+    apiKey: "<path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>"
+    providerUrl: "https://tx-edc-consumer-test-controlplane.dev.demo.catena-x.net"
+    callbackUrl: "http://tx-irs-test:8181/internal/endpoint-data-reference"
+    callbackUrlEdcClient: "https://traceability-test.dev.demo.catena-x.net/api/internal/endpoint-data-reference"
+    dataEndpointUrl: "https://tx-edc-consumer-test-controlplane.dev.demo.catena-x.net/management"
+
+  discoveryfinder:
+    baseUrl: "https://tracex-discovery-mock-test.dev.demo.catena-x.net/api/v1.0/administration/connectors/discovery/search"
+
+  irs:
+    baseUrl: "https://tx-irs-test.dev.demo.catena-x.net"
+  registry:
+    urlWithPath: "https://trace-x-registry-test.dev.demo.catena-x.net/semantics/registry/api/v3.0"
+  portal:
+    baseUrl: "https://portal-backend.dev.demo.catena-x.net/api"
+
+  config:
+    allowedCorsOriginFirst: "http://localhost:4200/"
+    allowedCorsOriginSecond: "https://traceability-portal-test.dev.demo.catena-x.net/"
+
+  dependencies:
+    irs: "tx-irs-test"  # <irs-helm.nameOverride>
+    edc: "tx-edc-consumer-test"  # <tractusx-connector.nameOverride
+
+#########################
+# PG Admin configuration     #
+#########################
+pgadmin4:
+  nameOverride: "tx-pgadmin-test"
+  fullnameOverride: "tx-pgadmin-test"
+  ingress:
+    hosts:
+      - host: tx-pgadmin-test.dev.demo.catena-x.net
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - hosts:
+          - tx-pgadmin-test.dev.demo.catena-x.net
+        secretName: tls-secret
+  env:
+    password: "<path:traceability-foss/data/dev/database#pgadminPassword>"
+
+#########################
+# Postgres configuration     #
+#########################
+postgresql:
+  nameOverride: "tx-backend-postgresql-test"
+  fullnameOverride: "tx-backend-postgresql-test"
+
+  auth:
+    postgresPassword: "<path:traceability-foss/data/dev/database#postgresPassword>"
+    password: "<path:traceability-foss/data/dev/database#tracePassword>"
+
+#########################
+# IRS configuration     #
+#########################
+irs-helm:
+  bpn: BPNL00000003CML1
+
+  nameOverride: "tx-irs-test"
+  fullnameOverride: "tx-irs-test"
+  namespace: product-traceability-foss
+  springprofile: dev
+  irsUrl: "https://tx-irs-test.dev.demo.catena-x.net"
+  ingress:
+    hosts:
+      - host: "tx-irs-test.dev.demo.catena-x.net"
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls:
+      - hosts:
+          - "tx-irs-test.dev.demo.catena-x.net"
+        secretName: tls-secret
+  digitalTwinRegistry:
+    descriptorEndpoint: https://trace-x-registry-test.dev.demo.catena-x.net/semantics/registry/api/v3.0/shell-descriptors/{aasIdentifier}
+    shellLookupEndpoint: https://trace-x-registry-test.dev.demo.catena-x.net/semantics/registry/api/v3.0/lookup/shells?assetIds={assetIds}
+    discoveryFinderUrl: https://tracex-discovery-mock-test.dev.demo.catena-x.net/irs/api/v1.0/administration/connectors/discovery/search
+  semanticshub:
+    url: https://semantics.int.demo.catena-x.net/hub/api/v1/models
+  bpdm:
+    url: https://partners-pool.int.demo.catena-x.net
+
+  minioUser: <path:traceability-foss/data/dev/minio#user>
+  minioPassword: <path:traceability-foss/data/dev/minio#password>
+  minioUrl: http://tx-irs-minio-test:9000
+
+  keycloak:
+    oauth2:
+      clientId: <path:traceability-foss/data/int/keycloak/oauth2#clientId>
+      clientSecret: <path:traceability-foss/data/int/keycloak/oauth2#clientSecret>
+      clientTokenUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
+      jwkSetUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
+
+  edc:
+    callbackurl: http://tx-irs-test:8181/internal/endpoint-data-reference
+    controlplane:
+      endpoint:
+        data: https://tx-edc-consumer-test-controlplane.dev.demo.catena-x.net/management
+      apikey:
+        secret: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
+
+  minio:
+    nameOverride: "tx-irs-minio-test"
+    fullnameOverride: "tx-irs-minio-test"
+    rootUser: <path:traceability-foss/data/dev/minio#user>
+    rootPassword: <path:traceability-foss/data/dev/minio#password>
+
+
+###################################
+# EDC Consumer configuration  #
+###################################
+tractusx-connector:
+  nameOverride: "tx-edc-consumer-test"
+  fullnameOverride: "tx-edc-consumer-test"
+  participant:
+    id: BPNL00000003CML1
+
+  controlplane:
+    ingresses:
+      - enabled: true
+        hostname: "tx-edc-consumer-test-controlplane.dev.demo.catena-x.net"
+        annotations:
+          nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+        endpoints:
+          - protocol
+          - management
+        tls:
+          enabled: true
+          secretName: tls-secret
+    ssi:
+      miw:
+        url: <path:traceability-foss/data/dev/edc/wallet#ssi.miw.url>
+        authorityId: <path:traceability-foss/data/dev/edc/wallet#ssi.miw.authorityId>
+      oauth:
+        tokenurl: <path:traceability-foss/data/dev/edc/wallet#ssi.oauth.tokenurl>
+        client:
+          id: <path:traceability-foss/data/dev/edc/wallet#ssi.oauth.client.id>
+          secretAlias: edc-miw-keycloak-secret
+
+  dataplane:
+    ingresses:
+      - enabled: true
+        hostname: "tx-edc-consumer-test-dataplane.dev.demo.catena-x.net"
+        annotations:
+          nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+        endpoints:
+          - public
+        className: "nginx"
+        tls:
+          enabled: true
+          secretName: tls-secret
+
+  ## currently we need to provide a url but is not used anywhere
+  # URL where the EndpointDataReference callback will be sent to
+  backendService:
+    httpProxyTokenReceiverUrl: "https://traceability-test.dev.demo.catena-x.net/api/callback/endpoint-data-reference"
+
+  ################################
+  # EDC Vault Configuration #
+  ################################
+  vault:
+    hashicorp:
+      url: "https://vault.demo.catena-x.net"
+      token: "<path:traceability-foss/data/dev/edc#edc.vault.hashicorp.token>"
+    secretNames:
+      transferProxyTokenSignerPrivateKey: daps-cert-edc-test-consumer-private
+      transferProxyTokenSignerPublicKey: daps-cert-edc-test-consumer-public
+      transferProxyTokenEncryptionAesKey: token-signer-aes-key
+
+
+  ##################################
+  # EDC Postgres Configuration #
+  ##################################
+  postgresql:
+    auth:
+      username: "<path:traceability-foss/data/dev/edc/database#user>"
+      password: "<path:traceability-foss/data/dev/edc/database#password>"
+    username: "<path:traceability-foss/data/dev/edc/database#user>"
+    password: "<path:traceability-foss/data/dev/edc/database#password>"
+    jdbcUrl: "jdbc:postgresql://tx-edc-consumer-postgresql-test-hl:5432/edc"
+
+###################################
+# EDC Postgres Configuration #
+###################################
+edc-postgresql:
+  nameOverride: "tx-edc-consumer-postgresql-test"
+  fullnameOverride: "tx-edc-consumer-postgresql-test"
+  auth:
+    username: <path:traceability-foss/data/dev/edc/database#user>
+    postgresPassword: <path:traceability-foss/data/dev/edc/database#password>
+    password: <path:traceability-foss/data/dev/edc/database#password>
