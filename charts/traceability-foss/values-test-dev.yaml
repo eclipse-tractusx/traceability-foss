@@ -24,6 +24,7 @@ configuration:
   frontend:
     name: &fe_name 'tx-frontend-test'
     hostName: &fe_host_name 'traceability-portal-test.dev.demo.catena-x.net'
+    backendApiUrl: &be_api_url '<path:traceability-foss/data/test/frontend#catenax_portal_api_url>'
   backend:
     name: &backend_name 'tx-backend-test'
   backendDatabase:
@@ -50,7 +51,7 @@ frontend:
   nameOverride: *fe_name
   fullnameOverride: *fe_name
   image:
-    CATENAX_PORTAL_API_URL: '<path:traceability-foss/data/test/frontend#catenax_portal_api_url>'
+    CATENAX_PORTAL_API_URL: *be_api_url
     CATENAX_PORTAL_KEYCLOAK_URL: '<path:traceability-foss/data/test/frontend#catenax_portal_keycloak_url>'
     CATENAX_PORTAL_BACKEND_DOMAIN: '<path:traceability-foss/data/test/frontend#catenax_portal_backend_domain>'
     CATENAX_PORTAL_URL: '<path:traceability-foss/data/test/frontend#catenax_portal_url>'
