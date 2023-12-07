@@ -70,7 +70,6 @@ backend:
 
   datasource:
     url: jdbc:postgresql://tx-backend-postgresql-test-hl:5432/trace
-    username: trace
     password: <path:traceability-foss/data/dev/database#tracePassword>
 
   oauth2:
@@ -102,8 +101,8 @@ backend:
     allowedCorsOriginSecond: "https://traceability-portal-test.dev.demo.catena-x.net/"
 
   dependencies:
-    irs: "tx-irs-test"  # <irs-helm.nameOverride>
-    edc: "tx-edc-consumer-test"  # <tractusx-connector.nameOverride
+    irs: "tx-irs-test"
+    edc: "tx-edc-consumer-test"
 
 #########################
 # PG Admin configuration     #
