@@ -19,7 +19,7 @@
 #  SPDX-License-Identifier: Apache-2.0
 #
 overrides:
-  frontent: &fe_name_override 'CHANGE_ME'
+  frontent:  'CHANGE_ME'
 
 
 #########################
@@ -33,8 +33,8 @@ global:
 # Frontend Chart Values configuration     #
 #########################
 frontend:
-  nameOverride: *fe_name_override
-  fullnameOverride: *fe_name_override
+  nameOverride: 'CHANGE_ME'
+  fullnameOverride: 'CHANGE_ME'
   livenessProbe:
     failureThreshold: 3
     initialDelaySeconds: 60

@@ -19,12 +19,14 @@
 #  SPDX-License-Identifier: Apache-2.0
 #
 overrides:
-  frontent: 'tx-frontend-test'
+  frontent: &fe_name_override 'tx-frontend-test'
 
 #########################
 # Frontend Chart Values configuration     #
 #########################
 frontend:
+  nameOverride: *fe_name_override
+  fullnameOverride: *fe_name_override
   image:
     CATENAX_PORTAL_API_URL: '<path:traceability-foss/data/test/frontend#catenax_portal_api_url>'
     CATENAX_PORTAL_KEYCLOAK_URL: '<path:traceability-foss/data/test/frontend#catenax_portal_keycloak_url>'
