@@ -23,6 +23,7 @@ import { QualityInvestigationsPage } from '../../integration/pages/QualityInvest
 
 let notificationDescription = null;
 let desiredSemanticModelId = null;
+let desiredId = null;
 
 Then("select other part with semantic-model-id {string}", function(semanticModelId) {
 //since IDs of desired asset are not shown in FE the selection has to be done by other number.
@@ -31,7 +32,7 @@ Then("select other part with semantic-model-id {string}", function(semanticModel
 });
 
 Then("select part with id {string}", function(id) {
-//   desiredSemanticModelId = semanticModelId;
+  desiredId = id;
   cy.get('span').contains(id).closest('tr').find('.mdc-checkbox').click();
 });
 
@@ -82,9 +83,8 @@ When("request the {string}", function(notificationType) {
 });
 
 
-Then("selected parts are marked as investigated", () => {
-  //cy.get('span').contains(desiredSemanticModelId).closest('tr')               .find('.mdc-checkbox').click();
-  //---TBD--- to check the desired assets, have to be adjusted with desired asset selection
+Then("selected parts are marked as {string}", () => {
+  cy.get('span').contains(desiredId).closest('tr').should('have.class', "highlighted");
 });
 
 
