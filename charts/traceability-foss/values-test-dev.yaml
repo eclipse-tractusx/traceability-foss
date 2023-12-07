@@ -23,6 +23,7 @@ configuration:
     bpn: &bpn 'BPNL00000003CML1'
   frontend:
     name: &fe_name 'tx-frontend-test'
+    hostName: &fe_host_name 'traceability-portal-test.dev.demo.catena-x.net'
   backend:
     name: &backend_name 'tx-backend-test'
   backendDatabase:
@@ -57,14 +58,14 @@ frontend:
 
   ingress:
     hosts:
-      - host: "traceability-portal-test.dev.demo.catena-x.net"
+      - host: *fe_host_name
         paths:
           - path: /
             pathType: ImplementationSpecific
     tls:
       - hosts:
-          - "traceability-portal-test.dev.demo.catena-x.net"
-        secretName: "traceability-portal-test.dev.demo.catena-x.net-tls"
+          - *fe_host_name
+        secretName: *fe_host_name
 
 #########################
 # Backend Chart Values configuration     #
