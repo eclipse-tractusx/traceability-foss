@@ -31,10 +31,15 @@ configuration:
     name: &pgadmin_name 'tx-pgadmin-test'
   irs:
     name: &irs_name 'tx-irs-test'
+  irsDatabase:
+    name: &irs_database_name 'tx-irs-minio-test'
   edc:
     name: &edc_name 'tx-edc-consumer-test'
   edcDatabase:
     name: &edc_database_name 'tx-edc-consumer-postgresql-test'
+    username: &edc_database_username <path:traceability-foss/data/dev/edc/database#user>
+    password: &edc_database_password <path:traceability-foss/data/dev/edc/database#password>
+    jdbcUrl: &edc_database_jdbc_url "jdbc:postgresql://tx-edc-consumer-postgresql-test-hl:5432/edc"
 
 
 #########################
@@ -200,8 +205,8 @@ irs-helm:
         secret: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
 
   minio:
-    nameOverride: "tx-irs-minio-test"
-    fullnameOverride: "tx-irs-minio-test"
+    nameOverride: *irs_database_name
+    fullnameOverride: *irs_database_name
     rootUser: <path:traceability-foss/data/dev/minio#user>
     rootPassword: <path:traceability-foss/data/dev/minio#password>
 
@@ -277,11 +282,11 @@ tractusx-connector:
   ##################################
   postgresql:
     auth:
-      username: "<path:traceability-foss/data/dev/edc/database#user>"
-      password: "<path:traceability-foss/data/dev/edc/database#password>"
-    username: "<path:traceability-foss/data/dev/edc/database#user>"
-    password: "<path:traceability-foss/data/dev/edc/database#password>"
-    jdbcUrl: "jdbc:postgresql://tx-edc-consumer-postgresql-test-hl:5432/edc"
+      username: *edc_database_username
+      password: *edc_database_password
+    username: *edc_database_username
+    password: *edc_database_password
+    jdbcUrl: *edc_database_jdbc_url
 
 ###################################
 # EDC Postgres Configuration #
@@ -290,6 +295,6 @@ edc-postgresql:
   nameOverride: *edc_database_name
   fullnameOverride: *edc_database_name
   auth:
-    username: <path:traceability-foss/data/dev/edc/database#user>
-    postgresPassword: <path:traceability-foss/data/dev/edc/database#password>
-    password: <path:traceability-foss/data/dev/edc/database#password>
+    username: *edc_database_username
+    postgresPassword: *edc_database_password
+    password: *edc_database_password
