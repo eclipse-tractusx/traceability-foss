@@ -20,7 +20,7 @@
 #
 configuration:
   env:
-    bpn: &bpn 'BPNL00000003CML1'
+    bpn: &bpn 'BPNL00000003CNKC'
 
   frontend:
     name: &fe_name 'tx-frontend-test'
