@@ -42,7 +42,6 @@ describe('MultiSelectAutocompleteComponent', () => {
     componentInstance.selectedValue = [ 'initialValue' ];
     componentInstance.startDate = new Date('2022-02-04');
     componentInstance.endDate = new Date('2022-02-04');
-    componentInstance.filteredOptions = [ 'test' ];
     componentInstance.searchedOptions = [];
     componentInstance.allOptions = [];
 
@@ -51,7 +50,6 @@ describe('MultiSelectAutocompleteComponent', () => {
     // Assert
     expect(componentInstance.searchElement).toBe('');
     expect(componentInstance.selectedValue).toEqual([]);
-    expect(componentInstance.filteredOptions).toEqual([]);
   });
 
   it('should return correct display string when textSearch is true', async () => {
@@ -123,7 +121,7 @@ describe('MultiSelectAutocompleteComponent', () => {
     const { fixture } = await renderMultiSelectAutoCompleteComponent();
     const { componentInstance } = fixture;
 
-    componentInstance.filteredOptions = [
+    componentInstance.searchedOptions = [
       { value: 'value1', display: 'Display1' },
       { value: 'value2', display: 'Display2' },
       { value: 'value3', display: 'Display3' },
@@ -143,7 +141,7 @@ describe('MultiSelectAutocompleteComponent', () => {
     const { fixture } = await renderMultiSelectAutoCompleteComponent();
     const { componentInstance } = fixture;
 
-    componentInstance.filteredOptions = [
+    componentInstance.searchedOptions = [
       { value: 'value1', display: 'Display1' },
       { value: 'value2', display: 'Display2' },
       { value: 'value3', display: 'Display3' },
@@ -290,9 +288,10 @@ describe('MultiSelectAutocompleteComponent', () => {
     const { componentInstance } = fixture;
 
     componentInstance.searchElement = '';
+    componentInstance.searchedOptions = [];
     componentInstance.filterItem('');
 
-    const option = componentInstance.filteredOptions;
+    const option = componentInstance.searchedOptions;
     expect(option).toEqual([]);
   });
 
@@ -303,7 +302,7 @@ describe('MultiSelectAutocompleteComponent', () => {
     componentInstance.searchElement = 'test';
     componentInstance.filterItem(undefined);
 
-    const option = componentInstance.filteredOptions;
+    const option = componentInstance.searchedOptions;
     expect(option).toEqual([]);
   });
 
