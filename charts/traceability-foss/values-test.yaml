@@ -51,9 +51,6 @@ frontend:
     CATENAX_PORTAL_URL: '<path:traceability-foss/data/test/frontend#catenax_portal_url>'
     CATENAX_PORTAL_CLIENT_ID: '<path:traceability-foss/data/test/frontend#catenax_portal_client_id>'
 
-  nameOverride: "tx-frontend-test"
-  fullnameOverride: "tx-frontend-test"
-
   ingress:
     enabled: true
     className: "nginx"
