@@ -45,6 +45,8 @@ SPDX-License-Identifier: Apache-2.0
       [multiSortList]="receivedMultiSortList"
       (tableConfigChanged)="onReceivedTableConfigChanged.emit($event)"
       (selected)="selected.emit($event)"
+      (investigationsFilterChanged)="handleEvent($event)"
+      (alertsFilterChanged)="alertFilterChanged.emit($event)"
     ></app-notifications-tab>
   </mat-tab>
 
@@ -66,6 +68,8 @@ SPDX-License-Identifier: Apache-2.0
       [sortableColumns]="queuedAndRequestedSortableColumns"
       [multiSortList]="queuedAndRequestedMultiSortList"
       (tableConfigChanged)="onQueuedAndRequestedTableConfigChanged.emit($event)"
+      (investigationsFilterChanged)="investigationFilterChanged.emit($event)"
+      (alertsFilterChanged)="alertFilterChanged.emit($event)"
       (selected)="selected.emit($event)"
     ></app-notifications-tab>
   </mat-tab>

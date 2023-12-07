@@ -25,22 +25,21 @@ import { getRoute, INVESTIGATION_BASE_ROUTE } from '@core/known-route';
 import { InvestigationDetailFacade } from '@page/investigations/core/investigation-detail.facade';
 import { InvestigationHelperService } from '@page/investigations/core/investigation-helper.service';
 import { NotificationMenuActionsAssembler } from '@shared/assembler/notificationMenuActions.assembler';
-import {
-  NotificationCommonModalComponent,
-} from '@shared/components/notification-common-modal/notification-common-modal.component';
+import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
 import { TableSortingUtil } from '@shared/components/table/table-sorting.util';
 import { MenuActionConfig, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
+import { createDeeplinkNotificationFilter } from '@shared/helper/notification-helper';
 import { NotificationTabInformation } from '@shared/model/notification-tab-information';
 import { Notification, NotificationStatusGroup, NotificationType } from '@shared/model/notification.model';
 import { TranslationContext } from '@shared/model/translation-context.model';
 import { Subscription } from 'rxjs';
 import { InvestigationsFacade } from '../core/investigations.facade';
-import { createDeeplinkNotificationFilter } from '@shared/helper/notification-helper';
 
 @Component({
   selector: 'app-investigations',
   templateUrl: './investigations.component.html',
 })
+
 export class InvestigationsComponent {
   @ViewChild(NotificationCommonModalComponent) notificationCommonModalComponent: NotificationCommonModalComponent;
 
@@ -81,7 +80,7 @@ export class InvestigationsComponent {
     this.paramSubscription = this.route.queryParams.subscribe(params => {
       this.pagination.page = params?.pageNumber ? params.pageNumber : 0;
       let deeplinkNotificationFilter = createDeeplinkNotificationFilter(params);
-      this.investigationsFacade.setReceivedInvestigation(this.pagination.page, this.pagination.pageSize, this.investigationReceivedSortList, deeplinkNotificationFilter?.receivedFilter);
+      this.investigationsFacade.setReceivedInvestigation(this.pagination.page, this.pagination.pageSize, this.investigationReceivedSortList, deeplinkNotificationFilter?.receivedFilter /*Filter */);
       this.investigationsFacade.setQueuedAndRequestedInvestigations(this.pagination.page, this.pagination.pageSize, this.investigationQueuedAndRequestedSortList, deeplinkNotificationFilter?.sentFilter);
     });
   }
@@ -128,4 +127,15 @@ export class InvestigationsComponent {
 
   protected readonly TranslationContext = TranslationContext;
   protected readonly NotificationType = NotificationType;
+
+  filterNotifications(filterContext: any) {
+    console.log("filtering", filterContext)
+    if(filterContext.channel === 'RECEIVER') {
+      this.investigationsFacade.setReceivedInvestigation(this.pagination.page, this.pagination.pageSize, this.investigationReceivedSortList, null, filterContext.filter /*Filter */);
+
+    } else {
+      this.investigationsFacade.setQueuedAndRequestedInvestigations(this.pagination.page, this.pagination.pageSize, this.investigationQueuedAndRequestedSortList, null, filterContext.filter);
+
+    }
+  }
 }

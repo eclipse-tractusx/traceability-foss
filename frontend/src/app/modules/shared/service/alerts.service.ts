@@ -24,10 +24,13 @@ import { Injectable } from '@angular/core';
 import { ApiService } from '@core/api/api.service';
 import { environment } from '@env';
 import { NotificationAssembler } from '@shared/assembler/notification.assembler';
+import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { TableHeaderSort } from '@shared/components/table/table.model';
+import { enrichDeeplinkFilterAndGetUpdatedParams } from '@shared/helper/filter-helper';
 import { Severity } from '@shared/model/severity.model';
 import type { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { NotificationFilter } from '../../../mocks/services/investigations-mock/investigations.model';
 import {
   Notification,
   NotificationCreateResponse,
@@ -37,8 +40,6 @@ import {
   NotificationStatus,
   NotificationType,
 } from '../model/notification.model';
-import { NotificationFilter } from '../../../mocks/services/investigations-mock/investigations.model';
-import { enrichDeeplinkFilterAndGetUpdatedParams } from '@shared/helper/filter-helper';
 
 @Injectable({
   providedIn: 'root',
@@ -118,5 +119,18 @@ export class AlertsService {
   ): Observable<void> {
     const body = { reason, status };
     return this.apiService.post<void>(`${ this.url }/alerts/${ id }/update`, body);
+  }
+
+  public getDistinctFilterValues(channel: string, fieldNames: string, startsWith: string) {
+    const mappedFieldName = PartsAssembler.mapFieldNameToApi(fieldNames);
+    let params = new HttpParams()
+      .set('fieldName', mappedFieldName)
+      .set('startWith', startsWith)
+      .set('size', 200)
+      .set('channel', channel);
+
+    return this.apiService
+      .getBy<any>(`${ this.url }/alerts/distinctFilterValues`, params);
+
   }
 }

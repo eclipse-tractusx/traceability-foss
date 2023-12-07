@@ -28,12 +28,14 @@ SPDX-License-Identifier: Apache-2.0
     [additionalTableHeader]="true"
     [tableHeader]="(notificationType === NotificationType.INVESTIGATION) ? ('pageTitle.investigations') : ('pageTitle.alerts')"
     [tableConfig]="tableConfig"
+    [notificationType]="notificationType"
     [noShadow]="true"
     [labelId]="labelId"
     [showHover]="false"
     [multiSortList]="multiSortList"
     (selected)="selectNotification($event)"
     (configChanged)="onTableConfigChange($event)"
+    (filterActivated)="filterActivated(notificationType, $event )"
   ></app-table>
 </ng-template>
 

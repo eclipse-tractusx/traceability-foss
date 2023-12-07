@@ -26,8 +26,12 @@ import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MatSelectChange } from '@angular/material/select';
 import { Owner } from '@page/parts/model/owner.enum';
+import { TableContentType } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.model';
 import { PartTableType } from '@shared/components/table/table.model';
+import { NotificationType } from '@shared/model/notification.model';
 import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
+import { AlertsService } from '@shared/service/alerts.service';
+import { InvestigationsService } from '@shared/service/investigations.service';
 import { PartsService } from '@shared/service/parts.service';
 import { firstValueFrom } from 'rxjs';
 
@@ -75,10 +79,13 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   filterColumn = null;
 
   @Input()
+  notificationType: NotificationType = null;
+
+  @Input()
   partTableType = PartTableType.AS_BUILT_OWN;
 
   @Input()
-  isAsBuilt: boolean;
+  isAsBuilt: boolean = true;
 
   public readonly minDate = new Date();
 
@@ -104,9 +111,13 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   isLoadingSuggestions: boolean;
 
   constructor(public datePipe: DatePipe, public _adapter: DateAdapter<any>,
-              @Inject(MAT_DATE_LOCALE) public _locale: string, @Inject(LOCALE_ID) private locale: string, public partsService: PartsService, private readonly formatPartSemanticDataModelToCamelCasePipe: FormatPartSemanticDataModelToCamelCasePipe) {
+              @Inject(MAT_DATE_LOCALE) public _locale: string, @Inject(LOCALE_ID) private locale: string, public partsService: PartsService,
+              public investigationsService: InvestigationsService, public alertsService: AlertsService,
+              private readonly formatPartSemanticDataModelToCamelCasePipe: FormatPartSemanticDataModelToCamelCasePipe) {
     registerLocaleData(localeDe, 'de', localeDeExtra);
     this._adapter.setLocale(locale);
+
+    console.log(this.isDate);
   }
 
   ngOnInit(): void {
@@ -123,6 +134,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   ngOnChanges(): void {
     this.selectedValue = this.formControl.value;
     this.formControl.patchValue(this.selectedValue);
+
   }
 
   toggleSelectAll = function(selectCheckbox: any): void {
@@ -200,25 +212,42 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     }
 
     // if there is no timeout currently, start the delay
-    const timeoutCallback = (): void => {
+    const timeoutCallback = async (): Promise<void> => {
       this.isLoadingSuggestions = true;
+      let newSuggestions = null;
+
       const tableOwner = this.getOwnerOfTable(this.partTableType);
 
-      try {
-        firstValueFrom(this.partsService.getDistinctFilterValues(
+
+      if (this.getContentTypeOfTable(this.partTableType) === TableContentType.NOTIFICATION) {
+        console.log("channel")
+        const notificationChannel = this.getChannelOfTable(this.partTableType);
+        if (this.notificationType === NotificationType.INVESTIGATION) {
+          newSuggestions = this.investigationsService.getDistinctFilterValues( notificationChannel, this.filterColumn, this.searchElement);
+        } else {
+          newSuggestions = this.alertsService.getDistinctFilterValues(notificationChannel, this.filterColumn, this.searchElement);
+        }
+      } else {
+        newSuggestions = this.partsService.getDistinctFilterValues(
           this.isAsBuilt,
           tableOwner,
           this.filterColumn,
           this.searchElement,
-        )).then((res) => {
+        );
+      }
+
+
+      try {
+        firstValueFrom(newSuggestions).then((res) => {
           if (this.filterColumn === 'semanticDataModel') {
-            this.searchedOptions = res
-              .filter(option => !this.selectedValue.includes(option))
+            // @ts-ignore
+            this.searchedOptions = res.filter(option => !this.selectedValue.includes(option))
               .map(option => ({
                 display: this.formatPartSemanticDataModelToCamelCasePipe.transformModel(option),
                 value: option,
               }));
             this.options = this.searchedOptions;
+            // @ts-ignore
             this.allOptions = res.map(option => ({
               display: this.formatPartSemanticDataModelToCamelCasePipe.transformModel(option),
               value: option,
@@ -226,10 +255,11 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
 
           } else {
             // add filter for not selected
-            this.searchedOptions = res
-              .filter(option => !this.selectedValue.includes(option))
+            // @ts-ignore
+            this.searchedOptions = res.filter(option => !this.selectedValue.includes(option))
               .map(option => ({ display: option, value: option }));
             this.options = this.searchedOptions;
+            // @ts-ignore
             this.allOptions = res.map(option => ({ display: option, value: option }));
           }
 
@@ -331,6 +361,8 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     this.updateOptionsAndSelections();
   }
 
+  // Owner / channel by parttable type
+  // TODO 2. make tableType dependend on channel of notifications switch case with notifications (PartTableType extend with notification table types)
   getOwnerOfTable(partTableType: PartTableType): Owner {
     if (partTableType === PartTableType.AS_BUILT_OWN || partTableType === PartTableType.AS_PLANNED_OWN) {
       return Owner.OWN;
@@ -343,9 +375,38 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     }
   }
 
+  getChannelOfTable(partTableType: PartTableType): string {
+    console.log(partTableType);
+    if (this.getContentTypeOfTable(partTableType) === TableContentType.PART) {
+      return;
+    }
+
+    if (partTableType === PartTableType.CREATED_ALERT || partTableType === PartTableType.CREATED_INVESTIGATION) {
+      return 'SENDER';
+    } else {
+      return 'RECEIVER';
+    }
+
+  }
+
+  getContentTypeOfTable(partTableType: PartTableType): TableContentType {
+    switch (partTableType) {
+      case PartTableType.RECEIVED_INVESTIGATION:
+      case PartTableType.CREATED_INVESTIGATION:
+      case PartTableType.RECEIVED_ALERT:
+      case PartTableType.CREATED_ALERT:
+        return TableContentType.NOTIFICATION;
+        break;
+      default:
+        return TableContentType.PART;
+    }
+  }
+
   filterKeyCommands(event: any) {
     if (event.key === 'Enter' || (event.ctrlKey && event.key === 'a' || event.key === ' ')) {
       event.stopPropagation();
     }
   }
 }
+
+// TODO 3. in multi there is an output event where the table gets updated, integrate the output event (form control change) in table component like in part table event

@@ -48,6 +48,8 @@ export class NotificationComponent {
   @Output() onReceivedTableConfigChanged = new EventEmitter<TableEventConfig>();
   @Output() onQueuedAndRequestedTableConfigChanged = new EventEmitter<TableEventConfig>();
   @Output() selected = new EventEmitter<Notification>();
+  @Output() investigationFilterChanged = new EventEmitter<any>();
+  @Output() alertFilterChanged = new EventEmitter<any>();
 
   public readonly tabIndex$ = this.route.queryParams.pipe(map(params => parseInt(params.tabIndex, 10) || 0));
 
@@ -63,5 +65,10 @@ export class NotificationComponent {
 
   public onTabChange(tabIndex: number): void {
     void this.router.navigate([], { queryParams: { tabIndex }, replaceUrl: true });
+  }
+
+  handleEvent($event: any) {
+    this.investigationFilterChanged.emit($event)
+    console.log($event);
   }
 }

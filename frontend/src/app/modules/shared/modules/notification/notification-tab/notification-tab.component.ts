@@ -28,7 +28,7 @@ import {
   TableEventConfig,
   TableHeaderSort,
 } from '@shared/components/table/table.model';
-import { Notification, Notifications, NotificationType } from '@shared/model/notification.model';
+import { Notification, NotificationFilter, Notifications, NotificationType } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { Observable } from 'rxjs';
 
@@ -49,6 +49,8 @@ export class NotificationTabComponent implements AfterViewInit {
   @Input() notificationType = NotificationType.INVESTIGATION;
 
   @Output() tableConfigChanged = new EventEmitter<TableEventConfig>();
+  @Output() investigationsFilterChanged = new EventEmitter<any>();
+  @Output() alertsFilterChanged = new EventEmitter<any>();
   @Output() selected = new EventEmitter<Notification>();
 
   @ViewChild('statusTmp') statusTemplate: TemplateRef<unknown>;
@@ -60,6 +62,11 @@ export class NotificationTabComponent implements AfterViewInit {
 
 
   public tableConfig: TableConfig<keyof Notification>;
+
+  notificationFilter: NotificationFilter;
+
+  constructor() {
+  }
 
   public ngAfterViewInit(): void {
 
@@ -84,6 +91,28 @@ export class NotificationTabComponent implements AfterViewInit {
         sendTo: this.bpnTemplate,
       },
     };
+
+  }
+
+  filterActivated(notificationType: NotificationType, notificationFilter: any): void {
+    this.notificationFilter = notificationFilter;
+    const channel = notificationFilter['createdBy'] ? "RECEIVER" : "SENDER";
+    if(this.notificationType === NotificationType.INVESTIGATION) {
+      console.log("emitting  change")
+      this.investigationsFilterChanged.emit({
+        channel: channel,
+        filter: notificationFilter
+      });
+    }
+    if(this.notificationType === NotificationType.ALERT) {
+      this.alertsFilterChanged.emit({
+        channel: channel,
+        filter: notificationFilter
+      })
+    }
+
+    console.log(notificationType, notificationFilter, channel);
+    // output event to either investigation or alert with channel and filter
 
   }
 

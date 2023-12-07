@@ -25,10 +25,8 @@ import { Notification, Notifications, NotificationStatus } from '@shared/model/n
 import { View } from '@shared/model/view.model';
 import { InvestigationsService } from '@shared/service/investigations.service';
 import { Observable, Subscription } from 'rxjs';
+import { NotificationFilter } from '../../../../mocks/services/investigations-mock/investigations.model';
 import { InvestigationsState } from './investigations.state';
-import {
-  NotificationFilter,
-} from '../../../../mocks/services/investigations-mock/investigations.model';
 
 @Injectable()
 export class InvestigationsFacade {
@@ -53,20 +51,20 @@ export class InvestigationsFacade {
     return this.investigationsService.getInvestigation(id);
   }
 
-  public setReceivedInvestigation(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: NotificationFilter): void {
+  public setReceivedInvestigation(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: NotificationFilter, fullFilter?: any): void {
     this.investigationReceivedSubscription?.unsubscribe();
     this.investigationReceivedSubscription = this.investigationsService
-      .getReceivedInvestigations(page, pageSize, sorting, filter)
+      .getReceivedInvestigations(page, pageSize, sorting, filter, fullFilter)
       .subscribe({
         next: data => (this.investigationsState.investigationsReceived = { data }),
         error: (error: Error) => (this.investigationsState.investigationsReceived = { error }),
       });
   }
 
-  public setQueuedAndRequestedInvestigations(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: NotificationFilter): void {
+  public setQueuedAndRequestedInvestigations(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: NotificationFilter, fullFilter?: any): void {
     this.investigationQueuedAndRequestedSubscription?.unsubscribe();
     this.investigationQueuedAndRequestedSubscription = this.investigationsService
-      .getCreatedInvestigations(page, pageSize, sorting, filter)
+      .getCreatedInvestigations(page, pageSize, sorting, filter, fullFilter)
       .subscribe({
         next: data => (this.investigationsState.investigationsQueuedAndRequested = { data }),
         error: (error: Error) => (this.investigationsState.investigationsQueuedAndRequested = { error }),

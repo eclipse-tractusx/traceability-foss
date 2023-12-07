@@ -24,6 +24,7 @@ export class PartsTableConfigUtils {
 
   public static generateFilterColumnsMapping(sortableColumns: any, dateFields?: string[], singleSearchFields?: string[]): any[] {
     const filterColumnsMapping: any[] = [];
+    console.log(sortableColumns);
     const firstElement = { filterKey: 'Filter', headerKey: 'Filter' };
     const lastElement = {filterKey: 'Menu', headerKey: 'Menu'};
 
@@ -46,7 +47,7 @@ export class PartsTableConfigUtils {
         filterColumnsMapping.push(columnMapping);
       }
     }
-
+    console.log(filterColumnsMapping);
     return [ firstElement, ...filterColumnsMapping, lastElement ];
 
   }

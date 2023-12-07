@@ -21,12 +21,22 @@
 
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Pagination } from '@core/model/pagination.model';
 import { RoleService } from '@core/user/role.service';
-import { MenuActionConfig, TableConfig, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
+import { TableViewConfig } from '@shared/components/parts-table/table-view-config.model';
+import { TableConfigUtil } from '@shared/components/table/table-config.util';
+import {
+  MenuActionConfig,
+  PartTableType,
+  TableConfig,
+  TableEventConfig,
+  TableHeaderSort,
+} from '@shared/components/table/table.model';
 import { addSelectedValues, clearAllRows, clearCurrentRows, removeSelectedValues } from '@shared/helper/table-helper';
 import { NotificationType } from '@shared/model/notification.model';
 import { FlattenObjectPipe } from '@shared/pipes/flatten-object.pipe';
@@ -38,11 +48,16 @@ import { FlattenObjectPipe } from '@shared/pipes/flatten-object.pipe';
   encapsulation: ViewEncapsulation.None,
 })
 export class TableComponent {
+
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('tableElement', { read: ElementRef }) tableElementRef: ElementRef<HTMLElement>;
 
+  @Input() notificationType: NotificationType;
+
   @Input() additionalTableHeader = false;
+
+  @Input() displayedFilter: boolean = false;
 
   @Input()
   set tableConfig(tableConfig: TableConfig) {
@@ -124,6 +139,7 @@ export class TableComponent {
   @Output() configChanged = new EventEmitter<TableEventConfig>();
   @Output() multiSelect = new EventEmitter<any[]>();
   @Output() clickSelectAction = new EventEmitter<void>();
+  @Output() filterActivated = new EventEmitter<any>();
 
   public readonly dataSource = new MatTableDataSource<unknown>();
   public readonly selection = new SelectionModel<unknown>(true, []);
@@ -139,8 +155,44 @@ export class TableComponent {
 
   private _tableConfig: TableConfig;
 
+  public tableViewConfig: TableViewConfig;
+
+  filterFormGroup = new FormGroup({});
+
+  // input notification type map to parttable type,
+  tableType: PartTableType;
+
   constructor(private readonly roleService: RoleService) {
+
   }
+
+  ngOnInit(): void {
+  this.tableViewConfig = {
+    displayedColumns: [...this.tableConfig?.displayedColumns],
+    filterColumns: TableConfigUtil.createFilterColumns(this.tableConfig?.displayedColumns).filter(value => value !== 'Filter' && value !== 'Menu'),
+    sortableColumns: this.tableConfig?.sortableColumns,
+    displayFilterColumnMappings: TableConfigUtil.generateFilterColumnsMapping(this.tableConfig?.sortableColumns, ['createdDate', 'targetDate']),
+    filterFormGroup: TableConfigUtil.createFormGroup(this.tableConfig?.displayedColumns)
+  }
+
+
+
+  this.tableViewConfig.filterColumns.push('menu');
+    for (const controlName in this.tableViewConfig.filterFormGroup) {
+      if (this.tableViewConfig.filterFormGroup.hasOwnProperty(controlName)) {
+        this.filterFormGroup.addControl(controlName, this.tableViewConfig.filterFormGroup[controlName]);
+      }
+    }
+
+    this.tableType = TableConfigUtil.getNotificationTableType(this.notificationType, this.tableViewConfig.displayedColumns);
+    console.log(this.tableType);
+  console.log(this.tableViewConfig);
+   // TODO 3. give that to parent until you can set Notifications with filter
+
+    this.filterFormGroup.valueChanges.subscribe((formValues) => {
+      this.filterActivated.emit(formValues);
+    });
+}
 
   public areAllRowsSelected(): boolean {
     return this.dataSource.data.every(data => this.isSelected(data));
@@ -206,4 +258,6 @@ export class TableComponent {
   }
 
   protected readonly NotificationType = NotificationType;
+  protected readonly MainAspectType = MainAspectType;
+  protected readonly PartTableType = PartTableType;
 }
