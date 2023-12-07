@@ -25,7 +25,6 @@ configuration:
   frontend:
     name: &fe_name 'tx-frontend-test'
     hostName: &fe_host_name 'traceability-portal-test.dev.demo.catena-x.net'
-    # -- backend api split to host and api url ? host is without https://
     backendApiUrl: &be_api_url <path:traceability-foss/data/test/frontend#catenax_portal_api_url>
 
   backend:
@@ -89,7 +88,7 @@ configuration:
     url: &portal_url <path:traceability-foss/data/test/frontend#catenax_portal_url>
     backend:
       url: &portal_backend_url 'https://portal-backend.dev.demo.catena-x.net/api'
-    discoveryFinderUrl: &discovery_finder_url '"https://tracex-discovery-mock-test.dev.demo.catena-x.net/api/v1.0/administration/connectors/discovery/search"'
+    discoveryFinderUrl: &discovery_finder_url 'https://tracex-discovery-mock-test.dev.demo.catena-x.net/api/v1.0/administration/connectors/discovery/search'
     # -- remove irs url for environments that support official discovery finder ( not mock ) and replace alias with above one
     discoveryFinderIrsUrl: &discovery_finder_irs_url 'https://tracex-discovery-mock-test.dev.demo.catena-x.net/irs/api/v1.0/administration/connectors/discovery/search'
     serviceAccount:
