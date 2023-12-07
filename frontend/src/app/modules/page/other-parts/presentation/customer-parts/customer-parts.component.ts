@@ -17,6 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+import { DatePipe } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Pagination } from '@core/model/pagination.model';
 import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
@@ -62,6 +63,7 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
     public readonly otherPartsFacade: OtherPartsFacade,
     private readonly partDetailsFacade: PartDetailsFacade,
     private readonly staticIdService: StaticIdService,
+    public datePipe: DatePipe,
   ) {
     this.searchListAsBuilt = [
       'semanticDataModel',
@@ -101,8 +103,8 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
   updateCustomerParts(searchValue?: string): void {
     if (searchValue && searchValue !== '') {
       this.globalSearchActive = true;
-      this.assetAsBuiltFilter = toGlobalSearchAssetFilter(searchValue, false, this.searchListAsBuilt);
-      this.assetAsPlannedFilter = toGlobalSearchAssetFilter(searchValue, true, this.searchListAsPlanned);
+      this.assetAsBuiltFilter = toGlobalSearchAssetFilter(searchValue, true, this.searchListAsBuilt, this.datePipe);
+      this.assetAsPlannedFilter = toGlobalSearchAssetFilter(searchValue, false, this.searchListAsPlanned, this.datePipe);
       if (this.bomLifecycle === MainAspectType.AS_BUILT) {
         this.otherPartsFacade.setCustomerPartsAsBuilt(0, this.DEFAULT_PAGE_SIZE, [], this.assetAsBuiltFilter, this.globalSearchActive);
       } else {

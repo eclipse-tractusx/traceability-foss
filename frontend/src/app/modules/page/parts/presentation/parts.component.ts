@@ -46,6 +46,7 @@ import { PartsTableComponent } from '@shared/components/parts-table/parts-table.
 import { MatDialog } from '@angular/material/dialog';
 import { RequestAlertComponent } from '@shared/components/request-notification/request-alert.component';
 import { SearchHelper } from '@shared/helper/search-helper';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-parts',
@@ -100,6 +101,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly userSettingService: BomLifecycleSettingsService,
     public dialog: MatDialog,
     public toastService: ToastService,
+    public datePipe: DatePipe,
   ) {
     this.partsAsBuilt$ = this.partsFacade.partsAsBuilt$;
     this.partsAsPlanned$ = this.partsFacade.partsAsPlanned$;
@@ -256,8 +258,8 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     const searchValue = this.searchFormGroup.get('partSearch').value;
     if (searchValue && searchValue !== '') {
       this.globalSearchActive = true;
-      this.assetAsBuiltFilter = toGlobalSearchAssetFilter(searchValue, false, this.searchListAsBuilt);
-      this.assetAsPlannedFilter = toGlobalSearchAssetFilter(searchValue, true, this.searchListAsPlanned);
+      this.assetAsBuiltFilter = toGlobalSearchAssetFilter(searchValue, true, this.searchListAsBuilt, this.datePipe);
+      this.assetAsPlannedFilter = toGlobalSearchAssetFilter(searchValue, false, this.searchListAsPlanned, this.datePipe);
       this.partsFacade.setPartsAsBuilt(
         0,
         this.DEFAULT_PAGE_SIZE,
