@@ -92,6 +92,27 @@ export class PartsService {
       .pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_PLANNED)));
   }
 
+  public getPartsAsPlanned4Ess(page: number, pageSize: number, sorting: TableHeaderSort[], assetAsPlannedFilter?: AssetAsPlannedFilter, isOrSearch?: boolean): Observable<Pagination<Part>> {
+    let sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
+    let filterOperator = isOrSearch ? "OR" : "AND";
+    let params = new HttpParams()
+      .set('page', page)
+      .set('size', pageSize)
+      .set('filter', "owner,EQUAL,OWN,AND")
+
+    sort.forEach(sortingItem => {
+      params = params.append('sort', sortingItem);
+    })
+
+    if (assetAsPlannedFilter) {
+      params = enrichFilterAndGetUpdatedParams(assetAsPlannedFilter, params, filterOperator);
+    }
+
+    return this.apiService
+      .getBy<PartsResponse>(`${this.url}/assets/as-planned-4ess`, params)
+      .pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_PLANNED)));
+  }
+
   public getPart(id: string): Observable<Part> {
 
     let resultsAsBuilt = this.apiService.get<PartResponse>(`${ this.url }/assets/as-built/${ id }`)

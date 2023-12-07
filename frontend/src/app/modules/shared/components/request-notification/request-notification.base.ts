@@ -27,7 +27,7 @@ import { ToastService } from '@shared/components/toasts/toast.service';
 import { Severity } from '@shared/model/severity.model';
 import { BehaviorSubject } from 'rxjs';
 
-export type RequestContext = 'requestInvestigations' | 'requestAlert';
+export type RequestContext = 'requestInvestigations' | 'requestAlert' | 'ess';
 
 export abstract class RequestNotificationBase {
   public abstract readonly selectedItems: Part[];
@@ -49,6 +49,16 @@ export abstract class RequestNotificationBase {
     description: FormControl<string>;
     severity: FormControl<Severity>;
     bpn: FormControl<string>;
+  }>
+    | FormGroup<{
+    company_name: FormControl<string>;
+    company_street: FormControl<string>;
+    company_no: FormControl<number>;
+    company_postal_code: FormControl<string>;
+    company_location: FormControl<string>;
+    company_country: FormControl<string>;
+    bpns: FormControl<string>;
+    bpnss: FormControl<string>;
   }>;
 
   public readonly isLoading$ = new BehaviorSubject(false);
@@ -117,9 +127,6 @@ export abstract class RequestNotificationBase {
 
     this.submitted.emit();
     this.clearSelected.emit();
-
-    this.formGroup.markAsUntouched();
-    this.formGroup.reset();
 
     this.formGroup.markAsUntouched();
     this.formGroup.reset();

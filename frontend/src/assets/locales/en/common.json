@@ -11,7 +11,8 @@
     "investigations": "Quality investigations",
     "alerts": "Quality alerts",
     "adminRegistry": "Registry lookups",
-    "adminBpn": "BPN - EDC configuration"
+    "adminBpn": "BPN - EDC configuration",
+    "ess": "ESS investigations"
   },
   "pageTitle": {
     "dashboard": "Dashboard",
@@ -21,7 +22,8 @@
     "relations": "Part Relations",
     "admin": "Administration Catena-X",
     "investigations": "Quality Investigations",
-    "alerts": "Quality Alerts"
+    "alerts": "Quality Alerts",
+    "ess": "Environmental & Social Standards (ESS) Investigations"
   },
   "layout": {
     "nav": {
@@ -112,7 +114,19 @@
       "sentActiveAlerts" : "Created",
       "receivedActiveInvestigations" : "Received",
       "receivedActiveAlerts" : "Received",
-      "sentActiveInvestigations" : "Created"
+      "sentActiveInvestigations" : "Created",
+      "activeAlerts" : "Active Quality alerts",
+      "activeInvestigations" : "Active Quality investigations",
+      "rowNumber": "No",
+      "partName": "Part name",
+      "companyName": "Name of company under investigation",
+      "bpns": "BPNS of company under investigation",
+      "jobId": "Job ID",
+      "response": "Response",
+      "impacted": "Result",
+      "created": "Created",
+      "updated": "Time of result",
+      "catenaxSiteId": "SiteId"
     }
   },
   "dataLoading": {
@@ -174,7 +188,7 @@
     "partDescription": "You selected the following parts:",
     "targetDateDescription": "Please specify the deadline by which you expect a response.",
     "targetDateLabel": "Deadline",
-    "bpnLabel": "BPN",
+    "bpnLabel": "BPNS",
     "bpnDescription": "Please specify the receiver BPN.",
     "restoreItem": "Do you want to restore your last item?",
     "textAreaLabel": "Description",
@@ -299,5 +313,49 @@
     "cancel": "Reset",
     "startDate": "Start Date",
     "endDate": "End Date"
+  },
+  "ess": {
+    "investigations": {
+      "info": "Company under investigation"
+    },
+    "headline": "Create ESS investigation",
+    "headlineCompany": "Company under investigation",
+    "partDescription": "some part description",
+    "bpnLabel": "BPNS",
+    "bpnDescription": "Please specify the BPN.",
+    "companyNameLabel": "Company name",
+    "companyNameDescription": "Please enter the company's name.",
+    "companyStreetLabel": "Street",
+    "companyStreetDescription": "Please enter the company's street.",
+    "companyNoLabel": "No",
+    "companyNoDescription": "Please enter the company's street number.",
+    "companyPostalCodeLabel": "Postal code",
+    "companyPostalCodeDescription": "Please enter the company's postal code.",
+    "companyLocationLabel": "City",
+    "companyLocationDescription": "Please enter the company's city.",
+    "companyCountryLabel": "Country",
+    "companyCountryDescription": "Please select the company's country.",
+    "bpnssLabel": "BPNS",
+    "bpnssDescription": "Please enter the company's BPNS value.",
+    "success_one": "You queued an ESS investigation for {{count}} part",
+    "success_other": "You queued an ESS investigation for {{count}} parts",
+    "back": "BACK",
+    "cancel": "CANCEL",
+    "submit": "CREATE"
+  },
+  "page": {
+    "asPlannedParts": "AsPlanned Lifecycle",
+    "selectedParts": {
+      "info_one": "{{count}} Part selected for this page.",
+      "info_other": "{{count}} Parts selected for this page.",
+      "actionStart": "Create ESS investigation",
+      "action": "Create alert"
+    },
+    "selectedEss": {
+      "actionStart": "Create ESS investigation",
+      "action": "Create ESS investigation"
+    },
+    "asBuiltParts": "AsBuilt Lifecycle"
+
   }
 }

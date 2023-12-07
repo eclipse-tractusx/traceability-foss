@@ -26,10 +26,21 @@ SPDX-License-Identifier: Apache-2.0
       </mat-icon>
     </div>
     <div *appHasRole="tableConfig.columnRoles?.['select'] ?? 'user'" class="table&#45;&#45;selected__container">
-      <p
-        class="regular-text table&#45;&#45;selected&#45;&#45;label">{{ selectedPartsInfoLabel | i18n : {count: selection?.selected?.length || 0} }}</p>
+      <p class="regular-text table&#45;&#45;selected&#45;&#45;label">{{ selectedPartsInfoLabel | i18n : {count: selection?.selected?.length || 0} }}</p>
       <app-button
-        *ngIf="selection?.selected?.length && (tableType !== PartTableType.AS_PLANNED_CUSTOMER && tableType !== PartTableType.AS_BUILT_CUSTOMER)"
+        *ngIf="selection?.selected?.length && tableType == PartTableType.AS_PLANNED_OWN && showEssButton()"
+        (click)="clickSelectEssAction.emit()"
+        [variant]="'raised'"
+        [color]="'accent'"
+      >
+        <div class="flex justify-between items-center text-dark p-0.5">
+          <mat-icon class="mr-2">youtube_searched_for</mat-icon>
+          {{ selectedPartEssActionLabel | i18n }}
+        </div>
+      </app-button>
+      &nbsp;&nbsp;&nbsp;
+      <app-button
+        *ngIf="selection?.selected?.length && (tableType !== PartTableType.AS_PLANNED_CUSTOMER && tableType !== PartTableType.AS_BUILT_CUSTOMER) && listType!==PartTableType.ESS"
         (click)="clickSelectAction.emit()"
         [variant]="'raised'"
         [color]="'accent'"
@@ -43,7 +54,7 @@ SPDX-License-Identifier: Apache-2.0
     </div>
   </div>
 </div>
-
+&nbsp;
 <div [class.mat-elevation-z8]="!noShadow" class="table-wrapper">
   <table
     #tableElement

@@ -113,7 +113,17 @@
       "sentActiveAlerts" : "Erstellte",
       "receivedActiveInvestigations" : "Empfangene",
       "receivedActiveAlerts" : "Empfangene",
-      "sentActiveInvestigations" : "Erstellte"
+      "sentActiveInvestigations" : "Erstellte",
+      "rowNumber": "No",
+      "partName": "Teilname",
+      "companyName": "Name des untersuchten Unternehmens",
+      "bpns": "BPNS des untersuchten Unternehmens",
+      "jobId": "Job ID",
+      "response": "Rückmeldung",
+      "impacted": "Ergebniss",
+      "created": "Erstellt",
+      "updated": "Zeitpunkt des Ergebnisses",
+      "catenaxSiteId": "SiteId"
     }
   },
   "dataLoading": {
@@ -170,7 +180,7 @@
   "requestNotification": {
     "partDescription": "Sie haben folgende Produkte ausgewählt:",
     "targetDateDescription": "Bitte geben Sie das Datum an, bis wann Sie eine Antwort erwarten.",
-    "bpnLabel": "BPN",
+    "bpnLabel": "BPNS",
     "bpnDescription": "Bitte geben Sie die Empfänger BPN an.",
     "restoreItem": "Zuletzt gelöschtes Produkt wiederherstellen?",
     "textAreaLabel": "Beschreibung",
@@ -296,5 +306,49 @@
     "cancel": "Zurücksetzen",
     "startDate": "Startdatum",
     "endDate": "Enddatum"
+  },
+  "ess": {
+    "investigations": {
+      "info": "Name des untersuchten Unternehmens"
+    },
+    "headline": "ESS-Untersuchung erstellen",
+    "headlineCompany": "Name des untersuchten Unternehmens",
+    "partDescription": "some part description",
+    "bpnLabel": "BPNS",
+    "bpnDescription": "Geben Sie bitte die BPN ein.",
+    "companyNameLabel": "Name des Unternehmens",
+    "companyNameDescription": "Geben Sie bitte den Namen des Unternehmens ein.",
+    "companyStreetLabel": "Strasse",
+    "companyStreetDescription": "Geben Sie bitte die Strasse des Standorts ein.",
+    "companyNoLabel": "Nr",
+    "companyNoDescription": "Geben Sie bitte die Hausnummer des Standorts ein.",
+    "companyPostalCodeLabel": "PLZ",
+    "companyPostalCodeDescription": "Geben Sie bitte die PLZ des Standorts ein.",
+    "companyLocationLabel": "Stadt",
+    "companyLocationDescription": "Geben Sie bitte die Stadt des Standorts ein.",
+    "companyCountryLabel": "Land",
+    "companyCountryDescription": "Geben Sie bitte das Land des Standorts ein.",
+    "bpnssLabel": "BPNS",
+    "bpnssDescription": "Geben Sie bitte die BPNS des Unternehmens ein.",
+    "success_one": "Es wurde eine ESS-Untersuchung für {{count}} Teile erstellt",
+    "success_other": "Es wurde eine ESS-Untersuchung für {{count}} Teile erstellt",
+    "back": "ZURÜCK",
+    "cancel": "CANCEL",
+    "submit": "ERSTELLEN"
+  },
+  "page": {
+    "asPlannedParts": "AsPlanned Lifecycle",
+    "selectedParts": {
+      "info_one": "{{count}} Teile auf dieser Seite ausgewählt.",
+      "info_other": "{{count}} Teile auf dieser Seite ausgewählt.",
+      "actionStart": "ESS-Untersuchung erstellen",
+      "action": "Create alert"
+    },
+    "selectedEss": {
+      "actionStart": "ESS-Untersuchung erstellen",
+      "action": "ESS-Untersuchung erstellen"
+    },
+    "asBuiltParts": "AsBuilt Lifecycle"
+
   }
 }

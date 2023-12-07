@@ -38,6 +38,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { EmptyPagination, Pagination } from '@core/model/pagination.model';
 import { TableSettingsService } from '@core/user/table-settings.service';
+import { RoleService } from '@core/user/role.service';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
 import { PartsAsBuiltConfigurationModel } from '@shared/components/parts-table/parts-as-built-configuration.model';
@@ -60,7 +61,7 @@ import { isDateFilter } from '@shared/helper/filter-helper';
 import { addSelectedValues, removeSelectedValues } from '@shared/helper/table-helper';
 import { NotificationColumn } from '@shared/model/notification.model';
 import { DeeplinkService } from '@shared/service/deeplink.service';
-
+import { environment } from '@env';
 
 @Component({
   selector: 'app-parts-table',
@@ -80,11 +81,13 @@ export class PartsTableComponent implements OnInit {
 
   @Input() selectedPartsInfoLabel: string;
   @Input() selectedPartsActionLabel: string;
+  @Input() selectedPartEssActionLabel: string;
 
   @Input() tableHeader: string;
   @Input() multiSortList: TableHeaderSort[];
 
   @Input() tableType: PartTableType;
+  @Input() listType = PartTableType.AS_PLANNED_OWN;
 
   @Input() mainAspectType: MainAspectType;
 
@@ -127,9 +130,11 @@ export class PartsTableComponent implements OnInit {
   @Output() configChanged = new EventEmitter<TableEventConfig>();
   @Output() multiSelect = new EventEmitter<any[]>();
   @Output() clickSelectAction = new EventEmitter<void>();
+  @Output() clickSelectEssAction = new EventEmitter<void>();
   @Output() filterActivated = new EventEmitter<any>();
 
   constructor(
+    private readonly roleService: RoleService,
     private readonly tableSettingsService: TableSettingsService,
     private dialog: MatDialog,
     private router: Router,
@@ -357,6 +362,9 @@ export class PartsTableComponent implements OnInit {
     this.dialog.open(TableSettingsComponent, config);
   }
 
+  public showEssButton(): boolean {
+    return this.roleService.isAtLeastSupervisor();
+  }
 
   protected readonly MenuStack = MenuStack;
   protected readonly MainAspectType = MainAspectType;

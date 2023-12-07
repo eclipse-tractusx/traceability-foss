@@ -30,6 +30,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableFeignClients(basePackages = {
         "org.eclipse.tractusx.traceability.assets.infrastructure.base.irs",
+        "org.eclipse.tractusx.traceability.bpdm",
         "org.eclipse.tractusx.traceability.discovery.infrastructure.repository",
 })
 public class FeignGlobalConfig {

@@ -24,16 +24,16 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 import feign.Param;
 import feign.RequestLine;
 import io.github.resilience4j.retry.annotation.Retry;
+import java.util.List;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterJobRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterPolicyRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobDetailResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.PolicyResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.RegisterJobResponse;
+import org.eclipse.tractusx.traceability.bpdm.model.request.RegisterEssInvestigationJobRequest;
 import org.eclipse.tractusx.traceability.common.config.CatenaApiConfig;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
-
-import java.util.List;
 
 @FeignClient(
         name = "irsApi",
@@ -57,4 +57,11 @@ public interface IRSApiClient {
 
     @RequestLine("DELETE /irs/policies/{id}")
     void deletePolicy(@Param("id") String id);
+
+    @RequestLine("POST /ess/bpn/investigations")
+    RegisterJobResponse registerEssInvestigationJob(@RequestBody RegisterEssInvestigationJobRequest request);
+
+    @RequestLine("GET /ess/bpn/investigations/{jobId}")
+    JobDetailResponse getEssInvestigationJobDetails(@Param("jobId") String jobId);
+
 }
