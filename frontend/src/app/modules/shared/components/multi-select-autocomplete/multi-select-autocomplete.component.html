@@ -44,18 +44,29 @@ SPDX-License-Identifier: Apache-2.0
     <mat-option [style.display]="'none'"></mat-option>
 
     <div class="pl-1" *ngIf="suggestionError">{{'multiSelect.suggestionError' | i18n}}</div>
-    <ng-container>
-      <mat-option *ngFor="let option of optionsSelected" [disabled]="option.disabled"
-                  [value]="option.value">
-        {{'multiSelect.mappedText.' + option.display | i18n: option.display}}
+    <ng-container *ngFor="let option of optionsSelected">
+      <mat-option *ngIf="option.display.startsWith('urn:uuid'); else i18nKeyDisplay" [disabled]="option.disabled" [value]="option.value">
+        {{ option.display }}
       </mat-option>
+      <ng-template #i18nKeyDisplay>
+        <mat-option [disabled]="option.disabled" [value]="option.value">
+          {{ 'multiSelect.mappedText.' + option.display | i18n: {defaultValue: option.display} }}
+        </mat-option>
+      </ng-template>
     </ng-container>
 
     <mat-divider></mat-divider>
     <ng-container *ngIf="options?.length">
-      <mat-option *ngFor="let option of options" [disabled]="option.disabled" [value]="option.value">
-        {{'multiSelect.mappedText.' + option.display | i18n: option.display}}
-      </mat-option>
+      <ng-container *ngFor="let option of options">
+        <mat-option *ngIf="option.display.startsWith('urn:uuid'); else i18nKeyDisplay" [disabled]="option.disabled" [value]="option.value">
+          {{ option.display }}
+        </mat-option>
+        <ng-template #i18nKeyDisplay>
+          <mat-option [disabled]="option.disabled" [value]="option.value">
+            {{ 'multiSelect.mappedText.' + option.display | i18n: {defaultValue: option.display} }}
+          </mat-option>
+        </ng-template>
+      </ng-container>
     </ng-container>
 
     <mat-option *ngIf="singleSearch" (click)="changeSearchTextOptionSingleSearch()" [value]=this.searchElement
@@ -64,7 +75,12 @@ SPDX-License-Identifier: Apache-2.0
     <mat-select-trigger *ngIf="selectedValue?.length > 1">
       <div>
         <ng-container *ngFor="let value of displayValue()">
-          {{'multiSelect.mappedText.' + value | i18n: {defaultValue: value} }}
+          <ng-container *ngIf="value.startsWith('urn:uuid'); else i18nKeyDisplay">
+            {{ value }}
+          </ng-container>
+          <ng-template #i18nKeyDisplay>
+            {{ 'multiSelect.mappedText.' + value | i18n: {defaultValue: value} }}
+          </ng-template>
         </ng-container>
       </div>
     </mat-select-trigger>
