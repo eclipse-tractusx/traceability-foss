@@ -23,35 +23,28 @@ import { Given, Then, When } from '@badeball/cypress-cucumber-preprocessor';
 
 
 When("user navigate to {string}", function(desiredMenu) {
-matched = false;
     switch (desiredMenu) {
       case 'Other parts': {
-        matched = true;
         cy.get('[href="/otherParts"]').click();
         break;
       }
       case 'Parts': {
-      matched = true;
         cy.get('[href="/parts"]').click();
         break;
       }
       case 'Dashboard': {
-      matched = true;
         cy.get('[href="/dashboard"]').click();
         break;
       }
       case 'Quality investigations': {
-      matched = true;
         cy.get('[href="/investigations"]').click();
         break;
       }
       case 'Quality alerts': {
-      matched = true;
         cy.get('[href="/alerts"]').click();
         break;
       }
       case 'About': {
-      matched = true;
         cy.get('[href="/about"]').click();
         break;
       }
@@ -60,4 +53,23 @@ matched = false;
         break;
       }
     }
+});
+
+
+When("user change language to {string}", function(language) {
+cy.get('[data-testid="user-menu"]').click();
+      switch (language) {
+        case 'german': {
+          cy.get('button').contains('DE').click();
+          break;
+        }
+        case 'english': {
+          cy.get('button').contains('EN').click();
+          break;
+        }
+        default: {
+          throw new Error("Set language '" + language + "' is not one of valid language [german, english].");
+          break;
+        }
+      }
 });

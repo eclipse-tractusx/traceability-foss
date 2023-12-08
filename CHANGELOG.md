@@ -12,6 +12,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Validation check if table-settings correct and reset on invalid state
 - Added Api-Input in Argo Workflow to fix bugs
 - Added implementation for cucumber tests for quality investigations
+- Added implementation of cypress tests for quality alerts
 - Separation of auto complete mechanism (selected / searched elements)
 - Added new step definition for cucumber tests "I use assets with ids {string}" allowing to specify assets used for notification creation
 - Added autocomplete endpoints for notifications
