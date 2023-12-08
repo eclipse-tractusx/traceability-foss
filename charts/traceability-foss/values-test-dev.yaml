@@ -238,7 +238,8 @@ tractusx-connector:
           id: <path:traceability-foss/data/dev/edc/wallet#ssi.oauth.client.id>
           secretAlias: edc-miw-keycloak-secret
     endpoints:
-      authKey: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
+      management:
+        authKey: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
 
   dataplane:
     ingresses:
