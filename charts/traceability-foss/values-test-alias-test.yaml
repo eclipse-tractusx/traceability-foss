@@ -317,6 +317,8 @@ tractusx-connector:
         client:
           id: *portal_miw_client_id
           secretAlias: *portal_miw_client_secret_alias
+    endpoints:
+      authKey: *edc_api_key
 
   dataplane:
     ingresses:

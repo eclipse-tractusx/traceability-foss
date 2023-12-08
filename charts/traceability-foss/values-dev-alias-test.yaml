@@ -40,61 +40,61 @@ configuration:
     edcClient:
       callbackUrl: &backend_edc_client_callback_url 'https://traceability.dev.demo.catena-x.net/api/internal/endpoint-data-reference'
     backendDatabase:
-      url: &backend_database_url 'jdbc:postgresql://tx-backend-postgresql-test-hl:5432/trace'
-      name: &backend_database_name 'tx-backend-postgresql-test'
+      url: &backend_database_url 'jdbc:postgresql://tx-backend-postgresql-hl:5432/trace'
+      name: &backend_database_name 'tx-backend-postgresql-dev'
       password: &backend_database_password <path:traceability-foss/data/dev/database#tracePassword>
       rootPassword: &backend_database_root_password <path:traceability-foss/data/dev/database#postgresPassword>
     security:
       # -- required to allow FE connection
-      allowedCorsOrigins: &backend_security_allowed_fe 'https://traceability-portal-test.dev.demo.catena-x.net/'
+      allowedCorsOrigins: &backend_security_allowed_fe 'https://traceability-portal.dev.demo.catena-x.net/'
 
   pgadmin4:
-    name: &pgadmin_name 'tx-pgadmin-test'
-    hostName: &pgadmin_host_name 'tx-pgadmin-test.dev.demo.catena-x.net'
+    name: &pgadmin_name 'tx-pgadmin-dev'
+    hostName: &pgadmin_host_name 'tx-pgadmin-dev.dev.demo.catena-x.net'
     password: &pgadmin_password <path:traceability-foss/data/dev/database#pgadminPassword>
 
   irs:
-    name: &irs_name 'tx-irs-test'
-    hostName: &irs_host_name "tx-irs-test.dev.demo.catena-x.net"
-    url: &irs_url 'https://tx-irs-test.dev.demo.catena-x.net'
-    callbackUrl: &irs_callback_url 'http://tx-irs-test:8181/internal/endpoint-data-reference'
+    name: &irs_name 'tx-irs-dev'
+    hostName: &irs_host_name "tx-irs-dev.dev.demo.catena-x.net"
+    url: &irs_url 'https://tx-irs-dev.dev.demo.catena-x.net'
+    callbackUrl: &irs_callback_url 'http://tx-irs-dev:8181/internal/endpoint-data-reference'
     irsDatabase:
-      name: &irs_database_name 'tx-irs-minio-test'
+      name: &irs_database_name 'tx-irs-minio-dev'
       username: &irs_database_username <path:traceability-foss/data/dev/minio#user>
       password: &irs_database_password <path:traceability-foss/data/dev/minio#password>
-      url: &irs_database_url 'http://tx-irs-minio-test:9000'
+      url: &irs_database_url 'http://tx-irs-minio-dev:9000'
 
   edc:
-    name: &edc_name 'tx-edc-consumer-test'
+    name: &edc_name 'tx-edc-consumer-dev'
     apiKey: &edc_api_key <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
     controlplane:
-      hostName: &edc_controlplane_hostname 'tx-edc-consumer-test-controlplane.dev.demo.catena-x.net'
-      url: &edc_controlplane_url 'https://tx-edc-consumer-test-controlplane.dev.demo.catena-x.net'
-      managementUrl: &edc_controlplane_management_url 'https://tx-edc-consumer-test-controlplane.dev.demo.catena-x.net/management'
+      hostName: &edc_controlplane_hostname 'tx-edc-consumer-dev-controlplane.dev.demo.catena-x.net'
+      url: &edc_controlplane_url 'https://tx-edc-consumer-dev-controlplane.dev.demo.catena-x.net'
+      managementUrl: &edc_controlplane_management_url 'https://tx-edc-consumer-dev-controlplane.dev.demo.catena-x.net/management'
     dataplane:
-      hostName: &edc_dataplane_hostname 'tx-edc-consumer-test-dataplane.dev.demo.catena-x.net'
+      hostName: &edc_dataplane_hostname 'tx-edc-consumer-dev-dataplane.dev.demo.catena-x.net'
     edcDatabase:
-      name: &edc_database_name 'tx-edc-consumer-postgresql-test'
+      name: &edc_database_name 'tx-edc-consumer-postgresql-dev'
       username: &edc_database_username <path:traceability-foss/data/dev/edc/database#user>
       password: &edc_database_password <path:traceability-foss/data/dev/edc/database#password>
-      jdbcUrl: &edc_database_jdbc_url "jdbc:postgresql://tx-edc-consumer-postgresql-test-hl:5432/edc"
+      jdbcUrl: &edc_database_jdbc_url "jdbc:postgresql://tx-edc-consumer-postgresql-dev-hl:5432/edc"
     vault:
       hashicorp:
         url: &vault_url 'https://vault.demo.catena-x.net'
         token: &vault_token <path:traceability-foss/data/dev/edc#edc.vault.hashicorp.token>
       secretNames:
-        transferProxyTokenSignerPrivateKey: &edc_private_key daps-cert-edc-test-consumer-private
-        transferProxyTokenSignerPublicKey: &edc_public_key daps-cert-edc-test-consumer-public
+        transferProxyTokenSignerPrivateKey: &edc_private_key token-signer-cert-key-dev
+        transferProxyTokenSignerPublicKey: &edc_public_key token-signer-cert-dev
         transferProxyTokenEncryptionAesKey: &edc_encryption_key token-signer-aes-key
 
   portal:
-    domain: &portal_domain <path:traceability-foss/data/test/frontend#catenax_portal_backend_domain>
-    url: &portal_url <path:traceability-foss/data/test/frontend#catenax_portal_url>
+    domain: &portal_domain <path:traceability-foss/data/dev/frontend#catenax_portal_backend_domain>
+    url: &portal_url <path:traceability-foss/data/dev/frontend#catenax_portal_url>
     backend:
       url: &portal_backend_url 'https://portal-backend.dev.demo.catena-x.net/api'
-    discoveryFinderUrl: &discovery_finder_url 'https://tracex-discovery-mock-test.dev.demo.catena-x.net/api/v1.0/administration/connectors/discovery/search'
+    discoveryFinderUrl: &discovery_finder_url 'https://tracex-discovery-mock-dev.dev.demo.catena-x.net/api/v1.0/administration/connectors/discovery/search'
     # -- remove irs url for environments that support official discovery finder ( not mock ) and replace alias with above one
-    discoveryFinderIrsUrl: &discovery_finder_irs_url 'https://tracex-discovery-mock-test.dev.demo.catena-x.net/irs/api/v1.0/administration/connectors/discovery/search'
+    discoveryFinderIrsUrl: &discovery_finder_irs_url 'https://tracex-discovery-mock-dev.dev.demo.catena-x.net/irs/api/v1.0/administration/connectors/discovery/search'
     serviceAccount:
       clientId: &service_account_id <path:traceability-foss/data/int/keycloak/oauth2#clientId>
       clientPassword: &service_account_password <path:traceability-foss/data/int/keycloak/oauth2#clientSecret>
@@ -116,9 +116,9 @@ configuration:
   partnersPool: &partners_pool_url 'https://partners-pool.int.demo.catena-x.net'
 
   digitalTwinRegistry:
-    url: &dtr_url 'https://trace-x-registry-test.dev.demo.catena-x.net/semantics/registry/api/v3.0'
-    descriptorEndpoint: &dtr_shell_descriptor_url 'https://trace-x-registry-test.dev.demo.catena-x.net/semantics/registry/api/v3.0/shell-descriptors/{aasIdentifier}'
-    shellLookupEndpoint: &dtr_shell_lookup_url 'https://trace-x-registry-test.dev.demo.catena-x.net/semantics/registry/api/v3.0/lookup/shells?assetIds={assetIds}'
+    url: &dtr_url 'https://trace-x-registry.dev.demo.catena-x.net/semantics/registry/api/v3.0'
+    descriptorEndpoint: &dtr_shell_descriptor_url 'https://trace-x-registry.dev.demo.catena-x.net/semantics/registry/api/v3.0/shell-descriptors/{aasIdentifier}'
+    shellLookupEndpoint: &dtr_shell_lookup_url 'https://trace-x-registry.dev.demo.catena-x.net/semantics/registry/api/v3.0/lookup/shells?assetIds={assetIds}'
 
 #########################
 # Frontend Chart Values configuration     #
@@ -317,6 +317,8 @@ tractusx-connector:
         client:
           id: *portal_miw_client_id
           secretAlias: *portal_miw_client_secret_alias
+    endpoints:
+        authKey: *edc_api_key
 
   dataplane:
     ingresses:
