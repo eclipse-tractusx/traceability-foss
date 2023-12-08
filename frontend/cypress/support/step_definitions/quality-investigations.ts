@@ -22,30 +22,54 @@ import { When, Then, Given } from '@badeball/cypress-cucumber-preprocessor';
 import { QualityInvestigationsPage } from '../../integration/pages/QualityInvestigationsPage';
 
 let notificationDescription = null;
+let desiredSemanticModelId = null;
+let desiredId = null;
 
-Then("select {string} other part", (partAmount) => {
+Then("select other part with semantic-model-id {string}", function(semanticModelId) {
 //since IDs of desired asset are not shown in FE the selection has to be done by other number.
-  cy.get('span').contains('As Planned').click(); // This has to be done to avoid asPlanned selection
-  cy.get('#mat-mdc-checkbox-38*').click(); //---TBD--- this is only a method to make it run, has to be changed to selected part.
+  desiredSemanticModelId = semanticModelId;
+  cy.get('span').contains(semanticModelId).closest('tr').find('.mdc-checkbox').click();
+});
 
+Then("select part with id {string}", function(id) {
+  desiredId = id;
+  cy.get('span').contains(id).closest('tr').find('.mdc-checkbox').click();
 });
 
 
-Then("start investigation creation with description {string}", function (description) {
+Then("start {string} creation with description {string}", function(notificationType, description) {
   const date = new Date().getTime();
   notificationDescription = description + "_" + date;
-  cy.get('div').contains('Start investigation').click();
-  cy.get('mat-label').contains('Description').click().type(notificationDescription);
+  switch (notificationType) {
+    case 'investigation': {
+      cy.get('div').contains('Start investigation').click();
+      break;
+    }
+    case 'alert': {
+      cy.get('div').contains('Create alert').click();
+      break;
+    }
+    default: {
+      throw new Error("Set notification type '" + notificationType + "' is not one of valid types [investigation, alert].");
+      break;
+    }
+  }
+  cy.get('mat-label').contains(/^Description$/i).click().type(notificationDescription);
 });
 
 
-When("severity {string}", function (severity) {
-  cy.get('#mat-select-56').click(); // First the dropdown has to be opened.
+When("receiver BPN {string}", function(receiverBPN) {
+  cy.get('mat-label').contains(/^BPN$/i).click().type(receiverBPN);
+});
+
+
+When("severity {string}", function(severity) {
+  cy.get('div').contains('Severity').click(); // First the dropdown has to be opened.
   cy.get('p').contains(severity).click();
 });
 
 
-When("{string} deadline", function (deadline) {
+When("{string} deadline", function(deadline) {
       if (deadline == 'no') {
         // do nothing
       } else {
@@ -54,36 +78,60 @@ When("{string} deadline", function (deadline) {
 });
 
 
-When("request the investigation", () => {
+When("request the {string}", function(notificationType) {
   cy.get('span').contains('ADD TO QUEUE').click();
 });
 
 
-Then("selected parts are marked as investigated", () => {
-  //cy.get('class').contains('highlighted');
-  //---TBD--- to check the desired assets, have to be adjusted with desired asset selection
+Then("selected parts are marked as {string}", function(notificationType) {
+  switch (notificationType) {
+    case 'investigated': {
+      cy.get('span').contains(desiredSemanticModelId).closest('tr').should('have.class', "highlighted");
+      break;
+    }
+    case 'alerted': {
+      cy.get('span').contains(desiredId).closest('tr').should('have.class', "highlighted");
+      break;
+    }
+    default: {
+      throw new Error("Set notificationType change'" + notificationType + "' is not one of valid types [investigated, alerted].");
+      break;
+    }
+  }
 });
 
 
-When("popup with information about queued investigation is shown", () => {
-  cy.contains(/You queued an investigation for 1 part/i).should('be.visible');
+When("popup with information about queued {string} is shown", function(notificationType) {
+  switch (notificationType) {
+    case 'investigation': {
+      cy.contains(/You queued an investigation for 1 part/i).should('be.visible');
+      break;
+    }
+    case 'alert': {
+      cy.contains(/You queued an alert for 1 part/i).should('be.visible');
+      break;
+    }
+    default: {
+      throw new Error("Set notificationType '" + notificationType + "' is not one of valid types [investigation, alert].");
+      break;
+    }
+  }
 });
 
 
-When("user navigate to {string} with button in popup", (popupClick) => {
+When("user navigate to {string} with button in popup", function(popupClick) {
   cy.get('a').contains('Go to Queue').click();
 });
 
 
-When("open details of created investigation", () => {
+When("open details of created {string}", () => {
   cy.get('[data-testid="table-menu-button"]').first().click(); //the first investigation will be opened
   cy.get('[data-testid="table-menu-button--actions.viewDetails"]').first().click();
 });
 
 
 // --- TBD --- check id, description, status, created, createdby, text
-// --- TBD --- #check: popup on the right sight is shown
-When("user confirm cancelation of selected investigation with entering {string} id", (input) => {
+When("user confirm cancelation of selected {string} with entering {string} id", function(notificationType, input) {
   let investigationId = '';
   switch (input) {
     case 'no': {
@@ -111,7 +159,7 @@ When("user confirm cancelation of selected investigation with entering {string} 
 });
 
 
-Then("cancelation is not possible due to {string} id", (id) => {
+Then("cancelation is not possible due to {string} id", function(id) {
   switch (id) {
     case 'no': {
       cy.contains(/This field is required!/i).should('be.visible');
@@ -129,7 +177,7 @@ Then("cancelation is not possible due to {string} id", (id) => {
 });
 
 
-When("user {string} selected investigation", (action) => {
+When("user {string} selected {string}", function(action) {
 //within opened detail view of quality investigation
   switch (action) {
       case 'approve': {
@@ -164,7 +212,7 @@ When("user {string} selected investigation", (action) => {
 });
 
 
-When("user confirm approval of selected investigation", (action) => {
+When("user confirm approval of selected {string}", function(action) {
   cy.get('app-confirm').find('span').contains('Approve').click();
 });
 
@@ -174,37 +222,30 @@ Then("informations for selected investigation are displayed as expected", () => 
 });
 
 
-Then("selected {string} has been {string} as expected", (notificationType, expectedStatus) => {
-matched = false;
+Then("selected {string} has been {string} as expected", function(notificationType, expectedStatus) {
     switch (expectedStatus) {
       case 'canceled': {
-        matched = true;
         cy.get('[title="Cancelled"]').should('be.visible');
         break;
       }
       case 'approved': {
       // same as "requested"
-      matched = true;
         cy.get('[title="Requested"]', { timeout: 10000 }).should('be.visible');
         break;
       }
       case 'accepted': {
-      matched = true;
         cy.get('[title="Accepted"]', { timeout: 10000 }).should('be.visible');
         break;
       }
       case 'declined': {
-      matched = true;
         cy.get('[title="Declined"]', { timeout: 10000 }).should('be.visible');
         break;
       }
       case 'acknowledged': {
-      matched = true;
         cy.get('[title="Acknowledged"]', { timeout: 10000 }).should('be.visible');
         break;
       }
       case 'closed': {
-      matched = true;
         cy.get('[title="Closed"]', { timeout: 10000 }).should('be.visible');
         break;
       }
@@ -216,36 +257,63 @@ matched = false;
 });
 
 
-When("selected {string} is not allowed to be {string}", (notificationType, status) => {
-matched = false;
+Then("popup for successful {string} has been shown", function(status) {
+    switch (status) {
+      case 'cancelation': {
+        cy.contains(/.*was canceled successfully./i).should('be.visible');
+        break;
+      }
+      case 'approval': {
+        cy.contains(/.*was approved successfully./i).should('be.visible');
+        break;
+      }
+      case 'acceptance': {
+        cy.contains(/.*was accepted successfully./i).should('be.visible');
+        break;
+      }
+      case 'declination': {
+        cy.contains(/.*was declined successfully./i).should('be.visible');
+        break;
+      }
+      case 'acknowledge': {
+        cy.contains(/.*was acknowledged successfully./i).should('be.visible');
+        break;
+      }
+      case 'closure': {
+        cy.contains(/.*was closed successfully./i).should('be.visible');
+        break;
+      }
+      default: {
+        throw new Error("Set expected status '" + status + "' is not one of valid status [cancelation, approval, acceptance, declination, acknowledge, closure].");
+        break;
+      }
+    }
+});
+
+
+When("selected {string} is not allowed to be {string}", function(notificationType, status) {
     switch (status) {
       case 'canceled': {
-        matched = true;
         cy.get('div').contains('/^Cancel$/', {matchCase: true}).should('not.exist');
         break;
       }
       case 'approved': {
-      matched = true;
         cy.get('div').contains('/^Approve$/', {matchCase: true}).should('not.exist');
         break;
       }
       case 'accepted': {
-      matched = true;
         cy.get('div').contains('/^Accept$/', {matchCase: true}).should('not.exist');
         break;
       }
       case 'declined': {
-      matched = true;
         cy.get('div').contains('/^Decline$/', {matchCase: true}).should('not.exist');
         break;
       }
       case 'acknowledged': {
-      matched = true;
         cy.get('div').contains('/^Acknowledge$/', {matchCase: true}).should('not.exist');
         break;
       }
       case 'closed': {
-      matched = true;
         cy.get('div').contains('/^Close$/', {matchCase: true}).should('not.exist');
         break;
       }
