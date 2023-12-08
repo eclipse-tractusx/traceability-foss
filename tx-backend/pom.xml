@@ -57,11 +57,12 @@ SPDX-License-Identifier: Apache-2.0
             <artifactId>irs-registry-client</artifactId>
             <version>${irs-client-lib.version}</version>
             <exclusions>
-                <!-- Remove once here is at least 11.0.17 provided.-->
+                <!-- Remove once at least 11.0.17 is available.-->
                 <exclusion>
                     <groupId>org.eclipse.jetty</groupId>
                     <artifactId>jetty-http</artifactId>
                 </exclusion>
+                <!-- Remove once at least 10.1.16 is available.-->
                 <exclusion>
                     <groupId>org.apache.tomcat.embed</groupId>
                     <artifactId>tomcat-embed-websocket</artifactId>
