@@ -68,7 +68,7 @@ SPDX-License-Identifier: Apache-2.0
       <th class="multi-select-header-cell" mat-header-cell *matHeaderCellDef
           [ngClass]="{'menu-column': filter.headerKey === 'Menu'}">
         <!--TODO 1. ENUM ASBUILT ASPLANNED ... INVESTIGATION, basierend darauf wohin request geht-->
-        <app-multiselect *ngIf="filter.headerKey!==filterKey && filter.headerKey !== 'Menu'"
+        <app-multiselect *ngIf="filter.headerKey!==filterKey && filter.headerKey !=='Menu'"
                          [placeholder]="'multiSelect.placeholder' | i18n"
                          [options]="filter.option"
                          [isDate]="filter.isDate"
@@ -79,8 +79,8 @@ SPDX-License-Identifier: Apache-2.0
                          ngDefaultControl
                          [formControl]="filterFormGroup.controls[filter.filterKey]">
         </app-multiselect>
-        <span class="filter-title" *ngIf="filter.headerKey==='Filter'">{{ ''}} </span>
-        <span class="menu-title" *ngIf="filter.headerKey==='Menu'">{{ ''}}</span>
+   <!--     <span class="filter-title" *ngIf="filter.headerKey==='Filter'">{{ ''}} </span>
+        <span class="menu-title" >{{ ''}}</span>-->
       </th>
     </ng-container>
 

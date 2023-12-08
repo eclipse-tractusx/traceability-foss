@@ -144,12 +144,8 @@ export class PartsTableComponent implements OnInit {
   public totalItems: number;
   public pageIndex: number;
   public isDataLoading: boolean;
-  public selectedRow: Record<string, unknown>;
   public isMenuOpen: boolean;
-  public displayedFilter: boolean;
 
-  // TODO remove it and set only in tableViewConfig
-  public filterConfiguration: any[];
   // TODO remove it and set only in tableViewConfig
   public displayedColumns: string[];
   // TODO remove it and set only in tableViewConfig
@@ -282,6 +278,8 @@ export class PartsTableComponent implements OnInit {
       } ],
     };
     this.displayedColumns = displayedColumns;
+
+    console.log(this.displayedColumns, "cols");
     for (const controlName in filterFormGroup) {
       if (filterFormGroup.hasOwnProperty(controlName)) {
         this.filterFormGroup.addControl(controlName, filterFormGroup[controlName]);
