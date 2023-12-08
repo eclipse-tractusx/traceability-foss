@@ -63,11 +63,12 @@ describe('D3 Helper', () => {
     it('should return empty string if no text is given', () => {
       expect(HelperD3.shortenText('')).toEqual('');
     });
-    it('should return spaced out string if string is shorter than 12 chars', () => {
-      expect(HelperD3.shortenText('Test')).toEqual('    Test    ');
+    it('should return spaced out string if string is shorter than the max chars and ', () => {
+      expect(HelperD3.shortenText('Test')).toEqual('   Test    ');
     });
-    it('should return shorten string if string is longer than 12 chars', () => {
-      expect(HelperD3.shortenText('Lorem ipsum dolor sit amet, consectetur adipiscing elit')).toEqual('Lorem ips...');
+
+    it('should return shorten string if string is longer than the max chars', () => {
+      expect(HelperD3.shortenText('Lorem ipsum dolor sit amet, consectetur adipiscing elit')).toEqual('Lorem ip...');
     });
   });
 });

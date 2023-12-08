@@ -34,6 +34,7 @@ export class Tree {
   public readonly r: number;
 
   private readonly defaultZoom: number;
+  private readonly centerXOffset: number;
   private readonly zoomConfig: [number, number] = [0.2, 1.5];
 
   private currentZoom = new ZoomTransform(1, 0, 0);
@@ -58,6 +59,7 @@ export class Tree {
     this.width = HelperD3.calculateWidth(this.mainElement);
     this.height = HelperD3.calculateHeight(this.mainElement);
     this.defaultZoom = treeData.defaultZoom;
+    this.centerXOffset = treeData.centerXOffset;
 
     this.r = 60;
 
@@ -73,15 +75,16 @@ export class Tree {
     let svg = d3.select(`#${this.mainId}--camera`) as TreeSvg;
     if (svg.empty()) svg = this.creatMainSvg();
 
-    d3.tree().nodeSize([this.r * 3, 250])(root);
+    d3.tree().nodeSize([this.r * 3, 170])(root);
 
-    D3RenderHelper.renderTreePaths(direction, svg, root, this.r, this.id);
+    D3RenderHelper.renderTreePaths(direction, svg, root, 10, this.id);
     D3RenderHelper.renderTreeNodes(direction, svg, root, this.r, this.id, this.updateChildren, this.openDetails);
     return svg;
   }
 
   public changeSize(sizeChange: number): void {
     if (!this.zoom) return;
+
     const { k, x, y } = this.currentZoom;
     const [min, max] = this.zoomConfig;
     const newScale = k - sizeChange;
@@ -123,14 +126,17 @@ export class Tree {
       .attr('data-testid', this.mainId + '--camera');
 
     this.zoom = d3.zoom().scaleExtent(this.zoomConfig);
+
     this.zoom.on('zoom', ({ transform }) => {
       this.currentZoom = transform;
       if (this.nextMinimapUpdate < Date.now()) this.minimapConnector.onZoom(transform);
+
       return cameraBody.attr('transform', transform);
     });
 
     svg.call(this.zoom);
-    if (this.defaultZoom !== 1) svg.call(this.zoom.transform as any, new ZoomTransform(this.defaultZoom, 0, 0));
+
+    svg.call(this.zoom.transform as any, new ZoomTransform(this.defaultZoom, this.centerXOffset, 0));
 
     return cameraBody;
   }

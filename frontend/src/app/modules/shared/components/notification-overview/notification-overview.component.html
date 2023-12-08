@@ -36,7 +36,8 @@ SPDX-License-Identifier: Apache-2.0
         }"></ng-container>
   </div>
   <div class="card-list--row">
-    <span class="card-list--key detail--text__bold">{{ 'table.column.alertId' | i18n }}</span>
+    <span class="card-list--key detail--text__bold">{{ (notification.notificationType === NotificationType.ALERT ?
+      ('table.column.alertId' | i18n) : ('table.column.investigationId' | i18n)) }}</span>
     <span class="card-list--value detail--value"
       title="{{ notification?.id }}">{{ notification?.id }}</span>
   </div>

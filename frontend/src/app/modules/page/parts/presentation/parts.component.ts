@@ -45,6 +45,8 @@ import { ToastService } from '@shared/components/toasts/toast.service';
 import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
 import { MatDialog } from '@angular/material/dialog';
 import { RequestAlertComponent } from '@shared/components/request-notification/request-alert.component';
+import { PARTS_BASE_ROUTE, getRoute } from '@core/known-route';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SearchHelper } from '@shared/helper/search-helper';
 import { DatePipe } from '@angular/common';
 
@@ -100,6 +102,8 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly staticIdService: StaticIdService,
     private readonly userSettingService: BomLifecycleSettingsService,
     public dialog: MatDialog,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
     public toastService: ToastService,
     public datePipe: DatePipe,
   ) {
@@ -178,6 +182,11 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.dialog.open(RequestAlertComponent, {
       data: { selectedItems: this.currentSelectedItems$.value, showHeadline: true },
     });
+  }
+
+  openDetailPage(part: Part): void {
+    const { link } = getRoute(PARTS_BASE_ROUTE);
+    this.router.navigate([`/${link}/${part.id}`]);
   }
 
   filterActivated(type: MainAspectType, assetFilter: any): void {
@@ -292,7 +301,9 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public onSelectItem($event: Record<string, unknown>): void {
-    this.partDetailsFacade.selectedPart = $event as unknown as Part;
+    const selectedPart = $event as unknown as Part;
+    this.partDetailsFacade.selectedPart = selectedPart;
+    this.openDetailPage(selectedPart);
   }
 
   public onAsBuiltTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {

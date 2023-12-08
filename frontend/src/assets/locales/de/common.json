@@ -56,6 +56,8 @@
     "goBack": "Zurück"
   },
   "table": {
+    "alertId": "Warnung ID",
+    "investigationId": "Untersuchung ID",
     "latestFive": "(Letzte 5)",
     "noResultFound": "KEINE ERGEBNISSE GEFUNDEN.",
     "tryAgain": "Bitte versuchen Sie es später noch einmal.",

@@ -19,47 +19,15 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { QualityType, SemanticDataModel } from '@page/parts/model/parts.model';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-
-type State = 'done' | 'loading' | 'error' | QualityType | SemanticDataModel;
-
-export interface TreeElement {
-  id: string;
-  title: string;
-  text?: string;
-
-  state?: State | string;
-  children?: string[];
-  parents?: string[];
-}
-
-//ToDo: Move to model.d3.ts!!
-export type LoadedElements = Record<string, TreeElement>;
-export type OpenElements = Record<string, string[]>;
-
-export interface TreeStructure {
-  id: string;
-  title: string;
-  text?: string;
-
-  state: State | string;
-  children?: TreeStructure[];
-  relations?: TreeStructure[];
-}
-
-export enum TreeDirection {
-  UP = 'UP',
-  DOWN = 'DOWN',
-}
-
-export interface TreeData {
-  id: string;
-  mainId: string;
-  treeId?: string;
-  r?: number;
-  defaultZoom?: number;
-  centerXOffset?: number;
-  openDetails?: (data: TreeStructure) => void;
-  updateChildren?: (data: TreeStructure, direction: TreeDirection) => void;
+@Component({
+  selector: 'app-info-list',
+  templateUrl: './info-list.component.html',
+  styleUrls: ['./info-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class InfoListComponent {
+  @Input() list: Record<string, string>;
+  @Input() title: string;
 }

@@ -18,8 +18,19 @@ under the License.
 
 SPDX-License-Identifier: Apache-2.0
 -->
-<mat-card class="part-relation-full-screen-container">
-  <mat-card-content class="part-relation-full-screen-container">
-    <app-part-relation></app-part-relation>
-  </mat-card-content>
-</mat-card>
+<!-- [ngClass]="hoverKeys.includes(item.key) ? 'info-list--row--hover' : ''" -->
+
+
+<div>
+  <div>
+    <h4>{{ title }}</h4>
+  </div>
+  <div>
+    <div *ngFor="let item of list | ToKeyValue"
+      class="info-list--row">
+      <p class="info-list--key">{{ 'partDetail.' + item.key | i18n }}</p>
+      <p class="info-list--value"
+        title="{{ item.value | autoFormat }}">{{ item.value | autoFormat }}</p>
+    </div>
+  </div>
+</div>
