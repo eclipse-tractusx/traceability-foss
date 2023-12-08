@@ -60,8 +60,7 @@ SPDX-License-Identifier: Apache-2.0
         data-testid="table-component--head-row"
         class="table--header--row"></tr>
 
-    <tr class="filter-row" mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"
-        [hidden]="displayedFilter"></tr>
+    <tr class="filter-row" mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
 
 
     <ng-container matColumnDef="{{ filter.headerKey }}"

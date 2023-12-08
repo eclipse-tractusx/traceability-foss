@@ -57,8 +57,6 @@ export class TableComponent {
 
   @Input() additionalTableHeader = false;
 
-  @Input() displayedFilter: boolean = false;
-
   @Input()
   set tableConfig(tableConfig: TableConfig) {
     if (!tableConfig) {
@@ -167,16 +165,14 @@ export class TableComponent {
   }
 
   ngOnInit(): void {
-    this.tableViewConfig = {
-      displayedColumns: [ ...this.tableConfig?.displayedColumns ],
-      filterColumns: PartsTableConfigUtils.createFilterColumns(this.tableConfig?.displayedColumns).filter(value => value !== 'Filter' && value !== 'Menu'),
-      sortableColumns: this.tableConfig?.sortableColumns,
-      displayFilterColumnMappings: PartsTableConfigUtils.generateFilterColumnsMapping(this.tableConfig?.sortableColumns, [ 'createdDate', 'targetDate' ]),
+      this.tableViewConfig = {
+      displayedColumns: Object.keys(this.tableConfig.sortableColumns),
       filterFormGroup: PartsTableConfigUtils.createFormGroup(this.tableConfig?.displayedColumns),
+      filterColumns: PartsTableConfigUtils.createFilterColumns(this.tableConfig?.displayedColumns, false, true),
+      sortableColumns: this.tableConfig?.sortableColumns,
+      displayFilterColumnMappings: PartsTableConfigUtils.generateFilterColumnsMapping(this.tableConfig?.sortableColumns, [ 'createdDate', 'targetDate' ], [],false, true),
     };
 
-
-    this.tableViewConfig.filterColumns.push('menu');
     for (const controlName in this.tableViewConfig.filterFormGroup) {
       if (this.tableViewConfig.filterFormGroup.hasOwnProperty(controlName)) {
         this.filterFormGroup.addControl(controlName, this.tableViewConfig.filterFormGroup[controlName]);
@@ -184,8 +180,7 @@ export class TableComponent {
     }
 
     this.tableType = PartsTableConfigUtils.getNotificationTableType(this.notificationType, this.tableViewConfig.displayedColumns);
-    console.log(this.tableType);
-    console.log(this.tableViewConfig);
+
     // TODO 3. give that to parent until you can set Notifications with filter
 
     this.filterFormGroup.valueChanges.subscribe((formValues) => {

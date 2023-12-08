@@ -16,9 +16,17 @@ export class PartsTableConfigUtils {
     return formGroup;
   }
 
-  public static createFilterColumns(displayedColumns: string[]): string[] {
+  public static createFilterColumns(displayedColumns: string[], hasFilterCol: boolean = true, hasMenuCol: boolean = true): string[] {
     const array = displayedColumns.filter((column: string) => 'select' !== column && 'menu' !== column).map((column: string) => 'filter' + column);
-    return [ 'Filter', ...array, 'Menu' ];
+    let filter = null;
+    let menu = null;
+    if (hasFilterCol) {
+      filter = 'Filter';
+    }
+    if (hasMenuCol) {
+      menu = 'Menu';
+    }
+    return [ filter, ...array, menu ].filter(value => value !== null);
   }
 
   public static generateFilterColumnsMapping(sortableColumns: any, dateFields?: string[], singleSearchFields?: string[], hasFilterCol: boolean = true, hasMenuCol: boolean = true): any[] {
@@ -56,21 +64,22 @@ export class PartsTableConfigUtils {
     }
 
     console.log(filterColumnsMapping);
-    return [ first, ...filterColumnsMapping, last ];
+    return [ first, ...filterColumnsMapping, last ].filter(value => value !== null);
 
   }
+
   public static getNotificationTableType(notificationType: NotificationType, displayedColumns: any): PartTableType {
 
     console.log(notificationType, displayedColumns);
-    if(notificationType === NotificationType.INVESTIGATION) {
-      if(displayedColumns.includes('createdBy')) {
+    if (notificationType === NotificationType.INVESTIGATION) {
+      if (displayedColumns.includes('createdBy')) {
         return PartTableType.RECEIVED_INVESTIGATION;
       } else {
-        console.log("RECEIVED INVS!")
+        console.log('RECEIVED INVS!');
         return PartTableType.CREATED_INVESTIGATION;
       }
     } else {
-      if(displayedColumns.includes('createdBy')) {
+      if (displayedColumns.includes('createdBy')) {
         return PartTableType.RECEIVED_ALERT;
       } else {
         return PartTableType.CREATED_ALERT;
