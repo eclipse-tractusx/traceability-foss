@@ -1,4 +1,6 @@
 import { FormControl } from '@angular/forms';
+import { PartTableType } from '@shared/components/table/table.model';
+import { NotificationType } from '@shared/model/notification.model';
 
 export class PartsTableConfigUtils {
 
@@ -16,17 +18,14 @@ export class PartsTableConfigUtils {
 
   public static createFilterColumns(displayedColumns: string[]): string[] {
     const array = displayedColumns.filter((column: string) => 'select' !== column && 'menu' !== column).map((column: string) => 'filter' + column);
-
     return [ 'Filter', ...array, 'Menu' ];
-
-
   }
 
-  public static generateFilterColumnsMapping(sortableColumns: any, dateFields?: string[], singleSearchFields?: string[]): any[] {
+  public static generateFilterColumnsMapping(sortableColumns: any, dateFields?: string[], singleSearchFields?: string[], hasFilterCol: boolean = true, hasMenuCol: boolean = true): any[] {
+
     const filterColumnsMapping: any[] = [];
     console.log(sortableColumns);
-    const firstElement = { filterKey: 'Filter', headerKey: 'Filter' };
-    const lastElement = {filterKey: 'Menu', headerKey: 'Menu'};
+
 
     const excludedFields = [ 'select', 'menu' ];
     for (const key in sortableColumns) {
@@ -47,8 +46,35 @@ export class PartsTableConfigUtils {
         filterColumnsMapping.push(columnMapping);
       }
     }
-    console.log(filterColumnsMapping);
-    return [ firstElement, ...filterColumnsMapping, lastElement ];
+    let first = null;
+    if (hasFilterCol) {
+      first = { filterKey: 'Filter', headerKey: 'Filter' };
+    }
+    let last = null;
+    if (hasMenuCol) {
+      last = { filterKey: 'Menu', headerKey: 'Menu' };
+    }
 
+    console.log(filterColumnsMapping);
+    return [ first, ...filterColumnsMapping, last ];
+
+  }
+  public static getNotificationTableType(notificationType: NotificationType, displayedColumns: any): PartTableType {
+
+    console.log(notificationType, displayedColumns);
+    if(notificationType === NotificationType.INVESTIGATION) {
+      if(displayedColumns.includes('createdBy')) {
+        return PartTableType.RECEIVED_INVESTIGATION;
+      } else {
+        console.log("RECEIVED INVS!")
+        return PartTableType.CREATED_INVESTIGATION;
+      }
+    } else {
+      if(displayedColumns.includes('createdBy')) {
+        return PartTableType.RECEIVED_ALERT;
+      } else {
+        return PartTableType.CREATED_ALERT;
+      }
+    }
   }
 }

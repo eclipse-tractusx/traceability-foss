@@ -29,7 +29,7 @@ import { Pagination } from '@core/model/pagination.model';
 import { RoleService } from '@core/user/role.service';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { TableViewConfig } from '@shared/components/parts-table/table-view-config.model';
-import { TableConfigUtil } from '@shared/components/table/table-config.util';
+import { PartsTableConfigUtils } from '@shared/components/parts-table/parts-table-config.utils';
 import {
   MenuActionConfig,
   PartTableType,
@@ -167,32 +167,31 @@ export class TableComponent {
   }
 
   ngOnInit(): void {
-  this.tableViewConfig = {
-    displayedColumns: [...this.tableConfig?.displayedColumns],
-    filterColumns: TableConfigUtil.createFilterColumns(this.tableConfig?.displayedColumns).filter(value => value !== 'Filter' && value !== 'Menu'),
-    sortableColumns: this.tableConfig?.sortableColumns,
-    displayFilterColumnMappings: TableConfigUtil.generateFilterColumnsMapping(this.tableConfig?.sortableColumns, ['createdDate', 'targetDate']),
-    filterFormGroup: TableConfigUtil.createFormGroup(this.tableConfig?.displayedColumns)
-  }
+    this.tableViewConfig = {
+      displayedColumns: [ ...this.tableConfig?.displayedColumns ],
+      filterColumns: PartsTableConfigUtils.createFilterColumns(this.tableConfig?.displayedColumns).filter(value => value !== 'Filter' && value !== 'Menu'),
+      sortableColumns: this.tableConfig?.sortableColumns,
+      displayFilterColumnMappings: PartsTableConfigUtils.generateFilterColumnsMapping(this.tableConfig?.sortableColumns, [ 'createdDate', 'targetDate' ]),
+      filterFormGroup: PartsTableConfigUtils.createFormGroup(this.tableConfig?.displayedColumns),
+    };
 
 
-
-  this.tableViewConfig.filterColumns.push('menu');
+    this.tableViewConfig.filterColumns.push('menu');
     for (const controlName in this.tableViewConfig.filterFormGroup) {
       if (this.tableViewConfig.filterFormGroup.hasOwnProperty(controlName)) {
         this.filterFormGroup.addControl(controlName, this.tableViewConfig.filterFormGroup[controlName]);
       }
     }
 
-    this.tableType = TableConfigUtil.getNotificationTableType(this.notificationType, this.tableViewConfig.displayedColumns);
+    this.tableType = PartsTableConfigUtils.getNotificationTableType(this.notificationType, this.tableViewConfig.displayedColumns);
     console.log(this.tableType);
-  console.log(this.tableViewConfig);
-   // TODO 3. give that to parent until you can set Notifications with filter
+    console.log(this.tableViewConfig);
+    // TODO 3. give that to parent until you can set Notifications with filter
 
     this.filterFormGroup.valueChanges.subscribe((formValues) => {
       this.filterActivated.emit(formValues);
     });
-}
+  }
 
   public areAllRowsSelected(): boolean {
     return this.dataSource.data.every(data => this.isSelected(data));
