@@ -59,8 +59,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public otherPartsMetricData: MetricData[];
   public investigationsMetricData: MetricData[];
   public alertsMetricData: MetricData[];
-
-
   constructor(private readonly dashboardFacade: DashboardFacade, private readonly router: Router) {
     this.dashboardStats$ = this.dashboardFacade.dashboardStats$;
     this.investigationsReceived$ = this.dashboardFacade.recentReceivedInvestigations$;

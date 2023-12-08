@@ -26,7 +26,7 @@ SPDX-License-Identifier: Apache-2.0
   <app-table
     [paginationData]="notifications.data"
     [additionalTableHeader]="true"
-    [autocompleteEnabled]="true"
+    [autocompleteEnabled]="autocompleteEnabled"
     [tableHeader]="(notificationType === NotificationType.INVESTIGATION) ? ('pageTitle.investigations') : ('pageTitle.alerts')"
     [tableConfig]="tableConfig"
     [noShadow]="true"
