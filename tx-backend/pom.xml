@@ -50,9 +50,8 @@ SPDX-License-Identifier: Apache-2.0
     <!-- https://mvnrepository.com/artifact/org.eclipse.jetty.websocket/websocket-parent -->
 
 
-
     <dependencies>
-                <!-- IRS Client for decentral registry approach -->
+        <!-- IRS Client for decentral registry approach -->
         <dependency>
             <groupId>org.eclipse.tractusx.irs</groupId>
             <artifactId>irs-registry-client</artifactId>
@@ -62,6 +61,10 @@ SPDX-License-Identifier: Apache-2.0
                 <exclusion>
                     <groupId>org.eclipse.jetty</groupId>
                     <artifactId>jetty-http</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.tomcat.embed</groupId>
+                    <artifactId>tomcat-embed-websocket</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -188,23 +191,14 @@ SPDX-License-Identifier: Apache-2.0
             <exclusions>
                 <exclusion>
                     <groupId>org.apache.tomcat.embed</groupId>
-                    <artifactId>tomcat-embed-core</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.tomcat.embed</groupId>
                     <artifactId>tomcat-embed-websocket</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-core</artifactId>
-            <version>10.1.15</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-websocket</artifactId>
-            <version>10.1.15</version>
+            <version>10.1.16</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -436,6 +430,18 @@ SPDX-License-Identifier: Apache-2.0
             <version>1.1.0</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.4.14</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>1.4.14</version>
+        </dependency>
+
+
     </dependencies>
 
     <pluginRepositories>
