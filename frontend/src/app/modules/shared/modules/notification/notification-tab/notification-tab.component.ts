@@ -20,6 +20,7 @@
  ********************************************************************************/
 
 import { AfterViewInit, Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import {
   CreateHeaderFromColumns,
   DisplayColumns,
@@ -47,6 +48,8 @@ export class NotificationTabComponent implements AfterViewInit {
   @Input() sortableColumns: Record<string, boolean> = {};
   @Input() multiSortList: TableHeaderSort[] = [];
   @Input() notificationType = NotificationType.INVESTIGATION;
+  @Input() tableType: TableType;
+  @Input() autocompleteEnabled = false;
 
   @Output() tableConfigChanged = new EventEmitter<TableEventConfig>();
   @Output() investigationsFilterChanged = new EventEmitter<any>();
@@ -58,7 +61,7 @@ export class NotificationTabComponent implements AfterViewInit {
   @ViewChild('descriptionTmp') descriptionTemplate: TemplateRef<unknown>;
   @ViewChild('targetDateTmp') targetDateTemplate: TemplateRef<unknown>;
   @ViewChild('userTmp') userTemplate: TemplateRef<unknown>;
-  @ViewChild('bpnTmp') bpnTemplate: TemplateRef<unknown>
+  @ViewChild('bpnTmp') bpnTemplate: TemplateRef<unknown>;
 
 
   public tableConfig: TableConfig<keyof Notification>;
@@ -94,24 +97,21 @@ export class NotificationTabComponent implements AfterViewInit {
 
   }
 
-  filterActivated(notificationType: NotificationType, notificationFilter: any): void {
+  filterActivated(notificationFilter: any): void {
     this.notificationFilter = notificationFilter;
-    const channel = notificationFilter['createdBy'] ? "RECEIVER" : "SENDER";
-    if(this.notificationType === NotificationType.INVESTIGATION) {
-      console.log("emitting  change")
+    const channel = notificationFilter['createdBy'] ? 'RECEIVER' : 'SENDER';
+    if (this.notificationType === NotificationType.INVESTIGATION) {
       this.investigationsFilterChanged.emit({
         channel: channel,
-        filter: notificationFilter
+        filter: notificationFilter,
       });
     }
-    if(this.notificationType === NotificationType.ALERT) {
+    if (this.notificationType === NotificationType.ALERT) {
       this.alertsFilterChanged.emit({
         channel: channel,
-        filter: notificationFilter
-      })
+        filter: notificationFilter,
+      });
     }
-
-    console.log(notificationType, notificationFilter, channel);
     // output event to either investigation or alert with channel and filter
 
   }
@@ -123,7 +123,6 @@ export class NotificationTabComponent implements AfterViewInit {
   public onTableConfigChange(tableEventConfig: TableEventConfig): void {
     this.tableConfigChanged.emit(tableEventConfig);
   }
-
 
   protected readonly NotificationType = NotificationType;
 }

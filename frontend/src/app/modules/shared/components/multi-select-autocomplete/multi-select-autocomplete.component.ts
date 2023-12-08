@@ -81,13 +81,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   filterColumn = null;
 
   @Input()
-  notificationType: NotificationType = null;
-
-  @Input()
   tableType: TableType = TableType.AS_BUILT_OWN;
-
-  @Input()
-  isAsBuilt: boolean = true;
 
   strategy: AutocompleteStrategy;
 
@@ -120,8 +114,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
               private injector: Injector) {
     registerLocaleData(localeDe, 'de', localeDeExtra);
     this._adapter.setLocale(locale);
-
-    console.log(this.isDate);
   }
 
   ngOnInit(): void {

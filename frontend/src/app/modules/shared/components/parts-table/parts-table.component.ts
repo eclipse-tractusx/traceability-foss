@@ -216,6 +216,9 @@ export class PartsTableComponent implements OnInit {
     this.filterFormGroup.valueChanges.subscribe((formValues) => {
       this.filterActivated.emit(formValues);
     });
+
+    console.log(this.tableViewConfig, "tableviewconfig partstable"  + this.tableType);
+
   }
 
 

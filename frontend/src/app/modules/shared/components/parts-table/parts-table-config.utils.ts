@@ -1,6 +1,4 @@
 import { FormControl } from '@angular/forms';
-import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
-import { NotificationType } from '@shared/model/notification.model';
 
 export class PartsTableConfigUtils {
 
@@ -32,9 +30,6 @@ export class PartsTableConfigUtils {
   public static generateFilterColumnsMapping(sortableColumns: any, dateFields?: string[], singleSearchFields?: string[], hasFilterCol: boolean = true, hasMenuCol: boolean = true): any[] {
 
     const filterColumnsMapping: any[] = [];
-    console.log(sortableColumns);
-
-
     const excludedFields = [ 'select', 'menu' ];
     for (const key in sortableColumns) {
       if (sortableColumns.hasOwnProperty(key) && !excludedFields.includes(key)) {
@@ -62,28 +57,7 @@ export class PartsTableConfigUtils {
     if (hasMenuCol) {
       last = { filterKey: 'Menu', headerKey: 'Menu' };
     }
-
-    console.log(filterColumnsMapping);
     return [ first, ...filterColumnsMapping, last ].filter(value => value !== null);
 
-  }
-
-  public static getNotificationTableType(notificationType: NotificationType, displayedColumns: any): TableType {
-
-    console.log(notificationType, displayedColumns);
-    if (notificationType === NotificationType.INVESTIGATION) {
-      if (displayedColumns.includes('createdBy')) {
-        return TableType.RECEIVED_INVESTIGATION;
-      } else {
-        console.log('RECEIVED INVS!');
-        return TableType.CREATED_INVESTIGATION;
-      }
-    } else {
-      if (displayedColumns.includes('createdBy')) {
-        return TableType.RECEIVED_ALERT;
-      } else {
-        return TableType.CREATED_ALERT;
-      }
-    }
   }
 }
