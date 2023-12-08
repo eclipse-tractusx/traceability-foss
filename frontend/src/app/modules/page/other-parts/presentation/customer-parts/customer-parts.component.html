@@ -35,11 +35,9 @@ SPDX-License-Identifier: Apache-2.0
       (selected)="onSelectItem($event)"
       (configChanged)="onAsBuiltTableConfigChange($event)"
       [multiSortList]="tableCustomerAsBuiltSortList"
-      [multiSelectActive]="true"
       [tableHeader]='"page.asBuiltParts" | i18n'
       (filterActivated)="filterActivated(true, $event )"
       [tableType]="TableType.AS_BUILT_CUSTOMER"
-      [mainAspectType]="MainAspectType.AS_BUILT"
     ></app-parts-table>
   </ng-template>
 </div>
@@ -64,10 +62,8 @@ SPDX-License-Identifier: Apache-2.0
       (selected)="onSelectItem($event)"
       (configChanged)="onAsPlannedTableConfigChange($event)"
       [multiSortList]="tableCustomerAsPlannedSortList"
-      [multiSelectActive]="true"
       (filterActivated)="filterActivated(false, $event )"
       [tableType]="TableType.AS_PLANNED_CUSTOMER"
-      [mainAspectType]="MainAspectType.AS_PLANNED"
     ></app-parts-table>
   </ng-template>
 </div>

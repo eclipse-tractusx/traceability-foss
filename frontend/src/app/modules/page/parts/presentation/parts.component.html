@@ -55,7 +55,6 @@ SPDX-License-Identifier: Apache-2.0
             <app-parts-table class="parts-asBuilt-table"
                              [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
                              [labelId]="titleId"
-                             [multiSelectActive]="true"
                              [selectedPartsInfoLabel]="'page.selectedParts.info'"
                              [selectedPartsActionLabel]="'page.selectedParts.action'"
                              [deselectTrigger]="deselectPartTrigger$ | async"
@@ -68,7 +67,6 @@ SPDX-License-Identifier: Apache-2.0
                              [multiSortList]="tableAsBuiltSortList"
                              [tableHeader]='"page.asBuiltParts" | i18n'
                              [tableType]="TableType.AS_BUILT_OWN"
-                             [mainAspectType]="MainAspectType.AS_BUILT"
             ></app-parts-table>
           </ng-template>
         </div>
@@ -83,7 +81,6 @@ SPDX-License-Identifier: Apache-2.0
             <app-parts-table class="parts-asPlanned-table"
                              [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
                              [labelId]="titleId"
-                             [multiSelectActive]="true"
                              [selectedPartsInfoLabel]="'page.selectedParts.info'"
                              [selectedPartsActionLabel]="'page.selectedParts.action'"
                              [deselectTrigger]="deselectPartTrigger$ | async"
@@ -95,7 +92,6 @@ SPDX-License-Identifier: Apache-2.0
                              [multiSortList]="tableAsPlannedSortList"
                              [tableHeader]='"page.asPlannedParts" | i18n'
                              [tableType]="TableType.AS_PLANNED_OWN"
-                             [mainAspectType]="MainAspectType.AS_PLANNED"
             ></app-parts-table>
 
           </ng-template>

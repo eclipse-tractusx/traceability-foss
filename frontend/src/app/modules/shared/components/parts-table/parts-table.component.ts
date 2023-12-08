@@ -72,7 +72,6 @@ export class PartsTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('tableElement', { read: ElementRef }) tableElementRef: ElementRef<HTMLElement>;
   @ViewChildren(MultiSelectAutocompleteComponent) multiSelectAutocompleteComponents: QueryList<MultiSelectAutocompleteComponent>;
-  @Input() multiSelectActive = false;
 
   @Input() labelId: string;
   @Input() noShadow = false;
@@ -86,11 +85,7 @@ export class PartsTableComponent implements OnInit {
 
   @Input() tableType: TableType;
 
-  @Input() mainAspectType: MainAspectType;
-
   public tableConfig: TableConfig;
-
-  filterKey = 'Filter';
 
   @Input() set paginationData({ page, pageSize, totalItems, content }: Pagination<unknown>) {
     this.totalItems = totalItems;
@@ -358,8 +353,5 @@ export class PartsTableComponent implements OnInit {
     this.dialog.open(TableSettingsComponent, config);
   }
 
-
-  protected readonly MenuStack = MenuStack;
-  protected readonly MainAspectType = MainAspectType;
   protected readonly TableType = TableType;
 }
