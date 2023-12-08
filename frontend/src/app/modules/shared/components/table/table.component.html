@@ -83,8 +83,6 @@ SPDX-License-Identifier: Apache-2.0
                          [tableType]="tableType"
                          ngDefaultControl
                          [formControl]="filterFormGroup.controls[filter.filterKey]"></app-multiselect>
-        <span class="filter-title" *ngIf="filter.headerKey==='Filter'">{{ ''}} </span>
-        <span class="menu-title" *ngIf="filter.headerKey==='Menu'">{{ ''}}</span>
       </th>
     </ng-container>
 
