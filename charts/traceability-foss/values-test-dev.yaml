@@ -158,7 +158,7 @@ postgresql:
 irs-helm:
   nameOverride: *irs_name
   fullnameOverride: *irs_name
-  bpn: *bpn
+  bpn: BPNL00000003CML1
   irsUrl: "https://tx-irs-test.dev.demo.catena-x.net"
   ingress:
     hosts:
