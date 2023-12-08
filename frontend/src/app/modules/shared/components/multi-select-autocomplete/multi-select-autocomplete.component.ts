@@ -172,7 +172,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     return this.searchElement === null || this.searchElement === undefined || this.searchElement === '';
   }
 
-  displayValue() {
+  displayValue(): string[] {
     let suffix = '';
     let displayValue;
     // add +X others label if multiple
@@ -182,14 +182,16 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
 
     // apply CamelCase to semanticDataModel labels
     if (this.filterColumn === 'semanticDataModel') {
-      displayValue = this.formatPartSemanticDataModelToCamelCasePipe.transformModel(this.selectedValue[0]) + suffix;
-    } else {
-      displayValue = this.selectedValue[0] + suffix;
+      displayValue = [this.formatPartSemanticDataModelToCamelCasePipe.transformModel(this.selectedValue[0]), suffix];
+    }
+
+    else {
+      displayValue = [this.selectedValue[0], suffix];
     }
 
     // if no value selected, return empty string
     if (!this.selectedValue.length) {
-      displayValue = '';
+      displayValue = [''];
     }
 
     return displayValue;
@@ -344,5 +346,3 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     }
   }
 }
-
-// TODO 3. in multi there is an output event where the table gets updated, integrate the output event (form control change) in table component like in part table event

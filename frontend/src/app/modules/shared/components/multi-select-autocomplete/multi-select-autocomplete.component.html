@@ -46,13 +46,15 @@ SPDX-License-Identifier: Apache-2.0
     <div class="pl-1" *ngIf="suggestionError">{{'multiSelect.suggestionError' | i18n}}</div>
     <ng-container>
       <mat-option *ngFor="let option of optionsSelected" [disabled]="option.disabled"
-                  [value]="option.value">{{option.display}}
+                  [value]="option.value">
+        {{'multiSelect.mappedText.' + option.display | i18n: option.display}}
       </mat-option>
     </ng-container>
 
     <mat-divider></mat-divider>
     <ng-container *ngIf="options?.length">
-      <mat-option *ngFor="let option of options" [disabled]="option.disabled" [value]="option.value">{{option.display}}
+      <mat-option *ngFor="let option of options" [disabled]="option.disabled" [value]="option.value">
+        {{'multiSelect.mappedText.' + option.display | i18n: option.display}}
       </mat-option>
     </ng-container>
 
@@ -61,7 +63,9 @@ SPDX-License-Identifier: Apache-2.0
     </mat-option>
     <mat-select-trigger *ngIf="selectedValue?.length > 1">
       <div>
-        {{displayValue()}}
+        <ng-container *ngFor="let value of displayValue()">
+          {{'multiSelect.mappedText.' + value | i18n: {defaultValue: value} }}
+        </ng-container>
       </div>
     </mat-select-trigger>
   </mat-select>
