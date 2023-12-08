@@ -20,14 +20,16 @@
 import { DatePipe, registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-import { Component, EventEmitter, Inject, Input, LOCALE_ID, OnChanges, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Inject, Injector, Input, LOCALE_ID, OnChanges, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MatSelectChange } from '@angular/material/select';
-import { Owner } from '@page/parts/model/owner.enum';
-import { TableContentType } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.model';
-import { PartTableType } from '@shared/components/table/table.model';
+import {
+  AutocompleteStrategy,
+  AutocompleteStrategyMap,
+} from '@shared/components/multi-select-autocomplete/autocomplete-strategy';
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { NotificationType } from '@shared/model/notification.model';
 import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
 import { AlertsService } from '@shared/service/alerts.service';
@@ -82,10 +84,12 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   notificationType: NotificationType = null;
 
   @Input()
-  partTableType = PartTableType.AS_BUILT_OWN;
+  tableType: TableType = TableType.AS_BUILT_OWN;
 
   @Input()
   isAsBuilt: boolean = true;
+
+  strategy: AutocompleteStrategy;
 
   public readonly minDate = new Date();
 
@@ -112,7 +116,8 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   constructor(public datePipe: DatePipe, public _adapter: DateAdapter<any>,
               @Inject(MAT_DATE_LOCALE) public _locale: string, @Inject(LOCALE_ID) private locale: string, public partsService: PartsService,
               public investigationsService: InvestigationsService, public alertsService: AlertsService,
-              private readonly formatPartSemanticDataModelToCamelCasePipe: FormatPartSemanticDataModelToCamelCasePipe) {
+              private readonly formatPartSemanticDataModelToCamelCasePipe: FormatPartSemanticDataModelToCamelCasePipe,
+              private injector: Injector) {
     registerLocaleData(localeDe, 'de', localeDeExtra);
     this._adapter.setLocale(locale);
 
@@ -120,6 +125,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   }
 
   ngOnInit(): void {
+    this.strategy = this.injector.get<AutocompleteStrategy>(AutocompleteStrategyMap.get(this.tableType));
     this.searchElementChange.subscribe((value) => {
       if (this.delayTimeoutId) {
         clearTimeout(this.delayTimeoutId);
@@ -214,31 +220,8 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     // if there is no timeout currently, start the delay
     const timeoutCallback = async (): Promise<void> => {
       this.isLoadingSuggestions = true;
-      let newSuggestions = null;
-
-      const tableOwner = this.getOwnerOfTable(this.partTableType);
-
-
-      if (this.getContentTypeOfTable(this.partTableType) === TableContentType.NOTIFICATION) {
-        console.log("channel")
-        const notificationChannel = this.getChannelOfTable(this.partTableType);
-        if (this.notificationType === NotificationType.INVESTIGATION) {
-          newSuggestions = this.investigationsService.getDistinctFilterValues( notificationChannel, this.filterColumn, this.searchElement);
-        } else {
-          newSuggestions = this.alertsService.getDistinctFilterValues(notificationChannel, this.filterColumn, this.searchElement);
-        }
-      } else {
-        newSuggestions = this.partsService.getDistinctFilterValues(
-          this.isAsBuilt,
-          tableOwner,
-          this.filterColumn,
-          this.searchElement,
-        );
-      }
-
-
       try {
-        firstValueFrom(newSuggestions).then((res) => {
+        firstValueFrom(this.strategy.retrieveSuggestionValues(this.tableType, this.filterColumn, this.searchElement)).then((res) => {
           if (this.filterColumn === 'semanticDataModel') {
             // @ts-ignore
             this.searchedOptions = res.filter(option => !this.selectedValue.includes(option))
@@ -353,45 +336,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     const noSelectedValues = this.selectedValue?.length === 0;
     const oneOptionSelected = this.optionsSelected?.length === 1 && this.allOptions?.length === 0;
     this.selectAllChecked = noSelectedValues ? false : oneOptionSelected || this.allOptions?.length + this.optionsSelected?.length === this.selectedValue?.length;
-  }
-
-  getOwnerOfTable(partTableType: PartTableType): Owner {
-    if (partTableType === PartTableType.AS_BUILT_OWN || partTableType === PartTableType.AS_PLANNED_OWN) {
-      return Owner.OWN;
-    } else if (partTableType === PartTableType.AS_BUILT_CUSTOMER || partTableType === PartTableType.AS_PLANNED_CUSTOMER) {
-      return Owner.CUSTOMER;
-    } else if (partTableType === PartTableType.AS_BUILT_SUPPLIER || partTableType === PartTableType.AS_PLANNED_SUPPLIER) {
-      return Owner.SUPPLIER;
-    } else {
-      return Owner.UNKNOWN;
-    }
-  }
-
-  getChannelOfTable(partTableType: PartTableType): string {
-    console.log(partTableType);
-    if (this.getContentTypeOfTable(partTableType) === TableContentType.PART) {
-      return;
-    }
-
-    if (partTableType === PartTableType.CREATED_ALERT || partTableType === PartTableType.CREATED_INVESTIGATION) {
-      return 'SENDER';
-    } else {
-      return 'RECEIVER';
-    }
-
-  }
-
-  getContentTypeOfTable(partTableType: PartTableType): TableContentType {
-    switch (partTableType) {
-      case PartTableType.RECEIVED_INVESTIGATION:
-      case PartTableType.CREATED_INVESTIGATION:
-      case PartTableType.RECEIVED_ALERT:
-      case PartTableType.CREATED_ALERT:
-        return TableContentType.NOTIFICATION;
-        break;
-      default:
-        return TableContentType.PART;
-    }
   }
 
   filterKeyCommands(event: any) {

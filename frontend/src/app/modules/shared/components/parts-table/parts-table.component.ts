@@ -40,6 +40,7 @@ import { EmptyPagination, Pagination } from '@core/model/pagination.model';
 import { TableSettingsService } from '@core/user/table-settings.service';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { PartsAsBuiltConfigurationModel } from '@shared/components/parts-table/parts-as-built-configuration.model';
 import { PartsAsBuiltCustomerConfigurationModel } from '@shared/components/parts-table/parts-as-built-customer-configuration.model';
 import { PartsAsBuiltSupplierConfigurationModel } from '@shared/components/parts-table/parts-as-built-supplier-configuration.model';
@@ -50,7 +51,6 @@ import { TableViewConfig } from '@shared/components/parts-table/table-view-confi
 import { TableSettingsComponent } from '@shared/components/table-settings/table-settings.component';
 import {
   CreateHeaderFromColumns,
-  PartTableType,
   TableConfig,
   TableEventConfig,
   TableHeaderSort,
@@ -84,7 +84,7 @@ export class PartsTableComponent implements OnInit {
   @Input() tableHeader: string;
   @Input() multiSortList: TableHeaderSort[];
 
-  @Input() tableType: PartTableType;
+  @Input() tableType: TableType;
 
   @Input() mainAspectType: MainAspectType;
 
@@ -183,22 +183,22 @@ export class PartsTableComponent implements OnInit {
   private initializeTableViewSettings(): void {
 
     switch (this.tableType) {
-      case PartTableType.AS_PLANNED_CUSTOMER:
+      case TableType.AS_PLANNED_CUSTOMER:
         this.tableViewConfig = new PartsAsPlannedCustomerConfigurationModel().filterConfiguration();
         break;
-      case PartTableType.AS_PLANNED_OWN:
+      case TableType.AS_PLANNED_OWN:
         this.tableViewConfig = new PartsAsPlannedConfigurationModel().filterConfiguration();
         break;
-      case PartTableType.AS_PLANNED_SUPPLIER:
+      case TableType.AS_PLANNED_SUPPLIER:
         this.tableViewConfig = new PartsAsPlannedSupplierConfigurationModel().filterConfiguration();
         break;
-      case PartTableType.AS_BUILT_OWN:
+      case TableType.AS_BUILT_OWN:
         this.tableViewConfig = new PartsAsBuiltConfigurationModel().filterConfiguration();
         break;
-      case PartTableType.AS_BUILT_CUSTOMER:
+      case TableType.AS_BUILT_CUSTOMER:
         this.tableViewConfig = new PartsAsBuiltCustomerConfigurationModel().filterConfiguration();
         break;
-      case PartTableType.AS_BUILT_SUPPLIER:
+      case TableType.AS_BUILT_SUPPLIER:
         this.tableViewConfig = new PartsAsBuiltSupplierConfigurationModel().filterConfiguration();
         break;
     }
@@ -360,5 +360,5 @@ export class PartsTableComponent implements OnInit {
 
   protected readonly MenuStack = MenuStack;
   protected readonly MainAspectType = MainAspectType;
-  protected readonly PartTableType = PartTableType;
+  protected readonly TableType = TableType;
 }

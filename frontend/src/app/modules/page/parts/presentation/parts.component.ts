@@ -20,22 +20,23 @@
  ********************************************************************************/
 
 import { AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Pagination } from '@core/model/pagination.model';
 import { PartsFacade } from '@page/parts/core/parts.facade';
+import { resetMultiSelectionAutoCompleteComponent } from '@page/parts/core/parts.helper';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { AssetAsBuiltFilter, AssetAsPlannedFilter, Part } from '@page/parts/model/parts.model';
-import { PartTableType, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
+import { BomLifecycleSize } from '@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model';
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
+import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
+import { TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
+import { ToastService } from '@shared/components/toasts/toast.service';
+import { toAssetFilter, toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
+import { BomLifecycleSettingsService, UserSettingView } from '@shared/service/bom-lifecycle-settings.service';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { BomLifecycleSize } from '@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model';
-import { BomLifecycleSettingsService, UserSettingView } from '@shared/service/bom-lifecycle-settings.service';
-import { toAssetFilter, toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
-import { FormControl, FormGroup } from '@angular/forms';
-import { ToastService } from '@shared/components/toasts/toast.service';
-import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
-import { resetMultiSelectionAutoCompleteComponent } from '@page/parts/core/parts.helper';
 
 
 @Component({
@@ -222,6 +223,6 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   protected readonly UserSettingView = UserSettingView;
-  protected readonly PartTableType = PartTableType;
+  protected readonly TableType = TableType;
   protected readonly MainAspectType = MainAspectType;
 }

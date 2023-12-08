@@ -3,7 +3,7 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { Owner } from '@page/parts/model/owner.enum';
 import { SemanticDataModel } from '@page/parts/model/parts.model';
 import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
-import { PartTableType } from '@shared/components/table/table.model';
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
 import { SharedModule } from '@shared/shared.module';
 import { renderComponent } from '@tests/test-render.utils';
@@ -228,7 +228,7 @@ describe('MultiSelectAutocompleteComponent', () => {
     const { componentInstance } = fixture;
 
     const expectedOwners = [ Owner.OWN, Owner.OWN, Owner.SUPPLIER, Owner.SUPPLIER, Owner.CUSTOMER, Owner.CUSTOMER, Owner.UNKNOWN ];
-    [ PartTableType.AS_BUILT_OWN, PartTableType.AS_PLANNED_OWN, PartTableType.AS_BUILT_SUPPLIER, PartTableType.AS_PLANNED_SUPPLIER, PartTableType.AS_BUILT_CUSTOMER, PartTableType.AS_PLANNED_CUSTOMER, null ].forEach((tableType, index) => {
+    [ TableType.AS_BUILT_OWN, TableType.AS_PLANNED_OWN, TableType.AS_BUILT_SUPPLIER, TableType.AS_PLANNED_SUPPLIER, TableType.AS_BUILT_CUSTOMER, TableType.AS_PLANNED_CUSTOMER, null ].forEach((tableType, index) => {
       expect(componentInstance.getOwnerOfTable(tableType)).toEqual(expectedOwners[index]);
     });
   });

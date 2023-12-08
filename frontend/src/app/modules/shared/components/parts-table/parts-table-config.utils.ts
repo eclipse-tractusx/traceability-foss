@@ -1,5 +1,5 @@
 import { FormControl } from '@angular/forms';
-import { PartTableType } from '@shared/components/table/table.model';
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { NotificationType } from '@shared/model/notification.model';
 
 export class PartsTableConfigUtils {
@@ -68,21 +68,21 @@ export class PartsTableConfigUtils {
 
   }
 
-  public static getNotificationTableType(notificationType: NotificationType, displayedColumns: any): PartTableType {
+  public static getNotificationTableType(notificationType: NotificationType, displayedColumns: any): TableType {
 
     console.log(notificationType, displayedColumns);
     if (notificationType === NotificationType.INVESTIGATION) {
       if (displayedColumns.includes('createdBy')) {
-        return PartTableType.RECEIVED_INVESTIGATION;
+        return TableType.RECEIVED_INVESTIGATION;
       } else {
         console.log('RECEIVED INVS!');
-        return PartTableType.CREATED_INVESTIGATION;
+        return TableType.CREATED_INVESTIGATION;
       }
     } else {
       if (displayedColumns.includes('createdBy')) {
-        return PartTableType.RECEIVED_ALERT;
+        return TableType.RECEIVED_ALERT;
       } else {
-        return PartTableType.CREATED_ALERT;
+        return TableType.CREATED_ALERT;
       }
     }
   }

@@ -28,11 +28,11 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Pagination } from '@core/model/pagination.model';
 import { RoleService } from '@core/user/role.service';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import { TableViewConfig } from '@shared/components/parts-table/table-view-config.model';
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { PartsTableConfigUtils } from '@shared/components/parts-table/parts-table-config.utils';
+import { TableViewConfig } from '@shared/components/parts-table/table-view-config.model';
 import {
   MenuActionConfig,
-  PartTableType,
   TableConfig,
   TableEventConfig,
   TableHeaderSort,
@@ -158,19 +158,19 @@ export class TableComponent {
   filterFormGroup = new FormGroup({});
 
   // input notification type map to parttable type,
-  tableType: PartTableType;
+  tableType: TableType;
 
   constructor(private readonly roleService: RoleService) {
 
   }
 
   ngOnInit(): void {
-      this.tableViewConfig = {
+    this.tableViewConfig = {
       displayedColumns: Object.keys(this.tableConfig.sortableColumns),
       filterFormGroup: PartsTableConfigUtils.createFormGroup(this.tableConfig?.displayedColumns),
       filterColumns: PartsTableConfigUtils.createFilterColumns(this.tableConfig?.displayedColumns, false, true),
       sortableColumns: this.tableConfig?.sortableColumns,
-      displayFilterColumnMappings: PartsTableConfigUtils.generateFilterColumnsMapping(this.tableConfig?.sortableColumns, [ 'createdDate', 'targetDate' ], [],false, true),
+      displayFilterColumnMappings: PartsTableConfigUtils.generateFilterColumnsMapping(this.tableConfig?.sortableColumns, [ 'createdDate', 'targetDate' ], [], false, true),
     };
 
     for (const controlName in this.tableViewConfig.filterFormGroup) {
@@ -253,5 +253,4 @@ export class TableComponent {
 
   protected readonly NotificationType = NotificationType;
   protected readonly MainAspectType = MainAspectType;
-  protected readonly PartTableType = PartTableType;
 }

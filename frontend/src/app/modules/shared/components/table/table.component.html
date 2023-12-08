@@ -62,7 +62,8 @@ SPDX-License-Identifier: Apache-2.0
 
     <ng-container matColumnDef="{{ filter.headerKey }}"
                   *ngFor="let filter of tableViewConfig.displayFilterColumnMappings">
-      <th class="multi-select-header-cell" mat-header-cell *matHeaderCellDef [ngClass]="{'menu-column': filter.headerKey === 'Menu'}">
+      <th class="multi-select-header-cell" mat-header-cell *matHeaderCellDef
+          [ngClass]="{'menu-column': filter.headerKey === 'Menu'}">
         <app-multiselect *ngIf="filter.headerKey!=='Filter' && filter.headerKey !== 'Menu'"
                          [placeholder]="'multiSelect.placeholder' | i18n"
                          [options]="filter.option"
@@ -71,11 +72,11 @@ SPDX-License-Identifier: Apache-2.0
                          [filterColumn]="filter.filterKey"
                          [placeholderMultiple]="('multiSelect.multipleResults' | i18n)"
                          [notificationType]="notificationType"
-                         [partTableType]="tableType"
+                         [tableType]="tableType"
                          ngDefaultControl
                          [formControl]="filterFormGroup.controls[filter.filterKey]"></app-multiselect>
         <span class="filter-title" *ngIf="filter.headerKey==='Filter'">{{ ''}} </span>
-        <span class="menu-title" *ngIf="filter.headerKey==='Menu'" >{{ ''}}</span>
+        <span class="menu-title" *ngIf="filter.headerKey==='Menu'">{{ ''}}</span>
       </th>
     </ng-container>
 

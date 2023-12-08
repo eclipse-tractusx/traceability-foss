@@ -21,7 +21,8 @@ import { Component, EventEmitter, Inject, Output } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TableViewSettings } from '@core/user/table-settings.model';
 import { TableSettingsService } from '@core/user/table-settings.service';
-import { PartTableType } from '@shared/components/table/table.model';
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
+
 
 @Component({
   selector: 'app-table-settings',
@@ -34,7 +35,7 @@ export class TableSettingsComponent {
   title: string;
   panelClass: string;
 
-  tableType: PartTableType;
+  tableType: TableType;
   defaultColumns: string[];
   defaultFilterColumns: string[];
 
@@ -53,7 +54,7 @@ export class TableSettingsComponent {
     // Layout
     this.title = data.title;
     this.panelClass = data.panelClass;
-    this.isCustomerTable = data.tableType === PartTableType.AS_BUILT_CUSTOMER || data.tableType === PartTableType.AS_PLANNED_CUSTOMER;
+    this.isCustomerTable = data.tableType === TableType.AS_BUILT_CUSTOMER || data.tableType === TableType.AS_PLANNED_CUSTOMER;
     // Passed Data
     this.tableType = data.tableType;
     this.defaultColumns = data.defaultColumns;

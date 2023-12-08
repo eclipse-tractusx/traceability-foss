@@ -67,7 +67,7 @@ SPDX-License-Identifier: Apache-2.0
                              (filterActivated)="filterActivated(true, $event )"
                              [multiSortList]="tableAsBuiltSortList"
                              [tableHeader]='"page.asBuiltParts" | i18n'
-                             [tableType]="PartTableType.AS_BUILT_OWN"
+                             [tableType]="TableType.AS_BUILT_OWN"
                              [mainAspectType]="MainAspectType.AS_BUILT"
             ></app-parts-table>
           </ng-template>
@@ -94,7 +94,7 @@ SPDX-License-Identifier: Apache-2.0
                              (filterActivated)="filterActivated(false, $event)"
                              [multiSortList]="tableAsPlannedSortList"
                              [tableHeader]='"page.asPlannedParts" | i18n'
-                             [tableType]="PartTableType.AS_PLANNED_OWN"
+                             [tableType]="TableType.AS_PLANNED_OWN"
                              [mainAspectType]="MainAspectType.AS_PLANNED"
             ></app-parts-table>
 
