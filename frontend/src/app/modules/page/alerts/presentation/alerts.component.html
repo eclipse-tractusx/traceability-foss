@@ -36,6 +36,7 @@ SPDX-License-Identifier: Apache-2.0
   [queuedAndRequestedMultiSortList]="alertQueuedAndRequestedSortList"
   (onReceivedTableConfigChanged)="onReceivedTableConfigChange($event)"
   (onQueuedAndRequestedTableConfigChanged)="onQueuedAndRequestedTableConfigChange($event)"
+  (alertFilterChanged)="filterNotifications($event)"
   (selected)="openDetailPage($event)"
   [menuActionsConfig]="menuActionsConfig"
 ></app-notification>

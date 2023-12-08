@@ -26,7 +26,7 @@ import { environment } from '@env';
 import { NotificationAssembler } from '@shared/assembler/notification.assembler';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { TableHeaderSort } from '@shared/components/table/table.model';
-import { enrichDeeplinkFilterAndGetUpdatedParams } from '@shared/helper/filter-helper';
+import { enrichDeeplinkFilterAndGetUpdatedParams, enrichFilterAndGetUpdatedParams } from '@shared/helper/filter-helper';
 import { Severity } from '@shared/model/severity.model';
 import type { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -50,7 +50,7 @@ export class AlertsService {
   constructor(private readonly apiService: ApiService) {
   }
 
-  public getCreatedAlerts(page: number, pageSize: number, sorting: TableHeaderSort[], filter?: NotificationFilter): Observable<Notifications> {
+  public getCreatedAlerts(page: number, pageSize: number, sorting: TableHeaderSort[], filter?: NotificationFilter, fullFilter?: any): Observable<Notifications> {
     let sort = sorting.length ? sorting : [ 'createdDate,desc' ];
     let params = new HttpParams()
       .set('page', page)
@@ -61,14 +61,20 @@ export class AlertsService {
       params = params.append('sort', sortingItem);
     });
 
-    params = enrichDeeplinkFilterAndGetUpdatedParams(filter, params);
+    if(filter && !fullFilter) {
+      params = enrichDeeplinkFilterAndGetUpdatedParams(filter, params);
+    }
+
+    if(!filter && fullFilter) {
+      params = enrichFilterAndGetUpdatedParams(fullFilter, params, "AND")
+    }
 
     return this.apiService
       .getBy<NotificationsResponse>(`${ this.url }/alerts`, params)
       .pipe(map(alerts => NotificationAssembler.assembleNotifications(alerts, NotificationType.ALERT)));
   }
 
-  public getReceivedAlerts(page: number, pageSize: number, sorting: TableHeaderSort[], filter?: NotificationFilter): Observable<Notifications> {
+  public getReceivedAlerts(page: number, pageSize: number, sorting: TableHeaderSort[], filter?: NotificationFilter, fullFilter?: any): Observable<Notifications> {
     let sort = sorting.length ? sorting : [ 'createdDate,desc' ];
     let params = new HttpParams()
       .set('page', page)
@@ -79,7 +85,13 @@ export class AlertsService {
       params = params.append('sort', sortingItem);
     });
 
-    params = enrichDeeplinkFilterAndGetUpdatedParams(filter, params);
+    if(filter && !fullFilter) {
+      params = enrichDeeplinkFilterAndGetUpdatedParams(filter, params);
+    }
+
+    if(!filter && fullFilter) {
+      params = enrichFilterAndGetUpdatedParams(fullFilter, params, "AND")
+    }
 
     return this.apiService
       .getBy<NotificationsResponse>(`${ this.url }/alerts`, params)

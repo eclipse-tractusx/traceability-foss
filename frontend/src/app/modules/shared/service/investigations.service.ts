@@ -87,6 +87,7 @@ export class InvestigationsService {
     sort.forEach(sortingItem => {
       params = params.append('sort', sortingItem);
     });
+
     if(filter && !fullFilter) {
       params = enrichDeeplinkFilterAndGetUpdatedParams(filter, params);
     }
