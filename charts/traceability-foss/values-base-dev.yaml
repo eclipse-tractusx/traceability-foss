@@ -40,7 +40,7 @@ configuration:
     edcClient:
       callbackUrl: &backend_edc_client_callback_url 'https://traceability.dev.demo.catena-x.net/api/internal/endpoint-data-reference'
     backendDatabase:
-      url: &backend_database_url 'jdbc:postgresql://tx-backend-postgresql-hl:5432/trace'
+      url: &backend_database_url 'jdbc:postgresql://tx-backend-postgresql-dev:5432/trace'
       name: &backend_database_name 'tx-backend-postgresql-dev'
       password: &backend_database_password <path:traceability-foss/data/dev/database#tracePassword>
       rootPassword: &backend_database_root_password <path:traceability-foss/data/dev/database#postgresPassword>
