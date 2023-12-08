@@ -48,6 +48,7 @@ export class InvestigationsComponent {
 
   public menuActionsConfig: MenuActionConfig<Notification>[];
 
+  public isInvestigation = true;
   public investigationReceivedSortList: TableHeaderSort[] = [];
   public investigationQueuedAndRequestedSortList: TableHeaderSort[] = [];
   private ctrlKeyState: boolean = false;
@@ -129,7 +130,6 @@ export class InvestigationsComponent {
   protected readonly NotificationType = NotificationType;
 
   filterNotifications(filterContext: any) {
-    console.log("filtering", filterContext)
     if(filterContext.channel === 'RECEIVER') {
       this.investigationsFacade.setReceivedInvestigation(this.pagination.page, this.pagination.pageSize, this.investigationReceivedSortList, null, filterContext.filter /*Filter */);
 

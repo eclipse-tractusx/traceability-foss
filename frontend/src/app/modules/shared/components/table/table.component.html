@@ -58,20 +58,20 @@ SPDX-License-Identifier: Apache-2.0
     <tr *matHeaderRowDef="tableViewConfig?.displayedColumns; sticky: true" mat-header-row
         data-testid="table-component--head-row" class="table--header--row"></tr>
 
+    <ng-container *ngIf="autocompleteEnabled">
     <tr class="filter-row" mat-header-row *matHeaderRowDef="tableViewConfig?.filterColumns; sticky: true"></tr>
-
+    </ng-container>
     <ng-container matColumnDef="{{ filter.headerKey }}"
                   *ngFor="let filter of tableViewConfig.displayFilterColumnMappings">
       <th class="multi-select-header-cell" mat-header-cell *matHeaderCellDef
           [ngClass]="{'menu-column': filter.headerKey === 'Menu'}">
-        <app-multiselect *ngIf="filter.headerKey!=='Filter' && filter.headerKey !== 'Menu'"
+        <app-multiselect *ngIf="filter.headerKey!=='Filter' && filter.headerKey !== 'Menu' && autocompleteEnabled"
                          [placeholder]="'multiSelect.placeholder' | i18n"
                          [options]="filter.option"
                          [isDate]="filter.isDate"
                          [singleSearch]="filter.singleSearch"
                          [filterColumn]="filter.filterKey"
                          [placeholderMultiple]="('multiSelect.multipleResults' | i18n)"
-                         [notificationType]="notificationType"
                          [tableType]="tableType"
                          ngDefaultControl
                          [formControl]="filterFormGroup.controls[filter.filterKey]"></app-multiselect>

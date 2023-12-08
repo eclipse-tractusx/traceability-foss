@@ -129,7 +129,6 @@ export class TableSettingsComponent {
     // in non customer table we have the select Column as first and why
     let upperLimit = this.isCustomerTable ? 0 : 1;
     let step = direction === 'up' ? -1 : 1;
-    console.log(oldPosition, upperLimit, step);
     if ((oldPosition == upperLimit && direction === 'up') || (oldPosition === this.dialogColumns.length - 1 && direction === 'down')) {
       return;
     }

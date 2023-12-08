@@ -38,7 +38,6 @@ import {
   TableHeaderSort,
 } from '@shared/components/table/table.model';
 import { addSelectedValues, clearAllRows, clearCurrentRows, removeSelectedValues } from '@shared/helper/table-helper';
-import { NotificationType } from '@shared/model/notification.model';
 import { FlattenObjectPipe } from '@shared/pipes/flatten-object.pipe';
 
 @Component({
@@ -52,9 +51,6 @@ export class TableComponent {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('tableElement', { read: ElementRef }) tableElementRef: ElementRef<HTMLElement>;
-
-  @Input() notificationType: NotificationType;
-
   @Input() additionalTableHeader = false;
 
   @Input()
@@ -138,6 +134,8 @@ export class TableComponent {
   @Output() multiSelect = new EventEmitter<any[]>();
   @Output() clickSelectAction = new EventEmitter<void>();
   @Output() filterActivated = new EventEmitter<any>();
+  @Input()
+  public autocompleteEnabled = false;
 
   public readonly dataSource = new MatTableDataSource<unknown>();
   public readonly selection = new SelectionModel<unknown>(true, []);
@@ -158,6 +156,7 @@ export class TableComponent {
   filterFormGroup = new FormGroup({});
 
   // input notification type map to parttable type,
+  @Input()
   tableType: TableType;
 
   constructor(private readonly roleService: RoleService) {
@@ -173,13 +172,13 @@ export class TableComponent {
       displayFilterColumnMappings: PartsTableConfigUtils.generateFilterColumnsMapping(this.tableConfig?.sortableColumns, [ 'createdDate', 'targetDate' ], [], false, true),
     };
 
+    console.log(this.tableViewConfig, 'tableviewconfig table' + this.tableType);
+
     for (const controlName in this.tableViewConfig.filterFormGroup) {
       if (this.tableViewConfig.filterFormGroup.hasOwnProperty(controlName)) {
         this.filterFormGroup.addControl(controlName, this.tableViewConfig.filterFormGroup[controlName]);
       }
     }
-
-    this.tableType = PartsTableConfigUtils.getNotificationTableType(this.notificationType, this.tableViewConfig.displayedColumns);
 
     // TODO 3. give that to parent until you can set Notifications with filter
 
@@ -251,6 +250,5 @@ export class TableComponent {
     removeSelectedValues(this.selection, itemsToRemove);
   }
 
-  protected readonly NotificationType = NotificationType;
   protected readonly MainAspectType = MainAspectType;
 }

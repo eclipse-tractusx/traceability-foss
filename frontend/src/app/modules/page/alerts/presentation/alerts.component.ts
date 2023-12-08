@@ -44,6 +44,7 @@ export class AlertsComponent {
   public readonly alertsReceived$;
   public readonly alertsQueuedAndRequested$;
 
+  public isInvestigation = false;
   public menuActionsConfig: MenuActionConfig<Notification>[];
 
   public alertReceivedSortList: TableHeaderSort[] = [];
