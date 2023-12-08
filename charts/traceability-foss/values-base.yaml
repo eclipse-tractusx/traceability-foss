@@ -237,8 +237,8 @@ postgresql:
 # IRS configuration     #
 #########################
 irs-helm:
-  enabled: true
   bpn: 'CHANGE_ME'
+  enabled: true
 
   resources:
     limits:
