@@ -49,20 +49,20 @@ export class AlertsFacade {
     return this.alertsService.getAlert(id);
   }
 
-  public setReceivedAlerts(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: NotificationFilter): void {
+  public setReceivedAlerts(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: NotificationFilter, fullFilter?: any): void {
     this.alertReceivedSubscription?.unsubscribe();
     this.alertReceivedSubscription = this.alertsService
-      .getReceivedAlerts(page, pageSize, sorting, filter)
+      .getReceivedAlerts(page, pageSize, sorting, filter, fullFilter)
       .subscribe({
         next: data => (this.alertsState.alertsReceived = { data }),
         error: (error: Error) => (this.alertsState.alertsReceived = { error }),
       });
   }
 
-  public setQueuedAndRequestedAlerts(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: NotificationFilter): void {
+  public setQueuedAndRequestedAlerts(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: NotificationFilter, fullFilter?: any): void {
     this.alertQueuedAndRequestedSubscription?.unsubscribe();
     this.alertQueuedAndRequestedSubscription = this.alertsService
-      .getCreatedAlerts(page, pageSize, sorting, filter)
+      .getCreatedAlerts(page, pageSize, sorting, filter, fullFilter)
       .subscribe({
         next: data => (this.alertsState.alertsQueuedAndRequested = { data }),
         error: (error: Error) => (this.alertsState.alertsQueuedAndRequested = { error }),

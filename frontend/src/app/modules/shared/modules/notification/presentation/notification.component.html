@@ -45,7 +45,7 @@ SPDX-License-Identifier: Apache-2.0
       [multiSortList]="receivedMultiSortList"
       (tableConfigChanged)="onReceivedTableConfigChanged.emit($event)"
       (selected)="selected.emit($event)"
-      (investigationsFilterChanged)="handleEvent($event)"
+      (investigationsFilterChanged)="investigationFilterChanged.emit($event)"
       (alertsFilterChanged)="alertFilterChanged.emit($event)"
     ></app-notifications-tab>
   </mat-tab>

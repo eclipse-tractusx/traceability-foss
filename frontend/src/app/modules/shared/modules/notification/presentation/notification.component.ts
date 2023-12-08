@@ -66,9 +66,4 @@ export class NotificationComponent {
   public onTabChange(tabIndex: number): void {
     void this.router.navigate([], { queryParams: { tabIndex }, replaceUrl: true });
   }
-
-  handleEvent($event: any) {
-    this.investigationFilterChanged.emit($event)
-    console.log($event);
-  }
 }
