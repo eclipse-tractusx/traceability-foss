@@ -20,21 +20,25 @@
 #
 configuration:
   env:
-    bpn: &bpn 'BPNL00000003CNKC'
+    bpn: &bpn 'BPNL00000003CML1'
+    # -- bpnIrs should be used only on dev environments as shared service account is used and IRS is authorizing
+    # -- requests based on bpn in jwt token
+    # -- user bpn alias for environments which has its own service account
+    bpnIrs: &bpnIrs 'BPNL00000003CML1'
 
   frontend:
-    name: &fe_name 'tx-frontend-test'
-    hostName: &fe_host_name 'traceability-portal-test.dev.demo.catena-x.net'
-    backendApiUrl: &be_api_url <path:traceability-foss/data/test/frontend#catenax_portal_api_url>
+    name: &fe_name 'tx-frontend-dev'
+    hostName: &fe_host_name 'traceability-portal.dev.demo.catena-x.net'
+    backendApiUrl: &be_api_url <path:traceability-foss/data/dev/frontend#catenax_portal_api_url>
 
   backend:
-    name: &backend_name 'tx-backend-test'
-    hostName: &be_host_name 'traceability-test.dev.demo.catena-x.net'
+    name: &backend_name 'tx-backend-dev'
+    hostName: &be_host_name 'traceability.dev.demo.catena-x.net'
     # -- backend host with https://
-    url: &be_url 'https://traceability-test.dev.demo.catena-x.net'
-    callback: &backend_callback "https://traceability-test.dev.demo.catena-x.net/api/callback/endpoint-data-reference"
+    url: &be_url 'https://traceability.dev.demo.catena-x.net'
+    callback: &backend_callback "https://traceability.dev.demo.catena-x.net/api/callback/endpoint-data-reference"
     edcClient:
-      callbackUrl: &backend_edc_client_callback_url 'https://traceability-test.dev.demo.catena-x.net/api/internal/endpoint-data-reference'
+      callbackUrl: &backend_edc_client_callback_url 'https://traceability.dev.demo.catena-x.net/api/internal/endpoint-data-reference'
     backendDatabase:
       url: &backend_database_url 'jdbc:postgresql://tx-backend-postgresql-test-hl:5432/trace'
       name: &backend_database_name 'tx-backend-postgresql-test'
@@ -233,7 +237,7 @@ postgresql:
 irs-helm:
   nameOverride: *irs_name
   fullnameOverride: *irs_name
-  bpn: *bpn
+  bpn: *bpnIrs
   namespace: product-traceability-foss
   irsUrl: *irs_url
   ingress:
