@@ -55,9 +55,17 @@ SPDX-License-Identifier: Apache-2.0
     multiTemplateDataRows
     data-testid="table-component--test-id"
   >
+    <ng-container *ngIf="autocompleteEnabled">
+
     <tr *matHeaderRowDef="tableViewConfig?.displayedColumns; sticky: true" mat-header-row
         data-testid="table-component--head-row" class="table--header--row"></tr>
 
+    </ng-container>
+
+    <ng-container *ngIf="!autocompleteEnabled">
+      <tr *matHeaderRowDef="tableConfig.displayedColumns; sticky: true" mat-header-row
+          data-testid="table-component--head-row" class="table--header--row"></tr>
+    </ng-container>
     <ng-container *ngIf="autocompleteEnabled">
     <tr class="filter-row" mat-header-row *matHeaderRowDef="tableViewConfig?.filterColumns; sticky: true"></tr>
     </ng-container>
