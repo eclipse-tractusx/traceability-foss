@@ -148,7 +148,7 @@ backend:
 
   traceability:
     bpn: >-
-      {{ tpl (.Values.configuration.env.bpn | default "") . }}
+      {{ tpl (.Values.configuration.env.bpn | default "1") . }}
     url: 'CHANGE_ME'
 
   datasource:
