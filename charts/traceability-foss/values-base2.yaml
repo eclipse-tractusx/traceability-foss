@@ -26,7 +26,7 @@ configuration:
     # -- bpnIrs should be used only on dev environments as shared service account is used and IRS is authorizing
     # -- requests based on bpn in jwt token
     # -- user bpn alias for environments which has its own service account
-    bpnIrs:
+    # -- bpnIrs:
 
 #########################
 # Global Values configuration     #
