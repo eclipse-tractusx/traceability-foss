@@ -1,0 +1,508 @@
+#
+#  Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+#  Copyright (c) 2022, 2023 ZF Friedrichshafen AG
+#  Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+#
+#  See the NOTICE file(s) distributed with this work for additional
+#  information regarding copyright ownership.
+#
+#  This program and the accompanying materials are made available under the
+#  terms of the Apache License, Version 2.0 which is available at
+#  https://www.apache.org/licenses/LICENSE-2.0.
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+#  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+#  License for the specific language governing permissions and limitations
+#  under the License.
+#
+#  SPDX-License-Identifier: Apache-2.0
+#
+
+
+configuration:
+  env:
+    bpn:
+    # -- bpnIrs should be used only on dev environments as shared service account is used and IRS is authorizing
+    # -- requests based on bpn in jwt token
+    # -- user bpn alias for environments which has its own service account
+    bpnIrs:
+
+#########################
+# Global Values configuration     #
+#########################
+global:
+  enablePrometheus: false
+  enableGrafana: false
+
+#########################
+# Frontend Chart Values configuration     #
+#########################
+frontend:
+  nameOverride: 'CHANGE_ME'
+  fullnameOverride: 'CHANGE_ME'
+  livenessProbe:
+    failureThreshold: 3
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
+  readinessProbe:
+    failureThreshold: 3
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
+  image:
+    repository: ghcr.io/catenax-ng/tx-traceability-foss
+    tag: $ARGOCD_APP_REVISION
+    CATENAX_PORTAL_API_URL: 'CHANGE_ME'
+    CATENAX_PORTAL_KEYCLOAK_URL: 'CHANGE_ME'
+    CATENAX_PORTAL_BACKEND_DOMAIN: 'CHANGE_ME'
+    CATENAX_PORTAL_URL: 'CHANGE_ME'
+    CATENAX_PORTAL_CLIENT_ID: 'CHANGE_ME'
+
+  ingress:
+    enabled: true
+    className: "nginx"
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+    hosts:
+      - host: 'CHANGE_ME'
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls:
+      - hosts:
+          - 'CHANGE_ME'
+        secretName: 'CHANGE_ME'
+
+#########################
+# Backend Chart Values configuration     #
+#########################
+backend:
+  nameOverride: 'CHANGE_ME'
+  fullnameOverride: 'CHANGE_ME'
+  livenessProbe:
+    failureThreshold: 3
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
+  readinessProbe:
+    failureThreshold: 3
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
+  image:
+    repository: ghcr.io/catenax-ng/tx-traceability-foss
+    tag: $ARGOCD_APP_REVISION
+
+
+
+
+  podSecurityContext:
+    runAsUser: 10001
+    seccompProfile:
+      type: RuntimeDefault
+
+  # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
+  # @url: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
+  securityContext:
+    allowPrivilegeEscalation: false
+    runAsNonRoot: true
+    runAsUser: 10001
+    runAsGroup: 3000
+    capabilities:
+      drop:
+        - ALL
+    readOnlyRootFilesystem: false
+
+  # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
+  # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits
+  resources:
+    limits:
+      cpu: 1500m
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 256Mi
+
+  springprofile: dev
+
+  ingress:
+    enabled: true
+    className: "nginx"
+    annotations:
+      nginx.ingress.kubernetes.io/backend-protocol: HTTP
+    hosts:
+      - host: 'CHANGE_ME'
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls:
+      - hosts:
+          - 'CHANGE_ME'
+        secretName: tls-secret
+
+  traceability:
+    bpn: >-
+      {{ tpl (.Values.configuration.env.bpn | default "") . }}
+    url: 'CHANGE_ME'
+
+  datasource:
+    url: 'CHANGE_ME'
+    username: trace
+    password: 'CHANGE_ME'
+
+  oauth2:
+    clientId: 'CHANGE_ME'
+    clientSecret: 'CHANGE_ME'
+    clientTokenUri: 'CHANGE_ME'
+    jwkSetUri: 'CHANGE_ME'
+    resourceClient: 'CHANGE_ME'
+
+  edc:
+    apiKey: 'CHANGE_ME'
+    providerUrl: 'CHANGE_ME'
+    callbackUrl: 'CHANGE_ME'
+    callbackUrlEdcClient: 'CHANGE_ME'
+    dataEndpointUrl: 'CHANGE_ME'
+
+  discoveryfinder:
+    baseUrl: 'CHANGE_ME'
+
+  irs:
+    baseUrl: 'CHANGE_ME'
+  registry:
+    urlWithPath: 'CHANGE_ME'
+  portal:
+    baseUrl: 'CHANGE_ME'
+
+  config:
+    allowedCorsOriginFirst: "http://localhost:4200/"
+    allowedCorsOriginSecond: 'CHANGE_ME'
+
+  dependencies:
+    enabled: true
+    irs: 'CHANGE_ME'  # <irs-helm.nameOverride>
+    edc: 'CHANGE_ME'  # <tractusx-connector.nameOverride
+
+#########################
+# PG Admin configuration     #
+#########################
+pgadmin4:
+  nameOverride: 'CHANGE_ME'
+  fullnameOverride: 'CHANGE_ME'
+  enabled: true
+  strategy:
+    type: Recreate
+  networkPolicy:
+    enabled: false
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/backend-protocol: HTTP
+    hosts:
+      - host: 'CHANGE_ME'
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - hosts:
+          - 'CHANGE_ME'
+        secretName: tls-secret
+  env:
+    email: pgadmin4@trace.foss
+    password: 'CHANGE_ME'
+    variables:
+      - name: PGADMIN_CONFIG_UPGRADE_CHECK_ENABLED
+        value: "False"
+  resources:
+    limits:
+      cpu: 768m
+      memory: 768Mi
+    requests:
+      cpu: 100m
+      memory: 256Mi
+
+#########################
+# Postgres configuration     #
+#########################
+postgresql:
+  enabled: true
+
+  nameOverride: 'CHANGE_ME'
+  fullnameOverride: 'CHANGE_ME'
+
+  auth:
+    postgresPassword: 'CHANGE_ME'
+    password: 'CHANGE_ME'
+    database: "trace"
+    username: "trace"  # extract to vault
+
+#########################
+# IRS configuration     #
+#########################
+irs-helm:
+  bpn: 'CHANGE_ME'
+  enabled: true
+
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 512Mi
+    requests:
+      cpu: 500m
+      memory: 512Mi
+
+  nameOverride: 'CHANGE_ME'
+  fullnameOverride: 'CHANGE_ME'
+  namespace: product-traceability-foss
+  springprofile: dev
+  irsUrl: 'CHANGE_ME'
+  ingress:
+    enabled: true
+    hosts:
+      - host: 'CHANGE_ME'
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls:
+      - hosts:
+          - 'CHANGE_ME'
+        secretName: tls-secret
+  digitalTwinRegistry:
+    type: decentral
+    descriptorEndpoint: 'CHANGE_ME'
+    shellLookupEndpoint: 'CHANGE_ME'
+    discoveryFinderUrl: 'CHANGE_ME'
+  semanticshub:
+    url: 'CHANGE_ME'
+  bpdm:
+    url: 'CHANGE_ME'
+
+  minioUser: 'CHANGE_ME'
+  minioPassword: 'CHANGE_ME'
+  minioUrl: 'CHANGE_ME'
+
+  keycloak:
+    oauth2:
+      clientId: 'CHANGE_ME'
+      clientSecret: 'CHANGE_ME'
+      clientTokenUri: 'CHANGE_ME'
+      jwkSetUri: 'CHANGE_ME'
+
+  edc:
+    callbackurl: 'CHANGE_ME'
+    catalog:
+      cache:
+        enabled: "false"
+    controlplane:
+      endpoint:
+        data: 'CHANGE_ME'
+        statesuffix: /state
+      apikey:
+        secret: 'CHANGE_ME'
+
+  minio:
+    nameOverride: 'CHANGE_ME'
+    fullnameOverride: 'CHANGE_ME'
+    serviceAccount:
+      create: false
+    rootUser: 'CHANGE_ME'
+    rootPassword: 'CHANGE_ME'
+
+
+###################################
+# EDC Consumer configuration  #
+###################################
+tractusx-connector:
+  nameOverride: 'CHANGE_ME'
+  fullnameOverride: 'CHANGE_ME'
+  enabled: true
+  install:
+    postgresql: false
+    vault: false
+  participant:
+    id: >-
+      {{ tpl (.Values.configuration.env.bpn | default "") . }}
+
+  controlplane:
+    ingresses:
+      - enabled: true
+        hostname: 'CHANGE_ME'
+        annotations:
+          nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+        endpoints:
+          - protocol
+          - management
+        tls:
+          enabled: true
+          secretName: tls-secret
+    ssi:
+      miw:
+        url: 'CHANGE_ME'
+        authorityId: 'CHANGE_ME'
+      oauth:
+        tokenurl: 'CHANGE_ME'
+        client:
+          id: 'CHANGE_ME'
+          secretAlias: 'CHANGE_ME'
+
+    endpoints:
+      # -- default api for health checks, should not be added to any ingress
+      default:
+        port: 8080
+        path: /api
+      # -- data management api, used by internal users, can be added to an ingress and must not be internet facing
+      management:
+        port: 8081
+        path: /management
+        # -- authentication key, must be attached to each 'X-Api-Key' request header
+        authKey: 'CHANGE_ME'
+      # -- control api, used for internal control calls. can be added to the internal ingress, but should probably not
+      control:
+        port: 8083
+        path: /control
+      # -- ids api, used for inter connector communication and must be internet facing
+      protocol:
+        port: 8084
+        path: /api/v1/dsp
+      # -- metrics api, used for application metrics, must not be internet facing
+      metrics:
+        port: 9090
+        path: /metrics
+      # -- observability api with unsecured access, must not be internet facing
+      observability:
+        port: 8085
+        # -- observability api, provides /health /readiness and /liveness endpoints
+        path: /observability
+        # -- allow or disallow insecure access, i.e. access without authentication
+        insecure: true
+
+    internationalDataSpaces:
+      id: TXDC
+      description: Tractus-X Eclipse IDS Data Space Connector
+      title: ""
+      maintainer: ""
+      curator: ""
+      catalogId: TXDC-Catalog
+
+    # Explicitly declared url for reaching the ids api (e.g. if ingresses not used)
+    url:
+      ids: ""
+
+    resources:
+      limits:
+        cpu: 768m
+        memory: 768Mi
+      requests:
+        cpu: 100m
+        memory: 256Mi
+    # Explicitly declared url for reaching the ids api (e.g. if ingresses not used)
+
+  dataplane:
+    ingresses:
+      - enabled: true
+        hostname: 'CHANGE_ME'
+        annotations:
+          nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+        endpoints:
+          - public
+        className: "nginx"
+        tls:
+          enabled: true
+          secretName: tls-secret
+
+    endpoints:
+      default:
+        port: 8080
+        path: /api
+      public:
+        port: 8081
+        path: /api/public
+      control:
+        port: 8083
+        path: /api/dataplane/control
+      observability:
+        port: 8085
+        path: /observability
+        insecure: true
+      metrics:
+        port: 9090
+        path: /metrics
+    url:
+      public: ""
+    resources:
+      limits:
+        cpu: 768m
+        memory: 768Mi
+      requests:
+        cpu: 100m
+        memory: 256Mi
+  securityContext:
+    readOnlyRootFilesystem: false
+  ## currently we need to provide a url but is not used anywhere
+  # URL where the EndpointDataReference callback will be sent to
+  backendService:
+    httpProxyTokenReceiverUrl: 'CHANGE_ME'
+
+  ################################
+  # EDC Vault Configuration #
+  ################################
+  vault:
+    hashicorp:
+      url: 'CHANGE_ME'
+      token: 'CHANGE_ME'
+      timeout: 30
+      healthCheck:
+        enabled: true
+        standbyOk: true
+      paths:
+        secret: /v1/traceability-foss
+        health: /v1/sys/health
+    secretNames:
+      transferProxyTokenSignerPrivateKey: 'CHANGE_ME'
+      transferProxyTokenSignerPublicKey: 'CHANGE_ME'
+      transferProxyTokenEncryptionAesKey: 'CHANGE_ME'
+
+
+  ##################################
+  # EDC Postgres Configuration #
+  ##################################
+  postgresql:
+    enabled: true
+    auth:
+      username: 'CHANGE_ME'
+      password: 'CHANGE_ME'
+    username: 'CHANGE_ME'
+    password: 'CHANGE_ME'
+    jdbcUrl: 'CHANGE_ME'
+
+###################################
+# EDC Postgres Configuration #
+###################################
+edc-postgresql:
+  primary:
+    resources:
+      limits:
+        cpu: 2000m
+        memory: 4Gi
+      requests:
+        cpu: 100m
+        memory: 4Gi
+  nameOverride: 'CHANGE_ME'
+  fullnameOverride: 'CHANGE_ME'
+  enabled: true
+  auth:
+    database: edc
+    username: 'CHANGE_ME'
+    postgresPassword: 'CHANGE_ME'
+    password: 'CHANGE_ME'
