@@ -329,7 +329,10 @@ public class InvestigationsController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "204",
-                    description = "No content."),
+                    description = "No content.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema())),
             @ApiResponse(
                     responseCode = "400",
                     description = "Bad request.",
@@ -389,7 +392,9 @@ public class InvestigationsController {
             @ApiResponse(
                     responseCode = "204",
                     description = "No content.",
-                    content = @Content()),
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema())),
             @ApiResponse(
                     responseCode = "400",
                     description = "Bad request.",
@@ -451,7 +456,9 @@ public class InvestigationsController {
             @ApiResponse(
                     responseCode = "204",
                     description = "No content.",
-                    content = @Content()),
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema())),
             @ApiResponse(
                     responseCode = "400",
                     description = "Bad request.",
