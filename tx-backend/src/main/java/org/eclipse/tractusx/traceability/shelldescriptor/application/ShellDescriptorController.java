@@ -104,10 +104,7 @@ public class ShellDescriptorController {
             tags = {"Registry"},
             description = "The endpoint deletes all shell descriptors.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-    @ApiResponses(value = {@ApiResponse(responseCode = "204", description = "No Content.",
-            content = @Content(
-                    mediaType = "application/json",
-                    schema = @Schema())),
+    @ApiResponses(value = {@ApiResponse(responseCode = "204", description = "Deleted."),
             @ApiResponse(
                     responseCode = "400",
                     description = "Bad request.",
