@@ -184,13 +184,13 @@
     "severityDescription": "Select the severity for the problem at hand"
   },
   "pagination": {
-    "itemsPerPageLabel": "Items per page:",
+    "itemsPerPageLabel": "Show",
     "nextPageLabel": "Next page",
     "previousPageLabel": "Previous page",
     "firstPageLabel": "First page",
     "lastPageLabel": "Last page",
     "emptyRange": "0 of {{length}}",
-    "range": "{{startIndex}} – {{endIndex}} of {{length}}"
+    "range": "{{startIndex}} of {{length}}"
   },
   "commonInvestigation": {
     "viewAll": "view all",

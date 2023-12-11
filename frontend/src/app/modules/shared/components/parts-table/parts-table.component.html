@@ -63,26 +63,6 @@ SPDX-License-Identifier: Apache-2.0
       data-testid="table-component--head-row"
       class="table--header--row"></tr>
 
-    <ng-container matColumnDef="paginator">
-      <td mat-footer-cell
-        *matFooterCellDef
-        [attr.colspan]="100">
-        <mat-paginator color="accent"
-          #paginator
-          [length]="totalItems"
-          [pageIndex]="pageIndex"
-          [pageSizeOptions]="[50, 100, 200]"
-          [attr.aria-label]="'table.selectPageSize' | i18n"
-          [attr.data-testId]="'table.selectPageSize' | i18n"
-          (page)="onPaginationChange($event)"
-          showFirstLastButtons>
-        </mat-paginator>
-      </td>
-    </ng-container>
-
-    <tr mat-footer-row
-      *matFooterRowDef="['paginator']; sticky: true"></tr>
-
     <tr class="table--body--row"
       *matRowDef="let row; columns: tableConfig.displayedColumns"
       [class.loading]="isDataLoading"
@@ -285,6 +265,18 @@ SPDX-License-Identifier: Apache-2.0
     </ng-template>
   </table>
 </div>
+<ng-container>
+  <mat-paginator color="accent"
+    #paginator
+    [length]="pageCount"
+    [pageIndex]="pageIndex"
+    [pageSizeOptions]="[50, 100, 200]"
+    [attr.aria-label]="'table.selectPageSize' | i18n"
+    [attr.data-testId]="'table.selectPageSize' | i18n"
+    (page)="onPaginationChange($event)"
+    showFirstLastButtons>
+  </mat-paginator>
+</ng-container>
 
 <ng-template #pureColumn>
   {{ pureColumn }}

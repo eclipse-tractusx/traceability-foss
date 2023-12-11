@@ -85,12 +85,13 @@ export class PartsTableComponent implements OnInit {
 
   filterKey = 'Filter';
 
-  @Input() set paginationData({ page, pageSize, totalItems, content }: Pagination<unknown>) {
+  @Input() set paginationData({ page, pageSize, totalItems, content, pageCount }: Pagination<unknown>) {
     this.totalItems = totalItems;
     this.pageSize = pageSize;
     this.dataSource.data = content;
     this.isDataLoading = false;
     this.pageIndex = page;
+    this.pageCount = pageCount;
   }
 
   @Input() set data(content: unknown[]) {
@@ -136,6 +137,9 @@ export class PartsTableComponent implements OnInit {
   public filterActive: any = {};
   public filterConfiguration: FilterConfig[];
   public displayedColumns: string[];
+  public pageSize: number;
+  public pageCount: number;
+
 
   filterFormGroup = new FormGroup({});
 
@@ -378,7 +382,6 @@ export class PartsTableComponent implements OnInit {
     semanticModelId: true,
   };
 
-  private pageSize: number;
   private sorting: TableHeaderSort;
 
   ngAfterViewInit() {

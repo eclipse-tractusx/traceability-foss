@@ -112,12 +112,13 @@ export class TableComponent {
   @Input() enableScroll: boolean;
   @Input() multiSortList: TableHeaderSort[];
 
-  @Input() set paginationData({ page, pageSize, totalItems, content }: Pagination<unknown>) {
+  @Input() set paginationData({ page, pageSize, totalItems, content, pageCount }: Pagination<unknown>) {
     this.totalItems = totalItems;
     this.pageSize = pageSize;
     this.dataSource.data = content;
     this.isDataLoading = false;
     this.pageIndex = page;
+    this.pageCount = pageCount;
   }
 
   @Input() set data(content: unknown[]) {
@@ -154,6 +155,7 @@ export class TableComponent {
   public readonly selection = new SelectionModel<unknown>(true, []);
 
   public totalItems: number;
+  public pageCount: number;
   public pageIndex: number;
   public isDataLoading: boolean;
   public selectedRow: Record<string, unknown>;
@@ -164,7 +166,7 @@ export class TableComponent {
   public defaultColumns: string[];
   public filterFormGroup = new FormGroup({});
 
-  private pageSize: number;
+  public pageSize: number;
   private sorting: TableHeaderSort;
   private filtering: TableFilter = { filterMethod: FilterMethod.AND };
   public filterActive: any = {};

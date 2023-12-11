@@ -187,7 +187,7 @@
     "firstPageLabel": "Erste Seite",
     "lastPageLabel": "Letzte Seite",
     "emptyRange": "0 von {{length}}",
-    "range": "{{startIndex}} – {{endIndex}} von {{length}}"
+    "range": "{{startIndex}} von {{length}}"
   },
   "commonInvestigation": {
     "viewAll": "Alle anzeigen",
