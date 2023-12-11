@@ -19,6 +19,7 @@
 
 import { Injectable } from '@angular/core';
 import { AlertsState } from '@page/alerts/core/alerts.state';
+import { provideDataObject } from '@page/parts/core/parts.helper';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { Notification, Notifications, NotificationStatus } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
@@ -54,7 +55,7 @@ export class AlertsFacade {
     this.alertReceivedSubscription = this.alertsService
       .getReceivedAlerts(page, pageSize, sorting, filter)
       .subscribe({
-        next: data => (this.alertsState.alertsReceived = { data }),
+        next: data => (this.alertsState.alertsReceived = { data: provideDataObject(data) }),
         error: (error: Error) => (this.alertsState.alertsReceived = { error }),
       });
   }
@@ -64,7 +65,7 @@ export class AlertsFacade {
     this.alertQueuedAndRequestedSubscription = this.alertsService
       .getCreatedAlerts(page, pageSize, sorting, filter)
       .subscribe({
-        next: data => (this.alertsState.alertsQueuedAndRequested = { data }),
+        next: data => (this.alertsState.alertsQueuedAndRequested = { data: provideDataObject(data) }),
         error: (error: Error) => (this.alertsState.alertsQueuedAndRequested = { error }),
       });
   }

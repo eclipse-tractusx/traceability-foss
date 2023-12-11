@@ -24,7 +24,7 @@ import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEnca
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Pagination } from '@core/model/pagination.model';
+import { EmptyPagination, Pagination } from '@core/model/pagination.model';
 import { RoleService } from '@core/user/role.service';
 import { MenuActionConfig, TableConfig, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
 import { addSelectedValues, clearAllRows, clearCurrentRows, removeSelectedValues } from '@shared/helper/table-helper';
@@ -173,6 +173,9 @@ export class TableComponent {
     this.emitMultiSelect();
     this.sorting = !direction ? null : ([ active, direction ] as TableHeaderSort);
     this.isDataLoading = true;
+    if (this.pageSize === 0){
+      this.pageSize = EmptyPagination.pageSize;
+    }
     this.configChanged.emit({ page: 0, pageSize: this.pageSize, sorting: this.sorting });
   }
 
