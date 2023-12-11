@@ -40,6 +40,13 @@ on:
       argo_token:
         description: Argo Token
         required: true
+      hard_refresh:
+        type: choice
+        description: Do you want a Hard Refresh? (+5min execution time)
+        required: true
+        options: 
+        - Yes
+        - No
 
 env:
     ARGO_TEST_REGISTRY: "https://argo.dev.demo.catena-x.net/api/v1/applications/tracex-dt-registry-test"
@@ -124,6 +131,7 @@ jobs:
         run: |
           echo "### inputs" >> $GITHUB_STEP_SUMMARY
           echo "- environment: ${{ github.event.inputs.environment }}" >> $GITHUB_STEP_SUMMARY
+          
 
   hard_refresh_environment:
    needs: print_environment
@@ -143,18 +151,22 @@ jobs:
         run: |
          source ./.github/argo/argo_config.sh
 
-         if [ "${{ github.event.inputs.environment }}" == "Dev/Test" ]; then
-            resources=("${DEV_TEST_RESOURCES[@]}")
-         elif [ "${{ github.event.inputs.environment }}" == "E2E-A/E2E-B" ]; then
-            resources=("${E2E_RESOURCES[@]}")
-         elif [ "${{ github.event.inputs.environment }}" == "int-a/int-b" ]; then
-            resources=("${INT_RESOURCES[@]}")
+         if [ "${{ github.event.inputs.hard_refresh }}" == "Yes" ]; then
+           if [ "${{ github.event.inputs.environment }}" == "Dev/Test" ]; then
+              resources=("${DEV_TEST_RESOURCES[@]}")
+           elif [ "${{ github.event.inputs.environment }}" == "E2E-A/E2E-B" ]; then
+              resources=("${E2E_RESOURCES[@]}")
+           elif [ "${{ github.event.inputs.environment }}" == "int-a/int-b" ]; then
+              resources=("${INT_RESOURCES[@]}")
+           fi
+          
+           for resource in "${resources[@]}"; do
+             curl -X GET -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" "$resource?refresh=hard&appNamespace=argocd"
+           done
+           sleep 40
+         elif [ "${{ github.event.inputs.hard_refresh }}" == "No" ]; then
+          echo "Hard refresh skipped"
          fi
-
-         for resource in "${resources[@]}"; do
-           curl -X GET -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" "$resource?refresh=hard&appNamespace=argocd"
-         done
-         sleep 40
 
   delete_environment:
     needs: hard_refresh_environment
