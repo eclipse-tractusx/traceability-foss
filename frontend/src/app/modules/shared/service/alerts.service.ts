@@ -26,7 +26,7 @@ import { environment } from '@env';
 import { NotificationAssembler } from '@shared/assembler/notification.assembler';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { TableHeaderSort } from '@shared/components/table/table.model';
-import { enrichDeeplinkFilterAndGetUpdatedParams, enrichFilterAndGetUpdatedParams } from '@shared/helper/filter-helper';
+import { enrichDeeplinkFilterAndGetUpdatedParams, enrichFilterAndGetUpdatedParams, provideFilterForNotifications } from '@shared/helper/filter-helper';
 import { Severity } from '@shared/model/severity.model';
 import type { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -57,17 +57,7 @@ export class AlertsService {
       .set('size', pageSize)
       .set('filter', 'channel,EQUAL,SENDER,AND');
 
-    sort.forEach(sortingItem => {
-      params = params.append('sort', sortingItem);
-    });
-
-    if(filter && !fullFilter) {
-      params = enrichDeeplinkFilterAndGetUpdatedParams(filter, params);
-    }
-
-    if(!filter && fullFilter) {
-      params = enrichFilterAndGetUpdatedParams(fullFilter, params, "AND")
-    }
+    params = provideFilterForNotifications(sort, params, filter, fullFilter);
 
     return this.apiService
       .getBy<NotificationsResponse>(`${ this.url }/alerts`, params)
@@ -81,22 +71,14 @@ export class AlertsService {
       .set('size', pageSize)
       .set('filter', 'channel,EQUAL,RECEIVER,AND');
 
-    sort.forEach(sortingItem => {
-      params = params.append('sort', sortingItem);
-    });
-
-    if(filter && !fullFilter) {
-      params = enrichDeeplinkFilterAndGetUpdatedParams(filter, params);
-    }
-
-    if(!filter && fullFilter) {
-      params = enrichFilterAndGetUpdatedParams(fullFilter, params, "AND")
-    }
+    params = provideFilterForNotifications(sort, params, filter, fullFilter);
 
     return this.apiService
       .getBy<NotificationsResponse>(`${ this.url }/alerts`, params)
       .pipe(map(alerts => NotificationAssembler.assembleNotifications(alerts, NotificationType.ALERT)));
   }
+
+
 
   public getAlert(id: string): Observable<Notification> {
     return this.apiService

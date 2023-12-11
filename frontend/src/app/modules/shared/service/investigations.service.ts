@@ -26,7 +26,11 @@ import { environment } from '@env';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { DateTimeString } from '@shared/components/dateTime/dateTime.component';
 import { TableHeaderSort } from '@shared/components/table/table.model';
-import { enrichDeeplinkFilterAndGetUpdatedParams, enrichFilterAndGetUpdatedParams } from '@shared/helper/filter-helper';
+import {
+  enrichDeeplinkFilterAndGetUpdatedParams,
+  enrichFilterAndGetUpdatedParams,
+  provideFilterForNotifications,
+} from '@shared/helper/filter-helper';
 import { Severity } from '@shared/model/severity.model';
 import type { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -58,17 +62,7 @@ export class InvestigationsService {
       .set('size', pageSize)
       .set('filter', 'channel,EQUAL,SENDER,AND');
 
-    sort.forEach(sortingItem => {
-      params = params.append('sort', sortingItem);
-    });
-
-    if(filter && !fullFilter) {
-      params = enrichDeeplinkFilterAndGetUpdatedParams(filter, params);
-    }
-
-    if(!filter && fullFilter) {
-      params = enrichFilterAndGetUpdatedParams(fullFilter, params, "AND")
-    }
+    params = provideFilterForNotifications(sort, params, filter, fullFilter);
 
     return this.apiService
       .getBy<NotificationsResponse>(`${ this.url }/investigations`, params)
@@ -84,18 +78,7 @@ export class InvestigationsService {
       .set('size', pageSize)
       .set('filter', 'channel,EQUAL,RECEIVER,AND');
 
-    sort.forEach(sortingItem => {
-      params = params.append('sort', sortingItem);
-    });
-
-    if(filter && !fullFilter) {
-      params = enrichDeeplinkFilterAndGetUpdatedParams(filter, params);
-    }
-
-    if(!filter && fullFilter) {
-      params = enrichFilterAndGetUpdatedParams(fullFilter, params, "AND")
-    }
-
+    params = provideFilterForNotifications(sort, params, filter, fullFilter);
 
     return this.apiService
       .getBy<NotificationsResponse>(`${ this.url }/investigations`, params)

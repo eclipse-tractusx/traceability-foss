@@ -23,6 +23,7 @@ import {
   FilterOperator,
   getFilterOperatorValue,
 } from '@page/parts/model/parts.model';
+import { NotificationFilter } from '../../../mocks/services/investigations-mock/investigations.model';
 
 export const DATE_FILTER_KEYS = [ 'manufacturingDate', 'functionValidFrom', 'functionValidUntil', 'validityPeriodFrom', 'validityPeriodTo', 'createdDate', 'targetDate' ];
 
@@ -171,4 +172,19 @@ export function toGlobalSearchAssetFilter(formValues: string, isAsBuilt: boolean
   }
 
   return filter;
+}
+
+export function provideFilterForNotifications(sort: any, params: HttpParams, filter?: NotificationFilter, fullFilter?: any): HttpParams {
+  sort.forEach(sortingItem => {
+    params = params.append('sort', sortingItem);
+  });
+
+  if (filter && !fullFilter) {
+    params = enrichDeeplinkFilterAndGetUpdatedParams(filter, params);
+  }
+
+  if (!filter && fullFilter) {
+    params = enrichFilterAndGetUpdatedParams(fullFilter, params, 'AND');
+  }
+  return params;
 }
