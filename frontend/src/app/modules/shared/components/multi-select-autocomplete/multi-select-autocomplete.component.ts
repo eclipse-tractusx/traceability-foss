@@ -254,7 +254,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     };
 
     // Start the delay with the callback
-    this.delayTimeoutId = setTimeout(timeoutCallback, 500);
+    this.delayTimeoutId = setTimeout(() => Promise.resolve(timeoutCallback()), 500);
   }
 
   // DO NOT REMOVE: Used by parent component
