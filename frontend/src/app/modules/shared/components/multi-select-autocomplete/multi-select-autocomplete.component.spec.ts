@@ -59,7 +59,7 @@ describe('MultiSelectAutocompleteComponent', () => {
     componentInstance.searchElement = 'TestValue';
     const result = componentInstance.displayValue();
 
-    expect(result).toBe('TestValue');
+    expect(result).toEqual(['TestValue', '']);
   });
 
   it('should return correct display string when textSearch is false and multiple is true', async () => {
@@ -78,7 +78,7 @@ describe('MultiSelectAutocompleteComponent', () => {
 
     const result = componentInstance.displayValue();
 
-    expect(result).toBe('value1 + 2 undefined');
+    expect(result).toEqual(['value1',' + 2 undefined']);
   });
 
   it('should return correct display string when textSearch is false and multiple is false', async () => {
@@ -97,7 +97,7 @@ describe('MultiSelectAutocompleteComponent', () => {
 
     const result = componentInstance.displayValue();
 
-    expect(result).toBe('value1');
+    expect(result).toEqual(['value1','']);
   });
 
   it('should filter options based on value when textSearch is false', async () => {
