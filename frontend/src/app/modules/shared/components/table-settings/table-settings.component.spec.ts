@@ -20,7 +20,7 @@ import { APP_INITIALIZER } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TableSettingsService } from '@core/user/table-settings.service';
-import { TableType } from '@shared/components/table/table.model';
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { SharedModule } from '@shared/shared.module';
 import { I18NEXT_SERVICE, I18NextModule, ITranslationService } from 'angular-i18next';
 import { TableSettingsComponent } from './table-settings.component';

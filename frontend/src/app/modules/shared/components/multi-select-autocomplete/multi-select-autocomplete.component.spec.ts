@@ -1,9 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { Owner } from '@page/parts/model/owner.enum';
 import { SemanticDataModel } from '@page/parts/model/parts.model';
 import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
-import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
 import { SharedModule } from '@shared/shared.module';
 import { renderComponent } from '@tests/test-render.utils';
@@ -221,16 +219,6 @@ describe('MultiSelectAutocompleteComponent', () => {
     componentInstance.endDateSelected(emptyEndEvent);
 
     expect(componentInstance.searchElement).toEqual('');
-  });
-
-  it('should retrieve correct Owner of partTableType', async () => {
-    const { fixture } = await renderMultiSelectAutoCompleteComponent();
-    const { componentInstance } = fixture;
-
-    const expectedOwners = [ Owner.OWN, Owner.OWN, Owner.SUPPLIER, Owner.SUPPLIER, Owner.CUSTOMER, Owner.CUSTOMER, Owner.UNKNOWN ];
-    [ TableType.AS_BUILT_OWN, TableType.AS_PLANNED_OWN, TableType.AS_BUILT_SUPPLIER, TableType.AS_PLANNED_SUPPLIER, TableType.AS_BUILT_CUSTOMER, TableType.AS_PLANNED_CUSTOMER, null ].forEach((tableType, index) => {
-      expect(componentInstance.getOwnerOfTable(tableType)).toEqual(expectedOwners[index]);
-    });
   });
 
   it('should filter date with dateFilter()', async function() {
