@@ -157,7 +157,7 @@ export class TableComponent {
 
   // input notification type map to parttable type,
   @Input()
-  tableType: TableType;
+  tableType: TableType = TableType.AS_BUILT_OWN;
 
   constructor(private readonly roleService: RoleService) {
 
