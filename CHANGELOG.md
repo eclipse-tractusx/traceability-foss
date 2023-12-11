@@ -47,6 +47,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - updated spring core version from 6.0.13 to 6.0.14
 - Update tomcat-embed-websocket from 10.0.15 to 10.0.16
 - Update logback-classic and logback-core version to 1.4.14 to mitigate high finding
+- Fixed sorting on empty notification tables
 
 ### Removed
 - removed asset filters ( qualityInvestigationIdsInStatusActive, qualityInvestigationIdsInStatusActive )
