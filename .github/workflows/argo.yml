@@ -151,7 +151,7 @@ jobs:
         run: |
          source ./.github/argo/argo_config.sh
 
-         if [ "${{ github.event.inputs.hard_refresh }}" == "Yes" ]; then
+         if [ "${{ github.event.inputs.hard_refresh }}" == "true" ]; then
            if [ "${{ github.event.inputs.environment }}" == "Dev/Test" ]; then
               resources=("${DEV_TEST_RESOURCES[@]}")
            elif [ "${{ github.event.inputs.environment }}" == "E2E-A/E2E-B" ]; then
@@ -164,7 +164,7 @@ jobs:
              curl -X GET -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" "$resource?refresh=hard&appNamespace=argocd"
            done
            sleep 40
-         elif [ "${{ github.event.inputs.hard_refresh }}" == "No" ]; then
+         elif [ "${{ github.event.inputs.hard_refresh }}" == "false" ]; then
           echo "Hard refresh skipped"
          fi
 
