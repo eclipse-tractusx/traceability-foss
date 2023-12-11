@@ -30,7 +30,6 @@ import {
   AutocompleteStrategyMap,
 } from '@shared/components/multi-select-autocomplete/autocomplete-strategy';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
-import { NotificationType } from '@shared/model/notification.model';
 import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
 import { AlertsService } from '@shared/service/alerts.service';
 import { InvestigationsService } from '@shared/service/investigations.service';
@@ -337,4 +336,10 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
       event.stopPropagation();
     }
   }
+
+  containsIllegalCharactersForI18nKey(text: string) {
+    const allowedCharacters = /^[a-zA-Z0-9_]+$/;
+    return !allowedCharacters.test(text);
+  }
+
 }
