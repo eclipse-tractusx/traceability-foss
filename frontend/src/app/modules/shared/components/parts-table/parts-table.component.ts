@@ -18,7 +18,6 @@
  ********************************************************************************/
 
 import { SelectionModel } from '@angular/cdk/collections';
-import { MenuStack } from '@angular/cdk/menu';
 import {
   Component,
   ElementRef,
@@ -38,7 +37,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { EmptyPagination, Pagination } from '@core/model/pagination.model';
 import { TableSettingsService } from '@core/user/table-settings.service';
-import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { PartsAsBuiltConfigurationModel } from '@shared/components/parts-table/parts-as-built-configuration.model';
@@ -208,8 +206,6 @@ export class PartsTableComponent implements OnInit {
       this.filterActivated.emit(formValues);
     });
 
-    console.log(this.tableViewConfig, "tableviewconfig partstable"  + this.tableType);
-
   }
 
 
@@ -274,7 +270,6 @@ export class PartsTableComponent implements OnInit {
     };
     this.displayedColumns = displayedColumns;
 
-    console.log(this.displayedColumns, "cols");
     for (const controlName in filterFormGroup) {
       if (filterFormGroup.hasOwnProperty(controlName)) {
         this.filterFormGroup.addControl(controlName, filterFormGroup[controlName]);

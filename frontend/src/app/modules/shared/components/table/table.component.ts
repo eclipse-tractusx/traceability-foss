@@ -172,8 +172,6 @@ export class TableComponent {
       displayFilterColumnMappings: PartsTableConfigUtils.generateFilterColumnsMapping(this.tableConfig?.sortableColumns, [ 'createdDate', 'targetDate' ], [], false, true),
     };
 
-    console.log(this.tableViewConfig, 'tableviewconfig table' + this.tableType);
-
     for (const controlName in this.tableViewConfig.filterFormGroup) {
       if (this.tableViewConfig.filterFormGroup.hasOwnProperty(controlName)) {
         this.filterFormGroup.addControl(controlName, this.tableViewConfig.filterFormGroup[controlName]);
