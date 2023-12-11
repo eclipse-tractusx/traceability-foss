@@ -49,7 +49,7 @@ frontend:
     CATENAX_PORTAL_KEYCLOAK_URL: '<path:traceability-foss/data/test/frontend#catenax_portal_keycloak_url>'
     CATENAX_PORTAL_BACKEND_DOMAIN: '<path:traceability-foss/data/test/frontend#catenax_portal_backend_domain>'
     CATENAX_PORTAL_URL: '<path:traceability-foss/data/test/frontend#catenax_portal_url>'
-    CATENAX_PORTAL_CLIENT_ID: '<path:traceability-foss/data/test/frontend#catenax_portal_client_id>'
+    CATENAX_PORTAL_CLIENT_ID: '<path:traceability-foss/data/test/frontend#catenax_portal_client_id>' # Cl17-CX-Part
 
   nameOverride: "tx-frontend-test"
   fullnameOverride: "tx-frontend-test"
@@ -147,7 +147,7 @@ backend:
     password: <path:traceability-foss/data/dev/database#tracePassword>
 
   oauth2:
-    clientId: <path:traceability-foss/data/int/keycloak/oauth2#clientId>
+    clientId: <path:traceability-foss/data/int/keycloak/oauth2#clientId> #sa267
     clientSecret: <path:traceability-foss/data/int/keycloak/oauth2#clientSecret>
     clientTokenUri: "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
     jwkSetUri: "https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs"
@@ -280,7 +280,7 @@ irs-helm:
 
   keycloak:
     oauth2:
-      clientId: <path:traceability-foss/data/int/keycloak/oauth2#clientId>
+      clientId: <path:traceability-foss/data/int/keycloak/oauth2#clientId> #sa267
       clientSecret: <path:traceability-foss/data/int/keycloak/oauth2#clientSecret>
       clientTokenUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
       jwkSetUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
@@ -340,7 +340,7 @@ tractusx-connector:
       oauth:
         tokenurl: <path:traceability-foss/data/dev/edc/wallet#ssi.oauth.tokenurl>
         client:
-          id: <path:traceability-foss/data/dev/edc/wallet#ssi.oauth.client.id>
+          id: <path:traceability-foss/data/dev/edc/wallet#ssi.oauth.client.id> # sa267
           secretAlias: edc-miw-keycloak-secret
 
     endpoints:
