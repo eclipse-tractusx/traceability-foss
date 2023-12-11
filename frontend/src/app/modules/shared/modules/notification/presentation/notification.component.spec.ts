@@ -114,7 +114,7 @@ describe('NotificationsInboxComponent', () => {
     expect(await screen.findByText('Investigation No 51')).toBeInTheDocument();
   });
 
-  fit('should render queued & requested notifications', async () => {
+  it('should render queued & requested notifications', async () => {
     await renderNotificationsInbox();
     debugger;
     fireEvent.click(screen.getByText('commonInvestigation.tabs.queuedAndRequested'));
