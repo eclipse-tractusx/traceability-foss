@@ -100,7 +100,7 @@ describe('enrichFilterAndGetUpdatedParams', () => {
     expect(result.toString()).not.toContain('filter=emptyFilter');
   });
 
-  fit('should handle provideFilterNotifications', () => {
+  it('should handle provideFilterNotifications', () => {
     const httpParams = new HttpParams();
     let httpParamsFilterNotifications = provideFilterForNotifications([], httpParams, null, null);
     expect(httpParamsFilterNotifications.has('sort')).toBeFalse();
