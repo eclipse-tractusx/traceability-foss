@@ -63,7 +63,7 @@ spring:
 ```
 Database scripts are executed with Flyway. Put the scripts at [migration](src/main/resources/db/migration).
 
-Testdata are created by activating profile 'testdata', scripts are located at [testdata](src/main/resources/db/local).
+Testdata are created by activating profile 'testdata-(x)', with '(x)' being either 'bmw', 'hella', or 'osram'. Scripts are located at a respective folder below `src/main/resources/db`.
 
 * `postgresql.secret.initUserDbSql` - database initialization script, contains username and password for databases used by the service.
 Please note that the final script should be encoded using Base64 encoding and then added to a secret. Sample command:
