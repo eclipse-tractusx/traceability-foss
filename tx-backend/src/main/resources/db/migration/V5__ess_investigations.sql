@@ -21,7 +21,7 @@ ALTER TABLE IF EXISTS public.ess_investigations
         REFERENCES public.assets_as_planned (id);
 
 create or replace view public.v_ess_investigations as
-select '#' || row_number() over (order by i.id) as rowNumber,
+select '#' || row_number() over (order by i.id) as row_number,
        i.id,
        i.job_id,
        p.manufacturer_part_id,

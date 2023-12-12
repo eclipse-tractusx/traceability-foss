@@ -58,7 +58,7 @@ public class EssResponse {
 
     @ApiModelProperty(example = "BPNL00000003CSGV")
     @Size(max = 255)
-    private String bpn;
+    private String bpns;
 
     @ApiModelProperty(example = "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd")
     @Size(max = 255)

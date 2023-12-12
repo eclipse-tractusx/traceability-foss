@@ -35,7 +35,7 @@ public class EssResponseMapper {
         return EssResponse.builder()
             .id(ess.getId())
             .company(ess.getCompanyName())
-            .bpn(ess.getBpn())
+            .bpns(ess.getBpns())
             .jobId(ess.getJobId())
             .status(ess.getStatus())
             .response(ess.getResponse())

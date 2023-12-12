@@ -47,8 +47,8 @@ public class EssEntity implements Serializable {
     @Column(name = "part_name")
     private String partName;
 
-    @Column(name = "bpn")
-    private String bpn;
+    @Column(name = "bpns")
+    private String bpns;
 
     @Column(name = "company_name")
     private String companyName;
@@ -87,7 +87,7 @@ public class EssEntity implements Serializable {
             .rowno(ess.getRowno())
             .partId(ess.getPartId())
             .partName(ess.getPartName())
-            .bpn(ess.getBpn())
+            .bpns(ess.getBpns())
             .companyName(ess.getCompanyName())
             .jobId(ess.getJobId())
             .status(ess.getStatus())

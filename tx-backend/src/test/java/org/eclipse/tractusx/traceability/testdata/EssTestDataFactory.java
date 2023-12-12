@@ -76,7 +76,7 @@ public class EssTestDataFactory {
                 .id(ess.getId())
                 .partId(ess.getPartId())
                 .company(ess.getCompanyName())
-                .bpn(ess.getBpn())
+                .bpns(ess.getBpns())
                 .jobId(ess.getJobId())
                 .status(ess.getStatus())
                 .impacted(ess.getImpacted())

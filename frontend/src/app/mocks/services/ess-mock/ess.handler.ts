@@ -32,24 +32,9 @@ export const essHandler = [
     return res(ctx.status(200), ctx.json(applyPagination(mockPartResponses4Ess, pagination)));
   }),
 
-  /* rest.get(`*${environment.apiUrl}/assets/as-planned-4essnew`, (req, res, ctx) => {
-    const pagination = extractPagination(req);
-
-    return res(ctx.status(200), ctx.json(applyPagination(mockPartResponses4EssNew, pagination)));
-  }), */
-
   rest.get(`*${environment.apiUrl}/ess/v`, (req, res, ctx) => {
     const pagination = extractPagination(req);
 
     return res(ctx.status(200), ctx.json(applyPagination(mockEsss, pagination)));
   }),
-
-  /* rest.post(`*${environment.apiUrl}/ess`, async (req, res, ctx) => {
-    const { partIds, bpns, bpnss } = await req.json();
-    console.log("ESS HANDLER - POST: " + partIds + "," + bpns + "," + bpnss);
-    const response = partIds.map(id => getEssById(id));
-
-    return res(ctx.status(200), ctx.json(response.filter(data => !!data)));
-  }), */
-
 ];

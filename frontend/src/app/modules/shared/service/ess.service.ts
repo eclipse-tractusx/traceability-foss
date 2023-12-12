@@ -43,7 +43,6 @@ import { SortDirection } from '../../../mocks/services/pagination.helper';
 export class EssService {
 
   private readonly url = environment.apiUrl;
-  // private readonly urlDDK = 'http://localhost:18080/api';
 
   constructor(private readonly apiService: ApiService) {
   }
@@ -63,7 +62,6 @@ export class EssService {
     }
     return this.apiService
       .getBy<EsssResponse>(`${this.url}/ess/v`, params)
-      // .getBy<EsssResponse>(`${this.urlDDK}/ess/v`, params)
       .pipe(map(esss => EssAssembler.assembleEsss(esss, MainAspectType.ESS)));
   }
 
@@ -82,7 +80,6 @@ export class EssService {
     const body = { partIds, bpns };
     return this.apiService
       .post<NotificationCreateResponse>(`${this.url}/ess`, body)
-      // .post<NotificationCreateResponse>(`${this.urlDDK}/ess`, body)
       .pipe(map(({ id }) => id));
   }
 

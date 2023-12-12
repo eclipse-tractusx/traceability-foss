@@ -11,7 +11,6 @@ This work is licensed under the [Apache-2.0](https://www.apache.org/licenses/LIC
 * Copyright (c) 2022 ISTOS GmbH
 * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
 * Copyright (c) 2022,2023 BOSCH AG
-* Copyright (c) 2023 msg systems ag
 
 * Source URL: https://github.com/eclipse-tractusx/traceability-foss
 
