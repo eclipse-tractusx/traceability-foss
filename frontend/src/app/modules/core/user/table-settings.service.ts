@@ -18,8 +18,8 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { TableViewConfig } from '@shared/components/parts-table/table-view-config.model';
-import { PartTableType } from '@shared/components/table/table.model';
 import { Subject } from 'rxjs';
 
 @Injectable({
@@ -53,7 +53,7 @@ export class TableSettingsService {
     return settingsObject;
   }
 
-  storedTableSettingsInvalid(tableViewConfig: TableViewConfig, tableType: PartTableType): boolean {
+  storedTableSettingsInvalid(tableViewConfig: TableViewConfig, tableType: TableType): boolean {
     let isInvalid = false;
 
     const storage = this.getStoredTableSettings();
