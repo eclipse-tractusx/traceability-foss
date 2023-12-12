@@ -90,7 +90,7 @@ describe('enrichFilterAndGetUpdatedParams', () => {
     expect(result.toString()).toContain('filter=semanticDataModel,STARTS_WITH,value1,OR');
   });
 
-  fit('should handle empty filter values', () => {
+  it('should handle empty filter values', () => {
     const filter = {
       emptyFilter: [],
     };
@@ -102,8 +102,17 @@ describe('enrichFilterAndGetUpdatedParams', () => {
 
   fit('should handle provideFilterNotifications', () => {
     const httpParams = new HttpParams();
-    let provideFilterForNotifications1 = provideFilterForNotifications([], httpParams, null, null);
-    expect(provideFilterForNotifications1).not.toContain('');
+    let httpParamsFilterNotifications = provideFilterForNotifications([], httpParams, null, null);
+    expect(httpParamsFilterNotifications.has('sort')).toBeFalse();
+    expect(httpParamsFilterNotifications.has('filter')).toBeFalse();
   })
+
+  it('should handle provideFilterNotifications successfully', () => {
+    const httpParams = new HttpParams();
+    const filter = {notificationIds: ['1']}
+    let httpParamsFilterNotifications = provideFilterForNotifications([], httpParams, filter, null);
+    expect(httpParamsFilterNotifications.get('filter')).toContain('id,EQUAL,1,OR')
+  })
+
 
 });
