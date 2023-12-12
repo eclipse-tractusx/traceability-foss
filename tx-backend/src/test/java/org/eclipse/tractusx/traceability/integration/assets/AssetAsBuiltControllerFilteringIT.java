@@ -27,7 +27,6 @@ import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecificatio
 import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationsSupport;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
 import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
@@ -358,7 +357,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
         alertsSupport.storeAlertWithStatusAndAssets(CANCELED, List.of(assetAsBuilt), null);
         alertsSupport.storeAlertWithStatusAndAssets(CLOSED, List.of(assetAsBuilt), null);
 
-        final String filter = "receivedQualityAlertIdsInStatusActive,EQUAL,6,AND";
+        final String filter = "receivedQualityAlertIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,6,AND";
 
         // When
         given()
@@ -390,7 +389,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
         alertsSupport.storeAlertWithStatusAndAssets(CANCELED, List.of(assetAsBuilt), null);
         alertsSupport.storeAlertWithStatusAndAssets(CLOSED, List.of(assetAsBuilt), null);
 
-        final String filter = "receivedQualityAlertIdsInStatusActive,EQUAL,2,AND";
+        final String filter = "receivedQualityAlertIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,2,AND";
 
         // When
         given()
@@ -421,7 +420,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
         investigationsSupport.storeInvestigationWithStatusAndAssets(CLOSED, List.of(assetAsBuilt), null, SENDER);
         investigationsSupport.storeInvestigationWithStatusAndAssets(CREATED, List.of(assetAsBuilt), null, RECEIVER);
 
-        final String filter = "sentQualityInvestigationIdsInStatusActive,EQUAL,6,AND";
+        final String filter = "sentQualityInvestigationIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,6,AND";
 
 
         // When
@@ -460,7 +459,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
         investigationsSupport.storeInvestigationWithStatusAndAssets(CANCELED, List.of(assetAsBuilt), null, RECEIVER);
         investigationsSupport.storeInvestigationWithStatusAndAssets(CLOSED, List.of(assetAsBuilt), null, RECEIVER);
 
-        final String filter = "receivedQualityInvestigationIdsInStatusActive,EQUAL,7,AND";
+        final String filter = "receivedQualityInvestigationIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,7,AND";
 
 
         // When
@@ -492,7 +491,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
         investigationsSupport.storeInvestigationWithStatusAndAssets(CANCELED, List.of(assetAsBuilt), null);
         investigationsSupport.storeInvestigationWithStatusAndAssets(CLOSED, List.of(assetAsBuilt), null);
 
-        final String filter = "receivedQualityInvestigationIdsInStatusActive,EQUAL,2,AND";
+        final String filter = "receivedQualityInvestigationIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,2,AND";
 
 
         // When
@@ -507,6 +506,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
                 .assertThat()
                 .body("totalItems", equalTo(1));
     }
+
     @Test
     void givenAssetsWithAlerts_whenGetAssetSortedBySentActiveAlertsDesc_thenReturnProperAssets() throws JoseException {
         // Given
@@ -515,7 +515,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
         List<AssetAsBuiltEntity> assets = jpaAssetAsBuiltRepository.findAll();
 
         for (int i = 0; i < assets.size(); i++) {
-            for ( int j = i; j >0;j--){
+            for (int j = i; j > 0; j--) {
                 alertsSupport.storeAlertWithStatusAndAssets(CREATED, List.of(assets.get(i)), null, SENDER);
             }
         }
@@ -553,7 +553,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
         investigationsSupport.storeInvestigationWithStatusAndAssets(CANCELED, List.of(assetAsBuilt), null);
         investigationsSupport.storeInvestigationWithStatusAndAssets(CLOSED, List.of(assetAsBuilt), null);
 
-        final String filter = "receivedQualityInvestigationIdsInStatusActive,EQUAL,0,AND";
+        final String filter = "receivedQualityInvestigationIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,0,AND";
 
 
         // When
@@ -585,7 +585,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
         investigationsSupport.storeInvestigationWithStatusAndAssets(CANCELED, List.of(assetAsBuilt), null);
         investigationsSupport.storeInvestigationWithStatusAndAssets(CLOSED, List.of(assetAsBuilt), null);
 
-        final String filter = "receivedQualityAlertIdsInStatusActive,EQUAL,0,AND";
+        final String filter = "receivedQualityAlertIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,0,AND";
 
 
         // When
@@ -617,8 +617,8 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
         investigationsSupport.storeInvestigationWithStatusAndAssets(CANCELED, List.of(assetAsBuilt), null);
         investigationsSupport.storeInvestigationWithStatusAndAssets(CLOSED, List.of(assetAsBuilt), null);
 
-        final String filter1 = "receivedQualityAlertIdsInStatusActive,EQUAL,0,AND";
-        final String filter2 = "receivedQualityInvestigationIdsInStatusActive,EQUAL,2,AND";
+        final String filter1 = "receivedQualityAlertIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,0,AND";
+        final String filter2 = "receivedQualityInvestigationIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,2,AND";
 
 
         // When
@@ -659,10 +659,10 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
         investigationsSupport.storeInvestigationWithStatusAndAssets(SENT, List.of(assetAsBuilt), null, RECEIVER);
 
 
-        final String filter1 = "receivedQualityAlertIdsInStatusActive,EQUAL,3,AND";
-        final String filter2 = "receivedQualityInvestigationIdsInStatusActive,EQUAL,4,AND";
-        final String filter3 = "sentQualityAlertIdsInStatusActive,EQUAL,1,AND";
-        final String filter4 = "sentQualityInvestigationIdsInStatusActive,EQUAL,2,AND";
+        final String filter1 = "receivedQualityAlertIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,3,AND";
+        final String filter2 = "receivedQualityInvestigationIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,4,AND";
+        final String filter3 = "sentQualityAlertIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,1,AND";
+        final String filter4 = "sentQualityInvestigationIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,2,AND";
 
         // When
         given()
