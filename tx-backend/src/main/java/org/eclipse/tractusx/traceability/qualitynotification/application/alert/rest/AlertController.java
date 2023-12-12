@@ -56,7 +56,7 @@ import static org.eclipse.tractusx.traceability.qualitynotification.domain.base.
 
 @RestController
 @RequestMapping(value = "/alerts", consumes = "application/json", produces = "application/json")
-@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
+@PreAuthorize("hasAnyRole('ROLE_SUPERVISOR')") // default role, will be overridden for specific endpoints
 @Tag(name = "Alerts")
 @Validated
 @Slf4j
@@ -119,6 +119,7 @@ public class AlertController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping
+    @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR', 'ROLE_USER')")
     @ResponseStatus(HttpStatus.CREATED)
     public QualityNotificationIdResponse alertAssets(@RequestBody @Valid StartQualityNotificationRequest request) {
         StartQualityNotificationRequest cleanStartQualityNotificationRequest = sanitize(request);
@@ -180,6 +181,7 @@ public class AlertController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/created")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
     public PageResult<AlertResponse> getCreatedAlerts(OwnPageable pageable, SearchCriteriaRequestParam searchCriteriaRequestParam) {
         log.info(API_LOG_START + "/created");
         return AlertResponseMapper.fromAsPageResult(alertService.getCreated(OwnPageable.toPageable(pageable), searchCriteriaRequestParam.toSearchCriteria()));
@@ -239,6 +241,7 @@ public class AlertController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/received")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
     public PageResult<AlertResponse> getReceivedAlerts(OwnPageable pageable, SearchCriteriaRequestParam searchCriteriaRequestParam) {
         log.info(API_LOG_START + "/received");
         return AlertResponseMapper.fromAsPageResult(alertService.getReceived(OwnPageable.toPageable(pageable), searchCriteriaRequestParam.toSearchCriteria()));
@@ -295,6 +298,7 @@ public class AlertController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/{alertId}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
     public AlertResponse getAlert(@PathVariable Long alertId) {
         log.info(API_LOG_START + "/{}", alertId);
         return AlertResponseMapper.from(alertService.find(alertId));
@@ -354,6 +358,7 @@ public class AlertController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("/{alertId}/approve")
+    @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR', 'ROLE_USER')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void approveAlert(@PathVariable Long alertId) {
         log.info(API_LOG_START + "/{}/approve", alertId);
@@ -415,6 +420,7 @@ public class AlertController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("/{alertId}/cancel")
+    @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void cancelAlert(@PathVariable Long alertId) {
         log.info(API_LOG_START + "/{}/cancel", alertId);
@@ -474,7 +480,7 @@ public class AlertController {
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
+    @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR')")
     @PostMapping("/{alertId}/close")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void closeAlert(
@@ -538,8 +544,8 @@ public class AlertController {
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
-    @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR')")
     @PostMapping("/{alertId}/update")
+    @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR', 'ROLE_USER')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateAlert(
             @PathVariable Long alertId,

@@ -33,14 +33,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.stream.Stream;
 
 import static io.restassured.RestAssured.given;
-import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
-import static org.eclipse.tractusx.traceability.common.security.JwtRole.SUPERVISOR;
-import static org.eclipse.tractusx.traceability.common.security.JwtRole.USER;
+import static org.eclipse.tractusx.traceability.common.security.JwtRole.*;
 import static org.hamcrest.Matchers.blankString;
 import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-public class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
+class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
 
     @Autowired
     EdcSupport edcSupport;
@@ -55,7 +53,7 @@ public class EdcNotificationContractControllerIT extends IntegrationTestSpecific
         // then
         given()
                 .contentType(ContentType.JSON)
-                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(
                         """
                                 {
@@ -89,7 +87,7 @@ public class EdcNotificationContractControllerIT extends IntegrationTestSpecific
         // then
         given()
                 .contentType(ContentType.JSON)
-                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(
                         """
                                 {
@@ -125,7 +123,7 @@ public class EdcNotificationContractControllerIT extends IntegrationTestSpecific
         // when/then
         given()
                 .contentType(ContentType.JSON)
-                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(
                         """
                                 {
@@ -162,7 +160,7 @@ public class EdcNotificationContractControllerIT extends IntegrationTestSpecific
         // then
         given()
                 .contentType(ContentType.JSON)
-                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(
                         """
                                 {
@@ -205,10 +203,10 @@ public class EdcNotificationContractControllerIT extends IntegrationTestSpecific
     }
 
     @Test
-    void shouldNotCreateEdcContractHavingAdminRole() throws JoseException {
+    void shouldNotCreateEdcContractHavingSupervisorRole() throws JoseException {
         given()
                 .contentType(ContentType.JSON)
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .body(
                         """
                                 {
@@ -250,7 +248,7 @@ public class EdcNotificationContractControllerIT extends IntegrationTestSpecific
     ) throws JoseException {
         given()
                 .contentType(ContentType.JSON)
-                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(
 
                         """
@@ -270,7 +268,7 @@ public class EdcNotificationContractControllerIT extends IntegrationTestSpecific
     void shouldNotCreateEdcContractForQualityAlertBecauseItsNotYetImplemented() throws JoseException {
         given()
                 .contentType(ContentType.JSON)
-                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(
                         """
                                 {

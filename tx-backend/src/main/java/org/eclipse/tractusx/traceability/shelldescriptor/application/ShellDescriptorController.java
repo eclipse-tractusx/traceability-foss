@@ -38,7 +38,7 @@ import shelldescriptors.ShellDescriptorResponse;
 import java.util.List;
 
 @RestController
-@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
+@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 @Tag(name = "ShellDescriptorController", description = "Shell Descriptor Controller")
 @RequiredArgsConstructor
 @RequestMapping(path = "/shelldescriptors", produces = "application/json", consumes = "application/json")
@@ -94,6 +94,7 @@ public class ShellDescriptorController {
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
     @GetMapping()
     public List<ShellDescriptorResponse> findAll() {
         return ShellDescriptorResponseMapper.from(shellDescriptorService.findAll());
