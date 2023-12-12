@@ -30,16 +30,10 @@ import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetA
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
-import org.eclipse.tractusx.traceability.common.model.PageResult;
-import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.common.repository.CriteriaUtility;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-
-import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 @RequiredArgsConstructor
 @Component
@@ -75,13 +69,6 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
         return jpaAssetAsBuiltRepository.findById(childId)
                 .map(AssetAsBuiltEntity::toDomain)
                 .orElseThrow(() -> new AssetNotFoundException("Child Asset Not Found"));
-    }
-
-    @Override
-    public PageResult<AssetBase> getAssets(Pageable pageable, SearchCriteria searchCriteria) {
-        List<AssetAsBuildSpecification> assetAsBuildSpecifications = emptyIfNull(searchCriteria.getSearchCriteriaFilterList()).stream().map(AssetAsBuildSpecification::new).toList();
-        Specification<AssetAsBuiltEntity> specification = AssetAsBuildSpecification.toSpecification(assetAsBuildSpecifications);
-        return new PageResult<>(jpaAssetAsBuiltRepository.findAll(specification, pageable), AssetAsBuiltEntity::toDomain);
     }
 
     @Override
