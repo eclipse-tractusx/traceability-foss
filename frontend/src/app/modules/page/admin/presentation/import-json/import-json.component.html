@@ -7,18 +7,21 @@
   </mat-card-header>
   <mat-card-content>
     <div class="file-container" *ngIf="!file || isNotJsonFile() || showError">
+      <mat-icon>upload</mat-icon>
       <input type="file" (change)="getFile($event)" class="file" />
-      <h4> Select a file or drag here </h4>
+      <h4>Drag and drop</h4>
+      <p class="or">Or</p>
       <div class="text-box">
-        <p class="text-box-p">Select a file</p>
+        <p class="text-box-p">Browse files</p>
       </div>
       <p class="error-message" *ngIf="isNotJsonFile() && showError">Error: Please select a JSON file.</p>
     </div>
 
     <div class="file-container" *ngIf="file && isJsonFile()">
-      <p>File name: {{file.name}}</p>
-      <button class="custom-button1" (click)="file = undefined; showError = false;"> clear file</button>
-      <button class="custom-button2" (click)="uploadFile()"> upload file</button>
+      <mat-icon>upload_file</mat-icon>
+      <p class="file-name">{{file.name}}</p>
+      <app-button variant="raised" class="custom-button_clear" color="warn" (click)="file = undefined; showError = false;"> clear file</app-button>
+      <app-button variant="raised" class="custom-button_upload" color="primary" (click)="uploadFile()"> upload file</app-button>
     </div>
   </mat-card-content>
 </mat-card>

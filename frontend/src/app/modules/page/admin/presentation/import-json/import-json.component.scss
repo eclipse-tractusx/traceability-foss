@@ -2,10 +2,6 @@
 $theme:       #454cad;
 $dark-text:   #5f6982;
 
-html,body,* { box-sizing: border-box; font-size: 16px;}
-html,body   { height: 100%; text-align: center;}
-body        { padding: 2rem; background: #f8f8f8;}
-
 h2 {
   font-family: "Roboto", sans-serif;
   font-size: 26px;
@@ -21,13 +17,14 @@ p{
 }
 
 .file-container {
-  width: 450px;
+  width: 300px;
   height: 200px;
   padding: 2rem;
   text-align: center;
-  border: dashed 1px #979797;
+  border: dashed 2px #979797;
   position: relative;
-  margin : 0 auto;
+  margin-left : 10px;
+  margin-top: 15px;
 
   input {
     opacity: 0;
@@ -52,20 +49,48 @@ p{
     font-size: 18px;
     color: $dark-text;
   }
+  .or{
+    font-family: "Roboto", sans-serif;
+    font-size: 13px;
+    color: dimgrey;
+    position: relative;
+  }
+
+  .or::before,
+  .or::after {
+    content: "";
+    display: inline-block;
+    width: 25%;
+    height: 0.7px;
+    background-color: lightgray;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .or::before {
+    left: +19%;
+  }
+
+  .or::after {
+    right: +19%;
+  }
 
   .text-box{
-    width: 100px;
-    padding: 0.5px;
+    width: 110px;
+    padding: 8px;
     display: inline-block;
     font-family: "Roboto", sans-serif;
     border: 1px solid $theme;
-    background-color: $theme;
-    border-radius: 5px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    margin-top: 5px;
 
     .text-box-p {
       font-family: "Roboto", sans-serif;
-      font-size: 13px;
-      color: #ffffff;
+      font-size: 14px;
+      color: $theme;
+      border-radius: 15px;
     }
 
 
@@ -74,29 +99,17 @@ p{
   .error-message {
     font-family: "Roboto", sans-serif;
     color: red;
-    margin-top: 5px; /* optional: Abstand nach oben hinzufügen */
+    margin-top: 5px;
   }
 
-  .custom-button1{
-    width: 100px;
-    margin: 5px;  // Abstand zwischen den Buttons
-    padding: 1px;
-    font-family: "Roboto", sans-serif;
-    border: 1px solid crimson;
-    background-color: crimson;
-    border-radius: 5px;
-    color: #ffffff;
+  .custom-button_clear{
+    margin-right: 5px;
+    margin-top: 10px;
   }
 
-  .custom-button2 {
-    width: 100px;
-    margin: 5px;  // Abstand zwischen den Buttons
-    padding: 1px;
-    font-family: "Roboto", sans-serif;
-    border: 1px solid $theme;
-    background-color: $theme;
-    border-radius: 5px;
-    color: #ffffff;
+  .custom-button_upload {
+    margin-left: 5px;
+    margin-top: 10px;
   }
 
 }

@@ -21,15 +21,15 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 @Slf4j
 @RestController
-@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
+@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 @Tag(name = "AssetsImport")
 @RequestMapping(path = "/assets")
 public class ImportController {
 
     @Operation(operationId = "importJson",
-            summary = "Responds json files ",
+            summary = "asset upload",
             tags = {"AssetsImport"},
-            description = "The endpoint Responds json files",
+            description = "This endpoint stores assets in the application. Those can be later published in the Catena-X network.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "204", description = "No Content."),
             @ApiResponse(

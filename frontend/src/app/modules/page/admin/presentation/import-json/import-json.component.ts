@@ -28,13 +28,13 @@ import { AdminFacade } from '@page/admin/core/admin.facade';
   styleUrls: [ './import-json.component.scss' ],
 })
 export class ImportJsonComponent{
-  jsonfile = false;
-  showError = false;
-  file:any;
+  public jsonfile = false;
+  public showError = false;
+  public file:any;
 
   constructor(private readonly adminFacade: AdminFacade) {
   }
-  getFile(event:any){
+  public getFile(event:any){
     this.file = event.target.files[0];
 
     if (this.file) {
@@ -51,19 +51,19 @@ export class ImportJsonComponent{
 
     }
   }
-  uploadFile(){
+ public uploadFile(){
     this.adminFacade.postJsonImport(this.file)
   }
 
-  isJsonFile(): boolean {
+  public  isJsonFile(): boolean {
     return this.file && this.getFileExtension().toLowerCase() === 'json';
   }
 
-  isNotJsonFile(): boolean {
+  public isNotJsonFile(): boolean {
     return !this.isJsonFile();
   }
 
-  getFileExtension(): string {
+  public getFileExtension(): string {
     if (this.file) {
       const fileNameParts = this.file.name.split('.');
       return fileNameParts[fileNameParts.length - 1];
