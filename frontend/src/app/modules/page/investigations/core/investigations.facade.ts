@@ -24,7 +24,7 @@ import { provideDataObject } from '@page/parts/core/parts.helper';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { Notification, Notifications, NotificationStatus } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
-import { InvestigationsService } from '@shared/service/investigations.service';
+import { NotificationService } from '@shared/service/notification.service';
 import { Observable, Subscription } from 'rxjs';
 import { NotificationFilter } from '../../../../mocks/services/investigations-mock/investigations.model';
 import { InvestigationsState } from './investigations.state';
@@ -35,7 +35,7 @@ export class InvestigationsFacade {
   private investigationQueuedAndRequestedSubscription: Subscription;
 
   constructor(
-    private readonly investigationsService: InvestigationsService,
+    private readonly notificationService: NotificationService,
     private readonly investigationsState: InvestigationsState,
   ) {
   }
@@ -49,13 +49,13 @@ export class InvestigationsFacade {
   }
 
   public getInvestigation(id: string): Observable<Notification> {
-    return this.investigationsService.getInvestigation(id);
+    return this.notificationService.getNotificationById(id, true);
   }
 
   public setReceivedInvestigation(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: NotificationFilter, fullFilter?: any): void {
     this.investigationReceivedSubscription?.unsubscribe();
-    this.investigationReceivedSubscription = this.investigationsService
-      .getReceivedInvestigations(page, pageSize, sorting, filter, fullFilter)
+    this.investigationReceivedSubscription = this.notificationService
+      .getReceived(page, pageSize, sorting, filter, fullFilter, true)
       .subscribe({
         next: data => (this.investigationsState.investigationsReceived = { data: provideDataObject(data) }),
         error: (error: Error) => (this.investigationsState.investigationsReceived = { error }),
@@ -64,8 +64,8 @@ export class InvestigationsFacade {
 
   public setQueuedAndRequestedInvestigations(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: NotificationFilter, fullFilter?: any): void {
     this.investigationQueuedAndRequestedSubscription?.unsubscribe();
-    this.investigationQueuedAndRequestedSubscription = this.investigationsService
-      .getCreatedInvestigations(page, pageSize, sorting, filter, fullFilter)
+    this.investigationQueuedAndRequestedSubscription = this.notificationService
+      .getCreated(page, pageSize, sorting, filter, fullFilter, true)
       .subscribe({
         next: data => (this.investigationsState.investigationsQueuedAndRequested = { data: provideDataObject(data) }),
         error: (error: Error) => (this.investigationsState.investigationsQueuedAndRequested = { error }),
@@ -78,26 +78,26 @@ export class InvestigationsFacade {
   }
 
   public closeInvestigation(investigationId: string, reason: string): Observable<void> {
-    return this.investigationsService.closeInvestigation(investigationId, reason);
+    return this.notificationService.closeNotification(investigationId, reason, true);
   }
 
   public approveInvestigation(investigationId: string): Observable<void> {
-    return this.investigationsService.approveInvestigation(investigationId);
+    return this.notificationService.approveNotification(investigationId, true);
   }
 
   public cancelInvestigation(investigationId: string): Observable<void> {
-    return this.investigationsService.cancelInvestigation(investigationId);
+    return this.notificationService.cancelNotification(investigationId, true);
   }
 
   public acknowledgeInvestigation(investigationId: string): Observable<void> {
-    return this.investigationsService.updateInvestigation(investigationId, NotificationStatus.ACKNOWLEDGED);
+    return this.notificationService.updateNotification(investigationId, NotificationStatus.ACKNOWLEDGED, null, true);
   }
 
   public acceptInvestigation(investigationId: string, reason: string): Observable<void> {
-    return this.investigationsService.updateInvestigation(investigationId, NotificationStatus.ACCEPTED, reason);
+    return this.notificationService.updateNotification(investigationId, NotificationStatus.ACCEPTED, reason, true);
   }
 
   public declineInvestigation(investigationId: string, reason: string): Observable<void> {
-    return this.investigationsService.updateInvestigation(investigationId, NotificationStatus.DECLINED, reason);
+    return this.notificationService.updateNotification(investigationId, NotificationStatus.DECLINED, reason, true);
   }
 }

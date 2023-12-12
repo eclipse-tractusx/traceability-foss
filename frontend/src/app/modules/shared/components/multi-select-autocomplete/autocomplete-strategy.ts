@@ -16,12 +16,11 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import {Injectable} from '@angular/core';
-import {Owner} from '@page/parts/model/owner.enum';
-import {NotificationChannel, TableType} from '@shared/components/multi-select-autocomplete/table-type.model';
-import {AlertsService} from '@shared/service/alerts.service';
-import {InvestigationsService} from '@shared/service/investigations.service';
-import {PartsService} from '@shared/service/parts.service';
+import { Injectable } from '@angular/core';
+import { Owner } from '@page/parts/model/owner.enum';
+import { NotificationChannel, TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
+import { NotificationService } from '@shared/service/notification.service';
+import { PartsService } from '@shared/service/parts.service';
 
 export abstract class AutocompleteStrategy {
   abstract retrieveSuggestionValues(tableType: TableType, filterColumns: string, searchElement: string): any;
@@ -54,19 +53,20 @@ export class PartsStrategy extends AutocompleteStrategy {
   providedIn: 'any',
 })
 export class InvestigationStrategy extends AutocompleteStrategy {
-  investigationsService: InvestigationsService;
+  notificationService: NotificationService;
 
-  constructor(investigationsService: InvestigationsService) {
+  constructor(notificationService: NotificationService) {
     super();
-    this.investigationsService = investigationsService;
+    this.notificationService = notificationService;
   }
 
   retrieveSuggestionValues(tableType: TableType, filterColumns: string, searchElement: string): any {
     const notificationChannel = channelOfNotification(tableType);
-    return this.investigationsService.getDistinctFilterValues(
+    return this.notificationService.getDistinctFilterValues(
       notificationChannel,
       filterColumns,
       searchElement,
+      true,
     );
   }
 }
@@ -75,19 +75,20 @@ export class InvestigationStrategy extends AutocompleteStrategy {
   providedIn: 'any',
 })
 export class AlertStrategy extends AutocompleteStrategy {
-  alertService: AlertsService;
+  notificationService: NotificationService;
 
-  constructor(alertService: AlertsService) {
+  constructor(notificationService: NotificationService) {
     super();
-    this.alertService = alertService;
+    this.notificationService = notificationService;
   }
 
   retrieveSuggestionValues(tableType: TableType, filterColumns: string, searchElement: string): any {
     const notificationChannel = channelOfNotification(tableType);
-    return this.alertService.getDistinctFilterValues(
+    return this.notificationService.getDistinctFilterValues(
       notificationChannel,
       filterColumns,
       searchElement,
+      false,
     );
   }
 }
@@ -129,4 +130,8 @@ export function channelOfNotification(tableType: TableType): NotificationChannel
     return NotificationChannel.RECEIVER;
   }
 
+}
+
+export function isInvestigation(tableType: TableType): boolean {
+  return [ TableType.RECEIVED_INVESTIGATION, TableType.CREATED_INVESTIGATION ].includes(tableType);
 }
