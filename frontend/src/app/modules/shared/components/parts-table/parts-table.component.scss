@@ -24,7 +24,11 @@
 }
 
 .settings-icon {
-  padding-left: 13px;
+  margin: 0;
+  min-width: 24px;
+  min-height: 24px;
+  padding: 0px;
+  cursor: pointer;
 }
 
 .table-menu {
@@ -437,3 +441,8 @@ tr.error {
     white-space: pre-line;
   }
 }
+
+.table--body--row .table--cell--sticky {
+    padding: 0px !important;
+}
+

@@ -90,6 +90,7 @@ import {
   CountryFlagGeneratorComponent
 } from "@shared/components/country-flag-generator/country-flag-generator.component";
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { InfoListComponent } from './components/info-list/info-list.component';
 @NgModule({
   declarations: [
     ToastContainerComponent,
@@ -113,6 +114,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     LanguageSelectorComponent,
     CardIconComponent,
     CardListComponent,
+    InfoListComponent,
     ToKeyValuePipe,
     SelectComponent,
     DataLoadingErrorComponent,
@@ -158,6 +160,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     LanguageSelectorComponent,
     CardIconComponent,
     CardListComponent,
+    InfoListComponent,
     ToKeyValuePipe,
     SelectComponent,
     DataLoadingErrorComponent,

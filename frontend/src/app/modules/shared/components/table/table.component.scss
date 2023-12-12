@@ -91,17 +91,6 @@ table {
   outline: unset;
 }
 
-.notification-table--header {
-  border-bottom: 1px solid #d2d2d2 !important;
-
-  &--sticky {
-    position: sticky !important;
-    right: 0;
-    top: 0;
-    width: 41px;
-    max-width: 41px;
-  }
-}
 
 .notification-table--cell {
   padding: 2px 12px 2px 12px;
@@ -251,11 +240,6 @@ table {
     display: none;
   }
 
-  &__desktop {
-    padding-top: 5px;
-    padding-left: 4px;
-  }
-
   @media (max-width: 768px) {
     &__desktop {
       display: none;
@@ -366,4 +350,20 @@ table {
     height: 24px;
     padding: 0px;
   }
+}
+
+.notification-table--header {
+  border-bottom: 1px solid #d2d2d2 !important;
+
+  &--sticky {
+    position: sticky !important;
+    right: 0;
+    top: 0;
+    width: 41px;
+    max-width: 41px;
+  }
+}
+
+.notification-table--header--row .notification-table--header--sticky {
+  padding: 0px !important;
 }

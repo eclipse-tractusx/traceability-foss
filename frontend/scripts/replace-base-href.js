@@ -22,7 +22,9 @@ const fs = require('fs');
 const NGINX_CONF_PATH = '/etc/nginx/nginx.conf';
 const NGINX_SECURITY_CONF_PATH = '/etc/nginx/security-headers.conf';
 const HTML_PATH = '/usr/share/nginx/html/index.html';
-const RUNTIME_PATH = '/usr/share/nginx/html/runtime.js';
+
+const files = fs.readdirSync('/usr/share/nginx/html/');
+const RUNTIME_PATH = '/usr/share/nginx/html/' + files.find((file) => file.startsWith('runtime.') && file.endsWith('.js'));
 
 const BASE_HREF_PLACEHOLDER_VAR = '/{baseHrefPlaceholder}';
 const BACKEND_DOMAIN_PLACEHOLDER_VAR = '{backendDomain}';

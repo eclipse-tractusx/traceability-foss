@@ -143,7 +143,7 @@ describe('CustomerPartsComponent', () => {
     expect(customerPartsComponent.otherPartsFacade.setCustomerPartsAsBuilt).toHaveBeenCalledWith(0,
       50,
       [],
-      toGlobalSearchAssetFilter(search, true, customerPartsComponent.searchListAsBuilt),
+      toGlobalSearchAssetFilter(search, true, customerPartsComponent.searchListAsBuilt, customerPartsComponent.datePipe),
       true);
   });
 
@@ -159,7 +159,7 @@ describe('CustomerPartsComponent', () => {
     expect(customerPartsComponent.otherPartsFacade.setCustomerPartsAsPlanned).toHaveBeenCalledWith(0,
       50,
       [],
-      toGlobalSearchAssetFilter(search, false, customerPartsComponent.searchListAsPlanned),
+      toGlobalSearchAssetFilter(search, false, customerPartsComponent.searchListAsPlanned, customerPartsComponent.datePipe),
       true,
     );
   });

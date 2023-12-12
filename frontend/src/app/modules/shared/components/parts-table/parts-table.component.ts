@@ -85,12 +85,13 @@ export class PartsTableComponent implements OnInit {
 
   filterKey = 'Filter';
 
-  @Input() set paginationData({ page, pageSize, totalItems, content }: Pagination<unknown>) {
+  @Input() set paginationData({ page, pageSize, totalItems, content, pageCount }: Pagination<unknown>) {
     this.totalItems = totalItems;
     this.pageSize = pageSize;
     this.dataSource.data = content;
     this.isDataLoading = false;
     this.pageIndex = page;
+    this.pageCount = pageCount;
   }
 
   @Input() set data(content: unknown[]) {
@@ -136,6 +137,9 @@ export class PartsTableComponent implements OnInit {
   public filterActive: any = {};
   public filterConfiguration: FilterConfig[];
   public displayedColumns: string[];
+  public pageSize: number;
+  public pageCount: number;
+
 
   filterFormGroup = new FormGroup({});
 
@@ -305,6 +309,7 @@ export class PartsTableComponent implements OnInit {
     'manufacturingDate',
     'activeAlerts',
     'activeInvestigations',
+    'menu'
   ];
 
   private readonly sortableColumnsAsBuiltCustomer: Record<string, boolean> = {
@@ -324,6 +329,7 @@ export class PartsTableComponent implements OnInit {
     'manufacturer',
     'manufacturerPartId',
     'semanticModelId',
+    'menu'
   ];
 
   private readonly sortableColumnsAsPlannedCustomer: Record<string, boolean> = {
@@ -345,6 +351,7 @@ export class PartsTableComponent implements OnInit {
     'manufacturingDate',
     'activeAlerts',
     'activeInvestigations',
+    'menu'
   ];
 
   private readonly sortableColumnsAsBuiltSupplier: Record<string, boolean> = {
@@ -364,6 +371,7 @@ export class PartsTableComponent implements OnInit {
     'manufacturer',
     'manufacturerPartId',
     'semanticModelId',
+    'menu'
   ];
 
   private readonly sortableColumnsAsPlannedSupplier: Record<string, boolean> = {
@@ -374,7 +382,6 @@ export class PartsTableComponent implements OnInit {
     semanticModelId: true,
   };
 
-  private pageSize: number;
   private sorting: TableHeaderSort;
 
   ngAfterViewInit() {
@@ -438,6 +445,7 @@ export class PartsTableComponent implements OnInit {
     };
     this.filterConfiguration = filterConfiguration;
     this.displayedColumns = displayedColumns;
+
     for (const controlName in filterFormGroup) {
       // eslint-disable-next-line no-prototype-builtins
       if (filterFormGroup.hasOwnProperty(controlName)) {
@@ -847,9 +855,7 @@ export class PartsTableComponent implements OnInit {
   public selectElement(row: Record<string, unknown>) {
     this.selectedRow = this.selectedRow === row ? null : row;
 
-    if (!this.tableConfig.menuActionsConfig) {
-      this.selected.emit(row);
-    }
+    this.selected.emit(row);
   }
 
   private emitMultiSelect(): void {

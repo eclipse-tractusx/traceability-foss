@@ -199,7 +199,7 @@ describe('SupplierPartsComponent', () => {
       0,
       50,
       [],
-      toGlobalSearchAssetFilter(search, true, supplierPartsComponent.searchListAsBuilt),
+      toGlobalSearchAssetFilter(search, true, supplierPartsComponent.searchListAsBuilt, supplierPartsComponent.datePipe),
       true,
     );
   });
@@ -217,7 +217,7 @@ describe('SupplierPartsComponent', () => {
       0,
       50,
       [],
-      toGlobalSearchAssetFilter(search, false, supplierPartsComponent.searchListAsPlanned),
+      toGlobalSearchAssetFilter(search, false, supplierPartsComponent.searchListAsPlanned, supplierPartsComponent.datePipe),
       true,
     );
   });

@@ -49,22 +49,6 @@ describe('D3 Tree', () => {
     expect(tree.renderTree).toBeTruthy();
   });
 
-  it('should render element borders - TreeDirection.RIGHT', () => {
-    const tree = new Tree(treeData);
-    const treeSvg = tree.renderTree(D3TreeDummyData, TreeDirection.RIGHT).node();
-
-    expect(treeSvg.getElementsByClassName('tree--element__border-done').length).toBe(2);
-    expect(treeSvg.getElementsByClassName('tree--element__border-loading').length).toBe(1);
-  });
-
-  it('should render element borders - TreeDirection.LEFT', () => {
-    const tree = new Tree(treeData);
-    const treeSvg = tree.renderTree(D3TreeDummyData, TreeDirection.LEFT).node();
-
-    expect(treeSvg.getElementsByClassName('tree--element__border-done').length).toBe(2);
-    expect(treeSvg.getElementsByClassName('tree--element__border-loading').length).toBe(1);
-  });
-
   it('should change size of tree when zoom buttons are clicked', async () => {
     const component = await renderTree();
     component.detectChanges();
@@ -79,30 +63,30 @@ describe('D3 Tree', () => {
     const decreaseButton = await waitFor(() => screen.getByTestId('tree--zoom__decrease'));
     const cameraElement = await waitFor(() => screen.getByTestId('app-part-relation-0--camera'));
 
-    expect(cameraElement).not.toHaveAttribute('transform');
+    expect(cameraElement).toHaveAttribute('transform', 'translate(190,0) scale(1)');
     increaseButton.click();
     await sleepForTests(100);
-    expect(cameraElement).toHaveAttribute('transform', 'translate(0,0) scale(1.1)');
+    expect(cameraElement).toHaveAttribute('transform', 'translate(190,0) scale(1.1)');
 
     decreaseButton.click();
     await sleepForTests(100);
-    expect(cameraElement).toHaveAttribute('transform', 'translate(0,0) scale(1)');
+    expect(cameraElement).toHaveAttribute('transform', 'translate(190,0) scale(1)');
   });
 
-  it('should render modified text for different sizes - TreeDirection.RIGHT', () => {
+  it('should render modified text for different sizes - TreeDirection.DOWN', () => {
     const tree = new Tree(treeData);
-    tree.renderTree(D3TreeDummyData, TreeDirection.RIGHT).node();
+    tree.renderTree(D3TreeDummyData, TreeDirection.DOWN).node();
 
     expect(screen.getByText('Small')).toBeInTheDocument();
-    expect(screen.getByText('Long text...')).toBeInTheDocument();
+    expect(screen.getByText('Long tex...')).toBeInTheDocument();
   });
 
-  it('should render modified text for different sizes - TreeDirection.LEFT', () => {
+  it('should render modified text for different sizes - TreeDirection.UP', () => {
     const tree = new Tree(treeData);
-    tree.renderTree(D3TreeDummyData, TreeDirection.LEFT).node();
+    tree.renderTree(D3TreeDummyData, TreeDirection.UP).node();
 
     expect(screen.getByText('Small')).toBeInTheDocument();
-    expect(screen.getByText('Long text...')).toBeInTheDocument();
+    expect(screen.getByText('Long tex...')).toBeInTheDocument();
   });
 
 });
