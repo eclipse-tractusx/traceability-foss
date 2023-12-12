@@ -24,6 +24,7 @@ import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -66,28 +67,36 @@ public class AssetAsBuiltViewEntity extends AssetBaseEntity {
     private String productType;
     private String tractionBatteryCode;
     private String receivedActiveAlerts;
-    private String sendActiveAlerts;
+    private String sentActiveAlerts;
     private String receivedActiveInvestigations;
-    private String sendActiveInvestigations;
+    private String sentActiveInvestigations;
 
-//    @ElementCollection
-//    @CollectionTable(name = "traction_battery_code_subcomponent", joinColumns = {@JoinColumn(name = "traction_battery_code")})
-//    private List<TractionBatteryCodeSubcomponents> subcomponents;
-//
-//
-//    @ElementCollection
-//    @CollectionTable(name = "assets_as_built_childs", joinColumns = {@JoinColumn(name = "asset_as_built_id")})
-//    private List<AssetAsBuiltEntity.ChildDescription> childDescriptors;
-//
-//    @ElementCollection
-//    @CollectionTable(name = "assets_as_built_parents", joinColumns = {@JoinColumn(name = "asset_as_built_id")})
-//    private List<AssetAsBuiltEntity.ParentDescription> parentDescriptors;
+    @ElementCollection
+    @CollectionTable(name = "traction_battery_code_subcomponent", joinColumns = {@JoinColumn(name = "traction_battery_code")})
+    private List<TractionBatteryCodeSubcomponents> subcomponents;
 
-//    @ManyToMany(mappedBy = "assets")
-//    private List<InvestigationEntity> investigations = new ArrayList<>();
-//
-//    @ManyToMany(mappedBy = "assets")
-//    private List<AlertEntity> alerts = new ArrayList<>();
+
+    @ElementCollection
+    @CollectionTable(name = "assets_as_built_childs", joinColumns = {@JoinColumn(name = "asset_as_built_id")})
+    private List<AssetAsBuiltEntity.ChildDescription> childDescriptors;
+
+    @ElementCollection
+    @CollectionTable(name = "assets_as_built_parents", joinColumns = {@JoinColumn(name = "asset_as_built_id")})
+    private List<AssetAsBuiltEntity.ParentDescription> parentDescriptors;
+
+    @ManyToMany
+    @JoinTable(
+            name = "assets_as_built_investigations",
+            joinColumns = @JoinColumn(name = "asset_id"),
+            inverseJoinColumns = @JoinColumn(name = "investigation_id"))
+    private List<InvestigationEntity> investigations = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "assets_as_built_alerts",
+            joinColumns = @JoinColumn(name = "asset_id"),
+            inverseJoinColumns = @JoinColumn(name = "alert_id"))
+    private List<AlertEntity> alerts = new ArrayList<>();
 
     public static AssetBase toDomain(AssetAsBuiltViewEntity entity) {
         return AssetBase.builder()
@@ -100,22 +109,22 @@ public class AssetAsBuiltViewEntity extends AssetBaseEntity {
                 .nameAtManufacturer(entity.getNameAtManufacturer())
                 .manufacturerPartId(entity.getManufacturerPartId())
                 .owner(entity.getOwner())
-//                .childRelations(entity.getChildDescriptors().stream()
-//                        .map(child -> new Descriptions(child.getId(), child.getIdShort()))
-//                        .toList())
-//                .parentRelations(entity.getParentDescriptors().stream()
-//                        .map(parent -> new Descriptions(parent.getId(), parent.getIdShort()))
-//                        .toList())
+                .childRelations(entity.getChildDescriptors().stream()
+                        .map(child -> new Descriptions(child.getId(), child.getIdShort()))
+                        .toList())
+                .parentRelations(entity.getParentDescriptors().stream()
+                        .map(parent -> new Descriptions(parent.getId(), parent.getIdShort()))
+                        .toList())
                 .inInvestigation(entity.isInInvestigation())
                 .activeAlert(entity.isActiveAlert())
                 .qualityType(entity.getQualityType())
                 .van(entity.getVan())
                 .classification(entity.getClassification())
                 .detailAspectModels(DetailAspectModel.from(entity))
-//                .sentQualityAlerts(emptyIfNull(entity.alerts).stream().filter(alert -> NotificationSideBaseEntity.SENDER.equals(alert.getSide())).map(AlertEntity::toDomain).toList())
-//                .receivedQualityAlerts(emptyIfNull(entity.alerts).stream().filter(alert -> NotificationSideBaseEntity.RECEIVER.equals(alert.getSide())).map(AlertEntity::toDomain).toList())
-//                .sentQualityInvestigations(emptyIfNull(entity.investigations).stream().filter(alert -> NotificationSideBaseEntity.SENDER.equals(alert.getSide())).map(InvestigationEntity::toDomain).toList())
-//                .receivedQualityInvestigations(emptyIfNull(entity.investigations).stream().filter(alert -> NotificationSideBaseEntity.RECEIVER.equals(alert.getSide())).map(InvestigationEntity::toDomain).toList())
+                .sentQualityAlerts(emptyIfNull(entity.alerts).stream().filter(alert -> NotificationSideBaseEntity.SENDER.equals(alert.getSide())).map(AlertEntity::toDomain).toList())
+                .receivedQualityAlerts(emptyIfNull(entity.alerts).stream().filter(alert -> NotificationSideBaseEntity.RECEIVER.equals(alert.getSide())).map(AlertEntity::toDomain).toList())
+                .sentQualityInvestigations(emptyIfNull(entity.investigations).stream().filter(alert -> NotificationSideBaseEntity.SENDER.equals(alert.getSide())).map(InvestigationEntity::toDomain).toList())
+                .receivedQualityInvestigations(emptyIfNull(entity.investigations).stream().filter(alert -> NotificationSideBaseEntity.RECEIVER.equals(alert.getSide())).map(InvestigationEntity::toDomain).toList())
 
                 .build();
     }

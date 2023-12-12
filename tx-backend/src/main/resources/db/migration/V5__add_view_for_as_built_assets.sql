@@ -1,5 +1,5 @@
-CREATE VIEW assets_as_built_view AS
-    SELECT asset.*,
+create view assets_as_built_view as
+    select asset.*,
            (
                select
                    count(alert.id)
@@ -39,15 +39,15 @@ CREATE VIEW assets_as_built_view AS
                        )
                  and cast(alert.side as text)='SENDER'
                  and alert_assets.asset_id=asset.id
-           ) as send_active_alerts,
+           ) as sent_active_alerts,
            (
                select
                    count(investigation.id)
                from
                    investigation investigation
                        join
-                   assets_as_built_alerts investigation_assets
-                   on investigation.id=investigation_assets.alert_id
+                   assets_as_built_investigations investigation_assets
+                   on investigation.id=investigation_assets.investigation_id
                where
                    (
                                cast(investigation.status as text)='CREATED'
@@ -66,8 +66,8 @@ CREATE VIEW assets_as_built_view AS
                from
                    investigation investigation
                        join
-                   assets_as_built_alerts investigation_assets
-                   on investigation.id=investigation_assets.alert_id
+                   assets_as_built_investigations investigation_assets
+                   on investigation.id=investigation_assets.investigation_id
                where
                    (
                                cast(investigation.status as text)='CREATED'
@@ -79,5 +79,5 @@ CREATE VIEW assets_as_built_view AS
                        )
                  and cast(investigation.side as text)='SENDER'
                  and investigation_assets.asset_id=asset.id
-           ) as send_active_investigations
-    FROM assets_as_built AS asset;
+           ) as sent_active_investigations
+    from assets_as_built as asset;
