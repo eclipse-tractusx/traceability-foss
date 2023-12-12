@@ -20,6 +20,7 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
+import { provideDataObject } from '@page/parts/core/parts.helper';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { Notification, Notifications, NotificationStatus } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
@@ -56,7 +57,7 @@ export class InvestigationsFacade {
     this.investigationReceivedSubscription = this.investigationsService
       .getReceivedInvestigations(page, pageSize, sorting, filter, fullFilter)
       .subscribe({
-        next: data => (this.investigationsState.investigationsReceived = { data }),
+        next: data => (this.investigationsState.investigationsReceived = { data: provideDataObject(data) }),
         error: (error: Error) => (this.investigationsState.investigationsReceived = { error }),
       });
   }
@@ -66,7 +67,7 @@ export class InvestigationsFacade {
     this.investigationQueuedAndRequestedSubscription = this.investigationsService
       .getCreatedInvestigations(page, pageSize, sorting, filter, fullFilter)
       .subscribe({
-        next: data => (this.investigationsState.investigationsQueuedAndRequested = { data }),
+        next: data => (this.investigationsState.investigationsQueuedAndRequested = { data: provideDataObject(data) }),
         error: (error: Error) => (this.investigationsState.investigationsQueuedAndRequested = { error }),
       });
   }

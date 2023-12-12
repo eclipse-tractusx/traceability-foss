@@ -36,8 +36,8 @@ export function resetMultiSelectionAutoCompleteComponent(partsTableComponents: Q
   return oneFilterSet;
 }
 
-export function provideDataObject(data: Pagination<Part>){
-  let usedData: Pagination<Part>;
+export function provideDataObject(data: Pagination<any>){
+  let usedData: Pagination<any>;
   if (!data.content?.length){
     usedData = {
       content: [],
