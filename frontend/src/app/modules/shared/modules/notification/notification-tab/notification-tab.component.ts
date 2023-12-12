@@ -20,7 +20,7 @@
  ********************************************************************************/
 
 import {AfterViewInit, Component, EventEmitter, Input, Output, TemplateRef, ViewChild} from '@angular/core';
-import {TableType} from '@shared/components/multi-select-autocomplete/table-type.model';
+import {NotificationChannel, TableType} from '@shared/components/multi-select-autocomplete/table-type.model';
 import {
   CreateHeaderFromColumns,
   DisplayColumns,
@@ -96,7 +96,7 @@ export class NotificationTabComponent implements AfterViewInit {
 
   filterActivated(notificationFilter: any): void {
     this.notificationFilter = notificationFilter;
-    const channel = notificationFilter['createdBy'] ? 'RECEIVER' : 'SENDER';
+    const channel = notificationFilter['createdBy'] ? NotificationChannel.RECEIVER : NotificationChannel.SENDER;
     if (this.notificationType === NotificationType.INVESTIGATION) {
       this.investigationsFilterChanged.emit({
         channel: channel,
