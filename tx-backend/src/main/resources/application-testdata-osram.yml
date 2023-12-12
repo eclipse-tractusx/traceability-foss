@@ -24,8 +24,8 @@ spring:
     locations: /db/migration,/db/testdata-osram
     placeholders:
       bpnOwn: "'BPNL00000000GNDU'"
-      bpnSupplier1: "'BPNL00SUPPLIER21'"
-      bpnSupplier2: "'BPNL00SUPPLIER22'"
+      bpnSupplier21: "'BPNL00SUPPLIER21'"
+      bpnSupplier22: "'BPNL00SUPPLIER22'"
       bpnCustomer1: "'BPNL000000000001'"
 
       assetAsBuiltId01: "'urn:uuid:6ec3f1db-2798-454b-a73f-0d21a8966c77'"

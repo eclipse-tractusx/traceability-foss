@@ -6,11 +6,11 @@ insert into assets_as_built_childs
     (asset_as_built_id  , id                 , id_short)
 values
     -- supplier is child of owner
-    (${assetAsBuiltId09}, ${assetAsBuiltId07}, 'Turning Light'),  -- GlassBulb isChildOf Turning Light
-    (${assetAsBuiltId10}, ${assetAsBuiltId07}, 'Turning Light'),  -- Packaging isChildOf Turning Light
+    (${assetAsBuiltId09}, ${assetAsBuiltId07}, 'Turning Light'),  -- Glass bulb for turning light isChildOf Turning Light Bulb
+    (${assetAsBuiltId10}, ${assetAsBuiltId07}, 'Turning Light'),  -- Packaging for turning light isChildOf Turning Light Bulb
 
     -- owner is child of customer
     (${assetAsBuiltId05}, ${assetAsBuiltId01}, 'Xenon Left-Headlights'),  -- Left Head Bulb isChildOf Xenon Left-Headlights
     (${assetAsBuiltId06}, ${assetAsBuiltId02}, 'Xenon Right-Headlights'), -- Right Head Bulb isChildOf Xenon Right-Headlights
-    (${assetAsBuiltId07}, ${assetAsBuiltId03}, 'Left Turning Lights'),    -- Turning Lights isChildOf Left Turning Lights
-    (${assetAsBuiltId07}, ${assetAsBuiltId04}, 'Right Turning Lights');   -- Turning Lights isChildOf Right Turning Lights
+    (${assetAsBuiltId07}, ${assetAsBuiltId03}, 'Left Turning Lights'),    -- Turning Light Bulb isChildOf Left Turning Lights
+    (${assetAsBuiltId07}, ${assetAsBuiltId04}, 'Right Turning Lights');   -- Turning Light Bulb isChildOf Right Turning Lights
