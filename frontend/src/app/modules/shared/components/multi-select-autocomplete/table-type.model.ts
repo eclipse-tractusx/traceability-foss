@@ -29,3 +29,8 @@ export enum TableType {
   RECEIVED_ALERT = 'RECEIVED_ALERT',
   CREATED_ALERT = 'CREATED_ALERT',
 }
+
+export enum NotificationChannel {
+  SENDER = 'SENDER',
+  RECEIVER = 'RECEIVER'
+}

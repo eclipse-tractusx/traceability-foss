@@ -19,8 +19,8 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { AfterViewInit, Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
-import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
+import {AfterViewInit, Component, EventEmitter, Input, Output, TemplateRef, ViewChild} from '@angular/core';
+import {TableType} from '@shared/components/multi-select-autocomplete/table-type.model';
 import {
   CreateHeaderFromColumns,
   DisplayColumns,
@@ -29,9 +29,9 @@ import {
   TableEventConfig,
   TableHeaderSort,
 } from '@shared/components/table/table.model';
-import { Notification, NotificationFilter, Notifications, NotificationType } from '@shared/model/notification.model';
-import { View } from '@shared/model/view.model';
-import { Observable } from 'rxjs';
+import {Notification, NotificationFilter, Notifications, NotificationType} from '@shared/model/notification.model';
+import {View} from '@shared/model/view.model';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-notifications-tab',
@@ -67,9 +67,6 @@ export class NotificationTabComponent implements AfterViewInit {
   public tableConfig: TableConfig<keyof Notification>;
 
   notificationFilter: NotificationFilter;
-
-  constructor() {
-  }
 
   public ngAfterViewInit(): void {
 

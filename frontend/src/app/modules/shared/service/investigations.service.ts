@@ -19,23 +19,19 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { ApiService } from '@core/api/api.service';
-import { environment } from '@env';
-import { PartsAssembler } from '@shared/assembler/parts.assembler';
-import { DateTimeString } from '@shared/components/dateTime/dateTime.component';
-import { TableHeaderSort } from '@shared/components/table/table.model';
-import {
-  enrichDeeplinkFilterAndGetUpdatedParams,
-  enrichFilterAndGetUpdatedParams,
-  provideFilterForNotifications,
-} from '@shared/helper/filter-helper';
-import { Severity } from '@shared/model/severity.model';
-import type { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { NotificationFilter } from '../../../mocks/services/investigations-mock/investigations.model';
-import { NotificationAssembler } from '../assembler/notification.assembler';
+import {HttpParams} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {ApiService} from '@core/api/api.service';
+import {environment} from '@env';
+import {PartsAssembler} from '@shared/assembler/parts.assembler';
+import {DateTimeString} from '@shared/components/dateTime/dateTime.component';
+import {TableHeaderSort} from '@shared/components/table/table.model';
+import {provideFilterForNotifications} from '@shared/helper/filter-helper';
+import {Severity} from '@shared/model/severity.model';
+import type {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {NotificationFilter} from '../../../mocks/services/investigations-mock/investigations.model';
+import {NotificationAssembler} from '../assembler/notification.assembler';
 import {
   Notification,
   NotificationCreateResponse,
@@ -45,6 +41,7 @@ import {
   NotificationStatus,
   NotificationType,
 } from '../model/notification.model';
+import {NotificationChannel} from "@shared/components/multi-select-autocomplete/table-type.model";
 
 @Injectable({
   providedIn: 'root',
@@ -68,8 +65,6 @@ export class InvestigationsService {
       .getBy<NotificationsResponse>(`${ this.url }/investigations`, params)
       .pipe(map(investigations => NotificationAssembler.assembleNotifications(investigations, NotificationType.INVESTIGATION)));
   }
-
-  // TODO 5. extend method to accept second optional filter (from model)
   public getReceivedInvestigations(page: number, pageSize: number, sorting: TableHeaderSort[], filter?: NotificationFilter, fullFilter?: any): Observable<Notifications> {
     let sort = sorting.length ? sorting : [ 'createdDate,desc' ];
 
@@ -129,7 +124,7 @@ export class InvestigationsService {
     return this.apiService.post<void>(`${ this.url }/investigations/${ id }/update`, body);
   }
 
-  public getDistinctFilterValues(channel: string, fieldNames: string, startsWith: string) {
+  public getDistinctFilterValues(channel: NotificationChannel, fieldNames: string, startsWith: string) {
     const mappedFieldName = PartsAssembler.mapFieldNameToApi(fieldNames);
     let params = new HttpParams()
       .set('fieldName', mappedFieldName)

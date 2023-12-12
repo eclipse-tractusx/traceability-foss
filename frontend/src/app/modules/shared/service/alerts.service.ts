@@ -19,18 +19,18 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { ApiService } from '@core/api/api.service';
-import { environment } from '@env';
-import { NotificationAssembler } from '@shared/assembler/notification.assembler';
-import { PartsAssembler } from '@shared/assembler/parts.assembler';
-import { TableHeaderSort } from '@shared/components/table/table.model';
-import { enrichDeeplinkFilterAndGetUpdatedParams, enrichFilterAndGetUpdatedParams, provideFilterForNotifications } from '@shared/helper/filter-helper';
-import { Severity } from '@shared/model/severity.model';
-import type { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { NotificationFilter } from '../../../mocks/services/investigations-mock/investigations.model';
+import {HttpParams} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {ApiService} from '@core/api/api.service';
+import {environment} from '@env';
+import {NotificationAssembler} from '@shared/assembler/notification.assembler';
+import {PartsAssembler} from '@shared/assembler/parts.assembler';
+import {TableHeaderSort} from '@shared/components/table/table.model';
+import {provideFilterForNotifications} from '@shared/helper/filter-helper';
+import {Severity} from '@shared/model/severity.model';
+import type {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {NotificationFilter} from '../../../mocks/services/investigations-mock/investigations.model';
 import {
   Notification,
   NotificationCreateResponse,
@@ -40,6 +40,7 @@ import {
   NotificationStatus,
   NotificationType,
 } from '../model/notification.model';
+import {NotificationChannel} from "@shared/components/multi-select-autocomplete/table-type.model";
 
 @Injectable({
   providedIn: 'root',
@@ -115,7 +116,7 @@ export class AlertsService {
     return this.apiService.post<void>(`${ this.url }/alerts/${ id }/update`, body);
   }
 
-  public getDistinctFilterValues(channel: string, fieldNames: string, startsWith: string) {
+  public getDistinctFilterValues(channel: NotificationChannel, fieldNames: string, startsWith: string) {
     const mappedFieldName = PartsAssembler.mapFieldNameToApi(fieldNames);
     let params = new HttpParams()
       .set('fieldName', mappedFieldName)

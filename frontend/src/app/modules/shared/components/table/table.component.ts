@@ -19,26 +19,21 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { SelectionModel } from '@angular/cdk/collections';
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { Pagination } from '@core/model/pagination.model';
-import { RoleService } from '@core/user/role.service';
-import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
-import { PartsTableConfigUtils } from '@shared/components/parts-table/parts-table-config.utils';
-import { TableViewConfig } from '@shared/components/parts-table/table-view-config.model';
-import {
-  MenuActionConfig,
-  TableConfig,
-  TableEventConfig,
-  TableHeaderSort,
-} from '@shared/components/table/table.model';
-import { addSelectedValues, clearAllRows, clearCurrentRows, removeSelectedValues } from '@shared/helper/table-helper';
-import { FlattenObjectPipe } from '@shared/pipes/flatten-object.pipe';
+import {SelectionModel} from '@angular/cdk/collections';
+import {Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEncapsulation} from '@angular/core';
+import {FormGroup} from '@angular/forms';
+import {MatPaginator, PageEvent} from '@angular/material/paginator';
+import {MatSort, Sort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
+import {Pagination} from '@core/model/pagination.model';
+import {RoleService} from '@core/user/role.service';
+import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
+import {TableType} from '@shared/components/multi-select-autocomplete/table-type.model';
+import {PartsTableConfigUtils} from '@shared/components/parts-table/parts-table-config.utils';
+import {TableViewConfig} from '@shared/components/parts-table/table-view-config.model';
+import {MenuActionConfig, TableConfig, TableEventConfig, TableHeaderSort,} from '@shared/components/table/table.model';
+import {addSelectedValues, clearAllRows, clearCurrentRows, removeSelectedValues} from '@shared/helper/table-helper';
+import {FlattenObjectPipe} from '@shared/pipes/flatten-object.pipe';
 
 @Component({
   selector: 'app-table',
@@ -177,8 +172,6 @@ export class TableComponent {
         this.filterFormGroup.addControl(controlName, this.tableViewConfig.filterFormGroup[controlName]);
       }
     }
-
-    // TODO 3. give that to parent until you can set Notifications with filter
 
     this.filterFormGroup.valueChanges.subscribe((formValues) => {
       this.filterActivated.emit(formValues);

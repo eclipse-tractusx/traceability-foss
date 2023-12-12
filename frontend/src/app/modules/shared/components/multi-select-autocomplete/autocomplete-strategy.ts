@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -18,12 +16,12 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import { Injectable } from '@angular/core';
-import { Owner } from '@page/parts/model/owner.enum';
-import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
-import { AlertsService } from '@shared/service/alerts.service';
-import { InvestigationsService } from '@shared/service/investigations.service';
-import { PartsService } from '@shared/service/parts.service';
+import {Injectable} from '@angular/core';
+import {Owner} from '@page/parts/model/owner.enum';
+import {NotificationChannel, TableType} from '@shared/components/multi-select-autocomplete/table-type.model';
+import {AlertsService} from '@shared/service/alerts.service';
+import {InvestigationsService} from '@shared/service/investigations.service';
+import {PartsService} from '@shared/service/parts.service';
 
 export abstract class AutocompleteStrategy {
   abstract retrieveSuggestionValues(tableType: TableType, filterColumns: string, searchElement: string): any;
@@ -105,7 +103,6 @@ export const AutocompleteStrategyMap = new Map<TableType, any>([
   [ TableType.CREATED_INVESTIGATION, InvestigationStrategy ],
   [ TableType.RECEIVED_ALERT, AlertStrategy ],
   [ TableType.CREATED_ALERT, AlertStrategy ],
-
 ]);
 
 export function getOwnerOfTable(tableType: TableType): Owner {
@@ -125,11 +122,11 @@ export function isAsBuilt(tableType: TableType): boolean {
   return isAsBuiltElement.includes(tableType);
 }
 
-export function channelOfNotification(tableType: TableType): string {
+export function channelOfNotification(tableType: TableType): NotificationChannel {
   if (tableType === TableType.CREATED_ALERT || tableType === TableType.CREATED_INVESTIGATION) {
-    return 'SENDER';
+    return NotificationChannel.SENDER;
   } else {
-    return 'RECEIVER';
+    return NotificationChannel.RECEIVER;
   }
 
 }

@@ -18,11 +18,11 @@
  ********************************************************************************/
 import {Owner} from '@page/parts/model/owner.enum';
 import {
-    channelOfNotification,
-    getOwnerOfTable,
-    isAsBuilt,
+  channelOfNotification,
+  getOwnerOfTable,
+  isAsBuilt,
 } from '@shared/components/multi-select-autocomplete/autocomplete-strategy';
-import {TableType} from '@shared/components/multi-select-autocomplete/table-type.model';
+import {NotificationChannel, TableType} from '@shared/components/multi-select-autocomplete/table-type.model';
 
 describe('Autocomplete Strategies', () => {
 
@@ -46,9 +46,9 @@ describe('Autocomplete Strategies', () => {
   });
 
   it('should determine channel of notification', async () => {
-    expect(channelOfNotification(TableType.CREATED_INVESTIGATION)).toBe('SENDER');
-    expect(channelOfNotification(TableType.CREATED_ALERT)).toBe('SENDER');
-    expect(channelOfNotification(TableType.RECEIVED_INVESTIGATION)).toBe('RECEIVER');
-    expect(channelOfNotification(TableType.RECEIVED_INVESTIGATION)).toBe('RECEIVER');
+    expect(channelOfNotification(TableType.CREATED_INVESTIGATION)).toBe(NotificationChannel.SENDER);
+    expect(channelOfNotification(TableType.CREATED_ALERT)).toBe(NotificationChannel.SENDER);
+    expect(channelOfNotification(TableType.RECEIVED_INVESTIGATION)).toBe(NotificationChannel.RECEIVER);
+    expect(channelOfNotification(TableType.RECEIVED_INVESTIGATION)).toBe(NotificationChannel.RECEIVER);
   });
 });

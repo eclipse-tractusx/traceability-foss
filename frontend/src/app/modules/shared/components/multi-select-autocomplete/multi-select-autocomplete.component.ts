@@ -17,24 +17,26 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { DatePipe, registerLocaleData } from '@angular/common';
+import {DatePipe, registerLocaleData} from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-import { Component, EventEmitter, Inject, Injector, Input, LOCALE_ID, OnChanges, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { MatSelectChange } from '@angular/material/select';
+import {Component, EventEmitter, Inject, Injector, Input, LOCALE_ID, OnChanges, ViewChild} from '@angular/core';
+import {FormControl} from '@angular/forms';
+import {DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
+import {MatDatepickerInputEvent} from '@angular/material/datepicker';
+import {MatSelectChange} from '@angular/material/select';
 import {
   AutocompleteStrategy,
   AutocompleteStrategyMap,
 } from '@shared/components/multi-select-autocomplete/autocomplete-strategy';
-import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
-import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
-import { AlertsService } from '@shared/service/alerts.service';
-import { InvestigationsService } from '@shared/service/investigations.service';
-import { PartsService } from '@shared/service/parts.service';
-import { firstValueFrom } from 'rxjs';
+import {TableType} from '@shared/components/multi-select-autocomplete/table-type.model';
+import {
+  FormatPartSemanticDataModelToCamelCasePipe
+} from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
+import {AlertsService} from '@shared/service/alerts.service';
+import {InvestigationsService} from '@shared/service/investigations.service';
+import {PartsService} from '@shared/service/parts.service';
+import {firstValueFrom} from 'rxjs';
 
 @Component({
   selector: 'app-multiselect',
@@ -340,7 +342,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   }
 
   containsIllegalCharactersForI18nKey(text: string) {
-    const allowedCharacters = /^[a-zA-Z0-9_]+$/;
+    const allowedCharacters = /^\w+$/;
     return !allowedCharacters.test(text);
   }
 
