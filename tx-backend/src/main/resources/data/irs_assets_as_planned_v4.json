@@ -419,11 +419,11 @@
   "bpns": [
     {
       "manufacturerId": "BPNL00000003CML1",
-      "manufacturerName": null
+      "manufacturerName": "TEST_MANUFACTURER_NAME_CML1"
     },
     {
       "manufacturerId": "BPNL00000003CNKC",
-      "manufacturerName": null
+      "manufacturerName": "TEST_MANUFACTURER_NAME_CNKC"
     }
   ]
 }
