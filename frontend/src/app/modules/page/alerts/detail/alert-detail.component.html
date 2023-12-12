@@ -184,6 +184,7 @@ SPDX-License-Identifier: Apache-2.0
   <app-table
     [data]="view.data"
     [labelId]="notificationPartsTableId"
+    [autocompleteEnabled]="false"
     [tableConfig]="notificationPartsTableConfig"
     [showHover]="false"
     [noShadow]="true"
@@ -196,6 +197,7 @@ SPDX-License-Identifier: Apache-2.0
     [data]="view.data"
     [labelId]="supplierPartsTableId"
     [tableConfig]="supplierPartsTableConfig"
+    [autocompleteEnabled]="false"
     [deselectTrigger]="deselectPartTrigger$ | async"
     [addTrigger]="addPartTrigger$ | async"
     [showHover]="false"

@@ -23,6 +23,12 @@ table {
   @apply font-light;
 }
 
+.menu-column {
+  position: sticky;
+  right: 0;
+  background-color: white;
+  z-index: 1;
+}
 .table--select-all {
   display: inline-flex;
   align-items: center;

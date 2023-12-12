@@ -55,6 +55,24 @@ export interface NotificationUser {
   name?: string;
 }
 
+export interface NotificationFilter {
+  id?: string;
+  description?: string;
+  status?: NotificationStatus;
+  severity?: Severity;
+  createdDate?: string;
+  createdBy?: string;
+  createdByName?: string;
+  sendTo?: string;
+  sendToName?: string;
+  reason?: NotificationReason;
+  assetIds?: string[];
+  channel?: 'SENDER' | 'RECEIVER';
+  targetDate?: string;
+  bpn?: string;
+  errorMessage?: string;
+}
+
 export enum NotificationType {
   INVESTIGATION = 'Investigation',
   ALERT = 'Alert'

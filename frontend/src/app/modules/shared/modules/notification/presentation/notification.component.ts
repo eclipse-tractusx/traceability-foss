@@ -27,6 +27,7 @@ import { View } from '@shared/model/view.model';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import {TableType} from "@shared/components/multi-select-autocomplete/table-type.model";
 
 @Component({
   selector: 'app-notification',
@@ -44,10 +45,12 @@ export class NotificationComponent {
   @Input() receivedMultiSortList: TableHeaderSort[] = [];
   @Input() queuedAndRequestedMultiSortList: TableHeaderSort[] = [];
   @Input() notificationType = NotificationType.INVESTIGATION;
-
+  @Input() isInvestigation: boolean = true;
   @Output() onReceivedTableConfigChanged = new EventEmitter<TableEventConfig>();
   @Output() onQueuedAndRequestedTableConfigChanged = new EventEmitter<TableEventConfig>();
   @Output() selected = new EventEmitter<Notification>();
+  @Output() investigationFilterChanged = new EventEmitter<any>();
+  @Output() alertFilterChanged = new EventEmitter<any>();
 
   public readonly tabIndex$ = this.route.queryParams.pipe(map(params => parseInt(params.tabIndex, 10) || 0));
 
@@ -64,4 +67,6 @@ export class NotificationComponent {
   public onTabChange(tabIndex: number): void {
     void this.router.navigate([], { queryParams: { tabIndex }, replaceUrl: true });
   }
+
+  protected readonly TableType = TableType;
 }

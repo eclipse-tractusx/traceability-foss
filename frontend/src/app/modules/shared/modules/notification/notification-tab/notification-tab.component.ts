@@ -19,7 +19,8 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { AfterViewInit, Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, Output, TemplateRef, ViewChild} from '@angular/core';
+import {NotificationChannel, TableType} from '@shared/components/multi-select-autocomplete/table-type.model';
 import {
   CreateHeaderFromColumns,
   DisplayColumns,
@@ -28,9 +29,9 @@ import {
   TableEventConfig,
   TableHeaderSort,
 } from '@shared/components/table/table.model';
-import { Notification, Notifications, NotificationType } from '@shared/model/notification.model';
-import { View } from '@shared/model/view.model';
-import { Observable } from 'rxjs';
+import {Notification, NotificationFilter, Notifications, NotificationType} from '@shared/model/notification.model';
+import {View} from '@shared/model/view.model';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-notifications-tab',
@@ -47,8 +48,12 @@ export class NotificationTabComponent implements AfterViewInit {
   @Input() sortableColumns: Record<string, boolean> = {};
   @Input() multiSortList: TableHeaderSort[] = [];
   @Input() notificationType = NotificationType.INVESTIGATION;
+  @Input() tableType: TableType;
+  @Input() autocompleteEnabled = false;
 
   @Output() tableConfigChanged = new EventEmitter<TableEventConfig>();
+  @Output() investigationsFilterChanged = new EventEmitter<any>();
+  @Output() alertsFilterChanged = new EventEmitter<any>();
   @Output() selected = new EventEmitter<Notification>();
 
   @ViewChild('statusTmp') statusTemplate: TemplateRef<unknown>;
@@ -56,10 +61,12 @@ export class NotificationTabComponent implements AfterViewInit {
   @ViewChild('descriptionTmp') descriptionTemplate: TemplateRef<unknown>;
   @ViewChild('targetDateTmp') targetDateTemplate: TemplateRef<unknown>;
   @ViewChild('userTmp') userTemplate: TemplateRef<unknown>;
-  @ViewChild('bpnTmp') bpnTemplate: TemplateRef<unknown>
+  @ViewChild('bpnTmp') bpnTemplate: TemplateRef<unknown>;
 
 
   public tableConfig: TableConfig<keyof Notification>;
+
+  notificationFilter: NotificationFilter;
 
   public ngAfterViewInit(): void {
 
@@ -87,6 +94,25 @@ export class NotificationTabComponent implements AfterViewInit {
 
   }
 
+  filterActivated(notificationFilter: any): void {
+    this.notificationFilter = notificationFilter;
+    const channel = notificationFilter['createdBy'] ? NotificationChannel.RECEIVER : NotificationChannel.SENDER;
+    if (this.notificationType === NotificationType.INVESTIGATION) {
+      this.investigationsFilterChanged.emit({
+        channel: channel,
+        filter: notificationFilter,
+      });
+    }
+    if (this.notificationType === NotificationType.ALERT) {
+      this.alertsFilterChanged.emit({
+        channel: channel,
+        filter: notificationFilter,
+      });
+    }
+    // output event to either investigation or alert with channel and filter
+
+  }
+
   public selectNotification(notification: Record<string, unknown>): void {
     this.selected.emit(notification as unknown as Notification);
   }
@@ -94,7 +120,6 @@ export class NotificationTabComponent implements AfterViewInit {
   public onTableConfigChange(tableEventConfig: TableEventConfig): void {
     this.tableConfigChanged.emit(tableEventConfig);
   }
-
 
   protected readonly NotificationType = NotificationType;
 }
