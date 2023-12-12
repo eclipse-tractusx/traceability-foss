@@ -27,10 +27,32 @@ export const mockEsss = [
     nameAtManufacturer: 'Vehicle Model A',
     bpns: 'BPNS00ARBITRARY3',
     companyName: 'SensorGmbH',
-    status: 'initial',
-    impacted: '--',
-    created: '2023-11-23 12:29:23.65436',
-    updated: '--'
+    status: 'COMPLETED',
+    impacted: 'UNKNOWN',
+    created: '12/12/23, 09:11 AM',
+    updated: '12/12/23, 09:13 AM'
+  },
+  {
+    rowNumber: '2',
+    manufacturerPartId: 'ZX-55',
+    nameAtManufacturer: 'Vehicle Model A',
+    bpns: 'BPNS00000003B6LU',
+    companyName: 'CathodeGmbh',
+    status: 'COMPLETED',
+    impacted: 'AFFECTED',
+    created: '12/12/23, 09:14 AM',
+    updated: '12/12/23, 09:14 AM'
+  },
+  {
+    rowNumber: '3',
+    manufacturerPartId: 'ZX-55',
+    nameAtManufacturer: 'Vehicle Model A',
+    bpns: 'BPNS000000000001',
+    companyName: 'ChipGmbH',
+    status: 'COMPLETED',
+    impacted: 'NOT AFFECTED',
+    created: '12/12/23, 09:15 AM',
+    updated: '12/12/23, 09:16 AM'
   }
 ] as EssResponse[];
 
