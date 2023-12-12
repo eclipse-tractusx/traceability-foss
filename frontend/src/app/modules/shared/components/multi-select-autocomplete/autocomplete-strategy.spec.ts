@@ -16,15 +16,15 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import { Owner } from '@page/parts/model/owner.enum';
+import {Owner} from '@page/parts/model/owner.enum';
 import {
-  channelOfNotification,
-  getOwnerOfTable,
-  isAsBuilt,
+    channelOfNotification,
+    getOwnerOfTable,
+    isAsBuilt,
 } from '@shared/components/multi-select-autocomplete/autocomplete-strategy';
-import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
+import {TableType} from '@shared/components/multi-select-autocomplete/table-type.model';
 
-fdescribe('Autocomplete Strategies', () => {
+describe('Autocomplete Strategies', () => {
 
   it('should determine owner of table', async () => {
     expect(getOwnerOfTable(TableType.AS_BUILT_OWN)).toBe(Owner.OWN);
