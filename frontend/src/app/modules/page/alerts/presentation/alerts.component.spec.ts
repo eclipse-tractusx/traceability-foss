@@ -19,7 +19,7 @@
 
 import { AlertsModule } from '@page/alerts/alerts.module';
 import { NotificationTabInformation } from '@shared/model/notification-tab-information';
-import { AlertsService } from '@shared/service/alerts.service';
+import { NotificationService } from '@shared/service/notification.service';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 
@@ -30,7 +30,7 @@ describe('AlertsComponent', () => {
   const renderAlerts = async () => {
     return await renderComponent(AlertsComponent, {
       imports: [ AlertsModule ],
-      providers: [ AlertsService ],
+      providers: [ NotificationService ],
       translations: [ 'page.alert' ],
     });
   };

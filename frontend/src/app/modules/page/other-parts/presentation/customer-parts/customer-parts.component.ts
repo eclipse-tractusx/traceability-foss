@@ -23,9 +23,10 @@ import { Pagination } from '@core/model/pagination.model';
 import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Part } from '@page/parts/model/parts.model';
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
 import { TableSortingUtil } from '@shared/components/table/table-sorting.util';
-import { PartTableType, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
+import { TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
 import { toAssetFilter, toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
@@ -122,5 +123,5 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
   }
 
   protected readonly MainAspectType = MainAspectType;
-  protected readonly PartTableType = PartTableType;
+  protected readonly TableType = TableType;
 }

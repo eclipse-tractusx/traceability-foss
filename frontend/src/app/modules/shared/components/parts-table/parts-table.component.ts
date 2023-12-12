@@ -18,7 +18,6 @@
  ********************************************************************************/
 
 import { SelectionModel } from '@angular/cdk/collections';
-import { MenuStack } from '@angular/cdk/menu';
 import {
   Component,
   ElementRef,
@@ -38,8 +37,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { EmptyPagination, Pagination } from '@core/model/pagination.model';
 import { TableSettingsService } from '@core/user/table-settings.service';
-import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { PartsAsBuiltConfigurationModel } from '@shared/components/parts-table/parts-as-built-configuration.model';
 import { PartsAsBuiltCustomerConfigurationModel } from '@shared/components/parts-table/parts-as-built-customer-configuration.model';
 import { PartsAsBuiltSupplierConfigurationModel } from '@shared/components/parts-table/parts-as-built-supplier-configuration.model';
@@ -50,7 +49,6 @@ import { TableViewConfig } from '@shared/components/parts-table/table-view-confi
 import { TableSettingsComponent } from '@shared/components/table-settings/table-settings.component';
 import {
   CreateHeaderFromColumns,
-  PartTableType,
   TableConfig,
   TableEventConfig,
   TableHeaderSort,
@@ -72,7 +70,6 @@ export class PartsTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('tableElement', { read: ElementRef }) tableElementRef: ElementRef<HTMLElement>;
   @ViewChildren(MultiSelectAutocompleteComponent) multiSelectAutocompleteComponents: QueryList<MultiSelectAutocompleteComponent>;
-  @Input() multiSelectActive = false;
 
   @Input() labelId: string;
   @Input() noShadow = false;
@@ -84,13 +81,9 @@ export class PartsTableComponent implements OnInit {
   @Input() tableHeader: string;
   @Input() multiSortList: TableHeaderSort[];
 
-  @Input() tableType: PartTableType;
-
-  @Input() mainAspectType: MainAspectType;
+  @Input() tableType: TableType;
 
   public tableConfig: TableConfig;
-
-  filterKey = 'Filter';
 
   @Input() set paginationData({ page, pageSize, totalItems, content }: Pagination<unknown>) {
     this.totalItems = totalItems;
@@ -144,12 +137,8 @@ export class PartsTableComponent implements OnInit {
   public totalItems: number;
   public pageIndex: number;
   public isDataLoading: boolean;
-  public selectedRow: Record<string, unknown>;
   public isMenuOpen: boolean;
-  public displayedFilter: boolean;
 
-  // TODO remove it and set only in tableViewConfig
-  public filterConfiguration: any[];
   // TODO remove it and set only in tableViewConfig
   public displayedColumns: string[];
   // TODO remove it and set only in tableViewConfig
@@ -183,22 +172,22 @@ export class PartsTableComponent implements OnInit {
   private initializeTableViewSettings(): void {
 
     switch (this.tableType) {
-      case PartTableType.AS_PLANNED_CUSTOMER:
+      case TableType.AS_PLANNED_CUSTOMER:
         this.tableViewConfig = new PartsAsPlannedCustomerConfigurationModel().filterConfiguration();
         break;
-      case PartTableType.AS_PLANNED_OWN:
+      case TableType.AS_PLANNED_OWN:
         this.tableViewConfig = new PartsAsPlannedConfigurationModel().filterConfiguration();
         break;
-      case PartTableType.AS_PLANNED_SUPPLIER:
+      case TableType.AS_PLANNED_SUPPLIER:
         this.tableViewConfig = new PartsAsPlannedSupplierConfigurationModel().filterConfiguration();
         break;
-      case PartTableType.AS_BUILT_OWN:
+      case TableType.AS_BUILT_OWN:
         this.tableViewConfig = new PartsAsBuiltConfigurationModel().filterConfiguration();
         break;
-      case PartTableType.AS_BUILT_CUSTOMER:
+      case TableType.AS_BUILT_CUSTOMER:
         this.tableViewConfig = new PartsAsBuiltCustomerConfigurationModel().filterConfiguration();
         break;
-      case PartTableType.AS_BUILT_SUPPLIER:
+      case TableType.AS_BUILT_SUPPLIER:
         this.tableViewConfig = new PartsAsBuiltSupplierConfigurationModel().filterConfiguration();
         break;
     }
@@ -216,6 +205,7 @@ export class PartsTableComponent implements OnInit {
     this.filterFormGroup.valueChanges.subscribe((formValues) => {
       this.filterActivated.emit(formValues);
     });
+
   }
 
 
@@ -279,6 +269,7 @@ export class PartsTableComponent implements OnInit {
       } ],
     };
     this.displayedColumns = displayedColumns;
+
     for (const controlName in filterFormGroup) {
       if (filterFormGroup.hasOwnProperty(controlName)) {
         this.filterFormGroup.addControl(controlName, filterFormGroup[controlName]);
@@ -357,8 +348,5 @@ export class PartsTableComponent implements OnInit {
     this.dialog.open(TableSettingsComponent, config);
   }
 
-
-  protected readonly MenuStack = MenuStack;
-  protected readonly MainAspectType = MainAspectType;
-  protected readonly PartTableType = PartTableType;
+  protected readonly TableType = TableType;
 }

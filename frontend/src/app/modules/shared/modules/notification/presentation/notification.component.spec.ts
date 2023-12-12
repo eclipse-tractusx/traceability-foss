@@ -24,9 +24,10 @@ import {
   Notification,
   NotificationResponse,
   Notifications,
-  NotificationStatus,
+  NotificationStatus, NotificationType,
 } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
+import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
 import { SharedModule } from '@shared/shared.module';
 import { TemplateModule } from '@shared/template.module';
 import { fireEvent, screen, within } from '@testing-library/angular';
@@ -66,25 +67,34 @@ describe('NotificationsInboxComponent', () => {
       data: { content: qarContent, page: 0, pageCount: 1, pageSize: 5, totalItems: 1 },
     }).pipe(delay(0));
     const menuActionsConfig = [];
-
+    const notificationType = NotificationType.INVESTIGATION;
+    const isInvestigation = true;
     return renderComponent(
       `<app-notification
+          [notificationType]='notificationType'
           [queuedAndRequestedNotifications$]='queuedAndRequestedNotifications$'
           [receivedNotifications$]='receivedNotifications$'
           [translationContext]="'commonInvestigation'"
           [menuActionsConfig]="'menuActionsConfig'"
-
+          [isInvestigation]='isInvestigation'
+           [receivedOptionalColumns]="['severity', 'createdBy', 'createdByName', 'targetDate']"
+  [receivedSortableColumns]="{description: true, status: true, createdDate: true, severity: true, createdBy: true, createdByName: true, targetDate: true, menu: false}"
+  [queuedAndRequestedOptionalColumns]="['severity', 'sendTo', 'sendToName', 'targetDate']"
+  [queuedAndRequestedSortableColumns]="{description: true, status: true, createdDate: true, severity: true, sendTo: true, sendToName: true, targetDate: true, menu: false}"
           (onReceivedPagination)='clickHandler($event)'
           (onQueuedAndRequestedPagination)='clickHandler($event)'
         ></app-notification>`,
       {
         imports: [ SharedModule, NotificationModule, TemplateModule ],
+        providers: [FormatPartSemanticDataModelToCamelCasePipe],
         translations: [ 'common' ],
         componentProperties: {
           queuedAndRequestedNotifications$,
           receivedNotifications$,
           clickHandler,
           menuActionsConfig,
+          notificationType,
+          isInvestigation
         },
       },
     );

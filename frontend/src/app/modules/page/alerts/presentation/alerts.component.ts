@@ -27,11 +27,11 @@ import { NotificationMenuActionsAssembler } from '@shared/assembler/notification
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
 import { TableSortingUtil } from '@shared/components/table/table-sorting.util';
 import { MenuActionConfig, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
+import { createDeeplinkNotificationFilter } from '@shared/helper/notification-helper';
 import { NotificationTabInformation } from '@shared/model/notification-tab-information';
 import { Notification, NotificationStatusGroup, NotificationType } from '@shared/model/notification.model';
 import { TranslationContext } from '@shared/model/translation-context.model';
 import { Subscription } from 'rxjs';
-import { createDeeplinkNotificationFilter } from '@shared/helper/notification-helper';
 
 @Component({
   selector: 'app-alerts',
@@ -44,6 +44,7 @@ export class AlertsComponent {
   public readonly alertsReceived$;
   public readonly alertsQueuedAndRequested$;
 
+  public isInvestigation = false;
   public menuActionsConfig: MenuActionConfig<Notification>[];
 
   public alertReceivedSortList: TableHeaderSort[] = [];
@@ -130,4 +131,12 @@ export class AlertsComponent {
 
   protected readonly TranslationContext = TranslationContext;
   protected readonly NotificationType = NotificationType;
+
+  filterNotifications(filterContext: any) {
+    if(filterContext.channel === 'RECEIVER') {
+      this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize, this.alertReceivedSortList,null, filterContext.filter);
+    } else {
+      this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize, this.alertQueuedAndRequestedSortList, null, filterContext.filter);
+    }
+  }
 }
