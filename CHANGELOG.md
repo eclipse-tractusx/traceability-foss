@@ -12,6 +12,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Validation check if table-settings correct and reset on invalid state
 - Added Api-Input in Argo Workflow to fix bugs
 - Added implementation for cucumber tests for quality investigations
+- Added implementation of cypress tests for quality alerts
 - Separation of auto complete mechanism (selected / searched elements)
 - Added new step definition for cucumber tests "I use assets with ids {string}" allowing to specify assets used for notification creation
 - Added autocomplete endpoints for notifications
@@ -41,6 +42,12 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Fix of global search field
 - Parts autocomplete API now is case insensitive when using "startWith" parameter
 - changed mapping for manufacturerName when syncing assets_as_planned so it is being resolved when assets are resolved
+- Behaviour of auto complete toggle selections
+- Updated springboot version from 3.1.3 to 3.1.6
+- updated spring core version from 6.0.13 to 6.0.14
+- Update tomcat-embed-websocket from 10.0.15 to 10.0.16
+- Update logback-classic and logback-core version to 1.4.14 to mitigate high finding
+- Fixed sorting on empty notification tables
 
 ### Removed
 - removed asset filters ( qualityInvestigationIdsInStatusActive, qualityInvestigationIdsInStatusActive )
