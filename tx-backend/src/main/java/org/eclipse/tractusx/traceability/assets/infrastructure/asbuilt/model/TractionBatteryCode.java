@@ -73,5 +73,14 @@ public class TractionBatteryCode {
                 .build()).toList();
     }
 
+    public static List<DetailAspectDataTractionBatteryCodeSubcomponent> toDomain(AssetAsBuiltViewEntity entity) {
+//        return entity.getSubcomponents().stream().map(entry -> DetailAspectDataTractionBatteryCodeSubcomponent
+//                .builder()
+//                .tractionBatteryCode(entry.getSubcomponentTractionBatteryCode())
+//                .productType(entry.getProductType())
+//                .build()).toList();
+        return List.of();
+    }
+
 
 }
