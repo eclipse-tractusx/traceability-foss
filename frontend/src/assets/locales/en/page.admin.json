@@ -20,6 +20,9 @@
         "successfullySaved": "Changes saved successfully.",
         "failedSave": "Error while saving the changes. Please try again later."
       }
+    },
+    "importJson": {
+      "title": "Import - Json File"
     }
   }
 }

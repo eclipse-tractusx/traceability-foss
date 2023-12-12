@@ -33,9 +33,10 @@ import { ScheduledRegistryProcessesComponent } from './presentation/scheduled-re
 import { BpnConfigurationComponent } from './presentation/bpn-configuration/bpn-configuration.component';
 import { SaveBpnConfigModal } from './presentation/bpn-configuration/save-modal/save-modal.component';
 import { ModalModule } from '@shared/modules/modal/modal.module';
+import { ImportJsonComponent } from './presentation/import-json/import-json.component';
 
 @NgModule({
-  declarations: [ AdminComponent, ScheduledRegistryProcessesComponent, BpnConfigurationComponent, SaveBpnConfigModal ],
+  declarations: [ AdminComponent, ScheduledRegistryProcessesComponent, BpnConfigurationComponent, SaveBpnConfigModal, ImportJsonComponent ],
   imports: [ CommonModule, TemplateModule, SharedModule, AdminRoutingModule, ModalModule ],
   providers: [ ...getI18nPageProvider('page.admin'), AdminService, AdminFacade, AdminState ],
 })

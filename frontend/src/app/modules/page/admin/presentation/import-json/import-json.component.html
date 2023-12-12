@@ -1,0 +1,24 @@
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title
+    ><h3>{{ 'pageAdmin.importJson.title' | i18n }}</h3></mat-card-title
+    >
+  </mat-card-header>
+  <mat-card-content>
+    <div class="file-container" *ngIf="!file || isNotJsonFile() || showError">
+      <input type="file" (change)="getFile($event)" class="file" />
+      <h4> Select a file or drag here </h4>
+      <div class="text-box">
+        <p class="text-box-p">Select a file</p>
+      </div>
+      <p class="error-message" *ngIf="isNotJsonFile() && showError">Error: Please select a JSON file.</p>
+    </div>
+
+    <div class="file-container" *ngIf="file && isJsonFile()">
+      <p>File name: {{file.name}}</p>
+      <button class="custom-button1" (click)="file = undefined; showError = false;"> clear file</button>
+      <button class="custom-button2" (click)="uploadFile()"> upload file</button>
+    </div>
+  </mat-card-content>
+</mat-card>

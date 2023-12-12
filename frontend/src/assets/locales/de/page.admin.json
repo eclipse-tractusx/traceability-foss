@@ -20,6 +20,9 @@
         "successfullySaved": "Ihre Änderungen wurden erfolgreich gespeichert.",
         "failedSave": "Beim Speichern ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
       }
+    },
+    "importJson": {
+      "title": "Importieren - Json Datei"
     }
   }
 }
