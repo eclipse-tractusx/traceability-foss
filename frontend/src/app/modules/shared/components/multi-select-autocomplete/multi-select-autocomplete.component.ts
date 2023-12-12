@@ -167,7 +167,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     if (this.selectedValue?.length > 1) {
       suffix = (' + ' + (this.selectedValue?.length - 1)) + ' ' + this.placeholderMultiple;
     }
-
+    debugger;
     // apply CamelCase to semanticDataModel labels
     if (this.filterColumn === 'semanticDataModel') {
       displayValue = [ this.formatPartSemanticDataModelToCamelCasePipe.transformModel(this.selectedValue[0]), suffix ];
