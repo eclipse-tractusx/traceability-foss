@@ -294,7 +294,13 @@
       "MINOR": "Gering",
       "MAJOR": "Schwerwiegend",
       "CRITICAL": "Kritisch",
-      "LIFE_THREATENING": "Lebensgefährlich"
+      "LIFE_THREATENING": "Lebensgefährlich",
+      "BATCH": "Batch",
+      "SERIALPART": "SerialPart",
+      "PARTASPLANNED": "PartAsPlanned",
+      "UNKNOWN": "Unknown",
+      "JUSTINSEQUENCE": "JustInSequence",
+      "TRACTIONBATTERYCODE": "TractionBatteryCode"
     }
   },
   "parts": {

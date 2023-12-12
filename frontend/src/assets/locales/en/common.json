@@ -297,7 +297,13 @@
       "MINOR": "Minor",
       "MAJOR": "Major",
       "CRITICAL": "Critical",
-      "LIFE_THREATENING": "Life-Threatening"
+      "LIFE_THREATENING": "Life-Threatening",
+      "BATCH": "Batch",
+      "SERIALPART": "SerialPart",
+      "PARTASPLANNED": "PartAsPlanned",
+      "UNKNOWN": "Unknown",
+      "JUSTINSEQUENCE": "JustInSequence",
+      "TRACTIONBATTERYCODE": "TractionBatteryCode"
     }
   },
   "parts": {
