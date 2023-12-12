@@ -31,7 +31,6 @@ SPDX-License-Identifier: Apache-2.0
   <ng-template #mainTmp let-parts="view" let-customContext="customContext">
     <app-parts-table class="supplier-parts-as-built-table"
                      [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
-                     [multiSelectActive]="true"
                      [selectedPartsInfoLabel]="'page.selectedParts.info'"
                      [selectedPartsActionLabel]="'page.selectedParts.action'"
                      [deselectTrigger]="deselectPartTrigger$ | async"
@@ -45,8 +44,7 @@ SPDX-License-Identifier: Apache-2.0
                      [tableHeader]='"page.asBuiltParts" | i18n'
                      [multiSortList]="tableSupplierAsBuiltSortList"
                      (filterActivated)="filterActivated(true, $event )"
-                     [tableType]="PartTableType.AS_BUILT_SUPPLIER"
-                     [mainAspectType]="MainAspectType.AS_BUILT"
+                     [tableType]="TableType.AS_BUILT_SUPPLIER"
     ></app-parts-table>
   </ng-template>
 </div>
@@ -75,11 +73,8 @@ SPDX-License-Identifier: Apache-2.0
                      (configChanged)="onAsPlannedTableConfigChange($event)"
                      (clickSelectAction)="isInvestigationOpen$.next(true)"
                      [multiSortList]="tableSupplierAsPlannedSortList"
-                     [mainAspectType]="MainAspectType.AS_PLANNED"
-                     [multiSelectActive]="true"
                      (filterActivated)="filterActivated(false, $event )"
-                     [tableType]="PartTableType.AS_PLANNED_SUPPLIER"
-                     [mainAspectType]="MainAspectType.AS_PLANNED"
+                     [tableType]="TableType.AS_PLANNED_SUPPLIER"
     ></app-parts-table>
   </ng-template>
 </div>

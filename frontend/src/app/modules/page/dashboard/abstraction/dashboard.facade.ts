@@ -22,8 +22,7 @@
 import { Injectable } from '@angular/core';
 import { Notifications } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
-import { AlertsService } from '@shared/service/alerts.service';
-import { InvestigationsService } from '@shared/service/investigations.service';
+import { NotificationService } from '@shared/service/notification.service';
 import { Observable, Subscription } from 'rxjs';
 import { DashboardService } from '../core/dashboard.service';
 import { DashboardState } from '../core/dashboard.state';
@@ -40,9 +39,8 @@ export class DashboardFacade {
 
   constructor(
     private readonly dashboardService: DashboardService,
+    private readonly notificationService: NotificationService,
     private readonly dashboardState: DashboardState,
-    private readonly investigationsService: InvestigationsService,
-    private readonly alertsService: AlertsService,
   ) {
   }
 
@@ -99,7 +97,7 @@ export class DashboardFacade {
 
   private setReceivedInvestigations(): void {
     this.investigationsReceivedSubscription?.unsubscribe();
-    this.investigationsReceivedSubscription = this.investigationsService.getReceivedInvestigations(0, 5, [ [ 'createdDate', 'desc' ] ]).subscribe({
+    this.investigationsReceivedSubscription = this.notificationService.getReceived(0, 5, [ [ 'createdDate', 'desc' ] ], null, null, true).subscribe({
       next: data => this.dashboardState.setRecentReceivedInvestigations({ data }),
       error: (error: Error) => this.dashboardState.setRecentReceivedInvestigations({ error }),
     });
@@ -107,7 +105,7 @@ export class DashboardFacade {
 
   private setCreatedInvestigations(): void {
     this.investigationsCreatedSubscription?.unsubscribe();
-    this.investigationsCreatedSubscription = this.investigationsService.getCreatedInvestigations(0, 5, [ [ 'createdDate', 'desc' ] ]).subscribe({
+    this.investigationsCreatedSubscription = this.notificationService.getCreated(0, 5, [ [ 'createdDate', 'desc' ] ], null, null, true).subscribe({
       next: data => this.dashboardState.setRecentCreatedInvestigations({ data }),
       error: (error: Error) => this.dashboardState.setRecentCreatedInvestigations({ error }),
     });
@@ -115,7 +113,7 @@ export class DashboardFacade {
 
   private setReceivedAlerts(): void {
     this.alertsReceivedSubscription?.unsubscribe();
-    this.alertsReceivedSubscription = this.alertsService.getReceivedAlerts(0, 5, [ [ 'createdDate', 'desc' ] ]).subscribe({
+    this.alertsReceivedSubscription = this.notificationService.getReceived(0, 5, [ [ 'createdDate', 'desc' ] ], null, null, false).subscribe({
       next: data => this.dashboardState.setRecentReceivedAlerts({ data }),
       error: (error: Error) => this.dashboardState.setRecentReceivedAlerts({ error }),
     });
@@ -124,7 +122,7 @@ export class DashboardFacade {
 
   private setCreatedAlerts(): void {
     this.alertsCreatedSubscription?.unsubscribe();
-    this.alertsCreatedSubscription = this.alertsService.getCreatedAlerts(0, 5, [ [ 'createdDate', 'desc' ] ]).subscribe({
+    this.alertsCreatedSubscription = this.notificationService.getCreated(0, 5, [ [ 'createdDate', 'desc' ] ], null, null, false).subscribe({
       next: data => this.dashboardState.setRecentCreatedAlerts({ data }),
       error: (error: Error) => this.dashboardState.setRecentCreatedAlerts({ error }),
     });

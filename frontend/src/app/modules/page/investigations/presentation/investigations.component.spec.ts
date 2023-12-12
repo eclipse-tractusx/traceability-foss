@@ -22,7 +22,7 @@
 import { InvestigationsModule } from '@page/investigations/investigations.module';
 import { InvestigationsComponent } from '@page/investigations/presentation/investigations.component';
 import { NotificationTabInformation } from '@shared/model/notification-tab-information';
-import { InvestigationsService } from '@shared/service/investigations.service';
+import { NotificationService } from '@shared/service/notification.service';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 
@@ -30,7 +30,7 @@ describe('InvestigationsComponent', () => {
   const renderInvestigations = async () => {
     return await renderComponent(InvestigationsComponent, {
       imports: [ InvestigationsModule ],
-      providers: [ InvestigationsService ],
+      providers: [ NotificationService ],
       translations: [ 'page.investigation' ],
     });
   };

@@ -18,7 +18,8 @@
  ********************************************************************************/
 
 import { HttpParams } from '@angular/common/http';
-import { enrichFilterAndGetUpdatedParams } from './filter-helper';
+import { NotificationFilter } from '../../../mocks/services/investigations-mock/investigations.model';
+import { enrichFilterAndGetUpdatedParams, provideFilterForNotifications } from './filter-helper';
 
 describe('enrichFilterAndGetUpdatedParams', () => {
   it('should append filter parameters for non-date filters', () => {
@@ -98,4 +99,20 @@ describe('enrichFilterAndGetUpdatedParams', () => {
     const result = enrichFilterAndGetUpdatedParams(filter, params);
     expect(result.toString()).not.toContain('filter=emptyFilter');
   });
+
+  it('should handle provideFilterNotifications', () => {
+    const httpParams = new HttpParams();
+    let httpParamsFilterNotifications = provideFilterForNotifications([], httpParams, null, null);
+    expect(httpParamsFilterNotifications.has('sort')).toBeFalse();
+    expect(httpParamsFilterNotifications.has('filter')).toBeFalse();
+  })
+
+  it('should handle provideFilterNotifications successfully', () => {
+    const httpParams = new HttpParams();
+    const filter = {notificationIds: ['1']}
+    let httpParamsFilterNotifications = provideFilterForNotifications([], httpParams, filter, null);
+    expect(httpParamsFilterNotifications.get('filter')).toContain('id,EQUAL,1,OR')
+  })
+
+
 });

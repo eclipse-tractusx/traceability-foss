@@ -16,7 +16,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import { TableFilterConfiguration } from '@shared/components/parts-table/parts-config.model';
+import {TableFilterConfiguration} from '@shared/components/parts-table/parts-config.model';
 
 export class PartsAsBuiltConfigurationModel extends TableFilterConfiguration {
   constructor() {
@@ -35,10 +35,10 @@ export class PartsAsBuiltConfigurationModel extends TableFilterConfiguration {
       semanticDataModel: true,
       manufacturingDate: true,
       manufacturingCountry: true,
-      receivedActiveAlerts: true,
-      receivedActiveInvestigations: true,
-      sentActiveAlerts: true,
-      sentActiveInvestigations: true,
+      receivedActiveAlerts: false,
+      receivedActiveInvestigations: false,
+      sentActiveAlerts: false,
+      sentActiveInvestigations: false,
       menu: false,
     };
 
