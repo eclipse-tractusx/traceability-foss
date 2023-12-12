@@ -45,7 +45,7 @@ describe('Relations facade', () => {
 
   beforeEach(() => {
     const partsServiceMok = {
-      getPart: id => of(mockAssetList[id]).pipe(map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_BUILT))),
+      getPart: (id, type) => of(mockAssetList[id]).pipe(map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_BUILT))),
       getPartDetailOfIds: assetIds =>
         of(assetIds.map(id => mockAssetList[id])).pipe(map(parts => PartsAssembler.assemblePartList(parts, MainAspectType.AS_BUILT))),
     } as PartsService;
@@ -89,7 +89,7 @@ describe('Relations facade', () => {
       const { id, childRelations } = MOCK_part_1;
       const children = childDescriptionsToChild(childRelations);
       const mockTreeElement = { id, children } as TreeElement;
-      const expected = { MOCK_part_1: ['MOCK_part_2']};
+      const expected = { MOCK_part_1: ['MOCK_part_2'] };
 
       relationsFacade.openElementWithChildren(mockTreeElement);
       relationsFacade.deleteOpenElement(children[0]);
@@ -131,11 +131,11 @@ describe('Relations facade', () => {
             id: 'MOCK_part_2',
             relations: [
               {
-              id: "MOCK_part_4",
-              title: "MOCK_part_4",
-              state: "loading",
-              children: null,
-            }
+                id: "MOCK_part_4",
+                title: "MOCK_part_4",
+                state: "loading",
+                children: null,
+              }
             ],
             state: 'BATCH',
             text: 'MyAsBuiltPartName',

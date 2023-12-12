@@ -27,13 +27,16 @@ import { PartsService } from '@shared/service/parts.service';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { SortDirection } from '../../../../../mocks/services/pagination.helper';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 
 @Injectable()
 export class PartDetailsFacade {
+  private _type: MainAspectType;
+
   constructor(
     private readonly partsService: PartsService,
     private readonly partDetailsState: PartDetailsState,
-  ) {}
+  ) { }
 
   public get selectedPart$(): Observable<View<Part>> {
     return this.partDetailsState.selectedPart$;
@@ -47,8 +50,17 @@ export class PartDetailsFacade {
     return this.partDetailsState.selectedPart?.data;
   }
 
+  public get mainAspectType(): MainAspectType {
+    return this._type;
+  }
+
+  public set mainAspectType(type: MainAspectType) {
+    this._type = type;
+  }
+
+
   public setPartFromTree(id: string): Observable<View<Part>> {
-    return this.partsService.getPart(id).pipe(
+    return this.partsService.getPart(id, this._type).pipe(
       tap((part: Part) => {
         this.partDetailsState.selectedPart = { data: part };
       }),
@@ -60,7 +72,7 @@ export class PartDetailsFacade {
   }
 
   public getRootPart(id: string): Observable<View<Part>> {
-    return this.partsService.getPart(id).pipe(
+    return this.partsService.getPart(id, this._type).pipe(
       map((part: Part) => ({ data: part })),
       catchError((error: Error) => of({ error })),
     );

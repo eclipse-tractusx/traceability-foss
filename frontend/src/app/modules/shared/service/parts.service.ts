@@ -75,16 +75,14 @@ export class PartsService {
         return this.getPagination('as-recycled', MainAspectType.AS_RECYCLED, page, pageSize, sorting, assetAsRecycledFilter, isOrSearch);
     }
 
-    public getPart(id: string): Observable<Part> {
+    public getPart(id: string, type: MainAspectType): Observable<Part> {
+        if (type === MainAspectType.AS_PLANNED) {
+            return this.apiService.get<PartResponse>(`${this.url}/assets/as-planned/${id}`)
+                .pipe(map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_PLANNED)));
+        }
 
-        const resultsAsBuilt = this.apiService.get<PartResponse>(`${this.url}/assets/as-built/${id}`)
+        return this.apiService.get<PartResponse>(`${this.url}/assets/as-built/${id}`)
             .pipe(map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_BUILT)));
-
-        const resultsAsPlanned = this.apiService.get<PartResponse>(`${this.url}/assets/as-planned/${id}`)
-            .pipe(map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_PLANNED)));
-
-        return resultsAsBuilt || resultsAsPlanned;
-
     }
 
 

@@ -68,19 +68,18 @@
 }
 
 .part-relation--minimap {
-  position: fixed;
-  width: 10%;
   min-width: 150px;
-  min-height: 30%;
+  min-height: 150px;
   opacity: 0.3;
   transition: opacity 0.5s, width 0.25s, min-height 0.25s, min-width 0.25s;
   cursor: pointer;
 
-  right: 10rem;
-  bottom: 7.4rem;
-
+  position: absolute;
   border-radius: 5px;
   box-shadow: 0 0 20px 2px #00000059;
+
+  right: 3rem;
+  bottom: 3rem;
 
   background-color: white;
   overflow: hidden;

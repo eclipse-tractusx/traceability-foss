@@ -26,7 +26,7 @@ SPDX-License-Identifier: Apache-2.0
         <img class="pr-2"
           src="/assets/images/icons/parts_icon_link.svg"
           alt="Parts icon" />
-        {{ 'pageTitle.parts' | i18n }}
+        {{ 'pageTitle.' + context | i18n }}
       </h3>
       <h3 class="mb-4 pl-2 flex items-center">
         <img class="pr-2"
@@ -85,8 +85,8 @@ SPDX-License-Identifier: Apache-2.0
         <ng-template mat-tab-label>
           <div>{{ 'partDetail.investigation.tab.header' | i18n }} </div>
         </ng-template>
-        <!-- TODO finish with investigations of components -->
-        <!--TODO Other tab content-->
+        <!-- TODO finish with investigations of components 
+        TODO Other tab content -->
       </mat-tab>
     </mat-tab-group>
 
@@ -146,11 +146,11 @@ SPDX-License-Identifier: Apache-2.0
       class="part-detail--relation__card">
       <mat-card-content class="part-detail--relation__container">
         <ng-container>
-          <app-part-relation [partId]="partDetails.data.id"
+          <app-part-relation [partId]="partDetails?.data?.id"
             [isStandalone]="false"
             [showMiniMap]="false">
           </app-part-relation>
-          <mat-icon (click)="openRelationPage(partDetails.data)"
+          <mat-icon (click)="openRelationPage(partDetails?.data)"
             class="part-detail--relation__icon">open_in_new
           </mat-icon>
         </ng-container>

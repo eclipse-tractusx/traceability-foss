@@ -242,10 +242,7 @@ export class TableComponent {
 
   public selectElement(row: Record<string, unknown>) {
     this.selectedRow = this.selectedRow === row ? null : row;
-
-    if (!this.tableConfig.menuActionsConfig) {
-      this.selected.emit(row);
-    }
+    this.selected.emit(row);
   }
 
   private setupTableViewSettings() {

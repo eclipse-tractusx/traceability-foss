@@ -19,10 +19,11 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { AfterViewInit, Component, Input, OnDestroy, TemplateRef, ViewChild, ViewContainerRef, inject } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Part, QualityType } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { SelectOption } from '@shared/components/select/select.component';
@@ -40,9 +41,7 @@ import { filter, tap } from 'rxjs/operators';
 export class PartDetailComponent implements AfterViewInit, OnDestroy {
   @Input() showRelation = true;
   @Input() showStartInvestigation = true;
-
-  @ViewChild('outlet', { read: ViewContainerRef }) outletRef: ViewContainerRef;
-  @ViewChild('relation', { read: TemplateRef }) contentRef: TemplateRef<any>;
+  @Input() mainAspectType: MainAspectType;
 
   public selectedTab = 0;
   public shortenPartDetails$: Observable<View<Part>>;
@@ -60,16 +59,23 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
   public qualityTypeOptions: SelectOption[];
 
   public qualityTypeControl = new FormControl<QualityType>(null);
+  public context: string;
 
   private readonly isOpenState: State<boolean> = new State<boolean>(false);
   private activatedRoute = inject(ActivatedRoute);
   private readyPromise = Promise.resolve();
 
+  protected readonly MainAspectType = MainAspectType;
+
   constructor(private readonly partDetailsFacade: PartDetailsFacade, private readonly router: Router) {
+
+    this.context = this.activatedRoute?.parent?.toString().split('\'')[1];
 
     if (!this.partDetailsFacade.selectedPart) {
       const partId = this.activatedRoute.snapshot.params['partId'];
+      const mainAspectType = this.activatedRoute.snapshot.queryParams?.type as MainAspectType;
       this.readyPromise = new Promise((resolve) => {
+        this.partDetailsFacade.mainAspectType = mainAspectType;
         this.partDetailsFacade.setPartFromTree(partId).subscribe(() => {
           resolve();
         });
@@ -83,7 +89,9 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
       this.shortenPartDetails$ = this.partDetailsFacade.selectedPart$.pipe(
         PartsAssembler.mapPartForView(),
         tap(({ data }) => {
-          this.qualityTypeControl.patchValue(data.qualityType, { emitEvent: false, onlySelf: true });
+          if (data) {
+            this.qualityTypeControl.patchValue(data.qualityType, { emitEvent: false, onlySelf: true });
+          }
         }),
       );
 
@@ -106,8 +114,6 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
         label: value,
         value: value,
       }));
-
-
     });
   }
 
@@ -129,7 +135,7 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
 
   public openRelationPage(part: Part): void {
     this.partDetailsFacade.selectedPart = null;
-    this.router.navigate([`parts/relations/${part.id}`]).then(_ => window.location.reload());
+    this.router.navigate([`${this.context}/relations/${part.id}`], { queryParams: { type: part.mainAspectType } })?.then(_ => window.location.reload());
   }
 
   public onTabChange({ index }: MatTabChangeEvent): void {
@@ -139,7 +145,6 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
 
   public navigateBackToParts(): void {
     this.partDetailsFacade.selectedPart = null;
-    this.router.navigate(['/parts']);
+    this.router.navigate([`/${this.context}`]);
   }
-
 }

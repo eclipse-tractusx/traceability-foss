@@ -36,7 +36,8 @@
 }
 
 .notification--table__description-text {
-  @apply text-textLink;
+  font-weight: 600;
+  line-height: 20.8px;
 }
 
 .notification-status {

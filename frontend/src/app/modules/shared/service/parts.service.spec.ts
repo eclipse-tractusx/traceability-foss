@@ -29,6 +29,7 @@ import { KeycloakService } from "keycloak-angular";
 import { AuthService } from "@core/auth/auth.service";
 import { mockAssets } from "../../../mocks/services/parts-mock/partsAsPlanned/partsAsPlanned.test.model";
 import { MOCK_part_1 } from "../../../mocks/services/parts-mock/partsAsBuilt/partsAsBuilt.test.model";
+import { MainAspectType } from "@page/parts/model/mainAspectType.enum";
 
 describe('PartsService', () => {
     let service: PartsService;
@@ -83,7 +84,7 @@ describe('PartsService', () => {
         spyOn(authService, 'getBearerToken').and.returnValue('your_mocked_token');
 
         const id = "1";
-        service.getPart(id).subscribe((parts: Part) => {
+        service.getPart(id, MainAspectType.AS_BUILT).subscribe((parts: Part) => {
             expect(parts).toBeTruthy();
         });
 

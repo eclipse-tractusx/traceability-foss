@@ -22,21 +22,45 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { OtherPartsComponent } from '@page/other-parts/presentation/other-parts.component';
+import { RelationComponent } from '@page/parts/presentation/relation/relation.component';
+import { PartDetailComponent } from '@shared/modules/part-details/presentation/part-detail.component';
 import { I18NEXT_NAMESPACE_RESOLVER } from 'angular-i18next';
 
 export /** @type {*} */
-const PARTS_ROUTING: Routes = [
-  {
-    path: '',
-    pathMatch: 'full',
-    component: OtherPartsComponent,
-    data: { i18nextNamespaces: ['page.otherParts', 'partDetail'] },
-    resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
-  },
-];
+  const PARTS_ROUTING: Routes = [
+    {
+      path: '',
+      pathMatch: 'full',
+      component: OtherPartsComponent,
+      data: { i18nextNamespaces: ['page.otherParts', 'partDetail'] },
+      resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
+    },
+    {
+      path: 'relations',
+      pathMatch: 'full',
+      component: RelationComponent,
+      data: { i18nextNamespaces: ['page.parts', 'partDetail'] },
+      resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
+    },
+    {
+      path: 'relations/:partId',
+      pathMatch: 'full',
+      component: RelationComponent,
+      data: { i18nextNamespaces: ['page.parts', 'partDetail'] },
+      resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
+    },
+    {
+      path: ':partId',
+      pathMatch: 'full',
+      component: PartDetailComponent,
+      data: { i18nextNamespaces: ['page.parts', 'partDetail'] },
+      resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
+    },
+
+  ];
 
 @NgModule({
   imports: [RouterModule.forChild(PARTS_ROUTING)],
   exports: [RouterModule],
 })
-export class OtherPartsRoutingModule {}
+export class OtherPartsRoutingModule { }

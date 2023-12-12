@@ -21,6 +21,8 @@
 import { DatePipe } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { OTHER_PARTS_BASE_ROUTE, getRoute } from '@core/known-route';
 import { Pagination } from '@core/model/pagination.model';
 import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
@@ -75,6 +77,7 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
     public readonly otherPartsFacade: OtherPartsFacade,
     private readonly partDetailsFacade: PartDetailsFacade,
     private readonly staticIdService: StaticIdService,
+    private readonly router: Router,
     public dialog: MatDialog,
     public datePipe: DatePipe,
   ) {
@@ -184,8 +187,16 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
     this.otherPartsFacade.unsubscribeParts();
   }
 
-  public onSelectItem(event: Record<string, unknown>): void {
-    this.partDetailsFacade.selectedPart = event as unknown as Part;
+  public onSelectItem($event: Record<string, unknown>): void {
+    const selectedPart = $event as unknown as Part;
+    this.partDetailsFacade.mainAspectType = selectedPart.mainAspectType;
+    this.partDetailsFacade.selectedPart = selectedPart;
+    this.openDetailPage(selectedPart);
+  }
+
+  public openDetailPage(part: Part): void {
+    const { link } = getRoute(OTHER_PARTS_BASE_ROUTE);
+    this.router.navigate([`/${link}/${part.id}`], { queryParams: { type: part.mainAspectType } })?.then(_ => window.location.reload());
   }
 
   public onAsBuiltTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {

@@ -27,6 +27,8 @@ import { renderComponent } from '@tests/test-render.utils';
 
 import { CustomerPartsComponent } from './customer-parts.component';
 import { TableEventConfig } from '@shared/components/table/table.model';
+import { TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 
 describe('CustomerPartsComponent', () => {
   let otherPartsState: OtherPartsState;
@@ -262,6 +264,38 @@ describe('CustomerPartsComponent', () => {
     customerPartsComponent.filterActivated(false, assetFilterAsPlanned);
     fixture.detectChanges();
     expect(customerPartsComponent.otherPartsFacade.setCustomerPartsAsPlanned).toHaveBeenCalledWith(0, 50, [], toAssetFilter(assetFilterAsPlanned, false), false);
+  });
+
+  it('should set selected part and open detail page when item is selected', async () => {
+    const { fixture } = await renderCustomerPartsAsPlanned();
+    const supplierPartsComponent = fixture.componentInstance;
+    const router = TestBed.inject(Router);
+
+    const part: any = { id: '1', mainAspectType: MainAspectType.AS_BUILT };
+
+    spyOn(router, 'navigate').and.stub();
+
+    const partDetailsFacade = (supplierPartsComponent as any)['partDetailsFacade'];
+
+    supplierPartsComponent.onSelectItem(part);
+
+    expect(partDetailsFacade.selectedPart).toEqual(part);
+    expect(router.navigate).toHaveBeenCalledWith(['/otherParts/1'], { queryParams: { type: part.mainAspectType } });
+  });
+
+  it('should navigate to the correct detail page with the provided part', async () => {
+    const { fixture } = await renderCustomerPartsAsPlanned();
+    const supplierPartsComponent = fixture.componentInstance;
+    const router = TestBed.inject(Router);
+
+    const part: any = { id: '2', mainAspectType: MainAspectType.AS_BUILT };
+
+    spyOn(router, 'navigate').and.stub();
+
+    supplierPartsComponent.openDetailPage(part);
+
+    const expectedLink = '/otherParts/2';
+    expect(router.navigate).toHaveBeenCalledWith([expectedLink], { queryParams: { type: part.mainAspectType } });
   });
 
 });

@@ -438,7 +438,7 @@ describe('Parts', () => {
         const { componentInstance } = fixture;
         const sampleEvent: Record<string, unknown> = { id: 123, name: 'Sample Part' };
 
-        componentInstance.onSelectItem(sampleEvent);
+        componentInstance.onSelectItem(sampleEvent, MainAspectType.AS_BUILT);
         const partDetailsFacade = (componentInstance as any)['partDetailsFacade'];
         expect(partDetailsFacade.selectedPart).toEqual(sampleEvent);
     });

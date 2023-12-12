@@ -31,6 +31,8 @@ import { renderComponent } from '@tests/test-render.utils';
 import { MOCK_part_1 } from '../../../../../mocks/services/parts-mock/partsAsBuilt/partsAsBuilt.test.model';
 import { PartDetailComponent } from './part-detail.component';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 
 let PartsStateMock: PartsState;
 let PartDetailsStateMock: PartDetailsState;
@@ -99,6 +101,40 @@ describe('PartDetailComponent', () => {
     expect(componentInstance.navigateBackToParts).toHaveBeenCalled();
 
     componentInstance.navigateBackToParts();
+  });
+
+  it('should navigate back to parts', async () => {
+    const { fixture } = await renderPartDetailComponent({ roles: ['user'] });
+    const router = TestBed.inject(Router);
+    const { componentInstance } = fixture;
+    const partDetailsFacade = (componentInstance as any)['partDetailsFacade'];
+    const context = 'some-context';
+
+    spyOn(router, 'navigate').and.stub();
+
+    componentInstance.context = context;
+    componentInstance.navigateBackToParts();
+
+    expect(partDetailsFacade.selectedPart).toEqual(null);
+    expect(router.navigate).toHaveBeenCalledWith([`/${context}`]);
+  });
+
+  it('should navigate to relations page with correct parameters and reload', async () => {
+    const { fixture } = await renderPartDetailComponent({ roles: ['user'] });
+    const router = TestBed.inject(Router);
+    const part: any = { id: 123, mainAspectType: MainAspectType.AS_BUILT };
+    const navigateSpy = spyOn(router, 'navigate');
+    const context = 'some-context';
+    const { componentInstance } = fixture;
+
+    componentInstance.context = context;
+
+    fixture.componentInstance.openRelationPage(part);
+
+    expect(navigateSpy).toHaveBeenCalledWith(
+      [`${context}/relations/${part.id}`],
+      { queryParams: { type: part.mainAspectType } }
+    );
   });
 
 });

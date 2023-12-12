@@ -18,7 +18,7 @@
  ********************************************************************************/
 
 
-import { AfterViewInit, Component, Input, NgZone, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, Input, NgZone, OnDestroy, ViewEncapsulation, inject } from '@angular/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { View } from '@shared/model/view.model';
 import { Part } from '@page/parts/model/parts.model';
@@ -39,7 +39,6 @@ import {
   TreeStructure,
 } from '@shared/modules/relations/model/relations.model';
 import { RelationComponentState } from '@shared/modules/relations/core/component.state';
-import { PARTS_BASE_ROUTE, getRoute } from '@core/known-route';
 
 @Component({
   selector: 'app-tree',
@@ -80,16 +79,18 @@ export class TreeComponent implements OnDestroy, AfterViewInit {
   private _rootPart$ = new State<View<Part>>({ loader: true });
   private tree: Tree;
   private minimap: Minimap;
+  private activatedRoute = inject(ActivatedRoute);
+  private context: string;
 
   constructor(
     private readonly partDetailsFacade: PartDetailsFacade,
     private readonly relationsFacade: RelationsFacade,
     private readonly loadedElementsFacade: LoadedElementsFacade,
-    private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly ngZone: NgZone,
   ) {
     this.rootPart$ = this._rootPart$.observable;
+    this.context = this.activatedRoute?.parent?.toString().split('\'')[1];
   }
 
   public ngOnDestroy(): void {
@@ -155,9 +156,7 @@ export class TreeComponent implements OnDestroy, AfterViewInit {
 
   private openDetails({ id }: TreeElement): void {
     this.subscriptions.add(this.partDetailsFacade.setPartFromTree(id).subscribe());
-
-    const { link } = getRoute(PARTS_BASE_ROUTE);
-    this.router.navigate([`/${link}/${id}`]).then(_ => window.location.reload());
+    this.router.navigate([`/${this.context}/${id}`], { queryParams: { type: this.partDetailsFacade.mainAspectType } }).then(_ => window.location.reload());
   }
 
   private renderTreeWithOpenElements(openElements: OpenElements): void {
