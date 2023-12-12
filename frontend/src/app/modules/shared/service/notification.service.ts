@@ -39,6 +39,7 @@ import {
   NotificationStatus,
   NotificationType,
 } from '../model/notification.model';
+import {NotificationChannel} from "@shared/components/multi-select-autocomplete/table-type.model";
 
 @Injectable({
   providedIn: 'root',
@@ -138,7 +139,7 @@ export class NotificationService {
     return this.apiService.post<void>(`${ requestUrl }/${ id }/update`, body);
   }
 
-  public getDistinctFilterValues(channel: string, fieldNames: string, startsWith: string, isInvestigation = true) {
+  public getDistinctFilterValues(channel: NotificationChannel, fieldNames: string, startsWith: string, isInvestigation = true) {
     const mappedFieldName = PartsAssembler.mapFieldNameToApi(fieldNames);
     const requestUrl = this.determineRequestUrl(isInvestigation);
     let params = new HttpParams()
