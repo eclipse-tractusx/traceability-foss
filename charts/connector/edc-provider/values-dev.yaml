@@ -19,7 +19,7 @@ tractusx-connector:
     ssi:
       miw:
         url: <path:traceability-foss/data/dev/edc-provider/wallet#ssi.miw.url>
-        authorityId: <path:traceability-foss/data/dev-provider/edc/wallet#ssi.miw.authorityId>
+        authorityId: <path:traceability-foss/data/dev/edc-provider/wallet#ssi.miw.authorityId>
       oauth:
         tokenurl: <path:traceability-foss/data/dev/edc-provider/wallet#ssi.oauth.tokenurl>
         client:
