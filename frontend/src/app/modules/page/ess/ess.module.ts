@@ -26,6 +26,8 @@ import { BpdmFacade } from '@page/ess/core/bpdm.facade';
 import { BpdmState } from '@page/ess/core/bpdm.state';
 import { EssFacade } from '@page/ess/core/ess.facade';
 import { EssState } from '@page/ess/core/ess.state';
+import { PartsFacade } from '@page/parts/core/parts.facade';
+import { PartsState } from '@page/parts/core/parts.state';
 import { RelationsModule } from '@shared/modules/relations/relations.module';
 import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
 import { BomLifecycleSettingsService } from '@shared/service/bom-lifecycle-settings.service';
@@ -38,6 +40,6 @@ import { EssComponent } from './presentation/ess.component';
 @NgModule({
   declarations: [EssComponent],
     imports: [CommonModule, TemplateModule, SharedModule, EssRoutingModule, RelationsModule, AngularSplitModule, MatDialogModule],
-  providers: [EssState, BpdmState, BomLifecycleSettingsService, BpdmFacade, EssFacade, FormatPartSemanticDataModelToCamelCasePipe, ...getI18nPageProvider(['page.ess'])],
+  providers: [EssState, BpdmState, BomLifecycleSettingsService, BpdmFacade, EssFacade, PartsFacade, PartsState, FormatPartSemanticDataModelToCamelCasePipe, ...getI18nPageProvider(['page.ess'])],
 })
 export class EssModule {}

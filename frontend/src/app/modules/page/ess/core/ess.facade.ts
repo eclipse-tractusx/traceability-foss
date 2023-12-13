@@ -44,7 +44,7 @@ export class EssFacade {
     public setEss(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], essFilter?: EssFilter, isOrSearch?: boolean): void {
       this.essSubscription?.unsubscribe();
       this.essSubscription = this.essService.getEsss(page, pageSize, sorting, essFilter, isOrSearch).subscribe({
-        next: data => (this.essState.esss = {data}),
+        next: data => (this.essState.esss = {data: data}),
         error: error => (this.essState.esss = {error}),
       });
     }

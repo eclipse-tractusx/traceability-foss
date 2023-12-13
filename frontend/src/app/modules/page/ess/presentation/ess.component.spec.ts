@@ -18,19 +18,16 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {LayoutModule} from '@layout/layout.module';
-import {SidenavComponent} from '@layout/sidenav/sidenav.component';
-import {SidenavService} from '@layout/sidenav/sidenav.service';
-import {OtherPartsModule} from '@page/other-parts/other-parts.module';
-import {EssComponent} from '@page/ess/presentation/ess.component';
-import {SharedModule} from '@shared/shared.module';
-import {screen, waitFor} from '@testing-library/angular';
-import {renderComponent} from '@tests/test-render.utils';
-import {EssModule} from '../ess.module';
-import {EssFilter} from "@page/ess/model/ess.model";
-import {TableHeaderSort} from "@shared/components/table/table.model";
-import {PartDetailsFacade} from "@shared/modules/part-details/core/partDetails.facade";
-import {toGlobalSearchAssetFilter} from "@shared/helper/filter-helper";
+import { LayoutModule } from '@layout/layout.module';
+import { SidenavComponent } from '@layout/sidenav/sidenav.component';
+import { SidenavService } from '@layout/sidenav/sidenav.service';
+import { EssFilter } from '@page/ess/model/ess.model';
+import { EssComponent } from '@page/ess/presentation/ess.component';
+import { OtherPartsModule } from '@page/other-parts/other-parts.module';
+import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
+import { SharedModule } from '@shared/shared.module';
+import { renderComponent } from '@tests/test-render.utils';
+import { EssModule } from '../ess.module';
 
 describe('Ess', () => {
 
