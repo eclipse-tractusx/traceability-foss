@@ -23,11 +23,11 @@ spring:
   flyway:
     locations: /db/migration,/db/testdata-hella
     placeholders:
-      bpnOwn:       "'BPNL000000000001'"
+      bpnOwn:       "'BPNL0000000017BL'"
       bpnSupplier1: "'BPNL000SUPPLIER1'"
       bpnSupplier2: "'BPNL000SUPPLIER2'"
       bpnSupplier3: "'BPNL000SUPPLIER3'"
-      bpnCustomer1: "'BPNL00000000GNDU'"
+      bpnCustomer1: "'BPNL000000000CX4'"
       bpnCustomer2: "'BPNL000CUSTOMER2'"
       bpnCustomer3: "'BPNL000CUSTOMER3'"
 
