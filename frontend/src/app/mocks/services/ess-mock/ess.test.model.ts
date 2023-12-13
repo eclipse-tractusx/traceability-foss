@@ -21,18 +21,21 @@
 import { EssResponse, EsssResponse } from '@page/ess/model/ess.model';
 
 export const MOCK_ess_1 = {
-  id: "MOCK_part_1",
-  rowno: "",
-  partId: "",
-  partName: "",
-  bpn: "",
-  companyName: "",
-  jobId: "",
-  status: "",
-  impacted: "",
-  response: "",
-  created: "",
-  updated: "",
+  id: 'mock_id_1',
+  essStatus: '',
+  message: '',
+  rowNumber: '1',
+  manufacturerPartId: '',
+  nameAtManufacturer: '',
+  catenaxSiteId: '',
+  bpns: '',
+  companyName: '',
+  jobId: '',
+  status: '',
+  impacted: '',
+  response: '',
+  created: '',
+  updated: '',
 };
 
 export const mockEsss: EsssResponse = {
