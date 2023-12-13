@@ -28,6 +28,7 @@ export enum TableType {
   CREATED_INVESTIGATION = 'CREATED_INVESTIGATION',
   RECEIVED_ALERT = 'RECEIVED_ALERT',
   CREATED_ALERT = 'CREATED_ALERT',
+  ESS = 'ESS'
 }
 
 export enum NotificationChannel {

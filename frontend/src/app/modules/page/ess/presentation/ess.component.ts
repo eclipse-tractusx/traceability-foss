@@ -18,26 +18,27 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChildren} from '@angular/core';
-import {Pagination} from '@core/model/pagination.model';
+import { AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Pagination } from '@core/model/pagination.model';
 import { EssFacade } from '@page/ess/core/ess.facade';
 import { Ess, EssFilter } from '@page/ess/model/ess.model';
-import {PartsFacade} from '@page/parts/core/parts.facade';
-import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
-import {AssetAsPlannedFilter, Part} from '@page/parts/model/parts.model';
+import { PartsFacade } from '@page/parts/core/parts.facade';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
+import { AssetAsPlannedFilter, Part } from '@page/parts/model/parts.model';
 import { RequestContext } from '@shared/components/request-notification/request-notification.base';
-import {PartTableType, TableEventConfig, TableHeaderSort,} from '@shared/components/table/table.model';
-import {View} from '@shared/model/view.model';
-import {PartDetailsFacade} from '@shared/modules/part-details/core/partDetails.facade';
-import {StaticIdService} from '@shared/service/staticId.service';
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
-import {BomLifecycleSize} from "@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model";
-import {BomLifecycleSettingsService, UserSettingView} from "@shared/service/bom-lifecycle-settings.service";
-import {toAssetFilter, toGlobalSearchAssetFilter} from "@shared/helper/filter-helper";
-import {FormControl, FormGroup} from "@angular/forms";
-import {ToastService} from "@shared/components/toasts/toast.service";
-import {EssTableComponent} from "@shared/components/ess-table/ess-table.component";
-import {resetMultiSelectionAutoCompleteComponent} from "@page/ess/core/ess.helper";
+import { TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
+import { View } from '@shared/model/view.model';
+import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
+import { StaticIdService } from '@shared/service/staticId.service';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BomLifecycleSize } from "@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model";
+import { BomLifecycleSettingsService, UserSettingView } from "@shared/service/bom-lifecycle-settings.service";
+import { toAssetFilter, toGlobalSearchAssetFilter } from "@shared/helper/filter-helper";
+import { FormControl, FormGroup } from "@angular/forms";
+import { ToastService } from "@shared/components/toasts/toast.service";
+import { EssTableComponent } from "@shared/components/ess-table/ess-table.component";
+import { resetMultiSelectionAutoCompleteComponent } from "@page/ess/core/ess.helper";
 
 
 @Component({
@@ -182,12 +183,10 @@ export class EssComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public openCloseEssCreateDialogForm = (status: boolean) =>{
       this.isEssOpen$.next(status);
-      // this.isPartOpen$.next(!status);
     }
 
     public openClosePartListDialogForm = (status: boolean) =>{
       this.isPartOpen$.next(status);
-      // this.isPartOpen$.next(!status);
     }
 
     public onAsPlannedTableConfigChange({page, pageSize, sorting}: TableEventConfig): void {
@@ -256,6 +255,6 @@ export class EssComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     protected readonly UserSettingView = UserSettingView;
-    protected readonly PartTableType = PartTableType;
+    protected readonly TableType = TableType;
     protected readonly MainAspectType = MainAspectType;
 }
