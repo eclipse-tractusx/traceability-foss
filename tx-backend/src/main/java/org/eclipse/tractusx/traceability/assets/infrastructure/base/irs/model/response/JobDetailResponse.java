@@ -28,6 +28,7 @@ import com.fasterxml.jackson.annotation.Nulls;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataTractionBatteryCode;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
@@ -132,15 +133,15 @@ public record JobDetailResponse(
         if (bomLifecycle.equals(BomLifecycle.AS_BUILT)) {
             ownParts = mapToOwnPartsAsBuilt(shortIds, bpnMapping);
             if (isSupplierDirection()) {
-                otherParts.addAll(mapToOtherPartsAsBuilt(shortIds, Owner.SUPPLIER, bpnMapping));
+                otherParts.addAll(mapToOtherPartsAsBuilt(shortIds, Owner.SUPPLIER, bpnMapping, AssetState.PERSISTENT));
             } else {
-                otherParts.addAll(mapToOtherPartsAsBuilt(shortIds, Owner.CUSTOMER, bpnMapping));
+                otherParts.addAll(mapToOtherPartsAsBuilt(shortIds, Owner.CUSTOMER, bpnMapping, AssetState.PERSISTENT));
             }
         }
         if (bomLifecycle.equals(BomLifecycle.AS_PLANNED)) {
             ownParts = mapToOwnPartsAsPlanned(shortIds, bpnMapping);
             if (isSupplierDirection()) {
-                otherParts.addAll(mapToOtherPartsAsPlanned(shortIds, Owner.SUPPLIER, bpnMapping));
+                otherParts.addAll(mapToOtherPartsAsPlanned(shortIds, Owner.SUPPLIER, bpnMapping, AssetState.PERSISTENT));
             }
         }
 
@@ -154,7 +155,7 @@ public record JobDetailResponse(
         return jobStatus().parameter().direction().equalsIgnoreCase(Direction.DOWNWARD.name());
     }
 
-    private List<AssetBase> mapToOtherPartsAsBuilt(Map<String, String> shortIds, Owner owner, Map<String, String> bpnMapping) {
+    private List<AssetBase> mapToOtherPartsAsBuilt(Map<String, String> shortIds, Owner owner, Map<String, String> bpnMapping, AssetState assetState) {
         List<SemanticDataModel> otherParts = semanticDataModels().stream()
                 .filter(semanticDataModel -> !(semanticDataModel instanceof DetailAspectDataTractionBatteryCode)).filter(semanticDataModel -> !isOwnPart(semanticDataModel, jobStatus))
                 .toList();
@@ -165,13 +166,13 @@ public record JobDetailResponse(
                 .stream()
                 .map(semanticDataModel -> semanticDataModel.toDomainAsBuilt(semanticDataModel.localIdentifiers(), shortIds, owner, bpnMapping,
                         Collections.emptyList(),
-                        Collections.emptyList(), Optional.empty()))
+                        Collections.emptyList(), Optional.empty(), assetState))
                 .toList();
         log.info(":: mapped assets: {}", assets);
         return assets;
     }
 
-    private List<AssetBase> mapToOtherPartsAsPlanned(Map<String, String> shortIds, Owner owner, Map<String, String> bpnMapping) {
+    private List<AssetBase> mapToOtherPartsAsPlanned(Map<String, String> shortIds, Owner owner, Map<String, String> bpnMapping, AssetState assetState) {
         List<SemanticDataModel> otherParts = semanticDataModels().stream().filter(semanticDataModel -> !isOwnPart(semanticDataModel, jobStatus)).filter(semanticDataModel -> Aspect.isMasterAspect(semanticDataModel.getAspectType())).toList();
         List<SemanticDataModel> isPartSiteInformationAsPlanned =
                 semanticDataModels().stream()
@@ -192,7 +193,7 @@ public record JobDetailResponse(
                         bpnMapping,
                         Collections.emptyList(),
                         Collections.emptyList(),
-                        ownerBpn))
+                        ownerBpn, assetState))
                 .toList();
         log.info(":: mapped assets: {}", assets);
         return assets;
@@ -229,7 +230,9 @@ public record JobDetailResponse(
                         bpnMapping,
                         Collections.emptyList(),
                         getChildParts(singleLevelBomRelationship, shortIds, semanticDataModel.catenaXId()),
-                        ownerBpn))
+                        ownerBpn,
+                        AssetState.PERSISTENT
+                ))
                 .toList();
         log.info(":: mapped assets: {}", assets);
         return assets;
@@ -273,7 +276,7 @@ public record JobDetailResponse(
                 .map(semanticDataModel -> semanticDataModel.toDomainAsBuilt(semanticDataModel.localIdentifiers(), shortIds, Owner.OWN, bpnMapping,
                         getParentParts(customerPartsMap, shortIds, semanticDataModel.catenaXId()),
                         getChildParts(supplierPartsMap, shortIds, semanticDataModel.catenaXId()),
-                        tractionBatteryCodeOptional))
+                        tractionBatteryCodeOptional, AssetState.PERSISTENT))
                 .toList();
         log.info(":: mapped assets: {}", assets);
         return assets;

@@ -117,6 +117,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                 .productType(tractionBatteryCodeObj.getProductType())
                 .tractionBatteryCode(tractionBatteryCodeObj.getTractionBatteryCode())
                 .subcomponents(tractionBatteryCodeObj.getSubcomponents())
+                .assetState(asset.getAssetState())
                 .build();
     }
 
@@ -147,6 +148,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                 .receivedQualityAlerts(emptyIfNull(entity.alerts).stream().filter(alert -> NotificationSideBaseEntity.RECEIVER.equals(alert.getSide())).map(AlertEntity::toDomain).toList())
                 .sentQualityInvestigations(emptyIfNull(entity.investigations).stream().filter(alert -> NotificationSideBaseEntity.SENDER.equals(alert.getSide())).map(InvestigationEntity::toDomain).toList())
                 .receivedQualityInvestigations(emptyIfNull(entity.investigations).stream().filter(alert -> NotificationSideBaseEntity.RECEIVER.equals(alert.getSide())).map(InvestigationEntity::toDomain).toList())
+                .assetState(entity.getAssetState())
 
                 .build();
     }

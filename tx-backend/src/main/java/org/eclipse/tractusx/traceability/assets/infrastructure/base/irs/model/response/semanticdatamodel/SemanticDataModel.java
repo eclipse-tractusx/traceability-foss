@@ -27,6 +27,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataTractionBatteryCode;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
@@ -96,7 +97,7 @@ public class SemanticDataModel {
 
     public AssetBase toDomainAsBuilt(List<LocalId> localIds, Map<String, String> shortIds, Owner owner, Map<String,
             String> bpns, List<Descriptions> parentRelations, List<Descriptions> childRelations,
-                                     Optional<DetailAspectDataTractionBatteryCode> tractionBatteryCodeOptional) {
+                                     Optional<DetailAspectDataTractionBatteryCode> tractionBatteryCodeOptional, AssetState assetState) {
         final String manufacturerName = bpns.get(manufacturerId());
         ArrayList<DetailAspectModel> detailAspectModels = new ArrayList<>();
 
@@ -144,6 +145,8 @@ public class SemanticDataModel {
                 .qualityType(QualityType.OK)
                 .semanticDataModel(semanticDataModel.get())
                 .van(van())
+                .assetState(assetState)
+
                 .build();
     }
 
@@ -154,7 +157,8 @@ public class SemanticDataModel {
             Map<String, String> bpns,
             List<Descriptions> parentRelations,
             List<Descriptions> childRelations,
-            String ownerBpn) {
+            String ownerBpn,
+            AssetState assetState) {
         final String manufacturerName = bpns.get(ownerBpn);
 
         List<DetailAspectModel> partSiteInfoAsPlanned = extractDetailAspectModelsPartSiteInformationAsPlanned(sites());
@@ -180,6 +184,8 @@ public class SemanticDataModel {
                 .qualityType(QualityType.OK)
                 .semanticDataModel(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.PARTASPLANNED)
                 .van(van())
+                .assetState(assetState)
+
                 .build();
     }
 
