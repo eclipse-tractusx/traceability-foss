@@ -21,30 +21,31 @@
 
 import { LayoutModule } from '@layout/layout.module';
 import { OtherPartsModule } from '@page/other-parts/other-parts.module';
+import { NotificationType } from '@shared/model/notification.model';
 import { SharedModule } from '@shared/shared.module';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 import { sleepForTests } from '../../../../../test';
-import { RequestInvestigationComponent } from '@shared/components/request-notification/request-investigation.component';
-import { RequestAlertComponent } from '@shared/components/request-notification/request-alert.component';
-import { RequestContext } from '@shared/components/request-notification/request-notification.base';
+import { RequestNotificationComponent } from '@shared/components/request-notification/request-notification.component';
 
-describe('requestInvestigationComponent', () => {
+
+describe('requestNotificationComponent', () => {
   let deselectPartMock: jasmine.Spy<jasmine.Func>;
   let clearSelectedMock: jasmine.Spy<jasmine.Func>;
   let submittedMock: jasmine.Spy<jasmine.Func>;
   const currentSelectedItems = [ { nameAtManufacturer: 'part_1' }, { nameAtManufacturer: 'part_2' }, { nameAtManufacturer: 'part_3' } ];
-
+  const notificationType = NotificationType.INVESTIGATION;
   const renderRequestInvestigationComponent = async () => {
     return renderComponent(
-      `<app-request-investigation
+      `<app-notification-request
         (deselectPart)='deselectPartMock($event)'
         (clearSelected)='clearSelectedMock($event)'
         (submitted)='submittedMock($event)'
+        [notificationType]="NotificationType.INVESTIGATION"
         [selectedItems]='currentSelectedItems'
-        ></app-request-investigation>`,
+        ></app-notification-request>`,
       {
-        declarations: [ RequestInvestigationComponent ],
+        declarations: [ RequestNotificationComponent ],
         imports: [ SharedModule, LayoutModule, OtherPartsModule ],
         translations: [ 'page.otherParts', 'partDetail' ],
         componentProperties: {
@@ -52,21 +53,24 @@ describe('requestInvestigationComponent', () => {
           clearSelectedMock,
           submittedMock,
           currentSelectedItems,
+          notificationType
         },
       },
     );
   };
 
   const renderRequestAlertComponent = async () => {
+    const notificationType = NotificationType.ALERT;
     return renderComponent(
-      `<app-request-alert
+      `<app-notification-request
         (deselectPart)='deselectPartMock($event)'
         (clearSelected)='clearSelectedMock($event)'
+        [notificationType]="NotificationType.ALERT"
         (submitted)='submittedMock($event)'
         [selectedItems]='currentSelectedItems'
-        ></app-request-alert>`,
+        ></app-notification-request>`,
       {
-        declarations: [ RequestAlertComponent ],
+        declarations: [ RequestNotificationComponent ],
         imports: [ SharedModule, LayoutModule, OtherPartsModule ],
         translations: [ 'page.otherParts', 'partDetail' ],
         componentProperties: {
@@ -74,6 +78,7 @@ describe('requestInvestigationComponent', () => {
           clearSelectedMock,
           submittedMock,
           currentSelectedItems,
+          notificationType
         },
       },
     );
@@ -139,7 +144,7 @@ describe('requestInvestigationComponent', () => {
     });
   });
 
-  const shouldRender = async (context: RequestContext) => {
+  const shouldRender = async (context: string) => {
     const headline = await waitFor(() => screen.getByText(context + '.headline'), { timeout: 2000 });
     expect(headline).toBeInTheDocument();
   };
@@ -168,7 +173,7 @@ describe('requestInvestigationComponent', () => {
     expect(submitElement).toBeInTheDocument();
   };
 
-  const shouldSubmitParts = async (context: RequestContext, shouldFillBpn = false) => {
+  const shouldSubmitParts = async (context: string, shouldFillBpn = false) => {
     const testText = 'This is for a testing purpose.';
     const textArea = (await waitFor(() => screen.getByTestId('BaseInputElement-1'))) as HTMLTextAreaElement;
     fireEvent.input(textArea, { target: { value: testText } });
