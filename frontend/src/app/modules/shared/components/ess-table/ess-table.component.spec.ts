@@ -42,7 +42,7 @@ describe('PartsTableComponent', () => {
                 {provide: PartsFacade},
               {provide: FormatPartSemanticDataModelToCamelCasePipe},
             ],
-            componentProperties: { paginationData, tableType},
+            componentProperties: {multiSelectActive, paginationData, tableType},
         });
     };
 
