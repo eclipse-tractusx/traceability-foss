@@ -18,8 +18,8 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {SelectionModel} from '@angular/cdk/collections';
-import {MenuStack} from '@angular/cdk/menu';
+import { SelectionModel } from '@angular/cdk/collections';
+import { MenuStack } from '@angular/cdk/menu';
 import {
     Component,
     ElementRef,
@@ -31,34 +31,32 @@ import {
     ViewChild,
     ViewChildren,
 } from '@angular/core';
-import {FormGroup} from '@angular/forms';
-import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
-import {MatPaginator, PageEvent} from '@angular/material/paginator';
-import {MatSort, Sort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
-import {Pagination} from '@core/model/pagination.model';
+import { FormGroup } from '@angular/forms';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { Pagination} from '@core/model/pagination.model';
 import { RoleService } from '@core/user/role.service';
-import {TableSettingsService} from '@core/user/table-settings.service';
-import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
+import { TableSettingsService } from '@core/user/table-settings.service';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { EssConfigurationModel } from '@shared/components/ess-table/ess-configuration.model';
-import {
-    MultiSelectAutocompleteComponent
-} from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
-import {TableViewConfig} from '@shared/components/ess-table/table-view-config.model';
-import {TableSettingsComponent} from '@shared/components/table-settings/table-settings.component';
+import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
+import { TableViewConfig } from '@shared/components/ess-table/table-view-config.model';
+import { TableSettingsComponent } from '@shared/components/table-settings/table-settings.component';
 import {
     CreateHeaderFromColumns,
-    PartTableType,
     TableConfig,
     TableEventConfig,
     TableHeaderSort,
 } from '@shared/components/table/table.model';
-import {isDateFilter} from '@shared/helper/filter-helper';
-import {addSelectedValues, removeSelectedValues} from '@shared/helper/table-helper';
-import {Router} from "@angular/router";
-import {ToastService} from "@shared/components/toasts/toast.service";
-import {DeeplinkService} from "@shared/service/deeplink.service";
-import {NotificationColumn} from "@shared/model/notification.model";
+import { isDateFilter } from '@shared/helper/filter-helper';
+import { addSelectedValues, removeSelectedValues } from '@shared/helper/table-helper';
+import { Router } from "@angular/router";
+import { ToastService } from "@shared/components/toasts/toast.service";
+import { DeeplinkService } from "@shared/service/deeplink.service";
+import { NotificationColumn } from "@shared/model/notification.model";
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 
 @Component({
     selector: 'app-ess-table',
@@ -84,8 +82,8 @@ export class EssTableComponent implements OnInit {
     @Input() tableHeader: string;
     @Input() multiSortList: TableHeaderSort[];
 
-    @Input() tableType: PartTableType;
-    @Input() listType = PartTableType.ESS;
+    @Input() tableType: TableType;
+    @Input() listType = TableType.ESS;
 
     @Input() mainAspectType: MainAspectType
 
@@ -149,7 +147,6 @@ export class EssTableComponent implements OnInit {
     public isDataLoading: boolean;
     public selectedRow: Record<string, unknown>;
     public isMenuOpen: boolean;
-    public displayedFilter: boolean;
 
     // TODO remove it and set only in tableViewConfig
     public filterConfiguration: any[];
@@ -187,7 +184,7 @@ export class EssTableComponent implements OnInit {
 
     private initializeTableViewSettings(): void {
         switch (this.tableType) {
-            case PartTableType.ESS:
+            case TableType.ESS:
                 this.tableViewConfig = new EssConfigurationModel().filterConfiguration();
                 break;
         }
@@ -347,9 +344,8 @@ export class EssTableComponent implements OnInit {
         this.dialog.open(TableSettingsComponent, config)
     }
 
-    protected readonly MenuStack = MenuStack;
     protected readonly MainAspectType = MainAspectType;
-    protected readonly PartTableType = PartTableType;
+    protected readonly TableType = TableType;
 
     public showEssButton(): boolean {
       return this.roleService.isAtLeastSupervisor();

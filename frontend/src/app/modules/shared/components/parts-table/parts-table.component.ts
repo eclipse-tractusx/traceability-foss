@@ -86,8 +86,6 @@ export class PartsTableComponent implements OnInit {
   @Input() tableType: TableType;
   @Input() listType = TableType.AS_PLANNED_OWN;
 
-  @Input() mainAspectType: MainAspectType;
-
   public tableConfig: TableConfig;
 
   @Input() set paginationData({ page, pageSize, totalItems, content }: Pagination<unknown>) {

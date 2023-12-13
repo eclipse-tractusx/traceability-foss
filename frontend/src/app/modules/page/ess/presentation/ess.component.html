@@ -38,7 +38,7 @@ SPDX-License-Identifier: Apache-2.0
                        (filterActivated)="filterActivated(true,  $event )"
                        [multiSortList]="tableAsPlannedSortList"
                        [tableHeader]='"page.asBuiltParts" | i18n'
-                       [tableType]="PartTableType.ESS">
+                       [tableType]="TableType.ESS">
         </app-ess-table>
       </ng-template>
     </div>
@@ -75,7 +75,6 @@ SPDX-License-Identifier: Apache-2.0
       <app-parts-table class="parts-asPlanned-table"
                        [paginationData]="partsAsPlanned4Ess.data | formatPaginationSemanticDataModelToCamelCase"
                        [labelId]="titleId"
-                       [multiSelectActive]="true"
                        [selectedPartsInfoLabel]="'page.selectedParts.info'"
                        [selectedPartsActionLabel]="'page.selectedParts.action'"
                        [selectedPartEssActionLabel]="'page.selectedEss.action'"
@@ -88,8 +87,8 @@ SPDX-License-Identifier: Apache-2.0
                        (filterActivated)="filterActivated(true, $event )"
                        [multiSortList]="tableAsPlannedSortList"
                        [tableHeader]='"page.asPlannedParts" | i18n'
-                       [tableType]="PartTableType.AS_PLANNED_OWN"
-                       [listType]="PartTableType.ESS"
+                       [tableType]="TableType.AS_PLANNED_OWN"
+                       [listType]="TableType.ESS"
       ></app-parts-table>
     </ng-template>
   </app-sidenav-wrapper>
