@@ -22,7 +22,10 @@
       }
     },
     "importJson": {
-      "title": "Importieren - Json Datei"
+      "title": "Importieren - Json Datei",
+      "clear_file": "Datei löschen",
+      "upload_file": "Datei hochladen",
+      "error": "Warnung: Bitte benutzen Sie eine Json Datei"
     }
   }
 }
