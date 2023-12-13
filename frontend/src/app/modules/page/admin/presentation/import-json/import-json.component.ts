@@ -50,7 +50,9 @@ export class ImportJsonComponent{
     }
   }
  public uploadFile(){
-    this.adminFacade.postJsonImport(this.file)
+    let formData = new FormData();
+    formData.set("file", this.file);
+    this.adminFacade.postJsonImport(formData);
   }
 
   public  isJsonFile(): boolean {

@@ -70,7 +70,7 @@ export class AdminFacade {
     return this.adminService.deleteBpnFallbackConfig(bpnId);
   }
 
-  public postJsonImport(file: File): Observable<File>{
-    return this.adminService.postJsonFile(file);
+  public postJsonImport(formData: FormData): Observable<FormData>{
+    return this.adminService.postJsonFile(formData);
   }
 }
