@@ -25,11 +25,11 @@ import lombok.Getter;
 import lombok.Setter;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Configuration
+@Component
 @Getter
 @Setter
 @ConfigurationProperties("traceability")
@@ -39,15 +39,17 @@ public class TraceabilityProperties {
 
     private String url;
 
-    private List<PolicyConfig> and;
+    private List<PolicyConfig> andConstraints;
 
-    private List<PolicyConfig> or;
+    private List<PolicyConfig> orConstraints;
 
 
+    @Getter
+    @Setter
     public static class PolicyConfig {
-        public String leftOperand;
-        public String operatorType;
-        public String rightOperand;
+        private String leftOperand;
+        private String operatorType;
+        private String rightOperand;
     }
 
 }
