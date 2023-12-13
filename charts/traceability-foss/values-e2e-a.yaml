@@ -323,13 +323,13 @@ tractusx-connector:
           secretName: tls-secret
     ssi:
       miw:
-        url: <path:traceability-foss/data/dev/edc/wallet#ssi.miw.url>
-        authorityId: <path:traceability-foss/data/dev/edc/wallet#ssi.miw.authorityId>
+        url: <path:traceability-foss/data/e2e-a/edc-consumer/wallet#ssi.miw.url>
+        authorityId: <path:traceability-foss/data/e2e-a/edc-consumer/wallet#ssi.miw.authorityId>
       oauth:
-        tokenurl: <path:traceability-foss/data/dev/edc/wallet#ssi.oauth.tokenurl>
+        tokenurl: <path:traceability-foss/data/e2e-a/edc-consumer/wallet#ssi.oauth.tokenurl>
         client:
-          id: <path:traceability-foss/data/dev/edc/wallet#ssi.oauth.client.id> # sa667
-          secretAlias: edc-miw-keycloak-secret
+          id: <path:traceability-foss/data/e2e-a/edc-consumer/wallet#ssi.oauth.client.id> # sa677
+          secretAlias: edc-miw-keycloak-secret-e2e-a-consumer
 
     endpoints:
       # -- default api for health checks, should not be added to any ingress

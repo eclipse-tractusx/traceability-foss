@@ -317,7 +317,7 @@ tractusx-connector:
     postgresql: false
     vault: false
   participant:
-    id: BPNL00000003CML1
+    id: BPNL00000003CNKC
 
   controlplane:
     ingresses:
@@ -335,13 +335,13 @@ tractusx-connector:
           secretName: tls-secret
     ssi:
       miw:
-        url: <path:traceability-foss/data/dev-b/edc/wallet#ssi.miw.url>
-        authorityId: <path:traceability-foss/data/dev-b/edc/wallet#ssi.miw.authorityId>
+        url: <path:traceability-foss/data/dev-b/edc-consumer/wallet#ssi.miw.url>
+        authorityId: <path:traceability-foss/data/dev-b/edc-consumer/wallet#ssi.miw.authorityId>
       oauth:
-        tokenurl: <path:traceability-foss/data/dev-b/edc/wallet#ssi.oauth.tokenurl>
+        tokenurl: <path:traceability-foss/data/dev-b/edc-consumer/wallet#ssi.oauth.tokenurl>
         client:
-          id: <path:traceability-foss/data/dev-b/edc/wallet#ssi.oauth.client.id> # sa668
-          secretAlias: edc-miw-keycloak-secret-dev-b
+          id: <path:traceability-foss/data/dev-b/edc-consumer/wallet#ssi.oauth.client.id> # sa668
+          secretAlias: edc-miw-keycloak-secret-dev-b-consumer
 
     endpoints:
       # -- default api for health checks, should not be added to any ingress
