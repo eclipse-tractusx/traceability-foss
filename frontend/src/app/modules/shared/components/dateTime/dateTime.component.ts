@@ -46,4 +46,8 @@ export class DateTimeComponent extends BaseInputComponent<Date> {
   constructor(@Inject(Injector) injector: Injector, staticIdService: StaticIdService) {
     super(injector, staticIdService);
   }
+
+  openDatePicker(element: any): void{
+      element.showPicker();
+  }
 }
