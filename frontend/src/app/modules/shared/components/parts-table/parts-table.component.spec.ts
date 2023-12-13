@@ -32,7 +32,6 @@ describe('PartsTableComponent', () => {
     size: number,
     tableType: TableType = TableType.AS_BUILT_OWN,
   ) => {
-    const multiSelectActive = true;
     const content = generateTableContent(size);
     const paginationData = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
     return renderComponent(PartsTableComponent, {
