@@ -34,15 +34,6 @@ export interface TableConfig<Columns extends string = string> {
   menuActionsConfig?: MenuActionConfig<unknown>[];
 }
 
-export enum PartTableType {
-  AS_BUILT_OWN = 'AS_BUILT_OWN',
-  AS_PLANNED_OWN = 'AS_PLANNED_OWN',
-  AS_BUILT_SUPPLIER = 'AS_BUILT_SUPPLIER',
-  AS_BUILT_CUSTOMER = 'AS_BUILT_CUSTOMER',
-  AS_PLANNED_SUPPLIER = 'AS_PLANNED_SUPPLIER',
-  AS_PLANNED_CUSTOMER = 'AS_PLANNED_CUSTOMER',
-  ESS = 'ESS'
-}
 
 export type DisplayColumns<T> = 'select' | 'menu' | 'sendToName' | 'createdByName' | T;
 

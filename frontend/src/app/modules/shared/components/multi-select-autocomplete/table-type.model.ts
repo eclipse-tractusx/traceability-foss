@@ -16,30 +16,21 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import {TableFilterConfiguration} from '@shared/components/parts-table/parts-config.model';
 
-export class PartsAsBuiltSupplierConfigurationModel extends TableFilterConfiguration {
-  constructor() {
-    const sortableColumns = {
-      select: false,
-      semanticDataModel: true,
-      nameAtManufacturer: true,
-      businessPartner: true,
-      manufacturerName: true,
-      manufacturerPartId: true,
-      semanticModelId: true,
-      manufacturingDate: true,
-      receivedActiveAlerts: false,
-      receivedActiveInvestigations: false,
-      sentActiveAlerts: false,
-      sentActiveInvestigations: false,
-      menu: false,
-    };
-    const dateFields = [ 'manufacturingDate' ];
-    const singleSearchFields = [ 'receivedActiveAlerts', 'sentActiveAlerts', 'receivedActiveInvestigations', 'sentActiveInvestigations' ];
-    super(sortableColumns, dateFields, singleSearchFields);
-  }
-
-
+export enum TableType {
+  AS_BUILT_OWN = 'AS_BUILT_OWN',
+  AS_PLANNED_OWN = 'AS_PLANNED_OWN',
+  AS_BUILT_SUPPLIER = 'AS_BUILT_SUPPLIER',
+  AS_BUILT_CUSTOMER = 'AS_BUILT_CUSTOMER',
+  AS_PLANNED_SUPPLIER = 'AS_PLANNED_SUPPLIER',
+  AS_PLANNED_CUSTOMER = 'AS_PLANNED_CUSTOMER',
+  RECEIVED_INVESTIGATION = 'RECEIVED_INVESTIGATION',
+  CREATED_INVESTIGATION = 'CREATED_INVESTIGATION',
+  RECEIVED_ALERT = 'RECEIVED_ALERT',
+  CREATED_ALERT = 'CREATED_ALERT',
 }
 
+export enum NotificationChannel {
+  SENDER = 'SENDER',
+  RECEIVER = 'RECEIVER'
+}

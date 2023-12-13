@@ -298,7 +298,27 @@
     "searchPlaceholder": "Search..",
     "choosePlaceholder": "Choose..",
     "suggestionError": "No suggestions found.",
-    "multipleResults": "others"
+    "multipleResults": "others",
+    "mappedText": {
+      "RECEIVED": "RECEIVED",
+      "CREATED": "QUEUED",
+      "SENT": "REQUESTED",
+      "CANCELED": "CANCELLED",
+      "CLOSED": "CLOSED",
+      "ACCEPTED": "ACCEPTED",
+      "ACKNOWLEDGED": "ACKNOWLEDGED",
+      "DECLINED": "DECLINED",
+      "MINOR": "Minor",
+      "MAJOR": "Major",
+      "CRITICAL": "Critical",
+      "LIFE_THREATENING": "Life-Threatening",
+      "BATCH": "Batch",
+      "SERIALPART": "SerialPart",
+      "PARTASPLANNED": "PartAsPlanned",
+      "UNKNOWN": "Unknown",
+      "JUSTINSEQUENCE": "JustInSequence",
+      "TRACTIONBATTERYCODE": "TractionBatteryCode"
+    }
   },
   "parts": {
     "input": {

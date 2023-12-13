@@ -1,9 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { Owner } from '@page/parts/model/owner.enum';
 import { SemanticDataModel } from '@page/parts/model/parts.model';
 import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
-import { PartTableType } from '@shared/components/table/table.model';
 import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
 import { SharedModule } from '@shared/shared.module';
 import { renderComponent } from '@tests/test-render.utils';
@@ -42,7 +40,6 @@ describe('MultiSelectAutocompleteComponent', () => {
     componentInstance.selectedValue = [ 'initialValue' ];
     componentInstance.startDate = new Date('2022-02-04');
     componentInstance.endDate = new Date('2022-02-04');
-    componentInstance.filteredOptions = [ 'test' ];
     componentInstance.searchedOptions = [];
     componentInstance.allOptions = [];
 
@@ -51,7 +48,6 @@ describe('MultiSelectAutocompleteComponent', () => {
     // Assert
     expect(componentInstance.searchElement).toBe('');
     expect(componentInstance.selectedValue).toEqual([]);
-    expect(componentInstance.filteredOptions).toEqual([]);
   });
 
   it('should return correct display string when textSearch is true', async () => {
@@ -63,7 +59,7 @@ describe('MultiSelectAutocompleteComponent', () => {
     componentInstance.searchElement = 'TestValue';
     const result = componentInstance.displayValue();
 
-    expect(result).toBe('TestValue');
+    expect(result).toEqual(['TestValue', '']);
   });
 
   it('should return correct display string when textSearch is false and multiple is true', async () => {
@@ -82,7 +78,7 @@ describe('MultiSelectAutocompleteComponent', () => {
 
     const result = componentInstance.displayValue();
 
-    expect(result).toBe('value1 + 2 undefined');
+    expect(result).toEqual(['value1',' + 2 undefined']);
   });
 
   it('should return correct display string when textSearch is false and multiple is false', async () => {
@@ -101,7 +97,7 @@ describe('MultiSelectAutocompleteComponent', () => {
 
     const result = componentInstance.displayValue();
 
-    expect(result).toBe('value1');
+    expect(result).toEqual(['value1','']);
   });
 
   it('should filter options based on value when textSearch is false', async () => {
@@ -123,7 +119,7 @@ describe('MultiSelectAutocompleteComponent', () => {
     const { fixture } = await renderMultiSelectAutoCompleteComponent();
     const { componentInstance } = fixture;
 
-    componentInstance.filteredOptions = [
+    componentInstance.searchedOptions = [
       { value: 'value1', display: 'Display1' },
       { value: 'value2', display: 'Display2' },
       { value: 'value3', display: 'Display3' },
@@ -143,7 +139,7 @@ describe('MultiSelectAutocompleteComponent', () => {
     const { fixture } = await renderMultiSelectAutoCompleteComponent();
     const { componentInstance } = fixture;
 
-    componentInstance.filteredOptions = [
+    componentInstance.searchedOptions = [
       { value: 'value1', display: 'Display1' },
       { value: 'value2', display: 'Display2' },
       { value: 'value3', display: 'Display3' },
@@ -225,16 +221,6 @@ describe('MultiSelectAutocompleteComponent', () => {
     expect(componentInstance.searchElement).toEqual('');
   });
 
-  it('should retrieve correct Owner of partTableType', async () => {
-    const { fixture } = await renderMultiSelectAutoCompleteComponent();
-    const { componentInstance } = fixture;
-
-    const expectedOwners = [ Owner.OWN, Owner.OWN, Owner.SUPPLIER, Owner.SUPPLIER, Owner.CUSTOMER, Owner.CUSTOMER, Owner.UNKNOWN ];
-    [ PartTableType.AS_BUILT_OWN, PartTableType.AS_PLANNED_OWN, PartTableType.AS_BUILT_SUPPLIER, PartTableType.AS_PLANNED_SUPPLIER, PartTableType.AS_BUILT_CUSTOMER, PartTableType.AS_PLANNED_CUSTOMER, null ].forEach((tableType, index) => {
-      expect(componentInstance.getOwnerOfTable(tableType)).toEqual(expectedOwners[index]);
-    });
-  });
-
   it('should filter date with dateFilter()', async function() {
     const { fixture } = await renderMultiSelectAutoCompleteComponent();
     const { componentInstance } = fixture;
@@ -290,9 +276,10 @@ describe('MultiSelectAutocompleteComponent', () => {
     const { componentInstance } = fixture;
 
     componentInstance.searchElement = '';
+    componentInstance.searchedOptions = [];
     componentInstance.filterItem('');
 
-    const option = componentInstance.filteredOptions;
+    const option = componentInstance.searchedOptions;
     expect(option).toEqual([]);
   });
 
@@ -303,7 +290,7 @@ describe('MultiSelectAutocompleteComponent', () => {
     componentInstance.searchElement = 'test';
     componentInstance.filterItem(undefined);
 
-    const option = componentInstance.filteredOptions;
+    const option = componentInstance.searchedOptions;
     expect(option).toEqual([]);
   });
 
