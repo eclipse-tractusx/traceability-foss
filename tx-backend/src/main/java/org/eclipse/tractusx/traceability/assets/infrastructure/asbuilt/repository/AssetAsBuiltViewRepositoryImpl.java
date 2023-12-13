@@ -20,6 +20,7 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository;
 
 import lombok.RequiredArgsConstructor;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltViewRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltViewEntity;
@@ -28,6 +29,7 @@ import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -35,6 +37,7 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 @RequiredArgsConstructor
 @Component
+@Transactional(readOnly = true)
 public class AssetAsBuiltViewRepositoryImpl implements AssetAsBuiltViewRepository {
 
     private final JpaAssetAsBuiltViewRepository jpaAssetAsBuiltViewRepository;
@@ -44,5 +47,33 @@ public class AssetAsBuiltViewRepositoryImpl implements AssetAsBuiltViewRepositor
         List<AssetAsBuiltViewSpecification> assetAsBuildSpecifications = emptyIfNull(searchCriteria.getSearchCriteriaFilterList()).stream().map(AssetAsBuiltViewSpecification::new).toList();
         Specification<AssetAsBuiltViewEntity> specification = AssetAsBuiltViewSpecification.toSpecification(assetAsBuildSpecifications);
         return new PageResult<>(jpaAssetAsBuiltViewRepository.findAll(specification, pageable), AssetAsBuiltViewEntity::toDomain);
+    }
+
+    @Override
+    public List<AssetBase> getAssets() {
+        return jpaAssetAsBuiltViewRepository.findAll().stream()
+                .map(AssetAsBuiltViewEntity::toDomain).toList();
+
+    }
+
+    @Override
+    public AssetBase getAssetByChildId(String childId) {
+        return jpaAssetAsBuiltViewRepository.findById(childId)
+                .map(AssetAsBuiltViewEntity::toDomain)
+                .orElseThrow(() -> new AssetNotFoundException("Child Asset Not Found"));
+    }
+
+    @Override
+    public List<AssetBase> getAssetsById(List<String> assetIds) {
+        return jpaAssetAsBuiltViewRepository.findByIdIn(assetIds).stream()
+                .map(AssetAsBuiltViewEntity::toDomain)
+                .toList();
+    }
+
+    @Override
+    public AssetBase getAssetById(String assetId) {
+        return jpaAssetAsBuiltViewRepository.findById(assetId)
+                .map(AssetAsBuiltViewEntity::toDomain)
+                .orElseThrow(() -> new AssetNotFoundException("Asset with id %s was not found.".formatted(assetId)));
     }
 }

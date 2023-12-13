@@ -27,6 +27,7 @@ import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.service.AbstractAssetBaseService;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.ManufacturingInfo;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
@@ -35,6 +36,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -76,5 +79,28 @@ public class AssetAsBuiltServiceImpl extends AbstractAssetBaseService {
     public PageResult<AssetBase> getAssets(Pageable pageable, SearchCriteria searchCriteria) {
         return assetAsBuiltViewRepository.getAssets(pageable, searchCriteria);
     }
+
+    @Override
+    public Map<String, Long> getAssetsCountryMap() {
+        return assetAsBuiltViewRepository.getAssets().stream()
+                .collect(Collectors.groupingBy(
+                        asset -> ManufacturingInfo.from(asset.getDetailAspectModels()).getManufacturingCountry(), Collectors.counting()));
+    }
+
+    @Override
+    public AssetBase getAssetByChildId(String assetId, String childId) {
+        return assetAsBuiltViewRepository.getAssetByChildId(childId);
+    }
+
+    @Override
+    public List<AssetBase> getAssetsById(List<String> assetIds) {
+        return assetAsBuiltViewRepository.getAssetsById(assetIds);
+    }
+
+    @Override
+    public AssetBase getAssetById(String assetId) {
+        return assetAsBuiltViewRepository.getAssetById(assetId);
+    }
+
 
 }

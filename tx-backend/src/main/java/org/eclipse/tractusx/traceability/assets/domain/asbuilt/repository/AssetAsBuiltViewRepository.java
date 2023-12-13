@@ -24,6 +24,16 @@ import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface AssetAsBuiltViewRepository {
     PageResult<AssetBase> getAssets(Pageable pageable, SearchCriteria searchCriteria);
+
+    List<AssetBase> getAssets();
+
+    AssetBase getAssetByChildId(String childId);
+
+    List<AssetBase> getAssetsById(List<String> assetIds);
+
+    AssetBase getAssetById(String assetId);
 }

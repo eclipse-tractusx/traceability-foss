@@ -79,18 +79,22 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
     @Override
     @Transactional
     public List<AssetBase> getAssets() {
-        return AssetAsBuiltEntity.toDomainList(jpaAssetAsBuiltRepository.findAll());
+        return jpaAssetAsBuiltRepository.findAll().stream()
+                .map(AssetAsBuiltEntity::toDomain)
+                .toList();
     }
 
     @Override
     public AssetBase save(AssetBase asset) {
-        return AssetAsBuiltEntity.toDomain(jpaAssetAsBuiltRepository.save(AssetAsBuiltEntity.from(asset)));
+        return jpaAssetAsBuiltRepository.save(AssetAsBuiltEntity.from(asset)).toDomain();
     }
 
     @Override
     @Transactional
     public List<AssetBase> saveAll(List<AssetBase> assets) {
-        return AssetAsBuiltEntity.toDomainList(jpaAssetAsBuiltRepository.saveAll(AssetAsBuiltEntity.fromList(assets)));
+        return jpaAssetAsBuiltRepository.saveAll(AssetAsBuiltEntity.fromList(assets)).stream()
+                .map(AssetAsBuiltEntity::toDomain)
+                .toList();
     }
 
 
@@ -114,10 +118,5 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
     @Override
     public long countAssetsByOwner(Owner owner) {
         return jpaAssetAsBuiltRepository.countAssetsByOwner(owner);
-    }
-
-    @Override
-    public List<AssetAsBuiltEntity> findByOwner(Owner owner) {
-        return jpaAssetAsBuiltRepository.findByOwner(owner);
     }
 }
