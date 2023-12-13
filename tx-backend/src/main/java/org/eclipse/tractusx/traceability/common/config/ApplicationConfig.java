@@ -38,9 +38,11 @@ import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
 import org.eclipse.tractusx.irs.edc.client.policy.Permission;
 import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -58,6 +60,7 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
@@ -69,6 +72,10 @@ import java.util.List;
 @Slf4j
 @EnableJpaRepositories(basePackages = "org.eclipse.tractusx.traceability.*")
 public class ApplicationConfig {
+
+    @Autowired
+    TraceabilityProperties traceabilityProperties;
+
     private final AcceptedPoliciesProvider.DefaultAcceptedPoliciesProvider defaultAcceptedPoliciesProvider;
     private static final String ID_TRACE_CONSTRAINT = "ID 3.0 Trace";
 
@@ -132,16 +139,27 @@ public class ApplicationConfig {
     }
 
     @NotNull
-    private static AcceptedPolicy buildAcceptedPolicy() {
+    private AcceptedPolicy buildAcceptedPolicy() {
+        List<Constraint> andConstraintList = new ArrayList<>();
+        List<Constraint> orConstraintList = new ArrayList<>();
+
+        for (TraceabilityProperties.PolicyConfig policyConfig : traceabilityProperties.getAnd()) {
+            andConstraintList.add(new Constraint(policyConfig.leftOperand, OperatorType.valueOf(policyConfig.operatorType), List.of(policyConfig.rightOperand)));
+        }
+
+        for (TraceabilityProperties.PolicyConfig policyConfig : traceabilityProperties.getOr()) {
+            andConstraintList.add(new Constraint(policyConfig.leftOperand, OperatorType.valueOf(policyConfig.operatorType), List.of(policyConfig.rightOperand)));
+        }
+
         OffsetDateTime offsetDateTime = OffsetDateTime.now().plusMonths(1);
         List<Permission> permissions = List.of(
                 new Permission(
                         PolicyType.USE,
                         List.of(new Constraints(
-                                List.of(new Constraint("PURPOSE", OperatorType.EQ, List.of(ID_TRACE_CONSTRAINT))),
-                                List.of(new Constraint("PURPOSE", OperatorType.EQ, List.of(ID_TRACE_CONSTRAINT)))))
-                )
-        );
+                                andConstraintList,
+                                orConstraintList)
+                        )
+                ));
         Policy policy = new Policy(ID_TRACE_CONSTRAINT, OffsetDateTime.now(), offsetDateTime, permissions);
         return new AcceptedPolicy(policy, offsetDateTime);
     }

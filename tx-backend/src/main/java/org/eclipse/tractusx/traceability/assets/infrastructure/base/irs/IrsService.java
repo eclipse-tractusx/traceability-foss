@@ -21,7 +21,6 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

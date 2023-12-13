@@ -21,26 +21,33 @@
 
 package org.eclipse.tractusx.traceability.common.properties;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 
+import java.util.List;
+
+@Configuration
+@Getter
+@Setter
 @ConfigurationProperties("traceability")
 public class TraceabilityProperties {
 
-    private final BPN bpn;
+    private BPN bpn;
 
-    private final String url;
+    private String url;
 
-    public TraceabilityProperties(String bpn, String url) {
-        this.bpn = new BPN(bpn);
-        this.url = url;
+    private List<PolicyConfig> and;
+
+    private List<PolicyConfig> or;
+
+
+    public static class PolicyConfig {
+        public String leftOperand;
+        public String operatorType;
+        public String rightOperand;
     }
 
-    public BPN getBpn() {
-        return bpn;
-    }
-
-    public String getUrl() {
-        return url;
-    }
 }
