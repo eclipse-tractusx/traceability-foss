@@ -38,7 +38,7 @@ SPDX-License-Identifier: Apache-2.0
           {{ selectedPartEssActionLabel | i18n }}
         </div>
       </app-button>
-      &nbsp;&nbsp;&nbsp;
+
       <app-button
         *ngIf="selection?.selected?.length && (tableType !== TableType.AS_PLANNED_CUSTOMER && tableType !== TableType.AS_BUILT_CUSTOMER) && listType!==TableType.ESS"
         (click)="clickSelectAction.emit()"
