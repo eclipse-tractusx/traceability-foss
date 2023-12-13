@@ -39,8 +39,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
-import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitize;
-
 @Slf4j
 @RestController
 @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
