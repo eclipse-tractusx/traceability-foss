@@ -21,8 +21,12 @@ SPDX-License-Identifier: Apache-2.0
 
 <div class="header--container">
   <nav class="header--menu-container">
-    <div class="header--logo-container" [routerLink]="['/dashboard']" [class.selected]="'dashboard' === activeMenu">
-      <img src="/assets/images/logo.svg" alt="Cofinity-X" class="header--logo" />
+    <div class="header--logo-container"
+      [routerLink]="['/dashboard']"
+      [class.selected]="'dashboard' === activeMenu">
+      <img src="/assets/images/logo.svg"
+        alt="Trace-X"
+        class="header--logo" />
     </div>
 
     <div class="header--menu">
@@ -36,8 +40,13 @@ SPDX-License-Identifier: Apache-2.0
   </nav>
 </div>
 
-<ng-template let-type="value" let-role="role" #menuItem>
-  <a class="header--menu__item" *appHasRole="[role]" [routerLink]="['/' + type]" [class.selected]="type === activeMenu">
+<ng-template let-type="value"
+  let-role="role"
+  #menuItem>
+  <a class="header--menu__item"
+    *appHasRole="[role]"
+    [routerLink]="['/' + type]"
+    [class.selected]="type === activeMenu">
     <div class="header--menu__item--border-top"></div>
     <p class="header--menu__item--text">{{ 'routing.' + type | i18n }}</p>
     <div class="header--menu__item--border-bottom"></div>

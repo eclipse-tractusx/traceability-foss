@@ -48,7 +48,7 @@ table {
   &__menu {
     background: rgba(0, 0, 0, 0.04);
 
-    & > .notification-table--select-all__dropdown:hover {
+    &>.notification-table--select-all__dropdown:hover {
       background: none;
     }
   }
@@ -115,6 +115,7 @@ table {
       display: flex;
       flex-direction: row;
       align-items: center;
+
       &--asc {
         width: 10px;
         transform: rotate(180deg);
@@ -125,6 +126,7 @@ table {
         width: 10px;
         margin: 9.5px 7px;
       }
+
       &--indicator {
         display: flex;
         align-items: center;
@@ -139,22 +141,26 @@ table {
   flex-direction: column;
   height: 40px;
   justify-content: space-between;
+
   &--border--bottom--disabled,
   &--border--top {
     height: 3px;
     width: 100%;
     background: none;
   }
+
   &--border--bottom--enabled {
     height: 3px;
     width: 100%;
-    background: linear-gradient(90deg, #fdb913 0%, #d31184 100%);
+    background: linear-gradient(90deg, #338e7d 0%, #00725C 100%);
   }
+
   &--content {
     width: 24px;
     display: flex;
     justify-content: center;
     align-content: center;
+
     &--icon {
       width: 12px;
     }
@@ -311,6 +317,7 @@ table {
 
 .notification-table--header--tooltip {
   white-space: pre-line;
+
   .mdc-tooltip__surface {
     background-color: rgb(48, 48, 48);
     @apply font-medium;

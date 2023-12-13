@@ -55,7 +55,7 @@
   }
 
   &--logo {
-    height: 29.29px;
+    height: 60px;
   }
 
   &--menu {
@@ -63,6 +63,7 @@
     gap: 40px;
     align-items: center;
     height: 100%;
+
     &__item {
       height: 100%;
       gap: 14px;
@@ -90,12 +91,12 @@
       }
 
       &.selected &--border-bottom {
-        background: linear-gradient(90deg, #fdb913 0%, #d31184 100%);
+        background: linear-gradient(90deg, #338e7d 0%, #00725C 100%);
       }
 
       &:not(&.selected):hover &--border-bottom {
         animation: line 0.1s linear forwards;
-        background: linear-gradient(90deg, #fdb913 0%, #d31184 100%);
+        background: linear-gradient(90deg, #338e7d 0%, #00725C 100%);
       }
     }
   }
@@ -111,6 +112,7 @@
     left: 50%;
     width: 0%;
   }
+
   to {
     left: 0%;
     width: 100%;

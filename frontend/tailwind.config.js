@@ -78,14 +78,14 @@ module.exports = {
     },
     colors: {
       // Theme colors
-      primary: '#D31184',
+      primary: '#00725C',
       secondary: '#4D4D4D',
       tertiary: '#F58220',
 
       checkbox: '#6BA13C',
 
-      primaryLight: '#EA1392',
-      primaryDark: '#A60F68',
+      primaryLight: '#338e7d',
+      primaryDark: '#005b4a',
 
       secondaryLight: '#808080',
 

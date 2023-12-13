@@ -347,22 +347,26 @@ tr.error {
   flex-direction: column;
   height: 40px;
   justify-content: space-between;
+
   &--border--bottom--disabled,
   &--border--top {
     height: 3px;
     width: 100%;
     background: none;
   }
+
   &--border--bottom--enabled {
     height: 3px;
     width: 100%;
-    background: linear-gradient(90deg, #fdb913 0%, #d31184 100%);
+    background: linear-gradient(90deg, #338e7d 0%, #00725C 100%);
   }
+
   &--content {
     width: 24px;
     display: flex;
     justify-content: center;
     align-content: center;
+
     &--icon {
       width: 12px;
     }
@@ -409,13 +413,12 @@ tr.error {
 }
 
 .hasQualityAlertsHeader {
-  @apply text-secondary;
+  @apply text-secondary !important;
   padding: 0 !important;
 }
 
 .checkbox+.mdc-data-table__header-cell,
 .checkbox+.mdc-data-table__cell {
-  @apply text-secondary;
   padding: 0 !important;
 }
 
@@ -443,6 +446,5 @@ tr.error {
 }
 
 .table--body--row .table--cell--sticky {
-    padding: 0px !important;
+  padding: 0px !important;
 }
-
