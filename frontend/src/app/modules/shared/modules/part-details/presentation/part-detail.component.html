@@ -81,47 +81,16 @@ SPDX-License-Identifier: Apache-2.0
           </div>
         </div>
       </mat-tab>
-      <mat-tab>
+      <mat-tab [disabled]="(selectedPartDetails$ | async)?.data?.children?.length === 0">
         <ng-template mat-tab-label>
           <div>{{ 'partDetail.investigation.tab.header' | i18n }} </div>
         </ng-template>
-        <!-- TODO finish with investigations of components 
-        TODO Other tab content -->
+        <app-start-investigation *ngIf="(selectedPartDetails$ | async)?.data?.children?.length"
+          [part]="selectedPartDetails$ | async"></app-start-investigation>
       </mat-tab>
     </mat-tab-group>
-
-    <!-- TODO finish with investigations of components -->
-    <!-- <app-part-detail [showRelation]="false"
-        [showStartInvestigation]="showStartInvestigationArray[selectedTab]"></app-part-detail> -->
   </mat-card-content>
 </mat-card>
-
-<!-- TODO finish with investigations of components -->
-<!-- <mat-accordion class="example-headers-align"
-  multi>
-  <mat-expansion-panel [expanded]="true">
-    <mat-expansion-panel-header>
-      <mat-panel-title> {{ 'partDetail.tab.header' | i18n }}</mat-panel-title>
-      <mat-panel-description class="justify-between items-center">
-        {{ 'partDetail.tab.description' | i18n }}
-        <mat-icon>info_circle</mat-icon>
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-  </mat-expansion-panel>
-  <mat-expansion-panel *ngIf="showStartInvestigation"
-    [disabled]="(selectedPartDetails$ | async)?.data?.children?.length ? undefined : true">
-    <mat-expansion-panel-header>
-      <mat-panel-title>{{ 'partDetail.investigation.tab.header' | i18n }}</mat-panel-title>
-      <mat-panel-description class="justify-between items-center">
-        {{ 'partDetail.investigation.tab.description' | i18n }}
-        <mat-icon>announcement</mat-icon>
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-    <app-start-investigation *ngIf="(selectedPartDetails$ | async)?.data?.children?.length"
-      [part]="selectedPartDetails$ | async"
-      (submitted)="setIsOpen(false)"></app-start-investigation>
-  </mat-expansion-panel>
-</mat-accordion> -->
 
 <ng-template #manufacturerDetailsMainTmp
   let-manufacturerDetails="view">

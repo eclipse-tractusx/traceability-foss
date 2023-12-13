@@ -53,7 +53,8 @@ SPDX-License-Identifier: Apache-2.0
           (buttonClickEvent)="handleTableActivationEvent($event)"></app-bom-lifecycle-activator>
       </div>
       <div class="split-container-wrapper">
-        <as-split direction="horizontal">
+        <as-split direction="horizontal"
+          class="split-container">
           <as-split-area *ngIf="bomLifecycleSize?.asBuiltSize > 0"
             data-testid="as-split-area-1-component--test-id"
             [size]="bomLifecycleSize.asBuiltSize"

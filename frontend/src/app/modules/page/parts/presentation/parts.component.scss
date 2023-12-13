@@ -33,6 +33,10 @@
   @apply border-inactiveShape;
 }
 
+.split-container {
+  column-gap: 5px;
+}
+
 .split-container-wrapper {
   height: 470.5px;
   padding-top: 20px;

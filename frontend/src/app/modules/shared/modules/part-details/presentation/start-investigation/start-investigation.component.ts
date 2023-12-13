@@ -20,7 +20,9 @@
  ********************************************************************************/
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Part } from '@page/parts/model/parts.model';
+import { RequestInvestigationComponent } from '@shared/components/request-notification/request-investigation.component';
 import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
 import { State } from '@shared/model/state';
 import { View } from '@shared/model/view.model';
@@ -72,6 +74,7 @@ export class StartInvestigationComponent {
   constructor(
     private readonly partDetailsFacade: PartDetailsFacade,
     private readonly staticIdService: StaticIdService,
+    public dialog: MatDialog,
   ) {
     this.childParts$ = this.childPartsState.observable;
     this.selectedChildParts$ = this.selectedChildPartsState.observable;
@@ -113,5 +116,18 @@ export class StartInvestigationComponent {
 
     const data = this.partDetailsFacade.sortChildParts(this.childPartsState.snapshot, name, direction);
     this.childPartsState.update({ data });
+  }
+
+  public openInvestigationDialog(): void {
+    const dialogRef = this.dialog.open(RequestInvestigationComponent, {
+      data: { selectedItems: this.selectedChildPartsState.snapshot, showHeadline: true },
+    });
+
+    dialogRef?.componentInstance.deselectPart.subscribe(this.removeChildPartFromSelection);
+    if (dialogRef?.afterClosed) {
+      dialogRef.afterClosed().subscribe((_part: Part) => {
+        dialogRef.componentInstance.deselectPart.unsubscribe();
+      });
+    }
   }
 }

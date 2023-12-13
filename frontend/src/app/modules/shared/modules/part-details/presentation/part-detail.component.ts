@@ -122,15 +122,7 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
   }
 
   public ngAfterViewInit(): void {
-    this.partDetailsFacade.selectedPart$.pipe(filter(({ data }) => !!data)).subscribe(_ => this.setIsOpen(true));
-  }
-
-  public setIsOpen(openState: boolean) {
-    this.isOpenState.update(openState);
-
-    if (!openState) {
-      this.partDetailsFacade.selectedPart = null;
-    }
+    this.partDetailsFacade.selectedPart$.pipe(filter(({ data }) => !!data));
   }
 
   public openRelationPage(part: Part): void {
@@ -140,7 +132,6 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
 
   public onTabChange({ index }: MatTabChangeEvent): void {
     this.selectedTab = index;
-    this.partDetailsFacade.selectedPart = null;
   }
 
   public navigateBackToParts(): void {
