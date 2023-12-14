@@ -4,9 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-
-
 ## [UNRELEASED - DD.MM.YYYY]
+### Added
+### Changed
+- Restricted datefield on investigation creation to be only clickable and not editable
+
+## [10.0.0 - 12.12.2024]
 ### Added
 - new filtering capabilities ( receivedQualityAlertIdsInStatusActive, sentQualityAlertIdsInStatusActive, receivedQualityInvestigationIdsInStatusActive, sentQualityInvestigationIdsInStatusActive )
 - Validation check if table-settings correct and reset on invalid state
@@ -19,7 +22,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Added BPN column to parts table
 - Emit change check to observables in frontend
 - Added an Entity Relationship Model (ERM) into the Architecture Documentation to visually represent our tables and their relationships.
+- Added a step for testing input and included an option for a hard refresh in Argo Workflow
 - Added manufacturer_id to assets_as_planned
+- Added local filtering and auto complete for notifications
 
 ### Changed
 - Filter configuration for tables to be resuable and easy to adapt

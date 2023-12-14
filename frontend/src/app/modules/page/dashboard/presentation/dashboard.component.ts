@@ -24,6 +24,7 @@ import { Router } from '@angular/router';
 import { ALERT_BASE_ROUTE, getRoute, INVESTIGATION_BASE_ROUTE } from '@core/known-route';
 import { DashboardStats } from '@page/dashboard/model/dashboard.model';
 import { MetricData } from '@page/dashboard/presentation/dashboard.model';
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import {
   Notification,
   Notifications,
@@ -58,11 +59,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public otherPartsMetricData: MetricData[];
   public investigationsMetricData: MetricData[];
   public alertsMetricData: MetricData[];
-
-
   constructor(private readonly dashboardFacade: DashboardFacade, private readonly router: Router) {
     this.dashboardStats$ = this.dashboardFacade.dashboardStats$;
-
     this.investigationsReceived$ = this.dashboardFacade.recentReceivedInvestigations$;
     this.investigationsCreated$ = this.dashboardFacade.recentCreatedInvestigations$;
     this.alertsReceived$ = this.dashboardFacade.recentReceivedAlerts$;
@@ -146,4 +144,5 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   protected readonly NotificationType = NotificationType;
+  protected readonly TableType = TableType;
 }
