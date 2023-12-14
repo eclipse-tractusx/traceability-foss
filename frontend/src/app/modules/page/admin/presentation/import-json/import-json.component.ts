@@ -39,19 +39,13 @@ export class ImportJsonComponent implements OnInit {
   public getFile(event:any){
     this.file = event.target.files[0];
 
-    if (this.file) {
-      const fileNameParts = this.file.name.split('.');
-      const fileExtension = fileNameParts[fileNameParts.length - 1].toLowerCase();
-
-      if (fileExtension !== 'json') {
-        console.error("Fehler: Nur JSON-Dateien sind erlaubt.");
-        this.showError = true;
-        return;
-      }
-      this.showError = false;
-      console.log("Datei:", this.file);
-
+    if ('json' !== this.getFileExtension().toLowerCase() ) {
+      console.error("Fehler: Nur JSON-Dateien sind erlaubt.");
+      this.showError = true;
+      return;
     }
+    this.showError = false;
+    console.log("Datei:", this.file);
   }
  public uploadFile(){
     this.adminFacade.postJsonImport(this.file).subscribe(res => {
@@ -60,19 +54,26 @@ export class ImportJsonComponent implements OnInit {
   }
 
   public  isJsonFile(): boolean {
-    return this.file && this.getFileExtension().toLowerCase() === 'json';
+    return this.file && 'json' === this.getFileExtension().toLowerCase() ;
   }
-
-  public isNotJsonFile(): boolean {
-    return !this.isJsonFile();
-  }
-
   public getFileExtension(): string {
     if (this.file) {
       const fileNameParts = this.file.name.split('.');
       return fileNameParts[fileNameParts.length - 1];
     }
     return '';
+  }
+  public clearFile(): void {
+    this.file = undefined;
+    this.showError = false;
+  }
+
+  shouldShowFileContainer_drag_and_drop(): boolean {
+    return !this.file || !this.isJsonFile() || this.showError;
+  }
+
+  shouldShowFileContainer_upload_file(): boolean {
+    return this.file && this.isJsonFile();
   }
 
 }

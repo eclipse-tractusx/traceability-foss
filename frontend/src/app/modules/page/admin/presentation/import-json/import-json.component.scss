@@ -19,21 +19,9 @@
 $theme:       #454cad;
 $dark-text:   #5f6982;
 
-h2 {
-  font-family: "Roboto", sans-serif;
-  font-size: 26px;
-  line-height: 1;
-  text-align: center;
-  color: black;
-  margin-bottom: 0;
-}
 
-p{
-  font-family: "Roboto", sans-serif;
-  font-size: 16px;
-}
 
-.file-container {
+.file-container_drag_and_drop {
   width: 300px;
   height: 200px;
   padding: 2rem;
@@ -118,8 +106,7 @@ p{
   }
 }
 
-
-.file-container_2 {
+.file-container_upload_file {
   width: 300px;
   height: 200px;
   padding: 2rem;

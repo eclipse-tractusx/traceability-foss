@@ -24,7 +24,7 @@ SPDX-License-Identifier: Apache-2.0
     >
   </mat-card-header>
   <mat-card-content>
-    <div class="file-container" *ngIf="!file || isNotJsonFile() || showError">
+    <div class="file-container_drag_and_drop" *ngIf="shouldShowFileContainer_drag_and_drop()">
       <mat-icon>upload</mat-icon>
       <input type="file" (change)="getFile($event)" class="file" />
       <h4>Drag and drop</h4>
@@ -32,13 +32,13 @@ SPDX-License-Identifier: Apache-2.0
       <div class="text-box">
         <p class="text-box-p">Browse files</p>
       </div>
-      <p class="error-message" *ngIf="isNotJsonFile() && showError">{{ 'pageAdmin.importJson.error' | i18n }}</p>
+      <p class="error-message" *ngIf="!isJsonFile() && showError">{{ 'pageAdmin.importJson.error' | i18n }}</p>
     </div>
 
-    <div class="file-container_2" *ngIf="file && isJsonFile()">
+    <div class="file-container_upload_file" *ngIf="shouldShowFileContainer_upload_file()">
       <mat-icon class="icon_uploadFile">upload_file</mat-icon>
       <p class="file-name">{{file.name}}</p>
-      <app-button variant="raised" class="custom-button_clear" color="warn" (click)="file = undefined; showError = false;">{{ 'pageAdmin.importJson.clear_file' | i18n }}</app-button>
+      <app-button variant="raised" class="custom-button_clear" color="warn" (click)="clearFile()">{{ 'pageAdmin.importJson.clear_file' | i18n }}</app-button>
       <app-button variant="raised" class="custom-button_upload" color="primary" (click)="uploadFile()">{{ 'pageAdmin.importJson.upload_file' | i18n }}</app-button>
     </div>
   </mat-card-content>
