@@ -16,3 +16,15 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+
+// Import necessary dependencies for testing
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ImportJsonComponent } from '@page/admin/presentation/import-json/import-json.component';
+import { AdminFacade } from '@page/admin/core/admin.facade';
+
+describe('ImportJsonComponent', () => {
+
+
+
+})
+

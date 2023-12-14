@@ -40,7 +40,6 @@ export class ImportJsonComponent {
       return;
     }
     this.showError = false;
-    console.log("Datei:", this.file);
   }
  public uploadFile(){
     this.adminFacade.postJsonImport(this.file).subscribe(res => {
