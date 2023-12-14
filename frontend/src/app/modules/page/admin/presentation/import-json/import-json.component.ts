@@ -54,7 +54,9 @@ export class ImportJsonComponent implements OnInit {
     }
   }
  public uploadFile(){
-    this.adminFacade.postJsonImport(this.file);
+    this.adminFacade.postJsonImport(this.file).subscribe(res => {
+      console.log(res);
+    } );
   }
 
   public  isJsonFile(): boolean {

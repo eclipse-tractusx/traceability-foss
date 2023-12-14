@@ -69,6 +69,7 @@ export class AdminService {
   }
 
   public postJsonFile(file: File): Observable<FormData>{
+
     const formData = new FormData();
     formData.append("file", file);
     return this.apiService.post(`${ this.url }/assets/import`, formData);
