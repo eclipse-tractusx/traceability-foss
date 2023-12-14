@@ -48,16 +48,16 @@
     "decline": "Ablehnen",
     "help": "Hilfe",
     "add": "Hinzufügen",
-    "saveChanges": "Änderungen speicher",
-    "save": "Speicher",
+    "saveChanges": "Änderungen speichern",
+    "save": "Speichern",
     "remove": "Entfernen",
     "delete": "Löschen",
     "goToQueue": "Zur Warteschlange",
     "goBack": "Zurück"
   },
   "table": {
-    "alertId": "Warnung ID",
-    "investigationId": "Untersuchung ID",
+    "alertId": "Warnungs ID",
+    "investigationId": "Untersuchungs ID",
     "latestFive": "(Letzte 5)",
     "noResultFound": "KEINE ERGEBNISSE GEFUNDEN.",
     "tryAgain": "Bitte versuchen Sie es später noch einmal.",
@@ -75,7 +75,7 @@
       "endDate": "Enddatum"
     },
     "tableSettings": {
-      "title": "Einstellungen der Spalte",
+      "title": "Einstellungen der Spalten",
       "selectAll": "Alle",
       "refreshTooltip": "Zurücksetzen der individuellen Einstellung der Tabellenspalten auf die Standardeinstellung",
       "saveAction": "Speichern"
@@ -175,7 +175,7 @@
     "textAreaLabel": "Beschreibung",
     "targetDateLabel": "Rückmeldedatum",
     "cancel": "Abbruch",
-    "submit": "Zur warteschlange hinzufügen",
+    "submit": "Zur Warteschlange hinzufügen",
     "submitTooltip": "Sie müssen zunächst alle mit einem * gekennzeichneten Felder ausfüllen",
     "severity": "Gefahrenstufe",
     "severityDescription": "Wählen Sie die Gefahrenstufe für das vorliegende Problem"
@@ -256,7 +256,7 @@
       "acknowledgeTitle": "Bestätigung der Qualitätswarnung",
       "approvalTitle": "Genehmigung der Qualitätswarnung",
       "closeTitle": "Schließen der Qualitätswarnung",
-      "closeReasonHint": "Geben Sie den Grund für die Schließung dieser Ausschreibung ein",
+      "closeReasonHint": "Geben Sie den Grund für die Schließung dieser Qualitätswarnung ein",
       "cancellationTitle": "Abbruch der Qualitätswarnung",
       "cancellationHint": "Geben Sie die ID der Qualitätswarnung ein, um Ihre Abbruchanfrage zu bestätigen.",
       "declineTitle": "Ablehnung der Qualitätswarnung",
@@ -301,13 +301,13 @@
     },
     "openInvestigations": "Offene Warnungen/Untersuchungen",
     "confirmationDialog": {
-      "deletePartTitle": "Part löschen?",
-      "deletePartMessage": "Wenn Sie dieses Part löschen, wird er vollständig aus der aktuellen Auswahl entfernt.",
+      "deletePartTitle": "Produkt löschen?",
+      "deletePartMessage": "Wenn Sie dieses Produkt löschen, wird er vollständig aus der aktuellen Auswahl entfernt.",
       "deletePartButton": "Löschen"
     }
   },
   "datepicker": {
-    "apply": "Bewerbung",
+    "apply": "Anwenden",
     "cancel": "Abbrechen",
     "filter": "Filter",
     "reset": "Zurücksetzen"
