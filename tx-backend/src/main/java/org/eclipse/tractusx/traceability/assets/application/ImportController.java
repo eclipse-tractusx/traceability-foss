@@ -41,7 +41,7 @@ import java.io.IOException;
 
 @Slf4j
 @RestController
-@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
 @Tag(name = "AssetsImport")
 @RequestMapping(path = "/assets")
 public class ImportController {
