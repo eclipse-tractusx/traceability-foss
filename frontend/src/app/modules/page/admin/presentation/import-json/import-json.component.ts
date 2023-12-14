@@ -25,15 +25,12 @@ import { AdminFacade } from '@page/admin/core/admin.facade';
   templateUrl: 'import-json.component.html',
   styleUrls: [ './import-json.component.scss' ],
 })
-export class ImportJsonComponent implements OnInit {
+export class ImportJsonComponent {
   public jsonfile = false;
   public showError = false;
   public file: File;
 
   constructor(private adminFacade: AdminFacade) {
-  }
-
-  ngOnInit(): void {
   }
 
   public getFile(event:any){
@@ -68,11 +65,11 @@ export class ImportJsonComponent implements OnInit {
     this.showError = false;
   }
 
-  shouldShowFileContainer_drag_and_drop(): boolean {
+  public shouldShowFileContainer_drag_and_drop(): boolean {
     return !this.file || !this.isJsonFile() || this.showError;
   }
 
-  shouldShowFileContainer_upload_file(): boolean {
+  public shouldShowFileContainer_upload_file(): boolean {
     return this.file && this.isJsonFile();
   }
 
