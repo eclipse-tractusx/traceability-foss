@@ -18,5 +18,7 @@ public class ImportJsonControllerTest {
         // WHEN
         importController.importJson(file);
 
+        //TODO: test_import_valid_json_file
+
     }
 }

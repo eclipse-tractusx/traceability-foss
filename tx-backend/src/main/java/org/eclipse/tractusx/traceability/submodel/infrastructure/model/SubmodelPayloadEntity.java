@@ -35,7 +35,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.A
 import java.util.List;
 
 @Entity
-@Table(name = "submodelPayload")
+@Table(name = "submodel_payload")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
