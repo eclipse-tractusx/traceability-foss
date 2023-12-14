@@ -43,14 +43,9 @@ class TraceabilityPropertiesTest {
         assertThat(traceabilityProperties.getUrl()).isNotEmpty();
         assertThat(traceabilityProperties.getBpn().toString()).isNotEmpty();
 
-        assertThat(traceabilityProperties.getAndConstraints().get(0).getLeftOperand()).isNotEmpty();
-        assertThat(traceabilityProperties.getAndConstraints().get(0).getOperatorType()).isNotEmpty();
-        System.out.println(traceabilityProperties.getAndConstraints().get(0).getOperatorType());
-        assertThat(traceabilityProperties.getAndConstraints().get(0).getRightOperand()).isNotEmpty();
-
-        assertThat(traceabilityProperties.getOrConstraints().get(0).getLeftOperand()).isNotEmpty();
-        assertThat(traceabilityProperties.getOrConstraints().get(0).getOperatorType()).isNotEmpty();
-        assertThat(traceabilityProperties.getOrConstraints().get(0).getRightOperand()).isNotEmpty();
+        assertThat(traceabilityProperties.getLeftOperand()).isNotEmpty();
+        assertThat(traceabilityProperties.getOperatorType()).isNotEmpty();
+        assertThat(traceabilityProperties.getRightOperand()).isNotEmpty();
 
     }
 
