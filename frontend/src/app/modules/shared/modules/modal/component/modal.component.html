@@ -36,6 +36,7 @@ SPDX-License-Identifier: Apache-2.0
                 (click)="confirm()"
                 [color]="data.primaryButtonColour || 'primary'"
                 variant="raised"
+                [isDisabled]="notValid"
     >{{ data.buttonRight | i18n }}</app-button
     >
   </mat-dialog-actions>

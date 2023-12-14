@@ -21,12 +21,14 @@
 
 import { TemplateRef } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
 
 export interface ModalData {
   title: string;
   buttonLeft?: string;
   buttonRight: string;
   primaryButtonColour?: 'primary' | 'accent' | 'warn';
+  validToConfirm?: Observable<boolean>;
 
   template: TemplateRef<unknown>;
   onConfirm: (isConfirmed: boolean) => void;

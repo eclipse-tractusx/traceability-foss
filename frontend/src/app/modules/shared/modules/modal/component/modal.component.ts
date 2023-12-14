@@ -22,6 +22,7 @@
 import { Component, HostListener, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ModalData } from '@shared/modules/modal/core/modal.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-confirm',
@@ -34,10 +35,19 @@ export class ModalComponent {
     this.close(false);
   }
 
+  notValid: boolean;
+  notValidSubscription: Subscription;
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public readonly data: ModalData,
     private readonly matDialogRef: MatDialogRef<ModalComponent>,
   ) {
+    console.log(data?.validToConfirm)
+    if(data?.validToConfirm) {
+      this.notValidSubscription = data.validToConfirm.subscribe(isChecked => {
+        this.notValid = !isChecked;
+      });
+    }
   }
 
   public close(value: boolean): void {

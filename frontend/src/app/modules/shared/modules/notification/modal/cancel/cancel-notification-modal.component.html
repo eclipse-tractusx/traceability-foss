@@ -21,9 +21,5 @@ SPDX-License-Identifier: Apache-2.0
 
 <ng-template #Modal>
   <app-notification-modal-content [notification]="notification"></app-notification-modal-content>
-
-  <form [formGroup]="formGroup" class="mt-4">
-    <mat-hint>{{ translationContext + '.modal.cancellationHint' | i18n }}</mat-hint>
-    <app-input formControlName="notificationId" [label]="notification?.id"></app-input>
-  </form>
+  <mat-checkbox (change)="handleCheck($event)" [(ngModel)]="isConfirmCheckboxSelected">Yes, I confirm that I want to cancel the current id {{notification.id}} </mat-checkbox>
 </ng-template>

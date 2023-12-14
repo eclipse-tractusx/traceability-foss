@@ -20,13 +20,12 @@
  ********************************************************************************/
 
 import { Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { Notification } from '@shared/model/notification.model';
 import { TranslationContext } from '@shared/model/translation-context.model';
 import { ModalData } from '@shared/modules/modal/core/modal.model';
 import { ModalService } from '@shared/modules/modal/core/modal.service';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-cancel-notification-modal',
@@ -38,19 +37,27 @@ export class CancelNotificationModalComponent {
   @Input() translationContext: TranslationContext;
   @Output() confirmActionCompleted = new EventEmitter<void>();
 
+  isChecked: Subject<boolean>;
+
   public notification: Notification;
-  public readonly formGroup;
-  private readonly textAreaControl = new UntypedFormControl();
+
+  isConfirmCheckboxSelected: boolean = false;
+
 
   constructor(private readonly toastService: ToastService, private readonly confirmModalService: ModalService) {
-    this.formGroup = new UntypedFormGroup({ notificationId: this.textAreaControl });
+    this.isChecked = new Subject<boolean>();
+  }
+
+  handleCheck(event: any): void {
+    this.isChecked.next(event.checked)
   }
 
   public show(notification: Notification): void {
     this.notification = notification;
-    this.textAreaControl.setValidators([ Validators.required, Validators.pattern(this.notification.id.toString()) ]);
+    this.isConfirmCheckboxSelected = false;
+
     const onConfirm = (isConfirmed: boolean) => {
-      this.formGroup.reset();
+
       if (!isConfirmed) return;
 
       this.cancelCall(notification.id).subscribe({
@@ -68,9 +75,9 @@ export class CancelNotificationModalComponent {
       title: this.translationContext + '.modal.cancellationTitle',
       buttonRight: 'actions.cancellationConfirm',
       primaryButtonColour: 'warn',
+      validToConfirm: this.isChecked.asObservable(),
 
       template: this.modal,
-      formGroup: this.formGroup,
       onConfirm,
     };
 
