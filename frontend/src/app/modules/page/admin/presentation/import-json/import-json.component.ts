@@ -26,7 +26,7 @@ import { AdminFacade } from '@page/admin/core/admin.facade';
   styleUrls: [ './import-json.component.scss' ],
 })
 export class ImportJsonComponent {
-  public jsonfile = false;
+  public validJson = false;
   public showError = false;
   public file: File;
 
