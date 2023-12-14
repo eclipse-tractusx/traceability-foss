@@ -51,7 +51,17 @@ public class ImportController {
             tags = {"AssetsImport"},
             description = "This endpoint stores assets in the application. Those can be later published in the Catena-X network.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-    @ApiResponses(value = {@ApiResponse(responseCode = "204", description = "No Content."),
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "OK.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema())),
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "No Content.",
+                    content = @Content()),
             @ApiResponse(
                     responseCode = "400",
                     description = "Bad request.",
