@@ -33,7 +33,7 @@ SPDX-License-Identifier: Apache-2.0
        <div class="text-box">
          <p class="text-box-p">{{ 'pageAdmin.importJson.Browse_files' | i18n }}</p>
        </div>
-       <p class="error-message" *ngIf="!isJsonFile() && showError">{{ 'pageAdmin.importJson.error' | i18n }}</p>
+       <p class="error-message" *ngIf=" showError">{{ 'pageAdmin.importJson.error' | i18n }}</p>
      </div>
 
       <div class="file-container_upload_file" *ngIf="shouldShowFileContainer_upload_file()">

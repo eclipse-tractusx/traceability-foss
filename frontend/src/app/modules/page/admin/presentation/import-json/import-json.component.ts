@@ -26,7 +26,6 @@ import { AdminFacade } from '@page/admin/core/admin.facade';
   styleUrls: [ './import-json.component.scss' ],
 })
 export class ImportJsonComponent {
-  public validJson = false;
   public showError = false;
   public file: File;
 
@@ -50,27 +49,25 @@ export class ImportJsonComponent {
     } );
   }
 
-  public  isJsonFile(): boolean {
-    return this.file && 'json' === this.getFileExtension().toLowerCase() ;
-  }
-  public getFileExtension(): string {
-    if (this.file) {
-      const fileNameParts = this.file.name.split('.');
-      return fileNameParts[fileNameParts.length - 1];
-    }
-    return '';
-  }
   public clearFile(): void {
     this.file = undefined;
     this.showError = false;
   }
 
   public shouldShowFileContainer_drag_and_drop(): boolean {
-    return !this.file || !this.isJsonFile() || this.showError;
+    return !this.file || 'json' !== this.getFileExtension().toLowerCase() || this.showError;
   }
 
   public shouldShowFileContainer_upload_file(): boolean {
-    return this.file && this.isJsonFile();
+    return this.file && 'json' === this.getFileExtension().toLowerCase();
   }
+
+    public getFileExtension(): string {
+        if (this.file) {
+            const fileNameParts = this.file.name.split('.');
+            return fileNameParts[fileNameParts.length - 1];
+        }
+        return '';
+    }
 
 }
