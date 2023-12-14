@@ -2,9 +2,10 @@ import { renderComponent } from '@tests/test-render.utils';
 import { SharedModule } from '@shared/shared.module';
 import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
 import { SemanticDataModel } from '@page/parts/model/parts.model';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { DatePipe } from '@angular/common';
-import { screen } from '@testing-library/angular';
+import { screen, waitFor } from '@testing-library/angular';
+import { Severity } from '@shared/model/severity.model';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 describe('MultiSelectAutocompleteComponent', () => {
   const renderMultiSelectAutoCompleteComponent = (isDate = false, multiple = false, filterActive = '') => {
@@ -240,25 +241,181 @@ describe('MultiSelectAutocompleteComponent', () => {
     expect(componentInstance.filterActive).toEqual('Search value');
   });
 
-  it('should emit data correctly when changeEvent of Datepicker is triggered', async () => {
+  it('should emit data correctly when the date is selected in the calender', async () => {
     const { fixture } = await renderMultiSelectAutoCompleteComponent(true);
     const { componentInstance } = fixture;
 
-    const inputValue = new Date('2023-10-12'); // Replace with your desired date
-
-    // Create a mock event with the selected date
-    const event: MatDatepickerInputEvent<Date> = {
-      value: inputValue,
-      target: undefined,
-      targetElement: undefined,
-    };
+    const date = new Date(2023, 9, 12);
+    componentInstance.theSearchDate.patchValue(date);
+    componentInstance.runningTimer = true;
+    spyOn(componentInstance.triggerFilter, 'emit');
 
     // Call the function to test
+    const event: MatDatepickerInputEvent<Date> = { target: undefined, targetElement: undefined, value: componentInstance.theSearchDate.value };
     componentInstance.dateSelectionEvent(event);
 
     // Expectations
-    expect(componentInstance.formControl.value).toBe('2023-10-12'); // Replace with your actual form control variable
-    expect(componentInstance.selectedValue).toBe('2023-10-12');
-    expect(componentInstance.theSearchElement).toBe('2023-10-12');
+    expect(componentInstance.formControl.value).toEqual('2023-10-12');
+    expect(componentInstance.runningTimer).toEqual(false);
+    expect(componentInstance.cleared).toEqual(false);
+    expect(componentInstance.triggerFilter.emit).toHaveBeenCalled();
   });
+
+  it('should format the data correctly when the date is manually typed into the date filter.', async () => {
+    const { fixture } = await renderMultiSelectAutoCompleteComponent(true);
+    const { componentInstance } = fixture;
+
+    componentInstance.theSearchDate.patchValue(new Date(2023, 9, 12));
+    componentInstance.runningTimer = true;
+    spyOn(componentInstance.triggerFilter, 'emit');
+
+    // Call the function to test
+    componentInstance.onBlur('dateFilter');
+
+    // Expectations
+    expect(componentInstance.formControl.value).toBe('2023-10-12');
+    expect(componentInstance.runningTimer).toBe(false);
+    expect(componentInstance.cleared).toBe(false);
+    expect(componentInstance.triggerFilter.emit).toHaveBeenCalled();
+  });
+
+
+  it('should reset the date search only once if input empty.', async () => {
+    const { fixture } = await renderMultiSelectAutoCompleteComponent(true);
+    const { componentInstance } = fixture;
+
+    componentInstance.runningTimer = true;
+    componentInstance.formControl.patchValue('2023-12-06');
+    componentInstance.theSearchDate.patchValue(null);
+    componentInstance.cleared = false;
+    spyOn(componentInstance.triggerFilter, 'emit');
+
+    // Call the function to test
+    componentInstance.triggerFiltering('date');
+    componentInstance.triggerFiltering('date');
+    // Expectations
+    expect(componentInstance.formControl.value).toBe(null);
+    expect(componentInstance.runningTimer).toBe(false);
+    expect(componentInstance.triggerFilter.emit).toHaveBeenCalledTimes(1);
+  });
+
+  it('should create the correct class lists for the status options', async () => {
+    const { fixture } = await renderMultiSelectAutoCompleteComponent(false, true);
+    const { componentInstance } = fixture;
+
+    //modify wanted changes
+    componentInstance.options = [{
+      display: 'status.ACCEPTED',
+      value: 'ACCEPTED',
+      checked: false,
+      displayClass: 'notification-display-status--ACCEPTED',
+    },
+    {
+      display: 'status.DECLINDED',
+      value: 'DECLINDED',
+      checked: false,
+      displayClass: 'notification-display-status--DECLINDED',
+    }];
+    componentInstance.optionClasses = {};
+
+    //apply changes via ngOnInit();
+    componentInstance.ngOnInit();
+
+    //expected value
+    const expectedClasses = {
+      'status.ACCEPTED': { 'body-large': true, 'notification-display-status': true, 'notification-display-status--ACCEPTED': true },
+      'status.DECLINDED': { 'body-large': true, 'notification-display-status': true, 'notification-display-status--DECLINDED': true },
+    }
+
+    //expect
+    expect(componentInstance.optionClasses).toEqual(expectedClasses);
+  });
+
+  it('should create the correct class lists for the severity options', async () => {
+    const { fixture } = await renderMultiSelectAutoCompleteComponent(false, true);
+    const { componentInstance } = fixture;
+
+    //modify wanted changes
+    componentInstance.multiple = true;
+    componentInstance.isDate = false;
+    componentInstance.textSearch = false;
+    componentInstance.options = [
+      {
+        display: 'severity.' + Severity.MINOR,
+        value: 0,
+        checked: false,
+        severity: Severity.MINOR,
+      },
+      {
+        display: 'severity.' + Severity.MAJOR,
+        value: 1,
+        checked: false,
+        severity: Severity.MAJOR,
+      },
+      {
+        display: 'severity.' + Severity.CRITICAL,
+        value: 2,
+        checked: false,
+        severity: Severity.CRITICAL
+      },
+      {
+        display: 'severity.' + Severity.LIFE_THREATENING,
+        value: 3,
+        checked: false,
+        severity: Severity.LIFE_THREATENING,
+      },
+    ];
+    componentInstance.optionClasses = {};
+
+    //apply changes via ngOnInit();
+    componentInstance.ngOnInit();
+
+    //expected value
+    const expectedClasses = {
+      'severity.MINOR': { 'body-large': true, 'notification-display-severity': true },
+      'severity.MAJOR': { 'body-large': true, 'notification-display-severity': true },
+      'severity.CRITICAL': { 'body-large': true, 'notification-display-severity': true },
+      'severity.LIFE-THREATENING': { 'body-large': true, 'notification-display-severity': true },
+    }
+
+    //epxect
+    expect(componentInstance.optionClasses).toEqual(expectedClasses);
+    expect(componentInstance.isSeverity).toEqual(true);
+
+  });
+
+  it('should trigger text search when the onBlur function is called.', async () => {
+    const { fixture } = await renderMultiSelectAutoCompleteComponent();
+    const { componentInstance } = fixture;
+
+    //setup
+    componentInstance.runningTimer = true;
+    componentInstance.theSearchElement = 'Search Value';
+    spyOn(componentInstance.triggerFilter, 'emit');
+
+    // Call the function to test
+    componentInstance.onBlur('textFilter');
+
+    // Expectations
+    expect(componentInstance.filterActive).toEqual('Search Value');
+    expect(componentInstance.runningTimer).toBe(false);
+    expect(componentInstance.triggerFilter.emit).toHaveBeenCalled();
+  });
+
+  it('should trigger option search when the onBlur function is called.', async () => {
+    const { fixture } = await renderMultiSelectAutoCompleteComponent();
+    const { componentInstance } = fixture;
+
+    //setup
+    componentInstance.runningTimer = true;
+    spyOn(componentInstance.triggerFilter, 'emit');
+
+    // Call the function to test
+    componentInstance.onBlur('selectionFilter');
+
+    // Expectations
+    expect(componentInstance.runningTimer).toBe(false);
+    expect(componentInstance.triggerFilter.emit).toHaveBeenCalled();
+  });
+
 });

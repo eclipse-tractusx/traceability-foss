@@ -28,7 +28,8 @@ SPDX-License-Identifier: Apache-2.0
       [formControl]="formControl"
       matInput
       class="filter-input__textarea-input"
-      data-testid="multi-select-autocomplete--text-search-input" />
+      data-testid="multi-select-autocomplete--text-search-input"
+      (blur)="onBlur('textFilter')" />
     <mat-hint>{{ 'multiSelect.inputTextHint' | i18n }}</mat-hint>
   </mat-form-field>
 
@@ -57,11 +58,17 @@ SPDX-License-Identifier: Apache-2.0
     </div>
     <div *ngFor="let option of options">
       <mat-checkbox color="accent"
-        class="body-large"
+        [class]="optionClasses[option['display']]"
         [(ngModel)]="option.checked"
         (change)="toggleSelect($event, false)"
-        data-testid="multi-select-autocomplete--multi-option-search-selct-one">{{ option[display] | i18n
-        }}</mat-checkbox>
+        data-testid="multi-select-autocomplete--multi-option-search-selct-one"
+        (blur)="onBlur('selectionFilter')">
+        <img *ngIf="isSeverity"
+          [src]="option.iconURL"
+          alt="{{ option[display] | i18n}}"
+          class="pr-3.5">{{ option[display] | i18n
+        }}
+      </mat-checkbox>
     </div>
   </div>
 
@@ -71,34 +78,20 @@ SPDX-License-Identifier: Apache-2.0
     *ngIf="isDate"
     data-testid="multi-select-autocomplete--date-search-form">
     <mat-label>{{ 'multiSelect.inputLabelDate' | i18n }}</mat-label>
-    <input [value]="theSearchElement"
-      matInput
+    <input matInput
       [matDatepicker]="datepicker"
+      [formControl]="theSearchDate"
+      maxlength="10"
       [max]="maxDate"
-      (dateInput)="dateSelectionEvent($event)"
+      (dateInput)="triggerFilteringTimeout('date')"
       (dateChange)="dateSelectionEvent($event)"
-      disabled />
+      (blur)="onBlur('dateFilter')" />
     <mat-datepicker-toggle matIconSuffix
       [for]="datepicker"></mat-datepicker-toggle>
-    <mat-datepicker disabled="false"
-      #datepicker
-      color="primary"
-      class="Test">
-      <mat-datepicker-actions>
-        <button class="filter-input__datepicker-buttons-reset"
-          (click)="clickClear(); this.triggerFilter.emit()"
-          mat-button
-          matDatepickerCancel>
-          {{ 'datepicker.reset' | i18n }}
-        </button>
-        <button class="filter-input__datepicker-buttons-filter"
-          mat-raised-button
-          color="primary"
-          matDatepickerApply
-          (click)="this.triggerFilter.emit()">
-          {{ 'datepicker.filter' | i18n }}
-        </button>
-      </mat-datepicker-actions>
+    <mat-datepicker #datepicker
+      panelClass="input__datepicker"
+      color="primary">
     </mat-datepicker>
   </mat-form-field>
+
 </div>

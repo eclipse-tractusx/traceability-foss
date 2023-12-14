@@ -26,22 +26,26 @@ import {
   OnChanges,
   Output,
   ViewChild,
-  ViewEncapsulation,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { DatePipe, registerLocaleData } from '@angular/common';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
-import localeDe from '@angular/common/locales/de';
-import localeDeExtra from '@angular/common/locales/extra/de';
 import { MatSelect } from '@angular/material/select';
 import { pairwise, startWith } from 'rxjs';
+import { CustomDateAdapter } from '@shared/helper/custom-date-adapter';
+import { Platform } from '@angular/cdk/platform';
+import { MatDatepicker, MatDatepickerInputEvent } from '@angular/material/datepicker';
+import localeDe from '@angular/common/locales/de';
+import localeDeExtra from '@angular/common/locales/extra/de';
+
 
 @Component({
   selector: 'app-multiselect',
   templateUrl: 'multi-select-autocomplete.component.html',
   styleUrls: ['multi-select-autocomplete.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+  providers: [
+    { provide: DateAdapter, useClass: CustomDateAdapter, deps: [MAT_DATE_LOCALE, Platform] },
+  ],
 })
 export class MultiSelectAutocompleteComponent implements OnChanges {
   @Input()
@@ -74,17 +78,16 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   @Input()
   appearance = 'standard';
 
-  public readonly minDate = new Date();
 
   @ViewChild('searchInput', { static: true }) searchInput: any;
 
-  theSearchElement = '';
+  @ViewChild('selectElem', { static: true }) selectElem: MatSelect;
+  @ViewChild(MatDatepicker) datePicker: MatDatepicker<Date>;
 
   @Output() triggerFilter = new EventEmitter<void>();
 
   selectionChange: EventEmitter<any> = new EventEmitter();
 
-  @ViewChild('selectElem', { static: true }) selectElem: MatSelect;
   public filterName = 'filterLabel';
   public filteredOptions: Array<any> = [];
   public selectedValue: Array<any> = [];
@@ -94,6 +97,12 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   public filterActive = '';
   public searched = false;
   private inputTimer;
+  public runningTimer = false;
+  public optionClasses = {};
+  public isSeverity = false;
+  public theSearchElement = '';
+  public theSearchDate: FormControl<Date> = new FormControl();
+  public cleared = true;
 
   constructor(
     public datePipe: DatePipe,
@@ -101,20 +110,27 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     @Inject(MAT_DATE_LOCALE) public _locale: string,
     @Inject(LOCALE_ID) private locale: string,
   ) {
+    let localeTime = 'en-GB';
+    if (locale === 'de') {
+      localeTime = 'de-DE';
+    }
     registerLocaleData(localeDe, 'de', localeDeExtra);
-    this._adapter.setLocale(locale);
+    this._adapter.setLocale(localeTime);
+    this._adapter.getFirstDayOfWeek = () => { return 1; };
   }
+
   ngOnInit(): void {
     if (this.textSearch) {
       this.formControl.valueChanges.pipe(startWith(0), pairwise()).subscribe(([_prev, next]: [any, any]) => {
         this.theSearchElement = next;
         this.searched = true;
-        this.triggerFilteringTimeout(true);
+        this.triggerFilteringTimeout('text');
       });
     } else if (this.isDate) {
       this.filterName = 'filterLabelDate';
     } else if (this.multiple) {
       this.filterName = 'filterLabelSelect';
+      this.setColumnClass();
     }
   }
 
@@ -127,14 +143,33 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     }
   }
 
-  private triggerFilteringTimeout(isTextSearch: boolean): void {
+  public triggerFilteringTimeout(searchType: string): void {
+    this.runningTimer = true;
+    let timeoutTime = 200;
+    if (searchType === 'text') {
+      timeoutTime = 500;
+    } else if (searchType === 'date') {
+      timeoutTime = 750;
+    }
     clearTimeout(this.inputTimer);
     this.inputTimer = setTimeout(() => {
-      if (isTextSearch) {
-        this.setFilterActive();
+      this.triggerFiltering(searchType);
+    }, timeoutTime);
+  }
+
+  public triggerFiltering(searchType: string): void {
+    this.runningTimer = false;
+    if (searchType === 'text') {
+      this.setFilterActive();
+    } else if (searchType === 'date') {
+      const value = this.datePipe.transform(this.theSearchDate.value, 'yyyy-MM-dd');
+      this.formControl.patchValue(value);
+      if (this.cleared && value === null) {
+        return;
       }
-      this.triggerFilter.emit();
-    }, 500);
+      this.cleared = value === null;
+    }
+    this.triggerFilter.emit();
   }
 
   public toggleSelect = function (val: any, isSelectAll: boolean): void {
@@ -151,7 +186,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     } else if (!isSelectAll && val.checked && !this.selectAllChecked && this.options.filter(option => !option.checked).length === 0) {
       this.selectAllChecked = true;
     }
-    this.triggerFilteringTimeout(false);
+    this.triggerFilteringTimeout('multiple');
   };
 
 
@@ -164,14 +199,22 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   }
 
   public dateSelectionEvent(event: MatDatepickerInputEvent<Date>) {
+    if (this.runningTimer) {
+      clearTimeout(this.inputTimer);
+      this.runningTimer = false;
+    }
     const value = this.datePipe.transform(event.value, 'yyyy-MM-dd');
     this.formControl.patchValue(value);
-    this.selectedValue = value as unknown as [];
-    this.theSearchElement = value;
+    if (this.cleared && value === null) {
+      return;
+    }
+    this.cleared = value === null;
+    this.triggerFilter.emit();
   }
 
   public clickClear(extern = false): boolean {
     let wasSet = false;
+    this.cleared = true;
     if (this.searchInput) {
       this.searchInput.value = '';
     }
@@ -179,14 +222,46 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     this.selectedValue = [];
     wasSet = this.formControl.value !== null && ((Array.isArray(this.formControl.value) && this.formControl.value.length > 0) || (!Array.isArray(this.formControl.value) && this.formControl.value !== ''));
     this.formControl.patchValue('');
+    this.theSearchDate.patchValue(null);
     this.formControl.reset();
     if (extern) {
       clearTimeout(this.inputTimer);
+      this.runningTimer = false;
       this.filterActive = '';
       this.searched = false;
     }
-
     return wasSet;
+  }
+
+  private setColumnClass(): void {
+    for (const option of this.options) {
+      const optionClass = { 'body-large': true };
+      if (option['display'].includes('status')) {
+        optionClass['notification-display-status'] = true;
+        optionClass[option['displayClass']] = true;
+      } else if (option['display'].includes('severity')) {
+        optionClass['notification-display-severity'] = true;
+        this.isSeverity = true;
+      }
+      this.optionClasses[option['display']] = optionClass;
+    }
+  }
+
+  public onBlur(inputfield: string): void {
+    if (this.runningTimer) {
+      let triggeredFilter = '';
+      clearTimeout(this.inputTimer);
+      if (inputfield === 'textFilter') {
+        triggeredFilter = 'text';
+      } else if (inputfield === 'dateFilter') {
+        triggeredFilter = 'date';
+      } else if (inputfield === 'selectionFilter') {
+        triggeredFilter = 'multiple';
+      }
+      if (triggeredFilter !== '') {
+        this.triggerFiltering(triggeredFilter);
+      }
+    }
 
   }
 }

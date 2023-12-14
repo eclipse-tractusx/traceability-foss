@@ -190,7 +190,7 @@ describe('TableComponent', () => {
           filterKey: 'status',
           isTextSearch: false,
           isDate: false,
-          option: [{ display: 'status1', value: 'status1', checked: false }],
+          option: [{ display: 'status1.', value: 'status1', checked: false }],
         },
       ],
     };
@@ -332,7 +332,6 @@ describe('TableComponent', () => {
     const tableSize = 3;
     const content = generateTableContent(tableSize);
     const paginationData = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
-
     const tableConfig: TableConfig = {
       displayedColumns: ['description', 'createdDate', 'status'],
       header: { name: 'Name Sort' },
@@ -343,7 +342,7 @@ describe('TableComponent', () => {
           filterKey: 'status',
           isTextSearch: false,
           isDate: false,
-          option: [{ display: 'status1', value: 'status1', checked: false }],
+          option: [{ display: 'status1.', value: 'status1', checked: false }],
         },
       ],
     };

@@ -198,9 +198,7 @@ SPDX-License-Identifier: Apache-2.0
               <div *ngIf="column !== '!'"
                 (click)="$event.stopPropagation()"
                 class="table--header--row__filter"
-                [matMenuTriggerFor]="selectMenu"
-                (menuOpened)="isMenuOpen = true"
-                (menuClosed)="isMenuOpen = false">
+                [matMenuTriggerFor]="selectMenu">
                 <div class="table--header--row__filter--border--top"></div>
                 <div class="table--header--row__filter--content">
                   <img src="\assets\images\icons\filterAltIcon.svg"

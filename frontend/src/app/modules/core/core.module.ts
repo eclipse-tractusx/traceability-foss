@@ -100,4 +100,4 @@ import { ErrorPageModule } from '@page/error-page/error-page.module';
   ],
   bootstrap: [AppComponent],
 })
-export class CoreModule {}
+export class CoreModule { }

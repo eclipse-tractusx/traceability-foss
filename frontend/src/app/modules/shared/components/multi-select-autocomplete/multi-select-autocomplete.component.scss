@@ -29,18 +29,15 @@
   border-radius: 10px;
   box-shadow: 0px 15px 25px 0px #3333330d, -10px -10px 15px 0px #ffffff1a, 0px 0px 25px 0px #33333308;
 
-  &__textarea-input {
-    //body-large-emphasis (but needs !important)
-    @apply font-medium m-0 p-0;
-    font-size: 20px !important;
-    letter-spacing: 0 !important;
-    line-height: 140% !important;
+  input {
+    @extend .body-large-emphasis;
   }
   &__textarea-button {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 8px 12px;
+    text-align: left;
   }
   &__option-list {
     display: flex;
@@ -59,72 +56,5 @@
       font-size: 14px;
       padding-top: 10px;
     }
-  }
-  &__datepicker-buttons {
-    &-reset {
-      border: 2px solid #4d4d4d !important;
-      border-radius: 100px !important;
-      padding: 10px 24px !important;
-      .mdc-button__label {
-        @extend .label-large;
-        color: #4d4d4d;
-      }
-    }
-    &-filter {
-      border-radius: 100px !important;
-      padding: 10px 24px !important;
-      .mdc-button__label {
-        @extend .label-large;
-        color: white;
-      }
-    }
-  }
-  .mat-mdc-form-field-infix {
-    display: flex;
-    justify-content: center;
-  }
-  .mat-mdc-floating-label {
-    padding-bottom: 0 !important;
-    display: flex;
-    justify-content: center;
-    @extend .body-large;
-  }
-}
-
-app-multiselect .mat-mdc-form-field {
-  --mat-mdc-form-field-floating-label-scale: 1;
-}
-
-app-multiselect .mat-datepicker-content {
-  border-radius: 10px !important;
-}
-
-app-multiselect .mat-datepicker-actions {
-  padding: 10px 20px 20px 20px !important;
-  justify-content: space-between !important;
-}
-
-app-multiselect .mat-calendar {
-  height: auto !important;
-}
-
-app-multiselect .mat-calendar-header {
-  padding: 0 0 0 22px !important;
-}
-
-app-multiselect .mat-calendar-body-label {
-  opacity: 0;
-}
-app-multiselect .mat-calendar-body-label[colspan='7'] {
-  display: none;
-}
-app-multiselect .mdc-button__label > span {
-  @extend .body-small-emphasis;
-}
-
-.filter-input__textarea .mat-mdc-form-field-subscript-wrapper {
-  display: block;
-  .mat-mdc-form-field-hint-wrapper {
-    padding: 0;
   }
 }
