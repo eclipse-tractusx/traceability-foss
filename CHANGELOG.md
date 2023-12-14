@@ -8,6 +8,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 ### Changed
 - Restricted datefield on investigation creation to be only clickable and not editable
+###
+- Removed duplication of request notification component and combined it into a reusable component
 
 ## [10.0.0 - 12.12.2024]
 ### Added

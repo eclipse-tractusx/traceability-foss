@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -34,7 +32,7 @@ import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-notification-request',
-  templateUrl: './request-notification.component.html',
+  templateUrl: './notification-request.component.html',
 })
 export class RequestNotificationComponent {
   @Input() selectedItems: Part[];
@@ -46,7 +44,7 @@ export class RequestNotificationComponent {
 
   @Input() set notificationType(notificationType: NotificationType) {
     this.context = notificationType === NotificationType.INVESTIGATION ? 'requestInvestigations' : 'requestAlert';
-    this.isInvestigation = this.notificationType === NotificationType.INVESTIGATION;
+    this.isInvestigation = notificationType === NotificationType.INVESTIGATION;
     this.formGroup.addControl('description', new FormControl('', [ Validators.required, Validators.maxLength(1000), Validators.minLength(15) ]));
     this.formGroup.addControl('severity', new FormControl(Severity.MINOR, [ Validators.required ]));
     if (this.isInvestigation) {
@@ -81,15 +79,21 @@ export class RequestNotificationComponent {
   }
 
   protected onUnsuccessfulSubmit(): void {
+    console.log("AFTER onUnsuccessfulSubmit");
     this.isLoading$.next(false);
     this.formGroup.enable();
   }
 
   public submit(): void {
+    console.log("BEFORE SUBMIT");
+
     this.prepareSubmit();
+
     if (this.formGroup.invalid) return;
     const partIds = this.selectedItems.map(part => part.id);
+    console.log("AFTER SUBMIT");
     if (this.isInvestigation) {
+      console.log("AFTER isInvestigation");
       const { description, severity, targetDate } = this.formGroup.value;
       const { link, queryParams } = getRoute(INVESTIGATION_BASE_ROUTE, NotificationStatusGroup.QUEUED_AND_REQUESTED);
       this.notificationService.createInvestigation(partIds, description, severity, targetDate).subscribe({
@@ -113,10 +117,12 @@ export class RequestNotificationComponent {
   }
 
   protected onSuccessfulSubmit(link: string, linkQueryParams: Record<string, string>): void {
+    console.log("SUCCESS");
     this.isLoading$.next(false);
     const amountOfItems = this.selectedItems.length;
     this.resetForm();
-
+    console.log("AFTER onSuccessfulSubmit" +
+        "");
     this.openToast(amountOfItems, link, linkQueryParams);
   }
 
@@ -150,5 +156,16 @@ export class RequestNotificationComponent {
 
     this.formGroup.markAsUntouched();
     this.formGroup.reset();
+  }
+
+
+  public cancelAction(part: Part): void {
+    this.removedItemsHistory.unshift(part);
+    this.deselectPart.emit(part);
+  }
+
+  public restoreLastItem(): void {
+    this.restorePart.emit(this.removedItemsHistory[0]);
+    this.removedItemsHistory.shift();
   }
 }

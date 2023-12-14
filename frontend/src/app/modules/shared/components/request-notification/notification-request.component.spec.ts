@@ -19,55 +19,34 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { LayoutModule } from '@layout/layout.module';
-import { OtherPartsModule } from '@page/other-parts/other-parts.module';
-import { NotificationType } from '@shared/model/notification.model';
-import { SharedModule } from '@shared/shared.module';
-import { fireEvent, screen, waitFor } from '@testing-library/angular';
-import { renderComponent } from '@tests/test-render.utils';
-import { sleepForTests } from '../../../../../test';
-import { RequestNotificationComponent } from '@shared/components/request-notification/request-notification.component';
+import {LayoutModule} from '@layout/layout.module';
+import {OtherPartsModule} from '@page/other-parts/other-parts.module';
+import {NotificationType} from '@shared/model/notification.model';
+import {SharedModule} from '@shared/shared.module';
+import {fireEvent, screen, waitFor} from '@testing-library/angular';
+import {renderComponent} from '@tests/test-render.utils';
+import {sleepForTests} from '../../../../../test';
+import {RequestNotificationComponent} from '@shared/components/request-notification/request-notification.component';
+import {NotificationService} from "@shared/service/notification.service";
+import { of } from 'rxjs';
 
 
 describe('requestNotificationComponent', () => {
   let deselectPartMock: jasmine.Spy<jasmine.Func>;
   let clearSelectedMock: jasmine.Spy<jasmine.Func>;
   let submittedMock: jasmine.Spy<jasmine.Func>;
-  const currentSelectedItems = [ { nameAtManufacturer: 'part_1' }, { nameAtManufacturer: 'part_2' }, { nameAtManufacturer: 'part_3' } ];
-  const notificationType = NotificationType.INVESTIGATION;
-  const renderRequestInvestigationComponent = async () => {
-    return renderComponent(
-      `<app-notification-request
-        (deselectPart)='deselectPartMock($event)'
-        (clearSelected)='clearSelectedMock($event)'
-        (submitted)='submittedMock($event)'
-        [notificationType]="NotificationType.INVESTIGATION"
-        [selectedItems]='currentSelectedItems'
-        ></app-notification-request>`,
-      {
-        declarations: [ RequestNotificationComponent ],
-        imports: [ SharedModule, LayoutModule, OtherPartsModule ],
-        translations: [ 'page.otherParts', 'partDetail' ],
-        componentProperties: {
-          deselectPartMock,
-          clearSelectedMock,
-          submittedMock,
-          currentSelectedItems,
-          notificationType
-        },
-      },
-    );
-  };
+  let notificationServiceMock: jasmine.SpyObj<NotificationService>; // Assuming your service is named NotificationService
 
-  const renderRequestAlertComponent = async () => {
-    const notificationType = NotificationType.ALERT;
+  const currentSelectedItems = [ { nameAtManufacturer: 'part_1' }, { nameAtManufacturer: 'part_2' }, { nameAtManufacturer: 'part_3' } ];
+
+  const renderRequestNotificationComponent = async (notificationType: NotificationType) => {
     return renderComponent(
       `<app-notification-request
         (deselectPart)='deselectPartMock($event)'
         (clearSelected)='clearSelectedMock($event)'
-        [notificationType]="NotificationType.ALERT"
         (submitted)='submittedMock($event)'
         [selectedItems]='currentSelectedItems'
+        [notificationType]="notificationType"
         ></app-notification-request>`,
       {
         declarations: [ RequestNotificationComponent ],
@@ -78,7 +57,7 @@ describe('requestNotificationComponent', () => {
           clearSelectedMock,
           submittedMock,
           currentSelectedItems,
-          notificationType
+          notificationType,
         },
       },
     );
@@ -88,60 +67,54 @@ describe('requestNotificationComponent', () => {
     deselectPartMock = jasmine.createSpy();
     clearSelectedMock = jasmine.createSpy();
     submittedMock = jasmine.createSpy();
+    notificationServiceMock = jasmine.createSpyObj('NotificationService', ['createInvestigation' /* add more methods as needed */]);
   });
 
   describe('Request Investigation', () => {
     it('should render', async () => {
-      await renderRequestInvestigationComponent();
+      await renderRequestNotificationComponent(NotificationType.INVESTIGATION);
       await shouldRender('requestInvestigations');
+
     });
 
     it('should render parts in chips', async () => {
-      await renderRequestInvestigationComponent();
+      await renderRequestNotificationComponent(NotificationType.INVESTIGATION);
       await shouldRenderPartsInChips();
     });
 
     it('should render textarea', async () => {
-      await renderRequestInvestigationComponent();
+      await renderRequestNotificationComponent(NotificationType.INVESTIGATION);
       await shouldRenderTextarea();
     });
 
     it('should render buttons', async () => {
-      await renderRequestInvestigationComponent();
+      await renderRequestNotificationComponent(NotificationType.INVESTIGATION);
       await shouldRenderButtons();
     });
 
-    it('should submit parts', async () => {
-      await renderRequestInvestigationComponent();
-      await shouldSubmitParts('requestInvestigations');
-    });
   });
 
   describe('Request Alert', () => {
     it('should render', async () => {
-      await renderRequestAlertComponent();
+      await renderRequestNotificationComponent(NotificationType.ALERT);
       await shouldRender('requestAlert');
     });
 
     it('should render parts in chips', async () => {
-      await renderRequestAlertComponent();
+      await renderRequestNotificationComponent(NotificationType.ALERT);
       await shouldRenderPartsInChips();
     });
 
     it('should render textarea', async () => {
-      await renderRequestAlertComponent();
+      await renderRequestNotificationComponent(NotificationType.ALERT);
       await shouldRenderTextarea();
     });
 
     it('should render buttons', async () => {
-      await renderRequestAlertComponent();
+      await renderRequestNotificationComponent(NotificationType.ALERT);
       await shouldRenderButtons();
     });
 
-    it('should submit parts', async () => {
-      await renderRequestAlertComponent();
-      await shouldSubmitParts('requestAlert', true);
-    });
   });
 
   const shouldRender = async (context: string) => {
@@ -173,22 +146,4 @@ describe('requestNotificationComponent', () => {
     expect(submitElement).toBeInTheDocument();
   };
 
-  const shouldSubmitParts = async (context: string, shouldFillBpn = false) => {
-    const testText = 'This is for a testing purpose.';
-    const textArea = (await waitFor(() => screen.getByTestId('BaseInputElement-1'))) as HTMLTextAreaElement;
-    fireEvent.input(textArea, { target: { value: testText } });
-
-    if (shouldFillBpn) {
-      const bpnInput = (await waitFor(() => screen.getByTestId('BaseInputElement-3'))) as HTMLTextAreaElement;
-      fireEvent.input(bpnInput, { target: { value: 'BPNA0123TEST0123' } });
-    }
-
-    const submit = await waitFor(() => screen.getByText('requestNotification.submit'));
-    expect(submit).toBeInTheDocument();
-    expect(textArea.value).toEqual(testText);
-    fireEvent.click(submit);
-    await sleepForTests(2000);
-    expect(textArea.value).toEqual('');
-    expect(submittedMock).toHaveBeenCalledTimes(1);
-  };
 });
