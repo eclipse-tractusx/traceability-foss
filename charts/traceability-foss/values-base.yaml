@@ -1,22 +1,20 @@
 #
-#  Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
-#  Copyright (c) 2022, 2023 ZF Friedrichshafen AG
-#  Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+# Copyright (c) 2023 Contributors to the Eclipse Foundation
 #
-#  See the NOTICE file(s) distributed with this work for additional
-#  information regarding copyright ownership.
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
 #
-#  This program and the accompanying materials are made available under the
-#  terms of the Apache License, Version 2.0 which is available at
-#  https://www.apache.org/licenses/LICENSE-2.0.
+# This program and the accompanying materials are made available under the
+# terms of the Apache License, Version 2.0 which is available at
+# https://www.apache.org/licenses/LICENSE-2.0.
 #
-#  Unless required by applicable law or agreed to in writing, software
-#  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-#  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-#  License for the specific language governing permissions and limitations
-#  under the License.
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
 #
-#  SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: Apache-2.0
 #
 
 #########################
@@ -30,6 +28,8 @@ global:
 # Frontend Chart Values configuration     #
 #########################
 frontend:
+  nameOverride: 'CHANGE_ME'
+  fullnameOverride: 'CHANGE_ME'
   livenessProbe:
     failureThreshold: 3
     initialDelaySeconds: 60
@@ -45,14 +45,11 @@ frontend:
   image:
     repository: ghcr.io/catenax-ng/tx-traceability-foss
     tag: $ARGOCD_APP_REVISION
-    CATENAX_PORTAL_API_URL: '<path:traceability-foss/data/test/frontend#catenax_portal_api_url>'
-    CATENAX_PORTAL_KEYCLOAK_URL: '<path:traceability-foss/data/test/frontend#catenax_portal_keycloak_url>'
-    CATENAX_PORTAL_BACKEND_DOMAIN: '<path:traceability-foss/data/test/frontend#catenax_portal_backend_domain>'
-    CATENAX_PORTAL_URL: '<path:traceability-foss/data/test/frontend#catenax_portal_url>'
-    CATENAX_PORTAL_CLIENT_ID: '<path:traceability-foss/data/test/frontend#catenax_portal_client_id>' # Cl17-CX-Part
-
-  nameOverride: "tx-frontend-test"
-  fullnameOverride: "tx-frontend-test"
+    CATENAX_PORTAL_API_URL: 'CHANGE_ME'
+    CATENAX_PORTAL_KEYCLOAK_URL: 'CHANGE_ME'
+    CATENAX_PORTAL_BACKEND_DOMAIN: 'CHANGE_ME'
+    CATENAX_PORTAL_URL: 'CHANGE_ME'
+    CATENAX_PORTAL_CLIENT_ID: 'CHANGE_ME'
 
   ingress:
     enabled: true
@@ -60,19 +57,21 @@ frontend:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
     hosts:
-      - host: "traceability-portal-test.dev.demo.catena-x.net"
+      - host: 'CHANGE_ME'
         paths:
           - path: /
             pathType: ImplementationSpecific
     tls:
       - hosts:
-          - "traceability-portal-test.dev.demo.catena-x.net"
-        secretName: "traceability-portal-test.dev.demo.catena-x.net-tls"
+          - 'CHANGE_ME'
+        secretName: 'CHANGE_ME'
 
 #########################
 # Backend Chart Values configuration     #
 #########################
 backend:
+  nameOverride: 'CHANGE_ME'
+  fullnameOverride: 'CHANGE_ME'
   livenessProbe:
     failureThreshold: 3
     initialDelaySeconds: 60
@@ -89,8 +88,7 @@ backend:
     repository: ghcr.io/catenax-ng/tx-traceability-foss
     tag: $ARGOCD_APP_REVISION
 
-  nameOverride: "tx-backend-test"
-  fullnameOverride: "tx-backend-test"
+
 
 
   podSecurityContext:
@@ -128,63 +126,63 @@ backend:
     annotations:
       nginx.ingress.kubernetes.io/backend-protocol: HTTP
     hosts:
-      - host: "traceability-test.dev.demo.catena-x.net"
+      - host: 'CHANGE_ME'
         paths:
           - path: /
             pathType: ImplementationSpecific
     tls:
       - hosts:
-          - "traceability-test.dev.demo.catena-x.net"
+          - 'CHANGE_ME'
         secretName: tls-secret
 
   traceability:
-    bpn: "BPNL00000003CNKC"
-    url: "https://traceability-test.dev.demo.catena-x.net"
+    bpn: 'CHANGE_ME'
+    url: 'CHANGE_ME'
 
   datasource:
-    url: jdbc:postgresql://tx-backend-postgresql-test-hl:5432/trace
+    url: 'CHANGE_ME'
     username: trace
-    password: <path:traceability-foss/data/dev/database#tracePassword>
+    password: 'CHANGE_ME'
 
   oauth2:
-    clientId: <path:traceability-foss/data/int/keycloak/oauth2#clientId> #sa267
-    clientSecret: <path:traceability-foss/data/int/keycloak/oauth2#clientSecret>
-    clientTokenUri: "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
-    jwkSetUri: "https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs"
-    resourceClient: "Cl17-CX-Part"
+    clientId: 'CHANGE_ME'
+    clientSecret: 'CHANGE_ME'
+    clientTokenUri: 'CHANGE_ME'
+    jwkSetUri: 'CHANGE_ME'
+    resourceClient: 'CHANGE_ME'
 
   edc:
-    apiKey: "<path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>"
-    providerUrl: "https://tx-edc-consumer-test-controlplane.dev.demo.catena-x.net"
-    callbackUrl: "http://tx-irs-test:8181/internal/endpoint-data-reference"
-    callbackUrlEdcClient: "https://traceability-test.dev.demo.catena-x.net/api/internal/endpoint-data-reference"
-    dataEndpointUrl: "https://tx-edc-consumer-test-controlplane.dev.demo.catena-x.net/management"
+    apiKey: 'CHANGE_ME'
+    providerUrl: 'CHANGE_ME'
+    callbackUrl: 'CHANGE_ME'
+    callbackUrlEdcClient: 'CHANGE_ME'
+    dataEndpointUrl: 'CHANGE_ME'
 
   discoveryfinder:
-    baseUrl: "https://tracex-discovery-mock-test.dev.demo.catena-x.net/api/v1.0/administration/connectors/discovery/search"
+    baseUrl: 'CHANGE_ME'
 
   irs:
-    baseUrl: "https://tx-irs-test.dev.demo.catena-x.net"
+    baseUrl: 'CHANGE_ME'
   registry:
-    urlWithPath: "https://trace-x-registry-test.dev.demo.catena-x.net/semantics/registry/api/v3.0"
+    urlWithPath: 'CHANGE_ME'
   portal:
-    baseUrl: "https://portal-backend.dev.demo.catena-x.net/api"
+    baseUrl: 'CHANGE_ME'
 
   config:
     allowedCorsOriginFirst: "http://localhost:4200/"
-    allowedCorsOriginSecond: "https://traceability-portal-test.dev.demo.catena-x.net/"
+    allowedCorsOriginSecond: 'CHANGE_ME'
 
   dependencies:
     enabled: true
-    irs: "tx-irs-test"  # <irs-helm.nameOverride>
-    edc: "tx-edc-consumer-test"  # <tractusx-connector.nameOverride
+    irs: 'CHANGE_ME'  # <irs-helm.nameOverride>
+    edc: 'CHANGE_ME'  # <tractusx-connector.nameOverride
 
 #########################
 # PG Admin configuration     #
 #########################
 pgadmin4:
-  nameOverride: "tx-pgadmin-test"
-  fullnameOverride: "tx-pgadmin-test"
+  nameOverride: 'CHANGE_ME'
+  fullnameOverride: 'CHANGE_ME'
   enabled: true
   strategy:
     type: Recreate
@@ -196,17 +194,17 @@ pgadmin4:
       kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/backend-protocol: HTTP
     hosts:
-      - host: tx-pgadmin-test.dev.demo.catena-x.net
+      - host: 'CHANGE_ME'
         paths:
           - path: /
             pathType: Prefix
     tls:
       - hosts:
-          - tx-pgadmin-test.dev.demo.catena-x.net
+          - 'CHANGE_ME'
         secretName: tls-secret
   env:
     email: pgadmin4@trace.foss
-    password: "<path:traceability-foss/data/dev/database#pgadminPassword>"
+    password: 'CHANGE_ME'
     variables:
       - name: PGADMIN_CONFIG_UPGRADE_CHECK_ENABLED
         value: "False"
@@ -224,21 +222,21 @@ pgadmin4:
 postgresql:
   enabled: true
 
-  nameOverride: "tx-backend-postgresql-test"
-  fullnameOverride: "tx-backend-postgresql-test"
+  nameOverride: 'CHANGE_ME'
+  fullnameOverride: 'CHANGE_ME'
 
   auth:
-    postgresPassword: "<path:traceability-foss/data/dev/database#postgresPassword>"
-    password: "<path:traceability-foss/data/dev/database#tracePassword>"
+    postgresPassword: 'CHANGE_ME'
+    password: 'CHANGE_ME'
     database: "trace"
-    username: "trace"
+    username: "trace"  # extract to vault
 
 #########################
 # IRS configuration     #
 #########################
 irs-helm:
+  bpn: 'CHANGE_ME'
   enabled: true
-  bpn: BPNL00000003CML1
 
   resources:
     limits:
@@ -248,81 +246,81 @@ irs-helm:
       cpu: 500m
       memory: 512Mi
 
-  nameOverride: "tx-irs-test"
-  fullnameOverride: "tx-irs-test"
+  nameOverride: 'CHANGE_ME'
+  fullnameOverride: 'CHANGE_ME'
   namespace: product-traceability-foss
   springprofile: dev
-  irsUrl: "https://tx-irs-test.dev.demo.catena-x.net"
+  irsUrl: 'CHANGE_ME'
   ingress:
     enabled: true
     hosts:
-      - host: "tx-irs-test.dev.demo.catena-x.net"
+      - host: 'CHANGE_ME'
         paths:
           - path: /
             pathType: ImplementationSpecific
     tls:
       - hosts:
-          - "tx-irs-test.dev.demo.catena-x.net"
+          - 'CHANGE_ME'
         secretName: tls-secret
   digitalTwinRegistry:
     type: decentral
-    descriptorEndpoint: https://trace-x-registry-test.dev.demo.catena-x.net/semantics/registry/api/v3.0/shell-descriptors/{aasIdentifier}
-    shellLookupEndpoint: https://trace-x-registry-test.dev.demo.catena-x.net/semantics/registry/api/v3.0/lookup/shells?assetIds={assetIds}
-    discoveryFinderUrl: https://tracex-discovery-mock-test.dev.demo.catena-x.net/irs/api/v1.0/administration/connectors/discovery/search
+    descriptorEndpoint: 'CHANGE_ME'
+    shellLookupEndpoint: 'CHANGE_ME'
+    discoveryFinderUrl: 'CHANGE_ME'
   semanticshub:
-    url: https://semantics.int.demo.catena-x.net/hub/api/v1/models
+    url: 'CHANGE_ME'
   bpdm:
-    url: https://partners-pool.int.demo.catena-x.net
+    url: 'CHANGE_ME'
 
-  minioUser: <path:traceability-foss/data/dev/minio#user>
-  minioPassword: <path:traceability-foss/data/dev/minio#password>
-  minioUrl: http://tx-irs-minio-test:9000
+  minioUser: 'CHANGE_ME'
+  minioPassword: 'CHANGE_ME'
+  minioUrl: 'CHANGE_ME'
 
   keycloak:
     oauth2:
-      clientId: <path:traceability-foss/data/int/keycloak/oauth2#clientId> #sa267
-      clientSecret: <path:traceability-foss/data/int/keycloak/oauth2#clientSecret>
-      clientTokenUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
-      jwkSetUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
+      clientId: 'CHANGE_ME'
+      clientSecret: 'CHANGE_ME'
+      clientTokenUri: 'CHANGE_ME'
+      jwkSetUri: 'CHANGE_ME'
 
   edc:
-    callbackurl: http://tx-irs-test:8181/internal/endpoint-data-reference
+    callbackurl: 'CHANGE_ME'
     catalog:
       cache:
         enabled: "false"
     controlplane:
       endpoint:
-        data: https://tx-edc-consumer-test-controlplane.dev.demo.catena-x.net/management
+        data: 'CHANGE_ME'
         statesuffix: /state
       apikey:
-        secret: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
+        secret: 'CHANGE_ME'
 
   minio:
-    nameOverride: "tx-irs-minio-test"
-    fullnameOverride: "tx-irs-minio-test"
+    nameOverride: 'CHANGE_ME'
+    fullnameOverride: 'CHANGE_ME'
     serviceAccount:
       create: false
-    rootUser: <path:traceability-foss/data/dev/minio#user>
-    rootPassword: <path:traceability-foss/data/dev/minio#password>
+    rootUser: 'CHANGE_ME'
+    rootPassword: 'CHANGE_ME'
 
 
 ###################################
 # EDC Consumer configuration  #
 ###################################
 tractusx-connector:
-  nameOverride: "tx-edc-consumer-test"
-  fullnameOverride: "tx-edc-consumer-test"
+  nameOverride: 'CHANGE_ME'
+  fullnameOverride: 'CHANGE_ME'
   enabled: true
   install:
     postgresql: false
     vault: false
   participant:
-    id: BPNL00000003CNKC
+    id: 'CHANGE_ME'
 
   controlplane:
     ingresses:
       - enabled: true
-        hostname: "tx-edc-consumer-test-controlplane.dev.demo.catena-x.net"
+        hostname: 'CHANGE_ME'
         annotations:
           nginx.ingress.kubernetes.io/ssl-passthrough: "false"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
@@ -335,13 +333,13 @@ tractusx-connector:
           secretName: tls-secret
     ssi:
       miw:
-        url: <path:traceability-foss/data/dev-b/edc-consumer/wallet#ssi.miw.url>
-        authorityId: <path:traceability-foss/data/dev-b/edc-consumer/wallet#ssi.miw.authorityId>
+        url: 'CHANGE_ME'
+        authorityId: 'CHANGE_ME'
       oauth:
-        tokenurl: <path:traceability-foss/data/dev-b/edc-consumer/wallet#ssi.oauth.tokenurl>
+        tokenurl: 'CHANGE_ME'
         client:
-          id: <path:traceability-foss/data/dev-b/edc-consumer/wallet#ssi.oauth.client.id> # sa668
-          secretAlias: edc-miw-keycloak-secret-dev-b-consumer
+          id: 'CHANGE_ME'
+          secretAlias: 'CHANGE_ME'
 
     endpoints:
       # -- default api for health checks, should not be added to any ingress
@@ -353,7 +351,7 @@ tractusx-connector:
         port: 8081
         path: /management
         # -- authentication key, must be attached to each 'X-Api-Key' request header
-        authKey: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
+        authKey: 'CHANGE_ME'
       # -- control api, used for internal control calls. can be added to the internal ingress, but should probably not
       control:
         port: 8083
@@ -398,7 +396,7 @@ tractusx-connector:
   dataplane:
     ingresses:
       - enabled: true
-        hostname: "tx-edc-consumer-test-dataplane.dev.demo.catena-x.net"
+        hostname: 'CHANGE_ME'
         annotations:
           nginx.ingress.kubernetes.io/ssl-passthrough: "false"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
@@ -441,15 +439,15 @@ tractusx-connector:
   ## currently we need to provide a url but is not used anywhere
   # URL where the EndpointDataReference callback will be sent to
   backendService:
-    httpProxyTokenReceiverUrl: "https://traceability-test.dev.demo.catena-x.net/api/callback/endpoint-data-reference"
+    httpProxyTokenReceiverUrl: 'CHANGE_ME'
 
   ################################
   # EDC Vault Configuration #
   ################################
   vault:
     hashicorp:
-      url: "https://vault.demo.catena-x.net"
-      token: "<path:traceability-foss/data/dev/edc#edc.vault.hashicorp.token>"
+      url: 'CHANGE_ME'
+      token: 'CHANGE_ME'
       timeout: 30
       healthCheck:
         enabled: true
@@ -458,9 +456,9 @@ tractusx-connector:
         secret: /v1/traceability-foss
         health: /v1/sys/health
     secretNames:
-      transferProxyTokenSignerPrivateKey: daps-cert-edc-test-consumer-private
-      transferProxyTokenSignerPublicKey: daps-cert-edc-test-consumer-public
-      transferProxyTokenEncryptionAesKey: token-signer-aes-key
+      transferProxyTokenSignerPrivateKey: 'CHANGE_ME'
+      transferProxyTokenSignerPublicKey: 'CHANGE_ME'
+      transferProxyTokenEncryptionAesKey: 'CHANGE_ME'
 
 
   ##################################
@@ -469,11 +467,11 @@ tractusx-connector:
   postgresql:
     enabled: true
     auth:
-      username: "<path:traceability-foss/data/dev/edc/database#user>"
-      password: "<path:traceability-foss/data/dev/edc/database#password>"
-    username: "<path:traceability-foss/data/dev/edc/database#user>"
-    password: "<path:traceability-foss/data/dev/edc/database#password>"
-    jdbcUrl: "jdbc:postgresql://tx-edc-consumer-postgresql-test-hl:5432/edc"
+      username: 'CHANGE_ME'
+      password: 'CHANGE_ME'
+    username: 'CHANGE_ME'
+    password: 'CHANGE_ME'
+    jdbcUrl: 'CHANGE_ME'
 
 ###################################
 # EDC Postgres Configuration #
@@ -487,11 +485,11 @@ edc-postgresql:
       requests:
         cpu: 100m
         memory: 4Gi
-  nameOverride: "tx-edc-consumer-postgresql-test"
-  fullnameOverride: "tx-edc-consumer-postgresql-test"
+  nameOverride: 'CHANGE_ME'
+  fullnameOverride: 'CHANGE_ME'
   enabled: true
   auth:
     database: edc
-    username: <path:traceability-foss/data/dev/edc/database#user>
-    postgresPassword: <path:traceability-foss/data/dev/edc/database#password>
-    password: <path:traceability-foss/data/dev/edc/database#password>
+    username: 'CHANGE_ME'
+    postgresPassword: 'CHANGE_ME'
+    password: 'CHANGE_ME'
