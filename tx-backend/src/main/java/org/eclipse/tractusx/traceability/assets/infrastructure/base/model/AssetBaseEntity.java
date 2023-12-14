@@ -26,7 +26,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetState;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
 
@@ -57,5 +57,5 @@ public class AssetBaseEntity {
     private String semanticModelId;
     private String van;
     @Enumerated(EnumType.STRING)
-    private AssetState assetState;
+    private AssetImportState assetImportState;
 }
