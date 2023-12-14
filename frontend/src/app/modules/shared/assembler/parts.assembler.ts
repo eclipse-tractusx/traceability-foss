@@ -285,7 +285,7 @@ export class PartsAssembler {
     [ 'functionValidUntil', 'functionValidUntil' ],
     [ 'sentActiveAlerts', 'sentQualityAlertIdsInStatusActive' ],
     [ 'receivedActiveAlerts', 'receivedQualityAlertIdsInStatusActive' ],
-    [ 'sentActiveInvestigations', 'receivedQualityAlertIdsInStatusActive' ],
-    [ 'receivedActiveInvestigations', 'receivedQualityAlertIdsInStatusActive' ],
+    [ 'sentActiveInvestigations', 'sentQualityInvestigationIdsInStatusActive' ],
+    [ 'receivedActiveInvestigations', 'receivedQualityInvestigationIdsInStatusActive' ],
   ]);
 }

@@ -37,6 +37,7 @@ import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails
 import { BomLifecycleSettingsService, UserSettingView } from '@shared/service/bom-lifecycle-settings.service';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import {NotificationType} from "@shared/model/notification.model";
 
 
 @Component({
@@ -225,4 +226,5 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   protected readonly UserSettingView = UserSettingView;
   protected readonly TableType = TableType;
   protected readonly MainAspectType = MainAspectType;
+    protected readonly NotificationType = NotificationType;
 }

@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,48 +17,16 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-.start-investigation--wrapper {
-  display: flex;
+package org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository;
 
-  & > app-table {
-    flex-basis: 40%;
-    padding-right: 2rem;
-  }
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltViewEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.stereotype.Repository;
 
-  & > app-notification-request {
-    flex-grow: 1;
-  }
+import java.util.List;
 
-  @media (max-width: 1024px) {
-    flex-flow: column-reverse;
-    & > app-table {
-      margin-bottom: 2rem;
-    }
-  }
-}
-
-.start-investigation--no-data {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  align-content: center;
-  padding-top: 2rem;
-  flex-grow: 1;
-}
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-.start-investigation {
-  min-height: 300px;
-}
-
-.start-investigation--data {
-  animation: fadeIn 0.75s;
+@Repository
+public interface JpaAssetAsBuiltViewRepository extends JpaRepository<AssetAsBuiltViewEntity, String>, JpaSpecificationExecutor<AssetAsBuiltViewEntity> {
+    List<AssetAsBuiltViewEntity> findByIdIn(List<String> assetIds);
 }

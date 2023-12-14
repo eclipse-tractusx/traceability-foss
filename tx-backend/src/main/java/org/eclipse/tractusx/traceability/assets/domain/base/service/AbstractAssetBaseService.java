@@ -31,11 +31,8 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
 import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
-import org.eclipse.tractusx.traceability.common.model.PageResult;
-import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
-import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Async;
 
 import java.util.Arrays;
@@ -125,11 +122,6 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
         AssetBase foundAsset = getAssetRepository().getAssetById(assetId);
         foundAsset.setQualityType(qualityType);
         return getAssetRepository().save(foundAsset);
-    }
-
-    @Override
-    public PageResult<AssetBase> getAssets(Pageable pageable, SearchCriteria searchCriteria) {
-        return getAssetRepository().getAssets(pageable, searchCriteria);
     }
 
     @Override
