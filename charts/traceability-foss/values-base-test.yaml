@@ -35,6 +35,9 @@ configuration:
     hostName: &be_host_name 'traceability-test.dev.demo.catena-x.net'
     # -- backend host with https://
     url: &be_url 'https://traceability-test.dev.demo.catena-x.net'
+    leftOperand: &left_operand 'PURPOSE'
+    operatorType: &operator_type 'eq'
+    rightOperand: &right_operand 'ID 3.0 Trace'
     callback: &backend_callback "https://traceability-test.dev.demo.catena-x.net/api/callback/endpoint-data-reference"
     edcClient:
       callbackUrl: &backend_edc_client_callback_url 'https://traceability-test.dev.demo.catena-x.net/api/internal/endpoint-data-reference'
@@ -164,6 +167,9 @@ backend:
   traceability:
     bpn: *bpn
     url: *be_url
+    leftOperand: *left_operand
+    operatorType: *operator_type
+    rightOperand: *right_operand
 
   datasource:
     url: *backend_database_url
