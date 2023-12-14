@@ -119,12 +119,6 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository {
         return jpaAssetAsPlannedRepository.countAssetsByOwner(owner);
     }
 
-
-    @Override
-    public List<AssetAsPlannedEntity> findByOwner(Owner owner) {
-        return jpaAssetAsPlannedRepository.findByOwner(owner);
-    }
-
     @Override
     public List<String> getFieldValues(String fieldName, String startWith, Integer resultLimit, Owner owner) {
         return CriteriaUtility.getDistinctAssetFieldValues(fieldName, startWith, resultLimit, owner, AssetAsPlannedEntity.class, entityManager);

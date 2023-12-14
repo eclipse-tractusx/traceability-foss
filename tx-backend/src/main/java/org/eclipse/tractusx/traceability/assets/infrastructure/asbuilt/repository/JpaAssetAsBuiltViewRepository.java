@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -21,20 +19,14 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository;
 
-import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
-import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltViewEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface JpaAssetAsBuiltRepository extends JpaRepository<AssetAsBuiltEntity, String>, JpaSpecificationExecutor<AssetAsBuiltEntity> {
-    List<AssetAsBuiltEntity> findByIdIn(List<String> assetIds);
-
-    @Query("SELECT COUNT(asset) FROM AssetAsBuiltEntity asset WHERE asset.owner = :owner")
-    long countAssetsByOwner(@Param("owner") Owner owner);
+public interface JpaAssetAsBuiltViewRepository extends JpaRepository<AssetAsBuiltViewEntity, String>, JpaSpecificationExecutor<AssetAsBuiltViewEntity> {
+    List<AssetAsBuiltViewEntity> findByIdIn(List<String> assetIds);
 }
