@@ -109,7 +109,7 @@ configuration:
       oauth:
         client:
           id: &portal_miw_client_id <path:traceability-foss/data/dev-b/edc-consumer/wallet#ssi.oauth.client.id> # sa668
-          secretAlias: &portal_miw_client_secret_alias edc-miw-keycloak-secret
+          secretAlias: &portal_miw_client_secret_alias edc-miw-keycloak-secret-dev-b-consumer
 
   semanticHub: &semantichub_models_url 'https://semantics.int.demo.catena-x.net/hub/api/v1/models'
 
