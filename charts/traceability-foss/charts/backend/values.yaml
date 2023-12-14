@@ -137,6 +137,9 @@ healthCheck:
 traceability:
   bpn: "CHANGEME" #<traceability.bpn>
   url: "" #<traceability.url>
+  leftOperand: "CHANGEME" #<traceability.leftOperand>
+  oepratorType: "CHANGEME" #<traceability.oepratorType>
+  rightOperand: "CHANGEME" #<traceability.rightOperand>
 
 datasource:
   url: jdbc:postgresql://traceability-foss-backend-postgresql:5432/trace
