@@ -92,6 +92,11 @@ describe('requestNotificationComponent', () => {
       await shouldRenderButtons();
     });
 
+    it('should submit alert', async () => {
+      await renderRequestNotificationComponent(NotificationType.INVESTIGATION);
+      await shouldSubmitParts();
+    });
+
   });
 
   describe('Request Alert', () => {
@@ -113,6 +118,10 @@ describe('requestNotificationComponent', () => {
     it('should render buttons', async () => {
       await renderRequestNotificationComponent(NotificationType.ALERT);
       await shouldRenderButtons();
+    });
+    it('should submit alert', async () => {
+      await renderRequestNotificationComponent(NotificationType.ALERT);
+      await shouldSubmitParts(true);
     });
 
   });
@@ -145,5 +154,21 @@ describe('requestNotificationComponent', () => {
     expect(cancelElement).toBeInTheDocument();
     expect(submitElement).toBeInTheDocument();
   };
+  const shouldSubmitParts = async (shouldFillBpn = false) => {
+    const testText = 'This is for a testing purpose.';
+    const textArea = (await waitFor(() => screen.getByTestId('BaseInputElement-1'))) as HTMLTextAreaElement;
+    fireEvent.input(textArea, { target: { value: testText } });
 
+    if (shouldFillBpn) {
+      const bpnInput = (await waitFor(() => screen.getByTestId('BaseInputElement-3'))) as HTMLTextAreaElement;
+      fireEvent.input(bpnInput, { target: { value: 'BPNA0123TEST0123' } });
+    }
+
+    const submit = await waitFor(() => screen.getByText('requestNotification.submit'));
+    expect(submit).toBeInTheDocument();
+    expect(textArea.value).toEqual(testText);
+    fireEvent.click(submit);
+    await sleepForTests(2000);
+    expect(textArea.value).toEqual('');
+  };
 });
