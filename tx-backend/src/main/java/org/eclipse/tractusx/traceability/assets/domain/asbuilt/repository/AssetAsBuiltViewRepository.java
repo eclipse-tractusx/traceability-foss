@@ -16,29 +16,24 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import {TableFilterConfiguration} from '@shared/components/parts-table/parts-config.model';
 
-export class PartsAsBuiltCustomerConfigurationModel extends TableFilterConfiguration {
+package org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository;
 
-  constructor() {
-    const sortableColumns = {
-      select: false,
-      semanticDataModel: true,
-      nameAtManufacturer: true,
-      businessPartner: true,
-      manufacturerName: true,
-      manufacturerPartId: true,
-      semanticModelId: true,
-      manufacturingDate: true,
-      receivedActiveAlerts: true,
-      receivedActiveInvestigations: true,
-      sentActiveAlerts: true,
-      sentActiveInvestigations: true,
-      menu: false,
-    };
-    const dateFields = [ 'manufacturingDate' ];
-    const singleSearchFields = [ 'receivedActiveAlerts', 'sentActiveAlerts', 'receivedActiveInvestigations', 'sentActiveInvestigations' ];
-    super(sortableColumns, dateFields, singleSearchFields);
-  }
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.common.model.PageResult;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
+
+public interface AssetAsBuiltViewRepository {
+    PageResult<AssetBase> getAssets(Pageable pageable, SearchCriteria searchCriteria);
+
+    List<AssetBase> getAssets();
+
+    AssetBase getAssetByChildId(String childId);
+
+    List<AssetBase> getAssetsById(List<String> assetIds);
+
+    AssetBase getAssetById(String assetId);
 }
-

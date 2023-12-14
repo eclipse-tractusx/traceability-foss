@@ -42,6 +42,7 @@ import java.util.stream.Collectors;
 import static java.util.stream.Collectors.groupingBy;
 import static org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy.AFTER_LOCAL_DATE;
 import static org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy.BEFORE_LOCAL_DATE;
+import static org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy.NOTIFICATION_COUNT_EQUAL;
 
 @Getter
 public abstract class BaseSpecification<T> implements Specification<T> {
@@ -57,7 +58,7 @@ public abstract class BaseSpecification<T> implements Specification<T> {
         String fieldName = getJoinTableFieldName(criteria.getKey());
         Path<Object> fieldPath = getFieldPath(root, criteria);
 
-        if (SearchCriteriaStrategy.EQUAL.equals(criteria.getStrategy())) {
+        if (SearchCriteriaStrategy.EQUAL.equals(criteria.getStrategy()) || NOTIFICATION_COUNT_EQUAL.equals(criteria.getStrategy())) {
             return builder.equal(
                     fieldPath.as(String.class),
                     expectedFieldValue);
