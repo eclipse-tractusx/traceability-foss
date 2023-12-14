@@ -34,6 +34,7 @@ import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPoliciesProvider;
 import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPolicy;
 import org.eclipse.tractusx.irs.edc.client.policy.Constraint;
 import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
+import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
 import org.eclipse.tractusx.irs.edc.client.policy.Permission;
 import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
@@ -142,13 +143,13 @@ public class ApplicationConfig {
         List<Constraint> andConstraintList = new ArrayList<>();
         List<Constraint> orConstraintList = new ArrayList<>();
 
-//        for (TraceabilityProperties.PolicyConfig policyConfig : traceabilityProperties.getAnd()) {
-//            andConstraintList.add(new Constraint(policyConfig.leftOperand, OperatorType.valueOf(policyConfig.operatorType), List.of(policyConfig.rightOperand)));
-//        }
-//
-//        for (TraceabilityProperties.PolicyConfig policyConfig : traceabilityProperties.getOr()) {
-//            andConstraintList.add(new Constraint(policyConfig.leftOperand, OperatorType.valueOf(policyConfig.operatorType), List.of(policyConfig.rightOperand)));
-//        }
+        for (TraceabilityProperties.PolicyConfig policyConfig : traceabilityProperties.getAndConstraints()) {
+            andConstraintList.add(new Constraint(policyConfig.getLeftOperand(), OperatorType.valueOf(policyConfig.getOperatorType()), List.of(policyConfig.getRightOperand())));
+        }
+
+        for (TraceabilityProperties.PolicyConfig policyConfig : traceabilityProperties.getOrConstraints()) {
+            andConstraintList.add(new Constraint(policyConfig.getLeftOperand(), OperatorType.valueOf(policyConfig.getOperatorType()), List.of(policyConfig.getRightOperand())));
+        }
 
         OffsetDateTime offsetDateTime = OffsetDateTime.now().plusMonths(1);
         List<Permission> permissions = List.of(
