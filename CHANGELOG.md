@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [UNRELEASED - DD.MM.YYYY]
+### Added
+### Changed
+- Restricted datefield on investigation creation to be only clickable and not editable
+- bump aquasecurity/trivy-action from 0.14.0 to 0.16.0
+- bump actions/setup-python from 4 to 5
+- bump mikefarah/yq from 4.40.2 to 4.40.5
+- bump actions/setup-java from 3 to 4
+- bump org.apache.maven.plugins:maven-jxr-plugin from 3.3.0 to 3.3.1
+- bump org.apache.maven.plugins:maven-checkstyle-plugin from 3.3.0 to 3.3.1
+- bump schedlock.version from 5.9.1 to 5.10.0
 
 ## [10.0.0 - 12.12.2024]
 ### Added
