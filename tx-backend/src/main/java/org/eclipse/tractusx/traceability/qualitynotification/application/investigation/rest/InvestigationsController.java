@@ -387,6 +387,7 @@ public class InvestigationsController {
             description = "The endpoint closes investigations by their id.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok."),
             @ApiResponse(
                     responseCode = "204",
                     description = "No content.",
@@ -449,6 +450,7 @@ public class InvestigationsController {
             description = "The endpoint updates investigations by their id.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok."),
             @ApiResponse(
                     responseCode = "204",
                     description = "No content.",
