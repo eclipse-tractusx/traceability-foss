@@ -29,10 +29,10 @@ export class PartsAsBuiltSupplierConfigurationModel extends TableFilterConfigura
       manufacturerPartId: true,
       semanticModelId: true,
       manufacturingDate: true,
-      receivedActiveAlerts: false,
-      receivedActiveInvestigations: false,
-      sentActiveAlerts: false,
-      sentActiveInvestigations: false,
+      receivedActiveAlerts: true,
+      receivedActiveInvestigations: true,
+      sentActiveAlerts: true,
+      sentActiveInvestigations: true,
       menu: false,
     };
     const dateFields = [ 'manufacturingDate' ];

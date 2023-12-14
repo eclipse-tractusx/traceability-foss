@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -26,6 +24,7 @@ import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -43,21 +42,22 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.Semant
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
+import org.springframework.data.annotation.Immutable;
 
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
-import static org.eclipse.tractusx.traceability.common.date.DateUtil.toInstant;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
 @SuperBuilder
-@Table(name = "assets_as_built")
-public class AssetAsBuiltEntity extends AssetBaseEntity {
+@Table(name = "assets_as_built_view")
+@Immutable
+public class AssetAsBuiltViewEntity extends AssetBaseEntity {
 
     private Instant manufacturingDate;
     private String manufacturingCountry;
@@ -65,6 +65,10 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
     private String customerPartId;
     private String productType;
     private String tractionBatteryCode;
+    private String receivedActiveAlerts;
+    private String sentActiveAlerts;
+    private String receivedActiveInvestigations;
+    private String sentActiveInvestigations;
 
     @ElementCollection
     @CollectionTable(name = "traction_battery_code_subcomponent", joinColumns = {@JoinColumn(name = "traction_battery_code")})
@@ -79,46 +83,19 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
     @CollectionTable(name = "assets_as_built_parents", joinColumns = {@JoinColumn(name = "asset_as_built_id")})
     private List<AssetAsBuiltEntity.ParentDescription> parentDescriptors;
 
-    @ManyToMany(mappedBy = "assets")
+    @ManyToMany
+    @JoinTable(
+            name = "assets_as_built_investigations",
+            joinColumns = @JoinColumn(name = "asset_id"),
+            inverseJoinColumns = @JoinColumn(name = "investigation_id"))
     private List<InvestigationEntity> investigations = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "assets")
+    @ManyToMany
+    @JoinTable(
+            name = "assets_as_built_alerts",
+            joinColumns = @JoinColumn(name = "asset_id"),
+            inverseJoinColumns = @JoinColumn(name = "alert_id"))
     private List<AlertEntity> alerts = new ArrayList<>();
-
-    public static AssetAsBuiltEntity from(AssetBase asset) {
-        ManufacturingInfo manufacturingInfo = ManufacturingInfo.from(asset.getDetailAspectModels());
-        TractionBatteryCode tractionBatteryCodeObj = TractionBatteryCode.from(asset.getDetailAspectModels());
-
-        return AssetAsBuiltEntity.builder()
-                .id(asset.getId())
-                .idShort(asset.getIdShort())
-                .nameAtManufacturer(asset.getNameAtManufacturer())
-                .manufacturerPartId(manufacturingInfo.getManufacturerPartId())
-                .semanticModelId(asset.getSemanticModelId())
-                .manufacturerId(asset.getManufacturerId())
-                .manufacturerName(asset.getManufacturerName())
-                .nameAtCustomer(manufacturingInfo.getNameAtCustomer())
-                .customerPartId(manufacturingInfo.getCustomerPartId())
-                .manufacturingDate(toInstant(manufacturingInfo.getManufacturingDate()))
-                .manufacturingCountry(manufacturingInfo.getManufacturingCountry())
-                .owner(asset.getOwner())
-                .childDescriptors(asset.getChildRelations().stream()
-                        .map(child -> new ChildDescription(child.id(), child.idShort()))
-                        .toList())
-                .parentDescriptors(asset.getParentRelations().stream()
-                        .map(parent -> new ParentDescription(parent.id(), parent.idShort()))
-                        .toList())
-                .qualityType(asset.getQualityType())
-                .van(asset.getVan())
-                .activeAlert(asset.isActiveAlert())
-                .classification(asset.getClassification())
-                .inInvestigation(asset.isInInvestigation())
-                .semanticDataModel(SemanticDataModelEntity.from(asset.getSemanticDataModel()))
-                .productType(tractionBatteryCodeObj.getProductType())
-                .tractionBatteryCode(tractionBatteryCodeObj.getTractionBatteryCode())
-                .subcomponents(tractionBatteryCodeObj.getSubcomponents())
-                .build();
-    }
 
     public AssetBase toDomain() {
         return AssetBase.builder()
@@ -148,12 +125,6 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                 .sentQualityInvestigations(emptyIfNull(this.investigations).stream().filter(alert -> NotificationSideBaseEntity.SENDER.equals(alert.getSide())).map(InvestigationEntity::toDomain).toList())
                 .receivedQualityInvestigations(emptyIfNull(this.investigations).stream().filter(alert -> NotificationSideBaseEntity.RECEIVER.equals(alert.getSide())).map(InvestigationEntity::toDomain).toList())
                 .build();
-    }
-
-    public static List<AssetAsBuiltEntity> fromList(List<AssetBase> assets) {
-        return assets.stream()
-                .map(AssetAsBuiltEntity::from)
-                .toList();
     }
 
 

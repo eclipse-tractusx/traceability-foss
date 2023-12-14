@@ -22,11 +22,12 @@ package org.eclipse.tractusx.traceability.integration.assets;
 import io.restassured.http.ContentType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationsSupport;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
+import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -504,6 +505,36 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
                 .statusCode(200)
                 .assertThat()
                 .body("totalItems", equalTo(1));
+    }
+
+    @Test
+    void givenAssetsWithAlerts_whenGetAssetSortedBySentActiveAlertsDesc_thenReturnProperAssets() throws JoseException {
+        // Given
+        assetsSupport.defaultAssetsStored();
+
+        List<AssetAsBuiltEntity> assets = jpaAssetAsBuiltRepository.findAll();
+
+        for (int i = 0; i < assets.size(); i++) {
+            for (int j = i; j > 0; j--) {
+                alertsSupport.storeAlertWithStatusAndAssets(CREATED, List.of(assets.get(i)), null, SENDER);
+            }
+        }
+
+        final String sort = "sentQualityAlertIdsInStatusActive,ASC";
+
+
+        // When
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .when()
+                .param("sort", sort)
+                .get("/api/assets/as-built")
+                .then()
+                .statusCode(200)
+                .assertThat()
+                .body("totalItems", equalTo(13))
+                .body("content.id", Matchers.containsInRelativeOrder(assets.stream().map(AssetBaseEntity::getId).toArray()));
     }
 
     @Test
