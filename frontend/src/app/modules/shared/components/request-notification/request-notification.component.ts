@@ -79,21 +79,16 @@ export class RequestNotificationComponent {
   }
 
   protected onUnsuccessfulSubmit(): void {
-    console.log("AFTER onUnsuccessfulSubmit");
     this.isLoading$.next(false);
     this.formGroup.enable();
   }
 
   public submit(): void {
-    console.log("BEFORE SUBMIT");
-
     this.prepareSubmit();
 
     if (this.formGroup.invalid) return;
     const partIds = this.selectedItems.map(part => part.id);
-    console.log("AFTER SUBMIT");
     if (this.isInvestigation) {
-      console.log("AFTER isInvestigation");
       const { description, severity, targetDate } = this.formGroup.value;
       const { link, queryParams } = getRoute(INVESTIGATION_BASE_ROUTE, NotificationStatusGroup.QUEUED_AND_REQUESTED);
       this.notificationService.createInvestigation(partIds, description, severity, targetDate).subscribe({
@@ -117,12 +112,9 @@ export class RequestNotificationComponent {
   }
 
   protected onSuccessfulSubmit(link: string, linkQueryParams: Record<string, string>): void {
-    console.log("SUCCESS");
     this.isLoading$.next(false);
     const amountOfItems = this.selectedItems.length;
     this.resetForm();
-    console.log("AFTER onSuccessfulSubmit" +
-        "");
     this.openToast(amountOfItems, link, linkQueryParams);
   }
 
