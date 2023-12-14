@@ -49,7 +49,7 @@ describe('Ess', () => {
         const essFilter: EssFilter = {
             id: "123"
         };
-        const essFacade = (componentInstance as any)['essFacade'];
+      const essFacade = (componentInstance)['esssFacade'];
         const essFacadeSpy = spyOn(essFacade, 'setEss');
 
         componentInstance.filterActivated(true, essFilter);
@@ -64,7 +64,7 @@ describe('Ess', () => {
         const {componentInstance} = fixture;
 
         const essFilter: EssFilter = {};
-        const essFacade = (componentInstance as any)['essFacade'];
+        const essFacade = (componentInstance)['esssFacade'];
         const essFacadeSpy = spyOn(essFacade, 'setEss');
 
         // Act
