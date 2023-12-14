@@ -96,7 +96,7 @@ configuration:
     # -- remove irs url for environments that support official discovery finder ( not mock ) and replace alias with above one
     discoveryFinderIrsUrl: &discovery_finder_irs_url 'https://tracex-discovery-mock-dev.dev.demo.catena-x.net/irs/api/v1.0/administration/connectors/discovery/search'
     serviceAccount:
-      clientId: &service_account_id <path:traceability-foss/data/int/keycloak/oauth2#clientId>
+      clientId: &service_account_id <path:traceability-foss/data/int/keycloak/oauth2#clientId> #sa267
       clientPassword: &service_account_password <path:traceability-foss/data/int/keycloak/oauth2#clientSecret>
     auth:
       keycloakUrl: &portal_auth_keycloak_url <path:traceability-foss/data/test/frontend#catenax_portal_keycloak_url>
@@ -108,8 +108,8 @@ configuration:
       authorityId: &portal_miw_authorityid <path:traceability-foss/data/dev/edc/wallet#ssi.miw.authorityId>
       oauth:
         client:
-          id: &portal_miw_client_id <path:traceability-foss/data/dev/edc/wallet#ssi.oauth.client.id>  # same as service account ? not for dev environments ?
-          secretAlias: &portal_miw_client_secret_alias edc-miw-keycloak-secret
+          id: &portal_miw_client_id <path:traceability-foss/data/dev/edc/wallet#ssi.oauth.client.id>  # sa667
+          secretAlias: &portal_miw_client_secret_alias edc-miw-keycloak-secret-dev-a-consumer
 
   semanticHub: &semantichub_models_url 'https://semantics.int.demo.catena-x.net/hub/api/v1/models'
 

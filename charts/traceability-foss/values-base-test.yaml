@@ -96,7 +96,7 @@ configuration:
     # -- remove irs url for environments that support official discovery finder ( not mock ) and replace alias with above one
     discoveryFinderIrsUrl: &discovery_finder_irs_url 'https://tracex-discovery-mock-test.dev.demo.catena-x.net/irs/api/v1.0/administration/connectors/discovery/search'
     serviceAccount:
-      clientId: &service_account_id <path:traceability-foss/data/int/keycloak/oauth2#clientId>
+      clientId: &service_account_id <path:traceability-foss/data/int/keycloak/oauth2#clientId> #sa267
       clientPassword: &service_account_password <path:traceability-foss/data/int/keycloak/oauth2#clientSecret>
     auth:
       keycloakUrl: &portal_auth_keycloak_url <path:traceability-foss/data/test/frontend#catenax_portal_keycloak_url>
@@ -104,11 +104,11 @@ configuration:
       jwkUri: &central_idp_jwk_uri 'https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs'
       resourceClient: &central_idp_resource_client 'Cl17-CX-Part' # proposal for removing this from vault or changing path to oauth folder to reuse for both BE and FE preferable changing vault
     miw:
-      url: &portal_miw_url <path:traceability-foss/data/dev/edc/wallet#ssi.miw.url>
-      authorityId: &portal_miw_authorityid <path:traceability-foss/data/dev/edc/wallet#ssi.miw.authorityId>
+      url: &portal_miw_url <path:traceability-foss/data/dev-b/edc-consumer/wallet#ssi.miw.url>
+      authorityId: &portal_miw_authorityid <path:traceability-foss/data/dev-b/edc-consumer/wallet#ssi.miw.authorityId>
       oauth:
         client:
-          id: &portal_miw_client_id <path:traceability-foss/data/dev/edc/wallet#ssi.oauth.client.id>  # same as service account ? not for dev environments ?
+          id: &portal_miw_client_id <path:traceability-foss/data/dev-b/edc-consumer/wallet#ssi.oauth.client.id> # sa668
           secretAlias: &portal_miw_client_secret_alias edc-miw-keycloak-secret
 
   semanticHub: &semantichub_models_url 'https://semantics.int.demo.catena-x.net/hub/api/v1/models'
