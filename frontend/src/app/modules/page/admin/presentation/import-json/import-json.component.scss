@@ -16,133 +16,134 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-$theme:       #454cad;
-$dark-text:   #5f6982;
 
-
-
-.file-container_drag_and_drop {
-  width: 300px;
-  height: 200px;
-  padding: 2rem;
-  text-align: center;
-  border: dashed 2px #979797;
-  position: relative;
-  margin-left : 10px;
-  margin-top: 15px;
-
-  input {
-    opacity: 0;
-    position: absolute;
-    z-index: 2;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-  }
-
-  .file{
-    opacity: 0;
-    padding: 5rem;
-    width: auto;
+.import-json {
+  .file-container_drag_and_drop {
+    width: 300px;
+    height: 200px;
+    padding: 2rem;
     text-align: center;
-    height: 5rem;
-  }
-
-  h4 {
-    font-family: "Roboto", sans-serif;
-    font-size: 18px;
-    color: $dark-text;
-  }
-  .or{
-    font-family: "Roboto", sans-serif;
-    font-size: 13px;
-    color: dimgrey;
+    border: dashed 2px #979797;
     position: relative;
-  }
+    margin-left: 10px;
+    margin-top: 15px;
 
-  .or::before,
-  .or::after {
-    content: "";
-    display: inline-block;
-    width: 25%;
-    height: 0.7px;
-    background-color: lightgray;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-
-  .or::before {
-    left: +19%;
-  }
-
-  .or::after {
-    right: +19%;
-  }
-
-  .text-box{
-    width: 110px;
-    padding: 8px;
-    display: inline-block;
-    font-family: "Roboto", sans-serif;
-    border: 1px solid $theme;
-    background-color: #ffffff;
-    border-radius: 20px;
-    margin-top: 5px;
-
-    .text-box-p {
-      font-family: "Roboto", sans-serif;
-      font-size: 14px;
-      color: $theme;
-      border-radius: 15px;
+    input {
+      opacity: 0;
+      position: absolute;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
     }
 
-  }
-  .error-message {
-    font-family: "Roboto", sans-serif;
-    color: red;
-    margin-top: 5px;
-  }
-}
+    .file {
+      opacity: 0;
+      padding: 5rem;
+      width: auto;
+      text-align: center;
+      height: 5rem;
+    }
 
-.file-container_upload_file {
-  width: 300px;
-  height: 200px;
-  padding: 2rem;
-  text-align: center;
-  border: dashed 2px #979797;
-  margin-left : 10px;
-  margin-top: 15px;
-  position: relative;
+    h4 {
+      font-family: "Roboto", sans-serif;
+      font-size: 18px;
+      color: #5f6982;
+    }
 
-  .custom-button_upload,
-  .custom-button_clear {
-    flex-grow: 1;
-    padding: 8px;
-    margin: 0 5px;
-    position: absolute;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    box-sizing: border-box;
-    font-size: 100%;
-    max-width: 145px;
+    .or {
+      font-family: "Roboto", sans-serif;
+      font-size: 13px;
+      color: dimgrey;
+      position: relative;
+    }
+
+    .or::before,
+    .or::after {
+      content: "";
+      display: inline-block;
+      width: 25%;
+      height: 0.7px;
+      background-color: lightgray;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .or::before {
+      left: +19%;
+    }
+
+    .or::after {
+      right: +19%;
+    }
+
+    .text-box {
+      width: 110px;
+      padding: 8px;
+      display: inline-block;
+      font-family: "Roboto", sans-serif;
+      border: 1px solid #454cad;
+      background-color: #ffffff;
+      border-radius: 20px;
+      margin-top: 5px;
+
+      .text-box-p {
+        font-family: "Roboto", sans-serif;
+        font-size: 14px;
+        color: #454cad;
+        border-radius: 15px;
+      }
+
+    }
+
+    .error-message {
+      font-family: "Roboto", sans-serif;
+      color: red;
+      margin-top: 5px;
+    }
   }
 
-  .custom-button_upload {
-    left: 0;
-  }
+  .file-container_upload_file {
+    width: 300px;
+    height: 200px;
+    padding: 2rem;
+    text-align: center;
+    border: dashed 2px #979797;
+    margin-left: 10px;
+    margin-top: 15px;
+    position: relative;
 
-  .custom-button_clear {
-    right: 0;
-  }
-  .icon_uploadFile {
-    font-size: 25px;
-    margin-bottom: 8px;
-  }
+    .custom-button_upload,
+    .custom-button_clear {
+      flex-grow: 1;
+      padding: 8px;
+      margin: 0 5px;
+      position: absolute;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      box-sizing: border-box;
+      font-size: 100%;
+      max-width: 145px;
+    }
 
-  .file-name {
-    margin-bottom: 10px;
+    .custom-button_upload {
+      left: 0;
+    }
+
+    .custom-button_clear {
+      right: 0;
+    }
+
+    .icon_uploadFile {
+      font-size: 25px;
+      margin-bottom: 8px;
+    }
+
+    .file-name {
+      margin-bottom: 10px;
+    }
   }
 }
