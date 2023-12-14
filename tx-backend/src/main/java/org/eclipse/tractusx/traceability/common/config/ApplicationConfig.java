@@ -144,7 +144,7 @@ public class ApplicationConfig {
         List<Constraint> orConstraintList = new ArrayList<>();
 
         for (TraceabilityProperties.PolicyConfig policyConfig : traceabilityProperties.getAndConstraints()) {
-            andConstraintList.add(new Constraint(policyConfig.getLeftOperand(), OperatorType.valueOf(policyConfig.getOperatorType()), List.of(policyConfig.getRightOperand())));
+            andConstraintList.add(new Constraint(policyConfig.getLeftOperand(), OperatorType.fromValue(policyConfig.getOperatorType()), List.of(policyConfig.getRightOperand())));
         }
 
         for (TraceabilityProperties.PolicyConfig policyConfig : traceabilityProperties.getOrConstraints()) {
