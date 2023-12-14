@@ -61,7 +61,7 @@ export class RequestAlertComponent extends RequestNotificationBase {
 
   public readonly formGroup = new FormGroup({
     description: new FormControl('', [Validators.required, Validators.maxLength(1000), Validators.minLength(15)]),
-    severity: new FormControl(Severity.MINOR, [Validators.required]),
+    severity: new FormControl(Severity.MINOR),
     bpn: new FormControl(null, [Validators.required, BaseInputHelper.getCustomPatternValidator(bpnRegex, 'bpn')]),
   });
 
@@ -82,5 +82,7 @@ export class RequestAlertComponent extends RequestNotificationBase {
       next: () => this.onSuccessfulSubmit(link, queryParams),
       error: () => this.onUnsuccessfulSubmit(),
     });
+
+    this.dialog.closeAll();
   }
 }

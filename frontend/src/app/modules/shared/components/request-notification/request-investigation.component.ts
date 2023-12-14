@@ -64,12 +64,15 @@ export class RequestInvestigationComponent extends RequestNotificationBase {
     severity: FormControl<Severity>;
   }>({
     description: new FormControl('', [Validators.required, Validators.maxLength(1000), Validators.minLength(15)]),
-    targetDate: new FormControl(null, [DateValidators.atLeastNow()]),
-    severity: new FormControl(Severity.MINOR, [Validators.required]),
+    targetDate: new FormControl(null, [DateValidators.atLeastNow(), Validators.required]),
+    severity: new FormControl(Severity.MINOR),
   });
 
   public submit(): void {
     this.prepareSubmit();
+    if (this.formGroup.invalid) {
+      return;
+    }
 
     const partIds = this.selectedItems.map(part => part.id);
     const { description, targetDate, severity } = this.formGroup.value;
@@ -79,5 +82,7 @@ export class RequestInvestigationComponent extends RequestNotificationBase {
       next: () => this.onSuccessfulSubmit(link, queryParams),
       error: () => this.onUnsuccessfulSubmit(),
     });
+
+    this.dialog.closeAll();
   }
 }

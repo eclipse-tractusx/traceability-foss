@@ -135,8 +135,5 @@ export abstract class RequestNotificationBase {
 
     this.formGroup.markAsUntouched();
     this.formGroup.reset();
-
-    this.formGroup.markAsUntouched();
-    this.formGroup.reset();
   }
 }

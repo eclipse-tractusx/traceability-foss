@@ -68,6 +68,7 @@ SPDX-License-Identifier: Apache-2.0
   </div>
 
   <form [formGroup]="formGroup"
+    (keydown.enter)="$event.preventDefault()"
     (submit)="submit()">
     <div class="flex flex-row justify-start mb-7">
       <div *ngIf="!!formGroup.controls?.['targetDate']"
@@ -105,15 +106,9 @@ SPDX-License-Identifier: Apache-2.0
         <div class="cancel-button-text">{{ 'requestNotification.cancel' | i18n }}</div>
       </app-button>
 
-      <div [matTooltip]="!formGroup.valid ? ('requestNotification.submitTooltip' | i18n) : ''"
-        matTooltipClass="table--header--tooltip"
-        matTooltipPosition="above"
-        [class.mdc-tooltip--multiline]="true"
-        [matTooltipShowDelay]="500">
+      <div>
         <app-button [variant]="'flat'"
           [color]="'primary'"
-          mat-dialog-close
-          [isDisabled]="(isLoading$ | async) || !formGroup.valid"
           type="submit">
           <div class="accept-button-text">{{ 'requestNotification.submit' | i18n }}</div>
         </app-button>
