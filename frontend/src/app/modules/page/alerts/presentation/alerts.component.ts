@@ -17,24 +17,27 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {ChangeDetectorRef, Component, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {ALERT_BASE_ROUTE, getRoute} from '@core/known-route';
-import {AlertDetailFacade} from '@page/alerts/core/alert-detail.facade';
-import {AlertHelperService} from '@page/alerts/core/alert-helper.service';
-import {AlertsFacade} from '@page/alerts/core/alerts.facade';
-import {NotificationMenuActionsAssembler} from '@shared/assembler/notificationMenuActions.assembler';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ALERT_BASE_ROUTE, getRoute } from '@core/known-route';
+import { AlertDetailFacade } from '@page/alerts/core/alert-detail.facade';
+import { AlertHelperService } from '@page/alerts/core/alert-helper.service';
+import { AlertsFacade } from '@page/alerts/core/alerts.facade';
+import { NotificationMenuActionsAssembler } from '@shared/assembler/notificationMenuActions.assembler';
+import { NotificationChannel } from '@shared/components/multi-select-autocomplete/table-type.model';
+import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
+import { TableSortingUtil } from '@shared/components/table/table-sorting.util';
+import { MenuActionConfig, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
+import { createDeeplinkNotificationFilter } from '@shared/helper/notification-helper';
+import { NotificationTabInformation } from '@shared/model/notification-tab-information';
 import {
-  NotificationCommonModalComponent
-} from '@shared/components/notification-common-modal/notification-common-modal.component';
-import {TableSortingUtil} from '@shared/components/table/table-sorting.util';
-import {MenuActionConfig, TableEventConfig, TableHeaderSort} from '@shared/components/table/table.model';
-import {createDeeplinkNotificationFilter} from '@shared/helper/notification-helper';
-import {NotificationTabInformation} from '@shared/model/notification-tab-information';
-import {Notification, NotificationStatusGroup, NotificationType} from '@shared/model/notification.model';
-import {TranslationContext} from '@shared/model/translation-context.model';
-import {Subscription} from 'rxjs';
-import {NotificationChannel} from "@shared/components/multi-select-autocomplete/table-type.model";
+  Notification,
+  NotificationFilter,
+  NotificationStatusGroup,
+  NotificationType,
+} from '@shared/model/notification.model';
+import { TranslationContext } from '@shared/model/translation-context.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-alerts',
@@ -55,6 +58,9 @@ export class AlertsComponent {
   private ctrlKeyState: boolean = false;
 
   private paramSubscription: Subscription;
+
+  receivedFilter: NotificationFilter;
+  requestedFilter: NotificationFilter;
 
   private pagination: TableEventConfig = { page: 0, pageSize: 50, sorting: [ 'createdDate', 'desc' ] };
 
@@ -84,8 +90,8 @@ export class AlertsComponent {
       let deeplinkNotificationFilter = createDeeplinkNotificationFilter(params);
       this.pagination.page = params?.pageNumber ? params.pageNumber : 0;
       this.pagination.page = params?.pageNumber;
-      this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize, this.alertReceivedSortList, deeplinkNotificationFilter?.receivedFilter);
-      this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize, this.alertQueuedAndRequestedSortList, deeplinkNotificationFilter?.sentFilter);
+      this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize, this.alertReceivedSortList, deeplinkNotificationFilter?.receivedFilter, this.receivedFilter);
+      this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize, this.alertQueuedAndRequestedSortList, deeplinkNotificationFilter?.sentFilter, this.requestedFilter);
     });
   }
 
@@ -105,13 +111,13 @@ export class AlertsComponent {
   public onReceivedTableConfigChange(pagination: TableEventConfig) {
     this.pagination = pagination;
     this.setTableSortingList(pagination.sorting, NotificationStatusGroup.RECEIVED);
-    this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize, this.alertReceivedSortList);
+    this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize, this.alertReceivedSortList, null, this.receivedFilter);
   }
 
   public onQueuedAndRequestedTableConfigChange(pagination: TableEventConfig) {
     this.pagination = pagination;
     this.setTableSortingList(pagination.sorting, NotificationStatusGroup.QUEUED_AND_REQUESTED);
-    this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize, this.alertQueuedAndRequestedSortList);
+    this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize, this.alertQueuedAndRequestedSortList, null, this.requestedFilter);
   }
 
   public openDetailPage(notification: Notification): void {
@@ -137,9 +143,14 @@ export class AlertsComponent {
 
   filterNotifications(filterContext: any) {
     if(filterContext.channel === NotificationChannel.RECEIVER) {
-      this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize, this.alertReceivedSortList,null, filterContext.filter);
+      this.receivedFilter = filterContext.filter;
     } else {
-      this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize, this.alertQueuedAndRequestedSortList, null, filterContext.filter);
+      this.requestedFilter = filterContext.filter;
+    }
+    if(filterContext.channel === NotificationChannel.RECEIVER) {
+      this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize, this.alertReceivedSortList,null, this.receivedFilter);
+    } else {
+      this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize, this.alertQueuedAndRequestedSortList, null, this.requestedFilter);
     }
   }
 }
