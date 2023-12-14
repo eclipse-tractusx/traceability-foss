@@ -127,9 +127,9 @@ maven/mavencentral/net.java.dev.jna/jna/5.12.1, Apache-2.0 OR LGPL-2.1-or-later,
 maven/mavencentral/net.javacrumbs.json-unit/json-unit-assertj/3.2.2, Apache-2.0, approved, clearlydefined
 maven/mavencentral/net.javacrumbs.json-unit/json-unit-core/3.2.2, Apache-2.0, approved, clearlydefined
 maven/mavencentral/net.javacrumbs.json-unit/json-unit-json-path/3.2.2, Apache-2.0, approved, clearlydefined
-maven/mavencentral/net.javacrumbs.shedlock/shedlock-core/5.9.1, Apache-2.0, approved, #11246
-maven/mavencentral/net.javacrumbs.shedlock/shedlock-provider-jdbc-template/5.9.1, Apache-2.0, approved, #11245
-maven/mavencentral/net.javacrumbs.shedlock/shedlock-spring/5.9.1, Apache-2.0, approved, #11247
+maven/mavencentral/net.javacrumbs.shedlock/shedlock-core/5.10.0, Apache-2.0, approved, clearlydefined
+maven/mavencentral/net.javacrumbs.shedlock/shedlock-provider-jdbc-template/5.10.0, Apache-2.0, approved, clearlydefined
+maven/mavencentral/net.javacrumbs.shedlock/shedlock-spring/5.10.0, Apache-2.0, approved, clearlydefined
 maven/mavencentral/net.minidev/accessors-smart/2.4.11, Apache-2.0, approved, #7515
 maven/mavencentral/net.minidev/accessors-smart/2.4.9, Apache-2.0, approved, #7515
 maven/mavencentral/net.minidev/json-smart/2.4.10, Apache-2.0, approved, #3288
