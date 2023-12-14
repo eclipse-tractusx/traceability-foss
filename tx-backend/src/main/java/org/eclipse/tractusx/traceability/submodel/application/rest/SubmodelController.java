@@ -165,7 +165,9 @@ public class SubmodelController {
             tags = {"Submodel"},
             description = "Deletes all submodels from the system.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-    @ApiResponses(value = {@ApiResponse(responseCode = "204", description = "No Content."),
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok."),
+            @ApiResponse(responseCode = "204", description = "No Content."),
             @ApiResponse(
                     responseCode = "400",
                     description = "Bad request.",

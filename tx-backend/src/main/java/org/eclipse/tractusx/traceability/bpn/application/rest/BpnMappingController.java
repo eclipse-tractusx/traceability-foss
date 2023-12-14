@@ -233,6 +233,10 @@ public class BpnMappingController {
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {
             @ApiResponse(
+                    responseCode = "200",
+                    description = "Okay",
+                    content = @Content()),
+            @ApiResponse(
                     responseCode = "204",
                     description = "Deleted.",
                     content = @Content()),
