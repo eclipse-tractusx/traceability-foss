@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, OnInit } from '@angular/core'
+import { Component } from '@angular/core'
 import { AdminFacade } from '@page/admin/core/admin.facade';
 
 @Component({
@@ -36,7 +36,6 @@ export class ImportJsonComponent {
     this.file = event.target.files[0];
 
     if ('json' !== this.getFileExtension().toLowerCase() ) {
-      console.error("Fehler: Nur JSON-Dateien sind erlaubt.");
       this.showError = true;
       return;
     }
