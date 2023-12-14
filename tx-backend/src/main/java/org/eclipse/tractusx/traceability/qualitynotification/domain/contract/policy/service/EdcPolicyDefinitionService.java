@@ -24,10 +24,16 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.asset.model.CreateEdcAssetException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.asset.model.OdrlContext;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.contract.model.EdcOperator;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.policy.model.*;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.policy.model.CreateEdcPolicyDefinitionException;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.policy.model.EdcCreatePolicyDefinitionRequest;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.policy.model.EdcPolicy;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.policy.model.EdcPolicyPermission;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.policy.model.EdcPolicyPermissionConstraint;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.policy.model.EdcPolicyPermissionConstraintExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatusCode;
@@ -53,27 +59,28 @@ public class EdcPolicyDefinitionService {
     private static final String POLICY_TYPE = "Policy";
     private static final String POLICY_DEFINITION_TYPE = "PolicyDefinitionRequestDto";
     private static final String ATOMIC_CONSTRAINT = "AtomicConstraint";
-    private static final String PURPOSE_CONSTRAINT = "PURPOSE";
-    private static final String ID_TRACE_CONSTRAINT = "ID 3.0 Trace";
     private static final String CONSTRAINT = "Constraint";
-    private static final String ASSET_SELECTOR_EQUALITY_OPERATOR = "odrl:eq";
+    private static final String OPERATOR_PREFIX = "odrl:";
     private final ObjectMapper objectMapper;
     private final RestTemplate restTemplate;
     private final EdcProperties edcProperties;
 
+    private final TraceabilityProperties traceabilityProperties;
+
     @Autowired
-    public EdcPolicyDefinitionService(ObjectMapper objectMapper, @Qualifier(EDC_REST_TEMPLATE) RestTemplate edcRestTemplate, EdcProperties edcProperties) {
+    public EdcPolicyDefinitionService(ObjectMapper objectMapper, @Qualifier(EDC_REST_TEMPLATE) RestTemplate edcRestTemplate, EdcProperties edcProperties, TraceabilityProperties traceabilityProperties) {
         this.objectMapper = objectMapper;
         this.restTemplate = edcRestTemplate;
         this.edcProperties = edcProperties;
+        this.traceabilityProperties = traceabilityProperties;
     }
 
     public String createAccessPolicy() throws JsonProcessingException {
 
         EdcPolicyPermissionConstraintExpression constraint = EdcPolicyPermissionConstraintExpression.builder()
-                .leftOperand(PURPOSE_CONSTRAINT)
-                .rightOperand(ID_TRACE_CONSTRAINT)
-                .operator(new EdcOperator(ASSET_SELECTOR_EQUALITY_OPERATOR))
+                .leftOperand(traceabilityProperties.getLeftOperand())
+                .rightOperand(traceabilityProperties.getRightOperand())
+                .operator(new EdcOperator(OPERATOR_PREFIX + traceabilityProperties.getLeftOperand()))
                 .type(CONSTRAINT)
                 .build();
 

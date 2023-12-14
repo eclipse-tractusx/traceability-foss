@@ -22,14 +22,10 @@
 traceability:
   bpn: ${TRACEABILITY_BPN}
   url: ${TRACEABILITY_URL}
-  andConstraints:
-    - leftOperand: "PURPOSE"
-      operatorType: "eq"
-      rightOperand: "ID 3.0 Trace"
-  orConstraints:
-    - leftOperand: "PURPOSE"
-      operatorType: "eq"
-      rightOperand: "ID 3.0 Trace"
+  leftOperand: ${TRACEABILITY_LEFT_OPERAND}
+  operatorType: ${TRACEABILITY_OPERATOR_TYPE}
+  rightOperand: ${TRACEABILITY_RIGHT_OPERAND}
+
 
 
 edc:

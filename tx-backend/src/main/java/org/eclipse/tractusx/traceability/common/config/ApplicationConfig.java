@@ -77,8 +77,6 @@ public class ApplicationConfig {
     TraceabilityProperties traceabilityProperties;
 
     private final AcceptedPoliciesProvider.DefaultAcceptedPoliciesProvider defaultAcceptedPoliciesProvider;
-    private static final String ID_TRACE_CONSTRAINT = "ID 3.0 Trace";
-
 
     @Bean
     public InternalResourceViewResolver defaultViewResolver() {
@@ -143,13 +141,9 @@ public class ApplicationConfig {
         List<Constraint> andConstraintList = new ArrayList<>();
         List<Constraint> orConstraintList = new ArrayList<>();
 
-        for (TraceabilityProperties.PolicyConfig policyConfig : traceabilityProperties.getAndConstraints()) {
-            andConstraintList.add(new Constraint(policyConfig.getLeftOperand(), OperatorType.fromValue(policyConfig.getOperatorType()), List.of(policyConfig.getRightOperand())));
-        }
+        andConstraintList.add(new Constraint(traceabilityProperties.getLeftOperand(), OperatorType.fromValue(traceabilityProperties.getOperatorType()), List.of(traceabilityProperties.getRightOperand())));
 
-        for (TraceabilityProperties.PolicyConfig policyConfig : traceabilityProperties.getOrConstraints()) {
-            andConstraintList.add(new Constraint(policyConfig.getLeftOperand(), OperatorType.valueOf(policyConfig.getOperatorType()), List.of(policyConfig.getRightOperand())));
-        }
+        andConstraintList.add(new Constraint(traceabilityProperties.getLeftOperand(), OperatorType.valueOf(traceabilityProperties.getOperatorType()), List.of(traceabilityProperties.getRightOperand())));
 
         OffsetDateTime offsetDateTime = OffsetDateTime.now().plusMonths(1);
         List<Permission> permissions = List.of(
@@ -160,7 +154,7 @@ public class ApplicationConfig {
                                 orConstraintList)
                         )
                 ));
-        Policy policy = new Policy(ID_TRACE_CONSTRAINT, OffsetDateTime.now(), offsetDateTime, permissions);
+        Policy policy = new Policy(null, OffsetDateTime.now(), offsetDateTime, permissions);
         return new AcceptedPolicy(policy, offsetDateTime);
     }
 
