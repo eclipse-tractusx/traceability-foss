@@ -32,6 +32,7 @@ import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import {NotificationType} from "@shared/model/notification.model";
 
 @Component({
   selector: 'app-supplier-parts',
@@ -131,4 +132,5 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
 
   protected readonly MainAspectType = MainAspectType;
   protected readonly TableType = TableType;
+    protected readonly NotificationType = NotificationType;
 }

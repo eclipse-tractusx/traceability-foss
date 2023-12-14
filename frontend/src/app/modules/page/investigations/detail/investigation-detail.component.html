@@ -230,12 +230,13 @@ SPDX-License-Identifier: Apache-2.0
 </ng-template>
 
 <app-sidenav-wrapper [isOpen]="isInvestigationOpen$ | async" (sidenavAction)="isInvestigationOpen$.next($event)">
-  <app-request-investigation
+  <app-notification-request
     *ngIf="isInvestigationOpen$ | async"
+    [notificationType]="NotificationType.INVESTIGATION"
     [selectedItems]="selectedItems$ | async"
     (deselectPart)="removeItemFromSelection($event)"
     (restorePart)="addItemToSelection($event)"
     (clearSelected)="clearSelected()"
     (submitted)="isInvestigationOpen$.next(false)"
-  ></app-request-investigation>
+  ></app-notification-request>
 </app-sidenav-wrapper>
