@@ -89,6 +89,23 @@
     @apply font-light lg:text-base sm:text-sm text-dark;
   }
 
+  .padding-top-bottom-05 {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+  }
+
+  .margin-right-05 {
+    margin-right: 0.5em;
+  }
+
+  .padding-bottom-1 {
+    padding-bottom: 1em;
+  }
+
+  .float-right {
+    float: right;
+  }
+
   .small-text {
     @apply font-light lg:text-xs sm:text-tiny text-dark;
   }
@@ -182,8 +199,8 @@ app-ess-table {
   }
 }
 
-as-split{
-  height: 61vh!important;
+as-split {
+  height: 61vh !important;
 }
 
 app-other-parts {
@@ -201,9 +218,9 @@ app-parts, app-notification-tab {
 }
 
 app-ess, app-notification-tab {
-  .table-wrapper{
+  .table-wrapper {
     background-color: white;
-    height:45vh;
+    height: 45vh;
   }
 }
 
@@ -227,7 +244,7 @@ app-multiselect {
 app-parts, app-other-parts, app-notifications-tab {
 
   .mat-mdc-table .mdc-data-table__row:last-child {
-   border-bottom: 1px solid lightgrey;
+    border-bottom: 1px solid lightgrey;
   }
 
   .app-bom-lifecycle-activator-container {

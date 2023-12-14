@@ -21,7 +21,7 @@ SPDX-License-Identifier: Apache-2.0
 <div class="ess-table-container">
   <div class="split-container-wrapper">
     <div class="parts-table-wrapper">
-      <ng-container *viewContainer="esss$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"/>
+      <ng-container *viewContainer="esss$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp" />
       <ng-template #mainTmp let-esss="view">
         <app-ess-table class="ess-table"
                        [paginationData]="esss.data"
@@ -45,14 +45,15 @@ SPDX-License-Identifier: Apache-2.0
   </div>
 
   <app-sidenav-wrapper [isOpen]="isPartOpen$ | async">
-    <h1>{{ this.essContext + '.headline' | i18n }}</h1>
-    <p>
-      Please select the product in whose supply chain you want to search for a specific company.
-      You can also select several products. An investigation of the supply chain is started for
-      each selected product.
-    </p>
-    &nbsp;
-    <div class="searchbar-wrapper">
+    <div>
+      <h1>{{ this.essContext + '.headline' | i18n }}</h1>
+      <p>
+        Please select the product in whose supply chain you want to search for a specific company.
+        You can also select several products. An investigation of the supply chain is started for
+        each selected product.
+      </p>
+
+
       <div class="searchbar-container" [formGroup]="searchFormGroup">
         <app-input
           [label]="'parts.input.global-search.placeholder' | i18n"
@@ -68,49 +69,52 @@ SPDX-License-Identifier: Apache-2.0
           suffixIconColor="primary"
         ></app-input>
       </div>
+      <div class="parts-table-wrapper">
+        <ng-container
+          *viewContainer="partsAsPlanned4Ess$ | async; main: mainTmpParts; error: errorTmp; loading: loaderTmp"></ng-container>
+        <ng-template #mainTmpParts let-partsAsPlanned4Ess="view">
+          <app-parts-table class="parts-asPlanned-table"
+                           [buttonContainerClass]="'padding-bottom-1'"
+                           [paginationData]="partsAsPlanned4Ess.data | formatPaginationSemanticDataModelToCamelCase"
+                           [labelId]="titleId"
+                           [selectedPartsInfoLabel]="'page.selectedParts.info'"
+                           [selectedPartsActionLabel]="'page.selectedParts.action'"
+                           [selectedPartEssActionLabel]="'page.selectedEss.action'"
+                           [deselectTrigger]="deselectTrigger$ | async"
+                           [addTrigger]="addTrigger$ | async"
+                           (selected)="onSelectPartItem($event)"
+                           (configChanged)="onAsPlannedTableConfigChange($event)"
+                           (multiSelect)="currentSelectedItems$.next($event)"
+                           (clickSelectEssAction)="openCloseEssCreateDialogForm(true)"
+                           (filterActivated)="filterActivated(true, $event )"
+                           [multiSortList]="tableAsPlannedSortList"
+                           [tableHeader]='"page.asPlannedParts" | i18n'
+                           [tableType]="TableType.AS_PLANNED_OWN"
+                           [listType]="TableType.ESS"
+          ></app-parts-table>
+        </ng-template>
+      </div>
     </div>
-    <ng-container
-      *viewContainer="partsAsPlanned4Ess$ | async; main: mainTmpParts; error: errorTmp; loading: loaderTmp"></ng-container>
-    <ng-template #mainTmpParts let-partsAsPlanned4Ess="view">
-      <app-parts-table class="parts-asPlanned-table"
-                       [paginationData]="partsAsPlanned4Ess.data | formatPaginationSemanticDataModelToCamelCase"
-                       [labelId]="titleId"
-                       [selectedPartsInfoLabel]="'page.selectedParts.info'"
-                       [selectedPartsActionLabel]="'page.selectedParts.action'"
-                       [selectedPartEssActionLabel]="'page.selectedEss.action'"
-                       [deselectTrigger]="deselectTrigger$ | async"
-                       [addTrigger]="addTrigger$ | async"
-                       (selected)="onSelectPartItem($event)"
-                       (configChanged)="onAsPlannedTableConfigChange($event)"
-                       (multiSelect)="currentSelectedItems$.next($event)"
-                       (clickSelectEssAction)="openCloseEssCreateDialogForm(true)"
-                       (filterActivated)="filterActivated(true, $event )"
-                       [multiSortList]="tableAsPlannedSortList"
-                       [tableHeader]='"page.asPlannedParts" | i18n'
-                       [tableType]="TableType.AS_PLANNED_OWN"
-                       [listType]="TableType.ESS"
-      ></app-parts-table>
-    </ng-template>
   </app-sidenav-wrapper>
 
-    <app-sidenav-wrapper [isOpen]="isEssOpen$ | async" (sidenavAction)="isEssOpen$.next($event)">
-      <app-request-ess-investigation
-        *ngIf="isEssOpen$ | async"
-        [selectedItems]="currentSelectedItems$ | async"
-        (deselectPart)="deselectPartTrigger$.next([$event])"
-        (restorePart)="addPartTrigger$.next($event)"
-        (clearSelected)="deselectPartTrigger$.next(currentSelectedItems$.value)"
-        (submitted)="isEssOpen$.next(false)"
-      ></app-request-ess-investigation>
-    </app-sidenav-wrapper>
+  <app-sidenav-wrapper [isOpen]="isEssOpen$ | async" (sidenavAction)="isEssOpen$.next($event)">
+    <app-request-ess-investigation
+      *ngIf="isEssOpen$ | async"
+      [selectedItems]="currentSelectedItems$ | async"
+      (deselectPart)="deselectPartTrigger$.next([$event])"
+      (restorePart)="addPartTrigger$.next($event)"
+      (clearSelected)="deselectPartTrigger$.next(currentSelectedItems$.value)"
+      (submitted)="isEssOpen$.next(false)"
+    ></app-request-ess-investigation>
+  </app-sidenav-wrapper>
 
-    <ng-template #errorTmp let-parts="view">
-        <h1>{{ 'dataLoading.error' | i18n }}</h1>
-        <p>{{ parts.error }}</p>
-    </ng-template>
+  <ng-template #errorTmp let-parts="view">
+    <h1>{{ 'dataLoading.error' | i18n }}</h1>
+    <p>{{ parts.error }}</p>
+  </ng-template>
 
-    <ng-template #loaderTmp let-parts="view">
-        <mat-spinner></mat-spinner>
-    </ng-template>
+  <ng-template #loaderTmp let-parts="view">
+    <mat-spinner></mat-spinner>
+  </ng-template>
 
 </div>

@@ -20,14 +20,14 @@ SPDX-License-Identifier: Apache-2.0
 
 <div class="table-header-wrapper">
   <div class="table-header-container">
-    <div class="large-text table--header--text">{{tableHeader}}
-      <mat-icon (click)="openDialog()" class="table&#45;&#45;settings&#45;&#45;button ml-2">
+    <div class="large-text padding-top-bottom-05 table--header--text">{{tableHeader}}
+      <mat-icon (click)="openDialog()" class="table&#45;&#45;settings&#45;&#45;button ml-2 float-right">
         settings
       </mat-icon>
     </div>
-    <div *appHasRole="tableConfig.columnRoles?.['select'] ?? 'user'" class="table&#45;&#45;selected__container">
+    <div *appHasRole="tableConfig.columnRoles?.['select'] ?? 'user'" class="table&#45;&#45;selected__container" [ngClass]="buttonContainerClass">
       <p class="regular-text table&#45;&#45;selected&#45;&#45;label">{{ selectedPartsInfoLabel | i18n : {count: selection?.selected?.length || 0} }}</p>
-      <app-button
+      <app-button class="margin-right-05"
         *ngIf="selection?.selected?.length && tableType == TableType.AS_PLANNED_OWN && showEssButton()"
         (click)="clickSelectEssAction.emit()"
         [variant]="'raised'"
