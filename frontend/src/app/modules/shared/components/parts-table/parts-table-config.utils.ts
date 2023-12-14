@@ -14,19 +14,22 @@ export class PartsTableConfigUtils {
     return formGroup;
   }
 
-  public static createFilterColumns(displayedColumns: string[]): string[] {
+  public static createFilterColumns(displayedColumns: string[], hasFilterCol: boolean = true, hasMenuCol: boolean = true): string[] {
     const array = displayedColumns.filter((column: string) => 'select' !== column && 'menu' !== column).map((column: string) => 'filter' + column);
-
-    return [ 'Filter', ...array, 'Menu' ];
-
-
+    let filter = null;
+    let menu = null;
+    if (hasFilterCol) {
+      filter = 'Filter';
+    }
+    if (hasMenuCol) {
+      menu = 'Menu';
+    }
+    return [ filter, ...array, menu ].filter(value => value !== null);
   }
 
-  public static generateFilterColumnsMapping(sortableColumns: any, dateFields?: string[], singleSearchFields?: string[]): any[] {
-    const filterColumnsMapping: any[] = [];
-    const firstElement = { filterKey: 'Filter', headerKey: 'Filter' };
-    const lastElement = {filterKey: 'Menu', headerKey: 'Menu'};
+  public static generateFilterColumnsMapping(sortableColumns: any, dateFields?: string[], singleSearchFields?: string[], hasFilterCol: boolean = true, hasMenuCol: boolean = true): any[] {
 
+    const filterColumnsMapping: any[] = [];
     const excludedFields = [ 'select', 'menu' ];
     for (const key in sortableColumns) {
       if (sortableColumns.hasOwnProperty(key) && !excludedFields.includes(key)) {
@@ -46,8 +49,15 @@ export class PartsTableConfigUtils {
         filterColumnsMapping.push(columnMapping);
       }
     }
-
-    return [ firstElement, ...filterColumnsMapping, lastElement ];
+    let first = null;
+    if (hasFilterCol) {
+      first = { filterKey: 'Filter', headerKey: 'Filter' };
+    }
+    let last = null;
+    if (hasMenuCol) {
+      last = { filterKey: 'Menu', headerKey: 'Menu' };
+    }
+    return [ first, ...filterColumnsMapping, last ].filter(value => value !== null);
 
   }
 }

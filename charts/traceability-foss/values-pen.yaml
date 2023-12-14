@@ -126,7 +126,7 @@ backend:
     password: <path:traceability-foss/data/pen/database#tracePassword>
 
   oauth2:
-    clientId: <path:traceability-foss/data/pen/keycloak/oauth2#clientId>
+    clientId: <path:traceability-foss/data/pen/keycloak/oauth2#clientId> # sa-cl6-cx-10
     clientSecret: <path:traceability-foss/data/pen/keycloak/oauth2#clientSecret>
     clientTokenUri: "https://centralidp-pen.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
     jwkSetUri: "https://centralidp-pen.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs"

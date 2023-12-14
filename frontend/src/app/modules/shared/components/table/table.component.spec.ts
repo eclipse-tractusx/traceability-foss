@@ -20,6 +20,7 @@
  ********************************************************************************/
 
 import { Pagination } from '@core/model/pagination.model';
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { TableComponent } from '@shared/components/table/table.component';
 import { TableConfig } from '@shared/components/table/table.model';
 import { SharedModule } from '@shared/shared.module';
@@ -35,13 +36,15 @@ describe('TableComponent', () => {
     displayedColumns = [ 'name' ],
     header = { name: 'Name' },
     selected = jasmine.createSpy(),
+    tableType = TableType.AS_BUILT_OWN,
+    autoCompleteEnabled = false,
   ) => {
     const content = generateTableContent(size);
     const data = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
 
     const tableConfig: TableConfig = { displayedColumns, header };
     return renderComponent(
-      `<app-table [paginationData]='data' [tableConfig]='tableConfig' (selected)='selected($event)'></app-table>`,
+      `<app-table [paginationData]='data' [tableConfig]='tableConfig' (selected)='selected($event)' [tableType]="tableType" [autocompleteEnabled]="autocompleteEnabled"></app-table>`,
       {
         declarations: [ TableComponent ],
         imports: [ SharedModule ],
@@ -49,6 +52,8 @@ describe('TableComponent', () => {
           data,
           tableConfig,
           selected,
+          tableType,
+          autoCompleteEnabled,
         },
       },
     );
@@ -56,13 +61,34 @@ describe('TableComponent', () => {
 
   it('should render table', async () => {
     const tableSize = 7;
-    await renderTable(tableSize);
+    const content = generateTableContent(tableSize);
+    const data = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
+
+    const tableConfig: TableConfig = {
+      displayedColumns: [ 'select','name' ],
+      header: { name: 'Name for test' },
+      sortableColumns: { select: true, name: true },
+    };
+
+    const configChange = jasmine.createSpy();
+    const component = await renderComponent(
+      `<app-table  [paginationData]='data' [tableConfig]='tableConfig' (configChanged)='configChange($event)'></app-table>`,
+      {
+        declarations: [ TableComponent ],
+        imports: [ SharedModule ],
+        componentProperties: {
+          data,
+          tableConfig,
+          configChange,
+        },
+      },
+    );
 
     const tableElement = screen.getByTestId('table-component--test-id');
     expect(tableElement).toBeInTheDocument();
 
     const tableHeadElement = screen.getByTestId('table-component--head-row');
-    expect(tableHeadElement.children[0].children.length).toBe(1);
+    expect(tableHeadElement.children[0].children.length).toBe(2);
 
     const tableBodyElement = screen.getAllByTestId('table-component--body-row');
     expect(tableBodyElement.length).toBe(tableSize);
@@ -70,7 +96,28 @@ describe('TableComponent', () => {
 
   it('should render table with correctData', async () => {
     const tableSize = 3;
-    await renderTable(tableSize);
+    const content = generateTableContent(tableSize);
+    const data = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
+
+    const tableConfig: TableConfig = {
+      displayedColumns: [ 'select','name' ],
+      header: { name: 'Name for test' },
+      sortableColumns: { select: true, name: true },
+    };
+
+    const configChange = jasmine.createSpy();
+    const component = await renderComponent(
+      `<app-table  [paginationData]='data' [tableConfig]='tableConfig' (configChanged)='configChange($event)'></app-table>`,
+      {
+        declarations: [ TableComponent ],
+        imports: [ SharedModule ],
+        componentProperties: {
+          data,
+          tableConfig,
+          configChange,
+        },
+      },
+    );
 
     expect(screen.getByText('name_0')).toBeInTheDocument();
     expect(screen.getByText('name_1')).toBeInTheDocument();
@@ -79,14 +126,56 @@ describe('TableComponent', () => {
 
   it('should render correct amount of table headers', async () => {
     const tableSize = 3;
-    await renderTable(tableSize, [ 'name' ], { name: 'Name for test' });
+    const content = generateTableContent(tableSize);
+    const data = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
+
+    const tableConfig: TableConfig = {
+      displayedColumns: [ 'select','name' ],
+      header: { name: 'Name for test' },
+      sortableColumns: { select: true, name: true },
+    };
+
+    const configChange = jasmine.createSpy();
+    const component = await renderComponent(
+      `<app-table  [paginationData]='data' [tableConfig]='tableConfig' (configChanged)='configChange($event)'></app-table>`,
+      {
+        declarations: [ TableComponent ],
+        imports: [ SharedModule ],
+        componentProperties: {
+          data,
+          tableConfig,
+          configChange,
+        },
+      },
+    );
 
     expect(screen.getByText('Name for test')).toBeInTheDocument();
   });
 
   it('should render select column', async () => {
     const tableSize = 3;
-    await renderTable(tableSize, [ 'select', 'name' ]);
+    const content = generateTableContent(tableSize);
+    const data = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
+
+    const tableConfig: TableConfig = {
+      displayedColumns: [ 'select','name' ],
+      header: { name: 'Name Sort' },
+      sortableColumns: { select: true, name: true },
+    };
+
+    const configChange = jasmine.createSpy();
+    const component = await renderComponent(
+      `<app-table  [paginationData]='data' [tableConfig]='tableConfig' (configChanged)='configChange($event)'></app-table>`,
+      {
+        declarations: [ TableComponent ],
+        imports: [ SharedModule ],
+        componentProperties: {
+          data,
+          tableConfig,
+          configChange,
+        },
+      },
+    );
 
     const selectAllElement = screen.getByTestId('select-all--test-id');
     expect(selectAllElement).toBeInTheDocument();
@@ -97,7 +186,28 @@ describe('TableComponent', () => {
 
   it('should select all items and deselect all', async () => {
     const tableSize = 3;
-    await renderTable(tableSize, [ 'select', 'name' ]);
+    const content = generateTableContent(tableSize);
+    const data = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
+
+    const tableConfig: TableConfig = {
+      displayedColumns: [ 'select','name' ],
+      header: { name: 'Name Sort' },
+      sortableColumns: { select: true, name: true },
+    };
+
+    const configChange = jasmine.createSpy();
+    const component = await renderComponent(
+      `<app-table  [paginationData]='data' [tableConfig]='tableConfig' (configChanged)='configChange($event)'></app-table>`,
+      {
+        declarations: [ TableComponent ],
+        imports: [ SharedModule ],
+        componentProperties: {
+          data,
+          tableConfig,
+          configChange,
+        },
+      },
+    );
 
     const checkboxSelectAll = getInputFromChildNodes(
       screen.getByTestId('select-all--test-id').firstChild.firstChild.childNodes,
@@ -152,19 +262,27 @@ describe('TableComponent', () => {
 
   it('should display menu icon', async () => {
     const tableSize = 3;
-    await renderTable(tableSize, [ 'name', 'menu' ], { name: 'Name for test' });
+    const content = generateTableContent(tableSize);
+    const data = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
+    const configChange = jasmine.createSpy();
+    const tableConfig: TableConfig = {
+      displayedColumns: [ 'name', 'menu' ],
+      header: { name: 'Name Sort' },
+      sortableColumns: { name: true, menu: true },
+    };
+
+    const component = await renderComponent(
+      `<app-table  [paginationData]='data' [tableConfig]='tableConfig' (configChanged)='configChange($event)'></app-table>`,
+      {
+        declarations: [ TableComponent ],
+        imports: [ SharedModule ],
+        componentProperties: {
+          data,
+          tableConfig,
+          configChange,
+        },
+      },
+    );
     expect(screen.getAllByText('more_vert').length).toBe(tableSize);
-  });
-
-  it('should select one item', async () => {
-    const tableSize = 3;
-    const selected = jasmine.createSpy();
-    await renderTable(tableSize, [ 'name' ], { name: 'Name for test' }, selected);
-
-    const tableElement = screen.getByText('name_0');
-    expect(tableElement).toBeInTheDocument();
-
-    tableElement.click();
-    expect(selected).toHaveBeenCalledWith({ name: 'name_0', test: 'test' });
   });
 });

@@ -80,7 +80,7 @@ class PersistentAssetsAsBuiltRepositoryTest {
                 .build();
 
         // when
-        AssetBase asset = AssetAsBuiltEntity.toDomain(entity);
+        AssetBase asset = entity.toDomain();
 
 
         // then

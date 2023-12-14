@@ -17,19 +17,24 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { DatePipe, registerLocaleData } from '@angular/common';
+import {DatePipe, registerLocaleData} from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-import { Component, EventEmitter, Inject, Input, LOCALE_ID, OnChanges, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { MatSelectChange } from '@angular/material/select';
-import { Owner } from '@page/parts/model/owner.enum';
-import { PartTableType } from '@shared/components/table/table.model';
-import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
-import { PartsService } from '@shared/service/parts.service';
-import { firstValueFrom } from 'rxjs';
+import {Component, EventEmitter, Inject, Injector, Input, LOCALE_ID, OnChanges, ViewChild} from '@angular/core';
+import {FormControl} from '@angular/forms';
+import {DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
+import {MatDatepickerInputEvent} from '@angular/material/datepicker';
+import {MatSelectChange} from '@angular/material/select';
+import {
+  AutocompleteStrategy,
+  AutocompleteStrategyMap,
+} from '@shared/components/multi-select-autocomplete/autocomplete-strategy';
+import {TableType} from '@shared/components/multi-select-autocomplete/table-type.model';
+import {
+  FormatPartSemanticDataModelToCamelCasePipe
+} from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
+import {PartsService} from '@shared/service/parts.service';
+import {firstValueFrom} from 'rxjs';
 
 @Component({
   selector: 'app-multiselect',
@@ -75,10 +80,9 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   filterColumn = null;
 
   @Input()
-  partTableType = PartTableType.AS_BUILT_OWN;
+  tableType: TableType = TableType.AS_BUILT_OWN;
 
-  @Input()
-  isAsBuilt: boolean;
+  strategy: AutocompleteStrategy;
 
   public readonly minDate = new Date();
 
@@ -90,7 +94,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
 
   @ViewChild('selectElem', { static: true }) selectElem: any;
 
-  filteredOptions: Array<any> = [];
   selectedValue: Array<any> = [];
   selectAllChecked = false;
 
@@ -104,12 +107,15 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   isLoadingSuggestions: boolean;
 
   constructor(public datePipe: DatePipe, public _adapter: DateAdapter<any>,
-              @Inject(MAT_DATE_LOCALE) public _locale: string, @Inject(LOCALE_ID) private locale: string, public partsService: PartsService, private readonly formatPartSemanticDataModelToCamelCasePipe: FormatPartSemanticDataModelToCamelCasePipe) {
+              @Inject(MAT_DATE_LOCALE) public _locale: string, @Inject(LOCALE_ID) private locale: string, public partsService: PartsService,
+              private readonly formatPartSemanticDataModelToCamelCasePipe: FormatPartSemanticDataModelToCamelCasePipe,
+              private injector: Injector) {
     registerLocaleData(localeDe, 'de', localeDeExtra);
     this._adapter.setLocale(locale);
   }
 
   ngOnInit(): void {
+    this.strategy = this.injector.get<AutocompleteStrategy>(AutocompleteStrategyMap.get(this.tableType));
     this.searchElementChange.subscribe((value) => {
       if (this.delayTimeoutId) {
         clearTimeout(this.delayTimeoutId);
@@ -123,25 +129,27 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   ngOnChanges(): void {
     this.selectedValue = this.formControl.value;
     this.formControl.patchValue(this.selectedValue);
+
   }
 
-  toggleSelectAll = function(selectCheckbox: any): void {
-
+  toggleSelectAll(selectCheckbox: any): void {
     if (selectCheckbox.checked) {
       // if there are no suggestion but the selectAll checkbox was checked
-      if (!this.filteredOptions.length) {
+      if (!this.searchedOptions.length) {
         this.formControl.patchValue(this.searchElement);
         this.selectedValue = this.searchElement as unknown as [];
       } else {
-        this.filteredOptions.forEach(option => {
+        this.searchedOptions.forEach(option => {
           if (!this.selectedValue.includes(option[this.value])) {
             this.selectedValue = this.selectedValue.concat([ option[this.value] ]);
           }
         });
       }
+      this.updateOptionsAndSelections();
 
     } else {
       this.selectedValue = [];
+      this.updateOptionsAndSelections();
     }
     this.formControl.patchValue(this.selectedValue);
   };
@@ -154,7 +162,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     return this.searchElement === null || this.searchElement === undefined || this.searchElement === '';
   }
 
-  displayValue() {
+  displayValue(): string[] {
     let suffix = '';
     let displayValue;
     // add +X others label if multiple
@@ -164,14 +172,14 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
 
     // apply CamelCase to semanticDataModel labels
     if (this.filterColumn === 'semanticDataModel') {
-      displayValue = this.formatPartSemanticDataModelToCamelCasePipe.transformModel(this.selectedValue[0]) + suffix;
+      displayValue = [ this.formatPartSemanticDataModelToCamelCasePipe.transformModel(this.selectedValue[0]), suffix ];
     } else {
-      displayValue = this.selectedValue[0] + suffix;
+      displayValue = [ this.selectedValue[0], suffix ];
     }
 
     // if no value selected, return empty string
     if (!this.selectedValue.length) {
-      displayValue = '';
+      displayValue = [ '' ];
     }
 
     return displayValue;
@@ -184,7 +192,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     }
 
     if (!value) {
-      this.filteredOptions = [];
+      this.searchedOptions = [];
       return;
     }
 
@@ -200,25 +208,19 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     }
 
     // if there is no timeout currently, start the delay
-    const timeoutCallback = (): void => {
+    const timeoutCallback = async (): Promise<void> => {
       this.isLoadingSuggestions = true;
-      const tableOwner = this.getOwnerOfTable(this.partTableType);
-
       try {
-        firstValueFrom(this.partsService.getDistinctFilterValues(
-          this.isAsBuilt,
-          tableOwner,
-          this.filterColumn,
-          this.searchElement,
-        )).then((res) => {
+        firstValueFrom(this.strategy.retrieveSuggestionValues(this.tableType, this.filterColumn, this.searchElement)).then((res) => {
           if (this.filterColumn === 'semanticDataModel') {
-            this.searchedOptions = res
-              .filter(option => !this.selectedValue.includes(option))
+            // @ts-ignore
+            this.searchedOptions = res.filter(option => !this.selectedValue.includes(option))
               .map(option => ({
                 display: this.formatPartSemanticDataModelToCamelCasePipe.transformModel(option),
                 value: option,
               }));
             this.options = this.searchedOptions;
+            // @ts-ignore
             this.allOptions = res.map(option => ({
               display: this.formatPartSemanticDataModelToCamelCasePipe.transformModel(option),
               value: option,
@@ -226,18 +228,19 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
 
           } else {
             // add filter for not selected
-            this.searchedOptions = res
-              .filter(option => !this.selectedValue.includes(option))
+            // @ts-ignore
+            this.searchedOptions = res.filter(option => !this.selectedValue.includes(option))
               .map(option => ({ display: option, value: option }));
             this.options = this.searchedOptions;
+            // @ts-ignore
             this.allOptions = res.map(option => ({ display: option, value: option }));
+            this.handleAllSelectedCheckbox();
           }
 
-          this.filteredOptions = this.searchedOptions;
-          this.suggestionError = !this.filteredOptions?.length;
+          this.suggestionError = !this.searchedOptions?.length;
         }).catch((error) => {
           console.error('Error fetching data: ', error);
-          this.suggestionError = !this.filteredOptions.length;
+          this.suggestionError = !this.searchedOptions.length;
         }).finally(() => {
           this.delayTimeoutId = null;
           this.isLoadingSuggestions = false;
@@ -248,24 +251,14 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     };
 
     // Start the delay with the callback
-    this.delayTimeoutId = setTimeout(timeoutCallback, 500);
+    this.delayTimeoutId = setTimeout(() => {
+      Promise.resolve().then(() => timeoutCallback());
+    }, 500);
   }
 
   // DO NOT REMOVE: Used by parent component
   isUnsupportedAutoCompleteField(fieldName: string) {
     return fieldName === 'activeAlerts' || fieldName === 'activeInvestigations';
-  }
-
-
-  // Returns plain strings array of filtered values
-  getFilteredOptionsValues(): string[] {
-    const filteredValues = [];
-    this.filteredOptions.forEach(option => {
-      if (option.length) {
-        filteredValues.push(option.value);
-      }
-    });
-    return filteredValues;
   }
 
   startDateSelected(event: MatDatepickerInputEvent<Date>) {
@@ -282,15 +275,20 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   }
 
   clickClear(): void {
+    this.selectAllChecked = false;
     this.formControl.patchValue('');
     this.formControl.reset();
     this.searchElement = '';
 
     this.startDate = null;
     this.endDate = null;
-    this.filteredOptions = [];
-    this.updateOptionsAndSelections();
+    this.searchedOptions = [];
+    this.allOptions = [];
+    this.optionsSelected = [];
+    this.options = [];
     this.selectedValue = [];
+    this.suggestionError = false;
+    this.updateOptionsAndSelections();
   }
 
   private updateOptionsAndSelections() {
@@ -313,34 +311,23 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
       filter.push({ display: selected, value: selected });
     }
     this.optionsSelected = filter;
+    this.handleAllSelectedCheckbox();
   }
 
   dateFilter() {
     this.formControl.patchValue(this.searchElement);
   }
 
-
   onSelectionChange(matSelectChange: MatSelectChange) {
-
-    const filteredValues = this.getFilteredOptionsValues();
-    const selectedCount = this.selectedValue.filter(item => filteredValues.includes(item)).length;
-    this.selectAllChecked = selectedCount === this.filteredOptions.length;
-
     this.selectedValue = matSelectChange.value;
     this.formControl.patchValue(matSelectChange.value);
     this.updateOptionsAndSelections();
   }
 
-  getOwnerOfTable(partTableType: PartTableType): Owner {
-    if (partTableType === PartTableType.AS_BUILT_OWN || partTableType === PartTableType.AS_PLANNED_OWN) {
-      return Owner.OWN;
-    } else if (partTableType === PartTableType.AS_BUILT_CUSTOMER || partTableType === PartTableType.AS_PLANNED_CUSTOMER) {
-      return Owner.CUSTOMER;
-    } else if (partTableType === PartTableType.AS_BUILT_SUPPLIER || partTableType === PartTableType.AS_PLANNED_SUPPLIER) {
-      return Owner.SUPPLIER;
-    } else {
-      return Owner.UNKNOWN;
-    }
+  private handleAllSelectedCheckbox() {
+    const noSelectedValues = this.selectedValue?.length === 0;
+    const oneOptionSelected = this.optionsSelected?.length === 1 && this.allOptions?.length === 0;
+    this.selectAllChecked = noSelectedValues ? false : oneOptionSelected || this.allOptions?.length + this.optionsSelected?.length === this.selectedValue?.length;
   }
 
   filterKeyCommands(event: any) {
@@ -348,4 +335,10 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
       event.stopPropagation();
     }
   }
+
+  containsIllegalCharactersForI18nKey(text: string) {
+    const allowedCharacters = /^\w+$/;
+    return !allowedCharacters.test(text);
+  }
+
 }

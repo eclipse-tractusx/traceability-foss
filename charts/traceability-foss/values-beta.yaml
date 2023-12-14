@@ -121,7 +121,7 @@ backend:
     password: <path:traceability-foss/data/beta/database#tracePassword>
 
   oauth2:
-    clientId: <path:traceability-foss/data/beta/keycloak/oauth2#clientId>
+    clientId: <path:traceability-foss/data/beta/keycloak/oauth2#clientId> # sa-cl6-cx-10
     clientSecret: <path:traceability-foss/data/beta/keycloak/oauth2#clientSecret>
     clientTokenUri: "https://centralidp.beta.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
     jwkSetUri: "https://centralidp.beta.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs"
@@ -227,7 +227,7 @@ irs-helm:
 
   keycloak:
     oauth2:
-      clientId: <path:traceability-foss/data/beta/keycloak/oauth2#clientId>
+      clientId: <path:traceability-foss/data/beta/keycloak/oauth2#clientId> # sa-cl6-cx-10
       clientSecret: <path:traceability-foss/data/beta/keycloak/oauth2#clientSecret>
       clientTokenUri: https://centralidp.beta.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
       jwkSetUri: https://centralidp.beta.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs

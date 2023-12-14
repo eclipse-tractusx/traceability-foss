@@ -1,4 +1,6 @@
 tractusx-connector:
+  participant:
+    id: BPNL00000003CML1
   enabled: true
   controlplane:
     ingresses:
@@ -16,13 +18,13 @@ tractusx-connector:
           secretName: tls-secret
     ssi:
       miw:
-        url: <path:traceability-foss/data/dev/edc/wallet#ssi.miw.url>
-        authorityId: <path:traceability-foss/data/dev/edc/wallet#ssi.miw.authorityId>
+        url: <path:traceability-foss/data/dev/edc-provider/wallet#ssi.miw.url>
+        authorityId: <path:traceability-foss/data/dev/edc-provider/wallet#ssi.miw.authorityId>
       oauth:
-        tokenurl: <path:traceability-foss/data/dev/edc/wallet#ssi.oauth.tokenurl>
+        tokenurl: <path:traceability-foss/data/dev/edc-provider/wallet#ssi.oauth.tokenurl>
         client:
-          id: <path:traceability-foss/data/dev/edc/wallet#ssi.oauth.client.id>
-          secretAlias: edc-miw-keycloak-secret
+          id: <path:traceability-foss/data/dev/edc-provider/wallet#ssi.oauth.client.id> # sa676
+          secretAlias: edc-miw-keycloak-secret-dev-a-provider
 
     resources:
       limits:

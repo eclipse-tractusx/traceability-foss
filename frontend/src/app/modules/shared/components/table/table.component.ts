@@ -19,17 +19,21 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { SelectionModel } from '@angular/cdk/collections';
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEncapsulation } from '@angular/core';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { Pagination } from '@core/model/pagination.model';
-import { RoleService } from '@core/user/role.service';
-import { MenuActionConfig, TableConfig, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
-import { addSelectedValues, clearAllRows, clearCurrentRows, removeSelectedValues } from '@shared/helper/table-helper';
-import { NotificationType } from '@shared/model/notification.model';
-import { FlattenObjectPipe } from '@shared/pipes/flatten-object.pipe';
+import {SelectionModel} from '@angular/cdk/collections';
+import {Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEncapsulation} from '@angular/core';
+import {FormGroup} from '@angular/forms';
+import {MatPaginator, PageEvent} from '@angular/material/paginator';
+import {MatSort, Sort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
+import {EmptyPagination, Pagination} from '@core/model/pagination.model';
+import {RoleService} from '@core/user/role.service';
+import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
+import {TableType} from '@shared/components/multi-select-autocomplete/table-type.model';
+import {PartsTableConfigUtils} from '@shared/components/parts-table/parts-table-config.utils';
+import {TableViewConfig} from '@shared/components/parts-table/table-view-config.model';
+import {MenuActionConfig, TableConfig, TableEventConfig, TableHeaderSort,} from '@shared/components/table/table.model';
+import {addSelectedValues, clearAllRows, clearCurrentRows, removeSelectedValues} from '@shared/helper/table-helper';
+import {FlattenObjectPipe} from '@shared/pipes/flatten-object.pipe';
 
 @Component({
   selector: 'app-table',
@@ -38,10 +42,10 @@ import { FlattenObjectPipe } from '@shared/pipes/flatten-object.pipe';
   encapsulation: ViewEncapsulation.None,
 })
 export class TableComponent {
+
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('tableElement', { read: ElementRef }) tableElementRef: ElementRef<HTMLElement>;
-
   @Input() additionalTableHeader = false;
 
   @Input()
@@ -124,6 +128,9 @@ export class TableComponent {
   @Output() configChanged = new EventEmitter<TableEventConfig>();
   @Output() multiSelect = new EventEmitter<any[]>();
   @Output() clickSelectAction = new EventEmitter<void>();
+  @Output() filterActivated = new EventEmitter<any>();
+  @Input()
+  public autocompleteEnabled = false;
 
   public readonly dataSource = new MatTableDataSource<unknown>();
   public readonly selection = new SelectionModel<unknown>(true, []);
@@ -139,7 +146,36 @@ export class TableComponent {
 
   private _tableConfig: TableConfig;
 
+  public tableViewConfig: TableViewConfig;
+
+  filterFormGroup = new FormGroup({});
+
+  // input notification type map to parttable type,
+  @Input()
+  tableType: TableType = TableType.AS_BUILT_OWN;
+
   constructor(private readonly roleService: RoleService) {
+
+  }
+
+  ngOnInit(): void {
+    this.tableViewConfig = {
+      displayedColumns: Object.keys(this.tableConfig.sortableColumns),
+      filterFormGroup: PartsTableConfigUtils.createFormGroup(this.tableConfig?.displayedColumns),
+      filterColumns: PartsTableConfigUtils.createFilterColumns(this.tableConfig?.displayedColumns, false, true),
+      sortableColumns: this.tableConfig?.sortableColumns,
+      displayFilterColumnMappings: PartsTableConfigUtils.generateFilterColumnsMapping(this.tableConfig?.sortableColumns, [ 'createdDate', 'targetDate' ], [], false, true),
+    };
+
+    for (const controlName in this.tableViewConfig.filterFormGroup) {
+      if (this.tableViewConfig.filterFormGroup.hasOwnProperty(controlName)) {
+        this.filterFormGroup.addControl(controlName, this.tableViewConfig.filterFormGroup[controlName]);
+      }
+    }
+
+    this.filterFormGroup.valueChanges.subscribe((formValues) => {
+      this.filterActivated.emit(formValues);
+    });
   }
 
   public areAllRowsSelected(): boolean {
@@ -173,6 +209,9 @@ export class TableComponent {
     this.emitMultiSelect();
     this.sorting = !direction ? null : ([ active, direction ] as TableHeaderSort);
     this.isDataLoading = true;
+    if (this.pageSize === 0){
+      this.pageSize = EmptyPagination.pageSize;
+    }
     this.configChanged.emit({ page: 0, pageSize: this.pageSize, sorting: this.sorting });
   }
 
@@ -205,5 +244,5 @@ export class TableComponent {
     removeSelectedValues(this.selection, itemsToRemove);
   }
 
-  protected readonly NotificationType = NotificationType;
+  protected readonly MainAspectType = MainAspectType;
 }

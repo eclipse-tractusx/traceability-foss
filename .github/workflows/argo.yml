@@ -35,11 +35,18 @@ on:
         - E2E-A/E2E-B
         - int-a/int-b
       testdata_version:
-        description: Which Testdata Version CX_Testdata_MessagingTest_v<X.X.X>.json
+        description: Which Testdata Version CX_Testdata_MessagingTest_v<X.X.X>.json e.g., 1.1.12"
         required: true
       argo_token:
         description: Argo Token
         required: true
+      hard_refresh:
+        type: choice
+        description: Do you want a Hard Refresh? (+5min execution time)
+        required: true
+        options:
+        - Yes
+        - No
 
 env:
     ARGO_TEST_REGISTRY: "https://argo.dev.demo.catena-x.net/api/v1/applications/tracex-dt-registry-test"
@@ -73,14 +80,58 @@ env:
     ARGO_INT_B_RegistryReload: "https://traceability-int-b.int.demo.catena-x.net/api/registry/reload"
 
 jobs:
+  test_input:
+   runs-on: ubuntu-latest
+   steps:
+
+      - name: Checkout-Repository
+        uses: actions/checkout@v4
+
+      - name: mask token
+        run: |
+          ARGO_TOKEN=$(jq -r '.inputs.argo_token' $GITHUB_EVENT_PATH)
+          echo ::add-mask::$ARGO_TOKEN
+          echo ARGO_TOKEN=$ARGO_TOKEN >> $GITHUB_ENV
+
+      - name: Check Testdata Version Format
+        run: |
+         if [[ ! "${{ github.event.inputs.testdata_version }}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          echo "Invalid Testdata Version format. Please use X.X.X, e.g., 1.1.12"
+          exit 1
+         fi
+
+      - name: Check Argo Token
+        run: |
+
+           source ./.github/argo/argo_config.sh
+
+           if [ "${{ github.event.inputs.environment }}" == "Dev/Test" ]; then
+              resources="${DEV_TEST_RESOURCES[2]}"
+            elif [ "${{ github.event.inputs.environment }}" == "E2E-A/E2E-B" ]; then
+              resources="${E2E_RESOURCES[2]}"
+            elif [ "${{ github.event.inputs.environment }}" == "int-a/int-b" ]; then
+              resources="${INT_RESOURCES[2]}"
+            fi
+
+           data=$(curl -X GET -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" "$resources")
+           status_app=$(echo "$data" | jq -r '.status.sync.status')
+           if [ $status_app != null ]; then
+             echo "Argo Token is valid."
+           else
+            echo "Argo Token is invalid."
+            exit 1
+           fi
+
 
   print_environment:
+   needs: test_input
    runs-on: ubuntu-latest
    steps:
       - name: ${{ github.event.inputs.environment }}
         run: |
           echo "### inputs" >> $GITHUB_STEP_SUMMARY
           echo "- environment: ${{ github.event.inputs.environment }}" >> $GITHUB_STEP_SUMMARY
+
 
   hard_refresh_environment:
    needs: print_environment
@@ -100,18 +151,22 @@ jobs:
         run: |
          source ./.github/argo/argo_config.sh
 
-         if [ "${{ github.event.inputs.environment }}" == "Dev/Test" ]; then
-            resources=("${DEV_TEST_RESOURCES[@]}")
-         elif [ "${{ github.event.inputs.environment }}" == "E2E-A/E2E-B" ]; then
-            resources=("${E2E_RESOURCES[@]}")
-         elif [ "${{ github.event.inputs.environment }}" == "int-a/int-b" ]; then
-            resources=("${INT_RESOURCES[@]}")
-         fi
+         if [ "${{ github.event.inputs.hard_refresh }}" == "true" ]; then
+           if [ "${{ github.event.inputs.environment }}" == "Dev/Test" ]; then
+              resources=("${DEV_TEST_RESOURCES[@]}")
+           elif [ "${{ github.event.inputs.environment }}" == "E2E-A/E2E-B" ]; then
+              resources=("${E2E_RESOURCES[@]}")
+           elif [ "${{ github.event.inputs.environment }}" == "int-a/int-b" ]; then
+              resources=("${INT_RESOURCES[@]}")
+           fi
 
-         for resource in "${resources[@]}"; do
-           curl -X GET -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" "$resource?refresh=hard&appNamespace=argocd"
-         done
-         sleep 40
+           for resource in "${resources[@]}"; do
+             curl -X GET -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" "$resource?refresh=hard&appNamespace=argocd"
+           done
+           sleep 40
+         elif [ "${{ github.event.inputs.hard_refresh }}" == "false" ]; then
+          echo "Hard refresh skipped"
+         fi
 
   delete_environment:
     needs: hard_refresh_environment
@@ -168,14 +223,14 @@ jobs:
               old_TargetRevision2=$(echo "$json_data2" | jq -r '.spec.source.targetRevision')
 
               if [ "$old_TargetRevision1" != "$new_target_revision" ]; then
-                updated_json=$(echo "$json_data1" | jq ".spec.source.targetRevision = \"$new_target_revision\"")
-                curl -X PUT -H "Content-Type: application/json" -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" -d "$updated_json" "$ARGO_TEST_TRACE_X_INSTANCE"
+                updated_json1=$(echo "$json_data1" | jq ".spec.source.targetRevision = \"$new_target_revision\"")
+                curl -X PUT -H "Content-Type: application/json" -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" -d "$updated_json1" "$ARGO_TEST_TRACE_X_INSTANCE"
                 echo "Target Revision for Test overwritten"
               fi
 
               if [ "$old_TargetRevision2" != "$new_target_revision" ]; then
-                updated_json=$(echo "$json_data2" | jq ".spec.source.targetRevision = \"$new_target_revision\"")
-                curl -X PUT -H "Content-Type: application/json" -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" -d "$updated_json" "$ARGO_DEV_TRACE_X_INSTANCE"
+                updated_json2=$(echo "$json_data2" | jq ".spec.source.targetRevision = \"$new_target_revision\"")
+                curl -X PUT -H "Content-Type: application/json" -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" -d "$updated_json2" "$ARGO_DEV_TRACE_X_INSTANCE"
                 echo "Target Revision for Dev overwritten"
               fi
 
@@ -188,14 +243,14 @@ jobs:
               old_TargetRevision2=$(echo "$json_data2" | jq -r '.spec.source.targetRevision')
 
               if [ "$old_TargetRevision1" != "$new_target_revision" ]; then
-                updated_json=$(echo "$json_data1" | jq ".spec.source.targetRevision = \"$new_target_revision\"")
-                curl -X PUT -H "Content-Type: application/json" -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" -d "$updated_json" "$ARGO_E2E_A_TRACE_X_INSTANCE"
+                updated_json1=$(echo "$json_data1" | jq ".spec.source.targetRevision = \"$new_target_revision\"")
+                curl -X PUT -H "Content-Type: application/json" -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" -d "$updated_json1" "$ARGO_E2E_A_TRACE_X_INSTANCE"
                 echo "Target Revision for e2e-a overwritten"
               fi
 
               if [ "$old_TargetRevision2" != "$new_target_revision" ]; then
-                updated_json=$(echo "$json_data2" | jq ".spec.source.targetRevision = \"$new_target_revision\"")
-                curl -X PUT -H "Content-Type: application/json" -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" -d "$updated_json" "$ARGO_E2E_B_TRACE_X_INSTANCE"
+                updated_json2=$(echo "$json_data2" | jq ".spec.source.targetRevision = \"$new_target_revision\"")
+                curl -X PUT -H "Content-Type: application/json" -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" -d "$updated_json2" "$ARGO_E2E_B_TRACE_X_INSTANCE"
                 echo "Target Revision for e2e-b overwritten"
               fi
 
@@ -290,15 +345,15 @@ jobs:
     needs: test_state
     runs-on: ubuntu-latest
     steps:
-    
+
      - name: Checkout code
        uses: actions/checkout@v4
-            
+
      - name: Set up Python
-       uses: actions/setup-python@v4
+       uses: actions/setup-python@v5
        with:
         python-version: '3.11'
-    
+
      - name: Upload testdata
        run: |
         python -m pip install requests

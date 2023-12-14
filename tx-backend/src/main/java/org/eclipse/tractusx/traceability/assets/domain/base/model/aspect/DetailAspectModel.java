@@ -27,6 +27,7 @@ import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.Deta
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataAsPlanned;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataPartSiteInformationAsPlanned;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltViewEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.TractionBatteryCode;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.ManufacturingInformation;
@@ -48,6 +49,37 @@ public class DetailAspectModel {
     private DetailAspectData data;
 
     public static List<DetailAspectModel> from(AssetAsBuiltEntity entity) {
+
+        DetailAspectModel detailAspectModelAsBuilt = DetailAspectModel.builder()
+                .type(DetailAspectType.AS_BUILT)
+                .data(DetailAspectDataAsBuilt.builder()
+                        .partId(entity.getManufacturerPartId())
+                        .customerPartId(entity.getCustomerPartId())
+                        .nameAtCustomer(entity.getNameAtCustomer())
+                        .manufacturingCountry(entity.getManufacturingCountry())
+                        .manufacturingDate(toOffsetDateTime(entity.getManufacturingDate()))
+                        .build())
+                .build();
+        List<DetailAspectModel> detailAspectModels = new ArrayList<>(List.of(detailAspectModelAsBuilt));
+
+        if (!Strings.isEmpty(entity.getTractionBatteryCode())) {
+            DetailAspectModel detailAspectModelTractionBatteryCode = DetailAspectModel.
+                    builder()
+                    .type(DetailAspectType.TRACTION_BATTERY_CODE)
+                    .data(DetailAspectDataTractionBatteryCode.builder()
+                            .tractionBatteryCode(entity.getTractionBatteryCode())
+                            .productType(entity.getProductType())
+                            .subcomponents(TractionBatteryCode.toDomain(entity))
+                            .build()
+                    ).build();
+
+            detailAspectModels.add(detailAspectModelTractionBatteryCode);
+        }
+
+        return detailAspectModels;
+    }
+
+    public static List<DetailAspectModel> from(AssetAsBuiltViewEntity entity) {
 
         DetailAspectModel detailAspectModelAsBuilt = DetailAspectModel.builder()
                 .type(DetailAspectType.AS_BUILT)

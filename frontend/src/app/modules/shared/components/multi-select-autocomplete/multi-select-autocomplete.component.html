@@ -24,7 +24,7 @@ SPDX-License-Identifier: Apache-2.0
               (selectionChange)="onSelectionChange($event)" panelClass="app-multiselect-filter-dropdown">
 
     <div class="box-search">
-      <mat-checkbox color="primary" class="box-select-all" [(ngModel)]="selectAllChecked"
+      <mat-checkbox *ngIf="!singleSearch && !(!searchedOptions?.length && !optionsSelected?.length)" color="primary" class="box-select-all" [disabled]="!searchedOptions?.length && !optionsSelected?.length" [(ngModel)]="selectAllChecked"
                     (change)="toggleSelectAll($event)"></mat-checkbox>
       <input [disabled]="" #searchInput [(ngModel)]="searchElement" type="text"
              [ngClass]="'pl-1'"
@@ -44,16 +44,29 @@ SPDX-License-Identifier: Apache-2.0
     <mat-option [style.display]="'none'"></mat-option>
 
     <div class="pl-1" *ngIf="suggestionError">{{'multiSelect.suggestionError' | i18n}}</div>
-    <ng-container>
-      <mat-option *ngFor="let option of optionsSelected" [disabled]="option.disabled"
-                  [value]="option.value">{{option.display}}
+    <ng-container *ngFor="let option of optionsSelected">
+      <mat-option *ngIf="containsIllegalCharactersForI18nKey(option.display); else i18nKeyDisplay" [disabled]="option.disabled" [value]="option.value">
+        {{ option.display }}
       </mat-option>
+      <ng-template #i18nKeyDisplay>
+        <mat-option [disabled]="option.disabled" [value]="option.value">
+          {{ 'multiSelect.mappedText.' + option.display | i18n: {defaultValue: option.display} }}
+        </mat-option>
+      </ng-template>
     </ng-container>
 
     <mat-divider></mat-divider>
     <ng-container *ngIf="options?.length">
-      <mat-option *ngFor="let option of options" [disabled]="option.disabled" [value]="option.value">{{option.display}}
-      </mat-option>
+      <ng-container *ngFor="let option of options">
+        <mat-option *ngIf="containsIllegalCharactersForI18nKey(option.display); else i18nKeyDisplay" [disabled]="option.disabled" [value]="option.value">
+          {{ option.display }}
+        </mat-option>
+        <ng-template #i18nKeyDisplay>
+          <mat-option [disabled]="option.disabled" [value]="option.value">
+            {{ 'multiSelect.mappedText.' + option.display | i18n: {defaultValue: option.display} }}
+          </mat-option>
+        </ng-template>
+      </ng-container>
     </ng-container>
 
     <mat-option *ngIf="singleSearch" (click)="changeSearchTextOptionSingleSearch()" [value]=this.searchElement
@@ -61,7 +74,14 @@ SPDX-License-Identifier: Apache-2.0
     </mat-option>
     <mat-select-trigger *ngIf="selectedValue?.length > 1">
       <div>
-        {{displayValue()}}
+        <ng-container *ngFor="let value of displayValue()">
+          <ng-container *ngIf="containsIllegalCharactersForI18nKey(value); else i18nKeyDisplay">
+            {{ value }}
+          </ng-container>
+          <ng-template #i18nKeyDisplay>
+            {{ 'multiSelect.mappedText.' + value | i18n: {defaultValue: value} }}
+          </ng-template>
+        </ng-container>
       </div>
     </mat-select-trigger>
   </mat-select>

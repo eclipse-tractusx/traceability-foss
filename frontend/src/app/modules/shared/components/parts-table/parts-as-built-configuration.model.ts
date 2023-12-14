@@ -16,7 +16,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import { TableFilterConfiguration } from '@shared/components/parts-table/parts-config.model';
+import {TableFilterConfiguration} from '@shared/components/parts-table/parts-config.model';
 
 export class PartsAsBuiltConfigurationModel extends TableFilterConfiguration {
   constructor() {

@@ -264,6 +264,9 @@ public class AlertController {
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {
             @ApiResponse(
+                    responseCode = "200",
+                    description = "Ok."),
+            @ApiResponse(
                     responseCode = "204",
                     description = "No content."),
             @ApiResponse(
@@ -324,9 +327,11 @@ public class AlertController {
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {
             @ApiResponse(
+                    responseCode = "200",
+                    description = "Ok."),
+            @ApiResponse(
                     responseCode = "204",
-                    description = "No content.",
-                    content = @Content()),
+                    description = "No content."),
             @ApiResponse(
                     responseCode = "400",
                     description = "Bad request.",
@@ -384,6 +389,9 @@ public class AlertController {
             description = "The endpoint closes alert by id.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Ok."),
             @ApiResponse(
                     responseCode = "204",
                     description = "No content.",
