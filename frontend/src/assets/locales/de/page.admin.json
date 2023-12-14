@@ -25,7 +25,10 @@
       "title": "Importieren - Json Datei",
       "clear_file": "Datei löschen",
       "upload_file": "Datei hochladen",
-      "error": "Warnung: Bitte benutzen Sie eine Json Datei"
+      "error": "Warnung: Bitte benutzen Sie eine Json Datei",
+      "Drag_and_Drop": "Datei hineinziehen",
+      "or": "oder",
+      "Browse_files": "Dateien durchsuchen"
     }
   }
 }

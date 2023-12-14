@@ -27,10 +27,10 @@ SPDX-License-Identifier: Apache-2.0
     <div class="file-container_drag_and_drop" *ngIf="shouldShowFileContainer_drag_and_drop()">
       <mat-icon>upload</mat-icon>
       <input type="file" (change)="getFile($event)" class="file" />
-      <h4>Drag and drop</h4>
-      <p class="or">Or</p>
+      <h4>{{ 'pageAdmin.importJson.Drag_and_Drop' | i18n }}</h4>
+      <p class="or">{{ 'pageAdmin.importJson.or' | i18n }}</p>
       <div class="text-box">
-        <p class="text-box-p">Browse files</p>
+        <p class="text-box-p">{{ 'pageAdmin.importJson.Browse_files' | i18n }}</p>
       </div>
       <p class="error-message" *ngIf="!isJsonFile() && showError">{{ 'pageAdmin.importJson.error' | i18n }}</p>
     </div>
