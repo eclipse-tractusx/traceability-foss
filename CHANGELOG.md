@@ -14,6 +14,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - bump actions/setup-java from 3 to 4
 - bump org.apache.maven.plugins:maven-jxr-plugin from 3.3.0 to 3.3.1
 - bump org.apache.maven.plugins:maven-checkstyle-plugin from 3.3.0 to 3.3.1
+- bump schedlock.version from 5.9.1 to 5.10.0
 
 ## [10.0.0 - 12.12.2024]
 ### Added
