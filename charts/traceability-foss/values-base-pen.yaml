@@ -48,8 +48,8 @@ configuration:
     password: &pgadmin_password <path:traceability-foss/data/pen/database#pgadminPassword>
 
   irs:
-    url: &irs_url ''
-    callbackUrl: &irs_callback_url ''
+    url: &irs_url 'https://tx-irs-pen.dev.demo.catena-x.net'
+    callbackUrl: &irs_callback_url 'http://tx-irs-pen:8181/internal/endpoint-data-reference'
 
   edc:
    controlplane:
