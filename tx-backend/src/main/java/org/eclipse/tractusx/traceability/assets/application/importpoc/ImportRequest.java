@@ -18,7 +18,11 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.application.importpoc;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-public record ImportRequest(List<AssetWrapperRequest> assetRawRequestList) {
+public record ImportRequest(@JsonProperty("assets") List<AssetWrapperRequest> assetRawRequestList) {
 }
+
+

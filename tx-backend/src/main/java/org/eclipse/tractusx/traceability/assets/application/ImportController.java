@@ -20,7 +20,9 @@
 package org.eclipse.tractusx.traceability.assets.application;
 
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -114,6 +116,8 @@ public class ImportController {
             String fileContent = new String(file.getBytes());
             log.info("Imported file: " + fileContent);
             ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
             try {
                 return objectMapper.readValue(fileContent, ImportRequest.class);
             } catch (Exception e) {
