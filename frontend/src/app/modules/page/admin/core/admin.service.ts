@@ -68,10 +68,7 @@ export class AdminService {
     return this.apiService.delete<void>(`${ this.url }/bpn-config/${ bpn }`);
   }
 
-  public postJsonFile(file: File): Observable<FormData>{
-
-    const formData = new FormData();
-    formData.append("file", file);
-    return this.apiService.post(`${ this.url }/assets/import`, formData);
+  public postJsonFile(file: File): Observable<void>{
+    return this.apiService.post(`${ this.url }/assets/import`, file);
   }
 }
