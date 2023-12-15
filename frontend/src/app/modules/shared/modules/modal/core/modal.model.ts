@@ -24,6 +24,7 @@ import { UntypedFormGroup } from '@angular/forms';
 
 export interface ModalData {
   title: string;
+  type?: string;
   buttonLeft?: string;
   buttonRight: string;
   primaryButtonColour?: 'primary' | 'accent' | 'warn';

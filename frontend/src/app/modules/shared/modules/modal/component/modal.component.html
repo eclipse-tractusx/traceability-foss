@@ -31,7 +31,7 @@ SPDX-License-Identifier: Apache-2.0
 
   <mat-dialog-actions [class]="'actions-container'">
     <ng-container *ngIf="data?.notificationId" >
-      <mat-checkbox [class]="'checkbox-container'" [(ngModel)]="isValid">Yes, I confirm that I want to cancel the current id {{data?.notificationId}} </mat-checkbox>
+      <mat-checkbox [class]="'checkbox-container'" [(ngModel)]="isValid">{{data?.type | i18n}} {{data?.notificationId}} </mat-checkbox>
     </ng-container>
     <app-button *ngIf="data.buttonLeft" (click)="cancel()" variant="raised">{{ data.buttonLeft | i18n }}</app-button>
     <app-button [ngClass]="data.buttonLeft ? '' : 'centered-button'"

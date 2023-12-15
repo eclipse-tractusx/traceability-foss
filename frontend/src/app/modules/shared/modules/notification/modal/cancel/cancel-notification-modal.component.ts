@@ -63,6 +63,7 @@ export class CancelNotificationModalComponent {
 
     const options: ModalData = {
       title: this.translationContext + '.modal.cancellationTitle',
+      type: this.translationContext + '.modal.cancellationConfirmationLabel',
       buttonRight: 'actions.cancellationConfirm',
       primaryButtonColour: 'warn',
       notificationId: this.notification.id,
