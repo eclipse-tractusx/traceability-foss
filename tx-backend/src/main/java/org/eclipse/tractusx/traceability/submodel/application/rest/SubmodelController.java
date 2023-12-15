@@ -108,7 +108,9 @@ public class SubmodelController {
             tags = {"Submodel"},
             description = "This endpoint allows you to save a Submodel identified by its ID.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-    @ApiResponses(value = {@ApiResponse(responseCode = "204", description = "No Content."),
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok."),
+            @ApiResponse(responseCode = "204", description = "No Content."),
             @ApiResponse(
                     responseCode = "400",
                     description = "Bad request.",
