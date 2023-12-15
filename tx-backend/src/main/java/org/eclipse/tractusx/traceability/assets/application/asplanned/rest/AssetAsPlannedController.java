@@ -30,6 +30,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.QueryParam;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.application.asplanned.mapper.AssetAsPlannedResponseMapper;
 import org.eclipse.tractusx.traceability.assets.application.base.request.GetDetailInformationRequest;
 import org.eclipse.tractusx.traceability.assets.application.base.request.SyncAssetsRequest;
@@ -55,7 +56,10 @@ import java.util.List;
 @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
 @Tag(name = "AssetsAsPlanned")
 @RequestMapping(path = "/assets/as-planned", produces = "application/json", consumes = "application/json")
+@Slf4j
 public class AssetAsPlannedController {
+
+    private static final String API_LOG_START = "Received API call on /assets/as-planned";
 
     private final AssetBaseService assetService;
 
@@ -417,7 +421,7 @@ public class AssetAsPlannedController {
     @Operation(operationId = "getDetailInformation",
             summary = "Searches for assets by ids.",
             tags = {"AssetsAsPlanned"},
-            description = "The endpoint searchs for assets by id and returns a list of them.",
+            description = "The endpoint searches for assets by id and returns a list of them.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found for Asset", content = @Content(
             mediaType = "application/json",
@@ -475,6 +479,7 @@ public class AssetAsPlannedController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("/detail-information")
     public List<AssetAsPlannedResponse> getDetailInformation(@Valid @RequestBody GetDetailInformationRequest getDetailInformationRequest) {
+        log.info(API_LOG_START + "{} with params: {}", "/detail-information", getDetailInformationRequest);
         return AssetAsPlannedResponseMapper.from(
                 assetService.getAssetsById(getDetailInformationRequest.assetIds())
         );

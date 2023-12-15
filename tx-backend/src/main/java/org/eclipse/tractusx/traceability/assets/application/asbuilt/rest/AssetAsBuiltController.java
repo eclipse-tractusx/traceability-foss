@@ -32,6 +32,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.QueryParam;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper.AssetAsBuiltResponseMapper;
 import org.eclipse.tractusx.traceability.assets.application.base.request.GetDetailInformationRequest;
 import org.eclipse.tractusx.traceability.assets.application.base.request.SyncAssetsRequest;
@@ -58,7 +59,10 @@ import java.util.Map;
 @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
 @Tag(name = "AssetsAsBuilt")
 @RequestMapping(path = "/assets/as-built", produces = "application/json", consumes = "application/json")
+@Slf4j
 public class AssetAsBuiltController {
+
+    private static final String API_LOG_START = "Received API call on /assets/as-built";
 
     private final AssetBaseService assetBaseService;
 
@@ -534,6 +538,7 @@ public class AssetAsBuiltController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("/detail-information")
     public List<AssetAsBuiltResponse> getDetailInformation(@Valid @RequestBody GetDetailInformationRequest getDetailInformationRequest) {
+        log.info(API_LOG_START + "{} with params: {}", "/detail-information", getDetailInformationRequest);
         return AssetAsBuiltResponseMapper.from(
                 assetBaseService.getAssetsById(getDetailInformationRequest.assetIds())
         );
