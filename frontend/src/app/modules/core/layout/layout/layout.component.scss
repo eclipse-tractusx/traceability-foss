@@ -20,7 +20,7 @@
  ********************************************************************************/
 
 .layout-container {
-  @apply h-screen flex flex-row justify-start overflow-hidden;
+  @apply h-screen flex flex-row justify-start overflow-y-auto;
   flex: 1;
 }
 
@@ -33,9 +33,9 @@
 }
 
 .layout-content {
-  @apply flex flex-1 flex-col min-w-0 relative overflow-auto;
+  @apply max-w-screen-4xl flex flex-1 flex-col min-w-0 relative;
   gap: 40px;
-
+  margin: 0 auto;
   &__box-modal {
     @apply min-w-0;
     flex: 1 0;

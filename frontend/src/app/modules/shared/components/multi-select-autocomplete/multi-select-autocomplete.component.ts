@@ -196,6 +196,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
 
   public setFilterActive(): void {
     this.filterActive = this.theSearchElement;
+    this.cleared = this.theSearchElement === '';
   }
 
   public dateSelectionEvent(event: MatDatepickerInputEvent<Date>) {
@@ -214,22 +215,29 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
 
   public clickClear(extern = false): boolean {
     let wasSet = false;
-    this.cleared = true;
     if (this.searchInput) {
       this.searchInput.value = '';
     }
     this.theSearchElement = '';
     this.selectedValue = [];
     wasSet = this.formControl.value !== null && ((Array.isArray(this.formControl.value) && this.formControl.value.length > 0) || (!Array.isArray(this.formControl.value) && this.formControl.value !== ''));
-    this.formControl.patchValue('');
-    this.theSearchDate.patchValue(null);
-    this.formControl.reset();
-    if (extern) {
-      clearTimeout(this.inputTimer);
-      this.runningTimer = false;
+    if (this.isDate) {
+      this.formControl.patchValue(null);
+      this.theSearchDate.patchValue(null);
+    } else if (this.multiple) {
+      this.toggleSelect({ checked: false }, true);
+      this.selectAllChecked = false;
+    } else {
+      this.formControl.patchValue('');
       this.filterActive = '';
-      this.searched = false;
     }
+    clearTimeout(this.inputTimer);
+    this.runningTimer = false;
+    this.searched = false;
+    if (!extern && (!this.cleared || this.multiple)) {
+      this.triggerFilter.emit();
+    }
+    this.cleared = true;
     return wasSet;
   }
 

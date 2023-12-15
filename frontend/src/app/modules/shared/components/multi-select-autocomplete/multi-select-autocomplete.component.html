@@ -17,7 +17,15 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 <div class="filter-input">
-  <mat-label class="label-medium">{{ 'multiSelect.' + filterName | i18n }}</mat-label>
+  <mat-label class="label-medium">
+    <div class="filter-input__label">
+      {{ 'multiSelect.' + filterName | i18n }}
+      <button (click)="clickClear();">
+        <img src="/assets/images/icons/refresh_icon.svg"
+          alt="refresh" />
+      </button>
+    </div>
+  </mat-label>
   <mat-form-field class="filter-input__textarea"
     appearance="outline"
     color="accent"

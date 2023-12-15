@@ -32,6 +32,10 @@
   input {
     @extend .body-large-emphasis;
   }
+  &__label {
+    display: flex;
+    justify-content: space-between;
+  }
   &__textarea-button {
     display: flex;
     justify-content: space-between;

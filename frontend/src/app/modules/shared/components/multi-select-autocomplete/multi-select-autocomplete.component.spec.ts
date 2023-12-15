@@ -96,20 +96,60 @@ describe('MultiSelectAutocompleteComponent', () => {
     expect(selectTextElement).toBeInTheDocument();
   });
 
-  it('should clear values when clickClear is called', async () => {
+  it('should clear values when clickClear is called for a text filter', async () => {
     const { fixture } = await renderMultiSelectAutoCompleteComponent();
     const { componentInstance } = fixture;
 
     componentInstance.searchInput = { value: 'initialValue' };
     componentInstance.theSearchElement = 'initialValue';
     componentInstance.selectedValue = ['initialValue'];
+    componentInstance.filterActive = 'initialValue';
+    componentInstance.cleared = false;
+
+    spyOn(componentInstance.triggerFilter, 'emit');
 
     componentInstance.clickClear();
 
     // Assert
-    expect(componentInstance.searchInput.value).toBe('');
-    expect(componentInstance.theSearchElement).toBe(null);
+    expect(componentInstance.searchInput.value).toEqual('');
+    expect(componentInstance.theSearchElement).toEqual('');
+    expect(componentInstance.filterActive).toEqual('');
     expect(componentInstance.selectedValue).toEqual([]);
+    expect(componentInstance.triggerFilter.emit).toHaveBeenCalled();
+  });
+
+  it('should clear values when clickClear is called for a option filter', async () => {
+    const { fixture } = await renderMultiSelectAutoCompleteComponent(false, true);
+    const { componentInstance } = fixture;
+
+    componentInstance.selectAllChecked = true;
+
+    spyOn(componentInstance.triggerFilter, 'emit');
+    spyOn(componentInstance, 'toggleSelect');
+
+    componentInstance.clickClear();
+
+    // Assert
+    expect(componentInstance.selectAllChecked).toEqual(false);
+    expect(componentInstance.triggerFilter.emit).toHaveBeenCalled();
+    expect(componentInstance.toggleSelect).toHaveBeenCalledWith({ checked: false }, true);
+  });
+
+  it('should clear values when clickClear is called for a date filter', async () => {
+    const { fixture } = await renderMultiSelectAutoCompleteComponent(true);
+    const { componentInstance } = fixture;
+
+    componentInstance.theSearchDate.patchValue(new Date(), { emitEvent: false });
+    componentInstance.cleared = false;
+
+    spyOn(componentInstance.triggerFilter, 'emit');
+
+    componentInstance.clickClear();
+
+    // Assert
+    expect(componentInstance.theSearchDate.value).toBe(null);
+    expect(componentInstance.formControl.value).toBe(null);
+    expect(componentInstance.triggerFilter.emit).toHaveBeenCalled();
   });
 
   it('should clear values when clickClear is called from a external source', async () => {
@@ -127,12 +167,12 @@ describe('MultiSelectAutocompleteComponent', () => {
     const wasSet = componentInstance.clickClear(true);
 
     // Assert
-    expect(componentInstance.searchInput.value).toBe('');
-    expect(componentInstance.theSearchElement).toBe(null);
+    expect(componentInstance.searchInput.value).toEqual('');
+    expect(componentInstance.theSearchElement).toEqual('');
     expect(componentInstance.selectedValue).toEqual([]);
-    expect(wasSet).toBe(true);
-    expect(componentInstance.searched).toBe(false);
-    expect(componentInstance.filterActive).toBe('');
+    expect(wasSet).toEqual(true);
+    expect(componentInstance.searched).toEqual(false);
+    expect(componentInstance.filterActive).toEqual('');
 
   });
 

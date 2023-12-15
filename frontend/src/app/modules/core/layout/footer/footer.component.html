@@ -1,19 +1,21 @@
-<footer class="footer--container">
-  <div class="footer--items-container">
-    <div class="footer--items">
-      <ng-container
-        *ngTemplateOutlet="menuItemExtern; context: { value: 'imprint', role: 'user', origin: 'layout.footer', link: 'imprintLink' }"></ng-container>
-      <!--<ng-container
+<footer class="footer">
+  <div class="footer--container">
+    <div class="footer--items-container">
+      <div class="footer--items">
+        <ng-container
+          *ngTemplateOutlet="menuItemExtern; context: { value: 'imprint', role: 'user', origin: 'layout.footer', link: 'imprintLink' }"></ng-container>
+        <!--<ng-container
         *ngTemplateOutlet="menuItem; context: { value: 'faqs', role: 'user', origin: 'layout.nav' }"
       ></ng-container>-->
-      <ng-container
-        *ngTemplateOutlet="menuItem; context: { value: 'about', role: 'user', origin: 'routing' }"></ng-container>
-      <!--<ng-container
+        <ng-container
+          *ngTemplateOutlet="menuItem; context: { value: 'about', role: 'user', origin: 'routing' }"></ng-container>
+        <!--<ng-container
         *ngTemplateOutlet="menuItem; context: { value: 'version', role: 'user', origin: 'layout.footer' }"
       ></ng-container>-->
-    </div>
-    <div class="footer--copyright">
-      <p class="footer--text">© Cofinity-X GmbH - All rights reserved.</p>
+      </div>
+      <div class="footer--copyright">
+        <p class="footer--text">© Cofinity-X GmbH - All rights reserved.</p>
+      </div>
     </div>
   </div>
 </footer>

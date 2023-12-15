@@ -18,26 +18,27 @@ under the License.
 
 SPDX-License-Identifier: Apache-2.0
 -->
+<div class="header">
+  <div class="header--container">
+    <nav class="header--menu-container">
+      <div class="header--logo-container"
+        [routerLink]="['/dashboard']"
+        [class.selected]="'dashboard' === activeMenu">
+        <img src="/assets/images/logo.svg"
+          alt="Trace-X"
+          class="header--logo" />
+      </div>
 
-<div class="header--container">
-  <nav class="header--menu-container">
-    <div class="header--logo-container"
-      [routerLink]="['/dashboard']"
-      [class.selected]="'dashboard' === activeMenu">
-      <img src="/assets/images/logo.svg"
-        alt="Trace-X"
-        class="header--logo" />
-    </div>
-
-    <div class="header--menu">
-      <ng-container *ngTemplateOutlet="menuItem; context: { value: 'dashboard', role: 'user' }"></ng-container>
-      <ng-container *ngTemplateOutlet="menuItem; context: { value: 'parts', role: 'user' }"></ng-container>
-      <ng-container *ngTemplateOutlet="menuItem; context: { value: 'otherParts', role: 'user' }"></ng-container>
-      <ng-container *ngTemplateOutlet="menuItem; context: { value: 'investigations', role: 'user' }"></ng-container>
-      <ng-container *ngTemplateOutlet="menuItem; context: { value: 'alerts', role: 'user' }"></ng-container>
-      <app-user-navigation></app-user-navigation>
-    </div>
-  </nav>
+      <div class="header--menu">
+        <ng-container *ngTemplateOutlet="menuItem; context: { value: 'dashboard', role: 'user' }"></ng-container>
+        <ng-container *ngTemplateOutlet="menuItem; context: { value: 'parts', role: 'user' }"></ng-container>
+        <ng-container *ngTemplateOutlet="menuItem; context: { value: 'otherParts', role: 'user' }"></ng-container>
+        <ng-container *ngTemplateOutlet="menuItem; context: { value: 'investigations', role: 'user' }"></ng-container>
+        <ng-container *ngTemplateOutlet="menuItem; context: { value: 'alerts', role: 'user' }"></ng-container>
+        <app-user-navigation></app-user-navigation>
+      </div>
+    </nav>
+  </div>
 </div>
 
 <ng-template let-type="value"
