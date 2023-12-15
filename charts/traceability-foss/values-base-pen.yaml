@@ -75,12 +75,33 @@ configuration:
     url: &dtr_url ''
 
 #########################
+# Global Values configuration     #
+#########################
+global:
+  enablePrometheus: false
+  enableGrafana: false
+
+#########################
 # Frontend Chart Values configuration     #
 #########################
 frontend:
   nameOverride: *fe_name
   fullnameOverride: *fe_name
+  livenessProbe:
+    failureThreshold: 3
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
+  readinessProbe:
+    failureThreshold: 3
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
   image:
+    repository: ghcr.io/catenax-ng/tx-traceability-foss
+    tag: $ARGOCD_APP_REVISION
     CATENAX_PORTAL_API_URL: *be_api_url
     CATENAX_PORTAL_KEYCLOAK_URL: *portal_auth_keycloak_url
     CATENAX_PORTAL_BACKEND_DOMAIN: *portal_domain
@@ -88,6 +109,10 @@ frontend:
     CATENAX_PORTAL_CLIENT_ID: *central_idp_resource_client
 
   ingress:
+    enabled: true
+    className: "nginx"
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
     hosts:
       - host: *fe_host_name
         paths:
@@ -102,11 +127,58 @@ frontend:
 # Backend Chart Values configuration     #
 #########################
 backend:
-  namespace: product-traceability-foss-pen
   nameOverride: *backend_name
   fullnameOverride: *backend_name
+  livenessProbe:
+    failureThreshold: 3
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
+  readinessProbe:
+    failureThreshold: 3
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
+  image:
+    repository: ghcr.io/catenax-ng/tx-traceability-foss
+    tag: $ARGOCD_APP_REVISION
+
+  podSecurityContext:
+    runAsUser: 10001
+    seccompProfile:
+      type: RuntimeDefault
+
+  # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
+  # @url: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
+  securityContext:
+    allowPrivilegeEscalation: false
+    runAsNonRoot: true
+    runAsUser: 10001
+    runAsGroup: 3000
+    capabilities:
+      drop:
+        - ALL
+    readOnlyRootFilesystem: false
+
+  # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
+  # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits
+  resources:
+    limits:
+      cpu: 1500m
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 256Mi
+
+  springprofile: dev
 
   ingress:
+    enabled: true
+    className: "nginx"
+    annotations:
+      nginx.ingress.kubernetes.io/backend-protocol: HTTP
     hosts:
       - host: *be_host_name
         paths:
@@ -125,6 +197,7 @@ backend:
     url: *backend_database_url
     password: *backend_database_password
 
+
   oauth2:
     clientId: *service_account_id
     clientSecret: *service_account_password
@@ -133,7 +206,7 @@ backend:
     resourceClient: *central_idp_resource_client
 
   edc:
-    apiKey:
+    apiKey: ''
     providerUrl: *edc_controlplane_url
     callbackUrl: *irs_callback_url
     callbackUrlEdcClient: *backend_edc_client_callback_url
@@ -150,10 +223,13 @@ backend:
     baseUrl: *portal_backend_url
 
   config:
+    allowedCorsOriginFirst: "http://localhost:4200/"
     allowedCorsOriginSecond: *backend_security_allowed_fe
 
   dependencies:
     enabled: false
+    irs: 'CHANGE_ME'  # <irs-helm.nameOverride>
+    edc: 'CHANGE_ME'  # <tractusx-connector.nameOverride
 
 #########################
 # PG Admin configuration     #
@@ -161,7 +237,16 @@ backend:
 pgadmin4:
   nameOverride: *pgadmin_name
   fullnameOverride: *pgadmin_name
+  enabled: true
+  strategy:
+    type: Recreate
+  networkPolicy:
+    enabled: false
   ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/backend-protocol: HTTP
     hosts:
       - host: *pgadmin_host_name
         paths:
@@ -172,19 +257,33 @@ pgadmin4:
           - *pgadmin_host_name
         secretName: tls-secret
   env:
+    email: pgadmin4@trace.foss
     password: *pgadmin_password
+    variables:
+      - name: PGADMIN_CONFIG_UPGRADE_CHECK_ENABLED
+        value: "False"
+  resources:
+    limits:
+      cpu: 768m
+      memory: 768Mi
+    requests:
+      cpu: 100m
+      memory: 256Mi
 
 #########################
 # Postgres configuration     #
 #########################
 postgresql:
+  enabled: true
+
   nameOverride: *backend_database_name
   fullnameOverride: *backend_database_name
 
   auth:
-    postgresPassword: *backend_database_root_password  # Do we need 2 passwords ? or can reuse the one below
+    postgresPassword: *backend_database_root_password
     password: *backend_database_password
-
+    database: "trace"
+    username: "trace"  # extract to vault
 #########################
 # IRS configuration     #
 #########################
@@ -196,3 +295,4 @@ irs-helm:
 ###################################
 tractusx-connector:
   enabled: false
+
