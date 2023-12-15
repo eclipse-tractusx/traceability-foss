@@ -354,7 +354,7 @@ class InvestigationTest {
     }
 
     private QualityNotificationMessage testNotification() {
-        return NotificationTestDataFactory.createNotificationTestData();
+        return NotificationTestDataFactory.createQualityNotificationMessageTestData();
     }
 }
 

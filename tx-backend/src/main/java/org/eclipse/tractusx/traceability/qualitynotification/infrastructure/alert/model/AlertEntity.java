@@ -77,6 +77,15 @@ public class AlertEntity extends NotificationBaseEntity {
     @Formula("(select A.severity from alert_notification A where A.alert_id=id limit 1)")
     private Integer severity;
 
+    @Formula("(select A.created_by from alert_notification A where A.alert_id=id limit 1)")
+    private String createdBy;
+
+    @Formula("(select A.send_to_name from alert_notification A where A.alert_id=id limit 1)")
+    private String sendToName;
+
+    @Formula("(select A.send_to from alert_notification A where A.alert_id=id limit 1)")
+    private String sendTo;
+
     public static QualityNotification toDomain(AlertEntity alertNotificationEntity) {
         List<QualityNotificationMessage> notifications = emptyIfNull(alertNotificationEntity.getNotifications()).stream()
                 .map(AlertNotificationEntity::toDomain)

@@ -31,20 +31,60 @@ public class QualityNotificationSpecificationUtil {
             List<? extends BaseSpecification<T>> specifications,
             SearchCriteriaOperator searchCriteriaOperator) {
 
+        List<? extends BaseSpecification<T>> sideSpecifications = specifications.stream()
+                .filter(QualityNotificationSpecificationUtil::isSidePredicate).toList();
+
+        List<? extends BaseSpecification<T>> statusSpecifications = specifications.stream()
+                .filter(QualityNotificationSpecificationUtil::isStatusPredicate).toList();
+
+        List<? extends BaseSpecification<T>> severitySpecifications = specifications.stream()
+                .filter(QualityNotificationSpecificationUtil::isSeverityPredicate).toList();
+
+        List<? extends BaseSpecification<T>> otherSpecifications = specifications.stream()
+                .filter(spec -> !isSidePredicate(spec) && !isStatusPredicate(spec) && !isSeverityPredicate(spec)).toList();
+
         Specification<T> resultAnd = null;
         Specification<T> resultOr = null;
+        Specification<T> resultStatus = null;
+        Specification<T> resultSeverity = null;
+        Specification<T> resultSide = null;
+
+        for (BaseSpecification<T> sideSpecification : sideSpecifications) {
+            resultSide = Specification.where(resultStatus).or(sideSpecification);
+        }
+
+        for (BaseSpecification<T> statusSpecification : statusSpecifications) {
+            resultStatus = Specification.where(resultStatus).or(statusSpecification);
+        }
+
+        for (BaseSpecification<T> severitySpecification : severitySpecifications) {
+            resultSeverity = Specification.where(resultSeverity).or(severitySpecification);
+        }
 
         if (searchCriteriaOperator.equals(SearchCriteriaOperator.AND)) {
-            for (BaseSpecification<T> otherSpecification : specifications) {
+            for (BaseSpecification<T> otherSpecification : otherSpecifications) {
                 resultAnd = Specification.where(resultAnd).and(otherSpecification);
             }
         } else {
-            for (BaseSpecification<T> otherSpecification : specifications) {
+            for (BaseSpecification<T> otherSpecification : otherSpecifications) {
                 resultOr = Specification.where(resultOr).or(otherSpecification);
             }
         }
 
-        return Specification.where(resultAnd).and(resultOr);
+        return Specification.where(resultAnd).and(resultStatus).and(resultSeverity).and(resultOr).and(resultSide);
     }
+
+    private static boolean isStatusPredicate(BaseSpecification<?> baseSpecification) {
+        return "status".equals(baseSpecification.getSearchCriteriaFilter().getKey());
+    }
+
+    private static boolean isSeverityPredicate(BaseSpecification<?> baseSpecification) {
+        return "severity".equals(baseSpecification.getSearchCriteriaFilter().getKey());
+    }
+
+    private static boolean isSidePredicate(BaseSpecification<?> baseSpecification) {
+        return "side".equals(baseSpecification.getSearchCriteriaFilter().getKey());
+    }
+
 }
 

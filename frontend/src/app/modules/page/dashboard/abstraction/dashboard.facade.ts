@@ -20,7 +20,7 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
-import { Notifications } from '@shared/model/notification.model';
+import { NotificationStatus, Notifications } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { InvestigationsService } from '@shared/service/investigations.service';
 import { PartsService } from '@shared/service/parts.service';
@@ -29,12 +29,23 @@ import { DashboardService } from '../core/dashboard.service';
 import { DashboardState } from '../core/dashboard.state';
 import { DashboardStats } from '../model/dashboard.model';
 import { AlertsService } from '@shared/service/alerts.service';
+import { FilterMethod, TableFilter } from '@shared/components/table/table.model';
+import { FilterOperator } from '@page/parts/model/parts.model';
 
 @Injectable()
 export class DashboardFacade {
   private assetNumbersSubscription: Subscription;
   private investigationSubscription: Subscription;
   private alertSubscription: Subscription;
+  private filtering: TableFilter = {
+    filterMethod: FilterMethod.OR,
+    status: [
+      { filterValue: NotificationStatus.ACCEPTED.toString(), filterOperator: FilterOperator.EQUAL },
+      { filterValue: NotificationStatus.ACKNOWLEDGED.toString(), filterOperator: FilterOperator.EQUAL },
+      { filterValue: NotificationStatus.DECLINED.toString(), filterOperator: FilterOperator.EQUAL },
+      { filterValue: NotificationStatus.RECEIVED.toString(), filterOperator: FilterOperator.EQUAL },
+    ]
+  };
 
   constructor(
     private readonly dashboardService: DashboardService,
@@ -42,7 +53,7 @@ export class DashboardFacade {
     private readonly partsService: PartsService,
     private readonly investigationsService: InvestigationsService,
     private readonly alertsService: AlertsService,
-  ) {}
+  ) { }
 
   public get numberOfMyParts$(): Observable<View<number>> {
     return this.dashboardState.numberOfMyParts$;
@@ -103,8 +114,9 @@ export class DashboardFacade {
   }
 
   private setInvestigations(): void {
+
     this.investigationSubscription?.unsubscribe();
-    this.investigationSubscription = this.investigationsService.getReceivedInvestigations(0, 5, []).subscribe({
+    this.investigationSubscription = this.investigationsService.getReceivedInvestigations(0, 5, [], this.filtering).subscribe({
       next: data => this.dashboardState.setInvestigation({ data }),
       error: (error: Error) => this.dashboardState.setInvestigation({ error }),
     });
@@ -112,7 +124,7 @@ export class DashboardFacade {
 
   private setAlerts(): void {
     this.alertSubscription?.unsubscribe();
-    this.alertSubscription = this.alertsService.getReceivedAlerts(0, 5, []).subscribe({
+    this.alertSubscription = this.alertsService.getReceivedAlerts(0, 5, [], this.filtering).subscribe({
       next: data => this.dashboardState.setAlerts({ data }),
       error: (error: Error) => this.dashboardState.setAlerts({ error }),
     });

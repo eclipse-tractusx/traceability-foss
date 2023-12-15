@@ -119,6 +119,12 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
         return new PageResult<>(investigationEntityPage, InvestigationEntity::toDomain);
     }
 
+    @Override
+    public long countAll(SearchCriteria searchCriteria) {
+        List<InvestigationSpecification> investigationSpecifications = emptyIfNull(searchCriteria.getSearchCriteriaFilterList()).stream().map(InvestigationSpecification::new).toList();
+        Specification<InvestigationEntity> specification = InvestigationSpecification.toSpecification(investigationSpecifications, searchCriteria.getSearchCriteriaOperator());
+        return jpaInvestigationRepository.count(specification);
+    }
 
     @Override
     public Optional<QualityNotification> findOptionalQualityNotificationById(QualityNotificationId investigationId) {

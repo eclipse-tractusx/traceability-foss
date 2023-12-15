@@ -38,6 +38,8 @@ public interface QualityNotificationRepository {
 
     PageResult<QualityNotification> findAll(Pageable pageable, SearchCriteria searchCriteria);
 
+    long countAll(SearchCriteria searchCriteria);
+
     Optional<QualityNotification> findOptionalQualityNotificationById(QualityNotificationId notificationId);
 
     Optional<QualityNotification> findByEdcNotificationId(String edcNotificationId);

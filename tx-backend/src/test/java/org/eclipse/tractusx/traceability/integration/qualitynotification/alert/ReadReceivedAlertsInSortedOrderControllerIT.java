@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
+import static org.hamcrest.Matchers.equalTo;
 
 class ReadReceivedAlertsInSortedOrderControllerIT extends IntegrationTestSpecification {
 
@@ -205,6 +206,7 @@ class ReadReceivedAlertsInSortedOrderControllerIT extends IntegrationTestSpecifi
         AlertNotificationEntity[] alertNotificationEntities = AlertTestDataFactory.createReceiverMajorityAlertNotificationEntitiesTestData(testBpn);
         alertNotificationsSupport.storedAlertNotifications(alertNotificationEntities);
 
+        // not all entities have a different target date
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .param("page", "0")
@@ -219,6 +221,9 @@ class ReadReceivedAlertsInSortedOrderControllerIT extends IntegrationTestSpecifi
                 .body("pageSize", Matchers.is(10))
                 .body("content", Matchers.hasSize(4))
                 .body("totalItems", Matchers.is(4))
-                .body("content.sendToName", Matchers.containsInRelativeOrder("OEM1", "OEM2", "OEM1", "OEM3"));
+                .body("content.sendToName[0]", Matchers.anyOf(equalTo("OEM1"), equalTo("OEM2")))
+                .body("content.sendToName[1]", Matchers.anyOf(equalTo("OEM1"), equalTo("OEM2")))
+                .body("content.sendToName[2]", Matchers.anyOf(equalTo("OEM1"), equalTo("OEM3")))
+                .body("content.sendToName[3]", Matchers.anyOf(equalTo("OEM1"), equalTo("OEM3")));
     }
 }

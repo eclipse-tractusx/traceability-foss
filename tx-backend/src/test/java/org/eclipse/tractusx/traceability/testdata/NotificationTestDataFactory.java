@@ -19,18 +19,17 @@
 
 package org.eclipse.tractusx.traceability.testdata;
 
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationAffectedPart;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.*;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.UUID;
 
 public class NotificationTestDataFactory {
 
-    public static QualityNotificationMessage createNotificationTestData() {
+    public static QualityNotificationMessage createQualityNotificationMessageTestData() {
         List<QualityNotificationAffectedPart> affectedParts = List.of(new QualityNotificationAffectedPart("partId"));
 
         return QualityNotificationMessage.builder()
@@ -53,27 +52,46 @@ public class NotificationTestDataFactory {
                 .build();
     }
 
-    public static QualityNotificationMessage createNotificationTestData(QualityNotificationType qualityNotificationType) {
-        List<QualityNotificationAffectedPart> affectedParts = List.of(new QualityNotificationAffectedPart("partId"));
+    private static QualityNotificationMessage createReceivedNotificationMessageTestData() {
 
         return QualityNotificationMessage.builder()
-                .id("123")
-                .notificationReferenceId("id123")
-                .createdBy("senderBPN")
-                .createdByName("senderManufacturerName")
-                .sendTo("recipientBPN")
-                .sendToName("receiverManufacturerName")
-                .edcUrl("senderAddress")
-                .contractAgreementId("agreement")
-                .description("123")
+                .id(UUID.randomUUID().toString())
+                .created(LocalDateTime.now().minusDays(2))
+                .createdBy("BPN01")
+                .createdByName("Company1")
+                .sendTo("BPN02")
+                .sendToName("Company2")
+                .severity(QualityNotificationSeverity.CRITICAL)
+                .notificationStatus(QualityNotificationStatus.RECEIVED)
+                .targetDate(Instant.now().plus(1, ChronoUnit.DAYS))
+                .build();
+    }
+
+    private static QualityNotificationMessage createAcknowledgedNotificationMessageTestData() {
+
+        return QualityNotificationMessage.builder()
+                .id(UUID.randomUUID().toString())
+                .created(LocalDateTime.now().minusDays(1))
+                .createdBy("BPN02")
+                .createdByName("Company2")
+                .sendTo("BPN01")
+                .sendToName("Company1")
+                .severity(QualityNotificationSeverity.CRITICAL)
                 .notificationStatus(QualityNotificationStatus.ACKNOWLEDGED)
-                .affectedParts(affectedParts)
-                .severity(QualityNotificationSeverity.MINOR)
-                .edcNotificationId("123")
-                .targetDate(Instant.parse("2022-03-01T12:00:00Z"))
-                .messageId("messageId")
-                .isInitial(true)
-                .type(qualityNotificationType)
+                .targetDate(Instant.now().plus(1, ChronoUnit.DAYS))
+                .build();
+    }
+
+    public static QualityNotification createQualityNotificationTestData() {
+
+        return QualityNotification.builder()
+                .notificationId(new QualityNotificationId(1L))
+                .notificationStatus(QualityNotificationStatus.ACKNOWLEDGED)
+                .description("test")
+                .notifications(List.of(createAcknowledgedNotificationMessageTestData(), createReceivedNotificationMessageTestData()))
+                .createdAt(Instant.now().minus(2, ChronoUnit.DAYS))
+                .assetIds(List.of("1"))
+                .notificationSide(QualityNotificationSide.RECEIVER)
                 .build();
     }
 }

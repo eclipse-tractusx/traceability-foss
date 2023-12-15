@@ -58,7 +58,7 @@ class NotificationMapperTest {
         EDCNotificationContent content = new EDCNotificationContent("information", List.of("partId"));
         EDCNotification edcNotification = new EDCNotification(header, content);
 
-        QualityNotificationMessage expectedNotification = NotificationTestDataFactory.createNotificationTestData();
+        QualityNotificationMessage expectedNotification = NotificationTestDataFactory.createQualityNotificationMessageTestData();
 
         when(bpnRepository.findManufacturerName(eq(expectedNotification.getCreatedBy()))).thenReturn(Optional.of(expectedNotification.getCreatedByName()));
         when(bpnRepository.findManufacturerName(eq(expectedNotification.getSendTo()))).thenReturn(Optional.of(expectedNotification.getSendToName()));

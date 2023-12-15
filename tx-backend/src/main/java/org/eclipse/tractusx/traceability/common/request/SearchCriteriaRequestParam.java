@@ -27,9 +27,12 @@ import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaFilter;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
 import org.eclipse.tractusx.traceability.common.model.SearchStrategy;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.Objects.isNull;
 
@@ -86,6 +89,30 @@ public class SearchCriteriaRequestParam {
         }
 
         return SearchCriteria.builder().searchCriteriaOperator(operator).searchCriteriaFilterList(filters).build();
+    }
+
+    public SearchCriteria toSearchCriteria(QualityNotificationSide side) {
+        SearchCriteria searchCriteria = this.toSearchCriteria();
+        addSideToSearchCriteria(searchCriteria, side);
+        return searchCriteria;
+    }
+
+    private void addSideToSearchCriteria(SearchCriteria searchCriteria, QualityNotificationSide notificationSide) {
+        Optional.ofNullable(searchCriteria.getSearchCriteriaOperator())
+                .ifPresentOrElse(
+                        searchCriteriaOperator -> {},
+                        () -> searchCriteria.setSearchCriteriaOperator(SearchCriteriaOperator.AND)
+                );
+        final List<SearchCriteriaFilter> filters = new ArrayList<>();
+        Optional.ofNullable(searchCriteria.getSearchCriteriaFilterList())
+                .ifPresent(filters::addAll);
+        final SearchCriteriaFilter sideFilter = SearchCriteriaFilter.builder()
+                .key("side")
+                .strategy(SearchStrategy.EQUAL)
+                .value(notificationSide.toString())
+                .build();
+        filters.add(sideFilter);
+        searchCriteria.setSearchCriteriaFilterList(filters);
     }
 
     private static String handleFilterParameter(final String filterParameter) {

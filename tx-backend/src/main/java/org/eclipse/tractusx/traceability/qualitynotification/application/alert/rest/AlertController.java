@@ -36,6 +36,7 @@ import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestPar
 import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
 import org.eclipse.tractusx.traceability.qualitynotification.application.alert.mapper.AlertResponseMapper;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.service.QualityNotificationService;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -184,7 +185,7 @@ public class AlertController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
     public PageResult<AlertResponse> getCreatedAlerts(OwnPageable pageable, SearchCriteriaRequestParam searchCriteriaRequestParam) {
         log.info(API_LOG_START + "/created");
-        return AlertResponseMapper.fromAsPageResult(alertService.getCreated(OwnPageable.toPageable(pageable), searchCriteriaRequestParam.toSearchCriteria()));
+        return AlertResponseMapper.fromAsPageResult(alertService.getCreated(OwnPageable.toPageable(pageable), searchCriteriaRequestParam.toSearchCriteria(QualityNotificationSide.SENDER)));
     }
 
     @Operation(operationId = "getReceivedAlerts",
@@ -244,7 +245,7 @@ public class AlertController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
     public PageResult<AlertResponse> getReceivedAlerts(OwnPageable pageable, SearchCriteriaRequestParam searchCriteriaRequestParam) {
         log.info(API_LOG_START + "/received");
-        return AlertResponseMapper.fromAsPageResult(alertService.getReceived(OwnPageable.toPageable(pageable), searchCriteriaRequestParam.toSearchCriteria()));
+        return AlertResponseMapper.fromAsPageResult(alertService.getReceived(OwnPageable.toPageable(pageable), searchCriteriaRequestParam.toSearchCriteria(QualityNotificationSide.RECEIVER)));
     }
 
     @Operation(operationId = "getAlert",

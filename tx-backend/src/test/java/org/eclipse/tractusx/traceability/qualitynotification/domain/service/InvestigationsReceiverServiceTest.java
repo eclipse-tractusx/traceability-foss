@@ -99,7 +99,7 @@ class InvestigationsReceiverServiceTest {
 
 
         QualityNotification investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationStatus.RECEIVED, "recipientBPN");
-        QualityNotificationMessage notificationTestData = NotificationTestDataFactory.createNotificationTestData();
+        QualityNotificationMessage notificationTestData = NotificationTestDataFactory.createQualityNotificationMessageTestData();
         EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(
                 "it", notification);
 
@@ -142,7 +142,7 @@ class InvestigationsReceiverServiceTest {
 
 
         QualityNotification investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationStatus.RECEIVED, "recipientBPN");
-        QualityNotificationMessage notificationTestData = NotificationTestDataFactory.createNotificationTestData();
+        QualityNotificationMessage notificationTestData = NotificationTestDataFactory.createQualityNotificationMessageTestData();
         EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(
                 "it", notification);
 
@@ -183,7 +183,7 @@ class InvestigationsReceiverServiceTest {
                 .build();
 
         QualityNotification investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationStatus.ACKNOWLEDGED, "recipientBPN");
-        QualityNotificationMessage notificationTestData = NotificationTestDataFactory.createNotificationTestData();
+        QualityNotificationMessage notificationTestData = NotificationTestDataFactory.createQualityNotificationMessageTestData();
         EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(
                 "it", notification);
 
@@ -224,7 +224,7 @@ class InvestigationsReceiverServiceTest {
                 .build();
 
         QualityNotification investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationStatus.ACKNOWLEDGED, "recipientBPN");
-        QualityNotificationMessage notificationTestData = NotificationTestDataFactory.createNotificationTestData();
+        QualityNotificationMessage notificationTestData = NotificationTestDataFactory.createQualityNotificationMessageTestData();
         EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(
                 "it", notification);
 
@@ -265,7 +265,7 @@ class InvestigationsReceiverServiceTest {
                 .build();
 
         QualityNotification investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationStatus.ACKNOWLEDGED, "senderBPN");
-        QualityNotificationMessage notificationTestData = NotificationTestDataFactory.createNotificationTestData();
+        QualityNotificationMessage notificationTestData = NotificationTestDataFactory.createQualityNotificationMessageTestData();
         EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(
                 "it", notification);
 

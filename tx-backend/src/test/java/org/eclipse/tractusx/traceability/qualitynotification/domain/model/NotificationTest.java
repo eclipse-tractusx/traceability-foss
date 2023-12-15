@@ -32,7 +32,7 @@ class NotificationTest {
     @Test
     void testCopyAndSwitchSenderAndReceiverIsAppBpn() {
         // Given
-        QualityNotificationMessage notificationTestData = NotificationTestDataFactory.createNotificationTestData();
+        QualityNotificationMessage notificationTestData = NotificationTestDataFactory.createQualityNotificationMessageTestData();
 
         BPN applicationBPN = new BPN("recipientBPN");
         String senderBPN = "senderBPN";
@@ -48,7 +48,7 @@ class NotificationTest {
     @Test
     void testCopyAndSwitchSenderAndReceiverIsNotAppBpn() {
         // Given
-        QualityNotificationMessage notificationTestData = NotificationTestDataFactory.createNotificationTestData();
+        QualityNotificationMessage notificationTestData = NotificationTestDataFactory.createQualityNotificationMessageTestData();
 
         BPN applicationBPN = new BPN("senderBPN");
         String senderBPN = applicationBPN.value();

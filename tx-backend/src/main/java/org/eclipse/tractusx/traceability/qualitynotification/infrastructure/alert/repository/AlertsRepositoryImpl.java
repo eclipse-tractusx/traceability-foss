@@ -128,6 +128,13 @@ public class AlertsRepositoryImpl implements AlertRepository {
     }
 
     @Override
+    public long countAll(SearchCriteria searchCriteria) {
+        List<AlertSpecification> alertSpecifications = emptyIfNull(searchCriteria.getSearchCriteriaFilterList()).stream().map(AlertSpecification::new).toList();
+        Specification<AlertEntity> specification = AlertSpecification.toSpecification(alertSpecifications, searchCriteria.getSearchCriteriaOperator());
+        return jpaAlertRepository.count(specification);
+    }
+
+    @Override
     public Optional<QualityNotification> findOptionalQualityNotificationById(QualityNotificationId alertId) {
         return jpaAlertRepository.findById(alertId.value())
                 .map(AlertEntity::toDomain);
