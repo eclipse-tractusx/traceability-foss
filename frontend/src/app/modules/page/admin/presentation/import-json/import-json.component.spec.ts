@@ -17,14 +17,21 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-// Import necessary dependencies for testing
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+
+import { AdminModule } from '@page/admin/admin.module';
 import { ImportJsonComponent } from '@page/admin/presentation/import-json/import-json.component';
-import { AdminFacade } from '@page/admin/core/admin.facade';
+import { fireEvent, screen, waitFor } from '@testing-library/angular';
+import { renderComponent } from '@tests/test-render.utils';
+
+
 
 describe('ImportJsonComponent', () => {
+  const renderImportJsonComponent = () => renderComponent(ImportJsonComponent, {imports: [ AdminModule]});
 
-
-
+  it('should create', async () => {
+    await renderImportJsonComponent();
+    expect(await waitFor( () => screen.getByText('pageAdmin.importJson.title'))).toBeInTheDocument();
+    });
 })
 
