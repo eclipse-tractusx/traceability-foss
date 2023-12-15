@@ -195,6 +195,7 @@ backend:
 
   datasource:
     url: *backend_database_url
+    username: 'trace'
     password: *backend_database_password
 
 
