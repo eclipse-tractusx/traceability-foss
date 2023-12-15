@@ -25,7 +25,7 @@ import { Notification } from '@shared/model/notification.model';
 import { TranslationContext } from '@shared/model/translation-context.model';
 import { ModalData } from '@shared/modules/modal/core/modal.model';
 import { ModalService } from '@shared/modules/modal/core/modal.service';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-cancel-notification-modal',
@@ -37,24 +37,14 @@ export class CancelNotificationModalComponent {
   @Input() translationContext: TranslationContext;
   @Output() confirmActionCompleted = new EventEmitter<void>();
 
-  isChecked: Subject<boolean>;
 
   public notification: Notification;
 
-  isConfirmCheckboxSelected: boolean = false;
-
-
   constructor(private readonly toastService: ToastService, private readonly confirmModalService: ModalService) {
-    this.isChecked = new Subject<boolean>();
-  }
-
-  handleCheck(event: any): void {
-    this.isChecked.next(event.checked)
   }
 
   public show(notification: Notification): void {
     this.notification = notification;
-    this.isConfirmCheckboxSelected = false;
 
     const onConfirm = (isConfirmed: boolean) => {
 
@@ -75,8 +65,7 @@ export class CancelNotificationModalComponent {
       title: this.translationContext + '.modal.cancellationTitle',
       buttonRight: 'actions.cancellationConfirm',
       primaryButtonColour: 'warn',
-      validToConfirm: this.isChecked.asObservable(),
-
+      notificationId: this.notification.id,
       template: this.modal,
       onConfirm,
     };

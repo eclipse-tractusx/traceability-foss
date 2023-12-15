@@ -37,8 +37,8 @@ export class ModalService {
   }
 
   public open(modalData: ModalData): void {
-    const { title, template, buttonLeft, buttonRight, onConfirm, formGroup, primaryButtonColour, validToConfirm } = modalData;
-    const data = { title, template, buttonLeft, buttonRight, primaryButtonColour, formGroup, validToConfirm };
+    const { title, template, buttonLeft, buttonRight, onConfirm, formGroup, primaryButtonColour, notificationId } = modalData;
+    const data = { title, template, buttonLeft, buttonRight, primaryButtonColour, formGroup, notificationId };
 
     this.dialogRef = this.matDialog.open(ModalComponent, { data });
 

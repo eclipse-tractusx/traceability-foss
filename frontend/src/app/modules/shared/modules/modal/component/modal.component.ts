@@ -35,19 +35,15 @@ export class ModalComponent {
     this.close(false);
   }
 
-  notValid: boolean;
+  isValid: boolean = true;
   notValidSubscription: Subscription;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public readonly data: ModalData,
     private readonly matDialogRef: MatDialogRef<ModalComponent>,
   ) {
-    console.log(data?.validToConfirm)
-    if(data?.validToConfirm) {
-      this.notValidSubscription = data.validToConfirm.subscribe(isChecked => {
-        this.notValid = !isChecked;
-      });
-    }
+    this.notValidSubscription?.unsubscribe();
+    this.isValid = !data?.notificationId;
   }
 
   public close(value: boolean): void {
