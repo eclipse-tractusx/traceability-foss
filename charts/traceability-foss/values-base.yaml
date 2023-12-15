@@ -276,12 +276,11 @@ irs-helm:
   minioPassword: 'CHANGE_ME'
   minioUrl: 'CHANGE_ME'
 
-  keycloak:
-    oauth2:
-      clientId: 'CHANGE_ME'
-      clientSecret: 'CHANGE_ME'
-      clientTokenUri: 'CHANGE_ME'
-      jwkSetUri: 'CHANGE_ME'
+  oauth2:
+    clientId: 'CHANGE_ME'
+    clientSecret: 'CHANGE_ME'
+    clientTokenUri: 'CHANGE_ME'
+    jwkSetUri: 'CHANGE_ME'
 
   edc:
     callbackurl: 'CHANGE_ME'
