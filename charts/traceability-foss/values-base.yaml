@@ -138,6 +138,9 @@ backend:
   traceability:
     bpn: 'CHANGE_ME'
     url: 'CHANGE_ME'
+    leftOperand: 'PURPOSE'
+    operatorType: 'eq'
+    rightOperand: 'ID 3.0 Trace'
 
   datasource:
     url: 'CHANGE_ME'
