@@ -62,6 +62,7 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Configuration
 @ConfigurationPropertiesScan(basePackages = "org.eclipse.tractusx.traceability.*")
@@ -154,7 +155,7 @@ public class ApplicationConfig {
                                 orConstraintList)
                         )
                 ));
-        Policy policy = new Policy(null, OffsetDateTime.now(), offsetDateTime, permissions);
+        Policy policy = new Policy(UUID.randomUUID().toString(), OffsetDateTime.now(), offsetDateTime, permissions);
         return new AcceptedPolicy(policy, offsetDateTime);
     }
 
