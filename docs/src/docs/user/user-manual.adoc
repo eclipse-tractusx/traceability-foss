@@ -63,7 +63,7 @@ Supported languages:
 List view of the own manufactured (asBuilt) or planned (asPlanned) parts and batches.
 By default, both tables are displayed. You can adjust the View of tables by activating/deactivating the tables.
 
-image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/parts-list-view.png[]
+image::../../images/arc42/user-guide/tx-myparts-highlights.png[My Parts]
 
 === Parts Table
 
@@ -96,7 +96,7 @@ Once the quality alert is created you will get a pop-up and can directly navigat
 Clicking on an item in the list opens "Part details" view.
 More detailed information on the asset is listed as well as a part tree that visually shows the parts relations.
 
-image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/parts-list-detailed-view.png[]
+image::../../images/arc42/user-guide/tx-myparts-detail-relation.png[My Parts details]
 
 ==== Overview
 General production information. Information on the quality status of the part/batch.
@@ -140,7 +140,7 @@ Once the quality investigation is created you will get a pop-up and can directly
 Clicking on an item in the list opens "Part details" view.
 More detailed information on the asset is listed.
 
-image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/supplier-parts-list-detailed-view.png[]
+image::../../images/arc42/user-guide/tx-sharedparts-detail.png[Shared Parts details]
 
 ==== Overview
 General production information. Information on the quality status of the supplier part/batch.
@@ -159,8 +159,6 @@ Customer Parts that are in a quality alert are highlighted yellow.
 Clicking on an item in the list opens "Part details" view.
 More detailed information on the asset is listed.
 
-image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/customer-parts-list-detailed-view.png[]
-
 ==== Overview
 General production information. Information on the quality status of the supplier part/batch.
 
@@ -173,7 +171,7 @@ Information about the identifiers at the customer for the respective part/batch.
 == Quality investigation
 In the “Quality investigation”-tab all received quality investigations are shown as well as “Queued & Requested” quality investigations which included outgoing drafted and already sent notifications.
 
-image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/investigations-list-view.png[]
+image::../../images/arc42/user-guide/tx-qualityinvestigations.png[Quality Investigation]
 
 image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/notification-drafts.png[] Received investigations.
 
@@ -195,9 +193,9 @@ Next to each column header is a filter icon. If you click on that icon, a filter
 You can select which columns are displayed by clicking on the settings icon on the top right corner of the table.
 In search bar, you can search for specific quality investigations by entering the given description or BPN (business partner number).
 
-image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/notification-context-action.png[]
+image::../../images/arc42/user-guide/tx-qualityinvestigation-actionmenu-highlight.png[Quality Investigation Context Menu]
 
-image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/investigation-context-action-modal.png[]
+image::../../images/arc42/user-guide/tx-qualityinvestigation-accept.png[Quality Investigation Dialog]
 
 A pop-up will notify you if the status transition was successful.
 
@@ -208,7 +206,7 @@ Supervisors can also carry out status updates here.
 
 There are eight statuses for quality investigations (see table below). Of these four are open statuses. This includes 'RECEIVED', 'ACKNOWLEDGED', 'ACCEPTED' and 'DECLINED'.
 
-image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/investigation-detail-view.png[]
+image::../../images/arc42/user-guide/tx-qualityinvestigation-accept-detail.png[Quality Investigation Details]
 
 ==== Overview
 
@@ -273,7 +271,7 @@ image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main
 == Quality alert
 In the “Quality alert”-tab all received quality alerts as well as “Queued & Requested Quality Alerts” which included outgoing drafted and already sent notifications.
 
-image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/alerts-list-view.png[]
+image::../../images/arc42/user-guide/tx-qualityalerts.png[Quality Alerts]
 
 image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/notification-drafts.png[] Received alerts.
 
@@ -295,10 +293,6 @@ Next to each column header is a filter icon. If you click on that icon, a filter
 You can select which columns are displayed by clicking on the settings icon on the top right corner of the table.
 In search bar, you can search for specific Quality alerts by entering the given description or BPN (business partner number).
 
-image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/notification-context-action.png[]
-
-image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/alert-context-action-modal.png[]
-
 A pop-up will notify you if the status transition was successful.
 
 === Quality alert Detail view
@@ -307,8 +301,6 @@ On the quality alert detail page, you get a better overview of one specific qual
 Supervisors can also carry out status updates here.
 
 There are eight statuses for quality alerts (see table below). Of these four are open statuses. This includes 'RECEIVED', 'ACKNOWLEDGED', 'ACCEPTED' and 'DECLINED'.
-
-image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/alert-detail-view.png[]
 
 ==== Overview
 
