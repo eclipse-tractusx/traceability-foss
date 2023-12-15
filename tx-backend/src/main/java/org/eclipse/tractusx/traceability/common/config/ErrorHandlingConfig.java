@@ -28,6 +28,7 @@ import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.eclipse.tractusx.traceability.assets.application.importpoc.ImportException;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnNotFoundException;
 import org.eclipse.tractusx.traceability.common.domain.ParseLocalDateException;
@@ -105,6 +106,13 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
     ResponseEntity<ErrorResponse> handleAssetNotFoundException(AssetNotFoundException exception) {
         log.warn("handleAssetNotFoundException", exception);
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ErrorResponse(exception.getMessage()));
+    }
+
+    @ExceptionHandler(ImportException.class)
+    ResponseEntity<ErrorResponse> handleImportException(ImportException exception) {
+        log.warn("handleImportException", exception);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 

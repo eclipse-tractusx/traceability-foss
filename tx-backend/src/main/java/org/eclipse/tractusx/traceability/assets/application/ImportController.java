@@ -20,6 +20,7 @@
 package org.eclipse.tractusx.traceability.assets.application;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -28,6 +29,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.assets.application.importpoc.ImportException;
+import org.eclipse.tractusx.traceability.assets.application.importpoc.ImportRequest;
 import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -106,10 +109,17 @@ public class ImportController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping(value = "/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void importJson(@RequestParam("file") MultipartFile file) throws IOException {
+    public ImportRequest importJson(@RequestParam("file") MultipartFile file) throws IOException {
         if (MediaType.APPLICATION_JSON_VALUE.equals(file.getContentType())) {
             String fileContent = new String(file.getBytes());
             log.info("Imported file: " + fileContent);
+            ObjectMapper objectMapper = new ObjectMapper();
+            try {
+                return objectMapper.readValue(fileContent, ImportRequest.class);
+            } catch (Exception e) {
+                throw new ImportException(e.getMessage());
+            }
         }
+        throw new ImportException("Invalid file type" + file.getContentType());
     }
 }
