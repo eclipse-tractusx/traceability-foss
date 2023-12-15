@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,48 +17,23 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-.start-investigation--wrapper {
-  display: flex;
+package org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository;
 
-  & > app-table {
-    flex-basis: 40%;
-    padding-right: 2rem;
-  }
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.common.model.PageResult;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
+import org.springframework.data.domain.Pageable;
 
-  & > app-notification-request {
-    flex-grow: 1;
-  }
+import java.util.List;
 
-  @media (max-width: 1024px) {
-    flex-flow: column-reverse;
-    & > app-table {
-      margin-bottom: 2rem;
-    }
-  }
-}
+public interface AssetAsBuiltViewRepository {
+    PageResult<AssetBase> getAssets(Pageable pageable, SearchCriteria searchCriteria);
 
-.start-investigation--no-data {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  align-content: center;
-  padding-top: 2rem;
-  flex-grow: 1;
-}
+    List<AssetBase> getAssets();
 
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
+    AssetBase getAssetByChildId(String childId);
 
-.start-investigation {
-  min-height: 300px;
-}
+    List<AssetBase> getAssetsById(List<String> assetIds);
 
-.start-investigation--data {
-  animation: fadeIn 0.75s;
+    AssetBase getAssetById(String assetId);
 }

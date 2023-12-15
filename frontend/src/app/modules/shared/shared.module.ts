@@ -33,8 +33,7 @@ import { MultiSelectAutocompleteComponent } from '@shared/components/multi-selec
 import { NotificationOverviewComponent } from '@shared/components/notification-overview/notification-overview.component';
 import { NotificationReasonComponent } from '@shared/components/notification-reason/notification-reason.component';
 import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
-import { RequestInvestigationComponent } from '@shared/components/request-notification';
-import { RequestAlertComponent } from '@shared/components/request-notification/request-alert.component';
+import { RequestNotificationComponent } from '@shared/components/request-notification';
 import { SeveritySelectComponent } from '@shared/components/severity-select/severity-select.component';
 import { SeverityComponent } from '@shared/components/severity/severity.component';
 import { TableSettingsComponent } from '@shared/components/table-settings/table-settings.component';
@@ -107,8 +106,7 @@ import { TemplateModule } from './template.module';
     SidenavWrapperComponent,
     TextareaComponent,
     ErrorMessagePipe,
-    RequestInvestigationComponent,
-    RequestAlertComponent,
+    RequestNotificationComponent,
     QualityTypeComponent,
     ValueToLablePipe,
     NotificationOverviewComponent,
@@ -154,8 +152,7 @@ import { TemplateModule } from './template.module';
     SidenavWrapperComponent,
     TextareaComponent,
     ErrorMessagePipe,
-    RequestInvestigationComponent,
-    RequestAlertComponent,
+    RequestNotificationComponent,
     QualityTypeComponent,
     NotificationOverviewComponent,
     NotificationReasonComponent,

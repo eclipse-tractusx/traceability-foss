@@ -27,6 +27,7 @@ import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { Observable, Subject, Subscription } from 'rxjs';
+import {NotificationType} from "@shared/model/notification.model";
 
 @Component({
   selector: 'app-start-investigation',
@@ -114,4 +115,6 @@ export class StartInvestigationComponent {
     const data = this.partDetailsFacade.sortChildParts(this.childPartsState.snapshot, name, direction);
     this.childPartsState.update({ data });
   }
+
+    protected readonly NotificationType = NotificationType;
 }
