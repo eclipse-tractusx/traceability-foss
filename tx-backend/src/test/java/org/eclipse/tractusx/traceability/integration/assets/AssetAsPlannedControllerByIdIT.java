@@ -250,7 +250,6 @@ class AssetAsPlannedControllerByIdIT extends IntegrationTestSpecification {
     }
 
     @Test
-    @Disabled("I need to test my stuff and this test isn´t working")
     void shouldReturnAssetAsPlannedWithBusinessPartner() throws JoseException {
         //GIVEN
         assetsSupport.defaultAssetsAsPlannedStored();
