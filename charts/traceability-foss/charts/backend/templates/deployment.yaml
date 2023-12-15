@@ -79,11 +79,11 @@ spec:
             - name: TRACEABILITY_URL
               value: {{ .Values.traceability.url | quote }}
             - name: TRACEABILITY_LEFT_OPERAND
-              value: { { .Values.traceability.leftOperand | quote } }
+              value: {{ .Values.traceability.leftOperand | quote }}
             - name: TRACEABILITY_OPERATOR_TYPE
-              value: { { .Values.traceability.operatorType | quote } }
+              value: {{ .Values.traceability.operatorType | quote }}
             - name: TRACEABILITY_RIGHT_OPERAND
-              value: { { .Values.traceability.rightOperand | quote } }
+              value: {{ .Values.traceability.rightOperand | quote }}
             - name: OAUTH2_CLIENT_ID
               value: {{ .Values.oauth2.clientId | quote }}
             - name: OAUTH2_CLIENT_SECRET
