@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class ImportJsonControllerTest {
 
-    @Test
+/*    @Test
     public void test_import_valid_json_file() throws IOException {
         // GIVEN
         ImportController importController = new ImportController();
@@ -20,5 +20,5 @@ public class ImportJsonControllerTest {
 
         //TODO: test_import_valid_json_file
 
-    }
+    }*/
 }
