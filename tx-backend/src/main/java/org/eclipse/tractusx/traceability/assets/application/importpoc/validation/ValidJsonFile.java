@@ -16,14 +16,15 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.application.importpoc;
+package org.eclipse.tractusx.traceability.assets.application.importpoc.validation;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.Payload;
 
-import java.util.List;
+public @interface ValidJsonFile {
 
+    String message() default "File must be a valid JSON file";
 
-public record ImportRequest(@JsonProperty("assets") List<AssetWrapperRequest> assetRawRequestList) {
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
 }
-
-

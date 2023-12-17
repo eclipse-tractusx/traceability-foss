@@ -20,9 +20,6 @@
 package org.eclipse.tractusx.traceability.assets.application;
 
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -30,11 +27,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.application.importpoc.ImportException;
-import org.eclipse.tractusx.traceability.assets.application.importpoc.ImportRequest;
+import org.eclipse.tractusx.traceability.assets.application.importpoc.ImportService;
+import org.eclipse.tractusx.traceability.assets.application.importpoc.validation.ValidJsonFile;
 import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,14 +41,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-
 @Slf4j
+@RequiredArgsConstructor
 @RestController
 @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
 @Tag(name = "AssetsImport")
 @RequestMapping(path = "/assets")
 public class ImportController {
+
+    private final ImportService importService;
 
     @Operation(operationId = "importJson",
             summary = "asset upload",
@@ -111,19 +111,8 @@ public class ImportController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping(value = "/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ImportRequest importJson(@RequestParam("file") MultipartFile file) throws IOException {
-        if (MediaType.APPLICATION_JSON_VALUE.equals(file.getContentType())) {
-            String fileContent = new String(file.getBytes());
-            log.info("Imported file: " + fileContent);
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-            try {
-                return objectMapper.readValue(fileContent, ImportRequest.class);
-            } catch (Exception e) {
-                throw new ImportException(e.getMessage());
-            }
-        }
-        throw new ImportException("Invalid file type" + file.getContentType());
+    public ResponseEntity<Void> importJson(@ValidJsonFile @RequestParam("file") MultipartFile file) {
+        importService.importAssets(file);
+        return ResponseEntity.noContent().build();
     }
 }

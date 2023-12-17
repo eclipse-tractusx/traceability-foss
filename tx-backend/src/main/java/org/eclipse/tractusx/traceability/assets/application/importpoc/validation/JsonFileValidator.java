@@ -16,14 +16,28 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.application.importpoc;
+package org.eclipse.tractusx.traceability.assets.application.importpoc.validation;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import org.eclipse.tractusx.traceability.assets.application.importpoc.ImportException;
+import org.springframework.http.MediaType;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+public class JsonFileValidator implements ConstraintValidator<ValidJsonFile, MultipartFile> {
+
+    @Override
+    public boolean isValid(MultipartFile file, ConstraintValidatorContext context) {
+        if (file == null || file.isEmpty()) {
+            return true;
+        }
+
+        if (MediaType.APPLICATION_JSON_VALUE.equals(file.getContentType())) {
+            return true;
+        } else {
+            throw new ImportException("File format not supported " + file.getContentType());
+        }
 
 
-public record ImportRequest(@JsonProperty("assets") List<AssetWrapperRequest> assetRawRequestList) {
+    }
 }
-
-

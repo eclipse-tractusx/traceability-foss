@@ -18,12 +18,10 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.application.importpoc;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import java.io.IOException;
 
-
-public record ImportRequest(@JsonProperty("assets") List<AssetWrapperRequest> assetRawRequestList) {
+public interface ImportService {
+    void importAssets(MultipartFile file);
 }
-
-

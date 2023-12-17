@@ -58,4 +58,5 @@ public class AssetBaseEntity {
     private String van;
     @Enumerated(EnumType.STRING)
     private AssetImportState assetImportState;
+    private String importNote;
 }
