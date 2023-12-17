@@ -233,6 +233,9 @@ pgadmin4:
 # Postgres configuration     #
 #########################
 postgresql:
+  primary:
+    persistence:
+      size: 4Gi
   nameOverride: *backend_database_name
   fullnameOverride: *backend_database_name
 
@@ -394,6 +397,8 @@ tractusx-connector:
 ###################################
 edc-postgresql:
   primary:
+    persistence:
+      size: 4Gi
     resources:
       limits:
         cpu: 200m
