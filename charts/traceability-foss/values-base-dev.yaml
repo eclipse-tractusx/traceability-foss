@@ -312,13 +312,13 @@ tractusx-connector:
         url: *portal_miw_url
         authorityId: *portal_miw_authorityid
       oauth:
-        tokenurl: <path:traceability-foss/data/dev/edc/wallet#ssi.oauth.tokenurl>   #  *central_idp_token_uri
+        tokenurl: *central_idp_token_uri
         client:
           id: *portal_miw_client_id
           secretAlias: *portal_miw_client_secret_alias
     endpoints:
       management:
-        authKey: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
+        authKey: *edc_api_key
 
   dataplane:
     ingresses:

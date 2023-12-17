@@ -318,7 +318,7 @@ tractusx-connector:
           secretAlias: *portal_miw_client_secret_alias
     endpoints:
       management:
-        authKey: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
+        authKey: *edc_api_key
 
   dataplane:
     ingresses:
