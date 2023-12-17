@@ -391,9 +391,9 @@ tractusx-connector:
 # EDC Postgres Configuration #
 ###################################
 edc-postgresql:
-  persistence:
-    size: 4Gi
   primary:
+    persistence:
+      size: 4Gi
     resources:
       limits:
         cpu: 200m
