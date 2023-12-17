@@ -194,6 +194,14 @@ backend:
     irs: *irs_name
     edc: *edc_name
 
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 512Mi
+
 #########################
 # PG Admin configuration     #
 #########################
@@ -212,6 +220,13 @@ pgadmin4:
         secretName: tls-secret
   env:
     password: *pgadmin_password
+  resources:
+    limits:
+      cpu: 200m
+      memory: 512Gi
+    requests:
+      cpu: 100m
+      memory: 512Mi
 
 #########################
 # Postgres configuration     #
@@ -314,6 +329,14 @@ tractusx-connector:
       management:
         authKey: *edc_api_key
 
+    resources:
+      limits:
+        cpu: 400m
+        memory: 1.5Gi
+      requests:
+        cpu: 200m
+        memory: 1.5Gi
+
   dataplane:
     ingresses:
       - enabled: true
@@ -328,6 +351,13 @@ tractusx-connector:
         tls:
           enabled: true
           secretName: tls-secret
+    resources:
+      limits:
+        cpu: 200m
+        memory: 512Mi
+      requests:
+        cpu: 100m
+        memory: 512Mi
 
   ## currently we need to provide a url but is not used anywhere
   # URL where the EndpointDataReference callback will be sent to
@@ -361,6 +391,14 @@ tractusx-connector:
 # EDC Postgres Configuration #
 ###################################
 edc-postgresql:
+  primary:
+    resources:
+      limits:
+        cpu: 200m
+        memory: 1Gi
+      requests:
+        cpu: 100m
+        memory: 1Gi
   nameOverride: *edc_database_name
   fullnameOverride: *edc_database_name
   auth:
