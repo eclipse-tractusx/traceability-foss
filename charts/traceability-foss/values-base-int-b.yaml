@@ -196,10 +196,10 @@ backend:
 
   resources:
     limits:
-      cpu: 500m
+      cpu: 600m
       memory: 512Mi
     requests:
-      cpu: 100m
+      cpu: 200m
       memory: 512Mi
 
 #########################
@@ -223,7 +223,7 @@ pgadmin4:
 
   resources:
     limits:
-      cpu: 200m
+      cpu: 100m
       memory: 512Gi
     requests:
       cpu: 100m
