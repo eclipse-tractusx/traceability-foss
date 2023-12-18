@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component } from '@angular/core'
+import { Component, Input } from '@angular/core';
 import { AdminFacade } from '@page/admin/core/admin.facade';
 
 @Component({
@@ -26,10 +26,10 @@ import { AdminFacade } from '@page/admin/core/admin.facade';
   styleUrls: [ './import-json.component.scss' ],
 })
 export class ImportJsonComponent {
-  public showError = false;
-  public file: File;
+  @Input() showError = false;
+  @Input() file: File;
 
-  constructor(private adminFacade: AdminFacade) {
+  constructor(private readonly adminFacade: AdminFacade) {
   }
 
   public getFile(event:any){
@@ -41,9 +41,10 @@ export class ImportJsonComponent {
     }
     this.showError = false;
   }
- public uploadFile(){
-    this.adminFacade.postJsonImport(this.file).subscribe(res => {
+ public uploadFile(file: File){
+    this.adminFacade.postJsonImport(file).subscribe(res => {
       console.log(res);
+
     } );
   }
 

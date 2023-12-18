@@ -40,7 +40,7 @@ SPDX-License-Identifier: Apache-2.0
         <mat-icon class="icon_uploadFile">upload_file</mat-icon>
         <p class="file-name">{{file.name}}</p>
         <app-button variant="raised" class="custom-button_clear" color="warn" (click)="clearFile()">{{ 'pageAdmin.importJson.clear_file' | i18n }}</app-button>
-        <app-button variant="raised" class="custom-button_upload" color="primary" (click)="uploadFile()">{{ 'pageAdmin.importJson.upload_file' | i18n }}</app-button>
+        <app-button variant="raised" class="custom-button_upload" color="primary" (click)="uploadFile(file)">{{ 'pageAdmin.importJson.upload_file' | i18n }}</app-button>
       </div>
     </div>
   </mat-card-content>
