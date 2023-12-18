@@ -33,7 +33,11 @@ public class ImportServiceImpl implements ImportService {
     @Override
     public void importAssets(MultipartFile file) {
         try {
-            // todo - how to deal with wrong aspecttype formats? They are currently just ignored and do not bring the mapper to fail
+            // TODO - build a json schema construct which consists of the assetmetainfo and the submodels.
+            //  The submodels needs to be pulled by (example for serialpart) https://github.com/eclipse-tractusx/sldt-semantic-models/blob/main/io.catenax.serial_part/2.0.0/gen/SerialPart-schema.json
+            //  It is okay to download the schemas and put them in a folder as we need to have control over the schemas
+            // For the validation see: https://github.com/eclipse-tractusx/item-relationship-service/blob/main/irs-api/src/main/java/org/eclipse/tractusx/irs/services/validation/JsonValidatorService.java#L43
+
             String fileContent = new String(file.getBytes());
             log.info("Imported file: " + fileContent);
             ImportRequest importRequest = objectMapper.readValue(fileContent, ImportRequest.class);
