@@ -39,3 +39,6 @@ CREATE TABLE public.assets_as_planned_submodel_payload
     CONSTRAINT fk_submodel_payload FOREIGN KEY (submodel_payload_id) REFERENCES public.submodel_payload (id),
     CONSTRAINT fk_asset_entity FOREIGN KEY (asset_id) REFERENCES public.assets_as_planned (id)
 );
+
+ALTER TABLE assets_as_planned ADD COLUMN "import_note" varchar(100);
+ALTER TABLE assets_as_built ADD COLUMN "import_note" varchar(100);

@@ -16,14 +16,13 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.application.importpoc.model;
+package org.eclipse.tractusx.traceability.assets.domain.importpoc;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Submodel;
 
 import java.util.List;
 
-
-public record ImportRequest(@JsonProperty("assets") List<AssetWrapperRequest> assetRawRequestList) {
+public record AssetWrapperRequest(@JsonProperty("assetMetaInfo") AssetMetaInfoRequest assetMetaInfoRequest,
+                                  @JsonProperty("submodels") List<Submodel> submodels) {
 }
-
-
