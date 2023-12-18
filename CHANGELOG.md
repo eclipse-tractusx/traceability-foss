@@ -20,6 +20,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - redesigned notification status confirmation modal
 - bump irs version from 6.9.1 to 6.12.0
 
+### Removed
+-
 
 ## [10.0.0 - 12.12.2024]
 ### Added

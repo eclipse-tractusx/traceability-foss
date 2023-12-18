@@ -21,17 +21,11 @@
 
 import { environment } from '@env';
 import { rest } from 'msw';
-import { applyPagination, extractPagination } from '../pagination.helper';
-import { buildMockRegistryProcesses, getBpnConfig } from './admin.model';
+import { getBpnConfig } from './admin.model';
 
 export const adminHandler = (_ => {
-  const mockRegistryProcesses = buildMockRegistryProcesses();
-  return [
-    rest.get(`*${ environment.apiUrl }/metrics/registry-lookup`, (req, res, ctx) => {
-      const pagination = extractPagination(req);
 
-      return res(ctx.status(200), ctx.json(applyPagination(mockRegistryProcesses, pagination)));
-    }),
+  return [
 
     rest.post(`*${ environment.apiUrl }/bpn-config`, (req, res, ctx) => {
       return res(ctx.status(204));
