@@ -24,7 +24,7 @@ SPDX-License-Identifier: Apache-2.0
       <h3 (click)="navigateBackToParts()"
         class="pl-2 mb-4 flex items-center header-link">
         <img class="pr-2"
-          src="/assets/images/icons/parts_icon_link.svg"
+          [src]="'/assets/images/icons/' + context + '_icon_link.svg'"
           alt="Parts icon" />
         {{ 'pageTitle.' + context | i18n }}
       </h3>

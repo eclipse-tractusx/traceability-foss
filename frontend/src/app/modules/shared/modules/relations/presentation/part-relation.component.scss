@@ -46,7 +46,7 @@
 }
 
 .button-container-divider {
-  color: #D2D2D2;
+  color: #d2d2d2;
   margin: 0px 10px 0px 10px !important;
   border-top-width: 2px;
 }
@@ -99,7 +99,8 @@
 }
 
 .part-relation--container-fullscreen {
-  height: 550px !important;
+  //calc with: size - padding of components - title line height - gap between body and title.
+  height: calc(80vh - 72px - 36px - 40px) !important;
   overflow: hidden;
 }
 
@@ -118,12 +119,12 @@
     overflow: hidden;
     opacity: 1;
 
-    &>svg:first-child {
+    & > svg:first-child {
       width: 0;
       height: 0;
     }
 
-    &>svg:last-child {
+    & > svg:last-child {
       transition: fill 0.3s;
 
       width: 30px;
@@ -138,11 +139,11 @@
   &__closing {
     cursor: pointer;
 
-    &>rect {
+    & > rect {
       fill: transparent;
     }
 
-    &>text {
+    & > text {
       @apply fill-doveGray;
       font-size: 25px;
 
@@ -221,7 +222,7 @@
       }
     }
 
-    &>path {
+    & > path {
       animation: TreeElementLoadingAnimation 45s infinite linear;
     }
 
@@ -230,27 +231,27 @@
     }
 
     &-Batch {
-      @apply fill-semanticDataModelBatch
+      @apply fill-semanticDataModelBatch;
     }
 
     &-SerialPart {
-      @apply fill-semanticDataModelSerialPart
+      @apply fill-semanticDataModelSerialPart;
     }
 
     &-PartAsPlanned {
-      @apply fill-semanticDataModelSerialPart
+      @apply fill-semanticDataModelSerialPart;
     }
 
     &-BATCH {
-      @apply fill-semanticDataModelBatch
+      @apply fill-semanticDataModelBatch;
     }
 
     &-SERIALPART {
-      @apply fill-semanticDataModelSerialPart
+      @apply fill-semanticDataModelSerialPart;
     }
 
     &-PARTASPLANNED {
-      @apply fill-semanticDataModelSerialPart
+      @apply fill-semanticDataModelSerialPart;
     }
 
     &-Minor {
@@ -316,15 +317,15 @@
       transition: transform 0.5s;
     }
 
-    &:hover>.tree--element__closing-animation {
+    &:hover > .tree--element__closing-animation {
       transform: scale(1.1) translate(0, 0);
     }
 
-    &:hover>.tree--element__closing-circle {
+    &:hover > .tree--element__closing-circle {
       @apply fill-secondary;
     }
 
-    &:hover>.tree--element__closing-icon {
+    &:hover > .tree--element__closing-icon {
       background-image: url('../../../../../../assets/images/icons/collapse_relation_hover_icon.svg');
     }
   }
@@ -378,7 +379,6 @@
 }
 
 @keyframes TreeElementLoadingAnimation02 {
-
   0%,
   35% {
     transform: rotate(180deg);
@@ -399,7 +399,6 @@
 }
 
 @keyframes TreeElementLoadingAnimation03 {
-
   0%,
   55% {
     transform: rotate(60deg);

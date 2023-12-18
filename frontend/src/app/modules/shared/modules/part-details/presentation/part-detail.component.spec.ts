@@ -121,20 +121,17 @@ describe('PartDetailComponent', () => {
 
   it('should navigate to relations page with correct parameters and reload', async () => {
     const { fixture } = await renderPartDetailComponent({ roles: ['user'] });
-    const router = TestBed.inject(Router);
+
     const part: any = { id: 123, mainAspectType: MainAspectType.AS_BUILT };
-    const navigateSpy = spyOn(router, 'navigate');
     const context = 'some-context';
     const { componentInstance } = fixture;
 
+    spyOn(componentInstance.dialog, 'open');
     componentInstance.context = context;
 
     fixture.componentInstance.openRelationPage(part);
 
-    expect(navigateSpy).toHaveBeenCalledWith(
-      [`${context}/relations/${part.id}`],
-      { queryParams: { type: part.mainAspectType } }
-    );
+    expect(componentInstance.dialog.open).toHaveBeenCalled();
   });
 
 });

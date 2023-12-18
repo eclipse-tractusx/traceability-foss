@@ -51,6 +51,7 @@ export class TreeComponent implements OnDestroy, AfterViewInit {
   @Input() shouldRenderParents = false;
   @Input() isStandalone = true;
   @Input() htmlId: string;
+  @Input() overwriteContext: string = undefined;
 
   @Input() set direction(_direction: 'UP' | 'DOWN') {
     this.treeDirection = TreeDirection[_direction];
@@ -68,6 +69,7 @@ export class TreeComponent implements OnDestroy, AfterViewInit {
     this.resizeSub?.unsubscribe();
     this.resizeSub = resize$.subscribe(resize => this.tree?.changeSize?.(resize));
   }
+
 
   public readonly subscriptions = new Subscription();
   public readonly rootPart$: Observable<View<Part>>;
@@ -91,6 +93,12 @@ export class TreeComponent implements OnDestroy, AfterViewInit {
   ) {
     this.rootPart$ = this._rootPart$.observable;
     this.context = this.activatedRoute?.parent?.toString().split('\'')[1];
+  }
+
+  public ngOnInit(): void {
+    if (this.overwriteContext) {
+      this.context = this.overwriteContext;
+    }
   }
 
   public ngOnDestroy(): void {

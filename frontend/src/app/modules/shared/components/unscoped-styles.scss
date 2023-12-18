@@ -26,11 +26,6 @@
   border-style: unset;
 }
 
-/* Sets the opened local filter to be full width*/
-.cdk-overlay-pane {
-  width: unset !important;
-}
-
 app-multiselect {
   /* Removing grey background for date picker*/
   .mdc-text-field--disabled.mdc-text-field--filled {

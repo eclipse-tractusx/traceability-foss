@@ -378,7 +378,7 @@ export class D3RenderHelper {
   }
 
   private static modifyByDirection(direction: TreeDirection, x: number): number {
-    if (direction === TreeDirection.DOWN) {
+    if (direction === TreeDirection.UP) {
       return -1 * x;
     }
 

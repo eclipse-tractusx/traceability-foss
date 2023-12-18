@@ -1,6 +1,7 @@
 {
   "partDetail": {
     "relations": "Relations",
+    "fullScreenRelations": "Relations for",
     "overview": "Overview",
     "manufacturerData": "Manufacturer data",
     "customerData": "Customer data",

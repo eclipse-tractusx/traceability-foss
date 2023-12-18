@@ -1,3 +1,12 @@
-.part-relation-full-screen-container {
-  min-height: 582px;
+@tailwind base;
+
+.part-relation-full-screen {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.part-relation-full-screen-title {
+  display: flex;
+  justify-content: space-between;
+  @apply text-secondaryButton;
 }

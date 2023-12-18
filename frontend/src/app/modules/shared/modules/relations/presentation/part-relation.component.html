@@ -52,12 +52,14 @@ SPDX-License-Identifier: Apache-2.0
     [shouldRenderParents]="true"
     [isStandalone]="isStandalone"
     [htmlId]="htmlId"
-    [direction]="'DOWN'"></app-tree>
+    [direction]="'DOWN'"
+    [overwriteContext]="overwriteContext? overwriteContext : undefined"></app-tree>
   <app-tree [rootPart]="rootPart$ | async"
     [resizeTrigger$]="resizeTrigger$"
     [isStandalone]="isStandalone"
     [htmlId]="htmlId"
-    [direction]="'UP'"></app-tree>
+    [direction]="'UP'"
+    [overwriteContext]="overwriteContext? overwriteContext : undefined"></app-tree>
   <figure *ngIf="this.showMiniMap"
     class="part-relation--minimap"
     data-testId="part-relation--minimap--test-id"
