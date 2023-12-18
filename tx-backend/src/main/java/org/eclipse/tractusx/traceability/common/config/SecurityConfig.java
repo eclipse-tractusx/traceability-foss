@@ -80,6 +80,10 @@ public class SecurityConfig {
         httpSecurity.formLogin(AbstractHttpConfigurer::disable);
         httpSecurity.logout(AbstractHttpConfigurer::disable);
         httpSecurity.anonymous(AbstractHttpConfigurer::disable);
+        // It is safe to disable CSRF protection here since authentication is done via bearer token and doesn't
+        // require cookies. See https://security.stackexchange.com/questions/189326/do-i-need-csrf-protection-in-this-setup-with-a-rest-api-backed-with-oauth2-and-a
+        // for a detailed explanation. By default, Spring Security would effectively disable CSRF protection
+        // when an OAuth2ResourceServer is used, see https://github.com/spring-projects/spring-security/issues/8668.
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
 
         httpSecurity.cors(customizer -> customizer.configurationSource(corsConfigurationSource(origins)));
