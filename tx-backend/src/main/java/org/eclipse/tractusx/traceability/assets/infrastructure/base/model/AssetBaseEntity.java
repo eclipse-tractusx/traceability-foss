@@ -18,6 +18,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
@@ -29,6 +30,8 @@ import lombok.experimental.SuperBuilder;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
+
+import javax.annotation.Nullable;
 
 @NoArgsConstructor
 @Getter

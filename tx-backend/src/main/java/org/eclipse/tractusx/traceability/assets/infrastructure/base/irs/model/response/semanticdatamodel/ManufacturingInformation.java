@@ -22,6 +22,7 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.r
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.eclipse.tractusx.traceability.common.date.CustomOffSetDateTimeNullOnException;
 
+
 import java.time.OffsetDateTime;
 
 public record ManufacturingInformation(

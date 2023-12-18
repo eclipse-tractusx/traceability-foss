@@ -16,10 +16,14 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.application.importpoc;
+package org.eclipse.tractusx.traceability.assets.domain.importpoc;
 
-public class ImportException extends RuntimeException{
-    public ImportException(String message) {
-        super(message);
-    }
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.List;
+
+
+public record ImportRequest(@JsonProperty("assets") List<AssetWrapperRequest> assetRawRequestList) {
 }
+
+
