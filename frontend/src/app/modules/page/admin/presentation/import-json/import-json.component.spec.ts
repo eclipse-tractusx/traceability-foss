@@ -22,8 +22,6 @@ import { AdminModule } from '@page/admin/admin.module';
 import { ImportJsonComponent } from '@page/admin/presentation/import-json/import-json.component';
 import { screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
-import {AdminFacade} from "@page/admin/core/admin.facade";
-import {TestBed} from "@angular/core/testing";
 
 describe('ImportJsonComponent', () => {
   const jsonFileContent = {
