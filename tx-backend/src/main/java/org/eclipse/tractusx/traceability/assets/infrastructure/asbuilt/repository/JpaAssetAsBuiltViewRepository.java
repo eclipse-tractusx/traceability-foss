@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,19 +17,16 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { TemplateRef } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+package org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository;
 
-export interface ModalData {
-  title: string;
-  type?: string;
-  buttonLeft?: string;
-  buttonRight: string;
-  primaryButtonColour?: 'primary' | 'accent' | 'warn';
-  notificationId?: string;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltViewEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.stereotype.Repository;
 
-  template: TemplateRef<unknown>;
-  onConfirm: (isConfirmed: boolean) => void;
+import java.util.List;
 
-  formGroup?: UntypedFormGroup;
+@Repository
+public interface JpaAssetAsBuiltViewRepository extends JpaRepository<AssetAsBuiltViewEntity, String>, JpaSpecificationExecutor<AssetAsBuiltViewEntity> {
+    List<AssetAsBuiltViewEntity> findByIdIn(List<String> assetIds);
 }

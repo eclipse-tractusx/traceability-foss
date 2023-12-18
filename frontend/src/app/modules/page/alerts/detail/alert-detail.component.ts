@@ -27,7 +27,7 @@ import { Part } from '@page/parts/model/parts.model';
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
 import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
 import { ToastService } from '@shared/components/toasts/toast.service';
-import { Notification } from '@shared/model/notification.model';
+import {Notification, NotificationType} from '@shared/model/notification.model';
 import { TranslationContext } from '@shared/model/translation-context.model';
 import { View } from '@shared/model/view.model';
 import { StaticIdService } from '@shared/service/staticId.service';
@@ -204,4 +204,5 @@ export class AlertDetailComponent implements AfterViewInit, OnDestroy {
   }
 
   protected readonly TranslationContext = TranslationContext;
+    protected readonly NotificationType = NotificationType;
 }

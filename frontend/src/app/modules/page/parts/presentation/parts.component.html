@@ -104,14 +104,15 @@ SPDX-License-Identifier: Apache-2.0
   <app-part-detail></app-part-detail>
 
   <app-sidenav-wrapper [isOpen]="isAlertOpen$ | async" (sidenavAction)="isAlertOpen$.next($event)">
-    <app-request-alert
+    <app-notification-request
       *ngIf="isAlertOpen$ | async"
       [selectedItems]="currentSelectedItems$ | async"
+      [notificationType]="NotificationType.ALERT"
       (deselectPart)="deselectPartTrigger$.next([$event])"
       (restorePart)="addPartTrigger$.next($event)"
       (clearSelected)="deselectPartTrigger$.next(currentSelectedItems$.value)"
       (submitted)="isAlertOpen$.next(false)"
-    ></app-request-alert>
+    ></app-notification-request>
   </app-sidenav-wrapper>
 
 
