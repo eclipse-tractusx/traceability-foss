@@ -150,7 +150,7 @@ public class ApplicationConfig {
 
         //add own policy
         andConstraintList.add(new Constraint(traceabilityProperties.getLeftOperand(), OperatorType.fromValue(traceabilityProperties.getOperatorType()), List.of(traceabilityProperties.getRightOperand())));
-        andConstraintList.add(new Constraint(traceabilityProperties.getLeftOperand(), OperatorType.valueOf(traceabilityProperties.getOperatorType()), List.of(traceabilityProperties.getRightOperand())));
+        andConstraintList.add(new Constraint(traceabilityProperties.getLeftOperand(), OperatorType.fromValue(traceabilityProperties.getOperatorType()), List.of(traceabilityProperties.getRightOperand())));
 
         //add IRS policies
         List<Constraints> policyConstraints = irsService.getPolicyConstraints();
