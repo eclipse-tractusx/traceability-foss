@@ -45,6 +45,8 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.ValidityPeriod;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.IrsPolicy;
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
+import org.eclipse.tractusx.traceability.common.model.BPN;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -80,6 +82,9 @@ class IrsServiceTest {
 
     @Mock
     private IRSApiClient irsClient;
+
+    @Mock
+    TraceabilityProperties traceabilityProperties;
 
     @Mock
     private BpnRepository bpnRepository;
@@ -152,6 +157,7 @@ class IrsServiceTest {
         when(irsClient.registerJob(any(RegisterJobRequest.class))).thenReturn(jobId);
         JobDetailResponse jobResponse = provideTestJobResponse(direction.name());
         when(irsClient.getJobDetails(jobId.id())).thenReturn(jobResponse);
+        when(traceabilityProperties.getBpn()).thenReturn(BPN.of("test"));
 
         // When
         List<AssetBase> result = irsService.findAssets("1", direction, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
@@ -188,6 +194,7 @@ class IrsServiceTest {
         when(jobStatus.lastModifiedOn()).thenReturn(new Date());
         when(jobStatus.startedOn()).thenReturn(new Date());
         when(jobResponse.isCompleted()).thenReturn(false);
+        when(traceabilityProperties.getBpn()).thenReturn(BPN.of("test"));
 
         // When
         List<AssetBase> result = irsService.findAssets("1", direction, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
