@@ -38,6 +38,7 @@ public class AssetAsPlannedResponseMapper extends AssetBaseResponseMapper {
                 .nameAtManufacturer(asset.getNameAtManufacturer())
                 .manufacturerPartId(asset.getManufacturerPartId())
                 .owner(from(asset.getOwner()))
+                .businessPartner(asset.getManufacturerId())
                 .childRelations(
                         asset.getChildRelations().stream()
                                 .map(AssetAsPlannedResponseMapper::from)
@@ -46,7 +47,7 @@ public class AssetAsPlannedResponseMapper extends AssetBaseResponseMapper {
                         asset.getParentRelations().stream()
                                 .map(AssetAsPlannedResponseMapper::from)
                                 .toList())
-                .underInvestigation(asset.isUnderInvestigation())
+                .underInvestigation(asset.isInInvestigation())
                 .activeAlert(asset.isActiveAlert())
                 .qualityType(
                         from(asset.getQualityType())
@@ -54,11 +55,12 @@ public class AssetAsPlannedResponseMapper extends AssetBaseResponseMapper {
                 .van(asset.getVan())
                 .semanticDataModel(from(asset.getSemanticDataModel()))
                 .detailAspectModels(fromList(asset.getDetailAspectModels()))
-                .qualityAlertsInStatusActive(countNotificationsInActiveState(asset.getQualityAlerts()))
-                .qualityInvestigationsInStatusActive(countNotificationsInActiveState(asset.getQualityInvestigations()))
+                .sentQualityAlertIdsInStatusActive(getNotificationIdsInActiveState(asset.getSentQualityAlerts()))
+                .receivedQualityAlertIdsInStatusActive(getNotificationIdsInActiveState(asset.getReceivedQualityAlerts()))
+                .sentQualityInvestigationIdsInStatusActive(getNotificationIdsInActiveState(asset.getSentQualityInvestigations()))
+                .receivedQualityInvestigationIdsInStatusActive(getNotificationIdsInActiveState(asset.getReceivedQualityInvestigations()))
                 .build();
     }
-
 
 
     public static PageResult<AssetAsPlannedResponse> from(final PageResult<AssetBase> assetPageResult) {

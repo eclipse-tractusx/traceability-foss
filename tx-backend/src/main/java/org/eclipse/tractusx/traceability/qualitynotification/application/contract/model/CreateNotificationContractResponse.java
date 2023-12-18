@@ -22,5 +22,8 @@ package org.eclipse.tractusx.traceability.qualitynotification.application.contra
 
 import io.swagger.annotations.ApiModelProperty;
 
-public record CreateNotificationContractResponse(@ApiModelProperty(example = "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd") String notificationAssetId, @ApiModelProperty(example = "123") String accessPolicyId, @ApiModelProperty(example = "456") String contractDefinitionId) {
+public record CreateNotificationContractResponse(
+        @ApiModelProperty(example = "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd") String notificationAssetId,
+        @ApiModelProperty(example = "123") String accessPolicyId,
+        @ApiModelProperty(example = "456") String contractDefinitionId) {
 }

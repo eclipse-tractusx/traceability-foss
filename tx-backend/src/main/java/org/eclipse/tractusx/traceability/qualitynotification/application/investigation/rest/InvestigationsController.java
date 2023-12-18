@@ -31,23 +31,36 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.ws.rs.QueryParam;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.common.model.BaseRequestFieldMapper;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
+import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
+import org.eclipse.tractusx.traceability.qualitynotification.application.base.mapper.QualityNotificationFieldMapper;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.service.QualityNotificationService;
 import org.eclipse.tractusx.traceability.qualitynotification.application.investigation.mapper.InvestigationResponseMapper;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import qualitynotification.base.request.CloseQualityNotificationRequest;
 import qualitynotification.base.request.QualityNotificationStatusRequest;
 import qualitynotification.base.request.StartQualityNotificationRequest;
 import qualitynotification.base.request.UpdateQualityNotificationRequest;
 import qualitynotification.base.response.QualityNotificationIdResponse;
 import qualitynotification.investigation.response.InvestigationResponse;
+
+import java.util.List;
 
 import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitize;
 import static org.eclipse.tractusx.traceability.qualitynotification.application.validation.UpdateQualityNotificationValidator.validate;
@@ -63,9 +76,13 @@ import static org.eclipse.tractusx.traceability.qualitynotification.domain.base.
 public class InvestigationsController {
 
     private final QualityNotificationService investigationService;
+    private final BaseRequestFieldMapper fieldMapper;
 
-    public InvestigationsController(@Qualifier("investigationServiceImpl") QualityNotificationService investigationService) {
+    public InvestigationsController(
+            @Qualifier("investigationServiceImpl") QualityNotificationService investigationService,
+            QualityNotificationFieldMapper fieldMapper) {
         this.investigationService = investigationService;
+        this.fieldMapper = fieldMapper;
     }
 
     private static final String API_LOG_START = "Received API call on /investigations";
@@ -125,13 +142,12 @@ public class InvestigationsController {
         StartQualityNotificationRequest cleanRequest = sanitize(request);
         log.info(API_LOG_START + " with params: {}", cleanRequest);
         return new QualityNotificationIdResponse(investigationService.start(from(cleanRequest)).value());
-
     }
 
-    @Operation(operationId = "getCreatedInvestigations",
-            summary = "Gets created investigations",
+    @Operation(operationId = "getInvestigations",
+            summary = "Gets investigations",
             tags = {"Investigations"},
-            description = "The endpoint returns created investigations as paged result.",
+            description = "The endpoint returns investigations as paged result.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found for Asset", content = @Content(
             mediaType = "application/json",
@@ -180,68 +196,10 @@ public class InvestigationsController {
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
-    @GetMapping("/created")
-    public PageResult<InvestigationResponse> getCreatedInvestigations(OwnPageable pageable) {
-        log.info(API_LOG_START + "/created");
-        return InvestigationResponseMapper.fromAsPageResult(investigationService.getCreated(OwnPageable.toPageable(pageable)));
-    }
-
-    @Operation(operationId = "getReceivedInvestigations",
-            summary = "Gets received investigations",
-            tags = {"Investigations"},
-            description = "The endpoint returns received investigations as paged result.",
-            security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found for Asset", content = @Content(
-            mediaType = "application/json",
-            array = @ArraySchema(arraySchema = @Schema(description = "InvestigationData", implementation = InvestigationResponse.class), minItems = 0, maxItems = Integer.MAX_VALUE)
-    )),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Bad request.",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Authorization failed.",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class))),
-
-            @ApiResponse(
-                    responseCode = "403",
-                    description = "Forbidden.",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Not found.",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(
-                    responseCode = "415",
-                    description = "Unsupported media type",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(
-                    responseCode = "429",
-                    description = "Too many requests.",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Internal server error.",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class)))})
-    @GetMapping("/received")
-    public PageResult<InvestigationResponse> getReceivedInvestigations(OwnPageable pageable) {
-        log.info(API_LOG_START + "/received");
-        return InvestigationResponseMapper.fromAsPageResult(investigationService.getReceived(OwnPageable.toPageable(pageable)));
+    @GetMapping("")
+    public PageResult<InvestigationResponse> getInvestigations(OwnPageable pageable, SearchCriteriaRequestParam filter) {
+        log.info(API_LOG_START);
+        return InvestigationResponseMapper.fromAsPageResult(investigationService.getNotifications(OwnPageable.toPageable(pageable, fieldMapper), filter.toSearchCriteria(fieldMapper)));
     }
 
     @Operation(operationId = "getInvestigation",
@@ -541,6 +499,71 @@ public class InvestigationsController {
         validate(cleanUpdateQualityNotificationRequest);
         log.info(API_LOG_START + "/{}/update with params {}", investigationId, cleanUpdateQualityNotificationRequest);
         investigationService.update(investigationId, from(cleanUpdateQualityNotificationRequest.getStatus()), cleanUpdateQualityNotificationRequest.getReason());
+    }
+
+
+    @Operation(operationId = "distinctFilterValues",
+            summary = "getDistinctFilterValues",
+            tags = {"Assets"},
+            description = "The endpoint returns a distinct filter values for given fieldName.",
+            security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns a distinct filter values for given fieldName.", content = @Content(
+            mediaType = "application/json",
+            array = @ArraySchema(
+                    arraySchema = @Schema(
+                            description = "FilterValues",
+                            implementation = String.class,
+                            additionalProperties = Schema.AdditionalPropertiesValue.FALSE
+                    ),
+                    maxItems = Integer.MAX_VALUE,
+                    minItems = 0)
+    )),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad request.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authorization failed.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Not found.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "415",
+                    description = "Unsupported media type",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "429",
+                    description = "Too many requests.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)))})
+    @GetMapping("distinctFilterValues")
+    public List<String> distinctFilterValues(@QueryParam("fieldName") String fieldName, @QueryParam("size") Integer size, @QueryParam("startWith") String startWith, @QueryParam("channel") QualityNotificationSide channel) {
+        return investigationService.getDistinctFilterValues(fieldMapper.mapRequestFieldName(fieldName), startWith, size, channel);
     }
 }
 

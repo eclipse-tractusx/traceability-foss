@@ -34,6 +34,8 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.EdcNotificationService;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.EdcNotificationServiceImpl;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.service.InvestigationsReceiverService;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotificationFactory;
@@ -42,6 +44,7 @@ import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
@@ -53,10 +56,13 @@ import qualitynotification.base.request.UpdateQualityNotificationStatusRequest;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
 
@@ -144,7 +150,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         partIds.forEach(partId -> {
             AssetBase asset = assetAsBuiltRepository.getAssetById(partId);
             assertThat(asset).isNotNull();
-            assertThat(asset.isUnderInvestigation()).isTrue();
+            assertThat(asset.isInInvestigation()).isTrue();
         });
 
         investigationNotificationsSupport.assertNotificationsSize(2);
@@ -155,7 +161,8 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .param("filter", "channel,EQUAL,SENDER,AND")
+                .get("/api/investigations")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -285,7 +292,8 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .param("filter", "channel,EQUAL,SENDER,AND")
+                .get("/api/investigations")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -306,7 +314,8 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .param("filter", "channel,EQUAL,SENDER,AND")
+                .get("/api/investigations")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -359,7 +368,8 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .param("filter", "channel,EQUAL,SENDER,AND")
+                .get("/api/investigations")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -375,6 +385,8 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978" // BPN: BPNL00000003AYRE
         );
         String description = "at least 15 characters long investigation description";
+        String filterString = "channel,EQUAL,SENDER,AND";
+        oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
 
         assetsSupport.defaultAssetsStored();
         val startInvestigationRequest = StartQualityNotificationRequest.builder()
@@ -413,7 +425,8 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .param("filter", "channel,EQUAL,SENDER,AND")
+                .get("/api/investigations")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -440,7 +453,8 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .param("filter", filterString)
+                .get("/api/investigations")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -507,7 +521,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         partIds.forEach(partId -> {
             AssetBase asset = assetAsBuiltRepository.getAssetById(partId);
             assertThat(asset).isNotNull();
-            assertThat(asset.isUnderInvestigation()).isTrue();
+            assertThat(asset.isInInvestigation()).isTrue();
         });
 
         investigationNotificationsSupport.assertNotificationsSize(2);
@@ -517,7 +531,8 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .param("filter", "channel,EQUAL,SENDER,AND")
+                .get("/api/investigations")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))

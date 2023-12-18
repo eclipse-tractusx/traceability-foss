@@ -21,7 +21,6 @@
 
 package org.eclipse.tractusx.traceability.assets.domain.base.model;
 
-import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -50,12 +49,14 @@ public class AssetBase {
     @Singular
     private List<Descriptions> parentRelations;
     private boolean activeAlert;
-    private boolean underInvestigation;
+    private boolean inInvestigation;
     private QualityType qualityType;
     private String van;
     private SemanticDataModel semanticDataModel;
     private String classification;
     private List<DetailAspectModel> detailAspectModels;
-    private List<QualityNotification> qualityAlerts;
-    private List<QualityNotification> qualityInvestigations;
+    private List<QualityNotification> sentQualityAlerts;
+    private List<QualityNotification> receivedQualityAlerts;
+    private List<QualityNotification> sentQualityInvestigations;
+    private List<QualityNotification> receivedQualityInvestigations;
 }

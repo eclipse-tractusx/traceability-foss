@@ -90,5 +90,4 @@ public class AlertServiceImpl extends AbstractQualityNotificationService {
     public void setAssetStatus(QualityNotification qualityNotification) {
         assetService.setAssetsAlertStatus(qualityNotification);
     }
-
 }

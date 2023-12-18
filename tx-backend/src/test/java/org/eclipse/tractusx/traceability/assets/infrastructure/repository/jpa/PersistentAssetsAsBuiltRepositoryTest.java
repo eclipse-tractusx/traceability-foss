@@ -23,14 +23,10 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
-import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.AssetAsBuiltRepositoryImpl;
-import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.SemanticDataModelEntity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Instant;
@@ -41,22 +37,17 @@ import static org.eclipse.tractusx.traceability.testdata.AssetTestDataFactory.cr
 @ExtendWith(MockitoExtension.class)
 class PersistentAssetsAsBuiltRepositoryTest {
 
-    @InjectMocks
-    private AssetAsBuiltRepositoryImpl persistentAssetsRepository;
-
-    @Mock
-    private JpaAssetAsBuiltRepository jpaAssetsRepository;
 
     @Test
     void testToAsset() {
         // Given
         AssetAsBuiltEntity entity = AssetAsBuiltEntity.builder()
-                .id("1")
-                .idShort("1234")
+                .id("urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01")
+                .idShort("a/devNTierAPlastics")
                 .nameAtManufacturer("Manufacturer Name")
                 .manufacturerPartId("customer123")
                 .semanticModelId("PI001")
-                .manufacturerId("manuId")
+                .manufacturerId("BPNL00000003CML1")
                 .manufacturerName("manuName")
                 .nameAtCustomer("Customer Name")
                 .customerPartId("customerPartId")
@@ -65,7 +56,7 @@ class PersistentAssetsAsBuiltRepositoryTest {
                 .semanticDataModel(SemanticDataModelEntity.SERIALPART)
                 .owner(Owner.OWN)
                 .qualityType(QualityType.CRITICAL)
-                .van("van123")
+                .van("OMAOYGBDTSRCMYSCX")
                 .childDescriptors(List.of(AssetAsBuiltEntity.ChildDescription.builder()
                                 .id("child1")
                                 .idShort("desc1")
@@ -104,7 +95,7 @@ class PersistentAssetsAsBuiltRepositoryTest {
         Assertions.assertEquals(asset.getOwner(), expected.getOwner());
         Assertions.assertEquals(asset.getChildRelations(), expected.getChildRelations());
         Assertions.assertEquals(asset.getParentRelations(), expected.getParentRelations());
-        Assertions.assertEquals(asset.isUnderInvestigation(), expected.isUnderInvestigation());
+        Assertions.assertEquals(asset.isInInvestigation(), expected.isInInvestigation());
         Assertions.assertEquals(asset.getQualityType(), expected.getQualityType());
         Assertions.assertEquals(asset.getVan(), expected.getVan());
     }

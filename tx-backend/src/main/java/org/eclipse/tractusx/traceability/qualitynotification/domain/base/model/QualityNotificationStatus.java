@@ -46,7 +46,7 @@ public enum QualityNotificationStatus {
     private static final Set<QualityNotificationStatus> NO_TRANSITION_ALLOWED = emptySet();
     private static final Map<String, QualityNotificationStatus> MAPPINGS;
 
-    private static final List<QualityNotificationStatus> ACTIVE_STATES = List.of(CREATED, SENT, RECEIVED, ACKNOWLEDGED, ACCEPTED, DECLINED);
+    public static final List<QualityNotificationStatus> ACTIVE_STATES = List.of(CREATED, SENT, RECEIVED, ACKNOWLEDGED, ACCEPTED, DECLINED);
 
     static {
         STATE_MACHINE = Map.of(
@@ -97,6 +97,10 @@ public enum QualityNotificationStatus {
 
     public boolean isActiveState() {
         return ACTIVE_STATES.contains(this);
+    }
+
+    public static List<QualityNotificationStatus> getActiveStates() {
+        return ACTIVE_STATES;
     }
 
     public static QualityNotificationStatus from(QualityNotificationStatusRequest qualityNotificationStatusRequest) {

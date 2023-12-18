@@ -59,7 +59,7 @@ export class MockedKeycloakService extends KeycloakService {
         auth_time: '99999999',
         bpn: 'BPNL00000003CML1',
         resource_access: {
-          [environment.clientId]: { roles: this.mockedRoles ?? ['wip', 'admin'] },
+          [environment.clientId]: { roles: this.mockedRoles ?? [ 'wip', 'admin' ] },
         },
       },
     } as any;

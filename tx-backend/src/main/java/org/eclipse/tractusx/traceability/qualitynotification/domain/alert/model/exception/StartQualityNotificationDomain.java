@@ -46,7 +46,6 @@ public class StartQualityNotificationDomain {
     private String receiverBpn;
 
 
-
     public static StartQualityNotificationDomain from(StartQualityNotificationRequest startQualityNotificationRequest) {
         return StartQualityNotificationDomain.builder()
                 .partIds(startQualityNotificationRequest.getPartIds())

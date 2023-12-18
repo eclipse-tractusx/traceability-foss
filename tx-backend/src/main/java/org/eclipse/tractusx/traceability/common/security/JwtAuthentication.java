@@ -26,16 +26,16 @@ import java.util.Set;
 
 public class JwtAuthentication {
 
-	private final Set<JwtRole> jwtRoles;
+    private final Set<JwtRole> jwtRoles;
 
-	public JwtAuthentication(Set<JwtRole> jwtRoles) {
-		this.jwtRoles = Collections.unmodifiableSet(jwtRoles);
-	}
+    public JwtAuthentication(Set<JwtRole> jwtRoles) {
+        this.jwtRoles = Collections.unmodifiableSet(jwtRoles);
+    }
 
-	@Override
-	public String toString() {
-		return "JwtAuthentication{" +
-			"jwtRoles=" + jwtRoles +
-			'}';
-	}
+    @Override
+    public String toString() {
+        return "JwtAuthentication{" +
+                "jwtRoles=" + jwtRoles +
+                '}';
+    }
 }

@@ -22,7 +22,7 @@ SPDX-License-Identifier: Apache-2.0
     <app-button
       [color]="'primary'"
       (click)="this.navigateBackToAlerts()"
-        >
+    >
       <div class="flex justify-between items-center">
         <mat-icon class="mr-2">arrow_back</mat-icon>
         {{ 'actions.goBack' | i18n }}
@@ -107,7 +107,7 @@ SPDX-License-Identifier: Apache-2.0
   <mat-card>
     <mat-card-header>
       <mat-card-title
-        ><h4>{{ 'pageAlert.info' | i18n }}</h4></mat-card-title
+      ><h4>{{ 'pageAlert.info' | i18n }}</h4></mat-card-title
       >
     </mat-card-header>
     <mat-card-content>
@@ -120,9 +120,9 @@ SPDX-License-Identifier: Apache-2.0
   <mat-card class="detail--table_wrapper--notification">
     <mat-card-header>
       <mat-card-title
-        ><h4>
-          {{ 'pageAlert.subHeadline.' + (isReceived ? 'affectedParts' : 'supplierParts') | i18n }}
-        </h4></mat-card-title
+      ><h4>
+        {{ 'pageAlert.subHeadline.' + (isReceived ? 'affectedParts' : 'supplierParts') | i18n }}
+      </h4></mat-card-title
       >
     </mat-card-header>
     <mat-card-content>
@@ -142,7 +142,7 @@ SPDX-License-Identifier: Apache-2.0
   <mat-card class="h-full">
     <mat-card-header>
       <mat-card-title
-        ><h4>{{ 'pageAlert.reason' | i18n }}</h4></mat-card-title
+      ><h4>{{ 'pageAlert.reason' | i18n }}</h4></mat-card-title
       >
     </mat-card-header>
     <mat-card-content>
@@ -155,7 +155,7 @@ SPDX-License-Identifier: Apache-2.0
   <mat-card *ngIf="isReceived && supplierPartsDetailInformation$ | async" class="detail--table_wrapper--notification">
     <mat-card-header>
       <mat-card-title
-        ><h4>{{ 'pageAlert.subHeadline.supplierParts' | i18n }}</h4></mat-card-title
+      ><h4>{{ 'pageAlert.subHeadline.supplierParts' | i18n }}</h4></mat-card-title
       >
     </mat-card-header>
     <mat-card-content>
@@ -184,6 +184,7 @@ SPDX-License-Identifier: Apache-2.0
   <app-table
     [data]="view.data"
     [labelId]="notificationPartsTableId"
+    [autocompleteEnabled]="false"
     [tableConfig]="notificationPartsTableConfig"
     [showHover]="false"
     [noShadow]="true"
@@ -196,6 +197,7 @@ SPDX-License-Identifier: Apache-2.0
     [data]="view.data"
     [labelId]="supplierPartsTableId"
     [tableConfig]="supplierPartsTableConfig"
+    [autocompleteEnabled]="false"
     [deselectTrigger]="deselectPartTrigger$ | async"
     [addTrigger]="addPartTrigger$ | async"
     [showHover]="false"

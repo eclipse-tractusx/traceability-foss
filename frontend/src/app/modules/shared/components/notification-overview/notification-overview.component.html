@@ -28,7 +28,7 @@ SPDX-License-Identifier: Apache-2.0
     <span class="card-list--key detail--text__bold">{{ 'table.column.description' | i18n }}</span>
     <span class="card-list--value detail--text__description" title="{{ notification?.description }}">{{
       notification?.description
-    }}</span>
+      }}</span>
   </div>
   <div class="card-list--row">
     <span class="card-list--key detail--text__bold">{{ 'table.column.status' | i18n }}</span>
@@ -51,13 +51,25 @@ SPDX-License-Identifier: Apache-2.0
   <div class="card-list--row">
     <span class="card-list--key detail--text__bold">{{ 'table.column.createdBy' | i18n }}</span>
     <span class="card-list--value">
-      <app-notification-user [user]="notification.createdBy" mode="sup"></app-notification-user>
+      <span>{{notification.createdBy}}</span>
+    </span>
+  </div>
+  <div class="card-list--row">
+    <span class="card-list--key detail--text__bold">{{ 'table.column.createdByName' | i18n }}</span>
+    <span class="card-list--value">
+      <span>{{notification.createdByName}}</span>
     </span>
   </div>
   <div class="card-list--row">
     <span class="card-list--key detail--text__bold">{{ 'table.column.sendTo' | i18n }}</span>
     <span class="card-list--value">
-      <app-notification-user [user]="notification.sendTo" mode="sup"></app-notification-user>
+        <span>{{notification.sendTo}}</span>
+    </span>
+  </div>
+  <div class="card-list--row">
+    <span class="card-list--key detail--text__bold">{{ 'table.column.sendToName' | i18n }}</span>
+    <span class="card-list--value">
+        <span>{{notification.sendToName}}</span>
     </span>
   </div>
 

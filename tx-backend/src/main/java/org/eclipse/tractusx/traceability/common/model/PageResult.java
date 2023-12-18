@@ -33,7 +33,7 @@ import java.util.function.Function;
 @ArraySchema(arraySchema = @Schema(description = "PageResults", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), minItems = 0, maxItems = Integer.MAX_VALUE)
 public record PageResult<T>(
         @ArraySchema(arraySchema = @Schema(description = "Content of PageResults"), minItems = 0, maxItems = Integer.MAX_VALUE)
-	List<T> content,
+        List<T> content,
         @ApiModelProperty(example = "1")
         Integer page,
         @ApiModelProperty(example = "15")
@@ -44,19 +44,19 @@ public record PageResult<T>(
         Long totalItems
 ) {
 
-	public PageResult(List<T> data) {
-		this(new PagedListHolder<>(data));
-	}
+    public PageResult(List<T> data) {
+        this(new PagedListHolder<>(data));
+    }
 
-	public PageResult(PagedListHolder<T> pagedListHolder) {
-		this(pagedListHolder.getPageList(), pagedListHolder.getPage(), pagedListHolder.getPageSize(), pagedListHolder.getPageSize(), (long)pagedListHolder.getNrOfElements());
-	}
+    public PageResult(PagedListHolder<T> pagedListHolder) {
+        this(pagedListHolder.getPageList(), pagedListHolder.getPage(), pagedListHolder.getPageSize(), pagedListHolder.getPageSize(), (long) pagedListHolder.getNrOfElements());
+    }
 
-	public PageResult(Page<T> page) {
-		this(page, Function.identity());
-	}
+    public PageResult(Page<T> page) {
+        this(page, Function.identity());
+    }
 
-	public <R> PageResult(Page<R> page, Function<R, T> mapping) {
-		this(page.getContent().stream().map(mapping).toList(), page.getPageable().getPageNumber(), page.getTotalPages(), page.getPageable().getPageSize(), page.getTotalElements());
-	}
+    public <R> PageResult(Page<R> page, Function<R, T> mapping) {
+        this(page.getContent().stream().map(mapping).toList(), page.getPageable().getPageNumber(), page.getTotalPages(), page.getPageable().getPageSize(), page.getTotalElements());
+    }
 }

@@ -32,7 +32,7 @@ import {
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { NotificationStatusGroup } from '@shared/model/notification.model';
 import { Severity } from '@shared/model/severity.model';
-import { AlertsService } from '@shared/service/alerts.service';
+import { NotificationService } from '@shared/service/notification.service';
 
 @Component({
   selector: 'app-request-alert',
@@ -49,14 +49,14 @@ export class RequestAlertComponent extends RequestNotificationBase {
 
   public readonly context: RequestContext = 'requestAlert';
 
-  constructor(toastService: ToastService, private readonly alertsService: AlertsService) {
+  constructor(toastService: ToastService, private readonly notificationService: NotificationService) {
     super(toastService);
   }
 
   public readonly formGroup = new FormGroup({
-    description: new FormControl('', [Validators.required, Validators.maxLength(1000), Validators.minLength(15)]),
-    severity: new FormControl(Severity.MINOR, [Validators.required]),
-    bpn: new FormControl(null, [Validators.required, BaseInputHelper.getCustomPatternValidator(bpnRegex, 'bpn')]),
+    description: new FormControl('', [ Validators.required, Validators.maxLength(1000), Validators.minLength(15) ]),
+    severity: new FormControl(Severity.MINOR, [ Validators.required ]),
+    bpn: new FormControl(null, [ Validators.required, BaseInputHelper.getCustomPatternValidator(bpnRegex, 'bpn') ]),
   });
 
   public submit(): void {
@@ -70,7 +70,7 @@ export class RequestAlertComponent extends RequestNotificationBase {
     const { description, bpn, severity } = this.formGroup.value;
     const { link, queryParams } = getRoute(ALERT_BASE_ROUTE, NotificationStatusGroup.QUEUED_AND_REQUESTED);
 
-    this.alertsService.postAlert(partIds, description, severity, bpn, isAsBuilt).subscribe({
+    this.notificationService.createAlert(partIds, description, severity, bpn, isAsBuilt).subscribe({
       next: () => this.onSuccessfulSubmit(link, queryParams),
       error: () => this.onUnsuccessfulSubmit(),
     });

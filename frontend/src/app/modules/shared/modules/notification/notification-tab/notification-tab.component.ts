@@ -19,22 +19,24 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { AfterViewInit, Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, Output, TemplateRef, ViewChild} from '@angular/core';
+import {NotificationChannel, TableType} from '@shared/components/multi-select-autocomplete/table-type.model';
 import {
   CreateHeaderFromColumns,
   DisplayColumns,
   MenuActionConfig,
   TableConfig,
-  TableEventConfig, TableHeaderSort,
+  TableEventConfig,
+  TableHeaderSort,
 } from '@shared/components/table/table.model';
-import { Notification, Notifications } from '@shared/model/notification.model';
-import { View } from '@shared/model/view.model';
-import { Observable } from 'rxjs';
+import {Notification, NotificationFilter, Notifications, NotificationType} from '@shared/model/notification.model';
+import {View} from '@shared/model/view.model';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-notifications-tab',
   templateUrl: './notification-tab.component.html',
-  styleUrls: ['./notification-tab.component.scss'],
+  styleUrls: [ './notification-tab.component.scss' ],
 })
 export class NotificationTabComponent implements AfterViewInit {
   @Input() notificationsView$: Observable<View<Notifications>>;
@@ -42,11 +44,16 @@ export class NotificationTabComponent implements AfterViewInit {
   @Input() hasPagination = true;
   @Input() translationContext: 'commonInvestigation' | 'commonAlert';
   @Input() menuActionsConfig: MenuActionConfig<Notification>[];
-  @Input() optionalColumns: Array<'targetDate' | 'severity' | 'createdBy' | 'sendTo'> = [];
+  @Input() optionalColumns: Array<'targetDate' | 'severity' | 'createdBy' | 'sendTo' | 'sendToName' | 'createdByName'> = [];
   @Input() sortableColumns: Record<string, boolean> = {};
   @Input() multiSortList: TableHeaderSort[] = [];
+  @Input() notificationType = NotificationType.INVESTIGATION;
+  @Input() tableType: TableType;
+  @Input() autocompleteEnabled = false;
 
   @Output() tableConfigChanged = new EventEmitter<TableEventConfig>();
+  @Output() investigationsFilterChanged = new EventEmitter<any>();
+  @Output() alertsFilterChanged = new EventEmitter<any>();
   @Output() selected = new EventEmitter<Notification>();
 
   @ViewChild('statusTmp') statusTemplate: TemplateRef<unknown>;
@@ -54,12 +61,17 @@ export class NotificationTabComponent implements AfterViewInit {
   @ViewChild('descriptionTmp') descriptionTemplate: TemplateRef<unknown>;
   @ViewChild('targetDateTmp') targetDateTemplate: TemplateRef<unknown>;
   @ViewChild('userTmp') userTemplate: TemplateRef<unknown>;
+  @ViewChild('bpnTmp') bpnTemplate: TemplateRef<unknown>;
+
 
   public tableConfig: TableConfig<keyof Notification>;
 
+  notificationFilter: NotificationFilter;
+
   public ngAfterViewInit(): void {
-    const defaultColumns: DisplayColumns<keyof Notification>[] = ['description', 'status', 'createdDate'];
-    const displayedColumns: DisplayColumns<keyof Notification>[] = [...defaultColumns, ...this.optionalColumns, 'menu'];
+
+    const defaultColumns: DisplayColumns<keyof Notification>[] = [ 'description', 'status', 'createdDate' ];
+    const displayedColumns: DisplayColumns<keyof Notification>[] = [ ...defaultColumns, ...this.optionalColumns, 'menu' ];
     const sortableColumns: Record<string, boolean> = this.sortableColumns;
 
     this.tableConfig = {
@@ -73,10 +85,31 @@ export class NotificationTabComponent implements AfterViewInit {
         severity: this.severityTemplate,
         description: this.descriptionTemplate,
         targetDate: this.targetDateTemplate,
-        createdBy: this.userTemplate,
-        sendTo: this.userTemplate,
+        createdBy: this.bpnTemplate,
+        sendToName: this.userTemplate,
+        createdByName: this.userTemplate,
+        sendTo: this.bpnTemplate,
       },
     };
+
+  }
+
+  filterActivated(notificationFilter: any): void {
+    this.notificationFilter = notificationFilter;
+    const channel = notificationFilter['createdBy'] ? NotificationChannel.RECEIVER : NotificationChannel.SENDER;
+    if (this.notificationType === NotificationType.INVESTIGATION) {
+      this.investigationsFilterChanged.emit({
+        channel: channel,
+        filter: notificationFilter,
+      });
+    }
+    if (this.notificationType === NotificationType.ALERT) {
+      this.alertsFilterChanged.emit({
+        channel: channel,
+        filter: notificationFilter,
+      });
+    }
+    // output event to either investigation or alert with channel and filter
 
   }
 
@@ -88,6 +121,5 @@ export class NotificationTabComponent implements AfterViewInit {
     this.tableConfigChanged.emit(tableEventConfig);
   }
 
-
-
+  protected readonly NotificationType = NotificationType;
 }

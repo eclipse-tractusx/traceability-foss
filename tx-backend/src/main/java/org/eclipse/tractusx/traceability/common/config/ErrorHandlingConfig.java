@@ -30,6 +30,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnNotFoundException;
+import org.eclipse.tractusx.traceability.common.domain.ParseLocalDateException;
+import org.eclipse.tractusx.traceability.common.model.UnsupportedSearchCriteriaFieldException;
 import org.eclipse.tractusx.traceability.common.request.InvalidFilterException;
 import org.eclipse.tractusx.traceability.common.request.InvalidSortException;
 import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
@@ -55,6 +57,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.io.IOException;
 import java.util.NoSuchElementException;
@@ -161,6 +164,13 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
+    @ExceptionHandler(ParseLocalDateException.class)
+    ResponseEntity<ErrorResponse> handleParseLocalDateException(ParseLocalDateException exception) {
+        log.warn("handleParseLocalDateException", exception);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(exception.getMessage()));
+    }
+
     @ExceptionHandler(AccessDeniedException.class)
     ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException exception) {
         log.warn("handleAccessDeniedException", exception);
@@ -198,6 +208,13 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
 
     @ExceptionHandler(InvalidFilterException.class)
     ResponseEntity<ErrorResponse> handleInvalidFilterException(InvalidFilterException exception) {
+        log.warn("handleInvalidFilterException", exception);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(exception.getMessage()));
+    }
+
+    @ExceptionHandler(UnsupportedSearchCriteriaFieldException.class)
+    ResponseEntity<ErrorResponse> handleUnsupportedSearchCriteriaFieldException(UnsupportedSearchCriteriaFieldException exception) {
         log.warn("handleInvalidFilterException", exception);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
@@ -243,5 +260,13 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
         log.warn("handleSubmodelNotFoundException", exception);
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse(errorMessage));
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatchException(final MethodArgumentTypeMismatchException exception) {
+        log.error("MethodArgumentTypeMismatchException exception", exception);
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(exception.getMessage()));
     }
 }

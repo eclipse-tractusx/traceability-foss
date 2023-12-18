@@ -31,7 +31,8 @@ import { SpinnerOverlayComponent } from './spinner-overlay/spinner-overlay.compo
 import { UserMenuComponent } from './header/user-navigation/user-menu.component';
 
 @NgModule({
-  declarations: [LayoutComponent, HeaderComponent, SpinnerOverlayComponent, SidenavComponent, UserMenuComponent],
-  imports: [CommonModule, LayoutRoutingModule, TemplateModule, SharedModule],
+  declarations: [ LayoutComponent, HeaderComponent, SpinnerOverlayComponent, SidenavComponent, UserMenuComponent ],
+  imports: [ CommonModule, LayoutRoutingModule, TemplateModule, SharedModule ],
 })
-export class LayoutModule {}
+export class LayoutModule {
+}

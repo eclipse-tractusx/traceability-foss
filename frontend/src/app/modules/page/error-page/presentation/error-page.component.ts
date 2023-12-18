@@ -28,7 +28,7 @@ import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-error',
   templateUrl: './error-page.component.html',
-  styleUrls: ['./error-page.component.scss'],
+  styleUrls: [ './error-page.component.scss' ],
 })
 export class ErrorPageComponent {
   public title: string = 'errorPage.title';

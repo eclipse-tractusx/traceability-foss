@@ -33,18 +33,18 @@ import java.util.stream.Collectors;
 
 class JwtRolesExtractor {
 
-	private static final String RESOURCE_ACCESS = "resource_access";
-	private static final String ROLES = "roles";
+    private static final String RESOURCE_ACCESS = "resource_access";
+    private static final String ROLES = "roles";
 
-	private JwtRolesExtractor() {
-	}
+    private JwtRolesExtractor() {
+    }
 
-	static Set<JwtRole> extract(Jwt jwtToken, String resourceClient) {
-		Object resourceAccess = Optional.ofNullable(jwtToken.getClaimAsMap(RESOURCE_ACCESS))
-			.flatMap(it -> Optional.ofNullable(it.get(resourceClient)))
-			.orElse(null);
+    static Set<JwtRole> extract(Jwt jwtToken, String resourceClient) {
+        Object resourceAccess = Optional.ofNullable(jwtToken.getClaimAsMap(RESOURCE_ACCESS))
+                .flatMap(it -> Optional.ofNullable(it.get(resourceClient)))
+                .orElse(null);
 
-        if (resourceAccess instanceof LinkedTreeMap<?,?> resourceAccessCasted) {
+        if (resourceAccess instanceof LinkedTreeMap<?, ?> resourceAccessCasted) {
             Object roles = resourceAccessCasted.get(ROLES);
 
             if (roles instanceof ArrayList<?> arrayList) {

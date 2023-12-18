@@ -27,23 +27,21 @@ SPDX-License-Identifier: Apache-2.0
       [formControl]="control"
       [attr.data-testId]="htmlId"
       [errorStateMatcher]="matcher"
+      style="line-height: 1.5;"
       matInput
-      cdkTextareaAutosize
-      #autosize="cdkTextareaAutosize"
-      cdkAutosizeMinRows="1"
-      cdkAutosizeMaxRows="5"
+
     ></textarea>
     <mat-icon *ngIf="matcher.isErrorState(control)" color="warn" matSuffix>error_outline</mat-icon>
     <mat-hint *ngIf="hint" align="start">{{ hint }}</mat-hint>
     <mat-hint align="end" *ngIf="!!maxLength && !!minLength">{{
-      'input.minMaxLengthHint' | i18n : { current: control?.value?.length || 0, max: maxLength, min: minLength }
-    }}</mat-hint>
+      'input.minMaxLengthHint' | i18n : {current: control?.value?.length || 0, max: maxLength, min: minLength}
+      }}</mat-hint>
     <mat-hint align="end" *ngIf="!maxLength && !!minLength">{{
-      'input.minLengthHint' | i18n : { current: control?.value?.length || 0, min: minLength }
-    }}</mat-hint>
+      'input.minLengthHint' | i18n : {current: control?.value?.length || 0, min: minLength}
+      }}</mat-hint>
     <mat-hint align="end" *ngIf="!!maxLength && !minLength">{{
-      'input.maxLengthHint' | i18n : { rest: maxLength - (control?.value?.length || 0) }
-    }}</mat-hint>
+      'input.maxLengthHint' | i18n : {rest: maxLength - (control?.value?.length || 0)}
+      }}</mat-hint>
     <mat-error>
       <app-form-error-message [control]="control" [matcher]="matcher"></app-form-error-message>
     </mat-error>

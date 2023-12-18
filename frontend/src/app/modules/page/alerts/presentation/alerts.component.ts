@@ -17,20 +17,24 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ALERT_BASE_ROUTE, getRoute } from '@core/known-route';
-import { AlertDetailFacade } from '@page/alerts/core/alert-detail.facade';
-import { AlertHelperService } from '@page/alerts/core/alert-helper.service';
-import { AlertsFacade } from '@page/alerts/core/alerts.facade';
-import { NotificationMenuActionsAssembler } from '@shared/assembler/notificationMenuActions.assembler';
-import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
-import { MenuActionConfig, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
-import { TableSortingUtil } from '@shared/components/table/tableSortingUtil';
-import { NotificationTabInformation } from '@shared/model/notification-tab-information';
-import { Notification, NotificationStatusGroup } from '@shared/model/notification.model';
-import { TranslationContext } from '@shared/model/translation-context.model';
-import { Subscription } from 'rxjs';
+import {ChangeDetectorRef, Component, ViewChild} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ALERT_BASE_ROUTE, getRoute} from '@core/known-route';
+import {AlertDetailFacade} from '@page/alerts/core/alert-detail.facade';
+import {AlertHelperService} from '@page/alerts/core/alert-helper.service';
+import {AlertsFacade} from '@page/alerts/core/alerts.facade';
+import {NotificationMenuActionsAssembler} from '@shared/assembler/notificationMenuActions.assembler';
+import {
+  NotificationCommonModalComponent
+} from '@shared/components/notification-common-modal/notification-common-modal.component';
+import {TableSortingUtil} from '@shared/components/table/table-sorting.util';
+import {MenuActionConfig, TableEventConfig, TableHeaderSort} from '@shared/components/table/table.model';
+import {createDeeplinkNotificationFilter} from '@shared/helper/notification-helper';
+import {NotificationTabInformation} from '@shared/model/notification-tab-information';
+import {Notification, NotificationStatusGroup, NotificationType} from '@shared/model/notification.model';
+import {TranslationContext} from '@shared/model/translation-context.model';
+import {Subscription} from 'rxjs';
+import {NotificationChannel} from "@shared/components/multi-select-autocomplete/table-type.model";
 
 @Component({
   selector: 'app-alerts',
@@ -43,6 +47,7 @@ export class AlertsComponent {
   public readonly alertsReceived$;
   public readonly alertsQueuedAndRequested$;
 
+  public isInvestigation = false;
   public menuActionsConfig: MenuActionConfig<Notification>[];
 
   public alertReceivedSortList: TableHeaderSort[] = [];
@@ -51,42 +56,46 @@ export class AlertsComponent {
 
   private paramSubscription: Subscription;
 
-  private pagination: TableEventConfig = { page: 0, pageSize: 50, sorting: ['createdDate' , 'desc'] };
+  private pagination: TableEventConfig = { page: 0, pageSize: 50, sorting: [ 'createdDate', 'desc' ] };
 
-    constructor(
-        public readonly helperService: AlertHelperService,
-        private readonly alertsFacade: AlertsFacade,
-        private readonly alertDetailFacade: AlertDetailFacade,
-        private readonly router: Router,
-        private readonly route: ActivatedRoute,
-        private readonly cd: ChangeDetectorRef
-    ) {
-        this.alertsReceived$ = this.alertsFacade.alertsReceived$;
-        this.alertsQueuedAndRequested$ = this.alertsFacade.alertsQueuedAndRequested$;
+  constructor(
+    public readonly helperService: AlertHelperService,
+    private readonly alertsFacade: AlertsFacade,
+    private readonly alertDetailFacade: AlertDetailFacade,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly cd: ChangeDetectorRef,
+  ) {
+    this.alertsReceived$ = this.alertsFacade.alertsReceived$;
+    this.alertsQueuedAndRequested$ = this.alertsFacade.alertsQueuedAndRequested$;
 
-      window.addEventListener('keydown', (event) => {
-        this.ctrlKeyState = event.ctrlKey;
-      });
-      window.addEventListener('keyup', (event) => {
-        this.ctrlKeyState = event.ctrlKey;
-      });
-    }
-
-  public ngOnInit(): void {
-    this.paramSubscription = this.route.queryParams.subscribe(params => {
-      this.pagination.page = params?.pageNumber;
-      this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize, this.alertReceivedSortList);
-      this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize, this.alertQueuedAndRequestedSortList);
-    })
+    window.addEventListener('keydown', (event) => {
+      this.ctrlKeyState = event.ctrlKey;
+    });
+    window.addEventListener('keyup', (event) => {
+      this.ctrlKeyState = event.ctrlKey;
+    });
   }
 
-    public ngAfterViewInit(): void {
-        this.menuActionsConfig = NotificationMenuActionsAssembler.getMenuActions(
-            this.helperService,
-            this.notificationCommonModalComponent
-        );
-        this.cd.detectChanges();
-    }
+  public ngOnInit(): void {
+
+    this.paramSubscription = this.route.queryParams.subscribe(params => {
+
+      let deeplinkNotificationFilter = createDeeplinkNotificationFilter(params);
+      this.pagination.page = params?.pageNumber ? params.pageNumber : 0;
+      this.pagination.page = params?.pageNumber;
+      this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize, this.alertReceivedSortList, deeplinkNotificationFilter?.receivedFilter);
+      this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize, this.alertQueuedAndRequestedSortList, deeplinkNotificationFilter?.sentFilter);
+    });
+  }
+
+  public ngAfterViewInit(): void {
+    this.menuActionsConfig = NotificationMenuActionsAssembler.getMenuActions(
+      this.helperService,
+      this.notificationCommonModalComponent,
+    );
+    this.cd.detectChanges();
+  }
 
   public ngOnDestroy(): void {
     this.alertsFacade.stopAlerts();
@@ -109,8 +118,8 @@ export class AlertsComponent {
     this.alertDetailFacade.selected = { data: notification };
     const { link } = getRoute(ALERT_BASE_ROUTE);
     const tabIndex = this.route.snapshot.queryParamMap.get('tabIndex');
-    const tabInformation: NotificationTabInformation = {tabIndex: tabIndex, pageNumber: this.pagination.page}
-    this.router.navigate([`/${link}/${notification.id}`], { queryParams: tabInformation });
+    const tabInformation: NotificationTabInformation = { tabIndex: tabIndex, pageNumber: this.pagination.page };
+    this.router.navigate([ `/${ link }/${ notification.id }` ], { queryParams: tabInformation });
   }
 
   public handleConfirmActionCompletedEvent() {
@@ -124,4 +133,13 @@ export class AlertsComponent {
   }
 
   protected readonly TranslationContext = TranslationContext;
+  protected readonly NotificationType = NotificationType;
+
+  filterNotifications(filterContext: any) {
+    if(filterContext.channel === NotificationChannel.RECEIVER) {
+      this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize, this.alertReceivedSortList,null, filterContext.filter);
+    } else {
+      this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize, this.alertQueuedAndRequestedSortList, null, filterContext.filter);
+    }
+  }
 }

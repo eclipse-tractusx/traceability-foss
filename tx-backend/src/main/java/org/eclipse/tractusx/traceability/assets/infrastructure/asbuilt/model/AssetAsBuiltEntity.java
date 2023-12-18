@@ -42,6 +42,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetB
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.SemanticDataModelEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -60,7 +61,6 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
 
     private Instant manufacturingDate;
     private String manufacturingCountry;
-    private String manufacturerId;
     private String nameAtCustomer;
     private String customerPartId;
     private String productType;
@@ -112,7 +112,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                 .van(asset.getVan())
                 .activeAlert(asset.isActiveAlert())
                 .classification(asset.getClassification())
-                .inInvestigation(asset.isUnderInvestigation())
+                .inInvestigation(asset.isInInvestigation())
                 .semanticDataModel(SemanticDataModelEntity.from(asset.getSemanticDataModel()))
                 .productType(tractionBatteryCodeObj.getProductType())
                 .tractionBatteryCode(tractionBatteryCodeObj.getTractionBatteryCode())
@@ -137,14 +137,16 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                 .parentRelations(entity.getParentDescriptors().stream()
                         .map(parent -> new Descriptions(parent.getId(), parent.getIdShort()))
                         .toList())
-                .underInvestigation(entity.isInInvestigation())
+                .inInvestigation(entity.isInInvestigation())
                 .activeAlert(entity.isActiveAlert())
                 .qualityType(entity.getQualityType())
                 .van(entity.getVan())
                 .classification(entity.getClassification())
                 .detailAspectModels(DetailAspectModel.from(entity))
-                .qualityAlerts(emptyIfNull(entity.alerts).stream().map(AlertEntity::toDomain).toList())
-                .qualityInvestigations(emptyIfNull(entity.investigations).stream().map(InvestigationEntity::toDomain).toList())
+                .sentQualityAlerts(emptyIfNull(entity.alerts).stream().filter(alert -> NotificationSideBaseEntity.SENDER.equals(alert.getSide())).map(AlertEntity::toDomain).toList())
+                .receivedQualityAlerts(emptyIfNull(entity.alerts).stream().filter(alert -> NotificationSideBaseEntity.RECEIVER.equals(alert.getSide())).map(AlertEntity::toDomain).toList())
+                .sentQualityInvestigations(emptyIfNull(entity.investigations).stream().filter(alert -> NotificationSideBaseEntity.SENDER.equals(alert.getSide())).map(InvestigationEntity::toDomain).toList())
+                .receivedQualityInvestigations(emptyIfNull(entity.investigations).stream().filter(alert -> NotificationSideBaseEntity.RECEIVER.equals(alert.getSide())).map(InvestigationEntity::toDomain).toList())
 
                 .build();
     }

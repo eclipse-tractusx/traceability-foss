@@ -41,8 +41,8 @@ describe('BreadcrumbsComponent', () => {
     const routerEvents = new NavigationEnd(1, 'test', '');
 
     return await renderComponent(BreadcrumbsComponent, {
-      declarations: [BreadcrumbsComponent],
-      imports: [SharedModule],
+      declarations: [ BreadcrumbsComponent ],
+      imports: [ SharedModule ],
       providers: [
         LayoutFacade,
         { provide: Router, useValue: { root: '', events: of(routerEvents) } },

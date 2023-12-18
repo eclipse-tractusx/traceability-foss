@@ -48,7 +48,7 @@ export class CancelNotificationModalComponent {
 
   public show(notification: Notification): void {
     this.notification = notification;
-    this.textAreaControl.setValidators([Validators.required, Validators.pattern(this.notification.id.toString())]);
+    this.textAreaControl.setValidators([ Validators.required, Validators.pattern(this.notification.id.toString()) ]);
     const onConfirm = (isConfirmed: boolean) => {
       this.formGroup.reset();
       if (!isConfirmed) return;
@@ -67,7 +67,6 @@ export class CancelNotificationModalComponent {
     const options: ModalData = {
       title: this.translationContext + '.modal.cancellationTitle',
       buttonRight: 'actions.cancellationConfirm',
-      buttonLeft: 'actions.cancel',
       primaryButtonColour: 'warn',
 
       template: this.modal,
