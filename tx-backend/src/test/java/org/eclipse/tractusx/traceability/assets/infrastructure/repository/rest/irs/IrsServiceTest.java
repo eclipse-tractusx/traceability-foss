@@ -19,6 +19,11 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs;
 
+import org.eclipse.tractusx.irs.edc.client.policy.Constraint;
+import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
+import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
+import org.eclipse.tractusx.irs.edc.client.policy.Permission;
+import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.IRSApiClient;
@@ -259,5 +264,25 @@ class IrsServiceTest {
                 relationships,
                 bpns
         );
+    }
+
+    @Test
+    void test_getPolicyConstraints(){
+        //GIVEN
+        List<Constraint> andConstraints = List.of(new Constraint("leftOperand", OperatorType.EQ, List.of("rightOperand")));
+        List<Constraint> orConstraints = List.of(new Constraint("leftOperand", OperatorType.EQ, List.of("rightOperand")));
+        Constraints constraints = new Constraints(andConstraints, orConstraints);
+
+        Permission permission = new Permission(PolicyType.USE, List.of(constraints));
+        PolicyResponse policyResponse = new PolicyResponse("", OffsetDateTime.now(), OffsetDateTime.now(), List.of(permission));
+
+        when(irsClient.getPolicies()).thenReturn(List.of(policyResponse));
+
+        //WHEN
+        List<Constraints> policyConstraints = irsService.getPolicyConstraints();
+
+        //THEN
+        assertThat("leftOperand").isEqualTo(policyConstraints.get(0).getAnd().get(0).getLeftOperand());
+        assertThat("rightOperand").isEqualTo(policyConstraints.get(0).getOr().get(0).getRightOperand().get(0));
     }
 }
