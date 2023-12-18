@@ -16,10 +16,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.application.importpoc;
+package org.eclipse.tractusx.traceability.assets.application.importpoc.model;
 
-public class ImportException extends RuntimeException{
-    public ImportException(String message) {
-        super(message);
-    }
+public record AssetMetaInfoRequest(String catenaXId) {
 }

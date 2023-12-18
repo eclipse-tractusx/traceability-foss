@@ -20,7 +20,7 @@ package org.eclipse.tractusx.traceability.assets.application.importpoc.validatio
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import org.eclipse.tractusx.traceability.assets.application.importpoc.ImportException;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.ImportException;
 import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
 

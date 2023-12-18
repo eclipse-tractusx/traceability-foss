@@ -16,11 +16,14 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.application.importpoc;
+package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.ImportException;
+import org.eclipse.tractusx.traceability.assets.application.importpoc.model.ImportRequest;
+import org.eclipse.tractusx.traceability.assets.application.importpoc.ImportService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
