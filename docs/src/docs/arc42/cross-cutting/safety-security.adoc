@@ -13,39 +13,7 @@ JWT token should also contain two claims:
 The list of values will be converted to roles by Trace-X.
 Currently, Trace-X API handles three roles: **'User'** and **'Supervisor'** and **'Admin'.**
 
-The behavior is shown in the table below.
-
-==== Rights and Roles Matrix of Trace-X
-
-|===
-| Category         | Action                         | User       | Supervisor   | Admin
-| View             | View Dashboard                 | x          | x            | x
-|                  | View Parts                     | x          | x            | x
-|                  | View Other parts               | x          | x            | x
-|                  | View Quality investigations    | x          | x            | x
-|                  | View Quality alerts            | x          | x            | x
-|                  | View Administration            |            |              | x
-
-| Investigation    | Create                         | x          | x            |
-|                  | Send                           |            | x            |
-|                  | Read                           | x          | x            | x
-|                  | Update                         | x          | x            |
-|                  | Delete All                     |            | x            |
-|                  | Delete Own                     | (x)        | x            |
-
-| Alert            | Create                         | x          | x            |
-|                  | Send                           |            | x            |
-|                  | Read                           | x          | x            | x
-|                  | Update                         | x          | x            |
-|                  | Delete All                     |            | x            |
-|                  | Delete Own                     | (x)        | x            |
-
-| Administration Panel  | Access "BPN EDC config panel"    |          |            | x
-|                       | Access "Registry lookup Panel"   |          |            | x
-
-|===
-
-Legend: x = full access to all resources, (x) = access to the resources he owns
+You can have a look at the rights and roles matrix in the system overview of the administration guide.
 
 === Trace-X as EDC client
 
