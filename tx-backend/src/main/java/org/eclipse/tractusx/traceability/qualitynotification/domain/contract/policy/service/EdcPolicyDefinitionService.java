@@ -80,7 +80,7 @@ public class EdcPolicyDefinitionService {
         EdcPolicyPermissionConstraintExpression constraint = EdcPolicyPermissionConstraintExpression.builder()
                 .leftOperand(traceabilityProperties.getLeftOperand())
                 .rightOperand(traceabilityProperties.getRightOperand())
-                .operator(new EdcOperator(OPERATOR_PREFIX + traceabilityProperties.getLeftOperand()))
+                .operator(new EdcOperator(OPERATOR_PREFIX + traceabilityProperties.getOperatorType()))
                 .type(CONSTRAINT)
                 .build();
 
