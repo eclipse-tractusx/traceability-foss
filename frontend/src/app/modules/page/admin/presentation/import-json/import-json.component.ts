@@ -35,7 +35,7 @@ export class ImportJsonComponent {
   public getFile(event:any){
     this.file = event.target.files[0];
 
-    if ('json' !== this.getFileExtension().toLowerCase() ) {
+    if ('json' !== this.getFileExtension(this.file).toLowerCase() ) {
       this.showError = true;
       return;
     }
@@ -53,17 +53,13 @@ export class ImportJsonComponent {
     this.showError = false;
   }
 
-  public shouldShowFileContainer_drag_and_drop(): boolean {
-    return !this.file || 'json' !== this.getFileExtension().toLowerCase() || this.showError;
+  public shouldShowFileContainer_upload_file(file: File): boolean {
+    return this.file && 'json' === this.getFileExtension(file).toLowerCase();
   }
 
-  public shouldShowFileContainer_upload_file(): boolean {
-    return this.file && 'json' === this.getFileExtension().toLowerCase();
-  }
-
-    public getFileExtension(): string {
-        if (this.file) {
-            const fileNameParts = this.file.name.split('.');
+    public getFileExtension(file: File): string {
+        if (file) {
+            const fileNameParts = file.name.split('.');
             return fileNameParts[fileNameParts.length - 1];
         }
         return '';

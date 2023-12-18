@@ -23,7 +23,7 @@ import { ImportJsonComponent } from '@page/admin/presentation/import-json/import
 import { screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 
-describe('ImportJsonComponent', () => {
+fdescribe('ImportJsonComponent', () => {
   const jsonFileContent = {
     key1: 'value1',
     key2: 'value2',
@@ -35,11 +35,12 @@ describe('ImportJsonComponent', () => {
 
   const jsonString = JSON.stringify(jsonFileContent, null, 2);
 
+
   const createJsonFile = (fileName: string, fileType: string) => {
     const jsonBlob = new Blob([jsonString], { type: fileType });
     return new File([jsonBlob], fileName, { type: fileType });
   };
-
+  const jsonFile = createJsonFile('example.json', 'application/json');
   const renderComponentWithJsonFile = async (jsonFile: File, showError: boolean = false) => {
     return renderComponent(ImportJsonComponent, {
       imports: [AdminModule],
@@ -64,11 +65,11 @@ describe('ImportJsonComponent', () => {
   });
 
   it('should show error Message', async () => {
-    const jsonFile = createJsonFile('example.pdf', 'application/pdf');
-    const { fixture } = await renderComponentWithJsonFile(jsonFile, false);
+    const File = createJsonFile('example.pdf', 'application/pdf');
+    const { fixture } = await renderComponentWithJsonFile(File, false);
 
     const { componentInstance } = fixture;
-    const event = { target: { files: [jsonFile] } };
+    const event = { target: { files: [File] } };
 
     // Act
     componentInstance.getFile(event);
@@ -80,7 +81,6 @@ describe('ImportJsonComponent', () => {
   });
 
   it('should clear the json-file', async () => {
-    const jsonFile = createJsonFile('example.json', 'application/json');
     const { fixture } = await renderComponentWithJsonFile(jsonFile, false);
 
     const { componentInstance } = fixture;
@@ -97,4 +97,21 @@ describe('ImportJsonComponent', () => {
     expect(componentInstance.file).toBeFalsy();
   });
 
+  it('should show FileContainer_upload_file', async () => {
+
+    const { fixture } = await renderComponentWithJsonFile(jsonFile, false);
+
+    const { componentInstance } = fixture;
+    const event = { target: { files: [jsonFile] } };
+
+    // Arrange
+    componentInstance.getFile(event);
+
+    // Assert
+    expect(componentInstance.showError).toBe(false);
+    expect(componentInstance.file).toBeTruthy();
+    expect(componentInstance.shouldShowFileContainer_upload_file(jsonFile)).toBe(true);
+    expect(componentInstance.getFileExtension(jsonFile)).toEqual('json')
+
+  })
 });

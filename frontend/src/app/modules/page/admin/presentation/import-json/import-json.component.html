@@ -25,7 +25,7 @@ SPDX-License-Identifier: Apache-2.0
   </mat-card-header>
   <mat-card-content>
     <div class="import-json">
-      <div class="file-container_drag_and_drop" *ngIf="shouldShowFileContainer_drag_and_drop()">
+      <div class="file-container_drag_and_drop" *ngIf="!shouldShowFileContainer_upload_file(file)">
        <mat-icon>upload</mat-icon>
        <input type="file" (change)="getFile($event)" class="file" />
         <h4>{{ 'pageAdmin.importJson.Drag_and_Drop' | i18n }}</h4>
@@ -36,7 +36,7 @@ SPDX-License-Identifier: Apache-2.0
        <p class="error-message" *ngIf=" showError">{{ 'pageAdmin.importJson.error' | i18n }}</p>
      </div>
 
-      <div class="file-container_upload_file" *ngIf="shouldShowFileContainer_upload_file()">
+      <div class="file-container_upload_file" *ngIf="shouldShowFileContainer_upload_file(file)">
         <mat-icon class="icon_uploadFile">upload_file</mat-icon>
         <p class="file-name">{{file.name}}</p>
         <app-button variant="raised" class="custom-button_clear" color="warn" (click)="clearFile()">{{ 'pageAdmin.importJson.clear_file' | i18n }}</app-button>
