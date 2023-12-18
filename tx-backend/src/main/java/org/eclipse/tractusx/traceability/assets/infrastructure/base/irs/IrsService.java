@@ -24,6 +24,7 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.config.IrsPolicyConfig;
@@ -37,7 +38,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.RegisterJobResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.IrsPolicy;
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
-import org.springframework.beans.factory.annotation.Value;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -52,13 +53,12 @@ public class IrsService implements IrsRepository {
     private final IRSApiClient irsClient;
     private final BpnRepository bpnRepository;
     private final IrsPolicyConfig irsPolicyConfig;
-    @Value("${traceability.bpn}")
-    private String applicationBPN;
+    private final TraceabilityProperties traceabilityProperties;
     private final ObjectMapper objectMapper;
 
     @Override
     public List<AssetBase> findAssets(String globalAssetId, Direction direction, List<String> aspects, BomLifecycle bomLifecycle) {
-        RegisterJobRequest registerJobRequest = RegisterJobRequest.buildJobRequest(globalAssetId, applicationBPN, direction, aspects, bomLifecycle);
+        RegisterJobRequest registerJobRequest = RegisterJobRequest.buildJobRequest(globalAssetId, traceabilityProperties.getBpn().toString(), direction, aspects, bomLifecycle);
         log.info("Build HTTP Request {}", registerJobRequest);
         try {
             log.info("Build HTTP Request as JSON {}", objectMapper.writeValueAsString(registerJobRequest));
@@ -133,6 +133,12 @@ public class IrsService implements IrsRepository {
             irsClient.deletePolicy(existingPolicy.getPolicyId());
             irsClient.registerPolicy(RegisterPolicyRequest.from(requiredPolicy.get()));
         }
+    }
+
+    public List<Constraints> getPolicyConstraints(){
+        return irsClient.getPolicies().stream().flatMap(response -> response.permissions().stream())
+                .flatMap(permission-> permission.getConstraints().stream())
+                .toList();
     }
 
 }

@@ -38,6 +38,7 @@ import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
 import org.eclipse.tractusx.irs.edc.client.policy.Permission;
 import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.IrsService;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -76,6 +77,9 @@ public class ApplicationConfig {
 
     @Autowired
     TraceabilityProperties traceabilityProperties;
+
+    @Autowired
+    IrsService irsService;
 
     private final AcceptedPoliciesProvider.DefaultAcceptedPoliciesProvider defaultAcceptedPoliciesProvider;
 
@@ -142,9 +146,14 @@ public class ApplicationConfig {
         List<Constraint> andConstraintList = new ArrayList<>();
         List<Constraint> orConstraintList = new ArrayList<>();
 
+        //add own policy
         andConstraintList.add(new Constraint(traceabilityProperties.getLeftOperand(), OperatorType.fromValue(traceabilityProperties.getOperatorType()), List.of(traceabilityProperties.getRightOperand())));
-
         andConstraintList.add(new Constraint(traceabilityProperties.getLeftOperand(), OperatorType.valueOf(traceabilityProperties.getOperatorType()), List.of(traceabilityProperties.getRightOperand())));
+
+        //add IRS policies
+        List<Constraints> policyConstraints = irsService.getPolicyConstraints();
+        policyConstraints.stream().map(Constraints::getAnd).forEach(andConstraintList::addAll);
+        policyConstraints.stream().map(Constraints::getOr).forEach(orConstraintList::addAll);
 
         OffsetDateTime offsetDateTime = OffsetDateTime.now().plusMonths(1);
         List<Permission> permissions = List.of(
