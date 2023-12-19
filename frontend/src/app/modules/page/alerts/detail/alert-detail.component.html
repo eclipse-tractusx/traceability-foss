@@ -22,6 +22,7 @@ SPDX-License-Identifier: Apache-2.0
     <app-button
       [color]="'primary'"
       (click)="this.navigateBackToAlerts()"
+      [isDisabled]="!helperService.isAuthorizedForButton()"
     >
       <div class="flex justify-between items-center">
         <mat-icon class="mr-2">arrow_back</mat-icon>
@@ -34,6 +35,7 @@ SPDX-License-Identifier: Apache-2.0
       *ngIf="helperService.showApproveButton(selectedAlert)"
       (click)="notificationCommonModalComponent?.show('approve')"
       [color]="'primary'"
+      [isDisabled]="!helperService.isAuthorizedForButton()"
     >
       <div class="flex justify-between items-center">
         <mat-icon class="mr-2">share</mat-icon>
@@ -44,6 +46,7 @@ SPDX-License-Identifier: Apache-2.0
       *ngIf="helperService.showCancelButton(selectedAlert)"
       (click)="notificationCommonModalComponent?.show('cancel')"
       [color]="'primary'"
+      [isDisabled]="!helperService.isAuthorizedForButton()"
     >
       <div class="flex justify-between items-center">
         <mat-icon class="mr-2">cancel</mat-icon>
@@ -54,6 +57,7 @@ SPDX-License-Identifier: Apache-2.0
       *ngIf="helperService.showCloseButton(selectedAlert)"
       (click)="notificationCommonModalComponent?.show('close')"
       [color]="'primary'"
+      [isDisabled]="!helperService.isAuthorizedForButton()"
     >
       <div class="flex justify-between items-center">
         <mat-icon class="mr-2">close</mat-icon>
@@ -65,6 +69,7 @@ SPDX-License-Identifier: Apache-2.0
       *ngIf="helperService.showAcceptButton(selectedAlert)"
       (click)="notificationCommonModalComponent?.show('accept')"
       [color]="'primary'"
+      [isDisabled]="!helperService.isAuthorizedForButton()"
     >
       <div class="flex justify-between items-center">
         <mat-icon class="mr-2">assignment_turned_in</mat-icon>
@@ -76,6 +81,7 @@ SPDX-License-Identifier: Apache-2.0
       *ngIf="helperService.showAcknowledgeButton(selectedAlert)"
       (click)="notificationCommonModalComponent?.show('acknowledge')"
       [color]="'primary'"
+      [isDisabled]="!helperService.isAuthorizedForButton()"
     >
       <div class="flex justify-between items-center">
         <mat-icon class="mr-2">work</mat-icon>
@@ -87,6 +93,7 @@ SPDX-License-Identifier: Apache-2.0
       *ngIf="helperService.showDeclineButton(selectedAlert)"
       (click)="notificationCommonModalComponent?.show('decline')"
       [color]="'primary'"
+      [isDisabled]="!helperService.isAuthorizedForButton()"
     >
       <div class="flex justify-between items-center">
         <mat-icon class="mr-2">assignment_late</mat-icon>

@@ -57,27 +57,31 @@ export class InvestigationHelperService {
   }
 
   public showApproveButton({ status, isFromSender } = {} as Notification): boolean {
-    return isFromSender && status === NotificationStatus.CREATED && this.roleService.isAtLeastSupervisor();
+    return isFromSender && status === NotificationStatus.CREATED;
   }
 
   public showCancelButton({ status, isFromSender } = {} as Notification): boolean {
-    return isFromSender && status === NotificationStatus.CREATED && this.roleService.isAtLeastSupervisor();
+    return isFromSender && status === NotificationStatus.CREATED;
   }
 
   public showCloseButton({ status, isFromSender } = {} as Notification): boolean {
     const disallowedStatus = [ NotificationStatus.CREATED, NotificationStatus.CLOSED, NotificationStatus.CANCELED ];
-    return isFromSender && !disallowedStatus.includes(status) && this.roleService.isAtLeastSupervisor();
+    return isFromSender && !disallowedStatus.includes(status);
   }
 
   public showAcknowledgeButton({ status, isFromSender } = {} as Notification): boolean {
-    return !isFromSender && status === NotificationStatus.RECEIVED && this.roleService.isAtLeastSupervisor();
+    return !isFromSender && status === NotificationStatus.RECEIVED;
   }
 
   public showAcceptButton({ status, isFromSender } = {} as Notification): boolean {
-    return !isFromSender && status === NotificationStatus.ACKNOWLEDGED && this.roleService.isAtLeastSupervisor();
+    return !isFromSender && status === NotificationStatus.ACKNOWLEDGED;
   }
 
   public showDeclineButton({ status, isFromSender } = {} as Notification): boolean {
-    return !isFromSender && status === NotificationStatus.ACKNOWLEDGED && this.roleService.isAtLeastSupervisor();
+    return !isFromSender && status === NotificationStatus.ACKNOWLEDGED;
+  }
+
+  public isAuthorizedForButton(): boolean {
+    return this.roleService.isAtLeastSupervisor();
   }
 }
