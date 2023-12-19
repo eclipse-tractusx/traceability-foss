@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [UNRELEASED - DD.MM.YYYY]
 ### Added
+- Added an option for testdata upload in Argo Workflow
 ### Changed
 - Restricted datefield on investigation creation to be only clickable and not editable
 - Removed duplication of request notification component and combined it into a reusable component
@@ -21,7 +22,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - bump irs version from 6.9.1 to 6.12.0
 
 
-## [10.0.0 - 12.12.2024]
+## [10.0.0 - 12.12.2023]
 ### Added
 - new filtering capabilities ( receivedQualityAlertIdsInStatusActive, sentQualityAlertIdsInStatusActive, receivedQualityInvestigationIdsInStatusActive, sentQualityInvestigationIdsInStatusActive )
 - Validation check if table-settings correct and reset on invalid state
