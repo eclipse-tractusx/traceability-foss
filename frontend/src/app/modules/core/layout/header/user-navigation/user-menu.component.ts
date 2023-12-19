@@ -69,7 +69,7 @@ export class UserMenuComponent {
 
   @HostListener('window:click', [])
   private onClick(): void {
-    this.isExpanded = !this.isAuthorized;
+    this.isExpanded = false;
   }
 
   public openPortalPage(): void {
