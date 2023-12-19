@@ -23,7 +23,6 @@
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 
 export enum KnownAdminRoutes {
-  REGISTRY = 'registry-lookups',
   BPN = 'configure-bpn',
   IMPORT = 'configure-import'
 }
