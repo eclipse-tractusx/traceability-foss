@@ -38,9 +38,9 @@ SPDX-License-Identifier: Apache-2.0
     </modules>
 
     <properties>
-        <springboot.version>3.1.3</springboot.version>
-        <spring-core.version>6.0.12</spring-core.version>
-        <spring-security-config.version>6.1.3</spring-security-config.version>
+        <springboot.version>3.1.6</springboot.version>
+        <spring-core.version>6.0.15</spring-core.version>
+        <spring-security-config.version>6.1.5</spring-security-config.version>
         <java.version>17</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -92,11 +92,13 @@ SPDX-License-Identifier: Apache-2.0
         <springdoc.version>2.0.4</springdoc.version>
         <assertj.version>3.24.2</assertj.version>
         <commons-logging.version>1.2</commons-logging.version>
+        <logback.version>1.4.14</logback.version>
         <lombok.version>1.18.28</lombok.version>
+        <jetty.version>12.0.4</jetty.version>
         <json-unit-assertj.version>2.38.0</json-unit-assertj.version>
         <cucumber.version>7.12.1</cucumber.version>
         <org-snakeyaml.version>2.2</org-snakeyaml.version>
-        <jackson.version>2.15.2</jackson.version>
+        <jackson.version>2.16.0</jackson.version>
         <junit-bom.version>5.9.3</junit-bom.version>
         <awaitility.version>3.0.0</awaitility.version>
         <irs-client-lib.version>1.4.1</irs-client-lib.version>
@@ -119,6 +121,33 @@ SPDX-License-Identifier: Apache-2.0
 
     <dependencyManagement>
         <dependencies>
+            <!-- Update ch.qos.logback to avoid CVE-2023-6378, can be removed after org.eclipse.edc updates their dependency -->
+            <dependency>
+                <artifactId>logback-core</artifactId>
+                <groupId>ch.qos.logback</groupId>
+                <version>${logback.version}</version>
+            </dependency>
+            <dependency>
+                <artifactId>logback-classic</artifactId>
+                <groupId>ch.qos.logback</groupId>
+                <version>${logback.version}</version>
+            </dependency>
+            <!-- Update com.fasterxml.jackson.core to avoid CVE-2023-35116, can be removed after org.eclipse.edc updates their dependency -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
             <dependency>
                 <groupId>io.github.resilience4j</groupId>
                 <artifactId>resilience4j-bom</artifactId>

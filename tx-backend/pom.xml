@@ -55,12 +55,12 @@ SPDX-License-Identifier: Apache-2.0
             <groupId>org.eclipse.tractusx.irs</groupId>
             <artifactId>irs-registry-client</artifactId>
             <version>${irs-client-lib.version}</version>
-        </dependency>
-        <!-- manual update to avoid GHSA-58qw-p7qm-5rvh -->
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-xml</artifactId>
-            <version>11.0.18</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>jetty-jakarta-websocket-api</artifactId>
+                    <groupId>org.eclipse.jetty.toolchain</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- tx-application modules -->
@@ -112,14 +112,33 @@ SPDX-License-Identifier: Apache-2.0
                     <artifactId>runtime-metamodel</artifactId>
                     <groupId>org.eclipse.edc</groupId>
                 </exclusion>
-                <!-- Fixes CVE-2023-36478  https://github.com/catenax-ng/tx-traceability-foss/security/code-scanning/6770
-                Can be removed once org.eclipse.edc delivers at least jetty-http 11.0.16
-                -->
                 <exclusion>
-                    <groupId>org.eclipse.jetty</groupId>
-                    <artifactId>jetty-http</artifactId>
+                    <artifactId>jetty-core</artifactId>
+                    <groupId>org.eclipse.edc</groupId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <!-- Update org.eclipse.jetty to avoid vulnerabilities, can be removed when org.eclipse.edc has never versions-->
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-io</artifactId>
+            <version>${jetty.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-jndi</artifactId>
+            <version>${jetty.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
+            <version>${jetty.version}</version>
+        </dependency>
+        <!-- manual update to avoid GHSA-58qw-p7qm-5rvh -->
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-xml</artifactId>
+            <version>${jetty.version}</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.edc</groupId>
@@ -151,6 +170,7 @@ SPDX-License-Identifier: Apache-2.0
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+            <version>${springboot.version}</version>
         </dependency>
         <!-- Fixes CVE-2023-34035  -->
         <dependency>
@@ -197,10 +217,6 @@ SPDX-License-Identifier: Apache-2.0
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
         </dependency>
         <dependency>
             <groupId>jakarta.annotation</groupId>
@@ -429,7 +445,13 @@ SPDX-License-Identifier: Apache-2.0
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-http</artifactId>
-            <version>11.0.17</version>
+            <version>${jetty.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>jetty-io</artifactId>
+                    <groupId>org.eclipse.jetty</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 

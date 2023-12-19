@@ -44,6 +44,23 @@ SPDX-License-Identifier: Apache-2.0
             <groupId>${project.groupId}</groupId>
             <artifactId>tx-backend</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>spring-jdbc</artifactId>
+                    <groupId>org.springframework</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- Update dependencies to avoid CVE-2023-34055,spring-aop & spring-context can be removed when updating springboot version to 3.2-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>${spring-core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring-core.version}</version>
         </dependency>
     </dependencies>
     <build>
