@@ -17,6 +17,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - bump org.apache.maven.plugins:maven-checkstyle-plugin from 3.3.0 to 3.3.1
 - bump schedlock.version from 5.9.1 to 5.10.0
 - fixed bug where filter was reset when sorting filtered notifications
+- redesigned notification status confirmation modal
+- bump irs version from 6.9.1 to 6.12.0
+
 
 ## [10.0.0 - 12.12.2024]
 ### Added
