@@ -745,7 +745,7 @@
             "businessPartner" : "BPNL00000003CNKC",
             "catenaXId" : "urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca98"
           }
-        }
+        },
         {
           "aspectType" : "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
           "payload" : {
