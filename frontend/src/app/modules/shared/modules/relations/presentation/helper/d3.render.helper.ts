@@ -310,8 +310,8 @@ export class D3RenderHelper {
       .classed('tree--element__arrow-container', true)
       .on('click', () => callback(data, direction));
 
-    const startAngleFactor = direction === TreeDirection.DOWN ? 1.8 : 0.8;
-    const endAngleFactor = direction === TreeDirection.DOWN ? 2.2 : 1.2;
+    const startAngleFactor = direction === TreeDirection.UP ? 1.8 : 0.8;
+    const endAngleFactor = direction === TreeDirection.UP ? 2.2 : 1.2;
 
     const arc = d3
       .arc<HierarchyNode<TreeStructure>>()
@@ -327,13 +327,13 @@ export class D3RenderHelper {
       .classed('tree--element__arrow', true);
 
     // These values are based on the radius of the circle
-    const upArrow = [
+    const downArrow = [
       { y: r + 0.1 * r, x: -r + 0.416 * r },
       { y: r + 0.433 * r, x: 0 },
       { y: r + 0.1 * r, x: r - 0.416 * r },
     ];
 
-    const downArrow = [
+    const upArrow = [
       { y: -r - 0.1 * r, x: -r + 0.416 * r },
       { y: -r - 0.433 * r, x: 0 },
       { y: -r - 0.1 * r, x: r - 0.416 * r },
