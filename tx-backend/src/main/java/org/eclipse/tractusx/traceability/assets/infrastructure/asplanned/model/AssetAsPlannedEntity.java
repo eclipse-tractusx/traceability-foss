@@ -110,7 +110,8 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                 .inInvestigation(asset.isInInvestigation())
                 .semanticDataModel(SemanticDataModelEntity.from(asset.getSemanticDataModel()))
                 .catenaxSiteId(asPlannedInfo.getCatenaxSiteId())
-                .assetImportState(asset.getAssetImportState())
+                .importState(asset.getImportState())
+                .importNote(asset.getImportNote())
                 .build();
     }
 
@@ -138,8 +139,8 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                 .receivedQualityAlerts(emptyIfNull(entity.alerts).stream().filter(alert -> NotificationSideBaseEntity.RECEIVER.equals(alert.getSide())).map(AlertEntity::toDomain).toList())
                 .sentQualityInvestigations(emptyIfNull(entity.investigations).stream().filter(alert -> NotificationSideBaseEntity.SENDER.equals(alert.getSide())).map(InvestigationEntity::toDomain).toList())
                 .receivedQualityInvestigations(emptyIfNull(entity.investigations).stream().filter(alert -> NotificationSideBaseEntity.RECEIVER.equals(alert.getSide())).map(InvestigationEntity::toDomain).toList())
-                .assetImportState(entity.getAssetImportState())
-
+                .importState(entity.getImportState())
+                .importNote(entity.getImportNote())
                 .build();
     }
 

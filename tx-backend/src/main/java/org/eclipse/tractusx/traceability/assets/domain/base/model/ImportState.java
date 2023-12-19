@@ -16,17 +16,9 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-
-package assets.response.asbuilt;
-
-import assets.response.base.AssetBaseResponse;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.experimental.SuperBuilder;
-
-@SuperBuilder
-@ArraySchema(arraySchema = @Schema(description = "Assets", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
-public class AssetAsBuiltResponse extends AssetBaseResponse {
+package org.eclipse.tractusx.traceability.assets.domain.base.model;
 
 
+public enum ImportState {
+    TRANSIENT, PERSISTENT, ERROR, IN_SYNCHRONIZATION, UNSET;
 }

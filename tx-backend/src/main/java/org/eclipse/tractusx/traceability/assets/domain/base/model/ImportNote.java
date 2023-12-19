@@ -16,17 +16,12 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.assets.domain.base.model;
 
-package assets.response.asbuilt;
-
-import assets.response.base.AssetBaseResponse;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.experimental.SuperBuilder;
-
-@SuperBuilder
-@ArraySchema(arraySchema = @Schema(description = "Assets", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
-public class AssetAsBuiltResponse extends AssetBaseResponse {
-
+public class ImportNote {
+    public static String TRANSIENT_CREATED = "Asset created successfully in transient state.";
+    public static String TRANSIENT_UPDATED = "Asset updated successfully in transient state.";
+    public static String PERSISTENT_NO_UPDATE = "Asset in sync with digital twin registry. Twin will not be updated.";
+    public static String PERSISTED = "Asset created/updated successfully in persistant state.";
 
 }

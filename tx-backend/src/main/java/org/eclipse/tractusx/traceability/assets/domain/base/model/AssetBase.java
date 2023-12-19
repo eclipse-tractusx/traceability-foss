@@ -59,5 +59,6 @@ public class AssetBase {
     private List<QualityNotification> receivedQualityAlerts;
     private List<QualityNotification> sentQualityInvestigations;
     private List<QualityNotification> receivedQualityInvestigations;
-    private AssetImportState assetImportState;
+    private ImportState importState;
+    private String importNote;
 }
