@@ -19,6 +19,7 @@
 
 import { Component, Input } from '@angular/core';
 import { AdminFacade } from '@page/admin/core/admin.facade';
+import { ToastService } from '@shared/components/toasts/toast.service';
 
 @Component({
   selector: 'app-import-json',
@@ -29,23 +30,22 @@ export class ImportJsonComponent {
   @Input() showError = false;
   @Input() file: File;
 
-  constructor(private readonly adminFacade: AdminFacade) {
+  constructor(private readonly adminFacade: AdminFacade, private readonly toastService: ToastService) {
   }
 
-  public getFile(event:any){
+  public getFile(event: any) {
     this.file = event.target.files[0];
 
-    if ('json' !== this.getFileExtension(this.file).toLowerCase() ) {
+    if ('json' !== this.getFileExtension(this.file)) {
       this.showError = true;
       return;
     }
     this.showError = false;
   }
- public uploadFile(file: File){
-    this.adminFacade.postJsonImport(file).subscribe(res => {
-      console.log(res);
-
-    } );
+  public uploadFile(file: File) {
+    this.adminFacade.postJsonImport(file).subscribe(response => {
+      this.toastService.success('pageAdmin.importJson.success');
+    });
   }
 
   public clearFile(): void {
@@ -54,15 +54,15 @@ export class ImportJsonComponent {
   }
 
   public shouldShowFileContainer_upload_file(file: File): boolean {
-    return this.file && 'json' === this.getFileExtension(file).toLowerCase();
+    return this.file && 'json' === this.getFileExtension(file);
   }
 
-    public getFileExtension(file: File): string {
-        if (file) {
-            const fileNameParts = file.name.split('.');
-            return fileNameParts[fileNameParts.length - 1];
-        }
-        return '';
+  public getFileExtension(file: File): string {
+    if (file) {
+      const fileNameParts = file?.name?.split('.');
+      return fileNameParts[fileNameParts.length - 1].toLowerCase();
     }
+    return null;
+  }
 
 }

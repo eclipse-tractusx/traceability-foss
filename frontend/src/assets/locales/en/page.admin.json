@@ -28,7 +28,8 @@
       "error": "Error: Please select a JSON file.",
       "Drag_and_Drop": "Drag and drop",
       "or": "or",
-      "Browse_files": "Browse files"
+      "browseFiles": "Browse files",
+      "success": "Successfully uploaded."
     }
   }
 }
