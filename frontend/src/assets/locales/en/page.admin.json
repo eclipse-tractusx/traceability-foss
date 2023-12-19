@@ -20,6 +20,16 @@
         "successfullySaved": "Changes saved successfully.",
         "failedSave": "Error while saving the changes. Please try again later."
       }
+    },
+    "importJson": {
+      "title": "Import - Json File",
+      "clear_file": "clear file",
+      "upload_file": "upload file",
+      "error": "Error: Please select a JSON file.",
+      "Drag_and_Drop": "Drag and drop",
+      "or": "or",
+      "browseFiles": "Browse files",
+      "success": "Successfully uploaded."
     }
   }
 }

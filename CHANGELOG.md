@@ -37,6 +37,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Added a step for testing input and included an option for a hard refresh in Argo Workflow
 - Added manufacturer_id to assets_as_planned
 - Added local filtering and auto complete for notifications
+- Added a drag-and-drop option for JSON files and an endpoint to receive them
 
 ### Changed
 - Filter configuration for tables to be resuable and easy to adapt

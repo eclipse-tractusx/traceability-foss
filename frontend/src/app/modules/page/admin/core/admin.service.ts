@@ -67,4 +67,10 @@ export class AdminService {
   public deleteBpnFallbackConfig(bpn: string): Observable<void> {
     return this.apiService.delete<void>(`${ this.url }/bpn-config/${ bpn }`);
   }
+
+  public postJsonFile(file: File): Observable<void>{
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.apiService.postFile(`${ this.url }/assets/import`, formData);
+  }
 }
