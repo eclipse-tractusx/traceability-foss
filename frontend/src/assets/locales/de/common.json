@@ -11,7 +11,8 @@
     "investigations": "Qualitätsuntersuchung",
     "alerts": "Qualitätswarnung",
     "adminRegistry": "Registry-Abfragen",
-    "adminBpn": "BPN - EDC Konfiguration"
+    "adminBpn": "BPN - EDC Konfiguration",
+    "unauthorized": "Die Funktion ist aufgrund einer fehlenden Rolle deaktiviert. Bitten Sie Ihren Administrator, die erforderliche Rolle für die Funktion bereitzustellen."
   },
   "pageTitle": {
     "dashboard": "Dashboard",

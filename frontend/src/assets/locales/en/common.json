@@ -11,7 +11,8 @@
     "investigations": "Quality investigations",
     "alerts": "Quality alerts",
     "adminRegistry": "Registry lookups",
-    "adminBpn": "BPN - EDC configuration"
+    "adminBpn": "BPN - EDC configuration",
+    "unauthorized": "Functionality is disabled because of missing role. Ask your administrator to provide the required role for the functionality."
   },
   "pageTitle": {
     "dashboard": "Dashboard",
