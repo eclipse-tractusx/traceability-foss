@@ -22,8 +22,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { I18NEXT_NAMESPACE_RESOLVER } from 'angular-i18next';
-import { KnownAdminRouts } from '@page/admin/core/admin.model';
-import { ScheduledRegistryProcessesComponent } from '@page/admin/presentation/scheduled-registry-processes/scheduled-registry-processes.component';
 import { KnownAdminRoutes } from '@page/admin/core/admin.model';
 import { BpnConfigurationComponent } from '@page/admin/presentation/bpn-configuration/bpn-configuration.component';
 import { ImportJsonComponent } from '@page/admin/presentation/import-json/import-json.component';
