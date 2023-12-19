@@ -150,6 +150,25 @@ public class ApplicationConfig {
         OffsetDateTime offsetDateTime = OffsetDateTime.now().plusMonths(1);
 
         //add own policy
+        acceptedPolicies.addAll(createOwnAcceptedPolicies(offsetDateTime));
+
+        //add IRS policies
+        acceptedPolicies.addAll(createIrsAcceptedPolicies());
+        return acceptedPolicies;
+    }
+
+    private List<AcceptedPolicy> createIrsAcceptedPolicies() {
+
+        List<PolicyResponse> policyResponse = irsService.getPolicies();
+        List<AcceptedPolicy> irsPolicies = policyResponse.stream().map(response -> {
+            Policy policy = new Policy(response.policyId(), response.createdOn(), response.validUntil(), response.permissions());
+            return new AcceptedPolicy(policy, response.validUntil());
+        }).toList();
+
+        return new ArrayList<>(irsPolicies);
+    }
+
+    private List<AcceptedPolicy> createOwnAcceptedPolicies(OffsetDateTime offsetDateTime) {
         List<Constraint> andConstraintList = new ArrayList<>();
         List<Constraint> orConstraintList = new ArrayList<>();
         andConstraintList.add(new Constraint(traceabilityProperties.getLeftOperand(), OperatorType.fromValue(traceabilityProperties.getOperatorType()), List.of(traceabilityProperties.getRightOperand())));
@@ -165,17 +184,7 @@ public class ApplicationConfig {
                 ));
 
         Policy ownPolicy = new Policy(UUID.randomUUID().toString(), OffsetDateTime.now(), offsetDateTime, permissions);
-        acceptedPolicies.add(new AcceptedPolicy(ownPolicy, offsetDateTime));
-
-        //add IRS policies
-        List<PolicyResponse> policyResponse = irsService.getPolicies();
-        List<AcceptedPolicy> irsPolicies = policyResponse.stream().map(response -> {
-            Policy policy = new Policy(response.policyId(), response.createdOn(), response.validUntil(), response.permissions());
-            return new AcceptedPolicy(policy, response.validUntil());
-        }).toList();
-
-        acceptedPolicies.addAll(irsPolicies);
-        return acceptedPolicies;
+        return List.of(new AcceptedPolicy(ownPolicy, offsetDateTime));
     }
 
     @Bean
