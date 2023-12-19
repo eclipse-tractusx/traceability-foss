@@ -24,7 +24,6 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.config.IrsPolicyConfig;
@@ -135,10 +134,8 @@ public class IrsService implements IrsRepository {
         }
     }
 
-    public List<Constraints> getPolicyConstraints(){
-        return irsClient.getPolicies().stream().flatMap(response -> response.permissions().stream())
-                .flatMap(permission-> permission.getConstraints().stream())
-                .toList();
+    public List<PolicyResponse> getPolicies(){
+        return irsClient.getPolicies();
     }
 
 }

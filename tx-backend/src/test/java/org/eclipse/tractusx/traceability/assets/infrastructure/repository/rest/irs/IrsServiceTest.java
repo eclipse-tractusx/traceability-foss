@@ -274,15 +274,14 @@ class IrsServiceTest {
         Constraints constraints = new Constraints(andConstraints, orConstraints);
 
         Permission permission = new Permission(PolicyType.USE, List.of(constraints));
-        PolicyResponse policyResponse = new PolicyResponse("", OffsetDateTime.now(), OffsetDateTime.now(), List.of(permission));
+        PolicyResponse policyResponseMock = new PolicyResponse("", OffsetDateTime.now(), OffsetDateTime.now(), List.of(permission));
 
-        when(irsClient.getPolicies()).thenReturn(List.of(policyResponse));
+        when(irsClient.getPolicies()).thenReturn(List.of(policyResponseMock));
 
         //WHEN
-        List<Constraints> policyConstraints = irsService.getPolicyConstraints();
+        List<PolicyResponse> policyResponse = irsService.getPolicies();
 
         //THEN
-        assertThat("leftOperand").isEqualTo(policyConstraints.get(0).getAnd().get(0).getLeftOperand());
-        assertThat("rightOperand").isEqualTo(policyConstraints.get(0).getOr().get(0).getRightOperand().get(0));
+        assertThat(1).isEqualTo(policyResponse.size());
     }
 }

@@ -39,6 +39,7 @@ import org.eclipse.tractusx.irs.edc.client.policy.Permission;
 import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.IrsService;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.PolicyResponse;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -134,8 +135,8 @@ public class ApplicationConfig {
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.registerModule(new JavaTimeModule());
-            AcceptedPolicy acceptedPolicy = buildAcceptedPolicy();
-            defaultAcceptedPoliciesProvider.addAcceptedPolicies(List.of(acceptedPolicy));
+            List<AcceptedPolicy> acceptedPolicy = buildAcceptedPolicies();
+            defaultAcceptedPoliciesProvider.addAcceptedPolicies(acceptedPolicy);
             log.info("Successfully added permission to irs client lib provider: {}", mapper.writeValueAsString(acceptedPolicy));
         } catch (Exception exception) {
             log.error("Failed to create Irs Policies : ", exception);
@@ -144,20 +145,16 @@ public class ApplicationConfig {
     }
 
     @NotNull
-    private AcceptedPolicy buildAcceptedPolicy() {
-        List<Constraint> andConstraintList = new ArrayList<>();
-        List<Constraint> orConstraintList = new ArrayList<>();
+    private List<AcceptedPolicy> buildAcceptedPolicies() {
+        List<AcceptedPolicy> acceptedPolicies= new ArrayList<>();
+        OffsetDateTime offsetDateTime = OffsetDateTime.now().plusMonths(1);
 
         //add own policy
+        List<Constraint> andConstraintList = new ArrayList<>();
+        List<Constraint> orConstraintList = new ArrayList<>();
         andConstraintList.add(new Constraint(traceabilityProperties.getLeftOperand(), OperatorType.fromValue(traceabilityProperties.getOperatorType()), List.of(traceabilityProperties.getRightOperand())));
         andConstraintList.add(new Constraint(traceabilityProperties.getLeftOperand(), OperatorType.fromValue(traceabilityProperties.getOperatorType()), List.of(traceabilityProperties.getRightOperand())));
 
-        //add IRS policies
-        List<Constraints> policyConstraints = irsService.getPolicyConstraints();
-        policyConstraints.stream().map(Constraints::getAnd).forEach(andConstraintList::addAll);
-        policyConstraints.stream().map(Constraints::getOr).forEach(orConstraintList::addAll);
-
-        OffsetDateTime offsetDateTime = OffsetDateTime.now().plusMonths(1);
         List<Permission> permissions = List.of(
                 new Permission(
                         PolicyType.USE,
@@ -166,8 +163,19 @@ public class ApplicationConfig {
                                 orConstraintList)
                         )
                 ));
-        Policy policy = new Policy(UUID.randomUUID().toString(), OffsetDateTime.now(), offsetDateTime, permissions);
-        return new AcceptedPolicy(policy, offsetDateTime);
+
+        Policy ownPolicy = new Policy(UUID.randomUUID().toString(), OffsetDateTime.now(), offsetDateTime, permissions);
+        acceptedPolicies.add(new AcceptedPolicy(ownPolicy, offsetDateTime));
+
+        //add IRS policies
+        List<PolicyResponse> policyResponse = irsService.getPolicies();
+        List<AcceptedPolicy> irsPolicies = policyResponse.stream().map(response -> {
+            Policy policy = new Policy(response.policyId(), response.createdOn(), response.validUntil(), response.permissions());
+            return new AcceptedPolicy(policy, response.validUntil());
+        }).toList();
+
+        acceptedPolicies.addAll(irsPolicies);
+        return acceptedPolicies;
     }
 
     @Bean
