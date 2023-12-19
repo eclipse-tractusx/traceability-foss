@@ -31,9 +31,10 @@ import { AdminComponent } from './presentation/admin.component';
 import { BpnConfigurationComponent } from './presentation/bpn-configuration/bpn-configuration.component';
 import { SaveBpnConfigModal } from './presentation/bpn-configuration/save-modal/save-modal.component';
 import { ModalModule } from '@shared/modules/modal/modal.module';
+import { ImportJsonComponent } from './presentation/import-json/import-json.component';
 
 @NgModule({
-  declarations: [ AdminComponent, BpnConfigurationComponent, SaveBpnConfigModal ],
+  declarations: [ AdminComponent,  BpnConfigurationComponent, SaveBpnConfigModal, ImportJsonComponent ],
   imports: [ CommonModule, TemplateModule, SharedModule, AdminRoutingModule, ModalModule ],
   providers: [ ...getI18nPageProvider('page.admin'), AdminService, AdminFacade ],
 })

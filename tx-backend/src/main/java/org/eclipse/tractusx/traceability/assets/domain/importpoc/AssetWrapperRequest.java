@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -18,29 +16,13 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.assets.domain.importpoc;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Submodel;
 
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import java.util.List;
 
-export enum KnownAdminRoutes {
-  REGISTRY = 'registry-lookups',
-  BPN = 'configure-bpn',
-  IMPORT = 'configure-import'
+public record AssetWrapperRequest(@JsonProperty("assetMetaInfo") AssetMetaInfoRequest assetMetaInfoRequest,
+                                  @JsonProperty("submodels") List<Submodel> submodels) {
 }
-
-
-
-export interface BpnConfigResponse {
-  organization?: string;
-  edcType?: string;
-  providedBy?: string;
-  bpn: string;
-  url: string;
-}
-
-export interface BpnConfig {
-  bpn: string;
-  url: string;
-}
-
-export type BpnConfigFormGroup = FormGroup<{ bpnConfig: FormArray<FormControl<BpnConfig>> }>;

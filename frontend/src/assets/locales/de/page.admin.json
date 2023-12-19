@@ -1,7 +1,7 @@
 {
   "pageAdmin": {
     "scheduledRegistryProcesses": {
-      "title": "Registry-Abfragen"
+      "title": "Registry-Abfragen",
     },
     "bpnConfig": {
       "title": "BPN - EDC Konfiguration",
@@ -20,6 +20,16 @@
         "successfullySaved": "Ihre Änderungen wurden erfolgreich gespeichert.",
         "failedSave": "Beim Speichern ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
       }
+    },
+    "importJson": {
+      "title": "Importieren - Json Datei",
+      "clear_file": "Datei löschen",
+      "upload_file": "Datei hochladen",
+      "error": "Warnung: Bitte benutzen Sie eine Json Datei",
+      "Drag_and_Drop": "Datei hineinziehen",
+      "or": "oder",
+      "browseFiles": "Dateien durchsuchen",
+      "success": "Erfolgreich hochgeladen."
     }
   }
 }

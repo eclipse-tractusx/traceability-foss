@@ -42,6 +42,11 @@ export class AdminComponent {
       icon: 'edit',
       link: '/admin/configure-bpn',
     },
+    {
+      name: 'routing.adminImport',
+      icon: 'upload',
+      link: '/admin/configure-import',
+    },
   ];
 
   constructor(router: Router) {

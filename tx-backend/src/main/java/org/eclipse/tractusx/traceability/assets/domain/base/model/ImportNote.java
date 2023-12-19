@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -18,29 +16,12 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.assets.domain.base.model;
 
+public class ImportNote {
+    public static String TRANSIENT_CREATED = "Asset created successfully in transient state.";
+    public static String TRANSIENT_UPDATED = "Asset updated successfully in transient state.";
+    public static String PERSISTENT_NO_UPDATE = "Asset in sync with digital twin registry. Twin will not be updated.";
+    public static String PERSISTED = "Asset created/updated successfully in persistant state.";
 
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
-
-export enum KnownAdminRoutes {
-  REGISTRY = 'registry-lookups',
-  BPN = 'configure-bpn',
-  IMPORT = 'configure-import'
 }
-
-
-
-export interface BpnConfigResponse {
-  organization?: string;
-  edcType?: string;
-  providedBy?: string;
-  bpn: string;
-  url: string;
-}
-
-export interface BpnConfig {
-  bpn: string;
-  url: string;
-}
-
-export type BpnConfigFormGroup = FormGroup<{ bpnConfig: FormArray<FormControl<BpnConfig>> }>;
