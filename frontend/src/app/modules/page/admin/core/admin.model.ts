@@ -22,9 +22,10 @@
 import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 
-export enum KnownAdminRouts {
+export enum KnownAdminRoutes {
   REGISTRY = 'registry-lookups',
   BPN = 'configure-bpn',
+  IMPORT = 'configure-import'
 }
 
 export interface RegistryProcess {
