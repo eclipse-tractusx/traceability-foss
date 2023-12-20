@@ -21,12 +21,13 @@ package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.assets.application.importpoc.ImportService;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.ImportRequest;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.ImportException;
-
-import org.eclipse.tractusx.traceability.assets.application.importpoc.ImportService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.nio.charset.StandardCharsets;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -42,7 +43,7 @@ public class ImportServiceImpl implements ImportService {
             //  It is okay to download the schemas and put them in a folder as we need to have control over the schemas
             // For the validation see: https://github.com/eclipse-tractusx/item-relationship-service/blob/main/irs-api/src/main/java/org/eclipse/tractusx/irs/services/validation/JsonValidatorService.java#L43
 
-            String fileContent = new String(file.getBytes());
+            String fileContent = new String(file.getBytes(), StandardCharsets.UTF_8);
             log.info("Imported file: " + fileContent);
             ImportRequest importRequest = objectMapper.readValue(fileContent, ImportRequest.class);
           //Submodels per assetId

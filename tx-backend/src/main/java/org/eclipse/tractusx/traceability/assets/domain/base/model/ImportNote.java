@@ -19,9 +19,9 @@
 package org.eclipse.tractusx.traceability.assets.domain.base.model;
 
 public class ImportNote {
-    public static String TRANSIENT_CREATED = "Asset created successfully in transient state.";
-    public static String TRANSIENT_UPDATED = "Asset updated successfully in transient state.";
-    public static String PERSISTENT_NO_UPDATE = "Asset in sync with digital twin registry. Twin will not be updated.";
-    public static String PERSISTED = "Asset created/updated successfully in persistant state.";
+    public static final String TRANSIENT_CREATED = "Asset created successfully in transient state.";
+    public static final String TRANSIENT_UPDATED = "Asset updated successfully in transient state.";
+    public static final String PERSISTENT_NO_UPDATE = "Asset in sync with digital twin registry. Twin will not be updated.";
+    public static final String PERSISTED = "Asset created/updated successfully in persistant state.";
 
 }
