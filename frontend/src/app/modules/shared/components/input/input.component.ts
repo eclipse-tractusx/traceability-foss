@@ -29,7 +29,6 @@ import {
     Input,
     Output,
     ViewChild,
-    ViewEncapsulation
 } from '@angular/core';
 import { BaseInputComponent } from '@shared/abstraction/baseInput/baseInput.component';
 import { StaticIdService } from '@shared/service/staticId.service';
@@ -40,7 +39,6 @@ import { FormGroup } from "@angular/forms";
     selector: 'app-input',
     templateUrl: './input.component.html',
     styleUrls: ['./input.component.scss'],
-    encapsulation: ViewEncapsulation.None
 })
 export class InputComponent extends BaseInputComponent<string> {
     @Input() class: string;

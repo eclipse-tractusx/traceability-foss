@@ -756,6 +756,8 @@ app-table {
   }
 }
 
+//multi-select-autocomplete component:
+
 app-multiselect {
   .filter-input {
     .mat-mdc-form-field-infix {
@@ -785,8 +787,14 @@ app-multiselect {
     @extend .body-small-emphasis;
   }
 }
+
 .mat-mdc-menu-panel.mat-mdc-menu-panel {
   max-width: unset !important;
+}
+
+.mat-datepicker-content,
+.mdc-menu-surface {
+  border-radius: 15px !important;
 }
 
 .input__datepicker {
@@ -816,6 +824,462 @@ app-multiselect {
     }
     &-selected {
       box-shadow: none;
+    }
+  }
+}
+
+//parts-table-component
+
+.menu-input-field .mat-mdc-menu-content {
+  padding: 0;
+}
+
+app-parts-table {
+  .create-action-button {
+    .mat-mdc-button.mat-mdc-button-base {
+      .mdc-button {
+        width: 163px !important;
+      }
+    }
+  }
+
+  .mat-mdc-row .mat-mdc-cell {
+    cursor: pointer;
+  }
+
+  .no-hover .mat-mdc-cell {
+    cursor: default;
+  }
+
+  .mat-mdc-row:hover {
+    @apply bg-surfaceMedium !important;
+  }
+
+  .table--header--row .mat-sort-header-content {
+    width: 100%;
+  }
+
+  .table--header--row .mat-sort-header-arrow {
+    display: none;
+  }
+
+  .select .table--header--row .mdc-data-table__header-cell:first-child {
+    padding: 0 !important;
+  }
+
+  .select .table--body--row .mdc-data-table__cell:first-child {
+    padding: 0 !important;
+    border-bottom-style: none !important;
+  }
+
+  .table--header--row .mdc-data-table__header-cell {
+    padding: 0 12px 0 12px !important;
+  }
+
+  .table--body--row .mdc-data-table__cell {
+    padding: 0 12px 0 12px !important;
+    border-bottom-style: none !important;
+  }
+
+  .checkbox + .mdc-data-table__header-cell,
+  .checkbox + .mdc-data-table__cell {
+    padding: 0 !important;
+  }
+
+  .table--header--tooltip {
+    .mdc-tooltip__surface {
+      background-color: rgb(48, 48, 48);
+      @apply font-medium;
+      color: white;
+      max-width: 300px;
+      padding: 15px;
+      font-size: 14px;
+      line-height: 20px;
+    }
+
+    .mdc-tooltip--multiline {
+      white-space: pre-line;
+    }
+  }
+}
+
+//dateTime-component
+// I believe this is no longer needed without an ViewEncapsulation.none. (At least I don't see any changes in the position of the icon after removing.
+// Please check in Review if the date picker icon in the request quality investigation deadline field is still centered in the hover effect.
+// app-date-time {
+//   .date-picker-icon .mdc-icon-button {
+//     padding-bottom: 0px !important;
+//     padding-top: 2px !important;
+//     margin-bottom: 3px !important;
+//   }
+// }
+
+// input-component
+
+app-input {
+  input:focus {
+    border-color: black;
+  }
+
+  .search .mdc-text-field--outlined .mdc-notched-outline {
+    .mdc-notched-outline__leading {
+      border-top-left-radius: 22px !important;
+      border-bottom-left-radius: 22px !important;
+      width: 22px !important;
+    }
+
+    .mdc-notched-outline__trailing {
+      border-top-right-radius: 22px !important;
+      border-bottom-right-radius: 22px !important;
+      width: 22px !important;
+    }
+  }
+
+  .search .mat-mdc-form-field-flex {
+    width: 400px !important;
+    height: 44px !important;
+    border: 1px !important;
+    gap: 8px !important;
+  }
+
+  .search .mdc-text-field--outlined {
+    height: 44px !important;
+  }
+
+  .search .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
+    padding-top: 7px;
+    padding-bottom: 0px;
+    margin-left: 5px !important;
+    width: 400px !important;
+  }
+
+  input::placeholder {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 17.02px;
+  }
+}
+
+//table-componet
+
+app-table {
+  .mat-mdc-row .mat-mdc-cell {
+    cursor: pointer;
+  }
+
+  .mat-mdc-row:hover {
+    @apply bg-surfaceMedium !important;
+  }
+
+  .no-hover .mat-mdc-cell {
+    cursor: default;
+  }
+
+  .mat-mdc-table .mdc-data-table__row {
+    height: 40px;
+  }
+
+  .notification-table--header--row .mat-sort-header-content {
+    width: 100%;
+  }
+
+  .notification-table--header--row .mat-sort-header-arrow {
+    display: none;
+  }
+
+  .notification-table--header--tooltip {
+    .mdc-tooltip__surface {
+      background-color: rgb(48, 48, 48);
+      @apply font-medium;
+      color: white;
+      max-width: 300px;
+      padding: 15px;
+      font-size: 14px;
+      line-height: 20px;
+    }
+
+    .mdc-tooltip--multiline {
+      white-space: pre-line;
+    }
+  }
+
+  .notification-table--body--row .notification-table--body--cell {
+    .mdc-icon-button {
+      margin: 0;
+      width: 24px;
+      height: 24px;
+      padding: 0px;
+    }
+  }
+
+  .notification-table--header--row .mdc-data-table__header-cell {
+    padding: 0 12px 0 12px !important;
+  }
+
+  .notification-table--body--row .mdc-data-table__cell {
+    padding: 0 12px 0 12px !important;
+    border-bottom-style: none !important;
+  }
+}
+
+//table-settings-component
+app-table-settings {
+  .dialog--content {
+    .table--header--tooltip {
+      .mdc-tooltip__surface {
+        background-color: rgb(48, 48, 48);
+        @apply font-medium;
+        color: white;
+        max-width: 300px;
+        padding: 15px;
+        font-size: 14px;
+        line-height: 20px;
+      }
+
+      .mdc-tooltip--multiline {
+        white-space: pre-line;
+      }
+    }
+
+    .dialog--columns--columns--list .mdc-form-field {
+      height: 24px !important;
+    }
+  }
+}
+
+//textarea-component
+app-textarea {
+  .textarea-field .mat-mdc-text-field-wrapper {
+    height: auto !important;
+  }
+}
+
+//part-relation-component
+app-part-relation {
+  .tree--minimap {
+    @apply fill-primary;
+    opacity: 0.5;
+
+    &:hover {
+      cursor: grab;
+    }
+
+    &__closed {
+      width: 30px;
+      min-width: 30px;
+      min-height: 30px;
+      overflow: hidden;
+      opacity: 1;
+
+      & > svg:first-child {
+        width: 0;
+        height: 0;
+      }
+
+      & > svg:last-child {
+        transition: fill 0.3s;
+
+        width: 30px;
+        min-height: 30px;
+
+        &:hover {
+          @apply fill-primary;
+        }
+      }
+    }
+
+    &__closing {
+      cursor: pointer;
+
+      & > rect {
+        fill: transparent;
+      }
+
+      & > text {
+        @apply fill-doveGray;
+        font-size: 25px;
+
+        transition: fill 0.3s;
+
+        &:hover {
+          @apply fill-primary;
+        }
+      }
+    }
+  }
+
+  .tree--element {
+    min-width: 100%;
+    height: 100%;
+    cursor: grab;
+
+    &__grabbing {
+      cursor: grabbing !important;
+    }
+
+    &__path {
+      stroke: #555;
+      stroke-opacity: 0.4;
+      stroke-width: 1.5;
+      fill: none;
+    }
+
+    &__circle {
+      @apply fill-white;
+
+      -webkit-filter: drop-shadow(0px 3px 8px rgba(0, 0, 0, 0.05));
+      filter: drop-shadow(0px 3px 8px rgba(0, 0, 0, 0.05));
+
+      &-done {
+        @apply fill-qualityTypeOk;
+      }
+
+      &-loading {
+        @apply fill-primary;
+        animation: MinimapElementLoading 1.5s ease-in-out infinite;
+      }
+
+      &-Minor {
+        @apply fill-qualityTypeMinor;
+      }
+
+      &-Major {
+        @apply fill-qualityTypeMajor;
+      }
+
+      &-Critical {
+        @apply fill-qualityTypeCritical;
+      }
+
+      &-LifeThreatening {
+        @apply fill-qualityTypeLifeThreatening;
+      }
+    }
+
+    &__border {
+      &-loading {
+        @apply stroke-primary;
+        @apply fill-primary;
+
+        &-0 {
+          animation: TreeElementLoadingAnimation01 2.5s ease-in-out infinite;
+        }
+
+        &-1 {
+          animation: TreeElementLoadingAnimation02 2.5s ease-in-out infinite;
+        }
+
+        &-2 {
+          animation: TreeElementLoadingAnimation03 2.5s ease-in-out infinite;
+        }
+      }
+
+      & > path {
+        animation: TreeElementLoadingAnimation 45s infinite linear;
+      }
+
+      &-done {
+        @apply fill-qualityTypeOk;
+      }
+
+      &-Batch {
+        @apply fill-semanticDataModelBatch;
+      }
+
+      &-SerialPart {
+        @apply fill-semanticDataModelSerialPart;
+      }
+
+      &-PartAsPlanned {
+        @apply fill-semanticDataModelSerialPart;
+      }
+
+      &-BATCH {
+        @apply fill-semanticDataModelBatch;
+      }
+
+      &-SERIALPART {
+        @apply fill-semanticDataModelSerialPart;
+      }
+
+      &-PARTASPLANNED {
+        @apply fill-semanticDataModelSerialPart;
+      }
+
+      &-Minor {
+        @apply fill-qualityTypeMinor;
+      }
+
+      &-Major {
+        @apply fill-qualityTypeMajor;
+      }
+
+      &-Critical {
+        @apply fill-qualityTypeCritical;
+      }
+
+      &-LifeThreatening {
+        @apply fill-qualityTypeLifeThreatening;
+      }
+    }
+
+    &__arrow-container {
+      @apply text-inactiveShape;
+      -webkit-filter: drop-shadow(0px 3px 8px rgba(0, 0, 0, 0.24));
+      filter: drop-shadow(0px 3px 8px rgba(0, 0, 0, 0.24));
+
+      &:hover {
+        @apply text-secondary;
+      }
+    }
+
+    &__arrow {
+      fill: currentColor;
+    }
+
+    &__text {
+      white-space: pre;
+      user-select: none;
+      text-anchor: middle;
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0.1px;
+      line-height: 20px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-family: 'Cofinity-X Regular', monospace;
+    }
+
+    &__closing {
+      &-text {
+        padding-top: 1px;
+        font-size: 27px;
+        @apply fill-black;
+      }
+
+      &-icon {
+        background-image: url('/assets/images/icons/collapse_relation_hover_icon.svg');
+      }
+
+      &-circle {
+        @apply fill-inactiveShape;
+      }
+
+      &-animation {
+        transition: transform 0.5s;
+      }
+
+      &:hover > .tree--element__closing-animation {
+        transform: scale(1.1) translate(0, 0);
+      }
+
+      &:hover > .tree--element__closing-circle {
+        @apply fill-secondary;
+      }
+
+      &:hover > .tree--element__closing-icon {
+        background-image: url('/assets/images/icons/collapse_relation_hover_icon.svg');
+      }
     }
   }
 }

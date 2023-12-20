@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, EventEmitter, Inject, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Inject, Output, } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TableViewSettings } from '@core/user/table-settings.model';
 import { TableSettingsService } from '@core/user/table-settings.service';
@@ -32,7 +32,6 @@ import {
   selector: 'app-table-settings',
   templateUrl: 'table-settings.component.html',
   styleUrls: ['table-settings.component.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class TableSettingsComponent {
 

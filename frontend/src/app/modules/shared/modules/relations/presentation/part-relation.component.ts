@@ -26,7 +26,6 @@ import {
   OnDestroy,
   OnInit,
   SimpleChanges,
-  ViewEncapsulation,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
@@ -43,7 +42,6 @@ import { delay, switchMap, takeWhile, tap } from 'rxjs/operators';
   templateUrl: './part-relation.component.html',
   styleUrls: ['./part-relation.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
   host: {
     'class.app-part-relation-host': 'isStandalone',
   },

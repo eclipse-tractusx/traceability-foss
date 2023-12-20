@@ -28,7 +28,6 @@ import {
   QueryList,
   ViewChild,
   ViewChildren,
-  ViewEncapsulation,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -56,7 +55,6 @@ import { FilterCongigOptions } from '@shared/model/filter-config';
   selector: 'app-parts-table',
   templateUrl: './parts-table.component.html',
   styleUrls: ['parts-table.component.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class PartsTableComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;

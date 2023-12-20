@@ -19,7 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, Inject, Injector, Input, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, Injector, Input, } from '@angular/core';
 import { BaseInputComponent } from '@shared/abstraction/baseInput/baseInput.component';
 import { StaticIdService } from '@shared/service/staticId.service';
 
@@ -30,8 +30,6 @@ export type DateTimeString = `${DateString}T${TimeString}`;
 @Component({
   selector: 'app-date-time',
   templateUrl: './dateTime.component.html',
-  styleUrls: ['./dateTime.component.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class DateTimeComponent extends BaseInputComponent<Date> {
   @Input() set min(date: Date) {

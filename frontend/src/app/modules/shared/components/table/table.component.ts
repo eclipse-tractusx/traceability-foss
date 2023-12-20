@@ -20,7 +20,7 @@
  ********************************************************************************/
 
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, ElementRef, EventEmitter, Input, Output, QueryList, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, QueryList, ViewChild, ViewChildren, } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -50,7 +50,6 @@ import { MultiSelectAutocompleteComponent } from '../multi-select-autocomplete/m
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['table.component.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class TableComponent {
   @ViewChild(MatSort) sort: MatSort;

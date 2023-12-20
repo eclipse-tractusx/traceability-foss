@@ -19,16 +19,15 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, ElementRef, Renderer2, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, Renderer2, } from '@angular/core';
 
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class LayoutComponent {
-  constructor(private renderer: Renderer2, private elementRef: ElementRef) {}
+  constructor(private renderer: Renderer2, private elementRef: ElementRef) { }
 
   public ngOnInit() {
     /**

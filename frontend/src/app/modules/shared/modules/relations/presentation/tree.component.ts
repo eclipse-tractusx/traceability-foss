@@ -18,7 +18,7 @@
  ********************************************************************************/
 
 
-import { AfterViewInit, Component, Input, NgZone, OnDestroy, ViewEncapsulation, inject } from '@angular/core';
+import { AfterViewInit, Component, Input, NgZone, OnDestroy, inject } from '@angular/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { View } from '@shared/model/view.model';
 import { Part } from '@page/parts/model/parts.model';
@@ -43,7 +43,6 @@ import { RelationComponentState } from '@shared/modules/relations/core/component
 @Component({
   selector: 'app-tree',
   template: '',
-  encapsulation: ViewEncapsulation.None,
   providers: [RelationComponentState, RelationsFacade],
 })
 export class TreeComponent implements OnDestroy, AfterViewInit {

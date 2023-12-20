@@ -48,7 +48,7 @@ table {
   &__menu {
     background: rgba(0, 0, 0, 0.04);
 
-    &>.notification-table--select-all__dropdown:hover {
+    & > .notification-table--select-all__dropdown:hover {
       background: none;
     }
   }
@@ -63,14 +63,6 @@ table {
   }
 }
 
-.mat-mdc-row .mat-mdc-cell {
-  cursor: pointer;
-}
-
-.mat-mdc-row:hover {
-  @apply bg-surfaceMedium !important;
-}
-
 .notification-table--no-data {
   display: flex;
   flex-direction: column;
@@ -80,24 +72,19 @@ table {
 
   &__icon {
     transform: scale(2);
+    margin-bottom: 15px;
   }
-}
-
-.no-hover .mat-mdc-cell {
-  cursor: default;
 }
 
 .no-hover:hover {
   outline: unset;
 }
 
-
 .notification-table--cell {
   padding: 2px 12px 2px 12px;
   border: none !important;
   max-width: 332px;
 }
-
 
 .notification-table--header--cell {
   display: flex;
@@ -152,7 +139,7 @@ table {
   &--border--bottom--enabled {
     height: 3px;
     width: 100%;
-    background: linear-gradient(90deg, #338e7d 0%, #00725C 100%);
+    background: linear-gradient(90deg, #338e7d 0%, #00725c 100%);
   }
 
   &--content {
@@ -172,18 +159,6 @@ table {
   box-shadow: 0px 15px 25px 0px #3333330d, -10px -10px 15px 0px #ffffff1a, 0px 0px 25px 0px #33333308;
 }
 
-.menu-input-field .mat-mdc-menu-content {
-  padding: 0;
-}
-
-.mdc-menu-surface {
-  border-radius: 10px !important;
-}
-
-.mat-mdc-table .mdc-data-table__row {
-  height: 40px;
-}
-
 .notification-table--selected__container {
   position: sticky;
   top: 0;
@@ -194,8 +169,11 @@ table {
   padding: 0 10px;
   // Mat row defines fixed height of 48px.
   min-height: 48px;
-
   @apply bg-primaryLight border-r-2;
+}
+
+.notification-table--quick-action-menu-item {
+  padding: 0 16px;
 }
 
 .loading-table {
@@ -289,14 +267,6 @@ table {
   font-size: 16px;
 }
 
-.notification-table--header--row .mat-sort-header-content {
-  width: 100%;
-}
-
-.notification-table--header--row .mat-sort-header-arrow {
-  display: none;
-}
-
 .notification-table--header {
   padding-bottom: 8px;
 }
@@ -317,29 +287,6 @@ table {
 
 .notification-table--header--tooltip {
   white-space: pre-line;
-
-  .mdc-tooltip__surface {
-    background-color: rgb(48, 48, 48);
-    @apply font-medium;
-    color: white;
-    max-width: 300px;
-    padding: 15px;
-    font-size: 14px;
-    line-height: 20px;
-  }
-
-  .mdc-tooltip--multiline {
-    white-space: pre-line;
-  }
-}
-
-.notification-table--header--row .mdc-data-table__header-cell {
-  padding: 0 12px 0 12px !important;
-}
-
-.notification-table--body--row .mdc-data-table__cell {
-  padding: 0 12px 0 12px !important;
-  border-bottom-style: none !important;
 }
 
 .notification-table--body--row .notification-table--body--cell {
@@ -349,13 +296,6 @@ table {
     top: 0;
     width: 41px;
     padding: 0px !important;
-  }
-
-  .mdc-icon-button {
-    margin: 0;
-    width: 24px;
-    height: 24px;
-    padding: 0px;
   }
 }
 
