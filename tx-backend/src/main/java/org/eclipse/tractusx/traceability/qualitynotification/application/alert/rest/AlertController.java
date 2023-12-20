@@ -44,13 +44,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import qualitynotification.alert.response.AlertResponse;
 import qualitynotification.base.request.CloseQualityNotificationRequest;
 import qualitynotification.base.request.QualityNotificationStatusRequest;
@@ -135,6 +129,7 @@ public class AlertController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping
+    @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR', 'ROLE_USER')")
     @ResponseStatus(HttpStatus.CREATED)
     public QualityNotificationIdResponse alertAssets(@RequestBody @Valid StartQualityNotificationRequest request) {
         StartQualityNotificationRequest cleanStartQualityNotificationRequest = sanitize(request);
@@ -314,6 +309,7 @@ public class AlertController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("/{alertId}/approve")
+    @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void approveAlert(@PathVariable Long alertId) {
         log.info(API_LOG_START + "/{}/approve", alertId);
@@ -377,6 +373,7 @@ public class AlertController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("/{alertId}/cancel")
+    @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR', 'ROLE_USER')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void cancelAlert(@PathVariable Long alertId) {
         log.info(API_LOG_START + "/{}/cancel", alertId);
@@ -439,7 +436,7 @@ public class AlertController {
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
+    @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR')")
     @PostMapping("/{alertId}/close")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void closeAlert(
@@ -503,7 +500,7 @@ public class AlertController {
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
-    @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR')")
+    @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR', 'ROLE_USER')")
     @PostMapping("/{alertId}/update")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateAlert(
