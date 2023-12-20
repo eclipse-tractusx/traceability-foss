@@ -147,10 +147,9 @@ public class ApplicationConfig {
     @NotNull
     private List<AcceptedPolicy> buildAcceptedPolicies() {
         List<AcceptedPolicy> acceptedPolicies= new ArrayList<>();
-        OffsetDateTime offsetDateTime = OffsetDateTime.now().plusMonths(1);
 
         //add own policy
-        acceptedPolicies.addAll(createOwnAcceptedPolicies(offsetDateTime));
+        acceptedPolicies.addAll(createOwnAcceptedPolicies(traceabilityProperties.getValidUntil()));
 
         //add IRS policies
         acceptedPolicies.addAll(createIrsAcceptedPolicies());
