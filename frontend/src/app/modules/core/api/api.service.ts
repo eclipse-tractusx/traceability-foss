@@ -66,6 +66,15 @@ export class ApiService {
     });
   }
 
+  public postFile<T>(
+    url: string,
+    file: FormData,
+  ): Observable<T> {
+    return this.httpClient.post<T>(url, file, {
+      headers: this.buildHeadersForFile(),
+    });
+  }
+
   public put<T>(
     url: string,
     body?: Record<string, unknown> | unknown,
@@ -106,6 +115,13 @@ export class ApiService {
     return new HttpHeaders({
       Access: 'application/json',
       'Content-Type': 'application/json',
+      Authorization: this.authService.getBearerToken(),
+    });
+  }
+
+
+  private buildHeadersForFile(): HttpHeaders {
+    return new HttpHeaders({
       Authorization: this.authService.getBearerToken(),
     });
   }

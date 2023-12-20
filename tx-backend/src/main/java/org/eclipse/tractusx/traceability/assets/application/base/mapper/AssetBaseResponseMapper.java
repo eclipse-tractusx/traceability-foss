@@ -27,6 +27,7 @@ import assets.response.base.DescriptionsResponse;
 import assets.response.base.DetailAspectDataResponse;
 import assets.response.base.DetailAspectModelResponse;
 import assets.response.base.DetailAspectTypeResponse;
+import assets.response.base.ImportStateResponse;
 import assets.response.base.OwnerResponse;
 import assets.response.base.QualityTypeResponse;
 import assets.response.base.SemanticDataModelResponse;
@@ -39,6 +40,7 @@ import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.Deta
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataAsPlanned;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataPartSiteInformationAsPlanned;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel;
@@ -47,6 +49,7 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailA
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
+import org.springframework.context.annotation.Import;
 
 import java.util.List;
 
@@ -146,5 +149,13 @@ public class AssetBaseResponseMapper {
     private static List<DetailAspectDataTractionBatteryCodeSubcomponentResponse> from(List<DetailAspectDataTractionBatteryCodeSubcomponent> subcomponents) {
         return subcomponents.stream().map(entry -> DetailAspectDataTractionBatteryCodeSubcomponentResponse.builder().tractionBatteryCode(entry.getTractionBatteryCode())
                 .productType(entry.getProductType()).build()).toList();
+    }
+
+    public static ImportStateResponse toImportStateResponse(ImportState importState) {
+        if (importState == null) {
+            return ImportStateResponse.UNSET;
+        } else {
+            return ImportStateResponse.valueOf(importState.name());
+        }
     }
 }

@@ -10,7 +10,6 @@
     "admin": "Administration",
     "investigations": "Quality investigations",
     "alerts": "Quality alerts",
-    "adminRegistry": "Registry lookups",
     "adminBpn": "BPN - EDC configuration"
   },
   "pageTitle": {
@@ -68,14 +67,6 @@
       "saveAction": "Save",
       "alert": "Quality Alert",
       "investigation": "Quality Investigation"
-    },
-    "adminColumn": {
-      "startDate": "Start date",
-      "registryLookupStatus": "Status",
-      "successShellDescriptorsFetchCount": "Successful fetches",
-      "failedShellDescriptorsFetchCount": "Failed fetches",
-      "shellDescriptorsFetchDelta": "Fetch Delta",
-      "endDate": "End date"
     },
     "column": {
       "id": "ID",
