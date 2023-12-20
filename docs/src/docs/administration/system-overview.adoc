@@ -36,21 +36,24 @@ Currently, Trace-X API handles three roles: **'User'** and **'Supervisor'** and 
 | Investigation    | Create                         | x          | x            |
 |                  | Send                           |            | x            |
 |                  | Read                           | x          | x            | x
-|                  | Update                         | x          | x            |
-|                  | Delete All                     |            | x            |
-|                  | Delete Own                     | (x)        | x            |
+|                  | Cancel                         | x          | x            |
+|                  | Acknowledge                    | x          | x            |
+|                  | Accept                         | x          | x            |
+|                  | Decline                        | x          | x            |
+|                  | Close                          |            | x            |
 
 | Alert            | Create                         | x          | x            |
 |                  | Send                           |            | x            |
 |                  | Read                           | x          | x            | x
-|                  | Update                         | x          | x            |
-|                  | Delete All                     |            | x            |
-|                  | Delete Own                     | (x)        | x            |
+|                  | Cancel                         | x          | x            |
+|                  | Acknowledge                    | x          | x            |
+|                  | Accept                         | x          | x            |
+|                  | Decline                        | x          | x            |
+|                  | Close                          |            | x            |
 
 | Administration Panel  | Access "BPN EDC config panel"    |          |            | x
 |                       | Access "Registry lookup Panel"   |          |            | x
 
 |===
 
-Legend: x = full access to all resources, (x) = access to the resources he owns
 
