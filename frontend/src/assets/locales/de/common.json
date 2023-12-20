@@ -10,7 +10,6 @@
     "admin": "Verwaltung",
     "investigations": "Qualitätsuntersuchung",
     "alerts": "Qualitätswarnung",
-    "adminRegistry": "Registry-Abfragen",
     "adminBpn": "BPN - EDC Konfiguration"
   },
   "pageTitle": {
@@ -68,14 +67,6 @@
       "saveAction": "Speichern",
       "alert": "Qualitätswarnung",
       "investigation": "Qualitätsuntersuchung"
-    },
-    "adminColumn": {
-      "startDate": "Startdatum",
-      "registryLookupStatus": "Status",
-      "successShellDescriptorsFetchCount": "Erfolgreiche Abrufe",
-      "failedShellDescriptorsFetchCount": "Fehlgeschlagene Abrufe",
-      "shellDescriptorsFetchDelta": "Abruf-Delta",
-      "endDate": "Enddatum"
     },
     "column": {
       "id": "ID",

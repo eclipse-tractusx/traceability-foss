@@ -59,6 +59,8 @@ public class AssetAsPlannedResponseMapper extends AssetBaseResponseMapper {
                 .receivedQualityAlertIdsInStatusActive(getNotificationIdsInActiveState(asset.getReceivedQualityAlerts()))
                 .sentQualityInvestigationIdsInStatusActive(getNotificationIdsInActiveState(asset.getSentQualityInvestigations()))
                 .receivedQualityInvestigationIdsInStatusActive(getNotificationIdsInActiveState(asset.getReceivedQualityInvestigations()))
+                .importState(toImportStateResponse(asset.getImportState()))
+                .importNote(asset.getImportNote())
                 .build();
     }
 
@@ -79,4 +81,5 @@ public class AssetAsPlannedResponseMapper extends AssetBaseResponseMapper {
                 .map(AssetAsPlannedResponseMapper::from)
                 .toList();
     }
+
 }
