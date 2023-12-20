@@ -24,25 +24,25 @@ import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
 import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
 import org.eclipse.tractusx.irs.edc.client.policy.Permission;
 import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.IrsPolicy;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
 public record RegisterPolicyRequest(
         String policyId,
         Instant validUntil,
         List<Permission> permissions
 ) {
-    public static RegisterPolicyRequest from(IrsPolicy policy) {
+    public static RegisterPolicyRequest from(String leftOperand, OperatorType operatorType, String rightOperand, String ttl) {
         return new RegisterPolicyRequest(
-                policy.getPolicyId(),
-                Instant.parse(policy.getTtl()),
+                UUID.randomUUID().toString(),
+                Instant.parse(ttl),
                 List.of(new Permission(
                         PolicyType.USE,
                         List.of(new Constraints(
-                                List.of(new Constraint("PURPOSE", OperatorType.EQ, List.of(policy.getPolicyId()))),
-                                List.of(new Constraint("PURPOSE", OperatorType.EQ, List.of(policy.getPolicyId())))))
+                                List.of(new Constraint(leftOperand, operatorType, List.of(rightOperand))),
+                                List.of(new Constraint(leftOperand, operatorType, List.of(rightOperand)))))
                 )));
     }
 }

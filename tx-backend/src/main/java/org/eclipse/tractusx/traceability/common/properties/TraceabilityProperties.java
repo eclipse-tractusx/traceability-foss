@@ -27,6 +27,8 @@ import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.time.OffsetDateTime;
+
 @Component
 @Getter
 @Setter
@@ -40,5 +42,7 @@ public class TraceabilityProperties {
     private String leftOperand;
     private String operatorType;
     private String rightOperand;
+    private OffsetDateTime validUntil;
+
 
 }
