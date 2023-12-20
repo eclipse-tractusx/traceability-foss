@@ -141,6 +141,7 @@ backend:
     leftOperand: 'PURPOSE'
     operatorType: 'eq'
     rightOperand: 'ID 3.0 Trace'
+    validUntil: '2024-09-30T23:59:59.99Z'
 
   datasource:
     url: 'CHANGE_ME'
