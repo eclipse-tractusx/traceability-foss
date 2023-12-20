@@ -40,12 +40,18 @@ jobs:
           # Avoid using single or double quotes for multiline patterns
           files: |
             CHANGELOG.md
-      - name: List all changed files
+      - name: request changes
         uses: ntsd/auto-request-changes-action@v3
         if: steps.udpated-changelog.outputs.any_changed == 'false'
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
           review-message: "Please update CHANGELOG.md"
+      - name: approve PR
+        uses: hmarr/auto-approve-action@v3
+        if: steps.udpated-changelog.outputs.any_changed == 'true'
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          review-message: "Thanks for keeping CHANGELOG.md up to date"
 
 
   Test-and-Sonar:
