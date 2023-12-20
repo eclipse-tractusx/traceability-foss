@@ -137,16 +137,12 @@ class IrsServiceTest {
     @Test
     void givenOutdatedPolicyExist_whenCreateIrsPolicyIfMissing_thenUpdateIt() {
         // given
-        final IrsPolicy policyToCreate = IrsPolicy.builder()
-                .policyId("test")
-                .ttl("2123-07-03T16:01:05.309Z")
-                .build();
-        final PolicyResponse existingPolicy = new PolicyResponse("test", OffsetDateTime.parse("2023-07-03T16:01:05.309Z"), OffsetDateTime.now(), List.of());
+        final PolicyResponse existingPolicy = new PolicyResponse("test", OffsetDateTime.parse("2023-07-03T16:01:05.309Z"), OffsetDateTime.parse("2023-07-03T16:01:05.309Z"), List.of());
         when(irsClient.getPolicies()).thenReturn(List.of(existingPolicy));
         when(traceabilityProperties.getRightOperand()).thenReturn("test");
         when(traceabilityProperties.getOperatorType()).thenReturn("eq");
         when(traceabilityProperties.getLeftOperand()).thenReturn("PURPOSE");
-        when(traceabilityProperties.getValidUntil()).thenReturn("2023-07-02T16:01:05.309Z");
+        when(traceabilityProperties.getValidUntil()).thenReturn("2023-07-04T16:01:05.309Z");
 
         // when
         irsService.createIrsPolicyIfMissing();
