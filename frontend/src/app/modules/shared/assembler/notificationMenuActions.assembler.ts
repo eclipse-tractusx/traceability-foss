@@ -21,6 +21,7 @@ import { InvestigationHelperService } from '@page/investigations/core/investigat
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
 import { MenuActionConfig } from '@shared/components/table/table.model';
 import { Notification } from '@shared/model/notification.model';
+import { NotificationAction } from '@shared/modules/notification/notification-action.enum';
 
 export class NotificationMenuActionsAssembler {
   public static getMenuActions(helperService: InvestigationHelperService | AlertHelperService, modal: NotificationCommonModalComponent): MenuActionConfig<Notification>[] {
@@ -30,42 +31,42 @@ export class NotificationMenuActionsAssembler {
         icon: 'close',
         action: data => modal.show('close', data),
         condition: data => helperService.showCloseButton(data),
-        isAuthorized: helperService.isAuthorizedForButton(),
+        isAuthorized: helperService.isAuthorizedForButton(NotificationAction.CLOSE),
       },
       {
         label: 'actions.approve',
         icon: 'share',
         action: data => modal.show('approve', data),
         condition: data => helperService.showApproveButton(data),
-        isAuthorized: helperService.isAuthorizedForButton(),
+        isAuthorized: helperService.isAuthorizedForButton(NotificationAction.APPROVE),
       },
       {
         label: 'actions.cancel',
         icon: 'cancel',
         action: data => modal.show('cancel', data),
         condition: data => helperService.showCancelButton(data),
-        isAuthorized: helperService.isAuthorizedForButton(),
+        isAuthorized: helperService.isAuthorizedForButton(NotificationAction.CANCEL),
       },
       {
         label: 'actions.acknowledge',
         icon: 'work',
         action: data => modal.show('acknowledge', data),
         condition: data => helperService.showAcknowledgeButton(data),
-        isAuthorized: helperService.isAuthorizedForButton(),
+        isAuthorized: helperService.isAuthorizedForButton(NotificationAction.ACKNOWLEDGE),
       },
       {
         label: 'actions.accept',
         icon: 'assignment_turned_in',
         action: data => modal.show('accept', data),
         condition: data => helperService.showAcceptButton(data),
-        isAuthorized: helperService.isAuthorizedForButton(),
+        isAuthorized: helperService.isAuthorizedForButton(NotificationAction.ACCEPT),
       },
       {
         label: 'actions.decline',
         icon: 'assignment_late',
         action: data => modal.show('decline', data),
         condition: data => helperService.showDeclineButton(data),
-        isAuthorized: helperService.isAuthorizedForButton(),
+        isAuthorized: helperService.isAuthorizedForButton(NotificationAction.DECLINE),
       },
     ];
   }

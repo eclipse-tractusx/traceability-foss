@@ -27,9 +27,10 @@ import { Part } from '@page/parts/model/parts.model';
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
 import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
 import { ToastService } from '@shared/components/toasts/toast.service';
-import {Notification, NotificationType} from '@shared/model/notification.model';
+import { Notification, NotificationType } from '@shared/model/notification.model';
 import { TranslationContext } from '@shared/model/translation-context.model';
 import { View } from '@shared/model/view.model';
+import { NotificationAction } from '@shared/modules/notification/notification-action.enum';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { filter, first, tap } from 'rxjs/operators';
@@ -204,5 +205,7 @@ export class AlertDetailComponent implements AfterViewInit, OnDestroy {
   }
 
   protected readonly TranslationContext = TranslationContext;
-    protected readonly NotificationType = NotificationType;
+  protected readonly NotificationType = NotificationType;
+  protected readonly NotificationAction = NotificationAction;
+
 }

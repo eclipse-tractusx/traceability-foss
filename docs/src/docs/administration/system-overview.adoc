@@ -34,7 +34,7 @@ Currently, Trace-X API handles three roles: **'User'** and **'Supervisor'** and 
 |                  | View Administration            |            |              | x
 
 | Investigation    | Create                         | x          | x            |
-|                  | Send (Approve)                          |            | x            |
+|                  | Send (Approve)                 |            | x            |
 |                  | Read                           | x          | x            | x
 |                  | Cancel                         | x          | x            |
 |                  | Acknowledge                    | x          | x            |
@@ -43,7 +43,7 @@ Currently, Trace-X API handles three roles: **'User'** and **'Supervisor'** and 
 |                  | Close                          |            | x            |
 
 | Alert            | Create                         | x          | x            |
-|                  | Send (Approve)                          |            | x            |
+|                  | Send (Approve)                 |            | x            |
 |                  | Read                           | x          | x            | x
 |                  | Cancel                         | x          | x            |
 |                  | Acknowledge                    | x          | x            |

@@ -19,22 +19,25 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { AfterViewInit, Component, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { getRoute, INVESTIGATION_BASE_ROUTE } from '@core/known-route';
-import { InvestigationDetailFacade } from '@page/investigations/core/investigation-detail.facade';
-import { InvestigationHelperService } from '@page/investigations/core/investigation-helper.service';
-import { InvestigationsFacade } from '@page/investigations/core/investigations.facade';
-import { Part } from '@page/parts/model/parts.model';
-import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
-import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
-import { ToastService } from '@shared/components/toasts/toast.service';
-import { Notification, NotificationType } from '@shared/model/notification.model';
-import { TranslationContext } from '@shared/model/translation-context.model';
-import { View } from '@shared/model/view.model';
-import { StaticIdService } from '@shared/service/staticId.service';
-import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
-import { filter, first, tap } from 'rxjs/operators';
+import {AfterViewInit, Component, OnDestroy, TemplateRef, ViewChild} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {getRoute, INVESTIGATION_BASE_ROUTE} from '@core/known-route';
+import {InvestigationDetailFacade} from '@page/investigations/core/investigation-detail.facade';
+import {InvestigationHelperService} from '@page/investigations/core/investigation-helper.service';
+import {InvestigationsFacade} from '@page/investigations/core/investigations.facade';
+import {Part} from '@page/parts/model/parts.model';
+import {
+  NotificationCommonModalComponent
+} from '@shared/components/notification-common-modal/notification-common-modal.component';
+import {CreateHeaderFromColumns, TableConfig, TableEventConfig} from '@shared/components/table/table.model';
+import {ToastService} from '@shared/components/toasts/toast.service';
+import {Notification, NotificationType} from '@shared/model/notification.model';
+import {TranslationContext} from '@shared/model/translation-context.model';
+import {View} from '@shared/model/view.model';
+import {StaticIdService} from '@shared/service/staticId.service';
+import {BehaviorSubject, Observable, Subject, Subscription} from 'rxjs';
+import {filter, first, tap} from 'rxjs/operators';
+import {NotificationAction} from "@shared/modules/notification/notification-action.enum";
 
 @Component({
   selector: 'app-investigation-detail',
@@ -208,4 +211,5 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
 
   protected readonly TranslationContext = TranslationContext;
   protected readonly NotificationType = NotificationType;
+    protected readonly NotificationAction = NotificationAction;
 }

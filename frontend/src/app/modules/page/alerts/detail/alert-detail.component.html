@@ -22,7 +22,6 @@ SPDX-License-Identifier: Apache-2.0
     <app-button
       [color]="'primary'"
       (click)="this.navigateBackToAlerts()"
-      [isDisabled]="!helperService.isAuthorizedForButton()"
     >
       <div class="flex justify-between items-center">
         <mat-icon class="mr-2">arrow_back</mat-icon>
@@ -31,75 +30,126 @@ SPDX-License-Identifier: Apache-2.0
     </app-button>
   </div>
   <div class="detail--action">
-    <app-button
-      *ngIf="helperService.showApproveButton(selectedAlert)"
-      (click)="notificationCommonModalComponent?.show('approve')"
-      [color]="'primary'"
-      [isDisabled]="!helperService.isAuthorizedForButton()"
+    <div class="detail--action--button"
+         matTooltip="{{'routing.unauthorized' | i18n}}"
+         matTooltipClass="table--header--tooltip"
+         matTooltipPosition="above"
+         [class.mdc-tooltip--multiline]="true"
+         [matTooltipShowDelay]="1000"
+         [matTooltipDisabled]="helperService.isAuthorizedForButton(NotificationAction.APPROVE)"
     >
-      <div class="flex justify-between items-center">
-        <mat-icon class="mr-2">share</mat-icon>
-        {{ 'actions.approve' | i18n }}
-      </div>
-    </app-button>
-    <app-button
-      *ngIf="helperService.showCancelButton(selectedAlert)"
-      (click)="notificationCommonModalComponent?.show('cancel')"
-      [color]="'primary'"
-      [isDisabled]="!helperService.isAuthorizedForButton()"
+      <app-button
+        *ngIf="helperService.showApproveButton(selectedAlert)"
+        (click)="notificationCommonModalComponent?.show('approve')"
+        [color]="'primary'"
+        [isDisabled]="!helperService.isAuthorizedForButton(NotificationAction.APPROVE)"
+      >
+        <div class="flex justify-between items-center">
+          <mat-icon class="mr-2">share</mat-icon>
+          {{ 'actions.approve' | i18n }}
+        </div>
+      </app-button>
+    </div>
+    <div class="detail--action--button"
+         matTooltip="{{'routing.unauthorized' | i18n}}"
+         matTooltipClass="table--header--tooltip"
+         matTooltipPosition="above"
+         [class.mdc-tooltip--multiline]="true"
+         [matTooltipShowDelay]="1000"
+         [matTooltipDisabled]="helperService.isAuthorizedForButton(NotificationAction.CANCEL)"
     >
-      <div class="flex justify-between items-center">
-        <mat-icon class="mr-2">cancel</mat-icon>
-        {{ 'actions.cancel' | i18n }}
-      </div>
-    </app-button>
-    <app-button
-      *ngIf="helperService.showCloseButton(selectedAlert)"
-      (click)="notificationCommonModalComponent?.show('close')"
-      [color]="'primary'"
-      [isDisabled]="!helperService.isAuthorizedForButton()"
+      <app-button
+        *ngIf="helperService.showCancelButton(selectedAlert)"
+        (click)="notificationCommonModalComponent?.show('cancel')"
+        [color]="'primary'"
+        [isDisabled]="!helperService.isAuthorizedForButton(NotificationAction.CANCEL)"
+      >
+        <div class="flex justify-between items-center">
+          <mat-icon class="mr-2">cancel</mat-icon>
+          {{ 'actions.cancel' | i18n }}
+        </div>
+      </app-button>
+    </div>
+    <div class="detail--action--button"
+         matTooltip="{{'routing.unauthorized' | i18n}}"
+         matTooltipClass="table--header--tooltip"
+         matTooltipPosition="above"
+         [class.mdc-tooltip--multiline]="true"
+         [matTooltipShowDelay]="1000"
+         [matTooltipDisabled]="helperService.isAuthorizedForButton(NotificationAction.CLOSE)"
     >
-      <div class="flex justify-between items-center">
-        <mat-icon class="mr-2">close</mat-icon>
-        {{ 'actions.close' | i18n }}
-      </div>
-    </app-button>
-
-    <app-button
-      *ngIf="helperService.showAcceptButton(selectedAlert)"
-      (click)="notificationCommonModalComponent?.show('accept')"
-      [color]="'primary'"
-      [isDisabled]="!helperService.isAuthorizedForButton()"
+      <app-button
+        *ngIf="helperService.showCloseButton(selectedAlert)"
+        (click)="notificationCommonModalComponent?.show('close')"
+        [color]="'primary'"
+        [isDisabled]="!helperService.isAuthorizedForButton(NotificationAction.CLOSE)"
+      >
+        <div class="flex justify-between items-center">
+          <mat-icon class="mr-2">close</mat-icon>
+          {{ 'actions.close' | i18n }}
+        </div>
+      </app-button>
+    </div>
+    <div class="detail--action--button"
+         matTooltip="{{'routing.unauthorized' | i18n}}"
+         matTooltipClass="table--header--tooltip"
+         matTooltipPosition="above"
+         [class.mdc-tooltip--multiline]="true"
+         [matTooltipShowDelay]="1000"
+         [matTooltipDisabled]="helperService.isAuthorizedForButton(NotificationAction.ACCEPT)"
     >
-      <div class="flex justify-between items-center">
-        <mat-icon class="mr-2">assignment_turned_in</mat-icon>
-        {{ 'actions.accept' | i18n }}
-      </div>
-    </app-button>
-
-    <app-button
-      *ngIf="helperService.showAcknowledgeButton(selectedAlert)"
-      (click)="notificationCommonModalComponent?.show('acknowledge')"
-      [color]="'primary'"
-      [isDisabled]="!helperService.isAuthorizedForButton()"
+      <app-button
+        *ngIf="helperService.showAcceptButton(selectedAlert)"
+        (click)="notificationCommonModalComponent?.show('accept')"
+        [color]="'primary'"
+        [isDisabled]="!helperService.isAuthorizedForButton(NotificationAction.ACCEPT)"
+      >
+        <div class="flex justify-between items-center">
+          <mat-icon class="mr-2">assignment_turned_in</mat-icon>
+          {{ 'actions.accept' | i18n }}
+        </div>
+      </app-button>
+    </div>
+    <div class="detail--action--button"
+         matTooltip="{{'routing.unauthorized' | i18n}}"
+         matTooltipClass="table--header--tooltip"
+         matTooltipPosition="above"
+         [class.mdc-tooltip--multiline]="true"
+         [matTooltipShowDelay]="1000"
+         [matTooltipDisabled]="helperService.isAuthorizedForButton(NotificationAction.ACKNOWLEDGE)"
     >
-      <div class="flex justify-between items-center">
-        <mat-icon class="mr-2">work</mat-icon>
-        {{ 'actions.acknowledge' | i18n }}
-      </div>
-    </app-button>
-
-    <app-button
-      *ngIf="helperService.showDeclineButton(selectedAlert)"
-      (click)="notificationCommonModalComponent?.show('decline')"
-      [color]="'primary'"
-      [isDisabled]="!helperService.isAuthorizedForButton()"
+      <app-button
+        *ngIf="helperService.showAcknowledgeButton(selectedAlert)"
+        (click)="notificationCommonModalComponent?.show('acknowledge')"
+        [color]="'primary'"
+        [isDisabled]="!helperService.isAuthorizedForButton(NotificationAction.ACKNOWLEDGE)"
+      >
+        <div class="flex justify-between items-center">
+          <mat-icon class="mr-2">work</mat-icon>
+          {{ 'actions.acknowledge' | i18n }}
+        </div>
+      </app-button>
+    </div>
+    <div class="detail--action--button"
+         matTooltip="{{'routing.unauthorized' | i18n}}"
+         matTooltipClass="table--header--tooltip"
+         matTooltipPosition="above"
+         [class.mdc-tooltip--multiline]="true"
+         [matTooltipShowDelay]="1000"
+         [matTooltipDisabled]="helperService.isAuthorizedForButton(NotificationAction.DECLINE)"
     >
-      <div class="flex justify-between items-center">
-        <mat-icon class="mr-2">assignment_late</mat-icon>
-        {{ 'actions.decline' | i18n }}
-      </div>
-    </app-button>
+      <app-button
+        *ngIf="helperService.showDeclineButton(selectedAlert)"
+        (click)="notificationCommonModalComponent?.show('decline')"
+        [color]="'primary'"
+        [isDisabled]="!helperService.isAuthorizedForButton(NotificationAction.DECLINE)"
+      >
+        <div class="flex justify-between items-center">
+          <mat-icon class="mr-2">assignment_late</mat-icon>
+          {{ 'actions.decline' | i18n }}
+        </div>
+      </app-button>
+    </div>
   </div>
 </div>
 

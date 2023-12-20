@@ -23,6 +23,7 @@ import { Injectable } from '@angular/core';
 import { RoleService } from '@core/user/role.service';
 import { InvestigationsFacade } from '@page/investigations/core/investigations.facade';
 import { Notification, NotificationStatus } from '@shared/model/notification.model';
+import { NotificationAction } from '@shared/modules/notification/notification-action.enum';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -81,7 +82,10 @@ export class InvestigationHelperService {
     return !isFromSender && status === NotificationStatus.ACKNOWLEDGED;
   }
 
-  public isAuthorizedForButton(): boolean {
-    return this.roleService.isAtLeastSupervisor();
-  }
+  public isAuthorizedForButton(action: NotificationAction): boolean {
+    if(action === NotificationAction.APPROVE || action === NotificationAction.CLOSE) {
+      return this.roleService.isAtLeastSupervisor();
+    } else {
+      return this.roleService.isAtLeastUser();
+    }}
 }
