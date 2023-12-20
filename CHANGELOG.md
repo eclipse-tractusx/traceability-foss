@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [UNRELEASED - DD.MM.YYYY]
 ### Added
+- Added an option for testdata upload in Argo Workflow
+
 ### Changed
 - Restricted datefield on investigation creation to be only clickable and not editable
 - Removed duplication of request notification component and combined it into a reusable component
@@ -19,9 +21,13 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - fixed bug where filter was reset when sorting filtered notifications
 - redesigned notification status confirmation modal
 - bump irs version from 6.9.1 to 6.12.0
+- Moved accepted policy to helm environments
+- Request IRS policy store to accept IRS policies in addition to our own policy
 
+### Removed
+- Removed registry lookups feature
 
-## [10.0.0 - 12.12.2024]
+## [10.0.0 - 12.12.2023]
 ### Added
 - new filtering capabilities ( receivedQualityAlertIdsInStatusActive, sentQualityAlertIdsInStatusActive, receivedQualityInvestigationIdsInStatusActive, sentQualityInvestigationIdsInStatusActive )
 - Validation check if table-settings correct and reset on invalid state
@@ -37,6 +43,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Added a step for testing input and included an option for a hard refresh in Argo Workflow
 - Added manufacturer_id to assets_as_planned
 - Added local filtering and auto complete for notifications
+- Added a drag-and-drop option for JSON files and an endpoint to receive them
 
 ### Changed
 - Filter configuration for tables to be resuable and easy to adapt

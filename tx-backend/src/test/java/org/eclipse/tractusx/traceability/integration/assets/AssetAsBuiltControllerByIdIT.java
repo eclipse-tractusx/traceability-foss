@@ -199,6 +199,7 @@ class AssetAsBuiltControllerByIdIT extends IntegrationTestSpecification {
                 .when()
                 .get("/api/assets/as-built/urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb/children/urn:uuid:587cfb38-7149-4f06-b1e0-0e9b6e98be2a")
                 .then()
+                .log().body()
                 .statusCode(200)
                 .body("id", Matchers.is("urn:uuid:587cfb38-7149-4f06-b1e0-0e9b6e98be2a"));
     }

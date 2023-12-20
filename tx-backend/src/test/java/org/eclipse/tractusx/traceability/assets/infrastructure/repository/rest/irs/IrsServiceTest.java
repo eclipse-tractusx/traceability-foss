@@ -19,11 +19,15 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs;
 
+import org.eclipse.tractusx.irs.edc.client.policy.Constraint;
+import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
+import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
+import org.eclipse.tractusx.irs.edc.client.policy.Permission;
+import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.IRSApiClient;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.IrsService;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.config.IrsPolicyConfig;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterJobRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
@@ -36,6 +40,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.LinkedItem;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Relationship;
+
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.ManufacturingInformation;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.MeasurementUnit;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.PartTypeInformation;
@@ -45,6 +50,8 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.ValidityPeriod;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.IrsPolicy;
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
+import org.eclipse.tractusx.traceability.common.model.BPN;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -82,10 +89,10 @@ class IrsServiceTest {
     private IRSApiClient irsClient;
 
     @Mock
-    private BpnRepository bpnRepository;
+    TraceabilityProperties traceabilityProperties;
 
     @Mock
-    private IrsPolicyConfig irsPolicyConfig;
+    private BpnRepository bpnRepository;
 
 
     @Test
@@ -96,7 +103,10 @@ class IrsServiceTest {
                 .ttl("2023-07-03T16:01:05.309Z")
                 .build();
         when(irsClient.getPolicies()).thenReturn(List.of());
-        when(irsPolicyConfig.getPolicies()).thenReturn(List.of(policyToCreate));
+        when(traceabilityProperties.getRightOperand()).thenReturn("test");
+        when(traceabilityProperties.getOperatorType()).thenReturn("eq");
+        when(traceabilityProperties.getLeftOperand()).thenReturn("PURPOSE");
+        when(traceabilityProperties.getValidUntil()).thenReturn(OffsetDateTime.parse("2023-07-02T16:01:05.309Z"));
 
         // when
         irsService.createIrsPolicyIfMissing();
@@ -115,7 +125,8 @@ class IrsServiceTest {
                 .build();
         final PolicyResponse existingPolicy = new PolicyResponse("test", OffsetDateTime.parse("2023-07-03T16:01:05.309Z"), OffsetDateTime.now(), List.of());
         when(irsClient.getPolicies()).thenReturn(List.of(existingPolicy));
-        when(irsPolicyConfig.getPolicies()).thenReturn(List.of(policyToCreate));
+        when(traceabilityProperties.getRightOperand()).thenReturn("test");
+        when(traceabilityProperties.getValidUntil()).thenReturn(OffsetDateTime.parse("2023-07-02T16:01:05.309Z"));
 
         // when
         irsService.createIrsPolicyIfMissing();
@@ -133,7 +144,10 @@ class IrsServiceTest {
                 .build();
         final PolicyResponse existingPolicy = new PolicyResponse("test", OffsetDateTime.parse("2023-07-03T16:01:05.309Z"), OffsetDateTime.now(), List.of());
         when(irsClient.getPolicies()).thenReturn(List.of(existingPolicy));
-        when(irsPolicyConfig.getPolicies()).thenReturn(List.of(policyToCreate));
+        when(traceabilityProperties.getRightOperand()).thenReturn("test");
+        when(traceabilityProperties.getOperatorType()).thenReturn("eq");
+        when(traceabilityProperties.getLeftOperand()).thenReturn("PURPOSE");
+        when(traceabilityProperties.getValidUntil()).thenReturn(OffsetDateTime.now());
 
         // when
         irsService.createIrsPolicyIfMissing();
@@ -152,6 +166,7 @@ class IrsServiceTest {
         when(irsClient.registerJob(any(RegisterJobRequest.class))).thenReturn(jobId);
         JobDetailResponse jobResponse = provideTestJobResponse(direction.name());
         when(irsClient.getJobDetails(jobId.id())).thenReturn(jobResponse);
+        when(traceabilityProperties.getBpn()).thenReturn(BPN.of("test"));
 
         // When
         List<AssetBase> result = irsService.findAssets("1", direction, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
@@ -188,6 +203,7 @@ class IrsServiceTest {
         when(jobStatus.lastModifiedOn()).thenReturn(new Date());
         when(jobStatus.startedOn()).thenReturn(new Date());
         when(jobResponse.isCompleted()).thenReturn(false);
+        when(traceabilityProperties.getBpn()).thenReturn(BPN.of("test"));
 
         // When
         List<AssetBase> result = irsService.findAssets("1", direction, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
@@ -252,5 +268,24 @@ class IrsServiceTest {
                 relationships,
                 bpns
         );
+    }
+
+    @Test
+    void test_getPolicyConstraints(){
+        //GIVEN
+        List<Constraint> andConstraints = List.of(new Constraint("leftOperand", OperatorType.EQ, List.of("rightOperand")));
+        List<Constraint> orConstraints = List.of(new Constraint("leftOperand", OperatorType.EQ, List.of("rightOperand")));
+        Constraints constraints = new Constraints(andConstraints, orConstraints);
+
+        Permission permission = new Permission(PolicyType.USE, List.of(constraints));
+        PolicyResponse policyResponseMock = new PolicyResponse("", OffsetDateTime.now(), OffsetDateTime.now(), List.of(permission));
+
+        when(irsClient.getPolicies()).thenReturn(List.of(policyResponseMock));
+
+        //WHEN
+        List<PolicyResponse> policyResponse = irsService.getPolicies();
+
+        //THEN
+        assertThat(1).isEqualTo(policyResponse.size());
     }
 }

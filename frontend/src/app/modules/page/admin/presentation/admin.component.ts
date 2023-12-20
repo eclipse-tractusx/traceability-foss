@@ -38,14 +38,14 @@ export class AdminComponent {
     role?: Role;
   }[] = [
     {
-      name: 'routing.adminRegistry',
-      icon: 'storage',
-      link: '/admin/registry-lookups',
-    },
-    {
       name: 'routing.adminBpn',
       icon: 'edit',
       link: '/admin/configure-bpn',
+    },
+    {
+      name: 'routing.adminImport',
+      icon: 'upload',
+      link: '/admin/configure-import',
     },
   ];
 

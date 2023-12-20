@@ -38,14 +38,19 @@ import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
 import org.eclipse.tractusx.irs.edc.client.policy.Permission;
 import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.IrsService;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.PolicyResponse;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -58,7 +63,9 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Configuration
 @ConfigurationPropertiesScan(basePackages = "org.eclipse.tractusx.traceability.*")
@@ -69,9 +76,15 @@ import java.util.List;
 @Slf4j
 @EnableJpaRepositories(basePackages = "org.eclipse.tractusx.traceability.*")
 public class ApplicationConfig {
-    private final AcceptedPoliciesProvider.DefaultAcceptedPoliciesProvider defaultAcceptedPoliciesProvider;
-    private static final String ID_TRACE_CONSTRAINT = "ID 3.0 Trace";
 
+    @Autowired
+    TraceabilityProperties traceabilityProperties;
+
+    @Autowired
+    @Lazy
+    IrsService irsService;
+
+    private final AcceptedPoliciesProvider.DefaultAcceptedPoliciesProvider defaultAcceptedPoliciesProvider;
 
     @Bean
     public InternalResourceViewResolver defaultViewResolver() {
@@ -122,8 +135,8 @@ public class ApplicationConfig {
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.registerModule(new JavaTimeModule());
-            AcceptedPolicy acceptedPolicy = buildAcceptedPolicy();
-            defaultAcceptedPoliciesProvider.addAcceptedPolicies(List.of(acceptedPolicy));
+            List<AcceptedPolicy> acceptedPolicy = buildAcceptedPolicies();
+            defaultAcceptedPoliciesProvider.addAcceptedPolicies(acceptedPolicy);
             log.info("Successfully added permission to irs client lib provider: {}", mapper.writeValueAsString(acceptedPolicy));
         } catch (Exception exception) {
             log.error("Failed to create Irs Policies : ", exception);
@@ -132,18 +145,45 @@ public class ApplicationConfig {
     }
 
     @NotNull
-    private static AcceptedPolicy buildAcceptedPolicy() {
-        OffsetDateTime offsetDateTime = OffsetDateTime.now().plusMonths(1);
+    private List<AcceptedPolicy> buildAcceptedPolicies() {
+        List<AcceptedPolicy> acceptedPolicies= new ArrayList<>();
+
+        //add own policy
+        acceptedPolicies.addAll(createOwnAcceptedPolicies(traceabilityProperties.getValidUntil()));
+
+        //add IRS policies
+        acceptedPolicies.addAll(createIrsAcceptedPolicies());
+        return acceptedPolicies;
+    }
+
+    private List<AcceptedPolicy> createIrsAcceptedPolicies() {
+
+        List<PolicyResponse> policyResponse = irsService.getPolicies();
+        List<AcceptedPolicy> irsPolicies = policyResponse.stream().map(response -> {
+            Policy policy = new Policy(response.policyId(), response.createdOn(), response.validUntil(), response.permissions());
+            return new AcceptedPolicy(policy, response.validUntil());
+        }).toList();
+
+        return new ArrayList<>(irsPolicies);
+    }
+
+    private List<AcceptedPolicy> createOwnAcceptedPolicies(OffsetDateTime offsetDateTime) {
+        List<Constraint> andConstraintList = new ArrayList<>();
+        List<Constraint> orConstraintList = new ArrayList<>();
+        andConstraintList.add(new Constraint(traceabilityProperties.getLeftOperand(), OperatorType.fromValue(traceabilityProperties.getOperatorType()), List.of(traceabilityProperties.getRightOperand())));
+        andConstraintList.add(new Constraint(traceabilityProperties.getLeftOperand(), OperatorType.fromValue(traceabilityProperties.getOperatorType()), List.of(traceabilityProperties.getRightOperand())));
+
         List<Permission> permissions = List.of(
                 new Permission(
                         PolicyType.USE,
                         List.of(new Constraints(
-                                List.of(new Constraint("PURPOSE", OperatorType.EQ, List.of(ID_TRACE_CONSTRAINT))),
-                                List.of(new Constraint("PURPOSE", OperatorType.EQ, List.of(ID_TRACE_CONSTRAINT)))))
-                )
-        );
-        Policy policy = new Policy(ID_TRACE_CONSTRAINT, OffsetDateTime.now(), offsetDateTime, permissions);
-        return new AcceptedPolicy(policy, offsetDateTime);
+                                andConstraintList,
+                                orConstraintList)
+                        )
+                ));
+
+        Policy ownPolicy = new Policy(UUID.randomUUID().toString(), OffsetDateTime.now(), offsetDateTime, permissions);
+        return List.of(new AcceptedPolicy(ownPolicy, offsetDateTime));
     }
 
     @Bean

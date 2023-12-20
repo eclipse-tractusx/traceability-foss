@@ -28,6 +28,7 @@ import com.fasterxml.jackson.annotation.Nulls;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataTractionBatteryCode;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
@@ -165,7 +166,7 @@ public record JobDetailResponse(
                 .stream()
                 .map(semanticDataModel -> semanticDataModel.toDomainAsBuilt(semanticDataModel.localIdentifiers(), shortIds, owner, bpnMapping,
                         Collections.emptyList(),
-                        Collections.emptyList(), Optional.empty()))
+                        Collections.emptyList(), Optional.empty(), ImportState.PERSISTENT))
                 .toList();
         log.info(":: mapped assets: {}", assets);
         return assets;
@@ -192,7 +193,7 @@ public record JobDetailResponse(
                         bpnMapping,
                         Collections.emptyList(),
                         Collections.emptyList(),
-                        ownerBpn))
+                        ownerBpn, ImportState.PERSISTENT))
                 .toList();
         log.info(":: mapped assets: {}", assets);
         return assets;
@@ -229,7 +230,9 @@ public record JobDetailResponse(
                         bpnMapping,
                         Collections.emptyList(),
                         getChildParts(singleLevelBomRelationship, shortIds, semanticDataModel.catenaXId()),
-                        ownerBpn))
+                        ownerBpn,
+                        ImportState.PERSISTENT
+                ))
                 .toList();
         log.info(":: mapped assets: {}", assets);
         return assets;
@@ -273,7 +276,7 @@ public record JobDetailResponse(
                 .map(semanticDataModel -> semanticDataModel.toDomainAsBuilt(semanticDataModel.localIdentifiers(), shortIds, Owner.OWN, bpnMapping,
                         getParentParts(customerPartsMap, shortIds, semanticDataModel.catenaXId()),
                         getChildParts(supplierPartsMap, shortIds, semanticDataModel.catenaXId()),
-                        tractionBatteryCodeOptional))
+                        tractionBatteryCodeOptional, ImportState.PERSISTENT))
                 .toList();
         log.info(":: mapped assets: {}", assets);
         return assets;

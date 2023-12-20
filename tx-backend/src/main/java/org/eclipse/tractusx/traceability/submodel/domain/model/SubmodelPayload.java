@@ -17,25 +17,17 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.config;
+package org.eclipse.tractusx.traceability.submodel.domain.model;
 
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.IrsPolicy;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import java.util.List;
 
-@ConfigurationProperties("irs")
-public class IrsPolicyConfig {
 
-    List<IrsPolicy> policies;
+import lombok.Builder;
+import lombok.Data;
 
-    public IrsPolicyConfig(
-            List<IrsPolicy> policies
-    ) {
-        this.policies = policies;
-    }
-
-    public List<IrsPolicy> getPolicies() {
-        return this.policies;
-    }
+@Data
+@Builder
+public class SubmodelPayload {
+    private String id;
+    private String json;
 }

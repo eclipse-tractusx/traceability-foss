@@ -1,0 +1,47 @@
+<!--
+Copyright (c) 2023 Contributors to the Eclipse Foundation
+
+See the NOTICE file(s) distributed with this work for additional
+information regarding copyright ownership.
+
+This program and the accompanying materials are made available under the
+terms of the Apache License, Version 2.0 which is available at
+https://www.apache.org/licenses/LICENSE-2.0.
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License.
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title
+    ><h3>{{ 'pageAdmin.importJson.title' | i18n }}</h3></mat-card-title
+    >
+  </mat-card-header>
+  <mat-card-content>
+    <div class="import-json">
+      <div class="file-container_drag_and_drop" *ngIf="!shouldShowFileContainer_upload_file(file)">
+       <mat-icon>upload</mat-icon>
+       <input type="file" (change)="getFile($event)" class="file" />
+        <h4>{{ 'pageAdmin.importJson.Drag_and_Drop' | i18n }}</h4>
+       <p class="or">{{ 'pageAdmin.importJson.or' | i18n }}</p>
+       <div class="text-box">
+         <p class="text-box-p">{{ 'pageAdmin.importJson.browseFiles' | i18n }}</p>
+       </div>
+       <p class="error-message" *ngIf=" showError">{{ 'pageAdmin.importJson.error' | i18n }}</p>
+     </div>
+
+      <div class="file-container_upload_file" *ngIf="shouldShowFileContainer_upload_file(file)">
+        <mat-icon class="icon_uploadFile">upload_file</mat-icon>
+        <p class="file-name">{{file.name}}</p>
+        <app-button variant="raised" class="custom-button_clear" color="warn" (click)="clearFile()">{{ 'pageAdmin.importJson.clear_file' | i18n }}</app-button>
+        <app-button variant="raised" class="custom-button_upload" color="primary" (click)="uploadFile(file)">{{ 'pageAdmin.importJson.upload_file' | i18n }}</app-button>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
