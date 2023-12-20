@@ -112,6 +112,8 @@ public class ImportController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping(value = "/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> importJson(@ValidJsonFile @RequestParam("file") MultipartFile file) {
+        // JsonValidatorService.validate(file);
+
         importService.importAssets(file);
         return ResponseEntity.noContent().build();
     }

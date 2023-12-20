@@ -21,19 +21,26 @@ package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBaseService;
 import org.eclipse.tractusx.traceability.assets.application.importpoc.ImportService;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
+import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.ImportRequest;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.ImportException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
 public class ImportServiceImpl implements ImportService {
     private final ObjectMapper objectMapper;
+    private final AssetAsPlannedRepository assetAsPlannedRepository;
+    private final AssetAsBuiltRepository assetAsBuiltRepository;
 
     @Override
     public void importAssets(MultipartFile file) {
@@ -46,9 +53,18 @@ public class ImportServiceImpl implements ImportService {
             String fileContent = new String(file.getBytes(), StandardCharsets.UTF_8);
             log.info("Imported file: " + fileContent);
             ImportRequest importRequest = objectMapper.readValue(fileContent, ImportRequest.class);
-          //Submodels per assetId
-           // importRequest.assetRawRequestList().get(0).assetMetaInfoRequest().catenaXId();
-          //  importRequest.assetRawRequestList().get(0).submodels();
+            List<AssetBase> persistedAsBuilts = this.assetAsBuiltRepository.saveAll(importRequest.convertAssetsAsBuilt());
+            try {
+                log.info("persistedAsBuilts as JSON {}", objectMapper.writeValueAsString(persistedAsBuilts));
+            } catch (Exception e) {
+                log.error("exception", e);
+            }
+            List<AssetBase> persistedAsPlanned = this.assetAsPlannedRepository.saveAll(importRequest.convertAssetsAsPlanned());
+            try {
+                log.info("persistedAsPlanned as JSON {}", objectMapper.writeValueAsString(persistedAsPlanned));
+            } catch (Exception e) {
+                log.error("exception", e);
+            }
         } catch (Exception e) {
             throw new ImportException(e.getMessage());
         }
