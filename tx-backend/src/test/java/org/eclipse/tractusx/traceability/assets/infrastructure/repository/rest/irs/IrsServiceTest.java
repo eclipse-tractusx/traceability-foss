@@ -40,7 +40,6 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.LinkedItem;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Relationship;
-
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.ManufacturingInformation;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.MeasurementUnit;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.PartTypeInformation;
@@ -106,7 +105,7 @@ class IrsServiceTest {
         when(traceabilityProperties.getRightOperand()).thenReturn("test");
         when(traceabilityProperties.getOperatorType()).thenReturn("eq");
         when(traceabilityProperties.getLeftOperand()).thenReturn("PURPOSE");
-        when(traceabilityProperties.getValidUntil()).thenReturn(OffsetDateTime.parse("2023-07-02T16:01:05.309Z"));
+        when(traceabilityProperties.getValidUntil()).thenReturn("2023-07-02T16:01:05.309Z");
 
         // when
         irsService.createIrsPolicyIfMissing();
@@ -126,7 +125,7 @@ class IrsServiceTest {
         final PolicyResponse existingPolicy = new PolicyResponse("test", OffsetDateTime.parse("2023-07-03T16:01:05.309Z"), OffsetDateTime.now(), List.of());
         when(irsClient.getPolicies()).thenReturn(List.of(existingPolicy));
         when(traceabilityProperties.getRightOperand()).thenReturn("test");
-        when(traceabilityProperties.getValidUntil()).thenReturn(OffsetDateTime.parse("2023-07-02T16:01:05.309Z"));
+        when(traceabilityProperties.getValidUntil()).thenReturn("2023-07-02T16:01:05.309Z");
 
         // when
         irsService.createIrsPolicyIfMissing();
@@ -147,7 +146,7 @@ class IrsServiceTest {
         when(traceabilityProperties.getRightOperand()).thenReturn("test");
         when(traceabilityProperties.getOperatorType()).thenReturn("eq");
         when(traceabilityProperties.getLeftOperand()).thenReturn("PURPOSE");
-        when(traceabilityProperties.getValidUntil()).thenReturn(OffsetDateTime.now());
+        when(traceabilityProperties.getValidUntil()).thenReturn("2023-07-02T16:01:05.309Z");
 
         // when
         irsService.createIrsPolicyIfMissing();
