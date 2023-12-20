@@ -25,6 +25,7 @@ traceability:
   leftOperand: ${TRACEABILITY_LEFT_OPERAND}
   operatorType: ${TRACEABILITY_OPERATOR_TYPE}
   rightOperand: ${TRACEABILITY_RIGHT_OPERAND}
+  validUntil: ${TRACEABILITY_VALID_UNTIL}
 
 
 
