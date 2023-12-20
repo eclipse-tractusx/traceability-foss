@@ -39,7 +39,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:1.0.0#SingleLevelBomAsBuilt",
+          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt",
           "payload" : {
             "catenaXId" : "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22",
             "childItems" : [
@@ -48,6 +48,7 @@
                   "quantityNumber" : 1,
                   "measurementUnit" : "unit:piece"
                 },
+                "hasAlternatives" : true,
                 "createdOn" : "2022-02-03T14:48:54.709Z",
                 "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
                 "catenaXId" : "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd",
@@ -97,7 +98,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:1.0.0#SingleLevelBomAsBuilt",
+          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt",
           "payload" : {
             "catenaXId" : "urn:uuid:d8030bbf-a874-49fb-b2e1-7610f0ccad12",
             "childItems" : [
@@ -106,6 +107,7 @@
                   "quantityNumber" : 1,
                   "measurementUnit" : "unit:piece"
                 },
+                "hasAlternatives" : true,
                 "createdOn" : "2021-01-15T14:48:54.709Z",
                 "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
                 "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a",
@@ -217,7 +219,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:1.0.0#SingleLevelBomAsBuilt",
+          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt",
           "payload" : {
             "catenaXId" : "urn:uuid:7c7d5aec-b15d-491c-8fbd-c61c6c02c69a",
             "childItems" : [
@@ -226,6 +228,7 @@
                   "quantityNumber" : 1,
                   "measurementUnit" : "unit:piece"
                 },
+                "hasAlternatives" : true,
                 "createdOn" : "2022-11-22T14:48:54.709Z",
                 "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
                 "catenaXId" : "urn:uuid:f11ddc62-3bd5-468f-b7b0-110fe13ed0cd",
@@ -431,7 +434,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:1.0.0#SingleLevelBomAsBuilt",
+          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt",
           "payload" : {
             "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa02",
             "childItems" : [
@@ -440,6 +443,7 @@
                   "quantityNumber" : 1,
                   "measurementUnit" : "unit:piece"
                 },
+                "hasAlternatives" : true,
                 "createdOn" : "2016-01-20T14:48:54.709Z",
                 "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
                 "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb01",

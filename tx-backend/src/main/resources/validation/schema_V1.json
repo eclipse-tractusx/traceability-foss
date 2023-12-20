@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "assetMetaInfo": {
+            "type": "object",
+            "properties": {
+              "catenaXId": {
+                "type": "string",
+                "format": "uuid"
+              }
+            },
+            "required": ["catenaXId"]
+          },
+          "submodels": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "aspectType": {
+                  "type": "string"
+                },
+                "identification": {
+                  "type": "string"
+                },
+                "payload": {
+                  "oneOf": [
+                    { "$ref": "./Batch_2.0.0-schema.json" },
+                    { "$ref": "./JustInSequencePart_1.0.0-schema.json" },
+                    { "$ref": "./SerialPart_1.0.1-schema.json" },
+                    { "$ref": "./PartSiteInformationAsPlanned_1.0.0-schema.json" },
+                    { "$ref": "./SingleLevelBomAsBuilt_2.0.0-schema.json" },
+                    { "$ref": "./SingleLevelUsageAsBuilt_2.0.0-schema.json" },
+                    { "$ref": "./TractionBatteryCode_1.0.0-schema.json" },
+                    { "$ref": "./PartAsPlanned_1.0.1-schema.json" },
+                    { "$ref": "./SingleLevelBomAsPlanned_2.0.0-schema.json" },
+                    { "$ref": "./SingleLevelUsageAsPlanned_1.1.0-schema.json" } //currently not available on semantic hub
+                  ]
+                }
+              },
+              "required": ["aspectType", "payload"]
+            }
+          }
+        },
+        "required": ["assetMetaInfo", "submodels"]
+      }
+    }
+  },
+  "required": ["assets"]
+}
