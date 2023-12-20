@@ -44,7 +44,7 @@ public record AssetWrapperRequest(AssetMetaInfoRequest assetMetaInfoRequest,
 
 
     private static boolean isUpwardRelationship(final String aspectType) {
-        return aspectType.contains("BOM");
+        return aspectType.contains("Bom");
     }
 
     private static boolean isDownwardRelationship(final String aspectType) {

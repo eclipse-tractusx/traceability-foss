@@ -44,7 +44,6 @@ class ImportRequestTest {
         ObjectMapper objectMapper = new ObjectMapper();
         ImportRequest importRequest = objectMapper.readValue(jsonString, ImportRequest.class);
 
-
         // Your test logic goes here
         Assertions.assertNotNull(importRequest);
     }
