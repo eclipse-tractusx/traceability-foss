@@ -461,8 +461,6 @@
 
   .mdc-tab-indicator .mdc-tab-indicator__content--underline {
     border-top-width: 3px !important;
-    border-radius: 100px 100px 0px 0px !important;
-    max-width: 95px !important;
   }
 
   .mdc-data-table__cell,
@@ -903,19 +901,7 @@ app-parts-table {
   }
 }
 
-//dateTime-component
-// I believe this is no longer needed without an ViewEncapsulation.none. (At least I don't see any changes in the position of the icon after removing.
-// Please check in Review if the date picker icon in the request quality investigation deadline field is still centered in the hover effect.
-// app-date-time {
-//   .date-picker-icon .mdc-icon-button {
-//     padding-bottom: 0px !important;
-//     padding-top: 2px !important;
-//     margin-bottom: 3px !important;
-//   }
-// }
-
 // input-component
-
 app-input {
   input:focus {
     border-color: black;
