@@ -21,30 +21,19 @@ package org.eclipse.tractusx.traceability.assets.domain.importpoc;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataTractionBatteryCode;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Submodel;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Relationship;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.SemanticDataModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import static org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType.SINGLE_LEVEL_BOM_AS_BUILT;
-import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.SINGLE_LEVEL_USAGE_AS_BUILT;
-import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.TRACTION_BATTERY_CODE;
 
 @Slf4j
 public record ImportRequest(
-        List<AssetWrapperRequest> assetAsBuiltWrapperRequest,
-        List<AssetWrapperRequest> assetAsPlannedWrapperRequest
+        Map<BomLifecycle, List<AssetWrapperRequest>> bomLifecycleToAssetWrapperRequestList
 ) {
 
 
@@ -64,16 +53,20 @@ public record ImportRequest(
 
             List<Submodel> mainAspectsAsBuilt = assetWrapperRequest.mainAspectModels().stream().filter(submodel -> !isAsPlanned(submodel.getAspectType())).toList();
             List<Submodel> upwardAspectsAsBuilt = assetWrapperRequest.upwardRelationship().stream().filter(submodel -> !isAsPlanned(submodel.getAspectType())).toList();
-            List<Submodel> downwardAspectsAsasBuilt = assetWrapperRequest.downwardRelationship().stream().filter(submodel -> !isAsPlanned(submodel.getAspectType())).toList();
+            List<Submodel> downwardAspectsAsBuilt = assetWrapperRequest.downwardRelationship().stream().filter(submodel -> !isAsPlanned(submodel.getAspectType())).toList();
 
-            assetAsPlannedWrapperRequest.add(new AssetWrapperRequest(assetMetaInfoRequest, mainAspectsAsPlanned, upwardAspectsAsPlanned, downwardAspectsAsPlanned));
-            assetAsBuiltWrapperRequest.add(new AssetWrapperRequest(assetMetaInfoRequest, mainAspectsAsBuilt, upwardAspectsAsBuilt, downwardAspectsAsasBuilt));
-
+            if (!mainAspectsAsPlanned.isEmpty()) {
+                assetAsPlannedWrapperRequest.add(new AssetWrapperRequest(assetMetaInfoRequest, mainAspectsAsPlanned, upwardAspectsAsPlanned, downwardAspectsAsPlanned));
+            }
+            if (!mainAspectsAsBuilt.isEmpty()) {
+                assetAsBuiltWrapperRequest.add(new AssetWrapperRequest(assetMetaInfoRequest, mainAspectsAsBuilt, upwardAspectsAsBuilt, downwardAspectsAsBuilt));
+            }
         }
+        Map<BomLifecycle, List<AssetWrapperRequest>> bomLifecycleToAssetWrapperList = new EnumMap<>(BomLifecycle.class);
 
-        return new ImportRequest(
-                assetAsBuiltWrapperRequest, assetAsPlannedWrapperRequest
-        );
+        bomLifecycleToAssetWrapperList.put(BomLifecycle.AS_BUILT, assetAsBuiltWrapperRequest);
+        bomLifecycleToAssetWrapperList.put(BomLifecycle.AS_PLANNED, assetAsPlannedWrapperRequest);
+        return new ImportRequest(bomLifecycleToAssetWrapperList);
     }
 
     public List<AssetBase> convertAssetsAsBuilt() {
@@ -85,7 +78,9 @@ public record ImportRequest(
     }
 
     private List<AssetBase> mapToOwnPartsAsBuilt(Map<String, String> shortIds, Map<String, String> bpnMapping) {
-        List<AssetWrapperRequest> assetWrapperRequests = assetAsBuiltWrapperRequest();
+
+        List<AssetWrapperRequest> assetWrapperRequests = bomLifecycleToAssetWrapperRequestList.get(BomLifecycle.AS_BUILT);
+/*        List<AssetWrapperRequest> assetWrapperRequests = assetAsBuiltWrapperRequest();
 
         List<SemanticDataModel> ownParts = semanticDataModels().stream()
                 .filter(semanticDataModel -> Aspect.isMasterAspect(semanticDataModel.getAspectType()))
@@ -117,12 +112,13 @@ public record ImportRequest(
                         tractionBatteryCodeOptional, ImportState.TRANSIENT))
                 .toList();
         log.info(":: mapped assets: {}", assets);
-        return assets;
+        return assets;*/
+        return Collections.emptyList();
     }
 
     private List<AssetBase> mapToOwnPartsAsPlanned(Map<String, String> shortIds, Map<String, String> bpnMapping) {
-
-        List<SemanticDataModel> ownPartsAsPlanned =
+        List<AssetWrapperRequest> assetWrapperRequests = bomLifecycleToAssetWrapperRequestList.get(BomLifecycle.AS_PLANNED);
+      /*  List<SemanticDataModel> ownPartsAsPlanned =
                 semanticDataModels().stream()
                         .filter(semanticDataModel -> isOwnPart(semanticDataModel, jobStatus))
                         .filter(semanticDataModel -> Aspect.isMasterAspect(semanticDataModel.aspectType())).toList();
@@ -156,7 +152,8 @@ public record ImportRequest(
                 ))
                 .toList();
         log.info(":: mapped assets: {}", assets);
-        return assets;
+        return assets;*/
+        return Collections.emptyList();
     }
 
     private static boolean isAsPlanned(final String aspectType) {

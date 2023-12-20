@@ -20,10 +20,8 @@ package org.eclipse.tractusx.traceability.assets.domain.importpoc;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Submodel;
 
-import java.util.Collections;
 import java.util.List;
 
 public record AssetWrapperRequest(AssetMetaInfoRequest assetMetaInfoRequest,
@@ -42,12 +40,8 @@ public record AssetWrapperRequest(AssetMetaInfoRequest assetMetaInfoRequest,
         List<Submodel> downwardSubmodels = submodels.stream().filter(submodel -> isDownwardRelationship(submodel.getAspectType())).toList();
         List<Submodel> mainAspectSubmodels = submodels.stream().filter(submodel -> isMainAspect(submodel.getAspectType())).toList();
         return new AssetWrapperRequest(assetMetaInfoRequest, mainAspectSubmodels, upwardSubmodels, downwardSubmodels);
-
     }
 
-    public List<AssetBase> convertAssets() {
-        return Collections.emptyList();
-    }
 
     private static boolean isUpwardRelationship(final String aspectType) {
         return aspectType.contains("BOM");
