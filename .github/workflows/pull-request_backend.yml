@@ -42,7 +42,7 @@ jobs:
             CHANGELOG.md
       - name: List all changed files
         uses: ntsd/auto-request-changes-action@v3
-        if: steps.udpated-changelog.outputs.all_changed_files = 'false'
+        if: steps.udpated-changelog.outputs.all_changed_files == 'false'
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
           review-message: "Please update CHANGELOG.md"
