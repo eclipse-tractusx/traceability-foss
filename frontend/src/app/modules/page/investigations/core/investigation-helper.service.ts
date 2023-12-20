@@ -29,6 +29,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
+// TODO: make this and alert helper service to notification helper service to reduce duplication
 export class InvestigationHelperService {
   constructor(private readonly roleService: RoleService, private readonly investigationsFacade: InvestigationsFacade) {
   }
