@@ -27,6 +27,27 @@ env:
   DOCKER_HUB_REGISTRY_NAMESPACE: tractusx
 
 jobs:
+  Check-Changelog-update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check if CHANGELOG is updated
+        id: udpated-changelog
+        uses: tj-actions/changed-files@v40
+        with:
+          # Avoid using single or double quotes for multiline patterns
+          files: |
+            CHANGELOG.md
+      - name: List all changed files
+        uses: ntsd/auto-request-changes-action@v3
+        if: steps.udpated-changelog.outputs.all_changed_files = 'false'
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          review-message: "Please update CHANGELOG.md"
+
+
   Test-and-Sonar:
     permissions:
       checks: write
