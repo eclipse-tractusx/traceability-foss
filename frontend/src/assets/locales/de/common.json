@@ -70,14 +70,6 @@
       "alert": "Qualitätswarnung",
       "investigation": "Qualitätsuntersuchung"
     },
-    "adminColumn": {
-      "startDate": "Startdatum",
-      "registryLookupStatus": "Status",
-      "successShellDescriptorsFetchCount": "Erfolgreiche Abrufe",
-      "failedShellDescriptorsFetchCount": "Fehlgeschlagene Abrufe",
-      "shellDescriptorsFetchDelta": "Abruf-Delta",
-      "endDate": "Enddatum"
-    },
     "column": {
       "id": "ID",
       "idShort": "Kurz-ID",

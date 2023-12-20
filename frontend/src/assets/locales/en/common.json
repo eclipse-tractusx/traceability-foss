@@ -70,14 +70,6 @@
       "alert": "Quality Alert",
       "investigation": "Quality Investigation"
     },
-    "adminColumn": {
-      "startDate": "Start date",
-      "registryLookupStatus": "Status",
-      "successShellDescriptorsFetchCount": "Successful fetches",
-      "failedShellDescriptorsFetchCount": "Failed fetches",
-      "shellDescriptorsFetchDelta": "Fetch Delta",
-      "endDate": "End date"
-    },
     "column": {
       "id": "ID",
       "idShort": "ID Short",
