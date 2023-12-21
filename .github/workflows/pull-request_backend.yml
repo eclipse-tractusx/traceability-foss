@@ -29,7 +29,7 @@ env:
 jobs:
   Check-Changelog-update:
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/heads/chore')
+    if: ${{ startsWith(github.ref, 'refs/heads/feature') || startsWith(github.ref, 'refs/heads/chore') }}
     steps:
       - uses: actions/checkout@v4
         with:
