@@ -2,11 +2,11 @@
   "assets" : [
     {
       "assetMetaInfo" : {
-        "catenaXId" : "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd"
+        "catenaXId" : "invalidUUID"
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "invalidParam" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
           "identification" : "1234",
           "payload" : {
             "localIdentifiers" : [
@@ -613,11 +613,11 @@
         {
           "aspectType" : "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
           "payload" : {
-            "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4c79e",
+            "invalidcatenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4c79e",
             "sites" : [
               {
-                "functionValidUntil" : "2025-04-04T04:14:11.000Z",
-                "catenaXsiteId" : "BPNS000004711DMY",
+                "invalidValidUntil" : "2025-04-04T04:14:11.000Z",
+                "invalidXsiteId" : "BPNS000004711DMY",
                 "function" : "production",
                 "functionValidFrom" : "2018-03-24T13:38:32.000Z"
               }

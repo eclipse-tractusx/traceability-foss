@@ -16,15 +16,19 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+
 package org.eclipse.tractusx.traceability.assets.application.importpoc.validation;
 
-import jakarta.validation.Payload;
+import lombok.Getter;
 
-public @interface ValidJsonFile {
+import java.util.List;
 
-    String message() default "File must be a valid JSON file";
+@Getter
+public class JsonFileValidationException extends RuntimeException {
+    private List<String> validationErrors;
 
-    Class<?>[] groups() default {};
-
-    Class<? extends Payload>[] payload() default {};
+    JsonFileValidationException(List<String> validationErrors) {
+        super();
+        this.validationErrors = validationErrors;
+    }
 }
