@@ -613,11 +613,11 @@
         {
           "aspectType" : "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
           "payload" : {
-            "invalidcatenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4c79e",
+            "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4c79e",
             "sites" : [
               {
-                "invalidValidUntil" : "2025-04-04T04:14:11.000Z",
-                "invalidXsiteId" : "BPNS000004711DMY",
+                "validUntil" : "2025-04-04T04:14:11.000Z",
+                "catenaXsiteId" : "BPNS000004711DMY",
                 "function" : "production",
                 "functionValidFrom" : "2018-03-24T13:38:32.000Z"
               }
