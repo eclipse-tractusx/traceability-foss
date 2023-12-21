@@ -19,31 +19,22 @@
 
 package org.eclipse.tractusx.traceability.integration.importdata;
 
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.service.ImportServiceImpl;
 import org.eclipse.tractusx.traceability.common.security.JwtRole;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.io.File;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
 
 class ImportControllerIT extends IntegrationTestSpecification {
-
-
-    @MockBean
-    ImportServiceImpl importService;
 
     @Test
     void givenValidFile_whenImportData_thenValidationShouldPass() throws JoseException {
         // given
-        doNothing().when(importService).importAssets(any());
         String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
         File file = new File(path);
 
@@ -60,7 +51,6 @@ class ImportControllerIT extends IntegrationTestSpecification {
     @Test
     void givenInvalidFile_whenImportData_thenValidationShouldNotPass() throws JoseException {
         // given
-        doNothing().when(importService).importAssets(any());
         String path = getClass().getResource("/testdata/importfiles/invalidImportFile.json").getFile();
         File file = new File(path);
 
