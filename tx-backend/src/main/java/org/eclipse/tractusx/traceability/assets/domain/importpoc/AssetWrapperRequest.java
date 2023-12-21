@@ -25,6 +25,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Submodel;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.SemanticDataModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public record AssetWrapperRequest(AssetMetaInfoRequest assetMetaInfoRequest,
@@ -50,17 +51,22 @@ public record AssetWrapperRequest(AssetMetaInfoRequest assetMetaInfoRequest,
     }
 
     private static List<SemanticDataModel> transformMainAspectModel(List<GenericSubmodel> submodels) {
-        return submodels.stream()
-                .map(submodel -> (SemanticDataModel) submodel.getPayload()).toList();
+        List<SemanticDataModel> semanticDataModels = new ArrayList<>();
+        for (GenericSubmodel submodel : submodels){
+            SemanticDataModel payload = (SemanticDataModel) submodel.getPayload();
+            payload.setAspectType(submodel.getAspectType());
+            semanticDataModels.add(payload);
+        }
+        return semanticDataModels;
     }
 
 
     private static boolean isUpwardRelationship(final String aspectType) {
-        return aspectType.contains("Bom");
+        return aspectType.contains("Usage");
     }
 
     private static boolean isDownwardRelationship(final String aspectType) {
-        return aspectType.contains("Usage");
+        return aspectType.contains("Bom");
     }
 
     private static boolean isMainAspect(final String aspectType) {
