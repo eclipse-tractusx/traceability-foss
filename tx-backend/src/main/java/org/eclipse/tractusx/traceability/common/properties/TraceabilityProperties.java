@@ -25,6 +25,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 import java.time.OffsetDateTime;
@@ -42,6 +43,7 @@ public class TraceabilityProperties {
     private String leftOperand;
     private String operatorType;
     private String rightOperand;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private OffsetDateTime validUntil;
 
 
