@@ -137,6 +137,7 @@ public class InvestigationsController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping
+    @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR', 'ROLE_USER')")
     @ResponseStatus(HttpStatus.CREATED)
     public QualityNotificationIdResponse investigateAssets(@RequestBody @Valid StartQualityNotificationRequest request) {
         StartQualityNotificationRequest cleanRequest = sanitize(request);
@@ -313,6 +314,7 @@ public class InvestigationsController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("/{investigationId}/approve")
+    @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void approveInvestigation(@PathVariable Long investigationId) {
         log.info(API_LOG_START + "/{}/approve", investigationId);
@@ -375,6 +377,7 @@ public class InvestigationsController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("/{investigationId}/cancel")
+    @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR', 'ROLE_USER')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void cancelInvestigation(@PathVariable Long investigationId) {
         log.info(API_LOG_START + "/{}/cancel", investigationId);
@@ -435,7 +438,7 @@ public class InvestigationsController {
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
+    @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR')")
     @PostMapping("/{investigationId}/close")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void closeInvestigation(@PathVariable Long investigationId, @Valid @RequestBody CloseQualityNotificationRequest closeInvestigationRequest) {
@@ -498,7 +501,7 @@ public class InvestigationsController {
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
-    @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR')")
+    @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR', 'ROLE_USER')")
     @PostMapping("/{investigationId}/update")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateInvestigation(@PathVariable Long investigationId, @Valid @RequestBody UpdateQualityNotificationRequest updateInvestigationRequest) {

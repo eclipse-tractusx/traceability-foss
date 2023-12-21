@@ -135,6 +135,7 @@ public class AlertController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping
+    @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR', 'ROLE_USER')")
     @ResponseStatus(HttpStatus.CREATED)
     public QualityNotificationIdResponse alertAssets(@RequestBody @Valid StartQualityNotificationRequest request) {
         StartQualityNotificationRequest cleanStartQualityNotificationRequest = sanitize(request);
@@ -314,6 +315,7 @@ public class AlertController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("/{alertId}/approve")
+    @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void approveAlert(@PathVariable Long alertId) {
         log.info(API_LOG_START + "/{}/approve", alertId);
@@ -377,6 +379,7 @@ public class AlertController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("/{alertId}/cancel")
+    @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR', 'ROLE_USER')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void cancelAlert(@PathVariable Long alertId) {
         log.info(API_LOG_START + "/{}/cancel", alertId);
@@ -439,7 +442,7 @@ public class AlertController {
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
+    @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR')")
     @PostMapping("/{alertId}/close")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void closeAlert(
@@ -503,7 +506,7 @@ public class AlertController {
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
-    @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR')")
+    @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR', 'ROLE_USER')")
     @PostMapping("/{alertId}/update")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateAlert(

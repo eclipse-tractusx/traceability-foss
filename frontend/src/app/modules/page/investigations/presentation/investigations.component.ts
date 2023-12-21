@@ -24,6 +24,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { getRoute, INVESTIGATION_BASE_ROUTE } from '@core/known-route';
 import { InvestigationDetailFacade } from '@page/investigations/core/investigation-detail.facade';
 import { InvestigationHelperService } from '@page/investigations/core/investigation-helper.service';
+import { NotificationActionHelperService } from '@shared/assembler/notification-action-helper.service';
 import { NotificationMenuActionsAssembler } from '@shared/assembler/notificationMenuActions.assembler';
 import { NotificationChannel } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
@@ -68,6 +69,7 @@ export class InvestigationsComponent {
 
   constructor(
     public readonly helperService: InvestigationHelperService,
+    private readonly actionHelperService: NotificationActionHelperService,
     public readonly investigationsFacade: InvestigationsFacade,
     private readonly investigationDetailFacade: InvestigationDetailFacade,
     private readonly router: Router,
@@ -96,7 +98,7 @@ export class InvestigationsComponent {
   }
 
   public ngAfterViewInit(): void {
-    this.menuActionsConfig = NotificationMenuActionsAssembler.getMenuActions(this.helperService, this.notificationCommonModalComponent);
+    this.menuActionsConfig = NotificationMenuActionsAssembler.getMenuActions(this.actionHelperService, this.notificationCommonModalComponent);
     this.cd.detectChanges();
   }
 
