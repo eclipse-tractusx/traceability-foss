@@ -23,7 +23,7 @@ import { ImportJsonComponent } from '@page/admin/presentation/import-json/import
 import { screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 
-fdescribe('ImportJsonComponent', () => {
+describe('ImportJsonComponent', () => {
   const jsonFileContent = {
     key1: 'value1',
     key2: 'value2',
