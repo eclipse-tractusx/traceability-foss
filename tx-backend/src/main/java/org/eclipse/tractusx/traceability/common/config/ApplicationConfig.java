@@ -167,7 +167,7 @@ public class ApplicationConfig {
         return new ArrayList<>(irsPolicies);
     }
 
-    private List<AcceptedPolicy> createOwnAcceptedPolicies(String offsetDateTime) {
+    private List<AcceptedPolicy> createOwnAcceptedPolicies(OffsetDateTime offsetDateTime) {
         List<Constraint> andConstraintList = new ArrayList<>();
         List<Constraint> orConstraintList = new ArrayList<>();
         andConstraintList.add(new Constraint(traceabilityProperties.getLeftOperand(), OperatorType.fromValue(traceabilityProperties.getOperatorType()), List.of(traceabilityProperties.getRightOperand())));
@@ -182,8 +182,8 @@ public class ApplicationConfig {
                         )
                 ));
 
-        Policy ownPolicy = new Policy(UUID.randomUUID().toString(), OffsetDateTime.now(), OffsetDateTime.parse(offsetDateTime), permissions);
-        return List.of(new AcceptedPolicy(ownPolicy, OffsetDateTime.parse(offsetDateTime)));
+        Policy ownPolicy = new Policy(UUID.randomUUID().toString(), OffsetDateTime.now(), offsetDateTime, permissions);
+        return List.of(new AcceptedPolicy(ownPolicy, offsetDateTime));
     }
 
     @Bean

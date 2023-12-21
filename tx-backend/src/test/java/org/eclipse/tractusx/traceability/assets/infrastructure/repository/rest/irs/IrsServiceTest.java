@@ -105,7 +105,7 @@ class IrsServiceTest {
         when(traceabilityProperties.getRightOperand()).thenReturn("test");
         when(traceabilityProperties.getOperatorType()).thenReturn("eq");
         when(traceabilityProperties.getLeftOperand()).thenReturn("PURPOSE");
-        when(traceabilityProperties.getValidUntil()).thenReturn("2023-07-02T16:01:05.309Z");
+        when(traceabilityProperties.getValidUntil()).thenReturn(OffsetDateTime.parse("2023-07-02T16:01:05.309Z"));
 
         // when
         irsService.createIrsPolicyIfMissing();
@@ -125,7 +125,7 @@ class IrsServiceTest {
         final PolicyResponse existingPolicy = new PolicyResponse("test", OffsetDateTime.parse("2023-07-03T16:01:05.309Z"), OffsetDateTime.now(), List.of());
         when(irsClient.getPolicies()).thenReturn(List.of(existingPolicy));
         when(traceabilityProperties.getRightOperand()).thenReturn("test");
-        when(traceabilityProperties.getValidUntil()).thenReturn("2023-07-02T16:01:05.309Z");
+        when(traceabilityProperties.getValidUntil()).thenReturn(OffsetDateTime.parse("2023-07-02T16:01:05.309Z"));
 
         // when
         irsService.createIrsPolicyIfMissing();
@@ -142,7 +142,7 @@ class IrsServiceTest {
         when(traceabilityProperties.getRightOperand()).thenReturn("test");
         when(traceabilityProperties.getOperatorType()).thenReturn("eq");
         when(traceabilityProperties.getLeftOperand()).thenReturn("PURPOSE");
-        when(traceabilityProperties.getValidUntil()).thenReturn("2023-07-04T16:01:05.309Z");
+        when(traceabilityProperties.getValidUntil()).thenReturn(OffsetDateTime.parse("2023-07-04T16:01:05.309Z"));
 
         // when
         irsService.createIrsPolicyIfMissing();

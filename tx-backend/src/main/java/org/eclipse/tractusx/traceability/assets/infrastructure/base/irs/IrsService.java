@@ -39,7 +39,6 @@ import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.stereotype.Service;
 
-import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -111,17 +110,17 @@ public class IrsService implements IrsRepository {
 
     private void createPolicy() {
         log.info("Irs policy does not exist creating {}", traceabilityProperties.getRightOperand());
-        irsClient.registerPolicy(RegisterPolicyRequest.from(traceabilityProperties.getLeftOperand(), OperatorType.fromValue(traceabilityProperties.getOperatorType()), traceabilityProperties.getRightOperand(), traceabilityProperties.getValidUntil().toString()));
+        irsClient.registerPolicy(RegisterPolicyRequest.from(traceabilityProperties.getLeftOperand(), OperatorType.fromValue(traceabilityProperties.getOperatorType()), traceabilityProperties.getRightOperand(), traceabilityProperties.getValidUntil()));
     }
 
     private void checkAndUpdatePolicy(List<PolicyResponse> requiredPolicies) {
         Optional<PolicyResponse> requiredPolicy = requiredPolicies.stream().filter(policyItem -> policyItem.policyId().equals(traceabilityProperties.getRightOperand())).findFirst();
         if (requiredPolicy.isPresent() &&
-                OffsetDateTime.parse(traceabilityProperties.getValidUntil()).isAfter(requiredPolicy.get().validUntil())
+                traceabilityProperties.getValidUntil().isAfter(requiredPolicy.get().validUntil())
         ) {
             log.info("IRS Policy {} has outdated validity updating new ttl {}", traceabilityProperties.getRightOperand(), requiredPolicy);
             irsClient.deletePolicy(traceabilityProperties.getRightOperand());
-            irsClient.registerPolicy(RegisterPolicyRequest.from(traceabilityProperties.getLeftOperand(), OperatorType.fromValue(traceabilityProperties.getOperatorType()), traceabilityProperties.getRightOperand(), traceabilityProperties.getValidUntil().toString()));
+            irsClient.registerPolicy(RegisterPolicyRequest.from(traceabilityProperties.getLeftOperand(), OperatorType.fromValue(traceabilityProperties.getOperatorType()), traceabilityProperties.getRightOperand(), traceabilityProperties.getValidUntil()));
         }
     }
 
