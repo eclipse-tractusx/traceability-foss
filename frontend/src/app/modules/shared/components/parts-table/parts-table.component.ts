@@ -36,6 +36,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { EmptyPagination, Pagination } from '@core/model/pagination.model';
+import { RoleService } from '@core/user/role.service';
 import { TableSettingsService } from '@core/user/table-settings.service';
 import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
@@ -127,7 +128,9 @@ export class PartsTableComponent implements OnInit {
     private dialog: MatDialog,
     private router: Router,
     private toastService: ToastService,
-    private deeplinkService: DeeplinkService) {
+    private deeplinkService: DeeplinkService,
+    public roleService: RoleService
+    ) {
   }
 
 

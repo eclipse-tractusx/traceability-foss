@@ -29,11 +29,13 @@ const ROLES_RELATIONS: RoleRelation[] = [
   },
   {
     role: 'admin',
-    child: 'supervisor',
   },
   {
     role: 'supervisor',
     child: 'user',
+  },
+  {
+    role: 'user',
   },
 ];
 
@@ -50,7 +52,10 @@ export class RoleService {
     const roles = this.userService.roles.map(role => role.toLocaleLowerCase());
     const allPossibleRoles = [ ...requiredRolesList, ...this.getParentsRolesFor(requiredRolesList) ];
 
-    return allPossibleRoles.some(possibleRole => roles.includes(possibleRole));
+    if(allPossibleRoles.some(possibleRole => roles.includes(possibleRole))) {
+      return true;
+    } else return roles.includes('admin') && requiredRolesList.includes('admin');
+
   }
 
   public isAtLeastSupervisor(): boolean {
@@ -59,6 +64,10 @@ export class RoleService {
 
   public isAtLeastUser(): boolean {
     return this.hasAccess('user');
+  }
+
+  public isAdmin(): boolean {
+    return this.hasAccess('admin')
   }
 
   private getParentsRolesFor(lookupRoles: Role[]): Role[] {

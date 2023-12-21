@@ -16,26 +16,11 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-
-package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.config;
-
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.IrsPolicy;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
-import java.util.List;
-
-@ConfigurationProperties("irs")
-public class IrsPolicyConfig {
-
-    List<IrsPolicy> policies;
-
-    public IrsPolicyConfig(
-            List<IrsPolicy> policies
-    ) {
-        this.policies = policies;
-    }
-
-    public List<IrsPolicy> getPolicies() {
-        return this.policies;
-    }
+export enum NotificationAction {
+  APPROVE = 'approve',
+  CANCEL = 'cancel',
+  CLOSE = 'close',
+  ACKNOWLEDGE = 'acknowledge',
+  ACCEPT = 'accept',
+  DECLINE = 'decline',
 }
