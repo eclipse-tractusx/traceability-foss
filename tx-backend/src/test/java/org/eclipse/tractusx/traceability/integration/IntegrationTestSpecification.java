@@ -57,11 +57,6 @@ public class IntegrationTestSpecification {
     @Autowired
     DatabaseSupport databaseSupport;
 
-    static {
-        System.setProperty("TRACEABILITY_VALID_UNTIL", "2023-07-04T16:01:05.309Z");
-    }
-
-
     @BeforeEach
     void beforeEach() throws JoseException {
         oAuth2ApiSupport.oauth2ApiReturnsJwkCerts(oAuth2Support.jwk());
