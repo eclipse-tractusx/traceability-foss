@@ -37,8 +37,6 @@ import java.util.List;
 @Component
 public class JsonFileValidator {
 
-    private final String VALIDATION_SCHEMA_PATH = "/validation/schema_V1.json";
-
     public List<String> isValid(MultipartFile file) {
         if (file == null || file.isEmpty()) {
             return List.of();
@@ -49,7 +47,7 @@ public class JsonFileValidator {
             final List<String> errors = new ArrayList<>();
             Validator validator = new Validator();
 
-            URL url = getClass().getResource(VALIDATION_SCHEMA_PATH);
+            URL url = getClass().getResource("/validation/schema_V1.json");
 
             Schema schema = schemaStore.loadSchema(url);
             File tempFile = File.createTempFile("temp", null);
@@ -62,10 +60,8 @@ public class JsonFileValidator {
                 return errors;
             }
 
-        } catch (GenerationException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (GenerationException | IOException e) {
+            throw new IllegalStateException(e);
         }
         return List.of();
     }
