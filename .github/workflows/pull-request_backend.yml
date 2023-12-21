@@ -29,7 +29,7 @@ env:
 jobs:
   Check-Changelog-update:
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/heads/feature')
+    if: startsWith(github.ref, 'refs/heads/feature') || startsWith(github.ref, 'refs/heads/chore')
     steps:
       - uses: actions/checkout@v4
         with:
@@ -46,7 +46,7 @@ jobs:
         if: steps.udpated-changelog.outputs.any_changed == 'false'
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
-          review-message: "Please update CHANGELOG.md"
+          review-message: "Please add a short description of the feature/fix to the Changelog.md."
 
   Test-and-Sonar:
     permissions:
