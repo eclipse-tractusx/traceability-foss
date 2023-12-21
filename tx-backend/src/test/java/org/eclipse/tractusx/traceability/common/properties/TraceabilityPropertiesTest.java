@@ -35,6 +35,9 @@ class TraceabilityPropertiesTest {
     @Autowired
     TraceabilityProperties traceabilityProperties;
 
+    static {
+        System.setProperty("TRACEABILITY_VALID_UNTIL", "2023-07-04T16:01:05.309Z");
+    }
     @Test
     public void test_traceabilityProperties() {
         //GIVEN
