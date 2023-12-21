@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -18,45 +16,11 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-
-.detail--header {
-  display: flex;
-  justify-content: space-between;
-}
-
-.detail--wrapper {
-  display: grid;
-  grid-template-columns: 30% 70%;
-
-  @media (max-width: 1024px) {
-    grid-template-columns: 100%;
-  }
-}
-
-.detail--action {
-  display: flex;
-}
-
-.detail--action--button {
-  cursor: not-allowed;
-}
-
-.detail--wrapper__supplier {
-  margin-top: 1.5rem;
-}
-
-.detail--table_wrapper--notification {
-  margin-left: 1.5rem;
-
-  @media (max-width: 1024px) {
-    margin-left: 0;
-    margin-top: 1.5rem;
-  }
-}
-
-.investigation--semantic-model-id__icon {
-  width: 14px;
-  height: 14px;
-  font-size: 14px;
-  margin-left: 0.5rem;
+export enum NotificationAction {
+  APPROVE = 'approve',
+  CANCEL = 'cancel',
+  CLOSE = 'close',
+  ACKNOWLEDGE = 'acknowledge',
+  ACCEPT = 'accept',
+  DECLINE = 'decline',
 }

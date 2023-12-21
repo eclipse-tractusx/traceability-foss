@@ -18,16 +18,19 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 ################################################################################
+
 traceability:
   bpn: BPNL00000003AXS3
   url: localhost:${server.port}/api
-  leftOperand: "eq"
+  leftOperand: "PURPOSE"
   operatorType: "eq"
-  rightOperand: '2011-12-03T10:15:30+01:00'
-  validUntil: '2011-12-03T10:15:30+01:00'
+  rightOperand: "ID Trace 3.1"
+  validUntil: "2023-07-04T16:01:05.309Z"
+
 edc:
   api-auth-key: "integration-tests"
 
+spring:
   security:
     oauth2:
       client:

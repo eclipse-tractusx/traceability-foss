@@ -34,8 +34,6 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.EdcNotificationService;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.EdcNotificationServiceImpl;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.service.InvestigationsReceiverService;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotificationFactory;
@@ -44,7 +42,6 @@ import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
@@ -56,13 +53,10 @@ import qualitynotification.base.request.UpdateQualityNotificationStatusRequest;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.eclipse.tractusx.traceability.common.security.JwtRole.SUPERVISOR;
 
 class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
 
@@ -139,7 +133,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(request))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/investigations")
                 .then()
@@ -156,7 +150,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         investigationNotificationsSupport.assertNotificationsSize(2);
 
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .param("page", "0")
                 .param("size", "10")
                 .contentType(ContentType.JSON)
@@ -188,7 +182,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(request))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/investigations")
                 .then()
@@ -216,7 +210,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(request))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/investigations")
                 .then()
@@ -279,7 +273,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         val investigationId = given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(startInvestigationRequest))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/investigations")
                 .then()
@@ -287,7 +281,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .extract().path("id");
 
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .param("page", "0")
                 .param("size", "10")
                 .contentType(ContentType.JSON)
@@ -301,7 +295,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body("content", Matchers.hasSize(1));
         // when/then
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/investigations/$investigationId/cancel".replace("$investigationId", investigationId.toString()))
@@ -309,7 +303,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .statusCode(204);
 
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .param("page", "0")
                 .param("size", "10")
                 .contentType(ContentType.JSON)
@@ -344,7 +338,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         val investigationId = given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(startInvestigationRequest))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/investigations")
                 .then()
@@ -355,7 +349,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
 
         given()
                 .contentType(ContentType.JSON)
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/investigations/{investigationId}/approve", investigationId)
                 .then()
@@ -363,7 +357,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
 
         // then
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .param("page", "0")
                 .param("size", "10")
                 .contentType(ContentType.JSON)
@@ -400,7 +394,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         val investigationId = given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(startInvestigationRequest))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/investigations")
                 .then()
@@ -413,14 +407,14 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         // when
         given()
                 .contentType(ContentType.JSON)
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/investigations/{investigationId}/approve", investigationId)
                 .then()
                 .statusCode(204);
         // then
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .param("page", "0")
                 .param("size", "10")
                 .contentType(ContentType.JSON)
@@ -440,7 +434,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(closeInvestigationRequest))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/investigations/{investigationId}/close", investigationId)
                 .then()
@@ -448,7 +442,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
 
         // then
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .param("page", "0")
                 .param("size", "10")
                 .contentType(ContentType.JSON)
@@ -468,7 +462,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     @Test
     void givenNonExistingAlert_whenCancel_thenReturnNotFound() throws JoseException {
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/investigations/1/cancel")
@@ -510,7 +504,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(startInvestigationRequest))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/investigations")
                 .then()
@@ -526,7 +520,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
 
         investigationNotificationsSupport.assertNotificationsSize(2);
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .param("page", "0")
                 .param("size", "10")
                 .contentType(ContentType.JSON)
