@@ -7,6 +7,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [UNRELEASED - DD.MM.YYYY]
 ### Added
 - Added an option for testdata upload in Argo Workflow
+- Validation for import data
 
 ### Changed
 - Restricted datefield on investigation creation to be only clickable and not editable
