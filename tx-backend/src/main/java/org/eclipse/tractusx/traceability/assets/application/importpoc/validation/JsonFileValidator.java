@@ -50,12 +50,10 @@ public class JsonFileValidator {
 
             validator.validate(schema, file.getInputStream());
 
-        } catch (GenerationException | IOException e) {
-            throw new IllegalStateException(e);
         } catch (ListValidationException e) {
             return e.getErrors().stream().map(ValidationError::getMessage).toList();
-        } catch (ValidationException e) {
-            throw new RuntimeException(e);
+        } catch (GenerationException | IOException | ValidationException e) {
+            throw new IllegalStateException(e);
         }
         return List.of();
     }
