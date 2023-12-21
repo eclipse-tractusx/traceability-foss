@@ -29,13 +29,13 @@ env:
 jobs:
   Check-Changelog-update:
     runs-on: ubuntu-latest
-    if: ${{ startsWith(github.ref, 'refs/heads/feature') || startsWith(github.ref, 'refs/heads/chore') }}
+    if: startsWith(github.head_ref, 'chore') || startsWith(github.head_ref, 'feature')
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Check if CHANGELOG is updated
-        id: udpated-changelog
+        id: updated-changelog
         uses: tj-actions/changed-files@v40
         with:
           # Avoid using single or double quotes for multiline patterns
@@ -43,7 +43,7 @@ jobs:
             CHANGELOG.md
       - name: request changes
         uses: ntsd/auto-request-changes-action@v3
-        if: steps.udpated-changelog.outputs.any_changed == 'false'
+        if: steps.updated-changelog.outputs.any_changed == 'false'
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
           review-message: "Please add a short description of the feature/fix to the Changelog.md."
