@@ -20,18 +20,15 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
-import { RoleService } from '@core/user/role.service';
 import { InvestigationsFacade } from '@page/investigations/core/investigations.facade';
-import { Notification, NotificationStatus } from '@shared/model/notification.model';
-import { NotificationAction } from '@shared/modules/notification/notification-action.enum';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-// TODO: make this and alert helper service to notification helper service to reduce duplication
+
 export class InvestigationHelperService {
-  constructor(private readonly roleService: RoleService, private readonly investigationsFacade: InvestigationsFacade) {
+  constructor(private readonly investigationsFacade: InvestigationsFacade) {
   }
 
   public approve(id: string): Observable<void> {
@@ -58,35 +55,5 @@ export class InvestigationHelperService {
     return this.investigationsFacade.declineInvestigation(id, reason);
   }
 
-  public showApproveButton({ status, isFromSender } = {} as Notification): boolean {
-    return isFromSender && status === NotificationStatus.CREATED;
-  }
 
-  public showCancelButton({ status, isFromSender } = {} as Notification): boolean {
-    return isFromSender && status === NotificationStatus.CREATED;
-  }
-
-  public showCloseButton({ status, isFromSender } = {} as Notification): boolean {
-    const disallowedStatus = [ NotificationStatus.CREATED, NotificationStatus.CLOSED, NotificationStatus.CANCELED ];
-    return isFromSender && !disallowedStatus.includes(status);
-  }
-
-  public showAcknowledgeButton({ status, isFromSender } = {} as Notification): boolean {
-    return !isFromSender && status === NotificationStatus.RECEIVED;
-  }
-
-  public showAcceptButton({ status, isFromSender } = {} as Notification): boolean {
-    return !isFromSender && status === NotificationStatus.ACKNOWLEDGED;
-  }
-
-  public showDeclineButton({ status, isFromSender } = {} as Notification): boolean {
-    return !isFromSender && status === NotificationStatus.ACKNOWLEDGED;
-  }
-
-  public isAuthorizedForButton(action: NotificationAction): boolean {
-    if(action === NotificationAction.APPROVE || action === NotificationAction.CLOSE) {
-      return this.roleService.isAtLeastSupervisor();
-    } else {
-      return this.roleService.isAtLeastUser();
-    }}
 }

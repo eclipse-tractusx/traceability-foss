@@ -18,17 +18,14 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
-import { RoleService } from '@core/user/role.service';
 import { AlertsFacade } from '@page/alerts/core/alerts.facade';
-import { Notification, NotificationStatus } from '@shared/model/notification.model';
-import { NotificationAction } from '@shared/modules/notification/notification-action.enum';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AlertHelperService {
-  constructor(private readonly roleService: RoleService, private readonly alertsFacade: AlertsFacade) {
+  constructor(private readonly alertsFacade: AlertsFacade) {
   }
 
   public approve(id: string): Observable<void> {
@@ -55,35 +52,4 @@ export class AlertHelperService {
     return this.alertsFacade.declineAlert(id, reason);
   }
 
-  public showApproveButton({ status, isFromSender } = {} as Notification): boolean {
-    return isFromSender && status === NotificationStatus.CREATED //&& this.roleService.isAtLeastSupervisor();
-  }
-
-  public showCancelButton({ status, isFromSender } = {} as Notification): boolean {
-    return isFromSender && status === NotificationStatus.CREATED //&& this.roleService.isAtLeastSupervisor();
-  }
-
-  public showCloseButton({ status, isFromSender } = {} as Notification): boolean {
-    const disallowedStatus = [ NotificationStatus.CREATED, NotificationStatus.CLOSED, NotificationStatus.CANCELED ];
-    return isFromSender && !disallowedStatus.includes(status);
-  }
-
-  public showAcknowledgeButton({ status, isFromSender } = {} as Notification): boolean {
-    return !isFromSender && status === NotificationStatus.RECEIVED;
-  }
-
-  public showAcceptButton({ status, isFromSender } = {} as Notification): boolean {
-    return !isFromSender && status === NotificationStatus.ACKNOWLEDGED;
-  }
-
-  public showDeclineButton({ status, isFromSender } = {} as Notification): boolean {
-    return !isFromSender && status === NotificationStatus.ACKNOWLEDGED;
-  }
-
-  public isAuthorizedForButton(action: NotificationAction): boolean {
-    if(action === NotificationAction.APPROVE || action === NotificationAction.CLOSE) {
-      return this.roleService.isAtLeastSupervisor();
-    } else {
-      return this.roleService.isAtLeastUser();
-    }}
 }

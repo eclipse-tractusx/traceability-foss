@@ -24,6 +24,7 @@ import { AlertDetailFacade } from '@page/alerts/core/alert-detail.facade';
 import { AlertHelperService } from '@page/alerts/core/alert-helper.service';
 import { AlertsFacade } from '@page/alerts/core/alerts.facade';
 import { Part } from '@page/parts/model/parts.model';
+import { NotificationActionHelperService } from '@shared/assembler/notification-action-helper.service';
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
 import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
 import { ToastService } from '@shared/components/toasts/toast.service';
@@ -71,6 +72,7 @@ export class AlertDetailComponent implements AfterViewInit, OnDestroy {
 
   constructor(
     public readonly helperService: AlertHelperService,
+    public readonly actionHelperService: NotificationActionHelperService,
     public readonly alertDetailFacade: AlertDetailFacade,
     private readonly staticIdService: StaticIdService,
     private readonly alertsFacade: AlertsFacade,

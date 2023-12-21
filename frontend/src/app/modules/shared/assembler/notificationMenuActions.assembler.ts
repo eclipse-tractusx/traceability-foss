@@ -16,15 +16,14 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import { AlertHelperService } from '@page/alerts/core/alert-helper.service';
-import { InvestigationHelperService } from '@page/investigations/core/investigation-helper.service';
+import { NotificationActionHelperService } from '@shared/assembler/notification-action-helper.service';
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
 import { MenuActionConfig } from '@shared/components/table/table.model';
 import { Notification } from '@shared/model/notification.model';
 import { NotificationAction } from '@shared/modules/notification/notification-action.enum';
 
 export class NotificationMenuActionsAssembler {
-  public static getMenuActions(helperService: InvestigationHelperService | AlertHelperService, modal: NotificationCommonModalComponent): MenuActionConfig<Notification>[] {
+  public static getMenuActions(helperService: NotificationActionHelperService, modal: NotificationCommonModalComponent): MenuActionConfig<Notification>[] {
     return [
       {
         label: 'actions.close',
