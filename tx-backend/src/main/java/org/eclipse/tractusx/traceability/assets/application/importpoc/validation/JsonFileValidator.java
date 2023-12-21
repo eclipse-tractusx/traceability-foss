@@ -44,7 +44,7 @@ public class JsonFileValidator {
             SchemaStore schemaStore = new SchemaStore();
             Validator validator = new Validator();
 
-            URL url = getClass().getResource("/validation/schema_V1.json");
+            URL url = this.getClass().getResource("/validation/schema_V1.json");
 
             Schema schema = schemaStore.loadSchema(url);
 
