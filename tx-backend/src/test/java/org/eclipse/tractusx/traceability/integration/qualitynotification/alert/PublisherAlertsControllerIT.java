@@ -31,11 +31,7 @@ import org.eclipse.tractusx.traceability.integration.common.support.AlertNotific
 import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.service.AlertsReceiverService;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationAffectedPart;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.*;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotificationFactory;
 import org.hamcrest.Matchers;
@@ -46,18 +42,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
-import qualitynotification.base.request.CloseQualityNotificationRequest;
-import qualitynotification.base.request.QualityNotificationSeverityRequest;
-import qualitynotification.base.request.StartQualityNotificationRequest;
-import qualitynotification.base.request.UpdateQualityNotificationRequest;
-import qualitynotification.base.request.UpdateQualityNotificationStatusRequest;
+import qualitynotification.base.request.*;
 
 import java.time.Instant;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
+import static org.eclipse.tractusx.traceability.common.security.JwtRole.SUPERVISOR;
 
 class PublisherAlertsControllerIT extends IntegrationTestSpecification {
 
@@ -137,7 +129,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(request))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/alerts")
                 .then()
@@ -156,7 +148,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
 
         // when/then
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .param("page", "0")
                 .param("size", "10")
                 .contentType(ContentType.JSON)
@@ -194,7 +186,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(request))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/alerts")
                 .then()
@@ -213,7 +205,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
 
         // when/then
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .param("page", "0")
                 .param("size", "10")
                 .contentType(ContentType.JSON)
@@ -244,7 +236,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(request))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/alerts")
                 .then()
@@ -273,7 +265,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(request))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/alerts")
                 .then()
@@ -339,7 +331,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         val alertId = given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(startAlertRequest))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/alerts")
                 .then()
@@ -347,7 +339,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .extract().path("id");
 
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .param("page", "0")
                 .param("size", "10")
                 .contentType(ContentType.JSON)
@@ -362,7 +354,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
 
         // when
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/alerts/$alertId/cancel".replace("$alertId", alertId.toString()))
@@ -371,7 +363,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
 
         // then
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .param("page", "0")
                 .param("size", "10")
                 .contentType(ContentType.JSON)
@@ -408,7 +400,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         var alertId = given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(startAlertRequest))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/alerts")
                 .then()
@@ -419,7 +411,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
 
         given()
                 .contentType(ContentType.JSON)
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/alerts/$alertId/approve".replace("$alertId", alertId.toString()))
                 .then()
@@ -427,7 +419,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
 
         // then
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .param("page", "0")
                 .param("size", "10")
                 .contentType(ContentType.JSON)
@@ -465,7 +457,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         val alertId = given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(startAlertRequest))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/alerts")
                 .then()
@@ -478,7 +470,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         // when
         given()
                 .contentType(ContentType.JSON)
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/alerts/$alertId/approve".replace("$alertId", alertId.toString()))
                 .then()
@@ -486,7 +478,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
 
         // then
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .param("page", "0")
                 .param("size", "10")
                 .contentType(ContentType.JSON)
@@ -505,7 +497,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(closeAlertRequest))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/alerts/$alertId/close".replace("$alertId", alertId.toString()))
                 .then()
@@ -513,7 +505,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
 
         // then
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .param("page", "0")
                 .param("size", "10")
                 .contentType(ContentType.JSON)
@@ -533,7 +525,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     @Test
     void givenNonExistingAlert_whenCancel_thenReturnNotFound() throws JoseException {
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/alerts/1/cancel")
@@ -577,7 +569,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(startAlertRequest))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/alerts")
                 .then()
@@ -594,7 +586,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         alertNotificationsSupport.assertAlertNotificationsSize(1);
 
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .param("page", "0")
                 .param("size", "10")
                 .contentType(ContentType.JSON)
