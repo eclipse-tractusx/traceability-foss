@@ -31,6 +31,38 @@ Everything else needs to be provided externally.
 
 ![adminguide_000](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/adminguide/adminguide_000.png)
 
+### Rights and Role matrix of Trace-X
+
+Currently, Trace-X API handles three roles: ***'User'*** and ***'Supervisor'*** and ***'Admin'***:
+
+|     |     |     |     |     |
+| --- | --- | --- | --- | --- |
+| Category | Action | User | Supervisor | Admin |
+| View | View Dashboard | x | x | x |
+|  | View Parts | x | x | x |
+|  | View Other parts | x | x | x |
+|  | View Quality investigations | x | x | x |
+|  | View Quality alerts | x | x | x |
+|  | View Administration |  |  | x |
+| Investigation | Create | x | x |  |
+|  | Send (Approve) |  | x |  |
+|  | Read | x | x | x |
+|  | Cancel | x | x |  |
+|  | Acknowledge | x | x |  |
+|  | Accept | x | x |  |
+|  | Decline | x | x |  |
+|  | Close |  | x |  |
+| Alert | Create | x | x |  |
+|  | Send (Approve) |  | x |  |
+|  | Read | x | x | x |
+|  | Cancel | x | x |  |
+|  | Acknowledge | x | x |  |
+|  | Accept | x | x |  |
+|  | Decline | x | x |  |
+|  | Close |  | x |  |
+| Administration Panel | Access "BPN EDC config panel" |  |  | x |
+|  | Access "Registry lookup Panel" |  |  | x |
+
 ## Installation
 
 The Trace-X Helm repository can be found here:
