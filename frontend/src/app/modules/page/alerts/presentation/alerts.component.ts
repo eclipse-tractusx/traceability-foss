@@ -23,6 +23,7 @@ import { ALERT_BASE_ROUTE, getRoute } from '@core/known-route';
 import { AlertDetailFacade } from '@page/alerts/core/alert-detail.facade';
 import { AlertHelperService } from '@page/alerts/core/alert-helper.service';
 import { AlertsFacade } from '@page/alerts/core/alerts.facade';
+import { NotificationActionHelperService } from '@shared/assembler/notification-action-helper.service';
 import { NotificationMenuActionsAssembler } from '@shared/assembler/notificationMenuActions.assembler';
 import { NotificationChannel } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
@@ -66,6 +67,7 @@ export class AlertsComponent {
 
   constructor(
     public readonly helperService: AlertHelperService,
+    private readonly actionHelperService: NotificationActionHelperService,
     private readonly alertsFacade: AlertsFacade,
     private readonly alertDetailFacade: AlertDetailFacade,
     private readonly router: Router,
@@ -97,7 +99,7 @@ export class AlertsComponent {
 
   public ngAfterViewInit(): void {
     this.menuActionsConfig = NotificationMenuActionsAssembler.getMenuActions(
-      this.helperService,
+      this.actionHelperService,
       this.notificationCommonModalComponent,
     );
     this.cd.detectChanges();

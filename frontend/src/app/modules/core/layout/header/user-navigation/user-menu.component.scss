@@ -59,6 +59,11 @@
   &--selected {
     @apply bg-dustyGrayShadeGallery;
   }
+
+  &--disabled {
+    color: #b2b2b2;
+    cursor: not-allowed;
+  }
 }
 
 .user-menu-items__icon {
@@ -67,6 +72,10 @@
 
 .user-menu-items__label {
   @apply block px-4 py-2 cursor-pointer focus:outline-none;
+
+  &--disabled {
+    cursor: not-allowed;
+  }
 }
 
 .user-menu-language {

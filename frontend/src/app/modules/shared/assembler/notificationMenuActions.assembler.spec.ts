@@ -24,6 +24,7 @@ import { AlertHelperService } from '@page/alerts/core/alert-helper.service';
 import { InvestigationHelperService } from '@page/investigations/core/investigation-helper.service';
 import { InvestigationsFacade } from '@page/investigations/core/investigations.facade';
 import { InvestigationsState } from '@page/investigations/core/investigations.state';
+import { NotificationActionHelperService } from '@shared/assembler/notification-action-helper.service';
 import { NotificationMenuActionsAssembler } from '@shared/assembler/notificationMenuActions.assembler';
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
 import { Notification, NotificationStatus } from '@shared/model/notification.model';
@@ -34,6 +35,7 @@ import { KeycloakService } from 'keycloak-angular';
 describe('NotificationMenuActionsAssembler', () => {
   let helperService: AlertHelperService | InvestigationHelperService;
   let notificationCommonModalComponent: NotificationCommonModalComponent;
+  let notificationActionHelperService: NotificationActionHelperService
 
   beforeEach(function() {
     TestBed.configureTestingModule({
@@ -47,6 +49,7 @@ describe('NotificationMenuActionsAssembler', () => {
         },
         AlertHelperService,
         InvestigationHelperService,
+        NotificationActionHelperService,
         InvestigationsFacade,
         InvestigationsState,
         NotificationCommonModalComponent,
@@ -56,6 +59,7 @@ describe('NotificationMenuActionsAssembler', () => {
     });
     notificationCommonModalComponent = TestBed.inject(NotificationCommonModalComponent);
     helperService = TestBed.inject(InvestigationHelperService);
+    notificationActionHelperService = TestBed.inject(NotificationActionHelperService)
   });
 
   it('should return menuActions', function() {
@@ -78,7 +82,7 @@ describe('NotificationMenuActionsAssembler', () => {
     };
 
     // Act
-    let menuActions = NotificationMenuActionsAssembler.getMenuActions(helperService, notificationCommonModalComponent);
+    let menuActions = NotificationMenuActionsAssembler.getMenuActions(notificationActionHelperService, notificationCommonModalComponent);
 
     // Assert
     menuActions.map(item => {

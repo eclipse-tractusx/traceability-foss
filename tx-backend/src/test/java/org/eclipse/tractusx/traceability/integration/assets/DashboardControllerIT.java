@@ -173,7 +173,7 @@ class DashboardControllerIT extends IntegrationTestSpecification {
 
         // when
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(notificationRequest))
                 .when()
@@ -183,7 +183,7 @@ class DashboardControllerIT extends IntegrationTestSpecification {
 
         // then
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .contentType(ContentType.JSON)
                 .log().all()
                 .when().get("/api/dashboard")

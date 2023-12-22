@@ -59,7 +59,7 @@ const routes: Routes = [
     loadChildren: () => import('../../page/dashboard/dashboard.module').then(m => m.DashboardModule),
     data: {
       breadcrumb: 'home',
-      roles: [ 'user' ],
+      roles: [ 'user', 'admin' ],
     },
     canActivate: [ RoleGuard ],
   },
@@ -68,7 +68,7 @@ const routes: Routes = [
     loadChildren: () => import('../../page/parts/parts.module').then(m => m.PartsModule),
     data: {
       breadcrumb: 'parts',
-      roles: [ 'user' ],
+      roles: [ 'user', 'admin' ],
     },
     canActivate: [ RoleGuard ],
   },
@@ -77,7 +77,7 @@ const routes: Routes = [
     loadChildren: () => import('@page/other-parts/other-parts.module').then(m => m.OtherPartsModule),
     data: {
       breadcrumb: 'otherParts',
-      roles: [ 'user' ],
+      roles: [ 'user', 'admin' ],
     },
     canActivate: [ RoleGuard ],
   },
@@ -86,7 +86,7 @@ const routes: Routes = [
     loadChildren: () => import('../../page/investigations/investigations.module').then(m => m.InvestigationsModule),
     data: {
       breadcrumb: 'investigations',
-      roles: [ 'user' ],
+      roles: [ 'user', 'admin' ],
     },
     canActivate: [ RoleGuard ],
   },
@@ -95,7 +95,7 @@ const routes: Routes = [
     loadChildren: () => import('../../page/alerts/alerts.module').then(m => m.AlertsModule),
     data: {
       breadcrumb: 'alerts',
-      roles: [ 'user' ],
+      roles: [ 'user', 'admin' ],
     },
     canActivate: [ RoleGuard ],
   },
@@ -104,7 +104,7 @@ const routes: Routes = [
     loadChildren: () => import('../../page/about/about.module').then(m => m.AboutModule),
     data: {
       breadcrumb: 'about',
-      roles: [ 'user' ],
+      roles: [ 'user', 'admin' ],
     },
     canActivate: [ RoleGuard ],
   },

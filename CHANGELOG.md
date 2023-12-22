@@ -7,6 +7,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [UNRELEASED - DD.MM.YYYY]
 ### Added
 - Added an option for testdata upload in Argo Workflow
+- GitHub action that ensures an up-to-date CHANGELOG.md
 
 ### Changed
 - Restricted datefield on investigation creation to be only clickable and not editable
@@ -21,6 +22,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - fixed bug where filter was reset when sorting filtered notifications
 - redesigned notification status confirmation modal
 - bump irs version from 6.9.1 to 6.12.0
+- moved rights and roles matrix from arc42 doc to administration guide
 - Moved accepted policy to helm environments
 - Request IRS policy store to accept IRS policies in addition to our own policy
 

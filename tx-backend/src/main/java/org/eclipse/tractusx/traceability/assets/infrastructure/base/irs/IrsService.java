@@ -110,7 +110,7 @@ public class IrsService implements IrsRepository {
 
     private void createPolicy() {
         log.info("Irs policy does not exist creating {}", traceabilityProperties.getRightOperand());
-        irsClient.registerPolicy(RegisterPolicyRequest.from(traceabilityProperties.getLeftOperand(), OperatorType.fromValue(traceabilityProperties.getOperatorType()), traceabilityProperties.getRightOperand(), traceabilityProperties.getValidUntil().toString()));
+        irsClient.registerPolicy(RegisterPolicyRequest.from(traceabilityProperties.getLeftOperand(), OperatorType.fromValue(traceabilityProperties.getOperatorType()), traceabilityProperties.getRightOperand(), traceabilityProperties.getValidUntil()));
     }
 
     private void checkAndUpdatePolicy(List<PolicyResponse> requiredPolicies) {
@@ -120,7 +120,7 @@ public class IrsService implements IrsRepository {
         ) {
             log.info("IRS Policy {} has outdated validity updating new ttl {}", traceabilityProperties.getRightOperand(), requiredPolicy);
             irsClient.deletePolicy(traceabilityProperties.getRightOperand());
-            irsClient.registerPolicy(RegisterPolicyRequest.from(traceabilityProperties.getLeftOperand(), OperatorType.fromValue(traceabilityProperties.getOperatorType()), traceabilityProperties.getRightOperand(), traceabilityProperties.getValidUntil().toString()));
+            irsClient.registerPolicy(RegisterPolicyRequest.from(traceabilityProperties.getLeftOperand(), OperatorType.fromValue(traceabilityProperties.getOperatorType()), traceabilityProperties.getRightOperand(), traceabilityProperties.getValidUntil()));
         }
     }
 
