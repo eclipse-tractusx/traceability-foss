@@ -123,7 +123,7 @@ public class ImportController {
                     .body(new ValidationResponse(validationResult));
 
         }
-       importService.importAssets(file);
+        importService.importAssets(file);
         return ResponseEntity.noContent().build();
     }
 }
