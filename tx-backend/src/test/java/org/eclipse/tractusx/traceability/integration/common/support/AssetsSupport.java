@@ -90,15 +90,15 @@ public class AssetsSupport {
         ).toList().forEach(it -> jpaInvestigationRepository.save(it));
     }
 
-    public void assertAssetAsBuiltSize(int size) {
-        long assetCount = assetRepositoryProvider.assetAsBuiltRepository().countAssets();
+    public void assertAssetAsBuiltSize(final int size) {
+        final long assetCount = assetRepositoryProvider.assetAsBuiltRepository().countAssets();
         log.info("AsBuiltRepository asset count: {}, expected: {}", assetCount, size);
         assert assetCount == size;
     }
 
-    public void assertAssetAsPlannedSize(int size) {
-        long assetCount = assetRepositoryProvider.assetAsPlannedRepository().countAssets();
-        log.info("AsPlannedRepository asset count: {}", assetCount);
+    public void assertAssetAsPlannedSize(final int size) {
+        final long assetCount = assetRepositoryProvider.assetAsPlannedRepository().countAssets();
+        log.info("AsPlannedRepository asset count: {}, expected: {}", assetCount, size);
         assert assetCount == size;
     }
 

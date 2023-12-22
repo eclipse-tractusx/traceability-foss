@@ -133,11 +133,6 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
     }
 
     @Override
-    public long countQualityNotificationEntitiesByStatus(QualityNotificationStatus qualityNotificationStatus) {
-        return jpaInvestigationRepository.countAllByStatusEquals(NotificationStatusBaseEntity.valueOf(qualityNotificationStatus.name()));
-    }
-
-    @Override
     public Optional<QualityNotification> findByEdcNotificationId(String edcNotificationId) {
         return jpaInvestigationRepository.findByNotificationsEdcNotificationId(edcNotificationId)
                 .map(InvestigationEntity::toDomain);

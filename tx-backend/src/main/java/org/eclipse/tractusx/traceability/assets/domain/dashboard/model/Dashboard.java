@@ -27,11 +27,9 @@ import lombok.Data;
 @Data
 @Builder
 public class Dashboard {
-    Long myParts;
-    Long otherParts;
-    Long investigationsReceived;
-    Long alertsReceived;
-    Long alertsSent;
-    Long myPartsWithOpenAlerts;
-    Long supplierPartsWithOpenAlerts;
+
+    long myParts;
+    long otherParts;
+    long investigationsReceived;
+    long alertsReceived;
 }

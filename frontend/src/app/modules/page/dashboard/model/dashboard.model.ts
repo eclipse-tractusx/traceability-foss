@@ -22,13 +22,13 @@
 export interface DashboardStats {
   otherParts: number | null;
   myParts: number;
-  investigations?: number;
-  alerts?: number;
+  investigationsReceived?: number;
+  alertsReceived?: number;
 }
 
 export interface DashboardStatsResponse {
   otherParts: number | null;
   myParts: number;
-  investigations?: number;
-  alerts?: number;
+  investigationsReceived?: number;
+  alertsReceived?: number;
 }

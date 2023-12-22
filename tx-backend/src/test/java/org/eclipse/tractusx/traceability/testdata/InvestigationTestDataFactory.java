@@ -19,6 +19,7 @@
 
 package org.eclipse.tractusx.traceability.testdata;
 
+import java.util.UUID;
 import org.eclipse.tractusx.traceability.common.model.*;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationAffectedPart;
@@ -41,6 +42,33 @@ import java.util.List;
 import java.util.Locale;
 
 public class InvestigationTestDataFactory {
+
+    public static InvestigationNotificationEntity createInvestigationTestData(
+            final NotificationSideBaseEntity notificationSide,
+            final NotificationStatusBaseEntity investigationStatus,
+            final String receiverBpn) {
+
+        final InvestigationEntity investigation = InvestigationEntity.builder()
+                .assets(Collections.emptyList())
+                .bpn(receiverBpn)
+                .status(investigationStatus)
+                .description("This is a description")
+                .side(notificationSide)
+                .createdDate(Instant.now())
+                .build();
+
+        return InvestigationNotificationEntity.builder()
+                .id(UUID.randomUUID().toString())
+                .investigation(investigation)
+                .status(investigationStatus)
+                .edcNotificationId(UUID.randomUUID().toString())
+                .createdBy(investigation.getCreatedBy())
+                .sendTo(receiverBpn)
+                .targetDate(Instant.now())
+                .severity(QualityNotificationSeverity.MAJOR)
+                .build();
+    }
+
     public static QualityNotification createInvestigationTestData(QualityNotificationStatus investigationStatus, final String bpnString) {
         QualityNotificationId investigationId = new QualityNotificationId(1L);
         BPN bpn = new BPN(bpnString);
@@ -80,7 +108,6 @@ public class InvestigationTestDataFactory {
                 .notifications(notifications)
                 .build();
     }
-
 
     public static QualityNotification createInvestigationTestDataWithNotificationList(QualityNotificationStatus investigationStatus, String bpnString, List<QualityNotificationMessage> notifications) {
         QualityNotificationId investigationId = new QualityNotificationId(1L);

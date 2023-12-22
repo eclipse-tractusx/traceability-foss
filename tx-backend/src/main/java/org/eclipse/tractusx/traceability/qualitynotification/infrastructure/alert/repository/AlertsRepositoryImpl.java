@@ -140,11 +140,6 @@ public class AlertsRepositoryImpl implements AlertRepository {
                 .map(AlertEntity::toDomain);
     }
 
-    @Override
-    public long countQualityNotificationEntitiesByStatus(QualityNotificationStatus qualityNotificationStatus) {
-        return jpaAlertRepository.countAllByStatusEquals(NotificationStatusBaseEntity.valueOf(qualityNotificationStatus.name()));
-    }
-
     @Transactional
     @Override
     public long countPartsByStatusAndOwnership(List<QualityNotificationStatus> statuses, Owner owner) {

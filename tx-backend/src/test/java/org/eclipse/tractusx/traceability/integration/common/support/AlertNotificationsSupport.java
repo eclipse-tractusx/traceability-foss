@@ -19,16 +19,17 @@
 
 package org.eclipse.tractusx.traceability.integration.common.support;
 
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertNotificationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.repository.JpaAlertNotificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Slf4j
 @Component
 public class AlertNotificationsSupport {
 
@@ -43,9 +44,9 @@ public class AlertNotificationsSupport {
         Arrays.stream(notifications).forEach(this::storedAlertNotification);
     }
 
-    public void assertAlertNotificationsSize(int size) {
-        List<AlertNotificationEntity> notifications = jpaAlertNotificationRepository.findAll();
-
-        assertThat(notifications).hasSize(size);
+    public void assertAlertNotificationsSize(final int size) {
+        final long notificationsCount = jpaAlertNotificationRepository.count();
+        log.info("AlertNotificationRepository notification count: {}, expected: {}", notificationsCount, size);
+        assertThat(notificationsCount).isEqualTo(size);
     }
 }

@@ -26,8 +26,8 @@ export class DashboardAssembler {
     return {
       otherParts: dashboard.otherParts,
       myParts: dashboard.myParts,
-      investigations: dashboard.investigations,
-      alerts: dashboard.alerts,
+      investigationsReceived: dashboard.investigationsReceived,
+      alertsReceived: dashboard.alertsReceived,
     };
   }
 }

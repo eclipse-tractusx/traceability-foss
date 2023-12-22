@@ -29,8 +29,6 @@
   border-radius: 15px;
   padding: 20px;
   gap: 20px;
-  overflow: hidden;
-  white-space: nowrap;
   box-shadow: 0px 15px 25px 0px #3333330d, -10px -10px 15px 0px #ffffff1a, 0px 0px 25px 0px #33333308;
 
   &:hover {
@@ -57,7 +55,6 @@
 .label-container {
   @apply flex flex-col;
   justify-content: space-between;
-  height: 48px;
   padding-bottom: 5px;
 }
 

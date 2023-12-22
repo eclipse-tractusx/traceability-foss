@@ -33,6 +33,32 @@ import java.util.*;
 
 public class AlertTestDataFactory {
 
+    public static AlertNotificationEntity createAlertTestData(
+            final NotificationSideBaseEntity notificationSide,
+            final NotificationStatusBaseEntity alertStatus,
+            final String receiverBpn) {
+
+        final AlertEntity alert = AlertEntity.builder()
+                .assets(Collections.emptyList())
+                .bpn(receiverBpn)
+                .status(alertStatus)
+                .description("This is a description")
+                .side(notificationSide)
+                .createdDate(Instant.now())
+                .build();
+
+        return AlertNotificationEntity.builder()
+                .id(UUID.randomUUID().toString())
+                .alert(alert)
+                .status(alertStatus)
+                .edcNotificationId(UUID.randomUUID().toString())
+                .createdBy(alert.getCreatedBy())
+                .sendTo(receiverBpn)
+                .targetDate(Instant.now())
+                .severity(QualityNotificationSeverity.MAJOR)
+                .build();
+    }
+
     private static AlertEntity[] createSenderMajorityAlertEntitiesTestData(String senderBpn) {
         Instant now = Instant.now();
 

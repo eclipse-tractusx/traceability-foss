@@ -96,8 +96,8 @@ export class DashboardFacade {
       next: (dashboardStats: DashboardStats) => {
         this.dashboardState.setNumberOfMyParts({ data: dashboardStats.myParts });
         this.dashboardState.setNumberOfOtherParts({ data: dashboardStats.otherParts });
-        this.dashboardState.setNumberOfInvestigations({ data: dashboardStats.investigations || 0 });
-        this.dashboardState.setNumberOfAlerts({ data: dashboardStats.alerts || 0 });
+        this.dashboardState.setNumberOfInvestigations({ data: dashboardStats.investigationsReceived || 0 });
+        this.dashboardState.setNumberOfAlerts({ data: dashboardStats.alertsReceived || 0 });
       },
       error: error => {
         this.dashboardState.setNumberOfMyParts({ error });

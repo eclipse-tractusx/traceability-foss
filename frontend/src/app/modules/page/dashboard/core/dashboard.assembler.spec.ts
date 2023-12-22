@@ -32,8 +32,8 @@ describe('DashboardAssembler', () => {
       ).toEqual({
         otherParts: 100,
         myParts: 200,
-        investigations: undefined,
-        alerts: undefined,
+        investigationsReceived: undefined,
+        alertsReceived: undefined,
       });
     });
   });

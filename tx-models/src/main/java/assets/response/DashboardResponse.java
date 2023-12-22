@@ -19,22 +19,18 @@
 
 package assets.response;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+@ApiModel(description = "Dashboard Data")
 public record DashboardResponse(
-        @ApiModelProperty(example = "5")
+        @ApiModelProperty(value = "The total number of own parts of asBuilt and asPlanned", example = "5")
         Long myParts,
-        @ApiModelProperty(example = "10")
+        @ApiModelProperty(value = "The total number of other parts (supplier and customer) of asBuilt and asPlanned", example = "10")
         Long otherParts,
-        @ApiModelProperty(example = "2")
+        @ApiModelProperty(value = "The number of received open investigations", example = "2")
         Long investigationsReceived,
-        @ApiModelProperty(example = "3")
-        Long alertsReceived,
-        @ApiModelProperty(example = "1")
-        Long alertsSent,
-        @ApiModelProperty(example = "1")
-        Long myPartsWithOpenAlerts,
-        @ApiModelProperty(example = "2")
-        Long supplierPartsWithOpenAlerts) {
+        @ApiModelProperty(value = "The number of received open quality alerts", example = "3")
+        Long alertsReceived) {
 
 }

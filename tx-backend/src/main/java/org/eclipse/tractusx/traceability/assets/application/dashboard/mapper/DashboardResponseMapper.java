@@ -23,15 +23,15 @@ import org.eclipse.tractusx.traceability.assets.domain.dashboard.model.Dashboard
 
 public class DashboardResponseMapper {
 
+    private DashboardResponseMapper() {
+    }
+
     public static DashboardResponse from(final Dashboard dashboard) {
         return new DashboardResponse(
                 dashboard.getMyParts(),
                 dashboard.getOtherParts(),
                 dashboard.getInvestigationsReceived(),
-                dashboard.getAlertsReceived(),
-                dashboard.getAlertsSent(),
-                dashboard.getMyPartsWithOpenAlerts(),
-                dashboard.getSupplierPartsWithOpenAlerts()
+                dashboard.getAlertsReceived()
         );
     }
 }

@@ -39,24 +39,22 @@ class DashboardControllerTest {
 
     @Test
     void dashboard() {
-        Dashboard dashboard = Dashboard.builder()
-                .myParts(9L)
-                .otherParts(99L)
-                .investigationsReceived(999L)
-                .alertsReceived(1L)
-                .alertsSent(11L)
-                .myPartsWithOpenAlerts(111L)
-                .supplierPartsWithOpenAlerts(1111L).build();
+        // given
+        final Dashboard dashboard = Dashboard.builder()
+                .myParts(9)
+                .otherParts(99)
+                .investigationsReceived(8)
+                .alertsReceived(88)
+                .build();
         Mockito.when(dashboardService.getDashboard()).thenReturn(dashboard);
-        Dashboard testDashboard = dashboardService.getDashboard();
 
-        assertEquals(9, testDashboard.getMyParts());
-        assertEquals(99, testDashboard.getOtherParts());
-        assertEquals(999, testDashboard.getInvestigationsReceived());
-        assertEquals(1, testDashboard.getAlertsReceived());
-        assertEquals(11, testDashboard.getAlertsSent());
-        assertEquals(111, testDashboard.getMyPartsWithOpenAlerts());
-        assertEquals(1111, testDashboard.getSupplierPartsWithOpenAlerts());
+        // when
+        final Dashboard dashboardReceived = dashboardService.getDashboard();
+
+        // then
+        assertEquals(9, dashboardReceived.getMyParts());
+        assertEquals(99, dashboardReceived.getOtherParts());
+        assertEquals(8, dashboardReceived.getInvestigationsReceived());
+        assertEquals(88, dashboardReceived.getAlertsReceived());
     }
-
 }

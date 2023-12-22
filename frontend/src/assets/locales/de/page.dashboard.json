@@ -1,16 +1,16 @@
 {
   "pageDashboard": {
     "totalInvestigations": {
-      "label": "Anzahl offener Untersuchungen"
+      "label": "Offene Untersuchungen"
     },
     "totalOfMyParts": {
-      "label": "Anzahl meiner Teile"
+      "label": "Meine Produkte"
     },
     "totalOfOtherParts": {
-      "label": "Anzahl geteilter Teile"
+      "label": "Andere Produkte"
     },
     "totalAlerts": {
-      "label": "Anzahl der Qualitätswarnungen"
+      "label": "Offene Warnungen"
     }
   }
 }
