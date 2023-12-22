@@ -27,6 +27,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataTractionBatteryCode;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.SingelLevelUsageAsBuiltRequest;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.SingleLevelBomAsBuiltRequest;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.SingleLevelBomAsPlannedRequest;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.SingleLevelUsageAsPlannedRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.SemanticDataModel;
 
 public class GenericSubmodel {
@@ -67,6 +69,12 @@ public class GenericSubmodel {
             }),
             @Type(value = SingelLevelUsageAsBuiltRequest.class, names = {
                     "urn:bamm:io.catenax.single_level_usage_as_built:2.0.0#SingleLevelUsageAsBuilt"
+            }),
+            @Type(value = SingleLevelUsageAsPlannedRequest.class, names = {
+                    "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned"
+            }),
+            @Type(value = SingleLevelBomAsPlannedRequest.class, names = {
+                    "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned"
             })
     })
     private Object payload;

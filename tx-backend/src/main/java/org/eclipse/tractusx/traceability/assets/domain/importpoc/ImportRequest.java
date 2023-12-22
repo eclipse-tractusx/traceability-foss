@@ -24,20 +24,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataTractionBatteryCode;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.GenericSubmodel;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.LocalId;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.SemanticDataModel;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+
+import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobDetailResponse.addPartSiteInformationAsPlannedToOwnPartsAsPlanned;
 
 @Slf4j
 public record ImportRequest(
@@ -99,8 +96,8 @@ public record ImportRequest(
         return new ArrayList<>(mapToOwnPartsAsBuilt());
     }
 
-    public List<AssetBase> convertAssetsAsPlanned() {
-        return new ArrayList<>(mapToOwnPartsAsPlanned(null, null));
+    public List<AssetBase> convertAssetsAsPlanned(final String bpn) {
+        return new ArrayList<>(mapToOwnPartsAsPlanned(bpn));
     }
 
     private List<AssetBase> mapToOwnPartsAsBuilt() {
@@ -109,18 +106,16 @@ public record ImportRequest(
         List<AssetBase> list = new ArrayList<>();
         for (AssetWrapperRequest assetWrapperRequest : assetWrapperRequests) {
 
-            AssetMetaInfoRequest assetMetaInfoRequest = assetWrapperRequest.assetMetaInfoRequest();
             List<SemanticDataModel> mainAspectModels = assetWrapperRequest.mainAspectModels().stream().filter(semanticDataModel -> !semanticDataModel.aspectType().contains("traction_battery_code")).toList();
-            List<SemanticDataModel> detailAspectDataTractionBatteryCodes = assetWrapperRequest.mainAspectModels().stream().filter(semanticDataModel -> semanticDataModel.aspectType().contains("traction_battery_code")).toList();
+
+            List<DetailAspectDataTractionBatteryCode> detailAspectDataTractionBatteryCodes = assetWrapperRequest
+                    .mainAspectModels()
+                    .stream()
+                    .filter(semanticDataModel -> semanticDataModel.aspectType().contains("traction_battery_code"))
+                    .map(semanticDataModel -> (DetailAspectDataTractionBatteryCode) semanticDataModel).toList();
 
             List<GenericSubmodel> downwardModels = assetWrapperRequest.downwardRelationship();
             List<GenericSubmodel> upwardModels = assetWrapperRequest.upwardRelationship();
-
-
-            List<LocalId> localIds = Collections.emptyList();
-            Map<String, String> shortIds = new HashMap<>();
-            Owner owner = Owner.OWN;
-            Map<String, String> bpns = new HashMap<>();
 
 
             List<Descriptions> parentRelations = upwardModels.stream()
@@ -141,64 +136,54 @@ public record ImportRequest(
                     })
                     .flatMap(List::stream).toList();
 
-            Optional<DetailAspectDataTractionBatteryCode> tractionBatteryCodeOptional = Optional.empty();
-            ImportState assetImportState = ImportState.TRANSIENT;
 
-
-            list.addAll(mainAspectModels.stream().map(semanticDataModel -> semanticDataModel.toDomainAsBuilt(localIds, shortIds, owner, bpns, parentRelations, childRelations, tractionBatteryCodeOptional, assetImportState)).toList());
+            list.addAll(mainAspectModels.stream().map(semanticDataModel -> semanticDataModel.toDomainAsBuiltLight(parentRelations, childRelations, detailAspectDataTractionBatteryCodes)).toList());
 
         }
 
         return list;
     }
 
-    private List<AssetBase> mapToOwnPartsAsPlanned(Map<String, String> shortIds, Map<String, String> bpnMapping) {
+    private List<AssetBase> mapToOwnPartsAsPlanned(final String bpn) {
         List<AssetWrapperRequest> assetWrapperRequests = bomLifecycleToAssetWrapperRequestList.get(BomLifecycle.AS_PLANNED);
-      /*  List<SemanticDataModel> ownPartsAsPlanned =
-                semanticDataModels().stream()
-                        .filter(semanticDataModel -> isOwnPart(semanticDataModel, jobStatus))
-                        .filter(semanticDataModel -> Aspect.isMasterAspect(semanticDataModel.aspectType())).toList();
+        List<AssetBase> list = new ArrayList<>();
+        for (AssetWrapperRequest assetWrapperRequest : assetWrapperRequests) {
 
-        List<SemanticDataModel> isPartSiteInformationAsPlanned =
-                semanticDataModels().stream()
-                        .filter(semanticDataModel -> isOwnPart(semanticDataModel, jobStatus))
-                        .filter(semanticDataModel -> semanticDataModel.aspectType().contains(Aspect.PART_SITE_INFORMATION_AS_PLANNED.getAspectName())).toList();
+            List<SemanticDataModel> mainAspectModels = assetWrapperRequest.mainAspectModels().stream().filter(semanticDataModel -> !semanticDataModel.aspectType().contains(Aspect.PART_SITE_INFORMATION_AS_PLANNED.getAspectName())).toList();
+            List<SemanticDataModel> partSiteInfoAsPlanned =
+                    mainAspectModels.stream()
+                            .filter(semanticDataModel -> semanticDataModel.aspectType().contains(Aspect.PART_SITE_INFORMATION_AS_PLANNED.getAspectName())).toList();
 
-        addPartSiteInformationAsPlannedToOwnPartsAsPlanned(ownPartsAsPlanned, isPartSiteInformationAsPlanned);
+            addPartSiteInformationAsPlannedToOwnPartsAsPlanned(mainAspectModels, partSiteInfoAsPlanned);
 
-        log.info(":: mapToOwnPartsAsPlanned()");
-        log.info(":: ownPartsAsPlanned: {}", ownPartsAsPlanned);
+            List<GenericSubmodel> downwardModels = assetWrapperRequest.downwardRelationship();
+            List<GenericSubmodel> upwardModels = assetWrapperRequest.upwardRelationship();
 
-        Map<String, List<Relationship>> singleLevelBomRelationship = relationships().stream()
-                .filter(relationship -> SINGLE_LEVEL_BOM_AS_PLANNED.equals(relationship.aspectType().getAspectName()))
-                .collect(Collectors.groupingBy(Relationship::catenaXId, Collectors.toList()));
 
-        String ownerBpn = jobStatus.parameter().bpn();
+            List<Descriptions> parentRelations = upwardModels.stream()
+                    .map(genericSubmodel -> {
+                        SingleLevelUsageAsPlannedRequest payload = (SingleLevelUsageAsPlannedRequest) genericSubmodel.getPayload();
+                        return payload.parentParts().stream()
+                                .map(parentPart -> new Descriptions(parentPart.parentCatenaXId(), null)).toList();
+                    })
+                    .flatMap(List::stream).toList();
 
-        final List<AssetBase> assets = ownPartsAsPlanned
-                .stream()
-                .map(semanticDataModel -> semanticDataModel.toDomainAsPlanned(
-                        shortIds,
-                        Owner.OWN,
-                        bpnMapping,
-                        Collections.emptyList(),
-                        getChildParts(singleLevelBomRelationship, shortIds, semanticDataModel.catenaXId()),
-                        ownerBpn,
-                        ImportState.PERSISTENT
-                ))
-                .toList();
-        log.info(":: mapped assets: {}", assets);
-        return assets;*/
-        return Collections.emptyList();
+
+            List<Descriptions> childRelations = downwardModels.stream()
+                    .map(genericSubmodel -> {
+                        SingleLevelBomAsPlannedRequest payload = (SingleLevelBomAsPlannedRequest) genericSubmodel.getPayload();
+                        return payload.childItems().stream()
+                                .map(childItem -> new Descriptions(childItem.catenaXId(), null)).toList();
+                    })
+                    .flatMap(List::stream).toList();
+
+            list.addAll(mainAspectModels.stream().map(semanticDataModel -> semanticDataModel.toDomainAsPlannedLight(parentRelations, childRelations, bpn)).toList());
+
+        }
+
+        return list;
     }
 
-    private static boolean isAsPlanned(final String aspectType) {
-        return aspectType.contains("AsPlanned");
-    }
-
-    private static boolean isAsBuilt(final String aspectType) {
-        return !aspectType.contains("AsPlanned");
-    }
 }
 
 

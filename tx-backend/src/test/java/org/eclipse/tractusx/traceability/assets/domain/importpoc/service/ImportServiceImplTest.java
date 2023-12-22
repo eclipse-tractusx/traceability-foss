@@ -1,10 +1,13 @@
 package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 
 
+import org.eclipse.tractusx.traceability.common.model.BPN;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,6 +20,8 @@ import org.springframework.mock.web.MockMultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 
+import static org.mockito.Mockito.when;
+
 @ExtendWith(MockitoExtension.class)
 class ImportServiceImplTest {
 
@@ -28,10 +33,15 @@ class ImportServiceImplTest {
     @Mock
     private AssetAsBuiltRepository assetAsBuiltRepository;
 
+    @Mock
+    private TraceabilityProperties traceabilityProperties;
+
     @BeforeEach
     public void testSetup(){
         ObjectMapper objectMapper = new ObjectMapper();
-        importService = new ImportServiceImpl(objectMapper, assetAsPlannedRepository, assetAsBuiltRepository);
+        objectMapper.registerModule(new JavaTimeModule());
+        when(traceabilityProperties.getBpn()).thenReturn(BPN.of("ABC"));
+        importService = new ImportServiceImpl(objectMapper, assetAsPlannedRepository, assetAsBuiltRepository, traceabilityProperties);
 
     }
     @Test

@@ -238,7 +238,7 @@ public record JobDetailResponse(
         return assets;
     }
 
-    private static void addPartSiteInformationAsPlannedToOwnPartsAsPlanned(List<SemanticDataModel> ownPartsAsPlanned, List<SemanticDataModel> partSiteInformationAsPlanned) {
+    public static void addPartSiteInformationAsPlannedToOwnPartsAsPlanned(List<SemanticDataModel> ownPartsAsPlanned, List<SemanticDataModel> partSiteInformationAsPlanned) {
         for (SemanticDataModel semanticDataModel : ownPartsAsPlanned) {
             for (SemanticDataModel partSiteSemanticDataModel : partSiteInformationAsPlanned) {
                 if (semanticDataModel.getCatenaXId().equals(partSiteSemanticDataModel.getCatenaXId())) {

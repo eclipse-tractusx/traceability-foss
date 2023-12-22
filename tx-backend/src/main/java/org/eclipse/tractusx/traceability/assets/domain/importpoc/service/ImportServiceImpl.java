@@ -28,6 +28,7 @@ import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.Asse
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.ImportRequest;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.ImportException;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,17 +42,13 @@ public class ImportServiceImpl implements ImportService {
     private final ObjectMapper objectMapper;
     private final AssetAsPlannedRepository assetAsPlannedRepository;
     private final AssetAsBuiltRepository assetAsBuiltRepository;
-
+    private final TraceabilityProperties traceabilityProperties;
     @Override
     public void importAssets(MultipartFile file) {
         try {
-            // TODO - build a json schema construct which consists of the assetmetainfo and the submodels.
-            //  The submodels needs to be pulled by (example for serialpart) https://github.com/eclipse-tractusx/sldt-semantic-models/blob/main/io.catenax.serial_part/2.0.0/gen/SerialPart-schema.json
-            //  It is okay to download the schemas and put them in a folder as we need to have control over the schemas
-            // For the validation see: https://github.com/eclipse-tractusx/item-relationship-service/blob/main/irs-api/src/main/java/org/eclipse/tractusx/irs/services/validation/JsonValidatorService.java#L43
-
             String fileContent = new String(file.getBytes(), StandardCharsets.UTF_8);
             log.info("Imported file: " + fileContent);
+
             ImportRequest importRequest = objectMapper.readValue(fileContent, ImportRequest.class);
             List<AssetBase> persistedAsBuilts = this.assetAsBuiltRepository.saveAll(importRequest.convertAssetsAsBuilt());
             try {
@@ -59,7 +56,8 @@ public class ImportServiceImpl implements ImportService {
             } catch (Exception e) {
                 log.error("exception", e);
             }
-            List<AssetBase> persistedAsPlanned = this.assetAsPlannedRepository.saveAll(importRequest.convertAssetsAsPlanned());
+            final String bpn = traceabilityProperties.getBpn().toString();
+            List<AssetBase> persistedAsPlanned = this.assetAsPlannedRepository.saveAll(importRequest.convertAssetsAsPlanned(bpn));
             try {
                 log.info("persistedAsPlanned as JSON {}", objectMapper.writeValueAsString(persistedAsPlanned));
             } catch (Exception e) {
