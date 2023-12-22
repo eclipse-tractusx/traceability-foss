@@ -13,6 +13,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [10.1.0 - 22.12.2023]
 ### Added
 - Added an option for testdata upload in Argo Workflow
+- Validation for import data
 - GitHub action that ensures an up-to-date CHANGELOG.md
 
 ### Changed

@@ -16,15 +16,12 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+
 package org.eclipse.tractusx.traceability.assets.application.importpoc.validation;
 
-import jakarta.validation.Payload;
+public class NotSupportedSchemaException extends RuntimeException{
 
-public @interface ValidJsonFile {
-
-    String message() default "File must be a valid JSON file";
-
-    Class<?>[] groups() default {};
-
-    Class<? extends Payload>[] payload() default {};
+    NotSupportedSchemaException(String providedSchema) {
+        super("'%s' is not supported".formatted(providedSchema));
+    }
 }
