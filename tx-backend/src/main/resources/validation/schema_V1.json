@@ -25,22 +25,8 @@
                 "aspectType": {
                   "type": "string"
                 },
-                "identification": {
-                  "type": "string"
-                },
                 "payload": {
-                  "type" : "object",
-                  "anyOf": [
-                    { "$ref": "./Batch_2.0.0-schema.json" },
-                    { "$ref": "./JustInSequencePart_1.0.0-schema.json" },
-                    { "$ref": "./SerialPart_1.0.1-schema.json" },
-                    { "$ref": "./PartSiteInformationAsPlanned_1.0.0-schema.json" },
-                    { "$ref": "./SingleLevelBomAsBuilt_2.0.0-schema.json" },
-                    { "$ref": "./SingleLevelUsageAsBuilt_2.0.0-schema.json" },
-                    { "$ref": "./TractionBatteryCode_1.0.0-schema.json" },
-                    { "$ref": "./PartAsPlanned_1.0.1-schema.json" },
-                    { "$ref": "./SingleLevelBomAsPlanned_2.0.0-schema.json" }
-                  ]
+                  "type" : "object"
                 }
               },
               "required": ["aspectType", "payload"]

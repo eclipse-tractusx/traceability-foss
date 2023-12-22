@@ -6,10 +6,9 @@
       },
       "submodels" : [
         {
-          "invalidParam" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
-          "identification" : "1234",
+          "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
           "payload" : {
-            "localIdentifiers" : [
+            "invalidlocalIdentifiers" : [
               {
                 "value" : "BPNL00000003CNKC",
                 "key" : "manufacturerId"
@@ -38,7 +37,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt",
+          "invalidaspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt",
           "payload" : {
             "catenaXId" : "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd",
             "childItems" : [
@@ -121,8 +120,8 @@
         {
           "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt",
           "payload" : {
-            "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a",
-            "childItems" : [
+            "catenaX1Id" : "urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a",
+            "invalidchildItems" : [
               {
                 "quantity" : {
                   "quantityNumber" : 1,

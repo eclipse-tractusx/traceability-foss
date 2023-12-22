@@ -62,6 +62,14 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .post("/api/assets/import")
                 .then()
                 .statusCode(400)
-                .body("validationErrors", Matchers.containsInRelativeOrder(List.of("Did not match pattern: ^urn:uuid:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$", "Missing property aspectType").toArray()));
+                .body("validationErrors", Matchers.contains(
+                        List.of(
+                                "Did not match pattern: ^urn:uuid:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+                                "Missing property aspectType",
+                                "Missing property localIdentifiers",
+                                "Missing property aspectType",
+                                "Missing property catenaXId",
+                                "Missing property childItems"
+                        ).toArray()));
     }
 }

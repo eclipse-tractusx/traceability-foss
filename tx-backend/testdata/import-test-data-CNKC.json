@@ -7,7 +7,6 @@
       "submodels" : [
         {
           "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
-          "identification" : "1234",
           "payload" : {
             "localIdentifiers" : [
               {
