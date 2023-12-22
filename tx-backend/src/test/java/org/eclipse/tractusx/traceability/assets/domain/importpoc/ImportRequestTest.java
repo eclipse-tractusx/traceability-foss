@@ -19,6 +19,7 @@
 package org.eclipse.tractusx.traceability.assets.domain.importpoc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -42,6 +43,7 @@ class ImportRequestTest {
 
         // Parse the JSON string into a JsonNode using Jackson ObjectMapper
         ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
         ImportRequest importRequest = objectMapper.readValue(jsonString, ImportRequest.class);
 
         // Your test logic goes here
