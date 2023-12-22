@@ -24,6 +24,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataTractionBatteryCode;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.SingelLevelUsageAsBuiltRequest;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.SingleLevelBomAsBuiltRequest;
@@ -31,6 +32,7 @@ import org.eclipse.tractusx.traceability.assets.domain.importpoc.SingleLevelBomA
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.SingleLevelUsageAsPlannedRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.SemanticDataModel;
 
+@Slf4j
 public class GenericSubmodel {
     @JsonTypeInfo(
             use = JsonTypeInfo.Id.NAME,
@@ -86,6 +88,22 @@ public class GenericSubmodel {
     public GenericSubmodel(@JsonProperty("aspectType") String aspectType, @JsonProperty("payload") Object payload) {
         this.aspectType = aspectType;
         this.payload = payload;
+        // Cast payload to SemanticDataModel if it's an instance of SemanticDataModel
+
+
+ /*      ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+
+        try {
+            this.payloadString = objectMapper.writeValueAsString(payload);
+        } catch (JsonProcessingException e) {
+            // Handle the exception appropriately (e.g., log it)
+            log.error("Could not write payload for aspectType {}", aspectType, e);
+            throw new ImportException(e.getMessage());
+        }*/
     }
 
     public Object getPayload() {

@@ -56,16 +56,7 @@ public record ImportRequest(
                 List<SemanticDataModel> mainAspectsAsBuilt = assetWrapperRequest.mainAspectModels();
 
 
-                List<GenericSubmodel> upwardAspectsAsBuilt = assetWrapperRequest.upwardRelationship().stream()
-                        .map(request -> {
-                            // Assuming there is a method getSubmodel() in SingleLevelBomAsBuiltRequest
-                            SingelLevelUsageAsBuiltRequest submodel = (SingelLevelUsageAsBuiltRequest) request.getPayload();
-
-                            // Perform any additional operations on submodel if needed
-
-                            // Create a new SingleLevelBomAsBuiltRequest with the casted submodel
-                            return new GenericSubmodel(request.getAspectType(), submodel/* pass other parameters and the modified submodel */);
-                        }).toList();
+                List<GenericSubmodel> upwardAspectsAsBuilt = assetWrapperRequest.upwardRelationship();
 
                 List<GenericSubmodel> downwardAspectsAsBuilt = assetWrapperRequest.downwardRelationship();
                 assetAsBuiltWrapperRequest.add(new AssetWrapperRequest(assetMetaInfoRequest, mainAspectsAsBuilt, upwardAspectsAsBuilt, downwardAspectsAsBuilt, BomLifecycle.AS_BUILT));
