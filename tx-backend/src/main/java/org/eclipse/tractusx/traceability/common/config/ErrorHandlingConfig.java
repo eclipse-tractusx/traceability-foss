@@ -28,8 +28,8 @@ import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.ImportException;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.ImportException;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnNotFoundException;
 import org.eclipse.tractusx.traceability.common.domain.ParseLocalDateException;
 import org.eclipse.tractusx.traceability.common.model.UnsupportedSearchCriteriaFieldException;
@@ -153,7 +153,7 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
 
     @ExceptionHandler(ValidationException.class)
     ResponseEntity<ErrorResponse> handleValidationException(ValidationException exception) {
-        log.warn("handleValidationExceptionexception", exception);
+        log.warn("handleValidationException", exception);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
