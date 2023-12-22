@@ -61,9 +61,12 @@ public class JsonFileValidator {
         if (file == null || file.isEmpty()) {
             return List.of();
         }
-
-        String[] fileName = file.getOriginalFilename().split("\\.");
-        if (!Objects.equals(fileName[fileName.length - 1], "json")) {
+        String fileName = file.getOriginalFilename();
+        if (isNull(fileName)){
+            throw new IllegalStateException();
+        }
+        String[] fileNameSplit = fileName.split("\\.");
+        if (!Objects.equals(fileNameSplit[fileNameSplit.length - 1], "json")) {
             return List.of("Supported file is *.json");
         }
 
