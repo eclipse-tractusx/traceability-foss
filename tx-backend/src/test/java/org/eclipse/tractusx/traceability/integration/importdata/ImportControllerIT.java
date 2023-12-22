@@ -72,4 +72,44 @@ class ImportControllerIT extends IntegrationTestSpecification {
                                 "Missing property childItems"
                         ).toArray()));
     }
+
+    @Test
+    void givenInvalidFileExtension_whenImportData_thenValidationShouldPass() throws JoseException {
+        // given
+        String path = getClass().getResource("/testdata/importfiles/invalidExtensionFile.xml").getFile();
+        File file = new File(path);
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .when()
+                .multiPart(file)
+                .post("/api/assets/import")
+                .then()
+                .statusCode(400)
+                .body("validationErrors", Matchers.contains(
+                        List.of(
+                                "Supported file is *.json"
+                        ).toArray()));
+    }
+
+    @Test
+    void givenInvalidAspect_whenImportData_thenValidationShouldPass() throws JoseException {
+        // given
+        String path = getClass().getResource("/testdata/importfiles/invalidImportFile-notSupportedAspect.json").getFile();
+        File file = new File(path);
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .when()
+                .multiPart(file)
+                .post("/api/assets/import")
+                .then()
+                .statusCode(400)
+                .body("validationErrors", Matchers.contains(
+                        List.of(
+                                "'urn:bamm:io.catenax.serial_part:1.1.1#NOT_SUPPORTED_NAME' is not supported"
+                        ).toArray()));
+    }
 }

@@ -37,10 +37,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import static java.util.Objects.isNull;
+
 @Component
 public class JsonFileValidator {
 
-    private static final Map<String, String> SUPPORTED_SCHEMA_VALIDATION = Map.ofEntries(
+    public static final Map<String, String> SUPPORTED_SCHEMA_VALIDATION = Map.ofEntries(
             Map.entry("base", "/validation/schema_V1.json"),
             Map.entry("urn:samm:io.catenax.batch:2.0.0#Batch", "/validation/Batch_2.0.0-schema.json"),
             Map.entry("urn:bamm:io.catenax.just_in_sequence_part:1.0.0#JustInSequencePart", "/validation/JustInSequencePart_1.0.0-schema.json"),
@@ -59,13 +61,16 @@ public class JsonFileValidator {
         if (file == null || file.isEmpty()) {
             return List.of();
         }
+
+        String[] fileName = file.getOriginalFilename().split("\\.");
+        if (!Objects.equals(fileName[fileName.length - 1], "json")) {
+            return List.of("Supported file is *.json");
+        }
+
         final List<String> errors = new ArrayList<>();
         Validator validator = new Validator();
         try {
-
-
             validator.validate(getSchema("base"), file.getInputStream());
-
         } catch (ListValidationException e) {
             errors.addAll(e.getErrors().stream().map(ValidationError::getMessage).toList());
         } catch (GenerationException | IOException | ValidationException e) {
@@ -86,26 +91,25 @@ public class JsonFileValidator {
         }
 
         JsonNode assetsNode = rootNode.get("assets");
-        for(JsonNode asset : assetsNode) {
+        for (JsonNode asset : assetsNode) {
             JsonNode submodels = asset.get("submodels");
             for (JsonNode submodel : submodels) {
                 JsonNode aspectTypeNode = submodel.get("aspectType");
-                if(Objects.isNull(aspectTypeNode)) {
+                if (isNull(aspectTypeNode)) {
                     errors.add("Missing property aspectType");
                     continue;
                 }
                 String aspectType = aspectTypeNode.asText();
                 String payload = submodel.get("payload").toString();
 
-                if (Objects.isNull(payload)){
-                    throw new RuntimeException();
-                }
                 try {
                     validator.validateJson(getSchema(aspectType), payload);
                 } catch (ListValidationException e) {
                     errors.addAll(e.getErrors().stream().map(ValidationError::getMessage).toList());
-                } catch (GenerationException | ValidationException e){
+                } catch (GenerationException | ValidationException e) {
                     throw new IllegalStateException(e);
+                } catch (NotSupportedSchemaException e) {
+                    errors.add(e.getMessage());
                 }
 
             }
@@ -116,8 +120,12 @@ public class JsonFileValidator {
 
 
     private Schema getSchema(String schemaName) throws GenerationException {
-        // TODO Handle schema not supported
-        URL url = this.getClass().getResource(SUPPORTED_SCHEMA_VALIDATION.get(schemaName));
+        String schemaPath = SUPPORTED_SCHEMA_VALIDATION.get(schemaName);
+        if (isNull(schemaPath)) {
+            throw new NotSupportedSchemaException(schemaName);
+        }
+
+        URL url = this.getClass().getResource(schemaPath);
         return schemaStore.loadSchema(url);
     }
 
