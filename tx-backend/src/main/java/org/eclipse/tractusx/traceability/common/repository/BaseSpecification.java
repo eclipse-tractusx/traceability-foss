@@ -43,13 +43,13 @@ public abstract class BaseSpecification<T> implements Specification<T> {
     protected Predicate createPredicate(SearchCriteriaFilter criteria, Root<?> root, CriteriaBuilder builder) {
         if (criteria.getStrategy().equals(SearchStrategy.EQUAL)) {
             return builder.equal(
-                    root.<String>get(criteria.getKey()).as(String.class),
-                    criteria.getValue());
+                    builder.lower(root.<String>get(criteria.getKey()).as(String.class)),
+                    criteria.getValue().toLowerCase());
         }
         if (criteria.getStrategy().equals(SearchStrategy.STARTS_WITH)) {
             return builder.like(
-                    root.get(criteria.getKey()),
-                    criteria.getValue() + "%");
+                    builder.lower(root.get(criteria.getKey())),
+                    criteria.getValue().toLowerCase() + "%");
         }
         if (criteria.getStrategy().equals(SearchStrategy.AT_LOCAL_DATE)) {
             final LocalDate localDate = LocalDate.parse(criteria.getValue());

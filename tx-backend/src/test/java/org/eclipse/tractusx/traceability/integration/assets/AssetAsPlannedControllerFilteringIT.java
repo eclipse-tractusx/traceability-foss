@@ -20,8 +20,6 @@
 package org.eclipse.tractusx.traceability.integration.assets;
 
 import io.restassured.http.ContentType;
-import java.util.Set;
-import java.util.stream.Stream;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.repository.JpaAssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
@@ -32,6 +30,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Set;
+import java.util.stream.Stream;
 
 import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
@@ -51,32 +52,32 @@ class AssetAsPlannedControllerFilteringIT extends IntegrationTestSpecification {
 
     private static Stream<Arguments> filters() {
         return Stream.of(
-            Arguments.of(Set.of("owner,EQUAL,OWN"), "AND", 1),
-            Arguments.of(Set.of("nameAtManufacturer,STARTS_WITH,Vehicle"), "AND", 2),
-            Arguments.of(Set.of("nameAtManufacturer,STARTS_WITH,Vehicle", "owner,EQUAL,SUPPLIER"), "AND", 1),
-            Arguments.of(Set.of("owner,EQUAL,SUPPLIER", "id,STARTS_WITH,urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01"), "OR", 1)
+                Arguments.of(Set.of("owner,EQUAL,OWN"), "AND", 1),
+                Arguments.of(Set.of("nameAtManufacturer,STARTS_WITH,Vehicle"), "AND", 2),
+                Arguments.of(Set.of("nameAtManufacturer,STARTS_WITH,Vehicle", "owner,EQUAL,SUPPLIER"), "AND", 1),
+                Arguments.of(Set.of("owner,EQUAL,SUPPLIER", "id,STARTS_WITH,urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01"), "OR", 1)
         );
     }
 
     @ParameterizedTest
     @MethodSource("filters")
     void givenFilter_whenCallFilteredEndpoint_thenReturnExpectedResult(
-        final Set<String> filters,
-        final String filterOperator,
-        final Integer expectedTotalItems
+            final Set<String> filters,
+            final String filterOperator,
+            final Integer expectedTotalItems
     ) throws JoseException {
         given()
-            .header(oAuth2Support.jwtAuthorization(ADMIN))
-            .contentType(ContentType.JSON)
-            .param("filter", filters.stream().toList())
-            .param("filterOperator", filterOperator)
-            .log().all()
-            .when()
-            .get("/api/assets/as-planned")
-            .then()
-            .log().all()
-            .statusCode(200)
-            .body("totalItems", equalTo(expectedTotalItems));
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .param("filter", filters.stream().toList())
+                .param("filterOperator", filterOperator)
+                .log().all()
+                .when()
+                .get("/api/assets/as-planned")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .body("totalItems", equalTo(expectedTotalItems));
     }
 
     @Test
@@ -91,5 +92,41 @@ class AssetAsPlannedControllerFilteringIT extends IntegrationTestSpecification {
                 .log().all()
                 .statusCode(200)
                 .body("totalItems", equalTo(2));
+    }
+
+    private static Stream<Arguments> filterCaseInsensitive() {
+        return Stream.of(
+                Arguments.of(
+                        "nameAtManufacturer,STARTS_WITH,vehicle model b"
+                ),
+                Arguments.of(
+                        "nameAtManufacturer,STARTS_WITH,Vehicle Model B"
+
+                ),
+                Arguments.of(
+                        "nameAtManufacturer,STARTS_WITH,VEHICLE MODEL B"
+                )
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("filterCaseInsensitive")
+    void testIfFilteringIsCaseInsensitive(String filter) throws JoseException {
+
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .param("page", 0)
+                .param("size", 50)
+                .param("filter", filter)
+                .param("filterOperator", "AND")
+                .log().all()
+                .when()
+                .get("/api/assets/as-planned")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .body("totalItems", equalTo(1))
+                .body("content.nameAtManufacturer[0]", equalTo("Vehicle Model B"));
     }
 }

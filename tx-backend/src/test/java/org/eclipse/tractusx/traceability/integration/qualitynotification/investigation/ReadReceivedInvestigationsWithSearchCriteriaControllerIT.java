@@ -28,14 +28,19 @@ import org.eclipse.tractusx.traceability.testdata.InvestigationTestDataFactory;
 import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Date;
+import java.util.stream.Stream;
 
 import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
+import static org.hamcrest.Matchers.equalTo;
 
 class ReadReceivedInvestigationsWithSearchCriteriaControllerIT extends IntegrationTestSpecification {
 
@@ -293,5 +298,46 @@ class ReadReceivedInvestigationsWithSearchCriteriaControllerIT extends Integrati
                 .body("totalItems", Matchers.is(3))
                 .body("content.sendTo", Matchers.hasItems("BPNL000000000001"))
                 .body("content.sendToName", Matchers.hasItems("OEM2"));
+    }
+
+    private static Stream<Arguments> filterArguments() {
+        return Stream.of(
+                Arguments.of(
+                        "description,STARTS_WITH,first"
+                ),
+                Arguments.of(
+                        "description,STARTS_WITH,First"
+
+                ),
+                Arguments.of(
+                        "description,STARTS_WITH,FIRST"
+                )
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("filterArguments")
+    void testIfFilteringIsCaseInsensitive(String filter) throws JoseException {
+
+        String testBpn = bpnSupport.testBpn();
+
+        InvestigationNotificationEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createReceiverMajorityInvestigationNotificationEntitiesTestData(testBpn);
+        investigationNotificationsSupport.storedNotifications(investigationNotificationEntities);
+
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .param("page", 0)
+                .param("size", 50)
+                .param("filter", filter)
+                .param("filterOperator", "AND")
+                .log().all()
+                .when()
+                .get("/api/investigations/received")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .body("totalItems", equalTo(1))
+                .body("content.description[0]", equalTo("First Investigation on Asset1"));
     }
 }

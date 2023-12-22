@@ -44,20 +44,20 @@ public class AlertSpecification extends BaseSpecification<AlertEntity> implement
 
     @Override
     public Predicate toPredicate(@NotNull Root<AlertEntity> root, @NotNull CriteriaQuery<?> query, @NotNull CriteriaBuilder builder) {
-        return createPredicateBasedOnJoin(getSearchCriteriaFilter(), root, builder);
+        return createPredicateBasedOfSearchCriteria(getSearchCriteriaFilter(), root, builder);
     }
 
-    private Predicate createPredicateBasedOnJoin(SearchCriteriaFilter criteria, Root<?> root, CriteriaBuilder builder) {
+    private Predicate createPredicateBasedOfSearchCriteria(SearchCriteriaFilter criteria, Root<?> root, CriteriaBuilder builder) {
         Path predicatePath = root.get(criteria.getKey());
         if (criteria.getStrategy().equals(SearchStrategy.EQUAL)) {
             return builder.equal(
-                    predicatePath.as(String.class),
-                    criteria.getValue());
+                    builder.lower(predicatePath.as(String.class)),
+                    criteria.getValue().toLowerCase());
         }
         if (criteria.getStrategy().equals(SearchStrategy.STARTS_WITH)) {
             return builder.like(
-                    predicatePath,
-                    criteria.getValue() + "%");
+                    builder.lower(predicatePath),
+                    criteria.getValue().toLowerCase() + "%");
         }
         if (criteria.getStrategy().equals(SearchStrategy.AT_LOCAL_DATE)) {
             final LocalDate localDate = LocalDate.parse(criteria.getValue());

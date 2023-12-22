@@ -24,8 +24,14 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repositor
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
 import org.jose4j.lang.JoseException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.stream.Stream;
 
 import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
@@ -39,10 +45,13 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     @Autowired
     JpaAssetAsBuiltRepository repo;
 
+    @BeforeEach
+    void before() {
+        assetsSupport.defaultAssetsStored();
+    }
+
     @Test
     void givenNoFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
-        // given
-        assetsSupport.defaultAssetsStored();
 
         // then
         given()
@@ -60,7 +69,6 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     @Test
     void givenNoFilter_whenCallFilteredEndpointWithoutOperator_thenReturnBadRequest() throws JoseException {
         // given
-        assetsSupport.defaultAssetsStored();
         final String filter = "?filter=activeAlert,EQUAL,false";
 
         // then
@@ -78,7 +86,6 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     @Test
     void givenInInvestigationFalseFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
         // given
-        assetsSupport.defaultAssetsStored();
         final String filter = "?filter=activeAlert,EQUAL,false";
         final String filterOperator = "&filterOperator=AND";
 
@@ -98,7 +105,6 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     @Test
     void givenInInvestigationTrueFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
         // given
-        assetsSupport.defaultAssetsStored();
         final String filter = "?filter=activeAlert,EQUAL,true";
         final String filterOperator = "&filterOperator=AND";
 
@@ -118,7 +124,6 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     @Test
     void givenIdAndIdShortFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
         // given
-        assetsSupport.defaultAssetsStored();
         final String filter = "?filter=id,STARTS_WITH,urn:uuid:1&filter=idShort,STARTS_WITH,engineering";
         final String filterOperator = "&filterOperator=AND";
         // then
@@ -137,7 +142,6 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     @Test
     void givenOwnFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
         // given
-        assetsSupport.defaultAssetsStored();
         final String filter = "?filter=owner,EQUAL,OWN";
         final String filterOperator = "&filterOperator=AND";
 
@@ -157,7 +161,6 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     @Test
     void givenManufacturerIdFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
         // given
-        assetsSupport.defaultAssetsStored();
         final String filter = "?filter=manufacturerId,EQUAL,BPNL00000003B0Q0";
         final String filterOperator = "&filterOperator=AND";
 
@@ -177,7 +180,6 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     @Test
     void givenManufacturerIdAndSemanticModelIdFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
         // given
-        assetsSupport.defaultAssetsStored();
         final String filter = "?filter=manufacturerId,EQUAL,BPNL00000003B0Q0&filter=semanticModelId,STARTS_WITH,NO-3404609481920549";
         final String filterOperator = "&filterOperator=AND";
 
@@ -197,7 +199,6 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     @Test
     void givenIdShortStartsWithFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
         // given
-        assetsSupport.defaultAssetsStored();
         final String filter = "?filter=idShort,STARTS_WITH,ntier_";
         final String filterOperator = "&filterOperator=AND";
 
@@ -217,7 +218,6 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     @Test
     void givenManufacturingDateFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
         // given
-        assetsSupport.defaultAssetsStored();
         final String filter = "?filter=manufacturingDate,AT_LOCAL_DATE,2014-11-18";
         final String filterOperator = "&filterOperator=AND";
 
@@ -237,7 +237,6 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     @Test
     void givenSemanticDataModelAndManufacturingDateFilterOR_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
         // given
-        assetsSupport.defaultAssetsStored();
         final String filter = "?filter=manufacturingDate,AT_LOCAL_DATE,2014-11-18&filter=semanticDataModel,EQUAL,SERIALPART";
         final String filterOperator = "&filterOperator=OR";
 
@@ -257,7 +256,6 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     @Test
     void givenSemanticDataModelAndManufacturingDateFilterAnd_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
         // given
-        assetsSupport.defaultAssetsStored();
         final String filter = "?filter=manufacturingDate,AT_LOCAL_DATE,2014-11-18&filter=semanticDataModel,EQUAL,SERIALPART";
         final String filterOperator = "&filterOperator=AND";
 
@@ -277,7 +275,6 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     @Test
     void givenSemanticDataModelAndOwnerOR_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
         // given
-        assetsSupport.defaultAssetsStored();
         final String filter = "?filter=owner,EQUAL,SUPPLIER&filter=id,STARTS_WITH,urn:uuid:f7cf62fe-9e25-472b-9148-66";
         final String filterOperator = "&filterOperator=OR";
 
@@ -297,7 +294,6 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     @Test
     void givenSemanticDataModelAsMultipleValuesAndOwnerOR_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
         // given
-        assetsSupport.defaultAssetsStored();
         final String filter = "?filter=owner,EQUAL,SUPPLIER&filter=semanticDataModel,EQUAL,SERIALPART&filter=semanticDataModel,EQUAL,BATCH";
         final String filterOperator = "&filterOperator=OR";
 
@@ -312,5 +308,41 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
                 .log().all()
                 .statusCode(200)
                 .body("totalItems", equalTo(12));
+    }
+
+    private static Stream<Arguments> filterCaseInsensitive() {
+        return Stream.of(
+                Arguments.of(
+                        "nameAtManufacturer,STARTS_WITH,vehicle hybrid"
+                ),
+                Arguments.of(
+                        "nameAtManufacturer,STARTS_WITH,Vehicle Hybrid"
+
+                ),
+                Arguments.of(
+                        "nameAtManufacturer,STARTS_WITH,VEHICLE HYBRID"
+                )
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("filterCaseInsensitive")
+    void testIfFilteringIsCaseInsensitive(String filter) throws JoseException {
+
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .param("page", 0)
+                .param("size", 50)
+                .param("filter", filter)
+                .param("filterOperator", "AND")
+                .log().all()
+                .when()
+                .get("/api/assets/as-built")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .body("totalItems", equalTo(1))
+                .body("content.nameAtManufacturer[0]", equalTo("Vehicle Hybrid"));
     }
 }
