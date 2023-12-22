@@ -4,7 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
 ## [UNRELEASED - DD.MM.YYYY]
+### Added
+### Changed
+### Removed
+
+## [10.1.0 - 22.12.2023]
 ### Added
 - Added an option for testdata upload in Argo Workflow
 - Validation for import data
