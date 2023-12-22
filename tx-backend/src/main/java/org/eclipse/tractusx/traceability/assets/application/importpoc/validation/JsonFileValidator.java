@@ -116,6 +116,7 @@ public class JsonFileValidator {
 
 
     private Schema getSchema(String schemaName) throws GenerationException {
+        // TODO Handle schema not supported
         URL url = this.getClass().getResource(SUPPORTED_SCHEMA_VALIDATION.get(schemaName));
         return schemaStore.loadSchema(url);
     }
