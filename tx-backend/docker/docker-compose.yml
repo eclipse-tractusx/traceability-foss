@@ -19,6 +19,7 @@ name: trace-foss
 services:
   postgres:
     image: "postgres:14.4"
+    pid: "host"
     volumes:
       - postgres-data:/var/lib/postgresql/data
       - ./db-init:/docker-entrypoint-initdb.d
