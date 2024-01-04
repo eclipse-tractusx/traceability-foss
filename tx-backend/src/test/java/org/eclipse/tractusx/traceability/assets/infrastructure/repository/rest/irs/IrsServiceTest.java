@@ -47,7 +47,6 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.SemanticDataModel;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.Site;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.ValidityPeriod;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.IrsPolicy;
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
@@ -97,10 +96,6 @@ class IrsServiceTest {
     @Test
     void givenNoPolicyExist_whenCreateIrsPolicyIfMissing_thenCreateIt() {
         // given
-        final IrsPolicy policyToCreate = IrsPolicy.builder()
-                .policyId("test")
-                .ttl("2023-07-03T16:01:05.309Z")
-                .build();
         when(irsClient.getPolicies()).thenReturn(List.of());
         when(traceabilityProperties.getRightOperand()).thenReturn("test");
         when(traceabilityProperties.getOperatorType()).thenReturn("eq");
@@ -118,10 +113,6 @@ class IrsServiceTest {
     @Test
     void givenPolicyExist_whenCreateIrsPolicyIfMissing_thenDoNotCreateIt() {
         // given
-        final IrsPolicy policyToCreate = IrsPolicy.builder()
-                .policyId("test")
-                .ttl("2023-07-03T16:01:05.309Z")
-                .build();
         final PolicyResponse existingPolicy = new PolicyResponse("test", OffsetDateTime.parse("2023-07-03T16:01:05.309Z"), OffsetDateTime.now(), List.of());
         when(irsClient.getPolicies()).thenReturn(List.of(existingPolicy));
         when(traceabilityProperties.getRightOperand()).thenReturn("test");
