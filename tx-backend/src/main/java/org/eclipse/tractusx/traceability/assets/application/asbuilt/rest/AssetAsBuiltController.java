@@ -262,7 +262,17 @@ public class AssetAsBuiltController {
             tags = {"AssetsAsBuilt"},
             description = "The endpoint returns a map for assets consumed by the map.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the assets found"),
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the assets found",  content = @Content(
+            mediaType = "application/json",
+            array = @ArraySchema(
+                    arraySchema = @Schema(
+                            description = "AssetMap",
+                            implementation = Map.class,
+                            additionalProperties = Schema.AdditionalPropertiesValue.FALSE
+                    ),
+                    maxItems = Integer.MAX_VALUE,
+                    minItems = 0)
+    )),
             @ApiResponse(
                     responseCode = "400",
                     description = "Bad request.",
