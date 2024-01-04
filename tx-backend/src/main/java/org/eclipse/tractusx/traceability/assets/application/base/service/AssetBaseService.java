@@ -44,7 +44,7 @@ public interface AssetBaseService {
 
     List<AssetBase> getAssetsById(List<String> assetIds);
 
-    AssetBase getAssetByChildId(String assetId, String childId);
+    AssetBase getAssetByChildId(String childId);
 
     PageResult<AssetBase> getAssets(Pageable pageable, SearchCriteria searchCriteria);
 
