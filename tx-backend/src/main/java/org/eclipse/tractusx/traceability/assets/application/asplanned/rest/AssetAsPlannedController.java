@@ -360,7 +360,7 @@ public class AssetAsPlannedController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/{assetId}/children/{childId}")
-    public AssetAsPlannedResponse asset(@PathVariable String assetId, @PathVariable String childId) {
+    public AssetAsPlannedResponse asset(@PathVariable("assetId") String assetId, @PathVariable("childId") String childId) {
         return AssetAsPlannedResponseMapper.from(assetService.getAssetByChildId(childId));
     }
 
