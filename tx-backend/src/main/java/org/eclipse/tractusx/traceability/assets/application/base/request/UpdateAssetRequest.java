@@ -22,11 +22,10 @@
 package org.eclipse.tractusx.traceability.assets.application.base.request;
 
 import io.swagger.annotations.ApiModelProperty;
-
 import jakarta.validation.constraints.NotNull;
 
 public record UpdateAssetRequest(
         @NotNull(message = "qualityType must be present")
-        @ApiModelProperty(example = "Ok")
+        @ApiModelProperty(example = "Ok", required = true)
         QualityTypeRequest qualityType) {
 }
