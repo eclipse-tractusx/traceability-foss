@@ -309,7 +309,7 @@ public class AssetAsPlannedController {
     }
 
 
-    @Operation(operationId = "assetByChildId",
+    @Operation(operationId = "assetByChildIdAndAssetId",
             summary = "Get asset by child id",
             tags = {"AssetsAsPlanned"},
             description = "The endpoint returns an asset filtered by child id.",
