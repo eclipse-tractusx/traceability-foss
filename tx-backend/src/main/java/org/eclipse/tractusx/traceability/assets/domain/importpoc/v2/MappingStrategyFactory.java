@@ -18,9 +18,11 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.domain.importpoc.v2;
 
+import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.ImportRequestV2;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.GenericSubmodel;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -30,24 +32,24 @@ import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.m
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.isMainAspect;
 
 @Component
-public class StrategyFactory {
+@RequiredArgsConstructor
+public class MappingStrategyFactory {
+    private TraceabilityProperties traceabilityProperties;
 
-    //use getShape method to get object of type shape
-    public AssetBase map(ImportRequestV2.AssetImportRequestV2 importRequestV2) {
+    public Optional<AssetBase> mapToAssetBase(ImportRequestV2.AssetImportRequestV2 importRequestV2) {
 
         Optional<String> isMainAspectSubmodel = importRequestV2.submodels().stream().filter(genericSubmodel -> isMainAspect(genericSubmodel.getAspectType())).map(GenericSubmodel::getAspectType).findFirst();
 
         if (isMainAspectSubmodel.isEmpty()) {
-            return null;
+            return Optional.empty();
         }
         if (isAsPlannedMainAspect(isMainAspectSubmodel.get())) {
-            return new AsPlannedMainAspectStrategy().map(importRequestV2);
+            return Optional.of(new AsPlannedMainAspectStrategy().mapToAssetBase(importRequestV2, traceabilityProperties));
         }
         if (isAsBuiltMainAspect(isMainAspectSubmodel.get())) {
-            return new AsBuiltMainAspectStrategy().map(importRequestV2);
+            return Optional.of(new AsBuiltMainAspectStrategy().mapToAssetBase(importRequestV2, traceabilityProperties));
         }
-
-        return null;
+        return Optional.empty();
     }
 }
 

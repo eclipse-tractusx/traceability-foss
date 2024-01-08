@@ -18,24 +18,105 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.domain.importpoc.v2;
 
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataAsBuilt;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataTractionBatteryCode;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportNote;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.ImportRequestV2;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.SingleLevelBomAsBuiltRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.GenericSubmodel;
 
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
+
+import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.isAsBuiltMainAspect;
+import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.isDownwardRelationshipAsBuilt;
+import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.isTractionBatteryCode;
+import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.isUpwardRelationshipAsBuilt;
 
 public class AsBuiltMainAspectStrategy implements MappingStrategy {
     @Override
-    public AssetBase map(ImportRequestV2.AssetImportRequestV2 assetImportRequestV2) {
+    public AssetBase mapToAssetBase(ImportRequestV2.AssetImportRequestV2 assetImportRequestV2, TraceabilityProperties traceabilityProperties) {
 
-        GenericSubmodel mainAspectSubmodel = assetImportRequestV2.submodels().stream().filter(genericSubmodel -> isAsBuiltMainAspect(genericSubmodel.getAspectType())).findFirst().get();
+        List<GenericSubmodel> submodels = assetImportRequestV2.submodels();
+        AsBuiltMainAspectV2 asBuiltAspect = submodels.stream()
+                .filter(genericSubmodel -> isAsBuiltMainAspect(genericSubmodel.getAspectType()))
+                .map(GenericSubmodel::getPayload)
+                .filter(AsBuiltMainAspectV2.class::isInstance)
+                .map(AsBuiltMainAspectV2.class::cast)
+                .findFirst()
+                .orElse(null);
 
-        List<GenericSubmodel> otherAspectTypes = assetImportRequestV2.submodels().stream().filter(genericSubmodel -> !(genericSubmodel.getPayload() instanceof AsBuiltMainAspectV2)).toList();
+        List<DetailAspectDataTractionBatteryCode> detailAspectDataTractionBatteryCodes = submodels.stream()
+                .filter(genericSubmodel -> isTractionBatteryCode(genericSubmodel.getAspectType()))
+                .map(GenericSubmodel::getPayload)
+                .filter(DetailAspectDataTractionBatteryCode.class::isInstance)
+                .map(DetailAspectDataTractionBatteryCode.class::cast)
+                .toList();
 
-        return AssetBase.builder().build();
+        List<Descriptions> parentRelations = submodels.stream()
+                .filter(genericSubmodel -> isUpwardRelationshipAsBuilt(genericSubmodel.getAspectType()))
+                .map(GenericSubmodel::getPayload)
+                .filter(SingelLevelUsageAsBuiltV2.class::isInstance)
+                .map(SingelLevelUsageAsBuiltV2.class::cast)
+                .map(singelLevelUsageAsBuiltV2 -> new Descriptions(singelLevelUsageAsBuiltV2.catenaXId(), null))
+                .toList();
+
+
+        List<Descriptions> childRelations = submodels.stream()
+                .filter(genericSubmodel -> isDownwardRelationshipAsBuilt(genericSubmodel.getAspectType()))
+                .map(GenericSubmodel::getPayload)
+                .filter(SingleLevelBomAsBuiltRequest.class::isInstance)
+                .map(SingleLevelBomAsBuiltRequest.class::cast)
+                .map(singleLevelBomAsBuiltRequest -> new Descriptions(singleLevelBomAsBuiltRequest.catenaXId(), null))
+                .toList();
+
+
+        String semanticModelId = null;
+        List<DetailAspectModel> detailAspectModels = new ArrayList<>();
+
+        extractDetailAspectModelsAsBuilt(asBuiltAspect.manufacturingInformation(), asBuiltAspect.partTypeInformation())
+        return AssetBase.builder()
+                .id(assetImportRequestV2.assetMetaInfoRequest().catenaXId())
+                .semanticModelId(semanticModelId)
+                .detailAspectModels(detailAspectModels)
+                .manufacturerId(traceabilityProperties.getBpn().value())
+                .nameAtManufacturer(asBuiltAspect.partTypeInformation().nameAtManufacturer())
+                .manufacturerPartId(asBuiltAspect.partTypeInformation().manufacturerPartId())
+                .parentRelations(parentRelations)
+                .childRelations(childRelations)
+                .owner(Owner.OWN)
+                .activeAlert(false)
+                .inInvestigation(false)
+                .classification(asBuiltAspect.partTypeInformation().classification())
+                .qualityType(QualityType.OK)
+                .semanticDataModel(semanticDataModel.get())
+                .van(van())
+                .importState(ImportState.TRANSIENT)
+                .importNote(ImportNote.TRANSIENT_CREATED)
+                .build();
     }
 
+    public static DetailAspectModel extractDetailAspectModelsAsBuilt(AsBuiltMainAspectV2.ManufacturingInformation manufacturingInformation,
+                                                                     AsBuiltMainAspectV2.PartTypeInformation partTypeInformation) {
+
+        DetailAspectDataAsBuilt detailAspectDataAsBuilt = DetailAspectDataAsBuilt.builder()
+                .customerPartId(partTypeInformation.customerPartId())
+                .manufacturingCountry(manufacturingInformation.country())
+                .manufacturingDate(OffsetDateTime.parse(manufacturingInformation.date()))
+                .nameAtCustomer(partTypeInformation.nameAtCustomer())
+                .partId(partTypeInformation.manufacturerPartId())
+                .build();
+        return DetailAspectModel.builder().data(detailAspectDataAsBuilt).type(DetailAspectType.AS_BUILT).build();
+    }
 
 }

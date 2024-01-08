@@ -6,10 +6,8 @@ import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetA
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 
 
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.v2.StrategyFactory;
-import org.eclipse.tractusx.traceability.common.model.BPN;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.v2.MappingStrategyFactory;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,8 +18,6 @@ import org.springframework.mock.web.MockMultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
-
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class ImportServiceImplTest {
@@ -35,7 +31,7 @@ class ImportServiceImplTest {
     private AssetAsBuiltRepository assetAsBuiltRepository;
 
     @Mock
-    private StrategyFactory strategyFactory;
+    private MappingStrategyFactory strategyFactory;
     @Mock
     private TraceabilityProperties traceabilityProperties;
 

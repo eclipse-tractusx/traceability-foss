@@ -18,23 +18,111 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.domain.importpoc.v2;
 
+import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataPartSiteInformationAsPlanned;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportNote;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.ImportRequestV2;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.PartSiteInformationAsPlannedRequest;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.SingleLevelBomAsPlannedRequest;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.SingleLevelUsageAsPlannedRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.GenericSubmodel;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 
+import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.isAsPlannedMainAspect;
+import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.isDownwardRelationshipAsPlanned;
+import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.isPartSiteInformationAsPlanned;
+import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.isUpwardRelationshipAsPlanned;
+
 
 public class AsPlannedMainAspectStrategy implements MappingStrategy {
+
     @Override
-    public AssetBase map(ImportRequestV2.AssetImportRequestV2 assetImportRequestV2) {
+    public AssetBase mapToAssetBase(ImportRequestV2.AssetImportRequestV2 assetImportRequestV2, TraceabilityProperties traceabilityProperties) {
+        List<GenericSubmodel> submodels = assetImportRequestV2.submodels();
 
-        GenericSubmodel mainAspectSubmodel = assetImportRequestV2.submodels().stream().filter(genericSubmodel -> isAsPlannedMainAspect(genericSubmodel.getAspectType())).findFirst().get();
+        PartAsPlannedV2 partAsPlannedV2 = submodels.stream()
+                .filter(genericSubmodel -> isAsPlannedMainAspect(genericSubmodel.getAspectType()))
+                .map(GenericSubmodel::getPayload)
+                .filter(PartAsPlannedV2.class::isInstance)
+                .map(PartAsPlannedV2.class::cast)
+                .findFirst()
+                .orElse(null);
 
-        List<GenericSubmodel> otherAspectTypes = assetImportRequestV2.submodels().stream().filter(genericSubmodel -> !(genericSubmodel.getPayload() instanceof AsBuiltMainAspectV2)).toList();
+        PartSiteInformationAsPlannedRequest partSiteInformationAsPlannedRequest = submodels.stream()
+                .filter(genericSubmodel -> isPartSiteInformationAsPlanned(genericSubmodel.getAspectType()))
+                .map(GenericSubmodel::getPayload)
+                .filter(PartSiteInformationAsPlannedRequest.class::isInstance)
+                .map(PartSiteInformationAsPlannedRequest.class::cast)
+                .findFirst()
+                .orElse(null);
 
-        return AssetBase.builder().build();
+        List<Descriptions> parentRelations = submodels.stream()
+                .filter(genericSubmodel -> isUpwardRelationshipAsPlanned(genericSubmodel.getAspectType()))
+                .map(GenericSubmodel::getPayload)
+                .filter(SingleLevelUsageAsPlannedRequest.class::isInstance)
+                .map(SingleLevelUsageAsPlannedRequest.class::cast)
+                .map(singleLevelUsageAsPlannedRequest -> new Descriptions(singleLevelUsageAsPlannedRequest.catenaXId(), null))
+                .toList();
+
+
+        List<Descriptions> childRelations = submodels.stream()
+                .filter(genericSubmodel -> isDownwardRelationshipAsPlanned(genericSubmodel.getAspectType()))
+                .map(GenericSubmodel::getPayload)
+                .filter(SingleLevelBomAsPlannedRequest.class::isInstance)
+                .map(SingleLevelBomAsPlannedRequest.class::cast)
+                .map(singleLevelBomAsPlannedRequest -> new Descriptions(singleLevelBomAsPlannedRequest.catenaXId(), null))
+                .toList();
+
+        List<DetailAspectModel> detailAspectModels = new ArrayList<>(extractDetailAspectModelsPartSiteInformationAsPlanned(emptyIfNull(partSiteInformationAsPlannedRequest.sites())));
+
+        AssetBase.AssetBaseBuilder assetBaseBuilder = AssetBase.builder();
+        if (partAsPlannedV2 != null) {
+            assetBaseBuilder
+                    .id(assetImportRequestV2.assetMetaInfoRequest().catenaXId())
+                    .manufacturerId(traceabilityProperties.getBpn().value())
+                    .nameAtManufacturer(partAsPlannedV2.partTypeInformation().nameAtManufacturer())
+                    .manufacturerPartId(partAsPlannedV2.partTypeInformation().manufacturerPartId())
+                    .parentRelations(parentRelations)
+                    .detailAspectModels(detailAspectModels)
+                    .childRelations(childRelations)
+                    .owner(Owner.OWN)
+                    .activeAlert(false)
+                    .classification(partAsPlannedV2.partTypeInformation().classification())
+                    .inInvestigation(false)
+                    .qualityType(QualityType.OK)
+                    .semanticDataModel(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.PARTASPLANNED)
+                    .importState(ImportState.TRANSIENT)
+                    .importNote(ImportNote.TRANSIENT_CREATED);
+        }
+
+        return assetBaseBuilder.build();
+
+    }
+
+    public static List<DetailAspectModel> extractDetailAspectModelsPartSiteInformationAsPlanned(List<PartSiteInformationAsPlannedRequest.Site> sites) {
+        List<DetailAspectModel> detailAspectModels = new ArrayList<>();
+        emptyIfNull(sites).forEach(site -> {
+            DetailAspectDataPartSiteInformationAsPlanned detailAspectDataPartSiteInformationAsPlanned = DetailAspectDataPartSiteInformationAsPlanned.builder()
+                    .catenaXSiteId(site.catenaXSiteId())
+                    .functionValidFrom(OffsetDateTime.parse(site.functionValidFrom()))
+                    .function(site.function())
+                    .functionValidUntil(OffsetDateTime.parse(site.functionValidUntil()))
+                    .build();
+            detailAspectModels.add(DetailAspectModel.builder().data(detailAspectDataPartSiteInformationAsPlanned).type(DetailAspectType.PART_SITE_INFORMATION_AS_PLANNED).build());
+        });
+
+        return detailAspectModels;
     }
 
 

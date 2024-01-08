@@ -31,12 +31,8 @@ import org.eclipse.tractusx.traceability.assets.domain.importpoc.SingleLevelBomA
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.SingleLevelBomAsPlannedRequest;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.SingleLevelUsageAsPlannedRequest;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.v2.AsBuiltMainAspectV2;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.v2.BatchV2;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.v2.JustInSequenceV2;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.v2.PartAsPlannedV2;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.v2.PartSiteInformationAsPlannedV2;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.v2.SerialPartV2;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.SemanticDataModel;
 
 @Slf4j
 public class GenericSubmodel {

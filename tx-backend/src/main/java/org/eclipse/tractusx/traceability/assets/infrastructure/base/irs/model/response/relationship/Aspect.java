@@ -30,6 +30,7 @@ public enum Aspect {
     SINGLE_LEVEL_BOM_AS_BUILT("SingleLevelBomAsBuilt"),
     SINGLE_LEVEL_USAGE_AS_BUILT("SingleLevelUsageAsBuilt"),
     SINGLE_LEVEL_BOM_AS_PLANNED("SingleLevelBomAsPlanned"),
+    SINGLE_LEVEL_USAGE_AS_PLANNED("SingleLevelUsageAsPlanned"),
     PART_SITE_INFORMATION_AS_PLANNED("PartSiteInformationAsPlanned"),
     PART_AS_PLANNED("PartAsPlanned"),
     JUST_IN_SEQUENCE_PART("JustInSequencePart"),
@@ -77,6 +78,29 @@ public enum Aspect {
 
     public static boolean isAsPlannedMainAspect(String aspect) {
         return aspect.contains(Aspect.PART_AS_PLANNED.getAspectName());
+    }
 
+    public static boolean isPartSiteInformationAsPlanned(String aspect){
+        return aspect.contains(Aspect.PART_SITE_INFORMATION_AS_PLANNED.getAspectName());
+    }
+
+    public static boolean isTractionBatteryCode(String aspect){
+        return aspect.contains(Aspect.TRACTION_BATTERY_CODE.getAspectName());
+    }
+
+    public static boolean isUpwardRelationshipAsBuilt(String aspect){
+        return aspect.contains(Aspect.SINGLE_LEVEL_BOM_AS_BUILT.getAspectName());
+    }
+
+    public static boolean isDownwardRelationshipAsBuilt(String aspect){
+        return aspect.contains(Aspect.SINGLE_LEVEL_USAGE_AS_BUILT.getAspectName());
+    }
+
+    public static boolean isUpwardRelationshipAsPlanned(String aspect){
+        return aspect.contains(Aspect.SINGLE_LEVEL_BOM_AS_PLANNED.getAspectName());
+    }
+
+    public static boolean isDownwardRelationshipAsPlanned(String aspect){
+        return aspect.contains(Aspect.SINGLE_LEVEL_USAGE_AS_PLANNED.getAspectName());
     }
 }

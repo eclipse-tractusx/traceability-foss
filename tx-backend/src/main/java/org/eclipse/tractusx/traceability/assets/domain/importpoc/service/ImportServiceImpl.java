@@ -29,17 +29,15 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.ImportRequest;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.ImportRequestV2;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.ImportException;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.v2.StrategyFactory;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.v2.MappingStrategyFactory;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.isAsBuiltMainAspect;
@@ -52,7 +50,7 @@ public class ImportServiceImpl implements ImportService {
     private final AssetAsPlannedRepository assetAsPlannedRepository;
     private final AssetAsBuiltRepository assetAsBuiltRepository;
     private final TraceabilityProperties traceabilityProperties;
-    private final StrategyFactory strategyFactory;
+    private final MappingStrategyFactory strategyFactory;
 
     @Override
     public void importAssets(MultipartFile file) {
@@ -84,27 +82,24 @@ public class ImportServiceImpl implements ImportService {
     public void importAssetV2(MultipartFile file) {
         try {
             ImportRequestV2 importRequest = objectMapper.readValue(file.getBytes(), ImportRequestV2.class);
-            log.info(importRequest.toString());
             Map<BomLifecycle, List<AssetBase>> map =
-                    importRequest.assets().stream().map(strategyFactory::map).filter(Objects::nonNull).collect(Collectors.groupingBy(assetBase -> {
-                        if (isAsBuiltMainAspect(assetBase.getSemanticDataModel().name())) {
-                            return BomLifecycle.AS_BUILT;
-                        } else {
-                            return BomLifecycle.AS_PLANNED;
-                        }
-                    }));
-
-
+                    importRequest.assets()
+                            .stream()
+                            .map(strategyFactory::mapToAssetBase)
+                            .filter(Optional::isPresent)
+                            .map(Optional::get)
+                            .collect(Collectors.groupingBy(assetBase -> {
+                                if (isAsBuiltMainAspect(assetBase.getSemanticDataModel().name())) {
+                                    return BomLifecycle.AS_BUILT;
+                                } else {
+                                    return BomLifecycle.AS_PLANNED;
+                                }
+                            }));
             this.assetAsBuiltRepository.saveAll(map.get(BomLifecycle.AS_BUILT));
             this.assetAsPlannedRepository.saveAll(map.get(BomLifecycle.AS_PLANNED));
 
         } catch (Exception e) {
-            log.error("did not work");
+            throw new ImportException(e.getMessage());
         }
-    }
-
-    public List<AssetBase> toAssetBase(ImportRequestV2 importRequestV2) {
-        List<AssetBase> list = new ArrayList<>();
-        return Collections.emptyList();
     }
 }
