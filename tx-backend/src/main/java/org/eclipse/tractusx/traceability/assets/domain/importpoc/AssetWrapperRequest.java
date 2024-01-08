@@ -22,7 +22,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.GenericSubmodel;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Submodel;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.SemanticDataModel;
 
 import java.util.ArrayList;
@@ -44,15 +43,15 @@ public record AssetWrapperRequest(AssetMetaInfoRequest assetMetaInfoRequest,
         List<GenericSubmodel> downwardSubmodels = submodels.stream().filter(submodel -> isDownwardRelationship(submodel.getAspectType())).toList();
         List<GenericSubmodel> mainAspectSubmodels = submodels.stream().filter(submodel -> isMainAspect(submodel.getAspectType())).toList();
         List<SemanticDataModel> mainAspectSemanticDataModel = transformMainAspectModel(mainAspectSubmodels);
-       BomLifecycle bom = mainAspectSubmodels.stream().findAny()
-               .map(submodel -> submodel.getAspectType().contains("AsPlanned") ? BomLifecycle.AS_PLANNED : BomLifecycle.AS_BUILT).orElseThrow();
+        BomLifecycle bom = mainAspectSubmodels.stream().findAny()
+                .map(submodel -> submodel.getAspectType().contains("AsPlanned") ? BomLifecycle.AS_PLANNED : BomLifecycle.AS_BUILT).orElseThrow();
 
         return new AssetWrapperRequest(assetMetaInfoRequest, mainAspectSemanticDataModel, upwardSubmodels, downwardSubmodels, bom);
     }
 
     private static List<SemanticDataModel> transformMainAspectModel(List<GenericSubmodel> submodels) {
         List<SemanticDataModel> semanticDataModels = new ArrayList<>();
-        for (GenericSubmodel submodel : submodels){
+        for (GenericSubmodel submodel : submodels) {
             SemanticDataModel payload = (SemanticDataModel) submodel.getPayload();
             payload.setAspectType(submodel.getAspectType());
             semanticDataModels.add(payload);

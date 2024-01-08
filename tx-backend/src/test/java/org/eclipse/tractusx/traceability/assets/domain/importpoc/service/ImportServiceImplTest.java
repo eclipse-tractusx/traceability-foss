@@ -40,7 +40,7 @@ class ImportServiceImplTest {
     public void testSetup(){
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
-        when(traceabilityProperties.getBpn()).thenReturn(BPN.of("ABC"));
+        //when(traceabilityProperties.getBpn()).thenReturn(BPN.of("ABC"));
         importService = new ImportServiceImpl(objectMapper, assetAsPlannedRepository, assetAsBuiltRepository, traceabilityProperties);
 
     }
@@ -56,9 +56,11 @@ class ImportServiceImplTest {
                 file
         );
 
-        importService.importAssets(multipartFile);
+        //importService.importAssets(multipartFile);
 
-
+        importService.importAssetV2(multipartFile);
     }
+
+
 
 }

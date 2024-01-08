@@ -30,6 +30,12 @@ import org.eclipse.tractusx.traceability.assets.domain.importpoc.SingelLevelUsag
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.SingleLevelBomAsBuiltRequest;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.SingleLevelBomAsPlannedRequest;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.SingleLevelUsageAsPlannedRequest;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.v2.AsBuiltMainAspectV2;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.v2.BatchV2;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.v2.JustInSequenceV2;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.v2.PartAsPlannedV2;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.v2.PartSiteInformationAsPlannedV2;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.v2.SerialPartV2;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.SemanticDataModel;
 
 @Slf4j
@@ -40,27 +46,27 @@ public class GenericSubmodel {
             defaultImpl = Void.class,
             property = "aspectType")
     @JsonSubTypes({
-            @Type(value = SemanticDataModel.class, names = {
+            @Type(value = AsBuiltMainAspectV2.class, names = {
                     "urn:samm:io.catenax.serial_part:1.0.0#SerialPart",
                     "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart",
                     "urn:bamm:io.catenax.serial_part:1.1.0#SerialPart",
                     "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart"
 
             }),
-            @Type(value = SemanticDataModel.class, names = {
+            @Type(value = AsBuiltMainAspectV2.class, names = {
                     "urn:bamm:com.catenax.batch:1.0.0#Batch",
                     "urn:bamm:io.catenax.batch:1.0.0#Batch",
                     "urn:bamm:io.catenax.batch:1.0.2#Batch",
                     "urn:samm:io.catenax.batch:2.0.0#Batch"
             }),
-            @Type(value = SemanticDataModel.class, names = {
+            @Type(value = AsBuiltMainAspectV2.class, names = {
                     "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
                     "urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned"
             }),
-            @Type(value = SemanticDataModel.class, names = {
+            @Type(value = PartSiteInformationAsPlannedV2.class, names = {
                     "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned"
             }),
-            @Type(value = SemanticDataModel.class, names = {
+            @Type(value = AsBuiltMainAspectV2.class, names = {
                     "urn:bamm:io.catenax.just_in_sequence_part:1.0.0#JustInSequencePart"
             }),
             @Type(value = DetailAspectDataTractionBatteryCode.class, names = {
@@ -88,22 +94,6 @@ public class GenericSubmodel {
     public GenericSubmodel(@JsonProperty("aspectType") String aspectType, @JsonProperty("payload") Object payload) {
         this.aspectType = aspectType;
         this.payload = payload;
-        // Cast payload to SemanticDataModel if it's an instance of SemanticDataModel
-
-
- /*      ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-
-        try {
-            this.payloadString = objectMapper.writeValueAsString(payload);
-        } catch (JsonProcessingException e) {
-            // Handle the exception appropriately (e.g., log it)
-            log.error("Could not write payload for aspectType {}", aspectType, e);
-            throw new ImportException(e.getMessage());
-        }*/
     }
 
     public Object getPayload() {

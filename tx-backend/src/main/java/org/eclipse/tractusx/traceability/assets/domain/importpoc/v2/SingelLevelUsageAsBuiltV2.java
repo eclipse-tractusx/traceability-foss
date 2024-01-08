@@ -16,14 +16,19 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.application.importpoc;
+package org.eclipse.tractusx.traceability.assets.domain.importpoc.v2;
 
-import org.springframework.web.multipart.MultipartFile;
+import java.util.List;
 
-import java.io.IOException;
+public record SingelLevelUsageAsBuiltV2(String catenaXId, List<Customer> customers) {
 
-public interface ImportService {
-    void importAssets(MultipartFile file);
+    public record Customer(List<ParentItem> parentItems, String businessPartner, String createdOn, String lastModifiedOn) {
+    }
 
-    void importAssetV2(MultipartFile file);
+    public record ParentItem(Quantity quantity, String catenaXId, String createdOn, String lastModifiedOn) {
+    }
+
+    public record Quantity(int quantityNumber, String measurementUnit) {
+    }
+
 }

@@ -41,7 +41,6 @@ public record ImportRequest(
         Map<BomLifecycle, List<AssetWrapperRequest>> bomLifecycleToAssetWrapperRequestList
 ) {
 
-
     @JsonCreator
     static ImportRequest of(
             @JsonProperty("assets") List<AssetWrapperRequest> assetRawRequestList
@@ -99,7 +98,7 @@ public record ImportRequest(
                     .mainAspectModels()
                     .stream()
                     .filter(semanticDataModel -> semanticDataModel.aspectType().contains("traction_battery_code"))
-                    .map(semanticDataModel -> (DetailAspectDataTractionBatteryCode) semanticDataModel).toList();
+                    .map(DetailAspectDataTractionBatteryCode.class::cast).toList();
 
             List<GenericSubmodel> downwardModels = assetWrapperRequest.downwardRelationship();
             List<GenericSubmodel> upwardModels = assetWrapperRequest.upwardRelationship();
