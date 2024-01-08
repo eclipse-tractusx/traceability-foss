@@ -24,6 +24,4 @@ import java.io.IOException;
 
 public interface ImportService {
     void importAssets(MultipartFile file);
-
-    void importAssetV2(MultipartFile file);
 }

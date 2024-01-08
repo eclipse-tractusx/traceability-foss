@@ -16,11 +16,13 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.domain.importpoc.v2;
+package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
 import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.ImportRequestV2;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportRequest;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.service.MainAspectAsBuiltStrategy;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.service.MainAspectAsPlannedStrategy;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.GenericSubmodel;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.stereotype.Component;
@@ -34,9 +36,9 @@ import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.m
 @Component
 @RequiredArgsConstructor
 public class MappingStrategyFactory {
-    private TraceabilityProperties traceabilityProperties;
 
-    public Optional<AssetBase> mapToAssetBase(ImportRequestV2.AssetImportRequestV2 importRequestV2) {
+
+    public Optional<AssetBase> mapToAssetBase(ImportRequest.AssetImportRequest importRequestV2, TraceabilityProperties traceabilityProperties) {
 
         Optional<String> isMainAspectSubmodel = importRequestV2.submodels().stream().filter(genericSubmodel -> isMainAspect(genericSubmodel.getAspectType())).map(GenericSubmodel::getAspectType).findFirst();
 
@@ -44,10 +46,10 @@ public class MappingStrategyFactory {
             return Optional.empty();
         }
         if (isAsPlannedMainAspect(isMainAspectSubmodel.get())) {
-            return Optional.of(new AsPlannedMainAspectStrategy().mapToAssetBase(importRequestV2, traceabilityProperties));
+            return Optional.of(new MainAspectAsPlannedStrategy().mapToAssetBase(importRequestV2, traceabilityProperties));
         }
         if (isAsBuiltMainAspect(isMainAspectSubmodel.get())) {
-            return Optional.of(new AsBuiltMainAspectStrategy().mapToAssetBase(importRequestV2, traceabilityProperties));
+            return Optional.of(new MainAspectAsBuiltStrategy().mapToAssetBase(importRequestV2, traceabilityProperties));
         }
         return Optional.empty();
     }

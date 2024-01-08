@@ -16,11 +16,11 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.domain.importpoc.v2;
+package org.eclipse.tractusx.traceability.assets.domain.importpoc.model;
 
 import java.util.List;
 
-public record SingleLevelBomAsBuiltV2(String catenaXId, List<ChildItem> childItems) {
+public record SingleLevelBomAsBuiltRequest(String catenaXId, List<ChildItem> childItems) {
 
     public record ChildItem(
             Quantity quantity,

@@ -26,15 +26,12 @@ import org.eclipse.tractusx.traceability.assets.application.importpoc.ImportServ
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.ImportRequest;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.ImportRequestV2;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportRequest;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.ImportException;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.v2.MappingStrategyFactory;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -55,40 +52,15 @@ public class ImportServiceImpl implements ImportService {
     @Override
     public void importAssets(MultipartFile file) {
         try {
-            String fileContent = new String(file.getBytes(), StandardCharsets.UTF_8);
-            log.info("Imported file: " + fileContent);
-
-            ImportRequest importRequest = objectMapper.readValue(fileContent, ImportRequest.class);
-
-            List<AssetBase> persistedAsBuilts = this.assetAsBuiltRepository.saveAll(importRequest.convertAssetsAsBuilt());
-            try {
-                log.info("persistedAsBuilts as JSON {}", objectMapper.writeValueAsString(persistedAsBuilts));
-            } catch (Exception e) {
-                log.error("exception", e);
-            }
-            final String bpn = traceabilityProperties.getBpn().toString();
-            List<AssetBase> persistedAsPlanned = this.assetAsPlannedRepository.saveAll(importRequest.convertAssetsAsPlanned(bpn));
-            try {
-                log.info("persistedAsPlanned as JSON {}", objectMapper.writeValueAsString(persistedAsPlanned));
-            } catch (Exception e) {
-                log.error("exception", e);
-            }
-        } catch (Exception e) {
-            throw new ImportException(e.getMessage());
-        }
-    }
-
-    @Override
-    public void importAssetV2(MultipartFile file) {
-        try {
-            ImportRequestV2 importRequest = objectMapper.readValue(file.getBytes(), ImportRequestV2.class);
+            ImportRequest importRequest = objectMapper.readValue(file.getBytes(), ImportRequest.class);
             Map<BomLifecycle, List<AssetBase>> map =
                     importRequest.assets()
                             .stream()
-                            .map(strategyFactory::mapToAssetBase)
+                            .map(importRequestV2 -> strategyFactory.mapToAssetBase(importRequestV2, traceabilityProperties))
                             .filter(Optional::isPresent)
                             .map(Optional::get)
                             .collect(Collectors.groupingBy(assetBase -> {
+                                // TODO the name does not match the enum.
                                 if (isAsBuiltMainAspect(assetBase.getSemanticDataModel().name())) {
                                     return BomLifecycle.AS_BUILT;
                                 } else {

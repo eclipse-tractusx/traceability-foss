@@ -16,23 +16,17 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.domain.importpoc;
+package org.eclipse.tractusx.traceability.assets.domain.importpoc.model;
 
 import java.util.List;
 
-public record SingleLevelBomAsBuiltRequest(String catenaXId, List<ChildItem> childItems) {
+public record PartSiteInformationAsPlannedRequest(String catenaXId, List<Site> sites) {
 
-    public record ChildItem(
-            Quantity quantity,
-            boolean hasAlternatives,
-            String createdOn,
-            String lastModifiedOn,
-            String catenaXId,
-            String businessPartner
+    public record Site(
+            String functionValidUntil,
+            String function,
+            String functionValidFrom,
+            String catenaXSiteId
     ) {
     }
-
-    public record Quantity(int quantityNumber, String measurementUnit) {
-    }
 }
-

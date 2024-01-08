@@ -1,10 +1,9 @@
-package org.eclipse.tractusx.traceability.assets.domain.importpoc.v2;
+package org.eclipse.tractusx.traceability.assets.domain.importpoc.model;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
-public record PartAsPlannedV2(String catenaXId, ValidityPeriod validityPeriod,
-                              PartTypeInformation partTypeInformation
+public record MainAspectAsPlannedRequest(String catenaXId, ValidityPeriod validityPeriod,
+                                         PartTypeInformation partTypeInformation
 ) {
 
     public record ValidityPeriod(LocalDateTime validFrom, LocalDateTime validTo) {

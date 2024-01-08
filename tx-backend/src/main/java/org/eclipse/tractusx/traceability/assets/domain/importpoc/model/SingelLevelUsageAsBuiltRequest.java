@@ -16,35 +16,19 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.domain.importpoc;
+package org.eclipse.tractusx.traceability.assets.domain.importpoc.model;
 
-import java.time.OffsetDateTime;
 import java.util.List;
 
-public record SingleLevelUsageAsPlannedRequest(
-        List<ParentPart> parentParts,
-        String businessPartner,
-        String catenaXId
-) {
+public record SingelLevelUsageAsBuiltRequest(String catenaXId, List<Customer> customers) {
 
-    public record ParentPart(
-            ValidityPeriod validityPeriod,
-            String parentCatenaXId,
-            Quantity quantity,
-            String createdOn,
-            String lastModifiedOn
-    ) {
+    public record Customer(List<ParentItem> parentItems, String businessPartner, String createdOn, String lastModifiedOn) {
     }
 
-    public record ValidityPeriod(
-            OffsetDateTime validFrom,
-            OffsetDateTime validTo
-    ) {
+    public record ParentItem(Quantity quantity, String catenaXId, String createdOn, String lastModifiedOn) {
     }
 
-    public record Quantity(
-            double quantityNumber,
-            String measurementUnit
-    ) {
+    public record Quantity(int quantityNumber, String measurementUnit) {
     }
+
 }

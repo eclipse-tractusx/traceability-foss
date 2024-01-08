@@ -26,13 +26,14 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataTractionBatteryCode;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.SingelLevelUsageAsBuiltRequest;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.SingleLevelBomAsBuiltRequest;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.SingleLevelBomAsPlannedRequest;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.SingleLevelUsageAsPlannedRequest;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.v2.AsBuiltMainAspectV2;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.v2.PartAsPlannedV2;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.v2.PartSiteInformationAsPlannedV2;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.PartSiteInformationAsPlannedRequest;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingelLevelUsageAsBuiltRequest;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelBomAsBuiltRequest;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelBomAsPlannedRequest;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelUsageAsPlannedRequest;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.MainAspectAsBuiltRequest;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.MainAspectAsPlannedRequest;
+
 
 @Slf4j
 public class GenericSubmodel {
@@ -42,29 +43,26 @@ public class GenericSubmodel {
             defaultImpl = Void.class,
             property = "aspectType")
     @JsonSubTypes({
-            @Type(value = AsBuiltMainAspectV2.class, names = {
+            @Type(value = MainAspectAsBuiltRequest.class, names = {
                     "urn:samm:io.catenax.serial_part:1.0.0#SerialPart",
                     "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart",
                     "urn:bamm:io.catenax.serial_part:1.1.0#SerialPart",
-                    "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart"
-
-            }),
-            @Type(value = AsBuiltMainAspectV2.class, names = {
+                    "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
                     "urn:bamm:com.catenax.batch:1.0.0#Batch",
                     "urn:bamm:io.catenax.batch:1.0.0#Batch",
                     "urn:bamm:io.catenax.batch:1.0.2#Batch",
-                    "urn:samm:io.catenax.batch:2.0.0#Batch"
+                    "urn:samm:io.catenax.batch:2.0.0#Batch",
+                    "urn:bamm:io.catenax.just_in_sequence_part:1.0.0#JustInSequencePart"
             }),
-            @Type(value = PartAsPlannedV2.class, names = {
+
+            @Type(value = MainAspectAsPlannedRequest.class, names = {
                     "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
                     "urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned"
             }),
-            @Type(value = PartSiteInformationAsPlannedV2.class, names = {
+            @Type(value = PartSiteInformationAsPlannedRequest.class, names = {
                     "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned"
             }),
-            @Type(value = AsBuiltMainAspectV2.class, names = {
-                    "urn:bamm:io.catenax.just_in_sequence_part:1.0.0#JustInSequencePart"
-            }),
+
             @Type(value = DetailAspectDataTractionBatteryCode.class, names = {
                     "urn:bamm:io.catenax.traction_battery_code:1.0.0#TractionBatteryCode"
             }),

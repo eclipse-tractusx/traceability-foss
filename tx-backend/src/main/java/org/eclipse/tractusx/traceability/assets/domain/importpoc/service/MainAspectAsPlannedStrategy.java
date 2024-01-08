@@ -16,7 +16,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.domain.importpoc.v2;
+package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataPartSiteInformationAsPlanned;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
@@ -27,10 +27,11 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.ImportRequestV2;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.PartSiteInformationAsPlannedRequest;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.SingleLevelBomAsPlannedRequest;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.SingleLevelUsageAsPlannedRequest;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportRequest;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.PartSiteInformationAsPlannedRequest;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelBomAsPlannedRequest;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelUsageAsPlannedRequest;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.MainAspectAsPlannedRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.GenericSubmodel;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 
@@ -45,17 +46,17 @@ import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.m
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.isUpwardRelationshipAsPlanned;
 
 
-public class AsPlannedMainAspectStrategy implements MappingStrategy {
+public class MainAspectAsPlannedStrategy implements MappingStrategy {
 
     @Override
-    public AssetBase mapToAssetBase(ImportRequestV2.AssetImportRequestV2 assetImportRequestV2, TraceabilityProperties traceabilityProperties) {
+    public AssetBase mapToAssetBase(ImportRequest.AssetImportRequest assetImportRequestV2, TraceabilityProperties traceabilityProperties) {
         List<GenericSubmodel> submodels = assetImportRequestV2.submodels();
 
-        PartAsPlannedV2 partAsPlannedV2 = submodels.stream()
+        MainAspectAsPlannedRequest partAsPlannedV2 = submodels.stream()
                 .filter(genericSubmodel -> isAsPlannedMainAspect(genericSubmodel.getAspectType()))
                 .map(GenericSubmodel::getPayload)
-                .filter(PartAsPlannedV2.class::isInstance)
-                .map(PartAsPlannedV2.class::cast)
+                .filter(MainAspectAsPlannedRequest.class::isInstance)
+                .map(MainAspectAsPlannedRequest.class::cast)
                 .findFirst()
                 .orElse(null);
 
@@ -84,7 +85,11 @@ public class AsPlannedMainAspectStrategy implements MappingStrategy {
                 .map(singleLevelBomAsPlannedRequest -> new Descriptions(singleLevelBomAsPlannedRequest.catenaXId(), null))
                 .toList();
 
-        List<DetailAspectModel> detailAspectModels = new ArrayList<>(extractDetailAspectModelsPartSiteInformationAsPlanned(emptyIfNull(partSiteInformationAsPlannedRequest.sites())));
+        List<DetailAspectModel> detailAspectModels = new ArrayList<>();
+        if (partSiteInformationAsPlannedRequest != null){
+            detailAspectModels.addAll(extractDetailAspectModelsPartSiteInformationAsPlanned(emptyIfNull(partSiteInformationAsPlannedRequest.sites())));
+        }
+
 
         AssetBase.AssetBaseBuilder assetBaseBuilder = AssetBase.builder();
         if (partAsPlannedV2 != null) {

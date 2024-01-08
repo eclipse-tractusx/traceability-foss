@@ -16,7 +16,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.domain.importpoc.v2;
+package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataAsBuilt;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataTractionBatteryCode;
@@ -28,31 +28,34 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.ImportRequestV2;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.SingleLevelBomAsBuiltRequest;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportRequest;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingelLevelUsageAsBuiltRequest;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelBomAsBuiltRequest;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.MainAspectAsBuiltRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.GenericSubmodel;
-
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
+import static org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel.extractDetailAspectModelTractionBatteryCode;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.isAsBuiltMainAspect;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.isDownwardRelationshipAsBuilt;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.isTractionBatteryCode;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.isUpwardRelationshipAsBuilt;
 
-public class AsBuiltMainAspectStrategy implements MappingStrategy {
+public class MainAspectAsBuiltStrategy implements MappingStrategy {
     @Override
-    public AssetBase mapToAssetBase(ImportRequestV2.AssetImportRequestV2 assetImportRequestV2, TraceabilityProperties traceabilityProperties) {
+    public AssetBase mapToAssetBase(ImportRequest.AssetImportRequest assetImportRequestV2, TraceabilityProperties traceabilityProperties) {
 
         List<GenericSubmodel> submodels = assetImportRequestV2.submodels();
-        AsBuiltMainAspectV2 asBuiltAspect = submodels.stream()
+        MainAspectAsBuiltRequest asBuiltAspect = submodels.stream()
                 .filter(genericSubmodel -> isAsBuiltMainAspect(genericSubmodel.getAspectType()))
                 .map(GenericSubmodel::getPayload)
-                .filter(AsBuiltMainAspectV2.class::isInstance)
-                .map(AsBuiltMainAspectV2.class::cast)
+                .filter(MainAspectAsBuiltRequest.class::isInstance)
+                .map(MainAspectAsBuiltRequest.class::cast)
                 .findFirst()
                 .orElse(null);
 
@@ -66,8 +69,8 @@ public class AsBuiltMainAspectStrategy implements MappingStrategy {
         List<Descriptions> parentRelations = submodels.stream()
                 .filter(genericSubmodel -> isUpwardRelationshipAsBuilt(genericSubmodel.getAspectType()))
                 .map(GenericSubmodel::getPayload)
-                .filter(SingelLevelUsageAsBuiltV2.class::isInstance)
-                .map(SingelLevelUsageAsBuiltV2.class::cast)
+                .filter(SingelLevelUsageAsBuiltRequest.class::isInstance)
+                .map(SingelLevelUsageAsBuiltRequest.class::cast)
                 .map(singelLevelUsageAsBuiltV2 -> new Descriptions(singelLevelUsageAsBuiltV2.catenaXId(), null))
                 .toList();
 
@@ -81,13 +84,36 @@ public class AsBuiltMainAspectStrategy implements MappingStrategy {
                 .toList();
 
 
-        String semanticModelId = null;
-        List<DetailAspectModel> detailAspectModels = new ArrayList<>();
+        final AtomicReference<String> semanticModelId = new AtomicReference<>();
+        final AtomicReference<org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel> semanticDataModel = new AtomicReference<>();
+        ArrayList<DetailAspectModel> detailAspectModels = new ArrayList<>();
 
-        extractDetailAspectModelsAsBuilt(asBuiltAspect.manufacturingInformation(), asBuiltAspect.partTypeInformation())
+        asBuiltAspect.localIdentifiers().stream().filter(localIdentifier -> localIdentifier.key().equals("partInstanceId")).findFirst().ifPresent(s -> {
+            semanticModelId.set(s.value());
+            semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.SERIALPART);
+            detailAspectDataTractionBatteryCodes.forEach(detailAspectDataTractionBatteryCode -> {
+                detailAspectModels.add(extractDetailAspectModelTractionBatteryCode(detailAspectDataTractionBatteryCode));
+            });
+        });
+
+        asBuiltAspect.localIdentifiers().stream().filter(localId -> localId.key().equals("batchId")).findFirst().ifPresent(s -> {
+            semanticModelId.set(s.value());
+            semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.BATCH);
+        });
+
+        asBuiltAspect.localIdentifiers().stream().filter(localId -> localId.key().equals("jisNumber")).findFirst().ifPresent(s -> {
+            semanticModelId.set(s.value());
+            semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.JUSTINSEQUENCE);
+        });
+
+        if (semanticDataModel.get() == null) {
+            semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.UNKNOWN);
+        }
+
+
         return AssetBase.builder()
                 .id(assetImportRequestV2.assetMetaInfoRequest().catenaXId())
-                .semanticModelId(semanticModelId)
+                .semanticModelId(semanticModelId.get())
                 .detailAspectModels(detailAspectModels)
                 .manufacturerId(traceabilityProperties.getBpn().value())
                 .nameAtManufacturer(asBuiltAspect.partTypeInformation().nameAtManufacturer())
@@ -100,14 +126,13 @@ public class AsBuiltMainAspectStrategy implements MappingStrategy {
                 .classification(asBuiltAspect.partTypeInformation().classification())
                 .qualityType(QualityType.OK)
                 .semanticDataModel(semanticDataModel.get())
-                .van(van())
                 .importState(ImportState.TRANSIENT)
                 .importNote(ImportNote.TRANSIENT_CREATED)
                 .build();
     }
 
-    public static DetailAspectModel extractDetailAspectModelsAsBuilt(AsBuiltMainAspectV2.ManufacturingInformation manufacturingInformation,
-                                                                     AsBuiltMainAspectV2.PartTypeInformation partTypeInformation) {
+    public static DetailAspectModel extractDetailAspectModelsAsBuilt(MainAspectAsBuiltRequest.ManufacturingInformation manufacturingInformation,
+                                                                     MainAspectAsBuiltRequest.PartTypeInformation partTypeInformation) {
 
         DetailAspectDataAsBuilt detailAspectDataAsBuilt = DetailAspectDataAsBuilt.builder()
                 .customerPartId(partTypeInformation.customerPartId())
@@ -118,5 +143,4 @@ public class AsBuiltMainAspectStrategy implements MappingStrategy {
                 .build();
         return DetailAspectModel.builder().data(detailAspectDataAsBuilt).type(DetailAspectType.AS_BUILT).build();
     }
-
 }
