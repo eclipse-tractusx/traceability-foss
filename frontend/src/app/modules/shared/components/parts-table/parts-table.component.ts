@@ -122,6 +122,7 @@ export class PartsTableComponent implements OnInit {
   @Output() multiSelect = new EventEmitter<any[]>();
   @Output() clickSelectAction = new EventEmitter<void>();
   @Output() filterActivated = new EventEmitter<any>();
+  @Output() clickImportAction = new EventEmitter<any>();
 
   constructor(
     private readonly tableSettingsService: TableSettingsService,

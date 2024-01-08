@@ -49,6 +49,27 @@ SPDX-License-Identifier: Apache-2.0
         </div>
       </app-button>
       </div>
+      <div class="table--header--select--button"
+           matTooltip="{{'routing.unauthorized' | i18n}}"
+           matTooltipClass="table--header--tooltip"
+           matTooltipPosition="above"
+           [class.mdc-tooltip--multiline]="true"
+           [matTooltipShowDelay]="1000"
+           [matTooltipDisabled]="roleService.hasAccess(['admin'])"
+      >
+        <app-button
+          *ngIf="selection?.selected?.length && (tableType !== TableType.AS_PLANNED_CUSTOMER && tableType !== TableType.AS_BUILT_CUSTOMER)"
+          (click)="clickImportAction.emit()"
+          [variant]="'raised'"
+          [color]="'accent'"
+          [isDisabled]="!roleService.hasAccess(['admin'])"
+        >
+          <div class="flex justify-between items-center text-dark p-0.5">
+            <mat-icon class="mr-2">published_with_changes</mat-icon>
+            {{ 'actions.publishAssets' | i18n }}
+          </div>
+        </app-button>
+    </div>
     </div>
   </div>
 </div>

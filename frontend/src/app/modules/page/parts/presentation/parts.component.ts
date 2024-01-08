@@ -32,12 +32,12 @@ import { PartsTableComponent } from '@shared/components/parts-table/parts-table.
 import { TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { toAssetFilter, toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
+import { NotificationType } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { BomLifecycleSettingsService, UserSettingView } from '@shared/service/bom-lifecycle-settings.service';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import {NotificationType} from "@shared/model/notification.model";
 
 
 @Component({
@@ -56,12 +56,14 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   public readonly deselectPartTrigger$ = new Subject<Part[]>();
   public readonly addPartTrigger$ = new Subject<Part>();
   public readonly currentSelectedItems$ = new BehaviorSubject<Part[]>([]);
+  public readonly currentSelectedAsPlannedItems$ = new BehaviorSubject<Part[]>([]);
 
   public tableAsBuiltSortList: TableHeaderSort[];
   public tableAsPlannedSortList: TableHeaderSort[];
 
   public DEFAULT_PAGE_SIZE = 50;
   public ctrlKeyState = false;
+  isPublisherOpen$ = new BehaviorSubject<boolean>(false);
 
   @ViewChildren(PartsTableComponent) partsTableComponents: QueryList<PartsTableComponent>;
 

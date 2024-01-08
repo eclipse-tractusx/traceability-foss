@@ -9,7 +9,8 @@
     "selectedParts": {
       "info_one": "{{count}} Produkt für diese Seite ausgewählt.",
       "info_other": "{{count}} Produkte für diese Seite ausgewählt.",
-      "action": "Qualitätswarnung erstellen"
+      "action": "Qualitätswarnung erstellen",
+      "publish": "Produkte veröffentlichen"
     },
     "childInvestigation": {
       "action": "Untersuchung starten"

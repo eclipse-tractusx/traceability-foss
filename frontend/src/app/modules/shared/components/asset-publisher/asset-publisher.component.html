@@ -1,0 +1,41 @@
+<h2 class="header">{{'actions.publishAssets' | i18n}}</h2>
+<div class="container">
+  <div class="list-container">
+    <h4>{{'publisher.selectedAssets' | i18n}}:</h4>
+    <mat-list>
+      <ng-container *ngFor="let item of selectedAssets">
+        <mat-list-item>
+          <span matListItemTitle>{{item.nameAtManufacturer}}</span>
+          <span matListItemLine>{{item.id}}</span>
+        </mat-list-item>
+      </ng-container>
+    </mat-list>
+  </div>
+  <mat-divider [vertical]="true"></mat-divider>
+  <div class="action-container">
+    <h4 class="policies-label">{{'publisher.policyToApply' | i18n}}:</h4>
+    <mat-form-field appearance="fill">
+      <mat-label>{{'publisher.selectPolicyLabel' | i18n}}</mat-label>
+      <mat-select [formControl]="policyFormControl" required>
+        <mat-option *ngFor="let policy of policies" [value]="policy.id">
+          {{policy.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="policyFormControl.invalid">{{'publisher.selectPolicyError' | i18n}}</mat-error>
+    </mat-form-field>
+
+    <div class="publish-action-container">
+      <app-button variant="raised"
+                  class="custom-button_import"
+                  color="primary"
+                  [isDisabled]="policyFormControl.invalid"
+                  (click)="publish()">
+        {{'publisher.publish' | i18n}}
+      </app-button>
+    </div>
+  </div>
+</div>
+
+
+
+

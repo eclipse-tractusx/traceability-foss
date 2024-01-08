@@ -63,6 +63,7 @@ SPDX-License-Identifier: Apache-2.0
                              (configChanged)="onAsBuiltTableConfigChange($event)"
                              (multiSelect)="currentSelectedItems$.next($event)"
                              (clickSelectAction)="isAlertOpen$.next(true)"
+                             (clickImportAction)="isPublisherOpen$.next(true)"
                              (filterActivated)="filterActivated(true, $event )"
                              [multiSortList]="tableAsBuiltSortList"
                              [tableHeader]='"page.asBuiltParts" | i18n'
@@ -87,7 +88,9 @@ SPDX-License-Identifier: Apache-2.0
                              [addTrigger]="addPartTrigger$ | async"
                              (selected)="onSelectItem($event)"
                              (configChanged)="onAsPlannedTableConfigChange($event)"
+                             (multiSelect)="currentSelectedAsPlannedItems$.next($event)"
                              (clickSelectAction)="isAlertOpen$.next(true)"
+                             (clickImportAction)="isPublisherOpen$.next(true)"
                              (filterActivated)="filterActivated(false, $event)"
                              [multiSortList]="tableAsPlannedSortList"
                              [tableHeader]='"page.asPlannedParts" | i18n'
@@ -102,6 +105,13 @@ SPDX-License-Identifier: Apache-2.0
   </div>
 
   <app-part-detail></app-part-detail>
+
+  <app-sidenav-wrapper [isOpen]="isPublisherOpen$ | async" (sidenavAction)="isPublisherOpen$.next($event)">
+    <app-asset-publisher
+    [selectedAssets] = "currentSelectedItems$ | async"
+    (submitted)="isPublisherOpen$.next(false)"
+    ></app-asset-publisher>
+  </app-sidenav-wrapper>
 
   <app-sidenav-wrapper [isOpen]="isAlertOpen$ | async" (sidenavAction)="isAlertOpen$.next($event)">
     <app-notification-request
