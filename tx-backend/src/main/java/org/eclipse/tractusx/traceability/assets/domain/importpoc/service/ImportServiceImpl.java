@@ -21,17 +21,15 @@ package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.irs.component.enums.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.application.importpoc.ImportService;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.AssetWrapperRequest;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.ImportRequest;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.ImportException;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.v2.AsBuiltMainAspectV2;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.ImportRequestV2;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.v2.PartAsPlannedV2;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.GenericSubmodel;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.ImportException;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.v2.StrategyFactory;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,6 +38,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.isAsBuiltMainAspect;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -49,6 +52,7 @@ public class ImportServiceImpl implements ImportService {
     private final AssetAsPlannedRepository assetAsPlannedRepository;
     private final AssetAsBuiltRepository assetAsBuiltRepository;
     private final TraceabilityProperties traceabilityProperties;
+    private final StrategyFactory strategyFactory;
 
     @Override
     public void importAssets(MultipartFile file) {
@@ -81,26 +85,18 @@ public class ImportServiceImpl implements ImportService {
         try {
             ImportRequestV2 importRequest = objectMapper.readValue(file.getBytes(), ImportRequestV2.class);
             log.info(importRequest.toString());
+            Map<BomLifecycle, List<AssetBase>> map =
+                    importRequest.assets().stream().map(strategyFactory::map).filter(Objects::nonNull).collect(Collectors.groupingBy(assetBase -> {
+                        if (isAsBuiltMainAspect(assetBase.getSemanticDataModel().name())) {
+                            return BomLifecycle.AS_BUILT;
+                        } else {
+                            return BomLifecycle.AS_PLANNED;
+                        }
+                    }));
 
 
-            List<AssetWrapperRequest> asBuilt = new ArrayList<>();
-            List<AssetWrapperRequest> asPlanned = new ArrayList<>();
-
-
-            for (ImportRequestV2.AssetImportRequestV2 asset : importRequest.assets()) {
-
-                String catenaXId = asset.assetMetaInfoRequest().catenaXId();
-                for (GenericSubmodel genericSubmodel : asset.submodels()) {
-
-                    if (genericSubmodel.getPayload() instanceof AsBuiltMainAspectV2) {
-
-                    }
-                    if (genericSubmodel.getPayload() instanceof PartAsPlannedV2){
-
-                    }
-
-                }
-            }
+            this.assetAsBuiltRepository.saveAll(map.get(BomLifecycle.AS_BUILT));
+            this.assetAsPlannedRepository.saveAll(map.get(BomLifecycle.AS_PLANNED));
 
         } catch (Exception e) {
             log.error("did not work");

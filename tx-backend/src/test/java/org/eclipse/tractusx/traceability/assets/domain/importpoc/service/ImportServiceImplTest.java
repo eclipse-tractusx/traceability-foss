@@ -6,6 +6,7 @@ import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetA
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 
 
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.v2.StrategyFactory;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.junit.jupiter.api.BeforeAll;
@@ -34,6 +35,8 @@ class ImportServiceImplTest {
     private AssetAsBuiltRepository assetAsBuiltRepository;
 
     @Mock
+    private StrategyFactory strategyFactory;
+    @Mock
     private TraceabilityProperties traceabilityProperties;
 
     @BeforeEach
@@ -41,7 +44,7 @@ class ImportServiceImplTest {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         //when(traceabilityProperties.getBpn()).thenReturn(BPN.of("ABC"));
-        importService = new ImportServiceImpl(objectMapper, assetAsPlannedRepository, assetAsBuiltRepository, traceabilityProperties);
+        importService = new ImportServiceImpl(objectMapper, assetAsPlannedRepository, assetAsBuiltRepository, traceabilityProperties, strategyFactory);
 
     }
     @Test

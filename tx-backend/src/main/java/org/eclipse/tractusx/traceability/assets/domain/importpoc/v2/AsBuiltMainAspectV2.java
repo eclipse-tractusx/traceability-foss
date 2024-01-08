@@ -13,7 +13,7 @@ public record AsBuiltMainAspectV2(List<LocalIdentifier> localIdentifiers,
     public record ManufacturingInformation(String date, String country) {
     }
 
-    public record PartTypeInformation(String manufacturerPartId, String classification, String nameAtManufacturer) {
+    public record PartTypeInformation(String nameAtCustomer, String customerPartId, String manufacturerPartId, String classification, String nameAtManufacturer) {
     }
 
 }

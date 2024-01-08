@@ -59,7 +59,7 @@ public class GenericSubmodel {
                     "urn:bamm:io.catenax.batch:1.0.2#Batch",
                     "urn:samm:io.catenax.batch:2.0.0#Batch"
             }),
-            @Type(value = AsBuiltMainAspectV2.class, names = {
+            @Type(value = PartAsPlannedV2.class, names = {
                     "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
                     "urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned"
             }),

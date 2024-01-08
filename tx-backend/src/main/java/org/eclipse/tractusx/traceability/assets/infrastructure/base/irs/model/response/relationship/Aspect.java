@@ -61,11 +61,22 @@ public enum Aspect {
     }
 
 
-    public static boolean isMasterAspect(String aspect) {
+    public static boolean isMainAspect(String aspect) {
         assert Objects.nonNull(aspect);
         return aspect.contains(Aspect.PART_AS_PLANNED.getAspectName()) ||
                 aspect.contains(Aspect.SERIAL_PART.getAspectName()) ||
                 aspect.contains(Aspect.BATCH.getAspectName()) ||
                 aspect.contains(Aspect.JUST_IN_SEQUENCE_PART.getAspectName());
+    }
+
+    public static boolean isAsBuiltMainAspect(String aspect) {
+        return aspect.contains(Aspect.SERIAL_PART.getAspectName()) ||
+                aspect.contains(Aspect.BATCH.getAspectName()) ||
+                aspect.contains(Aspect.JUST_IN_SEQUENCE_PART.getAspectName());
+    }
+
+    public static boolean isAsPlannedMainAspect(String aspect) {
+        return aspect.contains(Aspect.PART_AS_PLANNED.getAspectName());
+
     }
 }
