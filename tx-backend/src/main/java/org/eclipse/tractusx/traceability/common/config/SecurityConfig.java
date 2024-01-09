@@ -28,6 +28,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -71,7 +72,9 @@ public class SecurityConfig {
         httpSecurity.formLogin().disable();
         httpSecurity.logout().disable();
         httpSecurity.anonymous().disable();
-        httpSecurity.csrf().disable();
+        //TODO HGO@2024-01-09_09:45 recheck while merging code, this change is for enabling workflows beforehand to enable upstream merge
+        httpSecurity.csrf(AbstractHttpConfigurer::disable);
+//        httpSecurity.csrf().disable();
         httpSecurity.cors();
 
 
