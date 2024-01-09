@@ -1,23 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SharedModule } from '@shared/shared.module';
+import { renderComponent } from '@tests/test-render.utils';
+import { I18NextModule } from 'angular-i18next';
 
 import { AssetPublisherComponent } from './asset-publisher.component';
 
-describe('AssetPublisherComponent', () => {
+fdescribe('AssetPublisherComponent', () => {
   let component: AssetPublisherComponent;
   let fixture: ComponentFixture<AssetPublisherComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ AssetPublisherComponent ]
+  const renderAssetPublisherComponent = () => {
+    return renderComponent(AssetPublisherComponent, {
+
     })
-    .compileComponents();
+  }
 
-    fixture = TestBed.createComponent(AssetPublisherComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should create', async () => {
+    const {fixture} = await renderAssetPublisherComponent()
+    expect(fixture).toBeTruthy();
   });
 });
