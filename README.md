@@ -104,7 +104,7 @@ so that you end up with a well-structured app.
 
 ### User guide
 
-A detailed [explanation](/docs/src/docs/user/user-manual.adoc) of how to use the application.
+A detailed [explanation](docs/src/docs/user/user-manual.adoc) of how to use the application.
 
 ### Running tests
 
@@ -189,4 +189,4 @@ As for any pre-built image usage, it is the image user's responsibility to ensur
 
 ## License
 
-[Apache License 2.0](/LICENSE)
+[Apache License 2.0](LICENSE)

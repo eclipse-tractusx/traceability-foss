@@ -1,0 +1,29 @@
+{
+  "request": {
+    "method": "POST",
+    "urlPath": "/edc/api/v2/catalog/request"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "edc/edc_api_v2_catalog_request_response__POST__SUCCESS.json",
+    "transformers": [
+      "response-template"
+    ]
+  },
+  "serveEventListeners": [
+    {
+      "name": "webhook",
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8082/api/internal/endpoint-data-reference",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{ \"id\": \"callback-id\",  \"endpoint\": \"http://localhost:5001/dtr\", \"authKey\": \"auth-key\", \"authCode\": \"code.eyJleHAiOjE2OTg0MDUwODIyMTIxMSwiZGFkIjoiZGFkIiwiY2lkIjoiY29udHJhY3RBZ3JlZW1lbnRJZCJ9\"}"
+      }
+    }
+  ]
+}

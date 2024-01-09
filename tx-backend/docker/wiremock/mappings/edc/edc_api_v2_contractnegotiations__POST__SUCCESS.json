@@ -1,0 +1,22 @@
+{
+  "request": {
+    "method": "POST",
+    "urlPath": "/edc/api/v2/contractnegotiations"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "@context": {
+        "edc": "https://w3id.org/edc/v0.0.1/ns/"
+      },
+      "@id": "id-value",
+      "createdAt": 1688465655
+    },
+    "transformers": [
+      "response-template"
+    ]
+  }
+}

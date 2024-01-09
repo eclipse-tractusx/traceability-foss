@@ -37,20 +37,23 @@ traceability:
 
 edc:
   api-auth-key: api-key
-  provider-edc-url: http://localhost:3002/
+  provider-edc-url: http://localhost:5001/edc
 
 irs-edc-client:
   callback-url: http://localhost:8082/
   controlplane:
     endpoint:
-      data: http://localhost:3002/api
+      data: http://localhost:5001/
+      catalog: /edc/api/v2/catalog/request # EDC consumer controlplane catalog path
+      contract-negotiation: /edc/api/v2/contractnegotiations # EDC consumer controlplane contract negotiation path
+      transfer-process: /edc/api/v2/transferprocesses # EDC consumer controlplane transfer process path
     api-key:
       secret: password
 
-IRS_URL: http://localhost:3001/
+IRS_URL: http://localhost:5001/irs
 
 digitalTwinRegistryClient:
-  discoveryFinderUrl: http://localhost:3001/administration/connectors/discovery/search
+  discoveryFinderUrl: http://localhost:5001/discoveryfinder/administration/connectors/discovery/search
 
 cors:
   origins: >
@@ -113,4 +116,3 @@ irs:
     #      ttl: "2023-09-30T23:59:59.99Z"
     - policyId: "ID 3.2 Trace"
       ttl: "2023-09-30T23:59:59.99Z"
-

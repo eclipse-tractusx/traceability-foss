@@ -50,7 +50,7 @@ To start a database for local development, go to the docker directory and run.
 docker compose up -d
 ```
 
-Add the database configuration to your [application-local.yml](src/main/resources/application-local.yml)
+Add the database configuration to your [application-localenv.yml](src/main/resources/application-localenv.yml)
 
 ```yaml
 spring:

@@ -1,0 +1,13 @@
+{
+  "request" : {
+    "method" : "GET",
+    "urlPathPattern" : "/dtr/shell-descriptors/.*"
+  },
+  "response" : {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "dtr/dtr_shell_descriptors_respond_AssetAdministrationShell__GET__SUCCESS.json"
+  }
+}

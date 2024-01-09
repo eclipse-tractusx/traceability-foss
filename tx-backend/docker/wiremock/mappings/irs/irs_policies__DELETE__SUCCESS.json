@@ -1,0 +1,9 @@
+{
+  "request": {
+    "method": "DELETE",
+    "urlPathPattern": "/irs/irs/policies/([a-zA-Z\\.0-9%]*)"
+  },
+  "response": {
+    "status": 200
+  }
+}

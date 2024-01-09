@@ -1,0 +1,22 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/edc/api/v2/transferprocesses/transfer-id/state"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "@context": {
+        "edc": "https://w3id.org/edc/v0.0.1/ns/"
+      },
+      "@type": "https://w3id.org/edc/v0.0.1/ns/TransferState",
+      "edc:state": "COMPLETED"
+    },
+    "transformers": [
+      "response-template"
+    ]
+  }
+}

@@ -1,7 +1,0 @@
-{
-  "@context": {
-    "edc": "https://w3id.org/edc/v0.0.1/ns/"
-  },
-  "@type": "https://w3id.org/edc/v0.0.1/ns/TransferState",
-  "edc:state": "COMPLETED"
-}

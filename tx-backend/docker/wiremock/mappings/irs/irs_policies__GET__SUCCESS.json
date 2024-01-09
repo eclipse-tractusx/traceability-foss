@@ -1,0 +1,10 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/irs/irs/policies"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "irs/irs_policies_response__GET__SUCCESS.json"
+  }
+}
