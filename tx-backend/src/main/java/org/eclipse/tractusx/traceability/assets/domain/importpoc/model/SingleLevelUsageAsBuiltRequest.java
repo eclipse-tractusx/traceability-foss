@@ -20,7 +20,7 @@ package org.eclipse.tractusx.traceability.assets.domain.importpoc.model;
 
 import java.util.List;
 
-public record SingelLevelUsageAsBuiltRequest(String catenaXId, List<Customer> customers) {
+public record SingleLevelUsageAsBuiltRequest(String catenaXId, List<Customer> customers) {
 
     public record Customer(List<ParentItem> parentItems, String businessPartner, String createdOn, String lastModifiedOn) {
     }

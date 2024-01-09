@@ -29,7 +29,7 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportRequest;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingelLevelUsageAsBuiltRequest;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelUsageAsBuiltRequest;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelBomAsBuiltRequest;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.MainAspectAsBuiltRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.GenericSubmodel;
@@ -78,8 +78,8 @@ public class MainAspectAsBuiltStrategy implements MappingStrategy {
         List<Descriptions> childRelations = submodels.stream()
                 .filter(genericSubmodel -> isDownwardRelationshipAsBuilt(genericSubmodel.getAspectType()))
                 .map(GenericSubmodel::getPayload)
-                .filter(SingelLevelUsageAsBuiltRequest.class::isInstance)
-                .map(SingelLevelUsageAsBuiltRequest.class::cast)
+                .filter(SingleLevelUsageAsBuiltRequest.class::isInstance)
+                .map(SingleLevelUsageAsBuiltRequest.class::cast)
                 .map(singleLevelUsageAsBuiltRequest -> new Descriptions(singleLevelUsageAsBuiltRequest.catenaXId(), null))
                 .toList();
 
