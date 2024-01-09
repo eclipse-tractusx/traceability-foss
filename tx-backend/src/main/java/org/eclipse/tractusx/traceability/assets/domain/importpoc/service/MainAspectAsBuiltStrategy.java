@@ -69,18 +69,18 @@ public class MainAspectAsBuiltStrategy implements MappingStrategy {
         List<Descriptions> parentRelations = submodels.stream()
                 .filter(genericSubmodel -> isUpwardRelationshipAsBuilt(genericSubmodel.getAspectType()))
                 .map(GenericSubmodel::getPayload)
-                .filter(SingelLevelUsageAsBuiltRequest.class::isInstance)
-                .map(SingelLevelUsageAsBuiltRequest.class::cast)
-                .map(singelLevelUsageAsBuiltV2 -> new Descriptions(singelLevelUsageAsBuiltV2.catenaXId(), null))
+                .filter(SingleLevelBomAsBuiltRequest.class::isInstance)
+                .map(SingleLevelBomAsBuiltRequest.class::cast)
+                .map(singleLevelBomAsBuiltRequest -> new Descriptions(singleLevelBomAsBuiltRequest.catenaXId(), null))
                 .toList();
 
 
         List<Descriptions> childRelations = submodels.stream()
                 .filter(genericSubmodel -> isDownwardRelationshipAsBuilt(genericSubmodel.getAspectType()))
                 .map(GenericSubmodel::getPayload)
-                .filter(SingleLevelBomAsBuiltRequest.class::isInstance)
-                .map(SingleLevelBomAsBuiltRequest.class::cast)
-                .map(singleLevelBomAsBuiltRequest -> new Descriptions(singleLevelBomAsBuiltRequest.catenaXId(), null))
+                .filter(SingelLevelUsageAsBuiltRequest.class::isInstance)
+                .map(SingelLevelUsageAsBuiltRequest.class::cast)
+                .map(singleLevelUsageAsBuiltRequest -> new Descriptions(singleLevelUsageAsBuiltRequest.catenaXId(), null))
                 .toList();
 
 

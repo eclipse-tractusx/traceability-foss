@@ -28,10 +28,10 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportRequest;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.MainAspectAsPlannedRequest;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.PartSiteInformationAsPlannedRequest;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelBomAsPlannedRequest;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelUsageAsPlannedRequest;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.MainAspectAsPlannedRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.GenericSubmodel;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 
@@ -71,22 +71,22 @@ public class MainAspectAsPlannedStrategy implements MappingStrategy {
         List<Descriptions> parentRelations = submodels.stream()
                 .filter(genericSubmodel -> isUpwardRelationshipAsPlanned(genericSubmodel.getAspectType()))
                 .map(GenericSubmodel::getPayload)
-                .filter(SingleLevelUsageAsPlannedRequest.class::isInstance)
-                .map(SingleLevelUsageAsPlannedRequest.class::cast)
-                .map(singleLevelUsageAsPlannedRequest -> new Descriptions(singleLevelUsageAsPlannedRequest.catenaXId(), null))
+                .filter(SingleLevelBomAsPlannedRequest.class::isInstance)
+                .map(SingleLevelBomAsPlannedRequest.class::cast)
+                .map(singleLevelBomAsPlannedRequest -> new Descriptions(singleLevelBomAsPlannedRequest.catenaXId(), null))
                 .toList();
 
 
         List<Descriptions> childRelations = submodels.stream()
                 .filter(genericSubmodel -> isDownwardRelationshipAsPlanned(genericSubmodel.getAspectType()))
                 .map(GenericSubmodel::getPayload)
-                .filter(SingleLevelBomAsPlannedRequest.class::isInstance)
-                .map(SingleLevelBomAsPlannedRequest.class::cast)
-                .map(singleLevelBomAsPlannedRequest -> new Descriptions(singleLevelBomAsPlannedRequest.catenaXId(), null))
+                .filter(SingleLevelUsageAsPlannedRequest.class::isInstance)
+                .map(SingleLevelUsageAsPlannedRequest.class::cast)
+                .map(singleLevelUsageAsPlannedRequest -> new Descriptions(singleLevelUsageAsPlannedRequest.catenaXId(), null))
                 .toList();
 
         List<DetailAspectModel> detailAspectModels = new ArrayList<>();
-        if (partSiteInformationAsPlannedRequest != null){
+        if (partSiteInformationAsPlannedRequest != null) {
             detailAspectModels.addAll(extractDetailAspectModelsPartSiteInformationAsPlanned(emptyIfNull(partSiteInformationAsPlannedRequest.sites())));
         }
 

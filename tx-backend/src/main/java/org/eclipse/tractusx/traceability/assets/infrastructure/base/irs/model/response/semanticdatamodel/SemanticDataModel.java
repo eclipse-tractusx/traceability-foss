@@ -44,6 +44,9 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+import static org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.BATCH;
+import static org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.JUSTINSEQUENCE;
+import static org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.SERIALPART;
 import static org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel.extractDetailAspectModelTractionBatteryCode;
 import static org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel.extractDetailAspectModelsAsBuilt;
 import static org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel.extractDetailAspectModelsAsPlanned;
@@ -107,13 +110,13 @@ public class SemanticDataModel {
 
         getLocalIdByInput(LocalIdKey.PART_INSTANCE_ID, localIds).ifPresent(s -> {
             semanticModelId.set(s);
-            semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.SERIALPART);
+            semanticDataModel.set(SERIALPART);
             tractionBatteryCodeOptional.ifPresent(tbc -> detailAspectModels.add(extractDetailAspectModelTractionBatteryCode(tbc)));
         });
 
         getLocalIdByInput(LocalIdKey.BATCH_ID, localIds).ifPresent(s -> {
             semanticModelId.set(s);
-            semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.BATCH);
+            semanticDataModel.set(BATCH);
         });
 
         getLocalIdByInput(LocalIdKey.JIS_NUMBER, localIds).ifPresent(s -> {
@@ -160,7 +163,7 @@ public class SemanticDataModel {
 
         localIdentifiers.stream().filter(localId -> localId.key().equals(LocalIdKey.PART_INSTANCE_ID)).findFirst().ifPresent(s -> {
             semanticModelId.set(s.value());
-            semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.SERIALPART);
+            semanticDataModel.set(SERIALPART);
             detailAspectDataTractionBatteryCodes.forEach(detailAspectDataTractionBatteryCode -> {
                 detailAspectModels.add(extractDetailAspectModelTractionBatteryCode(detailAspectDataTractionBatteryCode));
             });
@@ -168,7 +171,7 @@ public class SemanticDataModel {
 
         localIdentifiers.stream().filter(localId -> localId.key().equals(LocalIdKey.BATCH_ID)).findFirst().ifPresent(s -> {
             semanticModelId.set(s.value());
-            semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.BATCH);
+            semanticDataModel.set(BATCH);
         });
 
         localIdentifiers.stream().filter(localId -> localId.key().equals(LocalIdKey.JIS_NUMBER)).findFirst().ifPresent(s -> {
@@ -211,7 +214,7 @@ public class SemanticDataModel {
             List<Descriptions> parentRelations,
             List<Descriptions> childRelations,
             String ownerBpn
-          ) {
+    ) {
 
 
         List<DetailAspectModel> partSiteInfoAsPlanned = extractDetailAspectModelsPartSiteInformationAsPlanned(sites());
@@ -222,9 +225,9 @@ public class SemanticDataModel {
 
         return AssetBase.builder()
                 .id(catenaXId())
-               // .idShort(defaultValue(shortIds.get(catenaXId())))
+                // .idShort(defaultValue(shortIds.get(catenaXId())))
                 .manufacturerId(ownerBpn)
-              //  .manufacturerName(defaultValue(manufacturerName))
+                //  .manufacturerName(defaultValue(manufacturerName))
                 .nameAtManufacturer(partTypeInformation.nameAtManufacturer())
                 .manufacturerPartId(partTypeInformation.manufacturerPartId())
                 .parentRelations(parentRelations)
@@ -360,6 +363,11 @@ public class SemanticDataModel {
 
     public boolean isAsBuilt() {
         return !aspectType.contains("AsPlanned");
+    }
+
+
+    public static boolean isAsBuiltMainSemanticModel(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel semanticDataModel) {
+        return semanticDataModel.equals(SERIALPART) || semanticDataModel.equals(BATCH) || semanticDataModel.equals(JUSTINSEQUENCE);
     }
 
 }

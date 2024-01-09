@@ -26,8 +26,8 @@ import org.eclipse.tractusx.traceability.assets.application.importpoc.ImportServ
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportRequest;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.ImportException;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportRequest;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,7 +37,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.isAsBuiltMainAspect;
+import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.SemanticDataModel.isAsBuiltMainSemanticModel;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -60,8 +60,7 @@ public class ImportServiceImpl implements ImportService {
                             .filter(Optional::isPresent)
                             .map(Optional::get)
                             .collect(Collectors.groupingBy(assetBase -> {
-                                // TODO the name does not match the enum.
-                                if (isAsBuiltMainAspect(assetBase.getSemanticDataModel().name())) {
+                                if (isAsBuiltMainSemanticModel(assetBase.getSemanticDataModel())) {
                                     return BomLifecycle.AS_BUILT;
                                 } else {
                                     return BomLifecycle.AS_PLANNED;
