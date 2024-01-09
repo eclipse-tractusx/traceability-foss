@@ -135,7 +135,7 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
     }
 
     @Override
-    public AssetBase getAssetByChildId(String assetId, String childId) {
+    public AssetBase getAssetByChildId(String childId) {
         return getAssetRepository().getAssetByChildId(childId);
     }
 

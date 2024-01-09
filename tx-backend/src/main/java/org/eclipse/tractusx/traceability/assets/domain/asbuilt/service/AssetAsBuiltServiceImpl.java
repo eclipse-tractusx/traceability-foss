@@ -88,7 +88,7 @@ public class AssetAsBuiltServiceImpl extends AbstractAssetBaseService {
     }
 
     @Override
-    public AssetBase getAssetByChildId(String assetId, String childId) {
+    public AssetBase getAssetByChildId(String childId) {
         return assetAsBuiltViewRepository.getAssetByChildId(childId);
     }
 

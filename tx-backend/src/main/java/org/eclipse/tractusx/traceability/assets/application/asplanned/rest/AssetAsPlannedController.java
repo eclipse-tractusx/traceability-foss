@@ -361,7 +361,7 @@ public class AssetAsPlannedController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/{assetId}/children/{childId}")
     public AssetAsPlannedResponse asset(@PathVariable String assetId, @PathVariable String childId) {
-        return AssetAsPlannedResponseMapper.from(assetService.getAssetByChildId(assetId, childId));
+        return AssetAsPlannedResponseMapper.from(assetService.getAssetByChildId(childId));
     }
 
     @Operation(operationId = "updateAsset",

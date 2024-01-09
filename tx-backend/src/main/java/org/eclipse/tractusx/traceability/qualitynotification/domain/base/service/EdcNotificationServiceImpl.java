@@ -52,6 +52,7 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
     private final DiscoveryService discoveryService;
 
 
+    @Override
     @Async(value = AssetsAsyncConfig.UPDATE_NOTIFICATION_EXECUTOR)
     public CompletableFuture<QualityNotificationMessage> asyncNotificationMessageExecutor(QualityNotificationMessage notification) {
         log.info("::asyncNotificationExecutor::notification {}", notification);
