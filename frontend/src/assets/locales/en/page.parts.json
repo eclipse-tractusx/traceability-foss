@@ -10,8 +10,7 @@
     "selectedParts": {
       "info_one": "{{count}} Part selected for this page.",
       "info_other": "{{count}} Parts selected for this page.",
-      "action": "Create alert",
-      "publish": "Produkte veröffentlichen"
+      "action": "Create alert"
     },
     "childInvestigation": {
       "action": "Start investigation"
