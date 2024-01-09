@@ -19,6 +19,9 @@
 
 package org.eclipse.tractusx.traceability.integration.importdata;
 
+import assets.importpoc.ImportResponse;
+import assets.importpoc.ImportStateMessage;
+import assets.importpoc.ImportStateResponse;
 import org.eclipse.tractusx.traceability.common.security.JwtRole;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.hamcrest.Matchers;
@@ -29,6 +32,7 @@ import java.io.File;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class ImportControllerIT extends IntegrationTestSpecification {
 
@@ -39,13 +43,36 @@ class ImportControllerIT extends IntegrationTestSpecification {
         File file = new File(path);
 
         // when/then
-        given()
+        ImportResponse result = given()
                 .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
                 .when()
                 .multiPart(file)
                 .post("/api/assets/import")
                 .then()
-                .statusCode(204);
+                .statusCode(200)
+                .extract().as(ImportResponse.class);
+
+        assertThat(result.validationResult().validationErrors()).isEmpty();
+        assertThat(result.importStateMessage()).containsExactlyInAnyOrder(
+                new ImportStateMessage("urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01", ImportStateResponse.TRANSIENT, true),
+                new ImportStateMessage("urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4c79e", ImportStateResponse.TRANSIENT, true),
+                new ImportStateMessage("urn:uuid:c7a2b803-f8fe-4b79-b6fc-967ce847c9a1", ImportStateResponse.TRANSIENT, true),
+                new ImportStateMessage("urn:uuid:aad27ddb-43aa-4e42-98c2-01e529ef128c", ImportStateResponse.TRANSIENT, true),
+                new ImportStateMessage("urn:uuid:2c57b0e9-a653-411d-bdcd-64787e9fd3a7", ImportStateResponse.TRANSIENT, true),
+                new ImportStateMessage("urn:uuid:07cb071f-8716-45fe-89f1-f2f77a1ce93b", ImportStateResponse.TRANSIENT, true),
+                new ImportStateMessage("urn:uuid:e8c48a8e-d2d7-43d9-a867-65c70c85f5b8", ImportStateResponse.TRANSIENT, true),
+                new ImportStateMessage("urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd", ImportStateResponse.TRANSIENT, true),
+                new ImportStateMessage("urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a", ImportStateResponse.TRANSIENT, true),
+                new ImportStateMessage("urn:uuid:f11ddc62-3bd5-468f-b7b0-110fe13ed0cd", ImportStateResponse.TRANSIENT, true),
+                new ImportStateMessage("urn:uuid:c47b9f8b-48d0-4ef4-8f0b-e965a225cb8d", ImportStateResponse.TRANSIENT, true),
+                new ImportStateMessage("urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb01", ImportStateResponse.TRANSIENT, true),
+                new ImportStateMessage("urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb02", ImportStateResponse.TRANSIENT, true),
+                new ImportStateMessage("urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb03", ImportStateResponse.TRANSIENT, true),
+                new ImportStateMessage("urn:uuid:580d3adf-1981-44a0-a214-13d6ceed6841", ImportStateResponse.TRANSIENT, true),
+                new ImportStateMessage("urn:uuid:b0acf3e1-3fbe-46c0-aa0b-0724caae7772", ImportStateResponse.TRANSIENT, true),
+                new ImportStateMessage("urn:uuid:da978a30-4dde-4d76-808a-b7946763ff0d", ImportStateResponse.TRANSIENT, true),
+                new ImportStateMessage("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f", ImportStateResponse.TRANSIENT, true)
+        );
     }
 
     @Test
@@ -62,7 +89,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .post("/api/assets/import")
                 .then()
                 .statusCode(400)
-                .body("validationErrors", Matchers.contains(
+                .body("validationResult.validationErrors", Matchers.contains(
                         List.of(
                                 "Did not match pattern: ^urn:uuid:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
                                 "Missing property aspectType",
@@ -87,7 +114,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .post("/api/assets/import")
                 .then()
                 .statusCode(400)
-                .body("validationErrors", Matchers.contains(
+                .body("validationResult.validationErrors", Matchers.contains(
                         List.of(
                                 "Supported file is *.json"
                         ).toArray()));
@@ -107,7 +134,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .post("/api/assets/import")
                 .then()
                 .statusCode(400)
-                .body("validationErrors", Matchers.contains(
+                .body("validationResult.validationErrors", Matchers.contains(
                         List.of(
                                 "'urn:bamm:io.catenax.serial_part:1.1.1#NOT_SUPPORTED_NAME' is not supported"
                         ).toArray()));
