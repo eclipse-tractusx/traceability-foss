@@ -146,7 +146,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .id("urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd")
                 .semanticModelId("NO-313869652971440618042264")
                 .manufacturerId("BPNL00000003AXS3")
-                .nameAtManufacturer("Door f-l")
+                .nameAtManufacturer("Door to be updated")
                 .manufacturerPartId("")
                 .detailAspectModels(List.of())
                 .owner(Owner.OWN)
@@ -188,6 +188,9 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 new ImportStateMessage("urn:uuid:da978a30-4dde-4d76-808a-b7946763ff0d", ImportStateResponse.TRANSIENT, true),
                 new ImportStateMessage("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f", ImportStateResponse.TRANSIENT, true)
         );
+        AssetBase updatedAsset = assetAsBuiltRepository.getAssetById("urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd");
+        assertThat(updatedAsset.getImportNote()).isEqualTo("Asset updated successfully in transient state.");
+        assertThat(updatedAsset.getNameAtManufacturer()).isEqualTo("Door f-l");
     }
 
     @Test
