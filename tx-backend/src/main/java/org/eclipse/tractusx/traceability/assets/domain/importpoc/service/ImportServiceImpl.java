@@ -32,6 +32,7 @@ import org.eclipse.tractusx.traceability.common.properties.TraceabilityPropertie
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -50,7 +51,7 @@ public class ImportServiceImpl implements ImportService {
     private final MappingStrategyFactory strategyFactory;
 
     @Override
-    public void importAssets(MultipartFile file) {
+    public Map<AssetBase, Boolean> importAssets(MultipartFile file) {
         try {
             ImportRequest importRequest = objectMapper.readValue(file.getBytes(), ImportRequest.class);
             Map<BomLifecycle, List<AssetBase>> map =
@@ -66,9 +67,10 @@ public class ImportServiceImpl implements ImportService {
                                     return BomLifecycle.AS_PLANNED;
                                 }
                             }));
-            this.assetAsBuiltRepository.saveAll(map.get(BomLifecycle.AS_BUILT));
-            this.assetAsPlannedRepository.saveAll(map.get(BomLifecycle.AS_PLANNED));
-
+            this.assetAsBuiltRepository.saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(map.get(BomLifecycle.AS_BUILT));
+            this.assetAsPlannedRepository.saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(map.get(BomLifecycle.AS_PLANNED));
+            Map<AssetBase, Boolean> resultMap = new HashMap<>();
+            // TODO construct result
         } catch (Exception e) {
             throw new ImportException(e.getMessage());
         }

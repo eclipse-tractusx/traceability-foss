@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,15 +16,9 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.application.importpoc;
+package assets.importpoc;
 
-import assets.response.base.ImportStateResponse;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.springframework.web.multipart.MultipartFile;
+public record ImportStateMessage(String catenaXId, ImportStateResponse importState, boolean importSuccessful,
+                                 ValidationResponse validationResponse) {
 
-import java.io.IOException;
-import java.util.Map;
-
-public interface ImportService {
-    Map<AssetBase, Boolean> importAssets(MultipartFile file);
 }

@@ -28,12 +28,16 @@ import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportNote;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.common.repository.CriteriaUtility;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component
@@ -96,6 +100,37 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
                 .map(AssetAsBuiltEntity::toDomain)
                 .toList();
     }
+
+    // TODO make sure this will update based on the import strategy and updated import note and state based on it
+    @Override
+    @Transactional
+    public List<AssetBase> saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(List<AssetBase> assets) {
+        List<AssetAsBuiltEntity> savedEntities = new ArrayList<>();
+
+        for (AssetBase asset : assets) {
+            String assetId = asset.getId(); // Assuming getId() returns the ID of the entity
+
+            // Check if the entity with the given ID already exists
+            Optional<AssetAsBuiltEntity> existingEntityOptional = jpaAssetAsBuiltRepository.findById(assetId);
+
+            if (existingEntityOptional.isPresent()) {
+                // If it exists, update the single attribute
+                AssetAsBuiltEntity existingEntity = existingEntityOptional.get();
+                ImportNote importNote = existingEntity.getImportState().equals(ImportState.PERSISTENT)
+                savedEntities.add(existingEntity);
+            } else {
+                // If it doesn't exist, save the new entity
+                AssetAsBuiltEntity newEntity = AssetAsBuiltEntity.fromDomain(asset);
+                savedEntities.add(newEntity);
+            }
+        }
+
+        return jpaAssetAsBuiltRepository.saveAll(savedEntities).stream()
+                .map(AssetAsBuiltEntity::toDomain)
+                .toList();
+    }
+
+    // TODO check if it exists
 
 
     @Transactional

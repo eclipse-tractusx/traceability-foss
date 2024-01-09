@@ -35,6 +35,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
@@ -95,6 +96,14 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository {
     @Transactional
     public List<AssetBase> saveAll(List<AssetBase> assets) {
         return AssetAsPlannedEntity.toDomainList(jpaAssetAsPlannedRepository.saveAll(AssetAsPlannedEntity.fromList(assets)));
+    }
+
+    // TODO make sure this will update based on the import strategy and updated import note and state based on it
+
+    @Override
+    @Transactional
+    public List<AssetBase> saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(List<AssetBase> assets) {
+        return Collections.emptyList();
     }
 
     @Transactional
