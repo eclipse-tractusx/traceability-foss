@@ -8,6 +8,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [UNRELEASED - DD.MM.YYYY]
 
 ### Added
+- Import Data Service for data provisioning
 
 ### Changed
 - Fixed security findings
