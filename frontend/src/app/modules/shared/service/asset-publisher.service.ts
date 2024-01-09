@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Policy } from '@shared/components/asset-publisher/policy.model';
+import {Injectable} from '@angular/core';
+import {Policy} from '@shared/components/asset-publisher/policy.model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +24,6 @@ export class AssetPublisherService {
       name: 'Alerts Policy',
     },
   ]
-
-  constructor() { }
 
   getPolicies(): Policy[] {
     return this.POLICIES;
