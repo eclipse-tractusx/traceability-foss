@@ -48,7 +48,7 @@ table {
   &__menu {
     background: rgba(0, 0, 0, 0.04);
 
-    & > .notification-table--select-all__dropdown:hover {
+    &>.notification-table--select-all__dropdown:hover {
       background: none;
     }
   }
