@@ -21,8 +21,6 @@ package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportRequest;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.service.MainAspectAsBuiltStrategy;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.service.MainAspectAsPlannedStrategy;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.GenericSubmodel;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.stereotype.Component;

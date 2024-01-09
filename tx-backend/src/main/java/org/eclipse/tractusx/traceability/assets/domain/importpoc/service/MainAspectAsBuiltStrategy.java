@@ -29,9 +29,9 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportRequest;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelUsageAsBuiltRequest;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelBomAsBuiltRequest;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.MainAspectAsBuiltRequest;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelBomAsBuiltRequest;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelUsageAsBuiltRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.GenericSubmodel;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 
@@ -91,9 +91,7 @@ public class MainAspectAsBuiltStrategy implements MappingStrategy {
         asBuiltAspect.localIdentifiers().stream().filter(localIdentifier -> localIdentifier.key().equals("partInstanceId")).findFirst().ifPresent(s -> {
             semanticModelId.set(s.value());
             semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.SERIALPART);
-            detailAspectDataTractionBatteryCodes.forEach(detailAspectDataTractionBatteryCode -> {
-                detailAspectModels.add(extractDetailAspectModelTractionBatteryCode(detailAspectDataTractionBatteryCode));
-            });
+            detailAspectDataTractionBatteryCodes.forEach(detailAspectDataTractionBatteryCode -> detailAspectModels.add(extractDetailAspectModelTractionBatteryCode(detailAspectDataTractionBatteryCode)));
         });
 
         asBuiltAspect.localIdentifiers().stream().filter(localId -> localId.key().equals("batchId")).findFirst().ifPresent(s -> {
