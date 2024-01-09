@@ -3,7 +3,7 @@ import { renderComponent } from '@tests/test-render.utils';
 
 import { AssetPublisherComponent } from './asset-publisher.component';
 
-fdescribe('AssetPublisherComponent', () => {
+describe('AssetPublisherComponent', () => {
 
 
   const renderAssetPublisherComponent = () => {
