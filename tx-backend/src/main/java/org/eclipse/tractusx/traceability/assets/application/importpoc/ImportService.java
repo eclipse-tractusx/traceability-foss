@@ -18,11 +18,9 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.application.importpoc;
 
-import assets.response.base.ImportStateResponse;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.Map;
 
 public interface ImportService {

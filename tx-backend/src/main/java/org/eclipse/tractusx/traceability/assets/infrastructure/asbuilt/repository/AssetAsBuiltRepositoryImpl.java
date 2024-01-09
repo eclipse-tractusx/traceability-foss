@@ -32,11 +32,17 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportNote;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.common.repository.CriteriaUtility;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -105,29 +111,48 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
     @Override
     @Transactional
     public List<AssetBase> saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(List<AssetBase> assets) {
-        List<AssetAsBuiltEntity> savedEntities = new ArrayList<>();
 
-        for (AssetBase asset : assets) {
-            String assetId = asset.getId(); // Assuming getId() returns the ID of the entity
+        List<AssetAsBuiltEntity> toPersist =  assets.stream().map(assetToPersist -> new AbstractMap.SimpleEntry<AssetBase, AssetBaseEntity>(assetToPersist, jpaAssetAsBuiltRepository.findById(assetToPersist.getId()).orElse(null)))
+                .filter(this::entityIsTransientOrNotExistent)
+                .map(entry -> {
+                    if(entry.getValue() != null) {
+                        entry.getKey().setImportNote(ImportNote.TRANSIENT_UPDATED);
+                    }
+                    return entry.getKey();
+                })
+                .map(AssetAsBuiltEntity::from).toList();
 
-            // Check if the entity with the given ID already exists
-            Optional<AssetAsBuiltEntity> existingEntityOptional = jpaAssetAsBuiltRepository.findById(assetId);
+        return jpaAssetAsBuiltRepository.saveAll(toPersist).stream().map(AssetAsBuiltEntity::toDomain).toList();
 
-            if (existingEntityOptional.isPresent()) {
-                // If it exists, update the single attribute
-                AssetAsBuiltEntity existingEntity = existingEntityOptional.get();
-                ImportNote importNote = existingEntity.getImportState().equals(ImportState.PERSISTENT)
-                savedEntities.add(existingEntity);
-            } else {
-                // If it doesn't exist, save the new entity
-                AssetAsBuiltEntity newEntity = AssetAsBuiltEntity.fromDomain(asset);
-                savedEntities.add(newEntity);
-            }
+//
+//        for (AssetBase asset : assets) {
+//            String assetId = asset.getId(); // Assuming getId() returns the ID of the entity
+//
+//            // Check if the entity with the given ID already exists
+//            Optional<AssetAsBuiltEntity> existingEntityOptional = jpaAssetAsBuiltRepository.findById(assetId);
+//
+//            if (existingEntityOptional.isPresent() && existingEntityOptional.get().getImportState() == ImportState.TRANSIENT) {
+//                // If it exists, update the single attribute
+//                jpaAssetAsBuiltRepository.save(AssetAsBuiltEntity.from(asset));
+//                savedEntities.add(existingEntity);
+//            } else if(existingEntityOptional.isEmpty()){
+//                // If it doesn't exist, save the new entity
+//                AssetAsBuiltEntity newEntity = AssetAsBuiltEntity.from(asset);
+//                jpaAssetAsBuiltRepository.save(newEntity);
+//                savedEntities.add(newEntity);
+//            }
+//        }
+//
+//        return jpaAssetAsBuiltRepository.saveAll(savedEntities).stream()
+//                .map(AssetAsBuiltEntity::toDomain)
+//                .toList();
+    }
+
+    private boolean entityIsTransientOrNotExistent(AbstractMap.SimpleEntry<AssetBase, AssetBaseEntity> assetBaseAssetBaseEntitySimpleEntry) {
+        if(Objects.isNull(assetBaseAssetBaseEntitySimpleEntry.getValue())) {
+            return true;
         }
-
-        return jpaAssetAsBuiltRepository.saveAll(savedEntities).stream()
-                .map(AssetAsBuiltEntity::toDomain)
-                .toList();
+        return assetBaseAssetBaseEntitySimpleEntry.getValue().getImportState() == ImportState.TRANSIENT;
     }
 
     // TODO check if it exists

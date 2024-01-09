@@ -128,12 +128,17 @@ public class ImportController {
         if (!validationResult.isEmpty()) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
-                    .body(new ImportResponse(List.of(new ImportStateMessage(null, null, false, validationResponse))));
+                    .body(new ImportResponse(validationResponse));
 
         }
         Map<AssetBase, Boolean> resultMap = importService.importAssets(file);
 
-        List<ImportStateMessage> importStateMessages = resultMap.entrySet().stream().map(assetBaseSet -> new ImportStateMessage(assetBaseSet.getKey().getId(), ImportStateResponse.valueOf(assetBaseSet.getKey().getImportState().name()), assetBaseSet.getValue(), validationResponse)).toList();
+        List<ImportStateMessage> importStateMessages = resultMap.entrySet().stream()
+                .map(assetBaseSet -> new ImportStateMessage(
+                        assetBaseSet.getKey().getId(),
+                        ImportStateResponse.valueOf(assetBaseSet.getKey().getImportState().name()),
+                        assetBaseSet.getValue())
+                ).toList();
 
         ImportResponse importResponse = new ImportResponse(importStateMessages);
 

@@ -20,7 +20,16 @@ package assets.importpoc;
 
 import java.util.List;
 
-public record ImportResponse(List<ImportStateMessage> importStateMessage) {
+public record ImportResponse(
+        List<ImportStateMessage> importStateMessage,
+        ValidationResponse validationResult) {
 
+    public ImportResponse(List<ImportStateMessage> importStateMessages) {
+        this(importStateMessages, ValidationResponse.emptyValidationResult());
+    }
+
+    public ImportResponse(ValidationResponse importStateMessages) {
+        this(List.of(), importStateMessages);
+    }
 }
 
