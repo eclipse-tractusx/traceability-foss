@@ -18,7 +18,7 @@ export class AssetPublisherComponent {
   policies: Policy[];
   policyFormControl = new FormControl('', [Validators.required])
 
-  constructor(private readonly assetPublisherService: AssetPublisherService) {}
+  constructor(readonly assetPublisherService: AssetPublisherService) {}
 
   ngOnInit(): void {
     this.policies = this.assetPublisherService.getPolicies();
