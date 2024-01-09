@@ -19,14 +19,18 @@ name: "[BE][SECURITY] Spotbugs"
 
 on:
   push:
-    branches: main
+    branches:
+      - main
+      - dev
     paths-ignore:
       - '**/*.md'
       - '**/*.txt'
       - 'tx-backend/openapi/**'
       - 'docs/**'
   pull_request:
-    branches: main
+    branches:
+      - main
+      - dev
     paths-ignore:
       - '**/*.md'
       - '**/*.txt'

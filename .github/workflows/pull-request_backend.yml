@@ -25,6 +25,7 @@ env:
   GHCR_REGISTRY: ghcr.io
   JAVA_VERSION: 17
   DOCKER_HUB_REGISTRY_NAMESPACE: tractusx
+  IMAGE_REGISTRY: acrcfxsharedservices.azurecr.io
 
 jobs:
   Check-Changelog-update:
@@ -68,7 +69,7 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
         with:
-          files: "/home/runner/work/tx-traceability-foss/tx-traceability-foss/tx-backend/target/failsafe-reports/TEST-*.xml"
+          files: "**/failsafe-reports/TEST-*.xml"
           check_name: "Integration Test Results"
 
       - name: Publish unit test results
@@ -91,17 +92,19 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_BACKEND  }}
           SONAR_ORGANIZATION: ${{ vars.SONAR_ORGANIZATION }}
           SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY_BACKEND }}
-        run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode sonar:sonar -Dsonar.coverage.jacoco.xmlReportPaths=/home/runner/work/tx-traceability-foss/tx-traceability-foss/tx-coverage/target/site/jacoco-aggregate/jacoco.xml -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY_BACKEND }} -Dsonar.organization=${{ vars.SONAR_ORGANIZATION }}
+        run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode sonar:sonar -Dsonar.coverage.jacoco.xmlReportPaths=/home/runner/work/cofinity-x-ba-traceability-foss/cofinity-x-ba-traceability-foss/tx-coverage/target/site/jacoco-aggregate/jacoco.xml -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY_BACKEND }} -Dsonar.organization=${{ vars.SONAR_ORGANIZATION }}
 
   Publish-docker-image:
     needs: [ "Test-and-Sonar" ]
     runs-on: ubuntu-latest
+    environment: acr-shared-env
     defaults:
       run:
         working-directory: tx-backend
     permissions:
       contents: read
       packages: write
+      id-token: write
 
     steps:
       - name: Checkout repository
@@ -121,10 +124,26 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build & Push docker image for GHCR ${{ env.GHCR_REGISTRY }}/${{ github.repository }}:${{ github.event.pull_request.head.sha }}
+      # Establish authentication with azure account
+      - name: Azure CLI auth
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: ACR Login
+        run: az acr login --name ${{ env.IMAGE_REGISTRY }}
+
+      - name: Make organization and repository name lowercase
+        run: echo "GITHUB_REPOSITORY_LOWERCASE=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
+      - name: Build & Push docker image ${{ env.GITHUB_REPOSITORY_LOWERCASE }}:${{ github.event.pull_request.head.sha }}
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
-          tags: ${{ env.GHCR_REGISTRY }}/${{ github.repository }}:${{ github.event.pull_request.head.sha }}
+          tags: |
+            ${{ env.GHCR_REGISTRY }}/${{ env.GITHUB_REPOSITORY_LOWERCASE }}:${{ github.event.pull_request.head.sha }}
+            ${{ env.IMAGE_REGISTRY }}/${{ env.GITHUB_REPOSITORY_LOWERCASE }}:${{ github.event.pull_request.head.sha }}
 
