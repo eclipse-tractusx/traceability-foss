@@ -37,7 +37,8 @@ import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { BomLifecycleSettingsService, UserSettingView } from '@shared/service/bom-lifecycle-settings.service';
 import { StaticIdService } from '@shared/service/staticId.service';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 
 @Component({
@@ -57,6 +58,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   public readonly addPartTrigger$ = new Subject<Part>();
   public readonly currentSelectedItems$ = new BehaviorSubject<Part[]>([]);
   public readonly currentSelectedAsPlannedItems$ = new BehaviorSubject<Part[]>([]);
+  public allSelectedItems$;
 
   public tableAsBuiltSortList: TableHeaderSort[];
   public tableAsPlannedSortList: TableHeaderSort[];
@@ -99,6 +101,14 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.partsFacade.setPartsAsPlanned();
     this.searchFormGroup.addControl('partSearch', new FormControl([]));
     this.searchControl = this.searchFormGroup.get('partSearch') as unknown as FormControl;
+
+    this.allSelectedItems$ = combineLatest([this.currentSelectedItems$, this.currentSelectedAsPlannedItems$])
+      .pipe(
+        map(([array1, array2]) => {
+      return [...array1, ...array2];
+    })
+  )
+
   }
 
   filterActivated(isAsBuilt: boolean, assetFilter: any): void {

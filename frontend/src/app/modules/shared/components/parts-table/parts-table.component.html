@@ -58,7 +58,7 @@ SPDX-License-Identifier: Apache-2.0
            [matTooltipDisabled]="roleService.hasAccess(['admin'])"
       >
         <app-button
-          *ngIf="selection?.selected?.length && (tableType !== TableType.AS_PLANNED_CUSTOMER && tableType !== TableType.AS_BUILT_CUSTOMER)"
+          *ngIf="selection?.selected?.length && (tableType == TableType.AS_BUILT_OWN || tableType == TableType.AS_PLANNED_OWN)"
           (click)="clickImportAction.emit()"
           [variant]="'raised'"
           [color]="'accent'"
