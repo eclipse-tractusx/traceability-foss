@@ -146,7 +146,7 @@ describe('ImportJsonComponent', () => {
 
   })
 
-  fit('should set asset variables correctly', async () => {
+  it('should set asset variables correctly', async () => {
     const { fixture } = await renderComponentWithJsonFile(jsonFile, false);
     const { componentInstance } = fixture;
 
