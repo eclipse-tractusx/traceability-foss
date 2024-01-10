@@ -77,7 +77,7 @@ class ImportServiceImplTest {
                 file
         );
 
-        when(traceabilityProperties.getBpn()).thenReturn(BPN.of("ABC"));
+        when(traceabilityProperties.getBpn()).thenReturn(BPN.of("BPNL00000003CML1"));
         importService.importAssets(multipartFile);
         verify(assetAsBuiltRepository, times(1)).saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(anyList());
         verify(assetAsPlannedRepository, times(1)).saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(anyList());
