@@ -23,4 +23,7 @@ import java.util.List;
 
 
 public record ValidationResponse(List<String> validationErrors) {
+    public static ValidationResponse emptyValidationResult() {
+        return new ValidationResponse(List.of());
+    }
 }

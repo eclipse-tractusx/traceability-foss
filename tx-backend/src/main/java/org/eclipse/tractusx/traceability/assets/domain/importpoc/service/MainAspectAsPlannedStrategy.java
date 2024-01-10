@@ -18,6 +18,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
+import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataAsPlanned;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataPartSiteInformationAsPlanned;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
@@ -33,6 +34,7 @@ import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.PartSiteI
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelBomAsPlannedRequest;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelUsageAsPlannedRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.GenericSubmodel;
+
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 
 import java.time.OffsetDateTime;
@@ -40,6 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+import static org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel.extractDetailAspectModelsAsPlanned;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.isAsPlannedMainAspect;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.isDownwardRelationshipAsPlanned;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.isPartSiteInformationAsPlanned;
@@ -90,6 +93,9 @@ public class MainAspectAsPlannedStrategy implements MappingStrategy {
             detailAspectModels.addAll(extractDetailAspectModelsPartSiteInformationAsPlanned(emptyIfNull(partSiteInformationAsPlannedRequest.sites())));
         }
 
+        DetailAspectModel asPlannedDetailAspect = extractDetailAspectModelsAsPlanned(partAsPlannedV2.validityPeriod());
+        detailAspectModels.add(asPlannedDetailAspect);
+
 
         AssetBase.AssetBaseBuilder assetBaseBuilder = AssetBase.builder();
         if (partAsPlannedV2 != null) {
@@ -128,6 +134,14 @@ public class MainAspectAsPlannedStrategy implements MappingStrategy {
         });
 
         return detailAspectModels;
+    }
+
+    public static DetailAspectModel extractDetailAspectModelsAsPlanned(MainAspectAsPlannedRequest.ValidityPeriod validityPeriod) {
+        DetailAspectDataAsPlanned detailAspectDataAsPlanned = DetailAspectDataAsPlanned.builder()
+                .validityPeriodFrom(OffsetDateTime.parse(validityPeriod.validFrom()))
+                .validityPeriodTo(OffsetDateTime.parse(validityPeriod.validTo()))
+                .build();
+        return DetailAspectModel.builder().data(detailAspectDataAsPlanned).type(DetailAspectType.AS_PLANNED).build();
     }
 
 

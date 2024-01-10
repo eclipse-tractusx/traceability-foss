@@ -18,7 +18,6 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.domain.importpoc.model;
 
-import java.time.OffsetDateTime;
 import java.util.List;
 
 public record SingleLevelUsageAsPlannedRequest(
@@ -37,8 +36,8 @@ public record SingleLevelUsageAsPlannedRequest(
     }
 
     public record ValidityPeriod(
-            OffsetDateTime validFrom,
-            OffsetDateTime validTo
+            String validFrom,
+            String validTo
     ) {
     }
 

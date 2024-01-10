@@ -28,17 +28,18 @@ import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.Asse
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.ImportException;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportRequest;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.repository.SubmodelPayloadRepository;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashMap;
+import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.SemanticDataModel.isAsBuiltMainSemanticModel;
+import java.util.stream.Stream;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -49,30 +50,66 @@ public class ImportServiceImpl implements ImportService {
     private final AssetAsBuiltRepository assetAsBuiltRepository;
     private final TraceabilityProperties traceabilityProperties;
     private final MappingStrategyFactory strategyFactory;
+    private final SubmodelPayloadRepository submodelPayloadRepository;
 
     @Override
     public Map<AssetBase, Boolean> importAssets(MultipartFile file) {
         try {
             ImportRequest importRequest = objectMapper.readValue(file.getBytes(), ImportRequest.class);
-            Map<BomLifecycle, List<AssetBase>> map =
+
+
+            Map<BomLifecycle, List<AssetBase>> assetToUploadByBomLifecycle =
                     importRequest.assets()
                             .stream()
-                            .map(importRequestV2 -> strategyFactory.mapToAssetBase(importRequestV2, traceabilityProperties))
-                            .filter(Optional::isPresent)
-                            .map(Optional::get)
-                            .collect(Collectors.groupingBy(assetBase -> {
-                                if (isAsBuiltMainSemanticModel(assetBase.getSemanticDataModel())) {
-                                    return BomLifecycle.AS_BUILT;
+                            .map(assetImportItem -> {
+                                Optional<AssetBase> assetBase = strategyFactory.mapToAssetBase(assetImportItem, traceabilityProperties);
+                                if (assetBase.isPresent() && assetBase.get().isOwnAsset(traceabilityProperties.getBpn().toString())) {
+                                    return assetBase;
                                 } else {
-                                    return BomLifecycle.AS_PLANNED;
+                                    throw new ImportException("At least one asset does not match the application bpn " + traceabilityProperties.getBpn().value());
                                 }
-                            }));
-            this.assetAsBuiltRepository.saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(map.get(BomLifecycle.AS_BUILT));
-            this.assetAsPlannedRepository.saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(map.get(BomLifecycle.AS_PLANNED));
-            Map<AssetBase, Boolean> resultMap = new HashMap<>();
-            // TODO construct result
+                            })
+                            .map(Optional::get)
+                            .collect(Collectors.groupingBy(AssetBase::getBomLifecycle));
+
+            List<AssetBase> persistedAsBuilt = assetAsBuiltRepository.saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(assetToUploadByBomLifecycle.get(BomLifecycle.AS_BUILT));
+            List<AssetBase> persistedAsPlanned = assetAsPlannedRepository.saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(assetToUploadByBomLifecycle.get(BomLifecycle.AS_PLANNED));
+
+            List<AssetBase> expectedAssetsToBePersisted = assetToUploadByBomLifecycle.values().stream().flatMap(Collection::stream).toList();
+            List<AssetBase> persistedAssets = Stream.concat(persistedAsBuilt.stream(), persistedAsPlanned.stream()).toList();
+
+            saveRawDataForPersistedAssets(persistedAssets, importRequest);
+
+            return compareForUploadResult(expectedAssetsToBePersisted, persistedAssets);
         } catch (Exception e) {
             throw new ImportException(e.getMessage());
         }
+    }
+
+    private void saveRawDataForPersistedAssets(List<AssetBase> persistedAssets, ImportRequest importRequest) {
+        List<String> persistedAssetsIds = persistedAssets.stream().map(AssetBase::getId).toList();
+        importRequest.assets().stream().filter(asset -> persistedAssetsIds.contains(asset.assetMetaInfoRequest().catenaXId()))
+                .map(assetImportRequest -> Map.entry(
+                        getAssetById(assetImportRequest.assetMetaInfoRequest().catenaXId(), persistedAssets),
+                        assetImportRequest.submodels()))
+                .forEach(entry -> {
+                    if (entry.getKey().getBomLifecycle() == BomLifecycle.AS_BUILT) {
+                        submodelPayloadRepository.savePayloadForAssetAsBuilt(entry.getKey().getId(), entry.getValue());
+                    } else if (entry.getKey().getBomLifecycle() == BomLifecycle.AS_PLANNED) {
+                        submodelPayloadRepository.savePayloadForAssetAsPlanned(entry.getKey().getId(), entry.getValue());
+                    }
+                });
+    }
+
+    private AssetBase getAssetById(String assetId, List<AssetBase> assets) {
+        return assets.stream().filter(asset -> asset.getId().equals(assetId)).findFirst().orElseThrow(() -> new ImportException("Failed when trying to persist raw payload to persisted Assets"));
+    }
+
+    public static Map<AssetBase, Boolean> compareForUploadResult(List<AssetBase> incoming, List<AssetBase> persisted) {
+        return incoming.stream().map(asset -> {
+                    Optional<AssetBase> persistedAssetOptional = persisted.stream().filter(persistedAsset -> persistedAsset.getId().equals(asset.getId())).findFirst();
+                    return persistedAssetOptional.map(assetBase -> Map.entry(assetBase, true)).orElseGet(() -> Map.entry(asset, false));
+                }
+        ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (x, y) -> y, LinkedHashMap::new));
     }
 }

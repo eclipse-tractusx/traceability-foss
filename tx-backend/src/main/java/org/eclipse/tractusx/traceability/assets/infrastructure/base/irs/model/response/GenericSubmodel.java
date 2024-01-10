@@ -24,15 +24,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataTractionBatteryCode;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.PartSiteInformationAsPlannedRequest;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelUsageAsBuiltRequest;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelBomAsBuiltRequest;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelBomAsPlannedRequest;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelUsageAsPlannedRequest;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.MainAspectAsBuiltRequest;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.MainAspectAsPlannedRequest;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.PartSiteInformationAsPlannedRequest;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelBomAsBuiltRequest;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelBomAsPlannedRequest;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelUsageAsBuiltRequest;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelUsageAsPlannedRequest;
 
 
 @Slf4j
@@ -81,6 +84,8 @@ public class GenericSubmodel {
     })
     private Object payload;
 
+    private String payloadRaw;
+
     @JsonProperty("aspectType")
     private String aspectType;
 
@@ -88,6 +93,13 @@ public class GenericSubmodel {
     public GenericSubmodel(@JsonProperty("aspectType") String aspectType, @JsonProperty("payload") Object payload) {
         this.aspectType = aspectType;
         this.payload = payload;
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        try {
+            this.payloadRaw = objectMapper.writeValueAsString(payload);
+        } catch (JsonProcessingException exception) {
+            this.payloadRaw = exception.getMessage();
+        }
     }
 
     public Object getPayload() {
@@ -96,6 +108,10 @@ public class GenericSubmodel {
 
     public String getAspectType() {
         return aspectType;
+    }
+
+    public String getPayloadRaw() {
+        return payloadRaw;
     }
 
 }

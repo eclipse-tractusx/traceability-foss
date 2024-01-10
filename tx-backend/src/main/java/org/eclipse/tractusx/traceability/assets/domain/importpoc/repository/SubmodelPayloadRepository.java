@@ -16,13 +16,15 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.application.importpoc;
 
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.springframework.web.multipart.MultipartFile;
+package org.eclipse.tractusx.traceability.assets.domain.importpoc.repository;
 
-import java.util.Map;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.GenericSubmodel;
 
-public interface ImportService {
-    Map<AssetBase, Boolean> importAssets(MultipartFile file);
+import java.util.List;
+
+public interface SubmodelPayloadRepository {
+    void savePayloadForAssetAsBuilt(String assetId, List<GenericSubmodel> submodels);
+
+    void savePayloadForAssetAsPlanned(String assetId, List<GenericSubmodel> submodels);
 }

@@ -18,7 +18,8 @@
  ********************************************************************************/
 package assets.importpoc;
 
-public record ImportStateMessage(String catenaXId, ImportStateResponse importState, boolean importSuccessful,
-                                 ValidationResponse validationResponse) {
+public record ImportStateMessage(
+        String catenaXId,
+        boolean persistedOrUpdated) {
 
 }
