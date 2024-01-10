@@ -133,7 +133,7 @@ When("open details of created {string}", () => {
 When("user confirm cancellation of selected {string}", function(notificationType) {
   cy.get('[class="mdc-dialog__container"]').find('.mdc-checkbox').click();
   cy.get('span').contains('Confirm cancellation').click();
-};
+});
 
 
 When("user {string} selected {string}", function(action) {
