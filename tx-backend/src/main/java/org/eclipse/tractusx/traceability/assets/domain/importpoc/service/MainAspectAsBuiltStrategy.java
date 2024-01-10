@@ -108,9 +108,7 @@ public class MainAspectAsBuiltStrategy implements MappingStrategy {
             semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.JUSTINSEQUENCE);
         });
 
-        asBuiltAspect.localIdentifiers().stream().filter(localId -> localId.key().equals("manufacturerId")).findFirst().ifPresent(s -> {
-            manufacturerId.set(s.value());
-        });
+        asBuiltAspect.localIdentifiers().stream().filter(localId -> localId.key().equals("manufacturerId")).findFirst().ifPresent(s -> manufacturerId.set(s.value()));
 
         if (semanticDataModel.get() == null) {
             semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.UNKNOWN);
