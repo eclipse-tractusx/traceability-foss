@@ -159,9 +159,6 @@ describe('ImportJsonComponent', () => {
 
     componentInstance.setAssetReport(assetResponse);
 
-    console.warn(componentInstance.assetResponse)
-    console.warn(componentInstance.assetResponse['importStateMessage'])
-
     expect(componentInstance.assetResponse).toEqual(assetResponse.importStateMessage);
     expect(componentInstance.displayUploader).toBeFalsy();
   });
