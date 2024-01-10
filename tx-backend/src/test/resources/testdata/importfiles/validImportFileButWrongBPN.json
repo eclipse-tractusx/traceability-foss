@@ -10,7 +10,7 @@
           "payload" : {
             "localIdentifiers" : [
               {
-                "value" : "BPNL00000003CML1",
+                "value" : "BPNL00000003XXX1",
                 "key" : "manufacturerId"
               },
               {
@@ -91,7 +91,7 @@
           "payload" : {
             "localIdentifiers" : [
               {
-                "value" : "BPNL00000003CML1",
+                "value" : "BPNL00000003AXS3",
                 "key" : "manufacturerId"
               },
               {
@@ -172,7 +172,7 @@
           "payload" : {
             "localIdentifiers" : [
               {
-                "value" : "BPNL00000003CML1",
+                "value" : "BPNL00000003AXS3",
                 "key" : "manufacturerId"
               },
               {
@@ -253,7 +253,7 @@
           "payload" : {
             "localIdentifiers" : [
               {
-                "value" : "BPNL00000003CML1",
+                "value" : "BPNL00000003AXS3",
                 "key" : "manufacturerId"
               },
               {
@@ -334,7 +334,7 @@
           "payload" : {
             "localIdentifiers" : [
               {
-                "value" : "BPNL00000003CML1",
+                "value" : "BPNL00000003AXS3",
                 "key" : "manufacturerId"
               },
               {
@@ -394,7 +394,7 @@
           "payload" : {
             "localIdentifiers" : [
               {
-                "value" : "BPNL00000003CML1",
+                "value" : "BPNL00000003AXS3",
                 "key" : "manufacturerId"
               },
               {
@@ -449,7 +449,7 @@
           "payload" : {
             "localIdentifiers" : [
               {
-                "value" : "BPNL00000003CML1",
+                "value" : "BPNL00000003AXS3",
                 "key" : "manufacturerId"
               },
               {
@@ -543,7 +543,7 @@
           "payload" : {
             "localIdentifiers" : [
               {
-                "value" : "BPNL00000003CML1",
+                "value" : "BPNL00000003AXS3",
                 "key" : "manufacturerId"
               },
               {
@@ -616,7 +616,7 @@
             "sites" : [
               {
                 "functionValidUntil" : "2025-04-04T04:14:11.000Z",
-                "catenaXSiteId" : "BPNS000004711DMY",
+                "catenaXsiteId" : "BPNS000004711DMY",
                 "function" : "production",
                 "functionValidFrom" : "2018-03-24T13:38:32.000Z"
               }
@@ -652,7 +652,7 @@
             "sites" : [
               {
                 "functionValidUntil" : "2028-04-27T13:34:20.000Z",
-                "catenaXSiteId" : "BPNS000004711DMY",
+                "catenaXsiteId" : "BPNS000004711DMY",
                 "function" : "production",
                 "functionValidFrom" : "2017-05-03T09:10:04.000Z"
               }
@@ -710,7 +710,7 @@
             "sites" : [
               {
                 "functionValidUntil" : "2027-05-23T09:16:30.000Z",
-                "catenaXSiteId" : "BPNS000004711DMY",
+                "catenaXsiteId" : "BPNS000004711DMY",
                 "function" : "production",
                 "functionValidFrom" : "2013-11-17T23:59:54.000Z"
               }
@@ -782,7 +782,7 @@
             "sites" : [
               {
                 "functionValidUntil" : "2031-10-27T21:24:04.000Z",
-                "catenaXSiteId" : "BPNS00000003B2OM",
+                "catenaXsiteId" : "BPNS00000003B2OM",
                 "function" : "production",
                 "functionValidFrom" : "2016-01-29T21:44:37.000Z"
               }
@@ -840,7 +840,7 @@
             "sites" : [
               {
                 "functionValidUntil" : "2028-09-29T13:56:09.000Z",
-                "catenaXSiteId" : "BPNS00000003B5MJ",
+                "catenaXsiteId" : "BPNS00000003B5MJ",
                 "function" : "production",
                 "functionValidFrom" : "2017-01-30T12:55:30.000Z"
               }
@@ -876,7 +876,7 @@
             "sites" : [
               {
                 "functionValidUntil" : "2028-02-14T21:42:45.000Z",
-                "catenaXSiteId" : "BPNS00000003B2OM",
+                "catenaXsiteId" : "BPNS00000003B2OM",
                 "function" : "production",
                 "functionValidFrom" : "2015-07-21T06:33:16.000Z"
               }
@@ -895,7 +895,7 @@
           "payload" : {
             "localIdentifiers" : [
               {
-                "value" : "BPNL00000003CML1",
+                "value" : "BPNL00000003AXS3",
                 "key" : "manufacturerId"
               },
               {
@@ -946,7 +946,7 @@
           "payload" : {
             "localIdentifiers" : [
               {
-                "value" : "BPNL00000003CML1",
+                "value" : "BPNL00000003AXS3",
                 "key" : "manufacturerId"
               },
               {
@@ -1007,7 +1007,7 @@
           "payload" : {
             "localIdentifiers" : [
               {
-                "value" : "BPNL00000003CML1",
+                "value" : "BPNL00000003AXS3",
                 "key" : "manufacturerId"
               },
               {
@@ -1045,7 +1045,7 @@
                   "measurementUnit" : "unit:litre"
                 },
                 "hasAlternatives" : true,
-                "businessPartner" : "BPNL00000003CML1",
+                "businessPartner" : "BPNL00000003AXS3",
                 "createdOn" : "2022-02-03T14:48:54.709Z",
                 "lastModifiedOn" : "2022-02-03T14:48:54.709Z"
               }
@@ -1058,7 +1058,7 @@
             "catenaXId" : "urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f",
             "customers" : [
               {
-                "businessPartner" : "BPNL00000003CML1",
+                "businessPartner" : "BPNL00000003AXS3",
                 "parentItems" : [],
                 "createdOn" : "2022-02-03T14:48:54.709Z",
                 "lastModifiedOn" : "2022-02-03T14:48:54.709Z"
