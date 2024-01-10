@@ -23,7 +23,6 @@ package org.eclipse.tractusx.traceability.assets.application;
 import assets.importpoc.ErrorResponse;
 import assets.importpoc.ImportResponse;
 import assets.importpoc.ImportStateMessage;
-import assets.importpoc.ImportStateResponse;
 import assets.importpoc.ValidationResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -136,7 +135,6 @@ public class ImportController {
         List<ImportStateMessage> importStateMessages = resultMap.entrySet().stream()
                 .map(assetBaseSet -> new ImportStateMessage(
                         assetBaseSet.getKey().getId(),
-                        ImportStateResponse.valueOf(assetBaseSet.getKey().getImportState().name()),
                         assetBaseSet.getValue())
                 ).toList();
 

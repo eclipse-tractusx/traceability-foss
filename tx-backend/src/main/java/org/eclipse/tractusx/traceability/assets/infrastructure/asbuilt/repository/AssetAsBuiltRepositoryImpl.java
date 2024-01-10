@@ -123,29 +123,6 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
                 .map(AssetAsBuiltEntity::from).toList();
 
         return jpaAssetAsBuiltRepository.saveAll(toPersist).stream().map(AssetAsBuiltEntity::toDomain).toList();
-
-//
-//        for (AssetBase asset : assets) {
-//            String assetId = asset.getId(); // Assuming getId() returns the ID of the entity
-//
-//            // Check if the entity with the given ID already exists
-//            Optional<AssetAsBuiltEntity> existingEntityOptional = jpaAssetAsBuiltRepository.findById(assetId);
-//
-//            if (existingEntityOptional.isPresent() && existingEntityOptional.get().getImportState() == ImportState.TRANSIENT) {
-//                // If it exists, update the single attribute
-//                jpaAssetAsBuiltRepository.save(AssetAsBuiltEntity.from(asset));
-//                savedEntities.add(existingEntity);
-//            } else if(existingEntityOptional.isEmpty()){
-//                // If it doesn't exist, save the new entity
-//                AssetAsBuiltEntity newEntity = AssetAsBuiltEntity.from(asset);
-//                jpaAssetAsBuiltRepository.save(newEntity);
-//                savedEntities.add(newEntity);
-//            }
-//        }
-//
-//        return jpaAssetAsBuiltRepository.saveAll(savedEntities).stream()
-//                .map(AssetAsBuiltEntity::toDomain)
-//                .toList();
     }
 
     private boolean entityIsTransientOrNotExistent(AbstractMap.SimpleEntry<AssetBase, AssetBaseEntity> assetBaseAssetBaseEntitySimpleEntry) {
