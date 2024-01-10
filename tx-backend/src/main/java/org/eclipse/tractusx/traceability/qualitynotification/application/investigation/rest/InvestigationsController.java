@@ -198,7 +198,7 @@ public class InvestigationsController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("")
-    public PageResult<InvestigationResponse> getInvestigations(OwnPageable pageable, SearchCriteriaRequestParam filter) {
+    public PageResult<InvestigationResponse> getInvestigations(OwnPageable pageable, @Valid SearchCriteriaRequestParam filter) {
         log.info(API_LOG_START);
         return InvestigationResponseMapper.fromAsPageResult(investigationService.getNotifications(OwnPageable.toPageable(pageable, fieldMapper), filter.toSearchCriteria(fieldMapper)));
     }

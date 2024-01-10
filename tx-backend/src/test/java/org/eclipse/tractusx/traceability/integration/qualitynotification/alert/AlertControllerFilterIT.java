@@ -103,6 +103,83 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
     }
 
     @Test
+    void givenAlerts_whenProvideTooManyFilters_thenReturnError() throws JoseException {
+        // given
+        alertNotificationsSupport.defaultAlertsStored();
+
+        String filterParams = "&filter=bpn,STARTS_WITH,BPNL00000001OWN,OR".repeat(50);
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .param("page", "0")
+                .param("size", "10")
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000002OWN,OR")
+                .contentType(ContentType.JSON)
+                .when()
+                .log()
+                .uri()
+                .get("/api/alerts")
+
+
+                .then()
+                .log().all()
+                .statusCode(400)
+                .body("message", Matchers.is("Do not use more than 50 filter query parameters"));
+    }
+
+    @Test
     void givenAlerts_whenProvideBpnFilterAnd_thenReturnExpectedResult() throws JoseException {
         // given
         alertNotificationsSupport.defaultAlertsStored();
@@ -188,7 +265,7 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
 
 
     @Test
-    void givenInvestigations_whenInvalidLocalDate_thenReturnBadRequest() throws JoseException {
+    void givenAlerts_whenInvalidLocalDate_thenReturnBadRequest() throws JoseException {
         // given
         alertNotificationsSupport.defaultAlertsStored();
         String filter = "?filter=createdDate,AT_LOCAL_DATE,2023-10-1111111,AND";
@@ -206,7 +283,7 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenInvestigations_whenTargetDateAtLocalDate_thenExpectedResult() throws JoseException {
+    void givenAlerts_whenTargetDateAtLocalDate_thenExpectedResult() throws JoseException {
         // given
         alertNotificationsSupport.defaultAlertsStored();
         String filter = "?filter=targetDate,AT_LOCAL_DATE,2023-11-10,AND";
@@ -228,7 +305,7 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenInvestigations_whenProvideFilterWithSeverityCritical_thenReturnAllCritical() throws JoseException {
+    void givenAlerts_whenProvideFilterWithSeverityCritical_thenReturnAllCritical() throws JoseException {
         // given
         alertNotificationsSupport.defaultAlertsStored();
 
@@ -250,7 +327,7 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenInvestigations_whenProvideFilterCreatedBy_thenReturnAllCritical() throws JoseException {
+    void givenAlerts_whenProvideFilterCreatedBy_thenReturnAllCritical() throws JoseException {
         // given
         alertNotificationsSupport.defaultAlertsStored();
 
@@ -272,7 +349,7 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenInvestigations_whenProvideFilterCreatedByName_thenReturnAllCritical() throws JoseException {
+    void givenAlerts_whenProvideFilterCreatedByName_thenReturnAllCritical() throws JoseException {
         // given
         alertNotificationsSupport.defaultAlertsStored();
 
@@ -294,7 +371,7 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenInvestigations_whenProvideFilterSendTo_thenReturnExpectedResults() throws JoseException {
+    void givenAlerts_whenProvideFilterSendTo_thenReturnExpectedResults() throws JoseException {
         // given
         alertNotificationsSupport.defaultAlertsStored();
         final String filterString = "sendTo,STARTS_WITH,B,AND";
@@ -317,7 +394,7 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenInvestigations_whenProvideFilterSendToSort_thenReturnExpectedResults() throws JoseException {
+    void givenAlerts_whenProvideFilterSendToSort_thenReturnExpectedResults() throws JoseException {
         // given
         alertNotificationsSupport.defaultAlertsStored();
         final String filterString = "sendTo,STARTS_WITH,B,AND";

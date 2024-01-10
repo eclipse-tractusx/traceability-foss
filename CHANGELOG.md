@@ -11,6 +11,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 - Fixed security findings
+- Limit filter query parameter to 50
 
 ### Removed
 

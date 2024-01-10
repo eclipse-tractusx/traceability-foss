@@ -197,7 +197,7 @@ public class AlertController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("")
-    public PageResult<AlertResponse> getAlerts(OwnPageable pageable, SearchCriteriaRequestParam filter) {
+    public PageResult<AlertResponse> getAlerts(OwnPageable pageable,  @Valid  SearchCriteriaRequestParam filter) {
         log.info(API_LOG_START);
         return AlertResponseMapper.fromAsPageResult(alertService.getNotifications(OwnPageable.toPageable(pageable, fieldMapper), filter.toSearchCriteria(fieldMapper)));
     }
