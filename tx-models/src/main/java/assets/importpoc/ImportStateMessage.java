@@ -20,6 +20,6 @@ package assets.importpoc;
 
 public record ImportStateMessage(
         String catenaXId,
-        boolean importSuccessful) {
+        boolean persistedOrUpdated) {
 
 }
