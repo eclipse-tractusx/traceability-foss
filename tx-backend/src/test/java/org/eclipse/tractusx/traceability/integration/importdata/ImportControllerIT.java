@@ -26,6 +26,8 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.common.security.JwtRole;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.hamcrest.Matchers;
@@ -43,6 +45,9 @@ class ImportControllerIT extends IntegrationTestSpecification {
 
     @Autowired
     AssetAsBuiltRepository assetAsBuiltRepository;
+
+    @Autowired
+    JpaAssetAsBuiltRepository jpaAssetAsBuiltRepository;
 
     @Test
     void givenValidFile_whenImportData_thenValidationShouldPass() throws JoseException {
@@ -81,6 +86,9 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 new ImportStateMessage("urn:uuid:da978a30-4dde-4d76-808a-b7946763ff0d", true),
                 new ImportStateMessage("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f", true)
         );
+
+        AssetAsBuiltEntity entity = jpaAssetAsBuiltRepository.findById("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f").get();
+        assertThat(entity.getSubmodels()).isNotEmpty();
     }
 
     @Test
@@ -134,6 +142,8 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 new ImportStateMessage("urn:uuid:da978a30-4dde-4d76-808a-b7946763ff0d", true),
                 new ImportStateMessage("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f", true)
         );
+
+
     }
 
     @Test

@@ -16,34 +16,12 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.domain.importpoc.model;
 
-import java.util.List;
+package org.eclipse.tractusx.traceability.submodel.infrastructure.reposotory;
 
-public record SingleLevelUsageAsPlannedRequest(
-        List<ParentPart> parentParts,
-        String businessPartner,
-        String catenaXId
-) {
+import org.eclipse.tractusx.traceability.submodel.infrastructure.model.SubmodelPayloadEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-    public record ParentPart(
-            ValidityPeriod validityPeriod,
-            String parentCatenaXId,
-            Quantity quantity,
-            String createdOn,
-            String lastModifiedOn
-    ) {
-    }
+public interface JpaSubmodelPayloadRepository extends JpaRepository<SubmodelPayloadEntity, String> {
 
-    public record ValidityPeriod(
-            String validFrom,
-            String validTo
-    ) {
-    }
-
-    public record Quantity(
-            double quantityNumber,
-            String measurementUnit
-    ) {
-    }
 }

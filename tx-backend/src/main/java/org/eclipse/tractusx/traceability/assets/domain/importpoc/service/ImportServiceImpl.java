@@ -28,6 +28,7 @@ import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.Asse
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.ImportException;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportRequest;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.repository.SubmodelPayloadRepository;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -49,11 +50,14 @@ public class ImportServiceImpl implements ImportService {
     private final AssetAsBuiltRepository assetAsBuiltRepository;
     private final TraceabilityProperties traceabilityProperties;
     private final MappingStrategyFactory strategyFactory;
+    private final SubmodelPayloadRepository submodelPayloadRepository;
 
     @Override
     public Map<AssetBase, Boolean> importAssets(MultipartFile file) {
         try {
             ImportRequest importRequest = objectMapper.readValue(file.getBytes(), ImportRequest.class);
+
+
             Map<BomLifecycle, List<AssetBase>> assetToUploadByBomLifecycle =
                     importRequest.assets()
                             .stream()
@@ -68,10 +72,31 @@ public class ImportServiceImpl implements ImportService {
             List<AssetBase> expectedAssetsToBePersisted = assetToUploadByBomLifecycle.values().stream().flatMap(Collection::stream).toList();
             List<AssetBase> persistedAssets = Stream.concat(persistedAsBuilt.stream(), persistedAsPlanned.stream()).toList();
 
+            saveRawDataForPersistedAssets(persistedAssets, importRequest);
+
             return compareForUploadResult(expectedAssetsToBePersisted, persistedAssets);
         } catch (Exception e) {
             throw new ImportException(e.getMessage());
         }
+    }
+
+    private void saveRawDataForPersistedAssets(List<AssetBase> persistedAssets, ImportRequest importRequest) {
+        List<String> persistedAssetsIds = persistedAssets.stream().map(AssetBase::getId).toList();
+        importRequest.assets().stream().filter(asset -> persistedAssetsIds.contains(asset.assetMetaInfoRequest().catenaXId()))
+                .map(assetImportRequest -> Map.entry(
+                        getAssetById(assetImportRequest.assetMetaInfoRequest().catenaXId(), persistedAssets),
+                        assetImportRequest.submodels()))
+                .forEach(entry -> {
+                    if (entry.getKey().getBomLifecycle() == BomLifecycle.AS_BUILT) {
+                        submodelPayloadRepository.savePayloadForAssetAsBuilt(entry.getKey().getId(), entry.getValue());
+                    } else if (entry.getKey().getBomLifecycle() == BomLifecycle.AS_PLANNED) {
+                        submodelPayloadRepository.savePayloadForAssetAsPlanned(entry.getKey().getId(), entry.getValue());
+                    }
+                });
+    }
+
+    private AssetBase getAssetById(String assetId, List<AssetBase> assets) {
+        return assets.stream().filter(asset -> asset.getId().equals(assetId)).findFirst().orElseThrow(() -> new ImportException("Failed when trying to persist raw payload to persisted Assets"));
     }
 
     public static Map<AssetBase, Boolean> compareForUploadResult(List<AssetBase> incoming, List<AssetBase> persisted) {

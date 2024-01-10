@@ -16,34 +16,15 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.domain.importpoc.model;
+
+package org.eclipse.tractusx.traceability.assets.domain.importpoc.repository;
+
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.GenericSubmodel;
 
 import java.util.List;
 
-public record SingleLevelUsageAsPlannedRequest(
-        List<ParentPart> parentParts,
-        String businessPartner,
-        String catenaXId
-) {
+public interface SubmodelPayloadRepository {
+    void savePayloadForAssetAsBuilt(String assetId, List<GenericSubmodel> submodels);
 
-    public record ParentPart(
-            ValidityPeriod validityPeriod,
-            String parentCatenaXId,
-            Quantity quantity,
-            String createdOn,
-            String lastModifiedOn
-    ) {
-    }
-
-    public record ValidityPeriod(
-            String validFrom,
-            String validTo
-    ) {
-    }
-
-    public record Quantity(
-            double quantityNumber,
-            String measurementUnit
-    ) {
-    }
+    void savePayloadForAssetAsPlanned(String assetId, List<GenericSubmodel> submodels);
 }

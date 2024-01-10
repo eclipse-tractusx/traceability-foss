@@ -22,8 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
-
-
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.repository.SubmodelPayloadRepository;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.junit.jupiter.api.BeforeEach;
@@ -52,19 +51,22 @@ class ImportServiceImplTest {
     private AssetAsPlannedRepository assetAsPlannedRepository;
     @Mock
     private AssetAsBuiltRepository assetAsBuiltRepository;
+    @Mock
+    private SubmodelPayloadRepository submodelPayloadRepository;
 
     private MappingStrategyFactory strategyFactory;
     @Mock
     private TraceabilityProperties traceabilityProperties;
 
     @BeforeEach
-    public void testSetup(){
+    public void testSetup() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
 
-        importService = new ImportServiceImpl(objectMapper, assetAsPlannedRepository, assetAsBuiltRepository, traceabilityProperties, new MappingStrategyFactory());
+        importService = new ImportServiceImpl(objectMapper, assetAsPlannedRepository, assetAsBuiltRepository, traceabilityProperties, new MappingStrategyFactory(), submodelPayloadRepository);
 
     }
+
     @Test
     void testImportRequestSuccessful() throws IOException {
 
@@ -82,7 +84,6 @@ class ImportServiceImplTest {
         verify(assetAsBuiltRepository, times(1)).saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(anyList());
         verify(assetAsPlannedRepository, times(1)).saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(anyList());
     }
-
 
 
 }
