@@ -39,7 +39,29 @@ SPDX-License-Identifier: Apache-2.0
   </div>
   <div class="app-bom-lifecycle-activator-container">
     <app-bom-lifecycle-activator [view]=UserSettingView.PARTS
-                                 (buttonClickEvent)="handleTableActivationEvent($event)"></app-bom-lifecycle-activator>
+                                 (buttonClickEvent)="handleTableActivationEvent($event)">
+    </app-bom-lifecycle-activator>
+    <div class="table--header--select--button"
+         matTooltip="{{'routing.unauthorized' | i18n}}"
+         matTooltipClass="table--header--tooltip"
+         matTooltipPosition="above"
+         [class.mdc-tooltip--multiline]="true"
+         [matTooltipShowDelay]="1000"
+         [matTooltipDisabled]="roleService.hasAccess(['admin'])"
+    >
+      <app-button
+              *ngIf="(allSelectedItems$ | async).length"
+              (click)="isPublisherOpen$.next(true)"
+              [variant]="'raised'"
+              [color]="'accent'"
+              [isDisabled]="!roleService.hasAccess(['admin'])"
+      >
+        <div class="flex justify-between items-center text-dark p-0.5">
+          <mat-icon class="mr-2">published_with_changes</mat-icon>
+          {{ 'actions.publishAssets' | i18n }}
+        </div>
+      </app-button>
+    </div>
   </div>
   <div class="split-container-wrapper">
     <as-split direction="horizontal" class="split-container">
@@ -63,7 +85,6 @@ SPDX-License-Identifier: Apache-2.0
                              (configChanged)="onAsBuiltTableConfigChange($event)"
                              (multiSelect)="currentSelectedItems$.next($event)"
                              (clickSelectAction)="isAlertOpen$.next(true)"
-                             (clickImportAction)="isPublisherOpen$.next(true)"
                              (filterActivated)="filterActivated(true, $event )"
                              [multiSortList]="tableAsBuiltSortList"
                              [tableHeader]='"page.asBuiltParts" | i18n'
@@ -90,7 +111,6 @@ SPDX-License-Identifier: Apache-2.0
                              (configChanged)="onAsPlannedTableConfigChange($event)"
                              (multiSelect)="currentSelectedAsPlannedItems$.next($event)"
                              (clickSelectAction)="isAlertOpen$.next(true)"
-                             (clickImportAction)="isPublisherOpen$.next(true)"
                              (filterActivated)="filterActivated(false, $event)"
                              [multiSortList]="tableAsPlannedSortList"
                              [tableHeader]='"page.asPlannedParts" | i18n'
