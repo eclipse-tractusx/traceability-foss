@@ -101,13 +101,13 @@ $my-accent: mat.define-palette($accent-palette, 50);
 $my-warn: mat.define-palette($warn-palette, 700);
 
 $tracefoss-theme: mat.define-light-theme(
-  (
-    color: (
-      primary: $my-primary,
-      accent: $my-accent,
-      warn: $my-warn,
-    ),
-  )
+    (
+      color: (
+        primary: $my-primary,
+        accent: $my-accent,
+        warn: $my-warn,
+      ),
+    )
 );
 
 @include mat.core();

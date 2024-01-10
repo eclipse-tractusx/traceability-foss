@@ -29,7 +29,7 @@ import { getRandomIntFromInterval, getRandomText } from '../text-generator.helpe
 export const AlertIdPrefix = 'id-';
 
 // TODO: rethink this approach
-const severities = [Severity.MINOR, Severity.MAJOR, Severity.CRITICAL, Severity.LIFE_THREATENING];
+const severities = [ Severity.MINOR, Severity.MAJOR, Severity.CRITICAL, Severity.LIFE_THREATENING ];
 
 export const buildMockAlerts = (
   statuses: NotificationStatus[],
@@ -39,7 +39,7 @@ export const buildMockAlerts = (
     const status = statuses[index % statuses.length];
     const severity = severities[index % severities.length];
     // every 10th alert should have an error
-    const errorAlert = (index+1) % 10 === 0 ? "The Services returned an Error while processing this Alert" : undefined;
+    const errorAlert = (index + 1) % 10 === 0 ? 'The Services returned an Error while processing this Alert' : undefined;
 
     const close = status === NotificationStatus.CLOSED ? getRandomText(getRandomIntFromInterval(15, 500)) : '';
     const isDeclined = Math.random() >= 0.5;
@@ -59,8 +59,8 @@ export const buildMockAlerts = (
     const day = getRandomIntFromInterval(1, 27);
 
     return {
-      id: `${AlertIdPrefix}${index + 1}`,
-      description: `Alert No ${index + 1} ${getRandomText(getRandomIntFromInterval(15, 500))}`,
+      id: `${ AlertIdPrefix }${ index + 1 }`,
+      description: `Alert No ${ index + 1 } ${ getRandomText(getRandomIntFromInterval(15, 500)) }`,
       status,
       severity,
       channel,
@@ -69,15 +69,15 @@ export const buildMockAlerts = (
       sendTo: 'BPN20000000OEM0B',
       sendToName: 'OEM xxxxxxxxxxxxxxx B',
       reason: { close, decline, accept },
-      createdDate: `2022-${numberToString(month)}-${numberToString(day)}T12:34:12`,
-      targetDate: `2022-${numberToString(month)}-${numberToString(day + 1)}T12:34:12`,
-      assetIds: [MOCK_part_1.id, getRandomAsset().id, getRandomAsset().id, getRandomAsset().id],
+      createdDate: `2022-${ numberToString(month) }-${ numberToString(day) }T12:34:12`,
+      targetDate: `2022-${ numberToString(month) }-${ numberToString(day + 1) }T12:34:12`,
+      assetIds: [ MOCK_part_1.id, getRandomAsset().id, getRandomAsset().id, getRandomAsset().id ],
       errorMessage: errorAlert,
     };
   });
 
 const MockEmptyAlert: NotificationResponse = {
-  id: `${AlertIdPrefix}000`,
+  id: `${ AlertIdPrefix }000`,
   description: `Alert No 000`,
   status: NotificationStatus.CREATED,
   severity: Severity.MINOR,
@@ -88,7 +88,7 @@ const MockEmptyAlert: NotificationResponse = {
   reason: { close: '', decline: '', accept: '' },
   createdDate: `2022-05-01T12:34:12`,
   targetDate: `2022-02-01T12:34:12`,
-  assetIds: [getRandomAsset().id],
+  assetIds: [ getRandomAsset().id ],
   channel: 'SENDER',
 };
 

@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
@@ -31,9 +32,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target(PARAMETER)
 @Constraint(validatedBy = EDCNotificationValidator.class)
 public @interface ValidEDCNotification {
-	String message() default "Invalid EDCNotification";
+    String message() default "Invalid EDCNotification";
 
-	Class<?>[] groups() default {};
+    Class<?>[] groups() default {};
 
-	Class<? extends Payload>[] payload() default {};
+    Class<? extends Payload>[] payload() default {};
 }

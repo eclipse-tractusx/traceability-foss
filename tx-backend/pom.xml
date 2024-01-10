@@ -47,6 +47,7 @@ SPDX-License-Identifier: Apache-2.0
             </snapshots>
         </repository>
     </repositories>
+    <!-- https://mvnrepository.com/artifact/org.eclipse.jetty.websocket/websocket-parent -->
 
 
     <dependencies>
@@ -55,15 +56,32 @@ SPDX-License-Identifier: Apache-2.0
             <groupId>org.eclipse.tractusx.irs</groupId>
             <artifactId>irs-registry-client</artifactId>
             <version>${irs-client-lib.version}</version>
+            <exclusions>
+                <!-- Remove once at least 11.0.17 is available.-->
+                <exclusion>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-http</artifactId>
+                </exclusion>
+                <!-- Remove once at least 10.1.16 is available.-->
+                <exclusion>
+                    <groupId>org.apache.tomcat.embed</groupId>
+                    <artifactId>tomcat-embed-websocket</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
+        <!-- Remove once org.eclipse.tractusx.irs#irs-registry-client delivers the correct version.-->
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-http</artifactId>
+            <version>11.0.17</version>
+        </dependency>
         <!-- tx-application modules -->
         <dependency>
             <groupId>org.eclipse.tractusx.traceability</groupId>
             <artifactId>tx-models</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-
         <!-- managed by spring boot -->
         <dependency>
             <groupId>org.flywaydb</groupId>
@@ -110,8 +128,8 @@ SPDX-License-Identifier: Apache-2.0
                 Can be removed once org.eclipse.edc delivers at least jetty-http 11.0.16
                 -->
                 <exclusion>
-                    <groupId>org.eclipse.jetty</groupId>
-                    <artifactId>jetty-http</artifactId>
+                    <artifactId>websocket-jakarta-server</artifactId>
+                    <groupId>org.eclipse.jetty.websocket</groupId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -171,6 +189,17 @@ SPDX-License-Identifier: Apache-2.0
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.tomcat.embed</groupId>
+                    <artifactId>tomcat-embed-websocket</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-websocket</artifactId>
+            <version>10.1.16</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -220,7 +249,7 @@ SPDX-License-Identifier: Apache-2.0
         </dependency>
         <dependency>
             <groupId>io.github.resilience4j</groupId>
-            <artifactId>resilience4j-spring-boot2</artifactId>
+            <artifactId>resilience4j-spring-boot3</artifactId>
             <version>${resilience4j.version}</version>
         </dependency>
         <dependency>
@@ -297,7 +326,6 @@ SPDX-License-Identifier: Apache-2.0
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>
-            <version>4.4</version>
         </dependency>
 
         <dependency>
@@ -402,12 +430,18 @@ SPDX-License-Identifier: Apache-2.0
             <version>1.1.0</version>
             <scope>test</scope>
         </dependency>
-        <!-- Fixes CVE-2023-36478  https://github.com/catenax-ng/tx-traceability-foss/security/code-scanning/6770-->
         <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-http</artifactId>
-            <version>11.0.17</version>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.4.14</version>
         </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>1.4.14</version>
+        </dependency>
+
+
     </dependencies>
 
     <pluginRepositories>
@@ -533,7 +567,7 @@ SPDX-License-Identifier: Apache-2.0
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jxr-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>${maven-jxr-plugin.version}</version>
             </plugin>
         </plugins>
     </reporting>

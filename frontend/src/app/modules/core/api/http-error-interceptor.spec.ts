@@ -34,7 +34,8 @@ import { catchError } from 'rxjs/operators';
 export class ErrorTestComponent implements AfterViewInit {
   @Input() statusCode = '404';
 
-  constructor(private readonly apiService: ApiService) {}
+  constructor(private readonly apiService: ApiService) {
+  }
 
   public ngAfterViewInit() {
     this.apiService
@@ -47,8 +48,8 @@ export class ErrorTestComponent implements AfterViewInit {
 describe('HttpErrorInterceptor', () => {
   const initErrorInterceptor = async (statusCode: string) => {
     await renderComponent(ErrorTestComponent, {
-      declarations: [ErrorTestComponent],
-      imports: [SharedModule, CoreModule],
+      declarations: [ ErrorTestComponent ],
+      imports: [ SharedModule, CoreModule ],
       componentProperties: { statusCode },
     });
   };

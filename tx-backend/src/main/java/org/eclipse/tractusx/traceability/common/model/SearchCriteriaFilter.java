@@ -26,6 +26,7 @@ import lombok.Data;
 @Builder
 public class SearchCriteriaFilter {
     private String key;
-    private SearchStrategy strategy;
+    private SearchCriteriaStrategy strategy;
     private String value;
+    private SearchCriteriaOperator operator;
 }

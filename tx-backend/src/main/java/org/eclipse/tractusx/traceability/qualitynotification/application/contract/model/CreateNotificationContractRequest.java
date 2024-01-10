@@ -22,6 +22,7 @@ package org.eclipse.tractusx.traceability.qualitynotification.application.contra
 
 import jakarta.validation.constraints.NotNull;
 
-public record CreateNotificationContractRequest(@NotNull(message = "notificationType must be present") NotificationType notificationType,
-												@NotNull(message = "notificationMethod must be present") NotificationMethod notificationMethod) {
+public record CreateNotificationContractRequest(
+        @NotNull(message = "notificationType must be present") NotificationType notificationType,
+        @NotNull(message = "notificationMethod must be present") NotificationMethod notificationMethod) {
 }

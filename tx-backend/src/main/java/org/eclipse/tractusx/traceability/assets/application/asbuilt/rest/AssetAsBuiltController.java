@@ -32,11 +32,14 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.QueryParam;
+import org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper.AssetAsBuiltFieldMapper;
 import org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper.AssetAsBuiltResponseMapper;
 import org.eclipse.tractusx.traceability.assets.application.base.request.GetDetailInformationRequest;
 import org.eclipse.tractusx.traceability.assets.application.base.request.SyncAssetsRequest;
 import org.eclipse.tractusx.traceability.assets.application.base.request.UpdateAssetRequest;
 import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBaseService;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
+import org.eclipse.tractusx.traceability.common.model.BaseRequestFieldMapper;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
@@ -61,9 +64,13 @@ import java.util.Map;
 public class AssetAsBuiltController {
 
     private final AssetBaseService assetBaseService;
+    private final BaseRequestFieldMapper fieldMapper;
 
-    public AssetAsBuiltController(@Qualifier("assetAsBuiltServiceImpl") AssetBaseService assetService) {
+    public AssetAsBuiltController(
+            @Qualifier("assetAsBuiltServiceImpl") AssetBaseService assetService,
+            AssetAsBuiltFieldMapper fieldMapper) {
         this.assetBaseService = assetService;
+        this.fieldMapper = fieldMapper;
     }
 
     @Operation(operationId = "sync",
@@ -182,7 +189,7 @@ public class AssetAsBuiltController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("")
     public PageResult<AssetAsBuiltResponse> assets(OwnPageable pageable, SearchCriteriaRequestParam searchCriteriaRequestParam) {
-        return AssetAsBuiltResponseMapper.from(assetBaseService.getAssets(OwnPageable.toPageable(pageable), searchCriteriaRequestParam.toSearchCriteria()));
+        return AssetAsBuiltResponseMapper.from(assetBaseService.getAssets(OwnPageable.toPageable(pageable, fieldMapper), searchCriteriaRequestParam.toSearchCriteria(fieldMapper)));
     }
 
 
@@ -246,8 +253,8 @@ public class AssetAsBuiltController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("distinctFilterValues")
-    public List<String> distinctFilterValues(@QueryParam("fieldName") String fieldName, @QueryParam("size") Long size) {
-        return assetBaseService.getDistinctFilterValues(fieldName, size);
+    public List<String> distinctFilterValues(@QueryParam("fieldName") String fieldName, @QueryParam("size") Integer size, @QueryParam("startWith") String startWith, @QueryParam("owner") Owner owner) {
+        return assetBaseService.getDistinctFilterValues(fieldMapper.mapRequestFieldName(fieldName), startWith, size, owner);
     }
 
     @Operation(operationId = "assetsCountryMap",

@@ -17,56 +17,72 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {PartsTableComponent} from '@shared/components/parts-table/parts-table.component';
-import {resetMultiSelectionAutoCompleteComponent} from "@page/parts/core/parts.helper";
-import {QueryList} from "@angular/core";
+import { QueryList } from '@angular/core';
+import { Pagination } from '@core/model/pagination.model';
+import { provideDataObject, resetMultiSelectionAutoCompleteComponent } from '@page/parts/core/parts.helper';
+import { Part } from '@page/parts/model/parts.model';
+import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
 
-describe('resetMultiSelectionAutoCompleteComponent', () => {
-    it('should reset multiSelectAutocompleteComponents and set oneFilterSet to true if filterFormGroup is dirty', () => {
-        // Arrange
+describe('PartsHelper', () => {
+  it('should reset multiSelectAutocompleteComponents and set oneFilterSet to true if filterFormGroup is dirty', () => {
+    // Arrange
 
-        const mockQueryList = <T>(items: T[]): QueryList<T> => {
-            const queryList = new QueryList<T>();
-            queryList.reset(items);
-            return queryList;
-        };
+    const mockQueryList = <T>(items: T[]): QueryList<T> => {
+      const queryList = new QueryList<T>();
+      queryList.reset(items);
+      return queryList;
+    };
 
-        const multiSelectAutoCompleteComponents = [
-            {
-                theSearchElement: 'test',
-                clickClear: jasmine.createSpy('clickClear'),
-                formControl: {reset: jasmine.createSpy('reset')},
+    const multiSelectAutoCompleteComponents = [
+      {
+        theSearchElement: 'test',
+        clickClear: jasmine.createSpy('clickClear'),
+        formControl: { reset: jasmine.createSpy('reset') },
 
-            }]
-        const queryListMultiSelect = mockQueryList(multiSelectAutoCompleteComponents);
+      } ];
+    const queryListMultiSelect = mockQueryList(multiSelectAutoCompleteComponents);
 
-        const partsTableComponents: PartsTableComponent[] = [
-            {
-                // @ts-ignore
-                multiSelectAutocompleteComponents: queryListMultiSelect,
-                // @ts-ignore
-                filterFormGroup: {
-                    dirty: true,
-                },
-            },
-        ];
+    const partsTableComponents: PartsTableComponent[] = [
+      {
+        // @ts-ignore
+        multiSelectAutocompleteComponents: queryListMultiSelect,
+        // @ts-ignore
+        filterFormGroup: {
+          dirty: true,
+        },
+      },
+    ];
 
-        const partsTableComponentsQueryList = mockQueryList(partsTableComponents);
+    const partsTableComponentsQueryList = mockQueryList(partsTableComponents);
 
-        let oneFilterSet = false;
+    let oneFilterSet = false;
 
-        // Act
-        oneFilterSet = resetMultiSelectionAutoCompleteComponent(partsTableComponentsQueryList, oneFilterSet);
+    // Act
+    oneFilterSet = resetMultiSelectionAutoCompleteComponent(partsTableComponentsQueryList, oneFilterSet);
 
-        // Assert
-        expect(oneFilterSet).toBe(true);
+    // Assert
+    expect(oneFilterSet).toBe(true);
 
-        partsTableComponents.forEach((partsTableComponent) => {
-            partsTableComponent.multiSelectAutocompleteComponents.forEach((multiSelectAutocompleteComponent) => {
-                expect(multiSelectAutocompleteComponent.theSearchElement).toBeNull();
-                expect(multiSelectAutocompleteComponent.clickClear).toHaveBeenCalled();
-                expect(multiSelectAutocompleteComponent.formControl.reset).toHaveBeenCalled();
-            });
-        });
+    partsTableComponents.forEach((partsTableComponent) => {
+      partsTableComponent.multiSelectAutocompleteComponents.forEach((multiSelectAutocompleteComponent) => {
+        expect(multiSelectAutocompleteComponent.searchElement).toBeNull();
+        expect(multiSelectAutocompleteComponent.clickClear).toHaveBeenCalled();
+        expect(multiSelectAutocompleteComponent.formControl.reset).toHaveBeenCalled();
+      });
     });
+  });
+
+  it('should handle default pagination', () => {
+
+    let data: Pagination<Part> = {
+      content: [],
+      page: 0,
+      pageCount: 0,
+      pageSize: 0,
+      totalItems: 0
+    };
+
+    const actual = provideDataObject(data);
+    expect(actual).toEqual(data);
+  })
 });

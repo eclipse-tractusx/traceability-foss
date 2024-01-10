@@ -33,6 +33,14 @@
   }
 }
 
+.detail--action {
+  display: flex;
+}
+
+.detail--action--button {
+  cursor: not-allowed;
+}
+
 .detail--wrapper__supplier {
   margin-top: 1.5rem;
 }

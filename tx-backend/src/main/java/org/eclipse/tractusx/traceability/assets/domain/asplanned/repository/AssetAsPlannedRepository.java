@@ -20,8 +20,13 @@
 package org.eclipse.tractusx.traceability.assets.domain.asplanned.repository;
 
 import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.common.model.PageResult;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
+import org.springframework.data.domain.Pageable;
 
 
 public interface AssetAsPlannedRepository extends AssetRepository {
+    PageResult<AssetBase> getAssets(Pageable pageable, SearchCriteria searchCriteria);
 
 }

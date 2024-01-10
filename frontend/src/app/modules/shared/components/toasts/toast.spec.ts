@@ -27,7 +27,7 @@ import { ToastService } from './toast.service';
 
 describe('toasts', () => {
   const renderToastLayout = async () => {
-    await renderComponent(`<app-toast-container></app-toast-container>`, { imports: [SharedModule] });
+    await renderComponent(`<app-toast-container></app-toast-container>`, { imports: [ SharedModule ] });
     return TestBed.inject(ToastService);
   };
 

@@ -27,6 +27,8 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataTractionBatteryCode;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportNote;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
@@ -96,7 +98,7 @@ public class SemanticDataModel {
 
     public AssetBase toDomainAsBuilt(List<LocalId> localIds, Map<String, String> shortIds, Owner owner, Map<String,
             String> bpns, List<Descriptions> parentRelations, List<Descriptions> childRelations,
-                                     Optional<DetailAspectDataTractionBatteryCode> tractionBatteryCodeOptional) {
+                                     Optional<DetailAspectDataTractionBatteryCode> tractionBatteryCodeOptional, ImportState assetImportState) {
         final String manufacturerName = bpns.get(manufacturerId());
         ArrayList<DetailAspectModel> detailAspectModels = new ArrayList<>();
 
@@ -119,7 +121,6 @@ public class SemanticDataModel {
             semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.JUSTINSEQUENCE);
         });
 
-
         if (semanticDataModel.get() == null) {
             semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.UNKNOWN);
         }
@@ -139,19 +140,26 @@ public class SemanticDataModel {
                 .childRelations(childRelations)
                 .owner(owner)
                 .activeAlert(false)
-                .underInvestigation(false)
+                .inInvestigation(false)
                 .classification(partTypeInformation.classification())
                 .qualityType(QualityType.OK)
                 .semanticDataModel(semanticDataModel.get())
                 .van(van())
+                .importState(assetImportState)
+                .importNote(ImportNote.PERSISTED)
                 .build();
     }
 
 
-    public AssetBase toDomainAsPlanned(Map<String, String> shortIds, Owner owner, Map<String, String> bpns, List<Descriptions> parentRelations, List<Descriptions> childRelations) {
-        final String manufacturerName = bpns.get(manufacturerId());
-        final String[] manufacturerId = {"--"};
-        bpns.values().stream().filter(s -> s.equals(manufacturerName)).findFirst().ifPresent(s -> manufacturerId[0] = s);
+    public AssetBase toDomainAsPlanned(
+            Map<String, String> shortIds,
+            Owner owner,
+            Map<String, String> bpns,
+            List<Descriptions> parentRelations,
+            List<Descriptions> childRelations,
+            String ownerBpn,
+            ImportState assetImportState) {
+        final String manufacturerName = bpns.get(ownerBpn);
 
         List<DetailAspectModel> partSiteInfoAsPlanned = extractDetailAspectModelsPartSiteInformationAsPlanned(sites());
         DetailAspectModel asPlanned = extractDetailAspectModelsAsPlanned(validityPeriod);
@@ -162,7 +170,7 @@ public class SemanticDataModel {
         return AssetBase.builder()
                 .id(catenaXId())
                 .idShort(defaultValue(shortIds.get(catenaXId())))
-                .manufacturerId(manufacturerId[0])
+                .manufacturerId(ownerBpn)
                 .manufacturerName(defaultValue(manufacturerName))
                 .nameAtManufacturer(partTypeInformation.nameAtManufacturer())
                 .manufacturerPartId(partTypeInformation.manufacturerPartId())
@@ -172,10 +180,12 @@ public class SemanticDataModel {
                 .owner(owner)
                 .activeAlert(false)
                 .classification(partTypeInformation.classification())
-                .underInvestigation(false)
+                .inInvestigation(false)
                 .qualityType(QualityType.OK)
                 .semanticDataModel(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.PARTASPLANNED)
                 .van(van())
+                .importState(assetImportState)
+                .importNote(ImportNote.PERSISTED)
                 .build();
     }
 
@@ -202,7 +212,7 @@ public class SemanticDataModel {
         return catenaXId;
     }
 
-    public String identification(){
+    public String identification() {
         return identification;
     }
 

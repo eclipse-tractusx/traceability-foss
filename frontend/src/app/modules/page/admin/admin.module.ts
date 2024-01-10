@@ -24,19 +24,19 @@ import { NgModule } from '@angular/core';
 import { getI18nPageProvider } from '@core/i18n';
 import { AdminFacade } from '@page/admin/core/admin.facade';
 import { AdminService } from '@page/admin/core/admin.service';
-import { AdminState } from '@page/admin/core/admin.state';
 import { SharedModule } from '@shared/shared.module';
 import { TemplateModule } from '@shared/template.module';
 import { AdminRoutingModule } from './admin.routing';
 import { AdminComponent } from './presentation/admin.component';
-import { ScheduledRegistryProcessesComponent } from './presentation/scheduled-registry-processes/scheduled-registry-processes.component';
 import { BpnConfigurationComponent } from './presentation/bpn-configuration/bpn-configuration.component';
 import { SaveBpnConfigModal } from './presentation/bpn-configuration/save-modal/save-modal.component';
 import { ModalModule } from '@shared/modules/modal/modal.module';
+import { ImportJsonComponent } from './presentation/import-json/import-json.component';
 
 @NgModule({
-  declarations: [AdminComponent, ScheduledRegistryProcessesComponent, BpnConfigurationComponent, SaveBpnConfigModal],
-  imports: [CommonModule, TemplateModule, SharedModule, AdminRoutingModule, ModalModule],
-  providers: [...getI18nPageProvider('page.admin'), AdminService, AdminFacade, AdminState],
+  declarations: [ AdminComponent,  BpnConfigurationComponent, SaveBpnConfigModal, ImportJsonComponent ],
+  imports: [ CommonModule, TemplateModule, SharedModule, AdminRoutingModule, ModalModule ],
+  providers: [ ...getI18nPageProvider('page.admin'), AdminService, AdminFacade ],
 })
-export class AdminModule {}
+export class AdminModule {
+}

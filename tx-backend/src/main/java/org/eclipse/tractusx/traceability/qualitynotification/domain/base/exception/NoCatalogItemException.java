@@ -19,8 +19,9 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception;
 
-public class NoCatalogItemException extends RuntimeException{
+public class NoCatalogItemException extends RuntimeException {
     public static final String MESSAGE = "No Catalog Item in catalog found.";
+
     public NoCatalogItemException() {
         super(MESSAGE);
     }

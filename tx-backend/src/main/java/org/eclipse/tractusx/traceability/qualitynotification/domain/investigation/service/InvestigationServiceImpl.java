@@ -82,5 +82,4 @@ public class InvestigationServiceImpl extends AbstractQualityNotificationService
         assetService.setAssetsInvestigationStatus(qualityNotification);
     }
 
-
 }

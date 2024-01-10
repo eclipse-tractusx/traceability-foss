@@ -26,10 +26,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties("feign.default")
 public class FeignDefaultProperties extends FeignProperties {
 
-	public FeignDefaultProperties(Long connectionTimeoutMillis,
-								  Long readTimeoutMillis,
-								  int maxIdleConnections,
-								  Long keepAliveDurationMinutes) {
-		super(connectionTimeoutMillis, readTimeoutMillis, maxIdleConnections, keepAliveDurationMinutes);
-	}
+    public FeignDefaultProperties(Long connectionTimeoutMillis,
+                                  Long readTimeoutMillis,
+                                  int maxIdleConnections,
+                                  Long keepAliveDurationMinutes) {
+        super(connectionTimeoutMillis, readTimeoutMillis, maxIdleConnections, keepAliveDurationMinutes);
+    }
 }

@@ -24,6 +24,7 @@ import { AlertHelperService } from '@page/alerts/core/alert-helper.service';
 import { InvestigationHelperService } from '@page/investigations/core/investigation-helper.service';
 import { InvestigationsFacade } from '@page/investigations/core/investigations.facade';
 import { InvestigationsState } from '@page/investigations/core/investigations.state';
+import { NotificationActionHelperService } from '@shared/assembler/notification-action-helper.service';
 import { NotificationMenuActionsAssembler } from '@shared/assembler/notificationMenuActions.assembler';
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
 import { Notification, NotificationStatus } from '@shared/model/notification.model';
@@ -34,6 +35,7 @@ import { KeycloakService } from 'keycloak-angular';
 describe('NotificationMenuActionsAssembler', () => {
   let helperService: AlertHelperService | InvestigationHelperService;
   let notificationCommonModalComponent: NotificationCommonModalComponent;
+  let notificationActionHelperService: NotificationActionHelperService
 
   beforeEach(function() {
     TestBed.configureTestingModule({
@@ -47,15 +49,17 @@ describe('NotificationMenuActionsAssembler', () => {
         },
         AlertHelperService,
         InvestigationHelperService,
+        NotificationActionHelperService,
         InvestigationsFacade,
         InvestigationsState,
         NotificationCommonModalComponent,
         NotificationMenuActionsAssembler,
-        CloseNotificationModalComponent
+        CloseNotificationModalComponent,
       ],
     });
     notificationCommonModalComponent = TestBed.inject(NotificationCommonModalComponent);
     helperService = TestBed.inject(InvestigationHelperService);
+    notificationActionHelperService = TestBed.inject(NotificationActionHelperService)
   });
 
   it('should return menuActions', function() {
@@ -65,18 +69,20 @@ describe('NotificationMenuActionsAssembler', () => {
     const notificationTemplate: Notification = {
       id: 'id-1',
       description: 'Investigation No 1',
-      createdBy: { name: 'OEM xxxxxxxxxxxxxxx A', bpn: 'BPN10000000OEM0A' },
-      sendTo: { name: 'OEM xxxxxxxxxxxxxxx B', bpn: 'BPN20000000OEM0B' },
+      createdBy: '',
+      createdByName: '',
+      sendTo: '',
+      sendToName: '',
       reason: { close: '', accept: '', decline: '' },
       isFromSender: true,
-      assetIds: ['MOCK_part_1'],
+      assetIds: [ 'MOCK_part_1' ],
       status: NotificationStatus.ACKNOWLEDGED,
       severity: Severity.MINOR,
       createdDate: new CalendarDateModel('2022-05-01T10:34:12.000Z'),
     };
 
     // Act
-    let menuActions = NotificationMenuActionsAssembler.getMenuActions(helperService, notificationCommonModalComponent);
+    let menuActions = NotificationMenuActionsAssembler.getMenuActions(notificationActionHelperService, notificationCommonModalComponent);
 
     // Assert
     menuActions.map(item => {

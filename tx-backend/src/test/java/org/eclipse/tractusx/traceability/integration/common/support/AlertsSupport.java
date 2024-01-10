@@ -60,11 +60,15 @@ public class AlertsSupport {
     }
 
     public Long storeAlertWithStatusAndAssets(NotificationStatusBaseEntity status, List<AssetAsBuiltEntity> assetsAsBuilt, List<AssetAsPlannedEntity> assetsAsPlanned) {
+        return storeAlertWithStatusAndAssets(status, assetsAsBuilt, assetsAsPlanned, NotificationSideBaseEntity.RECEIVER);
+    }
+
+    public Long storeAlertWithStatusAndAssets(NotificationStatusBaseEntity status, List<AssetAsBuiltEntity> assetsAsBuilt, List<AssetAsPlannedEntity> assetsAsPlanned, NotificationSideBaseEntity side) {
         AlertEntity entity = AlertEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn("BPNL00000003AXS3")
                 .status(status)
-                .side(NotificationSideBaseEntity.RECEIVER)
+                .side(side)
                 .createdDate(Instant.now())
                 .build();
         Long alertId = storedAlert(entity);

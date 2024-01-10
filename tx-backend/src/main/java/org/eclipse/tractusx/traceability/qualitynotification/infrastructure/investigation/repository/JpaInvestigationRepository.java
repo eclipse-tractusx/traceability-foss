@@ -27,14 +27,16 @@ import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.mode
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface JpaInvestigationRepository extends JpaRepository<InvestigationEntity, Long> {
+public interface JpaInvestigationRepository extends JpaRepository<InvestigationEntity, Long>, JpaSpecificationExecutor<InvestigationEntity> {
 
     Page<InvestigationEntity> findAllBySideEquals(NotificationSideBaseEntity investigationSide, Pageable pageable);
 
@@ -44,4 +46,6 @@ public interface JpaInvestigationRepository extends JpaRepository<InvestigationE
 
     @Query("SELECT investigation FROM InvestigationEntity investigation JOIN investigation.notifications notification WHERE notification.edcNotificationId = :edcNotificationId")
     Optional<InvestigationEntity> findByNotificationsEdcNotificationId(@Param("edcNotificationId") String edcNotificationId);
+
+    List<InvestigationEntity> findAllByStatusIn(List<NotificationStatusBaseEntity> statuses);
 }

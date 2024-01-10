@@ -22,6 +22,10 @@
 traceability:
   bpn: BPNL00000003AXS3
   url: localhost:${server.port}/api
+  leftOperand: "PURPOSE"
+  operatorType: "eq"
+  rightOperand: "ID Trace 3.1"
+  validUntil: "2023-07-04T16:01:05.309Z"
 
 edc:
   api-auth-key: "integration-tests"
@@ -42,6 +46,11 @@ spring:
     username: postgres
   flyway:
     enabled: true
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
 
 jwt:
   resource-client: "Integration-Test"
@@ -55,6 +64,9 @@ resilience4j:
         waitDuration: 10s
         enableExponentialBackoff: true
         exponentialBackoffMultiplier: 2
+      registry:
+        maxAttempts: 1
+        waitDuration: 2s
 server:
   port: 9998
 management:

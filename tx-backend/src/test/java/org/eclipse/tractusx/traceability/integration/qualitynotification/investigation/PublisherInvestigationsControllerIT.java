@@ -56,7 +56,7 @@ import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
+import static org.eclipse.tractusx.traceability.common.security.JwtRole.SUPERVISOR;
 
 class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
 
@@ -133,7 +133,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(request))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/investigations")
                 .then()
@@ -144,18 +144,19 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         partIds.forEach(partId -> {
             AssetBase asset = assetAsBuiltRepository.getAssetById(partId);
             assertThat(asset).isNotNull();
-            assertThat(asset.isUnderInvestigation()).isTrue();
+            assertThat(asset.isInInvestigation()).isTrue();
         });
 
         investigationNotificationsSupport.assertNotificationsSize(2);
 
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .param("page", "0")
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .param("filter", "channel,EQUAL,SENDER,AND")
+                .get("/api/investigations")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -181,7 +182,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(request))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/investigations")
                 .then()
@@ -209,7 +210,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(request))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/investigations")
                 .then()
@@ -272,7 +273,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         val investigationId = given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(startInvestigationRequest))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/investigations")
                 .then()
@@ -280,12 +281,13 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .extract().path("id");
 
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .param("page", "0")
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .param("filter", "channel,EQUAL,SENDER,AND")
+                .get("/api/investigations")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -293,7 +295,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body("content", Matchers.hasSize(1));
         // when/then
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/investigations/$investigationId/cancel".replace("$investigationId", investigationId.toString()))
@@ -301,12 +303,13 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .statusCode(204);
 
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .param("page", "0")
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .param("filter", "channel,EQUAL,SENDER,AND")
+                .get("/api/investigations")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -335,7 +338,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         val investigationId = given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(startInvestigationRequest))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/investigations")
                 .then()
@@ -346,7 +349,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
 
         given()
                 .contentType(ContentType.JSON)
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/investigations/{investigationId}/approve", investigationId)
                 .then()
@@ -354,12 +357,13 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
 
         // then
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .param("page", "0")
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .param("filter", "channel,EQUAL,SENDER,AND")
+                .get("/api/investigations")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -375,6 +379,8 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978" // BPN: BPNL00000003AYRE
         );
         String description = "at least 15 characters long investigation description";
+        String filterString = "channel,EQUAL,SENDER,AND";
+        oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
 
         assetsSupport.defaultAssetsStored();
         val startInvestigationRequest = StartQualityNotificationRequest.builder()
@@ -388,7 +394,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         val investigationId = given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(startInvestigationRequest))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/investigations")
                 .then()
@@ -401,19 +407,20 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         // when
         given()
                 .contentType(ContentType.JSON)
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/investigations/{investigationId}/approve", investigationId)
                 .then()
                 .statusCode(204);
         // then
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .param("page", "0")
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .param("filter", "channel,EQUAL,SENDER,AND")
+                .get("/api/investigations")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -427,7 +434,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(closeInvestigationRequest))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/investigations/{investigationId}/close", investigationId)
                 .then()
@@ -435,12 +442,13 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
 
         // then
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .param("page", "0")
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .param("filter", filterString)
+                .get("/api/investigations")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -454,7 +462,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     @Test
     void givenNonExistingAlert_whenCancel_thenReturnNotFound() throws JoseException {
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/investigations/1/cancel")
@@ -496,7 +504,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(startInvestigationRequest))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/investigations")
                 .then()
@@ -507,17 +515,18 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         partIds.forEach(partId -> {
             AssetBase asset = assetAsBuiltRepository.getAssetById(partId);
             assertThat(asset).isNotNull();
-            assertThat(asset.isUnderInvestigation()).isTrue();
+            assertThat(asset.isInInvestigation()).isTrue();
         });
 
         investigationNotificationsSupport.assertNotificationsSize(2);
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .param("page", "0")
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .param("filter", "channel,EQUAL,SENDER,AND")
+                .get("/api/investigations")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))

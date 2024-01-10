@@ -60,7 +60,7 @@ public class AlertEntity extends NotificationBaseEntity {
             joinColumns = @JoinColumn(name = "alert_id"),
             inverseJoinColumns = @JoinColumn(name = "asset_id")
     )
-    private List<AssetAsBuiltEntity> assets;
+    public List<AssetAsBuiltEntity> assets;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(

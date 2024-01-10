@@ -1,2 +1,43 @@
 = "Under-the-hood" concepts
 
+== Exception and error handling
+
+There are two types of potential errors in TraceX:
+
+=== Technical errors
+
+Technical errors occur when there is a problem with the application itself, its configuration or directly connected infrastructure, e.g. the Postgres database.
+Usually, the application cannot solve these problems by itself and requires some external support (manual work or automated recovery mechanisms, e.g. Kubernetes liveness probes).
+
+These errors are printed mainly to the application log and are relevant for the healthchecks.
+
+=== Functional errors
+
+Functional errors occur when there is a problem with the data that is being processed or external systems are unavailable and data cannot be sent / fetched as required for the process.
+While the system might not be able to provide the required function at that moment, it may work with a different dataset or as soon as the external systems recover.
+
+=== Rules for exception handling
+
+==== Throw or log, don't do both
+
+When catching an exception, either log the exception and handle the problem or rethrow it, so it can be handled at a higher level of the code.
+By doing both, an exception might be written to the log multiple times, which can be confusing.
+
+==== Write own base exceptions for (internal) interfaces
+
+By defining a common (checked) base exception for an interface, the caller is forced to handle potential errors, but can keep the logic simple.
+On the other hand, you still have the possibility to derive various, meaningful exceptions for different error cases, which can then be thrown via the API.
+
+Of course, when using only RuntimeExceptions, this is not necessary - but those can be overlooked quite easily, so be careful there.
+
+==== Central fallback exception handler
+
+There will always be some exception that cannot be handled inside of the code correctly - or it may just have been unforeseen.
+A central fallback exception handler is required so all problems are visible in the log and the API always returns meaningful responses.
+In some cases, this is as simple as a HTTP 500.
+
+==== Dont expose too much exception details over API
+
+It's good to inform the user, why their request did not work, but only if they can do something about it (HTTP 4xx).
+So in case of application problems, you should not expose details of the problem to the caller.
+This way, we avoid opening potential attack vectors.

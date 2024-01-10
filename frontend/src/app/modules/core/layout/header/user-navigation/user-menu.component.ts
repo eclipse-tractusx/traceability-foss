@@ -20,16 +20,16 @@
  ********************************************************************************/
 
 import { Component, HostListener } from '@angular/core';
-import { LayoutFacade } from '@shared/abstraction/layout-facade';
 import { NavigationEnd, Router } from '@angular/router';
-import { environment } from '@env';
-import { filter } from 'rxjs/operators';
 import { NavigableUrls } from '@core/known-route';
+import { environment } from '@env';
+import { LayoutFacade } from '@shared/abstraction/layout-facade';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-navigation',
   templateUrl: './user-menu.component.html',
-  styleUrls: ['./user-menu.component.scss'],
+  styleUrls: [ './user-menu.component.scss' ],
 })
 export class UserMenuComponent {
   public isExpanded = false;
@@ -37,10 +37,12 @@ export class UserMenuComponent {
   public userDetails = { name: '', email: '', role: '' };
   public activeItem: string = '';
   public portalUrl = environment.portalUrl;
+  public isAuthorized: boolean;
 
   constructor(private readonly layoutFacade: LayoutFacade, private readonly router: Router) {
     this.userInitials = this.layoutFacade.realName;
     this.userDetails = this.layoutFacade.userInformation;
+    this.isAuthorized = this.userDetails.role === 'Admin';
 
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
@@ -62,7 +64,7 @@ export class UserMenuComponent {
   }
 
   public navigateToHome(): void {
-    this.router.navigate(['']).then();
+    this.router.navigate([ '' ]).then();
   }
 
   @HostListener('window:click', [])

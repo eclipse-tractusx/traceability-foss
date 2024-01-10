@@ -31,7 +31,7 @@ import { NotificationAssembler } from './notification.assembler';
 
 describe('InvestigationsAssembler', () => {
   it('should handle null response', () => {
-    const emptyPage = { content: [], page: 0, pageCount: 0, pageSize: 0, totalItems: 0 };
+    const emptyPage = { content: [], page: 0, pageCount: 0, pageSize: 50, totalItems: 0 };
     expect(NotificationAssembler.assembleNotifications(null, NotificationType.INVESTIGATION)).toEqual(emptyPage);
     expect(NotificationAssembler.assembleNotifications(undefined, NotificationType.INVESTIGATION)).toEqual(emptyPage);
   });
@@ -41,8 +41,10 @@ describe('InvestigationsAssembler', () => {
       id: null,
       assetIds: null,
       description: '',
-      createdBy: { bpn: '', name: '' },
-      sendTo: { bpn: '', name: '' },
+      createdBy: '',
+      createdByName: '',
+      sendTo: '',
+      sendToName: '',
       reason: { accept: '', close: '', decline: '' },
       isFromSender: false,
       status: null,
@@ -50,7 +52,7 @@ describe('InvestigationsAssembler', () => {
       createdDate: new CalendarDateModel(null),
       targetDate: new CalendarDateModel(null),
       bpn: '',
-      notificationType: NotificationType.INVESTIGATION
+      notificationType: NotificationType.INVESTIGATION,
     };
 
     expect(NotificationAssembler.assembleNotification({} as NotificationResponse, NotificationType.INVESTIGATION)).toEqual(expected);
@@ -74,10 +76,12 @@ describe('InvestigationsAssembler', () => {
             severity: Severity.MINOR,
             channel: 'SENDER',
             createdBy: '',
+            createdByName: '',
             sendTo: '',
+            sendToName: '',
             reason: { close: '', accept: '', decline: '' },
             assetIds: [],
-            errorMessage: ''
+            errorMessage: '',
           },
           {
             id: 'test-2',
@@ -88,7 +92,9 @@ describe('InvestigationsAssembler', () => {
             status: 'unknown' as unknown as NotificationStatus,
             severity: Severity.MAJOR,
             createdBy: '',
+            createdByName: '',
             sendTo: '',
+            sendToName: '',
             reason: { close: '', accept: '', decline: '' },
             channel: 'SENDER',
             assetIds: [],
@@ -109,12 +115,14 @@ describe('InvestigationsAssembler', () => {
           createdDate: new CalendarDateModel('2022-07-26T15:09:39.419Z'),
           targetDate: new CalendarDateModel('2022-06-26T15:09:39.419Z'),
           bpn: 'BPNL000000TESTRE',
-          createdBy: { bpn: '', name: '' },
-          sendTo: { bpn: '', name: '' },
+          createdBy: '',
+          createdByName: '',
+          sendTo: '',
+          sendToName: '',
           reason: { close: '', accept: '', decline: '' },
           isFromSender: true,
           assetIds: [],
-          notificationType: NotificationType.INVESTIGATION
+          notificationType: NotificationType.INVESTIGATION,
         },
         {
           id: 'test-2',
@@ -124,12 +132,14 @@ describe('InvestigationsAssembler', () => {
           createdDate: new CalendarDateModel('2022-07-26T15:09:39.419Z'),
           targetDate: new CalendarDateModel('2022-06-26T15:09:39.419Z'),
           bpn: 'BPNL000000TESTRE',
-          createdBy: { bpn: '', name: '' },
-          sendTo: { bpn: '', name: '' },
+          createdBy: '',
+          createdByName: '',
+          sendTo: '',
+          sendToName: '',
           reason: { close: '', accept: '', decline: '' },
           isFromSender: true,
           assetIds: [],
-          notificationType: NotificationType.INVESTIGATION
+          notificationType: NotificationType.INVESTIGATION,
         },
       ],
     });

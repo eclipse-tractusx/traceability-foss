@@ -21,12 +21,13 @@
 
 .start-investigation--wrapper {
   display: flex;
+
   & > app-table {
     flex-basis: 40%;
     padding-right: 2rem;
   }
 
-  & > app-request-investigation {
+  & > app-notification-request {
     flex-grow: 1;
   }
 

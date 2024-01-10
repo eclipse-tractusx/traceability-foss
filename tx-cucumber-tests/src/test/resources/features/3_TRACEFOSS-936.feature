@@ -27,6 +27,7 @@ Feature: ⭐[BE] Include reason for receiver and sender investigations
   @TRACEFOSS-1862 @TRACEFOSS-1920 @TEST-1217 @TEST-904 @TRACEFOSS-1101 @TRACEFOSS-1673 @INTEGRATION_TEST
   Scenario: [BE] Check correct processing of CANCELLATION of quality investigation
     When I am logged into TRACE_X_A application
+    When I use assets with ids 'urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd'
     And I create quality investigation
       | "severity"    | "MAJOR"                             |
       | "description" | "Testing ACCEPTANCE TRACEFOSS-1862" |
@@ -46,6 +47,7 @@ Feature: ⭐[BE] Include reason for receiver and sender investigations
   @TRACEFOSS-1861 @TRACEFOSS-1920 @TEST-1217 @TRACEFOSS-1101 @TEST-904 @TRACEFOSS-1673 @INTEGRATION_TEST
   Scenario: [BE] Check correct processing of CLOSURE of quality investigation
     When I am logged into TRACE_X_A application
+    When I use assets with ids 'urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd'
     And I create quality investigation
       | "severity"    | "MAJOR"                             |
       | "description" | "Testing ACCEPTANCE TRACEFOSS-1861" |
@@ -81,6 +83,7 @@ Feature: ⭐[BE] Include reason for receiver and sender investigations
   @TRACEFOSS-1223 @TRACEFOSS-1920 @TRACEFOSS-1673 @TEST-1217 @TRACEFOSS-1139 @TEST-904 @TRACEFOSS-1138 @TRACEFOSS-1101 @INTEGRATION_TEST
   Scenario: [BE] Check correct processing of DECLINATION of quality investigation
     When I am logged into TRACE_X_A application
+    When I use assets with ids 'urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd'
     And I create quality investigation
       | "severity"    | "MAJOR"                              |
       | "description" | "Testing DECLINATION TRACEFOSS-1223" |
@@ -116,6 +119,7 @@ Feature: ⭐[BE] Include reason for receiver and sender investigations
   @TRACEFOSS-1222 @TRACEFOSS-1920 @TRACEFOSS-1673 @TEST-1217 @TRACEFOSS-1139 @TRACEFOSS-1138 @TRACEFOSS-1101 @TEST-904 @INTEGRATION_TEST
   Scenario: [BE] Check correct processing of ACCEPTANCE of quality investigation
     When I am logged into TRACE_X_A application
+    When I use assets with ids 'urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd'
     And I create quality investigation
       | "severity"    | "MAJOR"                             |
       | "description" | "Testing ACCEPTANCE TRACEFOSS-1222" |

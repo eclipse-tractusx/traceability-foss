@@ -24,12 +24,14 @@ import { AlertDetailFacade } from '@page/alerts/core/alert-detail.facade';
 import { AlertHelperService } from '@page/alerts/core/alert-helper.service';
 import { AlertsFacade } from '@page/alerts/core/alerts.facade';
 import { Part } from '@page/parts/model/parts.model';
+import { NotificationActionHelperService } from '@shared/assembler/notification-action-helper.service';
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
 import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
 import { ToastService } from '@shared/components/toasts/toast.service';
-import { Notification } from '@shared/model/notification.model';
+import { Notification, NotificationType } from '@shared/model/notification.model';
 import { TranslationContext } from '@shared/model/translation-context.model';
 import { View } from '@shared/model/view.model';
+import { NotificationAction } from '@shared/modules/notification/notification-action.enum';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { filter, first, tap } from 'rxjs/operators';
@@ -37,7 +39,7 @@ import { filter, first, tap } from 'rxjs/operators';
 @Component({
   selector: 'app-alert-detail',
   templateUrl: './alert-detail.component.html',
-  styleUrls: ['./alert-detail.component.scss'],
+  styleUrls: [ './alert-detail.component.scss' ],
 })
 export class AlertDetailComponent implements AfterViewInit, OnDestroy {
   @ViewChild(NotificationCommonModalComponent) notificationCommonModalComponent: NotificationCommonModalComponent;
@@ -66,10 +68,11 @@ export class AlertDetailComponent implements AfterViewInit, OnDestroy {
   private selectedAlertTmpStore: Notification;
   public selectedAlert: Notification;
 
-  private paramSubscription: Subscription
+  private paramSubscription: Subscription;
 
   constructor(
     public readonly helperService: AlertHelperService,
+    public readonly actionHelperService: NotificationActionHelperService,
     public readonly alertDetailFacade: AlertDetailFacade,
     private readonly staticIdService: StaticIdService,
     private readonly alertsFacade: AlertsFacade,
@@ -85,7 +88,7 @@ export class AlertDetailComponent implements AfterViewInit, OnDestroy {
     this.paramSubscription = this.route.queryParams.subscribe(params => {
       this.originPageNumber = params.pageNumber;
       this.originTabIndex = params?.tabIndex;
-    })
+    });
 
   }
 
@@ -112,12 +115,12 @@ export class AlertDetailComponent implements AfterViewInit, OnDestroy {
   }
 
   public onNotificationPartsSort({ sorting }: TableEventConfig): void {
-    const [name, direction] = sorting || ['', ''];
+    const [ name, direction ] = sorting || [ '', '' ];
     this.alertDetailFacade.sortNotificationParts(name, direction);
   }
 
   public onSupplierPartsSort({ sorting }: TableEventConfig): void {
-    const [name, direction] = sorting || ['', ''];
+    const [ name, direction ] = sorting || [ '', '' ];
     this.alertDetailFacade.sortSupplierParts(name, direction);
   }
 
@@ -127,7 +130,7 @@ export class AlertDetailComponent implements AfterViewInit, OnDestroy {
   }
 
   public removeItemFromSelection(part: Part): void {
-    this.deselectPartTrigger$.next([part]);
+    this.deselectPartTrigger$.next([ part ]);
     this.selectedItems$.next(this.selectedItems$.getValue().filter(({ id }) => id !== part.id));
   }
 
@@ -138,7 +141,7 @@ export class AlertDetailComponent implements AfterViewInit, OnDestroy {
 
   public addItemToSelection(part: Part): void {
     this.addPartTrigger$.next(part);
-    this.selectedItems$.next([...this.selectedItems$.getValue(), part]);
+    this.selectedItems$.next([ ...this.selectedItems$.getValue(), part ]);
   }
 
   public copyToClipboard(semanticModelId: string): void {
@@ -148,7 +151,12 @@ export class AlertDetailComponent implements AfterViewInit, OnDestroy {
 
   public navigateBackToAlerts(): void {
     const { link } = getRoute(ALERT_BASE_ROUTE);
-    this.router.navigate([`/${link}`], {queryParams: {tabIndex: this.originTabIndex, pageNumber: this.originPageNumber}});
+    this.router.navigate([ `/${ link }` ], {
+      queryParams: {
+        tabIndex: this.originTabIndex,
+        pageNumber: this.originPageNumber,
+      },
+    });
   }
 
   public handleConfirmActionCompletedEvent(): void {
@@ -160,7 +168,7 @@ export class AlertDetailComponent implements AfterViewInit, OnDestroy {
   private setTableConfigs(data: Notification): void {
     this.isReceived = !data.isFromSender;
 
-    const displayedColumns = ['id', 'semanticDataModel', 'name', 'semanticModelId'];
+    const displayedColumns = [ 'id', 'semanticDataModel', 'name', 'semanticModelId' ];
     const sortableColumns = { id: true, semanticDataModel: true, name: true, semanticModelId: true };
 
     const tableConfig = {
@@ -182,8 +190,8 @@ export class AlertDetailComponent implements AfterViewInit, OnDestroy {
     this.alertDetailFacade.setAndSupplierPartsInformation();
     this.supplierPartsTableConfig = {
       ...tableConfig,
-      displayedColumns: ['select', ...displayedColumns],
-      header: CreateHeaderFromColumns(['select', ...displayedColumns], 'table.column'),
+      displayedColumns: [ 'select', ...displayedColumns ],
+      header: CreateHeaderFromColumns([ 'select', ...displayedColumns ], 'table.column'),
     };
   }
 
@@ -199,4 +207,7 @@ export class AlertDetailComponent implements AfterViewInit, OnDestroy {
   }
 
   protected readonly TranslationContext = TranslationContext;
+  protected readonly NotificationType = NotificationType;
+  protected readonly NotificationAction = NotificationAction;
+
 }

@@ -22,11 +22,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MenuActionConfig, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
-import { Notification, Notifications } from '@shared/model/notification.model';
+import { Notification, Notifications, NotificationType } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import {TableType} from "@shared/components/multi-select-autocomplete/table-type.model";
 
 @Component({
   selector: 'app-notification',
@@ -37,16 +38,19 @@ export class NotificationComponent {
   @Input() queuedAndRequestedNotifications$: Observable<View<Notifications>>;
   @Input() translationContext: 'commonInvestigation' | 'commonAlert';
   @Input() menuActionsConfig: MenuActionConfig<Notification>[];
-  @Input() receivedOptionalColumns: Array<'targetDate' | 'severity' | 'createdBy'> = [];
+  @Input() receivedOptionalColumns: Array<'targetDate' | 'severity' | 'createdBy' | 'createdByName'> = [];
   @Input() receivedSortableColumns: Record<string, boolean> = {};
-  @Input() queuedAndRequestedOptionalColumns: Array<'targetDate' | 'severity' | 'sendTo'> = [];
+  @Input() queuedAndRequestedOptionalColumns: Array<'targetDate' | 'severity' | 'sendTo'| 'sendToName'> = [];
   @Input() queuedAndRequestedSortableColumns: Record<string, boolean> = {};
   @Input() receivedMultiSortList: TableHeaderSort[] = [];
   @Input() queuedAndRequestedMultiSortList: TableHeaderSort[] = [];
-
+  @Input() notificationType = NotificationType.INVESTIGATION;
+  @Input() isInvestigation: boolean = true;
   @Output() onReceivedTableConfigChanged = new EventEmitter<TableEventConfig>();
   @Output() onQueuedAndRequestedTableConfigChanged = new EventEmitter<TableEventConfig>();
   @Output() selected = new EventEmitter<Notification>();
+  @Output() investigationFilterChanged = new EventEmitter<any>();
+  @Output() alertFilterChanged = new EventEmitter<any>();
 
   public readonly tabIndex$ = this.route.queryParams.pipe(map(params => parseInt(params.tabIndex, 10) || 0));
 
@@ -57,9 +61,12 @@ export class NotificationComponent {
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly staticIdService: StaticIdService,
-  ) {}
+  ) {
+  }
 
   public onTabChange(tabIndex: number): void {
     void this.router.navigate([], { queryParams: { tabIndex }, replaceUrl: true });
   }
+
+  protected readonly TableType = TableType;
 }

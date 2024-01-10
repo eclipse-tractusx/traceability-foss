@@ -29,7 +29,7 @@ public class InvestigationNotFoundException extends RuntimeException {
         super("Investigation not found for %s id".formatted(investigationId.value()));
     }
 
-	public InvestigationNotFoundException(String notificationId) {
-		super("Investigation not found for %s notification id".formatted(notificationId));
-	}
+    public InvestigationNotFoundException(String notificationId) {
+        super("Investigation not found for %s notification id".formatted(notificationId));
+    }
 }

@@ -12,7 +12,7 @@
     "semanticModelId": "Semantic Model ID",
     "qualityType": "Quality type",
     "productionDate": "Production date",
-    "manufacturer": "Manufacturer",
+    "manufacturerName": "Manufacturer",
     "manufacturerPartId": "Manufacturer part ID",
     "nameAtManufacturer": "Name at manufacturer",
     "nameAtCustomer": "Name at customer",
@@ -24,6 +24,12 @@
     "classification": "Classification",
     "functionValidFrom": "Function valid from",
     "functionValidUntil": "Function valid until",
+    "tractionBatteryCodeTitle": "Traction battery code",
+    "tractionBattery": "Traction battery",
+    "position": "Position",
+    "productType": "Product type",
+    "tractionBatteryCode": "Battery Code",
+    "subcomponents": "Subcomponents",
     "tab": {
       "header": "Part details",
       "description": "Detailed information about your selected part"

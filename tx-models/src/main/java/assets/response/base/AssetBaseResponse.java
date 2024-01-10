@@ -59,7 +59,6 @@ public class AssetBaseResponse {
     private List<DescriptionsResponse> childRelations;
     @ArraySchema(arraySchema = @Schema(description = "Parent relationships", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
     private List<DescriptionsResponse> parentRelations;
-
     @ApiModelProperty(example = "false")
     private boolean activeAlert;
     @ApiModelProperty(example = "false")
@@ -75,8 +74,16 @@ public class AssetBaseResponse {
     @Size(max = 255)
     private String classification;
     private List<DetailAspectModelResponse> detailAspectModels;
-    @ApiModelProperty(example = "1")
-    private Integer qualityAlertsInStatusActive;
-    @ApiModelProperty(example = "2")
-    private Integer qualityInvestigationsInStatusActive;
+    @ApiModelProperty(dataType = "List", example = "1")
+    private List<Long> sentQualityAlertIdsInStatusActive;
+    @ApiModelProperty(dataType = "List", example = "1")
+    private List<Long> receivedQualityAlertIdsInStatusActive;
+    @ApiModelProperty(dataType = "List", example = "2")
+    private List<Long> sentQualityInvestigationIdsInStatusActive;
+    @ApiModelProperty(dataType = "List", example = "2")
+    private List<Long> receivedQualityInvestigationIdsInStatusActive;
+    @ApiModelProperty(example = "TRANSIENT")
+    private ImportStateResponse importState;
+    @ApiModelProperty(example = "Asset created successfully in transient state")
+    private String importNote;
 }

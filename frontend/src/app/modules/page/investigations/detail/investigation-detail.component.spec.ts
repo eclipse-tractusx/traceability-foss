@@ -22,7 +22,8 @@
 import { ActivatedRoute } from '@angular/router';
 import { InvestigationDetailComponent } from '@page/investigations/detail/investigation-detail.component';
 import { InvestigationsModule } from '@page/investigations/investigations.module';
-import { InvestigationsService } from '@shared/service/investigations.service';
+import { NotificationService } from '@shared/service/notification.service';
+
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 import { of } from 'rxjs';
@@ -32,9 +33,9 @@ describe('InvestigationDetailComponent', () => {
 
   const renderInvestigationDetail = async (id?: string) => {
     return await renderComponent(InvestigationDetailComponent, {
-      imports: [InvestigationsModule],
+      imports: [ InvestigationsModule ],
       providers: [
-        InvestigationsService,
+        NotificationService,
         {
           provide: ActivatedRoute,
           useValue: {
@@ -43,7 +44,7 @@ describe('InvestigationDetailComponent', () => {
                 get: () => id || 'id-2',
               },
             },
-            queryParams: of({ pageNumber: 0, tabIndex: 0 })
+            queryParams: of({ pageNumber: 0, tabIndex: 0 }),
           },
         },
       ],
@@ -73,6 +74,6 @@ describe('InvestigationDetailComponent', () => {
     const spy = spyOn(navigator.clipboard, 'writeText').and.returnValue(new Promise(null));
     fireEvent.click(await waitFor(() => screen.getByTestId('copy-button--' + MOCK_part_1.id)));
 
-    expect(spy).toHaveBeenCalledWith("NO-341449848714937445621543");
+    expect(spy).toHaveBeenCalledWith('NO-341449848714937445621543');
   });
 });

@@ -16,55 +16,55 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
-    BomLifecycleConfig,
-    BomLifecycleSize
-} from "@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model";
-import {BomLifecycleSettingsService, UserSettingView} from "@shared/service/bom-lifecycle-settings.service";
+  BomLifecycleConfig,
+  BomLifecycleSize,
+} from '@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model';
+import { BomLifecycleSettingsService, UserSettingView } from '@shared/service/bom-lifecycle-settings.service';
 
 
 @Component({
-    selector: 'app-bom-lifecycle-activator',
-    templateUrl: './bom-lifecycle-activator.component.html',
-    styleUrls: ['./bom-lifecycle-activator.component.scss']
+  selector: 'app-bom-lifecycle-activator',
+  templateUrl: './bom-lifecycle-activator.component.html',
+  styleUrls: [ './bom-lifecycle-activator.component.scss' ],
 })
-export class BomLifecycleActivatorComponent implements OnInit{
+export class BomLifecycleActivatorComponent implements OnInit {
 
-    @Input() view: UserSettingView;
-    public bomLifecycleConfig: BomLifecycleConfig;
+  @Input() view: UserSettingView;
+  public bomLifecycleConfig: BomLifecycleConfig;
 
-    constructor(public bomLifeCycleUserSetting: BomLifecycleSettingsService) {
+  constructor(public bomLifeCycleUserSetting: BomLifecycleSettingsService) {
 
+  }
+
+  ngOnInit() {
+    if (this.view) {
+      this.bomLifecycleConfig = this.bomLifeCycleUserSetting.getUserSettings(this.view);
+    } else {
+      throw new DOMException('Unsupported view', 'BomLifecycleActivatorComponent');
     }
+  }
 
-    ngOnInit(){
-        if (this.view) {
-            this.bomLifecycleConfig = this.bomLifeCycleUserSetting.getUserSettings(this.view);
-        } else {
-            throw new DOMException("Unsupported view", "BomLifecycleActivatorComponent");
-        }
-    }
-
-    @Output() buttonClickEvent = new EventEmitter<BomLifecycleSize>();
+  @Output() buttonClickEvent = new EventEmitter<BomLifecycleSize>();
 
 
-    toggleAsPlanned() {
-        this.bomLifecycleConfig.asPlannedActive = !this.bomLifecycleConfig.asPlannedActive;
-        this.emitBomLifecycleState();
-    }
+  toggleAsPlanned() {
+    this.bomLifecycleConfig.asPlannedActive = !this.bomLifecycleConfig.asPlannedActive;
+    this.emitBomLifecycleState();
+  }
 
-    toggleAsBuilt() {
-        // If the other button is also inactive, prevent this one from being deactivated
-        this.bomLifecycleConfig.asBuiltActive = !this.bomLifecycleConfig.asBuiltActive;
-        this.emitBomLifecycleState();
-    }
+  toggleAsBuilt() {
+    // If the other button is also inactive, prevent this one from being deactivated
+    this.bomLifecycleConfig.asBuiltActive = !this.bomLifecycleConfig.asBuiltActive;
+    this.emitBomLifecycleState();
+  }
 
-    emitBomLifecycleState() {
-        this.bomLifeCycleUserSetting.setUserSettings({
-            asBuiltActive: this.bomLifecycleConfig.asBuiltActive,
-            asPlannedActive: this.bomLifecycleConfig.asPlannedActive
-        }, this.view);
-        this.buttonClickEvent.emit(this.bomLifeCycleUserSetting.getSize(this.view));
-    }
+  emitBomLifecycleState() {
+    this.bomLifeCycleUserSetting.setUserSettings({
+      asBuiltActive: this.bomLifecycleConfig.asBuiltActive,
+      asPlannedActive: this.bomLifecycleConfig.asPlannedActive,
+    }, this.view);
+    this.buttonClickEvent.emit(this.bomLifeCycleUserSetting.getSize(this.view));
+  }
 }

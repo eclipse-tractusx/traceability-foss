@@ -26,6 +26,7 @@ import org.eclipse.tractusx.traceability.common.security.JwtAuthenticationTokenC
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -68,14 +69,12 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity) throws Exception {
 
-        httpSecurity.httpBasic().disable();
-        httpSecurity.formLogin().disable();
-        httpSecurity.logout().disable();
-        httpSecurity.anonymous().disable();
-        //TODO HGO@2024-01-09_09:45 recheck while merging code, this change is for enabling workflows beforehand to enable upstream merge
+        httpSecurity.httpBasic(AbstractHttpConfigurer::disable);
+        httpSecurity.formLogin(AbstractHttpConfigurer::disable);
+        httpSecurity.logout(AbstractHttpConfigurer::disable);
+        httpSecurity.anonymous(AbstractHttpConfigurer::disable);
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
-//        httpSecurity.csrf().disable();
-        httpSecurity.cors();
+        httpSecurity.cors(Customizer.withDefaults());
 
 
         httpSecurity.authorizeHttpRequests(auth -> auth
@@ -84,10 +83,10 @@ public class SecurityConfig {
                 .anyRequest()
                 .authenticated());
 
-        httpSecurity.oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt()
-                        .jwtAuthenticationConverter(
-                                new JwtAuthenticationTokenConverter(resourceClient)))
-                .oauth2Client();
+        httpSecurity.oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt((jwt) -> jwt.jwtAuthenticationConverter(
+                        new JwtAuthenticationTokenConverter(resourceClient)))
+                )
+                .oauth2Client(Customizer.withDefaults());
 
         return httpSecurity.build();
     }

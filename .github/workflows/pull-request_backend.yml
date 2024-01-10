@@ -28,6 +28,27 @@ env:
   IMAGE_REGISTRY: acrcfxsharedservices.azurecr.io
 
 jobs:
+  Check-Changelog-update:
+    runs-on: ubuntu-latest
+    if: startsWith(github.head_ref, 'chore') || startsWith(github.head_ref, 'feature')
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check if CHANGELOG is updated
+        id: updated-changelog
+        uses: tj-actions/changed-files@v40
+        with:
+          # Avoid using single or double quotes for multiline patterns
+          files: |
+            CHANGELOG.md
+      - name: request changes
+        uses: ntsd/auto-request-changes-action@v3
+        if: steps.updated-changelog.outputs.any_changed == 'false'
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          review-message: "Please add a short description of the feature/fix to the Changelog.md."
+
   Test-and-Sonar:
     permissions:
       checks: write
@@ -35,7 +56,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-java@v3
+      - uses: actions/setup-java@v4
         with:
           java-version: '${{ env.JAVA_VERSION }}'
           distribution: 'temurin'
@@ -89,7 +110,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - uses: actions/setup-java@v3
+      - uses: actions/setup-java@v4
         with:
           java-version: '${{ env.JAVA_VERSION }}'
           distribution: 'temurin'
@@ -126,24 +147,3 @@ jobs:
             ${{ env.GHCR_REGISTRY }}/${{ env.GITHUB_REPOSITORY_LOWERCASE }}:${{ github.event.pull_request.head.sha }}
             ${{ env.IMAGE_REGISTRY }}/${{ env.GITHUB_REPOSITORY_LOWERCASE }}:${{ github.event.pull_request.head.sha }}
 
-  Dependency-analysis:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v3
-        with:
-          java-version: '${{ env.JAVA_VERSION }}'
-          distribution: 'temurin'
-          cache: 'maven'
-
-      - name: install tx-models
-        run: mvn install -pl tx-models
-
-      - name: Dependency rules report # possible severity values: <'fail'|'warn'|'ignore'>
-        run: mvn -pl tx-models,tx-backend -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode site -Pdependency-check
-
-      - name: Dependency analysis report Tx-Backend
-        run: cat tx-backend/target/dependency-check-report.html
-
-      - name: Dependency analysis report Tx-Models
-        run: cat tx-models/target/dependency-check-report.html
