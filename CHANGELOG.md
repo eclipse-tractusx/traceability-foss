@@ -11,7 +11,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 - Fixed security findings
-
+- Fixed deadline overlap issues for Q-investigations in update menu
 ### Removed
 
 ## [10.1.0 - 22.12.2023]
