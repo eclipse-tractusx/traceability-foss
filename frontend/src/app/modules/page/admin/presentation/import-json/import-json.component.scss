@@ -22,10 +22,20 @@
   gap: 16px;
 }
 
+.status-container {
+  display: flex;
+  flex-direction: column;
+}
+
 .status-content {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+}
+
+.import-report-content-container {
+  max-height: 600px;
+  overflow-y: auto;
 }
 
 .status-label-container {

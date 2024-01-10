@@ -17,10 +17,9 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, Input } from '@angular/core';
-import { AdminFacade } from '@page/admin/core/admin.facade';
-import { ToastService } from '@shared/components/toasts/toast.service';
-import { BehaviorSubject } from 'rxjs';
+import {Component, Input} from '@angular/core';
+import {AdminFacade} from '@page/admin/core/admin.facade';
+import {ToastService} from '@shared/components/toasts/toast.service';
 
 @Component({
   selector: 'app-import-json',
@@ -31,14 +30,21 @@ export class ImportJsonComponent {
   @Input() showError = false;
   @Input() file: File;
 
-  importResponse = new BehaviorSubject<any>([]);
+  assetResponse = [];
+  errorResponse = [];
+  errorImportStateMessage = [];
+  errorValidationResult = {};
+  errorValidationErrors = [];
   displayUploader: boolean = true;
+  public readonly importedAssetsDisplayedColumns: string[];
+  public readonly validationErrorsDisplayedColumns: string[];
 
 
 
 
   constructor(private readonly adminFacade: AdminFacade, private readonly toastService: ToastService) {
-    this.importResponse.subscribe(next => console.log(next))
+    this.importedAssetsDisplayedColumns = ['catenaXId', 'import-status'];
+    this.validationErrorsDisplayedColumns = ['position', 'description'];
   }
 
   public getFile(event: any) {
@@ -51,17 +57,32 @@ export class ImportJsonComponent {
     this.showError = false;
   }
   public uploadFile(file: File) {
-    this.adminFacade.postJsonImport(file).subscribe(response => {
-      console.log(response);
-      this.importResponse.next(response);
-      this.toastService.success('pageAdmin.importJson.success');
-      this.displayUploader = false;
+
+    this.adminFacade.postJsonImport(file).subscribe({
+      next: (response) => {
+        this.assetResponse = response['importStateMessage'];
+        this.toastService.success('pageAdmin.importJson.success');
+        this.displayUploader = false;
+      },
+
+      error: (error) => {
+        this.errorResponse = error.error;
+        this.errorImportStateMessage = this.errorResponse['importStateMessage'];
+        this.errorValidationResult = this.errorResponse['validationResult'];
+        this.errorValidationErrors = this.errorValidationResult['validationErrors'];
+      }
     });
   }
 
   public clearFile(): void {
     this.file = undefined;
     this.showError = false;
+    this.assetResponse = [];
+    this.errorResponse = [];
+    this.errorImportStateMessage = [];
+    this.errorValidationResult = null;
+    this.errorValidationErrors = [];
+
   }
 
   public shouldShowFileContainer_upload_file(file: File): boolean {
