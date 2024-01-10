@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,15 +16,11 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package assets.importpoc;
 
-package org.eclipse.tractusx.traceability.assets.domain.base.model;
+import java.util.List;
 
-public enum SemanticDataModel {
-    BATCH("Batch"), SERIALPART("SerialPart"), UNKNOWN(""), PARTASPLANNED("PartAsPlanned"), JUSTINSEQUENCE("JustInSequence");
+public record ImportResponse(List<ImportStateMessage> importStateMessage) {
 
-    private String name;
-
-    SemanticDataModel(String name) {
-        this.name = name;
-    }
 }
+

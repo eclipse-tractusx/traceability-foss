@@ -1067,13 +1067,6 @@
           }
         }
       ]
-    },
-    {
-      "assetMetaInfo" : {
-        "catenaXId" : "urn:uuid:e3b2f5e2-5be5-4ea6-98f0-6876de0fcb5f"
-      },
-      "submodels" : [
-      ]
     }
   ]
 }

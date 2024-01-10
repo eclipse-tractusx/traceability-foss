@@ -21,34 +21,56 @@ package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.irs.component.enums.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.application.importpoc.ImportService;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.ImportRequest;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
+import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.ImportException;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportRequest;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.SemanticDataModel.isAsBuiltMainSemanticModel;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
 public class ImportServiceImpl implements ImportService {
     private final ObjectMapper objectMapper;
+    private final AssetAsPlannedRepository assetAsPlannedRepository;
+    private final AssetAsBuiltRepository assetAsBuiltRepository;
+    private final TraceabilityProperties traceabilityProperties;
+    private final MappingStrategyFactory strategyFactory;
 
     @Override
-    public void importAssets(MultipartFile file) {
+    public Map<AssetBase, Boolean> importAssets(MultipartFile file) {
         try {
-            // TODO - build a json schema construct which consists of the assetmetainfo and the submodels.
-            //  The submodels needs to be pulled by (example for serialpart) https://github.com/eclipse-tractusx/sldt-semantic-models/blob/main/io.catenax.serial_part/2.0.0/gen/SerialPart-schema.json
-            //  It is okay to download the schemas and put them in a folder as we need to have control over the schemas
-            // For the validation see: https://github.com/eclipse-tractusx/item-relationship-service/blob/main/irs-api/src/main/java/org/eclipse/tractusx/irs/services/validation/JsonValidatorService.java#L43
-
-            String fileContent = new String(file.getBytes(), StandardCharsets.UTF_8);
-            log.info("Imported file: " + fileContent);
-            ImportRequest importRequest = objectMapper.readValue(fileContent, ImportRequest.class);
-          //Submodels per assetId
-           // importRequest.assetRawRequestList().get(0).assetMetaInfoRequest().catenaXId();
-          //  importRequest.assetRawRequestList().get(0).submodels();
+            ImportRequest importRequest = objectMapper.readValue(file.getBytes(), ImportRequest.class);
+            Map<BomLifecycle, List<AssetBase>> map =
+                    importRequest.assets()
+                            .stream()
+                            .map(importRequestV2 -> strategyFactory.mapToAssetBase(importRequestV2, traceabilityProperties))
+                            .filter(Optional::isPresent)
+                            .map(Optional::get)
+                            .collect(Collectors.groupingBy(assetBase -> {
+                                if (isAsBuiltMainSemanticModel(assetBase.getSemanticDataModel())) {
+                                    return BomLifecycle.AS_BUILT;
+                                } else {
+                                    return BomLifecycle.AS_PLANNED;
+                                }
+                            }));
+            this.assetAsBuiltRepository.saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(map.get(BomLifecycle.AS_BUILT));
+            this.assetAsPlannedRepository.saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(map.get(BomLifecycle.AS_PLANNED));
+            Map<AssetBase, Boolean> resultMap = new HashMap<>();
+            // TODO construct result
         } catch (Exception e) {
             throw new ImportException(e.getMessage());
         }

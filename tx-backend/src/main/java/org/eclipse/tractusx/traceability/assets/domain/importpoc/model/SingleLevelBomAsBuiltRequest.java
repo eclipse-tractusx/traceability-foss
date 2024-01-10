@@ -16,36 +16,23 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-
-package org.eclipse.tractusx.traceability.assets.domain.base;
-
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
+package org.eclipse.tractusx.traceability.assets.domain.importpoc.model;
 
 import java.util.List;
 
-public interface AssetRepository {
-    AssetBase getAssetById(String assetId);
+public record SingleLevelBomAsBuiltRequest(String catenaXId, List<ChildItem> childItems) {
 
-    boolean existsById(String globalAssetId);
+    public record ChildItem(
+            Quantity quantity,
+            boolean hasAlternatives,
+            String createdOn,
+            String lastModifiedOn,
+            String catenaXId,
+            String businessPartner
+    ) {
+    }
 
-    List<AssetBase> getAssetsById(List<String> assetIds);
-
-    AssetBase getAssetByChildId(String childId);
-
-    List<AssetBase> getAssets();
-
-    AssetBase save(AssetBase asset);
-
-    List<AssetBase> saveAll(List<AssetBase> assets);
-
-    List<AssetBase> saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(List<AssetBase> assets);
-
-    long countAssets();
-
-    void updateParentDescriptionsAndOwner(final AssetBase asset);
-
-    long countAssetsByOwner(Owner owner);
-
-    List<String> getFieldValues(String fieldName, String startWith, Integer resultLimit, Owner owner);
+    public record Quantity(int quantityNumber, String measurementUnit) {
+    }
 }
+

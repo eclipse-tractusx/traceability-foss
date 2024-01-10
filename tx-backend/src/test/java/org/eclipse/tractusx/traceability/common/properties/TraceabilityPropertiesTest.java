@@ -39,7 +39,7 @@ class TraceabilityPropertiesTest {
         System.setProperty("TRACEABILITY_VALID_UNTIL", "2023-07-04T16:01:05.309Z");
     }
     @Test
-    public void test_traceabilityProperties() {
+    void test_traceabilityProperties() {
         //GIVEN
         //WHEN
         //THEN
@@ -49,6 +49,20 @@ class TraceabilityPropertiesTest {
         assertThat(traceabilityProperties.getLeftOperand()).isNotEmpty();
         assertThat(traceabilityProperties.getOperatorType()).isNotEmpty();
         assertThat(traceabilityProperties.getRightOperand()).isNotEmpty();
+
+        assertThat(traceabilityProperties.getSupportedAspectTypes().asPlannedTypes().mainAsPlannedAspectType().asPlanned()).hasSizeGreaterThan(0);
+        assertThat(traceabilityProperties.getSupportedAspectTypes().asPlannedTypes().detailAsBuiltAspectType().partSiteInformationAsPlanned()).hasSizeGreaterThan(0);
+        assertThat(traceabilityProperties.getSupportedAspectTypes().asPlannedTypes().relationAsPlannedAspectType().upwardRelations()).hasSizeGreaterThan(0);
+        assertThat(traceabilityProperties.getSupportedAspectTypes().asPlannedTypes().relationAsPlannedAspectType().downwardRelations()).hasSizeGreaterThan(0);
+
+        assertThat(traceabilityProperties.getSupportedAspectTypes().asBuiltTypes().mainAsBuiltAspectType().serialParts()).hasSizeGreaterThan(0);
+        assertThat(traceabilityProperties.getSupportedAspectTypes().asBuiltTypes().mainAsBuiltAspectType().batches()).hasSizeGreaterThan(0);
+        assertThat(traceabilityProperties.getSupportedAspectTypes().asBuiltTypes().mainAsBuiltAspectType().justInSequences()).hasSizeGreaterThan(0);
+
+        assertThat(traceabilityProperties.getSupportedAspectTypes().asBuiltTypes().detailAsBuiltAspectType().tractionBatteryCodes()).hasSizeGreaterThan(0);
+        assertThat(traceabilityProperties.getSupportedAspectTypes().asBuiltTypes().relationAsBuiltAspectType().upwardRelations()).hasSizeGreaterThan(0);
+        assertThat(traceabilityProperties.getSupportedAspectTypes().asBuiltTypes().relationAsBuiltAspectType().downwardRelations()).hasSizeGreaterThan(0);
+
 
     }
 
