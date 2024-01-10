@@ -107,8 +107,6 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
         // given
         alertNotificationsSupport.defaultAlertsStored();
 
-        String filterParams = "&filter=bpn,STARTS_WITH,BPNL00000001OWN,OR".repeat(50);
-
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))

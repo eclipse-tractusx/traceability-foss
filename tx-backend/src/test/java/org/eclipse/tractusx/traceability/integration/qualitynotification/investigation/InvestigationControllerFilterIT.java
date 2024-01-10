@@ -125,6 +125,81 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
     }
 
     @Test
+    void givenInvestigations_whenProvideTooManyFilters_thenReturnError() throws JoseException {
+        // given
+        investigationNotificationSupport.defaultInvestigationsStored();
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .param("page", "0")
+                .param("size", "10")
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000001OWN,OR").and()
+                .queryParam("filter", "bpn,STARTS_WITH,BPNL00000002OWN,OR")
+                .contentType(ContentType.JSON)
+                .when()
+                .log()
+                .uri()
+                .get("/api/investigations")
+
+
+                .then()
+                .log().all()
+                .statusCode(400)
+                .body("message", Matchers.is("Do not use more than 50 filter query parameters"));
+    }
+
+    @Test
     void givenInvestigations_whenInvalidLocalDate_thenReturnBadRequest() throws JoseException {
         // given
         investigationNotificationSupport.defaultInvestigationsStored();
