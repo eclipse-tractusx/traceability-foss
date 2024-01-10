@@ -42,6 +42,7 @@ import {
 } from '../../../../mocks/services/otherParts-mock/otherParts.test.model';
 import { OtherPartsModule } from '../other-parts.module';
 import { OtherPartsComponent } from './other-parts.component';
+import { Role } from '@core/user/role.model';
 
 describe('Other Parts', () => {
   let otherPartsState: OtherPartsState;
@@ -111,7 +112,7 @@ describe('Other Parts', () => {
       formatPartSemanticToCamelCase = new FormatPartSemanticDataModelToCamelCasePipe();
     });
     it('should request supplier parts if first tab is selected', async () => {
-      await renderOtherParts({ roles: ['user'] });
+      await renderOtherParts({ roles: [Role.USER] });
       fireEvent.click(screen.getAllByText('pageOtherParts.tab.supplier')[0]);
 
       await waitFor(() => expect(screen.getByText('table.column.manufacturer')).toBeInTheDocument());
@@ -139,7 +140,7 @@ describe('Other Parts', () => {
     });
 
     it('should request customer parts if second tab is selected', async () => {
-      const fixture = await renderOtherParts({ roles: ['user'] });
+      const fixture = await renderOtherParts({ roles: [Role.USER] });
       let tabs = screen.getAllByText('pageOtherParts.tab.customer');
       fireEvent.click(tabs[0]);
 

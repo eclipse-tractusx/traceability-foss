@@ -37,17 +37,19 @@ export class AdminComponent {
     link: string;
     role?: Role;
   }[] = [
-    {
-      name: 'routing.adminRegistry',
-      icon: 'storage',
-      link: '/admin/registry-lookups',
-    },
-    {
-      name: 'routing.adminBpn',
-      icon: 'edit',
-      link: '/admin/configure-bpn',
-    },
-  ];
+      {
+        name: 'routing.adminRegistry',
+        icon: 'storage',
+        link: '/admin/registry-lookups',
+      },
+      {
+        name: 'routing.adminBpn',
+        icon: 'edit',
+        link: '/admin/configure-bpn',
+      },
+    ];
+
+  protected readonly Role = Role;
 
   constructor(router: Router) {
     this.activeUrl = router.url;

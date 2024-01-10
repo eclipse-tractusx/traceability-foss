@@ -25,22 +25,6 @@ SPDX-License-Identifier: Apache-2.0
   <ng-container *ngIf="tableHeader">
     <p class="large-text notification-table--header">{{ tableHeader | i18n }}</p>
   </ng-container>
-  <!-- TODO will be implemented with the SharedParts implementation  -->
-  <!-- <ng-container *ngIf="selectedPartsInfoLabel">
-    <div *appHasRole="tableConfig?.columnRoles?.['select'] ?? 'user'"
-      class="notification-table--selected__container">
-      <p class="regular-text">{{ selectedPartsInfoLabel | i18n : { count: selection?.selected?.length || 0 } }}</p>
-      <app-button *ngIf="selection?.selected?.length"
-        (click)="clickSelectAction.emit()"
-        [variant]="'raised'"
-        [color]="'accent'">
-        <div class="flex justify-between items-center text-dark p-0.5">
-          <mat-icon class="mr-2">announcement</mat-icon>
-          {{ selectedPartsActionLabel | i18n }}
-        </div>
-      </app-button>
-    </div>
-  </ng-container> -->
 
   <table #tableElement
     [dataSource]="dataSource"

@@ -29,6 +29,7 @@ import { CustomerPartsComponent } from './customer-parts.component';
 import { TableEventConfig } from '@shared/components/table/table.model';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
+import { Role } from '@core/user/role.model';
 
 describe('CustomerPartsComponent', () => {
   let otherPartsState: OtherPartsState;
@@ -38,7 +39,7 @@ describe('CustomerPartsComponent', () => {
     renderComponent(CustomerPartsComponent, {
       imports: [OtherPartsModule],
       providers: [{ provide: OtherPartsState, useFactory: () => otherPartsState }, { provide: PartsState }],
-      roles: ['admin', 'wip'],
+      roles: [Role.ADMIN, Role.WIP],
       componentInputs: {
         bomLifecycle: MainAspectType.AS_BUILT,
       },
@@ -47,7 +48,7 @@ describe('CustomerPartsComponent', () => {
     renderComponent(CustomerPartsComponent, {
       imports: [OtherPartsModule],
       providers: [{ provide: OtherPartsState, useFactory: () => otherPartsState }, { provide: PartsState }],
-      roles: ['admin', 'wip'],
+      roles: [Role.ADMIN, Role.WIP],
       componentInputs: {
         bomLifecycle: MainAspectType.AS_PLANNED,
       },

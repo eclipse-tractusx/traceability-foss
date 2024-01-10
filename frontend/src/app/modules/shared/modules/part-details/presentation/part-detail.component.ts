@@ -24,6 +24,7 @@ import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Role } from '@core/user/role.model';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Part, QualityType } from '@page/parts/model/parts.model';
 import { RelationComponent } from '@page/parts/presentation/relation/relation.component';
@@ -68,6 +69,7 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
   private readyPromise = Promise.resolve();
 
   protected readonly MainAspectType = MainAspectType;
+  protected readonly Role = Role;
 
   constructor(private readonly partDetailsFacade: PartDetailsFacade, private readonly router: Router,
     public dialog: MatDialog,

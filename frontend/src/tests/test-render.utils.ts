@@ -56,7 +56,7 @@ declare class WrapperComponent {
 
 export const renderComponent: typeof ExtendedRenderFn = (
   cmp,
-  { imports = [], providers = [], translations = [], roles = ['user'], ...restConfig },
+  { imports = [], providers = [], translations = [], roles = [Role.USER], ...restConfig },
 ) =>
   render(cmp, {
     imports: [

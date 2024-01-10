@@ -30,11 +30,16 @@ SPDX-License-Identifier: Apache-2.0
       </div>
 
       <div class="header--menu">
-        <ng-container *ngTemplateOutlet="menuItem; context: { value: 'dashboard', role: 'user' }"></ng-container>
-        <ng-container *ngTemplateOutlet="menuItem; context: { value: 'parts', role: 'user' }"></ng-container>
-        <ng-container *ngTemplateOutlet="menuItem; context: { value: 'otherParts', role: 'user' }"></ng-container>
-        <ng-container *ngTemplateOutlet="menuItem; context: { value: 'investigations', role: 'user' }"></ng-container>
-        <ng-container *ngTemplateOutlet="menuItem; context: { value: 'alerts', role: 'user' }"></ng-container>
+        <ng-container
+          *ngTemplateOutlet="menuItem; context: { value: 'dashboard', roles: [Role.USER, Role.ADMIN] }"></ng-container>
+        <ng-container
+          *ngTemplateOutlet="menuItem; context: { value: 'parts', roles: [Role.USER, Role.ADMIN] }"></ng-container>
+        <ng-container
+          *ngTemplateOutlet="menuItem; context: { value: 'otherParts', roles: [Role.USER, Role.ADMIN] }"></ng-container>
+        <ng-container
+          *ngTemplateOutlet="menuItem; context: { value: 'investigations', roles: [Role.USER, Role.ADMIN] }"></ng-container>
+        <ng-container
+          *ngTemplateOutlet="menuItem; context: { value: 'alerts', roles: [Role.USER, Role.ADMIN] }"></ng-container>
         <app-user-navigation></app-user-navigation>
       </div>
     </nav>
@@ -42,10 +47,10 @@ SPDX-License-Identifier: Apache-2.0
 </div>
 
 <ng-template let-type="value"
-  let-role="role"
+  let-roles="roles"
   #menuItem>
   <a class="header--menu__item"
-    *appHasRole="[role]"
+    *appHasRole="roles"
     [routerLink]="['/' + type]"
     [class.selected]="type === activeMenu">
     <div class="header--menu__item--border-top"></div>

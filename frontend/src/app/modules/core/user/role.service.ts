@@ -25,15 +25,14 @@ import { UserService } from './user.service';
 
 const ROLES_RELATIONS: RoleRelation[] = [
   {
-    role: 'wip',
+    role: Role.WIP,
   },
   {
-    role: 'admin',
-    child: 'supervisor',
+    role: Role.ADMIN,
   },
   {
-    role: 'supervisor',
-    child: 'user',
+    role: Role.SUPERVISOR,
+    child: Role.USER,
   },
 ];
 
@@ -41,7 +40,7 @@ const ROLES_RELATIONS: RoleRelation[] = [
   providedIn: 'root',
 })
 export class RoleService {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
   public hasAccess(requiredRoles: Role | Role[]): boolean {
     const requiredRolesList = typeof requiredRoles === 'string' ? [requiredRoles] : requiredRoles;
@@ -53,11 +52,11 @@ export class RoleService {
   }
 
   public isAtLeastSupervisor(): boolean {
-    return this.hasAccess('supervisor');
+    return this.hasAccess(Role.SUPERVISOR);
   }
 
   public isAtLeastUser(): boolean {
-    return this.hasAccess('user');
+    return this.hasAccess(Role.USER);
   }
 
   private getParentsRolesFor(lookupRoles: Role[]): Role[] {

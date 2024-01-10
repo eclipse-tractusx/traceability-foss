@@ -24,7 +24,7 @@ SPDX-License-Identifier: Apache-2.0
       <span class="lifecycle-size-text"> ({{ totalItems }})</span>
     </div>
     <div>
-      <div *appHasRole="tableConfig.columnRoles?.['select'] ?? 'user'">
+      <div *appHasRole="tableConfig.columnRoles?.['select'] ?? [Role.USER]">
         <app-button *ngIf="showActionButton"
           class="create-action-button"
           (click)="clickSelectAction.emit()"

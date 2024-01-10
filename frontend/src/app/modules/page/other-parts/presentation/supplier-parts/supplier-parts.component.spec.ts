@@ -32,6 +32,7 @@ import { TableEventConfig } from '@shared/components/table/table.model';
 import { Part } from '@page/parts/model/parts.model';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
+import { Role } from '@core/user/role.model';
 
 describe('SupplierPartsComponent', () => {
   let otherPartsState: OtherPartsState;
@@ -123,7 +124,7 @@ describe('SupplierPartsComponent', () => {
   });
 
   it('sort supplier parts after name column', async () => {
-    const { fixture } = await renderSupplierPartsAsBuilt({ roles: ['admin'] });
+    const { fixture } = await renderSupplierPartsAsBuilt({ roles: [Role.ADMIN] });
     const supplierPartsComponent = fixture.componentInstance;
 
     let nameHeader = await screen.findByText('table.column.name');
@@ -133,7 +134,7 @@ describe('SupplierPartsComponent', () => {
   });
 
   it('should multisort after column name and semanticModelId', async () => {
-    const { fixture } = await renderSupplierPartsAsBuilt({ roles: ['admin'] });
+    const { fixture } = await renderSupplierPartsAsBuilt({ roles: [Role.ADMIN] });
     const supplierPartsComponent = fixture.componentInstance;
 
     let nameHeader = await screen.findByText('table.column.name');

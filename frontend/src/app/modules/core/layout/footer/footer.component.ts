@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { NavigableUrls } from '@core/known-route';
+import { Role } from '@core/user/role.model';
 import { filter } from 'rxjs/operators';
 
 @Component({
@@ -10,6 +11,8 @@ import { filter } from 'rxjs/operators';
 })
 export class FooterComponent {
   public activeMenu = '';
+  protected readonly Role = Role;
+
   constructor(router: Router) {
     router.events
       .pipe(filter(event => event instanceof NavigationEnd))

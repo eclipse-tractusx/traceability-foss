@@ -32,98 +32,99 @@ import {
   PARTS_BASE_ROUTE,
 } from '@core/known-route';
 import { RoleGuard } from '@core/user/role.guard';
+import { Role } from '@core/user/role.model';
 import { AdminComponent } from '@page/admin/presentation/admin.component';
 import { ErrorPageType } from '@page/error-page/model/error-page.model';
 import { I18NEXT_NAMESPACE_RESOLVER } from 'angular-i18next';
 
 export /** @type {*} */
-// every page (except error pages) require at least "user" role
-// (to be able to detect unauthorized user and redirect to error page)
-const routes: Routes = [
-  {
-    path: '',
-    pathMatch: 'full',
-    redirectTo: 'dashboard',
-  },
-  {
-    path: NO_PERMISSION_BASE_ROUTE,
-    loadChildren: () => import('@page/error-page/error-page.module').then(m => m.ErrorPageModule),
-    data: {
-      errorPage: {
-        type: ErrorPageType.noPermissions,
+  // every page (except error pages) require at least "user" role
+  // (to be able to detect unauthorized user and redirect to error page)
+  const routes: Routes = [
+    {
+      path: '',
+      pathMatch: 'full',
+      redirectTo: 'dashboard',
+    },
+    {
+      path: NO_PERMISSION_BASE_ROUTE,
+      loadChildren: () => import('@page/error-page/error-page.module').then(m => m.ErrorPageModule),
+      data: {
+        errorPage: {
+          type: ErrorPageType.noPermissions,
+        },
       },
     },
-  },
-  {
-    path: DASHBOARD_BASE_ROUTE,
-    loadChildren: () => import('../../page/dashboard/dashboard.module').then(m => m.DashboardModule),
-    data: {
-      breadcrumb: 'home',
-      roles: ['user'],
+    {
+      path: DASHBOARD_BASE_ROUTE,
+      loadChildren: () => import('../../page/dashboard/dashboard.module').then(m => m.DashboardModule),
+      data: {
+        breadcrumb: 'home',
+        roles: [Role.USER, Role.ADMIN],
+      },
+      canActivate: [RoleGuard],
     },
-    canActivate: [RoleGuard],
-  },
-  {
-    path: PARTS_BASE_ROUTE,
-    loadChildren: () => import('../../page/parts/parts.module').then(m => m.PartsModule),
-    data: {
-      breadcrumb: 'parts',
-      roles: ['user'],
+    {
+      path: PARTS_BASE_ROUTE,
+      loadChildren: () => import('../../page/parts/parts.module').then(m => m.PartsModule),
+      data: {
+        breadcrumb: 'parts',
+        roles: [Role.USER, Role.ADMIN],
+      },
+      canActivate: [RoleGuard],
     },
-    canActivate: [RoleGuard],
-  },
-  {
-    path: OTHER_PARTS_BASE_ROUTE,
-    loadChildren: () => import('@page/other-parts/other-parts.module').then(m => m.OtherPartsModule),
-    data: {
-      breadcrumb: 'otherParts',
-      roles: ['user'],
+    {
+      path: OTHER_PARTS_BASE_ROUTE,
+      loadChildren: () => import('@page/other-parts/other-parts.module').then(m => m.OtherPartsModule),
+      data: {
+        breadcrumb: 'otherParts',
+        roles: [Role.USER, Role.ADMIN],
+      },
+      canActivate: [RoleGuard],
     },
-    canActivate: [RoleGuard],
-  },
-  {
-    path: INVESTIGATION_BASE_ROUTE,
-    loadChildren: () => import('../../page/investigations/investigations.module').then(m => m.InvestigationsModule),
-    data: {
-      breadcrumb: 'investigations',
-      roles: ['user'],
+    {
+      path: INVESTIGATION_BASE_ROUTE,
+      loadChildren: () => import('../../page/investigations/investigations.module').then(m => m.InvestigationsModule),
+      data: {
+        breadcrumb: 'investigations',
+        roles: [Role.USER, Role.ADMIN],
+      },
+      canActivate: [RoleGuard],
     },
-    canActivate: [RoleGuard],
-  },
-  {
-    path: ALERT_BASE_ROUTE,
-    loadChildren: () => import('../../page/alerts/alerts.module').then(m => m.AlertsModule),
-    data: {
-      breadcrumb: 'alerts',
-      roles: ['user'],
+    {
+      path: ALERT_BASE_ROUTE,
+      loadChildren: () => import('../../page/alerts/alerts.module').then(m => m.AlertsModule),
+      data: {
+        breadcrumb: 'alerts',
+        roles: [Role.USER, Role.ADMIN],
+      },
+      canActivate: [RoleGuard],
     },
-    canActivate: [RoleGuard],
-  },
-  {
-    path: ABOUT_BASE_ROUTE,
-    loadChildren: () => import('../../page/about/about.module').then(m => m.AboutModule),
-    data: {
-      breadcrumb: 'about',
-      roles: ['user'],
+    {
+      path: ABOUT_BASE_ROUTE,
+      loadChildren: () => import('../../page/about/about.module').then(m => m.AboutModule),
+      data: {
+        breadcrumb: 'about',
+        roles: [Role.USER, Role.ADMIN],
+      },
+      canActivate: [RoleGuard],
     },
-    canActivate: [RoleGuard],
-  },
-  {
-    path: ADMIN_BASE_ROUTE,
-    loadChildren: () => import('../../page/admin/admin.module').then(m => m.AdminModule),
-    component: AdminComponent,
-    data: {
-      i18nextNamespaces: ['page.admin'],
-      breadcrumb: 'admin',
-      roles: ['admin'],
+    {
+      path: ADMIN_BASE_ROUTE,
+      loadChildren: () => import('../../page/admin/admin.module').then(m => m.AdminModule),
+      component: AdminComponent,
+      data: {
+        i18nextNamespaces: ['page.admin'],
+        breadcrumb: 'admin',
+        roles: [Role.ADMIN],
+      },
+      resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
+      canActivate: [RoleGuard],
     },
-    resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
-    canActivate: [RoleGuard],
-  },
-];
+  ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class LayoutRoutingModule {}
+export class LayoutRoutingModule { }

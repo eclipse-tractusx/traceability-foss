@@ -33,6 +33,7 @@ import { TableHeaderSort } from "@shared/components/table/table.model";
 import { PartDetailsFacade } from "@shared/modules/part-details/core/partDetails.facade";
 import { toGlobalSearchAssetFilter } from "@shared/helper/filter-helper";
 import { MainAspectType } from '../model/mainAspectType.enum';
+import { Role } from '@core/user/role.model';
 
 describe('Parts', () => {
 
@@ -42,7 +43,7 @@ describe('Parts', () => {
             declarations: [SidenavComponent],
             imports: [PartsModule, SharedModule, LayoutModule, OtherPartsModule],
             providers: [{ provide: SidenavService }, { provide: PartDetailsFacade }],
-            roles: ['admin', 'wip'],
+            roles: [Role.ADMIN, Role.WIP],
         });
     };
 

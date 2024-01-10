@@ -33,6 +33,7 @@ import { PartDetailComponent } from './part-detail.component';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
+import { Role } from '@core/user/role.model';
 
 let PartsStateMock: PartsState;
 let PartDetailsStateMock: PartDetailsState;
@@ -61,7 +62,7 @@ describe('PartDetailComponent', () => {
   };
 
   it('should render child-component table', async () => {
-    await renderPartDetailComponent({ roles: ['user'] });
+    await renderPartDetailComponent({ roles: [Role.USER] });
 
     try {
       const childTableHeadline = await screen.findByText('partDetail.investigation.tab.header');
@@ -71,14 +72,14 @@ describe('PartDetailComponent', () => {
   });
 
   it('should render tabs', async () => {
-    await renderPartDetailComponent();
+    await renderPartDetailComponent({ roles: [Role.USER] });
     const tabElements = await screen.findAllByRole('tab');
 
     expect(tabElements.length).toEqual(2);
   });
 
   it('should change tab index when onTabChange is called', async () => {
-    const { fixture } = await renderPartDetailComponent({ roles: ['user'] });
+    const { fixture } = await renderPartDetailComponent({ roles: [Role.USER] });
 
     const { componentInstance } = fixture;
     expect(componentInstance.selectedTab).toEqual(0);
@@ -90,7 +91,7 @@ describe('PartDetailComponent', () => {
   });
 
   it('should call navigateBackToParts when close button is clicked', async () => {
-    const { fixture } = await renderPartDetailComponent({ roles: ['user'] });
+    const { fixture } = await renderPartDetailComponent({ roles: [Role.USER] });
 
     const { componentInstance } = fixture;
     spyOn(componentInstance, 'navigateBackToParts');
@@ -104,7 +105,7 @@ describe('PartDetailComponent', () => {
   });
 
   it('should navigate back to parts', async () => {
-    const { fixture } = await renderPartDetailComponent({ roles: ['user'] });
+    const { fixture } = await renderPartDetailComponent({ roles: [Role.USER] });
     const router = TestBed.inject(Router);
     const { componentInstance } = fixture;
     const partDetailsFacade = (componentInstance as any)['partDetailsFacade'];
@@ -120,7 +121,7 @@ describe('PartDetailComponent', () => {
   });
 
   it('should navigate to relations page with correct parameters and reload', async () => {
-    const { fixture } = await renderPartDetailComponent({ roles: ['user'] });
+    const { fixture } = await renderPartDetailComponent({ roles: [Role.USER] });
 
     const part: any = { id: 123, mainAspectType: MainAspectType.AS_BUILT };
     const context = 'some-context';

@@ -25,6 +25,7 @@ import { screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 import { DashboardModule } from '../dashboard.module';
 import { DashboardComponent } from './dashboard.component';
+import { Role } from '@core/user/role.model';
 
 describe('Dashboard', () => {
   const renderDashboard = ({ roles = [] } = {}) =>
@@ -47,7 +48,7 @@ describe('Dashboard', () => {
 
   it('should render supervisor section when supervisor user', async () => {
     await renderDashboard({
-      roles: ['supervisor'],
+      roles: [Role.SUPERVISOR],
     });
 
     expect(await screen.findByText('pageDashboard.totalOfOtherParts.label')).toBeInTheDocument();
@@ -55,7 +56,7 @@ describe('Dashboard', () => {
 
   it('should render supervisor section when admin user', async () => {
     await renderDashboard({
-      roles: ['admin'],
+      roles: [Role.ADMIN],
     });
 
     expect(await screen.findByText('pageDashboard.totalOfMyParts.label')).toBeInTheDocument();

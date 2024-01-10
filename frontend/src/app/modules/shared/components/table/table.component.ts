@@ -45,6 +45,7 @@ import { TableViewConfig } from '../parts-table/table-view-config.model';
 import { TableSettingsComponent } from '../table-settings/table-settings.component';
 import { FilterOperator } from '@page/parts/model/parts.model';
 import { MultiSelectAutocompleteComponent } from '../multi-select-autocomplete/multi-select-autocomplete.component';
+import { Role } from '@core/user/role.model';
 
 @Component({
   selector: 'app-table',
@@ -66,7 +67,7 @@ export class TableComponent {
     }
 
     const { menuActionsConfig: menuActions, displayedColumns: dc, columnRoles, hasPagination } = tableConfig;
-    const displayedColumns = dc.filter(column => this.roleService.hasAccess(columnRoles?.[column] ?? 'user'));
+    const displayedColumns = dc.filter(column => this.roleService.hasAccess(columnRoles?.[column] ?? [Role.USER, Role.ADMIN]));
 
     const cellRenderers = this._tableConfig?.cellRenderers ?? tableConfig.cellRenderers;
 
@@ -172,6 +173,8 @@ export class TableComponent {
 
   private _tableConfig: TableConfig;
   private tableViewConfig: TableViewConfig;
+
+  protected readonly Role = Role;
 
   constructor(
     private readonly roleService: RoleService,
