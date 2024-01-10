@@ -29,7 +29,17 @@
       "success": "Successfully uploaded."
     },
     "importStatus": {
-      "importStatus": "Import status"
+      "importStatus": "Import Status",
+      "catenaXId": "Catena-X ID",
+      "status": "State",
+      "imported": "Imported",
+      "skipped": "Skipped",
+      "validationReport": "Validation report",
+      "importStateMessage": "Import state message",
+      "errors": "Error",
+      "description": "Description",
+      "uploadMore": "Upload more",
+      "noImportStateMessage": "No additional information was returned by the server."
     }
   }
 }
