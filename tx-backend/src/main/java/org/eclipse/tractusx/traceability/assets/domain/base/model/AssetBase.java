@@ -74,4 +74,7 @@ public class AssetBase {
             return BomLifecycle.AS_PLANNED;
         }
     }
+    public boolean isOwnAsset(final String bpn){
+        return bpn.equals(manufacturerId);
+    }
 }

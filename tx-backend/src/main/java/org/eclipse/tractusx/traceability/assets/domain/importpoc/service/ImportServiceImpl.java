@@ -57,8 +57,14 @@ public class ImportServiceImpl implements ImportService {
             Map<BomLifecycle, List<AssetBase>> assetToUploadByBomLifecycle =
                     importRequest.assets()
                             .stream()
-                            .map(assetImportItem -> strategyFactory.mapToAssetBase(assetImportItem, traceabilityProperties))
-                            .filter(Optional::isPresent)
+                            .map(assetImportItem -> {
+                                Optional<AssetBase> assetBase = strategyFactory.mapToAssetBase(assetImportItem, traceabilityProperties);
+                                if (assetBase.isPresent() && assetBase.get().isOwnAsset(traceabilityProperties.getBpn().toString())) {
+                                    return assetBase;
+                                } else {
+                                    throw new ImportException("At least one asset does not match the application bpn " + traceabilityProperties.getBpn().value());
+                                }
+                            })
                             .map(Optional::get)
                             .collect(Collectors.groupingBy(AssetBase::getBomLifecycle));
 

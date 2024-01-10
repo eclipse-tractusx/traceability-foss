@@ -87,7 +87,7 @@ public class MainAspectAsBuiltStrategy implements MappingStrategy {
         final AtomicReference<String> semanticModelId = new AtomicReference<>();
         final AtomicReference<org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel> semanticDataModel = new AtomicReference<>();
         ArrayList<DetailAspectModel> detailAspectModels = new ArrayList<>();
-
+        final AtomicReference<String> manufacturerId = new AtomicReference<>();
         asBuiltAspect.localIdentifiers().stream().filter(localIdentifier -> localIdentifier.key().equals("partInstanceId")).findFirst().ifPresent(s -> {
             semanticModelId.set(s.value());
             semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.SERIALPART);
@@ -104,6 +104,10 @@ public class MainAspectAsBuiltStrategy implements MappingStrategy {
             semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.JUSTINSEQUENCE);
         });
 
+        asBuiltAspect.localIdentifiers().stream().filter(localId -> localId.key().equals("manufacturerId")).findFirst().ifPresent(s -> {
+            manufacturerId.set(s.value());
+        });
+
         if (semanticDataModel.get() == null) {
             semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.UNKNOWN);
         }
@@ -113,7 +117,7 @@ public class MainAspectAsBuiltStrategy implements MappingStrategy {
                 .id(assetImportRequestV2.assetMetaInfoRequest().catenaXId())
                 .semanticModelId(semanticModelId.get())
                 .detailAspectModels(detailAspectModels)
-                .manufacturerId(traceabilityProperties.getBpn().value())
+                .manufacturerId(manufacturerId.get())
                 .nameAtManufacturer(asBuiltAspect.partTypeInformation().nameAtManufacturer())
                 .manufacturerPartId(asBuiltAspect.partTypeInformation().manufacturerPartId())
                 .parentRelations(parentRelations)

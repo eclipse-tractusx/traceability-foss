@@ -1,16 +1,16 @@
 {
-  "assets" : [
+  "fasdasdfsfda" : [
     {
-      "assetMetaInfo" : {
-        "catenaXId" : "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd"
+      "adsfsfd" : {
+        "catenaXId" : "invalidUUID"
       },
-      "submodels" : [
+      "afd" : [
         {
           "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
           "payload" : {
-            "localIdentifiers" : [
+            "invalidlocalIdentifiers" : [
               {
-                "value" : "BPNL00000003AXS3",
+                "value" : "BPNL00000003CNKC",
                 "key" : "manufacturerId"
               },
               {
@@ -37,7 +37,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt",
+          "invalidaspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt",
           "payload" : {
             "catenaXId" : "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd",
             "childItems" : [
@@ -91,7 +91,7 @@
           "payload" : {
             "localIdentifiers" : [
               {
-                "value" : "BPNL00000003AXS3",
+                "value" : "BPNL00000003CNKC",
                 "key" : "manufacturerId"
               },
               {
@@ -120,8 +120,8 @@
         {
           "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt",
           "payload" : {
-            "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a",
-            "childItems" : [
+            "catenaX1Id" : "urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a",
+            "invalidchildItems" : [
               {
                 "quantity" : {
                   "quantityNumber" : 1,
@@ -172,7 +172,7 @@
           "payload" : {
             "localIdentifiers" : [
               {
-                "value" : "BPNL00000003AXS3",
+                "value" : "BPNL00000003CNKC",
                 "key" : "manufacturerId"
               },
               {
@@ -253,7 +253,7 @@
           "payload" : {
             "localIdentifiers" : [
               {
-                "value" : "BPNL00000003AXS3",
+                "value" : "BPNL00000003CNKC",
                 "key" : "manufacturerId"
               },
               {
@@ -334,7 +334,7 @@
           "payload" : {
             "localIdentifiers" : [
               {
-                "value" : "BPNL00000003AXS3",
+                "value" : "BPNL00000003CNKC",
                 "key" : "manufacturerId"
               },
               {
@@ -394,7 +394,7 @@
           "payload" : {
             "localIdentifiers" : [
               {
-                "value" : "BPNL00000003AXS3",
+                "value" : "BPNL00000003CNKC",
                 "key" : "manufacturerId"
               },
               {
@@ -449,7 +449,7 @@
           "payload" : {
             "localIdentifiers" : [
               {
-                "value" : "BPNL00000003AXS3",
+                "value" : "BPNL00000003CNKC",
                 "key" : "manufacturerId"
               },
               {
@@ -543,7 +543,7 @@
           "payload" : {
             "localIdentifiers" : [
               {
-                "value" : "BPNL00000003AXS3",
+                "value" : "BPNL00000003CNKC",
                 "key" : "manufacturerId"
               },
               {
@@ -615,7 +615,7 @@
             "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4c79e",
             "sites" : [
               {
-                "functionValidUntil" : "2025-04-04T04:14:11.000Z",
+                "validUntil" : "2025-04-04T04:14:11.000Z",
                 "catenaXsiteId" : "BPNS000004711DMY",
                 "function" : "production",
                 "functionValidFrom" : "2018-03-24T13:38:32.000Z"
@@ -895,7 +895,7 @@
           "payload" : {
             "localIdentifiers" : [
               {
-                "value" : "BPNL00000003AXS3",
+                "value" : "BPNL00000003CNKC",
                 "key" : "manufacturerId"
               },
               {
@@ -946,7 +946,7 @@
           "payload" : {
             "localIdentifiers" : [
               {
-                "value" : "BPNL00000003AXS3",
+                "value" : "BPNL00000003CNKC",
                 "key" : "manufacturerId"
               },
               {
@@ -1007,7 +1007,7 @@
           "payload" : {
             "localIdentifiers" : [
               {
-                "value" : "BPNL00000003AXS3",
+                "value" : "BPNL00000003CNKC",
                 "key" : "manufacturerId"
               },
               {
@@ -1045,7 +1045,7 @@
                   "measurementUnit" : "unit:litre"
                 },
                 "hasAlternatives" : true,
-                "businessPartner" : "BPNL00000003AXS3",
+                "businessPartner" : "BPNL00000003CNKC",
                 "createdOn" : "2022-02-03T14:48:54.709Z",
                 "lastModifiedOn" : "2022-02-03T14:48:54.709Z"
               }
@@ -1058,7 +1058,7 @@
             "catenaXId" : "urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f",
             "customers" : [
               {
-                "businessPartner" : "BPNL00000003AXS3",
+                "businessPartner" : "BPNL00000003CNKC",
                 "parentItems" : [],
                 "createdOn" : "2022-02-03T14:48:54.709Z",
                 "lastModifiedOn" : "2022-02-03T14:48:54.709Z"
@@ -1066,6 +1066,13 @@
             ]
           }
         }
+      ]
+    },
+    {
+      "assetMetaInfo" : {
+        "catenaXId" : "urn:uuid:e3b2f5e2-5be5-4ea6-98f0-6876de0fcb5f"
+      },
+      "submodels" : [
       ]
     }
   ]
