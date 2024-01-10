@@ -36,6 +36,7 @@
   @apply max-w-screen-4xl flex flex-1 flex-col min-w-0 relative;
   gap: 40px;
   margin: 0 auto;
+
   &__box-modal {
     @apply min-w-0;
     flex: 1 0;
@@ -48,4 +49,13 @@
   top: 8%;
   right: 0;
   z-index: 120;
+}
+
+.layout-header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 99;
+  box-shadow: 0px 15px 25px 0px #3333330D, -10px -10px 15px 0px #FFFFFF1A, 0px 0px 25px 0px #33333308;
 }
