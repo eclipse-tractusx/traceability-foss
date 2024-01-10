@@ -159,6 +159,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public onAsPlannedTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
+    this.setTableSortingList(sorting, MainAspectType.AS_PLANNED);
 
     let pageSizeValue = this.DEFAULT_PAGE_SIZE;
     if (pageSize !== 0) {
