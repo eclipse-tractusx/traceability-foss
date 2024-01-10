@@ -86,8 +86,12 @@ public class MainAspectAsBuiltStrategy implements MappingStrategy {
 
         final AtomicReference<String> semanticModelId = new AtomicReference<>();
         final AtomicReference<org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel> semanticDataModel = new AtomicReference<>();
-        ArrayList<DetailAspectModel> detailAspectModels = new ArrayList<>();
         final AtomicReference<String> manufacturerId = new AtomicReference<>();
+
+        List<DetailAspectModel> detailAspectModels = new ArrayList<>();
+        DetailAspectModel asBuiltDetailAspect = extractDetailAspectModelsAsBuilt(asBuiltAspect.manufacturingInformation(), asBuiltAspect.partTypeInformation());
+        detailAspectModels.add(asBuiltDetailAspect);
+
         asBuiltAspect.localIdentifiers().stream().filter(localIdentifier -> localIdentifier.key().equals("partInstanceId")).findFirst().ifPresent(s -> {
             semanticModelId.set(s.value());
             semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.SERIALPART);

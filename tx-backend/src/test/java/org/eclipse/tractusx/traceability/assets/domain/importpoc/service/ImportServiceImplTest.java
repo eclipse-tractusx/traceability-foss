@@ -61,7 +61,6 @@ class ImportServiceImplTest {
     public void testSetup(){
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
-
         importService = new ImportServiceImpl(objectMapper, assetAsPlannedRepository, assetAsBuiltRepository, traceabilityProperties, new MappingStrategyFactory());
 
     }
