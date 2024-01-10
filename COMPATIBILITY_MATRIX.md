@@ -19,9 +19,9 @@
 | Helm         | irs-helm                      | 6.9.1               | -    | Helm charts for Item Relationship Service           |
 | EDC          | tractusx-connector            | 0.5.3               | -    | Connector for Data Transfer and Registration        |
 | EDC          | discovery service             | 0.1.0               | -    | Service for discovering and registering artifacts   |
-| Portal       | portal                        | ?                   | ?    | Web portal for interacting with Trace-X             |
-| SD-Factory   | SD-Factory                    | ?                   | ?    | Service Discovery Factory for managing dependencies |
-| Wallet       | wallet                        | ?                   | ?    | Secure storage for sensitive information            |
+| Portal       | portal                        | 1.7.0               | -    | Web portal for interacting with Trace-X             |
+| SD-Factory   | SD-Factory                    | 2.1.8               | -    | Service Discovery Factory for managing dependencies |
+| Wallet       | wallet                        | 0.3.0               | -    | Secure storage for sensitive information            |
 | Aspect Model | SerialPart                    | 1.0.0, 1.0.1, 1.1.0 | -    |                                                     |
 | Aspect Model | Batch                         | 1.0.0, 1.0.2, 2.0.0 | -    |                                                     |
 | Aspect Model | PartAsPlanned                 | 1.0.0, 1.0.1        | -    |                                                     |
