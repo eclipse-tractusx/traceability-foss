@@ -23,39 +23,67 @@ import { Injectable } from '@angular/core';
 import { ApiService } from '@core/api/api.service';
 import { environment } from '@env';
 import { AdminAssembler } from '@page/admin/core/admin.assembler';
-import { BpnConfig, BpnConfigResponse} from '@page/admin/core/admin.model';
-import { Observable } from 'rxjs';
+import { BpnConfig, BpnConfigResponse } from '@page/admin/core/admin.model';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable()
 export class AdminService {
-  private readonly url = environment.apiUrl;
+    private readonly url = environment.apiUrl;
+    private readonly STATIC_IMPORT_RESPONSE_SUCCESS = [
+        {
+            "catenaXId": "123",
+            "importState": "TRANSIENT",
+            "importSuccessful": true
+        },
+        {
+            "catenaXId": "2345",
+            "importState": "PERSISTENT",
+            "importSuccessful": false
+        },
+        {
+            "catenaXId": "333",
+            "importState": "PERSISTENT",
+            "importSuccessful": true
+        },
+    ]
 
-  constructor(private readonly apiService: ApiService) {
-  }
+    private readonly STATIC_IMPORT_RESPONSE_VALIDATION_ERROR = [
+
+        {
+            "validationResponse": [
+                "failure reason 1", "failure reason 2"
+            ]
+        }
+    ]
 
 
-  public createBpnFallbackConfig(bpnConfig: BpnConfig[]): Observable<BpnConfig[]> {
-    return this.apiService.post<BpnConfig[]>(`${ this.url }/bpn-config`, bpnConfig);
-  }
+    constructor(private readonly apiService: ApiService) {
+    }
 
-  public readBpnFallbackConfig(): Observable<BpnConfig[]> {
-    return this.apiService
-      .get<BpnConfigResponse[]>(`${ this.url }/bpn-config`)
-      .pipe(map(data => AdminAssembler.assembleBpnConfig(data)));
-  }
 
-  public updateBpnFallbackConfig(bpnConfig: BpnConfig[]): Observable<BpnConfig[]> {
-    return this.apiService.put<BpnConfig[]>(`${ this.url }/bpn-config`, bpnConfig);
-  }
+    public createBpnFallbackConfig(bpnConfig: BpnConfig[]): Observable<BpnConfig[]> {
+        return this.apiService.post<BpnConfig[]>(`${this.url}/bpn-config`, bpnConfig);
+    }
 
-  public deleteBpnFallbackConfig(bpn: string): Observable<void> {
-    return this.apiService.delete<void>(`${ this.url }/bpn-config/${ bpn }`);
-  }
+    public readBpnFallbackConfig(): Observable<BpnConfig[]> {
+        return this.apiService
+            .get<BpnConfigResponse[]>(`${this.url}/bpn-config`)
+            .pipe(map(data => AdminAssembler.assembleBpnConfig(data)));
+    }
 
-  public postJsonFile(file: File): Observable<void>{
-    const formData = new FormData();
-    formData.append('file', file);
-    return this.apiService.postFile(`${ this.url }/assets/import`, formData);
-  }
+    public updateBpnFallbackConfig(bpnConfig: BpnConfig[]): Observable<BpnConfig[]> {
+        return this.apiService.put<BpnConfig[]>(`${this.url}/bpn-config`, bpnConfig);
+    }
+
+    public deleteBpnFallbackConfig(bpn: string): Observable<void> {
+        return this.apiService.delete<void>(`${this.url}/bpn-config/${bpn}`);
+    }
+
+    public postJsonFile(file: File): Observable<any> {
+        const formData = new FormData();
+        formData.append('file', file);
+        return of(this.STATIC_IMPORT_RESPONSE_SUCCESS)// this.apiService.postFile(`${this.url}/assets/import`, formData);
+    }
+
 }

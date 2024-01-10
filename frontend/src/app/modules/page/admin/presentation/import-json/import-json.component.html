@@ -18,30 +18,52 @@ SPDX-License-Identifier: Apache-2.0
 -->
 
 <mat-card>
-  <mat-card-header>
-    <mat-card-title
-    ><h3>{{ 'pageAdmin.importJson.title' | i18n }}</h3></mat-card-title
-    >
-  </mat-card-header>
-  <mat-card-content>
-    <div class="import-json">
-      <div class="file-container_drag_and_drop" *ngIf="!shouldShowFileContainer_upload_file(file)">
-       <mat-icon>upload</mat-icon>
-       <input type="file" (change)="getFile($event)" class="file" />
-        <h4>{{ 'pageAdmin.importJson.Drag_and_Drop' | i18n }}</h4>
-       <p class="or">{{ 'pageAdmin.importJson.or' | i18n }}</p>
-       <div class="text-box">
-         <p class="text-box-p">{{ 'pageAdmin.importJson.browseFiles' | i18n }}</p>
-       </div>
-       <p class="error-message" *ngIf=" showError">{{ 'pageAdmin.importJson.error' | i18n }}</p>
-     </div>
+    <mat-card-header>
+        <mat-card-title
+        ><h3 class="mb-2">{{ 'pageAdmin.importJson.title' | i18n }}</h3></mat-card-title
+        >
+    </mat-card-header>
+    <mat-card-content>
+        <div class="import-container">
+            <ng-container *ngIf="displayUploader">
+            <div class="import-json">
+                <div class="file-container_drag_and_drop" *ngIf="!shouldShowFileContainer_upload_file(file)">
+                    <mat-icon>upload</mat-icon>
+                    <input type="file" (change)="getFile($event)" class="file"/>
+                    <h4>{{ 'pageAdmin.importJson.Drag_and_Drop' | i18n }}</h4>
+                    <p class="or">{{ 'pageAdmin.importJson.or' | i18n }}</p>
+                    <div class="text-box">
+                        <p class="text-box-p">{{ 'pageAdmin.importJson.browseFiles' | i18n }}</p>
+                    </div>
+                    <p class="error-message" *ngIf=" showError">{{ 'pageAdmin.importJson.error' | i18n }}</p>
+                </div>
 
-      <div class="file-container_upload_file" *ngIf="shouldShowFileContainer_upload_file(file)">
-        <mat-icon class="icon_uploadFile">upload_file</mat-icon>
-        <p class="file-name">{{file.name}}</p>
-        <app-button variant="raised" class="custom-button_clear" color="warn" (click)="clearFile()">{{ 'pageAdmin.importJson.clear_file' | i18n }}</app-button>
-        <app-button variant="raised" class="custom-button_upload" color="primary" (click)="uploadFile(file)">{{ 'pageAdmin.importJson.upload_file' | i18n }}</app-button>
-      </div>
-    </div>
-  </mat-card-content>
+                <div class="file-container_upload_file" *ngIf="shouldShowFileContainer_upload_file(file)">
+                    <mat-icon class="icon_uploadFile">upload_file</mat-icon>
+                    <p class="file-name">{{file.name}}</p>
+                    <app-button variant="raised" class="custom-button_clear" color="warn"
+                                (click)="clearFile()">{{ 'pageAdmin.importJson.clear_file' | i18n }}</app-button>
+                    <app-button variant="raised" class="custom-button_upload" color="primary"
+                                (click)="uploadFile(file)">{{ 'pageAdmin.importJson.upload_file' | i18n }}</app-button>
+                </div>
+            </div>
+            </ng-container>
+            <ng-container *ngIf="(importResponse | async).length">
+                <div class="status-container">
+                    <h4 class="pb-2.5">{{ 'pageAdmin.importStatus.importStatus' | i18n }}:</h4>
+                    <div class="status-content pb-0.5">
+                        <ng-container *ngFor="let item of importResponse | async">
+                            <div class="status-label-container">
+                                <span class="font-bold">{{Object.keys(item)}}</span>
+                            </div>
+                            <div class="status-values">
+                                <span>{{Object.values(item)}}</span>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </mat-card-content>
 </mat-card>
+

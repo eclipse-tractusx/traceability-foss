@@ -20,6 +20,7 @@
 import { Component, Input } from '@angular/core';
 import { AdminFacade } from '@page/admin/core/admin.facade';
 import { ToastService } from '@shared/components/toasts/toast.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-import-json',
@@ -30,7 +31,14 @@ export class ImportJsonComponent {
   @Input() showError = false;
   @Input() file: File;
 
+  importResponse = new BehaviorSubject<any>([]);
+  displayUploader: boolean = true;
+
+
+
+
   constructor(private readonly adminFacade: AdminFacade, private readonly toastService: ToastService) {
+    this.importResponse.subscribe(next => console.log(next))
   }
 
   public getFile(event: any) {
@@ -44,7 +52,10 @@ export class ImportJsonComponent {
   }
   public uploadFile(file: File) {
     this.adminFacade.postJsonImport(file).subscribe(response => {
+      console.log(response);
+      this.importResponse.next(response);
       this.toastService.success('pageAdmin.importJson.success');
+      this.displayUploader = false;
     });
   }
 
@@ -65,4 +76,5 @@ export class ImportJsonComponent {
     return null;
   }
 
+  protected readonly Object = Object;
 }

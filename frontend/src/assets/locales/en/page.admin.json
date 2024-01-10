@@ -27,6 +27,9 @@
       "or": "or",
       "browseFiles": "Browse files",
       "success": "Successfully uploaded."
+    },
+    "importStatus": {
+      "importStatus": "Import status"
     }
   }
 }

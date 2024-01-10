@@ -17,6 +17,27 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+.import-container {
+  display: flex;
+  gap: 16px;
+}
+
+.status-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.status-label-container {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.status-values {
+  display: flex;
+  justify-content: space-evenly;
+}
+
 .import-json {
   .file-container_drag_and_drop {
     width: 300px;
