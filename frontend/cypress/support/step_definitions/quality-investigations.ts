@@ -130,51 +130,10 @@ When("open details of created {string}", () => {
 });
 
 
-// --- TBD --- check id, description, status, created, createdby, text
-When("user confirm cancelation of selected {string} with entering {string} id", function(notificationType, input) {
-  let investigationId = '';
-  switch (input) {
-    case 'no': {
-      cy.get('span').contains('Confirm cancellation').click();
-      break;
-    }
-    case 'wrong': {
-      cy.get('#mat-mdc-form-field-label-4').click().focus().type('000');
-      cy.get('span').contains('Confirm cancellation').click();
-      break;
-    }
-    case 'correct': {
-      cy.get('mat-label').invoke('text').as('cancelId');
-      cy.get('@cancelId').then((cancelId) => {
-        cy.get('#mat-input-0').click().type(cancelId);
-      });
-      cy.get('span').contains('Confirm cancellation').click();
-      break;
-    }
-    default: {
-      throw new Error("Set cancelation id '" + input + "' is not one of valid actions [no, wrong, correct].");
-      break;
-    }
-  }
-});
-
-
-Then("cancelation is not possible due to {string} id", function(id) {
-  switch (id) {
-    case 'no': {
-      cy.contains(/This field is required!/i).should('be.visible');
-      break;
-    }
-    case 'wrong': {
-      cy.contains(/Please enter data that matches this pattern:/i).should('be.visible');
-      break;
-    }
-    default: {
-      throw new Error("Set cancelation action '" + id + "' is not one of valid actions [no, wrong].");
-      break;
-    }
-  }
-});
+When("user confirm cancellation of selected {string}", function(notificationType) {
+  cy.get('[class="mdc-dialog__container"]').find('.mdc-checkbox').click();
+  cy.get('span').contains('Confirm cancellation').click();
+};
 
 
 When("user {string} selected {string}", function(action) {
@@ -259,7 +218,7 @@ Then("selected {string} has been {string} as expected", function(notificationTyp
 
 Then("popup for successful {string} has been shown", function(status) {
     switch (status) {
-      case 'cancelation': {
+      case 'cancellation': {
         cy.contains(/.*was canceled successfully./i).should('be.visible');
         break;
       }
@@ -284,7 +243,7 @@ Then("popup for successful {string} has been shown", function(status) {
         break;
       }
       default: {
-        throw new Error("Set expected status '" + status + "' is not one of valid status [cancelation, approval, acceptance, declination, acknowledge, closure].");
+        throw new Error("Set expected status '" + status + "' is not one of valid status [cancellation, approval, acceptance, declination, acknowledge, closure].");
         break;
       }
     }
