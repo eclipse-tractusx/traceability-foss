@@ -47,14 +47,14 @@ SPDX-License-Identifier: Apache-2.0
          matTooltipPosition="above"
          [class.mdc-tooltip--multiline]="true"
          [matTooltipShowDelay]="1000"
-         [matTooltipDisabled]="roleService.hasAccess(['admin'])"
+         [matTooltipDisabled]="roleService.hasAccess(['wip'])"
     >
       <app-button
               *ngIf="(allSelectedItems$ | async).length"
               (click)="isPublisherOpen$.next(true)"
               [variant]="'raised'"
               [color]="'accent'"
-              [isDisabled]="!roleService.hasAccess(['admin'])"
+              [isDisabled]="!roleService.hasAccess(['wip'])"
       >
         <div class="flex justify-between items-center text-dark p-0.5">
           <mat-icon class="mr-2">published_with_changes</mat-icon>
