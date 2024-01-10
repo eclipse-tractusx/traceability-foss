@@ -138,8 +138,8 @@ public class MainAspectAsPlannedStrategy implements MappingStrategy {
 
     public static DetailAspectModel extractDetailAspectModelsAsPlanned(MainAspectAsPlannedRequest.ValidityPeriod validityPeriod) {
         DetailAspectDataAsPlanned detailAspectDataAsPlanned = DetailAspectDataAsPlanned.builder()
-                .validityPeriodFrom(validityPeriod.validFrom())
-                .validityPeriodTo(validityPeriod.validTo())
+                .validityPeriodFrom(OffsetDateTime.parse(validityPeriod.validFrom()))
+                .validityPeriodTo(OffsetDateTime.parse(validityPeriod.validTo()))
                 .build();
         return DetailAspectModel.builder().data(detailAspectDataAsPlanned).type(DetailAspectType.AS_PLANNED).build();
     }
