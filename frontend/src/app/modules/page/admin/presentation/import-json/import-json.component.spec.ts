@@ -18,13 +18,13 @@
  ********************************************************************************/
 
 
-import { AdminModule } from '@page/admin/admin.module';
-import { ImportJsonComponent } from '@page/admin/presentation/import-json/import-json.component';
-import { screen, waitFor } from '@testing-library/angular';
-import { renderComponent } from '@tests/test-render.utils';
+import {AdminModule} from '@page/admin/admin.module';
+import {ImportJsonComponent} from '@page/admin/presentation/import-json/import-json.component';
+import {screen, waitFor} from '@testing-library/angular';
+import {renderComponent} from '@tests/test-render.utils';
 
 describe('ImportJsonComponent', () => {
-  const jsonFileContent = {
+  const dummyJsonFileContent = {
     key1: 'value1',
     key2: 'value2',
     key3: {
@@ -33,14 +33,15 @@ describe('ImportJsonComponent', () => {
     },
   };
 
-  const jsonString = JSON.stringify(jsonFileContent, null, 2);
+  const dummyJsonString = JSON.stringify(dummyJsonFileContent, null, 2);
 
-
-  const createJsonFile = (fileName: string, fileType: string) => {
-    const jsonBlob = new Blob([jsonString], { type: fileType });
-    return new File([jsonBlob], fileName, { type: fileType });
+  const createDummyJsonFile = (fileName: string, fileType: string) => {
+    const dummyJsonBlob = new Blob([dummyJsonString], { type: fileType });
+    return new File([dummyJsonBlob], fileName, { type: fileType });
   };
-  const jsonFile = createJsonFile('example.json', 'application/json');
+
+  const jsonFile = createDummyJsonFile('example.json', 'application/json');
+
   const renderComponentWithJsonFile = async (jsonFile: File, showError: boolean = false) => {
     return renderComponent(ImportJsonComponent, {
       imports: [AdminModule],
@@ -50,7 +51,7 @@ describe('ImportJsonComponent', () => {
 
 
   it('should get the json-file', async () => {
-    const jsonFile = createJsonFile('example.json', 'application/json');
+    const jsonFile = createDummyJsonFile('example.json', 'application/json');
     const { fixture } = await renderComponentWithJsonFile(jsonFile, false);
 
     const { componentInstance } = fixture;
@@ -65,7 +66,7 @@ describe('ImportJsonComponent', () => {
   });
 
   it('should show error Message', async () => {
-    const File = createJsonFile('example.pdf', 'application/pdf');
+    const File = createDummyJsonFile('example.pdf', 'application/pdf');
     const { fixture } = await renderComponentWithJsonFile(File, false);
 
     const { componentInstance } = fixture;
@@ -114,4 +115,62 @@ describe('ImportJsonComponent', () => {
     expect(componentInstance.getFileExtension(jsonFile)).toEqual('json')
 
   })
+
+  it('should return null if file extension is null', async () => {
+
+    const { fixture } = await renderComponentWithJsonFile(jsonFile, false);
+
+    const { componentInstance } = fixture;
+    const extensionResult = componentInstance.getFileExtension(null);
+    expect(extensionResult).toEqual(null)
+  })
+
+  it('should set error variables correctly', async () => {
+    const { fixture } = await renderComponentWithJsonFile(jsonFile, false);
+    const { componentInstance } = fixture;
+
+    const errorResponse = {
+      error: {
+        importStateMessage: ["test message"],
+        validationResult: {
+          validationErrors: ["error1", "error2"]
+        }
+      }
+    }
+
+    componentInstance.setValidationReport(errorResponse);
+
+    expect(componentInstance.errorImportStateMessage).toEqual(errorResponse.error.importStateMessage);
+    expect(componentInstance.errorValidationResult).toEqual(errorResponse.error.validationResult);
+    expect(componentInstance.errorValidationErrors).toEqual(errorResponse.error.validationResult.validationErrors);
+
+  })
+
+  fit('should set asset variables correctly', async () => {
+    const { fixture } = await renderComponentWithJsonFile(jsonFile, false);
+    const { componentInstance } = fixture;
+
+    const assetResponse = {
+      importStateMessage: [
+        { catenaXId: 'id1', persistedOrUpdated: true },
+        { catenaXId: 'id2', persistedOrUpdated: false },
+      ],
+    };
+
+    componentInstance.setAssetReport(assetResponse);
+
+    console.warn(componentInstance.assetResponse)
+    console.warn(componentInstance.assetResponse['importStateMessage'])
+
+    expect(componentInstance.assetResponse).toEqual(assetResponse.importStateMessage);
+    expect(componentInstance.displayUploader).toBeFalsy();
+  });
+
+
+
+
+
+
+
+
 });

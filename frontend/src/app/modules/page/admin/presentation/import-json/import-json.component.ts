@@ -57,21 +57,23 @@ export class ImportJsonComponent {
     this.showError = false;
   }
   public uploadFile(file: File) {
-
     this.adminFacade.postJsonImport(file).subscribe({
-      next: (response) => {
-        this.assetResponse = response['importStateMessage'];
-        this.toastService.success('pageAdmin.importJson.success');
-        this.displayUploader = false;
-      },
-
-      error: (error) => {
-        this.errorResponse = error.error;
-        this.errorImportStateMessage = this.errorResponse['importStateMessage'];
-        this.errorValidationResult = this.errorResponse['validationResult'];
-        this.errorValidationErrors = this.errorValidationResult['validationErrors'];
-      }
+      next: (response) => this.setAssetReport(response),
+      error: (error) => this.setValidationReport(error)
     });
+  }
+
+  setAssetReport(assetResponse: any) {
+    this.assetResponse = assetResponse['importStateMessage'];
+    this.toastService.success('pageAdmin.importJson.success');
+    this.displayUploader = false;
+  }
+
+  setValidationReport(errorResponse: any) {
+    this.errorResponse = errorResponse.error;
+    this.errorImportStateMessage = this.errorResponse['importStateMessage'];
+    this.errorValidationResult = this.errorResponse['validationResult'];
+    this.errorValidationErrors = this.errorValidationResult['validationErrors'];
   }
 
   public clearFile(): void {
