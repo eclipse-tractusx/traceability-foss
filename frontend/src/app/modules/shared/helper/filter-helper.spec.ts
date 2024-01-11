@@ -111,7 +111,7 @@ describe('enrichFilterAndGetUpdatedParams', () => {
     expect(filterList).toContain('id,EQUAL,1,OR')
   })
 
-  fit('should add filters to the filterList when fullFilter is provided', () => {
+  it('should add filters to the filterList when fullFilter is provided', () => {
     // Arrange
     const mockFilter = null; // Provide the necessary filter values if needed
     const mockFullFilter = { test: 'test' };
