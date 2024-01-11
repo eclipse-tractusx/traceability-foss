@@ -6,13 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [UNRELEASED - DD.MM.YYYY]
+
 ### Added
+- Added UI to publish own assets
+
 ### Changed
+- Fixed security findings
+- Fixed deadline overlap issues for Q-investigations in update menu
 ### Removed
 
 ## [10.1.0 - 22.12.2023]
 ### Added
 - Added an option for testdata upload in Argo Workflow
+- Validation for import data
 - GitHub action that ensures an up-to-date CHANGELOG.md
 
 ### Changed

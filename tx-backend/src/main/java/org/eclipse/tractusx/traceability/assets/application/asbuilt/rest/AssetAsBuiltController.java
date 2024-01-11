@@ -420,7 +420,7 @@ public class AssetAsBuiltController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/{assetId}/children/{childId}")
     public AssetAsBuiltResponse asset(@PathVariable String assetId, @PathVariable String childId) {
-        return AssetAsBuiltResponseMapper.from(assetBaseService.getAssetByChildId(assetId, childId));
+        return AssetAsBuiltResponseMapper.from(assetBaseService.getAssetByChildId(childId));
     }
 
     @Operation(operationId = "updateAsset",

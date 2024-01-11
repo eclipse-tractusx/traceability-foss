@@ -901,7 +901,7 @@ npm/npmjs/-/semver/6.3.1, ISC, approved, clearlydefined
 npm/npmjs/-/semver/7.3.8, ISC, approved, clearlydefined
 npm/npmjs/-/semver/7.5.4, ISC, approved, clearlydefined
 npm/npmjs/-/send/0.18.0, MIT, approved, clearlydefined
-npm/npmjs/-/serialize-javascript/6.0.1, BSD-3-Clause, approved, clearlydefined
+npm/npmjs/-/serialize-javascript/6.0.1, BSD-3-Clause, approved, #12680
 npm/npmjs/-/serve-index/1.9.1, MIT, approved, clearlydefined
 npm/npmjs/-/serve-static/1.15.0, MIT, approved, clearlydefined
 npm/npmjs/-/set-blocking/2.0.0, ISC, approved, #5899
