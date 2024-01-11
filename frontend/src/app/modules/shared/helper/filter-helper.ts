@@ -16,14 +16,14 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import { HttpParams } from '@angular/common/http';
+import {HttpParams} from '@angular/common/http';
 import {
   AssetAsBuiltFilter,
   AssetAsPlannedFilter,
   FilterOperator,
   getFilterOperatorValue,
 } from '@page/parts/model/parts.model';
-import { NotificationFilter } from '../../../mocks/services/investigations-mock/investigations.model';
+import {NotificationFilter} from '../../../mocks/services/investigations-mock/investigations.model';
 
 export const DATE_FILTER_KEYS = [ 'manufacturingDate', 'functionValidFrom', 'functionValidUntil', 'validityPeriodFrom', 'validityPeriodTo', 'createdDate', 'targetDate' ];
 
@@ -151,6 +151,24 @@ export function enrichDeeplinkFilterAndGetUpdatedParams(filter: any, httpParams:
 
 }
 
+export function enrichDeeplinkFilterAndGetUpdatedFilter(filter: any): string[] {
+  console.log("inputFilter", filter);
+  let filterList: string[] = [];
+  if (filter?.notificationIds) {
+
+    if(Array.isArray(filter.notificationIds)) {
+      filter.notificationIds.forEach(notificationId => {
+        filterList.push('id,EQUAL,' + notificationId + ',OR');
+      });
+    } else {
+      filterList.push('id,EQUAL,' + filter.notificationIds + ',OR');
+    }
+
+  }
+  return filterList;
+
+}
+
 
 export function toGlobalSearchAssetFilter(formValues: string, isAsBuilt: boolean) {
   let filter;
@@ -174,17 +192,22 @@ export function toGlobalSearchAssetFilter(formValues: string, isAsBuilt: boolean
   return filter;
 }
 
-export function provideFilterForNotifications(sort: any, params: HttpParams, filter?: NotificationFilter, fullFilter?: any): HttpParams {
-  sort.forEach(sortingItem => {
-    params = params.append('sort', sortingItem);
-  });
+export function provideFilterListForNotifications( filter?: NotificationFilter, fullFilter?: any): string[] {
+  let filterList: string[] = [];
 
   if (filter && !fullFilter) {
-    params = enrichDeeplinkFilterAndGetUpdatedParams(filter, params);
+    filterList = enrichDeeplinkFilterAndGetUpdatedFilter(filter);
   }
 
   if (!filter && fullFilter) {
-    params = enrichFilterAndGetUpdatedParams(fullFilter, params, 'AND');
+    let params: HttpParams;
+    params = enrichFilterAndGetUpdatedParams(fullFilter, new HttpParams(), 'AND');
+    let filterParams = params.getAll('filter');
+    if(filterParams){
+      filterParams.forEach(filter => {filterList.push(filter)});
+    }
+
   }
-  return params;
+
+  return filterList;
 }
