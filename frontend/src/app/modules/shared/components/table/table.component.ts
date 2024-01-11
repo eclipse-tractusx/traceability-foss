@@ -248,6 +248,10 @@ export class TableComponent {
   }
 
   private setupTableViewSettings() {
+    if (!this.tableViewConfig) {
+      return;
+    }
+
     if (!this.tableType && this.tableViewConfig) {
       this.setupTableConfigurations(
         this.tableViewConfig.displayedColumnsForTable,
@@ -307,10 +311,10 @@ export class TableComponent {
 
   private createSettingsList(): any {
     return {
-      columnsForDialog: this.tableViewConfig.displayedColumnsForTable,
+      columnsForDialog: this.tableViewConfig?.displayedColumnsForTable,
       columnSettingsOptions: this.getDefaultColumnVisibilityMap(),
-      columnsForTable: this.tableViewConfig.displayedColumnsForTable,
-      filterColumnsForTable: this.tableViewConfig.displayedColumns,
+      columnsForTable: this.tableViewConfig?.displayedColumnsForTable,
+      filterColumnsForTable: this.tableViewConfig?.displayedColumns,
     };
   }
 
@@ -344,9 +348,12 @@ export class TableComponent {
 
   private getDefaultColumnVisibilityMap(): Map<string, boolean> {
     const initialColumnMap = new Map<string, boolean>();
-    for (const column of this.tableViewConfig.displayedColumnsForTable) {
-      initialColumnMap.set(column, true);
+    if (this.tableViewConfig) {
+      for (const column of this.tableViewConfig.displayedColumnsForTable) {
+        initialColumnMap.set(column, true);
+      }
     }
+
     return initialColumnMap;
   }
 
