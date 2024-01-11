@@ -1,0 +1,26 @@
+= Concept for Trace-X Data Import interface (Data Provider)
+
+Modul 1
+
+Modul 2
+[plantuml, target=modul2-sequence, format=svg]
+....
+include::../../../uml-diagrams/arc42/trace-x-data-import-interface/trace-x-data-import-interface-modul2-sequence.puml[]
+....
+
+[plantuml, target=modul2-swimlane, format=svg]
+....
+include::../../../uml-diagrams/arc42/trace-x-data-import-interface/trace-x-data-import-interface-modul2-swimlane.puml[]
+....
+
+Modul 3
+[plantuml, target=modul3-sequence, format=svg]
+....
+include::../../../uml-diagrams/arc42/trace-x-data-import-interface/trace-x-data-import-interface-modul3-sequence.puml[]
+....
+
+[plantuml, target=modul3-swimlane, format=svg]
+....
+include::../../../uml-diagrams/arc42/trace-x-data-import-interface/trace-x-data-import-interface-modul3-swimlane.puml[]
+....
+
