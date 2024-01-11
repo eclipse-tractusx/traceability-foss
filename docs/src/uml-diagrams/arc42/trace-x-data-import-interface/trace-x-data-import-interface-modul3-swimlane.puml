@@ -1,0 +1,33 @@
+@startuml
+|BE|
+start
+:receive list of IN_SYNC_assets;
+:create asset in EDC;
+-> POST/create/asset;
+|#AntiqueWhite|EDC|
+:create EDC asset;
+|BE|
+:create policy in EDC;
+-> POST/create/policy;
+|#AntiqueWhite|EDC|
+:create policy;
+|BE|
+:create contract in EDC;
+-> POST/create/contract;
+|#AntiqueWhite|EDC|
+:create contract;
+|BE|
+:create submodel;
+-> POST/submodel;
+|#Lavender|Submodel|
+:create submodel;
+|BE|
+:register shell in registry;
+|#Mistyrose|Registry|
+:register shell;
+-> POST/semantic/registry;
+|BE|
+:update asset state PUBLISHED_TO_CX;
+:trigger IRS sync;
+stop
+@enduml
