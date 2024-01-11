@@ -23,6 +23,7 @@ import { DatePipe, TitleCasePipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { RouterModule } from '@angular/router';
+import { AssetPublisherComponent } from '@shared/components/asset-publisher/asset-publisher.component';
 import { BomLifecycleActivatorComponent } from '@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.component';
 import { CardMetricComponent } from '@shared/components/card-metric/card-metric.component';
 import { CountryFlagGeneratorComponent } from '@shared/components/country-flag-generator/country-flag-generator.component';
@@ -125,6 +126,7 @@ import { TemplateModule } from './template.module';
     TableSettingsComponent,
     AbbreviateNumberPipe,
     CardMetricComponent,
+    AssetPublisherComponent
   ],
   imports: [ TemplateModule, RouterModule, I18NextModule ],
   exports: [
@@ -173,6 +175,7 @@ import { TemplateModule } from './template.module';
     CountryFlagGeneratorComponent,
     AbbreviateNumberPipe,
     CardMetricComponent,
+    AssetPublisherComponent
   ],
   providers: [
     FormatDatePipe,

@@ -12,6 +12,7 @@
     "alerts": "Quality alerts",
     "adminRegistry": "Registry lookups",
     "adminBpn": "BPN - EDC configuration",
+    "adminImport": "Data provisioning",
     "unauthorized": "Functionality is disabled because of missing role. Ask your administrator to provide the required role for the functionality."
   },
   "pageTitle": {
@@ -49,7 +50,15 @@
     "remove": "Remove",
     "delete": "Delete",
     "goToQueue": "Go to Queue",
-    "goBack": "Back"
+    "goBack": "Back",
+    "publishAssets": "Publish assets"
+  },
+  "publisher": {
+    "selectedAssets": "Assets selected",
+    "policyToApply": "Policy to apply",
+    "selectPolicyLabel": "Select Policy",
+    "selectPolicyError": "Please select one policy",
+    "publish": "Publish"
   },
   "table": {
     "noResultFound": "NO RESULTS FOUND.",
