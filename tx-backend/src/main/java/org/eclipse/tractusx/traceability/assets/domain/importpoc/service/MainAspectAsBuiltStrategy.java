@@ -37,6 +37,7 @@ import org.eclipse.tractusx.traceability.common.properties.TraceabilityPropertie
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -71,7 +72,11 @@ public class MainAspectAsBuiltStrategy implements MappingStrategy {
                 .map(GenericSubmodel::getPayload)
                 .filter(SingleLevelBomAsBuiltRequest.class::isInstance)
                 .map(SingleLevelBomAsBuiltRequest.class::cast)
-                .map(singleLevelBomAsBuiltRequest -> new Descriptions(singleLevelBomAsBuiltRequest.catenaXId(), null))
+                .findFirst()
+                .map(SingleLevelBomAsBuiltRequest::childItems)
+                .orElse(Collections.emptyList())
+                .stream()
+                .map(childItem -> new Descriptions(childItem.catenaXId(), null))
                 .toList();
 
 
@@ -80,8 +85,12 @@ public class MainAspectAsBuiltStrategy implements MappingStrategy {
                 .map(GenericSubmodel::getPayload)
                 .filter(SingleLevelUsageAsBuiltRequest.class::isInstance)
                 .map(SingleLevelUsageAsBuiltRequest.class::cast)
-                .map(singleLevelUsageAsBuiltRequest -> new Descriptions(singleLevelUsageAsBuiltRequest.catenaXId(), null))
-                .toList();
+                .findFirst()
+                .map(SingleLevelUsageAsBuiltRequest::customers)
+                .orElse(Collections.emptyList())
+                .stream()
+                .map(SingleLevelUsageAsBuiltRequest.Customer::parentItems)
+                .flatMap(parentItems -> parentItems.stream().map(parentItem -> new Descriptions(parentItem.catenaXId(), null))).toList();
 
 
         final AtomicReference<String> semanticModelId = new AtomicReference<>();
