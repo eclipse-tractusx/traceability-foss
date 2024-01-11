@@ -34,16 +34,11 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.common.repository.CriteriaUtility;
-import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
 
 import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component
@@ -107,15 +102,14 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
                 .toList();
     }
 
-    // TODO make sure this will update based on the import strategy and updated import note and state based on it
     @Override
     @Transactional
     public List<AssetBase> saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(List<AssetBase> assets) {
 
-        List<AssetAsBuiltEntity> toPersist =  assets.stream().map(assetToPersist -> new AbstractMap.SimpleEntry<AssetBase, AssetBaseEntity>(assetToPersist, jpaAssetAsBuiltRepository.findById(assetToPersist.getId()).orElse(null)))
+        List<AssetAsBuiltEntity> toPersist = assets.stream().map(assetToPersist -> new AbstractMap.SimpleEntry<AssetBase, AssetBaseEntity>(assetToPersist, jpaAssetAsBuiltRepository.findById(assetToPersist.getId()).orElse(null)))
                 .filter(this::entityIsTransientOrNotExistent)
                 .map(entry -> {
-                    if(entry.getValue() != null) {
+                    if (entry.getValue() != null) {
                         entry.getKey().setImportNote(ImportNote.TRANSIENT_UPDATED);
                     }
                     return entry.getKey();
@@ -126,7 +120,7 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
     }
 
     private boolean entityIsTransientOrNotExistent(AbstractMap.SimpleEntry<AssetBase, AssetBaseEntity> assetBaseAssetBaseEntitySimpleEntry) {
-        if(Objects.isNull(assetBaseAssetBaseEntitySimpleEntry.getValue())) {
+        if (Objects.isNull(assetBaseAssetBaseEntitySimpleEntry.getValue())) {
             return true;
         }
         return assetBaseAssetBaseEntitySimpleEntry.getValue().getImportState() == ImportState.TRANSIENT;

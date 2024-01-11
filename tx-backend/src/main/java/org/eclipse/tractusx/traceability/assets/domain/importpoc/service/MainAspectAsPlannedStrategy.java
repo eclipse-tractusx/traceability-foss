@@ -31,6 +31,7 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailA
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportRequest;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.MainAspectAsPlannedRequest;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.PartSiteInformationAsPlannedRequest;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelBomAsBuiltRequest;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelBomAsPlannedRequest;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelUsageAsPlannedRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.GenericSubmodel;
@@ -39,6 +40,7 @@ import org.eclipse.tractusx.traceability.common.properties.TraceabilityPropertie
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
@@ -46,6 +48,7 @@ import static org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.isAsPlannedMainAspect;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.isDownwardRelationshipAsPlanned;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.isPartSiteInformationAsPlanned;
+import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.isUpwardRelationshipAsBuilt;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.isUpwardRelationshipAsPlanned;
 
 
@@ -76,8 +79,13 @@ public class MainAspectAsPlannedStrategy implements MappingStrategy {
                 .map(GenericSubmodel::getPayload)
                 .filter(SingleLevelBomAsPlannedRequest.class::isInstance)
                 .map(SingleLevelBomAsPlannedRequest.class::cast)
-                .map(singleLevelBomAsPlannedRequest -> new Descriptions(singleLevelBomAsPlannedRequest.catenaXId(), null))
+                .findFirst()
+                .map(SingleLevelBomAsPlannedRequest::childItems)
+                .orElse(Collections.emptyList())
+                .stream()
+                .map(childItem -> new Descriptions(childItem.catenaXId(), null))
                 .toList();
+
 
 
         List<Descriptions> childRelations = submodels.stream()
@@ -85,7 +93,11 @@ public class MainAspectAsPlannedStrategy implements MappingStrategy {
                 .map(GenericSubmodel::getPayload)
                 .filter(SingleLevelUsageAsPlannedRequest.class::isInstance)
                 .map(SingleLevelUsageAsPlannedRequest.class::cast)
-                .map(singleLevelUsageAsPlannedRequest -> new Descriptions(singleLevelUsageAsPlannedRequest.catenaXId(), null))
+                .findFirst()
+                .map(SingleLevelUsageAsPlannedRequest::parentParts)
+                .orElse(Collections.emptyList())
+                .stream()
+                .map(parentPart -> new Descriptions(parentPart.parentCatenaXId(), null))
                 .toList();
 
         List<DetailAspectModel> detailAspectModels = new ArrayList<>();

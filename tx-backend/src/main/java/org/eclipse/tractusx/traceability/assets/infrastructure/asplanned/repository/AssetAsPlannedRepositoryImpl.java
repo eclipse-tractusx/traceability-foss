@@ -102,8 +102,6 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository {
         return AssetAsPlannedEntity.toDomainList(jpaAssetAsPlannedRepository.saveAll(AssetAsPlannedEntity.fromList(assets)));
     }
 
-    // TODO make sure this will update based on the import strategy and updated import note and state based on it
-
     @Override
     @Transactional
     public List<AssetBase> saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(List<AssetBase> assets) {

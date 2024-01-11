@@ -119,6 +119,8 @@ public class AssetAsBuiltViewEntity extends AssetBaseEntity {
                 .qualityType(this.getQualityType())
                 .van(this.getVan())
                 .classification(this.getClassification())
+                .importNote(this.getImportNote())
+                .importState(this.getImportState())
                 .detailAspectModels(DetailAspectModel.from(this))
                 .sentQualityAlerts(emptyIfNull(this.alerts).stream().filter(alert -> NotificationSideBaseEntity.SENDER.equals(alert.getSide())).map(AlertEntity::toDomain).toList())
                 .receivedQualityAlerts(emptyIfNull(this.alerts).stream().filter(alert -> NotificationSideBaseEntity.RECEIVER.equals(alert.getSide())).map(AlertEntity::toDomain).toList())
