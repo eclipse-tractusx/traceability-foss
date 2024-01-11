@@ -141,7 +141,7 @@
               }
             ],
             "manufacturingInformation" : {
-              "date" : "2022-02-04T14:48:54",
+              "date" : "2022-02-04T14:48:54.000Z",
               "country" : "DEU"
             },
             "catenaXId" : "urn:uuid:4e390dab-707f-446e-bfbe-653f6f5b1f37",
@@ -262,7 +262,7 @@
               }
             ],
             "manufacturingInformation" : {
-              "date" : "2022-02-04T14:48:54",
+              "date" : "2022-02-04T14:48:54.000Z",
               "country" : "DEU"
             },
             "catenaXId" : "urn:uuid:4a5e9ff6-2d5c-4510-a90e-d55af3ba502f",
@@ -324,7 +324,7 @@
               }
             ],
             "manufacturingInformation" : {
-              "date" : "2022-02-04T14:48:54",
+              "date" : "2022-02-04T14:48:54.000Z",
               "country" : "DEU"
             },
             "catenaXId" : "urn:uuid:6ec3f1db-2798-454b-a73f-0d21a8966c74",
@@ -386,7 +386,7 @@
               }
             ],
             "manufacturingInformation" : {
-              "date" : "2022-02-04T14:48:54",
+              "date" : "2022-02-04T14:48:54.000Z",
               "country" : "DEU"
             },
             "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa01",
@@ -422,7 +422,7 @@
               }
             ],
             "manufacturingInformation" : {
-              "date" : "2022-02-04T14:48:54",
+              "date" : "2022-02-04T14:48:54.000Z",
               "country" : "DEU"
             },
             "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa02",
@@ -477,7 +477,7 @@
               }
             ],
             "manufacturingInformation" : {
-              "date" : "2022-02-04T14:48:54",
+              "date" : "2022-02-04T14:48:54.000Z",
               "country" : "DEU"
             },
             "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa03",
@@ -591,7 +591,7 @@
               }
             ],
             "manufacturingInformation" : {
-              "date" : "2022-02-04T14:48:54",
+              "date" : "2022-02-04T14:48:54.000Z",
               "country" : "HUN"
             },
             "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e43842",
@@ -954,7 +954,7 @@
               }
             ],
             "manufacturingInformation" : {
-              "date" : "2022-02-04T14:48:54",
+              "date" : "2022-02-04T14:48:54.000Z",
               "country" : "DEU"
             },
             "catenaXId" : "urn:uuid:44347dec-21d1-47aa-b2a7-f959bf9d424b",
@@ -1029,7 +1029,7 @@
               }
             ],
             "manufacturingInformation" : {
-              "date" : "2022-02-04T14:48:54",
+              "date" : "2022-02-04T14:48:54.000Z",
               "country" : "DEU"
             },
             "catenaXId" : "urn:uuid:1233b405-5ac8-4867-93f8-6fdf37733737",
@@ -1080,7 +1080,7 @@
               }
             ],
             "manufacturingInformation" : {
-              "date" : "2022-02-04T14:48:54",
+              "date" : "2022-02-04T14:48:54.000Z",
               "country" : "DEU"
             },
             "catenaXId" : "urn:uuid:bcfae197-40fa-4be0-821d-5c1873a1b7c2",
@@ -1103,7 +1103,7 @@
               }
             ],
             "manufacturingInformation" : {
-              "date" : "2022-02-04T14:48:54",
+              "date" : "2022-02-04T14:48:54.000Z",
               "country" : "HUN"
             },
             "catenaXId" : "urn:uuid:bcfae197-40fa-4be0-821d-5c1873a1b7c2",
@@ -1141,7 +1141,7 @@
               }
             ],
             "manufacturingInformation" : {
-              "date" : "2022-02-04T14:48:54",
+              "date" : "2022-02-04T14:48:54.000Z",
               "country" : "DEU"
             },
             "catenaXId" : "urn:uuid:254604ab-2153-45fb-8cad-54ef09f4070e",
@@ -1208,7 +1208,7 @@
               }
             ],
             "manufacturingInformation" : {
-              "date" : "2022-02-04T14:48:54",
+              "date" : "2022-02-04T14:48:54.000Z",
               "country" : "HUN"
             },
             "catenaXId" : "urn:uuid:e3b2f5e2-5be5-4ea6-98f0-6876de0fca4f",
