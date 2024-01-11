@@ -96,6 +96,7 @@ public class MainAspectAsBuiltStrategy implements MappingStrategy {
         final AtomicReference<String> semanticModelId = new AtomicReference<>();
         final AtomicReference<org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel> semanticDataModel = new AtomicReference<>();
         final AtomicReference<String> manufacturerId = new AtomicReference<>();
+        final AtomicReference<String> van = new AtomicReference<>();
 
         List<DetailAspectModel> detailAspectModels = new ArrayList<>();
         DetailAspectModel asBuiltDetailAspect = extractDetailAspectModelsAsBuilt(asBuiltAspect.manufacturingInformation(), asBuiltAspect.partTypeInformation());
@@ -115,6 +116,10 @@ public class MainAspectAsBuiltStrategy implements MappingStrategy {
         asBuiltAspect.localIdentifiers().stream().filter(localId -> localId.key().equals("jisNumber")).findFirst().ifPresent(s -> {
             semanticModelId.set(s.value());
             semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.JUSTINSEQUENCE);
+        });
+
+        asBuiltAspect.localIdentifiers().stream().filter(localId -> localId.key().equals("van")).findFirst().ifPresent(s -> {
+            van.set(s.value());
         });
 
         asBuiltAspect.localIdentifiers().stream().filter(localId -> localId.key().equals("manufacturerId")).findFirst().ifPresent(s -> manufacturerId.set(s.value()));
@@ -141,6 +146,7 @@ public class MainAspectAsBuiltStrategy implements MappingStrategy {
                 .semanticDataModel(semanticDataModel.get())
                 .importState(ImportState.TRANSIENT)
                 .importNote(ImportNote.TRANSIENT_CREATED)
+                .van(van.get())
                 .build();
     }
 

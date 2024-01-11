@@ -145,6 +145,10 @@ jobs:
         run: |
           echo "### inputs" >> $GITHUB_STEP_SUMMARY
           echo "- environment: ${{ github.event.inputs.environment }}" >> $GITHUB_STEP_SUMMARY
+          echo "- test data version: ${{ github.event.inputs.testdata_version }}" >> $GITHUB_STEP_SUMMARY
+          echo "- do hard refresh: ${{ github.event.inputs.hard_refresh }}" >> $GITHUB_STEP_SUMMARY
+          echo "- upload test data: ${{ github.event.inputs.testdata_upload }}" >> $GITHUB_STEP_SUMMARY
+          echo "- reload registry: ${{ github.event.inputs.trigger_registry_reload }}" >> $GITHUB_STEP_SUMMARY
 
 
   hard_refresh_environment:

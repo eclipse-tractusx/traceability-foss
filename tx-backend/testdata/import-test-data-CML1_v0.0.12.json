@@ -655,7 +655,7 @@
             "sites" : [
               {
                 "functionValidUntil" : "2027-05-23T09:16:30.000Z",
-                "catenaXsiteId" : "BPNS000004711DMY",
+                "catenaXSiteId" : "BPNS000004711DMY",
                 "function" : "production",
                 "functionValidFrom" : "2013-11-17T23:59:54.000Z"
               }
@@ -713,7 +713,7 @@
             "sites" : [
               {
                 "functionValidUntil" : "2031-11-21T03:24:27.000Z",
-                "catenaXsiteId" : "BPNS000004711DMY",
+                "catenaXSiteId" : "BPNS000004711DMY",
                 "function" : "production",
                 "functionValidFrom" : "2020-06-07T07:30:47.000Z"
               }
@@ -749,7 +749,7 @@
             "sites" : [
               {
                 "functionValidUntil" : "2025-03-05T00:33:55.000Z",
-                "catenaXsiteId" : "BPNS00000003B0Q0",
+                "catenaXSiteId" : "BPNS00000003B0Q0",
                 "function" : "production",
                 "functionValidFrom" : "2019-09-10T14:41:50.000Z"
               }
@@ -785,7 +785,7 @@
             "sites" : [
               {
                 "functionValidUntil" : "2031-04-16T11:07:09.000Z",
-                "catenaXsiteId" : "BPNS00000003B3NX",
+                "catenaXSiteId" : "BPNS00000003B3NX",
                 "function" : "production",
                 "functionValidFrom" : "2013-12-07T09:33:50.000Z"
               }
@@ -828,7 +828,7 @@
             "sites" : [
               {
                 "functionValidUntil" : "2030-01-29T19:43:54.000Z",
-                "catenaXsiteId" : "BPNS00000003B0Q0",
+                "catenaXSiteId" : "BPNS00000003B0Q0",
                 "function" : "production",
                 "functionValidFrom" : "2015-11-17T18:35:23.000Z"
               }
@@ -864,7 +864,7 @@
             "sites" : [
               {
                 "functionValidUntil" : "2032-01-21T11:22:57.000Z",
-                "catenaXsiteId" : "BPNS00000003AXS3",
+                "catenaXSiteId" : "BPNS00000003AXS3",
                 "function" : "production",
                 "functionValidFrom" : "2017-05-27T13:54:13.000Z"
               }
@@ -922,7 +922,7 @@
             "sites" : [
               {
                 "functionValidUntil" : "2030-05-16T19:21:46.000Z",
-                "catenaXsiteId" : "BPNS000000815DMY",
+                "catenaXSiteId" : "BPNS000000815DMY",
                 "function" : "production",
                 "functionValidFrom" : "2019-10-17T03:16:09.000Z"
               }

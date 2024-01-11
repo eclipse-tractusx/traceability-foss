@@ -616,7 +616,7 @@
             "sites" : [
               {
                 "functionValidUntil" : "2025-04-04T04:14:11.000Z",
-                "catenaXsiteId" : "BPNS000004711DMY",
+                "catenaXSiteId" : "BPNS000004711DMY",
                 "function" : "production",
                 "functionValidFrom" : "2018-03-24T13:38:32.000Z"
               }
@@ -652,7 +652,7 @@
             "sites" : [
               {
                 "functionValidUntil" : "2028-04-27T13:34:20.000Z",
-                "catenaXsiteId" : "BPNS000004711DMY",
+                "catenaXSiteId" : "BPNS000004711DMY",
                 "function" : "production",
                 "functionValidFrom" : "2017-05-03T09:10:04.000Z"
               }
@@ -710,7 +710,7 @@
             "sites" : [
               {
                 "functionValidUntil" : "2027-05-23T09:16:30.000Z",
-                "catenaXsiteId" : "BPNS000004711DMY",
+                "catenaXSiteId" : "BPNS000004711DMY",
                 "function" : "production",
                 "functionValidFrom" : "2013-11-17T23:59:54.000Z"
               }
@@ -782,7 +782,7 @@
             "sites" : [
               {
                 "functionValidUntil" : "2031-10-27T21:24:04.000Z",
-                "catenaXsiteId" : "BPNS00000003B2OM",
+                "catenaXSiteId" : "BPNS00000003B2OM",
                 "function" : "production",
                 "functionValidFrom" : "2016-01-29T21:44:37.000Z"
               }
@@ -840,7 +840,7 @@
             "sites" : [
               {
                 "functionValidUntil" : "2028-09-29T13:56:09.000Z",
-                "catenaXsiteId" : "BPNS00000003B5MJ",
+                "catenaXSiteId" : "BPNS00000003B5MJ",
                 "function" : "production",
                 "functionValidFrom" : "2017-01-30T12:55:30.000Z"
               }
@@ -876,7 +876,7 @@
             "sites" : [
               {
                 "functionValidUntil" : "2028-02-14T21:42:45.000Z",
-                "catenaXsiteId" : "BPNS00000003B2OM",
+                "catenaXSiteId" : "BPNS00000003B2OM",
                 "function" : "production",
                 "functionValidFrom" : "2015-07-21T06:33:16.000Z"
               }
@@ -1066,13 +1066,6 @@
             ]
           }
         }
-      ]
-    },
-    {
-      "assetMetaInfo" : {
-        "catenaXId" : "urn:uuid:e3b2f5e2-5be5-4ea6-98f0-6876de0fcb5f"
-      },
-      "submodels" : [
       ]
     }
   ]
