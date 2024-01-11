@@ -111,5 +111,22 @@ describe('enrichFilterAndGetUpdatedParams', () => {
     expect(filterList).toContain('id,EQUAL,1,OR')
   })
 
+  fit('should add filters to the filterList when fullFilter is provided', () => {
+    // Arrange
+    const mockFilter = null; // Provide the necessary filter values if needed
+    const mockFullFilter = { test: 'test' };
+
+    const mockHttpParams = jasmine.createSpyObj('HttpParams', ['getAll']);
+    mockHttpParams.getAll.and.returnValue(['filter1', 'filter2']); // Mock the HttpParams getAll method
+
+    //spyOn<any>(window, 'enrichFilterAndGetUpdatedParams').and.returnValue(mockHttpParams);
+
+    // Act
+    const result = provideFilterListForNotifications(mockFilter, mockFullFilter);
+
+    // Assert
+    expect(result).toEqual(['test,STARTS_WITH,test,AND']);
+  });
+
 
 });
