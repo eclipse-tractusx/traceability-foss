@@ -19,7 +19,7 @@
       }
     },
     "importJson": {
-      "title": "Import - Json File",
+      "title": "Trace-X Data import",
       "clear_file": "clear file",
       "upload_file": "upload file",
       "error": "Error: Please select a JSON file.",
@@ -27,6 +27,19 @@
       "or": "or",
       "browseFiles": "Browse files",
       "success": "Successfully uploaded."
+    },
+    "importStatus": {
+      "importStatus": "Import Status",
+      "catenaXId": "Catena-X ID",
+      "status": "State",
+      "imported": "Imported",
+      "skipped": "Skipped",
+      "validationReport": "Validation report",
+      "importStateMessage": "Import state message",
+      "errors": "Error",
+      "description": "Description",
+      "uploadMore": "Upload more",
+      "noImportStateMessage": "No additional information was returned by the server."
     }
   }
 }
