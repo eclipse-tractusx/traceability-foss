@@ -8,10 +8,12 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [UNRELEASED - DD.MM.YYYY]
 
 ### Added
+- Added UI to publish own assets
 
 ### Changed
 - Fixed security findings
 - Fixed deadline overlap issues for Q-investigations in update menu
+- Fixed sorting of asPlanned parts
 - Adjustec cypress tests to new cancellation flow
 ### Removed
 

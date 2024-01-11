@@ -49,7 +49,15 @@
     "remove": "Remove",
     "delete": "Delete",
     "goToQueue": "Go to Queue",
-    "goBack": "Back"
+    "goBack": "Back",
+    "publishAssets": "Publish assets"
+  },
+  "publisher": {
+    "selectedAssets": "Assets selected",
+    "policyToApply": "Policy to apply",
+    "selectPolicyLabel": "Select Policy",
+    "selectPolicyError": "Please select one policy",
+    "publish": "Publish"
   },
   "table": {
     "noResultFound": "NO RESULTS FOUND.",
