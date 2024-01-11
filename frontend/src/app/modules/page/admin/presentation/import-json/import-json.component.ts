@@ -17,9 +17,9 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {Component, Input} from '@angular/core';
-import {AdminFacade} from '@page/admin/core/admin.facade';
-import {ToastService} from '@shared/components/toasts/toast.service';
+import { Component, Input } from '@angular/core';
+import { AdminFacade } from '@page/admin/core/admin.facade';
+import { ToastService } from '@shared/components/toasts/toast.service';
 
 @Component({
   selector: 'app-import-json',
@@ -99,5 +99,4 @@ export class ImportJsonComponent {
     return null;
   }
 
-  protected readonly Object = Object;
 }

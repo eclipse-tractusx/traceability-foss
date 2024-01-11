@@ -19,7 +19,7 @@
       }
     },
     "importJson": {
-      "title": "Import - Json File",
+      "title": "Trace-X Data import",
       "clear_file": "clear file",
       "upload_file": "upload file",
       "error": "Error: Please select a JSON file.",

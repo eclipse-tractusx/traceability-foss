@@ -19,7 +19,7 @@
       }
     },
     "importJson": {
-      "title": "Importieren - Json Datei",
+      "title": "Trace-X Datenimport",
       "clear_file": "Datei löschen",
       "upload_file": "Datei hochladen",
       "error": "Warnung: Bitte benutzen Sie eine Json Datei",

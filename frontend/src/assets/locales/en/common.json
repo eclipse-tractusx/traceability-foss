@@ -12,7 +12,7 @@
     "alerts": "Quality alerts",
     "adminRegistry": "Registry lookups",
     "adminBpn": "BPN - EDC configuration",
-    "adminImport": "Asset import",
+    "adminImport": "Data provisioning",
     "unauthorized": "Functionality is disabled because of missing role. Ask your administrator to provide the required role for the functionality."
   },
   "pageTitle": {
