@@ -92,9 +92,7 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
   }
 
   public ngAfterViewInit(): void {
-    if (!this.investigationDetailFacade.selected?.data) {
-      this.selectedNotificationBasedOnUrl();
-    }
+    this.selectedNotificationBasedOnUrl();
 
     this.subscription = this.selected$
       .pipe(

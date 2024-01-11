@@ -90,9 +90,7 @@ export class AlertDetailComponent implements AfterViewInit, OnDestroy {
   }
 
   public ngAfterViewInit(): void {
-    if (!this.alertDetailFacade.selected?.data) {
-      this.selectedNotificationBasedOnUrl();
-    }
+    this.selectedNotificationBasedOnUrl();
 
     this.subscription = this.selected$
       .pipe(
