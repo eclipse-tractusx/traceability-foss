@@ -16,11 +16,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.assets.domain.importpoc.model;
 
-package org.eclipse.tractusx.traceability.common.response;
-
-import java.util.List;
-
-
-public record ValidationResponse(List<String> validationErrors) {
+public record AssetMetaInfoRequest(String catenaXId) {
 }

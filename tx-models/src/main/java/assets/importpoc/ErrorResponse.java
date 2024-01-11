@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.common.response;
+package assets.importpoc;
 
 import io.swagger.annotations.ApiModelProperty;
 import jakarta.validation.constraints.Pattern;

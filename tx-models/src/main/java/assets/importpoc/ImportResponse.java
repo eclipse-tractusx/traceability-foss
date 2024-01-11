@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,14 +16,20 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.domain.importpoc;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
+package assets.importpoc;
 
 import java.util.List;
 
+public record ImportResponse(
+        List<ImportStateMessage> importStateMessage,
+        ValidationResponse validationResult) {
 
-public record ImportRequest(@JsonProperty("assets") List<AssetWrapperRequest> assetRawRequestList) {
+    public ImportResponse(List<ImportStateMessage> importStateMessages) {
+        this(importStateMessages, ValidationResponse.emptyValidationResult());
+    }
+
+    public ImportResponse(ValidationResponse importStateMessages) {
+        this(List.of(), importStateMessages);
+    }
 }
-
 
