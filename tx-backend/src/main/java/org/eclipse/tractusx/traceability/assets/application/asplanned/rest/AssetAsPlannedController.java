@@ -185,7 +185,7 @@ public class AssetAsPlannedController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("")
-    public PageResult<AssetAsPlannedResponse> assets(OwnPageable pageable, @Valid SearchCriteriaRequestParam filter) {
+    public PageResult<AssetAsPlannedResponse> assets(OwnPageable pageable, SearchCriteriaRequestParam filter) {
         return AssetAsPlannedResponseMapper.from(assetService.getAssets(OwnPageable.toPageable(pageable, fieldMapper), filter.toSearchCriteria(fieldMapper)));
     }
 

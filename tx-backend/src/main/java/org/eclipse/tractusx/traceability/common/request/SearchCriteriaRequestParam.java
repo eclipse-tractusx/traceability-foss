@@ -21,9 +21,10 @@ package org.eclipse.tractusx.traceability.common.request;
 
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.eclipse.tractusx.traceability.common.model.BaseRequestFieldMapper;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaFilter;
@@ -38,10 +39,11 @@ import java.util.List;
 import static java.util.Objects.isNull;
 
 @Data
+@Builder
+@NoArgsConstructor
 @AllArgsConstructor
 public class SearchCriteriaRequestParam {
-    @Size(max = 50, message = "Do not use more than 50 filter query parameters")
-    @ArraySchema(arraySchema = @Schema(description = "Filter Criteria", additionalProperties = Schema.AdditionalPropertiesValue.FALSE, example = "owner,EQUAL,OWN"), maxItems = 50)
+    @ArraySchema(arraySchema = @Schema(description = "Filter Criteria", additionalProperties = Schema.AdditionalPropertiesValue.FALSE, example = "owner,EQUAL,OWN"), maxItems = Integer.MAX_VALUE)
     private List<String> filter;
 
     public SearchCriteria toSearchCriteria(BaseRequestFieldMapper fieldMapper) {

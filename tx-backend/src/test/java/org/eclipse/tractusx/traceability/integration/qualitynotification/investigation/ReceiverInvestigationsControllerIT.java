@@ -21,6 +21,9 @@ package org.eclipse.tractusx.traceability.integration.qualitynotification.invest
 
 import io.restassured.http.ContentType;
 import lombok.val;
+import org.eclipse.tractusx.traceability.common.request.OwnPageable;
+import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
+import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationsSupport;
 import org.hamcrest.Matchers;
@@ -32,6 +35,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import qualitynotification.base.request.UpdateQualityNotificationStatusRequest;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import static io.restassured.RestAssured.given;
@@ -66,11 +70,10 @@ class ReceiverInvestigationsControllerIT extends IntegrationTestSpecification {
         // then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of())))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations")
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
