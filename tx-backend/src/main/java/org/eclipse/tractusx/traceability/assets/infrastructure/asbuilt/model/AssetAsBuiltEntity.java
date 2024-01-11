@@ -25,8 +25,10 @@ import jakarta.persistence.CollectionTable;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,6 +45,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.Semant
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
+import org.eclipse.tractusx.traceability.submodel.infrastructure.model.SubmodelPayloadEntity;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -84,6 +87,9 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
 
     @ManyToMany(mappedBy = "assets")
     private List<AlertEntity> alerts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "assetAsBuilt", fetch = FetchType.EAGER)
+    private List<SubmodelPayloadEntity> submodels;
 
     public static AssetAsBuiltEntity from(AssetBase asset) {
         ManufacturingInfo manufacturingInfo = ManufacturingInfo.from(asset.getDetailAspectModels());

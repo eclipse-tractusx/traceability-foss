@@ -173,7 +173,7 @@ public record JobDetailResponse(
     }
 
     private List<AssetBase> mapToOtherPartsAsPlanned(Map<String, String> shortIds, Owner owner, Map<String, String> bpnMapping) {
-        List<SemanticDataModel> otherParts = semanticDataModels().stream().filter(semanticDataModel -> !isOwnPart(semanticDataModel, jobStatus)).filter(semanticDataModel -> Aspect.isMasterAspect(semanticDataModel.getAspectType())).toList();
+        List<SemanticDataModel> otherParts = semanticDataModels().stream().filter(semanticDataModel -> !isOwnPart(semanticDataModel, jobStatus)).filter(semanticDataModel -> Aspect.isMainAspect(semanticDataModel.getAspectType())).toList();
         List<SemanticDataModel> isPartSiteInformationAsPlanned =
                 semanticDataModels().stream()
                         .filter(semanticDataModel -> !isOwnPart(semanticDataModel, jobStatus))
@@ -204,7 +204,7 @@ public record JobDetailResponse(
         List<SemanticDataModel> ownPartsAsPlanned =
                 semanticDataModels().stream()
                         .filter(semanticDataModel -> isOwnPart(semanticDataModel, jobStatus))
-                        .filter(semanticDataModel -> Aspect.isMasterAspect(semanticDataModel.aspectType())).toList();
+                        .filter(semanticDataModel -> Aspect.isMainAspect(semanticDataModel.aspectType())).toList();
 
         List<SemanticDataModel> isPartSiteInformationAsPlanned =
                 semanticDataModels().stream()
@@ -238,7 +238,7 @@ public record JobDetailResponse(
         return assets;
     }
 
-    private static void addPartSiteInformationAsPlannedToOwnPartsAsPlanned(List<SemanticDataModel> ownPartsAsPlanned, List<SemanticDataModel> partSiteInformationAsPlanned) {
+    public static void addPartSiteInformationAsPlannedToOwnPartsAsPlanned(List<SemanticDataModel> ownPartsAsPlanned, List<SemanticDataModel> partSiteInformationAsPlanned) {
         for (SemanticDataModel semanticDataModel : ownPartsAsPlanned) {
             for (SemanticDataModel partSiteSemanticDataModel : partSiteInformationAsPlanned) {
                 if (semanticDataModel.getCatenaXId().equals(partSiteSemanticDataModel.getCatenaXId())) {
@@ -250,7 +250,7 @@ public record JobDetailResponse(
 
     private List<AssetBase> mapToOwnPartsAsBuilt(Map<String, String> shortIds, Map<String, String> bpnMapping) {
         List<SemanticDataModel> ownParts = semanticDataModels().stream()
-                .filter(semanticDataModel -> Aspect.isMasterAspect(semanticDataModel.getAspectType()))
+                .filter(semanticDataModel -> Aspect.isMainAspect(semanticDataModel.getAspectType()))
                 .filter(semanticDataModel -> isOwnPart(semanticDataModel, jobStatus))
                 .toList();
         log.info(":: mapToOwnPartsAsBuilt()");

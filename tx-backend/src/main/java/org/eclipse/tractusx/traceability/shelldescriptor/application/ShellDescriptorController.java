@@ -26,7 +26,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
+import assets.importpoc.ErrorResponse;
 import org.eclipse.tractusx.traceability.shelldescriptor.application.mapper.ShellDescriptorResponseMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;

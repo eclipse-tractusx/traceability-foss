@@ -28,7 +28,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
+import assets.importpoc.ErrorResponse;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractResponse;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.EdcNotificationContractService;
