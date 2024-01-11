@@ -13,9 +13,7 @@
 
 | Dependency        | Name of Service               | Version             | Helm  | Comments                                            |
 |-------------------|-------------------------------|---------------------|-------|-----------------------------------------------------|
-| PostgreSQL        | postgresql                    | 12.1.6              | 2.0.0 | Database server for storing Trace-X data            |
 | EDC               | edc-postgresql                | 12.1.6              | 2.0.0 | Enterprise Data Connector for PostgreSQL            |
-| pgAdmin           | pgadmin4                      | 1.13.6              | -     | PostgreSQL administration and management tool       |
 | IRS               | irs-helm                      | 4.0.1               | 6.9.1 | Helm charts for Item Relationship Service           |
 | EDC               | tractusx-connector            | 0.5.3               | 2.0.0 | Connector for Data Transfer and Registration        |
 | Discovery Service | discovery service             | 1.16.0              | 0.1.0 | Service for discovering and registering artifacts   |
