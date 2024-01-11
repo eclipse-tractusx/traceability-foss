@@ -25,13 +25,13 @@ alt invalid credentials
 else  Bad request
     Actor <-- Backend : 400 Import of file failed.
 else  Forbidden
-    Actor <-- Backend : 404 Authorization refused by server.
+    Actor <-- Backend : 403 Authorization refused by server.
 else  check input
     Backend -> Backend : validate file against trace-x import schema
     alt not valid
         Actor <-- Backend : 422 Unprocessable Entity
     else
-        Actor <-- Backend : 200 OK
+        Actor <-- Backend : 201 Asset imported
     end alt
 end alt
 
