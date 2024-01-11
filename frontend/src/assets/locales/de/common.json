@@ -49,7 +49,15 @@
     "remove": "Entfernen",
     "delete": "Löschen",
     "goToQueue": "Zur Warteschlange",
-    "goBack": "Zurück"
+    "goBack": "Zurück",
+    "publishAssets": "Produkte veröffentlichen"
+  },
+  "publisher": {
+    "selectedAssets": "Ausgewählte Produkte",
+    "policyToApply": "Anzuwendende Richtlinie",
+    "selectPolicyLabel": "Richtlinie auswählen",
+    "selectPolicyError": "Bitte selektieren sie eine Richtlinie",
+    "publish": "Veröffentlichen"
   },
   "table": {
     "noResultFound": "KEINE ERGEBNISSE GEFUNDEN.",
