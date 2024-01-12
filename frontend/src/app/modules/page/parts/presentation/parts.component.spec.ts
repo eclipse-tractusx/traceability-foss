@@ -23,15 +23,15 @@ import { LayoutModule } from '@layout/layout.module';
 import { SidenavComponent } from '@layout/sidenav/sidenav.component';
 import { SidenavService } from '@layout/sidenav/sidenav.service';
 import { OtherPartsModule } from '@page/other-parts/other-parts.module';
+import { AssetAsBuiltFilter, AssetAsPlannedFilter } from '@page/parts/model/parts.model';
 import { PartsComponent } from '@page/parts/presentation/parts.component';
+import { TableHeaderSort } from '@shared/components/table/table.model';
+import { toAssetFilter, toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
+import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { SharedModule } from '@shared/shared.module';
 import { screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 import { PartsModule } from '../parts.module';
-import { AssetAsBuiltFilter, AssetAsPlannedFilter } from '@page/parts/model/parts.model';
-import { TableHeaderSort } from '@shared/components/table/table.model';
-import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
-import { toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
 
 describe('Parts', () => {
 
@@ -131,6 +131,56 @@ describe('Parts', () => {
     expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsBuiltSortList']);
   });
 
+  it('should call partsFacade.setPartsAsBuilt with the correct parameters and page 0 no ctrlkey pressed', async () => {
+    const { fixture } = await renderParts();
+    const { componentInstance } = fixture;
+
+    const page = 0; // Set the page number
+    const pageSize = 10; // Set the page size
+    const sorting = [ 'id', 'asc' ] as TableHeaderSort;
+    componentInstance.assetAsBuiltFilter = {
+      id: 'urn',
+    };
+    componentInstance.ctrlKeyState = false;
+
+    // Access the private partsFacade property
+    const partsFacade = (componentInstance as any)['partsFacade'];
+    const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuilt');
+
+    // Act
+    componentInstance['onAsBuiltTableConfigChange']({ page, pageSize, sorting }); // Access private method
+
+    // Assert
+    expect(partsFacadeSpy).toHaveBeenCalledWith(0, pageSize, componentInstance['tableAsBuiltSortList'], toAssetFilter(componentInstance.assetAsBuiltFilter, true));
+
+  })
+
+
+  it('should call partsFacade.setPartsAsPlanned with the correct parameters and page 0 no ctrlkey pressed', async () => {
+    const { fixture } = await renderParts();
+    const { componentInstance } = fixture;
+
+    const page = 0; // Set the page number
+    const pageSize = 10; // Set the page size
+    const sorting = [ 'id', 'asc' ] as TableHeaderSort;
+
+    componentInstance.assetsAsPlannedFilter = {
+      id: 'urn',
+    };
+    componentInstance.ctrlKeyState = false;
+
+    // Access the private partsFacade property
+    const partsFacade = (componentInstance as any)['partsFacade'];
+    const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsPlanned');
+
+    // Act
+    componentInstance['onAsPlannedTableConfigChange']({ page, pageSize, sorting }); // Access private method
+
+    // Assert
+    expect(partsFacadeSpy).toHaveBeenCalledWith(0, pageSize, componentInstance['tableAsPlannedSortList'], toAssetFilter(componentInstance.assetsAsPlannedFilter, true));
+
+  })
+
   it('should call partsFacade.setPartsAsBuilt with the correct parameters no ctrlkey pressed', async () => {
     const { fixture } = await renderParts();
     const { componentInstance } = fixture;
@@ -150,6 +200,7 @@ describe('Parts', () => {
     // Assert
     expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsBuiltSortList']);
   });
+
 
 
   it('should call partsFacade.setPartsAsPlanned with the correct parameters', async () => {
