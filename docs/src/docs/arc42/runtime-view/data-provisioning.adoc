@@ -22,7 +22,6 @@ The frontend is able to select assets and publish / syncronize them with the sha
 include::../../../uml-diagrams/arc42/runtime-view/data-provisioning/trace-x-data-import-interface-modul2-sequence.puml[]
 ....
 
-
 Modul 3
 [plantuml, target=business-context_data_provisioning_3, format=svg]
 ....
