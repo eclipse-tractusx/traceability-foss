@@ -121,6 +121,8 @@ export class PartsAssembler {
       sentActiveInvestigations: partResponse.sentQualityInvestigationIdsInStatusActive,
       receivedActiveInvestigations: partResponse.receivedQualityInvestigationIdsInStatusActive,
 
+      importNote: partResponse.importNote,
+      importState: partResponse.importState
 
     };
   }
@@ -225,6 +227,17 @@ export class PartsAssembler {
       const { productType, tractionBatteryCode } = viewData.data;
       return { data: { productType, tractionBatteryCode } as Part };
     });
+  }
+
+  public static mapPartForAssetStateDetailsView(): OperatorFunction<View<Part>, View<Part>> {
+    return map(viewData => {
+      if(!viewData?.data?.importState) {
+        return;
+      }
+
+      const { importNote, importState } = viewData.data;
+      return { data: {importNote, importState} as Part};
+    })
   }
 
   public static mapPartForTractionBatteryCodeSubComponentsView(): OperatorFunction<View<Part>, View<Part>> {

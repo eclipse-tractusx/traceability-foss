@@ -72,6 +72,9 @@ export interface Part {
   sentActiveInvestigations: string [];
   receivedActiveAlerts: string [];
   receivedActiveInvestigations: string [];
+
+  importNote?: string;
+  importState?: ImportState;
 }
 
 export interface PartResponse {
@@ -97,6 +100,8 @@ export interface PartResponse {
   receivedQualityAlertIdsInStatusActive: string[],
   sentQualityInvestigationIdsInStatusActive: string[],
   receivedQualityInvestigationIdsInStatusActive: string[]
+  importNote?: string,
+  importState?: ImportState
 }
 
 export type PartsResponse = PaginationResponse<PartResponse>;
@@ -164,6 +169,12 @@ export interface AssetAsPlannedFilter {
   catenaXSiteId?: string,
   functionValidFrom?: string,
   functionValidUntil?: string,
+}
+
+export enum ImportState {
+  TRANSIENT = "TRANSIENT",
+  PERSISTENT = "PERSISTENT",
+  IN_SYNCHRONIZATION = "IN_SYNCHRONIZATION"
 }
 
 export enum FilterOperator {
