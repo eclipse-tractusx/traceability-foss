@@ -1,0 +1,36 @@
+= Data Provisioning
+
+This sequence diagrams describes the process of importing data from a Trace-X Dataformat
+
+Modul 1
+
+Data will be imported by the Trace-X Frontend into Trace-X backend and will be persisted as asset by a Trace-X instance in a transient state.
+The raw data which is needed for the shared services (DTR / EDC) will be persisted as well.
+
+[plantuml, target=business-context, format=svg]
+....
+
+include::../../../uml-diagrams/arc42/runtime-view/data-provisioning/trace-x-data-import-interface-modul1-sequence.puml[]
+....
+
+Modul 2
+
+The frontend is able to select assets and publish / syncronize them with the shared services. DTR / EDC / Submodel API.
+[plantuml, target=business-context2, format=svg]
+....
+
+include::../../../uml-diagrams/arc42/runtime-view/data-provisioning/trace-x-data-import-interface-modul2-sequence.puml[]
+....
+
+
+Modul 3
+[plantuml, target=business-context3, format=svg]
+....
+
+include::../../../uml-diagrams/arc42/runtime-view/data-provisioning/trace-x-data-import-interface-modul3-sequence.puml[]
+....
+
+== Overview
+
+ Data has to be provided to the Catena-X network using a EDC Provider, since Trace-X is not a data provider and therefore no possibility for data provisioning with Trace-X exists.
+For digital twins the Asset Administration Shell (AAS) standard is used. For fetching data with Trace-X, a Digital Twin Registry and an IRS instance are required. Data should represent parts, supplier and customer parts, parts tree / parts relations.
