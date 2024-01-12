@@ -167,7 +167,7 @@ describe('Parts', () => {
     const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsPlanned');
 
     // Act
-    componentInstance['onAsBuiltTableConfigChange']({ page, pageSize, sorting }); // Access private method
+    componentInstance['onAsPlannedTableConfigChange']({ page, pageSize, sorting }); // Access private method
 
     // Assert
     expect(partsFacadeSpy).toHaveBeenCalledWith(0, pageSize, componentInstance['tableAsPlannedSortList']);
