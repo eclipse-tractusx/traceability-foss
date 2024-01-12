@@ -4,7 +4,7 @@ This sequence diagram describes the process of sending a quality investigation b
 
 [plantuml, target=business-context, format=svg]
 ....
-include::../../../uml-diagrams/arc42/runtime-view/quality-investigation-send.puml[]
+include::../../../../uml-diagrams/arc42/runtime-view/quality-investigation-send.puml[]
 ....
 
 == Overview
