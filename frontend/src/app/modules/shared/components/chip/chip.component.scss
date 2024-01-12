@@ -1,0 +1,29 @@
+.chip-container {
+  padding: 10px;
+  background-color: currentColor;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 9999px;
+
+  @apply font-bold;
+
+  &__PERSISTENT {
+    background-color: #94fd8d;
+
+  }
+
+  &__TRANSIENT {
+    background-color: #0a5fb9;
+  }
+
+  &__IN_SYNCHRONIZATION {
+    background-color: #f9cd0b;
+  }
+
+  &__FORCE_DELETED {
+    background-color: firebrick;
+  }
+
+
+}

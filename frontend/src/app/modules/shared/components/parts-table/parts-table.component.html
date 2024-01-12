@@ -285,6 +285,12 @@ SPDX-License-Identifier: Apache-2.0
                           </app-country-flag-generator>
                         </span>
               </ng-container>
+              <!--TODO: Reposition correctly-->
+              <ng-container *ngSwitchCase="'importState'">
+                          <span class="table--notification--cell--content--icon">
+                            <app-chip [textContent]="element[column]"></app-chip>
+                        </span>
+              </ng-container>
             </ng-container>
           </div>
         </td>

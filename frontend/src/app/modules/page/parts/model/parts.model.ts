@@ -174,7 +174,8 @@ export interface AssetAsPlannedFilter {
 export enum ImportState {
   TRANSIENT = "TRANSIENT",
   PERSISTENT = "PERSISTENT",
-  IN_SYNCHRONIZATION = "IN_SYNCHRONIZATION"
+  IN_SYNCHRONIZATION = "IN_SYNCHRONIZATION",
+  FORCE_DELETED = "FORCE_DELETED",
 }
 
 export enum FilterOperator {
