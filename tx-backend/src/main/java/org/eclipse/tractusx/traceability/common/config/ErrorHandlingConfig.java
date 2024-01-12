@@ -35,7 +35,7 @@ import org.eclipse.tractusx.traceability.common.domain.ParseLocalDateException;
 import org.eclipse.tractusx.traceability.common.model.UnsupportedSearchCriteriaFieldException;
 import org.eclipse.tractusx.traceability.common.request.InvalidFilterException;
 import org.eclipse.tractusx.traceability.common.request.InvalidSortException;
-import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
+import assets.importpoc.ErrorResponse;
 import org.eclipse.tractusx.traceability.common.security.TechnicalUserAuthorizationException;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractException;
 import org.eclipse.tractusx.traceability.qualitynotification.application.validation.UpdateQualityNotificationValidationException;

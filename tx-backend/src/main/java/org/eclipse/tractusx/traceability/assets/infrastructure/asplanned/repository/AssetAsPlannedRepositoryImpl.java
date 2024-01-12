@@ -25,8 +25,11 @@ import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportNote;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.common.repository.CriteriaUtility;
@@ -35,7 +38,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.AbstractMap;
 import java.util.List;
+import java.util.Objects;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
@@ -95,6 +100,33 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository {
     @Transactional
     public List<AssetBase> saveAll(List<AssetBase> assets) {
         return AssetAsPlannedEntity.toDomainList(jpaAssetAsPlannedRepository.saveAll(AssetAsPlannedEntity.fromList(assets)));
+    }
+
+    @Override
+    @Transactional
+    public List<AssetBase> saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(List<AssetBase> assets) {
+        List<AssetAsPlannedEntity> toPersist = assets.stream().map(assetToPersist ->
+                        new AbstractMap.SimpleEntry<AssetBase, AssetBaseEntity>(
+                                assetToPersist,
+                                jpaAssetAsPlannedRepository.findById(assetToPersist.getId()).orElse(null)))
+                .filter(this::entityIsTransientOrNotExistent)
+                .map(entry -> {
+                    if (entry.getValue() != null) {
+                        entry.getKey().setImportNote(ImportNote.TRANSIENT_UPDATED);
+                    }
+                    return entry.getKey();
+                })
+                .map(AssetAsPlannedEntity::from).toList();
+
+        return jpaAssetAsPlannedRepository.saveAll(toPersist).stream().map(AssetAsPlannedEntity::toDomain).toList();
+
+    }
+
+    private boolean entityIsTransientOrNotExistent(AbstractMap.SimpleEntry<AssetBase, AssetBaseEntity> assetBaseAssetBaseEntitySimpleEntry) {
+        if (Objects.isNull(assetBaseAssetBaseEntitySimpleEntry.getValue())) {
+            return true;
+        }
+        return assetBaseAssetBaseEntitySimpleEntry.getValue().getImportState() == ImportState.TRANSIENT;
     }
 
     @Transactional

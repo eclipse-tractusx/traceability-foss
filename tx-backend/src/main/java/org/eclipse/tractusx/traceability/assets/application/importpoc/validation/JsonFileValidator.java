@@ -62,7 +62,7 @@ public class JsonFileValidator {
             return List.of();
         }
         String fileName = file.getOriginalFilename();
-        if (isNull(fileName)){
+        if (isNull(fileName)) {
             throw new IllegalStateException();
         }
         String[] fileNameSplit = fileName.split("\\.");
@@ -94,6 +94,10 @@ public class JsonFileValidator {
         }
 
         JsonNode assetsNode = rootNode.get("assets");
+        if (isNull(assetsNode)) {
+            errors.add("Could not find assets");
+            return errors;
+        }
         for (JsonNode asset : assetsNode) {
             JsonNode submodels = asset.get("submodels");
             for (JsonNode submodel : submodels) {
