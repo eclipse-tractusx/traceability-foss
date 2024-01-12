@@ -300,5 +300,7 @@ export class PartsAssembler {
     [ 'receivedActiveAlerts', 'receivedQualityAlertIdsInStatusActive' ],
     [ 'sentActiveInvestigations', 'sentQualityInvestigationIdsInStatusActive' ],
     [ 'receivedActiveInvestigations', 'receivedQualityInvestigationIdsInStatusActive' ],
+    ['importState', 'importState'],
+    ['importNote', 'importNote']
   ]);
 }
