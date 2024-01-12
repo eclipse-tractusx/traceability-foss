@@ -2,7 +2,7 @@
 
 This sequence diagram describes the process of fetching data from a DTR and the Catena-X ecosystem.
 
-[plantuml, target=business-context, format=svg]
+[plantuml, target=business-context_data_consumption, format=svg]
 ....
 include::../../../uml-diagrams/arc42/runtime-view/data-consumption-process.puml[]
 ....

@@ -7,7 +7,7 @@ Modul 1
 Data will be imported by the Trace-X Frontend into Trace-X backend and will be persisted as asset by a Trace-X instance in a transient state.
 The raw data which is needed for the shared services (DTR / EDC) will be persisted as well.
 
-[plantuml, target=business-context, format=svg]
+[plantuml, target=business-context_data_provisioning_1, format=svg]
 ....
 
 include::../../../uml-diagrams/arc42/runtime-view/data-provisioning/trace-x-data-import-interface-modul1-sequence.puml[]
@@ -16,7 +16,7 @@ include::../../../uml-diagrams/arc42/runtime-view/data-provisioning/trace-x-data
 Modul 2
 
 The frontend is able to select assets and publish / syncronize them with the shared services. DTR / EDC / Submodel API.
-[plantuml, target=business-context2, format=svg]
+[plantuml, target=business-context_data_provisioning_2, format=svg]
 ....
 
 include::../../../uml-diagrams/arc42/runtime-view/data-provisioning/trace-x-data-import-interface-modul2-sequence.puml[]
@@ -24,7 +24,7 @@ include::../../../uml-diagrams/arc42/runtime-view/data-provisioning/trace-x-data
 
 
 Modul 3
-[plantuml, target=business-context3, format=svg]
+[plantuml, target=business-context_data_provisioning_3, format=svg]
 ....
 
 include::../../../uml-diagrams/arc42/runtime-view/data-provisioning/trace-x-data-import-interface-modul3-sequence.puml[]
