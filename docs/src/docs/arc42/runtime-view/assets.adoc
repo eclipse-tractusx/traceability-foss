@@ -1,0 +1,4 @@
+= Assets
+
+include::assets/return-all-assets.adoc[leveloffset=+1]
+include::assets/return-specific-assets.adoc[leveloffset=+1]

@@ -1,6 +1,10 @@
 = Concept for Trace-X Data Import interface (Data Provider)
 
 Modul 1
+[plantuml, target=modul1-sequence, format=svg]
+....
+include::../../../uml-diagrams/arc42/trace-x-data-import-interface/trace-x-data-import-interface-modul1-sequence.puml[]
+....
 
 Modul 2
 [plantuml, target=modul2-sequence, format=svg]

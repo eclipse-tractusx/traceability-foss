@@ -6,7 +6,7 @@ The same can be done with as planned assets.
 
 [plantuml, target=return-all-assets, format=svg]
 ....
-include::../../../uml-diagrams/arc42/runtime-view/assets/return-all-assets.puml[]
+include::../../../../uml-diagrams/arc42/runtime-view/assets/return-all-assets.puml[]
 ....
 
 ==== Overview
