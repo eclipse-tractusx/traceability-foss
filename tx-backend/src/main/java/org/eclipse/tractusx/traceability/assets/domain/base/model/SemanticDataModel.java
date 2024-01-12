@@ -20,5 +20,11 @@
 package org.eclipse.tractusx.traceability.assets.domain.base.model;
 
 public enum SemanticDataModel {
-    BATCH, SERIALPART, UNKNOWN, PARTASPLANNED, JUSTINSEQUENCE
+    BATCH("Batch"), SERIALPART("SerialPart"), UNKNOWN(""), PARTASPLANNED("PartAsPlanned"), JUSTINSEQUENCE("JustInSequence");
+
+    private String name;
+
+    SemanticDataModel(String name) {
+        this.name = name;
+    }
 }
