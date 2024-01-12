@@ -25,135 +25,149 @@ import {NotificationAssembler} from '@shared/assembler/notification.assembler';
 import {PartsAssembler} from '@shared/assembler/parts.assembler';
 import {DateTimeString} from '@shared/components/dateTime/dateTime.component';
 import {TableHeaderSort} from '@shared/components/table/table.model';
-import {provideFilterForNotifications} from '@shared/helper/filter-helper';
+import {provideFilterListForNotifications} from '@shared/helper/filter-helper';
 import {Severity} from '@shared/model/severity.model';
 import type {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {NotificationFilter} from '../../../mocks/services/investigations-mock/investigations.model';
 import {
-    Notification,
-    NotificationCreateResponse,
-    NotificationResponse,
-    Notifications,
-    NotificationsResponse,
-    NotificationStatus,
-    NotificationType,
+  Notification,
+  NotificationCreateResponse,
+  NotificationResponse,
+  Notifications,
+  NotificationsResponse,
+  NotificationStatus,
+  NotificationType,
 } from '../model/notification.model';
-import {NotificationChannel} from "@shared/components/multi-select-autocomplete/table-type.model";
+import {NotificationChannel} from '@shared/components/multi-select-autocomplete/table-type.model';
 
 @Injectable({
-    providedIn: 'root',
+  providedIn: 'root',
 })
 export class NotificationService {
-    private readonly url = environment.apiUrl;
+  private readonly url = environment.apiUrl;
 
-    constructor(private readonly apiService: ApiService) {
-    }
-
-    public getCreated(page: number, pageSize: number, sorting: TableHeaderSort[], filter?: NotificationFilter, fullFilter?: any, isInvestigation = true): Observable<Notifications> {
-        let sort = sorting.length ? sorting : ['createdDate,desc'];
-        const requestUrl = this.determineRequestUrl(isInvestigation);
-        const notificationType = isInvestigation ? NotificationType.INVESTIGATION : NotificationType.ALERT;
-        let params = new HttpParams()
-            .set('page', page)
-            .set('size', pageSize)
-            .set('filter', 'channel,EQUAL,SENDER,AND');
-
-        params = provideFilterForNotifications(sort, params, filter, fullFilter);
-
-        return this.apiService
-            .getBy<NotificationsResponse>(requestUrl, params)
-            .pipe(map(data => NotificationAssembler.assembleNotifications(data, notificationType)));
-    }
-
-    public getReceived(page: number, pageSize: number, sorting: TableHeaderSort[], filter?: NotificationFilter, fullFilter?: any, isInvestigation = true): Observable<Notifications> {
-        let sort = sorting.length ? sorting : ['createdDate,desc'];
-        const requestUrl = this.determineRequestUrl(isInvestigation);
-        const notificationType = isInvestigation ? NotificationType.INVESTIGATION : NotificationType.ALERT;
-        let params = new HttpParams()
-            .set('page', page)
-            .set('size', pageSize)
-            .set('filter', 'channel,EQUAL,RECEIVER,AND');
-
-        params = provideFilterForNotifications(sort, params, filter, fullFilter);
-
-        return this.apiService
-            .getBy<NotificationsResponse>(requestUrl, params)
-            .pipe(map(data => NotificationAssembler.assembleNotifications(data, notificationType)));
-    }
+  constructor(private readonly apiService: ApiService) {
+  }
 
 
-    public getNotificationById(id: string, isInvestigation = true): Observable<Notification> {
-        const requestUrl = this.determineRequestUrl(isInvestigation);
-        const notificationType = isInvestigation ? NotificationType.INVESTIGATION : NotificationType.ALERT;
-        return this.apiService
-            .get<NotificationResponse>(`${requestUrl}/${id}`)
-            .pipe(map(notification => NotificationAssembler.assembleNotification(notification, notificationType)));
-    }
+  // TODO: merge functions for created and received notifications
+  public getCreated(page: number, pageSize: number, sorting: TableHeaderSort[], filter?: NotificationFilter, fullFilter?: any, isInvestigation = true): Observable<Notifications> {
+    const sort = sorting.length ? sorting.map(array => `${ array[0] },${ array[1] }`) : [ 'createdDate,desc' ];
+    const requestUrl = this.determineRequestUrl(isInvestigation) + '/filter';
+    const notificationType = isInvestigation ? NotificationType.INVESTIGATION : NotificationType.ALERT;
+    const additionalFilters = new Set([ ...provideFilterListForNotifications(filter, fullFilter), 'channel,EQUAL,SENDER,AND' ]);
 
-    public createAlert(partIds: string[], description: string, severity: Severity, bpn: string, isAsBuilt: boolean): Observable<string> {
-        const body = {partIds, description, severity, receiverBpn: bpn, isAsBuilt};
+    const body = {
+      pageAble: {
+        page: page,
+        size: pageSize,
+        sort: [...sort],
+      },
+      searchCriteria: {
+        filter: [ ...additionalFilters ],
+      },
+    };
 
-        return this.apiService.post<NotificationCreateResponse>(`${this.url}/alerts`, body).pipe(map(({id}) => id));
-    }
+    return this.apiService
+      .post<NotificationsResponse>(requestUrl, body)
+      .pipe(map(data => NotificationAssembler.assembleNotifications(data, notificationType)));
+  }
 
-    public createInvestigation(
-        partIds: string[],
-        description: string,
-        severity: Severity,
-        dateString: DateTimeString,
-    ): Observable<string> {
-        // targetDate is an optional field
-        const targetDate = null === dateString ? null : new Date(dateString).toISOString();
-        const body = {partIds, description, severity, targetDate};
+  public getReceived(page: number, pageSize: number, sorting: TableHeaderSort[], filter?: NotificationFilter, fullFilter?: any, isInvestigation = true): Observable<Notifications> {
+    const sort = sorting.length ? sorting.map(array => `${ array[0] },${ array[1] }`) : [ 'createdDate,desc' ];
+    const requestUrl = this.determineRequestUrl(isInvestigation) + '/filter';
+    const notificationType = isInvestigation ? NotificationType.INVESTIGATION : NotificationType.ALERT;
+    const additionalFilters = new Set([ ...provideFilterListForNotifications(filter, fullFilter), 'channel,EQUAL,RECEIVER,AND' ]);
 
-        return this.apiService
-            .post<NotificationCreateResponse>(`${this.url}/investigations`, body)
-            .pipe(map(({id}) => id));
-    }
+    const body = {
+      pageAble: {
+        page: page,
+        size: pageSize,
+        sort: sort,
+      },
+      searchCriteria: {
+        filter: [ ...additionalFilters ],
+      },
+    };
 
-    public closeNotification(id: string, reason: string, isInvestigation = true): Observable<void> {
-        const requestUrl = this.determineRequestUrl(isInvestigation);
-        const body = {reason};
-        return this.apiService.post<void>(`${requestUrl}/${id}/close`, body);
-    }
+    return this.apiService
+      .post<NotificationsResponse>(requestUrl, body)
+      .pipe(map(data => NotificationAssembler.assembleNotifications(data, notificationType)));
+  }
 
-    public approveNotification(id: string, isInvestigation = true): Observable<void> {
-        const requestUrl = this.determineRequestUrl(isInvestigation);
-        return this.apiService.post<void>(`${requestUrl}/${id}/approve`);
-    }
 
-    public cancelNotification(id: string, isInvestigation = true): Observable<void> {
-        const requestUrl = this.determineRequestUrl(isInvestigation);
-        return this.apiService.post<void>(`${requestUrl}/${id}/cancel`);
-    }
+  public getNotificationById(id: string, isInvestigation = true): Observable<Notification> {
+    const requestUrl = this.determineRequestUrl(isInvestigation);
+    const notificationType = isInvestigation ? NotificationType.INVESTIGATION : NotificationType.ALERT;
+    return this.apiService
+      .get<NotificationResponse>(`${ requestUrl }/${ id }`)
+      .pipe(map(notification => NotificationAssembler.assembleNotification(notification, notificationType)));
+  }
 
-    public updateNotification(
-        id: string,
-        status: NotificationStatus.ACKNOWLEDGED | NotificationStatus.ACCEPTED | NotificationStatus.DECLINED,
-        reason = '', isInvestigation = true
-    ): Observable<void> {
-        const requestUrl = this.determineRequestUrl(isInvestigation);
-        const body = {reason, status};
-        return this.apiService.post<void>(`${requestUrl}/${id}/update`, body);
-    }
+  public createAlert(partIds: string[], description: string, severity: Severity, bpn: string, isAsBuilt: boolean): Observable<string> {
+    const body = { partIds, description, severity, receiverBpn: bpn, isAsBuilt };
 
-    public getDistinctFilterValues(channel: NotificationChannel, fieldNames: string, startsWith: string, isInvestigation = true) {
-        const mappedFieldName = PartsAssembler.mapFieldNameToApi(fieldNames);
-        const requestUrl = this.determineRequestUrl(isInvestigation);
-        let params = new HttpParams()
-            .set('fieldName', mappedFieldName)
-            .set('startWith', startsWith)
-            .set('size', 200)
-            .set('channel', channel);
+    return this.apiService.post<NotificationCreateResponse>(`${ this.url }/alerts`, body).pipe(map(({ id }) => id));
+  }
 
-        return this.apiService
-            .getBy<any>(`${requestUrl}/distinctFilterValues`, params);
+  public createInvestigation(
+    partIds: string[],
+    description: string,
+    severity: Severity,
+    dateString: DateTimeString,
+  ): Observable<string> {
+    // targetDate is an optional field
+    const targetDate = null === dateString ? null : new Date(dateString).toISOString();
+    const body = { partIds, description, severity, targetDate };
 
-    }
+    return this.apiService
+      .post<NotificationCreateResponse>(`${ this.url }/investigations`, body)
+      .pipe(map(({ id }) => id));
+  }
 
-    public determineRequestUrl(isInvestigation: boolean): string {
-        const path = isInvestigation ? '/investigations' : '/alerts';
-        return this.url + path;
-    }
+  public closeNotification(id: string, reason: string, isInvestigation = true): Observable<void> {
+    const requestUrl = this.determineRequestUrl(isInvestigation);
+    const body = { reason };
+    return this.apiService.post<void>(`${ requestUrl }/${ id }/close`, body);
+  }
+
+  public approveNotification(id: string, isInvestigation = true): Observable<void> {
+    const requestUrl = this.determineRequestUrl(isInvestigation);
+    return this.apiService.post<void>(`${ requestUrl }/${ id }/approve`);
+  }
+
+  public cancelNotification(id: string, isInvestigation = true): Observable<void> {
+    const requestUrl = this.determineRequestUrl(isInvestigation);
+    return this.apiService.post<void>(`${ requestUrl }/${ id }/cancel`);
+  }
+
+  public updateNotification(
+    id: string,
+    status: NotificationStatus.ACKNOWLEDGED | NotificationStatus.ACCEPTED | NotificationStatus.DECLINED,
+    reason = '', isInvestigation = true,
+  ): Observable<void> {
+    const requestUrl = this.determineRequestUrl(isInvestigation);
+    const body = { reason, status };
+    return this.apiService.post<void>(`${ requestUrl }/${ id }/update`, body);
+  }
+
+  public getDistinctFilterValues(channel: NotificationChannel, fieldNames: string, startsWith: string, isInvestigation = true) {
+    const mappedFieldName = PartsAssembler.mapFieldNameToApi(fieldNames);
+    const requestUrl = this.determineRequestUrl(isInvestigation);
+    let params = new HttpParams()
+      .set('fieldName', mappedFieldName)
+      .set('startWith', startsWith)
+      .set('size', 200)
+      .set('channel', channel);
+
+    return this.apiService
+      .getBy<any>(`${ requestUrl }/distinctFilterValues`, params);
+
+  }
+
+  public determineRequestUrl(isInvestigation: boolean): string {
+    const path = isInvestigation ? '/investigations' : '/alerts';
+    return this.url + path;
+  }
 }

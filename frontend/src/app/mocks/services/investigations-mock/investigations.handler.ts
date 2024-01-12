@@ -19,11 +19,11 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { environment } from '@env';
-import { NotificationStatus } from '@shared/model/notification.model';
-import { rest } from 'msw';
-import { applyPagination, extractPagination } from '../pagination.helper';
-import { buildMockInvestigations, getInvestigationById, InvestigationIdPrefix } from './investigations.model';
+import {environment} from '@env';
+import {NotificationStatus} from '@shared/model/notification.model';
+import {rest} from 'msw';
+import {applyPagination, extractPaginationOfNotifications} from '../pagination.helper';
+import {buildMockInvestigations, getInvestigationById, InvestigationIdPrefix} from './investigations.model';
 import {
   buildMockInvestigations as testBuildMockInvestigations,
   getInvestigationById as testGetInvestigationById,
@@ -49,8 +49,8 @@ const commonHandler = [
 ];
 
 export const investigationsHandlers = [
-  rest.get(`*${ environment.apiUrl }/investigations`, (req, res, ctx) => {
-    const pagination = extractPagination(req);
+  rest.post(`*${ environment.apiUrl }/investigations/filter`, (req, res, ctx) => {
+    const pagination = extractPaginationOfNotifications(req);
 
     const currentStatus = [
       NotificationStatus.CREATED,
@@ -68,8 +68,8 @@ export const investigationsHandlers = [
     );
   }),
 
-  rest.get(`*${ environment.apiUrl }/investigations`, (req, res, ctx) => {
-    const pagination = extractPagination(req);
+  rest.post(`*${ environment.apiUrl }/investigations/filter`, (req, res, ctx) => {
+    const pagination = extractPaginationOfNotifications(req);
 
     const currentStatus = [
       NotificationStatus.RECEIVED,
@@ -126,8 +126,8 @@ export const investigationsHandlers = [
 ];
 
 export const investigationsTestHandlers = [
-  rest.get(`*${ environment.apiUrl }/investigations`, (req, res, ctx) => {
-    const pagination = extractPagination(req);
+  rest.post(`*${ environment.apiUrl }/investigations/filter`, (req, res, ctx) => {
+    const pagination = extractPaginationOfNotifications(req);
 
     const currentStatus = [
       NotificationStatus.CREATED,
@@ -143,8 +143,8 @@ export const investigationsTestHandlers = [
     );
   }),
 
-  rest.get(`*${ environment.apiUrl }/investigations`, (req, res, ctx) => {
-    const pagination = extractPagination(req);
+  rest.post(`*${ environment.apiUrl }/investigations/filter`, (req, res, ctx) => {
+    const pagination = extractPaginationOfNotifications(req);
 
     const currentStatus = [ NotificationStatus.RECEIVED, NotificationStatus.ACKNOWLEDGED ];
     return res(
