@@ -263,9 +263,9 @@ Component Diagram
 
 ## Runtime view
 
-## Overall
+This section describes the different functionalities of TraceX-FOSS application
 
-This section describes the overall flow of the TraceX-FOSS application
+## Assets
 
 ## Scenario 1: Return Assets
 
@@ -296,6 +296,91 @@ When a user requests a specific asset, TraceX-FOSS checks if the user has an ade
 
 If no asset has been found for the given ID, an AssetNotFoundException is thrown.
 
+## Notifications
+
+## Receive Quality Investigation
+
+This sequence diagram describes the process of receiving a quality investigation from another Traceability partner.
+
+![arc42_009](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_009.png)
+
+### Overview
+
+As for the sending of a quality investigation also for receiving of a notification EDC is used to push data from a sender to a receiver.
+To enable receiving a notification by a partner you need to
+
+* Create notification endpoint for qualitynotifications/receive
+* Create EDC assets
+* Create EDC usage policies
+* Create EDC contract definitions
+
+Trace-X implements a functionality to create the assets and their corresponding policies in the admin panel.
+
+With the notification asset is possible to enable EDC contract negotiation and EDC data transfer based on access policies defined. Only if the sender is able to browse the asset in the catalog offer and perform a successful contract negotiation there will be the possibility to push a notification to the specified http endpoint on the receiver side.
+
+## Send Quality Investigation
+
+This sequence diagram describes the process of sending a quality investigation between Traceability applications.
+
+![arc42_010](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_010.png)
+
+### Overview
+
+For the notification feature EDC is used to push data from a sender to a receiver.
+To enable sending respective more precisely receiving a notification by a partner you need to
+
+* Create notification endpoint for qualitynotifications/receive
+* Create EDC assets
+* Create EDC usage policies
+* Create EDC contract definitions
+
+Trace-X implements a functionality to create the assets and their corresponding policies in the admin panel. With the notification asset is possible to enable EDC contract negotiation and EDC data transfer process so that the quality investigation can be pushed by the sender.
+
+In the above UML sequence diagram the sending of quality notifications from Trace-X to a receiver (any other Traceability application) is described.
+
+## Data consumption
+
+This sequence diagram describes the process of fetching data from a DTR and the Catena-X ecosystem.
+
+![arc42_011](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_011.png)
+
+### Overview
+
+Data is fetched by a Trace-X instance using Digital Twin Registry (DTR), Item Relationship Service (IRS) and Trace-X Consumer EDC. Data has to be provided to the Catena-X network using a EDC Provider, since Trace-X is not a data provider and therefore no possibility for data provisioning with Trace-X exists.
+For digital twins the Asset Administration Shell (AAS) standard is used. For fetching data with Trace-X, a Digital Twin Registry and an IRS instance are required. Data should represent parts, supplier and customer parts, parts tree / parts relations.
+
+## Data Provisioning
+
+This sequence diagrams describes the process of importing data from a Trace-X Dataformat
+
+Modul 1
+
+Data will be imported by the Trace-X Frontend into Trace-X backend and will be persisted as asset by a Trace-X instance in a transient state.
+The raw data which is needed for the shared services (DTR / EDC) will be persisted as well.
+
+![arc42_012](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_012.png)
+```bash
+
+```
+
+Modul 2 - DRAFT
+
+The frontend is able to select assets and publish / syncronize them with the shared services. DTR / EDC / Submodel API.
+
+![arc42_013](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_013.png)
+```bash
+
+```
+
+Modul 3 - DRAFT
+
+The backend is able to persist the data in the DTR / EDC and allows to use IRS for resolving assets.
+
+![arc42_014](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_014.png)
+```bash
+
+```
+
 ## Deployment view
 
 ## Cross-cutting concepts
@@ -305,4 +390,4 @@ If no asset has been found for the given ID, an AssetNotFoundException is thrown
 Please be informed that the 'as-planned' version currently lacks the database relations. However, kindly maintain the Entity-Relationship Model (ERM) in its current state.
 
 ```bash
-image::./assets/arc42/arc42_009.png[]
+image::./assets/arc42/arc42_015.png[]

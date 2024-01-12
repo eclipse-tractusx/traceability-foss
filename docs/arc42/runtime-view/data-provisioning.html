@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.18">
-<title>Scenario 2: Return specific Assets</title>
+<title>Data Provisioning</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -437,44 +437,52 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body class="article toc2 toc-left">
+<body class="article">
 <div id="header">
-<h1>Scenario 2: Return specific Assets</h1>
-<div id="toc" class="toc2">
-<div id="toctitle">Table of Contents</div>
-<ul class="sectlevel3">
-<li><a href="#_overview">Overview</a></li>
-</ul>
-</div>
+<h1>Data Provisioning</h1>
 </div>
 <div id="content">
-<div id="preamble">
-<div class="sectionbody">
 <div class="paragraph">
-<p>This section describes what happens when user searches for a specific asset.
-This example shows the request of one as built asset.
-The same can be done with as planned assets.</p>
+<p>This sequence diagrams describes the process of importing data from a Trace-X Dataformat</p>
+</div>
+<div class="paragraph">
+<p>Modul 1</p>
+</div>
+<div class="paragraph">
+<p>Data will be imported by the Trace-X Frontend into Trace-X backend and will be persisted as asset by a Trace-X instance in a transient state.
+The raw data which is needed for the shared services (DTR / EDC) will be persisted as well.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="return-specific-assets.svg" alt="return specific assets" width="1309" height="542">
+<img src="business-context_data_provisioning_1.svg" alt="business context data provisioning 1" width="707" height="612">
 </div>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_overview">Overview</h4>
-<div class="paragraph">
-<p>When a user requests a specific asset, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER'). If yes, then the endpoint returns a precise Asset for the given assetId, if it is found.</p>
 </div>
 <div class="paragraph">
-<p>If no asset has been found for the given ID, an AssetNotFoundException is thrown.</p>
+<p>Modul 2 - DRAFT</p>
+</div>
+<div class="paragraph">
+<p>The frontend is able to select assets and publish / syncronize them with the shared services. DTR / EDC / Submodel API.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="business-context_data_provisioning_2.svg" alt="business context data provisioning 2" width="725" height="434">
+</div>
+</div>
+<div class="paragraph">
+<p>Modul 3 - DRAFT</p>
+</div>
+<div class="paragraph">
+<p>The backend is able to persist the data in the DTR / EDC and allows to use IRS for resolving assets.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="business-context_data_provisioning_3.svg" alt="business context data provisioning 3" width="581" height="551">
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-01-11 09:54:51 UTC
+Last updated 2024-01-12 14:51:10 UTC
 </div>
 </div>
 </body>

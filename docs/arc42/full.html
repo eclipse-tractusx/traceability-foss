@@ -480,9 +480,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_runtime_view">Runtime view</a>
 <ul class="sectlevel2">
-<li><a href="#_overall">Overall</a></li>
-<li><a href="#_scenario_1_return_assets">Scenario 1: Return Assets</a></li>
-<li><a href="#_scenario_2_return_specific_assets">Scenario 2: Return specific Assets</a></li>
+<li><a href="#_assets">Assets</a></li>
+<li><a href="#_notifications">Notifications</a></li>
+<li><a href="#_data_consumption">Data consumption</a></li>
+<li><a href="#_data_provisioning">Data Provisioning</a></li>
 </ul>
 </li>
 <li><a href="#_deployment_view">Deployment view</a></li>
@@ -1224,14 +1225,13 @@ It roughly can be broken down into the following parts:</p>
 <div class="sect1">
 <h2 id="_runtime_view">Runtime view</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_overall">Overall</h3>
 <div class="paragraph">
-<p>This section describes the overall flow of the TraceX-FOSS application</p>
-</div>
+<p>This section describes the different functionalities of TraceX-FOSS application</p>
 </div>
 <div class="sect2">
-<h3 id="_scenario_1_return_assets">Scenario 1: Return Assets</h3>
+<h3 id="_assets">Assets</h3>
+<div class="sect3">
+<h4 id="_scenario_1_return_assets">Scenario 1: Return Assets</h4>
 <div class="paragraph">
 <p>This section describes what happens when user lists stored assets.
 In this example, the user requests as built assets.
@@ -1242,8 +1242,8 @@ The same can be done with as planned assets.</p>
 <img src="architecture-constraints/return-all-assets.svg" alt="return all assets" width="1180" height="542">
 </div>
 </div>
-<div class="sect5">
-<h6 id="_overview">Overview</h6>
+<div class="sect6">
+<h7 id="_overview">Overview</h7>
 <div class="paragraph">
 <p>When a user requests stored assets, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER').
 If yes, then the endpoint returns a pageable result of assets.</p>
@@ -1253,8 +1253,8 @@ If yes, then the endpoint returns a pageable result of assets.</p>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_scenario_2_return_specific_assets">Scenario 2: Return specific Assets</h3>
+<div class="sect3">
+<h4 id="_scenario_2_return_specific_assets">Scenario 2: Return specific Assets</h4>
 <div class="paragraph">
 <p>This section describes what happens when user searches for a specific asset.
 This example shows the request of one as built asset.
@@ -1265,13 +1265,155 @@ The same can be done with as planned assets.</p>
 <img src="architecture-constraints/return-specific-assets.svg" alt="return specific assets" width="1309" height="542">
 </div>
 </div>
-<div class="sect5">
-<h6 id="_overview_2">Overview</h6>
+<div class="sect6">
+<h7 id="_overview_2">Overview</h7>
 <div class="paragraph">
 <p>When a user requests a specific asset, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER'). If yes, then the endpoint returns a precise Asset for the given assetId, if it is found.</p>
 </div>
 <div class="paragraph">
 <p>If no asset has been found for the given ID, an AssetNotFoundException is thrown.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_notifications">Notifications</h3>
+<div class="sect3">
+<h4 id="_receive_quality_investigation">Receive Quality Investigation</h4>
+<div class="paragraph">
+<p>This sequence diagram describes the process of receiving a quality investigation from another Traceability partner.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="architecture-constraints/business-context_quality-investigation.svg" alt="business context quality investigation" width="1990" height="1699">
+</div>
+</div>
+<div class="sect4">
+<h5 id="_overview_3">Overview</h5>
+<div class="paragraph">
+<p>As for the sending of a quality investigation also for receiving of a notification EDC is used to push data from a sender to a receiver.
+To enable receiving a notification by a partner you need to</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create notification endpoint for qualitynotifications/receive</p>
+</li>
+<li>
+<p>Create EDC assets</p>
+</li>
+<li>
+<p>Create EDC usage policies</p>
+</li>
+<li>
+<p>Create EDC contract definitions</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Trace-X implements a functionality to create the assets and their corresponding policies in the admin panel.</p>
+</div>
+<div class="paragraph">
+<p>With the notification asset is possible to enable EDC contract negotiation and EDC data transfer based on access policies defined. Only if the sender is able to browse the asset in the catalog offer and perform a successful contract negotiation there will be the possibility to push a notification to the specified http endpoint on the receiver side.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_send_quality_investigation">Send Quality Investigation</h4>
+<div class="paragraph">
+<p>This sequence diagram describes the process of sending a quality investigation between Traceability applications.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="architecture-constraints/business-context_quality-investigation_send.svg" alt="business context quality investigation send" width="1660" height="1761">
+</div>
+</div>
+<div class="sect4">
+<h5 id="_overview_4">Overview</h5>
+<div class="paragraph">
+<p>For the notification feature EDC is used to push data from a sender to a receiver.
+To enable sending respective more precisely receiving a notification by a partner you need to</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create notification endpoint for qualitynotifications/receive</p>
+</li>
+<li>
+<p>Create EDC assets</p>
+</li>
+<li>
+<p>Create EDC usage policies</p>
+</li>
+<li>
+<p>Create EDC contract definitions</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Trace-X implements a functionality to create the assets and their corresponding policies in the admin panel. With the notification asset is possible to enable EDC contract negotiation and EDC data transfer process so that the quality investigation can be pushed by the sender.</p>
+</div>
+<div class="paragraph">
+<p>In the above UML sequence diagram the sending of quality notifications from Trace-X to a receiver (any other Traceability application) is described.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_data_consumption">Data consumption</h3>
+<div class="paragraph">
+<p>This sequence diagram describes the process of fetching data from a DTR and the Catena-X ecosystem.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="architecture-constraints/business-context_data_consumption.svg" alt="business context data consumption" width="849" height="789">
+</div>
+</div>
+<div class="sect3">
+<h4 id="_overview_5">Overview</h4>
+<div class="paragraph">
+<p>Data is fetched by a Trace-X instance using Digital Twin Registry (DTR), Item Relationship Service (IRS) and Trace-X Consumer EDC. Data has to be provided to the Catena-X network using a EDC Provider, since Trace-X is not a data provider and therefore no possibility for data provisioning with Trace-X exists.
+For digital twins the Asset Administration Shell (AAS) standard is used. For fetching data with Trace-X, a Digital Twin Registry and an IRS instance are required. Data should represent parts, supplier and customer parts, parts tree / parts relations.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_data_provisioning">Data Provisioning</h3>
+<div class="paragraph">
+<p>This sequence diagrams describes the process of importing data from a Trace-X Dataformat</p>
+</div>
+<div class="paragraph">
+<p>Modul 1</p>
+</div>
+<div class="paragraph">
+<p>Data will be imported by the Trace-X Frontend into Trace-X backend and will be persisted as asset by a Trace-X instance in a transient state.
+The raw data which is needed for the shared services (DTR / EDC) will be persisted as well.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="architecture-constraints/business-context_data_provisioning_1.svg" alt="business context data provisioning 1" width="707" height="612">
+</div>
+</div>
+<div class="paragraph">
+<p>Modul 2 - DRAFT</p>
+</div>
+<div class="paragraph">
+<p>The frontend is able to select assets and publish / syncronize them with the shared services. DTR / EDC / Submodel API.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="architecture-constraints/business-context_data_provisioning_2.svg" alt="business context data provisioning 2" width="725" height="434">
+</div>
+</div>
+<div class="paragraph">
+<p>Modul 3 - DRAFT</p>
+</div>
+<div class="paragraph">
+<p>The backend is able to persist the data in the DTR / EDC and allows to use IRS for resolving assets.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="architecture-constraints/business-context_data_provisioning_3.svg" alt="business context data provisioning 3" width="581" height="551">
 </div>
 </div>
 </div>
@@ -1994,7 +2136,7 @@ Note: as soon as a resume feature is implemented, this needs to be addressed her
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-01-11 09:54:51 UTC
+Last updated 2024-01-12 14:51:10 UTC
 </div>
 </div>
 </body>
