@@ -99,7 +99,7 @@ jobs:
           node fix_relative_links.js https://$GITHUB_REPOSITORY_OWNER.github.io/$REPO/docs
       - name: MD linting
         run: |
-          npm install markdownlint-cli2
+          npm install markdownlint-cli2@0.11.0
           npx markdownlint-cli2-config docs/.markdownlint.yaml docs/target/generated-docs/adminguide.md
           npx markdownlint-cli2-config docs/.markdownlint.yaml docs/target/generated-docs/arc42.md
           npx markdownlint-cli2-config docs/.markdownlint.yaml docs/target/generated-docs/user-manual.md
