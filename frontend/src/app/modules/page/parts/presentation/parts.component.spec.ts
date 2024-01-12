@@ -131,6 +131,49 @@ describe('Parts', () => {
     expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsBuiltSortList']);
   });
 
+  it('should call partsFacade.setPartsAsBuilt with the correct parameters and page 0 no ctrlkey pressed', async () => {
+    const { fixture } = await renderParts();
+    const { componentInstance } = fixture;
+
+    const page = 0; // Set the page number
+    const pageSize = 10; // Set the page size
+    const sorting = [ 'id', 'asc' ] as TableHeaderSort;
+    componentInstance.ctrlKeyState = false;
+
+    // Access the private partsFacade property
+    const partsFacade = (componentInstance as any)['partsFacade'];
+    const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuilt');
+
+    // Act
+    componentInstance['onAsBuiltTableConfigChange']({ page, pageSize, sorting }); // Access private method
+
+    // Assert
+    expect(partsFacadeSpy).toHaveBeenCalledWith(0, pageSize, componentInstance['tableAsBuiltSortList']);
+
+  })
+
+
+  it('should call partsFacade.setPartsAsPlanned with the correct parameters and page 0 no ctrlkey pressed', async () => {
+    const { fixture } = await renderParts();
+    const { componentInstance } = fixture;
+
+    const page = 0; // Set the page number
+    const pageSize = 10; // Set the page size
+    const sorting = [ 'id', 'asc' ] as TableHeaderSort;
+    componentInstance.ctrlKeyState = false;
+
+    // Access the private partsFacade property
+    const partsFacade = (componentInstance as any)['partsFacade'];
+    const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsPlanned');
+
+    // Act
+    componentInstance['onAsBuiltTableConfigChange']({ page, pageSize, sorting }); // Access private method
+
+    // Assert
+    expect(partsFacadeSpy).toHaveBeenCalledWith(0, pageSize, componentInstance['tableAsPlannedSortList']);
+
+  })
+
   it('should call partsFacade.setPartsAsBuilt with the correct parameters no ctrlkey pressed', async () => {
     const { fixture } = await renderParts();
     const { componentInstance } = fixture;
@@ -150,6 +193,7 @@ describe('Parts', () => {
     // Assert
     expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsBuiltSortList']);
   });
+
 
 
   it('should call partsFacade.setPartsAsPlanned with the correct parameters', async () => {
