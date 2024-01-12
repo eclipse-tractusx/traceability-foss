@@ -4,6 +4,6 @@ participant BE
 
 FE -> BE: [001] Import JSON file: POST /assets/import
 BE -> BE: [002] Receive and validate JSON file
-BE -> BE: [003] Save as assetAsPlanned or assetAsBuilt with transient state in the database
+BE -> BE: [003] Save as assetAsPlanned or assetAsBuilt with transient import state in the database
 BE --> FE: [004] Send 200 OK as response
 @enduml
