@@ -11,7 +11,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Import Data Service for data provisioning
 - Added UI to publish own assets
 - Sequence Diagrams for Data Provisioning Flow
-- Added User Manual Data import
+- Added User Manual for Data import
 
 ### Changed
 - Fixed security findings
