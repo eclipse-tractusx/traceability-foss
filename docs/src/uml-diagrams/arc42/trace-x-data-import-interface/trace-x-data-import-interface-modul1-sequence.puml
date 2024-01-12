@@ -1,9 +1,29 @@
 @startuml
 participant FE
 participant BE
+participant Database
 
-FE -> BE: [001] Import JSON file: POST /assets/import
-BE -> BE: [002] Receive and validate JSON file
-BE -> BE: [003] Save as assetAsPlanned or assetAsBuilt with transient import state in the database
-BE --> FE: [004] Send 200 OK as response
+FE -> FE: Choose Valid JSON File
+FE -> BE: Upload JSON: POST /assets/import
+BE -> BE: Validate JSON-Schema and BPN
+alt Successful
+BE -> BE: Extract submodels
+BE -> BE: Transform submodels to assets (AsBuilt or AsPlanned)
+alt Exists with ImportState.Transient
+BE -> Database: Update asset
+Database -> BE: OK
+else Exists with ImportState.Persistent
+    BE -> BE: Skip update
+else Not existing
+    BE -> Database: Persist asset - ImportState.Transient
+    Database -> BE: OK
+end
+BE -> FE: return HTTP 200 OK
+else Failed
+    BE -> FE: return 400 BAD REQUEST
+end
+
+
+
+
 @enduml
