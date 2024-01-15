@@ -37,15 +37,24 @@ public class DecentralRegistryRepositoryImpl implements DecentralRegistryReposit
 
     private final DecentralDigitalTwinRegistryService decentralDigitalTwinRegistryService;
 
+//    @Override
+//    public List<ShellDescriptor> retrieveShellDescriptorsByBpn(String bpn) {
+//        try {
+//            return ShellDescriptor.fromGlobalAssetIds(decentralDigitalTwinRegistryService.lookupGlobalAssetIds(bpn));
+//        } catch (RegistryServiceException exception) {
+//            log.error("Could not retrieve globalAssetIds by bpn " + bpn, exception);
+//            return Collections.emptyList();
+//        }
+//    }
+
     @Override
-    public List<ShellDescriptor> retrieveShellDescriptorsByBpn(String bpn) {
+    public List<String> retrieveShellDescriptorsByBpn(String bpn) {
         try {
-            return ShellDescriptor.fromGlobalAssetIds(decentralDigitalTwinRegistryService.lookupGlobalAssetIds(bpn));
+            return decentralDigitalTwinRegistryService.lookupGlobalAssetIds(bpn).stream().toList();
         } catch (RegistryServiceException exception) {
             log.error("Could not retrieve globalAssetIds by bpn " + bpn, exception);
             return Collections.emptyList();
         }
     }
-
 
 }

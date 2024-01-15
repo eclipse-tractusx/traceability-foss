@@ -17,31 +17,24 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.domain.base;
+package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+@Slf4j
+@RestController
+@RequiredArgsConstructor
+public class IrsCallbackController {
 
-public interface AssetRepository {
-    AssetBase getAssetById(String assetId);
+    private final IrsRepository irsRepository;
 
-    List<AssetBase> getAssetsById(List<String> assetIds);
-
-    AssetBase getAssetByChildId(String childId);
-
-    List<AssetBase> getAssets();
-
-    AssetBase save(AssetBase asset);
-
-    List<AssetBase> saveAll(List<AssetBase> assets);
-
-    List<AssetBase> saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(List<AssetBase> assets);
-
-    long countAssets();
-
-    long countAssetsByOwner(Owner owner);
-
-    List<String> getFieldValues(String fieldName, String startWith, Integer resultLimit, Owner owner);
+    @GetMapping("/irs/job/callback")
+    void handleIrsJobCallback(@RequestParam("id") String jobId, @RequestParam("state") String jobState) {
+        irsRepository.handleJobFinishedCallback(jobId, jobState);
+    }
 }

@@ -32,6 +32,7 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportNote;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.AssetAsBuiltCallbackRepository;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.common.repository.CriteriaUtility;
 import org.springframework.stereotype.Component;
@@ -39,10 +40,11 @@ import org.springframework.stereotype.Component;
 import java.util.AbstractMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component
-public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
+public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository, AssetAsBuiltCallbackRepository {
 
     private final JpaAssetAsBuiltRepository jpaAssetAsBuiltRepository;
 
@@ -55,11 +57,6 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
         return jpaAssetAsBuiltRepository.findById(assetId)
                 .map(AssetAsBuiltEntity::toDomain)
                 .orElseThrow(() -> new AssetNotFoundException("Asset with id %s was not found.".formatted(assetId)));
-    }
-
-    @Override
-    public boolean existsById(String globalAssetId) {
-        return jpaAssetAsBuiltRepository.existsById(globalAssetId);
     }
 
     @Override
@@ -129,15 +126,40 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
     // TODO check if it exists
 
 
+//    @Transactional
+//    @Override
+//    // TODO remove ?
+//    public void updateParentDescriptionsAndOwner(final AssetBase asset) {
+//        AssetBase assetById = this.getAssetById(asset.getId());
+//        if (assetById.getOwner().equals(Owner.UNKNOWN)) {
+//            assetById.setOwner(asset.getOwner());
+//        }
+//        assetById.setParentRelations(asset.getParentRelations());
+//        save(assetById);
+//    }
+
     @Transactional
     @Override
-    public void updateParentDescriptionsAndOwner(final AssetBase asset) {
-        AssetBase assetById = this.getAssetById(asset.getId());
-        if (assetById.getOwner().equals(Owner.UNKNOWN)) {
-            assetById.setOwner(asset.getOwner());
+    // Why if it exists we only update parent relations ? not other data etc ? check this logic
+    public void updateParentDescriptionsAndOwnerOrSaveNew(final AssetBase asset) {
+        Optional<AssetBase> existingAssetOptional = findAssetById(asset.getId());
+        if(existingAssetOptional.isPresent()) {
+            AssetBase existingAsset = existingAssetOptional.get();
+            if (existingAsset.getOwner().equals(Owner.UNKNOWN)) {
+                existingAsset.setOwner(asset.getOwner());
+            }
+            if (!asset.getParentRelations().isEmpty()) { // No other way to know callback direction
+                existingAsset.setParentRelations(asset.getParentRelations());
+            }
+            save(existingAsset);
+        } else {
+            save(asset);
         }
-        assetById.setParentRelations(asset.getParentRelations());
-        save(assetById);
+    }
+
+    private Optional<AssetBase> findAssetById(String assetId) {
+        return jpaAssetAsBuiltRepository.findById(assetId)
+                .map(AssetAsBuiltEntity::toDomain);
     }
 
     @Transactional

@@ -19,6 +19,7 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.tractusx.irs.edc.client.policy.Constraint;
 import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
 import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
@@ -50,6 +51,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -80,7 +82,6 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class IrsServiceTest {
-    @InjectMocks
     private IrsService irsService;
 
     @Mock
@@ -89,8 +90,15 @@ class IrsServiceTest {
     @Mock
     TraceabilityProperties traceabilityProperties;
 
+    ObjectMapper objectMapper = new ObjectMapper();
+
     @Mock
     private BpnRepository bpnRepository;
+
+    @BeforeEach
+    void setUp() {
+        irsService = new IrsService(irsClient, bpnRepository, traceabilityProperties, objectMapper);
+    }
 
 
     @Test
@@ -151,21 +159,10 @@ class IrsServiceTest {
         // Given
         when(irsClient.registerJob(any(RegisterJobRequest.class))).thenReturn(jobId);
         JobDetailResponse jobResponse = provideTestJobResponse(direction.name());
-        when(irsClient.getJobDetails(jobId.id())).thenReturn(jobResponse);
         when(traceabilityProperties.getBpn()).thenReturn(BPN.of("test"));
 
         // When
-        List<AssetBase> result = irsService.findAssets("1", direction, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
-
-        // Then
-        assertThat(result).hasSize(1);
-        Owner expected;
-        if (direction.equals(Direction.DOWNWARD)) {
-            expected = Owner.SUPPLIER;
-        } else {
-            expected = Owner.CUSTOMER;
-        }
-        assertThat(result.get(0).getOwner()).isEqualTo(expected);
+        irsService.createJobToResolveAssets("1", direction, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
     }
 
     private static Stream<Arguments> provideDirections() {
@@ -178,25 +175,13 @@ class IrsServiceTest {
     @ParameterizedTest
     @MethodSource("provideDirections")
     void testFindAssets_uncompletedJob_returnsEmptyListOfAssets(Direction direction) {
-
         // Given
         RegisterJobResponse startJobResponse = mock(RegisterJobResponse.class);
         when(irsClient.registerJob(any(RegisterJobRequest.class))).thenReturn(startJobResponse);
-        JobDetailResponse jobResponse = mock(JobDetailResponse.class);
-        when(irsClient.getJobDetails(startJobResponse.id())).thenReturn(jobResponse);
-        JobStatus jobStatus = mock(JobStatus.class);
-        when(jobResponse.jobStatus()).thenReturn(jobStatus);
-        when(jobStatus.lastModifiedOn()).thenReturn(new Date());
-        when(jobStatus.startedOn()).thenReturn(new Date());
-        when(jobResponse.isCompleted()).thenReturn(false);
         when(traceabilityProperties.getBpn()).thenReturn(BPN.of("test"));
 
         // When
-        List<AssetBase> result = irsService.findAssets("1", direction, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
-
-        // Then
-        assertThat(result).isEqualTo(Collections.EMPTY_LIST);
-
+        irsService.createJobToResolveAssets("1", direction, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
     }
 
     private JobDetailResponse provideTestJobResponse(String direction) {
