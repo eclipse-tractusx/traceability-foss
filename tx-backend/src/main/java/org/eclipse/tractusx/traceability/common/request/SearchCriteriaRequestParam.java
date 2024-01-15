@@ -22,7 +22,9 @@ package org.eclipse.tractusx.traceability.common.request;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.eclipse.tractusx.traceability.common.model.BaseRequestFieldMapper;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaFilter;
@@ -37,6 +39,8 @@ import java.util.List;
 import static java.util.Objects.isNull;
 
 @Data
+@Builder
+@NoArgsConstructor
 @AllArgsConstructor
 public class SearchCriteriaRequestParam {
     @ArraySchema(arraySchema = @Schema(description = "Filter Criteria", additionalProperties = Schema.AdditionalPropertiesValue.FALSE, example = "owner,EQUAL,OWN"), maxItems = Integer.MAX_VALUE)

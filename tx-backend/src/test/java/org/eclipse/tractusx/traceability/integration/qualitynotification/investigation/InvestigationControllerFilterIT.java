@@ -22,6 +22,9 @@ package org.eclipse.tractusx.traceability.integration.qualitynotification.invest
 import io.restassured.http.ContentType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
+import org.eclipse.tractusx.traceability.common.request.OwnPageable;
+import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
+import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationNotificationsSupport;
@@ -31,6 +34,8 @@ import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
@@ -67,11 +72,10 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of())))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations")
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -84,16 +88,15 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
     void givenInvestigations_whenProvideBpnFilter_thenReturnExpectedResult() throws JoseException {
         // given
         investigationNotificationSupport.defaultInvestigationsStored();
-        String filter = "?filter=bpn,STARTS_WITH,BPNL00000002OTHER,OR";
+        String filter = "bpn,STARTS_WITH,BPNL00000002OTHER,OR";
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations" + filter)
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -106,16 +109,16 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
     void givenInvestigations_whenProvideBpnFilterAnd_thenReturnExpectedResult() throws JoseException {
         // given
         investigationNotificationSupport.defaultInvestigationsStored();
-        String filter = "?filter=bpn,STARTS_WITH,BPNL00000001OWN,AND&filter=createdDate,AT_LOCAL_DATE,2023-10-10,AND";
+        String filter1 = "bpn,STARTS_WITH,BPNL00000001OWN,AND";
+        String filter2 = "createdDate,AT_LOCAL_DATE,2023-10-10,AND";
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filter1, filter2))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations" + filter)
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -125,19 +128,45 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenInvestigations_whenInvalidLocalDate_thenReturnBadRequest() throws JoseException {
+    void givenAlerts_whenProvideTooManyFilters_thenReturnError() throws JoseException {
         // given
         investigationNotificationSupport.defaultInvestigationsStored();
-        String filter = "?filter=createdDate,AT_LOCAL_DATE,2023-10-1111111,AND";
+
+        OwnPageable ownPageable = new OwnPageable(0, 10, Collections.emptyList());
+
+        ArrayList<String> filter = new ArrayList<>();
+        filter.add("bpn,STARTS_WITH,BPNL00000001OWN,OR");
+        PageableFilterRequest pageableFilterRequest = new PageableFilterRequest(ownPageable, new SearchCriteriaRequestParam(filter));
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(pageableFilterRequest)
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations" + filter)
+                .log()
+                .uri()
+                .post("/api/investigations/filter")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .body("pageSize", Matchers.is(10))
+                .body("totalItems", Matchers.is(8));
+    }
+
+    @Test
+    void givenInvestigations_whenInvalidLocalDate_thenReturnBadRequest() throws JoseException {
+        // given
+        investigationNotificationSupport.defaultInvestigationsStored();
+        String filter = "createdDate,AT_LOCAL_DATE,2023-10-1111111,AND";
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filter))))
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(400);
     }
@@ -146,16 +175,15 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
     void givenInvestigations_whenTargetDateAtLocalDate_thenExpectedResult() throws JoseException {
         // given
         investigationNotificationSupport.defaultInvestigationsStored();
-        String filter = "?filter=targetDate,AT_LOCAL_DATE,2023-11-10,AND";
+        String filter = "targetDate,AT_LOCAL_DATE,2023-11-10,AND";
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations" + filter)
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -168,17 +196,15 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
     void givenInvestigations_whenSendToFilter_thenExpectedResult() throws JoseException {
         // given
         investigationNotificationSupport.defaultInvestigationsStored();
-        String filterString = "sendTo,STARTS_WITH,B,AND";
+        String filter = "sendTo,STARTS_WITH,B,AND";
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .param("filter", filterString)
-                .get("/api/investigations")
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -191,19 +217,16 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
     void givenInvestigations_whenSendToFilterAndSort_thenExpectedResult() throws JoseException {
         // given
         investigationNotificationSupport.defaultInvestigationsStored();
-        String filterString = "sendTo,STARTS_WITH,B,AND";
+        String filter = "sendTo,STARTS_WITH,B,AND";
         String sortString = "sendTo,ASC";
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .param("filter", filterString)
-                .param("sort", sortString)
-                .get("/api/investigations")
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -216,16 +239,15 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
     void givenInvestigations_whenProvideFilterWithSeverityCritical_thenReturnAllCritical() throws JoseException {
         // given
         investigationNotificationSupport.defaultInvestigationsStored();
+        String filter = "severity,EQUAL,CRITICAL,AND";
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .param("filter", "severity,EQUAL,CRITICAL,AND")
-                .get("/api/investigations")
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -238,16 +260,15 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
     void givenInvestigations_whenProvideFilterCreatedBy_thenReturnAllCritical() throws JoseException {
         // given
         investigationNotificationSupport.defaultInvestigationsStored();
+        String filter = "createdBy,STARTS_WITH,BPNL00000001O,AND";
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .param("filter", "createdBy,STARTS_WITH,BPNL00000001O,AND")
-                .get("/api/investigations")
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -260,16 +281,15 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
     void givenInvestigations_whenProvideFilterCreatedByName_thenReturnAllCritical() throws JoseException {
         // given
         investigationNotificationSupport.defaultInvestigationsStored();
+        String filter = "createdByName,STARTS_WITH,Car,AND";
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .param("filter", "createdByName,STARTS_WITH,Car,AND")
-                .get("/api/investigations")
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -282,16 +302,16 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
     void givenAlerts_whenProvideDateRangeFilters_thenReturnExpectedResult() throws JoseException {
         // given
         investigationNotificationSupport.defaultInvestigationsStored();
-        String filter = "?filter=createdDate,AFTER_LOCAL_DATE,2023-10-09,AND&filter=createdDate,BEFORE_LOCAL_DATE,2023-10-11,AND";
+        String filter1 = "createdDate,AFTER_LOCAL_DATE,2023-10-09,AND";
+        String filter2 = "createdDate,BEFORE_LOCAL_DATE,2023-10-11,AND";
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filter1, filter2))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations" + filter)
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -304,16 +324,16 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
     void givenAlerts_whenProvideDateRangeFiltersXAnd_thenReturnExpectedResult() throws JoseException {
         // given
         investigationNotificationSupport.defaultInvestigationsStored();
-        String filter = "?filter=createdDate,AFTER_LOCAL_DATE,2023-10-12,AND&filter=createdDate,BEFORE_LOCAL_DATE,2023-10-08,AND";
+        String filter1 = "createdDate,AFTER_LOCAL_DATE,2023-10-12,AND";
+        String filter2 = "createdDate,BEFORE_LOCAL_DATE,2023-10-08,AND";
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filter1, filter2))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations" + filter)
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -326,16 +346,15 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
     void givenNonExistingFilterField_whenGetInvestigations_thenBadRequest() throws JoseException {
         // given
         investigationNotificationSupport.defaultInvestigationsStored();
-        String filter = "?filter=nonExistingField,AFTER_LOCAL_DATE,2023-10-12,AND";
+        String filter = "nonExistingField,AFTER_LOCAL_DATE,2023-10-12,AND";
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations" + filter)
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(400);
     }
@@ -361,10 +380,11 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
         // When
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
+
+                .body(new PageableFilterRequest(null, new SearchCriteriaRequestParam(List.of(filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .param("filter", filter)
-                .get("/api/investigations")
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
                 .assertThat()

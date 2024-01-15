@@ -39,6 +39,8 @@ public interface AssetRepository {
 
     List<AssetBase> saveAll(List<AssetBase> assets);
 
+    List<AssetBase> saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(List<AssetBase> assets);
+
     long countAssets();
 
     void updateParentDescriptionsAndOwner(final AssetBase asset);

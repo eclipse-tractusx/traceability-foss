@@ -16,7 +16,29 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.domain.importpoc;
+package org.eclipse.tractusx.traceability.common.request;
 
-public record AssetMetaInfoRequest(String catenaXId) {
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class PageableFilterRequest {
+    @JsonProperty("pageAble")
+    private OwnPageable ownPageable;
+    @JsonProperty("searchCriteria")
+    private SearchCriteriaRequestParam searchCriteriaRequestParam;
+
+    public SearchCriteriaRequestParam getSearchCriteriaRequestParam() {
+        return searchCriteriaRequestParam == null ? new SearchCriteriaRequestParam() : searchCriteriaRequestParam;
+    }
+
+    public OwnPageable getOwnPageable() {
+        return ownPageable == null ? new OwnPageable() : ownPageable;
+    }
 }

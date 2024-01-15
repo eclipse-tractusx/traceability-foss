@@ -16,11 +16,33 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.assets.domain.importpoc.model;
 
-package org.eclipse.tractusx.traceability.common.response;
-
+import java.time.OffsetDateTime;
 import java.util.List;
 
+public record SingleLevelBomAsPlannedRequest(String catenaXId, List<ChildItem> childItems) {
 
-public record ValidationResponse(List<String> validationErrors) {
+    public record ChildItem(
+            ValidityPeriod validityPeriod,
+            String catenaXId,
+            Quantity quantity,
+            String businessPartner,
+            String createdOn,
+            String lastModifiedOn
+    ) {
+    }
+
+    public record ValidityPeriod(
+            OffsetDateTime validFrom,
+            OffsetDateTime validTo
+    ) {
+    }
+
+    public record Quantity(
+            double quantityNumber,
+            String measurementUnit
+    ) {
+    }
 }
+

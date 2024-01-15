@@ -8,13 +8,19 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [UNRELEASED - DD.MM.YYYY]
 
 ### Added
+- Import Data Service for data provisioning
 - Added UI to publish own assets
+- Sequence Diagrams for Data Provisioning Flow
+- Added User Manual for Data import
 
 ### Changed
 - Fixed security findings
+- Rework GET alerts and investigations endpoint to POST to send a request body
 - Fixed deadline overlap issues for Q-investigations in update menu
 - Fixed sorting of asPlanned parts
 - Adjusted cypress tests to new cancellation flow
+- Fixed bug where applying a filter in one table erroneously affected sorting in the other table
+
 ### Removed
 
 ## [10.1.0 - 22.12.2023]

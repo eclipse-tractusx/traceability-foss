@@ -20,14 +20,15 @@
 package org.eclipse.tractusx.traceability.integration.qualitynotification.alert;
 
 import io.restassured.http.ContentType;
+import org.eclipse.tractusx.traceability.common.request.OwnPageable;
+import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
+import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertNotificationsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.BpnSupport;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertNotificationEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationNotificationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
 import org.hamcrest.Matchers;
@@ -71,7 +72,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
         given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts")
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(401);
     }
@@ -81,11 +82,10 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
     void shouldReturnNoAlerts() throws JoseException {
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of())))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts")
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -103,13 +103,10 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
         // then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .param("filter", filterString)
-                .param("sort", sortString)
-                .get("/api/alerts")
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -129,13 +126,10 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
         // then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .param("filter", filterString)
-                .param("sort", sortString)
-                .get("/api/alerts")
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -156,13 +150,10 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
         // then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .param("filter", filterString)
-                .param("sort", sortString)
-                .get("/api/alerts")
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -182,13 +173,10 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
         // then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .param("filter", filterString)
-                .param("sort", sortString)
-                .get("/api/alerts")
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -206,14 +194,10 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of())))
                 .contentType(ContentType.JSON)
                 .when()
-                .param("page", 0)
-                .param("size", 10)
-                .param("sort", sortString)
-                .get("/api/alerts")
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(400)
                 .body("message", Matchers.is(
@@ -266,12 +250,10 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "2")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(2, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .param("filter", filterString)
-                .get("/api/alerts")
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(200)
                 .body("content.createdBy", Matchers.hasItems(senderBPN))
@@ -323,14 +305,17 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
 
     @Test
     void givenNonExistingSortField_whenGetAlerts_thenBadRequest() throws JoseException {
+        //GIVEN
+        String sortString= "nonExistingField,ASC";
+
+        //WHEN
+        //THEN
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("sort", "nonExistingField,ASC")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of())))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts")
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(400);
     }

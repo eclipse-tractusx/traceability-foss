@@ -20,6 +20,10 @@
 package org.eclipse.tractusx.traceability.assets.application;
 
 
+import assets.importpoc.ErrorResponse;
+import assets.importpoc.ImportResponse;
+import assets.importpoc.ImportStateMessage;
+import assets.importpoc.ValidationResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -31,8 +35,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.application.importpoc.ImportService;
 import org.eclipse.tractusx.traceability.assets.application.importpoc.validation.JsonFileValidator;
-import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
-import org.eclipse.tractusx.traceability.common.response.ValidationResponse;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.ImportException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +47,9 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -116,14 +122,37 @@ public class ImportController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
 
     @PostMapping(value = "/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ValidationResponse> importJson(@RequestPart("file") MultipartFile file) {
-        List<String> validationResult = jsonFileValidator.isValid(file);
-        if (!validationResult.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ValidationResponse(validationResult));
+    public ResponseEntity<ImportResponse> importJson(@RequestPart("file") MultipartFile file) {
+        List<String> jsonSchemaErrors = jsonFileValidator.isValid(file);
+        ValidationResponse validationResponse = new ValidationResponse(jsonSchemaErrors);
 
+        if (!jsonSchemaErrors.isEmpty()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new ImportResponse(validationResponse));
         }
-//        importService.importAssets(file);
-        return ResponseEntity.noContent().build();
+
+        Map<AssetBase, Boolean> resultMap = null;
+        try {
+            resultMap = importService.importAssets(file);
+        } catch (ImportException e) {
+            log.info("Could not import data", e);
+            List<String> validationErrors = new ArrayList<>();
+            validationErrors.add(e.getMessage());
+            ValidationResponse importErrorResponse = new ValidationResponse(validationErrors);
+            return ResponseEntity
+                    .badRequest()
+                    .body(new ImportResponse(importErrorResponse));
+        }
+
+        List<ImportStateMessage> importStateMessages = resultMap.entrySet().stream()
+                .map(assetBaseSet -> new ImportStateMessage(
+                        assetBaseSet.getKey().getId(),
+                        assetBaseSet.getValue())
+                ).toList();
+
+        ImportResponse importResponse = new ImportResponse(importStateMessages);
+
+        return ResponseEntity.ok(importResponse);
     }
 }
