@@ -28,8 +28,6 @@ import org.eclipse.tractusx.traceability.assets.domain.asplanned.service.AssetAs
 import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.shelldescriptor.application.DecentralRegistryService;
-import org.eclipse.tractusx.traceability.shelldescriptor.application.ShellDescriptorService;
-import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.DecentralRegistryRepository;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -41,7 +39,6 @@ import java.util.List;
 @Component
 public class DecentralRegistryServiceImpl implements DecentralRegistryService {
 
-//    private final ShellDescriptorService shellDescriptorsService;
     private final AssetAsBuiltServiceImpl assetAsBuiltService;
     private final AssetAsPlannedServiceImpl assetAsPlannedService;
     private final TraceabilityProperties traceabilityProperties;
@@ -49,34 +46,16 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
 
     @Override
     @Async(value = AssetsAsyncConfig.LOAD_SHELL_DESCRIPTORS_EXECUTOR)
-    public void updateShellDescriptorAndSynchronizeAssets() {
-        // Seems like we dont need to store shell descriptors in database, there for remove shell descriptor repository and use Retrieved shell descriptors to create jobs in IRS right away
-//
-//        List<ShellDescriptor> updatedShellDescriptorList = shellDescriptorsService.determineExistingShellDescriptorsAndUpdate(shellDescriptorList);
-//        updatedShellDescriptorList.stream()
-//                .map(ShellDescriptor::getGlobalAssetId)
-//                .forEach(globalAssetId -> {
-//                    //TODO: differentiate if this is either as-planned or as-built. Otherwise we have twice the load here.
-//                    // DT-Library offers methods to requests additional info to get the bomlifecycle
-//                    assetAsPlannedService.synchronizeAssetsAsync(globalAssetId);
-//                    assetAsBuiltService.synchronizeAssetsAsync(globalAssetId);
-//                });
+    public void synchronizeAssets() {
 
         List<String> globalAssetIdsForApplicationBpn = decentralRegistryRepository.retrieveShellDescriptorsByBpn(traceabilityProperties.getBpn().toString());
         globalAssetIdsForApplicationBpn
                 .forEach(globalAssetId -> {
-                        //TODO: differentiate if this is either as-planned or as-built. Otherwise we have twice the load here.
-                        // DT-Library offers methods to requests additional info to get the bomlifecycle
-                        assetAsPlannedService.synchronizeAssetsAsync(globalAssetId);
-                        assetAsBuiltService.synchronizeAssetsAsync(globalAssetId);
-    });
+                    //TODO: differentiate if this is either as-planned or as-built. Otherwise we have twice the load here.
+                    // DT-Library offers methods to requests additional info to get the bomlifecycle
+                    assetAsPlannedService.synchronizeAssetsAsync(globalAssetId);
+                    assetAsBuiltService.synchronizeAssetsAsync(globalAssetId);
+                });
     }
-//
-//    public void deleteAll() {
-//        shellDescriptorsService.deleteAll();
-//        log.info("Deleted all shell descriptors");
-//    }
-
-
 }
 

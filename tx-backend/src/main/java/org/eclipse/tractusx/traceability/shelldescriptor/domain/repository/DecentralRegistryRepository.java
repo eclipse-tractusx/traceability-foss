@@ -19,8 +19,6 @@
 
 package org.eclipse.tractusx.traceability.shelldescriptor.domain.repository;
 
-import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
-
 import java.util.List;
 
 public interface DecentralRegistryRepository {

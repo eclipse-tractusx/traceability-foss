@@ -19,33 +19,28 @@
 package org.eclipse.tractusx.traceability.shelldescriptor.domain;
 
 import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
-import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBaseService;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.service.AssetAsPlannedServiceImpl;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
-import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.DecentralRegistryRepository;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.service.DecentralRegistryServiceImpl;
-import org.eclipse.tractusx.traceability.shelldescriptor.domain.service.ShellDescriptorsServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class DecentralDecentralRegistryServiceImplTest {
+class DecentralRegistryServiceImplTest {
 
-    @Mock
-    private ShellDescriptorsServiceImpl shellDescriptorsService;
 
     @Mock
     private DecentralRegistryRepository decentralRegistryRepository;
@@ -53,7 +48,7 @@ class DecentralDecentralRegistryServiceImplTest {
     @Mock
     private TraceabilityProperties traceabilityProperties;
     @Mock
-    private AssetAsBuiltServiceImpl assetService;
+    private AssetAsBuiltServiceImpl assetAsBuiltService;
 
     @Mock
     private AssetAsPlannedServiceImpl assetAsPlannedService;
@@ -61,22 +56,17 @@ class DecentralDecentralRegistryServiceImplTest {
     private DecentralRegistryServiceImpl registryFacade;
 
 
-//    @Test
+    @Test
     void testUpdateShellDescriptorAndSynchronizeAssets() throws RegistryServiceException {
         // Given
-        List<ShellDescriptor> shellDescriptors = new ArrayList<>();
-        ShellDescriptor shellDescritor = ShellDescriptor.builder().globalAssetId("1").build();
-        ShellDescriptor shellDescritor2 = ShellDescriptor.builder().globalAssetId("2").build();
-        shellDescriptors.add(shellDescritor);
-        shellDescriptors.add(shellDescritor2);
         when(traceabilityProperties.getBpn()).thenReturn(BPN.of("test"));
-        when(decentralRegistryRepository.retrieveShellDescriptorsByBpn(BPN.of("test").toString())).thenReturn(List.of());
-        when(shellDescriptorsService.determineExistingShellDescriptorsAndUpdate(shellDescriptors)).thenReturn(shellDescriptors);
+        when(decentralRegistryRepository.retrieveShellDescriptorsByBpn(BPN.of("test").toString())).thenReturn(List.of("id1","id2"));
 
         // When
-        registryFacade.updateShellDescriptorAndSynchronizeAssets();
+        registryFacade.synchronizeAssets();
 
         // Then
-        verify(shellDescriptorsService, times(1)).determineExistingShellDescriptorsAndUpdate(shellDescriptors);
+        verify(assetAsBuiltService, times(2)).synchronizeAssetsAsync(any(String.class));
+        verify(assetAsPlannedService, times(2)).synchronizeAssetsAsync(any(String.class));
     }
 }

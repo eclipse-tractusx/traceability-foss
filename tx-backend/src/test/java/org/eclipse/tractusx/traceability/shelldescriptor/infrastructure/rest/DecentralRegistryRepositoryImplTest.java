@@ -20,7 +20,6 @@ package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.rest;
 
 import org.eclipse.tractusx.irs.registryclient.decentral.DecentralDigitalTwinRegistryService;
 import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
-import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
