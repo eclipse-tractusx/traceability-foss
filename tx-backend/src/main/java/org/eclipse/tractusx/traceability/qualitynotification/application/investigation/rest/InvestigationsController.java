@@ -22,6 +22,7 @@
 package org.eclipse.tractusx.traceability.qualitynotification.application.investigation.rest;
 
 
+import assets.importpoc.ErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -36,8 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.model.BaseRequestFieldMapper;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
-import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
-import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
+import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.mapper.QualityNotificationFieldMapper;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.service.QualityNotificationService;
 import org.eclipse.tractusx.traceability.qualitynotification.application.investigation.mapper.InvestigationResponseMapper;
@@ -145,8 +145,8 @@ public class InvestigationsController {
         return new QualityNotificationIdResponse(investigationService.start(from(cleanRequest)).value());
     }
 
-    @Operation(operationId = "getInvestigations",
-            summary = "Gets investigations",
+    @Operation(operationId = "filterInvestigations",
+            summary = "Filter investigations defined by the request body",
             tags = {"Investigations"},
             description = "The endpoint returns investigations as paged result.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
@@ -197,10 +197,13 @@ public class InvestigationsController {
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
-    @GetMapping("")
-    public PageResult<InvestigationResponse> getInvestigations(OwnPageable pageable, SearchCriteriaRequestParam filter) {
+    @PostMapping("/filter")
+    public PageResult<InvestigationResponse> getInvestigations(@Valid @RequestBody PageableFilterRequest pageableFilterRequest) {
         log.info(API_LOG_START);
-        return InvestigationResponseMapper.fromAsPageResult(investigationService.getNotifications(OwnPageable.toPageable(pageable, fieldMapper), filter.toSearchCriteria(fieldMapper)));
+        return InvestigationResponseMapper.fromAsPageResult(
+                investigationService.getNotifications(
+                        OwnPageable.toPageable(pageableFilterRequest.getOwnPageable(), fieldMapper),
+                        pageableFilterRequest.getSearchCriteriaRequestParam().toSearchCriteria(fieldMapper)));
     }
 
     @Operation(operationId = "getInvestigation",

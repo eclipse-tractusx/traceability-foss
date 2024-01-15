@@ -141,13 +141,20 @@ export function toAssetFilter(formValues: any, isAsBuilt: boolean): AssetAsPlann
 
 }
 
-export function enrichDeeplinkFilterAndGetUpdatedParams(filter: any, httpParams: HttpParams): HttpParams {
+export function enrichDeeplinkFilterAndGetUpdatedFilter(filter: any): string[] {
+  let filterList: string[] = [];
   if (filter?.notificationIds) {
-    filter.notificationIds.forEach(notificationId => {
-      httpParams = httpParams.append('filter', 'id,EQUAL,' + notificationId + ',OR');
-    });
+
+    if(Array.isArray(filter.notificationIds)) {
+      filter.notificationIds.forEach(notificationId => {
+        filterList.push('id,EQUAL,' + notificationId + ',OR');
+      });
+    } else {
+      filterList.push('id,EQUAL,' + filter.notificationIds + ',OR');
+    }
+
   }
-  return httpParams;
+  return filterList;
 
 }
 
@@ -174,17 +181,22 @@ export function toGlobalSearchAssetFilter(formValues: string, isAsBuilt: boolean
   return filter;
 }
 
-export function provideFilterForNotifications(sort: any, params: HttpParams, filter?: NotificationFilter, fullFilter?: any): HttpParams {
-  sort.forEach(sortingItem => {
-    params = params.append('sort', sortingItem);
-  });
+export function provideFilterListForNotifications( filter?: NotificationFilter, fullFilter?: any): string[] {
+  let filterList: string[] = [];
 
   if (filter && !fullFilter) {
-    params = enrichDeeplinkFilterAndGetUpdatedParams(filter, params);
+    filterList = enrichDeeplinkFilterAndGetUpdatedFilter(filter);
   }
 
   if (!filter && fullFilter) {
-    params = enrichFilterAndGetUpdatedParams(fullFilter, params, 'AND');
+    let params: HttpParams;
+    params = enrichFilterAndGetUpdatedParams(fullFilter, new HttpParams(), 'AND');
+    let filterParams = params.getAll('filter');
+    if(filterParams){
+      filterParams.forEach(filter => {filterList.push(filter)});
+    }
+
   }
-  return params;
+
+  return filterList;
 }

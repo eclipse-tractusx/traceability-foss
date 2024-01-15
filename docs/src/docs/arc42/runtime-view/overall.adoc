@@ -1,3 +1,0 @@
-= Overall
-
-This section describes the overall flow of the TraceX-FOSS application

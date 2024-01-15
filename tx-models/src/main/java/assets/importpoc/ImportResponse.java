@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,17 +16,20 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package assets.importpoc;
 
-package org.eclipse.tractusx.traceability.common.response;
+import java.util.List;
 
-import io.swagger.annotations.ApiModelProperty;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+public record ImportResponse(
+        List<ImportStateMessage> importStateMessage,
+        ValidationResponse validationResult) {
 
-public record ErrorResponse(
-        @ApiModelProperty(example = "Access Denied")
-        @Size(max = 1000)
-        @Pattern(regexp = "^.*$", message = "Invalid message pattern")
-        String message
-) {
+    public ImportResponse(List<ImportStateMessage> importStateMessages) {
+        this(importStateMessages, ValidationResponse.emptyValidationResult());
+    }
+
+    public ImportResponse(ValidationResponse importStateMessages) {
+        this(List.of(), importStateMessages);
+    }
 }
+

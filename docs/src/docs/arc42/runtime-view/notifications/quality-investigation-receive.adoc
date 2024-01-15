@@ -1,10 +1,10 @@
-= Send Quality Investigation
+= Receive Quality Investigation
 
 This sequence diagram describes the process of receiving a quality investigation from another Traceability partner.
 
-[plantuml, target=business-context, format=svg]
+[plantuml, target=business-context_quality-investigation, format=svg]
 ....
-include::../../../uml-diagrams/arc42/runtime-view/quality-investigation-receive.puml[]
+include::../../../../uml-diagrams/arc42/runtime-view/quality-investigation-receive.puml[]
 ....
 
 == Overview

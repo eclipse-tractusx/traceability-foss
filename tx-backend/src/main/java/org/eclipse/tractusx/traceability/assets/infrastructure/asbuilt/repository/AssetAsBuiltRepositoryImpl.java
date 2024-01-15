@@ -28,12 +28,17 @@ import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportNote;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.common.repository.CriteriaUtility;
 import org.springframework.stereotype.Component;
 
+import java.util.AbstractMap;
 import java.util.List;
+import java.util.Objects;
 
 @RequiredArgsConstructor
 @Component
@@ -96,6 +101,32 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
                 .map(AssetAsBuiltEntity::toDomain)
                 .toList();
     }
+
+    @Override
+    @Transactional
+    public List<AssetBase> saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(List<AssetBase> assets) {
+
+        List<AssetAsBuiltEntity> toPersist = assets.stream().map(assetToPersist -> new AbstractMap.SimpleEntry<AssetBase, AssetBaseEntity>(assetToPersist, jpaAssetAsBuiltRepository.findById(assetToPersist.getId()).orElse(null)))
+                .filter(this::entityIsTransientOrNotExistent)
+                .map(entry -> {
+                    if (entry.getValue() != null) {
+                        entry.getKey().setImportNote(ImportNote.TRANSIENT_UPDATED);
+                    }
+                    return entry.getKey();
+                })
+                .map(AssetAsBuiltEntity::from).toList();
+
+        return jpaAssetAsBuiltRepository.saveAll(toPersist).stream().map(AssetAsBuiltEntity::toDomain).toList();
+    }
+
+    private boolean entityIsTransientOrNotExistent(AbstractMap.SimpleEntry<AssetBase, AssetBaseEntity> assetBaseAssetBaseEntitySimpleEntry) {
+        if (Objects.isNull(assetBaseAssetBaseEntitySimpleEntry.getValue())) {
+            return true;
+        }
+        return assetBaseAssetBaseEntitySimpleEntry.getValue().getImportState() == ImportState.TRANSIENT;
+    }
+
+    // TODO check if it exists
 
 
     @Transactional

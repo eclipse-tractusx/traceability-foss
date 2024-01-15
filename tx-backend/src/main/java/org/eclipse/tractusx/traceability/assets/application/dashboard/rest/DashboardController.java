@@ -32,7 +32,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.assets.application.dashboard.mapper.DashboardResponseMapper;
 import org.eclipse.tractusx.traceability.assets.application.dashboard.service.DashboardService;
-import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
+import assets.importpoc.ErrorResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

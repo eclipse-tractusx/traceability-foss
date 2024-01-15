@@ -16,13 +16,17 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.domain.importpoc;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Submodel;
+package assets.importpoc;
 
-import java.util.List;
+import io.swagger.annotations.ApiModelProperty;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
-public record AssetWrapperRequest(@JsonProperty("assetMetaInfo") AssetMetaInfoRequest assetMetaInfoRequest,
-                                  @JsonProperty("submodels") List<Submodel> submodels) {
+public record ErrorResponse(
+        @ApiModelProperty(example = "Access Denied")
+        @Size(max = 1000)
+        @Pattern(regexp = "^.*$", message = "Invalid message pattern")
+        String message
+) {
 }
