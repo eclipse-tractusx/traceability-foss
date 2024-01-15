@@ -21,7 +21,11 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 
-public interface AssetAsPlannedCallbackRepository {
+import java.util.Optional;
 
-    void updateParentDescriptionsAndOwnerOrSaveNew(final AssetBase asset);
+public interface AssetCallbackRepository {
+
+    Optional<AssetBase> findById(final String assetId);
+
+    AssetBase save(AssetBase asset);
 }

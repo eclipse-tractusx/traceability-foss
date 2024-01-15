@@ -25,10 +25,7 @@ import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
 import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
 import org.eclipse.tractusx.irs.edc.client.policy.Permission;
 import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.AssetAsBuiltCallbackRepository;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.AssetAsPlannedCallbackRepository;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.AssetCallbackRepository;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.IRSApiClient;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.IrsService;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
@@ -59,7 +56,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -95,10 +91,10 @@ class IrsServiceTest {
     ObjectMapper objectMapper = new ObjectMapper();
 
     @Mock
-    AssetAsBuiltCallbackRepository assetAsBuiltCallbackRepository;
+    AssetCallbackRepository assetAsBuiltCallbackRepository;
 
     @Mock
-    AssetAsPlannedCallbackRepository assetAsPlannedCallbackRepository;
+    AssetCallbackRepository assetAsPlannedCallbackRepository;
 
     @Mock
     private BpnRepository bpnRepository;
@@ -250,7 +246,7 @@ class IrsServiceTest {
     }
 
     @Test
-    void test_getPolicyConstraints(){
+    void test_getPolicyConstraints() {
         //GIVEN
         List<Constraint> andConstraints = List.of(new Constraint("leftOperand", OperatorType.EQ, List.of("rightOperand")));
         List<Constraint> orConstraints = List.of(new Constraint("leftOperand", OperatorType.EQ, List.of("rightOperand")));

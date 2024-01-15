@@ -28,9 +28,8 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportNote;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
-import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.AssetAsPlannedCallbackRepository;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.AssetCallbackRepository;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
@@ -49,7 +48,7 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 @RequiredArgsConstructor
 @Component
-public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository, AssetAsPlannedCallbackRepository {
+public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository, AssetCallbackRepository {
 
     private final JpaAssetAsPlannedRepository jpaAssetAsPlannedRepository;
 
@@ -127,36 +126,8 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository, A
         return assetBaseAssetBaseEntitySimpleEntry.getValue().getImportState() == ImportState.TRANSIENT;
     }
 
-//    @Transactional
-//    @Override
-//    public void updateParentDescriptionsAndOwner(final AssetBase asset) {
-//        AssetBase assetById = this.getAssetById(asset.getId());
-//        if (assetById.getOwner().equals(Owner.UNKNOWN)) {
-//            assetById.setOwner(asset.getOwner());
-//        }
-//        assetById.setParentRelations(asset.getParentRelations());
-//        save(assetById);
-//    }
-
     @Override
-    // Why if it exists we only update parent relations ? not other data etc ? check this logic
-    public void updateParentDescriptionsAndOwnerOrSaveNew(final AssetBase asset) {
-        Optional<AssetBase> existingAssetOptional = findAssetById(asset.getId());
-        if(existingAssetOptional.isPresent()) {
-            AssetBase existingAsset = existingAssetOptional.get();
-            if (existingAsset.getOwner().equals(Owner.UNKNOWN)) {
-                existingAsset.setOwner(asset.getOwner());
-            }
-            if (!asset.getParentRelations().isEmpty()) { // No other way to know callback direction
-                existingAsset.setParentRelations(asset.getParentRelations());
-            }
-            save(existingAsset);
-        } else {
-            save(asset);
-        }
-    }
-
-    private Optional<AssetBase> findAssetById(String assetId) {
+    public Optional<AssetBase> findById(String assetId) {
         return jpaAssetAsPlannedRepository.findById(assetId)
                 .map(AssetAsPlannedEntity::toDomain);
     }
