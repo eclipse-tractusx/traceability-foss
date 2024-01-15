@@ -55,9 +55,9 @@ public class IrsService implements IrsRepository {
     private final BpnRepository bpnRepository;
     private final TraceabilityProperties traceabilityProperties;
     private final ObjectMapper objectMapper;
-    AssetAsBuiltCallbackRepository assetAsBuiltCallbackRepository;
+    private final AssetAsBuiltCallbackRepository assetAsBuiltCallbackRepository;
 
-    AssetAsPlannedCallbackRepository assetAsPlannedCallbackRepository;
+    private final AssetAsPlannedCallbackRepository assetAsPlannedCallbackRepository;
 
     @Override
     public void createJobToResolveAssets(String globalAssetId, Direction direction, List<String> aspects, BomLifecycle bomLifecycle) {

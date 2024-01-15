@@ -27,6 +27,8 @@ import org.eclipse.tractusx.irs.edc.client.policy.Permission;
 import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.AssetAsBuiltCallbackRepository;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.AssetAsPlannedCallbackRepository;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.IRSApiClient;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.IrsService;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
@@ -93,11 +95,17 @@ class IrsServiceTest {
     ObjectMapper objectMapper = new ObjectMapper();
 
     @Mock
+    AssetAsBuiltCallbackRepository assetAsBuiltCallbackRepository;
+
+    @Mock
+    AssetAsPlannedCallbackRepository assetAsPlannedCallbackRepository;
+
+    @Mock
     private BpnRepository bpnRepository;
 
     @BeforeEach
     void setUp() {
-        irsService = new IrsService(irsClient, bpnRepository, traceabilityProperties, objectMapper);
+        irsService = new IrsService(irsClient, bpnRepository, traceabilityProperties, objectMapper, assetAsBuiltCallbackRepository, assetAsPlannedCallbackRepository);
     }
 
 
