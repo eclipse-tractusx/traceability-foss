@@ -12,6 +12,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Added UI to publish own assets
 - Sequence Diagrams for Data Provisioning Flow
 - Added User Manual for Data import
+- Added new /irs/job/callback endpoint to handle irs job finished callback
 
 ### Changed
 - Fixed security findings
@@ -19,7 +20,10 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Fixed deadline overlap issues for Q-investigations in update menu
 - Fixed sorting of asPlanned parts
 - Fixed bug where applying a filter in one table erroneously affected sorting in the other table
+- Irs Jobs are now created with callback parameter set to new /irs/job/callback endpoint
+
 ### Removed
+- Shell descriptor entity with underlying logic
 
 ## [10.1.0 - 22.12.2023]
 ### Added

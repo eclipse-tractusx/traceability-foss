@@ -161,12 +161,13 @@ class IrsServiceTest {
 
         RegisterJobResponse jobId = new RegisterJobResponse("123");
         // Given
-        when(irsClient.registerJob(any(RegisterJobRequest.class))).thenReturn(jobId);
-        JobDetailResponse jobResponse = provideTestJobResponse(direction.name());
         when(traceabilityProperties.getBpn()).thenReturn(BPN.of("test"));
 
         // When
         irsService.createJobToResolveAssets("1", direction, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
+
+        // Then
+        verify(irsClient, times(1)).registerJob(any());
     }
 
     private static Stream<Arguments> provideDirections() {
@@ -174,18 +175,6 @@ class IrsServiceTest {
                 Arguments.of(Direction.DOWNWARD),
                 Arguments.of(Direction.UPWARD)
         );
-    }
-
-    @ParameterizedTest
-    @MethodSource("provideDirections")
-    void testFindAssets_uncompletedJob_returnsEmptyListOfAssets(Direction direction) {
-        // Given
-        RegisterJobResponse startJobResponse = mock(RegisterJobResponse.class);
-        when(irsClient.registerJob(any(RegisterJobRequest.class))).thenReturn(startJobResponse);
-        when(traceabilityProperties.getBpn()).thenReturn(BPN.of("test"));
-
-        // When
-        irsService.createJobToResolveAssets("1", direction, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
     }
 
     private JobDetailResponse provideTestJobResponse(String direction) {
