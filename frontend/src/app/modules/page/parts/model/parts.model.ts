@@ -178,6 +178,13 @@ export enum ImportState {
   FORCE_DELETED = "FORCE_DELETED",
 }
 
+export enum ImportStateInCamelCase {
+  TRANSIENT = "Transient",
+  PERSISTENT = "Persistent",
+  IN_SYNCHRONIZATION = "In Synchronization",
+  FORCE_DELETED = "Force Deleted"
+}
+
 export enum FilterOperator {
   EQUAL = 'EQUAL',
   AT_LOCAL_DATE = 'AT_LOCAL_DATE',

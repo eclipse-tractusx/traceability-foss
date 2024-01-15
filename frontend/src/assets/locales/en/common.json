@@ -114,7 +114,10 @@
       "sentActiveAlerts" : "Created",
       "receivedActiveInvestigations" : "Received",
       "receivedActiveAlerts" : "Received",
-      "sentActiveInvestigations" : "Created"
+      "sentActiveInvestigations" : "Created",
+      "importState": "Import State",
+      "importNote": "Import Note",
+      "importDate": "Import Date"
     }
   },
   "dataLoading": {
@@ -127,6 +130,12 @@
     "Major": "Major",
     "Critical": "Critical",
     "LifeThreatening": "Life-Threatening"
+  },
+  "importState": {
+    "PERSISTENT": "PERSISTENT",
+    "TRANSIENT": "TRANSIENT",
+    "IN_SYNCHRONIZATION": "IN SYNCHRONIZATION",
+    "FORCE_DELETED": "FORCE DELETED"
   },
   "severity": {
     "MINOR": "Minor",
