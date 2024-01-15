@@ -40,6 +40,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Slf4j
@@ -71,6 +72,9 @@ public class IrsService implements IrsRepository {
 
     @Override
     public void handleJobFinishedCallback(String jobId, String state) {
+        if(!Objects.equals(state, JobDetailResponse.JOB_STATUS_COMPLETED)) {
+            return;
+        }
         JobDetailResponse jobResponse = irsClient.getJobDetails(jobId);
 
         long runtime = (jobResponse.jobStatus().lastModifiedOn().getTime() - jobResponse.jobStatus().startedOn().getTime()) / 1000;

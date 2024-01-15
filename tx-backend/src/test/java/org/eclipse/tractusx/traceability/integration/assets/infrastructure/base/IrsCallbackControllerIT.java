@@ -22,7 +22,8 @@ package org.eclipse.tractusx.traceability.integration.assets.infrastructure.base
 import io.restassured.http.ContentType;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
-import org.eclipse.tractusx.traceability.integration.common.support.BpnSupportRepository;
+import org.eclipse.tractusx.traceability.integration.common.support.repository.AssetAsBuiltSupportRepository;
+import org.eclipse.tractusx.traceability.integration.common.support.repository.BpnSupportRepository;
 import org.eclipse.tractusx.traceability.integration.common.support.IrsApiSupport;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,9 +42,12 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
     @Autowired
     AssetsSupport assetsSupport;
 
+    @Autowired
+    AssetAsBuiltSupportRepository assetAsBuiltSupportRepository;
+
 
     @Test
-    void test() {
+    void givenNoAssets_whenCallbackReceived_thenSaveThem() {
         // given
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         irsApiSupport.irsApiReturnsJobDetails();
@@ -51,6 +55,43 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
         String jobState = "COMPLETED";
 
         // when
+        given()
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .param("id", jobId)
+                .param("state", jobState)
+                .get("/api/irs/job/callback")
+                .then()
+                .log().all()
+                .statusCode(200);
+
+        // then
+        assertThat(bpnSupportRepository.findAll()).hasSize(6);
+        assetsSupport.assertAssetAsBuiltSize(15);
+        assetsSupport.assertAssetAsPlannedSize(0);
+    }
+
+    @Test
+    void givenAssetExist_whenCallbackReceived_thenUpdateIt() {
+        // given
+        oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
+        irsApiSupport.irsApiReturnsJobDetails();
+        String jobId = "ebb79c45-7bba-4169-bf17-3e719989ab54";
+        String jobState = "COMPLETED";
+
+        // when
+        given()
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .param("id", jobId)
+                .param("state", jobState)
+                .get("/api/irs/job/callback")
+                .then()
+                .log().all()
+                .statusCode(200);
+
         given()
                 .contentType(ContentType.JSON)
                 .log().all()

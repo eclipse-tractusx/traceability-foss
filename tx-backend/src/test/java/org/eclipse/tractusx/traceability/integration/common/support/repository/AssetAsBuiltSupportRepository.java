@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -17,10 +17,11 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.integration.common.support;
+package org.eclipse.tractusx.traceability.integration.common.support.repository;
 
-import org.eclipse.tractusx.traceability.bpn.infrastructure.model.BpnEntity;
+
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface BpnSupportRepository extends JpaRepository<BpnEntity, String> {
+public interface AssetAsBuiltSupportRepository extends JpaRepository<AssetAsBuiltEntity, String> {
 }
