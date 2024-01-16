@@ -47,6 +47,16 @@ mat-card {
   @media (max-width: 1024px) {
     grid-template-columns: 30% 70%;
   }
+
+  &--textField {
+    display: grid;
+    grid-template-columns: 35% 65%;
+    grid-template-rows: minmax(23px, auto);
+    align-items: start;
+    margin-top: 4px;
+    margin-bottom: 10px;
+  }
+
 }
 
 .card-list--full-row {
@@ -66,6 +76,13 @@ mat-card {
   overflow: hidden;
   white-space: nowrap;
   margin-left: 15px;
+
+  &--textField {
+    max-height: 100px;
+    overflow-y: auto;
+    white-space: wrap;
+    text-overflow: unset;
+  }
 }
 
 .card-list--full-value {
