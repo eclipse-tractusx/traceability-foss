@@ -22,7 +22,6 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
@@ -45,17 +44,31 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class IrsService implements IrsRepository {
 
     private final IRSApiClient irsClient;
     private final BpnRepository bpnRepository;
     private final TraceabilityProperties traceabilityProperties;
     private final ObjectMapper objectMapper;
-    @Qualifier("assetAsBuiltRepositoryImpl")
     private final AssetCallbackRepository assetAsBuiltCallbackRepository;
-    @Qualifier("assetAsPlannedRepositoryImpl")
     private final AssetCallbackRepository assetAsPlannedCallbackRepository;
+
+    public IrsService(
+            IRSApiClient irsClient,
+            BpnRepository bpnRepository,
+            TraceabilityProperties traceabilityProperties,
+            ObjectMapper objectMapper,
+            @Qualifier("assetAsBuiltRepositoryImpl")
+            AssetCallbackRepository assetAsBuiltCallbackRepository,
+            @Qualifier("assetAsPlannedRepositoryImpl")
+            AssetCallbackRepository assetAsPlannedCallbackRepository) {
+        this.irsClient = irsClient;
+        this.bpnRepository = bpnRepository;
+        this.traceabilityProperties = traceabilityProperties;
+        this.objectMapper = objectMapper;
+        this.assetAsBuiltCallbackRepository = assetAsBuiltCallbackRepository;
+        this.assetAsPlannedCallbackRepository = assetAsPlannedCallbackRepository;
+    }
 
     @Override
     public void createJobToResolveAssets(String globalAssetId, Direction direction, List<String> aspects, BomLifecycle bomLifecycle) {
@@ -72,7 +85,7 @@ public class IrsService implements IrsRepository {
 
     @Override
     public void handleJobFinishedCallback(String jobId, String state) {
-        if(!Objects.equals(state, JobDetailResponse.JOB_STATUS_COMPLETED)) {
+        if (!Objects.equals(state, JobDetailResponse.JOB_STATUS_COMPLETED)) {
             return;
         }
         JobDetailResponse jobResponse = irsClient.getJobDetails(jobId);
