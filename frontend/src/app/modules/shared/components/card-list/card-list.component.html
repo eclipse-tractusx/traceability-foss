@@ -26,7 +26,15 @@ SPDX-License-Identifier: Apache-2.0
   <mat-card-content>
     <div *ngFor="let item of list | ToKeyValue" class="card-list--row">
       <p class="card-list--key">{{ 'partDetail.' + item.key | i18n }}</p>
-      <p class="card-list--value" title="{{ item.value | autoFormat }}">{{ item.value | autoFormat }}</p>
+      <ng-container *ngIf="item.key === 'importState'; else normalValue">
+        <p class="card-list--value">
+          <app-chip [chipTextContent]="valueAsString(item.value)"></app-chip>
+        </p>
+      </ng-container>
+
+      <ng-template #normalValue>
+        <p class="card-list--value" title="{{ item.value | autoFormat }}">{{ item.value | autoFormat }}</p>
+      </ng-template>
     </div>
   </mat-card-content>
 </mat-card>

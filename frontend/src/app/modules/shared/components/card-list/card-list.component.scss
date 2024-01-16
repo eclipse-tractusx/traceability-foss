@@ -19,6 +19,10 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+mat-card {
+  height: 100% !important;
+}
+
 .card-list--container {
 }
 
@@ -69,6 +73,4 @@
   width: 100%;
 }
 
-mat-card {
-  height: 100%;
-}
+

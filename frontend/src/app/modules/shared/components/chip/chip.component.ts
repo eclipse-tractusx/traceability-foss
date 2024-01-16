@@ -6,6 +6,6 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./chip.component.scss']
 })
 export class ChipComponent {
-  @Input() textContent: string = "NOT_PROVIDED";
+  @Input() chipTextContent: string = "NOT_PROVIDED";
 
 }

@@ -44,6 +44,10 @@
         "header": "Keine Bauteile ausgewählt",
         "text": "Bitte wählen Sie Bauteile für den Start einer Untersuchung aus."
       }
-    }
+    },
+    "importHeader": "Produktstatus",
+    "importState": "Importstatus",
+    "importNote": "Importanmerkung"
+
   }
 }
