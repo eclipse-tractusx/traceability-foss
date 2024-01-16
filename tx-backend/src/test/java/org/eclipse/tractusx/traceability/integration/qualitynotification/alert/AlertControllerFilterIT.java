@@ -395,7 +395,7 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
         alertNotificationsSupport.defaultAlertsStored();
 
         // when/then
-        SearchCriteriaRequestParam searchCriteriaRequestParam = new SearchCriteriaRequestParam(List.of("1".repeat(1000)));
+        SearchCriteriaRequestParam searchCriteriaRequestParam = new SearchCriteriaRequestParam(List.of("1".repeat(1001)));
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), searchCriteriaRequestParam))
@@ -403,7 +403,9 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
                 .when()
                 .post("/api/alerts/filter")
                 .then()
-                .statusCode(400);
+                .log().all()
+                .statusCode(400)
+                .body("message", equalTo("Filter string should not be longer than 1000 characters."));
     }
 
 }
