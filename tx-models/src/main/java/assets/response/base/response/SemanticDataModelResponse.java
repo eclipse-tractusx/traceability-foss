@@ -16,18 +16,22 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package assets.response.base.response;
 
-package assets.response.base;
-
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import jakarta.validation.constraints.Size;
 
-public record DescriptionsResponse(
-        @ApiModelProperty(example = "urn:uuid:a4a26b9c-9460-4cc5-8645-85916b86adb0")
-        @Size(max = 255)
-        String id,
-        @ApiModelProperty(example = "assembly-part-relationship")
-        @Size(max = 255)
-        String idShort) {
+@ApiModel(description = "Type of model")
+public enum SemanticDataModelResponse {
+    @ApiModelProperty("Batch")
+    BATCH,
+    @ApiModelProperty("SerialPart")
+    SERIALPART,
+    @ApiModelProperty("Unknown")
+    UNKNOWN,
+    @ApiModelProperty("PartAsPlanned")
+    PARTASPLANNED,
+    @ApiModelProperty("JustInSequence")
+    JUSTINSEQUENCE;
 
 }

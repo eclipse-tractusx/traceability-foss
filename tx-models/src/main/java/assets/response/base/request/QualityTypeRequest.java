@@ -17,14 +17,12 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.application.base.request;
+package assets.response.base.request;
 
 
-import assets.response.base.QualityTypeResponse;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
 
 @ApiModel(description = "Quality types")
 public enum QualityTypeRequest {
@@ -43,14 +41,6 @@ public enum QualityTypeRequest {
 
     QualityTypeRequest(String description) {
         this.description = description;
-    }
-
-    public static QualityTypeResponse from(final QualityType qualityType) {
-        return QualityTypeResponse.valueOf(qualityType.name());
-    }
-
-    public QualityType toDomain() {
-        return QualityType.valueOf(this.name());
     }
 
     @JsonValue

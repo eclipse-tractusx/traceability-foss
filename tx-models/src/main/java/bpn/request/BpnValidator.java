@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -18,15 +16,24 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package bpn.request;
 
-package org.eclipse.tractusx.traceability.assets.application.base.request;
 
-import io.swagger.annotations.ApiModelProperty;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
-import jakarta.validation.constraints.NotNull;
+import java.util.regex.Pattern;
 
-public record UpdateAssetRequest(
-        @NotNull(message = "qualityType must be present")
-        @ApiModelProperty(example = "Ok")
-        QualityTypeRequest qualityType) {
+public class BpnValidator implements ConstraintValidator<ValidBPN, String> {
+
+    private static final String BPN_REGEX = "^BPN[ALS][0-9A-Za-z]{10}[0-9A-Za-z]{2}$";
+
+    @Override
+    public void initialize(ValidBPN constraintAnnotation) {
+    }
+
+    @Override
+    public boolean isValid(String value, ConstraintValidatorContext context) {
+        return value != null && Pattern.matches(BPN_REGEX, value);
+    }
 }

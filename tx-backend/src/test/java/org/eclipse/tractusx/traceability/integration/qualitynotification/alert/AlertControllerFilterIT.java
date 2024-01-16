@@ -389,4 +389,21 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
                 .body("totalItems", equalTo(1));
     }
 
+    @Test
+    void givenAlerts_whenProvideFilterLongerThan1000_thenReturnHttp400() throws JoseException {
+        // given
+        alertNotificationsSupport.defaultAlertsStored();
+
+        // when/then
+        SearchCriteriaRequestParam searchCriteriaRequestParam = new SearchCriteriaRequestParam(List.of("1".repeat(1000)));
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), searchCriteriaRequestParam))
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/alerts/filter")
+                .then()
+                .statusCode(400);
+    }
+
 }

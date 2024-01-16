@@ -16,27 +16,19 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package assets.response.base;
+package assets.response.base.response;
 
-public enum DetailAspectTypeResponse {
-    AS_BUILT("AS_BUILT"),
-    AS_PLANNED("AS_PLANNED"),
-    /* Detail aspect of as built assets */
-    TRACTION_BATTERY_CODE("TRACTION_BATTERY_CODE"),
-    /* Downward relation of as planned assets */
-    SINGLE_LEVEL_BOM_AS_BUILT("SINGLE_LEVEL_BOM_AS_BUILT"),
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.ToString;
 
-    /* Upward relation of as planned assets */
-    SINGLE_LEVEL_USAGE_AS_BUILT("SINGLE_LEVEL_USAGE_AS_BUILT"),
+@Getter
+@ToString
+@Builder
+public class DetailAspectModelResponse {
 
-    /* Downward relation of as planned assets */
-    SINGLE_LEVEL_BOM_AS_PLANNED("SINGLE_LEVEL_BOM_AS_PLANNED"),
-    /* Detail aspect of as planned assets */
-    PART_SITE_INFORMATION_AS_PLANNED("PART_SITE_INFORMATION_AS_PLANNED");
-
-    final String realName;
-
-    DetailAspectTypeResponse(final String realName) {
-        this.realName = realName;
-    }
+    @ApiModelProperty(example = "PART_SITE_INFORMATION_AS_PLANNED")
+    private DetailAspectTypeResponse type;
+    private DetailAspectDataResponse data;
 }

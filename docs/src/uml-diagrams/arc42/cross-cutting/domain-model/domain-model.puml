@@ -1,0 +1,156 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName "Architects daughter"
+skinparam linetype ortho
+title: Domain Model
+
+class ImportJobs {
+    importId : String (max = 255)
+    startedOn : Instant(UTC)
+    completedOn : Instant(UTC)
+    importStatus : enum()
+    importedAsset : Collection<ImportedAsset>
+}
+
+class ImportedAsset{
+    assetImportId : String (max = 255)
+    importStatus : enum()
+    importMessage : String (max = 4000)
+    importedOn : Instant(UTC)
+    asset : Asset
+}
+
+
+abstract Asset {
+        *   id : String (max = 255)
+        idShort : String (max = 255)
+        semanticModelId : String
+        businessPartner : String  (max = 255) /' BusinessPartner '/
+        manufacturerName : String  (max = 255) /' BPN Lookup collection irs.bpns[] '/
+        nameAtManufacturer : String  (max = 255) /' partTypeInformation.nameAtManufacturer '/
+        manufacturerPartId : String (max = 255) /' partTypeInformation.manufacturerPartId '/
+
+        assetSyncStatus : AssetSyncStatus /' Status of asset in database'/
+        owner : OwnerResponse
+        activeAlert: boolean
+        qualityType : QualityType
+        underInvestigation : boolean
+        semanticDataModelType : SemanticDataModelType
+        childRelations : List<Relation>
+        parentRelations : List<Relation>
+        van : String (max = 255)
+        classification : String  (max = 255) /' partTypeInformation.classification '/
+        detailSemanticModels : List<DetailAspectModelModel>
+        qualityInvestigationsInStatusActive : Integer
+        qualityAlertsInStatusActive : Integer
+
+        semanticPayload : SemanticPayload
+}
+
+note left
+    Rename Descriptions
+    to Relation
+end note
+
+
+abstract DetailAspectModelModel {
+    detailSemanticDataModelType : DetailSemanticDataModelType
+    semanticPayload : SemanticPayload
+}
+note left
+    DetailAspectModelModel
+    contains detail
+    semantic models
+end note
+
+class SemanticPayload  #back:red;line:00FFFF {
+    *   id : String
+       payload : JSONObject /'Payload of semantic model'/
+ }
+
+class Relation {
+       *   id : String
+       idShort : String
+}
+
+enum SemanticDataModelType {
+    BATCH,
+    SERIALPART,
+    JUSTINSEQUENCEPART,
+    PARTASPLANNED
+}
+
+enum AssetSyncStatus {
+    TRANSIENT,
+    SYNCHRONIZED,
+    IN_SYNCHRONIZATION,
+    FORCE_DELETED
+}
+
+enum DetailSemanticDataModelType {
+    TRACTIONBATTERYCODE,
+    PARTSITEINFORMATIONASPLANNED
+}
+
+class AsBuiltAspectModel {
+    partId : String /' BatchID ,  jisNumber , partInstanceID'/
+
+    /' specific customer attribute for asBuilt '/
+    customerPartId : String
+    nameAtCustomer : String
+    manufacturingCountry : String (iso-3)
+    manufacturingDate : Instant
+}
+
+note left
+    partId covers SerialPart.partInstanceID,
+     Batch.BatchID,
+     JustInSequencePart.jisNumber
+end note
+
+class TractionBatteryCode {
+    * uuid4 : String /' UUID ID '/
+    productType: String
+    tractionBatteryCode: String
+    subComponents : List<TractionBatteryCode>
+}
+
+class  AsPlannedAspectModel { /' PartAsPlanned '/
+/'
+    1.0.0
+'/
+    validityPeriodFrom : Instance
+    validityPeriodTo: Instance
+}
+
+class PartSiteInformationAsPlanned {
+/'
+    1.0.0
+    Currently this is not ready for implementing - there is no specification right now.
+'/
+    functionValidFrom : Instance
+    functionValidUntil : Instance
+
+}
+
+ImportedAsset ||---|| Asset
+ImportJobs ||---o{ ImportedAsset
+note left
+    1 ... 10.000 ImportedAsset per ImportJobs
+end note
+SemanticDataModelType <-- Asset
+AssetSyncStatus <-- Asset
+DetailSemanticDataModelType <-- DetailAspectModelModel
+Asset <|.. AsBuiltAspectModel
+Asset <|... AsPlannedAspectModel
+
+Asset ||---o{ Relation : childRelations
+Asset ||--o{  Relation : parentRelations
+Asset ||--o{  DetailAspectModelModel : detailAspectModels
+DetailAspectModelModel  <|.. TractionBatteryCode
+DetailAspectModelModel  <|..  PartSiteInformationAsPlanned
+
+Asset ||---|| SemanticPayload
+DetailAspectModelModel ||---|| SemanticPayload
+@enduml

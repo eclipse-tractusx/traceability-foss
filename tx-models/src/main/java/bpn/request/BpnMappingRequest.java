@@ -29,6 +29,7 @@ public record BpnMappingRequest(
         @NotEmpty(message = "BPN must be present")
         @ApiModelProperty(example = "BPNL00000003CSGV")
         @Size(max = 255)
+        @ValidBPN
         String bpn,
 
         @NotNull(message = "A valid URL must be present")
