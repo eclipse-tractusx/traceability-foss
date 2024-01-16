@@ -33,6 +33,7 @@ import { enrichFilterAndGetUpdatedParams } from '@shared/helper/filter-helper';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+// TODO: merge this service with parts-service. The difference here should only be the owner parameter. (Own Parts = OWNER=OWN, supplier = OWNER=SUPPLIER, customer = OWNER=CUSTOMER
 @Injectable()
 export class OtherPartsService {
   private url = environment.apiUrl;
@@ -43,14 +44,15 @@ export class OtherPartsService {
 
   public getOtherPartsAsBuilt(page: number, pageSize: number, sorting: TableHeaderSort[], owner: Owner, filter?: AssetAsBuiltFilter, isOrSearch?: boolean): Observable<Pagination<Part>> {
     let sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
-    let params = this.buildHttpParams(page, pageSize, isOrSearch, owner);
+    let params = this.buildHttpParams(page, pageSize, owner);
+    let filterOperator = isOrSearch ? 'OR' : 'AND';
 
     sort.forEach(sortingItem => {
       params = params.append('sort', sortingItem);
     });
 
     if (filter) {
-      params = enrichFilterAndGetUpdatedParams(filter, params);
+      params = enrichFilterAndGetUpdatedParams(filter, params, filterOperator);
     }
     return this.apiService
       .getBy<PartsResponse>(`${ this.url }/assets/as-built`, params)
@@ -61,13 +63,15 @@ export class OtherPartsService {
     let sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
 
 
-    let params = this.buildHttpParams(page, pageSize, isOrSearch, owner);
+    let params = this.buildHttpParams(page, pageSize, owner);
+    let filterOperator = isOrSearch ? 'OR' : 'AND';
+
 
     sort.forEach(sortingItem => {
       params = params.append('sort', sortingItem);
     });
     if (filter) {
-      params = enrichFilterAndGetUpdatedParams(filter, params);
+      params = enrichFilterAndGetUpdatedParams(filter, params, filterOperator);
     }
 
     return this.apiService
@@ -75,13 +79,11 @@ export class OtherPartsService {
       .pipe(map(parts => PartsAssembler.assembleOtherParts(parts, MainAspectType.AS_PLANNED)));
   }
 
-  private buildHttpParams(page: number, pageSize: number, isOrSearch: boolean, owner: Owner): HttpParams{
-    let filterOperator = isOrSearch ? 'OR' : 'AND';
-   return new HttpParams()
+  private buildHttpParams(page: number, pageSize: number, owner: Owner): HttpParams {
+    return new HttpParams()
       .set('page', page)
       .set('size', pageSize)
-      .set('filterOperator', filterOperator)
-      .set('filter', 'owner,EQUAL,' + owner);
+      .set('filter', 'owner,EQUAL,' + owner + ',AND');
   }
 
 }

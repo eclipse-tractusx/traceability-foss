@@ -11,7 +11,9 @@
     "investigations": "Qualitätsuntersuchung",
     "alerts": "Qualitätswarnung",
     "adminRegistry": "Registry-Abfragen",
-    "adminBpn": "BPN - EDC Konfiguration"
+    "adminBpn": "BPN - EDC Konfiguration",
+    "adminImport": "Datenbereitstellung",
+    "unauthorized": "Die Funktion ist aufgrund einer fehlenden Rolle deaktiviert. Bitten Sie Ihren Administrator, die erforderliche Rolle für die Funktion bereitzustellen."
   },
   "pageTitle": {
     "dashboard": "Dashboard",
@@ -48,7 +50,15 @@
     "remove": "Entfernen",
     "delete": "Löschen",
     "goToQueue": "Zur Warteschlange",
-    "goBack": "Zurück"
+    "goBack": "Zurück",
+    "publishAssets": "Produkte veröffentlichen"
+  },
+  "publisher": {
+    "selectedAssets": "Ausgewählte Produkte",
+    "policyToApply": "Anzuwendende Richtlinie",
+    "selectPolicyLabel": "Richtlinie auswählen",
+    "selectPolicyError": "Bitte selektieren sie eine Richtlinie",
+    "publish": "Veröffentlichen"
   },
   "table": {
     "noResultFound": "KEINE ERGEBNISSE GEFUNDEN.",
@@ -57,26 +67,30 @@
     "menuDescription": "Aktionsmenü",
     "clearPage": "Markierungen auf dieser Seite aufheben",
     "clearAll": "Alle Markierungen aufheben",
+    "multiSortingTooltip": "Erster Klick: aufsteigend sortieren ↑ Zweiter Klick: absteigend sortieren ↓ Dritter Klick: Sortierung zurücksetzen",
     "filterTitle" : "Filter",
-    "adminColumn": {
-      "startDate": "Startdatum",
-      "registryLookupStatus": "Status",
-      "successShellDescriptorsFetchCount": "Erfolgreiche Abrufe",
-      "failedShellDescriptorsFetchCount": "Fehlgeschlagene Abrufe",
-      "shellDescriptorsFetchDelta": "Abruf-Delta",
-      "endDate": "Enddatum"
+    "tableSettings": {
+      "invalid": "Auf Grund eines Fehlers werden die Tabelleneinstellungen zurückgesetzt",
+      "title": "Tabellenspalten Einstellungen",
+      "selectAll": "Alle",
+      "orderTooltip": "Die Anordnung der Tabellenspalten kann über die Auswahl einer Spalte und einem Klick auf die Pfeilsymbole angepasst werden. ↑ (hoch) oder ↓ (runter)",
+      "refreshTooltip": "Zurücksetzen der individuellen Einstellung der Tabellenspalten auf die Standardeinstellung",
+      "saveAction": "Speichern",
+      "alert": "Qualitätswarnung",
+      "investigation": "Qualitätsuntersuchung"
     },
     "column": {
       "id": "ID",
       "idShort": "Kurz-ID",
       "name": "Name",
-      "manufacturer": "Hersteller",
+      "manufacturerName": "Hersteller",
+      "businessPartner": "Business Partner Nummer",
       "partId": "Produktnummer",
-      "manufacturerPartId": "Hersteller produktnummer",
-      "customerPartId": "Kunden produktnummer",
+      "manufacturerPartId": "Hersteller Produktnummer",
+      "customerPartId": "Kunden Produktnummer",
       "classification": "Klassifizierung",
-      "nameAtCustomer": "Kunden produktname",
-      "nameAtManufacturer": "Hersteller produktname",
+      "nameAtCustomer": "Kunden Produktname",
+      "nameAtManufacturer": "Hersteller Produktname",
       "semanticModelId": "Semantische Modellnummer",
       "qualityType": "Qualitätsstufe",
       "manufacturingDate": "Produktionsdatum",
@@ -88,16 +102,20 @@
       "status": "Status",
       "targetDate": "Rückmeldedatum",
       "createdDate": "Erstelldatum",
-      "createdBy": "Erstellt von",
-      "sendTo": "Gesendet an",
+      "createdBy": "Erstellt von BPN",
+      "createdByName": "Erstellt von Hersteller",
+      "sendTo": "Gesendet an BPN",
+      "sendToName": "Gesendet an Hersteller",
       "severity": "Gefahrenstufe",
       "semanticDataModel": "Semantisches Datenmodell",
       "catenaXSiteId": "Standort ID",
       "psFunction": "Funktion",
       "functionValidFrom": "Funktion gültig von",
       "functionValidUntil" : "Funktion gültig bis",
-      "activeAlerts" : "Aktive Qualitätswarnungen",
-      "activeInvestigations" : "Aktive Qualitätsuntersuchungen"
+      "sentActiveAlerts" : "Erstellte",
+      "receivedActiveInvestigations" : "Empfangene",
+      "receivedActiveAlerts" : "Empfangene",
+      "sentActiveInvestigations" : "Erstellte"
     }
   },
   "dataLoading": {
@@ -198,6 +216,7 @@
       "closeReasonHint": "Geben Sie den Grund für das Schließen ein.",
       "cancellationTitle": "Abbruch der Untersuchung",
       "cancellationHint": "Geben Sie die ID der Untersuchung ein, um Ihre Abbruchanfrage zu bestätigen.",
+      "cancellationConfirmationLabel": "Ja, ich bestätige die Stornierung der Untersuchung mit der ID: ",
       "declineTitle": "Ablehnung der Untersuchung",
       "declineReasonHint": "Geben Sie den Grund für die Ablehnung dieser Untersuchung ein.",
       "successfullyAccepted": "Untersuchung wurde erfolgreich angenommen.",
@@ -239,6 +258,7 @@
       "closeReasonHint": "Geben Sie den Grund für das Schließen ein.",
       "cancellationTitle": "Abbruch der Qualitätswarnung",
       "cancellationHint": "Geben Sie die ID der Qualitätswarnung ein, um Ihre Abbruchanfrage zu bestätigen.",
+      "cancellationConfirmationLabel": "Ja, ich bestätige die Stornierung der Warnung mit der ID: ",
       "declineTitle": "Ablehnung der Qualitätswarnung",
       "declineReasonHint": "Geben Sie den Grund für die Ablehnung dieser Qualitätswarnung ein.",
       "successfullyAccepted": "Qualitätswarnung wurde erfolgreich angenommen.",
@@ -261,18 +281,44 @@
   },
   "multiSelect": {
     "filterLabel": "Filter",
-    "placeholder": "Alle"
+    "placeholder": "Alle",
+    "searchPlaceholder": "Suche..",
+    "choosePlaceholder": "Auswählen..",
+    "suggestionError": "Keine Vorschläge gefunden.",
+    "multipleResults": "weitere",
+    "mappedText": {
+      "RECEIVED": "ERHALTEN",
+      "CREATED": "ERSTELLT",
+      "SENT": "ZUGESTELLT",
+      "CANCELED": "ABGEBROCHEN",
+      "CLOSED": "ABGESCHLOSSEN",
+      "ACCEPTED": "AKZEPTIERT",
+      "ACKNOWLEDGED": "BESTÄTIGT",
+      "DECLINED": "ABGELEHNT",
+      "MINOR": "Gering",
+      "MAJOR": "Schwerwiegend",
+      "CRITICAL": "Kritisch",
+      "LIFE_THREATENING": "Lebensgefährlich",
+      "BATCH": "Batch",
+      "SERIALPART": "SerialPart",
+      "PARTASPLANNED": "PartAsPlanned",
+      "UNKNOWN": "Unknown",
+      "JUSTINSEQUENCE": "JustInSequence",
+      "TRACTIONBATTERYCODE": "TractionBatteryCode"
+    }
   },
   "parts": {
     "input": {
       "global-search": {
-        "placeholder": "Suche nach C-X ID, partInstanceId or partNumber / BPN",
+        "placeholder": "Suche nach C-X ID, partInstanceId oder partNumber / BPN",
         "toastInfo": "Lokale Filterung auf Tabellenebene wurde zurückgesetzt."
       }
     }
   },
   "datepicker": {
     "apply": "Filter",
-    "cancel": "Zurücksetzen"
+    "cancel": "Zurücksetzen",
+    "startDate": "Startdatum",
+    "endDate": "Enddatum"
   }
 }

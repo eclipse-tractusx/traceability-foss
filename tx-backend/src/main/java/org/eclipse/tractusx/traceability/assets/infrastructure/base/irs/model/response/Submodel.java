@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataTractionBatteryCode;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.SemanticDataModel;
 
-class Submodel {
+public class Submodel {
     @JsonTypeInfo(
             use = JsonTypeInfo.Id.NAME,
             include = JsonTypeInfo.As.EXTERNAL_PROPERTY,
@@ -68,6 +68,9 @@ class Submodel {
     @JsonProperty("aspectType")
     private String aspectType;
 
+    @JsonProperty("identification")
+    private String identification;
+
     @JsonCreator
     public Submodel(@JsonProperty("aspectType") String aspectType, @JsonProperty("payload") Object payload) {
         this.aspectType = aspectType;
@@ -80,6 +83,10 @@ class Submodel {
 
     public String getAspectType() {
         return aspectType;
+    }
+
+    public String getIdentification() {
+        return identification;
     }
 }
 

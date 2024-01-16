@@ -17,9 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 // should be mapped into
-export type SemanticModel = {
-
-}
+export type SemanticModel = {}
 
 export type AsBuiltAspectModel = {
   partId: string;
@@ -42,10 +40,9 @@ export type PartSiteInformationAsPlanned = {
 }
 
 export type TractionBatteryCode = {
-  uuid4: string,
   productType: string,
   tractionBatteryCode: string,
-  subComponents: TractionBatteryCode[]
+  subcomponents?: TractionBatteryCode[]
 }
 
 

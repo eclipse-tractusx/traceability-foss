@@ -13,6 +13,7 @@ Feature: ⭐[TEST] [BE] Set and show notification target date
   @TRACEFOSS-1247 @TRACEFOSS-1920 @TEST-1217 @TRACEFOSS-1139 @TEST-904 @TRACEFOSS-1673 @TRACEFOSS-1138 @TRACEFOSS-1101 @INTEGRATION_TEST
   Scenario: [BE] Check correct processing of targetDate = null in quality investigation
     When I am logged into TRACE_X_A application
+    When I use assets with ids 'urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd'
     And I create quality investigation
       | "severity"    | "MINOR"                                     |
       | "description" | "Testing without targetDate TRACEFOSS-1247" |
@@ -36,6 +37,7 @@ Feature: ⭐[TEST] [BE] Set and show notification target date
   @TRACEFOSS-1216 @TRACEFOSS-1920 @TEST-1217 @TRACEFOSS-1139 @TRACEFOSS-1673 @TRACEFOSS-1138 @TRACEFOSS-1101 @TEST-904 @INTEGRATION_TEST
   Scenario: [BE] Check correct processing of targetDate in quality investigation
     When I am logged into TRACE_X_A application
+    When I use assets with ids 'urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd'
     And I create quality investigation
       | "severity"    | "MINOR"                             |
       | "description" | "Testing targetDate TRACEFOSS-1216" |

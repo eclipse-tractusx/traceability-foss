@@ -16,81 +16,187 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+import { HttpParams } from '@angular/common/http';
 import {
-    AssetAsBuiltFilter,
-    AssetAsPlannedFilter,
-    FilterOperator,
-    getFilterOperatorValue
-} from "@page/parts/model/parts.model";
-import {HttpParams} from "@angular/common/http";
+  AssetAsBuiltFilter,
+  AssetAsPlannedFilter,
+  FilterOperator,
+  getFilterOperatorValue,
+} from '@page/parts/model/parts.model';
+import { NotificationFilter } from '../../../mocks/services/investigations-mock/investigations.model';
 
+export const DATE_FILTER_KEYS = [ 'manufacturingDate', 'functionValidFrom', 'functionValidUntil', 'validityPeriodFrom', 'validityPeriodTo', 'createdDate', 'targetDate' ];
 
-export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, params: HttpParams): HttpParams {
-    const semanticDataModelKey = "semanticDataModel";
-    for (const key in filter) {
-        let operator: string;
-        const filterValues = filter[key];
-        if (key !== semanticDataModelKey) {
-            if (filterValues.length !== 0) {
-                if (key.toLowerCase().includes('date')) {
-                    operator = getFilterOperatorValue(FilterOperator.AT_LOCAL_DATE);
-                } else {
-                    operator = getFilterOperatorValue(FilterOperator.STARTS_WITH);
-                }
-                params = params.append('filter', `${key},${operator},${filterValues}`);
-            }
-        } else {
-            operator = getFilterOperatorValue(FilterOperator.EQUAL);
-            for (let value of filterValues) {
-                params = params.append('filter', `${key},${operator},${value}`);
-            }
-        }
+// TODO: Refactor function
+export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, params: HttpParams, filterOperator: string): HttpParams {
+
+  for (const key in filter) {
+    let operator: string;
+    const filterValues: string = filter[key];
+    if (!filterValues) {
+      continue;
     }
-    return params;
+    // has date
+    if (isDateFilter(key)) {
+      if (isDateRangeFilter(filterValues)) {
+        const [ startDate, endDate ] = filterValues.split(',');
+        if (isSameDate(startDate, endDate)) {
+          operator = getFilterOperatorValue(FilterOperator.AT_LOCAL_DATE);
+          params = params.append('filter', `${ key },${ operator },${ startDate },${ filterOperator }`);
+          continue;
+        }
+        let endDateOperator = getFilterOperatorValue(FilterOperator.BEFORE_LOCAL_DATE);
+        operator = getFilterOperatorValue((FilterOperator.AFTER_LOCAL_DATE));
+        params = params.append('filter', `${ key },${ operator },${ startDate },${ filterOperator }`);
+        params = params.append('filter', `${ key },${ endDateOperator },${ endDate },${ filterOperator }`);
+        continue;
+      } else if (filterValues && filterValues.length != 0) {
+        operator = getFilterOperatorValue(FilterOperator.AT_LOCAL_DATE);
+        params = params.append('filter', `${ key },${ operator },${ filterValues },${ filterOperator }`);
+      }
+    }
+
+    // has multiple values
+    if (isStartsWithFilter(key) && Array.isArray(filter[key])) {
+      operator = getFilterOperatorValue(FilterOperator.EQUAL);
+
+      for (const value of filter[key]) {
+        params = params.append('filter', `${ key },${ operator },${ value },${ filterOperator }`);
+      }
+    }
+
+    // has single value
+    if (isStartsWithFilter(key) && !Array.isArray(filter[key])) {
+      operator = getFilterOperatorValue(FilterOperator.STARTS_WITH);
+      params = params.append('filter', `${ key },${ operator },${ filterValues },${ filterOperator }`);
+    }
+
+    if (isNotificationCountFilter(key) && filterValues && filterValues.length != 0) {
+      operator = getFilterOperatorValue(FilterOperator.NOTIFICATION_COUNT_EQUAL);
+      params = params.append('filter', `${ key },${ operator },${ filterValues },${ filterOperator }`);
+    }
+
+  }
+
+  return params;
+}
+
+export function isStartsWithFilter(key: string): boolean {
+  return !isDateFilter(key) && !isNotificationCountFilter(key);
+}
+
+export function isNotificationCountFilter(key: string): boolean {
+  return 'receivedQualityAlertIdsInStatusActive' === key || 'sentQualityAlertIdsInStatusActive' === key || 'receivedQualityInvestigationIdsInStatusActive' === key || 'sentQualityInvestigationIdsInStatusActive' === key;
+}
+
+export function isDateFilter(key: string): boolean {
+  return DATE_FILTER_KEYS.includes(key);
+}
+
+export function isDateRangeFilter(filterValues: string): boolean {
+  return filterValues.includes(',');
+}
+
+export function isSameDate(startDate: string, endDate: string): boolean {
+  return startDate === endDate;
 }
 
 export function toAssetFilter(formValues: any, isAsBuilt: boolean): AssetAsPlannedFilter | AssetAsBuiltFilter {
 
-    const transformedFilter: any = {};
+  const transformedFilter: any = {};
 
-    // Loop through each form control and add it to the transformedFilter if it has a non-null and non-undefined value
-    for (const key in formValues) {
-        if (formValues[key] !== null && formValues[key] !== undefined) {
-            transformedFilter[key] = formValues[key];
-        }
+  // Loop through each form control and add it to the transformedFilter if it has a non-null and non-undefined value
+  for (const key in formValues) {
+    if (formValues[key] !== null && formValues[key] !== undefined) {
+      if ('receivedActiveAlerts' === key) {
+        transformedFilter['receivedQualityAlertIdsInStatusActive'] = formValues[key];
+        continue;
+      }
+      if ('sentActiveAlerts' === key) {
+        transformedFilter['sentQualityAlertIdsInStatusActive'] = formValues[key];
+        continue;
+      }
+      if ('receivedActiveInvestigations' === key) {
+        transformedFilter['receivedQualityInvestigationIdsInStatusActive'] = formValues[key];
+        continue;
+      }
+      if ('sentActiveInvestigations' === key) {
+        transformedFilter['sentQualityInvestigationIdsInStatusActive'] = formValues[key];
+        continue;
+      }
+      transformedFilter[key] = formValues[key];
     }
+  }
 
-    const filterIsSet = Object.values(transformedFilter).some(value => value !== undefined && value !== null);
-    if (filterIsSet) {
-        if (isAsBuilt) {
-            return transformedFilter as AssetAsBuiltFilter;
-        } else {
-            return transformedFilter as AssetAsPlannedFilter;
-        }
+  const filterIsSet = Object.values(transformedFilter).some(value => value !== undefined && value !== null);
+  if (filterIsSet) {
+    if (isAsBuilt) {
+      return transformedFilter as AssetAsBuiltFilter;
     } else {
-        return null;
+      return transformedFilter as AssetAsPlannedFilter;
     }
+  } else {
+    return null;
+  }
 
 }
 
-export function toGlobalSearchAssetFilter(formValues: string, isAsBuilt: boolean) {
-    let filter;
-    if (isAsBuilt) {
-        filter = {
-            id: formValues,
-            semanticModelId: formValues,
-            idShort: formValues,
-            customerPartId: formValues,
-            manufacturerPartId: formValues
-        } as AssetAsBuiltFilter;
+export function enrichDeeplinkFilterAndGetUpdatedFilter(filter: any): string[] {
+  let filterList: string[] = [];
+  if (filter?.notificationIds) {
+
+    if(Array.isArray(filter.notificationIds)) {
+      filter.notificationIds.forEach(notificationId => {
+        filterList.push('id,EQUAL,' + notificationId + ',OR');
+      });
     } else {
-        filter = {
-            id: formValues,
-            idShort: formValues,
-            semanticModelId: formValues,
-            manufacturerPartId: formValues
-        } as AssetAsPlannedFilter;
+      filterList.push('id,EQUAL,' + filter.notificationIds + ',OR');
     }
 
-    return filter;
+  }
+  return filterList;
+
+}
+
+
+export function toGlobalSearchAssetFilter(formValues: string, isAsBuilt: boolean) {
+  let filter;
+  if (isAsBuilt) {
+    filter = {
+      id: formValues,
+      semanticModelId: formValues,
+      idShort: formValues,
+      customerPartId: formValues,
+      manufacturerPartId: formValues,
+    } as AssetAsBuiltFilter;
+  } else {
+    filter = {
+      id: formValues,
+      idShort: formValues,
+      semanticModelId: formValues,
+      manufacturerPartId: formValues,
+    } as AssetAsPlannedFilter;
+  }
+
+  return filter;
+}
+
+export function provideFilterListForNotifications( filter?: NotificationFilter, fullFilter?: any): string[] {
+  let filterList: string[] = [];
+
+  if (filter && !fullFilter) {
+    filterList = enrichDeeplinkFilterAndGetUpdatedFilter(filter);
+  }
+
+  if (!filter && fullFilter) {
+    let params: HttpParams;
+    params = enrichFilterAndGetUpdatedParams(fullFilter, new HttpParams(), 'AND');
+    let filterParams = params.getAll('filter');
+    if(filterParams){
+      filterParams.forEach(filter => {filterList.push(filter)});
+    }
+
+  }
+
+  return filterList;
 }

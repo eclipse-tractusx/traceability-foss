@@ -22,15 +22,17 @@ import { Component, Input, OnDestroy, OnInit, QueryList, ViewChildren } from '@a
 import { Pagination } from '@core/model/pagination.model';
 import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import { Part, SemanticDataModel } from '@page/parts/model/parts.model';
+import { Part } from '@page/parts/model/parts.model';
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
-import { PartTableType, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
-import { TableSortingUtil } from '@shared/components/table/tableSortingUtil';
+import { TableSortingUtil } from '@shared/components/table/table-sorting.util';
+import { TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
 import { toAssetFilter, toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import {NotificationType} from "@shared/model/notification.model";
 
 @Component({
   selector: 'app-supplier-parts',
@@ -44,9 +46,9 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
 
   public readonly deselectPartTrigger$ = new Subject<Part[]>();
   public readonly addPartTrigger$ = new Subject<Part>();
+  public readonly currentSelectedItems$ = new BehaviorSubject<Part[]>([]);
 
   public readonly isInvestigationOpen$ = new BehaviorSubject<boolean>(false);
-  public selectedItems: Array<Part> = [];
 
   public readonly supplierTabLabelId = this.staticIdService.generateId('OtherParts.supplierTabLabel');
 
@@ -72,21 +74,6 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
     window.addEventListener('keyup', (event) => {
       this.ctrlKeyState = event.ctrlKey;
     });
-  }
-
-  public get currentSelectedItems(): Part[] {
-
-    this.selectedItems = this.selectedItems.map(part => {
-      return {
-        ...part,
-        semanticDataModel: SemanticDataModel[part.semanticDataModel.toUpperCase() as keyof typeof SemanticDataModel],
-      };
-    });
-    return this.selectedItems || [];
-  }
-
-  public set currentSelectedItems(parts: Part[]) {
-    this.selectedItems = parts;
   }
 
   public ngOnInit(): void {
@@ -137,29 +124,6 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
     this.otherPartsFacade.setSupplierPartsAsPlanned(page, pageSize, this.tableSupplierAsPlannedSortList);
   }
 
-  public onMultiSelect(event: unknown[]): void {
-    this.currentSelectedItems = event as Part[];
-  }
-
-  public removeItemFromSelection(part: Part): void {
-    this.deselectPartTrigger$.next([ part ]);
-    this.currentSelectedItems = this.currentSelectedItems.filter(({ id }) => id !== part.id);
-  }
-
-  public clearSelected(): void {
-    this.deselectPartTrigger$.next(this.currentSelectedItems);
-    this.currentSelectedItems = [];
-  }
-
-  public addItemToSelection(part: Part): void {
-    this.addPartTrigger$.next(part);
-    this.currentSelectedItems = [ ...this.currentSelectedItems, part ];
-  }
-
-  public submit(): void {
-    this.isInvestigationOpen$.next(false);
-  }
-
 
   private setTableSortingList(sorting: TableHeaderSort, partTable: MainAspectType): void {
     const tableSortList = partTable === MainAspectType.AS_BUILT ? this.tableSupplierAsBuiltSortList : this.tableSupplierAsPlannedSortList;
@@ -167,5 +131,6 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
   }
 
   protected readonly MainAspectType = MainAspectType;
-  protected readonly PartTableType = PartTableType;
+  protected readonly TableType = TableType;
+    protected readonly NotificationType = NotificationType;
 }

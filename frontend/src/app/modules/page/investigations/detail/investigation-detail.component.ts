@@ -26,12 +26,14 @@ import { InvestigationDetailFacade } from '@page/investigations/core/investigati
 import { InvestigationHelperService } from '@page/investigations/core/investigation-helper.service';
 import { InvestigationsFacade } from '@page/investigations/core/investigations.facade';
 import { Part } from '@page/parts/model/parts.model';
+import { NotificationActionHelperService } from '@shared/assembler/notification-action-helper.service';
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
 import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
 import { ToastService } from '@shared/components/toasts/toast.service';
-import { Notification } from '@shared/model/notification.model';
+import { Notification, NotificationType } from '@shared/model/notification.model';
 import { TranslationContext } from '@shared/model/translation-context.model';
 import { View } from '@shared/model/view.model';
+import { NotificationAction } from '@shared/modules/notification/notification-action.enum';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { filter, first, tap } from 'rxjs/operators';
@@ -39,7 +41,7 @@ import { filter, first, tap } from 'rxjs/operators';
 @Component({
   selector: 'app-investigation-detail',
   templateUrl: './investigation-detail.component.html',
-  styleUrls: ['./investigation-detail.component.scss'],
+  styleUrls: [ './investigation-detail.component.scss' ],
 })
 export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
   @ViewChild(NotificationCommonModalComponent) notificationCommonModalComponent: NotificationCommonModalComponent;
@@ -68,10 +70,11 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
   private selectedInvestigationTmpStore: Notification;
   public selectedInvestigation: Notification;
 
-  private paramSubscription: Subscription
+  private paramSubscription: Subscription;
 
   constructor(
     public readonly helperService: InvestigationHelperService,
+    public readonly actionHelperService: NotificationActionHelperService,
     public readonly investigationDetailFacade: InvestigationDetailFacade,
     private readonly staticIdService: StaticIdService,
     public readonly investigationsFacade: InvestigationsFacade,
@@ -87,7 +90,7 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
     this.paramSubscription = this.route.queryParams.subscribe(params => {
       this.originPageNumber = params.pageNumber;
       this.originTabIndex = params?.tabIndex;
-    })
+    });
 
   }
 
@@ -114,12 +117,12 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
   }
 
   public onNotificationPartsSort({ sorting }: TableEventConfig): void {
-    const [name, direction] = sorting || ['', ''];
+    const [ name, direction ] = sorting || [ '', '' ];
     this.investigationDetailFacade.sortNotificationParts(name, direction);
   }
 
   public onSupplierPartsSort({ sorting }: TableEventConfig): void {
-    const [name, direction] = sorting || ['', ''];
+    const [ name, direction ] = sorting || [ '', '' ];
     this.investigationDetailFacade.sortSupplierParts(name, direction);
   }
 
@@ -129,7 +132,7 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
   }
 
   public removeItemFromSelection(part: Part): void {
-    this.deselectPartTrigger$.next([part]);
+    this.deselectPartTrigger$.next([ part ]);
     this.selectedItems$.next(this.selectedItems$.getValue().filter(({ id }) => id !== part.id));
   }
 
@@ -140,7 +143,7 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
 
   public addItemToSelection(part: Part): void {
     this.addPartTrigger$.next(part);
-    this.selectedItems$.next([...this.selectedItems$.getValue(), part]);
+    this.selectedItems$.next([ ...this.selectedItems$.getValue(), part ]);
   }
 
   public copyToClipboard(semanticModelId: string): void {
@@ -150,7 +153,12 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
 
   public navigateBackToInvestigations(): void {
     const { link } = getRoute(INVESTIGATION_BASE_ROUTE);
-    this.router.navigate([`/${link}`], {queryParams: {tabIndex: this.originTabIndex, pageNumber: this.originPageNumber}});
+    this.router.navigate([ `/${ link }` ], {
+      queryParams: {
+        tabIndex: this.originTabIndex,
+        pageNumber: this.originPageNumber,
+      },
+    });
   }
 
   public handleConfirmActionCompletedEvent(): void {
@@ -162,7 +170,7 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
   private setTableConfigs(data: Notification): void {
     this.isReceived = !data.isFromSender;
 
-    const displayedColumns = ['id', 'semanticDataModel', 'name', 'semanticModelId'];
+    const displayedColumns = [ 'id', 'semanticDataModel', 'name', 'semanticModelId' ];
     const sortableColumns = { id: true, semanticDataModel: true, name: true, semanticModelId: true };
 
     const tableConfig = {
@@ -185,8 +193,8 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
     this.investigationDetailFacade.setAndSupplierPartsInformation();
     this.supplierPartsTableConfig = {
       ...tableConfig,
-      displayedColumns: ['select', ...displayedColumns],
-      header: CreateHeaderFromColumns(['select', ...displayedColumns], 'table.column'),
+      displayedColumns: [ 'select', ...displayedColumns ],
+      header: CreateHeaderFromColumns([ 'select', ...displayedColumns ], 'table.column'),
     };
   }
 
@@ -202,4 +210,6 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
   }
 
   protected readonly TranslationContext = TranslationContext;
+  protected readonly NotificationType = NotificationType;
+    protected readonly NotificationAction = NotificationAction;
 }

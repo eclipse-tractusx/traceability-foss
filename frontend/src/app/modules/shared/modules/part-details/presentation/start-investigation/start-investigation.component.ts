@@ -27,11 +27,12 @@ import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { Observable, Subject, Subscription } from 'rxjs';
+import {NotificationType} from "@shared/model/notification.model";
 
 @Component({
   selector: 'app-start-investigation',
   templateUrl: './start-investigation.component.html',
-  styleUrls: ['./start-investigation.component.scss'],
+  styleUrls: [ './start-investigation.component.scss' ],
 })
 export class StartInvestigationComponent {
   @Input()
@@ -76,7 +77,7 @@ export class StartInvestigationComponent {
     this.childParts$ = this.childPartsState.observable;
     this.selectedChildParts$ = this.selectedChildPartsState.observable;
 
-    const displayedColumns: string[] = ['select', 'name', 'semanticModelId'];
+    const displayedColumns: string[] = [ 'select', 'name', 'semanticModelId' ];
     const sortableColumns: Record<string, boolean> = {
       name: true,
       semanticModelId: true,
@@ -91,12 +92,12 @@ export class StartInvestigationComponent {
   }
 
   public removeChildPartFromSelection(part: Part): void {
-    this.selectedChildPartsState.update([...this.selectedChildPartsState.snapshot.filter(c => c.id !== part.id)]);
-    this.deselectPartTrigger$.next([part]);
+    this.selectedChildPartsState.update([ ...this.selectedChildPartsState.snapshot.filter(c => c.id !== part.id) ]);
+    this.deselectPartTrigger$.next([ part ]);
   }
 
   public addChildPartToSelection(part: Part): void {
-    this.selectedChildPartsState.update([...this.selectedChildPartsState.snapshot, part]);
+    this.selectedChildPartsState.update([ ...this.selectedChildPartsState.snapshot, part ]);
     this.addPartTrigger$.next(part);
   }
 
@@ -109,9 +110,11 @@ export class StartInvestigationComponent {
   }
 
   public onChildPartsSort({ sorting }: TableEventConfig) {
-    const [name, direction] = sorting || ['', ''];
+    const [ name, direction ] = sorting || [ '', '' ];
 
     const data = this.partDetailsFacade.sortChildParts(this.childPartsState.snapshot, name, direction);
     this.childPartsState.update({ data });
   }
+
+    protected readonly NotificationType = NotificationType;
 }

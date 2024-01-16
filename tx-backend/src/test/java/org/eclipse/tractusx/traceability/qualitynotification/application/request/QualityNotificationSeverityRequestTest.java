@@ -61,9 +61,9 @@ class QualityNotificationSeverityRequestTest {
         final String input = "\"NON_EXISTENT\"";
 
         // when/then
-        try{
+        try {
             objectMapper.readValue(input, QualityNotificationSeverityRequest.class);
-        } catch(ValueInstantiationException exception){
+        } catch (ValueInstantiationException exception) {
             assertThat(exception.getCause()).isExactlyInstanceOf(NoSuchElementException.class);
             assertThat(exception.getCause().getMessage())
                     .isEqualTo("Unsupported QualityNotificationSeverityRequest: NON_EXISTENT. Must be one of: MINOR, MAJOR, CRITICAL, LIFE-THREATENING");

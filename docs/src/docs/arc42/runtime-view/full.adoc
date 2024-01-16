@@ -1,6 +1,8 @@
 = Runtime view
 
-include::overall.adoc[leveloffset=+1]
+This section describes the different functionalities of TraceX-FOSS application
 
-include::return-all-assets.adoc[leveloffset=+1]
-include::return-specific-assets.adoc[leveloffset=+1]
+include::assets.adoc[leveloffset=+1]
+include::notifications.adoc[leveloffset=+1]
+include::data-consumption.adoc[leveloffset=+1]
+include::data-provisioning.adoc[leveloffset=+1]

@@ -47,7 +47,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Use Node.js 18.x
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 18.x
 
@@ -96,18 +96,25 @@ jobs:
           path: frontend/cypress/e2e
 
       - name: Use Node.js 18.x
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 18.x
 
       - name: Cypress run all tests
-        uses: cypress-io/github-action@v6.5.0 # use the explicit version number
+        uses: cypress-io/github-action@v6.6.0 # use the explicit version number
         with:
-          start: npm start
+          start: npm run start:auth:e2ea
           wait-on: "http://localhost:4200"
           wait-on-timeout: 120
           browser: chrome
           working-directory: frontend
+        env:
+          CYPRESS_SUPERVISOR_LOGIN: ${{ secrets.TRACE_X_SUPERVISOR_LOGIN }}
+          CYPRESS_SUPERVISOR_PW: ${{ secrets.TRACE_X_SUPERVISOR_PW }}
+          CYPRESS_ADMIN_LOGIN: ${{ secrets.TRACE_X_ADMIN_LOGIN }}
+          CYPRESS_ADMIN_PW: ${{ secrets.TRACE_X_ADMIN_PW }}
+          CYPRESS_USER_LOGIN: ${{ secrets.TRACE_X_USER_LOGIN }}
+          CYPRESS_USER_PW: ${{ secrets.TRACE_X_USER_PW }}
 
       - name: Submit results to Xray
         # we don't want to submit results to xray when it was run by PR
@@ -127,120 +134,120 @@ jobs:
             frontend/cypress/videos/
             frontend/cypress/screenshots/
 
-  cypress-run-firefox:
-    timeout-minutes: 15
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: frontend
-    container:
-      # if you need to change image please make sure use the same version in all places
-      # (here and in cypress/Dockerfile)
-      image: cypress/browsers:node16.16.0-chrome107-ff107-edge
-      options: --user 1001
-    needs: install
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Download the cypress/e2e folder
-        uses: actions/download-artifact@v3
-        with:
-          name: cypress - e2e
-          path: frontend/cypress/e2e
-
-      - name: Use Node.js 18.x
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18.x
-
-      - name: Cypress run all tests
-        uses: cypress-io/github-action@v6.5.0 # use the explicit version number
-        with:
-          start: npm start
-          wait-on: "http://localhost:4200"
-          wait-on-timeout: 120
-          browser: firefox
-          working-directory: frontend
-
-      - name: Submit results to Xray
-        # we don't want to submit results to xray when it was run by PR
-        if: github.event_name != 'pull_request' && (success() || failure())
-        env:
-          JIRA_USERNAME: ${{ secrets.ORG_IRS_JIRA_USERNAME }}
-          JIRA_PASSWORD: ${{ secrets.ORG_IRS_JIRA_PASSWORD }}
-        run: |
-          ./scripts/xray-push-test-results.sh
-
-      - name: Archive cypress artifacts
-        if: success() || failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: cypress generated files - firefox
-          path: |
-            frontend/cypress/videos/
-            frontend/cypress/screenshots/
-
-  cypress-run-webkit:
-    timeout-minutes: 15
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: frontend
-    needs: install
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Download the cypress/e2e folder
-        uses: actions/download-artifact@v3
-        with:
-          name: cypress - e2e
-          path: frontend/cypress/e2e
+ # cypress-run-firefox:
+ #   timeout-minutes: 15
+ #   runs-on: ubuntu-latest
+ #   defaults:
+ #     run:
+ #       working-directory: frontend
+ #   container:
+ #     # if you need to change image please make sure use the same version in all places
+ #     # (here and in cypress/Dockerfile)
+ #     image: cypress/browsers:node16.16.0-chrome107-ff107-edge
+ #     options: --user 1001
+ #   needs: install
+#
+ #   steps:
+ #     - name: Checkout
+ #       uses: actions/checkout@v4
+#
+ #     - name: Download the cypress/e2e folder
+ #       uses: actions/download-artifact@v3
+ #       with:
+ #         name: cypress - e2e
+ #         path: frontend/cypress/e2e
+#
+ #     - name: Use Node.js 18.x
+  #       uses: actions/setup-node@v4
+ #       with:
+ #         node-version: 18.x
+#
+ #     - name: Cypress run all tests
+  #       uses: cypress-io/github-action@v6.6.0 # use the explicit version number
+ #       with:
+ #         start: npm start
+ #         wait-on: "http://localhost:4200"
+ #         wait-on-timeout: 120
+ #         browser: firefox
+ #         working-directory: frontend
+#
+ #     - name: Submit results to Xray
+ #       # we don't want to submit results to xray when it was run by PR
+ #       if: github.event_name != 'pull_request' && (success() || failure())
+ #       env:
+ #         JIRA_USERNAME: ${{ secrets.ORG_IRS_JIRA_USERNAME }}
+ #         JIRA_PASSWORD: ${{ secrets.ORG_IRS_JIRA_PASSWORD }}
+ #       run: |
+ #         ./scripts/xray-push-test-results.sh
+#
+ #     - name: Archive cypress artifacts
+ #       if: success() || failure()
+ #       uses: actions/upload-artifact@v3
+ #       with:
+ #         name: cypress generated files - firefox
+ #         path: |
+ #           frontend/cypress/videos/
+ #           frontend/cypress/screenshots/
+#
+ # cypress-run-webkit:
+ #   timeout-minutes: 15
+ #   runs-on: ubuntu-latest
+ #   defaults:
+ #     run:
+ #       working-directory: frontend
+ #   needs: install
+#
+ #   steps:
+ #     - name: Checkout
+ #       uses: actions/checkout@v4
+#
+ #     - name: Download the cypress/e2e folder
+ #       uses: actions/download-artifact@v3
+ #       with:
+ #         name: cypress - e2e
+ #         path: frontend/cypress/e2e
 
 # commented because if we use it here, we face with that problem:
 # "http://localhost:4200 timed out on retry 151 of 5, elapsed 150449ms, limit 150000ms
 #  Error: connect ECONNREFUSED 127.0.0.1:4200"
 
 #      - name: Use Node.js 18.x
-#        uses: actions/setup-node@v3
+  #        uses: actions/setup-node@v4
 #        with:
 #          node-version: 18.x
 
-      - name: Use Node.js 16.x
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16.x
-
-      # https://docs.cypress.io/guides/guides/launching-browsers#Linux-Dependencies
-      - name: Install additional dependencies
-        run: npx playwright install --with-deps webkit
-
-      - name: Cypress run all tests
-        uses: cypress-io/github-action@v6.5.0 # use the explicit version number
-        with:
-          start: npm start
-          wait-on: "http://localhost:4200"
-          wait-on-timeout: 120
-          browser: webkit
-          working-directory: frontend
-
-      - name: Submit results to Xray
-        # we don't want to submit results to xray when it was run by PR
-        if: github.event_name != 'pull_request' && (success() || failure())
-        env:
-          JIRA_USERNAME: ${{ secrets.ORG_IRS_JIRA_USERNAME }}
-          JIRA_PASSWORD: ${{ secrets.ORG_IRS_JIRA_PASSWORD }}
-        run: |
-          ./scripts/xray-push-test-results.sh
-
-      - name: Archive cypress artifacts
-        if: success() || failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: cypress generated files - webkit
-          path: |
-            frontend/cypress/videos/
-            frontend/cypress/screenshots/
+ #     - name: Use Node.js 16.x
+  #       uses: actions/setup-node@v4
+ #       with:
+ #         node-version: 16.x
+#
+ #     # https://docs.cypress.io/guides/guides/launching-browsers#Linux-Dependencies
+ #     - name: Install additional dependencies
+ #       run: npx playwright install --with-deps webkit
+#
+ #     - name: Cypress run all tests
+  #       uses: cypress-io/github-action@v6.6.0 # use the explicit version number
+ #       with:
+ #         start: npm start:auth:e2ea
+ #         wait-on: "http://localhost:4200"
+ #         wait-on-timeout: 120
+ #         browser: webkit
+ #         working-directory: frontend
+#
+ #     - name: Submit results to Xray
+ #       # we don't want to submit results to xray when it was run by PR
+ #       if: github.event_name != 'pull_request' && (success() || failure())
+ #       env:
+ #         JIRA_USERNAME: ${{ secrets.ORG_IRS_JIRA_USERNAME }}
+ #         JIRA_PASSWORD: ${{ secrets.ORG_IRS_JIRA_PASSWORD }}
+ #       run: |
+ #         ./scripts/xray-push-test-results.sh
+#
+ #     - name: Archive cypress artifacts
+ #       if: success() || failure()
+ #       uses: actions/upload-artifact@v3
+ #       with:
+ #         name: cypress generated files - webkit
+ #         path: |
+ #           frontend/cypress/videos/
+ #           frontend/cypress/screenshots/

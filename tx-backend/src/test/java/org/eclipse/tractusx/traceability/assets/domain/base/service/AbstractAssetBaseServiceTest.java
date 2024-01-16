@@ -2,11 +2,15 @@ package org.eclipse.tractusx.traceability.assets.domain.base.service;
 
 import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
+import org.eclipse.tractusx.traceability.common.model.PageResult;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -24,11 +28,23 @@ class AbstractAssetBaseServiceTest {
 
     @ParameterizedTest
     @MethodSource("enumFieldNamesProvider")
-    void givenOwnerFieldName(String fieldName, List<String> expectedValues) {
+    void givenEnumFieldName(String fieldName, String startWith, List<String> expectedValues) {
         // given params
 
         // when
-        List<String> result = service.getDistinctFilterValues(fieldName, 10L);
+        List<String> result = service.getDistinctFilterValues(fieldName, startWith, 10, null);
+
+        // then
+        assertThat(result).containsAll(expectedValues);
+    }
+
+    @ParameterizedTest
+    @MethodSource("booleanFieldNamesProvider")
+    void givenBooleanFieldName(String fieldName, String startWith, List<String> expectedValues) {
+        // given params
+
+        // when
+        List<String> result = service.getDistinctFilterValues(fieldName, startWith, 10, null);
 
         // then
         assertThat(result).containsAll(expectedValues);
@@ -36,9 +52,18 @@ class AbstractAssetBaseServiceTest {
 
     private static Stream<Arguments> enumFieldNamesProvider() {
         return Stream.of(
-                Arguments.of("owner", List.of("SUPPLIER", "CUSTOMER", "OWN", "UNKNOWN")),
-                Arguments.of("qualityType", List.of("OK", "MINOR", "MAJOR", "CRITICAL", "LIFE_THREATENING")),
-                Arguments.of("semanticDataModel", List.of("BATCH", "SERIALPART", "UNKNOWN", "PARTASPLANNED", "JUSTINSEQUENCE"))
+                Arguments.of("owner", null, List.of("SUPPLIER", "CUSTOMER", "OWN", "UNKNOWN")),
+                Arguments.of("qualityType", "O", List.of("OK", "MINOR", "MAJOR", "CRITICAL", "LIFE_THREATENING")),
+                Arguments.of("semanticDataModel", null, List.of("BATCH", "SERIALPART", "UNKNOWN", "PARTASPLANNED", "JUSTINSEQUENCE"))
+        );
+    }
+
+    private static Stream<Arguments> booleanFieldNamesProvider() {
+        return Stream.of(
+                Arguments.of("activeAlert", null, List.of("true", "false")),
+                Arguments.of("activeAlert", "true", List.of("true", "false")),
+                Arguments.of("underInvestigation", null, List.of("true", "false")),
+                Arguments.of("underInvestigation", "f", List.of("true", "false"))
         );
     }
 
@@ -66,6 +91,11 @@ class AbstractAssetBaseServiceTest {
 
         @Override
         protected BomLifecycle getBomLifecycle() {
+            return null;
+        }
+
+        @Override
+        public PageResult<AssetBase> getAssets(Pageable pageable, SearchCriteria searchCriteria) {
             return null;
         }
     }

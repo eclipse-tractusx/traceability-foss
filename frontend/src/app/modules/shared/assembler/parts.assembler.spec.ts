@@ -38,7 +38,7 @@ describe('PartsAssembler', () => {
 
   describe('assembleParts', () => {
     it('should return null if array is empty or undefined', () => {
-      const emptyPage = { content: [], page: 0, pageCount: 0, pageSize: 0, totalItems: 0 };
+      const emptyPage = { content: [], page: 0, pageCount: 0, pageSize: 50, totalItems: 0 };
       expect(PartsAssembler.assembleParts(null, MainAspectType.AS_BUILT)).toEqual(emptyPage);
       expect(PartsAssembler.assembleParts(page([]), MainAspectType.AS_BUILT)).toEqual(emptyPage);
     });
@@ -47,101 +47,96 @@ describe('PartsAssembler', () => {
       const testData = [];
       const expected = [];
 
-        const id = 'id_0';
-        const idShort = 'idShort_0';
-        const semanticModelId = 'semanticModelId';
-        const manufacturerPartId = 'manufacturerPartId';
-        const businessPartner = 'businesspartner';
-        const manufacturerName = 'manufacturerName';
-        const nameAtManufacturer = 'nameAtManufacturer';
-        const owner = 'OWN';
-        const childRelations = [];
-        const parentRelations = [];
-        const activeAlert = false;
-        const underInvestigation = false;
-        const qualityType = 'Ok';
-        const van = 'van';
-        const semanticDataModel = 'BATCH';
-        const classification = 'component';
-        const semanticModel = {
-          "partId": "partId",
-          "customerPartId": "customerPartId",
-          "nameAtCustomer": "nameAtCustomer",
-          "manufacturingDate": "testdate",
-          "manufacturingCountry": "manufacturingCountry",
-        }
-        const detailAspectModels = [ {
-          type: DetailAspectType.AS_BUILT,
-          data: {
-            partId: 'partId',
-            customerPartId: 'customerPartId',
-            nameAtCustomer: 'nameAtCustomer',
-            manufacturingDate: "testdate",
-            manufacturingCountry: 'manufacturingCountry'
-          }
-        }
-        ];
+      const id = 'id_0';
+      const idShort = 'idShort_0';
+      const semanticModelId = 'semanticModelId';
+      const manufacturerPartId = 'manufacturerPartId';
+      const businessPartner = 'businesspartner';
+      const manufacturerName = 'manufacturerName';
+      const nameAtManufacturer = 'nameAtManufacturer';
+      const owner = 'OWN';
+      const childRelations = [];
+      const parentRelations = [];
+      const activeAlert = false;
+      const underInvestigation = false;
+      const qualityType = 'Ok';
+      const van = 'van';
+      const semanticDataModel = 'BATCH';
+      const classification = 'component';
+      const semanticModel = {
+        'partId': 'partId',
+        'customerPartId': 'customerPartId',
+        'nameAtCustomer': 'nameAtCustomer',
+        'manufacturingDate': 'testdate',
+        'manufacturingCountry': 'manufacturingCountry',
+      };
+      const detailAspectModels = [ {
+        type: DetailAspectType.AS_BUILT,
+        data: {
+          partId: 'partId',
+          customerPartId: 'customerPartId',
+          nameAtCustomer: 'nameAtCustomer',
+          manufacturingDate: 'testdate',
+          manufacturingCountry: 'manufacturingCountry',
+        },
+      },
+      ];
 
       const mainAspectType = 'as_built';
 
-        testData.push({
-          id,
-          idShort,
-          semanticModelId,
-          manufacturerPartId,
-          businessPartner,
-          manufacturerName,
-          nameAtManufacturer,
-          owner,
-          childRelations,
-          parentRelations,
-          activeAlert,
-          underInvestigation,
-          qualityType,
-          van,
-          semanticDataModel,
-          classification,
-          semanticModel,
-          detailAspectModels,
-          mainAspectType
-        });
+      testData.push({
+        id,
+        idShort,
+        semanticModelId,
+        manufacturerPartId,
+        businessPartner,
+        manufacturerName,
+        nameAtManufacturer,
+        owner,
+        childRelations,
+        parentRelations,
+        activeAlert,
+        underInvestigation,
+        qualityType,
+        van,
+        semanticDataModel,
+        classification,
+        semanticModel,
+        detailAspectModels,
+        mainAspectType,
+      });
 
-        const partId = (detailAspectModels[0].data as AsBuiltAspectModel)?.partId;
-        const customerPartId = (detailAspectModels[0].data as AsBuiltAspectModel)?.customerPartId;
-        const nameAtCustomer = (detailAspectModels[0].data as AsBuiltAspectModel)?.nameAtCustomer;
-        const manufacturingDate = "testdate"
-        const manufacturingCountry = (detailAspectModels[0].data as AsBuiltAspectModel)?.manufacturingCountry;
+      const partId = (detailAspectModels[0].data as AsBuiltAspectModel)?.partId;
+      const customerPartId = (detailAspectModels[0].data as AsBuiltAspectModel)?.customerPartId;
+      const nameAtCustomer = (detailAspectModels[0].data as AsBuiltAspectModel)?.nameAtCustomer;
+      const manufacturingDate = 'testdate';
+      const manufacturingCountry = (detailAspectModels[0].data as AsBuiltAspectModel)?.manufacturingCountry;
 
-        expected.push({
-          id,
-          idShort: idShort,
-          semanticModelId: semanticModelId,
+      expected.push({
+        id,
+        idShort: idShort,
+        semanticModelId: semanticModelId,
+        manufacturerName: manufacturerName,
+        manufacturerPartId: manufacturerPartId,
+        nameAtManufacturer: nameAtManufacturer,
+        businessPartner: businessPartner,
+        children: [],
+        parents: [],
+        activeAlert: false,
+        activeInvestigation: false,
+        qualityType: QualityType.Ok,
+        van: 'van',
+        semanticDataModel: SemanticDataModel.BATCH,
+        classification: classification,
+        semanticModel: semanticModel,
+        mainAspectType: mainAspectType,
+        partId: partId, // is partInstance, BatchId, jisNumber
+        customerPartId: customerPartId,
+        nameAtCustomer: nameAtCustomer,
+        manufacturingDate: manufacturingDate,
+        manufacturingCountry: manufacturingCountry,
 
-          manufacturer: manufacturerName,
-          manufacturerPartId: manufacturerPartId,
-          nameAtManufacturer: nameAtManufacturer,
-          businessPartner: businessPartner,
-          name: nameAtManufacturer,
-          children: [],
-          parents: [],
-          activeAlert: false,
-          activeInvestigation: false,
-          qualityType: QualityType.Ok,
-          van: 'van',
-          semanticDataModel: SemanticDataModel.BATCH,
-          classification: classification,
-
-          semanticModel: semanticModel,
-
-          mainAspectType: mainAspectType,
-
-          partId: partId, // is partInstance, BatchId, jisNumber
-          customerPartId: customerPartId,
-          nameAtCustomer: nameAtCustomer,
-          manufacturingDate: manufacturingDate,
-          manufacturingCountry: manufacturingCountry,
-
-        });
+      });
 
       expect(JSON.stringify(PartsAssembler.assembleParts(page(testData), MainAspectType.AS_BUILT).content)).toEqual(JSON.stringify(expected));
     });
@@ -154,10 +149,24 @@ describe('PartsAssembler', () => {
     const manufacturingCountry = 'manufacturingCountry';
     const classification = 'classification';
 
+
     it('should clean up data for part view', () => {
-      const data = { semanticDataModel, semanticModelId, manufacturingDate, manufacturingCountry, classification, test: '' } as unknown as Part;
+      const data = {
+        semanticDataModel,
+        semanticModelId,
+        manufacturingDate,
+        manufacturingCountry,
+        classification,
+        test: '',
+      } as unknown as Part;
       expect(PartsAssembler.filterPartForView({ data })).toEqual({
-        data: { name: undefined, manufacturingDate, semanticModelId, semanticDataModel, manufacturingCountry, classification } as unknown as Part,
+        data: {
+          manufacturingDate,
+          semanticModelId,
+          semanticDataModel,
+          manufacturingCountry,
+          classification,
+        } as unknown as Part,
       });
     });
 
@@ -169,19 +178,26 @@ describe('PartsAssembler', () => {
   });
 
   describe('mapPartForManufacturerView', () => {
-    const manufacturer = 'manufacturer';
+    const manufacturerName = 'manufacturerName';
     const manufacturerPartId = 'manufacturerPartId';
     const nameAtManufacturer = 'nameAtManufacturer';
     const van = 'van';
-    const mainAspectType = MainAspectType.AS_BUILT
+    const mainAspectType = MainAspectType.AS_BUILT;
 
     it('should clean up data for manufacturer view', done => {
-      const data = { manufacturer, manufacturerPartId, nameAtManufacturer, test: '', van, mainAspectType } as unknown as Part;
+      const data = {
+        manufacturerName,
+        manufacturerPartId,
+        nameAtManufacturer,
+        test: '',
+        van,
+        mainAspectType,
+      } as unknown as Part;
       of({ data })
         .pipe(PartsAssembler.mapPartForManufacturerView())
         .subscribe(result => {
           expect(result).toEqual({
-            data: { manufacturer, manufacturerPartId, nameAtManufacturer, van } as unknown as Part,
+            data: { manufacturerName, manufacturerPartId, nameAtManufacturer, van } as unknown as Part,
           });
           done();
         });
@@ -222,4 +238,62 @@ describe('PartsAssembler', () => {
         });
     });
   });
+
+  describe('mapForTractionBatteryCodeDetailsView', () => {
+    const tractionBatteryCode = 'tractionBatteryCode';
+    const productType = 'productType';
+    it('should clean up data for traction battery details view', done => {
+      const data = { tractionBatteryCode, productType, test: '' } as unknown as Part;
+      of({ data })
+        .pipe(PartsAssembler.mapPartForTractionBatteryCodeDetailsView())
+        .subscribe(result => {
+          expect(result).toEqual({ data: { tractionBatteryCode, productType } as unknown as Part });
+          done();
+        });
+    });
+    it('should return nothing when there is no viewData', done => {
+      const data = undefined as unknown as Part;
+      of({ data })
+        .pipe(PartsAssembler.mapPartForTractionBatteryCodeDetailsView())
+        .subscribe(result => {
+          expect(result).toEqual(undefined);
+          done();
+        });
+    });
+  });
+
+  describe('mapForTractionBatterySubComponentsView', () => {
+    const tractionBatteryCode = 'tractionBatteryCode';
+    const productType = 'productType';
+    const subcomponents = 'subcomponents';
+    it('should clean up data for traction battery subcomponents view', done => {
+      const data = { tractionBatteryCode, productType, subcomponents, test: '' } as unknown as Part;
+      of({ data })
+        .pipe(PartsAssembler.mapPartForTractionBatteryCodeSubComponentsView())
+        .subscribe(result => {
+          expect(result).toEqual({ data: { tractionBatteryCode, productType, subcomponents } as unknown as Part });
+          done();
+        });
+    });
+    it('should return nothing when there is no viewData', done => {
+      const data = undefined as unknown as Part;
+      of({ data })
+        .pipe(PartsAssembler.mapPartForTractionBatteryCodeSubComponentsView())
+        .subscribe(result => {
+          expect(result).toEqual(undefined);
+          done();
+        });
+    });
+    it('should return nothing when there is no tractionbattery', done => {
+      const data = { productType, subcomponents, test: '' } as unknown as Part;
+      of({ data })
+        .pipe(PartsAssembler.mapPartForTractionBatteryCodeSubComponentsView())
+        .subscribe(result => {
+          expect(result).toEqual(undefined);
+          done();
+        });
+    });
+  });
+
+
 });

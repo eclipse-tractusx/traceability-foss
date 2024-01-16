@@ -25,13 +25,18 @@ SPDX-License-Identifier: Apache-2.0
 <ng-template #mainTmp let-notifications="view">
   <app-table
     [paginationData]="notifications.data"
+    [additionalTableHeader]="true"
+    [autocompleteEnabled]="autocompleteEnabled"
+    [tableHeader]="(notificationType === NotificationType.INVESTIGATION) ? ('pageTitle.investigations') : ('pageTitle.alerts')"
     [tableConfig]="tableConfig"
     [noShadow]="true"
     [labelId]="labelId"
     [showHover]="false"
     [multiSortList]="multiSortList"
+    [tableType]="tableType"
     (selected)="selectNotification($event)"
     (configChanged)="onTableConfigChange($event)"
+    (filterActivated)="filterActivated($event)"
   ></app-table>
 </ng-template>
 
@@ -58,11 +63,13 @@ SPDX-License-Identifier: Apache-2.0
 </ng-template>
 
 <ng-template #targetDateTmp let-text="value">
-  <p class="notification--table__description">{{ text | formatDate : { dateStyle: 'short', timeStyle: 'short' } }}</p>
+  <p class="notification--table__description">{{ text | formatDate : {dateStyle: 'short', timeStyle: 'short'} }}</p>
 </ng-template>
 
 <ng-template #userTmp let-text="value">
-  <p class="notification--table__description">
-    <app-notification-user [user]="text" mode="normal"></app-notification-user>
-  </p>
+  <p class="notification--table__description">{{ text }}</p>
+</ng-template>
+
+<ng-template #bpnTmp let-text="value">
+  <p class="notification--table__description">{{ text }}</p>
 </ng-template>

@@ -1,5 +1,9 @@
 = Domain concepts
 
+== API Model
+
+For detailed information about the API model, please refer to the link:https://catenax-ng.github.io/tx-traceability-foss/docs/api-specification/api-specification.html[API specification].
+
 == Domain Model
 
 

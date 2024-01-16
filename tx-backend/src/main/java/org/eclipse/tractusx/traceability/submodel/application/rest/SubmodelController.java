@@ -27,7 +27,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
+import assets.importpoc.ErrorResponse;
 import org.eclipse.tractusx.traceability.submodel.application.service.SubmodelService;
 import org.eclipse.tractusx.traceability.submodel.domain.model.Submodel;
 import org.springframework.http.HttpStatus;
@@ -108,7 +108,9 @@ public class SubmodelController {
             tags = {"Submodel"},
             description = "This endpoint allows you to save a Submodel identified by its ID.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-    @ApiResponses(value = {@ApiResponse(responseCode = "204", description = "No Content."),
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok."),
+            @ApiResponse(responseCode = "204", description = "No Content."),
             @ApiResponse(
                     responseCode = "400",
                     description = "Bad request.",
@@ -165,7 +167,9 @@ public class SubmodelController {
             tags = {"Submodel"},
             description = "Deletes all submodels from the system.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-    @ApiResponses(value = {@ApiResponse(responseCode = "204", description = "No Content."),
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok."),
+            @ApiResponse(responseCode = "204", description = "No Content."),
             @ApiResponse(
                     responseCode = "400",
                     description = "Bad request.",

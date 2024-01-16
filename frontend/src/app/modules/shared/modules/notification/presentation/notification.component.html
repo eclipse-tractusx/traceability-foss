@@ -28,38 +28,52 @@ SPDX-License-Identifier: Apache-2.0
 >
   <mat-tab>
     <ng-template mat-tab-label>
-      <mat-icon class="mr-2">drafts</mat-icon
-      ><span [id]="receivedTabLabelId">{{ translationContext + '.tabs.received' | i18n }} </span>
+      <mat-icon class="mr-2">drafts
+      </mat-icon
+      >
+      <span [id]="receivedTabLabelId">{{ translationContext + '.tabs.received' | i18n }} </span>
     </ng-template>
     <app-notifications-tab
       *ngIf="menuActionsConfig"
+      [notificationType]="notificationType"
       [notificationsView$]="receivedNotifications$"
       [labelId]="receivedTabLabelId"
       [translationContext]="'commonInvestigation'"
+      [tableType]="isInvestigation ? TableType.RECEIVED_INVESTIGATION: TableType.RECEIVED_ALERT"
       [menuActionsConfig]="menuActionsConfig"
       [optionalColumns]="receivedOptionalColumns"
+      [autocompleteEnabled]="true"
       [sortableColumns]="receivedSortableColumns"
       [multiSortList]="receivedMultiSortList"
       (tableConfigChanged)="onReceivedTableConfigChanged.emit($event)"
       (selected)="selected.emit($event)"
+      (investigationsFilterChanged)="investigationFilterChanged.emit($event)"
+      (alertsFilterChanged)="alertFilterChanged.emit($event)"
     ></app-notifications-tab>
   </mat-tab>
 
   <mat-tab>
     <ng-template mat-tab-label>
-      <mat-icon class="mr-2">send</mat-icon
-      ><span [id]="queuedAndRequestedTabLabelId">{{ translationContext + '.tabs.queuedAndRequested' | i18n }} </span>
+      <mat-icon class="mr-2">send
+      </mat-icon
+      >
+      <span [id]="queuedAndRequestedTabLabelId">{{ translationContext + '.tabs.queuedAndRequested' | i18n }} </span>
     </ng-template>
     <app-notifications-tab
       *ngIf="menuActionsConfig"
+      [notificationType]="notificationType"
       [notificationsView$]="queuedAndRequestedNotifications$"
       [labelId]="queuedAndRequestedTabLabelId"
       [translationContext]="'commonInvestigation'"
       [menuActionsConfig]="menuActionsConfig"
+      [autocompleteEnabled]="true"
+      [tableType]="isInvestigation ? TableType.CREATED_INVESTIGATION: TableType.CREATED_ALERT"
       [optionalColumns]="queuedAndRequestedOptionalColumns"
       [sortableColumns]="queuedAndRequestedSortableColumns"
       [multiSortList]="queuedAndRequestedMultiSortList"
       (tableConfigChanged)="onQueuedAndRequestedTableConfigChanged.emit($event)"
+      (investigationsFilterChanged)="investigationFilterChanged.emit($event)"
+      (alertsFilterChanged)="alertFilterChanged.emit($event)"
       (selected)="selected.emit($event)"
     ></app-notifications-tab>
   </mat-tab>

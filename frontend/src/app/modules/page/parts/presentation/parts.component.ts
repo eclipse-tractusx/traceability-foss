@@ -20,22 +20,26 @@
  ********************************************************************************/
 
 import {AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {FormControl, FormGroup} from '@angular/forms';
 import {Pagination} from '@core/model/pagination.model';
 import {PartsFacade} from '@page/parts/core/parts.facade';
+import {resetMultiSelectionAutoCompleteComponent} from '@page/parts/core/parts.helper';
 import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
 import {AssetAsBuiltFilter, AssetAsPlannedFilter, Part} from '@page/parts/model/parts.model';
-import {PartTableType, TableEventConfig, TableHeaderSort,} from '@shared/components/table/table.model';
+import {BomLifecycleSize} from '@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model';
+import {TableType} from '@shared/components/multi-select-autocomplete/table-type.model';
+import {PartsTableComponent} from '@shared/components/parts-table/parts-table.component';
+import {TableEventConfig, TableHeaderSort} from '@shared/components/table/table.model';
+import {ToastService} from '@shared/components/toasts/toast.service';
+import {toAssetFilter, toGlobalSearchAssetFilter} from '@shared/helper/filter-helper';
+import {NotificationType} from '@shared/model/notification.model';
 import {View} from '@shared/model/view.model';
 import {PartDetailsFacade} from '@shared/modules/part-details/core/partDetails.facade';
+import {BomLifecycleSettingsService, UserSettingView} from '@shared/service/bom-lifecycle-settings.service';
 import {StaticIdService} from '@shared/service/staticId.service';
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
-import {BomLifecycleSize} from "@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model";
-import {BomLifecycleSettingsService, UserSettingView} from "@shared/service/bom-lifecycle-settings.service";
-import {toAssetFilter, toGlobalSearchAssetFilter} from "@shared/helper/filter-helper";
-import {FormControl, FormGroup} from "@angular/forms";
-import {ToastService} from "@shared/components/toasts/toast.service";
-import {PartsTableComponent} from "@shared/components/parts-table/parts-table.component";
-import {resetMultiSelectionAutoCompleteComponent} from "@page/parts/core/parts.helper";
+import {BehaviorSubject, combineLatest, Observable, Subject} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {RoleService} from "@core/user/role.service";
 
 
 @Component({
@@ -54,12 +58,20 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     public readonly deselectPartTrigger$ = new Subject<Part[]>();
     public readonly addPartTrigger$ = new Subject<Part>();
     public readonly currentSelectedItems$ = new BehaviorSubject<Part[]>([]);
+    public readonly currentSelectedAsPlannedItems$ = new BehaviorSubject<Part[]>([]);
+    public allSelectedItems$ = combineLatest([this.currentSelectedItems$, this.currentSelectedAsPlannedItems$])
+        .pipe(
+            map(([array1, array2]) => {
+                return [...array1, ...array2];
+            })
+        );
 
     public tableAsBuiltSortList: TableHeaderSort[];
     public tableAsPlannedSortList: TableHeaderSort[];
 
     public DEFAULT_PAGE_SIZE = 50;
     public ctrlKeyState = false;
+    isPublisherOpen$ = new BehaviorSubject<boolean>(false);
 
     @ViewChildren(PartsTableComponent) partsTableComponents: QueryList<PartsTableComponent>;
 
@@ -68,7 +80,8 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
         private readonly partDetailsFacade: PartDetailsFacade,
         private readonly staticIdService: StaticIdService,
         private readonly userSettingService: BomLifecycleSettingsService,
-        public toastService: ToastService
+        public toastService: ToastService,
+        public roleService: RoleService
     ) {
         this.partsAsBuilt$ = this.partsFacade.partsAsBuilt$;
         this.partsAsPlanned$ = this.partsFacade.partsAsPlanned$;
@@ -88,32 +101,34 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     public searchFormGroup = new FormGroup({});
     public searchControl: FormControl;
 
-    assetFilter: AssetAsBuiltFilter | AssetAsPlannedFilter;
-
+    assetAsBuiltFilter: AssetAsBuiltFilter;
+    assetsAsPlannedFilter: AssetAsPlannedFilter;
     public ngOnInit(): void {
         this.partsFacade.setPartsAsBuilt();
         this.partsFacade.setPartsAsPlanned();
-        this.searchFormGroup.addControl("partSearch", new FormControl([]));
+        this.searchFormGroup.addControl('partSearch', new FormControl([]));
         this.searchControl = this.searchFormGroup.get('partSearch') as unknown as FormControl;
+
     }
 
     filterActivated(isAsBuilt: boolean, assetFilter: any): void {
-        this.assetFilter = assetFilter;
         if (isAsBuilt) {
-            this.partsFacade.setPartsAsBuilt(0, this.DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(this.assetFilter, true));
+            this.assetAsBuiltFilter = assetFilter;
+            this.partsFacade.setPartsAsBuilt(0, this.DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(this.assetAsBuiltFilter, true));
         } else {
-            this.partsFacade.setPartsAsPlanned(0, this.DEFAULT_PAGE_SIZE, this.tableAsPlannedSortList, toAssetFilter(this.assetFilter, false));
+            this.assetsAsPlannedFilter = assetFilter;
+            this.partsFacade.setPartsAsPlanned(0, this.DEFAULT_PAGE_SIZE, this.tableAsPlannedSortList, toAssetFilter(this.assetsAsPlannedFilter, false));
         }
     }
 
     triggerPartSearch() {
 
         this.resetFilterAndShowToast();
-        const searchValue = this.searchFormGroup.get("partSearch").value;
+        const searchValue = this.searchFormGroup.get('partSearch').value;
 
-        if (searchValue && searchValue !== "") {
-            this.partsFacade.setPartsAsPlanned(0, this.DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toGlobalSearchAssetFilter(searchValue, false), true);
-            this.partsFacade.setPartsAsBuilt(0, this.DEFAULT_PAGE_SIZE, this.tableAsPlannedSortList, toGlobalSearchAssetFilter(searchValue, true), true);
+        if (searchValue && searchValue !== '') {
+            this.partsFacade.setPartsAsPlanned(0, this.DEFAULT_PAGE_SIZE, this.tableAsPlannedSortList, toGlobalSearchAssetFilter(searchValue, false), true);
+            this.partsFacade.setPartsAsBuilt(0, this.DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toGlobalSearchAssetFilter(searchValue, true), true);
         } else {
             this.partsFacade.setPartsAsBuilt();
             this.partsFacade.setPartsAsPlanned();
@@ -124,7 +139,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     private resetFilterAndShowToast() {
         let filterIsSet = resetMultiSelectionAutoCompleteComponent(this.partsTableComponents, false);
         if (filterIsSet) {
-            this.toastService.info("parts.input.global-search.toastInfo");
+            this.toastService.info('parts.input.global-search.toastInfo');
         }
     }
 
@@ -148,8 +163,8 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
             pageSizeValue = pageSize;
         }
 
-        if (this.assetFilter) {
-            this.partsFacade.setPartsAsBuilt(0, pageSizeValue, this.tableAsBuiltSortList, toAssetFilter(this.assetFilter, true));
+        if (this.assetAsBuiltFilter) {
+            this.partsFacade.setPartsAsBuilt(0, pageSizeValue, this.tableAsBuiltSortList, toAssetFilter(this.assetAsBuiltFilter, true));
         } else {
             this.partsFacade.setPartsAsBuilt(page, pageSizeValue, this.tableAsBuiltSortList);
         }
@@ -157,14 +172,15 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public onAsPlannedTableConfigChange({page, pageSize, sorting}: TableEventConfig): void {
+      this.setTableSortingList(sorting, MainAspectType.AS_PLANNED);
 
         let pageSizeValue = this.DEFAULT_PAGE_SIZE;
         if (pageSize !== 0) {
             pageSizeValue = pageSize;
         }
 
-        if (this.assetFilter) {
-            this.partsFacade.setPartsAsPlanned(0, pageSizeValue, this.tableAsPlannedSortList, toAssetFilter(this.assetFilter, true));
+        if (this.assetsAsPlannedFilter) {
+            this.partsFacade.setPartsAsPlanned(0, pageSizeValue, this.tableAsPlannedSortList, toAssetFilter(this.assetsAsPlannedFilter, true));
         } else {
             this.partsFacade.setPartsAsPlanned(page, pageSizeValue, this.tableAsPlannedSortList);
         }
@@ -185,11 +201,11 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
         // if CTRL is pressed at to sortList
         if (this.ctrlKeyState) {
             const [columnName] = sorting;
-            const tableSortList = partTable === MainAspectType.AS_BUILT ? this.tableAsBuiltSortList : this.tableAsPlannedSortList
+            const tableSortList = partTable === MainAspectType.AS_BUILT ? this.tableAsBuiltSortList : this.tableAsPlannedSortList;
 
             // Find the index of the existing entry with the same first item
             const index = tableSortList.findIndex(
-                ([itemColumnName]) => itemColumnName === columnName
+                ([itemColumnName]) => itemColumnName === columnName,
             );
 
             if (index !== -1) {
@@ -200,16 +216,16 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
                 tableSortList.push(sorting);
             }
             if (partTable === MainAspectType.AS_BUILT) {
-                this.tableAsBuiltSortList = tableSortList
+                this.tableAsBuiltSortList = tableSortList;
             } else {
-                this.tableAsPlannedSortList = tableSortList
+                this.tableAsPlannedSortList = tableSortList;
             }
         }
         // If CTRL is not pressed just add a list with one entry
         else if (partTable === MainAspectType.AS_BUILT) {
             this.tableAsBuiltSortList = [sorting];
         } else {
-            this.tableAsPlannedSortList = [sorting]
+            this.tableAsPlannedSortList = [sorting];
         }
     }
 
@@ -222,5 +238,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     protected readonly UserSettingView = UserSettingView;
-    protected readonly PartTableType = PartTableType;
+    protected readonly TableType = TableType;
+    protected readonly MainAspectType = MainAspectType;
+    protected readonly NotificationType = NotificationType;
 }

@@ -27,7 +27,7 @@ public class AlertNotFoundException extends RuntimeException {
         super("Alert not found for %s id".formatted(investigationId.value()));
     }
 
-	public AlertNotFoundException(String notificationId) {
-		super("Alert not found for %s notification id".formatted(notificationId));
-	}
+    public AlertNotFoundException(String notificationId) {
+        super("Alert not found for %s notification id".formatted(notificationId));
+    }
 }

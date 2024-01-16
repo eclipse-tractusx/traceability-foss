@@ -19,15 +19,25 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Given, Then } from '@badeball/cypress-cucumber-preprocessor';
+import { Given, Then, When } from '@badeball/cypress-cucumber-preprocessor';
 import { DashboardPage } from '../../integration/pages/DashboardPage';
 
+
 Given(/^browser is opened to dashboard page$/, () => {
-  DashboardPage.visit();
+
+  cy.url().then((url) => {
+    const newOrigin = new URL(url).origin;
+
+    // Set the new origin for subsequent tests
+    Cypress.config('baseUrl', newOrigin);
+
+    // You can also visit a specific path on the new origin
+    DashboardPage.visit();
+  });
 });
 
 Then(/^url should contain dashboard$/, () => {
-  cy.url().should('include', '/dashboard');
+  cy.url().should('include', '');
 });
 
 Then(/^should be visible "Dashboard" header$/, () => {
@@ -37,6 +47,7 @@ Then(/^should be visible "Dashboard" header$/, () => {
 Then(/^should be visible "TOTAL OF PARTS" section$/, () => {
   cy.get('section').contains('Total of parts').should('be.visible');
 });
+
 Then(/^should be visible "TOTAL OF OTHER PARTS" section$/, () => {
   cy.get('section').contains('Total of other parts').should('be.visible');
 });

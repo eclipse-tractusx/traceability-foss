@@ -30,7 +30,7 @@ import { BpnConfig } from '@page/admin/core/admin.model';
 @Component({
   selector: 'app-save-bpn-config-modal',
   templateUrl: './save-modal.component.html',
-  styleUrls: ['./save-modal.component.scss'],
+  styleUrls: [ './save-modal.component.scss' ],
 })
 export class SaveBpnConfigModal {
   @ViewChild('Modal') modal: TemplateRef<unknown>;
@@ -39,7 +39,8 @@ export class SaveBpnConfigModal {
   public changedInformation$ = new BehaviorSubject<ChangedInformation>(null);
   public originalValues$ = new BehaviorSubject<BpnConfig[]>(null);
 
-  constructor(private readonly toastService: ToastService, private readonly confirmModalService: ModalService) {}
+  constructor(private readonly toastService: ToastService, private readonly confirmModalService: ModalService) {
+  }
 
   public show(changedInformation: ChangedInformation, originalValues: BpnConfig[]): void {
     this.changedInformation$.next(changedInformation);

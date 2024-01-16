@@ -1,0 +1,21 @@
+@startuml
+participant BE
+participant EDC
+participant Registry
+participant Submodels
+
+BE ->> BE: [001] scheduler job
+BE ->> BE: [002] receive list of IN_SYNC_assets
+BE ->> EDC: [003] create asset in EDC: POST/create/asset
+EDC -->> BE: [004] response
+BE ->> EDC: [005] create policy in EDC: POST/create/policy
+EDC -->> BE: [006] response
+BE ->> EDC: [007] create contract in EDC: POST/create/contract
+EDC -->> BE: [008] response
+BE ->> Submodels: [009] create submodel: POST/submodel
+Submodels -->> BE: [010]
+BE ->> Registry: [011] register shell in registry: POST/semantics/registry
+Registry -->> BE: [012]
+BE ->> BE: [013] update asset state PUBLISHED_TO_CX
+BE ->> BE: [014] trigger IRS sync
+@enduml

@@ -56,11 +56,15 @@ public class InvestigationsSupport {
     }
 
     public Long storeInvestigationWithStatusAndAssets(NotificationStatusBaseEntity status, List<AssetAsBuiltEntity> assetsAsBuilt, List<AssetAsPlannedEntity> assetsAsPlanned) {
+        return storeInvestigationWithStatusAndAssets(status, assetsAsBuilt, assetsAsPlanned, NotificationSideBaseEntity.RECEIVER);
+    }
+
+    public Long storeInvestigationWithStatusAndAssets(NotificationStatusBaseEntity status, List<AssetAsBuiltEntity> assetsAsBuilt, List<AssetAsPlannedEntity> assetsAsPlanned, NotificationSideBaseEntity side) {
         InvestigationEntity entity = InvestigationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn("BPNL00000003AXS3")
                 .status(status)
-                .side(NotificationSideBaseEntity.RECEIVER)
+                .side(side)
                 .createdDate(Instant.now())
                 .build();
         Long alertId = storedInvestigation(entity);
@@ -83,15 +87,15 @@ public class InvestigationsSupport {
         );
     }
 
-    public void storedInvestigations(InvestigationEntity... investigations) {
-        jpaInvestigationRepository.saveAll(Arrays.asList(investigations));
-    }
-
     public Long storedInvestigation(InvestigationEntity investigation) {
         return jpaInvestigationRepository.save(investigation).getId();
     }
 
     public InvestigationEntity storedInvestigationFullObject(InvestigationEntity investigation) {
         return jpaInvestigationRepository.save(investigation);
+    }
+
+    public List<InvestigationEntity> findAllInvestigations() {
+        return jpaInvestigationRepository.findAll();
     }
 }

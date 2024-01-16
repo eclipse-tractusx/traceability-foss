@@ -45,9 +45,14 @@ import { CoreRoutingModule } from './core.routing';
 import { I18N_PROVIDERS } from './i18n/global-i18n.providers';
 import { UserService } from './user/user.service';
 import { ErrorPageModule } from '@page/error-page/error-page.module';
+import { registerLocaleData } from '@angular/common';
+import localeDe from '@angular/common/locales/de';
+import localeDeExtra from '@angular/common/locales/extra/de';
+
+registerLocaleData(localeDe, 'de', localeDeExtra);
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [ AppComponent ],
   imports: [
     CoreRoutingModule,
     BrowserAnimationsModule,
@@ -75,7 +80,7 @@ import { ErrorPageModule } from '@page/error-page/error-page.module';
       provide: APP_INITIALIZER,
       useFactory: KeycloakHelper,
       multi: true,
-      deps: [KeycloakService],
+      deps: [ KeycloakService ],
     },
     {
       provide: MAT_DATE_LOCALE,
@@ -89,7 +94,7 @@ import { ErrorPageModule } from '@page/error-page/error-page.module';
       provide: HTTP_INTERCEPTORS,
       useClass: HttpErrorInterceptor,
       multi: true,
-      deps: [ToastService],
+      deps: [ ToastService ],
     },
     {
       provide: HTTP_INTERCEPTORS,
@@ -98,6 +103,7 @@ import { ErrorPageModule } from '@page/error-page/error-page.module';
     },
     ...I18N_PROVIDERS,
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [ AppComponent ],
 })
-export class CoreModule {}
+export class CoreModule {
+}

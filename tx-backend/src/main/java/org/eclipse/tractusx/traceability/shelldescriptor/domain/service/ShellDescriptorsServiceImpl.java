@@ -50,27 +50,40 @@ public class ShellDescriptorsServiceImpl implements ShellDescriptorService {
         log.info("Starting update of {} shell ownShellDescriptors.", ownShellDescriptors.size());
         Map<String, ShellDescriptor> existingDescriptors = shellDescriptorRepository.findAll().stream()
                 .collect(Collectors.toMap(ShellDescriptor::getGlobalAssetId, Function.identity()));
-        List<ShellDescriptor> descriptorsToSync = new ArrayList<>();
+        List<ShellDescriptor> newDescriptorsToSync = new ArrayList<>();
+        List<ShellDescriptor> existingDescriptorsToUpdate = new ArrayList<>();
         ZonedDateTime now = ZonedDateTime.now();
 
         for (ShellDescriptor descriptor : ownShellDescriptors) {
             if (existingDescriptors.containsKey(descriptor.getGlobalAssetId())) {
-                shellDescriptorRepository.update(existingDescriptors.get(descriptor.getGlobalAssetId()));
+                existingDescriptorsToUpdate.add(existingDescriptors.get(descriptor.getGlobalAssetId()));
                 log.info("Updated existing shellDescriptor with id {}.", descriptor.getGlobalAssetId());
             } else {
-                descriptorsToSync.add((descriptor));
+                newDescriptorsToSync.add((descriptor));
             }
         }
-        log.info("Updated new shellDescriptors list size {}.", descriptorsToSync.size());
-        descriptorsToSync.forEach(this::persistDescriptor);
+        log.info("Added new shellDescriptors list size {}.", newDescriptorsToSync.size());
+        newDescriptorsToSync.forEach(this::persistDescriptor);
+        existingDescriptorsToUpdate.forEach(this::updateDescriptor);
         shellDescriptorRepository.removeDescriptorsByUpdatedBefore(now);
 
         log.info("Finished update of {} shell descriptors.", ownShellDescriptors.size());
 
-        return descriptorsToSync;
+        //Merge those two lists to sync all relevant shell descriptors
+        newDescriptorsToSync.addAll(existingDescriptorsToUpdate);
+        return newDescriptorsToSync;
     }
 
-    private void persistDescriptor(ShellDescriptor shellDescriptor){
+    private void updateDescriptor(ShellDescriptor shellDescriptor) {
+        try {
+            shellDescriptorRepository.update(shellDescriptor);
+        } catch (DataIntegrityViolationException exception) {
+            log.warn("Failed to persist shellDescriptor with Id: {} With cause: {}", shellDescriptor.getId(), exception.getMessage());
+        }
+
+    }
+
+    private void persistDescriptor(ShellDescriptor shellDescriptor) {
         try {
             shellDescriptorRepository.save(shellDescriptor);
         } catch (DataIntegrityViolationException exception) {
@@ -80,13 +93,13 @@ public class ShellDescriptorsServiceImpl implements ShellDescriptorService {
 
     @Override
     @Transactional
-    public void deleteAll(){
+    public void deleteAll() {
         shellDescriptorRepository.deleteAll();
     }
 
     @Override
     @Transactional
-    public List<ShellDescriptor> findAll(){
+    public List<ShellDescriptor> findAll() {
         return shellDescriptorRepository.findAll();
     }
 }

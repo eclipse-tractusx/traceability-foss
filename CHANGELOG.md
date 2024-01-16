@@ -2,10 +2,211 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres
+to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [UNRELEASED - DD.MM.YYYY]
+
 ### Added
+- Import Data Service for data provisioning
+- Added UI to publish own assets
+- Sequence Diagrams for Data Provisioning Flow
+- Added User Manual for Data import
+- Added bpn validator to bpn edc mapping
+
+### Changed
+- Fixed security findings
+- Rework GET alerts and investigations endpoint to POST to send a request body
+- Fixed deadline overlap issues for Q-investigations in update menu
+- Fixed sorting of asPlanned parts
+- Adjusted cypress tests to new cancellation flow
+- Fixed bug where applying a filter in one table erroneously affected sorting in the other table
+
+### Removed
+
+## [10.1.0 - 22.12.2023]
+### Added
+- Added an option for testdata upload in Argo Workflow
+- Validation for import data
+- GitHub action that ensures an up-to-date CHANGELOG.md
+
+### Changed
+- Restricted datefield on investigation creation to be only clickable and not editable
+- Removed duplication of request notification component and combined it into a reusable component
+- bump aquasecurity/trivy-action from 0.14.0 to 0.16.0
+- bump actions/setup-python from 4 to 5
+- bump mikefarah/yq from 4.40.2 to 4.40.5
+- bump actions/setup-java from 3 to 4
+- bump org.apache.maven.plugins:maven-jxr-plugin from 3.3.0 to 3.3.1
+- bump org.apache.maven.plugins:maven-checkstyle-plugin from 3.3.0 to 3.3.1
+- bump schedlock.version from 5.9.1 to 5.10.0
+- fixed bug where filter was reset when sorting filtered notifications
+- redesigned notification status confirmation modal
+- bump irs version from 6.9.1 to 6.12.0
+- moved rights and roles matrix from arc42 doc to administration guide
+- Moved accepted policy to helm environments
+- Request IRS policy store to accept IRS policies in addition to our own policy
+
+### Removed
+- Removed registry lookups feature
+
+## [10.0.0 - 12.12.2023]
+### Added
+- new filtering capabilities ( receivedQualityAlertIdsInStatusActive, sentQualityAlertIdsInStatusActive, receivedQualityInvestigationIdsInStatusActive, sentQualityInvestigationIdsInStatusActive )
+- Validation check if table-settings correct and reset on invalid state
+- Added Api-Input in Argo Workflow to fix bugs
+- Added implementation for cucumber tests for quality investigations
+- Added implementation of cypress tests for quality alerts
+- Separation of auto complete mechanism (selected / searched elements)
+- Added new step definition for cucumber tests "I use assets with ids {string}" allowing to specify assets used for notification creation
+- Added autocomplete endpoints for notifications
+- Added BPN column to parts table
+- Emit change check to observables in frontend
+- Added an Entity Relationship Model (ERM) into the Architecture Documentation to visually represent our tables and their relationships.
+- Added a step for testing input and included an option for a hard refresh in Argo Workflow
+- Added manufacturer_id to assets_as_planned
+- Added local filtering and auto complete for notifications
+- Added a drag-and-drop option for JSON files and an endpoint to receive them
+
+### Changed
+- Filter configuration for tables to be resuable and easy to adapt
+- Realigned some mappings e.g. (manufacturer / manufacturerName) to be more clear
+- Updated mikefarah/yq from 4.35.2 to 4.40.2
+- Upgraded maven-checkstyle-plugin from 3.3.0 to 3.3.1
+- Upgraded nimbus-jose-jwt from 9.31 to 9.37.1
+- Upgraded maven-install-plugin from 3.0.1 to 3.1.1
+- Upgraded json-unit-assertj from 2.38.0 to 3.2.2
+- Upgraded asciidoctorj-diagram from 2.2.9 to 2.2.13
+- Cucumber test steps for creating notifications no longer support default assetId when no asset is provided with previous step
+- Upgraded the Upload_Testdata job in Argo Workflow to fix bugs
+- Auto format for frontend source code applied
+- Updated user-manual for Parts filtering autocomplete functionality
+- Fixed issue when requesting autocomplete api endpoints with no size provided
+- Default pagination size to 50.
+- Split up bpn column in notification table views to show bpn and name separately
+- Changed detailed part view action from clicking on list item to a menu action column
+- Changed FE fieldName mapping to fix bug for properties catenaxSiteId and function
+- Fix of global search field
+- Parts autocomplete API now is case insensitive when using "startWith" parameter
+- changed mapping for manufacturerName when syncing assets_as_planned so it is being resolved when assets are resolved
+- Behaviour of auto complete toggle selections
+- Updated springboot version from 3.1.3 to 3.1.6
+- updated spring core version from 6.0.13 to 6.0.14
+- Update tomcat-embed-websocket from 10.0.15 to 10.0.16
+- Update logback-classic and logback-core version to 1.4.14 to mitigate high finding
+- Fixed sorting on empty notification tables
+
+### Removed
+- removed asset filters ( qualityInvestigationIdsInStatusActive, qualityInvestigationIdsInStatusActive )
+- Removed Cucumber tests steps for creating alerts with two parts as new step definition is enough for the same feature
+
+## [9.0.0 - 05.12.2023]
+### Changed
+- Upgraded irs-client library from 1.4.1-SNAPSHOT to 1.4.1
+
+### Known knowns
+
+- Backend/Frontend [TRACEFOSS-2728]: Investigations / Alerts: Transition of the message status will take some time. If it fails the user will not be informed.
+
+## [9.0.0-rc3 - 27.11.2023]
+### Added
+- DEPENDENCIES_FRONTEND, SECURITY.md, NOTICE.md, LICENSE file to frontend docker image
+- Added a step-by-step guide to register a server in pgAdmin in the database dump README
+- Documentation about technical users
+- Added new dashboard layout and additional widgets
+
+### Changed
+- Fixed helm repository path for backend & frontend (wrong prefix)
+- Refactored dashboard response
+- Updated user manual
+- Autocomplete endpoints changed owner String type param to Owner for input validation and sql injection prevention
+- Autocomplete endpoints repository uses now criteria api rather than native query
+- Fixed several bugs in local filtering of the parts table
+
+### Removed
+- apk upgrade in docker image built as requested by TRG 4.02
+
+## [9.0.0-rc2 - 15.11.2023]
+### Added
+- Cypress Login to E2E Environment to enable cypress e2e tests.
+- Fixed bug in argo workflow which allows to successfully run on INT-A/INT-B
+- database dumps for environments A and B, along with a README guide for database recovery.
+- New job named 'print_environment' to the Argo-workflow that prints the selected environment to the GitHub Step Summary.
+- Added NOTIFICATION_COUNT_EQUAL filter strategy for Assets as built Specifications
+- Added new supported filter for notifications assetId that allows filtering alerts and investigations by assetId
+- Added autocompletion and local filter selection on parts table
+- Fixed bug in argo workflow which allows to successfully upload testdata
+- No logging option for cypress
+
+### Changed
+- Fixed table-settings reset bug
+- Changed datepicker in FE to date range picker
+- Fixed name of veracode backend job
+- Bump jetty-http from 11.0.15 to 11.0.17
+- Assets response have now list of notification ids rather than count of existing notifications
+- Frontend adapt to backend api changes for activeAlerts and activeInvestigations
+- Reconfigured all docker images user settings
+- Adapted memory / cpu requests and limits in default values helm file
+- Fixed textarea field for dialog.
+- Removed duplicated cancel buttons from investigation and alerts workflows
+
+- Migrate to not deprecated methods in HTTP security
+- Bump actions/setup-node@ from v3 to v4
+- Bump helm/chart-releaser-action from v1.5.0 to v1.6.0
+- Bump aquasecurity/trivy-action from 0.12.0 to 0.14.0
+- Bump cypress-io/github-action from v6.5.0 to v6.6.0
+- Bump spring-core version from 6.0.12 to 6.0.13
+- Bump compiler-plugin version 3.10.1 to 3.11.0
+- Bump commons-io version 2.13.0 to 2.15.0
+- Update IRS-helm version from 6.8.0 to 6.9.1
+- Update EDC from 0.5.0 to 0.5.3
+- Added owner param to distinctFilterValues endpoints
+
+### Removed
+
+## [9.0.0-rc1 - 03.11.2023]
+
+### Added
+- Added Table columns settings in part tables to show/hide/reorder table columns
+- new endpoints supporting filtering feature for investigations and alers api/investigations api/alerts
+- Added support for aspectmodel traction battery code
+- Added missing translations
+- support for date ranges BEFORE_LOCAL_DATE and AFTER_LOCAL_DATE providing both will cause filter result to return only relevant date ranges
+- added supported searchCriteriaFieldsMappers for investigations, alerts, assetsAsBuilt and assetAsPlanned related endpoints
+- added cache busting to build output of FE application
+- added Argo Github-Action
+- handling for invalid LocalDate string provided in filterCriteria for date related filtering
+- support for filtering join tables for Specification searchCriteria
+- added PR comment in case of HIGH/CRITICAL dependency check findings
+- Functionality to indicate that no Dependency Check findings occur in a PR
+- Badge to show successful Dependency Check status
+
+### Changed
+- Updated user manual to reflect the table column settings feature
+- Fixed a bug which removed all parts asBuilt selection at once when creating notifications
+- Changed Filter to support Logical operator (AND,OR) on searchCriteria
+- Adapt frontend to use the changed filter logic with the correct operator per use case
+- Reworked business logic of /registry/reload to always sync all assets
+- Only include configured severities into report
+- Shedlock version from 5.7.0 to 5.9.1
+- Swagger Annotation Version from 1.6.11 to 1.6.12
+- Testcontainer Postgresql Version from 1.19.0 to 1.19.1
+- Bump @babel/traverse from 7.20.13 to 7.23.2 in frontend
+- distinctFilterValues endpoints now support startWith parameter that will cause result to contain only suggestions starting with given string
+- changed qualityNotification filtering changed from side to channel as response field name
+- changed assetAsBuilt filtering manufacturerId to businessPartner
+- IRS-Client-Lib from 1.2.1-SNAPSHOT to 1.4.0
+- Decoupled dependency check in a separate GitHub action
+- Mitigated Dependency Check findings
+
+### Removed
+- Removed &filterOperator=AND from filtering requests
+- Removed no longer needed endpoints api/investigations/created, api/investigations/received, api/alerts/created, api/alerts/received
+
+## [8.0.0 - 16.10.2023]
+
+### Added
+
 - added multisorting in FE for notifications
 - added possiblity to add operator to searchquery of assets
 - added global search field and combined with the OR operator to be able to search for multiple elements in the database
@@ -24,6 +225,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Added datepicker for date fields inside of the table filters
 
 ### Changed
+
 - updated IRS helm chart from 6.6.1 to 6.7.2
 - Updated policy related logic to reflect IRS changes
 - Moved response handling from the backend folder to the model folder, addressing a TODO item.
@@ -34,13 +236,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - updated docker/build-push-action from 4 to 5
 - Updated user manual to reflect current state of the part views
 - Fixed dash IP GitHub action that scans Backend dependencies
+- Date format of manufacturingDate, validityPeriodFrom, validityPeriodUntil, functionValidFrom, functionValidTo to be
+  OffsetDateTime for Business logic and Instant for Database
+- Changed types of OffsetDates within the database to be a timestamp including timezone
+- Fixxed mapping of idShort
+- Changed date formats of assets to have offsetDateTime instead of Date or LocalDateTime
+- Aligned date formats in the rest api for assets
+- Increased version of jetty-http from 11.0.15 to 11.0.17 and excluded from edc package
+- Bump versions in frontend dependencies
 
 ### Removed
+
 - Owner filter and replaced it with the new filter query param
 - Removed profile based feature flag for investigations / alerts
 
 ## [7.1.0 - 29.09.2023]
+
 ### Added
+
 - Splitscreen View with sliders on parts and otherParts View
 - New test data for as planned assets aswell as JustInSequence and TractionBatteryCode
 - Toggle for parts and other parts to switch views asPlanned/asBuilt
@@ -49,8 +262,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - safety and security doc including roles matrix
 - handling for duplicate shellDescriptor ids when refreshing registry
 
-
 ### Changed
+
 - added sorting for /api/investigations received and created endpoints
 - added sorting for /api/alerts received and created endpoints
 - integration tests uses flyway now rather than hibernate schema auto creation
@@ -59,12 +272,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Directories of bpnEntity to match architecture
 - Mapping logic of catena-x site id and manufacturerPartId for AssetsAsPlanned
 
-
 ### Removed
+
 - Old edc code not necessary anymore
 - BpnEdcMappingEntity removed with related repository
 
 ## [7.0.0 - 18.09.2023]
+
 ### Added
 
 - OAuth2 client credentials rest template interceptor
@@ -85,12 +299,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Added Batch 2.0.0 support
 - Updated some patch version for used dependencies.
 
-
 ### Changed
+
 - API BREAKING CHANGE: /api/assets changed to /api/assets/as-built
 - Changed digitalTwinRegistryRestTemplate to use token in requests
 - Update asBuild test data to 1.5.3 and asPlanned to 1.5.1
-- Changed transfer notification logic not to break iteration loop when sending notifications to bpn with more than 1 connector endpoints
+- Changed transfer notification logic not to break iteration loop when sending notifications to bpn with more than 1
+  connector endpoints
 - Decentral flow only using bpn for resolving globalAssetIds
 - Logic of commitId retrieval by frontend has changed
 - Readme / Docker Notice information as required in TRGs
@@ -102,7 +317,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Updated commons-io from 2.11.0 to 2.13.0
 - Updated snakeyaml from 2.0 to 2.1
 - Split up Parts View in Frontend to parts asBUilt and asPlanned
-- Replaced own implementation of getCatalog, negotiateAgreement, and validatePolicy with irs-client-library implementation.
+- Replaced own implementation of getCatalog, negotiateAgreement, and validatePolicy with irs-client-library
+  implementation.
 - Updated irs-registry-client from 1.1.0-SNAPSHOT to 1.2.0-SNAPSHOT
 - Updated irs-helm from 6.4.1 to 6.5.0
 - Migrated groovy integration tests to SpringBootTests
@@ -121,6 +337,103 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Known knowns
 
+- Backend [TRACEFOSS-1458]: AdminView: No validation of BPN for BPN EDC URL mapping
+- Backend [TRACEFOSS-589]: Backend API access without login returns incorrect HTTP status code (500 instead of 401)
+- Backend [TRACEFOSS-2148]: Endpoints for parts and notifications returns unsorted list
+
+---
+
+- Frontend [TRACEFOSS-2149]: Sorting on empty table causes unhandled error view
+
+---
+
+- Security [TRACEFOSS-829]: CVE Strict-Transport-Security header - The HSTS Warning and Error may allow attackers to
+  bypass HSTS
+- Security [TRACEFOSS-830]: CVE one stack trace disclosure (Java) in the target web server's HTTP response
+- Security [TRACEFOSS-919]: Authorization Bypass Through User-Controlled SQL Primary Key CWE ID 566
+- Security [TRACEFOSS-984]: Improper Output Neutralization for Logs CWE ID 117
+- Security [TRACEFOSS-1313]: Using components with known vulnerabilities
+- Security [TRACEFOSS-1314]: Open Redirect - host header injection
+- Security [TRACEFOSS-1315]: No additional authentication component (MFA) during login process
+
+---
+
+- Environment [TRACEFOSS-2164]: HTTP Requests for syncing the submodel server inoperable~~
+
+## [6.0.1] - 2023-10-23
+### Added
+- All elements from 6.0.1-rc1,rc2,rc3,rc4
+
+
+## [6.0.1-rc4]
+### Added
+
+### Changed
+- updated IRS helm chart from 6.6.1 to 6.7.2
+- updated policy related logic to reflect IRS changes
+
+### Removed
+
+## [6.0.1-rc3] - 2023-08-31
+### Added
+
+
+### Changed
+
+- Updated irs-registry-client from 1.1.0-SNAPSHOT to 1.2.0-SNAPSHOT
+- Updated irs-helm from 6.4.1 to 6.5.0
+
+### Removed
+
+## [6.0.1-rc2]
+### Added
+
+- OAuth2 client credentials rest template interceptor
+- Configuration for left and right policies to use registry client library
+- TRG Github Action Pipeline for quality checks
+- ErrorMessage field to investigation and alerts
+
+### Changed
+
+- Changed digitalTwinRegistryRestTemplate to use token in requests
+- Update asBuild test data to 1.5.3 and asPlanned to 1.5.1
+- Changed transfer notification logic not to break iteration loop when sending notifications to bpn with more than 1 connector endpoints
+- added handling for null manufacturerName in IrsJobResponse, if null is passed it is replaced with "UNKNOWN_MANUFACTURER"
+
+### Removed
+
+## [6.0.0 - 2023-07-21]
+
+### Added
+
+- Moved all parts of app config to helm charts to be fully configurable
+- Helmignore config params for wrong values.yaml files
+- Home / Source URL in Helm Chart
+- Name Overrides in Helmchart for pgadmin, irs-helm and tractusx-connector
+- Added decentral registry approach
+- Added discovery finder / edc discovery service for looking up edc urls of receiver of notifications
+- Added about component with additional Workflow to load repo info into the component
+- Add Transformer to support new EDC constraint operator format
+
+### Changed
+
+- Modified IRS Policies support to handle multiple policies
+- Readme titles to match TRGs
+- Updated Irs helm chart to 6.3.1
+- Update EDC dependencies to 0.1.3
+- Update implementation to use EDC 0.5.0
+- Spring Security Config Update from 6.0.3 to 6.0.5
+- Logic of commitId retrieval by frontend has changed
+- Readme / Docker Notice information as required in TRGs
+- Removed references to GitHub registry and added docker hub for tractusx instead
+- Spring Boot Update from: 3.0.7 to 3.1.2
+- Spring Core Update from: 6.0.8 to 6.0.11
+
+### Removed
+- unused classes and methods
+
+### Known knowns
+
 - Backend [TRACEFOSS-1458]: AdminView: No validation of BPN for BPN  EDC URL mapping
 - Backend [TRACEFOSS-589]: Backend API access without login returns incorrect HTTP status code (500 instead of 401)
 - Backend [TRACEFOSS-2148]: Endpoints for parts and notifications returns unsorted list
@@ -136,25 +449,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Security [TRACEFOSS-1315]: No additional authentication component (MFA) during login process
 ---
 - Environment [TRACEFOSS-2164]: HTTP Requests for syncing the submodel server inoperable~~
-
-
-
-### Removed
-
-## [6.0.1-rc2]
-### Added
-- OAuth2 client credentials rest template interceptor
-- Configuration for left and right policies to use registry client library
-- TRG Github Action Pipeline for quality checks
-- ErrorMessage field to investigation and alerts
-
-### Changed
-- Changed digitalTwinRegistryRestTemplate to use token in requests
-- Update asBuild test data to 1.5.3 and asPlanned to 1.5.1
-- Changed transfer notification logic not to break iteration loop when sending notifications to bpn with more than 1 connector endpoints
-- added handling for null manufacturerName in IrsJobResponse, if null is passed it is replaced with "UNKNOWN_MANUFACTURER"
-
-### Removed
 
 
 ## [6.0.0 - 2023-07-21]
@@ -182,24 +476,32 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Spring Core Update from: 6.0.8 to 6.0.11
 
 ### Removed
+
 - unused classes and methods
 
 ### Known knowns
 
-- Backend [TRACEFOSS-1458]: AdminView: No validation of BPN for BPN  EDC URL mapping
+- Backend [TRACEFOSS-1458]: AdminView: No validation of BPN for BPN EDC URL mapping
 - Backend [TRACEFOSS-589]: Backend API access without login returns incorrect HTTP status code (500 instead of 401)
 - Backend [TRACEFOSS-2148]: Endpoints for parts and notifications returns unsorted list
+
 ---
+
 - Frontend [TRACEFOSS-2149]: Sorting on empty table causes unhandled error view
+
 ---
-- Security [TRACEFOSS-829]: CVE Strict-Transport-Security header - The HSTS Warning and Error may allow attackers to bypass HSTS
+
+- Security [TRACEFOSS-829]: CVE Strict-Transport-Security header - The HSTS Warning and Error may allow attackers to
+  bypass HSTS
 - Security [TRACEFOSS-830]: CVE one stack trace disclosure (Java) in the target web server's HTTP response
 - Security [TRACEFOSS-919]: Authorization Bypass Through User-Controlled SQL Primary Key CWE ID 566
 - Security [TRACEFOSS-984]: Improper Output Neutralization for Logs CWE ID 117
 - Security [TRACEFOSS-1313]: Using components with known vulnerabilities
 - Security [TRACEFOSS-1314]: Open Redirect - host header injection
 - Security [TRACEFOSS-1315]: No additional authentication component (MFA) during login process
+
 ---
+
 - Environment [TRACEFOSS-2164]: HTTP Requests for syncing the submodel server inoperable~~
 
 ## [5.0.0] - 2023-07-10
@@ -241,6 +543,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Upgraded maven-project-info-reports-plugin from 3.4.3 to 3.4.5
 
 ### Changed
+
 - Updated spring boot to 3.0.7 to fix: CVE-2023-20883
 - Fixed calculation of otherParts amount within dashboard response
 - Fixed incorrect label mapping in notification action modals
@@ -289,23 +592,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Added E2E cucumber test for sending notification
 
 ### Changed
-- Refactored other-parts.component.html - split into new components: supplier-parts.component.html and customer-parts.component.html
+
+- Refactored other-parts.component.html - split into new components: supplier-parts.component.html and
+  customer-parts.component.html
 - Bump cypress-io/github-action from 5.6.2 to 5.7.1
 - Bump surefire-plugin.version from 3.0.0-M8 to 3.0.0
 - Bump java-jwt from 4.3.0 to 4.4.0
 - Bump asciidoctor-maven-plugin from 2.2.2 to 2.2.3
 - Bump spring-cloud-dependencies from 2022.0.1 to 2022.0.2
 - Bump asciidoctorj from 2.5.7 to 2.5.8
-- Use Selective dependency resolutions for @angular-devkit/build-angular to keep 15.2.8 version locked (so @angular-builders/custom-webpack uses the same version as well)
+- Use Selective dependency resolutions for @angular-devkit/build-angular to keep 15.2.8 version locked (so
+  @angular-builders/custom-webpack uses the same version as well)
 - Aligned help button and user icon in the header to official C-X styleguide
 - Changed logic of merging response from irs to match the correct ids of the relationships
 - Updated open api collection to detect security issues on rest api
-- Upgraded karma package dependency: socket.io-parser to 4.2.3 (to solve Insufficient validation when decoding a Socket.IO packet)
+- Upgraded karma package dependency: socket.io-parser to 4.2.3 (to solve Insufficient validation when decoding a
+  Socket.IO packet)
 - Corrected alignment for severity and other fields in section "Overview" in quality investigation detail page
 - Upgraded cypress-io/github-action from 5.7.1 to 5.8.0
 - Changed trivy.yml settings for frontend (use "--format sarif" instead of "--template sarif.tpl")
 
 ### Removed
+
 - Removed selection column on Customer Parts page
 - Removed classes: AssetFacade, Constants, Command, ContractAgreementRequest, ContractOfferRequest, AssetFacadeTest
 - Removed log flooding in asset sync process
@@ -313,11 +621,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [3.4.0] - 2023-05-11
 
 ### Added
+
 - Added logic to push image to docker hub for eclipse-tractusx repository
 - Added testdata to database to ensure working notification flow
 - Added base implementation for quality notifications which can be used for alerts and investigations
 
 ### Changed
+
 - Updated Publish documentation workflow to convert and deploy documentation as markdown (.md)
 - Bumped cypress-io/github-action from 5.6.1 to 5.6.2
 - Bumped veracode/veracode-uploadandscan-action@0.2.5 to 0.2.6
@@ -327,16 +637,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Updated dev setup documentation
 - Changed logic of investigations to be more extensible for alerts
 - Upgraded irs from 5.0.9 to 5.3.0
-- Upgraded @angular-devkit/build-angular to ^15.0.0 (to have the same dependency as @angular-builders/custom-webpack has)
+- Upgraded @angular-devkit/build-angular to ^15.0.0 (to have the same dependency as @angular-builders/custom-webpack
+  has)
 - Fix sonar bug in minimap.d3.ts
 - Upgraded karma dependencies (use engine.io@^6.4.2 to solve Uncaught Exception vulnerability)
 - Refactored investigation class to be qualitynotification to reflect a base class for future extensions
-- Renamed notification table to investigation_notification to be able to understand the difference of notification source
+- Renamed notification table to investigation_notification to be able to understand the difference of notification
+  source
+
 ### Removed
+
 - Not needed enum params in UpdateInvestigationRequest
 
 ## [3.3.0] - 2023-05-02
+
 ### Added
+
 - Added tx-root pom for maven multi module project
 - Added tx-parent-spring-boot for using spring boot dependencies
 - Added tx-models
@@ -354,6 +670,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Added a custom Pageable Scheme
 
 ### Changed
+
 - Updated spring-boot:core from 6.0.6 to 6.0.8 for cve-2023-20863
 - backend directory and module to tx-backend
 - backend/cucumber-tests directory to tx-cucumber-tests
@@ -372,6 +689,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Added documentation on the usage of testdata
 
 ### Removed
+
 - Removed usage of add-license-header script in FE hook
 - Removed usage of map and map component
 - Removed supplierPart boolean from asset
@@ -380,15 +698,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [3.2.0] - 2023-04-17
 
 ### Added
+
 - Created BPN - BPN - EDC configuration page with mappings for notification flow
 
 ### Changed
+
 - Refactored messageId of a notification to have own uuid instead of reusing notificationId
 - Changed receive / update edc callbacks to match one seperate method for each process
-- Updated the Notification Publisher to request initial notifications to the /receive endpoint and updates to the related /update endpoint
+- Updated the Notification Publisher to request initial notifications to the /receive endpoint and updates to the
+  related /update endpoint
 - Updated cypress-io/github-action from 5.6.0 to 5.6.1
 - Updated peaceiris/actions-gh-pages from 3.9.2 to 3.9.3
-- Upgraded base image from sha256@2b33ef284e6dc43a61903cef6d36dbce13414a9e5444e2c96cdd5e35123f9903 to: sha256@c26a727c4883eb73d32351be8bacb3e70f390c2c94f078dc493495ed93c60c2f
+- Upgraded base image from sha256@2b33ef284e6dc43a61903cef6d36dbce13414a9e5444e2c96cdd5e35123f9903 to:
+  sha256@c26a727c4883eb73d32351be8bacb3e70f390c2c94f078dc493495ed93c60c2f
 - Fixed parts not being marked as under investigation
 - Adapt notification receiver side to accept severity by real name instead of enum constant
 - Improved admin page navigation (as a left side menu)
@@ -424,6 +746,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [3.1.0] - 2023-04-03
 
 ### Added
+
 - Added persistent history of EDC Notifications
 - Added validation for UpdateInvestigationRequest, reason for (decline, accepted, close)
 - Added Title to sections that might be cut of with three dots (...)
@@ -434,6 +757,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Added information about the specific base image used by our docker images
 
 ### Changed
+
 - Validation logic of edc notification flow
 - Restructured helm charts to an parent helm chart which includes frontend and backend
 - Updated database fields within Investigation table (accept_reason, decline_reason, close_reason)
@@ -461,6 +785,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [3.0.0] - 2023-03-21
 
 ### Added
+
 - Added functionality to update & close notifications – Quality Investigations
 - Included a guide for connecting sonarcloud to IntelliJ -> Contribution.md
 - Added properties targetDate and severity to the Quality Investigations
@@ -471,6 +796,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Added beta environment
 
 ### Changed
+
 - Changed github action docker-release to have maven cache instead of previously used gradle
 - Fixed a bug which caused the wrong bpn sender was set
 - Added the default param to the irs/jobs api lookupBPNs and set it to true
@@ -487,9 +813,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [2.0.0] - 2023-03-06
 
 ### Added
+
 - Added functionality to close notifications – Quality Investigations
 
 ### Changed
+
 - Fixed Sending and saving quality investigation closure reason
 - Added connector lookup dataspace discovery service functionality for finding EDC url
 
@@ -519,9 +847,11 @@ Using the "relationships" structure instead of "AssemblyPartRelationship" in the
 
 ### Added
 
-- **Traceability BoM asBuilt** - with the use of IRS we retrieve a BoM tree for lifecycle "as built" for serialized parts as well as batches, which as a prerequisite are provided to the Catena-X network.
+- **Traceability BoM asBuilt** - with the use of IRS we retrieve a BoM tree for lifecycle "as built" for serialized
+  parts as well as batches, which as a prerequisite are provided to the Catena-X network.
 - Usage of the aspects "SerialPartTypification", “Batch” and "AssemblyPartRelationship".
-- Tree built in the downwards direction top-down/parent-child. Visualization of the BoM tree and list view of own manufactured as well as being supplied with parts.
+- Tree built in the downwards direction top-down/parent-child. Visualization of the BoM tree and list view of own
+  manufactured as well as being supplied with parts.
 
 ## [0.1.0] - 2022-09-21
 
@@ -531,6 +861,9 @@ Using the "relationships" structure instead of "AssemblyPartRelationship" in the
 - **EDC and IRS integration**
 
 [unreleased]: https://github.com/eclipse-tractusx/traceability-foss-frontend/compare/1.1.0...HEAD
+
 [1.1.0]: https://github.com/eclipse-tractusx/traceability-foss-frontend/compare/1.1.0
+
 [1.0.0]: https://github.com/eclipse-tractusx/traceability-foss-frontend/compare/1.0.0
+
 [0.1.0]: https://github.com/eclipse-tractusx/traceability-foss-frontend/compare/0.1.0

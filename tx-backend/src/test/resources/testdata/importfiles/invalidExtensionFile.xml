@@ -1,0 +1,43 @@
+{
+  "assets" : [
+    {
+      "assetMetaInfo" : {
+        "catenaXId" : "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd"
+      },
+      "submodels" : [
+        {
+          "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "identification" : "1234",
+          "payload" : {
+            "localI1dentifiers" : [
+              {
+                "value" : "BPNL00000003CNKC",
+                "key" : "manufacturerId"
+              },
+              {
+                "value" : "22782277-50",
+                "key" : "manufacturerPartId"
+              },
+              {
+                "value" : "NO-313869652971440618042264",
+                "key" : "partInstanceId"
+              }
+            ],
+            "manufacturingInformation" : {
+              "date" : "2022-02-04T14:48:54",
+              "country" : "DEU"
+            },
+            "catenaXId" : "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd",
+            "partTypeInformation" : {
+              "manufacturerPartId" : "22782277-50",
+              "customerPartId" : "22782277-50",
+              "classification" : "component",
+              "nameAtManufacturer" : "Door f-l",
+              "nameAtCustomer" : "b/test Door front-left"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

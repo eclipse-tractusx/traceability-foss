@@ -62,6 +62,7 @@ public class ShellDescriptorRepositoryImpl implements ShellDescriptorRepository 
     }
 
     @Override
+    @Transactional
     public void save(ShellDescriptor descriptor) {
         repository.save(ShellDescriptorEntity.newEntityFrom(descriptor));
     }

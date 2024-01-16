@@ -30,13 +30,14 @@ const DASHBOARD_ROUTING: Routes = [
     path: '',
     pathMatch: 'full',
     component: DashboardComponent,
-    data: { i18nextNamespaces: ['page.dashboard'] },
+    data: { i18nextNamespaces: [ 'page.dashboard' ] },
     resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(DASHBOARD_ROUTING)],
-  exports: [RouterModule],
+  imports: [ RouterModule.forChild(DASHBOARD_ROUTING) ],
+  exports: [ RouterModule ],
 })
-export class DashboardRoutingModule {}
+export class DashboardRoutingModule {
+}

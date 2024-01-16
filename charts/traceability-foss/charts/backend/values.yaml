@@ -89,7 +89,7 @@ resources:
     cpu: 500m
     memory: 512Mi
   requests:
-    cpu: 500m
+    cpu: 250m
     memory: 512Mi
 
 nodeSelector: {}
@@ -137,6 +137,10 @@ healthCheck:
 traceability:
   bpn: "CHANGEME" #<traceability.bpn>
   url: "" #<traceability.url>
+  leftOperand: "CHANGEME" #<traceability.leftOperand>
+  operatorType: "CHANGEME" #<traceability.operatorType>
+  rightOperand: "CHANGEME" #<traceability.rightOperand>
+  validUntil: "CHANGEME" #<traceability.validUntil>
 
 datasource:
   url: jdbc:postgresql://traceability-foss-backend-postgresql:5432/trace

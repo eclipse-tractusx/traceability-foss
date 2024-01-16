@@ -28,5 +28,6 @@ import java.util.List;
 @Repository
 public interface JpaBpnRepository extends JpaRepository<BpnEntity, String> {
     List<BpnEntity> findAllByUrlNotNull();
+
     Boolean existsByManufacturerIdAndUrlIsNotNull(String manufacturerId);
 }

@@ -19,12 +19,12 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { FormatPartlistSemanticDataModelToCamelCasePipe} from '@shared/pipes/format-partlist-semantic-data-model-to-camelcase.pipe';
 import { Injectable } from '@angular/core';
 import { InvestigationDetailState } from '@page/investigations/core/investigation-detail.state';
 import { Part } from '@page/parts/model/parts.model';
 import { Notification } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
+import { FormatPartlistSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-partlist-semantic-data-model-to-camelcase.pipe';
 import { PartsService } from '@shared/service/parts.service';
 import { Observable, of, Subscription } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
@@ -38,8 +38,7 @@ export class InvestigationDetailFacade {
   constructor(
     private readonly partsService: PartsService,
     private readonly investigationDetailState: InvestigationDetailState,
-    private readonly formatPartlistSemanticDataModelToCamelCasePipe: FormatPartlistSemanticDataModelToCamelCasePipe
-
+    private readonly formatPartlistSemanticDataModelToCamelCasePipe: FormatPartlistSemanticDataModelToCamelCasePipe,
   ) {
   }
 
