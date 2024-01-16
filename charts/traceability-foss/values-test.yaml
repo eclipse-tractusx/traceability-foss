@@ -266,7 +266,6 @@ irs-helm:
     clientId: *service_account_id
     clientSecret: *service_account_password
     clientTokenUri: *central_idp_token_uri
-    jwkSetUri: *central_idp_jwk_uri
 
   edc:
     callbackurl: *irs_callback_url

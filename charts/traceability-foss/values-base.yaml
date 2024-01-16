@@ -176,10 +176,14 @@ backend:
     allowedCorsOriginFirst: "http://localhost:4200/"
     allowedCorsOriginSecond: 'CHANGE_ME'
 
+  irsAdminApiKey: &irs_admin_api_key <path:traceability-foss/data/dev/irs#API_KEY_ADMIN>
+  irsRegularApiKey: &irs_regular_api_key <path:traceability-foss/data/dev/irs#API_KEY_REGULAR>
+
   dependencies:
     enabled: true
     irs: 'CHANGE_ME'  # <irs-helm.nameOverride>
     edc: 'CHANGE_ME'  # <tractusx-connector.nameOverride
+
 
 #########################
 # PG Admin configuration     #
@@ -284,7 +288,9 @@ irs-helm:
     clientId: 'CHANGE_ME'
     clientSecret: 'CHANGE_ME'
     clientTokenUri: 'CHANGE_ME'
-    jwkSetUri: 'CHANGE_ME'
+
+  apiKeyAdmin: *irs_admin_api_key
+  apiKeyRegular: *irs_regular_api_key
 
   edc:
     callbackurl: 'CHANGE_ME'
