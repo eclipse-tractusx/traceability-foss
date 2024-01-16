@@ -24,6 +24,7 @@ import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RoleService } from '@core/user/role.service';
 import { TractionBatteryCode } from '@page/parts/model/aspectModels.model';
+import { Owner } from '@page/parts/model/owner.enum';
 import { Part, QualityType } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { SelectOption } from '@shared/components/select/select.component';
@@ -119,4 +120,5 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
   }
 
   protected readonly NotificationAction = NotificationAction;
+  protected readonly Owner = Owner;
 }

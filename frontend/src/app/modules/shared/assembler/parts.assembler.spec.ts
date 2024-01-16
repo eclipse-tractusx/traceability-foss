@@ -119,6 +119,7 @@ describe('PartsAssembler', () => {
         manufacturerName: manufacturerName,
         manufacturerPartId: manufacturerPartId,
         nameAtManufacturer: nameAtManufacturer,
+        owner: owner,
         businessPartner: businessPartner,
         children: [],
         parents: [],

@@ -80,6 +80,7 @@ export class PartsAssembler {
       manufacturerName: partResponse.manufacturerName,
       manufacturerPartId: partResponse.manufacturerPartId,
       nameAtManufacturer: partResponse.nameAtManufacturer,
+      owner: partResponse.owner,
       businessPartner: partResponse.businessPartner,
       children: partResponse.childRelations.map(child => child.id) || [],
       parents: partResponse.parentRelations?.map(parent => parent.id) || [],

@@ -35,15 +35,16 @@ SPDX-License-Identifier: Apache-2.0
             *viewContainer="shortenPartDetails$ | async; main: partDetailsMainTmp; error: errorTmp; loading: loaderTmp"
           ></ng-container>
         </div>
-        <div class="part-detail--part-info--import-state import-state">
-          <ng-container
-            *viewContainer="importStateDetails$ | async; main: importStateDetailsMainTmp; error: errorTmp; loading: loaderTmp">
-          </ng-container>
-        </div>
         <div class="part-detail--part-info--relation relation">
           <ng-container
             *viewContainer="selectedPartDetails$ | async; main: partRelationMainTmp; error: errorTmp; loading: loaderTmp"
           >
+          </ng-container>
+        </div>
+
+        <div class="part-detail--part-info--import-state import-state" *ngIf="(selectedPartDetails$ | async)?.data?.owner === Owner.OWN">
+          <ng-container
+            *viewContainer="importStateDetails$ | async; main: importStateDetailsMainTmp; error: errorTmp; loading: loaderTmp">
           </ng-container>
         </div>
 
@@ -63,6 +64,9 @@ SPDX-License-Identifier: Apache-2.0
           <ng-container
             *viewContainer="customerOrPartSiteDetails$ | async; main: customerOrPartSiteDetailsMainTmp; error: errorTmp; loading: loaderTmp"
           ></ng-container>
+        </div>
+
+        <div class="part-detail--traction-battery tractionbattery">
           <ng-container
             *viewContainer="tractionBatteryDetails$ | async; main: tractionBatteryDetailsMainTmp; error: errorTmp; loading: loaderTmp">
           </ng-container>
@@ -117,7 +121,7 @@ SPDX-License-Identifier: Apache-2.0
       <ng-container *ngIf="isOpen$ | async">
         <app-card-list [list]="tractionBatteryDetails.data" [title]="'partDetail.tractionBattery' | i18n"
                        class="part-detail--tractionBattery-details"></app-card-list>
-        <mat-card>
+        <mat-card class="part-detail-subcomponents-table-container">
           <mat-card-header>
             <mat-card-title>{{ 'partDetail.subcomponents' | i18n }}</mat-card-title>
           </mat-card-header>

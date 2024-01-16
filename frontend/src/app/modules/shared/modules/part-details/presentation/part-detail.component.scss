@@ -19,8 +19,12 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-mat-card-content {
-  height: 85%;
+.part-detail--tractionBattery-details {
+  flex: 1;
+}
+
+.part-detail-subcomponents-table-container {
+  flex: 1;
 }
 
 .part-detail {
@@ -33,26 +37,13 @@ mat-card-content {
   &--container {
     margin-top: 25px;
     display: grid;
-    grid-auto-rows: 1fr;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: repeat(4, 1fr);
     gap: 25px 25px;
-    grid-template-areas:
-      "overview overview relation relation"
-    "import-state import-state relation relation"
-    "manufacturer manufacturer specific specific";
   }
 
   @media(max-width: 1023px) {
     &--container {
-      grid-template-areas:
-      "overview"
-      "relation"
-      "relation"
-      "import-state"
-      "manufacturer"
-      "specific";
-      grid-template-columns: 1fr;
+    grid-template-columns: repeat(1, 1fr);
     }
   }
 
@@ -86,24 +77,75 @@ mat-card-content {
   }
 }
 
+.part-detail--tractionBattery-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+}
+
 .overview {
-  grid-area: overview;
+  grid-column: span 2;
+  grid-row: span 1;
 }
 
 .relation {
-  grid-area: relation;
+  grid-column: span 2;
+  grid-row: span 2;
+  mat-card-content {
+    height: 90%;
+  }
 }
 
 .import-state {
-  grid-area: import-state;
+  grid-column: span 2;
+  grid-row: span 1;
 }
 
 .manufacturer {
-  grid-area: manufacturer;
+  grid-column: span 2;
+  grid-row: span 1;
 }
 
 .specific {
-  grid-area: specific;
+  grid-column: span 2;
+  grid-row: span 1;
+}
+
+.tractionbattery {
+  grid-column: span 4;
+  grid-row: span 1;
+}
+
+@media(max-width: 1023px) {
+  .overview {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+
+  .relation {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+
+  .import-state {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+
+  .manufacturer {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+
+  .specific {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+
+  .tractionbattery {
+    grid-column: span 1;
+    grid-row: span 3;
+  }
 }
 
 .card-list {

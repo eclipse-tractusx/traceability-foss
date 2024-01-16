@@ -41,6 +41,7 @@ export interface Part {
   activeInvestigation?: boolean;
   activeAlert: boolean;
   van: string;
+  owner: Owner;
   semanticDataModel: SemanticDataModel;
   classification: string;
 
