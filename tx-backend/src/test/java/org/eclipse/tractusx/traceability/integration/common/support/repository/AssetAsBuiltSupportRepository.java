@@ -16,16 +16,12 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.shelldescriptor.application;
 
-import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
+package org.eclipse.tractusx.traceability.integration.common.support.repository;
 
-import java.util.List;
 
-public interface ShellDescriptorService {
-    List<ShellDescriptor> determineExistingShellDescriptorsAndUpdate(List<ShellDescriptor> ownShellDescriptors);
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-    void deleteAll();
-
-    List<ShellDescriptor> findAll();
+public interface AssetAsBuiltSupportRepository extends JpaRepository<AssetAsBuiltEntity, String> {
 }

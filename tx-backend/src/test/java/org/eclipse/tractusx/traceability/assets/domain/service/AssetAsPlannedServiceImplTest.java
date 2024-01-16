@@ -57,21 +57,13 @@ class AssetAsPlannedServiceImplTest {
     @Test
     void synchronizeAssets_shouldSaveCombinedAssets_whenNoException() {
         // given
-        List<Descriptions> childDescriptionList = AssetTestDataFactory.provideChildRelations();
         String globalAssetId = "123";
-        List<AssetBase> downwardAssets = List.of(AssetTestDataFactory.createAssetTestDataWithRelations(Collections.emptyList(), childDescriptionList));
-
-        when(irsRepository.findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsPlanned(), BomLifecycle.AS_PLANNED))
-                .thenReturn(downwardAssets);
 
         // when
         assetService.synchronizeAssetsAsync(globalAssetId);
 
         // then
-        verify(irsRepository).findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsPlanned(), BomLifecycle.AS_PLANNED);
-        verify(assetRepository, times(1)).saveAll(any());
+        verify(irsRepository).createJobToResolveAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsPlanned(), BomLifecycle.AS_PLANNED);
     }
-
-
 }
 

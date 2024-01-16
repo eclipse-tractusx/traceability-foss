@@ -16,20 +16,25 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.shelldescriptor.application.mapper;
 
-import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
-import shelldescriptors.ShellDescriptorResponse;
+package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
-import java.util.List;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-public class ShellDescriptorResponseMapper {
+@Slf4j
+@RestController
+@RequiredArgsConstructor
+public class IrsCallbackController {
 
-    public static ShellDescriptorResponse from(ShellDescriptor shellDescriptor) {
-        return new ShellDescriptorResponse(shellDescriptor.getId(), shellDescriptor.getGlobalAssetId());
-    }
+    private final IrsRepository irsRepository;
 
-    public static List<ShellDescriptorResponse> from(List<ShellDescriptor> shellDescriptors) {
-        return shellDescriptors.stream().map(ShellDescriptorResponseMapper::from).toList();
+    @GetMapping("/irs/job/callback")
+    void handleIrsJobCallback(@RequestParam("id") String jobId, @RequestParam("state") String jobState) {
+        irsRepository.handleJobFinishedCallback(jobId, jobState);
     }
 }

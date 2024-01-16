@@ -48,4 +48,8 @@ public class TraceabilityProperties {
 
     private SupportedAspectTypes supportedAspectTypes;
 
+    public String getIrsJobCallbackUrl() {
+        return url+"/irs/job/callback?id={id}&state={state}";
+    }
+
 }
