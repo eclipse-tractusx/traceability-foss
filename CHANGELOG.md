@@ -20,6 +20,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Rework GET alerts and investigations endpoint to POST to send a request body
 - Fixed deadline overlap issues for Q-investigations in update menu
 - Fixed sorting of asPlanned parts
+- Fixed unlimited filter parameter length by setting it to 1000 characters max
 - Adjusted cypress tests to new cancellation flow
 - Fixed bug where applying a filter in one table erroneously affected sorting in the other table
 - Moved UpdateAssetRequest to tx-models module
