@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,25 +16,20 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-
 package bpn.request;
 
-import io.swagger.annotations.ApiModelProperty;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
-public record BpnMappingRequest(
-        @NotNull(message = "BPN must be present")
-        @NotEmpty(message = "BPN must be present")
-        @ApiModelProperty(example = "BPNL00000003CSGV")
-        @Size(max = 255)
-        @ValidBPN
-        String bpn,
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
 
-        @NotNull(message = "A valid URL must be present")
-        @NotEmpty(message = "A valid URL must be present")
-        @Size(max = 255)
-        String url
-) {
+import java.lang.annotation.*;
+
+@Documented
+@Constraint(validatedBy = BpnValidator.class)
+@Target({ElementType.FIELD})
+@Retention(RetentionPolicy.RUNTIME)
+public @interface ValidBPN {
+    String message() default "Invalid BPN format";
+    Class<?>[] groups() default {};
+    Class<? extends Payload>[] payload() default {};
 }
