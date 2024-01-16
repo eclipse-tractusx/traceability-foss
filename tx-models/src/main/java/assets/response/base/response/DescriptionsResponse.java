@@ -16,19 +16,18 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package assets.response.base;
+
+package assets.response.base.response;
 
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
+import jakarta.validation.constraints.Size;
 
-@Getter
-@ToString
-@Builder
-public class DetailAspectModelResponse {
+public record DescriptionsResponse(
+        @ApiModelProperty(example = "urn:uuid:a4a26b9c-9460-4cc5-8645-85916b86adb0")
+        @Size(max = 255)
+        String id,
+        @ApiModelProperty(example = "assembly-part-relationship")
+        @Size(max = 255)
+        String idShort) {
 
-    @ApiModelProperty(example = "PART_SITE_INFORMATION_AS_PLANNED")
-    private DetailAspectTypeResponse type;
-    private DetailAspectDataResponse data;
 }

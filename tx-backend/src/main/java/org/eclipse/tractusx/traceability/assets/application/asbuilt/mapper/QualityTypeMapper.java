@@ -16,27 +16,18 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package assets.response.base;
+package org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper;
 
-public enum DetailAspectTypeResponse {
-    AS_BUILT("AS_BUILT"),
-    AS_PLANNED("AS_PLANNED"),
-    /* Detail aspect of as built assets */
-    TRACTION_BATTERY_CODE("TRACTION_BATTERY_CODE"),
-    /* Downward relation of as planned assets */
-    SINGLE_LEVEL_BOM_AS_BUILT("SINGLE_LEVEL_BOM_AS_BUILT"),
+import assets.response.base.request.QualityTypeRequest;
+import assets.response.base.response.QualityTypeResponse;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
 
-    /* Upward relation of as planned assets */
-    SINGLE_LEVEL_USAGE_AS_BUILT("SINGLE_LEVEL_USAGE_AS_BUILT"),
+public class QualityTypeMapper {
+    public static QualityTypeResponse from(final QualityType qualityType) {
+        return QualityTypeResponse.valueOf(qualityType.name());
+    }
 
-    /* Downward relation of as planned assets */
-    SINGLE_LEVEL_BOM_AS_PLANNED("SINGLE_LEVEL_BOM_AS_PLANNED"),
-    /* Detail aspect of as planned assets */
-    PART_SITE_INFORMATION_AS_PLANNED("PART_SITE_INFORMATION_AS_PLANNED");
-
-    final String realName;
-
-    DetailAspectTypeResponse(final String realName) {
-        this.realName = realName;
+    public static QualityType toDomain(QualityTypeRequest qualityTypeRequest) {
+        return QualityType.valueOf(qualityTypeRequest.name());
     }
 }

@@ -16,16 +16,21 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package assets.response.base;
 
-import assets.response.asbuilt.DetailAspectDataAsBuiltResponse;
-import assets.response.asbuilt.DetailAspectDataTractionBatteryCodeResponse;
-import assets.response.asplanned.DetailAspectDataAsPlannedResponse;
-import assets.response.asplanned.PartSiteInformationAsPlannedResponse;
-import io.swagger.v3.oas.annotations.media.Schema;
+package assets.response.base.response;
 
-@Schema(oneOf = {DetailAspectDataAsBuiltResponse.class, DetailAspectDataAsPlannedResponse.class,
-        PartSiteInformationAsPlannedResponse.class, DetailAspectDataTractionBatteryCodeResponse.class})
-public interface DetailAspectDataResponse {
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(description = "Owner Type")
+public enum OwnerResponse {
+    @ApiModelProperty("Supplier")
+    SUPPLIER,
+    @ApiModelProperty("Customer")
+    CUSTOMER,
+    @ApiModelProperty("Own")
+    OWN,
+    @ApiModelProperty("Unknown")
+    UNKNOWN;
 
 }
