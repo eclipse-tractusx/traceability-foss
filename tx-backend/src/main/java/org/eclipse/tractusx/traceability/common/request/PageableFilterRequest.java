@@ -16,25 +16,29 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.common.request;
 
-package bpn.request;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import io.swagger.annotations.ApiModelProperty;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class PageableFilterRequest {
+    @JsonProperty("pageAble")
+    private OwnPageable ownPageable;
+    @JsonProperty("searchCriteria")
+    private SearchCriteriaRequestParam searchCriteriaRequestParam;
 
-public record BpnMappingRequest(
-        @NotNull(message = "BPN must be present")
-        @NotEmpty(message = "BPN must be present")
-        @ApiModelProperty(example = "BPNL00000003CSGV")
-        @Size(max = 255)
-        @ValidBPN
-        String bpn,
+    public SearchCriteriaRequestParam getSearchCriteriaRequestParam() {
+        return searchCriteriaRequestParam == null ? new SearchCriteriaRequestParam() : searchCriteriaRequestParam;
+    }
 
-        @NotNull(message = "A valid URL must be present")
-        @NotEmpty(message = "A valid URL must be present")
-        @Size(max = 255)
-        String url
-) {
+    public OwnPageable getOwnPageable() {
+        return ownPageable == null ? new OwnPageable() : ownPageable;
+    }
 }

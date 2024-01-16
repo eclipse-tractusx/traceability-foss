@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,25 +16,24 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-
 package bpn.request;
 
-import io.swagger.annotations.ApiModelProperty;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
-public record BpnMappingRequest(
-        @NotNull(message = "BPN must be present")
-        @NotEmpty(message = "BPN must be present")
-        @ApiModelProperty(example = "BPNL00000003CSGV")
-        @Size(max = 255)
-        @ValidBPN
-        String bpn,
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
-        @NotNull(message = "A valid URL must be present")
-        @NotEmpty(message = "A valid URL must be present")
-        @Size(max = 255)
-        String url
-) {
+import java.util.regex.Pattern;
+
+public class BpnValidator implements ConstraintValidator<ValidBPN, String> {
+
+    private static final String BPN_REGEX = "^BPN[ALS][0-9A-Za-z]{10}[0-9A-Za-z]{2}$";
+
+    @Override
+    public void initialize(ValidBPN constraintAnnotation) {
+    }
+
+    @Override
+    public boolean isValid(String value, ConstraintValidatorContext context) {
+        return value != null && Pattern.matches(BPN_REGEX, value);
+    }
 }
