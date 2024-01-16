@@ -23,6 +23,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Adjusted cypress tests to new cancellation flow
 - Fixed bug where applying a filter in one table erroneously affected sorting in the other table
 - Moved UpdateAssetRequest to tx-models module
+- updated Compatibility Matrix
 
 ### Removed
 
