@@ -1,0 +1,68 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName "Architects daughter"
+
+autonumber "<b>[000]"
+
+actor User
+participant ImportAPI
+participant ImportService
+participant ImportValidationService
+
+User -> ImportAPI : import file
+ImportAPI -> ImportService: proceed import of file
+ImportService -> ImportValidationService: import json file
+ImportValidationService -> ImportValidationService: validate import schema basic structure
+note left
+    {
+      "assets": [
+            {
+                "asset": {
+                    "assetMetaInfo": {
+    				   "catenaXId": <uuid>, //mandatory
+    					shell[]}
+                    },
+                 "submodels": [
+    				   {    "aspectType" : <urn:uuid4>,
+    				         "identification" : <number>
+                            "payload": {}
+                        }]
+                }}]
+      }
+end note
+
+alt  not validateImportFormatStructure
+   ImportService <- ImportValidationService :  validation error
+   ImportAPI <-- ImportService :  report validation error
+else
+  ImportService <- ImportValidationService : proceed validation
+
+  loop over assets
+        ImportAPI -> ImportService: validate shell against aas schema
+        alt validateImportFormatStructure == false
+        ImportService <- ImportValidationService :  validation error
+        ImportAPI <-- ImportService :  report asset validation error
+        else
+          ImportService <- ImportValidationService : proceed validation on submodels
+
+          loop over submodels
+           ImportService -> ImportValidationService: validate shell against submodel schema
+           ImportValidationService -> ImportValidationService : getAspectType
+           ImportValidationService -> ImportValidationService : loadAspectTypeSchema definition
+           ImportValidationService -> ImportValidationService : validate submodel payload
+           alt validateImportFormatStructure == false
+                   ImportService <- ImportValidationService :  validation error
+                   ImportAPI <-- ImportService :  report asset validation error
+           else
+               ImportService <- ImportValidationService : proceed import
+               ref over  ImportService, DaoImportService
+                   persist data
+                end ref
+
+  end loop
+end alt
+end alt
+end alt
+User -> ImportAPI : import file
+@enduml
