@@ -21,7 +21,9 @@
 
 package org.eclipse.tractusx.traceability.assets.application.asbuilt.rest;
 
+import assets.importpoc.ErrorResponse;
 import assets.response.asbuilt.AssetAsBuiltResponse;
+import assets.response.base.request.UpdateAssetRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -34,16 +36,15 @@ import jakarta.validation.Valid;
 import jakarta.ws.rs.QueryParam;
 import org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper.AssetAsBuiltFieldMapper;
 import org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper.AssetAsBuiltResponseMapper;
+import org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper.QualityTypeMapper;
 import org.eclipse.tractusx.traceability.assets.application.base.request.GetDetailInformationRequest;
 import org.eclipse.tractusx.traceability.assets.application.base.request.SyncAssetsRequest;
-import org.eclipse.tractusx.traceability.assets.application.base.request.UpdateAssetRequest;
 import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBaseService;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.common.model.BaseRequestFieldMapper;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
-import assets.importpoc.ErrorResponse;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -262,7 +263,7 @@ public class AssetAsBuiltController {
             tags = {"AssetsAsBuilt"},
             description = "The endpoint returns a map for assets consumed by the map.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the assets found",  content = @Content(
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the assets found", content = @Content(
             mediaType = "application/json",
             array = @ArraySchema(
                     arraySchema = @Schema(
@@ -486,8 +487,7 @@ public class AssetAsBuiltController {
     @PatchMapping("/{assetId}")
     public AssetAsBuiltResponse updateAsset(@PathVariable String assetId, @Valid @RequestBody UpdateAssetRequest updateAssetRequest) {
         return AssetAsBuiltResponseMapper.from(
-                assetBaseService.updateQualityType(assetId, updateAssetRequest.qualityType().toDomain())
-        );
+                assetBaseService.updateQualityType(assetId, QualityTypeMapper.toDomain(updateAssetRequest.qualityType())));
     }
 
     @Operation(operationId = "getDetailInformation",

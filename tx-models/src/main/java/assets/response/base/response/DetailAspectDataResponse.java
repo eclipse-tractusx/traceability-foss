@@ -16,34 +16,16 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package assets.response.base.response;
 
-package assets.response.base;
+import assets.response.asbuilt.DetailAspectDataAsBuiltResponse;
+import assets.response.asbuilt.DetailAspectDataTractionBatteryCodeResponse;
+import assets.response.asplanned.DetailAspectDataAsPlannedResponse;
+import assets.response.asplanned.PartSiteInformationAsPlannedResponse;
+import io.swagger.v3.oas.annotations.media.Schema;
 
-import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+@Schema(oneOf = {DetailAspectDataAsBuiltResponse.class, DetailAspectDataAsPlannedResponse.class,
+        PartSiteInformationAsPlannedResponse.class, DetailAspectDataTractionBatteryCodeResponse.class})
+public interface DetailAspectDataResponse {
 
-@ApiModel(description = "Quality types")
-public enum QualityTypeResponse {
-    @ApiModelProperty("Ok")
-    OK("Ok"),
-    @ApiModelProperty("Minor")
-    MINOR("Minor"),
-    @ApiModelProperty("Major")
-    MAJOR("Major"),
-    @ApiModelProperty("Critical")
-    CRITICAL("Critical"),
-    @ApiModelProperty("Life-threatening")
-    LIFE_THREATENING("LifeThreatening");
-
-    private final String description;
-
-    QualityTypeResponse(String description) {
-        this.description = description;
-    }
-
-    @JsonValue
-    public String getDescription() {
-        return description;
-    }
 }

@@ -16,21 +16,22 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-
-package assets.response.base;
+package assets.response.base.response;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-@ApiModel(description = "Owner Type")
-public enum OwnerResponse {
-    @ApiModelProperty("Supplier")
-    SUPPLIER,
-    @ApiModelProperty("Customer")
-    CUSTOMER,
-    @ApiModelProperty("Own")
-    OWN,
+@ApiModel(description = "Type of model")
+public enum SemanticDataModelResponse {
+    @ApiModelProperty("Batch")
+    BATCH,
+    @ApiModelProperty("SerialPart")
+    SERIALPART,
     @ApiModelProperty("Unknown")
-    UNKNOWN;
+    UNKNOWN,
+    @ApiModelProperty("PartAsPlanned")
+    PARTASPLANNED,
+    @ApiModelProperty("JustInSequence")
+    JUSTINSEQUENCE;
 
 }

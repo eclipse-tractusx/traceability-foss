@@ -1,5 +1,7 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+ * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
+ * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -17,16 +19,13 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package assets.response.asbuilt;
+package assets.response.base.request;
 
-import assets.response.base.response.AssetBaseResponse;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.experimental.SuperBuilder;
+import io.swagger.annotations.ApiModelProperty;
+import jakarta.validation.constraints.NotNull;
 
-@SuperBuilder
-@ArraySchema(arraySchema = @Schema(description = "Assets", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
-public class AssetAsBuiltResponse extends AssetBaseResponse {
-
-
+public record UpdateAssetRequest(
+        @NotNull(message = "qualityType must be present")
+        @ApiModelProperty(example = "Ok", required = true)
+        QualityTypeRequest qualityType) {
 }
