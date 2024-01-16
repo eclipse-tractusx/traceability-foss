@@ -31,8 +31,8 @@ import lombok.NoArgsConstructor;
 public class PageableFilterRequest {
     @JsonProperty("pageAble")
     private OwnPageable ownPageable;
-    @JsonProperty("searchCriteria")
 
+    @JsonProperty("searchCriteria")
     private SearchCriteriaRequestParam searchCriteriaRequestParam;
 
     public SearchCriteriaRequestParam getSearchCriteriaRequestParam() {
