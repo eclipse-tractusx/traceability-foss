@@ -15,6 +15,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Added github action to connect pull request with github issue
 - Added bpn validator to bpn edc mapping
 - Added new /irs/job/callback endpoint to handle irs job finished callback
+- Added Asset import info to parts table and parts detail view
 
 ### Changed
 - Fixed security findings
