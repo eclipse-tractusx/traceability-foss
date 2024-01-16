@@ -1,6 +1,8 @@
 @startuml
 skinparam monochrome true
 skinparam shadowing false
+skinparam defaultFontName "Architects daughter"
+skinparam linetype ortho
 
 component [**TraceX-Application**] <<System>> as TraceX {
     component [**AssetsController**] <<Component>> as AssetsController
