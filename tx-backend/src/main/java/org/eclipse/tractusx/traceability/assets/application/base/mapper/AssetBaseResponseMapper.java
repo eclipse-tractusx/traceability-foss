@@ -23,14 +23,14 @@ import assets.response.asbuilt.DetailAspectDataTractionBatteryCodeResponse;
 import assets.response.asbuilt.DetailAspectDataTractionBatteryCodeResponse.DetailAspectDataTractionBatteryCodeSubcomponentResponse;
 import assets.response.asplanned.DetailAspectDataAsPlannedResponse;
 import assets.response.asplanned.PartSiteInformationAsPlannedResponse;
-import assets.response.base.DescriptionsResponse;
-import assets.response.base.DetailAspectDataResponse;
-import assets.response.base.DetailAspectModelResponse;
-import assets.response.base.DetailAspectTypeResponse;
-import assets.response.base.ImportStateResponse;
-import assets.response.base.OwnerResponse;
-import assets.response.base.QualityTypeResponse;
-import assets.response.base.SemanticDataModelResponse;
+import assets.response.base.response.DescriptionsResponse;
+import assets.response.base.response.DetailAspectDataResponse;
+import assets.response.base.response.DetailAspectModelResponse;
+import assets.response.base.response.DetailAspectTypeResponse;
+import assets.response.base.response.ImportStateResponse;
+import assets.response.base.response.OwnerResponse;
+import assets.response.base.response.QualityTypeResponse;
+import assets.response.base.response.SemanticDataModelResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -49,7 +49,6 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailA
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
-import org.springframework.context.annotation.Import;
 
 import java.util.List;
 
