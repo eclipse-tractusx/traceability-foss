@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -18,15 +16,19 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-
-package org.eclipse.tractusx.traceability.assets.application.base.request;
+package assets.response.base.response;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.ToString;
 
-import jakarta.validation.constraints.NotNull;
+@Getter
+@ToString
+@Builder
+public class DetailAspectModelResponse {
 
-public record UpdateAssetRequest(
-        @NotNull(message = "qualityType must be present")
-        @ApiModelProperty(example = "Ok")
-        QualityTypeRequest qualityType) {
+    @ApiModelProperty(example = "PART_SITE_INFORMATION_AS_PLANNED")
+    private DetailAspectTypeResponse type;
+    private DetailAspectDataResponse data;
 }
