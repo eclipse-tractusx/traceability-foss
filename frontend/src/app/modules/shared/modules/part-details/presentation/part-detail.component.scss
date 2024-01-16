@@ -19,14 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-.part-detail--tractionBattery-details {
-  flex: 1;
-}
-
-.part-detail-subcomponents-table-container {
-  flex: 1;
-}
-
 .part-detail {
   &--spinner {
     display: flex;
@@ -72,6 +64,7 @@
 
 
   &-subcomponents-table-container {
+    flex: 1;
     height: 350px;
     overflow: auto;
   }
@@ -81,6 +74,10 @@
   display: flex;
   flex-wrap: wrap;
   gap: 25px;
+}
+
+.part-detail--tractionBattery-details {
+  flex: 1;
 }
 
 .overview {
