@@ -16,22 +16,16 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package assets.response.base;
+package assets.response.base.response;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import assets.response.asbuilt.DetailAspectDataAsBuiltResponse;
+import assets.response.asbuilt.DetailAspectDataTractionBatteryCodeResponse;
+import assets.response.asplanned.DetailAspectDataAsPlannedResponse;
+import assets.response.asplanned.PartSiteInformationAsPlannedResponse;
+import io.swagger.v3.oas.annotations.media.Schema;
 
-@ApiModel(description = "Type of model")
-public enum SemanticDataModelResponse {
-    @ApiModelProperty("Batch")
-    BATCH,
-    @ApiModelProperty("SerialPart")
-    SERIALPART,
-    @ApiModelProperty("Unknown")
-    UNKNOWN,
-    @ApiModelProperty("PartAsPlanned")
-    PARTASPLANNED,
-    @ApiModelProperty("JustInSequence")
-    JUSTINSEQUENCE;
+@Schema(oneOf = {DetailAspectDataAsBuiltResponse.class, DetailAspectDataAsPlannedResponse.class,
+        PartSiteInformationAsPlannedResponse.class, DetailAspectDataTractionBatteryCodeResponse.class})
+public interface DetailAspectDataResponse {
 
 }
