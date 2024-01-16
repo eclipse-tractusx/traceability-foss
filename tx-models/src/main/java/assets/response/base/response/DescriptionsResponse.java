@@ -16,36 +16,18 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package assets.response.asbuilt;
 
-import assets.response.base.response.DetailAspectDataResponse;
+package assets.response.base.response;
+
 import io.swagger.annotations.ApiModelProperty;
 import jakarta.validation.constraints.Size;
-import lombok.Builder;
-import lombok.Getter;
 
-import java.util.List;
-
-@Builder
-@Getter
-public class DetailAspectDataTractionBatteryCodeResponse implements DetailAspectDataResponse {
-    @ApiModelProperty(example = "pack")
-    @Size(max = 255)
-    private String productType;
-    @ApiModelProperty(example = "X12MCPM27KLPCLX2M2382320")
-    @Size(max = 255)
-    private String tractionBatteryCode;
-    @ApiModelProperty
-    private List<DetailAspectDataTractionBatteryCodeSubcomponentResponse> subcomponents;
-
-    @Builder
-    @Getter
-    public static class DetailAspectDataTractionBatteryCodeSubcomponentResponse {
-        @ApiModelProperty(example = "pack")
+public record DescriptionsResponse(
+        @ApiModelProperty(example = "urn:uuid:a4a26b9c-9460-4cc5-8645-85916b86adb0")
         @Size(max = 255)
-        private String productType;
-        @ApiModelProperty(example = "X12MCPM27KLPCLX2M2382320")
+        String id,
+        @ApiModelProperty(example = "assembly-part-relationship")
         @Size(max = 255)
-        private String tractionBatteryCode;
-    }
+        String idShort) {
+
 }

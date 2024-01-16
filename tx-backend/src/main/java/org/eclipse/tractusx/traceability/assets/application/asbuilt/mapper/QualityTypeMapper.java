@@ -16,9 +16,18 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package assets.response.base;
+package org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper;
 
-public enum ImportStateResponse {
-    TRANSIENT, PERSISTENT, ERROR, IN_SYNCHRONIZATION, UNSET;
+import assets.response.base.request.QualityTypeRequest;
+import assets.response.base.response.QualityTypeResponse;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
 
+public class QualityTypeMapper {
+    public static QualityTypeResponse from(final QualityType qualityType) {
+        return QualityTypeResponse.valueOf(qualityType.name());
+    }
+
+    public static QualityType toDomain(QualityTypeRequest qualityTypeRequest) {
+        return QualityType.valueOf(qualityTypeRequest.name());
+    }
 }

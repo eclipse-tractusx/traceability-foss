@@ -16,14 +16,14 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import {HttpParams} from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 import {
   AssetAsBuiltFilter,
   AssetAsPlannedFilter,
   FilterOperator,
   getFilterOperatorValue,
 } from '@page/parts/model/parts.model';
-import {NotificationFilter} from '../../../mocks/services/investigations-mock/investigations.model';
+import { NotificationFilter } from '../../../mocks/services/investigations-mock/investigations.model';
 
 export const DATE_FILTER_KEYS = [ 'manufacturingDate', 'functionValidFrom', 'functionValidUntil', 'validityPeriodFrom', 'validityPeriodTo', 'createdDate', 'targetDate' ];
 
@@ -141,18 +141,7 @@ export function toAssetFilter(formValues: any, isAsBuilt: boolean): AssetAsPlann
 
 }
 
-export function enrichDeeplinkFilterAndGetUpdatedParams(filter: any, httpParams: HttpParams): HttpParams {
-  if (filter?.notificationIds) {
-    filter.notificationIds.forEach(notificationId => {
-      httpParams = httpParams.append('filter', 'id,EQUAL,' + notificationId + ',OR');
-    });
-  }
-  return httpParams;
-
-}
-
 export function enrichDeeplinkFilterAndGetUpdatedFilter(filter: any): string[] {
-  console.log("inputFilter", filter);
   let filterList: string[] = [];
   if (filter?.notificationIds) {
 

@@ -17,8 +17,8 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {HttpParams} from '@angular/common/http';
-import {enrichFilterAndGetUpdatedParams, provideFilterListForNotifications,} from './filter-helper';
+import { HttpParams } from '@angular/common/http';
+import { enrichFilterAndGetUpdatedParams, provideFilterListForNotifications } from './filter-helper';
 
 describe('enrichFilterAndGetUpdatedParams', () => {
   it('should append filter parameters for non-date filters', () => {
@@ -112,19 +112,14 @@ describe('enrichFilterAndGetUpdatedParams', () => {
   })
 
   it('should add filters to the filterList when fullFilter is provided', () => {
-    // Arrange
-    const mockFilter = null; // Provide the necessary filter values if needed
+    const mockFilter = null;
     const mockFullFilter = { test: 'test' };
 
     const mockHttpParams = jasmine.createSpyObj('HttpParams', ['getAll']);
-    mockHttpParams.getAll.and.returnValue(['filter1', 'filter2']); // Mock the HttpParams getAll method
+    mockHttpParams.getAll.and.returnValue(['filter1', 'filter2']);
 
-    //spyOn<any>(window, 'enrichFilterAndGetUpdatedParams').and.returnValue(mockHttpParams);
-
-    // Act
     const result = provideFilterListForNotifications(mockFilter, mockFullFilter);
 
-    // Assert
     expect(result).toEqual(['test,STARTS_WITH,test,AND']);
   });
 
