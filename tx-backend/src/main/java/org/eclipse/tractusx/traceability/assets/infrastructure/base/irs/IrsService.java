@@ -46,7 +46,8 @@ import java.util.Optional;
 @Service
 public class IrsService implements IrsRepository {
 
-    private final IRSApiClient irsClient;
+    private final IRSApiClient irsRegularClient;
+    private final IRSAdminApiClient irsAdminApiClient;
     private final BpnRepository bpnRepository;
     private final TraceabilityProperties traceabilityProperties;
     private final ObjectMapper objectMapper;
@@ -54,15 +55,16 @@ public class IrsService implements IrsRepository {
     private final AssetCallbackRepository assetAsPlannedCallbackRepository;
 
     public IrsService(
-            IRSApiClient irsClient,
-            BpnRepository bpnRepository,
+            IRSApiClient irsRegularClient,
+            IRSAdminApiClient irsAdminApiClient, BpnRepository bpnRepository,
             TraceabilityProperties traceabilityProperties,
             ObjectMapper objectMapper,
             @Qualifier("assetAsBuiltRepositoryImpl")
             AssetCallbackRepository assetAsBuiltCallbackRepository,
             @Qualifier("assetAsPlannedRepositoryImpl")
             AssetCallbackRepository assetAsPlannedCallbackRepository) {
-        this.irsClient = irsClient;
+        this.irsRegularClient = irsRegularClient;
+        this.irsAdminApiClient = irsAdminApiClient;
         this.bpnRepository = bpnRepository;
         this.traceabilityProperties = traceabilityProperties;
         this.objectMapper = objectMapper;
@@ -80,7 +82,7 @@ public class IrsService implements IrsRepository {
             log.error("exception", e);
         }
 
-        irsClient.registerJob(registerJobRequest);
+        irsRegularClient.registerJob(registerJobRequest);
     }
 
     @Override
@@ -88,7 +90,7 @@ public class IrsService implements IrsRepository {
         if (!Objects.equals(state, JobDetailResponse.JOB_STATUS_COMPLETED)) {
             return;
         }
-        JobDetailResponse jobResponse = irsClient.getJobDetails(jobId);
+        JobDetailResponse jobResponse = irsRegularClient.getJobDetails(jobId);
 
         long runtime = (jobResponse.jobStatus().lastModifiedOn().getTime() - jobResponse.jobStatus().startedOn().getTime()) / 1000;
         log.info("IRS call for globalAssetId: {} finished with status: {}, runtime {} s.", jobResponse.jobStatus().globalAssetId(), jobResponse.jobStatus().state(), runtime);
@@ -135,7 +137,7 @@ public class IrsService implements IrsRepository {
     @Override
     public void createIrsPolicyIfMissing() {
         log.info("Check if irs policy exists");
-        List<PolicyResponse> irsPolicies = irsClient.getPolicies();
+        List<PolicyResponse> irsPolicies = irsAdminApiClient.getPolicies();
         log.info("Irs has following policies: {}", irsPolicies);
 
         log.info("Required constraints from application yaml are : {}", traceabilityProperties.getRightOperand());
@@ -156,7 +158,7 @@ public class IrsService implements IrsRepository {
 
     private void createPolicy() {
         log.info("Irs policy does not exist creating {}", traceabilityProperties.getRightOperand());
-        irsClient.registerPolicy(RegisterPolicyRequest.from(traceabilityProperties.getLeftOperand(), OperatorType.fromValue(traceabilityProperties.getOperatorType()), traceabilityProperties.getRightOperand(), traceabilityProperties.getValidUntil()));
+        irsAdminApiClient.registerPolicy(RegisterPolicyRequest.from(traceabilityProperties.getLeftOperand(), OperatorType.fromValue(traceabilityProperties.getOperatorType()), traceabilityProperties.getRightOperand(), traceabilityProperties.getValidUntil()));
     }
 
     private void checkAndUpdatePolicy(List<PolicyResponse> requiredPolicies) {
@@ -165,13 +167,13 @@ public class IrsService implements IrsRepository {
                 traceabilityProperties.getValidUntil().isAfter(requiredPolicy.get().validUntil())
         ) {
             log.info("IRS Policy {} has outdated validity updating new ttl {}", traceabilityProperties.getRightOperand(), requiredPolicy);
-            irsClient.deletePolicy(traceabilityProperties.getRightOperand());
-            irsClient.registerPolicy(RegisterPolicyRequest.from(traceabilityProperties.getLeftOperand(), OperatorType.fromValue(traceabilityProperties.getOperatorType()), traceabilityProperties.getRightOperand(), traceabilityProperties.getValidUntil()));
+            irsAdminApiClient.deletePolicy(traceabilityProperties.getRightOperand());
+            irsAdminApiClient.registerPolicy(RegisterPolicyRequest.from(traceabilityProperties.getLeftOperand(), OperatorType.fromValue(traceabilityProperties.getOperatorType()), traceabilityProperties.getRightOperand(), traceabilityProperties.getValidUntil()));
         }
     }
 
     public List<PolicyResponse> getPolicies() {
-        return irsClient.getPolicies();
+        return irsAdminApiClient.getPolicies();
     }
 
 }

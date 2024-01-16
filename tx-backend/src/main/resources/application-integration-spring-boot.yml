@@ -63,7 +63,10 @@ traceability:
           - "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned"
         downwardRelations:
           - "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned"
-
+  apiKeys:
+    irs:
+      admin: testAdmin
+      regular: testRegular
 
 edc:
   api-auth-key: "integration-tests"

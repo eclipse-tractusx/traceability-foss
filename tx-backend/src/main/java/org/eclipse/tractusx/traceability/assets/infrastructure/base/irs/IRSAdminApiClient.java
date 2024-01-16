@@ -30,7 +30,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.PolicyResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.RegisterJobResponse;
 import org.eclipse.tractusx.traceability.common.config.CatenaApiConfig;
-import org.eclipse.tractusx.traceability.common.config.IRSRegularApiConfig;
+import org.eclipse.tractusx.traceability.common.config.IRSAdminApiConfig;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -39,14 +39,16 @@ import java.util.List;
 @FeignClient(
         name = "irsApi",
         url = "${feign.irsApi.url}",
-        configuration = {IRSRegularApiConfig.class}
+        configuration = {IRSAdminApiConfig.class}
 )
-public interface IRSApiClient {
+public interface IRSAdminApiClient {
 
-    @RequestLine("POST /irs/jobs")
-    RegisterJobResponse registerJob(@RequestBody RegisterJobRequest request);
+    @RequestLine("POST /irs/policies")
+    void registerPolicy(@RequestBody RegisterPolicyRequest request);
 
-    @RequestLine("GET /irs/jobs/{id}")
-    @Retry(name = "irs-get")
-    JobDetailResponse getJobDetails(@Param("id") String id);
+    @RequestLine("GET /irs/policies")
+    List<PolicyResponse> getPolicies();
+
+    @RequestLine("DELETE /irs/policies/{id}")
+    void deletePolicy(@Param("id") String id);
 }
