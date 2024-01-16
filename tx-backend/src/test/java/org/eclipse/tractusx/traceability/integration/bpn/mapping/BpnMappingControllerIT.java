@@ -71,7 +71,7 @@ class BpnMappingControllerIT extends IntegrationTestSpecification {
     void givenBpnMappingRequest_whenUpdate_thenUpdateIt() throws JoseException {
         {
             // given
-            BpnMappingRequest mappings = new BpnMappingRequest("BPNL00000003CSGV", "https://newurl.com");
+            BpnMappingRequest mappings = new BpnMappingRequest("BPNL00000003TEST", "https://newurl.com");
             bpnEdcMappingSupport.defaultBpnEdcMappingStored();
 
             // when
@@ -93,7 +93,7 @@ class BpnMappingControllerIT extends IntegrationTestSpecification {
                     .then()
                     .statusCode(200)
                     .body("", Matchers.hasSize(2))
-                    .body("[1].bpn", Matchers.equalTo("BPNL00000003CSGA"))
+                    .body("[1].bpn", Matchers.equalTo("BPNL00000003TEST"))
                     .body("[1].url", Matchers.equalTo("https://newurl.com"));
         }
     }
@@ -108,7 +108,7 @@ class BpnMappingControllerIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .when()
-                .delete("/api/bpn-config/BPNL00000003CSGF")
+                .delete("/api/bpn-config/BPNL00000003TEST")
                 .then()
                 .statusCode(204);
 
@@ -121,7 +121,7 @@ class BpnMappingControllerIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(200)
                 .body("", Matchers.hasSize(1))
-                .body("[0].bpn", Matchers.equalTo("BPNL00000003CSGF"))
+                .body("[0].bpn", Matchers.equalTo("BPNL00000002TEST"))
                 .body("[0].url", Matchers.equalTo("https://test456.de"));
     }
 
