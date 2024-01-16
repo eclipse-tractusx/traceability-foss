@@ -19,6 +19,6 @@
 package org.eclipse.tractusx.traceability.shelldescriptor.application;
 
 public interface DecentralRegistryService {
-    void updateShellDescriptorAndSynchronizeAssets();
+    void synchronizeAssets();
 
 }

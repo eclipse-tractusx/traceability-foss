@@ -27,8 +27,6 @@ import java.util.List;
 public interface AssetRepository {
     AssetBase getAssetById(String assetId);
 
-    boolean existsById(String globalAssetId);
-
     List<AssetBase> getAssetsById(List<String> assetIds);
 
     AssetBase getAssetByChildId(String childId);
@@ -42,8 +40,6 @@ public interface AssetRepository {
     List<AssetBase> saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(List<AssetBase> assets);
 
     long countAssets();
-
-    void updateParentDescriptionsAndOwner(final AssetBase asset);
 
     long countAssetsByOwner(Owner owner);
 

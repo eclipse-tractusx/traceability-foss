@@ -44,7 +44,6 @@ public class DatabaseSupport {
             "alert",
             "assets_as_built",
             "assets_as_planned",
-            "shell_descriptor",
             "bpn_storage",
             "investigation_notification",
             "investigation",

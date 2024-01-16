@@ -58,7 +58,8 @@ public class SecurityConfig {
             "/internal/endpoint-data-reference",
             "/actuator/**",
             "/registry/reload",
-            "/submodel/**"
+            "/submodel/**",
+            "/irs/job/callback"
 
     };
 

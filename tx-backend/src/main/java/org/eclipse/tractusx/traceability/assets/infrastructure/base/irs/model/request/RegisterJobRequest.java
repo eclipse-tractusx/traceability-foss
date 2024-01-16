@@ -33,10 +33,11 @@ public record RegisterJobRequest(
         BomLifecycle bomLifecycle,
         boolean lookupBPNs,
         int depth,
-        Direction direction
+        Direction direction,
+        String callbackUrl
 ) {
-    public static RegisterJobRequest buildJobRequest(String globalAssetId, String manufacturerId, Direction direction, List<String> aspects, BomLifecycle bomLifecycle) {
-        return new RegisterJobRequest(aspects, new PartChainIdentificationKey(globalAssetId, manufacturerId), true, bomLifecycle, true, DEFAULT_DEPTH, direction);
+    public static RegisterJobRequest buildJobRequest(String globalAssetId, String manufacturerId, Direction direction, List<String> aspects, BomLifecycle bomLifecycle, String callbackUrl) {
+        return new RegisterJobRequest(aspects, new PartChainIdentificationKey(globalAssetId, manufacturerId), true, bomLifecycle, true, DEFAULT_DEPTH, direction, callbackUrl+"/api/irs/job/callback?id={id}&state={state}");
     }
 
     public static final int DEFAULT_DEPTH = 2;

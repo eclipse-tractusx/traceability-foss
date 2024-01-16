@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,25 +17,10 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.shelldescriptor.domain.repository;
+package org.eclipse.tractusx.traceability.integration.common.support.repository;
 
+import org.eclipse.tractusx.traceability.bpn.infrastructure.model.BpnEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
-
-import java.time.ZonedDateTime;
-import java.util.Collection;
-import java.util.List;
-
-public interface ShellDescriptorRepository {
-    List<ShellDescriptor> findAll();
-
-    void update(ShellDescriptor shellDescriptor);
-
-    void saveAll(Collection<ShellDescriptor> values);
-
-    void save(ShellDescriptor descriptor);
-
-    void removeDescriptorsByUpdatedBefore(ZonedDateTime now);
-
-    void deleteAll();
+public interface BpnSupportRepository extends JpaRepository<BpnEntity, String> {
 }
