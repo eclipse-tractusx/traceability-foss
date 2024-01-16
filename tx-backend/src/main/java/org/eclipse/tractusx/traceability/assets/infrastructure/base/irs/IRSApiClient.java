@@ -21,6 +21,7 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
+import feign.Headers;
 import feign.Param;
 import feign.RequestLine;
 import io.github.resilience4j.retry.annotation.Retry;
@@ -29,8 +30,8 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobDetailResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.PolicyResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.RegisterJobResponse;
-import org.eclipse.tractusx.traceability.common.config.CatenaApiConfig;
-import org.eclipse.tractusx.traceability.common.config.IRSRegularApiConfig;
+
+import org.eclipse.tractusx.traceability.common.config.IrsApiConfig;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -39,14 +40,24 @@ import java.util.List;
 @FeignClient(
         name = "irsApi",
         url = "${feign.irsApi.url}",
-        configuration = {IRSRegularApiConfig.class}
+        configuration = {IrsApiConfig.class}
 )
+@Headers("X-API-KEY: {apiKey}")
 public interface IRSApiClient {
 
     @RequestLine("POST /irs/jobs")
-    RegisterJobResponse registerJob(@RequestBody RegisterJobRequest request);
+    RegisterJobResponse registerJob(@Param("apiKey") String apiKey, @RequestBody RegisterJobRequest request);
 
     @RequestLine("GET /irs/jobs/{id}")
     @Retry(name = "irs-get")
-    JobDetailResponse getJobDetails(@Param("id") String id);
+    JobDetailResponse getJobDetails(@Param("apiKey") String apiKey, @Param("id") String id);
+
+    @RequestLine("POST /irs/policies")
+    void registerPolicy(@Param("apiKey") String apiKey, @RequestBody RegisterPolicyRequest request);
+
+    @RequestLine("GET /irs/policies")
+    List<PolicyResponse> getPolicies(@Param("apiKey") String apiKey);
+
+    @RequestLine("DELETE /irs/policies/{id}")
+    void deletePolicy(@Param("apiKey") String apiKey, @Param("id") String id);
 }

@@ -23,7 +23,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import feign.RequestInterceptor;
 import feign.codec.Decoder;
 import feign.jackson.JacksonDecoder;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +30,6 @@ import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
 import org.eclipse.tractusx.traceability.common.properties.FeignDefaultProperties;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.openfeign.support.ResponseEntityDecoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,10 +38,7 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Configuration
-public class IRSAdminApiConfig {
-
-    @Value("${traceability.apiKeys.irs.admin}")
-    private String apiKey;
+public class IrsApiConfig {
 
     @Bean
     public Decoder feignDecoder() {
@@ -71,9 +66,4 @@ public class IRSAdminApiConfig {
                 .build();
     }
 
-    @Bean
-    public RequestInterceptor catenaApiRequestInterceptor() {
-        log.info("Request intercepted with admin API KEY");
-        return template -> template.header("X-API-KEY", apiKey);
-    }
 }

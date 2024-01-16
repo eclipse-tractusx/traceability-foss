@@ -26,7 +26,6 @@ import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
 import org.eclipse.tractusx.irs.edc.client.policy.Permission;
 import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.AssetCallbackRepository;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.IRSAdminApiClient;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.IRSApiClient;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.IrsService;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
@@ -72,7 +71,7 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.eclipse.tractusx.traceability.common.date.DateUtil.toOffsetDateTime;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -84,9 +83,6 @@ class IrsServiceTest {
 
     @Mock
     private IRSApiClient irsClient;
-
-    @Mock
-    private IRSAdminApiClient irsAdminApiClient;
 
     @Mock
     TraceabilityProperties traceabilityProperties;
@@ -104,14 +100,14 @@ class IrsServiceTest {
 
     @BeforeEach
     void setUp() {
-        irsService = new IrsService(irsClient, irsAdminApiClient, bpnRepository, traceabilityProperties, objectMapper, assetAsBuiltCallbackRepository, assetAsPlannedCallbackRepository);
+        irsService = new IrsService(irsClient, bpnRepository, traceabilityProperties, objectMapper, assetAsBuiltCallbackRepository, assetAsPlannedCallbackRepository, "test", "test2");
     }
 
 
     @Test
     void givenNoPolicyExist_whenCreateIrsPolicyIfMissing_thenCreateIt() {
         // given
-        when(irsAdminApiClient.getPolicies()).thenReturn(List.of());
+        when(irsClient.getPolicies(anyString())).thenReturn(List.of());
         when(traceabilityProperties.getRightOperand()).thenReturn("test");
         when(traceabilityProperties.getOperatorType()).thenReturn("eq");
         when(traceabilityProperties.getLeftOperand()).thenReturn("PURPOSE");
@@ -121,15 +117,15 @@ class IrsServiceTest {
         irsService.createIrsPolicyIfMissing();
 
         // then
-        verify(irsAdminApiClient, times(1))
-                .registerPolicy(any());
+        verify(irsClient, times(1))
+                .registerPolicy(anyString(), any());
     }
 
     @Test
     void givenPolicyExist_whenCreateIrsPolicyIfMissing_thenDoNotCreateIt() {
         // given
         final PolicyResponse existingPolicy = new PolicyResponse("test", OffsetDateTime.parse("2023-07-03T16:01:05.309Z"), OffsetDateTime.now(), List.of());
-        when(irsAdminApiClient.getPolicies()).thenReturn(List.of(existingPolicy));
+        when(irsClient.getPolicies(anyString())).thenReturn(List.of(existingPolicy));
         when(traceabilityProperties.getRightOperand()).thenReturn("test");
         when(traceabilityProperties.getValidUntil()).thenReturn(OffsetDateTime.parse("2023-07-02T16:01:05.309Z"));
 
@@ -144,7 +140,7 @@ class IrsServiceTest {
     void givenOutdatedPolicyExist_whenCreateIrsPolicyIfMissing_thenUpdateIt() {
         // given
         final PolicyResponse existingPolicy = new PolicyResponse("test", OffsetDateTime.parse("2023-07-03T16:01:05.309Z"), OffsetDateTime.parse("2023-07-03T16:01:05.309Z"), List.of());
-        when(irsAdminApiClient.getPolicies()).thenReturn(List.of(existingPolicy));
+        when(irsClient.getPolicies(anyString())).thenReturn(List.of(existingPolicy));
         when(traceabilityProperties.getRightOperand()).thenReturn("test");
         when(traceabilityProperties.getOperatorType()).thenReturn("eq");
         when(traceabilityProperties.getLeftOperand()).thenReturn("PURPOSE");
@@ -154,8 +150,8 @@ class IrsServiceTest {
         irsService.createIrsPolicyIfMissing();
 
         // then
-        verify(irsAdminApiClient, times(1)).deletePolicy("test");
-        verify(irsAdminApiClient, times(1)).registerPolicy(any());
+        verify(irsClient, times(1)).deletePolicy(anyString(), any());
+        verify(irsClient, times(1)).registerPolicy(anyString(), any());
     }
 
     @ParameterizedTest
@@ -170,7 +166,7 @@ class IrsServiceTest {
         irsService.createJobToResolveAssets("1", direction, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
 
         // Then
-        verify(irsClient, times(1)).registerJob(any());
+        verify(irsClient, times(1)).registerJob(anyString(), any());
     }
 
     private static Stream<Arguments> provideDirections() {
@@ -247,7 +243,7 @@ class IrsServiceTest {
         Permission permission = new Permission(PolicyType.USE, List.of(constraints));
         PolicyResponse policyResponseMock = new PolicyResponse("", OffsetDateTime.now(), OffsetDateTime.now(), List.of(permission));
 
-        when(irsAdminApiClient.getPolicies()).thenReturn(List.of(policyResponseMock));
+        when(irsClient.getPolicies(anyString())).thenReturn(List.of(policyResponseMock));
 
         //WHEN
         List<PolicyResponse> policyResponse = irsService.getPolicies();
