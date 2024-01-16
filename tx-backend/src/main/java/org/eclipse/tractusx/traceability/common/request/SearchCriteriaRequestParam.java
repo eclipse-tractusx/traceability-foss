@@ -47,7 +47,7 @@ public class SearchCriteriaRequestParam {
     @ArraySchema(arraySchema = @Schema(description = "Filter Criteria", additionalProperties = Schema.AdditionalPropertiesValue.FALSE, example = "owner,EQUAL,OWN"), maxItems = Integer.MAX_VALUE)
     List<String> filter;
 
-    public List<@Size(max = 1000, message = "Filter string should not be longer than 1000 characters.") String> getFilter() {
+    public List<@Size(max = 1100, message = "Filter string should not be longer than 1100 characters.") String> getFilter() {
         return filter;
     }
 
