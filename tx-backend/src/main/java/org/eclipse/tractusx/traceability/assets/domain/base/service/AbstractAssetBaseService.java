@@ -63,23 +63,13 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
         log.info("Synchronizing assets for globalAssetId: {}", globalAssetId);
         try {
             if (!getDownwardAspects().isEmpty()) {
-                List<AssetBase> downwardAssets = getIrsRepository().findAssets(globalAssetId, Direction.DOWNWARD, getDownwardAspects(), getBomLifecycle());
-                getAssetRepository().saveAll(downwardAssets);
+                getIrsRepository().createJobToResolveAssets(globalAssetId, Direction.DOWNWARD, getDownwardAspects(), getBomLifecycle());
             }
 
             if (!getUpwardAspects().isEmpty()) {
 
                 // TODO: change BomLifecycle.AS_BUILT to getBomLifecycle()
-                List<AssetBase> upwardAssets = getIrsRepository().findAssets(globalAssetId, Direction.UPWARD, Aspect.upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
-
-                upwardAssets.forEach(asset -> {
-                    if (getAssetRepository().existsById(asset.getId())) {
-                        getAssetRepository().updateParentDescriptionsAndOwner(asset);
-                    } else {
-                        getAssetRepository().save(asset);
-                    }
-                });
-
+                getIrsRepository().createJobToResolveAssets(globalAssetId, Direction.UPWARD, Aspect.upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
             }
 
         } catch (Exception e) {

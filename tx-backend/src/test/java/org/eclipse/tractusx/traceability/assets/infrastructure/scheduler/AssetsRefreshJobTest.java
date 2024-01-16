@@ -24,7 +24,7 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.scheduler;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.service.DecentralRegistryServiceImpl;
-import org.eclipse.tractusx.traceability.shelldescriptor.application.ShellDescriptorRefreshJob;
+import org.eclipse.tractusx.traceability.shelldescriptor.application.AssetsRefreshJob;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -36,30 +36,30 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-class ShellDescriptorRefreshJobTest {
+class AssetsRefreshJobTest {
 
     @Mock
     private DecentralRegistryServiceImpl registryFacade;
 
     @Test
     void refresh_shouldCallLoadShellDescriptors() throws RegistryServiceException {
-        ShellDescriptorRefreshJob job = new ShellDescriptorRefreshJob(registryFacade);
+        AssetsRefreshJob job = new AssetsRefreshJob(registryFacade);
         job.refresh();
-        verify(registryFacade).updateShellDescriptorAndSynchronizeAssets();
+        verify(registryFacade).synchronizeAssets();
     }
 
     @Test
     void refresh_shouldBeScheduledForEveryTwoHours() throws NoSuchMethodException {
-        Scheduled scheduledAnnotation = ShellDescriptorRefreshJob.class.getDeclaredMethod("refresh").getAnnotation(Scheduled.class);
+        Scheduled scheduledAnnotation = AssetsRefreshJob.class.getDeclaredMethod("refresh").getAnnotation(Scheduled.class);
         String cronExpression = scheduledAnnotation.cron();
         assertEquals("0 0 */2 * * ?", cronExpression);
     }
 
     @Test
     void refresh_shouldHaveSchedulerLockAnnotation() throws NoSuchMethodException {
-        Scheduled scheduledAnnotation = ShellDescriptorRefreshJob.class.getDeclaredMethod("refresh").getAnnotation(Scheduled.class);
+        Scheduled scheduledAnnotation = AssetsRefreshJob.class.getDeclaredMethod("refresh").getAnnotation(Scheduled.class);
         assertNotNull(scheduledAnnotation);
-        SchedulerLock schedulerLockAnnotation = ShellDescriptorRefreshJob.class.getDeclaredMethod("refresh").getAnnotation(SchedulerLock.class);
+        SchedulerLock schedulerLockAnnotation = AssetsRefreshJob.class.getDeclaredMethod("refresh").getAnnotation(SchedulerLock.class);
         assertNotNull(schedulerLockAnnotation);
         assertEquals("data-sync-lock", schedulerLockAnnotation.name());
         assertEquals("PT5M", schedulerLockAnnotation.lockAtLeastFor());

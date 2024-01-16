@@ -32,6 +32,7 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportNote;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.AssetCallbackRepository;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.common.repository.CriteriaUtility;
 import org.springframework.stereotype.Component;
@@ -39,10 +40,11 @@ import org.springframework.stereotype.Component;
 import java.util.AbstractMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component
-public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
+public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository, AssetCallbackRepository {
 
     private final JpaAssetAsBuiltRepository jpaAssetAsBuiltRepository;
 
@@ -55,11 +57,6 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
         return jpaAssetAsBuiltRepository.findById(assetId)
                 .map(AssetAsBuiltEntity::toDomain)
                 .orElseThrow(() -> new AssetNotFoundException("Asset with id %s was not found.".formatted(assetId)));
-    }
-
-    @Override
-    public boolean existsById(String globalAssetId) {
-        return jpaAssetAsBuiltRepository.existsById(globalAssetId);
     }
 
     @Override
@@ -126,18 +123,10 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
         return assetBaseAssetBaseEntitySimpleEntry.getValue().getImportState() == ImportState.TRANSIENT;
     }
 
-    // TODO check if it exists
-
-
-    @Transactional
     @Override
-    public void updateParentDescriptionsAndOwner(final AssetBase asset) {
-        AssetBase assetById = this.getAssetById(asset.getId());
-        if (assetById.getOwner().equals(Owner.UNKNOWN)) {
-            assetById.setOwner(asset.getOwner());
-        }
-        assetById.setParentRelations(asset.getParentRelations());
-        save(assetById);
+    public Optional<AssetBase> findById(String assetId) {
+        return jpaAssetAsBuiltRepository.findById(assetId)
+                .map(AssetAsBuiltEntity::toDomain);
     }
 
     @Transactional

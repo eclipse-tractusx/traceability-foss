@@ -93,7 +93,7 @@ public class RegistryController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/reload")
     public void reload() {
-        decentralRegistryService.updateShellDescriptorAndSynchronizeAssets();
+        decentralRegistryService.synchronizeAssets();
     }
 
 }

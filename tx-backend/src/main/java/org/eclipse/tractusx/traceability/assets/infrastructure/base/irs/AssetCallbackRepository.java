@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,17 +17,15 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.jpa;
+package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
-import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.model.ShellDescriptorEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 
-import java.time.ZonedDateTime;
 import java.util.Optional;
 
-@Repository
-public interface JpaShellDescriptorRepository extends JpaRepository<ShellDescriptorEntity, Long> {
+public interface AssetCallbackRepository {
 
-    void deleteAllByUpdatedBefore(ZonedDateTime dateTime);
+    Optional<AssetBase> findById(final String assetId);
+
+    AssetBase save(AssetBase asset);
 }
