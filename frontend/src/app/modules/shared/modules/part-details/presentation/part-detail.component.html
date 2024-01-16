@@ -35,7 +35,7 @@ SPDX-License-Identifier: Apache-2.0
             *viewContainer="shortenPartDetails$ | async; main: partDetailsMainTmp; error: errorTmp; loading: loaderTmp"
           ></ng-container>
         </div>
-        <div class="part-detail--part-info--relation relation">
+        <div class="part-detail--part-info--relation relation" *ngIf="(selectedPartDetails$ | async)?.data?.owner === Owner.OWN">
           <ng-container
             *viewContainer="selectedPartDetails$ | async; main: partRelationMainTmp; error: errorTmp; loading: loaderTmp"
           >
@@ -66,7 +66,7 @@ SPDX-License-Identifier: Apache-2.0
           ></ng-container>
         </div>
 
-        <div class="part-detail--traction-battery tractionbattery">
+        <div class="part-detail--traction-battery tractionbattery" *ngIf="(selectedPartDetails$ | async)?.data?.tractionBatteryCode">
           <ng-container
             *viewContainer="tractionBatteryDetails$ | async; main: tractionBatteryDetailsMainTmp; error: errorTmp; loading: loaderTmp">
           </ng-container>
