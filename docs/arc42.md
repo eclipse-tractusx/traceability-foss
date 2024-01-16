@@ -391,3 +391,324 @@ Please be informed that the 'as-planned' version currently lacks the database re
 
 ```bash
 image::./assets/arc42/arc42_015.png[]
+```
+
+## Safety and security concepts
+
+### Authentication / Authorization
+
+#### Trace-X API
+
+The Trace-X is secured using OAuth2.0 / Open ID Connect.
+Every request to the Trace-X API requires a valid bearer token.
+JWT token should also contain two claims:
+
+* 'bpn' which is equal to the configuration value from `API_ALLOWED_BPN` property
+* 'resource_access' with the specific key for C-X environments.
+The list of values will be converted to roles by Trace-X.
+Currently, Trace-X API handles three roles: ***'User'*** and ***'Supervisor'*** and ***'Admin'.***
+
+You can have a look at the rights and roles matrix in the system overview of the administration guide.
+
+#### Trace-X as EDC client
+
+The Trace-X accesses the Catena-X network via the EDC consumer connector.
+This component requires authentication via a Verifiable Credential (VC), which is provided to the EDC via the Managed Identity Wallet.
+
+The VC identifies and authenticates the EDC and is used to acquire access permissions for the data transferred via EDC.
+
+### Credentials
+
+Credentials must never be stored in Git!
+
+## Architecture and design patterns
+
+### Module / Package structure
+
+* Main domain name
+  * application
+    * optional: subdomain name (in case of inheritance) → following same structure as main domain
+    * mapper: holds the mapper of transforming domain models to response models
+    * service: holds the interface for implementation in the domain package
+    * rest: holds the controller for providing the api for the domain
+  * domain
+    * optional: subdomain name (in case of inheritance)
+    * model: holds the domain model
+    * service: Implementation of the interface provided in the application package
+    * repository: holds the interface for accessing the infrastructure package
+  * infrastructure
+    * optional: subdomain name (in case of inheritance)
+    * model: holds the technical entities
+    * repository: holds the data access layer
+      * e.g. JPARepository / Impl
+  * All models (Request / Response) used in the API should be saved in the tx-model project.
+  To be reusable for cucumber testing.
+
+## "Under-the-hood" concepts
+
+### Exception and error handling
+
+There are two types of potential errors in TraceX:
+
+#### Technical errors
+
+Technical errors occur when there is a problem with the application itself, its configuration or directly connected infrastructure, e.g. the Postgres database.
+Usually, the application cannot solve these problems by itself and requires some external support (manual work or automated recovery mechanisms, e.g. Kubernetes liveness probes).
+
+These errors are printed mainly to the application log and are relevant for the healthchecks.
+
+#### Functional errors
+
+Functional errors occur when there is a problem with the data that is being processed or external systems are unavailable and data cannot be sent / fetched as required for the process.
+While the system might not be able to provide the required function at that moment, it may work with a different dataset or as soon as the external systems recover.
+
+#### Rules for exception handling
+
+##### Throw or log, don't do both
+
+When catching an exception, either log the exception and handle the problem or rethrow it, so it can be handled at a higher level of the code.
+By doing both, an exception might be written to the log multiple times, which can be confusing.
+
+##### Write own base exceptions for (internal) interfaces
+
+By defining a common (checked) base exception for an interface, the caller is forced to handle potential errors, but can keep the logic simple.
+On the other hand, you still have the possibility to derive various, meaningful exceptions for different error cases, which can then be thrown via the API.
+
+Of course, when using only RuntimeExceptions, this is not necessary - but those can be overlooked quite easily, so be careful there.
+
+##### Central fallback exception handler
+
+There will always be some exception that cannot be handled inside of the code correctly - or it may just have been unforeseen.
+A central fallback exception handler is required so all problems are visible in the log and the API always returns meaningful responses.
+In some cases, this is as simple as a HTTP 500.
+
+##### Dont expose too much exception details over API
+
+It’s good to inform the user, why their request did not work, but only if they can do something about it (HTTP 4xx).
+So in case of application problems, you should not expose details of the problem to the caller.
+This way, we avoid opening potential attack vectors.
+
+## Development concepts
+
+### Build, test, deploy
+
+TraceX is built using Maven and utilizes all the standard concepts of it.
+Test execution is part of the build process and a minimum test coverage of 80% is enforced.
+
+The project setup contains a multi-module Maven build.
+Commonly used classes (like the TraceX data model) should be extracted into a separate submodule and reused across the project.
+However, this is not a "one-size-fits-all" solution.
+New submodules should be created with care and require a review by the team.
+
+The Maven build alone only leads up to the JAR artifact of TraceX.
+Do create Docker images, the Docker build feature is used.
+This copies all resources into a builder image, builds the software and creates a final Docker image at the end that can then be deployed.
+
+Although the Docker image can be deployed in various ways, the standard solution are the provided Helm charts, which describe the required components as well.
+
+### Code generation
+
+There are two methods of code generation in TraceX:
+
+#### Lombok
+
+The Lombok library is heavily used to generate boilerplate code (like Constructors, Getters, Setters, Builders...).
+This way, code can be written faster and this boilerplate code is excluded from test coverage, which keeps the test base lean.
+
+#### Swagger / OpenAPI
+
+The API uses OpenAPI annotations to describe the endpoints with all necessary information.
+The annotations are then used to automatically generate the OpenAPI specification file, which can be viewed in the Swagger UI that is deployed with the application.
+
+The generated OpenAPI specification file is automatically compared to a fixed, stored version of it to avoid unwanted changes of the API.
+
+### Migration
+
+There currently is no data migration mechanism for TraceX.
+In case the model of the persisted data (Jobs) changes, data is dropped and Jobs will need to be recreated.
+
+### Configurability
+
+TraceX utilizes the configuration mechanism provided by Spring Boot.
+Configuration properties can be defined in the file `src/main/resources/application.yml`
+
+Other profiles should be avoided.
+Instead, the configuration can be overwritten using Spring’s external configuration mechanism (see <https://docs.spring.io/spring-boot/docs/2.1.9.RELEASE/reference/html/boot-features-external-config.html).>
+The operator must have total control over the configuration of TraceX.
+
+### Java Style Guide
+
+We generally follow the [Google Java Style Guide](https://google.github.io/styleguide/javaguide.html).
+
+### API Guide
+
+We generally follow the <https://swagger.io/specification/>
+
+### Unit and Functional Testing
+
+#### General Unit testing
+
+* Code coverage >= 80%
+* Writing methods which provide a response to be better testable (avoid void if feasible).
+* Naming of unit tests are as follows:
+
+![unit_test_naming](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/unit_test_naming.png)
+
+* Use given/when/then pattern for unit test structuring.
+E.g:
+
+![given_when_then_pattern](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/given_when_then_pattern.png)
+
+#### Integration Testing
+
+Each public api should have at least two integration tests (positive / negative).
+For integration testing, the `tx-backend/src/main/resources/application-integration.yml` is used.
+Additionally, you need to have a local Docker environment running.
+For this, we recommend [Rancher Dektop](https://rancherdesktop.io/).
+
+### Clean Code
+
+We follow the rules and behaviour of: <https://clean-code-developer.com/.>
+
+### Secure Coding standards
+
+As there is no other guideline of C-X, we fix any Vulnerabilities, Exposures, Flaw detected by one of our SAST, DAST, Pentesting tools which is higher than "Very Low".
+
+![vulnerability_level](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/vulnerability_level.png)
+
+### TRACE-X Technical class responsibilities
+
+#### Controllers
+
+* Have only one dependency to a facade or a service or a validator annotation
+* Have no own logic
+* Including the swagger documentation annotations
+* For each controller exists and Integration Test class
+* Uses a static mapper to transform a domain model into the response model
+* Returns a ResponseEntity&lt;T>
+
+#### Response object
+
+* Should be a public version of the domain object
+* It is a result of the transformation which will be done in the facade
+* Is not necessary if the domain object can be fully public
+* Is not allowed to be implemented in a repository or a DAO
+
+#### Facade
+
+* Should have multiple service classes injected
+* Can be implemented in a controller
+
+#### ServiceImpl
+
+* Responsible for retrieving data from storage
+* Performs business logic
+* Can be a http client
+* Returns a jpaEntity → Domain Object
+* Should only be implemented in a controller through an interface
+
+#### Repository
+
+* Represents an interface to the underlying repository implementation which uses then the spring repository
+
+#### Domain Object
+
+* Mapped from an entity or external data received
+* Will be used as working model until it will be finally transformed to a response object or another domain which will be later on persisted
+
+#### Config Object
+
+* Should have the suffix Config at the end of the class
+* Including beans which are automatically created by app startup
+
+#### Constructing objects
+
+* Using builder pattern
+  * Currently we are using the constructor to create objects in our application.
+  Main reason is probably to provide immutable objects.
+  * As the handling with big loaded constructors is not easy and error prune, I would recommend using the builder pattern to have a clear understanding about what we creating at the point of implementation.
+* Using lombok for annotation processing
+
+## Operational concepts
+
+### Administration
+
+#### Configuration
+
+TraceX can be configured using two mechanisms:
+
+##### application.yml
+
+If you build TraceX yourself, you can modify the application.yml config that is shipped with TraceX.
+This file contains all possible config entries for the application.
+Once the Docker image has been built, these values can only be overwritten using the Spring external config mechanism (see <https://docs.spring.io/spring-boot/docs/2.1.9.RELEASE/reference/html/boot-features-external-config.html),> e.g. by mounting a config file in the right path or using environment variables.
+
+##### Helm Chart
+
+The most relevant config properties are exposed as environment variables and must be set in the Helm chart so the application can run at all.
+Check the TraceX Helm chart in Git for all available variables.
+
+### Scaling
+
+If the number of consumers raises, TraceX can be scaled up by using more resources for the Deployment Pod.
+Those resources can be used to utilize more parallel threads to handle Job execution.
+
+### Clustering
+
+TraceX can run in clustered mode, as each running job is only present in one pod at a time.
+Note: as soon as a resume feature is implemented, this needs to be addressed here.
+
+### Logging
+
+Logs are being written directly to stdout and are picked up by the cluster management.
+
+### Monitoring
+
+Currently, there is on monitoring supported in TraceX.
+
+## Quality requirements
+
+This section includes concrete quality scenarios to better capture the key quality objectives but also other required quality attributes.
+
+## Quality tree
+
+The tree structure provides an overview for a sometimes large number of quality requirements.
+
+![arc42_016](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_016.png)
+
+## Quality scenarios
+
+The initial letters of the scenario identifiers (IDs) in the following table each stand for the higher-level quality characteristic. For example M for maintainability. These identifiers are also used in the quality tree. The scenarios cannot always be clearly assigned to a characteristic. Therefore, they sometimes appear more than once in the quality tree.
+
+| ID | Scenario |
+| --- | --- |
+| M01 | A developer with basic knowledge of the Traceability Use Case looks for an introduction to the Traceability architecture. He or she gets the idea of essential design very fast. |
+| M02 | A senior developer looks for a reference implementation of the Traceability Use case functionalities. He or she gets it within the source code. |
+| M03 | A developer wants to implement new features. He or she is able to add it to the source code easily. |
+| M04 | A developer wants to implement a new Frontend or change some components. The efforts can be reduced by using the standardized API endpoints to do so. |
+| I01 | An user wants to switch from FOSS application to a COTS application or the other way round. This is possible since the application is interoperable with other applications within the CX network. |
+| F01 | The application uses the Catena-X standards to ensure the correct interoperability and exchange with other participants. |
+| F02 | An OEM or Tier n supplier needs more information regarding specific parts. He can mark the parts in question and send a top-down notification (Quality Investigation) to the next entity / the partner. |
+| F03 | A company wants to have more transparency and a visualized status of the supply / value chain. By using the application they are enabled to work with the structures and enable new features / functionalities. |
+| F04 | Notifications are sent using the EDC to ensure interoperability and reliability to the CX network. |
+| E01 | Notifications between traceability apps need to be send out and received within a specified timeframe to minimize the negative impact of e.g. recalled serialized products/batches on the value chain. |
+
+## Glossary
+
+| Term | Description |
+| --- | --- |
+| Aspect | Collection of various aspects from the Digital Twin. An aspect can, for example, bundle all information about a specific part. |
+| AAS | ***A****sset **A****dministration **S***hell (Industry 4.0). Is the implementation of the digital twin for Industry 4.0 and enables interoperability between different companies. |
+| BoM | ***B****ill **o****f **M***aterial. BoM is a list of parts and materials that a product contains. Without them, manufacturing would not be possible. |
+| BoM AsBuilt | Bill of material lifecycle of the built entity |
+| BoM AsPlanned | Bill of material lifecycle of the planned entity |
+| BPN | ***B****usiness **P****artner **N***umber. A BPN is used to identify a partner in the Catena-X network |
+| CX | Abbreviation for Catena-X |
+| Data Sovereignty | Ability to keep control over own data, that is shared with other participants |
+| EDC | ***E****clipse **D****ataspace **C***onnector. The connector version used in Catena-X |
+| FOSS | ***F****ree and **O****pen **S****ource **S***oftware |
+| Interoperability | Communication and interaction with other components or Catena-X partners/players |
+| IRS | ***I****tem **R****elationship **S***ervice. Component to provide data chains. [IRS architecture documentation (arc42)](https://eclipse-tractusx.github.io/item-relationship-service/docs/arc42/) |
+| SME | ***S****mall / **M****edium **E***nterprise |
+| Trace-X | Proper name of open-source software application of Catena-X Use Case Traceability |
+| UI | ***U****ser **I***nterface |

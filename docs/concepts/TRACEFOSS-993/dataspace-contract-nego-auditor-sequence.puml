@@ -1,0 +1,35 @@
+@startuml
+title
+    == Collect ContractOffers and ContractNegoationAgreements
+end title
+
+actor "Contract_Auditor_Collector" as Contract_Auditor_Collector
+
+participant DCNA_Infeed_API
+participant Controller
+
+
+participant "Queue/Topic/Cache" as Cache
+activate Cache
+participant "Auditor Manager" as Audit_Manager
+participant DAO
+database "Audit DB" as Audit_DB
+
+
+Contract_Auditor_Collector -> DCNA_Infeed_API: POST /dcna/infeed/contractOffers (contractOffer)
+DCNA_Infeed_API -> Controller : store contractOffer
+activate Controller
+Controller -> Cache
+Controller <-- Cache : OK
+DCNA_Infeed_API <-- Controller : OK
+Contract_Auditor_Collector <-- DCNA_Infeed_API : 201 contractOffer created
+
+Audit_Manager -> Cache: Poll "Queue/Topic/Cache"
+Audit_Manager <-- Cache: new contractOffer
+Audit_Manager -> DAO : persist contractOffer
+DAO --> DAO : Extract metadata (assetId, bpn, signingdata, ngotation state)
+DAO -> Audit_DB : persist contractOffer
+DAO <-- Audit_DB : OK
+Audit_Manager <-- DAO : OK
+
+@enduml
