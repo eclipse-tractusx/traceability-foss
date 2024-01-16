@@ -19,6 +19,7 @@
 package org.eclipse.tractusx.traceability.common.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,6 +34,7 @@ public class PageableFilterRequest {
     private OwnPageable ownPageable;
 
     @JsonProperty("searchCriteria")
+    @Valid
     private SearchCriteriaRequestParam searchCriteriaRequestParam;
 
     public SearchCriteriaRequestParam getSearchCriteriaRequestParam() {
