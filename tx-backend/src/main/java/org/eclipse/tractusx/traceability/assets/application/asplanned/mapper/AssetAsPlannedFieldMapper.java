@@ -46,6 +46,7 @@ public class AssetAsPlannedFieldMapper extends BaseRequestFieldMapper {
             Map.entry("semanticDataModel", "semanticDataModel"),
             Map.entry("semanticModelId", "semanticModelId"),
             Map.entry("businessPartner", "manufacturerId"),
+            Map.entry("van", "van"),
             Map.entry("importState", "importState"),
             Map.entry("importNote", "importNote")
     );
