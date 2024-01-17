@@ -135,7 +135,8 @@
     "PERSISTENT": "PERSISTENT",
     "TRANSIENT": "TRANSIENT",
     "IN_SYNCHRONIZATION": "IN SYNCHRONIZATION",
-    "FORCE_DELETED": "FORCE DELETED"
+    "ERROR": "ERROR",
+    "UNSET": "UNSET"
   },
   "severity": {
     "MINOR": "Minor",

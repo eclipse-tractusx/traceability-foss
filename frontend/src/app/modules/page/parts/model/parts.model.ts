@@ -176,14 +176,16 @@ export enum ImportState {
   TRANSIENT = "TRANSIENT",
   PERSISTENT = "PERSISTENT",
   IN_SYNCHRONIZATION = "IN_SYNCHRONIZATION",
-  FORCE_DELETED = "FORCE_DELETED",
+  ERROR = "ERROR",
+  UNSET = "UNSET"
 }
 
 export enum ImportStateInCamelCase {
   TRANSIENT = "Transient",
   PERSISTENT = "Persistent",
   IN_SYNCHRONIZATION = "In Synchronization",
-  FORCE_DELETED = "Force Deleted"
+  ERROR = "Error",
+  UNSET = "Unset"
 }
 
 export enum FilterOperator {
