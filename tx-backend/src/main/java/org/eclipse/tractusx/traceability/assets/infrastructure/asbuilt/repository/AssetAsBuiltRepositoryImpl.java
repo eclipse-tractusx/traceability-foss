@@ -102,7 +102,9 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository, Asset
     @Override
     @Transactional
     public List<AssetBase> saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(List<AssetBase> assets) {
-
+        if(Objects.isNull(assets)) {
+            return List.of();
+        }
         List<AssetAsBuiltEntity> toPersist = assets.stream().map(assetToPersist -> new AbstractMap.SimpleEntry<AssetBase, AssetBaseEntity>(assetToPersist, jpaAssetAsBuiltRepository.findById(assetToPersist.getId()).orElse(null)))
                 .filter(this::entityIsTransientOrNotExistent)
                 .map(entry -> {
