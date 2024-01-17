@@ -186,7 +186,7 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filter1,filter2))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filter1, filter2))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/alerts/filter")
@@ -390,12 +390,12 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenAlerts_whenProvideFilterLongerThan1000_thenReturnHttp400() throws JoseException {
+    void givenAlerts_whenProvideFilterLongerThan1100_thenReturnHttp400() throws JoseException {
         // given
         alertNotificationsSupport.defaultAlertsStored();
 
         // when/then
-        SearchCriteriaRequestParam searchCriteriaRequestParam = new SearchCriteriaRequestParam(List.of("1".repeat(1000)));
+        SearchCriteriaRequestParam searchCriteriaRequestParam = new SearchCriteriaRequestParam(List.of("description,EQUAL," +"1".repeat(1101)+",AND" ));
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), searchCriteriaRequestParam))
@@ -403,7 +403,9 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
                 .when()
                 .post("/api/alerts/filter")
                 .then()
-                .statusCode(400);
+                .log().all()
+                .statusCode(400)
+                .body("message", equalTo("Filter string should not be longer than 1100 characters."));
     }
 
 }
