@@ -20,22 +20,26 @@ package org.eclipse.tractusx.traceability.assets.application.importpoc.validatio
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.jimblackler.jsonschemafriend.GenerationException;
-import net.jimblackler.jsonschemafriend.ListValidationException;
-import net.jimblackler.jsonschemafriend.Schema;
-import net.jimblackler.jsonschemafriend.SchemaStore;
-import net.jimblackler.jsonschemafriend.ValidationError;
-import net.jimblackler.jsonschemafriend.ValidationException;
-import net.jimblackler.jsonschemafriend.Validator;
+import com.github.fge.jackson.JsonLoader;
+import com.github.fge.jsonschema.core.exceptions.ProcessingException;
+import com.github.fge.jsonschema.core.report.LogLevel;
+import com.github.fge.jsonschema.core.report.ProcessingMessage;
+import com.github.fge.jsonschema.core.report.ProcessingReport;
+import com.github.fge.jsonschema.main.JsonSchema;
+import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.StreamSupport;
 
 import static java.util.Objects.isNull;
 
@@ -55,7 +59,7 @@ public class JsonFileValidator {
             Map.entry("urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned", "/validation/SingleLevelBomAsPlanned_2.0.0-schema.json")
     );
 
-    private final SchemaStore schemaStore = new SchemaStore();
+    private final JsonSchemaFactory factory = JsonSchemaFactory.byDefault();
 
     public List<String> isValid(MultipartFile file) {
         if (file == null || file.isEmpty()) {
@@ -70,20 +74,27 @@ public class JsonFileValidator {
             return List.of("Supported file is *.json");
         }
 
+
         final List<String> errors = new ArrayList<>();
-        Validator validator = new Validator();
+
         try {
-            validator.validate(getSchema("base"), file.getInputStream());
-        } catch (ListValidationException e) {
-            errors.addAll(e.getErrors().stream().map(ValidationError::getMessage).toList());
-        } catch (GenerationException | IOException | ValidationException e) {
+            final JsonSchema schema = factory.getJsonSchema(JsonLoader.fromURL(getSchemaUrl("base")));
+
+            ProcessingReport report = schema.validate(JsonLoader.fromReader(new InputStreamReader(file.getInputStream())));
+            StreamSupport.stream(report.spliterator(), false).filter(processingMessage -> processingMessage.getLogLevel().equals(LogLevel.WARNING))
+                    .map(ProcessingMessage::getMessage)
+                    .forEach(errors::add);
+
+        } catch (IOException e) {
             throw new IllegalStateException(e);
+        } catch (ProcessingException e) {
+            throw new RuntimeException(e);
         }
-        errors.addAll(validateAspectPayload(file, validator));
+        errors.addAll(validateAspectPayload(file));
         return errors;
     }
 
-    private List<String> validateAspectPayload(MultipartFile file, Validator validator) {
+    private List<String> validateAspectPayload(MultipartFile file) {
         List<String> errors = new ArrayList<>();
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode rootNode;
@@ -98,7 +109,10 @@ public class JsonFileValidator {
             errors.add("Could not find assets");
             return errors;
         }
+        Map<String, List<ProcessingMessage>> processingMessages = new HashMap<>();
         for (JsonNode asset : assetsNode) {
+            JsonNode assetMetaInfo = asset.get("assetMetaInfo");
+            String assetId = assetMetaInfo.get("catenaXId").asText();
             JsonNode submodels = asset.get("submodels");
             for (JsonNode submodel : submodels) {
                 JsonNode aspectTypeNode = submodel.get("aspectType");
@@ -110,30 +124,38 @@ public class JsonFileValidator {
                 String payload = submodel.get("payload").toString();
 
                 try {
-                    validator.validateJson(getSchema(aspectType), payload);
-                } catch (ListValidationException e) {
-                    errors.addAll(e.getErrors().stream().map(ValidationError::getMessage).toList());
-                } catch (GenerationException | ValidationException e) {
-                    throw new IllegalStateException(e);
-                } catch (NotSupportedSchemaException e) {
+                    final JsonSchema schema = factory.getJsonSchema(JsonLoader.fromURL(getSchemaUrl(aspectType)));
+
+                    ProcessingReport report = schema.validate(JsonLoader.fromString(payload));
+                    List<ProcessingMessage> payloadProcessingMessages = StreamSupport.stream(report.spliterator(), false)
+                            .filter(processingMessage -> !processingMessage.getLogLevel().equals(LogLevel.WARNING))
+                            .filter(processingMessage -> !processingMessage.getLogLevel().equals(LogLevel.INFO))
+                            .toList();
+                    processingMessages.put("For Asset with ID: " + assetId + " And aspectType: " + aspectType, payloadProcessingMessages);
+                } catch (NotSupportedSchemaException | IOException e) {
                     errors.add(e.getMessage());
+                } catch (ProcessingException e) {
+                    throw new RuntimeException(e);
                 }
 
             }
         }
 
+        List<String> constructedErrorMessages = processingMessages.entrySet().stream().map(entry ->
+                        entry.getValue().stream().map(processingMessage -> entry.getKey() + " Following error occurred: " + processingMessage.getMessage()).toList()
+                ).flatMap(Collection::stream)
+                .toList();
+        errors.addAll(constructedErrorMessages);
         return errors;
     }
 
-
-    private Schema getSchema(String schemaName) throws GenerationException {
+    private URL getSchemaUrl(String schemaName) {
         String schemaPath = SUPPORTED_SCHEMA_VALIDATION.get(schemaName);
         if (isNull(schemaPath)) {
             throw new NotSupportedSchemaException(schemaName);
         }
 
-        URL url = this.getClass().getResource(schemaPath);
-        return schemaStore.loadSchema(url);
+        return this.getClass().getResource(schemaPath);
     }
 
 }
