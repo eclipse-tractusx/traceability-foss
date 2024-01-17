@@ -63,7 +63,6 @@ traceability:
             - "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned"
           downwardRelations:
             - "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned"
-
 edc:
   ids:
     path: "/api/v1/dsp"
@@ -166,6 +165,9 @@ jwt:
 feign:
   irsApi:
     url: ${IRS_URL}
+    adminApiKey: ${IRS_ADMIN_API_KEY}
+    regularApiKey: ${IRS_REGULAR_API_KEY}
+
   portalApi:
     url: ${PORTAL_URL}
   okhttp:

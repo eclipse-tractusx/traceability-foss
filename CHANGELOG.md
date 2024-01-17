@@ -28,6 +28,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Moved UpdateAssetRequest to tx-models module
 - updated Compatibility Matrix
 - Irs Jobs are now created with callback parameter set to new /irs/job/callback endpoint
+- Upgraded irs version from 6.12.0 to 6.13.0
+- Switched from OAuth2.0 to API Key authentication for IRS API Requests
 
 ### Removed
 - Shell descriptor entity with underlying logic
