@@ -375,18 +375,4 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(200);
     }
-
-    @Test
-    void shouldReturnPolicies() throws JoseException {
-        // when
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/api/assets/policies")
-                .then()
-                .log().all();
-
-    }
-
 }
