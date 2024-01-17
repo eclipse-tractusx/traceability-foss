@@ -17,11 +17,12 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.common.request;
+package org.eclipse.tractusx.traceability.common.request.exception;
 
-public class InvalidFilterException extends RuntimeException {
+public class InvalidSortException extends RuntimeException {
 
-    public InvalidFilterException(String message) {
+    public InvalidSortException(String message) {
         super(message);
     }
+
 }

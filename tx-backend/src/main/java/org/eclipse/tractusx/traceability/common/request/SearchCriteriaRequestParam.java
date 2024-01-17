@@ -32,6 +32,7 @@ import org.eclipse.tractusx.traceability.common.model.SearchCriteriaFilter;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy;
 import org.eclipse.tractusx.traceability.common.model.UnsupportedSearchCriteriaFieldException;
+import org.eclipse.tractusx.traceability.common.request.exception.InvalidFilterException;
 
 import java.util.ArrayList;
 import java.util.Collections;
