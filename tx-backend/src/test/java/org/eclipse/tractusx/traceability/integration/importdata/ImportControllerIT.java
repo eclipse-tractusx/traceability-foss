@@ -28,6 +28,8 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.repository.JpaAssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.common.security.JwtRole;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.hamcrest.Matchers;
@@ -48,6 +50,9 @@ class ImportControllerIT extends IntegrationTestSpecification {
 
     @Autowired
     JpaAssetAsBuiltRepository jpaAssetAsBuiltRepository;
+
+    @Autowired
+    JpaAssetAsPlannedRepository jpaAssetAsPlannedRepository;
 
     @Test
     void givenValidFile_whenImportData_thenValidationShouldPass() throws JoseException {
@@ -88,6 +93,56 @@ class ImportControllerIT extends IntegrationTestSpecification {
         );
 
         AssetAsBuiltEntity entity = jpaAssetAsBuiltRepository.findById("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f").get();
+        assertThat(entity.getSubmodels()).isNotEmpty();
+    }
+
+    @Test
+    void givenValidFileWithAsBuiltOnly_whenImportData_thenValidationShouldPass() throws JoseException {
+        // given
+        String path = getClass().getResource("/testdata/importfiles/validImportFile-onlyAsBuiltAsset.json").getFile();
+        File file = new File(path);
+
+        // when/then
+        ImportResponse result = given()
+                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .when()
+                .multiPart(file)
+                .post("/api/assets/import")
+                .then()
+                .statusCode(200)
+                .extract().as(ImportResponse.class);
+
+        assertThat(result.validationResult().validationErrors()).isEmpty();
+        assertThat(result.importStateMessage()).containsExactlyInAnyOrder(
+                new ImportStateMessage("urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36111", true)
+        );
+
+        AssetAsBuiltEntity entity = jpaAssetAsBuiltRepository.findById("urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36111").get();
+        assertThat(entity.getSubmodels()).isNotEmpty();
+    }
+
+    @Test
+    void givenValidFileWithAsPlannedOnly_whenImportData_thenValidationShouldPass() throws JoseException {
+        // given
+        String path = getClass().getResource("/testdata/importfiles/validImportFile-onlyAsPlannedAsset.json").getFile();
+        File file = new File(path);
+
+        // when/then
+        ImportResponse result = given()
+                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .when()
+                .multiPart(file)
+                .post("/api/assets/import")
+                .then()
+                .statusCode(200)
+                .extract().as(ImportResponse.class);
+
+        assertThat(result.validationResult().validationErrors()).isEmpty();
+        assertThat(result.importStateMessage()).containsExactlyInAnyOrder(
+                new ImportStateMessage("urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01", true)
+        );
+
+        AssetAsPlannedEntity entity = jpaAssetAsPlannedRepository.findById("urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01").get();
         assertThat(entity.getSubmodels()).isNotEmpty();
     }
 

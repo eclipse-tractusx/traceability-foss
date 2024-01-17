@@ -102,6 +102,9 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository, A
     @Override
     @Transactional
     public List<AssetBase> saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(List<AssetBase> assets) {
+        if(Objects.isNull(assets)) {
+            return List.of();
+        }
         List<AssetAsPlannedEntity> toPersist = assets.stream().map(assetToPersist ->
                         new AbstractMap.SimpleEntry<AssetBase, AssetBaseEntity>(
                                 assetToPersist,
