@@ -152,7 +152,11 @@ public class ApplicationConfig {
         acceptedPolicies.addAll(createOwnAcceptedPolicies(traceabilityProperties.getValidUntil()));
 
         //add IRS policies
-        acceptedPolicies.addAll(createIrsAcceptedPolicies());
+        try {
+            acceptedPolicies.addAll(createIrsAcceptedPolicies());
+        }catch (Exception exception){
+            log.error("Failed to create Irs Policies : ", exception);
+        }
         return acceptedPolicies;
     }
 

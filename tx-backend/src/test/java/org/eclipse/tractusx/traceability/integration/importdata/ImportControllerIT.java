@@ -37,13 +37,13 @@ import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import java.io.File;
 import java.util.List;
-
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
+
+
 
 class ImportControllerIT extends IntegrationTestSpecification {
 
@@ -366,13 +366,27 @@ class ImportControllerIT extends IntegrationTestSpecification {
 
     @Test
     void shouldReturnPolicy() throws JoseException {
-        //THEN
+        // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/assets/test")
+                .get("/api/assets/policies")
                 .then()
                 .statusCode(200);
     }
+
+    @Test
+    void shouldReturnPolicies() throws JoseException {
+        // when
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/assets/policies")
+                .then()
+                .log().all();
+
+    }
+
 }

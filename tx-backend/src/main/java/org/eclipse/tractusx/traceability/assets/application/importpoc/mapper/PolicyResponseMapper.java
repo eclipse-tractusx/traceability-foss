@@ -38,6 +38,12 @@ import java.util.stream.Collectors;
 
 public class PolicyResponseMapper {
 
+    public static List<PolicyResponse> fromList(List<Policy> allPolicies) {
+        return allPolicies
+                .stream()
+                .map(PolicyResponseMapper::from)
+                .collect(Collectors.toList());
+    }
     public static PolicyResponse from(final Policy policy) {
         if (policy == null) {
             return null;
@@ -102,5 +108,6 @@ public class PolicyResponseMapper {
     public static OperatorTypeResponse from(final OperatorType operatorType){
         return OperatorTypeResponse.valueOf(operatorType.name());
     }
+
 
 }

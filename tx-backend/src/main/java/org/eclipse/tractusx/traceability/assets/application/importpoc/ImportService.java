@@ -22,10 +22,11 @@ import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Map;
 
 public interface ImportService {
     Map<AssetBase, Boolean> importAssets(MultipartFile file);
 
-    Policy getPolicyById(String policyId);
+    List<Policy> getAllPolicies();
 }

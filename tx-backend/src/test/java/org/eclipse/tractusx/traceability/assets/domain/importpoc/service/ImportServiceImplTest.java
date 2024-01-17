@@ -22,7 +22,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPoliciesProvider;
 import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPolicy;
-import org.eclipse.tractusx.irs.edc.client.policy.Permission;
 import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
@@ -39,8 +38,7 @@ import org.springframework.mock.web.MockMultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -99,22 +97,24 @@ class ImportServiceImplTest {
 
 
     @Test
-    void testGetPolicyByID() throws IOException {
+    void testGetPolicyByID() {
 
 
         // GIVEN
         String policyId = "policy123";
+        OffsetDateTime createdOn = OffsetDateTime.parse("2023-07-03T16:01:05.309Z");
         List<AcceptedPolicy> acceptedPolicies = List.of(
-                new AcceptedPolicy(new Policy("policy123", null, null, null),null));
+                new AcceptedPolicy(new Policy("policy123", createdOn,null, null),null));
 
         // WHEN
         when(acceptedPoliciesProvider.getAcceptedPolicies()).thenReturn(acceptedPolicies);
-        Policy result = importService.getPolicyById(policyId);
+        List<Policy> result = importService.getAllPolicies();
 
         // THEN
         assertNotNull(result);
-        assertEquals(policyId, result.getPolicyId());
-    };
+        assertEquals(policyId, result.get(0).getPolicyId());
+        assertEquals(createdOn, result.get(0).getCreatedOn());
+    }
 
 
 
