@@ -35,6 +35,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.application.importpoc.ImportService;
+import org.eclipse.tractusx.traceability.assets.application.importpoc.PublishService;
 import org.eclipse.tractusx.traceability.assets.application.importpoc.validation.JsonFileValidator;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.ImportException;
@@ -63,6 +64,7 @@ public class ImportController {
 
     private final ImportService importService;
     private final JsonFileValidator jsonFileValidator;
+    private final PublishService publishService;
 
     @Operation(operationId = "importJson",
             summary = "asset upload",
@@ -218,7 +220,7 @@ public class ImportController {
 
     @PostMapping(value = "/sync", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> registerAssetsForPublishing(@RequestBody RegisterAssetRequest registerAssetRequest) {
-
+        publishService.publishAssets(registerAssetRequest.policyId(), registerAssetRequest.assetIds());
         return ResponseEntity.status(HttpStatus.CREATED).build();
 
     }

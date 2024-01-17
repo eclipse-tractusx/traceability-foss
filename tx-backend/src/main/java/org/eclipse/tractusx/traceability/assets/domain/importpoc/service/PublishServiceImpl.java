@@ -16,19 +16,21 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package assets.importpoc.request;
+package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
-import io.swagger.annotations.ApiModelProperty;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.assets.application.importpoc.PublishService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public record RegisterAssetRequest(@NotNull(message = "policyId must be present")
-                                   @ApiModelProperty(example = "a644a7cb-3de5-493b-9259-f01db315a46e", required = true)
-                                   String policyId,
-                                   @NotEmpty
-                                   List<String> assetIds) {
+@Slf4j
+@RequiredArgsConstructor
+@Service
+public class PublishServiceImpl implements PublishService {
+    @Override
+    public void publishAssets(String policyId, List<String> assetIds) {
 
-
+    }
 }
