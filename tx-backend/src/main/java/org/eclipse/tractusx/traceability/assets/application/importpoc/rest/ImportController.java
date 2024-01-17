@@ -23,7 +23,6 @@ package org.eclipse.tractusx.traceability.assets.application.importpoc.rest;
 import assets.importpoc.ErrorResponse;
 import assets.importpoc.ImportResponse;
 import assets.importpoc.ImportStateMessage;
-import assets.importpoc.PolicyResponse;
 import assets.importpoc.ValidationResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
