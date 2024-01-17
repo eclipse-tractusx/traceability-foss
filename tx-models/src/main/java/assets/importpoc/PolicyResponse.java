@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,16 +16,17 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.application.importpoc;
+package assets.importpoc;
 
-import org.eclipse.tractusx.irs.edc.client.policy.Policy;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Map;
+import java.time.OffsetDateTime;
+import java.util.List;
 
-public interface ImportService {
-    Map<AssetBase, Boolean> importAssets(MultipartFile file);
+public record PolicyResponse(
+        String policyId,
+        OffsetDateTime createdOn,
+        OffsetDateTime validUntil,
 
-    Policy getPolicyById(String policyId);
+        List<PermissionResponse> permissions){
+
 }

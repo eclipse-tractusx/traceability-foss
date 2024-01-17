@@ -22,6 +22,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.component.enums.BomLifecycle;
+import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPoliciesProvider;
+import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPolicy;
+import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
+import org.eclipse.tractusx.irs.edc.client.policy.Permission;
+import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 import org.eclipse.tractusx.traceability.assets.application.importpoc.ImportService;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
@@ -33,7 +38,9 @@ import org.eclipse.tractusx.traceability.common.properties.TraceabilityPropertie
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,6 +58,7 @@ public class ImportServiceImpl implements ImportService {
     private final TraceabilityProperties traceabilityProperties;
     private final MappingStrategyFactory strategyFactory;
     private final SubmodelPayloadRepository submodelPayloadRepository;
+    private final AcceptedPoliciesProvider acceptedPoliciesProvider;
 
     @Override
     public Map<AssetBase, Boolean> importAssets(MultipartFile file) {
@@ -87,6 +95,20 @@ public class ImportServiceImpl implements ImportService {
             throw new ImportException(e.getMessage());
         }
     }
+
+    @Override
+    public Policy getPolicyById(String policyId) {
+            List<AcceptedPolicy> acceptedPolicies = Optional.ofNullable(acceptedPoliciesProvider.getAcceptedPolicies())
+                    .orElse(Collections.emptyList());
+
+            return acceptedPolicies.stream()
+                    .map(AcceptedPolicy::policy)
+                    .filter(policy -> policy.getPolicyId().equals(policyId))
+                    .findFirst()
+                    .orElse(null);
+        }
+
+
 
     private void saveRawDataForPersistedAssets(List<AssetBase> persistedAssets, ImportRequest importRequest) {
         List<String> persistedAssetsIds = persistedAssets.stream().map(AssetBase::getId).toList();
