@@ -86,13 +86,13 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
     @ManyToMany(mappedBy = "assets")
     private List<AlertEntity> alerts = new ArrayList<>();
 
-    @Formula("(SELECT COUNT(*) FROM assets_as_built_alerts a INNER JOIN alert b ON a.alert_id=b.id " +
+    @Formula("(SELECT CAST(COUNT(*) AS VARCHAR) FROM assets_as_built_alerts a INNER JOIN alert b ON a.alert_id=b.id " +
             "WHERE a.asset_id = id AND b.status IN (" + ACTIVE_STATUSES + "))")
-    private Integer noOfActiveAlerts;
+    private String qualityAlertsInStatusActive;
 
-    @Formula("(SELECT COUNT(*) FROM assets_as_built_investigations a INNER JOIN investigation b ON a.investigation_id=b.id " +
+    @Formula("(SELECT CAST(COUNT(*) AS VARCHAR) FROM assets_as_built_investigations a INNER JOIN investigation b ON a.investigation_id=b.id " +
             "WHERE a.asset_id = id AND b.status IN (" + ACTIVE_STATUSES + "))")
-    private Integer noOfActiveInvestigations;
+    private String qualityInvestigationsInStatusActive;
 
     public static AssetAsBuiltEntity from(AssetBase asset) {
         ManufacturingInfo manufacturingInfo = ManufacturingInfo.from(asset.getDetailAspectModels());
