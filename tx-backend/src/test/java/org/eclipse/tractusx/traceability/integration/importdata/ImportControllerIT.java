@@ -41,7 +41,6 @@ import java.io.File;
 import java.util.List;
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 
 
 
@@ -365,16 +364,36 @@ class ImportControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldReturnPolicy() throws JoseException {
-        // when/then
+    void givenValidFile_whenPublishData_thenStatusShouldChangeToInSynchronization() throws JoseException {
+        // given
+        String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
+        File file = new File(path);
+
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .contentType(ContentType.JSON)
+                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
                 .when()
-                .get("/api/policies")
+                .multiPart(file)
+                .post("/api/assets/import")
                 .then()
                 .statusCode(200)
-                .log().all();
+                .extract().as(ImportResponse.class);
+
+        RegisterAssetRequest registerAssetRequest = new RegisterAssetRequest("Trace-X policy", List.of("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f"));
+
+        // when
+        given()
+                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .contentType(ContentType.JSON)
+                .when()
+                .body(registerAssetRequest)
+                .post("/api/assets/publish")
+                .then()
+                .statusCode(201);
+
+        //then
+        AssetBase asset = assetAsBuiltRepository.getAssetById("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f");
+        assertThat("Trace-X policy").isEqualTo(asset.getPolicyId());
+        assertThat(ImportState.IN_SYNCHRONIZATION).isEqualTo(asset.getImportState());
 
     }
 }
