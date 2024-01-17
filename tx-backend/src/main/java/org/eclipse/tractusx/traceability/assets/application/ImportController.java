@@ -218,7 +218,7 @@ public class ImportController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
 
-    @PostMapping(value = "/sync", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/publish", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> registerAssetsForPublishing(@RequestBody RegisterAssetRequest registerAssetRequest) {
         publishService.publishAssets(registerAssetRequest.policyId(), registerAssetRequest.assetIds());
         return ResponseEntity.status(HttpStatus.CREATED).build();

@@ -66,6 +66,7 @@ public class AssetBase {
     private List<QualityNotification> receivedQualityInvestigations;
     private ImportState importState;
     private String importNote;
+    private String policyId;
 
     public BomLifecycle getBomLifecycle() {
         if(semanticDataModel.equals(SERIALPART) || semanticDataModel.equals(BATCH) || semanticDataModel.equals(JUSTINSEQUENCE)){
