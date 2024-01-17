@@ -273,7 +273,7 @@ export class PartsAssembler {
     return `${ this.localToApiMapping.get(sorting[0]) || sorting },${ sorting[1] }`;
   }
 
-  public static localToApiMapping = new Map<string, string>([
+  public static readonly localToApiMapping = new Map<string, string>([
     [ 'id', 'id' ],
     [ 'idShort', 'idShort' ],
     [ 'semanticModelId', 'semanticModelId' ],
