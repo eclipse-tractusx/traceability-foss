@@ -21,6 +21,7 @@
 
 package org.eclipse.tractusx.traceability.common.config;
 
+import assets.importpoc.ErrorResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -33,9 +34,8 @@ import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.Impor
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnNotFoundException;
 import org.eclipse.tractusx.traceability.common.domain.ParseLocalDateException;
 import org.eclipse.tractusx.traceability.common.model.UnsupportedSearchCriteriaFieldException;
-import org.eclipse.tractusx.traceability.common.request.InvalidFilterException;
-import org.eclipse.tractusx.traceability.common.request.InvalidSortException;
-import assets.importpoc.ErrorResponse;
+import org.eclipse.tractusx.traceability.common.request.exception.InvalidFilterException;
+import org.eclipse.tractusx.traceability.common.request.exception.InvalidSortException;
 import org.eclipse.tractusx.traceability.common.security.TechnicalUserAuthorizationException;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractException;
 import org.eclipse.tractusx.traceability.qualitynotification.application.validation.UpdateQualityNotificationValidationException;
