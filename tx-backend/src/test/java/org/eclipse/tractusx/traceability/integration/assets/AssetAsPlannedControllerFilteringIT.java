@@ -148,4 +148,22 @@ class AssetAsPlannedControllerFilteringIT extends IntegrationTestSpecification {
                 .log().all()
                 .statusCode(400);
     }
+
+    @Test
+    void givenAssetsWithImportStateExistent_whenCallFilteredEndpoint_thenReturnOk() throws JoseException {
+        // given
+        assetsSupport.defaultAssetsAsPlannedStored();
+        final String filter = "?filter=importState,EQUAL,PERSISTENT,AND,importNote,STARTS_WITH,A,AND";
+
+        // then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .get("/api/assets/as-planned" + filter)
+                .then()
+                .log().all()
+                .statusCode(200);
+    }
 }
