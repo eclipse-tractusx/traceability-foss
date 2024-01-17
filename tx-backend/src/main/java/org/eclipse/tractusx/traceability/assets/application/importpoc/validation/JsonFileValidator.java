@@ -33,6 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -79,7 +80,7 @@ public class JsonFileValidator {
 
         try {
             final JsonSchema schema = factory.getJsonSchema(JsonLoader.fromURL(getSchemaUrl("base")));
-            InputStreamReader reader = new InputStreamReader(file.getInputStream());
+            InputStreamReader reader = new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8);
             ProcessingReport report = schema.validate(JsonLoader.fromReader(reader));
             StreamSupport.stream(report.spliterator(), false).filter(processingMessage -> processingMessage.getLogLevel().equals(LogLevel.WARNING))
                     .map(ProcessingMessage::getMessage)
