@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.integration.importdata;
 
 import assets.importpoc.ImportResponse;
 import assets.importpoc.ImportStateMessage;
+import io.restassured.http.ContentType;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
@@ -42,6 +43,7 @@ import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 
 class ImportControllerIT extends IntegrationTestSpecification {
 
@@ -360,5 +362,17 @@ class ImportControllerIT extends IntegrationTestSpecification {
                         List.of(
                                 "'urn:bamm:io.catenax.serial_part:1.1.1#NOT_SUPPORTED_NAME' is not supported"
                         ).toArray()));
+    }
+
+    @Test
+    void shouldReturnPolicy() throws JoseException {
+        //THEN
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/assets/test")
+                .then()
+                .statusCode(200);
     }
 }

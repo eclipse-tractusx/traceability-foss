@@ -20,6 +20,10 @@ package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPoliciesProvider;
+import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPolicy;
+import org.eclipse.tractusx.irs.edc.client.policy.Permission;
+import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.repository.SubmodelPayloadRepository;
@@ -35,7 +39,12 @@ import org.springframework.mock.web.MockMultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -57,13 +66,16 @@ class ImportServiceImplTest {
     private MappingStrategyFactory strategyFactory;
     @Mock
     private TraceabilityProperties traceabilityProperties;
+    @Mock
+    private AcceptedPoliciesProvider acceptedPoliciesProvider;
+
 
     @BeforeEach
     public void testSetup() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
 
-        importService = new ImportServiceImpl(objectMapper, assetAsPlannedRepository, assetAsBuiltRepository, traceabilityProperties, new MappingStrategyFactory(), submodelPayloadRepository);
+        importService = new ImportServiceImpl(objectMapper, assetAsPlannedRepository, assetAsBuiltRepository, traceabilityProperties, new MappingStrategyFactory(), submodelPayloadRepository,acceptedPoliciesProvider);
 
     }
 
@@ -84,6 +96,25 @@ class ImportServiceImplTest {
         verify(assetAsBuiltRepository, times(1)).saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(anyList());
         verify(assetAsPlannedRepository, times(1)).saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(anyList());
     }
+
+
+    @Test
+    void testGetPolicyByID() throws IOException {
+
+
+        // GIVEN
+        String policyId = "policy123";
+        List<AcceptedPolicy> acceptedPolicies = List.of(
+                new AcceptedPolicy(new Policy("policy123", null, null, null),null));
+
+        // WHEN
+        when(acceptedPoliciesProvider.getAcceptedPolicies()).thenReturn(acceptedPolicies);
+        Policy result = importService.getPolicyById(policyId);
+
+        // THEN
+        assertNotNull(result);
+        assertEquals(policyId, result.getPolicyId());
+    };
 
 
 
