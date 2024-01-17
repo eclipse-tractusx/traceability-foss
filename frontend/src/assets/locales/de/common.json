@@ -315,7 +315,12 @@
       "PARTASPLANNED": "PartAsPlanned",
       "UNKNOWN": "Unknown",
       "JUSTINSEQUENCE": "JustInSequence",
-      "TRACTIONBATTERYCODE": "TractionBatteryCode"
+      "TRACTIONBATTERYCODE": "TractionBatteryCode",
+      "TRANSIENT": "Transient",
+      "PERSISTENT": "Persistent",
+      "IN_SYNCHRONIZATION": "In Synchronisation",
+      "ERROR": "Fehler",
+      "UNSET": "Undefiniert"
     }
   },
   "parts": {
