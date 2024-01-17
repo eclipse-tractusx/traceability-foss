@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.integration.importdata;
 
 import assets.importpoc.ImportResponse;
 import assets.importpoc.ImportStateMessage;
+import assets.importpoc.request.RegisterAssetRequest;
 import io.restassured.http.ContentType;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
@@ -37,8 +38,10 @@ import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import java.io.File;
 import java.util.List;
+
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 

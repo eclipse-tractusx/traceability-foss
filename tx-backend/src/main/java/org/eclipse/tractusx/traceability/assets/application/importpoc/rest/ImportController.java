@@ -159,10 +159,10 @@ public class ImportController {
 
         return ResponseEntity.ok(importResponse);
     }
-    @Operation(operationId = "importJson",
-            summary = "asset upload",
-            tags = {"AssetsImport"},
-            description = "This endpoint stores assets in the application. Those can be later published in the Catena-X network.",
+    @Operation(operationId = "publishAssets",
+            summary = "asset publish",
+            tags = {"AssetsPublish"},
+            description = "This endpoint publishes assets to the Catena-X network.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {
             @ApiResponse(
