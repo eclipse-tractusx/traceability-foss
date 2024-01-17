@@ -373,6 +373,8 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .when()
                 .get("/api/assets/policies")
                 .then()
-                .statusCode(200);
+                .statusCode(200)
+                .log().all();
+
     }
 }

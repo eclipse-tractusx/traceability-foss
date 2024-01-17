@@ -18,9 +18,12 @@
  ********************************************************************************/
 package assets.importpoc;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.List;
 
 public record PermissionResponse(
+        @ApiModelProperty("USE")
         PolicyTypeResponse action,
         List<ConstraintsResponse> constraints
 ) {

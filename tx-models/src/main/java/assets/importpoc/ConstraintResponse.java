@@ -18,13 +18,16 @@
  ********************************************************************************/
 package assets.importpoc;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.List;
 
 public record ConstraintResponse(
+        @ApiModelProperty("PURPOSE")
         String leftOperand,
 
         OperatorTypeResponse operatorTypeResponse,
-
+        @ApiModelProperty("ID Trace 3.1")
         List<String> rightOperands) {
 
 
