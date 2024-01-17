@@ -79,11 +79,12 @@ public class JsonFileValidator {
 
         try {
             final JsonSchema schema = factory.getJsonSchema(JsonLoader.fromURL(getSchemaUrl("base")));
-
-            ProcessingReport report = schema.validate(JsonLoader.fromReader(new InputStreamReader(file.getInputStream())));
+            InputStreamReader reader = new InputStreamReader(file.getInputStream());
+            ProcessingReport report = schema.validate(JsonLoader.fromReader(reader));
             StreamSupport.stream(report.spliterator(), false).filter(processingMessage -> processingMessage.getLogLevel().equals(LogLevel.WARNING))
                     .map(ProcessingMessage::getMessage)
                     .forEach(errors::add);
+            reader.close();
 
         } catch (IOException e) {
             throw new IllegalStateException(e);
