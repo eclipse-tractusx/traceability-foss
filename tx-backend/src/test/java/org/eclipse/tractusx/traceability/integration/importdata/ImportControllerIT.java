@@ -371,7 +371,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/assets/policies")
+                .get("/api/policies")
                 .then()
                 .statusCode(200)
                 .log().all();

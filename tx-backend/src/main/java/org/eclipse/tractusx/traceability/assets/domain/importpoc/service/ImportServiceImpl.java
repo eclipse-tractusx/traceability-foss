@@ -22,9 +22,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.component.enums.BomLifecycle;
-import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPoliciesProvider;
-import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPolicy;
-import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 import org.eclipse.tractusx.traceability.assets.application.importpoc.ImportService;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
@@ -35,13 +32,10 @@ import org.eclipse.tractusx.traceability.assets.domain.importpoc.repository.Subm
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.util.Collection;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -56,7 +50,7 @@ public class ImportServiceImpl implements ImportService {
     private final TraceabilityProperties traceabilityProperties;
     private final MappingStrategyFactory strategyFactory;
     private final SubmodelPayloadRepository submodelPayloadRepository;
-    private final AcceptedPoliciesProvider acceptedPoliciesProvider;
+
 
     @Override
     public Map<AssetBase, Boolean> importAssets(MultipartFile file) {
@@ -94,16 +88,6 @@ public class ImportServiceImpl implements ImportService {
         }
     }
 
-    @Override
-    public List<Policy> getAllPolicies() {
-        List<AcceptedPolicy> acceptedPolicies = Optional.ofNullable(acceptedPoliciesProvider.getAcceptedPolicies())
-                .orElse(Collections.emptyList());
-
-        return acceptedPolicies.stream()
-                .filter(Objects::nonNull)
-                .map(AcceptedPolicy::policy)
-                .collect(Collectors.toList());
-        }
 
 
 

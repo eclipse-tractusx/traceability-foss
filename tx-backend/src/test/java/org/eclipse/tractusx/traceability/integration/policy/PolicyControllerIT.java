@@ -16,15 +16,30 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.application.importpoc;
+package org.eclipse.tractusx.traceability.integration.policy;
 
-import org.eclipse.tractusx.irs.edc.client.policy.Policy;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.springframework.web.multipart.MultipartFile;
+import io.restassured.http.ContentType;
+import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
+import org.jose4j.lang.JoseException;
+import org.junit.jupiter.api.Test;
 
-import java.util.List;
-import java.util.Map;
+import static io.restassured.RestAssured.given;
+import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 
-public interface ImportService {
-    Map<AssetBase, Boolean> importAssets(MultipartFile file);
+class PolicyControllerIT extends IntegrationTestSpecification {
+
+
+    @Test
+    void shouldReturnPolicy() throws JoseException {
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/policies")
+                .then()
+                .statusCode(200)
+                .log().all();
+
+    }
 }

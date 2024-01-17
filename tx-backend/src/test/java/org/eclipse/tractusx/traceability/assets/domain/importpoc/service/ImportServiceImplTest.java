@@ -20,9 +20,6 @@ package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPoliciesProvider;
-import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPolicy;
-import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.repository.SubmodelPayloadRepository;
@@ -35,14 +32,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
-
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.OffsetDateTime;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -64,8 +55,7 @@ class ImportServiceImplTest {
     private MappingStrategyFactory strategyFactory;
     @Mock
     private TraceabilityProperties traceabilityProperties;
-    @Mock
-    private AcceptedPoliciesProvider acceptedPoliciesProvider;
+
 
 
     @BeforeEach
@@ -73,7 +63,7 @@ class ImportServiceImplTest {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
 
-        importService = new ImportServiceImpl(objectMapper, assetAsPlannedRepository, assetAsBuiltRepository, traceabilityProperties, new MappingStrategyFactory(), submodelPayloadRepository,acceptedPoliciesProvider);
+        importService = new ImportServiceImpl(objectMapper, assetAsPlannedRepository, assetAsBuiltRepository, traceabilityProperties, new MappingStrategyFactory(), submodelPayloadRepository);
 
     }
 
@@ -96,25 +86,6 @@ class ImportServiceImplTest {
     }
 
 
-    @Test
-    void testGetPolicyByID() {
-
-
-        // GIVEN
-        String policyId = "policy123";
-        OffsetDateTime createdOn = OffsetDateTime.parse("2023-07-03T16:01:05.309Z");
-        List<AcceptedPolicy> acceptedPolicies = List.of(
-                new AcceptedPolicy(new Policy("policy123", createdOn,null, null),null));
-
-        // WHEN
-        when(acceptedPoliciesProvider.getAcceptedPolicies()).thenReturn(acceptedPolicies);
-        List<Policy> result = importService.getAllPolicies();
-
-        // THEN
-        assertNotNull(result);
-        assertEquals(policyId, result.get(0).getPolicyId());
-        assertEquals(createdOn, result.get(0).getCreatedOn());
-    }
 
 
 

@@ -16,15 +16,11 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-
 package org.eclipse.tractusx.traceability.assets.application.importpoc.rest;
 
 
 import assets.importpoc.ErrorResponse;
-import assets.importpoc.ImportResponse;
-import assets.importpoc.ImportStateMessage;
 import assets.importpoc.PolicyResponse;
-import assets.importpoc.ValidationResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -34,50 +30,31 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.application.importpoc.ImportService;
-import org.eclipse.tractusx.traceability.assets.application.importpoc.validation.JsonFileValidator;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.ImportException;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.eclipse.tractusx.traceability.assets.application.importpoc.PolicyService;
+import org.eclipse.tractusx.traceability.assets.application.importpoc.mapper.PolicyResponseMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 @Slf4j
 @RequiredArgsConstructor
 @RestController
 @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
-@Tag(name = "AssetsImport")
-@RequestMapping(path = "/assets")
-public class ImportController {
+@Tag(name = "Policies")
+@RequestMapping(path = "/policies")
+public class PolicyController {
 
-    private final ImportService importService;
-    private final JsonFileValidator jsonFileValidator;
+    private  final PolicyService policyService;
 
-    @Operation(operationId = "importJson",
-            summary = "asset upload",
-            tags = {"AssetsImport"},
-            description = "This endpoint stores assets in the application. Those can be later published in the Catena-X network.",
+    @Operation(operationId = "policy",
+            summary = "Get all policies ",
+            tags = {"Policies"},
+            description = "The endpoint returns all policies  .",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "OK.",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema())),
-            @ApiResponse(
-                    responseCode = "204",
-                    description = "No Content.",
-                    content = @Content()),
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the policies",
+            content = {@Content(schema = @Schema(implementation = PolicyResponse.class))}),
             @ApiResponse(
                     responseCode = "400",
                     description = "Bad request.",
@@ -90,6 +67,7 @@ public class ImportController {
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class))),
+
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
@@ -120,43 +98,8 @@ public class ImportController {
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
-
-    @PostMapping(value = "/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ImportResponse> importJson(@RequestPart("file") MultipartFile file) {
-        List<String> jsonSchemaErrors = jsonFileValidator.isValid(file);
-        ValidationResponse validationResponse = new ValidationResponse(jsonSchemaErrors);
-
-        if (!jsonSchemaErrors.isEmpty()) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new ImportResponse(validationResponse));
-        }
-
-        Map<AssetBase, Boolean> resultMap = null;
-        try {
-            resultMap = importService.importAssets(file);
-        } catch (ImportException e) {
-            log.info("Could not import data", e);
-            List<String> validationErrors = new ArrayList<>();
-            validationErrors.add(e.getMessage());
-            ValidationResponse importErrorResponse = new ValidationResponse(validationErrors);
-            return ResponseEntity
-                    .badRequest()
-                    .body(new ImportResponse(importErrorResponse));
-        }
-
-        List<ImportStateMessage> importStateMessages = resultMap.entrySet().stream()
-                .map(assetBaseSet -> new ImportStateMessage(
-                        assetBaseSet.getKey().getId(),
-                        assetBaseSet.getValue())
-                ).toList();
-
-        ImportResponse importResponse = new ImportResponse(importStateMessages);
-
-        return ResponseEntity.ok(importResponse);
+    @GetMapping()
+    public List<PolicyResponse> policy() {
+        return PolicyResponseMapper.fromList(policyService.getAllPolicies());
     }
-
-
-
-
 }

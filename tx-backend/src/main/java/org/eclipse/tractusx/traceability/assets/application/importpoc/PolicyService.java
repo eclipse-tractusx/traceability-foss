@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,13 +16,12 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package assets.importpoc;
+package org.eclipse.tractusx.traceability.assets.application.importpoc;
+
+import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 
 import java.util.List;
 
-public record ConstraintsResponse(
-    List<ConstraintResponse> and,
-    List<ConstraintResponse> or
-
-){
+public interface PolicyService {
+    List<Policy> getAllPolicies();
 }
