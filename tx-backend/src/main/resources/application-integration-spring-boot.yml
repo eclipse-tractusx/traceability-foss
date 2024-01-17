@@ -63,8 +63,6 @@ traceability:
           - "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned"
         downwardRelations:
           - "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned"
-
-
 edc:
   api-auth-key: "integration-tests"
 
@@ -121,6 +119,8 @@ digitalTwinRegistryClient:
 feign:
   irsApi:
     url: ""
+    adminApiKey: test
+    regularApiKey: test2
   registryApi:
     url: ""
   portalApi:
