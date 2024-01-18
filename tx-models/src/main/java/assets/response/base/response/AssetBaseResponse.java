@@ -59,10 +59,6 @@ public class AssetBaseResponse {
     private List<DescriptionsResponse> childRelations;
     @ArraySchema(arraySchema = @Schema(description = "Parent relationships", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
     private List<DescriptionsResponse> parentRelations;
-    @ApiModelProperty(example = "false")
-    private boolean activeAlert;
-    @ApiModelProperty(example = "false")
-    private boolean underInvestigation;
     @ApiModelProperty(example = "Ok")
     private QualityTypeResponse qualityType;
     @ApiModelProperty(example = "OMAYSKEITUGNVHKKX")

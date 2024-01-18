@@ -82,62 +82,6 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenNoFilter_whenCallFilteredEndpointWithoutOperator_thenReturnBadRequest() throws JoseException {
-        // given
-        assetsSupport.defaultAssetsStored();
-        final String filter = "?filter=activeAlert,EQUAL,false";
-
-        // then
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .contentType(ContentType.JSON)
-                .log().all()
-                .when()
-                .get("/api/assets/as-built" + filter)
-                .then()
-                .log().all()
-                .statusCode(400);
-    }
-
-    @Test
-    void givenInInvestigationFalseFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
-        // given
-        assetsSupport.defaultAssetsStored();
-        final String filter = "?filter=activeAlert,EQUAL,false,AND";
-
-        // then
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .contentType(ContentType.JSON)
-                .log().all()
-                .when()
-                .get("/api/assets/as-built" + filter)
-                .then()
-                .log().all()
-                .statusCode(200)
-                .body("totalItems", equalTo(13));
-    }
-
-    @Test
-    void givenInInvestigationTrueFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
-        // given
-        assetsSupport.defaultAssetsStored();
-        final String filter = "?filter=activeAlert,EQUAL,true,AND";
-
-        // then
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .contentType(ContentType.JSON)
-                .log().all()
-                .when()
-                .get("/api/assets/as-built" + filter)
-                .then()
-                .log().all()
-                .statusCode(200)
-                .body("totalItems", equalTo(0));
-    }
-
-    @Test
     void givenIdAndIdShortFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
         // given
         assetsSupport.defaultAssetsStored();

@@ -148,7 +148,7 @@ class AssetAsBuiltControllerByIdIT extends IntegrationTestSpecification {
     @Test
     void shouldReturnAssetWithoutUnderInvestigationMark() throws JoseException {
         //GIVEN
-        assetsSupport.defaultAssetsStoredWithOnGoingInvestigation(NotificationStatusBaseEntity.CLOSED, false);
+        assetsSupport.defaultAssetsStoredWithOnGoingInvestigation(NotificationStatusBaseEntity.CLOSED);
 
         //THEN
         given()
@@ -164,7 +164,7 @@ class AssetAsBuiltControllerByIdIT extends IntegrationTestSpecification {
     @Test
     void shouldReturnAssetWithUnderInvestigationMark() throws JoseException {
         //GIVEN
-        assetsSupport.defaultAssetsStoredWithOnGoingInvestigation(SENT, true);
+        assetsSupport.defaultAssetsStoredWithOnGoingInvestigation(SENT                               );
 
         //THEN
         given()

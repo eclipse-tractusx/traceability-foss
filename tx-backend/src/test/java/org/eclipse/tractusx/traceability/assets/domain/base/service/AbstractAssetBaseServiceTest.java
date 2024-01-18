@@ -59,15 +59,6 @@ class AbstractAssetBaseServiceTest {
         );
     }
 
-    private static Stream<Arguments> booleanFieldNamesProvider() {
-        return Stream.of(
-                Arguments.of("activeAlert", null, List.of("true", "false")),
-                Arguments.of("activeAlert", "true", List.of("true", "false")),
-                Arguments.of("underInvestigation", null, List.of("true", "false")),
-                Arguments.of("underInvestigation", "f", List.of("true", "false"))
-        );
-    }
-
     static class TestService extends AbstractAssetBaseService {
 
         @Override

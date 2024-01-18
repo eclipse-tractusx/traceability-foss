@@ -47,8 +47,6 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
 
     protected abstract AssetAsBuiltServiceImpl getAssetAsBuiltServiceImpl();
 
-    protected abstract void setAssetStatus(QualityNotification qualityNotification);
-
     @Override
     public PageResult<QualityNotification> getNotifications(Pageable pageable, SearchCriteria searchCriteria) {
         return getQualityNotificationRepository().getNotifications(pageable, searchCriteria);
@@ -65,7 +63,6 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
             return;
         }
 
-        getAssetAsBuiltServiceImpl().setAssetsAlertStatus(updatedAlert);
         getQualityNotificationRepository().updateQualityNotificationEntity(updatedAlert);
     }
 
@@ -93,7 +90,6 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
         QualityNotification qualityNotification = loadOrNotFoundException(new QualityNotificationId(notificationId));
         QualityNotification canceledQualityNotification = getNotificationPublisherService().cancelNotification(qualityNotification);
 
-        setAssetStatus(canceledQualityNotification);
         getQualityNotificationRepository().updateQualityNotificationEntity(canceledQualityNotification);
     }
 

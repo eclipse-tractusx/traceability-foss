@@ -153,7 +153,6 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 partId -> {
                     AssetBase asset = assetAsBuiltRepository.getAssetById(partId);
                     assertThat(asset).isNotNull();
-                    assertThat(asset.isActiveAlert()).isTrue();
                 }
         );
 
@@ -208,7 +207,6 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 partId -> {
                     AssetBase asset = assetAsPlannedRepository.getAssetById(partId);
                     assertThat(asset).isNotNull();
-                    assertThat(asset.isActiveAlert()).isTrue();
                 }
         );
 
@@ -582,7 +580,6 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         partIds.forEach(partId -> {
             AssetBase asset = assetAsBuiltRepository.getAssetById(partId);
             assertThat(asset).isNotNull();
-            assertThat(asset.isActiveAlert()).isTrue();
         });
 
         alertNotificationsSupport.assertAlertNotificationsSize(1);
