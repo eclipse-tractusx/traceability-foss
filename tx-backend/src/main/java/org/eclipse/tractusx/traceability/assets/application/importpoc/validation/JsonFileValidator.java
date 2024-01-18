@@ -27,6 +27,8 @@ import com.github.fge.jsonschema.core.report.ProcessingMessage;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
+import org.eclipse.tractusx.traceability.assets.application.importpoc.validation.exception.JsonFileProcessingException;
+import org.eclipse.tractusx.traceability.assets.application.importpoc.validation.exception.NotSupportedSchemaException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -87,10 +89,8 @@ public class JsonFileValidator {
                     .forEach(errors::add);
             reader.close();
 
-        } catch (IOException e) {
-            throw new IllegalStateException(e);
-        } catch (ProcessingException e) {
-            throw new RuntimeException(e);
+        } catch (ProcessingException | IOException e) {
+            throw new JsonFileProcessingException(e);
         }
         errors.addAll(validateAspectPayload(file));
         return errors;
@@ -134,10 +134,10 @@ public class JsonFileValidator {
                             .filter(processingMessage -> !processingMessage.getLogLevel().equals(LogLevel.INFO))
                             .toList();
                     processingMessages.put("For Asset with ID: " + assetId + " And aspectType: " + aspectType, payloadProcessingMessages);
-                } catch (NotSupportedSchemaException | IOException e) {
+                } catch (NotSupportedSchemaException e) {
                     errors.add(e.getMessage());
-                } catch (ProcessingException e) {
-                    throw new RuntimeException(e);
+                } catch (ProcessingException | IOException e) {
+                    throw new JsonFileProcessingException(e);
                 }
 
             }
@@ -157,7 +157,7 @@ public class JsonFileValidator {
             throw new NotSupportedSchemaException(schemaName);
         }
 
-        return this.getClass().getResource(schemaPath);
+        return JsonFileValidator.class.getResource(schemaPath);
     }
 
 }
