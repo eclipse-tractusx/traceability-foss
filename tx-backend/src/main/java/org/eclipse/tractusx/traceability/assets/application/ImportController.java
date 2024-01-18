@@ -37,7 +37,6 @@ import org.eclipse.tractusx.traceability.assets.application.importpoc.ImportServ
 import org.eclipse.tractusx.traceability.assets.application.importpoc.validation.JsonFileValidator;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.ImportException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

@@ -26,8 +26,8 @@
         "description" : "Site Entity",
         "type" : "object",
         "properties" : {
-          "catenaXsiteId" : {
-            "description" : "The identifier of the site according to Catena-X BPDM. The catenaXsiteId must be a valid Catena-X BPN. The BPN is a unique, unchangeable identifier for Business Partners / company locations from foundation to closure, regardless of the different business relationships / structures between or within the Business Partners or company locations.",
+          "catenaXSiteId" : {
+            "description" : "The identifier of the site according to Catena-X BPDM. The catenaXSiteId must be a valid Catena-X BPN. The BPN is a unique, unchangeable identifier for Business Partners / company locations from foundation to closure, regardless of the different business relationships / structures between or within the Business Partners or company locations.",
             "$ref" : "#/components/schemas/urn_samm_io.catenax.part_site_information_as_planned_1.0.0_BpnCharacteristic"
           },
           "function" : {
@@ -43,7 +43,7 @@
             "$ref" : "#/components/schemas/urn_samm_org.eclipse.esmf.samm_characteristic_2.1.0_Timestamp"
           }
         },
-        "required" : [ "catenaXsiteId", "function" ]
+        "required" : [ "catenaXSiteId", "function" ]
       },
       "urn_samm_io.catenax.part_site_information_as_planned_1.0.0_SitesCharacteristic" : {
         "description" : "Sites Characteristic",

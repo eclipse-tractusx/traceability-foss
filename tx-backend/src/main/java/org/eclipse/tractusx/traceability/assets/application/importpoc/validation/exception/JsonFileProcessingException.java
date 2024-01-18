@@ -17,11 +17,11 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.application.importpoc.validation;
+package org.eclipse.tractusx.traceability.assets.application.importpoc.validation.exception;
 
-public class NotSupportedSchemaException extends RuntimeException{
+public class JsonFileProcessingException extends RuntimeException{
 
-    NotSupportedSchemaException(String providedSchema) {
-        super("'%s' is not supported".formatted(providedSchema));
+    public JsonFileProcessingException(Throwable e) {
+        super("Failed to process input json. Reason: %s".formatted(e.getMessage()));
     }
 }
