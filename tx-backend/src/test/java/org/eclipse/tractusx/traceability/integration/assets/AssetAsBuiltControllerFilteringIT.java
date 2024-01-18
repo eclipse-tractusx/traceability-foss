@@ -681,7 +681,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenAssetsWithImportStateExistent_whenCallFilteredEndpoint_thenReturnOk() throws JoseException {
+    void givenAssetsWithImportStateExistent_whenCallFilteredEndpoint_thenReturnProperAssets() throws JoseException {
         // given
         assetsSupport.defaultAssetsStored();
         final String filter = "?filter=importState,EQUAL,PERSISTENT,AND,importNote,STARTS_WITH,A,AND";
@@ -695,7 +695,8 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
                 .get("/api/assets/as-built" + filter)
                 .then()
                 .log().all()
-                .statusCode(200);
+                .statusCode(200)
+                .body("totalItems", equalTo(13));
     }
 
 }
