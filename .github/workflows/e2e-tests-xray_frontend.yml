@@ -66,7 +66,7 @@ jobs:
         run: ./scripts/xray-download-feature-files.sh
 
       - name: Save cypress/e2e folder
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: cypress - e2e
           if-no-files-found: error
@@ -90,7 +90,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Download the cypress/e2e folder
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: cypress - e2e
           path: frontend/cypress/e2e
@@ -127,7 +127,7 @@ jobs:
 
       - name: Archive cypress artifacts
         if: success() || failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: cypress generated files - chrome
           path: |
@@ -152,7 +152,7 @@ jobs:
  #       uses: actions/checkout@v4
 #
  #     - name: Download the cypress/e2e folder
- #       uses: actions/download-artifact@v3
+ #       uses: actions/download-artifact@v4
  #       with:
  #         name: cypress - e2e
  #         path: frontend/cypress/e2e
@@ -202,7 +202,7 @@ jobs:
  #       uses: actions/checkout@v4
 #
  #     - name: Download the cypress/e2e folder
- #       uses: actions/download-artifact@v3
+ #       uses: actions/download-artifact@v4
  #       with:
  #         name: cypress - e2e
  #         path: frontend/cypress/e2e
