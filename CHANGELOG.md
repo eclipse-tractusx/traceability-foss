@@ -36,7 +36,6 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Updated org.apache.maven.plugins:maven-surefire-plugin from 3.1.2 to 3.2.5
 - Updated org.apache.maven.plugins:maven-failsafe-plugin from 3.0.0-M8 to 3.2.5
 - Updated aquasecurity/trivy-action from 0.16.0 to 0.16.1
-- Updated junit-bom.version from 5.9.3 to 5.10.1
 - Updated actions/upload-artifact from 3 to 4
 - Updated github/codeql-action from 2 to 3
 - Updated actions/download-artifact from 3 to 4actions/download-artifact from 3 to 4
