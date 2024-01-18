@@ -20,6 +20,6 @@ package assets.importpoc;
 
 public enum PolicyTypeResponse {
     ACCESS,
-    USE;
+    USE
 
 }
