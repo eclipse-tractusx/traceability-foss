@@ -115,7 +115,11 @@
       "sentActiveAlerts" : "Erstellte",
       "receivedActiveInvestigations" : "Empfangene",
       "receivedActiveAlerts" : "Empfangene",
-      "sentActiveInvestigations" : "Erstellte"
+      "sentActiveInvestigations" : "Erstellte",
+      "importState": "Importstatus",
+      "importNote": "Importbemerkung",
+      "importDate": "Importdatum"
+
     }
   },
   "dataLoading": {
@@ -128,6 +132,13 @@
     "Major": "Schwerwiegend",
     "Critical": "Kritisch",
     "LifeThreatening": "Lebensgefährlich"
+  },
+  "importState": {
+    "PERSISTENT": "PERSISTENT",
+    "TRANSIENT": "TRANSIENT",
+    "IN_SYNCHRONIZATION": "IN SYNCHRONISATION",
+    "ERROR": "FEHLER",
+    "UNSET": "UNDEFINIERT"
   },
   "severity": {
     "MINOR": "Gering",
@@ -304,7 +315,12 @@
       "PARTASPLANNED": "PartAsPlanned",
       "UNKNOWN": "Unknown",
       "JUSTINSEQUENCE": "JustInSequence",
-      "TRACTIONBATTERYCODE": "TractionBatteryCode"
+      "TRACTIONBATTERYCODE": "TractionBatteryCode",
+      "TRANSIENT": "Transient",
+      "PERSISTENT": "Persistent",
+      "IN_SYNCHRONIZATION": "In Synchronisation",
+      "ERROR": "Fehler",
+      "UNSET": "Undefiniert"
     }
   },
   "parts": {

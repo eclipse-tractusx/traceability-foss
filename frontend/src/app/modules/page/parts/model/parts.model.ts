@@ -41,6 +41,7 @@ export interface Part {
   activeInvestigation?: boolean;
   activeAlert: boolean;
   van: string;
+  owner: Owner;
   semanticDataModel: SemanticDataModel;
   classification: string;
 
@@ -72,6 +73,9 @@ export interface Part {
   sentActiveInvestigations: string [];
   receivedActiveAlerts: string [];
   receivedActiveInvestigations: string [];
+
+  importNote?: string;
+  importState?: ImportState;
 }
 
 export interface PartResponse {
@@ -97,6 +101,8 @@ export interface PartResponse {
   receivedQualityAlertIdsInStatusActive: string[],
   sentQualityInvestigationIdsInStatusActive: string[],
   receivedQualityInvestigationIdsInStatusActive: string[]
+  importNote?: string,
+  importState?: ImportState
 }
 
 export type PartsResponse = PaginationResponse<PartResponse>;
@@ -164,6 +170,22 @@ export interface AssetAsPlannedFilter {
   catenaXSiteId?: string,
   functionValidFrom?: string,
   functionValidUntil?: string,
+}
+
+export enum ImportState {
+  TRANSIENT = "TRANSIENT",
+  PERSISTENT = "PERSISTENT",
+  IN_SYNCHRONIZATION = "IN_SYNCHRONIZATION",
+  ERROR = "ERROR",
+  UNSET = "UNSET"
+}
+
+export enum ImportStateInCamelCase {
+  TRANSIENT = "Transient",
+  PERSISTENT = "Persistent",
+  IN_SYNCHRONIZATION = "In Synchronization",
+  ERROR = "Error",
+  UNSET = "Unset"
 }
 
 export enum FilterOperator {

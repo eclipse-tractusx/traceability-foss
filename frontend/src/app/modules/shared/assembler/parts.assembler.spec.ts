@@ -119,6 +119,7 @@ describe('PartsAssembler', () => {
         manufacturerName: manufacturerName,
         manufacturerPartId: manufacturerPartId,
         nameAtManufacturer: nameAtManufacturer,
+        owner: owner,
         businessPartner: businessPartner,
         children: [],
         parents: [],
@@ -294,6 +295,30 @@ describe('PartsAssembler', () => {
         });
     });
   });
+
+  describe('mapForAssetStateView', () => {
+    const importState = 'importState';
+    const importNote = 'importNote';
+    it('should clean up data for asset state view', done => {
+      const data = { importState, importNote, test: '' } as unknown as Part;
+      of({ data })
+        .pipe(PartsAssembler.mapPartForAssetStateDetailsView())
+        .subscribe(result => {
+          expect(result).toEqual({ data: { importState, importNote } as unknown as Part });
+          done();
+        });
+    });
+    it('should return nothing when there is no viewData', done => {
+      const data = undefined as unknown as Part;
+      of({ data })
+        .pipe(PartsAssembler.mapPartForAssetStateDetailsView())
+        .subscribe(result => {
+          expect(result).toEqual(undefined);
+          done();
+        });
+    });
+  });
+
 
 
 });

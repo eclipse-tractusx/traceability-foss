@@ -16,35 +16,12 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import { TableFilterConfiguration } from '@shared/components/parts-table/parts-config.model';
 
-export class PartsAsPlannedConfigurationModel extends TableFilterConfiguration {
+package org.eclipse.tractusx.traceability.assets.application.importpoc.validation.exception;
 
-  constructor() {
-    const sortableColumns = {
-      select: false,
-      id: true,
-      idShort: true,
-      nameAtManufacturer: true,
-      businessPartner: true,
-      manufacturerName: true,
-      manufacturerPartId: true,
-      classification: true,
-      semanticDataModel: true,
-      semanticModelId: true,
-      validityPeriodFrom: true,
-      validityPeriodTo: true,
-      psFunction: true,
-      catenaXSiteId: true,
-      functionValidFrom: true,
-      functionValidUntil: true,
-      importState: true,
-      importNote: true,
-      menu: false,
-    };
+public class NotSupportedSchemaException extends RuntimeException{
 
-    const dateFields = [ 'validityPeriodFrom', 'validityPeriodTo', 'functionValidFrom', 'functionValidUntil' ];
-    super(sortableColumns, dateFields);
-  }
+    public NotSupportedSchemaException(String providedSchema) {
+        super("'%s' is not supported".formatted(providedSchema));
+    }
 }
-
