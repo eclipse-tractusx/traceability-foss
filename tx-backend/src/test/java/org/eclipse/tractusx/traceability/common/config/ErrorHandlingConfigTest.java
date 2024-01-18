@@ -329,11 +329,11 @@ class ErrorHandlingConfigTest {
         public void createJsonFileProcessingException() {
             throw new JsonFileProcessingException(new RuntimeException("reason for JsonFileProcessingException"));
         }
-    }
 
-    @GetMapping("/exception")
-    public void exception() throws Exception {
-        throw new Exception("");
+        @GetMapping("/exception")
+        public void exception() throws Exception {
+            throw new Exception("");
+        }
     }
 
 }
