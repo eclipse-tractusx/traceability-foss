@@ -54,6 +54,7 @@ public record JobDetailResponse(
         Map<String, String> bpns
 ) {
 
+    // TODO constants should be in a proper class which reflects the purpose of it (MW)
     private static final String UNKNOWN_MANUFACTURER_NAME = "UNKNOWN_MANUFACTURER";
     private static final String SINGLE_LEVEL_USAGE_AS_BUILT = "SingleLevelUsageAsBuilt";
     private static final String SINGLE_LEVEL_BOM_AS_BUILT = "SingleLevelBomAsBuilt";
@@ -102,6 +103,8 @@ public record JobDetailResponse(
                 bpnsMap
         );
     }
+
+    // TODO is this still needed - as we have changed from async runner for IRS Jobs to callback approach this should be deprecated. (MW)
 
     public boolean isRunning() {
         return JOB_STATUS_RUNNING.equals(jobStatus.state());
