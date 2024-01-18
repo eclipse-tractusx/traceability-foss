@@ -52,6 +52,8 @@ configuration:
     hostName: &pgadmin_host_name 'tx-pgadmin-dev.dev.demo.catena-x.net'
     password: &pgadmin_password <path:traceability-foss/data/dev/database#pgadminPassword>
 
+  submodel:
+    url: &submodel_url 'https://traceability.dev.demo.catena-x.net'
   irs:
     name: &irs_name 'tx-irs-dev'
     hostName: &irs_host_name "tx-irs-dev.dev.demo.catena-x.net"
@@ -186,6 +188,8 @@ backend:
   discoveryfinder:
     baseUrl: *discovery_finder_url
 
+  submodel:
+    baseUrl: *submodel_url
   irs:
     baseUrl: *irs_url
   registry:

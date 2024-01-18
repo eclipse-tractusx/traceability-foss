@@ -165,6 +165,8 @@ backend:
   discoveryfinder:
     baseUrl: 'CHANGE_ME'
 
+  submodel:
+    baseUrl: 'CHANGE_ME'
   irs:
     baseUrl: 'CHANGE_ME'
   registry:
