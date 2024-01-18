@@ -23,6 +23,7 @@ import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBa
 import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel;
@@ -44,7 +45,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public abstract class AbstractAssetBaseService implements AssetBaseService {
 
-    private static final List<String> SUPPORTED_ENUM_FIELDS = List.of("owner", "qualityType", "semanticDataModel");
+    private static final List<String> SUPPORTED_ENUM_FIELDS = List.of("owner", "qualityType", "semanticDataModel", "importState");
     private static final List<String> SUPPORTED_BOOLEAN_FIELDS = List.of("activeAlert", "underInvestigation");
 
     protected abstract AssetRepository getAssetRepository();
@@ -162,6 +163,7 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
             case "owner" -> Arrays.stream(Owner.values()).map(Enum::name).toList();
             case "qualityType" -> Arrays.stream(QualityType.values()).map(Enum::name).toList();
             case "semanticDataModel" -> Arrays.stream(SemanticDataModel.values()).map(Enum::name).toList();
+            case "importState" -> Arrays.stream(ImportState.values()).map(Enum::name).toList();
             default -> null;
         };
     }

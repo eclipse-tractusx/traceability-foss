@@ -253,6 +253,31 @@ class AssetAsBuiltControllerFilterValuesIT extends IntegrationTestSpecification 
                 .body("size()", is(12));
     }
 
+    @Test
+    void givenEnumTypeFieldNameImportState_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+        // given
+        assetsSupport.defaultAssetsStored();
+        String fieldName = "importState";
+        String resultLimit = "100";
+        String owner = "OWN";
+
+        // then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .param("fieldName", fieldName)
+                .param("size", resultLimit)
+                .param("owner", owner)
+                .get("/api/assets/as-built/distinctFilterValues")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .assertThat()
+                .body("size()", is(5));
+    }
+
     private static Stream<Arguments> fieldNameTestProvider() {
         return Stream.of(
                 Arguments.of("id", 10L, 10),
