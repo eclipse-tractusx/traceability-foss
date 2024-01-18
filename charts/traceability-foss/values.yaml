@@ -295,6 +295,8 @@ backend:
   discoveryfinder:
     baseUrl: "CHANGEME"  # example: https://discoveryfinder.net/discoveryfinder/api/v1.0/administration/connectors/discovery/search
 
+  submodel:
+    baseUrl: "https://replace.me"  # backend url
   irs:
     baseUrl: "https://replace.me"  # https://<irs-helm.ingress.host>
   registry:
