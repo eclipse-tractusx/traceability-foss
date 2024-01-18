@@ -35,7 +35,6 @@ import java.util.stream.Stream;
 
 import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
 class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecification {
@@ -218,6 +217,30 @@ class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecificatio
                 .statusCode(200)
                 .assertThat()
                 .body("size()", is(1));
+    }
+    @Test
+    void givenEnumTypeFieldNameImportState_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+        // given
+        assetsSupport.defaultAssetsAsPlannedStored();
+        String fieldName = "importState";
+        String resultLimit = "100";
+        String owner = "OWN";
+
+        // then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .param("fieldName", fieldName)
+                .param("size", resultLimit)
+                .param("owner", owner)
+                .get("/api/assets/as-planned/distinctFilterValues")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .assertThat()
+                .body("size()", is(5));
     }
 
     private static Stream<Arguments> fieldNameTestProvider() {
