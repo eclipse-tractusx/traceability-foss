@@ -26,6 +26,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.application.contrac
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.NotificationMethod;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.NotificationType;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.EdcNotificationContractService;
+import org.eclipse.tractusx.traceability.submodel.infrastructure.reposotory.SubmodelServerApiClient;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
@@ -45,6 +46,7 @@ import static org.eclipse.tractusx.traceability.common.config.ApplicationProfile
 public class ApplicationStartupConfig {
     private final IrsRepository irsRepository;
     private final EdcNotificationContractService edcNotificationContractService;
+    private final SubmodelServerApiClient submodelTestOnStartup;
     private static final List<CreateNotificationContractRequest> NOTIFICATION_CONTRACTS = List.of(
             new CreateNotificationContractRequest(NotificationType.QUALITY_ALERT, NotificationMethod.UPDATE),
             new CreateNotificationContractRequest(NotificationType.QUALITY_ALERT, NotificationMethod.RECEIVE),
@@ -80,6 +82,10 @@ public class ApplicationStartupConfig {
             log.info("on ApplicationReadyEvent notification contracts created.");
         });
         executor.shutdown();
+
+        log.info("test submodelClient on startup");
+        submodelTestOnStartup.createSubmodel("testId", "testPayload");
+        log.info("test submodelClient on startup test submodel available");
     }
 
 }
