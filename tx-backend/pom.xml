@@ -56,10 +56,11 @@ SPDX-License-Identifier: Apache-2.0
 
     <dependencies>
         <dependency>
-            <groupId>net.jimblackler.jsonschemafriend</groupId>
-            <artifactId>core</artifactId>
-            <version>${json-schema-friend.version}</version>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>json-schema-validator</artifactId>
+            <version>${json-schema-validator.version}</version>
         </dependency>
+
         <!-- IRS Client for decentral registry approach -->
         <dependency>
             <groupId>org.eclipse.tractusx.irs</groupId>
