@@ -48,6 +48,7 @@ import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.m
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.isUpwardRelationshipAsBuilt;
 
 public class MainAspectAsBuiltStrategy implements MappingStrategy {
+    // TODO the mapping method here is almost the same as in SemanticDataModel.toDomainAsBuilt
     @Override
     public AssetBase mapToAssetBase(ImportRequest.AssetImportRequest assetImportRequestV2, TraceabilityProperties traceabilityProperties) {
 
