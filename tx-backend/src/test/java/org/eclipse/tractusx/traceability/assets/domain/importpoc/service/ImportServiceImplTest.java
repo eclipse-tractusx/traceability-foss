@@ -32,8 +32,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
+
 import java.io.IOException;
 import java.io.InputStream;
+
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -52,11 +54,8 @@ class ImportServiceImplTest {
     @Mock
     private SubmodelPayloadRepository submodelPayloadRepository;
 
-    private MappingStrategyFactory strategyFactory;
     @Mock
     private TraceabilityProperties traceabilityProperties;
-
-
 
     @BeforeEach
     public void testSetup() {
@@ -84,9 +83,4 @@ class ImportServiceImplTest {
         verify(assetAsBuiltRepository, times(1)).saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(anyList());
         verify(assetAsPlannedRepository, times(1)).saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(anyList());
     }
-
-
-
-
-
 }

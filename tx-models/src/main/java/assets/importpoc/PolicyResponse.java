@@ -29,7 +29,5 @@ public record PolicyResponse(
         String policyId,
         OffsetDateTime createdOn,
         OffsetDateTime validUntil,
-
-        List<PermissionResponse> permissions){
-
+        List<PermissionResponse> permissions) {
 }

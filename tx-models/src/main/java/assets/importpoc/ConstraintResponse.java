@@ -29,7 +29,4 @@ public record ConstraintResponse(
         OperatorTypeResponse operatorTypeResponse,
         @ApiModelProperty("ID Trace 3.1")
         List<String> rightOperands) {
-
-
-
 }

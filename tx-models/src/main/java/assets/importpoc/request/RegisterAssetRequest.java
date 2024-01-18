@@ -24,11 +24,11 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
-public record RegisterAssetRequest(@NotNull(message = "policyId must be present")
-                                   @ApiModelProperty(example = "a644a7cb-3de5-493b-9259-f01db315a46e", required = true)
-                                   String policyId,
-                                   @NotEmpty
-                                   List<String> assetIds) {
-
+public record RegisterAssetRequest(
+        @NotNull(message = "policyId must be present")
+        @ApiModelProperty(example = "a644a7cb-3de5-493b-9259-f01db315a46e", required = true)
+        String policyId,
+        @NotEmpty
+        List<String> assetIds) {
 
 }

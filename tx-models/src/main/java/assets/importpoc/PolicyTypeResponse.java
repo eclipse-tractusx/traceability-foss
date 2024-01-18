@@ -22,6 +22,4 @@ public enum PolicyTypeResponse {
     ACCESS,
     USE;
 
-    private PolicyTypeResponse() {
-    }
 }
