@@ -1,6 +1,7 @@
 package org.eclipse.tractusx.traceability.integration.submodel;
 
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
+import org.eclipse.tractusx.traceability.submodel.domain.service.SubmodelServerServiceImpl;
 import org.eclipse.tractusx.traceability.submodel.infrastructure.model.SubmodelEntity;
 import org.eclipse.tractusx.traceability.submodel.infrastructure.repository.JpaSubmodelRepository;
 import org.eclipse.tractusx.traceability.submodel.infrastructure.repository.SubmodelServerClientImpl;
@@ -14,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class SubmodelServerClientTest extends IntegrationTestSpecification {
 
     @Autowired
-    SubmodelServerClientImpl submodelServerClient;
+    SubmodelServerServiceImpl SubmodelServerService;
 
     @Autowired
     JpaSubmodelRepository repository;
@@ -26,7 +27,7 @@ class SubmodelServerClientTest extends IntegrationTestSpecification {
         String submodel = "SUBMODEL PAYLOAD";
 
         // when
-        submodelServerClient.saveSubmodel(submodelId, submodel);
+        SubmodelServerService.saveSubmodel(submodelId, submodel);
 
         // then
         Optional<SubmodelEntity> result = repository.findById(submodelId);
@@ -45,7 +46,7 @@ class SubmodelServerClientTest extends IntegrationTestSpecification {
                 .build());
 
         // when
-        String result = submodelServerClient.getSubmodel(submodelId);
+        String result = SubmodelServerService.getSubmodel(submodelId);
 
         // then
         assertThat(result).isEqualTo(submodel);

@@ -29,6 +29,7 @@ public class SubmodelServerClientImpl implements SubmodelServerRepository {
 
     private final SubmodelServerApiClient submodelServerApiClient;
 
+    @Override
     public void saveSubmodel(String submodelId, String submodel) {
         submodelServerApiClient.createSubmodel(submodelId, submodel);
     }
