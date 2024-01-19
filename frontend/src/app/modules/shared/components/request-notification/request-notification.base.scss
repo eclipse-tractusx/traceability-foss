@@ -20,7 +20,18 @@
 @tailwind base;
 
 .container {
-  width: 804px;
+  overflow-y: hidden;
+  height: 100%;
+}
+
+.chip-container-wrapper {
+  min-height: 120px;
+  margin-bottom: 10px;
+}
+
+.chip-container {
+  max-height: 120px;
+  overflow-y: auto;
 }
 
 .header {
@@ -56,6 +67,12 @@
   line-height: 20px;
   letter-spacing: 0.1px;
   padding: 0 5px 0 5px;
+}
+
+.buttons-wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 54px;
 }
 
 .accept-button-text {

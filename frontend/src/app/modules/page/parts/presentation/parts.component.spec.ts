@@ -79,7 +79,6 @@ describe('Parts', () => {
 
         componentInstance.filterActivated(MainAspectType.AS_BUILT, assetAsBuiltFilter);
 
-
         expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], assetAsBuiltFilter, false);
     });
 
@@ -94,10 +93,7 @@ describe('Parts', () => {
         const partsFacade = (componentInstance as any)['partsFacade'];
         const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsPlanned');
 
-
         componentInstance.filterActivated(MainAspectType.AS_PLANNED, assetAsPlannedFilter);
-
-
         expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], assetAsPlannedFilter, false);
     });
 
@@ -122,7 +118,6 @@ describe('Parts', () => {
 
         componentInstance.filterActivated(MainAspectType.AS_DESIGNED, assetAsDesignedFilter);
 
-
         expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], assetAsDesignedFilter, false);
     });
 
@@ -139,7 +134,6 @@ describe('Parts', () => {
 
         componentInstance.filterActivated(MainAspectType.AS_ORDERED, assetAsOrderedFilter);
 
-
         expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], assetAsOrderedFilter, false);
     });
 
@@ -155,7 +149,6 @@ describe('Parts', () => {
         const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsSupported');
 
         componentInstance.filterActivated(MainAspectType.AS_SUPPORTED, assetAsSupportedFilter);
-
 
         expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], assetAsSupportedFilter, false);
     });

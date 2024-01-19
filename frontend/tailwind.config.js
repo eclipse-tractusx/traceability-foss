@@ -27,7 +27,6 @@ module.exports = {
         boldItalic: ['Cofinity-X BoldItalic', 'sans-serif'],
 
         italic: ['Cofinity-X Italic', 'sans-serif'],
-        regular: ['Cofinity-X Regular', 'sans-serif'],
 
         light: ['Cofinity-X Light', 'sans-serif'],
         lightItalic: ['Cofinity-X LightItalic', 'sans-serif'],

@@ -69,6 +69,7 @@ export class PartsTableComponent implements OnInit {
   @Input() labelId: string;
   @Input() noShadow = false;
   @Input() showHover = true;
+  @Input() canClickSelect = true;
   @Input() actionIcon;
   @Input() actionIconAlternative;
   @Input() showActionButton = false;
@@ -77,6 +78,7 @@ export class PartsTableComponent implements OnInit {
   @Input() selectedPartsActionLabel: string;
 
   @Input() tableHeader: string;
+  @Input() showHeader = true;
   @Input() multiSortList: TableHeaderSort[];
 
   @Input() tableType: PartTableType;
@@ -92,6 +94,7 @@ export class PartsTableComponent implements OnInit {
     this.isDataLoading = false;
     this.pageIndex = page;
     this.pageCount = pageCount;
+    this.onTotalItemsChanged.emit(totalItems);
   }
 
   @Input() set data(content: unknown[]) {
@@ -123,6 +126,7 @@ export class PartsTableComponent implements OnInit {
   @Output() clickSelectAction = new EventEmitter<void>();
   @Output() filterActivated = new EventEmitter<any>();
   @Output() onPaginationPageSizeChange = new EventEmitter<number>();
+  @Output() onTotalItemsChanged = new EventEmitter<number>();
 
   public readonly dataSource = new MatTableDataSource<unknown>();
   public readonly selection = new SelectionModel<unknown>(true, []);

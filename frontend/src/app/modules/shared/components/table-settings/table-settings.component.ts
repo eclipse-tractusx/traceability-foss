@@ -148,8 +148,9 @@ export class TableSettingsComponent {
   }
 
   drop(event: CdkDragDrop<string[]>) {
+    const offset = event.container.data.includes('select') ? 1 : 0;
     if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex + 1, event.currentIndex + 1);
+      moveItemInArray(event.container.data, event.previousIndex + offset, event.currentIndex + offset);
     } else {
       transferArrayItem(
         event.previousContainer.data,

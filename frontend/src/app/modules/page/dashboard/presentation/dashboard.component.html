@@ -92,14 +92,21 @@ SPDX-License-Identifier: Apache-2.0
               {{ 'pageTitle.investigations' | i18n }}
               <span class="pl-1 latestFiveLabel">{{ 'table.latestFive' | i18n }}</span>
             </h3>
-            <app-button [routerLink]="[investigationLink]"
-              [queryParams]="investigationParams"
-              [relativeTo]="null">
-              <div class="flex justify-between items-center view-button">
-                <mat-icon class="mr-2">remove_red_eye</mat-icon>
-                {{ 'commonInvestigation.viewAll' | i18n }}
-              </div>
-            </app-button>
+            <div *appHasRole="[Role.USER]">
+              <app-button class="button-small"
+                (click)="openRequestDialog(true)"
+                [color]="'primary'"
+                variant="flat">
+                <div class="flex justify-between items-center">
+                  <img class="pr-2"
+                    src="/assets/images/icons/quality-investigation_dasboard_icon.svg"
+                    alt="quality investigation icon" />
+                  <div class="action-button-text">
+                    {{ 'commonInvestigation.selectedPartsActions' | i18n }}
+                  </div>
+                </div>
+              </app-button>
+            </div>
           </div>
         </div>
       </mat-card-header>
@@ -121,6 +128,20 @@ SPDX-License-Identifier: Apache-2.0
             <div class="description pb-10">{{ 'commonInvestigation.noInvestigationsDescription' | i18n }}</div>
           </div>
         </app-notifications-tab>
+        <div class="goto-button-wrapper">
+          <app-button [routerLink]="[investigationLink]"
+            [queryParams]="investigationParams"
+            [relativeTo]="null">
+            <div class="flex justify-between items-center view-button">
+              <img class="pr-2"
+                src="/assets/images/icons/goTo_icon.svg"
+                alt="Go to investigations icon" />
+              <div class="goto-button-text">
+                {{ 'commonInvestigation.viewAll' | i18n }}
+              </div>
+            </div>
+          </app-button>
+        </div>
       </mat-card-content>
     </mat-card>
   </section>
@@ -137,14 +158,6 @@ SPDX-License-Identifier: Apache-2.0
               {{ 'pageTitle.alerts' | i18n }}
               <span class="pl-1 latestFiveLabel">{{ 'table.latestFive' | i18n }}</span>
             </h3>
-            <app-button [routerLink]="[alertsLink]"
-              [queryParams]="alertsParams"
-              [relativeTo]="null">
-              <div class="flex justify-between items-center view-button">
-                <mat-icon class="mr-2">remove_red_eye</mat-icon>
-                {{ 'commonAlert.viewAll' | i18n }}
-              </div>
-            </app-button>
           </div>
         </div>
       </mat-card-header>
@@ -166,6 +179,20 @@ SPDX-License-Identifier: Apache-2.0
             <div class="description pb-10">{{ 'commonAlert.noAlertsDescription' | i18n }}</div>
           </div>
         </app-notifications-tab>
+        <div class="goto-button-wrapper">
+          <app-button [routerLink]="[alertsLink]"
+            [queryParams]="alertsParams"
+            [relativeTo]="null">
+            <div class="flex justify-between items-center view-button">
+              <img class="pr-2"
+                src="/assets/images/icons/goTo_icon.svg"
+                alt="Go to alerts icon" />
+              <div class="goto-button-text">
+                {{ 'commonAlert.viewAll' | i18n }}
+              </div>
+            </div>
+          </app-button>
+        </div>
       </mat-card-content>
     </mat-card>
   </section>

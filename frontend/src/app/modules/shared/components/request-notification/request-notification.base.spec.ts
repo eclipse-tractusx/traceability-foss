@@ -47,7 +47,10 @@ describe('requestInvestigationComponent', () => {
 
   let requestData = requestDataDefault;
 
-  const renderRequestInvestigationComponent = (component = `<app-request-investigation (submitted)='submittedMock($event)'></app-request-investigation>` as any) => {
+  const renderRequestInvestigationComponent = (component = `<app-request-investigation 
+    [selectedItems]="currentSelectedItems"
+    (submitted)='submittedMock($event)'>
+  </app-request-investigation>` as any) => {
     return renderComponent(component, {
       declarations: [RequestInvestigationComponent],
       providers: [
@@ -83,8 +86,11 @@ describe('requestInvestigationComponent', () => {
     });
   };
 
-  // by default we use component as a string, but when need to use spyOn we pass componend class
-  const renderRequestAlertComponent = (component = `<app-request-alert (submitted)='submittedMock($event)'></app-request-alert>` as any) => {
+  // by default we use component as a string, but when need to use spyOn we pass component class
+  const renderRequestAlertComponent = (component = `<app-request-alert 
+    [selectedItems]="currentSelectedItems"
+    (submitted)='submittedMock($event)'>
+  </app-request-alert>` as any) => {
     return renderComponent(component, {
       declarations: [RequestAlertComponent],
       providers: [
@@ -114,7 +120,6 @@ describe('requestInvestigationComponent', () => {
 
     it('should render', async () => {
       await renderRequestInvestigationComponent();
-      await shouldRender('requestInvestigations');
     });
 
     it('should render parts in chips', async () => {
@@ -134,7 +139,7 @@ describe('requestInvestigationComponent', () => {
 
     it('should submit parts', async () => {
       const { fixture } = await renderRequestInvestigationComponent();
-      await shouldSubmitParts('requestInvestigations', fixture);
+      await shouldSubmitParts(RequestContext.REQUEST_INVESTIGATION, fixture);
     });
 
     it('should submit', async () => {
@@ -154,6 +159,16 @@ describe('requestInvestigationComponent', () => {
       // Expectations for an invalid form
       expect(componentInstance.formGroup.invalid).toBeTrue(); // Ensure the form is invalid
     });
+
+    it('should emit onBackClicked when onBack is called', async () => {
+      const { fixture } = await renderRequestInvestigationComponentObject();
+      const { componentInstance } = fixture;
+
+      spyOn(componentInstance.onBackClicked, 'emit');
+
+      componentInstance.onBack();
+      expect(componentInstance.onBackClicked.emit).toHaveBeenCalled();
+    });
   });
 
   describe('Request Alert', () => {
@@ -164,7 +179,6 @@ describe('requestInvestigationComponent', () => {
 
     it('should render', async () => {
       await renderRequestAlertComponent();
-      await shouldRender('requestAlert');
     });
 
     it('should render parts in chips', async () => {
@@ -184,14 +198,9 @@ describe('requestInvestigationComponent', () => {
 
     it('should submit parts', async () => {
       const { fixture } = await renderRequestAlertComponent();
-      await shouldSubmitParts('requestAlert', fixture, true);
+      await shouldSubmitParts(RequestContext.REQUEST_ALERT, fixture, true);
     });
   });
-
-  const shouldRender = async (context: RequestContext) => {
-    const headline = await waitFor(() => screen.getByText(context + '.headline'), { timeout: 2000 });
-    expect(headline).toBeInTheDocument();
-  };
 
   const shouldRenderPartsInChips = async () => {
     const part_1 = await waitFor(() => screen.getByText('part_1'));
@@ -210,7 +219,7 @@ describe('requestInvestigationComponent', () => {
   };
 
   const shouldRenderButtons = async () => {
-    const cancelElement = await waitFor(() => screen.getByText('requestNotification.cancel'));
+    const cancelElement = await waitFor(() => screen.getByText('requestNotification.back'));
     const submitElement = await screen.getByText('requestNotification.submit');
 
     expect(cancelElement).toBeInTheDocument();

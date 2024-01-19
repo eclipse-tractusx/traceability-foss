@@ -29,16 +29,19 @@ import { Severity } from '@shared/model/severity.model';
 import { BehaviorSubject } from 'rxjs';
 import { ModalComponent } from '@shared/modules/modal/component/modal.component';
 
-export type RequestContext = 'requestInvestigations' | 'requestAlert';
+export enum RequestContext {
+  REQUEST_ALERT = 'requestAlert',
+  REQUEST_INVESTIGATION = 'requestInvestigations',
+}
 
 export abstract class RequestNotificationBase {
   public abstract readonly selectedItems: Part[];
-  public abstract readonly showHeadline: boolean;
 
   public abstract readonly deselectPart: EventEmitter<Part>;
   public abstract readonly restorePart: EventEmitter<Part>;
   public abstract readonly clearSelected: EventEmitter<void>;
   public abstract readonly submitted: EventEmitter<void>;
+  public abstract readonly onBackClicked: EventEmitter<void>;
 
   public abstract readonly context: RequestContext;
   public abstract readonly formGroup:
@@ -57,6 +60,8 @@ export abstract class RequestNotificationBase {
   public readonly minDate = new Date();
 
   public removedItemsHistory: Part[] = [];
+
+  public showButtons = true;
 
   protected constructor(private readonly toastService: ToastService,
     public dialog: MatDialog,
@@ -88,7 +93,6 @@ export abstract class RequestNotificationBase {
   }
 
   protected openToast(count: number, link: string, linkQueryParams: Record<string, string>): void {
-
     this.toastService.success({
       id: `${this.context}.success`,
       values: { count }
@@ -124,6 +128,16 @@ export abstract class RequestNotificationBase {
   public restoreLastItem(): void {
     this.restorePart.emit(this.removedItemsHistory[0]);
     this.removedItemsHistory.shift();
+  }
+
+  public onBack(): void {
+    this.showButtons = false;
+
+    setTimeout(() => {
+      this.showButtons = true;
+    }, 1000);
+
+    this.onBackClicked.emit();
   }
 
   public resetForm(): void {

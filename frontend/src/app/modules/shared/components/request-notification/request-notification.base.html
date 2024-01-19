@@ -19,38 +19,30 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 <div class="container">
-  <div class="header">
-    <div *ngIf="showHeadline">{{ this.context + '.headline' | i18n }}
-    </div>
-    <div>
-      <img mat-dialog-close
-        class="pr-2"
-        src="/assets/images/icons/closeDialog_icon.svg"
-        alt="X" />
-    </div>
-  </div>
-
-  <div class="mb-8 pt-5">
+  <div class="pt-5">
     <div class="selected-parts">{{ 'requestNotification.partDescription' | i18n }}</div>
-    <mat-chip-listbox aria-label="Selected Parts">
-      <mat-chip *ngFor="let part of selectedItems || []"
-        [attr.data-testid]="'mat-chip--' + part.name || part.id"
-        (removed)="cancelAction(part)">
-        <mat-icon *ngIf="part.error"
-          [color]="'warn'"
-          matChipAvatar>close</mat-icon>
-        <mat-spinner *ngIf="!part.name && !part.error"
-          [diameter]="20"
-          class="mr-3"></mat-spinner>
-        {{ part.name || part.id }}
-        <button *ngIf="selectedItems.length > 1"
-          matChipRemove>
-          <img src="/assets/images/icons/closeChip.svg"
-            class="center py-5 closeIcon"
-            alt="X" />
-        </button>
-      </mat-chip>
-    </mat-chip-listbox>
+    <div class="chip-container-wrapper">
+      <mat-chip-listbox class="chip-container"
+        aria-label="Selected Parts">
+        <mat-chip *ngFor="let part of selectedItems || []"
+          [attr.data-testid]="'mat-chip--' + part.name || part.id"
+          (removed)="cancelAction(part)">
+          <mat-icon *ngIf="part.error"
+            [color]="'warn'"
+            matChipAvatar>close</mat-icon>
+          <mat-spinner *ngIf="!part.name && !part.error"
+            [diameter]="20"
+            class="mr-3"></mat-spinner>
+          {{ part.name || part.id }}
+          <button *ngIf="selectedItems.length > 1"
+            matChipRemove>
+            <img src="/assets/images/icons/closeChip.svg"
+              class="center py-5 closeIcon"
+              alt="X" />
+          </button>
+        </mat-chip>
+      </mat-chip-listbox>
+    </div>
 
     <div class="flex flex-col mt-6"
       *ngIf="removedItemsHistory.length">
@@ -68,8 +60,7 @@ SPDX-License-Identifier: Apache-2.0
   </div>
 
   <form [formGroup]="formGroup"
-    (keydown.enter)="$event.preventDefault()"
-    (submit)="submit()">
+    (keydown.enter)="$event.preventDefault()">
     <div class="flex flex-row justify-start mb-7">
       <div *ngIf="!!formGroup.controls?.['targetDate']"
         class="mr-5 w-full">
@@ -97,22 +88,21 @@ SPDX-License-Identifier: Apache-2.0
     <app-textarea [label]="'requestNotification.textAreaLabel' | i18n"
       formControlName="description"></app-textarea>
 
-    <div class="flex flex-row justify-end mt-10 md:mt-6">
+    <div *ngIf="showButtons"
+      class="buttons-wrapper">
       <app-button [variant]="'stroked'"
         [isDisabled]="isLoading$ | async"
-        (click)="resetForm()"
-        mat-dialog-close
-        class="mr-4">
-        <div class="cancel-button-text">{{ 'requestNotification.cancel' | i18n }}</div>
+        (click)="onBack()"
+        class="mr-4 button-small">
+        <div class="cancel-button-text">{{ 'requestNotification.back' | i18n }}</div>
       </app-button>
 
-      <div>
-        <app-button [variant]="'flat'"
-          [color]="'primary'"
-          type="submit">
-          <div class="accept-button-text">{{ 'requestNotification.submit' | i18n }}</div>
-        </app-button>
-      </div>
+      <app-button class="button-small"
+        [variant]="'flat'"
+        [color]="'primary'"
+        (click)="submit()">
+        <div class="accept-button-text">{{ 'requestNotification.submit' | i18n }}</div>
+      </app-button>
     </div>
   </form>
 

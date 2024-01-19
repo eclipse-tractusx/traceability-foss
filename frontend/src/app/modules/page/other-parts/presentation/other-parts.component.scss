@@ -45,6 +45,11 @@
   @extend .parts-tab-wrapper;
 }
 
+.parts-compact-table-wrapper {
+  height: 80% !important;
+  overflow-y: auto !important;
+}
+
 .parts-tab-wrapper {
   height: 100% !important;
   overflow-y: auto !important;

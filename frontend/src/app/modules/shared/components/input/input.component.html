@@ -23,7 +23,7 @@ SPDX-License-Identifier: Apache-2.0
   <mat-form-field color="accent"
     [style.fontSize]="'16'"
     appearance="outline"
-    [class]="isSearchBar ? 'search custom-focused-input' : 'input custom-focused-input'">
+    [class]="(isSearchBar ? 'search' + '-' + size : 'input') + ' custom-focused-input'">
     <img matPrefix
       class="ml-5"
       *ngIf="!matcher.isErrorState(control) && prefixIcon"

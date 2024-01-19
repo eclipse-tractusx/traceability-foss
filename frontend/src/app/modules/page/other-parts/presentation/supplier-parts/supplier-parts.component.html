@@ -17,7 +17,8 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<div class="parts-table-wrapper pt-5"
+<div class="pt-5"
+  [ngClass]="compactSize ? 'parts-compact-table-wrapper' : 'parts-table-wrapper' "
   *ngIf="bomLifecycle === MainAspectType.AS_BUILT">
   <ng-container *viewContainer="
           supplierPartsAsBuilt$ | async;
@@ -30,7 +31,9 @@ SPDX-License-Identifier: Apache-2.0
     let-parts="view"
     let-customContext="customContext">
     <app-parts-table [tableHeader]="'page.asBuiltParts' | i18n"
-      [showActionButton]="true"
+      [showHeader]="showHeader"
+      [showActionButton]="showActionButton"
+      [canClickSelect]="!compactSize"
       [actionIcon]="'/assets/images/icons/create_investigation_icon.svg'"
       [actionIconAlternative]="'Create investigation icon'"
       [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
@@ -44,6 +47,7 @@ SPDX-License-Identifier: Apache-2.0
       [multiSelectActive]="true"
       [tableType]="PartTableType.AS_BUILT_SUPPLIER"
       (selected)="onSelectItem($event)"
+      (onTotalItemsChanged)="onTotalItemsChanged.emit($event)"
       (configChanged)="onAsBuiltTableConfigChange($event)"
       (multiSelect)="onMultiSelect($event)"
       (clickSelectAction)="openDialog()"

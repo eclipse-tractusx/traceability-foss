@@ -158,7 +158,7 @@
     "test02": "This is for unit tests purposes. {{test}}"
   },
   "requestAlert": {
-    "headline": "Create quality alert",
+    "headline": "Start quality alert",
     "textAreaDescription": "Add a description about the alert.",
     "success_one": "You queued an alert for {{count}} part",
     "success_other": "You queued an alert for {{count}} parts"
@@ -170,6 +170,8 @@
     "success_other": "You queued an investigation for {{count}} parts"
   },
   "requestNotification": {
+    "selectParts": "Select suspect part(s)",
+    "otherPartsList": "List of shared parts",
     "partDescription": "You selected the following parts",
     "targetDateDescription": "Please specify the deadline by which you expect a response.",
     "targetDateLabel": "Deadline",
@@ -178,8 +180,10 @@
     "restoreItem": "Do you want to restore your last item?",
     "textAreaLabel": "Description",
     "cancel": "Cancel",
+    "back": "Back",
     "submitTooltip": "You must first fill in all fields marked with an *",
     "submit": "Add to queue",
+    "continue": "Continue",
     "severity": "Severity",
     "severityDescription": "Select the severity for the problem at hand"
   },
@@ -193,7 +197,11 @@
     "range": "{{startIndex}} of {{length}}"
   },
   "commonInvestigation": {
-    "viewAll": "view all",
+    "viewAll": "Go to all investigations",
+    "selectedPartsActions": "Start investigation",
+    "create": "Define investigation",
+    "discardHeader": "Discard investigation?",
+    "discardMessage": "Your selection and input will be lost. To continue working on your investigation, click \"Resume\".",
     "noInvestigations": "No current quality investigations",
     "noInvestigationsDescription": "If there are any quality investigations, they will be displayed here.",
     "tabs": {
@@ -236,9 +244,10 @@
     }
   },
   "commonAlert": {
-    "viewAll": "view all",
+    "viewAll": "Go to all alerts",
     "noAlerts": "No current quality alerts",
     "noAlertsDescription": "If there are any quality alerts, they will be displayed here.",
+    "create": "Define alert",
     "tabs": {
       "received": "Received",
       "queuedAndRequested": "Queued & Sent"
@@ -306,7 +315,9 @@
     "confirmationDialog": {
       "deletePartTitle": "Delete part?",
       "deletePartMessage": "If you delete this part, it will be fully removed from the current selection",
-      "deletePartButton": "Delete"
+      "deletePartButton": "Delete",
+      "discard": "Discard",
+      "resume": "Resume"
     }
   },
   "datepicker": {
