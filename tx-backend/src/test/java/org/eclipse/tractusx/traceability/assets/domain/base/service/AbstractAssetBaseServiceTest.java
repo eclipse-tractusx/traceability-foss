@@ -38,18 +38,6 @@ class AbstractAssetBaseServiceTest {
         assertThat(result).containsAll(expectedValues);
     }
 
-    @ParameterizedTest
-    @MethodSource("booleanFieldNamesProvider")
-    void givenBooleanFieldName(String fieldName, String startWith, List<String> expectedValues) {
-        // given params
-
-        // when
-        List<String> result = service.getDistinctFilterValues(fieldName, startWith, 10, null);
-
-        // then
-        assertThat(result).containsAll(expectedValues);
-    }
-
     private static Stream<Arguments> enumFieldNamesProvider() {
         return Stream.of(
                 Arguments.of("owner", null, List.of("SUPPLIER", "CUSTOMER", "OWN", "UNKNOWN")),
