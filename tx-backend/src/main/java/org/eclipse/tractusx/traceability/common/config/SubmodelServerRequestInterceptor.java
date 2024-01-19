@@ -27,7 +27,6 @@ import lombok.extern.slf4j.Slf4j;
 public class SubmodelServerRequestInterceptor implements RequestInterceptor {
     @Override
     public void apply(RequestTemplate template) {
-        template.header("authorization", "no-auto");
-        log.info("bar authentication applied");
+        template.header("authorization", "no-authorization");
     }
 }
