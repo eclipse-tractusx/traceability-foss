@@ -26,7 +26,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.application.contrac
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.NotificationMethod;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.NotificationType;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.EdcNotificationContractService;
-import org.eclipse.tractusx.traceability.submodel.infrastructure.reposotory.SubmodelServerApiClient;
+import org.eclipse.tractusx.traceability.submodel.infrastructure.repository.SubmodelServerApiClient;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;

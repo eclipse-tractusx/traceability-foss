@@ -17,10 +17,34 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.submodel.infrastructure.reposotory;
+package org.eclipse.tractusx.traceability.submodel.infrastructure.repository;
 
+import lombok.RequiredArgsConstructor;
+import org.eclipse.tractusx.traceability.submodel.domain.model.Submodel;
+import org.eclipse.tractusx.traceability.submodel.domain.repository.SubmodelRepository;
 import org.eclipse.tractusx.traceability.submodel.infrastructure.model.SubmodelEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface JpaSubmodelRepository extends JpaRepository<SubmodelEntity, String> {
+import java.util.Optional;
+
+@Repository
+@RequiredArgsConstructor
+public class SubmodelRepositoryImpl implements SubmodelRepository {
+
+    private final JpaSubmodelRepository jpaSubmodelRepository;
+
+    @Override
+    public void save(Submodel submodel) {
+        jpaSubmodelRepository.save(SubmodelEntity.from(submodel));
+    }
+
+    @Override
+    public Optional<Submodel> findById(String id) {
+        return jpaSubmodelRepository.findById(id).map(SubmodelEntity::toDomain);
+    }
+
+    @Override
+    public void deleteAll() {
+        jpaSubmodelRepository.deleteAll();
+    }
 }
