@@ -57,17 +57,17 @@ SPDX-License-Identifier: Apache-2.0
         <jacoco-plugin.version>0.8.8</jacoco-plugin.version>
         <jar-plugin.version>3.3.0</jar-plugin.version>
         <owasp-plugin.version>8.4.0</owasp-plugin.version>
-        <spotbugs-plugin.version>4.7.3.0</spotbugs-plugin.version>
+        <spotbugs-plugin.version>4.8.3.0</spotbugs-plugin.version>
         <spring-boot-maven-plugin.version>3.1.3</spring-boot-maven-plugin.version>
         <maven-project-info-reports-plugin.version>3.4.5</maven-project-info-reports-plugin.version>
         <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
-        <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
-        <maven-failsafe-plugin.version>3.0.0-M8</maven-failsafe-plugin.version>
+        <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
+        <maven-failsafe-plugin.version>3.2.5</maven-failsafe-plugin.version>
         <maven-site-plugin.version>4.0.0-M11</maven-site-plugin.version>
         <edc-library.version>0.1.3</edc-library.version>
         <!-- versions for 3rd party dependecies -->
         <eclipse-dash-ip.version>0.0.1-SNAPSHOT</eclipse-dash-ip.version>
-        <nimbus-jose-jwt.version>9.37.1</nimbus-jose-jwt.version>
+        <nimbus-jose-jwt.version>9.37.3</nimbus-jose-jwt.version>
         <ascii-doctor-j-diagram.version>2.2.13</ascii-doctor-j-diagram.version>
         <ascii-dcotor-j.version>2.5.8</ascii-dcotor-j.version>
         <auth-0-java-jwt.version>4.4.0</auth-0-java-jwt.version>
