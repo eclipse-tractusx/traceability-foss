@@ -19,13 +19,8 @@
 
 package org.eclipse.tractusx.traceability.common.config;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import feign.auth.BasicAuthRequestInterceptor;
 import feign.codec.Decoder;
-import feign.jackson.JacksonDecoder;
+import feign.codec.StringDecoder;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
@@ -43,13 +38,7 @@ import java.util.concurrent.TimeUnit;
 public class SubmodelApiConfig {
     @Bean
     public Decoder feignDecoder() {
-        return new ResponseEntityDecoder(new JacksonDecoder(JsonMapper.builder()
-                .configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE, true)
-                .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
-                .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true)
-                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-                .build()
-                .registerModules(new JavaTimeModule())));
+        return new ResponseEntityDecoder(new StringDecoder());
     }
 
     @Bean
