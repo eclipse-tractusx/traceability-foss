@@ -225,7 +225,7 @@ public class SubmodelController {
     @GetMapping("/testing/feign")
     public String testFeignClient() {
         log.info("testFeignClient");
-        submodelServerService.saveSubmodel("submodelId", "payloadOfSubmodel");
+        submodelServerService.saveSubmodel("submodelId", "{payloadOfSubmodel}");
         log.info("rest call is being performed");
 
         log.info("retrieving info about submodel");
