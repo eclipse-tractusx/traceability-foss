@@ -401,4 +401,22 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
                 .statusCode(200)
                 .body("totalItems", equalTo(13));
     }
+    @Test
+    void givenNoMatchQualityAlertsInStatusActiveAndQualityInvestigationsInStatusActiveFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
+        // given
+        final String filter = "?filter=qualityInvestigationsInStatusActive,STARTS_WITH,1&filter=qualityAlertsInStatusActive,STARTS_WITH,3";
+        final String filterOperator = "&filterOperator=AND";
+
+        // then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .get("/api/assets/as-built" + filter + filterOperator)
+                .then()
+                .log().all()
+                .statusCode(200)
+                .body("totalItems", equalTo(0));
+    }
 }
