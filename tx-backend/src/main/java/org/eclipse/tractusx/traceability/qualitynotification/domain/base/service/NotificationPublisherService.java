@@ -39,7 +39,6 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.exception.QualityNotificationIllegalUpdate;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.repository.QualityNotificationRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.Clock;
@@ -94,7 +93,6 @@ public class NotificationPublisherService {
                     .stream()
                     .map(it -> createInvestigation(applicationBPN, receiverBpn, description, targetDate, severity, it))
                     .forEach(notification::addNotification);
-            assetAsBuiltService.setAssetsInvestigationStatus(notification);
             return notification;
         } else {
             Map<String, List<AssetBase>> assetsAsPlannedBPNMap = assetAsPlannedRepository.getAssetsById(assetIds).stream().collect(groupingBy(AssetBase::getManufacturerId));
@@ -104,7 +102,6 @@ public class NotificationPublisherService {
                     .stream()
                     .map(it -> createInvestigation(applicationBPN, receiverBpn, description, targetDate, severity, it))
                     .forEach(notification::addNotification);
-            assetAsPlannedService.setAssetsInvestigationStatus(notification);
             return notification;
         }
 
@@ -136,11 +133,6 @@ public class NotificationPublisherService {
         QualityNotificationMessage qualityNotificationMessage = createAlert(applicationBPN, description, targetDate, severity, assets, receiverBpn);
         notification.addNotification(qualityNotificationMessage);
 
-        if (isAsBuilt) {
-            assetAsBuiltService.setAssetsAlertStatus(notification);
-        } else {
-            assetAsPlannedService.setAssetsAlertStatus(notification);
-        }
         return notification;
     }
 
