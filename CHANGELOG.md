@@ -31,6 +31,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Upgraded irs version from 6.12.0 to 6.13.0
 - Switched from OAuth2.0 to API Key authentication for IRS API Requests
 - switched from json-schema-friend:0.12.3 to json-schema-validator:5.4.0 for import file validation
+- Moved logic for active notifications to frontend
 
 ### Removed
 - Shell descriptor entity with underlying logic
