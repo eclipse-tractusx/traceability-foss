@@ -42,7 +42,7 @@ import { FormGroup } from "@angular/forms";
 })
 export class InputComponent extends BaseInputComponent<string> {
     @Input() class: string;
-    @Input() fieldClass: string;
+    @Input() size: 'small' | 'large' = 'large';
 
     @Input() prefixIcon: string;
     @Input() prefixIconColor: ThemePalette;
@@ -65,6 +65,7 @@ export class InputComponent extends BaseInputComponent<string> {
 
     public placeholder: string;
     public isFocused = false;
+    public classes: string[] = [];
     private inputTimer;
 
     constructor(@Inject(Injector) injector: Injector, staticIdService: StaticIdService) {

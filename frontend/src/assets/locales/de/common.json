@@ -155,7 +155,7 @@
     "generic": "Die Eingabe ist ungültig."
   },
   "requestAlert": {
-    "headline": "Qualitätswarnung erstellen",
+    "headline": "Qualitätswarnung starten",
     "textAreaDescription": "Fügen sie eine Beschreibung hinzu.",
     "success_one": "Sie haben eine Qualitätswarnung für {{count}} Produkt erstellt.",
     "success_other": "Sie haben eine Qualitätswarnung für {{count}} Produkte erstellt."
@@ -167,6 +167,8 @@
     "success_other": "Sie haben eine Untersuchung für {{count}} Produkte gestartet."
   },
   "requestNotification": {
+    "selectParts": "Produkte auswählen",
+    "otherPartsList": "Liste der gemeinsamen Produkte",
     "partDescription": "Sie haben folgende Produkte ausgewählt:",
     "targetDateDescription": "Bitte geben Sie das Datum an, bis wann Sie eine Antwort erwarten.",
     "bpnLabel": "Empfänger BPN",
@@ -174,8 +176,10 @@
     "restoreItem": "Zuletzt gelöschtes Produkt wiederherstellen?",
     "textAreaLabel": "Beschreibung",
     "targetDateLabel": "Rückmeldedatum",
+    "back": "Zurück",
     "cancel": "Abbruch",
     "submit": "Zur Warteschlange hinzufügen",
+    "continue": "Weiter",
     "submitTooltip": "Sie müssen zunächst alle mit einem * gekennzeichneten Felder ausfüllen",
     "severity": "Gefahrenstufe",
     "severityDescription": "Wählen Sie die Gefahrenstufe für das vorliegende Problem"
@@ -190,7 +194,11 @@
     "range": "{{startIndex}} von {{length}}"
   },
   "commonInvestigation": {
-    "viewAll": "Alle anzeigen",
+    "viewAll": "Zu allen Untersuchungen gehen",
+    "selectedPartsActions": "Untersuchung starten",
+    "create": "Untersuchung definieren",
+    "discardHeader": "Untersuchung verwerfen?",
+    "discardMessage": "Ihre Auswahl und Eingaben gehen verloren. Um mit Ihrer Untersuchung fortzufahren, klicken Sie auf \"Fortsetzen\".",
     "noInvestigations": "Keine aktuellen Qualitätsuntersuchungen",
     "noInvestigationsDescription": "Wenn es Qualitätsuntersuchungen gibt, werden sie hier angezeigt.",
     "tabs": {
@@ -233,9 +241,10 @@
     }
   },
   "commonAlert": {
-    "viewAll": "Alle anzeigen",
+    "viewAll": "Zu allen Warnungen gehen",
     "noAlerts": "Keine aktuellen Qualitätswarnungen",
     "noAlertsDescription": "Falls es Qualitätswarnungen gibt, werden sie hier angezeigt.",
+    "create": "Warnung definieren",
     "tabs": {
       "received": "Zugewiesene",
       "queuedAndRequested": "Erstellte und Versendete"
@@ -303,7 +312,9 @@
     "confirmationDialog": {
       "deletePartTitle": "Produkt löschen?",
       "deletePartMessage": "Wenn Sie dieses Produkt löschen, wird er vollständig aus der aktuellen Auswahl entfernt.",
-      "deletePartButton": "Löschen"
+      "deletePartButton": "Löschen",
+      "discard": "Ablegen",
+      "resume": "Fortsetzen"
     }
   },
   "datepicker": {

@@ -26,13 +26,36 @@ import { renderComponent } from '@tests/test-render.utils';
 import { DashboardModule } from '../dashboard.module';
 import { DashboardComponent } from './dashboard.component';
 import { Role } from '@core/user/role.model';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { RequestStepperComponent } from '@shared/components/request-notification/request-stepper/request-stepper.component';
+import { TestBed } from '@angular/core/testing';
+import { RequestContext } from '@shared/components/request-notification/request-notification.base';
+
+class MatDialogMock {
+  open(): MatDialogRef<RequestStepperComponent> {
+    return {} as MatDialogRef<RequestStepperComponent>;
+  }
+}
 
 describe('Dashboard', () => {
+
+  const renderDashboardComponent = () => {
+    return renderComponent(DashboardComponent, {
+      imports: [DashboardModule, SharedModule, PartsModule],
+      providers: [
+        { provide: MatDialog, useClass: MatDialogMock },
+      ],
+    });
+  };
+
   const renderDashboard = ({ roles = [] } = {}) =>
     renderComponent(DashboardComponent, {
       imports: [DashboardModule, SharedModule, PartsModule],
       translations: ['page.dashboard'],
       roles,
+      providers: [
+        { provide: MatDialog, useClass: MatDialogMock },
+      ],
     });
 
   it('should render total of parts', async () => {
@@ -72,6 +95,33 @@ describe('Dashboard', () => {
         'id',
         screen.getByText('20').getAttribute('aria-describedby'),
       );
+    });
+  });
+
+  it('should open the RequestStepperComponent with RequestContext.REQUEST_INVESTIGATION', async () => {
+    const component = (await renderDashboardComponent()).fixture.componentInstance;
+    const matDialog = TestBed.inject(MatDialog);
+
+    spyOn(matDialog, 'open').and.callThrough();
+
+    component.openRequestDialog(true);
+
+    expect(matDialog.open).toHaveBeenCalledWith(RequestStepperComponent, {
+      autoFocus: false,
+      data: { context: RequestContext.REQUEST_INVESTIGATION },
+    });
+  });
+
+  it('should open the RequestStepperComponent with RequestContext.REQUEST_ALERT', async () => {
+    const component = (await renderDashboardComponent()).fixture.componentInstance;
+    const matDialog = TestBed.inject(MatDialog);
+    spyOn(matDialog, 'open').and.callThrough();
+
+    component.openRequestDialog(false);
+
+    expect(matDialog.open).toHaveBeenCalledWith(RequestStepperComponent, {
+      autoFocus: false,
+      data: { context: RequestContext.REQUEST_ALERT },
     });
   });
 

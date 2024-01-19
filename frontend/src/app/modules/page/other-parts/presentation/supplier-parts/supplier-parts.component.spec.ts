@@ -29,7 +29,6 @@ import { OTHER_PARTS_MOCK_6 } from '../../../../../mocks/services/otherParts-moc
 
 import { SupplierPartsComponent } from './supplier-parts.component';
 import { TableEventConfig } from '@shared/components/table/table.model';
-import { Part } from '@page/parts/model/parts.model';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { Role } from '@core/user/role.model';

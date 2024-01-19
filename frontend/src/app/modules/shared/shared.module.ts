@@ -91,6 +91,8 @@ import {
 } from "@shared/components/country-flag-generator/country-flag-generator.component";
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { InfoListComponent } from './components/info-list/info-list.component';
+import { RequestStepperComponent } from './components/request-notification/request-stepper/request-stepper.component';
+import { SupplierPartsComponent } from '@page/other-parts/presentation/supplier-parts/supplier-parts.component';
 @NgModule({
   declarations: [
     ToastContainerComponent,
@@ -122,6 +124,8 @@ import { InfoListComponent } from './components/info-list/info-list.component';
     SidenavWrapperComponent,
     TextareaComponent,
     ErrorMessagePipe,
+    SupplierPartsComponent,
+    RequestStepperComponent,
     RequestInvestigationComponent,
     RequestAlertComponent,
     ScrollWithShadowComponent,
@@ -168,6 +172,8 @@ import { InfoListComponent } from './components/info-list/info-list.component';
     SidenavWrapperComponent,
     TextareaComponent,
     ErrorMessagePipe,
+    SupplierPartsComponent,
+    RequestStepperComponent,
     RequestInvestigationComponent,
     RequestAlertComponent,
     QualityTypeComponent,

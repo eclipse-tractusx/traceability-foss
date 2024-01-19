@@ -19,7 +19,7 @@
 
 
 import { DatePipe } from '@angular/common';
-import { Component, Input, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { OTHER_PARTS_BASE_ROUTE, getRoute } from '@core/known-route';
@@ -28,7 +28,8 @@ import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { AssetAsBuiltFilter, AssetAsPlannedFilter, Part, SemanticDataModel } from '@page/parts/model/parts.model';
 import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
-import { RequestInvestigationComponent } from '@shared/components/request-notification';
+import { RequestContext } from '@shared/components/request-notification/request-notification.base';
+import { RequestStepperComponent } from '@shared/components/request-notification/request-stepper/request-stepper.component';
 import { PartTableType, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
 import { TableSortingUtil } from '@shared/components/table/tableSortingUtil';
 import { toAssetFilter, toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
@@ -43,6 +44,10 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
   styleUrls: ['../other-parts.component.scss'],
 })
 export class SupplierPartsComponent implements OnInit, OnDestroy {
+
+  @Output() onPartsSelected = new EventEmitter<Part[]>();
+  @Output() onTotalItemsChanged = new EventEmitter<number>();
+  @Output() onPartDeselected = new EventEmitter<Part>();
 
   public supplierPartsAsBuilt$: Observable<View<Pagination<Part>>>;
   public supplierPartsAsPlanned$: Observable<View<Pagination<Part>>>;
@@ -68,8 +73,10 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
   public ctrlKeyState = false;
   public globalSearchActive = false;
 
-  @Input()
-  public bomLifecycle: MainAspectType;
+  @Input() public bomLifecycle: MainAspectType;
+  @Input() public showActionButton = true;
+  @Input() public showHeader = true;
+  @Input() public compactSize = false;
 
   @ViewChildren(PartsTableComponent) partsTableComponents: QueryList<PartsTableComponent>;
 
@@ -110,11 +117,14 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
         semanticDataModel: SemanticDataModel[part.semanticDataModel.toUpperCase() as keyof typeof SemanticDataModel],
       };
     });
+
     return this.selectedItems || [];
   }
 
   public set currentSelectedItems(parts: Part[]) {
     this.selectedItems = parts;
+
+    this.onPartsSelected.emit(this.selectedItems);
   }
 
   public ngOnInit(): void {
@@ -154,8 +164,14 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
   }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(RequestInvestigationComponent, {
-      data: { selectedItems: this.currentSelectedItems, showHeadline: true },
+    const dialogRef = this.dialog.open(RequestStepperComponent, {
+      autoFocus: false,
+      data: {
+        selectedItems: this.currentSelectedItems,
+        context: RequestContext.REQUEST_INVESTIGATION,
+        tabIndex: 1,
+        fromExternal: true,
+      },
     });
 
     const callback = (part: Part) => {
@@ -227,6 +243,7 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
 
   public removeItemFromSelection(part: Part): void {
     this.deselectPartTrigger$.next([part]);
+    this.onPartDeselected.emit(part);
     this.currentSelectedItems = this.currentSelectedItems.filter(({ id }) => id !== part.id);
   }
 

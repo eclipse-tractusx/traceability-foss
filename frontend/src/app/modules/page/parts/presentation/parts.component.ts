@@ -44,11 +44,12 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
 import { MatDialog } from '@angular/material/dialog';
-import { RequestAlertComponent } from '@shared/components/request-notification/request-alert.component';
 import { PARTS_BASE_ROUTE, getRoute } from '@core/known-route';
 import { Router } from '@angular/router';
 import { SearchHelper } from '@shared/helper/search-helper';
 import { DatePipe } from '@angular/common';
+import { RequestStepperComponent } from '@shared/components/request-notification/request-stepper/request-stepper.component';
+import { RequestContext } from '@shared/components/request-notification/request-notification.base';
 
 @Component({
   selector: 'app-parts',
@@ -178,9 +179,26 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   openDialog(): void {
-    this.dialog.open(RequestAlertComponent, {
-      data: { selectedItems: this.currentSelectedItems$.value, showHeadline: true },
+    const dialogRef = this.dialog.open(RequestStepperComponent, {
+      autoFocus: false,
+      data: {
+        selectedItems: this.currentSelectedItems$.value,
+        context: RequestContext.REQUEST_ALERT,
+        tabIndex: 1,
+        fromExternal: true,
+      },
     });
+
+    const callback = (part: Part) => {
+      this.deselectPartTrigger$.next([part]);
+    };
+
+    dialogRef?.componentInstance.deselectPart.subscribe(callback);
+    if (dialogRef?.afterClosed) {
+      dialogRef.afterClosed().subscribe((_part: Part) => {
+        dialogRef.componentInstance.deselectPart.unsubscribe();
+      });
+    }
   }
 
   openDetailPage(part: Part): void {

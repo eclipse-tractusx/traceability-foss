@@ -39,12 +39,14 @@ SPDX-License-Identifier: Apache-2.0
 
   <div class="buttons-container">
     <app-button *ngIf="data.buttonLeft"
+      class="button-large"
       [variant]="'stroked'"
       (click)="cancel()">
       <div class="left-button-text">{{ data.buttonLeft| i18n }}</div>
     </app-button>
 
     <app-button *ngIf="data.buttonRight"
+      class="button-large"
       [variant]="'flat'"
       [color]="'primary'"
       (click)="confirm()">

@@ -28,6 +28,10 @@ import { CloseNotificationModalComponent } from '@shared/modules/notification/mo
 import { Observable } from 'rxjs';
 import { DashboardFacade } from '../abstraction/dashboard.facade';
 import { PartTableType } from '@shared/components/table/table.model';
+import { Role } from '@core/user/role.model';
+import { MatDialog } from '@angular/material/dialog';
+import { RequestStepperComponent } from '@shared/components/request-notification/request-stepper/request-stepper.component';
+import { RequestContext } from '@shared/components/request-notification/request-notification.base';
 
 @Component({
   selector: 'app-dashboard',
@@ -51,8 +55,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public readonly alertsParams: Record<string, string>;
 
   protected readonly PartTableType = PartTableType;
+  protected readonly Role = Role;
 
-  constructor(private readonly dashboardFacade: DashboardFacade, private readonly router: Router) {
+  constructor(private readonly dashboardFacade: DashboardFacade,
+    private readonly router: Router,
+    public dialog: MatDialog,
+  ) {
     this.numberOfMyParts$ = this.dashboardFacade.numberOfMyParts$;
     this.numberOfOtherParts$ = this.dashboardFacade.numberOfOtherParts$;
     this.numberOfInvestigations$ = this.dashboardFacade.numberOfInvestigations$;
@@ -81,5 +89,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public onNotificationSelected(notification: Notification, isInvestigation: boolean): void {
     const { link } = getRoute(isInvestigation ? INVESTIGATION_BASE_ROUTE : ALERT_BASE_ROUTE);
     this.router.navigate([`/${link}/${notification.id}`]).then();
+  }
+
+  public openRequestDialog(isInvestigation: boolean): void {
+    this.dialog.open(RequestStepperComponent, {
+      autoFocus: false,
+      data: {
+        context: isInvestigation ? RequestContext.REQUEST_INVESTIGATION : RequestContext.REQUEST_ALERT,
+      }
+    });
   }
 }

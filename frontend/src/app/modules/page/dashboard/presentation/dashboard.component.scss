@@ -68,6 +68,22 @@
   letter-spacing: 0.1px;
 }
 
+.action-button-text {
+  @extend .label-medium;
+  @apply text-white;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+}
+
+.goto-button-wrapper {
+  padding-top: 20px;
+}
+
+.goto-button-text {
+  @extend .body-small-emphasis;
+}
+
 .description {
   @apply font-regular;
   text-align: center;
