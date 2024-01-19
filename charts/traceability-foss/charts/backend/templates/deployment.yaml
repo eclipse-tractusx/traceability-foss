@@ -100,6 +100,8 @@ spec:
               value: {{ .Values.edc.providerUrl | quote }}
             - name: IRS_URL
               value: {{ .Values.irs.baseUrl | quote }}
+            - name: SUBMODEL_URL
+              value: {{ .Values.submodel.baseUrl | quote }}
             - name: PORTAL_URL
               value: {{ .Values.portal.baseUrl | quote }}
             - name: EDC_CALLBACK_URL

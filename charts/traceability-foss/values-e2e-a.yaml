@@ -184,7 +184,8 @@ backend:
 
   discoveryfinder:
     baseUrl: *discovery_finder_url
-
+  submodel:
+    baseUrl: *be_url
   irs:
     baseUrl: *irs_url
   registry:
