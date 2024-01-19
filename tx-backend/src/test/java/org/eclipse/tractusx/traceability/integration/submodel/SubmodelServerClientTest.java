@@ -27,12 +27,12 @@ class SubmodelServerClientTest extends IntegrationTestSpecification {
         String submodel = "SUBMODEL PAYLOAD";
 
         // when
-        SubmodelServerService.saveSubmodel(submodelId, submodel);
+        String savedId = SubmodelServerService.saveSubmodel(submodelId, submodel);
 
         // then
         Optional<SubmodelEntity> result = repository.findById(submodelId);
         assertThat(result.get().getSubmodel()).isEqualTo(submodel);
-
+        assertThat(savedId).isEqualTo(submodelId);
     }
 
     @Test
