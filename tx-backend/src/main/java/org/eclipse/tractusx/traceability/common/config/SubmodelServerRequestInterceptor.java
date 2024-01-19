@@ -17,11 +17,16 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.submodel.infrastructure.reposotory;
+package org.eclipse.tractusx.traceability.common.config;
 
-import org.eclipse.tractusx.traceability.submodel.infrastructure.model.SubmodelPayloadEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import feign.RequestInterceptor;
+import feign.RequestTemplate;
+import lombok.extern.slf4j.Slf4j;
 
-public interface JpaSubmodelPayloadRepository extends JpaRepository<SubmodelPayloadEntity, String> {
-
+@Slf4j
+public class SubmodelServerRequestInterceptor implements RequestInterceptor {
+    @Override
+    public void apply(RequestTemplate template) {
+        template.header("authorization", "no-authorization");
+    }
 }
