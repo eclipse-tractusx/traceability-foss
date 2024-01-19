@@ -3,7 +3,7 @@ package org.eclipse.tractusx.traceability.integration.submodel;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.submodel.infrastructure.model.SubmodelEntity;
 import org.eclipse.tractusx.traceability.submodel.infrastructure.repository.JpaSubmodelRepository;
-import org.eclipse.tractusx.traceability.submodel.infrastructure.repository.SubmodelServerClient;
+import org.eclipse.tractusx.traceability.submodel.infrastructure.repository.SubmodelServerClientImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class SubmodelServerClientTest extends IntegrationTestSpecification {
 
     @Autowired
-    SubmodelServerClient submodelServerClient;
+    SubmodelServerClientImpl submodelServerClient;
 
     @Autowired
     JpaSubmodelRepository repository;

@@ -20,16 +20,22 @@
 package org.eclipse.tractusx.traceability.submodel.infrastructure.repository;
 
 import lombok.RequiredArgsConstructor;
+import org.eclipse.tractusx.traceability.submodel.domain.repository.SubmodelServerRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class SubmodelServerClient {
+public class SubmodelServerClientImpl implements SubmodelServerRepository {
 
     private final SubmodelServerApiClient submodelServerApiClient;
 
     public void saveSubmodel(String submodelId, String submodel) {
         submodelServerApiClient.createSubmodel(submodelId, submodel);
+    }
+
+    @Override
+    public String getSubmodel(String submodelId) {
+        return submodelServerApiClient.getSubmodel(submodelId);
     }
 
 }

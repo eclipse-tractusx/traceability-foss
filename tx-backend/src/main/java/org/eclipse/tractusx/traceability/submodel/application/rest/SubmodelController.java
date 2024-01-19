@@ -19,6 +19,7 @@
 
 package org.eclipse.tractusx.traceability.submodel.application.rest;
 
+import assets.importpoc.ErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -27,9 +28,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import assets.importpoc.ErrorResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.submodel.application.service.SubmodelService;
 import org.eclipse.tractusx.traceability.submodel.domain.model.Submodel;
+import org.eclipse.tractusx.traceability.submodel.domain.service.SubmodelServerServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +42,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 @Tag(name = "Submodel")
 @RequestMapping(path = "/submodel/data")
@@ -47,6 +50,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class SubmodelController {
 
     private final SubmodelService submodelService;
+    private final SubmodelServerServiceImpl submodelServerService;
 
     @Operation(operationId = "getSubmodelById",
             summary = "Gets Submodel by its id",
@@ -216,6 +220,16 @@ public class SubmodelController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteSubmodels() {
         submodelService.deleteAll();
+    }
+
+    @GetMapping("/testing/feign")
+    public String testFeignClient() {
+        log.info("testFeignClient");
+        submodelServerService.saveSubmodel("submodelId", "payloadOfSubmodel");
+        log.info("rest call is being performed");
+
+        log.info("retrieving info about submodel");
+        return submodelServerService.getSubmodel("submodelId");
     }
 
 }
