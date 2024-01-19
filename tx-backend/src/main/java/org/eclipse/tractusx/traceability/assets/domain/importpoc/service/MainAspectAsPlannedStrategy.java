@@ -54,6 +54,7 @@ import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.m
 
 public class MainAspectAsPlannedStrategy implements MappingStrategy {
 
+    // TODO the mapping method here is almost the same as in SemanticDataModel.toDomainAsPlanned
     @Override
     public AssetBase mapToAssetBase(ImportRequest.AssetImportRequest assetImportRequestV2, TraceabilityProperties traceabilityProperties) {
         List<GenericSubmodel> submodels = assetImportRequestV2.submodels();
