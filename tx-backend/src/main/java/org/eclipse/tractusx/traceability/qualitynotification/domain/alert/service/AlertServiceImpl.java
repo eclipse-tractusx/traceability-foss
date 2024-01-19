@@ -82,12 +82,6 @@ public class AlertServiceImpl extends AbstractQualityNotificationService {
         QualityNotification alert = loadOrNotFoundException(new QualityNotificationId(notificationId));
         QualityNotification canceledAlert = notificationPublisherService.cancelNotification(alert);
 
-        assetService.setAssetsAlertStatus(canceledAlert);
         alertRepository.updateQualityNotificationEntity(canceledAlert);
-    }
-
-    @Override
-    public void setAssetStatus(QualityNotification qualityNotification) {
-        assetService.setAssetsAlertStatus(qualityNotification);
     }
 }

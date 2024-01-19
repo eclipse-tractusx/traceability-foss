@@ -95,7 +95,6 @@ class PersistentAssetsAsBuiltRepositoryTest {
         Assertions.assertEquals(asset.getOwner(), expected.getOwner());
         Assertions.assertEquals(asset.getChildRelations(), expected.getChildRelations());
         Assertions.assertEquals(asset.getParentRelations(), expected.getParentRelations());
-        Assertions.assertEquals(asset.isInInvestigation(), expected.isInInvestigation());
         Assertions.assertEquals(asset.getQualityType(), expected.getQualityType());
         Assertions.assertEquals(asset.getVan(), expected.getVan());
     }

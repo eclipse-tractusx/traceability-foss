@@ -57,8 +57,6 @@ describe('PartsAssembler', () => {
       const owner = 'OWN';
       const childRelations = [];
       const parentRelations = [];
-      const activeAlert = false;
-      const underInvestigation = false;
       const qualityType = 'Ok';
       const van = 'van';
       const semanticDataModel = 'BATCH';
@@ -95,8 +93,6 @@ describe('PartsAssembler', () => {
         owner,
         childRelations,
         parentRelations,
-        activeAlert,
-        underInvestigation,
         qualityType,
         van,
         semanticDataModel,
@@ -123,8 +119,6 @@ describe('PartsAssembler', () => {
         businessPartner: businessPartner,
         children: [],
         parents: [],
-        activeAlert: false,
-        activeInvestigation: false,
         qualityType: QualityType.Ok,
         van: 'van',
         semanticDataModel: SemanticDataModel.BATCH,

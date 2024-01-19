@@ -53,8 +53,6 @@ public class AssetBase {
     private List<Descriptions> childRelations;
     @Singular
     private List<Descriptions> parentRelations;
-    private boolean activeAlert;
-    private boolean inInvestigation;
     private QualityType qualityType;
     private String van;
     private SemanticDataModel semanticDataModel;
