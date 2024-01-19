@@ -38,8 +38,6 @@ export interface Part {
   children: string[];
   parents?: string[];
   error?: boolean;
-  activeInvestigation?: boolean;
-  activeAlert: boolean;
   van: string;
   owner: Owner;
   semanticDataModel: SemanticDataModel;
@@ -89,8 +87,6 @@ export interface PartResponse {
   owner: Owner;
   childRelations: Relation[];
   parentRelations: Relation[];
-  activeAlert: boolean;
-  underInvestigation: boolean;
   qualityType: QualityType;
   van: string;
   semanticDataModel: SemanticDataModel;

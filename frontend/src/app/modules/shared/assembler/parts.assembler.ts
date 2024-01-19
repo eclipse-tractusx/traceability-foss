@@ -84,8 +84,6 @@ export class PartsAssembler {
       businessPartner: partResponse.businessPartner,
       children: partResponse.childRelations.map(child => child.id) || [],
       parents: partResponse.parentRelations?.map(parent => parent.id) || [],
-      activeAlert: partResponse.activeAlert || false,
-      activeInvestigation: partResponse.underInvestigation || false,
       qualityType: partResponse.qualityType || QualityType.Ok,
       van: partResponse.van || '--',
       semanticDataModel: partResponse.semanticDataModel,
