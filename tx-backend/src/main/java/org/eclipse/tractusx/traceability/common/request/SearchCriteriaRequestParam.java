@@ -119,11 +119,7 @@ public class SearchCriteriaRequestParam {
         // As long as no clear spelling is defined, be lax with it. https://github.com/eclipse-tractusx/sldt-semantic-models/issues/470
         if (filterParameter.equalsIgnoreCase("catenaxsiteid")) {
             return "catenaXSiteId";
-        } else if (filterParameter.equalsIgnoreCase("qualityAlertsInStatusActive")) {
-            return "noOfActiveAlerts";
-        }  else if (filterParameter.equalsIgnoreCase("qualityInvestigationsInStatusActive")) {
-            return "noOfActiveInvestigations";
-        }  else {
+        } else {
             return filterParameter;
         }
     }

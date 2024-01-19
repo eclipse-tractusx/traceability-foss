@@ -86,8 +86,6 @@ public class OwnPageable {
             case "createdBy" -> "notifications.createdBy";
             case "targetDate" -> "notifications.targetDate";
             case "sendTo" -> "notifications.sendTo";
-            case "qualityAlertsInStatusActive" -> "noOfActiveAlerts";
-            case "qualityInvestigationsInStatusActive" -> "noOfActiveInvestigations";
             // As long as no clear spelling is defined, be lax with it. https://github.com/eclipse-tractusx/sldt-semantic-models/issues/470
             default -> column.equalsIgnoreCase("catenaxsiteid")
                     ? "catenaXSiteId"
