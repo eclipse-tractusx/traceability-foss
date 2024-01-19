@@ -31,7 +31,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.submodel.application.service.SubmodelService;
 import org.eclipse.tractusx.traceability.submodel.domain.model.Submodel;
-import org.eclipse.tractusx.traceability.submodel.domain.service.SubmodelServerServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,7 +49,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class SubmodelController {
 
     private final SubmodelService submodelService;
-    private final SubmodelServerServiceImpl submodelServerService;
 
     @Operation(operationId = "getSubmodelById",
             summary = "Gets Submodel by its id",
@@ -221,15 +219,4 @@ public class SubmodelController {
     public void deleteSubmodels() {
         submodelService.deleteAll();
     }
-
-    @GetMapping("/testing/feign")
-    public String testFeignClient() {
-        log.info("testFeignClient");
-        submodelServerService.saveSubmodel("submodelId", "{payloadOfSubmodel}");
-        log.info("rest call is being performed");
-
-        log.info("retrieving info about submodel");
-        return submodelServerService.getSubmodel("submodelId");
-    }
-
 }
