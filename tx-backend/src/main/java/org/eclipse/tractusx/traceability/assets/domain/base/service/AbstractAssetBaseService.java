@@ -23,6 +23,7 @@ import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBa
 import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel;
@@ -31,8 +32,6 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
 import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.springframework.scheduling.annotation.Async;
 
 import java.util.Arrays;
@@ -44,8 +43,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public abstract class AbstractAssetBaseService implements AssetBaseService {
 
-    private static final List<String> SUPPORTED_ENUM_FIELDS = List.of("owner", "qualityType", "semanticDataModel");
-    private static final List<String> SUPPORTED_BOOLEAN_FIELDS = List.of("activeAlert", "underInvestigation");
+    private static final List<String> SUPPORTED_ENUM_FIELDS = List.of("owner", "qualityType", "semanticDataModel", "importState");
 
     protected abstract AssetRepository getAssetRepository();
 
@@ -90,24 +88,6 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
     }
 
     @Override
-    public void setAssetsInvestigationStatus(QualityNotification investigation) {
-        getAssetRepository().getAssetsById(investigation.getAssetIds()).forEach(asset -> {
-            // Assets in status closed will be false, others true
-            asset.setInInvestigation(!investigation.getNotificationStatus().equals(QualityNotificationStatus.CLOSED));
-            getAssetRepository().save(asset);
-        });
-    }
-
-    @Override
-    public void setAssetsAlertStatus(QualityNotification alert) {
-        getAssetRepository().getAssetsById(alert.getAssetIds()).forEach(asset -> {
-            // Assets in status closed will be false, others true
-            asset.setActiveAlert(!alert.getNotificationStatus().equals(QualityNotificationStatus.CLOSED));
-            getAssetRepository().save(asset);
-        });
-    }
-
-    @Override
     public AssetBase updateQualityType(String assetId, QualityType qualityType) {
         AssetBase foundAsset = getAssetRepository().getAssetById(assetId);
         foundAsset.setQualityType(qualityType);
@@ -143,14 +123,7 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
         if (isSupportedEnumType(fieldName)) {
             return getAssetEnumFieldValues(fieldName);
         }
-        if (isBooleanType(fieldName)) {
-            return List.of("true", "false");
-        }
         return getAssetRepository().getFieldValues(fieldName, startWith, resultSize, owner);
-    }
-
-    private boolean isBooleanType(String fieldName) {
-        return SUPPORTED_BOOLEAN_FIELDS.contains(fieldName);
     }
 
     private boolean isSupportedEnumType(String fieldName) {
@@ -162,6 +135,7 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
             case "owner" -> Arrays.stream(Owner.values()).map(Enum::name).toList();
             case "qualityType" -> Arrays.stream(QualityType.values()).map(Enum::name).toList();
             case "semanticDataModel" -> Arrays.stream(SemanticDataModel.values()).map(Enum::name).toList();
+            case "importState" -> Arrays.stream(ImportState.values()).map(Enum::name).toList();
             default -> null;
         };
     }

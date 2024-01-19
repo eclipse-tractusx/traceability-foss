@@ -20,8 +20,8 @@
  ********************************************************************************/
 
 import { DetailAspectType } from '@page/parts/model/detailAspectModel.model';
-import { PartResponse, PartsResponse, QualityType, SemanticDataModel } from '@page/parts/model/parts.model';
 import { Owner } from '@page/parts/model/owner.enum';
+import { PartResponse, PartsResponse, QualityType, SemanticDataModel } from '@page/parts/model/parts.model';
 
 export const MOCK_part_5 = {
   id: 'MOCK_part_5',
@@ -52,8 +52,6 @@ export const MOCK_part_5 = {
   owner: Owner.OWN,
   childRelations: [],
   parentRelations: [],
-  activeAlert: false,
-  underInvestigation: false,
   qualityType: QualityType.LifeThreatening,
   van: 'myvan5',
   semanticDataModel: SemanticDataModel.SERIALPART,
@@ -92,8 +90,6 @@ export const MOCK_part_4 = {
   owner: Owner.OWN,
   childRelations: [],
   parentRelations: [],
-  activeAlert: false,
-  underInvestigation: false,
   qualityType: QualityType.Critical,
   van: 'myvan4',
   semanticDataModel: SemanticDataModel.SERIALPART,
@@ -132,8 +128,6 @@ export const MOCK_part_3 = {
   owner: Owner.OWN,
   childRelations: [ { id: MOCK_part_5.id, idShort: MOCK_part_5.idShort } ],
   parentRelations: [],
-  activeAlert: false,
-  underInvestigation: false,
   qualityType: QualityType.Major,
   van: 'myvan3',
   semanticDataModel: SemanticDataModel.PARTASPLANNED,
@@ -172,8 +166,6 @@ export const MOCK_part_2 = {
   owner: Owner.OWN,
   childRelations: [ { id: MOCK_part_4.id, idShort: MOCK_part_4.idShort } ],
   parentRelations: [],
-  activeAlert: false,
-  underInvestigation: false,
   qualityType: QualityType.Minor,
   van: 'myvan2',
   semanticDataModel: SemanticDataModel.SERIALPART,
@@ -215,8 +207,6 @@ export const MOCK_part_1 = {
     { id: MOCK_part_3.id, idShort: MOCK_part_3.idShort },
   ],
   parentRelations: [ { id: MOCK_part_4.id, idShort: MOCK_part_4.idShort } ],
-  activeAlert: false,
-  underInvestigation: false,
   qualityType: QualityType.Ok,
   van: 'myvan1',
   semanticDataModel: SemanticDataModel.SERIALPART,

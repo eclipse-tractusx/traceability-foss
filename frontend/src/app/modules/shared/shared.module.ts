@@ -26,6 +26,7 @@ import { RouterModule } from '@angular/router';
 import { AssetPublisherComponent } from '@shared/components/asset-publisher/asset-publisher.component';
 import { BomLifecycleActivatorComponent } from '@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.component';
 import { CardMetricComponent } from '@shared/components/card-metric/card-metric.component';
+import { ChipComponent } from '@shared/components/chip/chip.component';
 import { CountryFlagGeneratorComponent } from '@shared/components/country-flag-generator/country-flag-generator.component';
 import { DateTimeComponent } from '@shared/components/dateTime/dateTime.component';
 import { FormErrorMessageComponent } from '@shared/components/formErrorMessage/formErrorMessage.component';
@@ -126,7 +127,8 @@ import { TemplateModule } from './template.module';
     TableSettingsComponent,
     AbbreviateNumberPipe,
     CardMetricComponent,
-    AssetPublisherComponent
+    AssetPublisherComponent,
+    ChipComponent
   ],
   imports: [ TemplateModule, RouterModule, I18NextModule ],
   exports: [
@@ -175,7 +177,8 @@ import { TemplateModule } from './template.module';
     CountryFlagGeneratorComponent,
     AbbreviateNumberPipe,
     CardMetricComponent,
-    AssetPublisherComponent
+    AssetPublisherComponent,
+    ChipComponent
   ],
   providers: [
     FormatDatePipe,

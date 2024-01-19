@@ -161,8 +161,6 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .manufacturerPartId("")
                 .detailAspectModels(List.of())
                 .owner(Owner.OWN)
-                .activeAlert(false)
-                .inInvestigation(false)
                 .qualityType(QualityType.OK)
                 .classification("component")
                 .importState(ImportState.PERSISTENT)
@@ -216,8 +214,6 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .manufacturerPartId("")
                 .detailAspectModels(List.of())
                 .owner(Owner.OWN)
-                .activeAlert(false)
-                .inInvestigation(false)
                 .qualityType(QualityType.OK)
                 .classification("component")
                 .importState(ImportState.TRANSIENT)
@@ -265,23 +261,24 @@ class ImportControllerIT extends IntegrationTestSpecification {
         String path = getClass().getResource("/testdata/importfiles/invalidImportFile.json").getFile();
         File file = new File(path);
 
-        // when/then
-        given()
+        // when
+        ImportResponse result = given()
                 .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
                 .when()
                 .multiPart(file)
                 .post("/api/assets/import")
                 .then()
                 .statusCode(400)
-                .body("validationResult.validationErrors", Matchers.contains(
-                        List.of(
-                                "Did not match pattern: ^urn:uuid:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
-                                "Missing property aspectType",
-                                "Missing property localIdentifiers",
-                                "Missing property aspectType",
-                                "Missing property catenaXId",
-                                "Missing property childItems"
-                        ).toArray()));
+                .extract().as(ImportResponse.class);
+
+        // then
+        assertThat(result.importStateMessage()).isEmpty();
+        assertThat(result.validationResult().validationErrors())
+                .containsExactlyInAnyOrder(
+                        "Missing property aspectType",
+                        "For Asset with ID: invalidUUID And aspectType: urn:bamm:io.catenax.serial_part:1.0.1#SerialPart Following error occurred: object has missing required properties ([\"localIdentifiers\"])",
+                        "For Asset with ID: urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a And aspectType: urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt Following error occurred: object has missing required properties ([\"catenaXId\",\"childItems\"])"
+                );
     }
 
     @Test
@@ -290,18 +287,21 @@ class ImportControllerIT extends IntegrationTestSpecification {
         String path = getClass().getResource("/testdata/importfiles/invalidImportFileBadStructure.json").getFile();
         File file = new File(path);
 
-        // when/then
-        given()
+        // when
+        ImportResponse result = given()
                 .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
                 .when()
                 .multiPart(file)
                 .post("/api/assets/import")
                 .then()
                 .statusCode(400)
-                .body("validationResult.validationErrors", Matchers.contains(
-                        List.of(
-                                "Missing property assets", "Could not find assets"
-                        ).toArray()));
+                .extract().as(ImportResponse.class);
+
+        assertThat(result.importStateMessage()).isEmpty();
+        assertThat(result.validationResult().validationErrors())
+                .containsExactlyInAnyOrder(
+                        "Could not find assets"
+                        );
     }
 
     @Test
@@ -345,7 +345,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenInvalidAspect_whenImportData_thenValidationShouldPass() throws JoseException {
+    void givenInvalidAspect_whenImportData_thenValidationShouldNotPass() throws JoseException {
         // given
         String path = getClass().getResource("/testdata/importfiles/invalidImportFile-notSupportedAspect.json").getFile();
         File file = new File(path);
