@@ -31,6 +31,15 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Upgraded irs version from 6.12.0 to 6.13.0
 - Switched from OAuth2.0 to API Key authentication for IRS API Requests
 - switched from json-schema-friend:0.12.3 to json-schema-validator:5.4.0 for import file validation
+- Updated com.github.spotbugs:spotbugs-maven-plugin from 4.7.3.0 to 4.8.3.0
+- Updated actions/github-script from 5 to 7
+- Updated org.apache.maven.plugins:maven-surefire-plugin from 3.1.2 to 3.2.5
+- Updated org.apache.maven.plugins:maven-failsafe-plugin from 3.0.0-M8 to 3.2.5
+- Updated aquasecurity/trivy-action from 0.16.0 to 0.16.1
+- Updated actions/upload-artifact from 3 to 4
+- Updated github/codeql-action from 2 to 3
+- Updated actions/download-artifact from 3 to 4actions/download-artifact from 3 to 4
+- Updated com.nimbusds:nimbus-jose-jwt from 9.37.1 to 9.37.3
 
 ### Removed
 - Shell descriptor entity with underlying logic
