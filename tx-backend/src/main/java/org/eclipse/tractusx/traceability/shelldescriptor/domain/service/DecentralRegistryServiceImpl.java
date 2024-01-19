@@ -23,6 +23,7 @@ package org.eclipse.tractusx.traceability.shelldescriptor.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.irs.component.assetadministrationshell.AssetAdministrationShellDescriptor;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.service.AssetAsPlannedServiceImpl;
 import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
@@ -47,6 +48,29 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
     @Override
     @Async(value = AssetsAsyncConfig.LOAD_SHELL_DESCRIPTORS_EXECUTOR)
     public void synchronizeAssets() {
+
+        // TODO we will retrieve Collections<AssetAdministrationShellDescriptor> and need to filter for each semanticModelIdKey
+        // Example of response: 	"idShort": "SingleLevelUsageAsBuilt",
+        //					"id": "urn:uuid:3fa9cf02-1064-459f-a17e-1cbc819c2f2e",
+        //					"semanticId": {
+        //						"type": "ExternalReference",
+        //						"keys": [
+        //							{
+        //								"type": "GlobalReference",
+        //								"value": "urn:bamm:io.catenax.single_level_usage_as_built:2.0.0#SingleLevelUsageAsBuilt"
+        //							}
+        //						]
+        //					},
+        //					"supplementalSemanticId": [],
+        //					"description": [],
+        //					"displayName": []
+        //				}
+        //			]
+        //		},
+        // https://irs-aas-registry.dev.demo.catena-x.net/semantics/registry/api/v3.0/shell-descriptors
+        // Result should be a list of globalAssetIds associcated with asBuilt and another list asPlanned
+
+
 
         List<String> globalAssetIdsForApplicationBpn = decentralRegistryRepository.retrieveShellDescriptorsByBpn(traceabilityProperties.getBpn().toString());
         globalAssetIdsForApplicationBpn
