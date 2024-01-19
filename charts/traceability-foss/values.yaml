@@ -272,6 +272,10 @@ backend:
   traceability:
     bpn: "CHANGEME"  # <traceability.bpn>
     url: ""  # backend url example: https://<backend.ingress.hosts>
+    leftOperand: 'PURPOSE'
+    operatorType: 'eq'
+    rightOperand: 'ID 3.0 Trace'
+    validUntil: '2024-09-30T23:59:59.99Z'
 
   datasource:
     url: jdbc:postgresql://tx-backend-postgresql:5432/trace
