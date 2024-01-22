@@ -16,16 +16,12 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-// TODO package needs to be renamed (MW)
 package org.eclipse.tractusx.traceability.assets.application.importpoc;
 
+import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.springframework.web.multipart.MultipartFile;
+import java.util.List;
 
-
-import java.util.Map;
-
-public interface ImportService {
-    Map<AssetBase, Boolean> importAssets(MultipartFile file);
+public interface PolicyService {
+    List<Policy> getAllPolicies();
 }

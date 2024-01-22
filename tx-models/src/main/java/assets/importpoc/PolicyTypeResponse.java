@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,16 +16,10 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-// TODO package needs to be renamed (MW)
-package org.eclipse.tractusx.traceability.assets.application.importpoc;
+package assets.importpoc;
 
+public enum PolicyTypeResponse {
+    ACCESS,
+    USE
 
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.springframework.web.multipart.MultipartFile;
-
-
-import java.util.Map;
-
-public interface ImportService {
-    Map<AssetBase, Boolean> importAssets(MultipartFile file);
 }

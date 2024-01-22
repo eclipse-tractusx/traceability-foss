@@ -21,6 +21,8 @@ package org.eclipse.tractusx.traceability.integration.importdata;
 
 import assets.importpoc.ImportResponse;
 import assets.importpoc.ImportStateMessage;
+import assets.importpoc.request.RegisterAssetRequest;
+import io.restassured.http.ContentType;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
@@ -360,5 +362,39 @@ class ImportControllerIT extends IntegrationTestSpecification {
                         List.of(
                                 "'urn:bamm:io.catenax.serial_part:1.1.1#NOT_SUPPORTED_NAME' is not supported"
                         ).toArray()));
+    }
+
+    @Test
+    void givenValidFile_whenPublishData_thenStatusShouldChangeToInSynchronization() throws JoseException {
+        // given
+        String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
+        File file = new File(path);
+
+        given()
+                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .when()
+                .multiPart(file)
+                .post("/api/assets/import")
+                .then()
+                .statusCode(200)
+                .extract().as(ImportResponse.class);
+
+        RegisterAssetRequest registerAssetRequest = new RegisterAssetRequest("Trace-X policy", List.of("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f"));
+
+        // when
+        given()
+                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .contentType(ContentType.JSON)
+                .when()
+                .body(registerAssetRequest)
+                .post("/api/assets/publish")
+                .then()
+                .statusCode(201);
+
+        //then
+        AssetBase asset = assetAsBuiltRepository.getAssetById("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f");
+        assertThat("Trace-X policy").isEqualTo(asset.getPolicyId());
+        assertThat(ImportState.IN_SYNCHRONIZATION).isEqualTo(asset.getImportState());
+
     }
 }

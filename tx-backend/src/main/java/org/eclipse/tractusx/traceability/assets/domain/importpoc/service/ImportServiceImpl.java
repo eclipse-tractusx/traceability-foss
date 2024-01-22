@@ -32,7 +32,6 @@ import org.eclipse.tractusx.traceability.assets.domain.importpoc.repository.Subm
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -51,6 +50,7 @@ public class ImportServiceImpl implements ImportService {
     private final TraceabilityProperties traceabilityProperties;
     private final MappingStrategyFactory strategyFactory;
     private final SubmodelPayloadRepository submodelPayloadRepository;
+
 
     @Override
     public Map<AssetBase, Boolean> importAssets(MultipartFile file) {
@@ -87,6 +87,9 @@ public class ImportServiceImpl implements ImportService {
             throw new ImportException(e.getMessage());
         }
     }
+
+
+
 
     private void saveRawDataForPersistedAssets(List<AssetBase> persistedAssets, ImportRequest importRequest) {
         List<String> persistedAssetsIds = persistedAssets.stream().map(AssetBase::getId).toList();

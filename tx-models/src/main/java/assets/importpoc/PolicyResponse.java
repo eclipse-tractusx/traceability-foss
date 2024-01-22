@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,16 +16,18 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-// TODO package needs to be renamed (MW)
-package org.eclipse.tractusx.traceability.assets.application.importpoc;
+package assets.importpoc;
 
 
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.springframework.web.multipart.MultipartFile;
+import io.swagger.annotations.ApiModelProperty;
 
+import java.time.OffsetDateTime;
+import java.util.List;
 
-import java.util.Map;
-
-public interface ImportService {
-    Map<AssetBase, Boolean> importAssets(MultipartFile file);
+public record PolicyResponse(
+        @ApiModelProperty("5a00bb50-0253-405f-b9f1-1a3150b9d51d")
+        String policyId,
+        OffsetDateTime createdOn,
+        OffsetDateTime validUntil,
+        List<PermissionResponse> permissions) {
 }

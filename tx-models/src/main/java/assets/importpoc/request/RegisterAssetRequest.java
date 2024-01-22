@@ -16,16 +16,19 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-// TODO package needs to be renamed (MW)
-package org.eclipse.tractusx.traceability.assets.application.importpoc;
+package assets.importpoc.request;
 
+import io.swagger.annotations.ApiModelProperty;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.springframework.web.multipart.MultipartFile;
+import java.util.List;
 
+public record RegisterAssetRequest(
+        @NotNull(message = "policyId must be present")
+        @ApiModelProperty(example = "a644a7cb-3de5-493b-9259-f01db315a46e", required = true)
+        String policyId,
+        @NotEmpty
+        List<String> assetIds) {
 
-import java.util.Map;
-
-public interface ImportService {
-    Map<AssetBase, Boolean> importAssets(MultipartFile file);
 }

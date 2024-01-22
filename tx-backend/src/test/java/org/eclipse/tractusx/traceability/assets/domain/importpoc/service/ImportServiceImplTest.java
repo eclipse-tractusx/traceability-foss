@@ -54,7 +54,6 @@ class ImportServiceImplTest {
     @Mock
     private SubmodelPayloadRepository submodelPayloadRepository;
 
-    private MappingStrategyFactory strategyFactory;
     @Mock
     private TraceabilityProperties traceabilityProperties;
 
@@ -84,7 +83,4 @@ class ImportServiceImplTest {
         verify(assetAsBuiltRepository, times(1)).saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(anyList());
         verify(assetAsPlannedRepository, times(1)).saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(anyList());
     }
-
-
-
 }
