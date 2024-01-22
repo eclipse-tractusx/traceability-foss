@@ -204,7 +204,7 @@ class AssetAsBuiltControllerSortByAlertsAndInvestigationsCountIT extends Integra
     }
 
     @Test
-    void givenInvestigationsForAsset_HGO() throws JoseException {
+    void givenInvestigationsForAsset_whenCallWithSortByQualityInvestigationsInStatusActiveAsc() throws JoseException {
 
         // Given
         assetsSupport.defaultMultipleAssetsAsBuiltStored();
