@@ -902,7 +902,10 @@ You can define the URLs as well as most of the secrets yourself.</p>
   <span class="na">traceability</span><span class="pi">:</span>
     <span class="na">bpn</span><span class="pi">:</span> <span class="s2">"</span><span class="s">CHANGEME"</span>  <span class="c1"># &lt;traceability.bpn&gt;</span>
     <span class="na">url</span><span class="pi">:</span> <span class="s2">"</span><span class="s">"</span>  <span class="c1"># backend url example: https://&lt;backend.ingress.hosts&gt;</span>
-
+    <span class="na">leftOperand</span><span class="pi">:</span> <span class="s2">"</span><span class="s">PURPOSE"</span>
+    <span class="na">operatorType</span><span class="pi">:</span> <span class="s2">"</span><span class="s">eq"</span>
+    <span class="na">rightOperand</span><span class="pi">:</span> <span class="s2">"</span><span class="s">ID</span><span class="nv"> </span><span class="s">3.0</span><span class="nv"> </span><span class="s">Trace"</span>
+    <span class="na">validUntil</span><span class="pi">:</span> <span class="s2">"</span><span class="s">2024-09-30T23:59:59.99Z"</span>
   <span class="na">datasource</span><span class="pi">:</span>
     <span class="na">url</span><span class="pi">:</span> <span class="s">jdbc:postgresql://tx-backend-postgresql:5432/trace</span>
     <span class="na">username</span><span class="pi">:</span> <span class="s2">"</span><span class="s">traceuser"</span>
@@ -1222,7 +1225,7 @@ and <a href="https://cloud.google.com/blog/products/containers-kubernetes/kubern
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-01-19 06:35:12 UTC
+Last updated 2024-01-22 14:15:12 UTC
 </div>
 </div>
 </body>
