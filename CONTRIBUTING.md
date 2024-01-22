@@ -87,8 +87,8 @@ Only after the code is stable it can be merged to main.
 - Allowed types are `chore`, `fix` and `feature`.
 
 Examples:
-- `feature(users): TRACEFOSS-XXX description`
-- `fix: TRACEFOSS-123 make X work again`
+- `feature(users): #DDD description`
+- `fix: #322 make X work again`
 
 The detailed pattern can be found here: [commit-msg](https://github.com/eclipse-tractusx/traceability-foss/blob/main/dev/commit-msg)
 
