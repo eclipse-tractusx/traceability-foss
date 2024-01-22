@@ -17,6 +17,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Added new /irs/job/callback endpoint to handle irs job finished callback
 - Added Asset import info to parts table and parts detail view
 - SubmodelServerService for calling submodel server with feign client
+- Added GET /policies endpoint to retrieve accepted policies
+- Added POST assets/publish endpoint to publish transient assets
 
 ### Changed
 - Fixed security findings
