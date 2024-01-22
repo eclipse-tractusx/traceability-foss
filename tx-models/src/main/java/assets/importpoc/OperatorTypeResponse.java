@@ -55,11 +55,11 @@ public enum OperatorTypeResponse {
     @ApiModelProperty("isNoneOf")
     ISNONEOF("isNoneOf", "Is none of");
 
-   final String code;
+    final String code;
 
-   final String label;
+    final String label;
 
-     OperatorTypeResponse(String code, String label) {
+    OperatorTypeResponse(String code, String label) {
         this.code = code;
         this.label = label;
     }

@@ -21,8 +21,7 @@ package assets.importpoc;
 import java.util.List;
 
 public record ConstraintsResponse(
-    List<ConstraintResponse> and,
-    List<ConstraintResponse> or
-
-){
+        List<ConstraintResponse> and,
+        List<ConstraintResponse> or
+) {
 }
