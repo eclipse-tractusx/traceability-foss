@@ -148,7 +148,6 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         partIds.forEach(partId -> {
             AssetBase asset = assetAsBuiltRepository.getAssetById(partId);
             assertThat(asset).isNotNull();
-            assertThat(asset.isInInvestigation()).isTrue();
         });
 
         investigationNotificationsSupport.assertNotificationsSize(2);
@@ -507,7 +506,6 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         partIds.forEach(partId -> {
             AssetBase asset = assetAsBuiltRepository.getAssetById(partId);
             assertThat(asset).isNotNull();
-            assertThat(asset.isInInvestigation()).isTrue();
         });
 
         investigationNotificationsSupport.assertNotificationsSize(2);

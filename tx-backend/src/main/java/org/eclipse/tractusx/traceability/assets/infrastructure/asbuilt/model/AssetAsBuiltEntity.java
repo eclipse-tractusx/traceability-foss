@@ -116,15 +116,14 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                         .toList())
                 .qualityType(asset.getQualityType())
                 .van(asset.getVan())
-                .activeAlert(asset.isActiveAlert())
                 .classification(asset.getClassification())
-                .inInvestigation(asset.isInInvestigation())
                 .semanticDataModel(SemanticDataModelEntity.from(asset.getSemanticDataModel()))
                 .productType(tractionBatteryCodeObj.getProductType())
                 .tractionBatteryCode(tractionBatteryCodeObj.getTractionBatteryCode())
                 .subcomponents(tractionBatteryCodeObj.getSubcomponents())
                 .importState(asset.getImportState())
                 .importNote(asset.getImportNote())
+                .policyId(asset.getPolicyId())
                 .build();
     }
 
@@ -145,8 +144,6 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                 .parentRelations(this.getParentDescriptors().stream()
                         .map(parent -> new Descriptions(parent.getId(), parent.getIdShort()))
                         .toList())
-                .inInvestigation(this.isInInvestigation())
-                .activeAlert(this.isActiveAlert())
                 .qualityType(this.getQualityType())
                 .van(this.getVan())
                 .classification(this.getClassification())
@@ -157,6 +154,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                 .receivedQualityInvestigations(emptyIfNull(this.investigations).stream().filter(alert -> NotificationSideBaseEntity.RECEIVER.equals(alert.getSide())).map(InvestigationEntity::toDomain).toList())
                 .importState(this.getImportState())
                 .importNote(this.getImportNote())
+                .policyId(this.getPolicyId())
                 .build();
     }
 

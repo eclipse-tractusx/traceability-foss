@@ -1,8 +1,19 @@
-# Contributing to Eclipse Tractus-X
+# <ins>Contributing to Eclipse Tractus-X</ins>
 
 Thanks for your interest in this project.
 
-## Project description
+# Table of Contents
+1. [Project description](#project_description)
+2. [Developer resources](#developer_ressources)
+3. [Problem Eclipse Development Process](#eclipse_commitment)
+4. [Eclipse Contributor Agreement](#eclipse_agreement)
+5. [General contribution to the project](#general)
+6. [Contributing as a Consultant](#consultant)
+7. [Contributing as a Developer](#developer)
+8. [Contact](#contact)
+
+
+## <ins>Project description</ins><a name="project_description"></a>
 
 The companies involved want to increase the automotive industry's
 competitiveness, improve efficiency through industry-specific cooperation and
@@ -17,7 +28,7 @@ Catena-X alliance focusing on parts traceability.
 - https://projects.eclipse.org/projects/automotive.tractusx
 - https://github.com/eclipse-tractusx/traceability-foss
 
-## Developer resources
+## <ins>Developer resources</ins><a name="developer_ressources"></a>
 
 Information regarding source code management, builds, coding standards, and
 more.
@@ -28,7 +39,7 @@ The project maintains the source code repositories in the following GitHub organ
 
 - https://github.com/eclipse-tractusx/
 
-## Eclipse Development Process
+## <ins>Eclipse Development Process</ins><a name="eclipse_commitment"></a>
 
 This Eclipse Foundation open project is governed by the Eclipse Foundation
 Development Process and operates under the terms of the Eclipse IP Policy.
@@ -36,7 +47,7 @@ Development Process and operates under the terms of the Eclipse IP Policy.
 - https://eclipse.org/projects/dev_process
 - https://www.eclipse.org/org/documents/Eclipse_IP_Policy.pdf
 
-## Eclipse Contributor Agreement
+## <ins>Eclipse Contributor Agreement</ins><a name="eclipse_agreement"></a>
 
 In order to be able to contribute to Eclipse Foundation projects you must
 electronically sign the Eclipse Contributor Agreement (ECA).
@@ -52,12 +63,12 @@ fulfills the DCO's requirement that you sign-off on your contributions.
 For more information, please see the Eclipse Committer Handbook:
 https://www.eclipse.org/projects/handbook/#resources-commit
 
-## Developer Hints
+## <ins>General contribution to the project</ins> <a name="general"></a>
 
-### Coding styles
-
-To maintain coding styles we utilize [EditorConfig](https://editorconfig.org/) tool, see [configuration](.editorconfig)
-file for the details.
+### Dash IP
+Prerequisites:
+1) Create access token
+   https://gitlab.eclipse.org/-/profile/personal_access_tokens
 
 ### Branching system and release workflow
 
@@ -72,7 +83,7 @@ Only after the code is stable it can be merged to main.
 
 ### Commit messages
 - The commit messages have to match a pattern in the form of:
-`<type>(optional scope): <Ticket_ID> <description>`
+  `<type>(optional scope): <Ticket_ID> <description>`
 - Allowed types are `chore`, `fix` and `feature`.
 
 Examples:
@@ -85,6 +96,20 @@ The detailed pattern can be found here: [commit-msg](https://github.com/eclipse-
 ```shell
 cp dev/commit-msg .git/hooks/commit-msg && chmod 500 .git/hooks/commit-msg
 ```
+
+## <ins>Contributing as a Consultant</ins><a name="consultant"></a>
+
+### Conceptual work and specification guidelines
+1. The prerequisite for a concept is always a github issue that defines the business value and the acceptance criteria that are to be implemented with the concept
+2. Copy and rename directory /docs/#000-concept-name-template /docs/#<DDD>-<target-name>
+3. Copy file /docs/Concept_TEMPLATE.md into new directory  /docs/#<DDD>-<target-name>
+
+## <ins>Contributing as a Developer (Developer Hints)</ins><a name="developer"></a>
+
+### Coding styles
+
+To maintain coding styles we utilize [EditorConfig](https://editorconfig.org/) tool, see [configuration](.editorconfig)
+file for the details.
 
 ### Static Code Analysis with SonarCloud
 
@@ -134,11 +159,6 @@ Attributes in Angular template should be properly ordered by groups:
 * [Eclipse plugin](https://github.com/ncjones/editorconfig-eclipse#readme)
 * [Visual studio code plugin](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig)
 
-### Dash IP
-Prerequisites:
-1) Create access token
-https://gitlab.eclipse.org/-/profile/personal_access_tokens
-
 #### Backend
 ##### Generate Dependencies
 
@@ -158,7 +178,7 @@ https://gitlab.eclipse.org/-/profile/personal_access_tokens
 
 `java -jar scripts/download/org.eclipse.dash.licenses-0.0.1-SNAPSHOT.jar yarn.lock -review -token <token> -project automotive.tractusx`
 
-## Contact
+## <ins>Contact</ins> <a name="contact"></a>
 
 Contact the project developers via the project's "dev" list.
 

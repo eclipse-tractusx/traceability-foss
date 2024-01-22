@@ -112,12 +112,11 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                         .map(child -> new ChildDescription(child.id(), child.idShort()))
                         .toList())
                 .qualityType(asset.getQualityType())
-                .activeAlert(asset.isActiveAlert())
-                .inInvestigation(asset.isInInvestigation())
                 .semanticDataModel(SemanticDataModelEntity.from(asset.getSemanticDataModel()))
                 .catenaxSiteId(asPlannedInfo.getCatenaxSiteId())
                 .importState(asset.getImportState())
                 .importNote(asset.getImportNote())
+                .policyId(asset.getPolicyId())
                 .build();
     }
 
@@ -137,8 +136,6 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                 .childRelations(entity.getChildDescriptors().stream()
                         .map(child -> new Descriptions(child.getId(), child.getIdShort()))
                         .toList())
-                .inInvestigation(entity.isInInvestigation())
-                .activeAlert(entity.isActiveAlert())
                 .qualityType(entity.getQualityType())
                 .detailAspectModels(DetailAspectModel.from(entity))
                 .sentQualityAlerts(emptyIfNull(entity.alerts).stream().filter(alert -> NotificationSideBaseEntity.SENDER.equals(alert.getSide())).map(AlertEntity::toDomain).toList())
@@ -147,6 +144,7 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                 .receivedQualityInvestigations(emptyIfNull(entity.investigations).stream().filter(alert -> NotificationSideBaseEntity.RECEIVER.equals(alert.getSide())).map(InvestigationEntity::toDomain).toList())
                 .importState(entity.getImportState())
                 .importNote(entity.getImportNote())
+                .policyId(entity.getPolicyId())
                 .build();
     }
 

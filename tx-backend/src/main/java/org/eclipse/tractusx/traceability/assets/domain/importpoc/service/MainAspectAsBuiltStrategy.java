@@ -140,8 +140,6 @@ public class MainAspectAsBuiltStrategy implements MappingStrategy {
                 .parentRelations(parentRelations)
                 .childRelations(childRelations)
                 .owner(Owner.OWN)
-                .activeAlert(false)
-                .inInvestigation(false)
                 .classification(asBuiltAspect.partTypeInformation().classification())
                 .qualityType(QualityType.OK)
                 .semanticDataModel(semanticDataModel.get())

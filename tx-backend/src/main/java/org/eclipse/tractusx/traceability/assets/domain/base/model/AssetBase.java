@@ -53,8 +53,6 @@ public class AssetBase {
     private List<Descriptions> childRelations;
     @Singular
     private List<Descriptions> parentRelations;
-    private boolean activeAlert;
-    private boolean inInvestigation;
     private QualityType qualityType;
     private String van;
     private SemanticDataModel semanticDataModel;
@@ -66,6 +64,7 @@ public class AssetBase {
     private List<QualityNotification> receivedQualityInvestigations;
     private ImportState importState;
     private String importNote;
+    private String policyId;
 
     public BomLifecycle getBomLifecycle() {
         if(semanticDataModel.equals(SERIALPART) || semanticDataModel.equals(BATCH) || semanticDataModel.equals(JUSTINSEQUENCE)){

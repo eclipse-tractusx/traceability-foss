@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,11 +16,15 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package assets.importpoc;
 
-package org.eclipse.tractusx.traceability.submodel.infrastructure.reposotory;
+import io.swagger.annotations.ApiModelProperty;
 
-import org.eclipse.tractusx.traceability.submodel.infrastructure.model.SubmodelEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
-public interface JpaSubmodelRepository extends JpaRepository<SubmodelEntity, String> {
+public record PermissionResponse(
+        @ApiModelProperty("USE")
+        PolicyTypeResponse action,
+        List<ConstraintsResponse> constraints
+) {
 }
