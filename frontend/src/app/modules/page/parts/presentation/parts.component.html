@@ -54,7 +54,7 @@ SPDX-License-Identifier: Apache-2.0
               (click)="isPublisherOpen$.next(true)"
               [variant]="'raised'"
               [color]="'accent'"
-              [isDisabled]="!roleService.hasAccess(['wip'])"
+              [isDisabled]="!roleService.hasAccess(['admin'])"
       >
         <div class="flex justify-between items-center text-dark p-0.5">
           <mat-icon class="mr-2">published_with_changes</mat-icon>
