@@ -32,6 +32,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.stream.IntStream;
 
 import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
@@ -200,5 +201,45 @@ class AssetAsBuiltControllerSortByAlertsAndInvestigationsCountIT extends Integra
                 .then()
                 .statusCode(200)
                 .body("content.qualityInvestigationsInStatusActive", Matchers.containsInRelativeOrder(3,6));
+    }
+
+    @Test
+    void givenInvestigationsForAsset_HGO() throws JoseException {
+
+        // Given
+        assetsSupport.defaultMultipleAssetsAsBuiltStored();
+        final AssetAsBuiltEntity assetAsBuilt1 = jpaAssetAsBuiltRepository.findById(
+                "urn:uuid:f7cf62fe-9e25-472b-9148-66ebcc291f31").orElseThrow();
+        final AssetAsBuiltEntity assetAsBuilt2 = jpaAssetAsBuiltRepository.findById(
+                "urn:uuid:186359fb-4584-40e4-a59b-ed842d3d80d9").orElseThrow();
+        final AssetAsBuiltEntity assetAsBuilt3 = jpaAssetAsBuiltRepository.findById(
+                "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978").orElseThrow();
+
+        investigationsSupport.storeInvestigationWithStatusAndAssets(SENT, List.of(assetAsBuilt1),null);
+
+        investigationsSupport.storeInvestigationWithStatusAndAssets(SENT, List.of(assetAsBuilt2),null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(SENT, List.of(assetAsBuilt2),null);
+
+        IntStream
+                .rangeClosed(1, 10)
+                .forEach(i -> investigationsSupport.storeInvestigationWithStatusAndAssets(SENT, List.of(assetAsBuilt3),
+                        null));
+
+        // When
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .param("page", "0")
+                .param("size", "50")
+                .param("filter", "owner,EQUAL,SUPPLIER")
+                .param("filterOperator", "AND")
+                .param("sort", "qualityInvestigationsInStatusActive,asc")
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/assets/as-built")
+                .then()
+                .statusCode(200)
+                .log().all()
+                .body("content.qualityInvestigationsInStatusActive",
+                        Matchers.containsInRelativeOrder(0, 1, 2, 10));
     }
 }

@@ -20,6 +20,7 @@
 package org.eclipse.tractusx.traceability.integration.assets;
 
 import io.restassured.http.ContentType;
+import io.restassured.specification.RequestSpecification;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
@@ -31,6 +32,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Set;
 import java.util.stream.Stream;
 
 import static io.restassured.RestAssured.given;
@@ -345,78 +347,37 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
                 .body("totalItems", equalTo(1))
                 .body("content.nameAtManufacturer[0]", equalTo("Vehicle Hybrid"));
     }
-
-    @Test
-    void givenQualityAlertsInStatusActiveFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
-        // given
-        final String filter = "?filter=qualityAlertsInStatusActive,STARTS_WITH,0";
-        final String filterOperator = "&filterOperator=AND";
-
-        // then
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .contentType(ContentType.JSON)
-                .log().all()
-                .when()
-                .get("/api/assets/as-built" + filter + filterOperator)
-                .then()
-                .log().all()
-                .statusCode(200)
-                .body("totalItems", equalTo(13));
+    private static Stream<Arguments> filterNotifications() {
+        return Stream.of(
+                Arguments.of(Set.of(
+                        "qualityAlertsInStatusActive,STARTS_WITH,0"), 13),
+                Arguments.of(Set.of(
+                        "filter=qualityInvestigationsInStatusActive,STARTS_WITH,1"), 0),
+                Arguments.of(Set.of(
+                        "qualityInvestigationsInStatusActive,STARTS_WITH,1","qualityAlertsInStatusActive,STARTS_WITH,3"), 0),
+                Arguments.of(Set.of(
+                        "qualityInvestigationsInStatusActive,STARTS_WITH,0","qualityAlertsInStatusActive,STARTS_WITH,0"), 13)
+        );
     }
-
-    @Test
-    void givenQualityInvestigationsInStatusActiveFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
-        // given
-        final String filter = "?filter=qualityInvestigationsInStatusActive,STARTS_WITH,1";
-        final String filterOperator = "&filterOperator=AND";
-
-        // then
-        given()
+    @ParameterizedTest
+    @MethodSource("filterNotifications")
+    void givenQualityAlertsInStatusActiveFilter_whenCallFilteredEndpoint_thenReturnExpectedResult(
+            final Set<String> filters,
+            final int result) throws JoseException {
+        final RequestSpecification requestSpecification = given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
+                .param("page", 0)
+                .param("size", 50)
+                .param("filterOperator", "AND");
+        filters.forEach(filter -> requestSpecification.param("filter", filter));
+        requestSpecification
                 .log().all()
                 .when()
-                .get("/api/assets/as-built" + filter + filterOperator)
+                .get("/api/assets/as-built")
                 .then()
                 .log().all()
                 .statusCode(200)
-                .body("totalItems", equalTo(0));
-    }
-    @Test
-    void givenQualityAlertsInStatusActiveAndQualityInvestigationsInStatusActiveFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
-        // given
-        final String filter = "?filter=qualityInvestigationsInStatusActive,STARTS_WITH,0&filter=qualityAlertsInStatusActive,STARTS_WITH,0";
-        final String filterOperator = "&filterOperator=AND";
-
-        // then
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .contentType(ContentType.JSON)
-                .log().all()
-                .when()
-                .get("/api/assets/as-built" + filter + filterOperator)
-                .then()
-                .log().all()
-                .statusCode(200)
-                .body("totalItems", equalTo(13));
-    }
-    @Test
-    void givenNoMatchQualityAlertsInStatusActiveAndQualityInvestigationsInStatusActiveFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
-        // given
-        final String filter = "?filter=qualityInvestigationsInStatusActive,STARTS_WITH,1&filter=qualityAlertsInStatusActive,STARTS_WITH,3";
-        final String filterOperator = "&filterOperator=AND";
-
-        // then
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .contentType(ContentType.JSON)
-                .log().all()
-                .when()
-                .get("/api/assets/as-built" + filter + filterOperator)
-                .then()
-                .log().all()
-                .statusCode(200)
-                .body("totalItems", equalTo(0));
+                .body("totalItems", equalTo(result));
     }
 }
