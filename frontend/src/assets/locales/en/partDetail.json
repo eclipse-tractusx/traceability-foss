@@ -44,6 +44,9 @@
         "header": "No parts selected.",
         "text": "Please select parts to start and investigation."
       }
-    }
+    },
+    "importHeader": "Asset State",
+    "importState": "Import State",
+    "importNote": "Import Note"
   }
 }

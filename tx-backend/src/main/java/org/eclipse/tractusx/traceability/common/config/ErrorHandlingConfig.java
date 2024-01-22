@@ -29,6 +29,7 @@ import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.eclipse.tractusx.traceability.assets.application.importpoc.validation.exception.JsonFileProcessingException;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.ImportException;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnNotFoundException;
@@ -241,6 +242,14 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ErrorResponse("Please try again later."));
+    }
+
+    @ExceptionHandler(JsonFileProcessingException.class)
+    public ResponseEntity<ErrorResponse> handle(JsonFileProcessingException exception) {
+        log.error("JsonFileProcessingException", exception);
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ErrorResponse("Issue occurred while processing json file: %s".formatted(exception.getMessage())));
     }
 
     @Override

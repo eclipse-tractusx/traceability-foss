@@ -27,5 +27,4 @@ public record PermissionResponse(
         PolicyTypeResponse action,
         List<ConstraintsResponse> constraints
 ) {
-
 }

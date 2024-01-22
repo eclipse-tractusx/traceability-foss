@@ -163,6 +163,8 @@ jwt:
   resource-client: ${JWT_RESOURCE_CLIENT}
 
 feign:
+  submodelApi:
+    url: ${SUBMODEL_URL}
   irsApi:
     url: ${IRS_URL}
     adminApiKey: ${IRS_ADMIN_API_KEY}

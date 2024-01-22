@@ -77,9 +77,4 @@ public class InvestigationServiceImpl extends AbstractQualityNotificationService
                 .orElseThrow(() -> new InvestigationNotFoundException(edcNotificationId));
     }
 
-    @Override
-    public void setAssetStatus(QualityNotification qualityNotification) {
-        assetService.setAssetsInvestigationStatus(qualityNotification);
-    }
-
 }

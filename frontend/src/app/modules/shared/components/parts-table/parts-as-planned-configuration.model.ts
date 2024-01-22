@@ -38,6 +38,8 @@ export class PartsAsPlannedConfigurationModel extends TableFilterConfiguration {
       catenaXSiteId: true,
       functionValidFrom: true,
       functionValidUntil: true,
+      importState: true,
+      importNote: true,
       menu: false,
     };
 
