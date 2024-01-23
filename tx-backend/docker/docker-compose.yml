@@ -30,6 +30,12 @@ services:
       - "5432"
     networks:
       net:
+    security_opt:
+      - apparmor:unconfined
+    healthcheck:
+      test: [ "NONE" ]
+    cap_drop:
+      - all
 
 networks:
   net:
