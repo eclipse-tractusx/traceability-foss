@@ -8,6 +8,14 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [UNRELEASED - DD.MM.YYYY]
 
 ### Added
+
+### Changed
+
+### Removed
+
+## [10.2.0 - 22.01.2024]
+
+### Added
 - Import Data Service for data provisioning
 - Added UI to publish own assets
 - Sequence Diagrams for Data Provisioning Flow
