@@ -31,11 +31,9 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailA
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportRequest;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.MainAspectAsPlannedRequest;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.PartSiteInformationAsPlannedRequest;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelBomAsBuiltRequest;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelBomAsPlannedRequest;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelUsageAsPlannedRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.GenericSubmodel;
-
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 
 import java.time.OffsetDateTime;
@@ -44,16 +42,15 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
-import static org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel.extractDetailAspectModelsAsPlanned;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.isAsPlannedMainAspect;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.isDownwardRelationshipAsPlanned;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.isPartSiteInformationAsPlanned;
-import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.isUpwardRelationshipAsBuilt;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.isUpwardRelationshipAsPlanned;
 
 
 public class MainAspectAsPlannedStrategy implements MappingStrategy {
 
+    // TODO the mapping method here is almost the same as in SemanticDataModel.toDomainAsPlanned
     @Override
     public AssetBase mapToAssetBase(ImportRequest.AssetImportRequest assetImportRequestV2, TraceabilityProperties traceabilityProperties) {
         List<GenericSubmodel> submodels = assetImportRequestV2.submodels();
@@ -120,9 +117,7 @@ public class MainAspectAsPlannedStrategy implements MappingStrategy {
                     .detailAspectModels(detailAspectModels)
                     .childRelations(childRelations)
                     .owner(Owner.OWN)
-                    .activeAlert(false)
                     .classification(partAsPlannedV2.partTypeInformation().classification())
-                    .inInvestigation(false)
                     .qualityType(QualityType.OK)
                     .semanticDataModel(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.PARTASPLANNED)
                     .importState(ImportState.TRANSIENT)

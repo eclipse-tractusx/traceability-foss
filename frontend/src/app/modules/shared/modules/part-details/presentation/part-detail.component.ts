@@ -22,9 +22,9 @@
 import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Pagination } from '@core/model/pagination.model';
 import { RoleService } from '@core/user/role.service';
 import { TractionBatteryCode } from '@page/parts/model/aspectModels.model';
+import { Owner } from '@page/parts/model/owner.enum';
 import { Part, QualityType } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { SelectOption } from '@shared/components/select/select.component';
@@ -49,8 +49,8 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
   public readonly manufacturerDetails$: Observable<View<Part>>;
   public readonly customerOrPartSiteDetails$: Observable<View<Part>>;
   public readonly tractionBatteryDetails$: Observable<View<Part>>;
+  public readonly importStateDetails$: Observable<View<Part>>;
   public readonly tractionBatterySubcomponents$: Observable<View<TractionBatteryCode>>;
-  public readonly paginatedTractionBatterySubcomponents: Pagination<TractionBatteryCode>;
 
   public readonly displayedColumns: string[];
 
@@ -79,6 +79,8 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
 
     this.tractionBatteryDetails$ = this.partDetailsFacade.selectedPart$.pipe(PartsAssembler.mapPartForTractionBatteryCodeDetailsView());
     this.tractionBatterySubcomponents$ = this.partDetailsFacade.selectedPart$.pipe(PartsAssembler.mapPartForTractionBatteryCodeSubComponentsView()) as unknown as Observable<View<TractionBatteryCode>>;
+
+    this.importStateDetails$ = this.partDetailsFacade.selectedPart$.pipe(PartsAssembler.mapPartForAssetStateDetailsView());
 
     this.customerOrPartSiteDetailsHeader$ = this.customerOrPartSiteDetails$?.subscribe(data => {
       if (data?.data?.functionValidFrom) {
@@ -118,4 +120,5 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
   }
 
   protected readonly NotificationAction = NotificationAction;
+  protected readonly Owner = Owner;
 }

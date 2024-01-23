@@ -25,7 +25,7 @@ SPDX-License-Identifier: Apache-2.0
         settings
       </mat-icon>
     </div>
-    <div  class="table&#45;&#45;selected__container">
+    <div class="table&#45;&#45;selected__container">
       <p
         class="regular-text table&#45;&#45;selected&#45;&#45;label">{{ selectedPartsInfoLabel | i18n : {count: selection?.selected?.length || 0} }}</p>
       <div class="table--header--select--button"
@@ -36,18 +36,18 @@ SPDX-License-Identifier: Apache-2.0
            [matTooltipShowDelay]="1000"
            [matTooltipDisabled]="roleService.hasAccess(['user','supervisor'])"
       >
-      <app-button
-        *ngIf="selection?.selected?.length && (tableType !== TableType.AS_PLANNED_CUSTOMER && tableType !== TableType.AS_BUILT_CUSTOMER)"
-        (click)="clickSelectAction.emit()"
-        [variant]="'raised'"
-        [color]="'accent'"
-        [isDisabled]="!roleService.hasAccess(['user','supervisor'])"
-      >
-        <div class="flex justify-between items-center text-dark p-0.5">
-          <mat-icon class="mr-2">announcement</mat-icon>
-          {{ selectedPartsActionLabel | i18n }}
-        </div>
-      </app-button>
+        <app-button
+          *ngIf="selection?.selected?.length && (tableType !== TableType.AS_PLANNED_CUSTOMER && tableType !== TableType.AS_BUILT_CUSTOMER)"
+          (click)="clickSelectAction.emit()"
+          [variant]="'raised'"
+          [color]="'accent'"
+          [isDisabled]="!roleService.hasAccess(['user','supervisor'])"
+        >
+          <div class="flex justify-between items-center text-dark p-0.5">
+            <mat-icon class="mr-2">announcement</mat-icon>
+            {{ selectedPartsActionLabel | i18n }}
+          </div>
+        </app-button>
       </div>
     </div>
   </div>
@@ -222,18 +222,31 @@ SPDX-License-Identifier: Apache-2.0
           <div class="table--notification--cell">
                         <span class="table--notification--cell--content">
 
-                            <ng-container *ngIf="isDateElement(column); else notificationCountElement">
-                                {{(element[column] | date:'yyyy-MM-dd')}}
-                            </ng-container>
+<ng-container *ngIf="isDateElement(column); else notificationCountOrImportStateElement">
+  {{ (element[column] | date:'yyyy-MM-dd') }}
+</ng-container>
 
-                            <ng-template #notificationCountElement>
-                                <ng-container *ngIf="isNotificationCountColumn(column); else autoFormatRef">
-                                        <span (click)="deeplinkToNotification(column, element[column])"
-                                              class="table--notification--cell--notification--count">
-                                            {{element[column]?.length}}</span>
-                                </ng-container>
-                            </ng-template>
-                            <ng-template #autoFormatRef>
+<ng-template #importStateElement>
+  <span class="table--importState-cell-container">
+    <app-chip [chipTextContent]="element[column]"></app-chip>
+  </span>
+</ng-template>
+
+<ng-template #notificationCountElement>
+  <ng-container *ngIf="isNotificationCountColumn(column); else autoFormatRef">
+    <span (click)="deeplinkToNotification(column, element[column])"
+          class="table--notification--cell--notification--count">
+      {{ element[column]?.length }}
+    </span>
+  </ng-container>
+</ng-template>
+
+<ng-template #notificationCountOrImportStateElement>
+  <ng-container *ngTemplateOutlet="column === 'importState' ? importStateElement : notificationCountElement">
+  </ng-container>
+</ng-template>
+
+<ng-template #autoFormatRef>
 
                       <ng-container
                         [ngTemplateOutlet]="tableConfig?.cellRenderers?.[column] ? tableConfig?.cellRenderers?.[column] : autoFormat"

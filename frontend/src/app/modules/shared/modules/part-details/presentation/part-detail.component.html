@@ -29,35 +29,51 @@ SPDX-License-Identifier: Apache-2.0
           <mat-icon>info_circle</mat-icon>
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <div class="part-detail--part-info">
-        <ng-container
-          *viewContainer="shortenPartDetails$ | async; main: partDetailsMainTmp; error: errorTmp; loading: loaderTmp"
-        >
-        </ng-container>
-        <ng-container
-          *viewContainer="selectedPartDetails$ | async; main: partRelationMainTmp; error: errorTmp; loading: loaderTmp"
-        >
-        </ng-container>
-      </div>
+      <div class="part-detail--container">
+        <div class="part-detail--part-info--overview overview">
+          <ng-container
+            *viewContainer="shortenPartDetails$ | async; main: partDetailsMainTmp; error: errorTmp; loading: loaderTmp"
+          ></ng-container>
+        </div>
+        <div class="part-detail--part-info--relation relation" *ngIf="(selectedPartDetails$ | async)?.data?.owner === Owner.OWN">
+          <ng-container
+            *viewContainer="selectedPartDetails$ | async; main: partRelationMainTmp; error: errorTmp; loading: loaderTmp"
+          >
+          </ng-container>
+        </div>
 
-      <div class="part-detail--manufacturer-info">
-        <ng-container
-          *viewContainer="
+        <div class="part-detail--part-info--import-state import-state" *ngIf="(selectedPartDetails$ | async)?.data?.owner === Owner.OWN">
+          <ng-container
+            *viewContainer="importStateDetails$ | async; main: importStateDetailsMainTmp; error: errorTmp; loading: loaderTmp">
+          </ng-container>
+        </div>
+
+
+        <div class="part-detail--manufacturer-info manufacturer">
+          <ng-container
+            *viewContainer="
             manufacturerDetails$ | async;
             main: manufacturerDetailsMainTmp;
             error: errorTmp;
             loading: loaderTmp
           "
-        ></ng-container>
+          ></ng-container>
+        </div>
 
-        <ng-container
-          *viewContainer="customerOrPartSiteDetails$ | async; main: customerOrPartSiteDetailsMainTmp; error: errorTmp; loading: loaderTmp"
-        ></ng-container>
+        <div class="part-detail--specific-info specific">
+          <ng-container
+            *viewContainer="customerOrPartSiteDetails$ | async; main: customerOrPartSiteDetailsMainTmp; error: errorTmp; loading: loaderTmp"
+          ></ng-container>
+        </div>
+
+        <div class="part-detail--traction-battery tractionbattery" *ngIf="(selectedPartDetails$ | async)?.data?.tractionBatteryCode">
+          <ng-container
+            *viewContainer="tractionBatteryDetails$ | async; main: tractionBatteryDetailsMainTmp; error: errorTmp; loading: loaderTmp">
+          </ng-container>
+        </div>
+
+
       </div>
-
-      <ng-container
-        *viewContainer="tractionBatteryDetails$ | async; main: tractionBatteryDetailsMainTmp; error: errorTmp; loading: loaderTmp">
-      </ng-container>
 
     </mat-expansion-panel>
 
@@ -105,7 +121,7 @@ SPDX-License-Identifier: Apache-2.0
       <ng-container *ngIf="isOpen$ | async">
         <app-card-list [list]="tractionBatteryDetails.data" [title]="'partDetail.tractionBattery' | i18n"
                        class="part-detail--tractionBattery-details"></app-card-list>
-        <mat-card>
+        <mat-card class="part-detail-subcomponents-table-container">
           <mat-card-header>
             <mat-card-title>{{ 'partDetail.subcomponents' | i18n }}</mat-card-title>
           </mat-card-header>
@@ -249,6 +265,11 @@ SPDX-License-Identifier: Apache-2.0
       </mat-icon>
     </div>
   </div>
+</ng-template>
+
+<ng-template #importStateDetailsMainTmp let-importStateDetails="view">
+  <app-card-list [list]="importStateDetails.data"
+                 [title]=" 'partDetail.importHeader' | i18n"></app-card-list>
 </ng-template>
 
 <ng-template let-label="value" #qualityTypeOptionTmp>

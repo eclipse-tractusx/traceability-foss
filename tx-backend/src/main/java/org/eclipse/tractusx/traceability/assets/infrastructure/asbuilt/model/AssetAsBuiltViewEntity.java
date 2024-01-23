@@ -114,8 +114,6 @@ public class AssetAsBuiltViewEntity extends AssetBaseEntity {
                 .parentRelations(this.getParentDescriptors().stream()
                         .map(parent -> new Descriptions(parent.getId(), parent.getIdShort()))
                         .toList())
-                .inInvestigation(this.isInInvestigation())
-                .activeAlert(this.isActiveAlert())
                 .qualityType(this.getQualityType())
                 .van(this.getVan())
                 .classification(this.getClassification())

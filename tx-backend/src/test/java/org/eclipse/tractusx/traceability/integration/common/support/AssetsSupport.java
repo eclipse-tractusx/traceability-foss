@@ -58,10 +58,9 @@ public class AssetsSupport {
         assetRepositoryProvider.assetAsPlannedRepository().saveAll(assetRepositoryProvider.assetsConverter().readAndConvertAssetsAsPlannedForTests());
     }
 
-    public void defaultAssetsStoredWithOnGoingInvestigation(NotificationStatusBaseEntity investigationStatus, boolean inInvestigation) {
+    public void defaultAssetsStoredWithOnGoingInvestigation(NotificationStatusBaseEntity investigationStatus) {
         List<AssetAsBuiltEntity> assetEntities = assetRepositoryProvider.assetsConverter().readAndConvertAssetsForTests().stream().map(asset -> {
             AssetAsBuiltEntity assetEntity = AssetAsBuiltEntity.from(asset);
-            assetEntity.setInInvestigation(inInvestigation);
             return assetEntity;
         }).toList();
 

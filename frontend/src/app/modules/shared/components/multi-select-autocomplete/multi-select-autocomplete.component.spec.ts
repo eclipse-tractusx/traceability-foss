@@ -231,24 +231,6 @@ describe('MultiSelectAutocompleteComponent', () => {
     expect(componentInstance.formControl.value).toEqual([ '2023-12-10' ]);
   });
 
-  it('should return false if autocomplete field is supported', async function() {
-    const { fixture } = await renderMultiSelectAutoCompleteComponent();
-    const { componentInstance } = fixture;
-
-    const isSupported = componentInstance.isUnsupportedAutoCompleteField('valid');
-    expect(isSupported).toBeFalsy();
-  });
-
-  it('should return true if autocomplete field is unsupported', async function() {
-    const { fixture } = await renderMultiSelectAutoCompleteComponent();
-    const { componentInstance } = fixture;
-
-    let isSupported = componentInstance.isUnsupportedAutoCompleteField('activeAlerts');
-    expect(isSupported).toBeTruthy();
-    isSupported = componentInstance.isUnsupportedAutoCompleteField('activeInvestigations');
-    expect(isSupported).toBeTruthy();
-  });
-
   it('should subscribe to searchElementChange and call filterItem when delayTimeoutId is present', async () => {
     const { fixture } = await renderMultiSelectAutoCompleteComponent();
     const { componentInstance } = fixture;

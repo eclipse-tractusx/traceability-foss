@@ -338,10 +338,6 @@
                 "key" : "manufacturerId"
               },
               {
-                "value" : "5894914-94",
-                "key" : "manufacturerPartId"
-              },
-              {
                 "value" : "NO-341449848714937445621543",
                 "key" : "batchId"
               }
@@ -398,10 +394,6 @@
                 "key" : "manufacturerId"
               },
               {
-                "value" : "6245773-32",
-                "key" : "manufacturerPartId"
-              },
-              {
                 "value" : "NO-341449848714937445621543",
                 "key" : "batchId"
               }
@@ -451,10 +443,6 @@
               {
                 "value" : "BPNL00000003CNKC",
                 "key" : "manufacturerId"
-              },
-              {
-                "value" : "9770171-23",
-                "key" : "manufacturerPartId"
               },
               {
                 "value" : "NO-341449848714937445621543",
