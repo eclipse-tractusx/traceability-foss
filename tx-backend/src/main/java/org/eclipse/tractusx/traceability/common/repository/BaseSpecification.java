@@ -46,19 +46,20 @@ public abstract class BaseSpecification<T> implements Specification<T> {
                     builder.lower(root.<String>get(criteria.getKey()).as(String.class)),
                     criteria.getValue().toLowerCase());
         }
-
         if (criteria.getStrategy().equals(SearchStrategy.STARTS_WITH)) {
             final String criteriaKey = criteria.getKey();
             return switch (criteriaKey) {
-                case "noOfActiveAlerts", "noOfActiveInvestigations" -> builder.like(
+                case "noOfActiveAlerts",
+                        "noOfActiveInvestigations" -> builder.like(
                         root.get(criteriaKey).as(String.class),
-                        criteria.getValue() + "%");
+                        criteria.getValue() + "%"
+                );
                 default -> builder.like(
                         builder.lower(root.get(criteriaKey)),
-                        criteria.getValue().toLowerCase() + "%");
+                        criteria.getValue().toLowerCase() + "%"
+                );
             };
         }
-
         if (criteria.getStrategy().equals(SearchStrategy.AT_LOCAL_DATE)) {
             final LocalDate localDate = LocalDate.parse(criteria.getValue());
             Predicate startingFrom = builder.greaterThanOrEqualTo(root.get(criteria.getKey()),
@@ -69,6 +70,4 @@ public abstract class BaseSpecification<T> implements Specification<T> {
         }
         return null;
     }
-
-
 }

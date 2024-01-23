@@ -117,7 +117,6 @@ public class SearchCriteriaRequestParam {
 
     private static String handleFilterParameter(final String filterParameter) {
         return switch (filterParameter) {
-            // Added notification condition for fixing filtering issue. Task: https://cofinity-x.atlassian.net/jira/software/c/projects/DO/boards/25?selectedIssue=DO-5056
             case "qualityAlertsInStatusActive" -> "noOfActiveAlerts";
             case "qualityInvestigationsInStatusActive" -> "noOfActiveInvestigations";
             // As long as no clear spelling is defined, be lax with it. https://github.com/eclipse-tractusx/sldt-semantic-models/issues/470

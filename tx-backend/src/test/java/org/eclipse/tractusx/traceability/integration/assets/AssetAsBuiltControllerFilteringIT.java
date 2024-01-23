@@ -347,6 +347,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
                 .body("totalItems", equalTo(1))
                 .body("content.nameAtManufacturer[0]", equalTo("Vehicle Hybrid"));
     }
+
     private static Stream<Arguments> filterNotifications() {
         return Stream.of(
                 Arguments.of(Set.of(
@@ -354,11 +355,12 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
                 Arguments.of(Set.of(
                         "qualityInvestigationsInStatusActive,STARTS_WITH,1"), 0),
                 Arguments.of(Set.of(
-                        "qualityInvestigationsInStatusActive,STARTS_WITH,1","qualityAlertsInStatusActive,STARTS_WITH,3"), 0),
+                        "qualityInvestigationsInStatusActive,STARTS_WITH,1", "qualityAlertsInStatusActive,STARTS_WITH,3"), 0),
                 Arguments.of(Set.of(
-                        "qualityInvestigationsInStatusActive,STARTS_WITH,0","qualityAlertsInStatusActive,STARTS_WITH,0"), 13)
+                        "qualityInvestigationsInStatusActive,STARTS_WITH,0", "qualityAlertsInStatusActive,STARTS_WITH,0"), 13)
         );
     }
+
     @ParameterizedTest
     @MethodSource("filterNotifications")
     void givenQualityAlertsInStatusActiveFilter_whenCallFilteredEndpoint_thenReturnExpectedResult(

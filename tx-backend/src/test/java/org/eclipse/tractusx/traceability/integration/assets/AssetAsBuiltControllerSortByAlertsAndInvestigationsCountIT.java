@@ -25,6 +25,7 @@ import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecificatio
 import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationsSupport;
+import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,7 +41,6 @@ import java.util.stream.Stream;
 import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.*;
-import static org.hamcrest.Matchers.containsInRelativeOrder;
 
 class AssetAsBuiltControllerSortByAlertsAndInvestigationsCountIT extends IntegrationTestSpecification {
 
@@ -95,7 +95,7 @@ class AssetAsBuiltControllerSortByAlertsAndInvestigationsCountIT extends Integra
                 .then()
                 .log().all()
                 .statusCode(200)
-                .body("content.qualityAlertsInStatusActive", containsInRelativeOrder(6,3));
+                .body("content.qualityAlertsInStatusActive", Matchers.containsInRelativeOrder(6,3));
     }
 
     @Test
@@ -130,7 +130,7 @@ class AssetAsBuiltControllerSortByAlertsAndInvestigationsCountIT extends Integra
                 .then()
                 .log().all()
                 .statusCode(200)
-                .body("content.qualityAlertsInStatusActive", containsInRelativeOrder(3,4));
+                .body("content.qualityAlertsInStatusActive", Matchers.containsInRelativeOrder(3,4));
     }
 
     @Test
@@ -167,7 +167,7 @@ class AssetAsBuiltControllerSortByAlertsAndInvestigationsCountIT extends Integra
                 .get("/api/assets/as-built")
                 .then()
                 .statusCode(200)
-                .body("content.qualityInvestigationsInStatusActive", containsInRelativeOrder(6,3));
+                .body("content.qualityInvestigationsInStatusActive", Matchers.containsInRelativeOrder(6,3));
     }
 
     @Test
@@ -204,7 +204,7 @@ class AssetAsBuiltControllerSortByAlertsAndInvestigationsCountIT extends Integra
                 .get("/api/assets/as-built")
                 .then()
                 .statusCode(200)
-                .body("content.qualityInvestigationsInStatusActive", containsInRelativeOrder(3,6));
+                .body("content.qualityInvestigationsInStatusActive", Matchers.containsInRelativeOrder(3,6));
     }
 
     private static Stream<Arguments> sortArguments() {
@@ -242,7 +242,6 @@ class AssetAsBuiltControllerSortByAlertsAndInvestigationsCountIT extends Integra
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978").orElseThrow();
 
         investigationsSupport.storeInvestigationWithStatusAndAssets(SENT, List.of(assetAsBuilt1), null);
-
         investigationsSupport.storeInvestigationWithStatusAndAssets(SENT, List.of(assetAsBuilt2), null);
         investigationsSupport.storeInvestigationWithStatusAndAssets(SENT, List.of(assetAsBuilt2), null);
         IntStream
@@ -273,6 +272,6 @@ class AssetAsBuiltControllerSortByAlertsAndInvestigationsCountIT extends Integra
                 .then()
                 .statusCode(200)
                 .log().all()
-                .body(contentField, containsInRelativeOrder(expectedOrderOfNotificationItems.toArray()));
+                .body(contentField, Matchers.containsInRelativeOrder(expectedOrderOfNotificationItems.toArray()));
     }
 }
