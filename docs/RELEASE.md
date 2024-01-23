@@ -28,6 +28,6 @@ Make sure eclipse / catena git repositories are in sync
 20) Open the github action for helm release generation: https://github.com/catenax-ng/tx-traceability-foss/actions/workflows/helm-chart-release.yaml
 21) Execute it from main branch
 22) Validate that the helm charts release has been generated within the release page
-23) Repeat step 7 to 12 for tractus-x: [GitHub Releases page](https://github.com/eclipse-tractusx/traceability-foss/releases)
+23) Repeat step 8 to 23 for tractus-x: [GitHub Releases page](https://github.com/eclipse-tractusx/traceability-foss/releases)
 24) Sync catena and eclipse main branch
 
