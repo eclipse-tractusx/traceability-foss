@@ -31,7 +31,7 @@ services:
     networks:
       net:
     security_opt:
-      - apparmor:unconfined
+      - no-new-privileges:true
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready" ]
       interval: 10s
