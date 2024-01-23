@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {SelectionModel} from '@angular/cdk/collections';
+import { SelectionModel } from '@angular/cdk/collections';
 import {
   Component,
   ElementRef,
@@ -29,46 +29,37 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import {FormGroup} from '@angular/forms';
-import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
-import {MatPaginator, PageEvent} from '@angular/material/paginator';
-import {MatSort, Sort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
-import {Router} from '@angular/router';
-import {EmptyPagination, Pagination} from '@core/model/pagination.model';
-import {RoleService} from '@core/user/role.service';
-import {TableSettingsService} from '@core/user/table-settings.service';
-import {
-  MultiSelectAutocompleteComponent
-} from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
-import {TableType} from '@shared/components/multi-select-autocomplete/table-type.model';
-import {PartsAsBuiltConfigurationModel} from '@shared/components/parts-table/parts-as-built-configuration.model';
-import {
-  PartsAsBuiltCustomerConfigurationModel
-} from '@shared/components/parts-table/parts-as-built-customer-configuration.model';
-import {
-  PartsAsBuiltSupplierConfigurationModel
-} from '@shared/components/parts-table/parts-as-built-supplier-configuration.model';
-import {PartsAsPlannedConfigurationModel} from '@shared/components/parts-table/parts-as-planned-configuration.model';
-import {
-  PartsAsPlannedCustomerConfigurationModel
-} from '@shared/components/parts-table/parts-as-planned-customer-configuration.model';
-import {
-  PartsAsPlannedSupplierConfigurationModel
-} from '@shared/components/parts-table/parts-as-planned-supplier-configuration.model';
-import {TableViewConfig} from '@shared/components/parts-table/table-view-config.model';
-import {TableSettingsComponent} from '@shared/components/table-settings/table-settings.component';
+import { FormGroup } from '@angular/forms';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
+import { EmptyPagination, Pagination } from '@core/model/pagination.model';
+import { RoleService } from '@core/user/role.service';
+import { TableSettingsService } from '@core/user/table-settings.service';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
+import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
+import { PartsAsBuiltConfigurationModel } from '@shared/components/parts-table/parts-as-built-configuration.model';
+import { PartsAsBuiltCustomerConfigurationModel } from '@shared/components/parts-table/parts-as-built-customer-configuration.model';
+import { PartsAsBuiltSupplierConfigurationModel } from '@shared/components/parts-table/parts-as-built-supplier-configuration.model';
+import { PartsAsPlannedConfigurationModel } from '@shared/components/parts-table/parts-as-planned-configuration.model';
+import { PartsAsPlannedCustomerConfigurationModel } from '@shared/components/parts-table/parts-as-planned-customer-configuration.model';
+import { PartsAsPlannedSupplierConfigurationModel } from '@shared/components/parts-table/parts-as-planned-supplier-configuration.model';
+import { TableViewConfig } from '@shared/components/parts-table/table-view-config.model';
+import { TableSettingsComponent } from '@shared/components/table-settings/table-settings.component';
 import {
   CreateHeaderFromColumns,
   TableConfig,
   TableEventConfig,
   TableHeaderSort,
 } from '@shared/components/table/table.model';
-import {ToastService} from '@shared/components/toasts/toast.service';
-import {isDateFilter} from '@shared/helper/filter-helper';
-import {addSelectedValues, removeSelectedValues} from '@shared/helper/table-helper';
-import {NotificationColumn} from '@shared/model/notification.model';
-import {DeeplinkService} from '@shared/service/deeplink.service';
+import { ToastService } from '@shared/components/toasts/toast.service';
+import { isDateFilter } from '@shared/helper/filter-helper';
+import { addSelectedValues, removeSelectedValues } from '@shared/helper/table-helper';
+import { NotificationColumn } from '@shared/model/notification.model';
+import { DeeplinkService } from '@shared/service/deeplink.service';
 
 
 @Component({
@@ -93,6 +84,7 @@ export class PartsTableComponent implements OnInit {
   @Input() multiSortList: TableHeaderSort[];
 
   @Input() tableType: TableType;
+  @Input() mainAspectType: MainAspectType;
 
   public tableConfig: TableConfig;
 
@@ -218,7 +210,7 @@ export class PartsTableComponent implements OnInit {
     this.filterFormGroup.valueChanges.subscribe((formValues) => {
       this.filterActivated.emit(formValues);
     });
-
+    console.log(this.mainAspectType)
   }
 
 
@@ -362,4 +354,5 @@ export class PartsTableComponent implements OnInit {
   }
 
   protected readonly TableType = TableType;
+  protected readonly MainAspectType = MainAspectType;
 }

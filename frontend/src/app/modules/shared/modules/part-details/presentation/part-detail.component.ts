@@ -54,6 +54,8 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
 
   public readonly displayedColumns: string[];
 
+  public isAsPlannedPart: boolean;
+
   public customerOrPartSiteDetailsHeader$: Subscription;
   public customerOrPartSiteHeader: string;
 
@@ -65,13 +67,19 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
 
   private readonly isOpenState: State<boolean> = new State<boolean>(false);
 
+  public authorizationTooltipMessage: string;
+
   constructor(private readonly partDetailsFacade: PartDetailsFacade, private readonly router: Router, public roleService: RoleService) {
     this.isOpen$ = this.isOpenState.observable;
 
     this.selectedPartDetails$ = this.partDetailsFacade.selectedPart$;
     this.shortenPartDetails$ = this.partDetailsFacade.selectedPart$.pipe(
       PartsAssembler.mapPartForView(),
-      tap(({ data }) => this.qualityTypeControl.patchValue(data.qualityType, { emitEvent: false, onlySelf: true })),
+      tap(({ data }) => {
+        this.qualityTypeControl.patchValue(data.qualityType, { emitEvent: false, onlySelf: true })
+        this.isAsPlannedPart = data.semanticDataModel.toString() === 'PartAsPlanned';
+        console.log(this.isAsPlannedPart);
+      }),
     );
 
     this.manufacturerDetails$ = this.partDetailsFacade.selectedPart$.pipe(PartsAssembler.mapPartForManufacturerView());
@@ -95,6 +103,15 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
       label: value,
       value: value,
     }));
+
+    this.selectedPartDetails$.subscribe(part => {
+      if(part?.data?.children?.length > 0 ) {
+        this.authorizationTooltipMessage = this.getRestrictionMessageKey(true);
+      } else {
+        this.authorizationTooltipMessage = this.getRestrictionMessageKey(false);
+      }
+    });
+
     this.displayedColumns = [ 'position', 'productType', 'tractionBatteryCode' ];
   }
 
@@ -117,6 +134,23 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
   public openRelationPage(part: Part): void {
     this.partDetailsFacade.selectedPart = null;
     this.router.navigate([ `parts/relations/${ part.id }` ]).then(_ => window.location.reload());
+  }
+
+  getRestrictionMessageKey(hasChildren: boolean): string {
+    if(this.isAsPlannedPart) {
+      return 'routing.notAllowedForAsPlanned';
+    }
+
+    else if(!hasChildren) {
+      return 'routing.noChildPartsForInvestigation';
+    }
+
+    else if(this.roleService.isAdmin()) {
+      return 'routing.unauthorized';
+    } else {
+      return null;
+    }
+
   }
 
   protected readonly NotificationAction = NotificationAction;
