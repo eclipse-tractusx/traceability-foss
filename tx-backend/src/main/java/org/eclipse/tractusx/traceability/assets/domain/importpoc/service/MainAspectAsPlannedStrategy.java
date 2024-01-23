@@ -101,13 +101,11 @@ public class MainAspectAsPlannedStrategy implements MappingStrategy {
             detailAspectModels.addAll(extractDetailAspectModelsPartSiteInformationAsPlanned(emptyIfNull(partSiteInformationAsPlannedRequest.sites())));
         }
 
+        AssetBase.AssetBaseBuilder assetBaseBuilder = AssetBase.builder();
         if (partAsPlannedV2 != null) {
             DetailAspectModel asPlannedDetailAspect = extractDetailAspectModelsAsPlanned(partAsPlannedV2.validityPeriod());
             detailAspectModels.add(asPlannedDetailAspect);
-        }
 
-        AssetBase.AssetBaseBuilder assetBaseBuilder = AssetBase.builder();
-        if (partAsPlannedV2 != null) {
             assetBaseBuilder
                     .id(assetImportRequestV2.assetMetaInfoRequest().catenaXId())
                     .manufacturerId(traceabilityProperties.getBpn().value())
