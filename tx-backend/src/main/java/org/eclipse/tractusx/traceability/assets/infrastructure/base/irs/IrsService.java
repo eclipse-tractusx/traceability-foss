@@ -149,17 +149,28 @@ public class IrsService implements IrsRepository {
         log.info("Required constraints from application yaml are : {}", traceabilityProperties.getRightOperand());
 
 
-        //update existing policies
-        irsPolicies.stream().filter(
-                        irsPolicy -> traceabilityProperties.getRightOperand().equals(irsPolicy.policyId()))
-                .forEach(existingPolicy -> checkAndUpdatePolicy(irsPolicies));
+        boolean foundMatch = irsPolicies.stream()
+                .flatMap(irsPolicy -> irsPolicy.permissions().stream())
+                .flatMap(permission -> permission.getConstraints().stream())
+                .anyMatch(constraint -> {
+                    boolean orMatch = constraint.getOr().stream()
+                            .anyMatch(rightO -> rightO.getRightOperand().stream().anyMatch(value -> value.equals(traceabilityProperties.getRightOperand())));
 
+                    boolean andMatch = constraint.getAnd().stream()
+                            .allMatch(rightO -> rightO.getRightOperand().stream().allMatch(value -> value.equals(traceabilityProperties.getRightOperand())));
 
-        //create missing policies
-        boolean missingPolicy = irsPolicies.stream().noneMatch(irsPolicy -> irsPolicy.policyId().equals(traceabilityProperties.getRightOperand()));
-        if (missingPolicy) {
+                    if (orMatch || andMatch) {
+                        checkAndUpdatePolicy(irsPolicies);
+                        return true;
+                    }
+
+                    return false;
+                });
+
+        if (!foundMatch) {
             createPolicy();
         }
+
     }
 
     private void createPolicy() {
