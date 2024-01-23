@@ -2,4 +2,4 @@
 CVE-2022-25857
 # ref https://github.com/catenax-ng/tx-traceability-foss/security/code-scanning/6879
 # this is acceptable due to custom environment variable injection script which is executed upon FE container startup
-KSV014
+AVD-KSV-0014
