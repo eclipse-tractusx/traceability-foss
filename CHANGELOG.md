@@ -13,6 +13,11 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Removed
 
+## [10.2.1 - 23.01.2024]
+
+### Added
+- Test Release
+
 ## [10.2.0 - 22.01.2024]
 
 ### Added
