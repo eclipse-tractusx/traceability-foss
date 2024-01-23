@@ -38,32 +38,12 @@ class AbstractAssetBaseServiceTest {
         assertThat(result).containsAll(expectedValues);
     }
 
-    @ParameterizedTest
-    @MethodSource("booleanFieldNamesProvider")
-    void givenBooleanFieldName(String fieldName, String startWith, List<String> expectedValues) {
-        // given params
-
-        // when
-        List<String> result = service.getDistinctFilterValues(fieldName, startWith, 10, null);
-
-        // then
-        assertThat(result).containsAll(expectedValues);
-    }
-
     private static Stream<Arguments> enumFieldNamesProvider() {
         return Stream.of(
                 Arguments.of("owner", null, List.of("SUPPLIER", "CUSTOMER", "OWN", "UNKNOWN")),
                 Arguments.of("qualityType", "O", List.of("OK", "MINOR", "MAJOR", "CRITICAL", "LIFE_THREATENING")),
-                Arguments.of("semanticDataModel", null, List.of("BATCH", "SERIALPART", "UNKNOWN", "PARTASPLANNED", "JUSTINSEQUENCE"))
-        );
-    }
-
-    private static Stream<Arguments> booleanFieldNamesProvider() {
-        return Stream.of(
-                Arguments.of("activeAlert", null, List.of("true", "false")),
-                Arguments.of("activeAlert", "true", List.of("true", "false")),
-                Arguments.of("underInvestigation", null, List.of("true", "false")),
-                Arguments.of("underInvestigation", "f", List.of("true", "false"))
+                Arguments.of("semanticDataModel", null, List.of("BATCH", "SERIALPART", "UNKNOWN", "PARTASPLANNED", "JUSTINSEQUENCE")),
+                Arguments.of("importState", null, List.of("TRANSIENT", "PERSISTENT", "ERROR", "IN_SYNCHRONIZATION", "UNSET"))
         );
     }
 

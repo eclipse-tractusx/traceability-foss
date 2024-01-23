@@ -20,6 +20,7 @@
 package org.eclipse.tractusx.traceability.integration.assets;
 
 import io.restassured.http.ContentType;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
@@ -78,62 +79,6 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
                 .log().all()
                 .statusCode(200)
                 .body("totalItems", equalTo(13));
-    }
-
-    @Test
-    void givenNoFilter_whenCallFilteredEndpointWithoutOperator_thenReturnBadRequest() throws JoseException {
-        // given
-        assetsSupport.defaultAssetsStored();
-        final String filter = "?filter=activeAlert,EQUAL,false";
-
-        // then
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .contentType(ContentType.JSON)
-                .log().all()
-                .when()
-                .get("/api/assets/as-built" + filter)
-                .then()
-                .log().all()
-                .statusCode(400);
-    }
-
-    @Test
-    void givenInInvestigationFalseFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
-        // given
-        assetsSupport.defaultAssetsStored();
-        final String filter = "?filter=activeAlert,EQUAL,false,AND";
-
-        // then
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .contentType(ContentType.JSON)
-                .log().all()
-                .when()
-                .get("/api/assets/as-built" + filter)
-                .then()
-                .log().all()
-                .statusCode(200)
-                .body("totalItems", equalTo(13));
-    }
-
-    @Test
-    void givenInInvestigationTrueFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
-        // given
-        assetsSupport.defaultAssetsStored();
-        final String filter = "?filter=activeAlert,EQUAL,true,AND";
-
-        // then
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .contentType(ContentType.JSON)
-                .log().all()
-                .when()
-                .get("/api/assets/as-built" + filter)
-                .then()
-                .log().all()
-                .statusCode(200)
-                .body("totalItems", equalTo(0));
     }
 
     @Test
@@ -678,5 +623,48 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
                 .statusCode(200)
                 .assertThat()
                 .body("totalItems", equalTo(1));
+    }
+
+    @Test
+    void givenAssetsWithImportStateExistent_whenCallFilteredEndpoint_thenReturnProperAssets() throws JoseException {
+        // given
+        assetsSupport.defaultAssetsStored();
+        final String filter = "?filter=importState,EQUAL,PERSISTENT,AND,importNote,STARTS_WITH,A,AND";
+
+        // then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .get("/api/assets/as-built" + filter)
+                .then()
+                .log().all()
+                .statusCode(200)
+                .body("totalItems", equalTo(13));
+    }
+
+    @Test
+    void givenAssetsWithImportStateTransientExistent_whenCallFilteredEndpoint_thenReturnProperAssets() throws JoseException {
+        // given
+        assetsSupport.defaultAssetsStored();
+        AssetAsBuiltEntity assetAsBuilt = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").orElseThrow();
+        assetAsBuilt.setImportState(ImportState.TRANSIENT);
+        jpaAssetAsBuiltRepository.save(assetAsBuilt);
+
+
+        final String filter = "?filter=importState,EQUAL,TRANSIENT,AND";
+
+        // then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .get("/api/assets/as-built" + filter)
+                .then()
+                .log().all()
+                .statusCode(200)
+                .body("content.importState", equalTo(List.of("TRANSIENT")));
     }
 }

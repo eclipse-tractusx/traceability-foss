@@ -17,11 +17,24 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.application.importpoc.validation;
+package org.eclipse.tractusx.traceability.submodel.infrastructure.repository;
 
-public class NotSupportedSchemaException extends RuntimeException{
+import feign.Param;
+import feign.RequestLine;
+import org.eclipse.tractusx.traceability.common.config.SubmodelApiConfig;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.RequestBody;
 
-    NotSupportedSchemaException(String providedSchema) {
-        super("'%s' is not supported".formatted(providedSchema));
-    }
+@FeignClient(
+        contextId = "submodelServerContextId",
+        name = "submodelServer",
+        url = "${feign.submodelApi.url}",
+        configuration = {SubmodelApiConfig.class}
+)
+public interface SubmodelServerApiClient {
+    @RequestLine("POST /api/submodel/data/{submodelId}")
+    void createSubmodel(@Param("submodelId") String submodelId, @RequestBody String payload);
+
+    @RequestLine("GET /api/submodel/data/{submodelId}")
+    String getSubmodel(@Param("submodelId") String submodelId);
 }

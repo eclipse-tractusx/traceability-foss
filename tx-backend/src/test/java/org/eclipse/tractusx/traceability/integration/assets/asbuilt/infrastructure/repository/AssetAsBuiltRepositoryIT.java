@@ -65,7 +65,6 @@ class AssetAsBuiltRepositoryIT extends IntegrationTestSpecification {
                 Arguments.of("id", "urn:uuid:1", 10, 3),
                 Arguments.of("id", null, 10, 10),
                 Arguments.of("id", null, 200, 13),
-                Arguments.of("inInvestigation", null, 10, 1),
                 Arguments.of("owner", null, 10, 2)
         );
     }

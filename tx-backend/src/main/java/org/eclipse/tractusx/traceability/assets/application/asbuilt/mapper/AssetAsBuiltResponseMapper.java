@@ -46,8 +46,6 @@ public class AssetAsBuiltResponseMapper extends AssetBaseResponseMapper {
                         asset.getParentRelations().stream()
                                 .map(AssetAsBuiltResponseMapper::from)
                                 .toList())
-                .underInvestigation(asset.isInInvestigation())
-                .activeAlert(asset.isActiveAlert())
                 .qualityType(
                         from(asset.getQualityType())
                 )
