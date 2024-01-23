@@ -25,7 +25,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
@@ -33,12 +32,10 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
@@ -84,17 +81,6 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
     public PageResult<AssetBase> getAssets(Pageable pageable, SearchCriteria searchCriteria) {
         List<AssetAsBuildSpecification> assetAsBuildSpecifications = emptyIfNull(searchCriteria.getSearchCriteriaFilterList()).stream().map(AssetAsBuildSpecification::new).toList();
         Specification<AssetAsBuiltEntity> specification = AssetAsBuildSpecification.toSpecification(assetAsBuildSpecifications, searchCriteria.getSearchCriteriaOperator());
-
-        List<String> CASTED_COLUMNS = Arrays.asList("noOfActiveInvestigations", "noOfActiveAlerts");
-        for (Sort.Order order : pageable.getSort()) {
-            String columnName = order.getProperty();
-            if (CASTED_COLUMNS.contains(columnName)) {
-                var properties = "CAST("+columnName+"  AS int)";
-                Sort sort = JpaSort.unsafe(order.getDirection(),properties);
-                Pageable new_pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
-                return new PageResult<>(jpaAssetAsBuiltRepository.findAllOrderByNoOfNotification(specification,new_pageable), AssetAsBuiltEntity::toDomain);
-            }
-        }
         return new PageResult<>(jpaAssetAsBuiltRepository.findAll(specification,pageable), AssetAsBuiltEntity::toDomain);
     }
 
