@@ -352,7 +352,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
                 Arguments.of(Set.of(
                         "qualityAlertsInStatusActive,STARTS_WITH,0"), 13),
                 Arguments.of(Set.of(
-                        "filter=qualityInvestigationsInStatusActive,STARTS_WITH,1"), 0),
+                        "qualityInvestigationsInStatusActive,STARTS_WITH,1"), 0),
                 Arguments.of(Set.of(
                         "qualityInvestigationsInStatusActive,STARTS_WITH,1","qualityAlertsInStatusActive,STARTS_WITH,3"), 0),
                 Arguments.of(Set.of(

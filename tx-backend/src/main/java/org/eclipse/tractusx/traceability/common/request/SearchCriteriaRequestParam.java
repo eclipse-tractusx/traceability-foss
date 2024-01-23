@@ -116,16 +116,12 @@ public class SearchCriteriaRequestParam {
     }
 
     private static String handleFilterParameter(final String filterParameter) {
-        // As long as no clear spelling is defined, be lax with it. https://github.com/eclipse-tractusx/sldt-semantic-models/issues/470
-        // Added notification condition for fixing filtering issue. Task: https://cofinity-x.atlassian.net/jira/software/c/projects/DO/boards/25?selectedIssue=DO-5056
-        if (filterParameter.equalsIgnoreCase("catenaxsiteid")) {
-            return "catenaXSiteId";
-        } else if (filterParameter.equals("qualityAlertsInStatusActive")) {
-            return "noOfActiveAlerts";
-        }  else if (filterParameter.equals("qualityInvestigationsInStatusActive")) {
-            return "noOfActiveInvestigations";
-        } else {
-            return filterParameter;
-        }
+        return switch (filterParameter) {
+            // Added notification condition for fixing filtering issue. Task: https://cofinity-x.atlassian.net/jira/software/c/projects/DO/boards/25?selectedIssue=DO-5056
+            case "qualityAlertsInStatusActive" -> "noOfActiveAlerts";
+            case "qualityInvestigationsInStatusActive" -> "noOfActiveInvestigations";
+            // As long as no clear spelling is defined, be lax with it. https://github.com/eclipse-tractusx/sldt-semantic-models/issues/470
+            default -> filterParameter.equalsIgnoreCase("catenaxsiteid") ? "catenaXSiteId" : filterParameter;
+        };
     }
 }
