@@ -29,6 +29,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Irs Jobs are now created with callback parameter set to new /irs/job/callback endpoint
 - Upgraded irs version from 6.12.0 to 6.13.0
 - Switched from OAuth2.0 to API Key authentication for IRS API Requests
+- Updated createIrsPolicyIfMissing() method to validate policies based on rightOperand values rather than policyIDs
 
 ### Removed
 - Shell descriptor entity with underlying logic
