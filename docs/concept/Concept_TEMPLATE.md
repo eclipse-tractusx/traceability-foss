@@ -44,3 +44,6 @@
 |              |      |               |
 
 # References
+
+# Additional Details
+Given the dynamic nature of ongoing development, there might be variations between the conceptualization and the current implementation. For the latest status, refer to the documentation.
