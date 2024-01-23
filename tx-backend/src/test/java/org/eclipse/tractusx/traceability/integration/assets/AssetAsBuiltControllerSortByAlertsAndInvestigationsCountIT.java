@@ -28,10 +28,14 @@ import org.eclipse.tractusx.traceability.integration.common.support.Investigatio
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
@@ -203,8 +207,30 @@ class AssetAsBuiltControllerSortByAlertsAndInvestigationsCountIT extends Integra
                 .body("content.qualityInvestigationsInStatusActive", containsInRelativeOrder(3,6));
     }
 
-    @Test
-    void givenInvestigationsForAsset_whenCallWithSortByQualityInvestigationsInStatusActiveAsc() throws JoseException {
+    private static Stream<Arguments> sortArguments() {
+        return Stream.of(
+                Arguments.of("qualityInvestigationsInStatusActive,asc", "owner,EQUAL,SUPPLIER", "AND", "content.qualityInvestigationsInStatusActive",
+                        List.of(1, 2, 20)),
+                Arguments.of("qualityInvestigationsInStatusActive,desc", "owner,EQUAL,SUPPLIER", "AND", "content.qualityInvestigationsInStatusActive",
+                        List.of(20, 2, 1)),
+                Arguments.of("qualityAlertsInStatusActive,asc", "owner,EQUAL,SUPPLIER", "AND", "content.qualityAlertsInStatusActive",
+                        List.of(1, 2, 20)),
+                Arguments.of("qualityAlertsInStatusActive,desc", "owner,EQUAL,SUPPLIER", "AND", "content.qualityAlertsInStatusActive",
+                        List.of(20, 2, 1))
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("sortArguments")
+    void givenNotificationForAsset_whenCallWithSortAndFilterArgumentEndpoint_thenReturnExpectedResponse(
+            final String sort,
+            final String filter,
+            final String filterOperator,
+            final String contentField,
+            final List<Integer> expectedOrderOfNotificationItems) throws JoseException {
+
+        final long page = 0;
+        final long size = 20;
 
         // Given
         assetsSupport.defaultMultipleAssetsAsBuiltStored();
@@ -215,31 +241,38 @@ class AssetAsBuiltControllerSortByAlertsAndInvestigationsCountIT extends Integra
         final AssetAsBuiltEntity assetAsBuilt3 = jpaAssetAsBuiltRepository.findById(
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978").orElseThrow();
 
-        investigationsSupport.storeInvestigationWithStatusAndAssets(SENT, List.of(assetAsBuilt1),null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(SENT, List.of(assetAsBuilt1), null);
 
-        investigationsSupport.storeInvestigationWithStatusAndAssets(SENT, List.of(assetAsBuilt2),null);
-        investigationsSupport.storeInvestigationWithStatusAndAssets(SENT, List.of(assetAsBuilt2),null);
-
+        investigationsSupport.storeInvestigationWithStatusAndAssets(SENT, List.of(assetAsBuilt2), null);
+        investigationsSupport.storeInvestigationWithStatusAndAssets(SENT, List.of(assetAsBuilt2), null);
         IntStream
-                .rangeClosed(1, 10)
+                .rangeClosed(1, 20)
                 .forEach(i -> investigationsSupport.storeInvestigationWithStatusAndAssets(SENT, List.of(assetAsBuilt3),
+                        null));
+
+        alertsSupport.storeAlertWithStatusAndAssets(SENT, List.of(assetAsBuilt1), null);
+        alertsSupport.storeAlertWithStatusAndAssets(SENT, List.of(assetAsBuilt2), null);
+        alertsSupport.storeAlertWithStatusAndAssets(SENT, List.of(assetAsBuilt2), null);
+        IntStream
+                .rangeClosed(1, 20)
+                .forEach(i -> alertsSupport.storeAlertWithStatusAndAssets(SENT, List.of(assetAsBuilt3),
                         null));
 
         // When
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "50")
-                .param("filter", "owner,EQUAL,SUPPLIER")
-                .param("filterOperator", "AND")
-                .param("sort", "qualityInvestigationsInStatusActive,asc")
                 .contentType(ContentType.JSON)
+                .param("page", page)
+                .param("size", size)
+                .param("sort", sort)
+                .param("filter", filter)
+                .param("filterOperator", filterOperator)
                 .when()
+                .log().all()
                 .get("/api/assets/as-built")
                 .then()
                 .statusCode(200)
                 .log().all()
-                .body("content.qualityInvestigationsInStatusActive",
-                        containsInRelativeOrder(0, 2, 20));
+                .body(contentField, containsInRelativeOrder(expectedOrderOfNotificationItems.toArray()));
     }
 }
