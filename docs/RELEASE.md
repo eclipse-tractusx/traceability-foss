@@ -8,11 +8,10 @@ Prerequisite:
 Make sure eclipse / catena git repositories are in sync
 
 1) Decide which version will be incremented. Following shows example for 1.0.0
-2) Create a release branch on catena /release/1.0.0
-3) Check out release branch from catena /release/1.0.0
+2) Create and Checkout release branch on catena /release/1.0.0
 4) Edit changelog: Align the new version (1.0.0) with the changes and add new UNRELEASED section
 5) Edit /charts/traceability-foss/CHANGELOG.md
-- Make sure that an entry is existing for the helm-chart version you want to create
+- Add an Entry for an incremented (patch) version (1.0.0 -> 1.0.1)
 5) Push onto /release/1.0.0 catena and eclipse
 6) Open Release App Page Catena: https://github.com/catenax-ng/tx-traceability-foss/releases
 7) Draft a new release
