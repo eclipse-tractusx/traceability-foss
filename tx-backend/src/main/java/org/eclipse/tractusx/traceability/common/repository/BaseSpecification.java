@@ -47,9 +47,18 @@ public abstract class BaseSpecification<T> implements Specification<T> {
                     criteria.getValue().toLowerCase());
         }
         if (criteria.getStrategy().equals(SearchStrategy.STARTS_WITH)) {
-            return builder.like(
-                    builder.lower(root.get(criteria.getKey())),
-                    criteria.getValue().toLowerCase() + "%");
+            final String criteriaKey = criteria.getKey();
+            return switch (criteriaKey) {
+                case "noOfActiveAlerts",
+                        "noOfActiveInvestigations" -> builder.like(
+                        root.get(criteriaKey).as(String.class),
+                        criteria.getValue() + "%"
+                );
+                default -> builder.like(
+                        builder.lower(root.get(criteriaKey)),
+                        criteria.getValue().toLowerCase() + "%"
+                );
+            };
         }
         if (criteria.getStrategy().equals(SearchStrategy.AT_LOCAL_DATE)) {
             final LocalDate localDate = LocalDate.parse(criteria.getValue());
@@ -61,6 +70,4 @@ public abstract class BaseSpecification<T> implements Specification<T> {
         }
         return null;
     }
-
-
 }
