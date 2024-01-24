@@ -8,7 +8,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [UNRELEASED - DD.MM.YYYY]
 
 ### Added
-
+- Added tooltips on functionalities that are unauthorized or unavailable
 ### Changed
 
 ### Removed
