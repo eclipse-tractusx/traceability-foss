@@ -54,7 +54,7 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
 
   public readonly displayedColumns: string[];
 
-  public isAsPlannedPart: boolean;
+  public isAsPlannedPart: boolean = false;
 
   public customerOrPartSiteDetailsHeader$: Subscription;
   public customerOrPartSiteHeader: string;
@@ -71,14 +71,11 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
 
   constructor(private readonly partDetailsFacade: PartDetailsFacade, private readonly router: Router, public roleService: RoleService) {
     this.isOpen$ = this.isOpenState.observable;
-
     this.selectedPartDetails$ = this.partDetailsFacade.selectedPart$;
     this.shortenPartDetails$ = this.partDetailsFacade.selectedPart$.pipe(
       PartsAssembler.mapPartForView(),
       tap(({ data }) => {
         this.qualityTypeControl.patchValue(data.qualityType, { emitEvent: false, onlySelf: true })
-        this.isAsPlannedPart = data.semanticDataModel.toString() === 'PartAsPlanned';
-        console.log(this.isAsPlannedPart);
       }),
     );
 
@@ -105,6 +102,11 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
     }));
 
     this.selectedPartDetails$.subscribe(part => {
+
+      if(part?.data?.semanticDataModel) {
+        this.isAsPlannedPart = part.data.semanticDataModel.toString() === 'PartAsPlanned';
+      }
+
       if(part?.data?.children?.length > 0 ) {
         this.authorizationTooltipMessage = this.getRestrictionMessageKey(true);
       } else {
@@ -140,11 +142,9 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
     if(this.isAsPlannedPart) {
       return 'routing.notAllowedForAsPlanned';
     }
-
     else if(!hasChildren) {
       return 'routing.noChildPartsForInvestigation';
     }
-
     else if(this.roleService.isAdmin()) {
       return 'routing.unauthorized';
     } else {
