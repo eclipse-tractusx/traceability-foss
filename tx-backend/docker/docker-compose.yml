@@ -30,6 +30,15 @@ services:
       - "5432"
     networks:
       net:
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    cap_drop:
+      - all
 
 networks:
   net:
