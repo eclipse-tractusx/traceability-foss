@@ -36,10 +36,6 @@ SPDX-License-Identifier: Apache-2.0
     <dependencies>
         <!-- managed by spring boot -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-        <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
             <version>${swagger-annotation.version}</version>
@@ -52,8 +48,6 @@ SPDX-License-Identifier: Apache-2.0
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <exclusions>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
