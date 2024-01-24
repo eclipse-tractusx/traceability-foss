@@ -19,6 +19,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - SubmodelServerService for calling submodel server with feign client
 - Added GET /policies endpoint to retrieve accepted policies
 - Added POST assets/publish endpoint to publish transient assets
+- Updated Irs Library from 1.4.1-SNAPSHOT to 1.5.1-SNAPSHOT
 
 ### Changed
 - Fixed security findings
@@ -44,6 +45,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Updated github/codeql-action from 2 to 3
 - Updated actions/download-artifact from 3 to 4actions/download-artifact from 3 to 4
 - Updated com.nimbusds:nimbus-jose-jwt from 9.37.1 to 9.37.3
+- Adjusted sync logic to create jobs only for related BomLifecycles
 
 ### Removed
 - Shell descriptor entity with underlying logic
