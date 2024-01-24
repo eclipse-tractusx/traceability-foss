@@ -78,13 +78,13 @@ SPDX-License-Identifier: Apache-2.0
     </mat-expansion-panel>
 
     <mat-expansion-panel *ngIf="showStartInvestigation"
-                         [disabled]="!(selectedPartDetails$ | async)?.data?.children?.length || roleService.isAdmin()"
-                         matTooltip="{{'routing.unauthorized' | i18n}}"
+                         [disabled]="!(selectedPartDetails$ | async)?.data?.children?.length || roleService.isAdmin() || isAsPlannedPart"
+                         matTooltip="{{ authorizationTooltipMessage | i18n}}"
                          matTooltipClass="table--header--tooltip"
                          matTooltipPosition="above"
                          [class.mdc-tooltip--multiline]="true"
                          [matTooltipShowDelay]="1000"
-                         [matTooltipDisabled]="!roleService.isAdmin()"
+                         [matTooltipDisabled]="!roleService.isAdmin() && !isAsPlannedPart && (selectedPartDetails$ | async)?.data?.children?.length > 0"
     >
       <mat-expansion-panel-header>
         <mat-panel-title>{{ 'partDetail.investigation.tab.header' | i18n }}</mat-panel-title>
