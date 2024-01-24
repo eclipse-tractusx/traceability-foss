@@ -19,27 +19,27 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChildren} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
-import {Pagination} from '@core/model/pagination.model';
-import {PartsFacade} from '@page/parts/core/parts.facade';
-import {resetMultiSelectionAutoCompleteComponent} from '@page/parts/core/parts.helper';
-import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
-import {AssetAsBuiltFilter, AssetAsPlannedFilter, Part} from '@page/parts/model/parts.model';
-import {BomLifecycleSize} from '@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model';
-import {TableType} from '@shared/components/multi-select-autocomplete/table-type.model';
-import {PartsTableComponent} from '@shared/components/parts-table/parts-table.component';
-import {TableEventConfig, TableHeaderSort} from '@shared/components/table/table.model';
-import {ToastService} from '@shared/components/toasts/toast.service';
-import {toAssetFilter, toGlobalSearchAssetFilter} from '@shared/helper/filter-helper';
-import {NotificationType} from '@shared/model/notification.model';
-import {View} from '@shared/model/view.model';
-import {PartDetailsFacade} from '@shared/modules/part-details/core/partDetails.facade';
-import {BomLifecycleSettingsService, UserSettingView} from '@shared/service/bom-lifecycle-settings.service';
-import {StaticIdService} from '@shared/service/staticId.service';
-import {BehaviorSubject, combineLatest, Observable, Subject} from 'rxjs';
-import {map} from 'rxjs/operators';
-import {RoleService} from "@core/user/role.service";
+import { AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { Pagination } from '@core/model/pagination.model';
+import { RoleService } from '@core/user/role.service';
+import { PartsFacade } from '@page/parts/core/parts.facade';
+import { resetMultiSelectionAutoCompleteComponent } from '@page/parts/core/parts.helper';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
+import { AssetAsBuiltFilter, AssetAsPlannedFilter, Part } from '@page/parts/model/parts.model';
+import { BomLifecycleSize } from '@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model';
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
+import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
+import { TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
+import { ToastService } from '@shared/components/toasts/toast.service';
+import { toAssetFilter, toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
+import { NotificationType } from '@shared/model/notification.model';
+import { View } from '@shared/model/view.model';
+import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
+import { BomLifecycleSettingsService, UserSettingView } from '@shared/service/bom-lifecycle-settings.service';
+import { StaticIdService } from '@shared/service/staticId.service';
+import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 
 @Component({
@@ -71,7 +71,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public DEFAULT_PAGE_SIZE = 50;
     public ctrlKeyState = false;
-    isPublisherOpen$ = new BehaviorSubject<boolean>(false);
+    isPublisherOpen$ = new Subject<boolean>();
 
     @ViewChildren(PartsTableComponent) partsTableComponents: QueryList<PartsTableComponent>;
 
