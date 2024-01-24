@@ -4,36 +4,30 @@
 </div>
 
 ## Release an app
+Prerequisite:
+Make sure eclipse / catena git repositories are in sync
 
 1) Decide which version will be incremented. Following shows example for 1.0.0
-2) Create a release branch on catena /release/1.0.0
-3) Check out release branch from catena /release/1.0.0
+2) Create and Checkout release branch on catena /release/1.0.0
 4) Edit changelog: Align the new version (1.0.0) with the changes and add new UNRELEASED section
-5) Push onto /release/1.0.0 catena and eclipse
-6) Open Release App Page Catena: https://github.com/catenax-ng/tx-traceability-foss/releases
-7) Draft a new release
-8) On dropdown choose a tag - use the version 1.0.0 (Create new tag will appear - select it)
-9) On dropdown target use your /release/1.0.0
-10) Title = Version of app -> 1.0.0
-11) Description = Changelog Content of app
-12) Checkbox set as latest release
-- Verify that github action release generation has been triggered
-13) Repeat step 7 to 12 for tractus-x: [GitHub Releases page](https://github.com/eclipse-tractusx/traceability-foss/releases)
-14) Edit /release/1.0.0 branch: package.json version field with your version 1.0.0
-15) Open /charts/Chart.yaml and edit the fields:
-- version, frontend.version, backend.version (set only one minor version higher) - you need to verify that this version does not exist, see release page
-- appVersion (needs to be your app version) -> 1.0.0
-16) Open /charts/backend/Chart.yaml and set same version / appVersion
-17) Open /charts/frontend/Chart.yaml and set same version / appVersion
-18) Push to catena and eclipse
-19) Open Github Action on Catena and run action ON release/1.0.0: https://github.com/catenax-ng/tx-traceability-foss/actions/workflows/helm-chart-release.yaml
-- Verify that helm-chart release has been generated and is on release page
-20) Edit the app release and set checkbox to latest release
-21)Open Github Action on Eclipse and run action ON release/1.0.0: https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/helm-chart-release.yaml and run on your release branch
-- Verify that helm-chart release has been generated and is on release page
-22) Edit the app release and set checkbox to latest release
-23) Merge release branch into catena main branch
+5) Edit /charts/traceability-foss/CHANGELOG.md
+6) Add an Entry for an incremented (patch) version (1.0.0 -> 1.0.1)
+7) Push onto /release/1.0.0 catena and eclipse
+8) Open Release App Page Catena: https://github.com/catenax-ng/tx-traceability-foss/releases
+9) Draft a new release
+10) On dropdown choose a tag - use the version 1.0.0 (Create new tag will appear - select it)
+11) On dropdown target use your /release/1.0.0
+12) Title = Version of app -> 1.0.0
+13) Description = Changelog Content of app
+14) Checkbox set as latest release
+15) Verify that github action [Release](https://github.com/catenax-ng/tx-traceability-foss/actions/workflows/release.yaml) generation has been triggered
+16) Verify that an automatic pull request has been opened (Prepare Helm release for next version)
+17) Validate that the versions within that pull requests are correct
+18) Merge pull request (Prepare Helm release for next version)
+19) Merge release branch into main
+20) Open the github action for helm release generation: https://github.com/catenax-ng/tx-traceability-foss/actions/workflows/helm-chart-release.yaml
+21) Execute it from main branch
+22) Validate that the helm charts release has been generated within the release page
+23) Repeat step 8 to 23 for tractus-x: [GitHub Releases page](https://github.com/eclipse-tractusx/traceability-foss/releases)
 24) Sync catena and eclipse main branch
-
-Please update the [CHANGELOG.md](https://github.com/eclipse-tractusx/traceability-foss/blob/main/CHANGELOG.md) file with release changes that follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) format.
 

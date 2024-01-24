@@ -10,36 +10,40 @@
 # Table of Contents
 1. [Overview](#overview)
 2. [Summary](#summary)
-3. [Problem Statement](#statement)
+3. [Problem Statement](#problem-statement)
 4. [Requirements](#requirements)
 5. [NFR](#nfr)
-6. [Out of scope](#outofscope)
+6. [Out of scope](#out-of-scope)
 7. [Assumptions](#assumptions)
 8. [Concept](#concept)
 9. [Glossary](#glossary)
 10. [References](#references)
 
 
-# <ins>Overview</ins> <a name="overview"></a>
+# Overview
 
+# Summary
 
-# <ins>Summary</ins> <a name="summary"></a>
+# Problem Statement
 
-# <ins>Problem Statement</ins> <a name="statement"></a>
+# Requirements
 
-# <ins>Requirements</ins> <a name="requirements"></a>
+# NFR
 
-# <ins>NFR</ins> <a name="nfr"></a>
+# Out of scope
 
-# <ins>Out of scope</ins> <a name="outofscope"></a>
+# Assumptions
 
-# <ins>Concept</ins> <a name="concept"></a>
+# Concept
 
-# <ins>Glossary</ins> <a name="glossary"></a>
+# Glossary
 
 | Abbreviation | Name | Description   |
 |--------------|------|---------------|
 |              |      |               |
 |              |      |               |
 
-# <ins>References</ins> <a name="references"></a>
+# References
+
+# Additional Details
+Given the dynamic nature of ongoing development, there might be variations between the conceptualization and the current implementation. For the latest status, refer to the documentation.

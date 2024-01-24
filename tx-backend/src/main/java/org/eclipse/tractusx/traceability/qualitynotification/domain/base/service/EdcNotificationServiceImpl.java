@@ -59,7 +59,7 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
         Discovery discovery = discoveryService.getDiscoveryByBPN(notification.getSendTo());
         String senderEdcUrl = discovery.getSenderUrl();
         List<String> receiverUrls = emptyIfNull(discovery.getReceiverUrls());
-        List<Boolean> sendResults = null;
+        List<Boolean> sendResults = List.of();
 
         if (notification.getType().equals(QualityNotificationType.ALERT)) {
             log.info("::asyncNotificationExecutor::isQualityAlert");
