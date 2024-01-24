@@ -8,8 +8,15 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [UNRELEASED - DD.MM.YYYY]
 
 ### Added
+- Added AVD-KSV-0014 to trivy ignore
 - Added tooltips on functionalities that are unauthorized or unavailable
+-
 ### Changed
+- Updated Irs Library from 1.4.1-SNAPSHOT to 1.5.1-SNAPSHOT
+- Changed some java implementations according to security findings ( business logic unchanged )
+- Adjusted sync logic to create jobs only for related BomLifecycles
+- Spring core updated from 6.0.14 to 6.0.16
+- Springboot updated from 3.1.6 to 3.1.7
 
 ### Removed
 
@@ -32,7 +39,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - SubmodelServerService for calling submodel server with feign client
 - Added GET /policies endpoint to retrieve accepted policies
 - Added POST assets/publish endpoint to publish transient assets
-- Added AVD-KSV-0014 to trivy ignore
+
 
 ### Changed
 - Fixed security findings
@@ -58,7 +65,6 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Updated github/codeql-action from 2 to 3
 - Updated actions/download-artifact from 3 to 4actions/download-artifact from 3 to 4
 - Updated com.nimbusds:nimbus-jose-jwt from 9.37.1 to 9.37.3
-- Changed some java implementations according to security findings ( business logic unchanged )
 
 ### Removed
 - Shell descriptor entity with underlying logic
@@ -85,8 +91,6 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - moved rights and roles matrix from arc42 doc to administration guide
 - Moved accepted policy to helm environments
 - Request IRS policy store to accept IRS policies in addition to our own policy
-- Spring core updated from 6.0.14 to 6.0.16
-- Springboot updated from 3.1.6 to 3.1.7
 
 ### Removed
 - Removed registry lookups feature
