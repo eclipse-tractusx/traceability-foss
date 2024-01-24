@@ -27,6 +27,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - SubmodelServerService for calling submodel server with feign client
 - Added GET /policies endpoint to retrieve accepted policies
 - Added POST assets/publish endpoint to publish transient assets
+- Added AVD-KSV-0014 to trivy ignore
 
 ### Changed
 - Fixed security findings
@@ -52,6 +53,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Updated github/codeql-action from 2 to 3
 - Updated actions/download-artifact from 3 to 4actions/download-artifact from 3 to 4
 - Updated com.nimbusds:nimbus-jose-jwt from 9.37.1 to 9.37.3
+- Changed some java implementations according to security findings ( business logic unchanged )
 
 ### Removed
 - Shell descriptor entity with underlying logic
