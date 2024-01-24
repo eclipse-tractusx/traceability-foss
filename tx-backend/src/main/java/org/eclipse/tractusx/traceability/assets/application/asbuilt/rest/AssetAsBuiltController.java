@@ -374,7 +374,7 @@ public class AssetAsBuiltController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/{assetId}")
-    public AssetAsBuiltResponse asset(@PathVariable String assetId) {
+    public AssetAsBuiltResponse getAssetById(@PathVariable String assetId) {
         return AssetAsBuiltResponseMapper.from(assetBaseService.getAssetById(assetId));
     }
 
@@ -429,8 +429,8 @@ public class AssetAsBuiltController {
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
-    @GetMapping("/{assetId}/children/{childId}")
-    public AssetAsBuiltResponse asset(@PathVariable String assetId, @PathVariable String childId) {
+    @GetMapping("/*/children/{childId}")
+    public AssetAsBuiltResponse getAssetChildId(@PathVariable String childId) {
         return AssetAsBuiltResponseMapper.from(assetBaseService.getAssetByChildId(childId));
     }
 
