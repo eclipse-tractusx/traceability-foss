@@ -10,6 +10,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 
 ### Changed
+- Updated postgres to version 15.4
 
 ### Removed
 
