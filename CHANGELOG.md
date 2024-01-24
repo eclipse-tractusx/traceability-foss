@@ -80,6 +80,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - moved rights and roles matrix from arc42 doc to administration guide
 - Moved accepted policy to helm environments
 - Request IRS policy store to accept IRS policies in addition to our own policy
+- Spring core updated from 6.0.14 to 6.0.16
+- Springboot updated from 3.1.6 to 3.1.7
 
 ### Removed
 - Removed registry lookups feature
