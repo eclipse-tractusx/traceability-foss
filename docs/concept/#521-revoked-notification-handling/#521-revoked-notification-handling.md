@@ -8,31 +8,41 @@
 | State         | WIP                                                                   |
 
 # Table of Contents
-1. [Description](#description)
-2. [Requirements](#requirements)
-3. [Non-functional requirements](#non-functional-requirements)
-4. [Out of scope](#out-of-scope)
+1. [Background](#background)
+2. [Scope](#Scope)
+3. [Requirements](#requirements)
+4. [Non-functional requirements](#non-functional-requirements)
+5. [Out of scope](#out-of-scope)
 
-# Description
+# Background
 
-After a notification is sent, the policy must first be checked for the asset and the relevant BPNs.
-If the policies are invalid or expired, the notification must be rejected and the user notified of the rejection.
+After a notification is sent, a contract negotiation starts by accessing the EDC.
+During the negotiation the validity of the policy and relevant permissions are checked.
+When the check is successful, the notification will be sent.
+When the check is unsuccessful, the notification will not be sent.
+Currently, in both cases the user will be informed that the notification was successfully sent.
+
+# Scope
+
+When the policy check is unsuccessful, the user must be notified of this failure as soon as possible.
+It must be possible for him to view detailed information about the reason for this failure. He must be able to resend the notification.
 
 # Requirements
 
-- The relevant policies must be fetched from the EDC
 - The policies must be validated
-  - Is the policy active?
-  - Is the connection to the requested BPN allowed?
-  - Is the requested notification to this BPN allowed?
+  - Does a matching policy exist at all?
+  - Is the policy active? (validUntil date >= currentDateTime)
 - If the policy is not valid, the notification must be rejected
-  - Status set to "REJECTED"
-  - Status information stored in the notification (detailed description why it failed)
-  - Pop-up informing the user ("The notification was rejected. Reason: XXX")
+  - New notification status. E.g. "REJECTED"/"FAILED"
+  - Notification set to this status
+  - Detailed status information stored in the message history of the notification
+  - Pop-up informing the user (e.g. "The notification was not successful. Reason: XXX")
   - (optional) Clicking on the pop-up sends you to the detail view of the notification
 - Detailed information about the reason for the rejection must be shown in the detail view of the notification
 - (optional) Detailed information about the relevant policy for that notification must be shown in the detail view of the notification. Policy implementation is in progress and must be considered -> A link to the policy implementation is another possibility
-- The user must be able to review the notification (and the policy -> policy implementation) and resend it
+- User must be able to resend the notification
+  - In the notification overview
+  - In the detail view
 
 # Non-functional requirements
 
@@ -41,3 +51,4 @@ If the policies are invalid or expired, the notification must be rejected and th
 # Out of scope
 
 - Policies are part of the EDC
+- Contract negotiation is part of the EDC
