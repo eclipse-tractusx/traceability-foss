@@ -56,4 +56,5 @@ public class AssetBaseEntity {
     @Enumerated(EnumType.STRING)
     private ImportState importState;
     private String importNote;
+    private String policyId;
 }

@@ -116,6 +116,7 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                 .catenaxSiteId(asPlannedInfo.getCatenaxSiteId())
                 .importState(asset.getImportState())
                 .importNote(asset.getImportNote())
+                .policyId(asset.getPolicyId())
                 .build();
     }
 
@@ -143,6 +144,7 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                 .receivedQualityInvestigations(emptyIfNull(entity.investigations).stream().filter(alert -> NotificationSideBaseEntity.RECEIVER.equals(alert.getSide())).map(InvestigationEntity::toDomain).toList())
                 .importState(entity.getImportState())
                 .importNote(entity.getImportNote())
+                .policyId(entity.getPolicyId())
                 .build();
     }
 

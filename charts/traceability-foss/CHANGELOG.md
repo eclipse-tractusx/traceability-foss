@@ -13,17 +13,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Migrated from irs-edc-consumer to tractusx-connector
 - Added BASF instance to int environment
 
-## [helm-charts-1.3.9 - 26.06.2023]
+## [1.3.27] - 2024-01-23
+### No changes
 
-### Added
+## [1.3.26] - 2024-01-22
+### No changes
 
-- Added bpn value to dev, test, int and beta environments for irs-version 5.3.0
-- Added int-a and int-b environment values for int cluster
-
-### Changed
-
-- Migrated from irs-helm from 5.0.9 to 5.3.0
-=======
 ## [1.3.16] - 2023-10-16
 ### Added
 - Init pods on backend startup to check dependant services readiness status ( irs, edc-controlplane )
@@ -39,5 +34,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 - Initialization of chart changelogs
+-
+## [helm-charts-1.3.9 - 26.06.2023]
 
+### Added
+
+- Added bpn value to dev, test, int and beta environments for irs-version 5.3.0
+- Added int-a and int-b environment values for int cluster
+
+### Changed
+
+- Migrated from irs-helm from 5.0.9 to 5.3.0
+  =======
 

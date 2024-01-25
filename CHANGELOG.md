@@ -8,6 +8,26 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [UNRELEASED - DD.MM.YYYY]
 
 ### Added
+- Added AVD-KSV-0014 to trivy ignore
+- Added tooltips on functionalities that are unauthorized or unavailable
+-
+### Changed
+- Updated Irs Library from 1.4.1-SNAPSHOT to 1.5.1-SNAPSHOT
+- Changed some java implementations according to security findings ( business logic unchanged )
+- Adjusted sync logic to create jobs only for related BomLifecycles
+- Spring core updated from 6.0.14 to 6.0.16
+- Springboot updated from 3.1.6 to 3.1.7
+
+### Removed
+
+## [10.2.1 - 23.01.2024]
+
+### Added
+- Test Release
+
+## [10.2.0 - 22.01.2024]
+
+### Added
 - Import Data Service for data provisioning
 - Added UI to publish own assets
 - Sequence Diagrams for Data Provisioning Flow
@@ -16,6 +36,10 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Added bpn validator to bpn edc mapping
 - Added new /irs/job/callback endpoint to handle irs job finished callback
 - Added Asset import info to parts table and parts detail view
+- SubmodelServerService for calling submodel server with feign client
+- Added GET /policies endpoint to retrieve accepted policies
+- Added POST assets/publish endpoint to publish transient assets
+
 
 ### Changed
 - Fixed security findings

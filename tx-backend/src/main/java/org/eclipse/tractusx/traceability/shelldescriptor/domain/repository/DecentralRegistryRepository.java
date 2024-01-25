@@ -19,8 +19,10 @@
 
 package org.eclipse.tractusx.traceability.shelldescriptor.domain.repository;
 
+import org.eclipse.tractusx.irs.component.assetadministrationshell.AssetAdministrationShellDescriptor;
+
 import java.util.List;
 
 public interface DecentralRegistryRepository {
-    List<String> retrieveShellDescriptorsByBpn(String bpn);
+    List<AssetAdministrationShellDescriptor> retrieveShellDescriptorsByBpn(String bpn);
 }
