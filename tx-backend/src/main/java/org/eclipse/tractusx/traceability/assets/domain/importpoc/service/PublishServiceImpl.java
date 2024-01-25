@@ -30,6 +30,7 @@ import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.Publi
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -38,28 +39,35 @@ public class PublishServiceImpl implements PublishService {
 
     private final AssetAsPlannedRepository assetAsPlannedRepository;
     private final AssetAsBuiltRepository assetAsBuiltRepository;
+    private static void validTransientState(AssetBase assetBase) {
+        if (!ImportState.TRANSIENT.equals(assetBase.getImportState())) {
+            throw new PublishAssetException("Asset with ID " + assetBase.getId() + " is not in TRANSIENT state.");
+        }
+    }
 
     @Override
     public void publishAssets(String policyId, List<String> assetIds) {
+
+        if (checkNoAssetsFound(assetIds, assetAsPlannedRepository) && checkNoAssetsFound(assetIds, assetAsBuiltRepository)) {
+            throw new PublishAssetException("No assets found with the provided IDs." + assetIds);
+        }
         saveAssetsInRepository(policyId, assetIds, assetAsPlannedRepository);
         saveAssetsInRepository(policyId, assetIds, assetAsBuiltRepository);
     }
 
     private void saveAssetsInRepository(String policyId, List<String> assetIds, AssetRepository repository) {
         List<AssetBase> assetList = repository.getAssetsById(assetIds).stream()
-                .peek(asset -> {
+                .map(asset -> {
                     validTransientState(asset);
                     asset.setImportState(ImportState.IN_SYNCHRONIZATION);
                     asset.setPolicyId(policyId);
+                    return asset;
                 })
                 .toList();
         repository.saveAll(assetList);
     }
 
-    private static void validTransientState(AssetBase assetBase) {
-        if (!ImportState.TRANSIENT.equals(assetBase.getImportState())) {
-            throw new PublishAssetException("Asset with ID " + assetBase.getId() + " is not in TRANSIENT state.");
-        }
-
+    private boolean checkNoAssetsFound(List<String> assetIds, AssetRepository repository) {
+        return repository.getAssetsById(assetIds).stream().noneMatch(Objects::nonNull);
     }
 }

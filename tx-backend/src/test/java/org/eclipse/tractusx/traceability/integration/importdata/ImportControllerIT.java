@@ -397,4 +397,20 @@ class ImportControllerIT extends IntegrationTestSpecification {
         assertThat(ImportState.IN_SYNCHRONIZATION).isEqualTo(asset.getImportState());
 
     }
+
+    @Test
+    void givenInvalidAssetID_whenPublishData_thenStatusCode500() throws JoseException {
+        // given
+        RegisterAssetRequest registerAssetRequest = new RegisterAssetRequest("Trace-X policy", List.of("test"));
+
+        // when
+        given()
+                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .contentType(ContentType.JSON)
+                .when()
+                .body(registerAssetRequest)
+                .post("/api/assets/publish")
+                .then()
+                .statusCode(500);
+    }
 }
