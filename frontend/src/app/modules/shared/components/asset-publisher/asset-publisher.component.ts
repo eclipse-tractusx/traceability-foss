@@ -16,7 +16,7 @@ export class AssetPublisherComponent {
   @Input() isOpen: Observable<boolean>;
   isOpenSubscription: Subscription;
 
-  @Output() submitted = new EventEmitter<void>();
+  @Output() submitted = new EventEmitter<boolean>();
 
   policiesSubscription: Subscription;
   policiesList: Policy[] = [];
@@ -44,11 +44,15 @@ export class AssetPublisherComponent {
   }
 
 
-  publish() {
-    const selectedAssetIds = this.selectedAssets.map(part => part.id)
-    this.policyService.publishAssets(selectedAssetIds, this.policyFormControl.value).subscribe(next=> console.log(next));
+  publish(): void {
+    const selectedAssetIds = this.selectedAssets.map(part => part.id);
     this.policyFormControl.reset();
-    this.submitted.emit();
+    this.selectedAssets = [];
+    this.policyService.publishAssets(selectedAssetIds, this.policyFormControl.value).subscribe({
+      next: data => {this.submitted.emit(true);},
+      error: error => {this.submitted.emit(false);}
+    });
+
   }
 
   private getPolicies() {

@@ -136,6 +136,17 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     }
 
+    refreshPartsOnPublish(success: boolean) {
+      if(!success) {
+        this.toastService.error("Failed to publish Assets");
+      } else {
+        this.toastService.success("Request to publish Assets was successful")
+        this.partsFacade.setPartsAsBuilt();
+        this.partsFacade.setPartsAsPlanned();
+        this.partsTableComponents.map(component => component.clearAllRows())
+      }
+    }
+
     private resetFilterAndShowToast() {
         let filterIsSet = resetMultiSelectionAutoCompleteComponent(this.partsTableComponents, false);
         if (filterIsSet) {
