@@ -5,7 +5,7 @@ import { BehaviorSubject, of } from 'rxjs';
 
 import { AssetPublisherComponent } from './asset-publisher.component';
 
-fdescribe('AssetPublisherComponent', () => {
+describe('AssetPublisherComponent', () => {
   const policyServiceSpy = jasmine.createSpyObj('PolicyService', ['getPolicies', 'publishAssets']);
   const isOpenSubject = new BehaviorSubject<boolean>(true);
 
