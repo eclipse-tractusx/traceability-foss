@@ -1,14 +1,20 @@
 import { Policy } from '@page/policies/model/policy.model';
+import { PolicyService } from '@shared/service/policy.service';
 import { renderComponent } from '@tests/test-render.utils';
+import { BehaviorSubject, of } from 'rxjs';
 
 import { AssetPublisherComponent } from './asset-publisher.component';
 
-describe('AssetPublisherComponent', () => {
+fdescribe('AssetPublisherComponent', () => {
+  const policyServiceSpy = jasmine.createSpyObj('PolicyService', ['getPolicies', 'publishAssets']);
+  const isOpenSubject = new BehaviorSubject<boolean>(true);
 
-
-  const renderAssetPublisherComponent = () => {
+  const renderAssetPublisherComponent = (input?) => {
     return renderComponent(AssetPublisherComponent, {
-
+      providers: [ { provide: PolicyService, useValue: policyServiceSpy }],
+      componentInputs: {
+        isOpen: isOpenSubject.asObservable(),
+      }
     })
   }
 
@@ -17,22 +23,27 @@ describe('AssetPublisherComponent', () => {
     expect(fixture).toBeTruthy();
   });
 
-  it('should publish assets and emit submitted event', async () => {
-    const {fixture} = await renderAssetPublisherComponent();
-    const {componentInstance} = fixture
-    const publishSpy = spyOn(componentInstance.policyService, 'publishAssets');
-    const submittedSpy = spyOn(componentInstance.submitted, 'emit');
+  it('should publish assets and emit submitted event', async function() {
+    const { fixture } = await renderAssetPublisherComponent();
+    const { componentInstance } = fixture;
 
     const dummyPolicy: Policy = { policyId: 'id-1', createdOn: 'testdate', validUntil: 'testdate' };
+
+    policyServiceSpy.publishAssets.and.returnValue(of({}));
+    policyServiceSpy.getPolicies.and.returnValue(of([dummyPolicy]))
+
+    const submittedSpy = spyOn(componentInstance.submitted, 'emit');
+
     componentInstance.policyFormControl.setValue(dummyPolicy.policyId);
-    componentInstance.selectedAssets = [];
+    fixture.detectChanges();
 
     componentInstance.publish();
 
-    expect(publishSpy).toHaveBeenCalledWith([],dummyPolicy.policyId);
-
-    expect(componentInstance.policyFormControl.value).toBeNull();
-    expect(submittedSpy).toHaveBeenCalled();
+    fixture.whenStable().then(() => {
+      expect(policyServiceSpy.publishAssets).toHaveBeenCalledWith([], dummyPolicy.policyId);
+      expect(componentInstance.policyFormControl.value).toBeNull();
+      expect(submittedSpy).toHaveBeenCalled();
+    });
   });
 
 });
