@@ -23,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.application.importpoc.PublishService;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
+import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.PublishAssetException;
@@ -38,33 +39,27 @@ public class PublishServiceImpl implements PublishService {
     private final AssetAsPlannedRepository assetAsPlannedRepository;
     private final AssetAsBuiltRepository assetAsBuiltRepository;
 
+    @Override
+    public void publishAssets(String policyId, List<String> assetIds) {
+        saveAssetsInRepository(policyId, assetIds, assetAsPlannedRepository);
+        saveAssetsInRepository(policyId, assetIds, assetAsBuiltRepository);
+    }
+
+    private void saveAssetsInRepository(String policyId, List<String> assetIds, AssetRepository repository) {
+        List<AssetBase> assetList = repository.getAssetsById(assetIds).stream()
+                .peek(asset -> {
+                    validTransientState(asset);
+                    asset.setImportState(ImportState.IN_SYNCHRONIZATION);
+                    asset.setPolicyId(policyId);
+                })
+                .toList();
+        repository.saveAll(assetList);
+    }
 
     private static void validTransientState(AssetBase assetBase) {
         if (!ImportState.TRANSIENT.equals(assetBase.getImportState())) {
             throw new PublishAssetException("Asset with ID " + assetBase.getId() + " is not in TRANSIENT state.");
         }
+
     }
-
-    @Override
-    public void publishAssets(String policyId, List<String> assetIds) {
-
-        List<AssetBase> assetAsPlannedList = assetAsPlannedRepository.getAssetsById(assetIds).stream()
-                .peek(assetAsPlanned -> {
-                    validTransientState(assetAsPlanned);
-                    assetAsPlanned.setImportState(ImportState.IN_SYNCHRONIZATION);
-                    assetAsPlanned.setPolicyId(policyId);
-                })
-                .toList();
-        assetAsPlannedRepository.saveAll(assetAsPlannedList);
-
-        List<AssetBase> assetAsBuiltList = assetAsBuiltRepository.getAssetsById(assetIds).stream()
-                .peek(assetAsBuilt -> {
-                    validTransientState(assetAsBuilt);
-                    assetAsBuilt.setImportState(ImportState.IN_SYNCHRONIZATION);
-                    assetAsBuilt.setPolicyId(policyId);
-                })
-                .toList();
-        assetAsBuiltRepository.saveAll(assetAsBuiltList);
-    }
-
 }
