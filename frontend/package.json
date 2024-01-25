@@ -1,10 +1,10 @@
 {
   "name": "trace-x",
-  "version": "8.0.0",
+  "version": "10.2.1",
   "scripts": {
     "analyze": "ng build --configuration=production --stats-json && webpack-bundle-analyzer dist/stats.json",
-    "build:prod": "ng build --configuration=debugProd --base-href /{baseHrefPlaceholder}/ --deploy-url /{baseHrefPlaceholder}/",
-    "build:prodDebug": "ng build --configuration=debugProd --base-href /{baseHrefPlaceholder}/ --deploy-url /{baseHrefPlaceholder}/",
+    "build:prod": "ng build --output-hashing=all --configuration=debugProd --base-href /{baseHrefPlaceholder}/ --deploy-url /{baseHrefPlaceholder}/ ",
+    "build:prodDebug": "ng build --output-hashing=all --configuration=debugProd --base-href /{baseHrefPlaceholder}/ --deploy-url /{baseHrefPlaceholder}/",
     "format": "prettier --write \"src/**/*.{js,ts,json,md,css,scss,html}\"",
     "lint": "eslint --color --fix -c .eslintrc.js --ext .ts ./src/app",
     "ng": "ng",
@@ -59,7 +59,7 @@
     "keycloak-angular": "13.0.0",
     "keycloak-js": "21.0.2",
     "lodash-es": "4.17.21",
-    "postcss": "8.4.23",
+    "postcss": "8.4.31",
     "rxjs": "7.8.0",
     "tailwindcss": "3.3.1",
     "tslib": "2.5.0",

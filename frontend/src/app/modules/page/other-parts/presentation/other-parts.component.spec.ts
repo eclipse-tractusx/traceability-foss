@@ -114,8 +114,8 @@ describe('Other Parts', () => {
       await renderOtherParts({ roles: [ 'user' ] });
       fireEvent.click(screen.getAllByText('pageOtherParts.tab.supplier')[0]);
 
-      await waitFor(() => expect(screen.getByText('table.column.manufacturer')).toBeInTheDocument());
-      fireEvent.click(screen.getByText('table.column.manufacturer'));
+      await waitFor(() => expect(screen.getByText('table.column.manufacturerName')).toBeInTheDocument());
+      fireEvent.click(screen.getByText('table.column.manufacturerName'));
 
       const supplierParts = await firstValueFrom(otherPartsState.supplierPartsAsBuilt$);
       await waitFor(() =>
@@ -143,8 +143,8 @@ describe('Other Parts', () => {
       let tabs = screen.getAllByText('pageOtherParts.tab.customer');
       fireEvent.click(tabs[0]);
 
-      await waitFor(() => expect(screen.getByText('table.column.manufacturer')).toBeInTheDocument());
-      fireEvent.click(screen.getByText('table.column.manufacturer'));
+      await waitFor(() => expect(screen.getByText('table.column.manufacturerName')).toBeInTheDocument());
+      fireEvent.click(screen.getByText('table.column.manufacturerName'));
 
       const customerParts = await firstValueFrom(otherPartsState.customerPartsAsBuilt$);
       await waitFor(() =>
@@ -203,13 +203,13 @@ describe('Other Parts', () => {
 
 
       const updateSupplierPartsSpy = spyOn(
-          SupplierPartsComponent.prototype,
-          'updateSupplierParts',
+        SupplierPartsComponent.prototype,
+        'updateSupplierParts',
       );
 
       const updateCustomerPartsSpy = spyOn(
-          CustomerPartsComponent.prototype,
-          'updateCustomerParts',
+        CustomerPartsComponent.prototype,
+        'updateCustomerParts',
       );
 
       componentInstance.searchControl.setValue(searchValue);

@@ -18,9 +18,13 @@
 name: "[BE][FE][HELM] Lint and Test"
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
     paths:
       - 'charts/**'
+
   workflow_dispatch:
   workflow_call: # Trigger by another workflow
     inputs:
@@ -61,7 +65,8 @@ jobs:
       - name: Build & push Image Frontend to KinD
         uses: docker/build-push-action@v5
         with:
-          context: ./frontend
+          context: .
+          file: ./frontend/Dockerfile
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.APP_FRONTEND_NAME }}:${{ env.TAG }}
 
@@ -71,7 +76,7 @@ jobs:
           version: v3.9.3
 
       - name: Set up chart-testing
-        uses: helm/chart-testing-action@v2.4.0
+        uses: helm/chart-testing-action@v2.6.1
 
       - name: Run chart-testing (list-changed)
         id: list-changed

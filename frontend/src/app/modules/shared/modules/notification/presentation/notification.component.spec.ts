@@ -19,22 +19,27 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { CalendarDateModel } from '@core/model/calendar-date.model';
+import {CalendarDateModel} from '@core/model/calendar-date.model';
 import {
   Notification,
   NotificationResponse,
   Notifications,
   NotificationStatus,
+  NotificationType,
 } from '@shared/model/notification.model';
-import { View } from '@shared/model/view.model';
-import { SharedModule } from '@shared/shared.module';
-import { TemplateModule } from '@shared/template.module';
-import { fireEvent, screen, within } from '@testing-library/angular';
-import { renderComponent } from '@tests/test-render.utils';
-import { Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
-import { buildMockInvestigations } from '../../../../../mocks/services/investigations-mock/investigations.test.model';
-import { NotificationModule } from '../notification.module';
+import {View} from '@shared/model/view.model';
+import {
+  FormatPartSemanticDataModelToCamelCasePipe
+} from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
+import {SharedModule} from '@shared/shared.module';
+import {TemplateModule} from '@shared/template.module';
+import {fireEvent, screen, within} from '@testing-library/angular';
+import {renderComponent} from '@tests/test-render.utils';
+import {Observable, of} from 'rxjs';
+import {delay} from 'rxjs/operators';
+import {buildMockInvestigations} from '../../../../../mocks/services/investigations-mock/investigations.test.model';
+import {NotificationModule} from '../notification.module';
+import {NotificationChannel} from "@shared/components/multi-select-autocomplete/table-type.model";
 
 describe('NotificationsInboxComponent', () => {
   let clickHandler;
@@ -42,19 +47,21 @@ describe('NotificationsInboxComponent', () => {
   beforeEach(() => (clickHandler = jasmine.createSpy()));
 
   const mapNotificationResponse = (data: NotificationResponse): Notification => {
-    const isFromSender = data.channel === 'SENDER';
+    const isFromSender = data.channel === NotificationChannel.SENDER;
     const createdDate = new CalendarDateModel(data.createdDate);
     const targetDate = new CalendarDateModel(data.targetDate);
-    const createdBy = { bpn: data.createdBy, name: data.createdByName };
-    const sendTo = { bpn: data.createdBy, name: data.createdByName };
+    const createdBy = data.createdBy
+    const createdByName = data.createdByName
+    const sendTo = data.sendTo
+    const sendToName = data.sendToName;
     delete data.channel;
 
-    return { ...data, createdDate, targetDate, isFromSender, createdBy, sendTo };
+    return { ...data, createdDate, targetDate, isFromSender, createdBy, createdByName, sendTo, sendToName };
   };
 
   const renderNotificationsInbox = () => {
-    const qContent = buildMockInvestigations([NotificationStatus.CREATED], 'SENDER').map(mapNotificationResponse);
-    const qarContent = buildMockInvestigations([NotificationStatus.RECEIVED], 'RECEIVER').map(mapNotificationResponse);
+    const qContent = buildMockInvestigations([ NotificationStatus.CREATED ], 'SENDER').map(mapNotificationResponse);
+    const qarContent = buildMockInvestigations([ NotificationStatus.RECEIVED ], 'RECEIVER').map(mapNotificationResponse);
 
     const queuedAndRequestedNotifications$: Observable<View<Notifications>> = of({
       data: { content: qContent, page: 0, pageCount: 1, pageSize: 5, totalItems: 1 },
@@ -64,25 +71,34 @@ describe('NotificationsInboxComponent', () => {
       data: { content: qarContent, page: 0, pageCount: 1, pageSize: 5, totalItems: 1 },
     }).pipe(delay(0));
     const menuActionsConfig = [];
-
+    const notificationType = NotificationType.INVESTIGATION;
+    const isInvestigation = true;
     return renderComponent(
       `<app-notification
+          [notificationType]='notificationType'
           [queuedAndRequestedNotifications$]='queuedAndRequestedNotifications$'
           [receivedNotifications$]='receivedNotifications$'
           [translationContext]="'commonInvestigation'"
           [menuActionsConfig]="'menuActionsConfig'"
-
+          [isInvestigation]='isInvestigation'
+           [receivedOptionalColumns]="['severity', 'createdBy', 'createdByName', 'targetDate']"
+  [receivedSortableColumns]="{description: true, status: true, createdDate: true, severity: true, createdBy: true, createdByName: true, targetDate: true, menu: false}"
+  [queuedAndRequestedOptionalColumns]="['severity', 'sendTo', 'sendToName', 'targetDate']"
+  [queuedAndRequestedSortableColumns]="{description: true, status: true, createdDate: true, severity: true, sendTo: true, sendToName: true, targetDate: true, menu: false}"
           (onReceivedPagination)='clickHandler($event)'
           (onQueuedAndRequestedPagination)='clickHandler($event)'
         ></app-notification>`,
       {
-        imports: [SharedModule, NotificationModule, TemplateModule],
-        translations: ['common'],
+        imports: [ SharedModule, NotificationModule, TemplateModule ],
+        providers: [FormatPartSemanticDataModelToCamelCasePipe],
+        translations: [ 'common' ],
         componentProperties: {
           queuedAndRequestedNotifications$,
           receivedNotifications$,
           clickHandler,
           menuActionsConfig,
+          notificationType,
+          isInvestigation
         },
       },
     );

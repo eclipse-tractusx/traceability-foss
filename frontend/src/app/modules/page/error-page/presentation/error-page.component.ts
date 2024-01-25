@@ -28,7 +28,7 @@ import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-error',
   templateUrl: './error-page.component.html',
-  styleUrls: ['./error-page.component.scss'],
+  styleUrls: [ './error-page.component.scss' ],
 })
 export class ErrorPageComponent {
   public title: string = 'errorPage.title';
@@ -52,7 +52,7 @@ export class ErrorPageComponent {
     });
 
     // if user has no sufficient permissions to use this app
-    if (!roleService.isAtLeastUser()) {
+    if (!roleService.isAtLeastUser() && !roleService.isAdmin()) {
       this.actionUrl = '';
       this.actionLabel = '';
       this.showSignOutButton = true;

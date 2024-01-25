@@ -59,71 +59,72 @@ const routes: Routes = [
     loadChildren: () => import('../../page/dashboard/dashboard.module').then(m => m.DashboardModule),
     data: {
       breadcrumb: 'home',
-      roles: ['user'],
+      roles: [ 'user', 'admin' ],
     },
-    canActivate: [RoleGuard],
+    canActivate: [ RoleGuard ],
   },
   {
     path: PARTS_BASE_ROUTE,
     loadChildren: () => import('../../page/parts/parts.module').then(m => m.PartsModule),
     data: {
       breadcrumb: 'parts',
-      roles: ['user'],
+      roles: [ 'user', 'admin' ],
     },
-    canActivate: [RoleGuard],
+    canActivate: [ RoleGuard ],
   },
   {
     path: OTHER_PARTS_BASE_ROUTE,
     loadChildren: () => import('@page/other-parts/other-parts.module').then(m => m.OtherPartsModule),
     data: {
       breadcrumb: 'otherParts',
-      roles: ['user'],
+      roles: [ 'user', 'admin' ],
     },
-    canActivate: [RoleGuard],
+    canActivate: [ RoleGuard ],
   },
   {
     path: INVESTIGATION_BASE_ROUTE,
     loadChildren: () => import('../../page/investigations/investigations.module').then(m => m.InvestigationsModule),
     data: {
       breadcrumb: 'investigations',
-      roles: ['user'],
+      roles: [ 'user', 'admin' ],
     },
-    canActivate: [RoleGuard],
+    canActivate: [ RoleGuard ],
   },
   {
     path: ALERT_BASE_ROUTE,
     loadChildren: () => import('../../page/alerts/alerts.module').then(m => m.AlertsModule),
     data: {
       breadcrumb: 'alerts',
-      roles: ['user'],
+      roles: [ 'user', 'admin' ],
     },
-    canActivate: [RoleGuard],
+    canActivate: [ RoleGuard ],
   },
   {
     path: ABOUT_BASE_ROUTE,
     loadChildren: () => import('../../page/about/about.module').then(m => m.AboutModule),
     data: {
       breadcrumb: 'about',
-      roles: ['user'],
+      roles: [ 'user', 'admin' ],
     },
-    canActivate: [RoleGuard],
+    canActivate: [ RoleGuard ],
   },
   {
     path: ADMIN_BASE_ROUTE,
     loadChildren: () => import('../../page/admin/admin.module').then(m => m.AdminModule),
     component: AdminComponent,
     data: {
-      i18nextNamespaces: ['page.admin'],
+      i18nextNamespaces: [ 'page.admin' ],
       breadcrumb: 'admin',
-      roles: ['admin'],
+      roles: [ 'admin' ],
     },
     resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
-    canActivate: [RoleGuard],
+    canActivate: [ RoleGuard ],
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  imports: [ RouterModule.forChild(routes) ],
+  exports: [ RouterModule ],
 })
-export class LayoutRoutingModule {}
+export class LayoutRoutingModule {
+}

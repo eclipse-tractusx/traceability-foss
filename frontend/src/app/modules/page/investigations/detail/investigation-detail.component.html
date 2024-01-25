@@ -24,7 +24,7 @@ SPDX-License-Identifier: Apache-2.0
     <app-button
       [color]="'primary'"
       (click)="this.navigateBackToInvestigations()"
-        >
+    >
       <div class="flex justify-between items-center">
         <mat-icon class="mr-2">arrow_back</mat-icon>
         {{ 'actions.goBack' | i18n }}
@@ -32,69 +32,126 @@ SPDX-License-Identifier: Apache-2.0
     </app-button>
   </div>
   <div class="detail--action">
+    <div class="detail--action--button"
+         matTooltip="{{'routing.unauthorized' | i18n}}"
+         matTooltipClass="table--header--tooltip"
+         matTooltipPosition="above"
+         [class.mdc-tooltip--multiline]="true"
+         [matTooltipShowDelay]="1000"
+         [matTooltipDisabled]="actionHelperService.isAuthorizedForButton(NotificationAction.APPROVE)"
+    >
     <app-button
-      *ngIf="helperService.showApproveButton(selectedInvestigation)"
+      *ngIf="actionHelperService.showApproveButton(selectedInvestigation)"
       (click)="notificationCommonModalComponent?.show('approve')"
       [color]="'primary'"
+      [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.APPROVE)"
     >
       <div class="flex justify-between items-center">
         <mat-icon class="mr-2">share</mat-icon>
         {{ 'actions.approve' | i18n }}
       </div>
     </app-button>
+      </div>
+    <div class="detail--action--button"
+         matTooltip="{{'routing.unauthorized' | i18n}}"
+         matTooltipClass="table--header--tooltip"
+         matTooltipPosition="above"
+         [class.mdc-tooltip--multiline]="true"
+         [matTooltipShowDelay]="1000"
+         [matTooltipDisabled]="actionHelperService.isAuthorizedForButton(NotificationAction.CANCEL)"
+    >
     <app-button
-      *ngIf="helperService.showCancelButton(selectedInvestigation)"
+      *ngIf="actionHelperService.showCancelButton(selectedInvestigation)"
       (click)="notificationCommonModalComponent?.show('cancel')"
       [color]="'primary'"
+      [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.CANCEL)"
     >
       <div class="flex justify-between items-center">
         <mat-icon class="mr-2">cancel</mat-icon>
         {{ 'actions.cancel' | i18n }}
       </div>
     </app-button>
+      </div>
+    <div class="detail--action--button"
+         matTooltip="{{'routing.unauthorized' | i18n}}"
+         matTooltipClass="table--header--tooltip"
+         matTooltipPosition="above"
+         [class.mdc-tooltip--multiline]="true"
+         [matTooltipShowDelay]="1000"
+         [matTooltipDisabled]="actionHelperService.isAuthorizedForButton(NotificationAction.CLOSE)"
+    >
     <app-button
-      *ngIf="helperService.showCloseButton(selectedInvestigation)"
+      *ngIf="actionHelperService.showCloseButton(selectedInvestigation)"
       (click)="notificationCommonModalComponent?.show('close')"
       [color]="'primary'"
+      [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.CLOSE)"
     >
       <div class="flex justify-between items-center">
         <mat-icon class="mr-2">close</mat-icon>
         {{ 'actions.close' | i18n }}
       </div>
     </app-button>
-
+</div>
+    <div class="detail--action--button"
+         matTooltip="{{'routing.unauthorized' | i18n}}"
+         matTooltipClass="table--header--tooltip"
+         matTooltipPosition="above"
+         [class.mdc-tooltip--multiline]="true"
+         [matTooltipShowDelay]="1000"
+         [matTooltipDisabled]="actionHelperService.isAuthorizedForButton(NotificationAction.ACCEPT)"
+    >
     <app-button
-      *ngIf="helperService.showAcceptButton(selectedInvestigation)"
+      *ngIf="actionHelperService.showAcceptButton(selectedInvestigation)"
       (click)="notificationCommonModalComponent?.show('accept')"
       [color]="'primary'"
+      [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.ACCEPT)"
     >
       <div class="flex justify-between items-center">
         <mat-icon class="mr-2">assignment_turned_in</mat-icon>
         {{ 'actions.accept' | i18n }}
       </div>
     </app-button>
-
+</div>
+    <div class="detail--action--button"
+         matTooltip="{{'routing.unauthorized' | i18n}}"
+         matTooltipClass="table--header--tooltip"
+         matTooltipPosition="above"
+         [class.mdc-tooltip--multiline]="true"
+         [matTooltipShowDelay]="1000"
+         [matTooltipDisabled]="actionHelperService.isAuthorizedForButton(NotificationAction.ACKNOWLEDGE)"
+    >
     <app-button
-      *ngIf="helperService.showAcknowledgeButton(selectedInvestigation)"
+      *ngIf="actionHelperService.showAcknowledgeButton(selectedInvestigation)"
       (click)="notificationCommonModalComponent?.show('acknowledge')"
       [color]="'primary'"
+      [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.ACKNOWLEDGE)"
     >
       <div class="flex justify-between items-center">
         <mat-icon class="mr-2">work</mat-icon>
         {{ 'actions.acknowledge' | i18n }}
       </div>
     </app-button>
-
+</div>
+    <div class="detail--action--button"
+         matTooltip="{{'routing.unauthorized' | i18n}}"
+         matTooltipClass="table--header--tooltip"
+         matTooltipPosition="above"
+         [class.mdc-tooltip--multiline]="true"
+         [matTooltipShowDelay]="1000"
+         [matTooltipDisabled]="actionHelperService.isAuthorizedForButton(NotificationAction.DECLINE)"
+    >
     <app-button
-      *ngIf="helperService.showDeclineButton(selectedInvestigation)"
+      *ngIf="actionHelperService.showDeclineButton(selectedInvestigation)"
       (click)="notificationCommonModalComponent?.show('decline')"
       [color]="'primary'"
+      [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.DECLINE)"
     >
       <div class="flex justify-between items-center">
         <mat-icon class="mr-2">assignment_late</mat-icon>
         {{ 'actions.decline' | i18n }}
       </div>
     </app-button>
+    </div>
   </div>
 </div>
 
@@ -103,13 +160,13 @@ SPDX-License-Identifier: Apache-2.0
   [helperService]="helperService"
   [selectedNotification]="selectedInvestigation"
   [translationContext]="TranslationContext.COMMONINVESTIGATION"
-  ></app-notification-common-modal>
+></app-notification-common-modal>
 
 <div class="detail--wrapper">
   <mat-card>
     <mat-card-header>
       <mat-card-title
-        ><h4>{{ 'pageInvestigation.info' | i18n }}</h4></mat-card-title
+      ><h4>{{ 'pageInvestigation.info' | i18n }}</h4></mat-card-title
       >
     </mat-card-header>
     <mat-card-content>
@@ -122,9 +179,9 @@ SPDX-License-Identifier: Apache-2.0
   <mat-card class="detail--table_wrapper--notification">
     <mat-card-header>
       <mat-card-title
-        ><h4>
-          {{ 'pageInvestigation.subHeadline.' + (isReceived ? 'affectedParts' : 'supplierParts') | i18n }}
-        </h4></mat-card-title
+      ><h4>
+        {{ 'pageInvestigation.subHeadline.' + (isReceived ? 'affectedParts' : 'supplierParts') | i18n }}
+      </h4></mat-card-title
       >
     </mat-card-header>
     <mat-card-content>
@@ -144,7 +201,7 @@ SPDX-License-Identifier: Apache-2.0
   <mat-card class="h-full">
     <mat-card-header>
       <mat-card-title
-        ><h4>{{ 'pageInvestigation.reason' | i18n }}</h4></mat-card-title
+      ><h4>{{ 'pageInvestigation.reason' | i18n }}</h4></mat-card-title
       >
     </mat-card-header>
     <mat-card-content>
@@ -157,7 +214,7 @@ SPDX-License-Identifier: Apache-2.0
   <mat-card *ngIf="isReceived && supplierPartsDetailInformation$ | async" class="detail--table_wrapper--notification">
     <mat-card-header>
       <mat-card-title
-        ><h4>{{ 'pageInvestigation.subHeadline.supplierParts' | i18n }}</h4></mat-card-title
+      ><h4>{{ 'pageInvestigation.subHeadline.supplierParts' | i18n }}</h4></mat-card-title
       >
     </mat-card-header>
     <mat-card-content>
@@ -186,6 +243,7 @@ SPDX-License-Identifier: Apache-2.0
   <app-table
     [data]="view.data"
     [labelId]="notificationPartsTableId"
+    [autocompleteEnabled]="false"
     [tableConfig]="notificationPartsTableConfig"
     [showHover]="false"
     [noShadow]="true"
@@ -198,6 +256,7 @@ SPDX-License-Identifier: Apache-2.0
     [data]="view.data"
     [labelId]="supplierPartsTableId"
     [tableConfig]="supplierPartsTableConfig"
+    [autocompleteEnabled]="false"
     [deselectTrigger]="deselectPartTrigger$ | async"
     [addTrigger]="addPartTrigger$ | async"
     [showHover]="false"
@@ -228,12 +287,13 @@ SPDX-License-Identifier: Apache-2.0
 </ng-template>
 
 <app-sidenav-wrapper [isOpen]="isInvestigationOpen$ | async" (sidenavAction)="isInvestigationOpen$.next($event)">
-  <app-request-investigation
+  <app-notification-request
     *ngIf="isInvestigationOpen$ | async"
+    [notificationType]="NotificationType.INVESTIGATION"
     [selectedItems]="selectedItems$ | async"
     (deselectPart)="removeItemFromSelection($event)"
     (restorePart)="addItemToSelection($event)"
     (clearSelected)="clearSelected()"
     (submitted)="isInvestigationOpen$.next(false)"
-  ></app-request-investigation>
+  ></app-notification-request>
 </app-sidenav-wrapper>

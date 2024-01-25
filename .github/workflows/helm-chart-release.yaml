@@ -19,9 +19,6 @@ name: "[BE][FE][RELEASE][HELM] Release Helm Charts"
 
 on:
   workflow_dispatch: # Trigger manually
-  push:
-    tags:
-      - '[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
   Get-helm-charts-versions:
@@ -83,7 +80,7 @@ jobs:
           helm repo add tx-item-relationship-service https://catenax-ng.github.io/tx-item-relationship-service
 
       - name: Run chart-releaser
-        uses: helm/chart-releaser-action@v1.5.0
+        uses: helm/chart-releaser-action@v1.6.0
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           CR_RELEASE_NAME_TEMPLATE: "${{ env.RELEASE_VERSION }}"

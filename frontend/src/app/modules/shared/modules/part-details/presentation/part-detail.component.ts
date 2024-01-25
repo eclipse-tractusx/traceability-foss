@@ -22,11 +22,15 @@
 import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { RoleService } from '@core/user/role.service';
+import { TractionBatteryCode } from '@page/parts/model/aspectModels.model';
+import { Owner } from '@page/parts/model/owner.enum';
 import { Part, QualityType } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { SelectOption } from '@shared/components/select/select.component';
 import { State } from '@shared/model/state';
 import { View } from '@shared/model/view.model';
+import { NotificationAction } from '@shared/modules/notification/notification-action.enum';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { Observable, Subscription } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
@@ -34,7 +38,7 @@ import { filter, tap } from 'rxjs/operators';
 @Component({
   selector: 'app-part-detail',
   templateUrl: './part-detail.component.html',
-  styleUrls: ['../../../components/card-list/card-list.component.scss', './part-detail.component.scss'],
+  styleUrls: [ '../../../components/card-list/card-list.component.scss', './part-detail.component.scss' ],
 })
 export class PartDetailComponent implements AfterViewInit, OnDestroy {
   @Input() showRelation = true;
@@ -44,8 +48,13 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
   public readonly selectedPartDetails$: Observable<View<Part>>;
   public readonly manufacturerDetails$: Observable<View<Part>>;
   public readonly customerOrPartSiteDetails$: Observable<View<Part>>;
-  public customerOrPartSiteDetailsHeader$: Subscription;
+  public readonly tractionBatteryDetails$: Observable<View<Part>>;
+  public readonly importStateDetails$: Observable<View<Part>>;
+  public readonly tractionBatterySubcomponents$: Observable<View<TractionBatteryCode>>;
 
+  public readonly displayedColumns: string[];
+
+  public customerOrPartSiteDetailsHeader$: Subscription;
   public customerOrPartSiteHeader: string;
 
   public showQualityTypeDropdown = false;
@@ -56,7 +65,7 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
 
   private readonly isOpenState: State<boolean> = new State<boolean>(false);
 
-  constructor(private readonly partDetailsFacade: PartDetailsFacade, private readonly router: Router) {
+  constructor(private readonly partDetailsFacade: PartDetailsFacade, private readonly router: Router, public roleService: RoleService) {
     this.isOpen$ = this.isOpenState.observable;
 
     this.selectedPartDetails$ = this.partDetailsFacade.selectedPart$;
@@ -67,11 +76,17 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
 
     this.manufacturerDetails$ = this.partDetailsFacade.selectedPart$.pipe(PartsAssembler.mapPartForManufacturerView());
     this.customerOrPartSiteDetails$ = this.partDetailsFacade.selectedPart$.pipe(PartsAssembler.mapPartForCustomerOrPartSiteView());
-    this.customerOrPartSiteDetailsHeader$ = this.customerOrPartSiteDetails$?.subscribe(data=> {
-      if(data?.data?.functionValidFrom){
-        this.customerOrPartSiteHeader = 'partDetail.partSiteInformationData'
+
+    this.tractionBatteryDetails$ = this.partDetailsFacade.selectedPart$.pipe(PartsAssembler.mapPartForTractionBatteryCodeDetailsView());
+    this.tractionBatterySubcomponents$ = this.partDetailsFacade.selectedPart$.pipe(PartsAssembler.mapPartForTractionBatteryCodeSubComponentsView()) as unknown as Observable<View<TractionBatteryCode>>;
+
+    this.importStateDetails$ = this.partDetailsFacade.selectedPart$.pipe(PartsAssembler.mapPartForAssetStateDetailsView());
+
+    this.customerOrPartSiteDetailsHeader$ = this.customerOrPartSiteDetails$?.subscribe(data => {
+      if (data?.data?.functionValidFrom) {
+        this.customerOrPartSiteHeader = 'partDetail.partSiteInformationData';
       } else {
-        this.customerOrPartSiteHeader = 'partDetail.customerData'
+        this.customerOrPartSiteHeader = 'partDetail.customerData';
       }
     });
 
@@ -80,6 +95,7 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
       label: value,
       value: value,
     }));
+    this.displayedColumns = [ 'position', 'productType', 'tractionBatteryCode' ];
   }
 
   public ngOnDestroy(): void {
@@ -100,7 +116,9 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
 
   public openRelationPage(part: Part): void {
     this.partDetailsFacade.selectedPart = null;
-    this.router.navigate([`parts/relations/${part.id}`]).then(_ => window.location.reload());
+    this.router.navigate([ `parts/relations/${ part.id }` ]).then(_ => window.location.reload());
   }
 
+  protected readonly NotificationAction = NotificationAction;
+  protected readonly Owner = Owner;
 }

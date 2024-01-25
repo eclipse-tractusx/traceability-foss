@@ -1,0 +1,15 @@
+@startuml
+participant FE
+participant BE
+
+FE -> BE: [001] request assets: GET/assetsAsxxx
+BE --> FE: [002] return assets_as_built OR assets_as_planned
+FE -> FE: [003] present assets
+FE -> BE: [004] select assets to synchronize: GET/policies
+BE --> FE: [005] return policies
+FE -> FE: [006] open detailview & assign policy (via dropdown)
+FE -> BE: [007] register assets for publishing: POST/assets/sync
+BE --> FE: [008] update asset state to IN_SYNC
+BE -> BE: [008] trigger 'publish AAS Workflow' (Job scheduler)
+FE -> FE: [009] refresh of FE view
+@enduml

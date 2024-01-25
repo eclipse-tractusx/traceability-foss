@@ -32,8 +32,9 @@ import { DashboardRoutingModule } from './dashboard.routing';
 import { DashboardComponent } from './presentation/dashboard.component';
 
 @NgModule({
-  declarations: [DashboardComponent],
-  imports: [CommonModule, TemplateModule, SharedModule, DashboardRoutingModule, NotificationModule],
-  providers: [DashboardService, DashboardFacade, DashboardState, ...getI18nPageProvider('page.dashboard')],
+  declarations: [ DashboardComponent ],
+  imports: [ CommonModule, TemplateModule, SharedModule, DashboardRoutingModule, NotificationModule ],
+  providers: [ DashboardService, DashboardFacade, DashboardState, ...getI18nPageProvider('page.dashboard') ],
 })
-export class DashboardModule {}
+export class DashboardModule {
+}

@@ -30,7 +30,7 @@ import { BreadcrumbsModel } from './breadcrumbs.model';
 @Component({
   selector: 'app-breadcrumbs',
   templateUrl: './breadcrumbs.component.html',
-  styleUrls: ['./breadcrumbs.component.scss'],
+  styleUrls: [ './breadcrumbs.component.scss' ],
 })
 export class BreadcrumbsComponent {
   public breadcrumbs: BreadcrumbsModel[] = [];
@@ -50,7 +50,7 @@ export class BreadcrumbsComponent {
 
   public navigate(url: string, index: number): void {
     if (index < this.breadcrumbs.length - 1) {
-      this.router.navigate([url]).then();
+      this.router.navigate([ url ]).then();
     }
   }
 
@@ -74,7 +74,7 @@ export class BreadcrumbsComponent {
 
     // In the routeConfig the complete path is not available,
     // so we rebuild it each time
-    const nextUrl = path ? `${url}/${path}` : url;
+    const nextUrl = path ? `${ url }/${ path }` : url;
 
     const breadcrumb: BreadcrumbsModel = {
       label,
@@ -90,11 +90,11 @@ export class BreadcrumbsComponent {
     // translate breadcrumb
     if (breadcrumb.label) {
       // each breadcrumb label should be registered in common translation under "routing" key
-      breadcrumb.label = `routing.${breadcrumb.label}`;
+      breadcrumb.label = `routing.${ breadcrumb.label }`;
     }
 
     // Only adding route with non-empty label
-    const newBreadcrumbs = breadcrumb.label ? [...breadcrumbs, breadcrumb] : [...breadcrumbs];
+    const newBreadcrumbs = breadcrumb.label ? [ ...breadcrumbs, breadcrumb ] : [ ...breadcrumbs ];
     if (route.firstChild) {
       // If we are not on our current path yet,
       // there will be more children to look after, to build our breadcrumb

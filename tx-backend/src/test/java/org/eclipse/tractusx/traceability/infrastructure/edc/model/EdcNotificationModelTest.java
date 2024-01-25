@@ -36,6 +36,7 @@ import java.util.List;
 import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitize;
 import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitizeHtml;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
@@ -49,7 +50,7 @@ public class EdcNotificationModelTest {
         EDCNotificationHeader header = new EDCNotificationHeader(
                 "12345", "SenderBPN", "Sender\nAddress", "RecipientBPN",
                 "QM-Investigation", "Severity", "Related\nNotificationId",
-                "CREATED", "2023-09-22T14:30:00Z", "MessageId"
+                "CREATED", null, "MessageId"
         );
 
         List<String> listOfAffectedItems = new ArrayList<>(Arrays.asList("Item1\nItem2", "Item3", "Item4\r\nItem5"));
@@ -71,7 +72,7 @@ public class EdcNotificationModelTest {
         assertEquals("Severity", actual.getSeverity());
         assertEquals("QM-Investigation", actual.convertNotificationType().getValue());
         assertEquals("CREATED", actual.convertNotificationStatus().name());
-        assertEquals(Instant.parse("2023-09-22T14:30:00Z"), actual.getTargetDate());
+        assertNull(actual.getTargetDate());
 
 
     }

@@ -48,7 +48,7 @@ import static org.eclipse.tractusx.traceability.qualitynotification.infrastructu
 import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.RECEIVED;
 import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.SENT;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 class AssetAsPlannedControllerByIdIT extends IntegrationTestSpecification {
@@ -98,7 +98,7 @@ class AssetAsPlannedControllerByIdIT extends IntegrationTestSpecification {
                 .log().all()
                 .statusCode(200)
                 .assertThat()
-                .body("qualityAlertsInStatusActive", is(6));
+                .body("receivedQualityAlertIdsInStatusActive", hasSize(6));
     }
 
     @Test
@@ -124,7 +124,7 @@ class AssetAsPlannedControllerByIdIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(200)
                 .assertThat()
-                .body("qualityInvestigationsInStatusActive", is(6));
+                .body("receivedQualityInvestigationIdsInStatusActive", hasSize(6));
     }
 
     @Test
@@ -246,6 +246,27 @@ class AssetAsPlannedControllerByIdIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(200)
                 .body("qualityType", equalTo("Critical"));
+    }
+
+    @Test
+    void shouldReturnAssetAsPlannedWithBusinessPartner() throws JoseException {
+        //GIVEN
+        assetsSupport.defaultAssetsAsPlannedStored();
+        String existingAssetId = "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01";
+        String expectedBusinessPartner = "BPNL00000003CML1";
+        String expectedManufacturerName = "TEST_MANUFACTURER_NAME_CML1";
+
+        //THEN
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/assets/as-planned/" + existingAssetId)
+                .then()
+                .statusCode(200)
+                .body("businessPartner", equalTo(expectedBusinessPartner))
+                .body("manufacturerName", equalTo(expectedManufacturerName));
+
     }
 
 }

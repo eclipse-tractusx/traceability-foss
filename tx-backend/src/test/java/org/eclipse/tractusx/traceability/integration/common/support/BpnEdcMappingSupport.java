@@ -32,7 +32,7 @@ public class BpnEdcMappingSupport {
     BpnRepository bpnRepository;
 
     public void defaultBpnEdcMappingStored() {
-        var bpnEdcMappingRequests = List.of(new BpnMappingRequest("BPN123", "https://test123.de"), new BpnMappingRequest("BPN456", "https://test456.de"));
+        var bpnEdcMappingRequests = List.of(new BpnMappingRequest("BPNL00000003TEST", "https://test123.de"), new BpnMappingRequest("BPNL00000002TEST", "https://test456.de"));
         bpnRepository.saveAll(bpnEdcMappingRequests);
     }
 }

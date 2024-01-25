@@ -25,7 +25,6 @@ import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecificatio
 import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationsSupport;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
 import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
@@ -49,7 +48,7 @@ import static org.eclipse.tractusx.traceability.qualitynotification.infrastructu
 import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.RECEIVED;
 import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.SENT;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 class AssetAsBuiltControllerByIdIT extends IntegrationTestSpecification {
@@ -101,7 +100,7 @@ class AssetAsBuiltControllerByIdIT extends IntegrationTestSpecification {
                 .log().all()
                 .statusCode(200)
                 .assertThat()
-                .body("qualityAlertsInStatusActive", is(6));
+                .body("receivedQualityAlertIdsInStatusActive", hasSize(6));
     }
 
     @Test
@@ -127,7 +126,7 @@ class AssetAsBuiltControllerByIdIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(200)
                 .assertThat()
-                .body("qualityInvestigationsInStatusActive", is(6));
+                .body("receivedQualityInvestigationIdsInStatusActive", hasSize(6));
     }
 
     @Test
@@ -143,38 +142,6 @@ class AssetAsBuiltControllerByIdIT extends IntegrationTestSpecification {
                 .get("/api/assets/as-built/urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb")
                 .then()
                 .statusCode(200);
-    }
-
-    @Test
-    void shouldReturnAssetWithoutUnderInvestigationMark() throws JoseException {
-        //GIVEN
-        assetsSupport.defaultAssetsStoredWithOnGoingInvestigation(NotificationStatusBaseEntity.CLOSED, false);
-
-        //THEN
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/api/assets/as-built/urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb")
-                .then()
-                .statusCode(200)
-                .body("underInvestigation", equalTo(false));
-    }
-
-    @Test
-    void shouldReturnAssetWithUnderInvestigationMark() throws JoseException {
-        //GIVEN
-        assetsSupport.defaultAssetsStoredWithOnGoingInvestigation(SENT, true);
-
-        //THEN
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/api/assets/as-built/urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb")
-                .then()
-                .statusCode(200)
-                .body("underInvestigation", equalTo(true));
     }
 
     @Test
@@ -199,6 +166,7 @@ class AssetAsBuiltControllerByIdIT extends IntegrationTestSpecification {
                 .when()
                 .get("/api/assets/as-built/urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb/children/urn:uuid:587cfb38-7149-4f06-b1e0-0e9b6e98be2a")
                 .then()
+                .log().body()
                 .statusCode(200)
                 .body("id", Matchers.is("urn:uuid:587cfb38-7149-4f06-b1e0-0e9b6e98be2a"));
     }

@@ -29,3 +29,27 @@
     margin: unset !important;
   }
 }
+
+.centered-button {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.checkbox-container {
+  @apply font-medium;
+  display: flex;
+  justify-content: center;
+  padding-top: 5px;
+}
+
+.actions-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: rgb(237, 240, 244);
+}
+
+.modal--container {
+  background-color: white;
+}

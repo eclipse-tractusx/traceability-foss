@@ -19,9 +19,17 @@
 
 package org.eclipse.tractusx.traceability.testdata;
 
-import org.eclipse.tractusx.traceability.assets.domain.base.model.*;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataAsBuilt;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
 
-import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,43 +45,51 @@ public class AssetTestDataFactory {
 
     public static AssetBase createAssetTestData() {
 
-// TODO add detailAspectModels
 
-        return AssetBase.builder()
-                .id("1")
-                .idShort("1234")
-                .semanticModelId("456")
-                .semanticDataModel(SemanticDataModel.SERIALPART)
-                .activeAlert(false)
-                .parentRelations(AssetTestDataFactory.provideParentRelations())
-                .childRelations(AssetTestDataFactory.provideChildRelations())
-                .van("van123")
-                .qualityType(QualityType.CRITICAL)
-                .underInvestigation(false)
-                .owner(Owner.OWN)
-                .manufacturerName("manuName")
-                .manufacturerId("manuId")
+        DetailAspectDataAsBuilt detailAspectDataAsBuilt = DetailAspectDataAsBuilt.builder()
+                .partId("1")
+                .customerPartId("2")
+                .nameAtCustomer("Moritz")
+                .manufacturingCountry("Germany")
+                .manufacturingDate(OffsetDateTime.parse("2022-10-20T00:00:00Z", DateTimeFormatter.ISO_OFFSET_DATE_TIME))
                 .build();
-    }
 
-    public static AssetBase createAssetParentTestData() {
+        DetailAspectModel detailAspectModel = DetailAspectModel.builder()
+                .data(detailAspectDataAsBuilt)
+                .type(DetailAspectType.AS_BUILT)
+                .build();
 
-// TODO add detailAspectModels
+        DetailAspectDataAsBuilt detailAspectDataAsBuilt2 = DetailAspectDataAsBuilt.builder()
+                .partId("2")
+                .customerPartId("3")
+                .nameAtCustomer("Max")
+                .manufacturingCountry("Germany")
+                .manufacturingDate(OffsetDateTime.parse("2022-10-20T00:00:00Z", DateTimeFormatter.ISO_OFFSET_DATE_TIME))
+                .build();
+
+        DetailAspectModel detailAspectModel2 = DetailAspectModel.builder()
+                .data(detailAspectDataAsBuilt2)
+                .type(DetailAspectType.AS_BUILT)
+                .build();
+
+
+        ArrayList<DetailAspectModel> detailAspectModels = new ArrayList<>();
+        detailAspectModels.add(detailAspectModel);
+        detailAspectModels.add(detailAspectModel2);
 
         return AssetBase.builder()
-                .id("2")
-                .idShort("23456")
+                .id("urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01")
+                .idShort("a/devNTierAPlastics")
                 .semanticModelId("456")
                 .semanticDataModel(SemanticDataModel.SERIALPART)
-                .activeAlert(false)
                 .parentRelations(AssetTestDataFactory.provideParentRelations())
                 .childRelations(AssetTestDataFactory.provideChildRelations())
-                .van("van123")
+                .van("OMAOYGBDTSRCMYSCX")
                 .qualityType(QualityType.CRITICAL)
-                .underInvestigation(false)
                 .owner(Owner.OWN)
                 .manufacturerName("manuName")
-                .manufacturerId("manuId")
+                .manufacturerId("BPNL00000003CML1")
+                .detailAspectModels(detailAspectModels)
                 .build();
     }
 

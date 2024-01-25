@@ -22,8 +22,10 @@ import jakarta.persistence.CollectionTable;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,6 +40,8 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetB
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.SemanticDataModelEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
+import org.eclipse.tractusx.traceability.submodel.infrastructure.model.SubmodelPayloadEntity;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -71,6 +75,9 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
     @ManyToMany(mappedBy = "assetsAsPlanned")
     private List<AlertEntity> alerts = new ArrayList<>();
 
+    @OneToMany(mappedBy = "assetAsPlanned", fetch = FetchType.EAGER)
+    private List<SubmodelPayloadEntity> submodels;
+
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
@@ -88,6 +95,7 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
         return AssetAsPlannedEntity.builder()
                 .id(asset.getId())
                 .idShort(asset.getIdShort())
+                .manufacturerId(asset.getManufacturerId())
                 .nameAtManufacturer(asset.getNameAtManufacturer())
                 .manufacturerPartId(asset.getManufacturerPartId())
                 .manufacturerName(asset.getManufacturerName())
@@ -104,10 +112,11 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                         .map(child -> new ChildDescription(child.id(), child.idShort()))
                         .toList())
                 .qualityType(asset.getQualityType())
-                .activeAlert(asset.isActiveAlert())
-                .inInvestigation(asset.isUnderInvestigation())
                 .semanticDataModel(SemanticDataModelEntity.from(asset.getSemanticDataModel()))
                 .catenaxSiteId(asPlannedInfo.getCatenaxSiteId())
+                .importState(asset.getImportState())
+                .importNote(asset.getImportNote())
+                .policyId(asset.getPolicyId())
                 .build();
     }
 
@@ -117,6 +126,7 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                 .manufacturerPartId(entity.getManufacturerPartId())
                 .nameAtManufacturer(entity.getNameAtManufacturer())
                 .manufacturerName(entity.getManufacturerName())
+                .manufacturerId(entity.getManufacturerId())
                 .van(entity.getVan())
                 .classification(entity.getClassification())
                 .idShort(entity.getIdShort())
@@ -126,12 +136,15 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                 .childRelations(entity.getChildDescriptors().stream()
                         .map(child -> new Descriptions(child.getId(), child.getIdShort()))
                         .toList())
-                .underInvestigation(entity.isInInvestigation())
-                .activeAlert(entity.isActiveAlert())
                 .qualityType(entity.getQualityType())
                 .detailAspectModels(DetailAspectModel.from(entity))
-                .qualityAlerts(emptyIfNull(entity.alerts).stream().map(AlertEntity::toDomain).toList())
-                .qualityInvestigations(emptyIfNull(entity.investigations).stream().map(InvestigationEntity::toDomain).toList())
+                .sentQualityAlerts(emptyIfNull(entity.alerts).stream().filter(alert -> NotificationSideBaseEntity.SENDER.equals(alert.getSide())).map(AlertEntity::toDomain).toList())
+                .receivedQualityAlerts(emptyIfNull(entity.alerts).stream().filter(alert -> NotificationSideBaseEntity.RECEIVER.equals(alert.getSide())).map(AlertEntity::toDomain).toList())
+                .sentQualityInvestigations(emptyIfNull(entity.investigations).stream().filter(alert -> NotificationSideBaseEntity.SENDER.equals(alert.getSide())).map(InvestigationEntity::toDomain).toList())
+                .receivedQualityInvestigations(emptyIfNull(entity.investigations).stream().filter(alert -> NotificationSideBaseEntity.RECEIVER.equals(alert.getSide())).map(InvestigationEntity::toDomain).toList())
+                .importState(entity.getImportState())
+                .importNote(entity.getImportNote())
+                .policyId(entity.getPolicyId())
                 .build();
     }
 

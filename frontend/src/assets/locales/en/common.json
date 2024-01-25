@@ -11,7 +11,9 @@
     "investigations": "Quality investigations",
     "alerts": "Quality alerts",
     "adminRegistry": "Registry lookups",
-    "adminBpn": "BPN - EDC configuration"
+    "adminBpn": "BPN - EDC configuration",
+    "adminImport": "Data provisioning",
+    "unauthorized": "Functionality is disabled because of missing role. Ask your administrator to provide the required role for the functionality."
   },
   "pageTitle": {
     "dashboard": "Dashboard",
@@ -48,7 +50,15 @@
     "remove": "Remove",
     "delete": "Delete",
     "goToQueue": "Go to Queue",
-    "goBack": "Back"
+    "goBack": "Back",
+    "publishAssets": "Publish assets"
+  },
+  "publisher": {
+    "selectedAssets": "Assets selected",
+    "policyToApply": "Policy to apply",
+    "selectPolicyLabel": "Select Policy",
+    "selectPolicyError": "Please select one policy",
+    "publish": "Publish"
   },
   "table": {
     "noResultFound": "NO RESULTS FOUND.",
@@ -57,21 +67,25 @@
     "menuDescription": "Action menu",
     "clearPage": "Clear page selections",
     "clearAll": "Clear all selections",
+    "multiSortingTooltip": "First click: sort in ascending order ↑ Second click: sort in descending order ↓ Third click: reset sorting",
     "filterTitle": "Filter",
-    "adminColumn": {
-      "startDate": "Start date",
-      "registryLookupStatus": "Status",
-      "successShellDescriptorsFetchCount": "Successful fetches",
-      "failedShellDescriptorsFetchCount": "Failed fetches",
-      "shellDescriptorsFetchDelta": "Fetch Delta",
-      "endDate": "End date"
+    "tableSettings": {
+      "invalid": "Due to an error table settings have been reset",
+      "title": "Table column settings",
+      "selectAll": "All",
+      "orderTooltip": "Table column order can be changed by selecting a column and move it up or down by clicking on the icon ↑ (up) or ↓ (down)",
+      "refreshTooltip": "Reset individual table column settings to default",
+      "saveAction": "Save",
+      "alert": "Quality Alert",
+      "investigation": "Quality Investigation"
     },
     "column": {
       "id": "ID",
       "idShort": "ID Short",
       "name": "Name",
-      "manufacturer": "Manufacturer",
+      "manufacturerName": "Manufacturer",
       "partId": "Part number",
+      "businessPartner": "Business partner number",
       "manufacturerPartId": "Manufacturer part ID",
       "customerPartId": "Customer part ID",
       "classification": "Classification",
@@ -87,16 +101,23 @@
       "status": "Status",
       "targetDate": "Deadline",
       "createdDate": "Created",
-      "createdBy": "Created by",
-      "sendTo": "Send to",
+      "createdBy": "Created by BPN",
+      "createdByName": "Created by Manufacturer",
+      "sendTo": "Sent to BPN",
+      "sendToName": "Sent to Manufacturer",
       "severity": "Severity",
       "semanticDataModel": "Semantic Data Model",
       "catenaXSiteId": "SiteId",
       "psFunction": "Function",
       "functionValidFrom": "Function valid from",
       "functionValidUntil" : "Function valid until",
-      "activeAlerts" : "Active Quality alerts",
-      "activeInvestigations" : "Active Quality investigations"
+      "sentActiveAlerts" : "Created",
+      "receivedActiveInvestigations" : "Received",
+      "receivedActiveAlerts" : "Received",
+      "sentActiveInvestigations" : "Created",
+      "importState": "Import State",
+      "importNote": "Import Note",
+      "importDate": "Import Date"
     }
   },
   "dataLoading": {
@@ -109,6 +130,13 @@
     "Major": "Major",
     "Critical": "Critical",
     "LifeThreatening": "Life-Threatening"
+  },
+  "importState": {
+    "PERSISTENT": "PERSISTENT",
+    "TRANSIENT": "TRANSIENT",
+    "IN_SYNCHRONIZATION": "IN SYNCHRONIZATION",
+    "ERROR": "ERROR",
+    "UNSET": "UNSET"
   },
   "severity": {
     "MINOR": "Minor",
@@ -201,6 +229,7 @@
       "closeReasonHint": "Enter the reason for close action.",
       "cancellationTitle": "Cancellation of investigation",
       "cancellationHint": "Enter the ID of the investigation to confirm your cancellation.",
+      "cancellationConfirmationLabel": "Yes, I confirm that I want to cancel the investigation with the ID: ",
       "declineTitle": "Decline of investigation",
       "declineReasonHint": "Enter the reason for declining this investigation.",
       "successfullyAccepted": "Investigation was accepted successfully.",
@@ -221,7 +250,7 @@
     "viewAll": "View all",
     "tabs": {
       "received": "Received",
-      "queuedAndRequested": "Queued & Sent"
+      "queuedAndRequested": "Queued & Requested"
     },
     "status": {
       "SENT": "Sent",
@@ -242,6 +271,7 @@
       "closeReasonHint": "Enter the reason for close action.",
       "cancellationTitle": "Cancellation of alert",
       "cancellationHint": "Enter the ID of the alert to confirm your cancellation.",
+      "cancellationConfirmationLabel": "Yes, I confirm that I want to cancel the alert with the ID: ",
       "declineTitle": "Decline of alert",
       "declineReasonHint": "Enter the reason for declining this alert.",
       "successfullyAccepted": "Alert was accepted successfully.",
@@ -264,7 +294,37 @@
   },
   "multiSelect": {
     "filterLabel": "Filter",
-    "placeHolder": "All"
+    "placeholder": "All",
+    "searchPlaceholder": "Search..",
+    "choosePlaceholder": "Choose..",
+    "suggestionError": "No suggestions found.",
+    "multipleResults": "others",
+    "mappedText": {
+      "RECEIVED": "RECEIVED",
+      "CREATED": "QUEUED",
+      "SENT": "REQUESTED",
+      "CANCELED": "CANCELLED",
+      "CLOSED": "CLOSED",
+      "ACCEPTED": "ACCEPTED",
+      "ACKNOWLEDGED": "ACKNOWLEDGED",
+      "DECLINED": "DECLINED",
+      "MINOR": "Minor",
+      "MAJOR": "Major",
+      "CRITICAL": "Critical",
+      "LIFE_THREATENING": "Life-Threatening",
+      "BATCH": "Batch",
+      "SERIALPART": "SerialPart",
+      "PARTASPLANNED": "PartAsPlanned",
+      "UNKNOWN": "Unknown",
+      "JUSTINSEQUENCE": "JustInSequence",
+      "TRACTIONBATTERYCODE": "TractionBatteryCode",
+      "TRANSIENT": "Transient",
+      "PERSISTENT": "Persistent",
+      "IN_SYNCHRONIZATION": "In Synchronization",
+      "ERROR": "Error",
+      "UNSET": "Unset"
+
+    }
   },
   "parts": {
     "input": {
@@ -276,6 +336,8 @@
   },
   "datepicker": {
     "apply": "Filter",
-    "cancel": "Reset"
+    "cancel": "Reset",
+    "startDate": "Start Date",
+    "endDate": "End Date"
   }
 }

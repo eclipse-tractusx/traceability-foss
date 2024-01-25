@@ -19,7 +19,7 @@
 
 package assets.response.asbuilt;
 
-import assets.response.base.AssetBaseResponse;
+import assets.response.base.response.AssetBaseResponse;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.experimental.SuperBuilder;

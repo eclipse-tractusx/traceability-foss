@@ -17,6 +17,7 @@ Feature: ⭐ [BE][QUALITY_ALERTS] Create (POST) quality alerts (Rest API)
   @TRACEFOSS-1864 @TRACEFOSS-1920 @TEST-1217 @TEST-904 @TRACEFOSS-1673 @TRACEFOSS-1101 @INTEGRATION_TEST
   Scenario: [BE] Check correct processing of CANCELLATION of quality alerts
     When I am logged into TRACE_X_A application
+    When I use assets with ids 'urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a'
     And I create quality alert
       | "severity"    | "MAJOR"                             |
       | "description" | "Testing ACCEPTANCE TRACEFOSS-1864" |
@@ -37,6 +38,7 @@ Feature: ⭐ [BE][QUALITY_ALERTS] Create (POST) quality alerts (Rest API)
   @TRACEFOSS-1863 @TRACEFOSS-1920 @TEST-1217 @TEST-904 @TRACEFOSS-1101 @TRACEFOSS-1673 @INTEGRATION_TEST
   Scenario: [BE] Check correct processing of CLOSURE of quality alerts
     When I am logged into TRACE_X_A application
+    When I use assets with ids 'urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a'
     And I create quality alert
       | "severity"    | "MAJOR"                             |
       | "description" | "Testing ACCEPTANCE TRACEFOSS-1863" |
@@ -72,7 +74,8 @@ Feature: ⭐ [BE][QUALITY_ALERTS] Create (POST) quality alerts (Rest API)
   @TRACEFOSS-1670 @TRACEFOSS-1920 @TRACEFOSS-1101 @TRACEFOSS-1673 @TEST-904 @TEST-1217 @INTEGRATION_TEST
   Scenario: [BE] Check correct processing of several parts in quality alerts
     When I am logged into TRACE_X_A application
-    And I create quality alert with two parts
+    When I use assets with ids 'urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd,urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a'
+    And I create quality alert
       | "severity"    | "MINOR"                           |
       | "description" | "Testing severity TRACEFOSS-1670" |
     Then I check, if quality alert has proper values
@@ -102,6 +105,7 @@ Feature: ⭐ [BE][QUALITY_ALERTS] Create (POST) quality alerts (Rest API)
   @TRACEFOSS-1547 @TRACEFOSS-1101 @TRACEFOSS-1920 @TRACEFOSS-1673 @TEST-904 @TEST-1217 @INTEGRATION_TEST
   Scenario: [BE] Check correct processing of bpn names in quality alerts
     When I am logged into TRACE_X_A application
+    When I use assets with ids 'urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a'
     And I create quality alert
       | "description" | "Testing BPNs TRACEFOSS-1547" |
       | "severity"    | "MINOR"                       |
@@ -127,6 +131,7 @@ Feature: ⭐ [BE][QUALITY_ALERTS] Create (POST) quality alerts (Rest API)
   @TRACEFOSS-1546 @TRACEFOSS-1101 @TRACEFOSS-1920 @TRACEFOSS-1673 @TEST-904 @TEST-1217 @INTEGRATION_TEST
   Scenario: [BE] Check correct processing of targetDate = null in quality alerts
     When I am logged into TRACE_X_A application
+    When I use assets with ids 'urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a'
     And I create quality alert
       | "severity"    | "MINOR"                                     |
       | "description" | "Testing without targetDate TRACEFOSS-1546" |
@@ -151,6 +156,7 @@ Feature: ⭐ [BE][QUALITY_ALERTS] Create (POST) quality alerts (Rest API)
   @TRACEFOSS-1545 @TRACEFOSS-1101 @TRACEFOSS-1920 @TRACEFOSS-1673 @TEST-904 @TEST-1217 @INTEGRATION_TEST
   Scenario: [BE] Check correct processing of DECLINATION of quality alerts
     When I am logged into TRACE_X_A application
+    When I use assets with ids 'urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a'
     And I create quality alert
       | "severity"    | "MAJOR"                              |
       | "description" | "Testing DECLINATION TRACEFOSS-1545" |
@@ -187,6 +193,7 @@ Feature: ⭐ [BE][QUALITY_ALERTS] Create (POST) quality alerts (Rest API)
   @TRACEFOSS-1544 @TRACEFOSS-1101 @TRACEFOSS-1920 @TEST-904 @TRACEFOSS-1673 @TEST-1217 @INTEGRATION_TEST
   Scenario: [BE] Check correct processing of ACCEPTANCE of quality alerts
     When I am logged into TRACE_X_A application
+    When I use assets with ids 'urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a'
     And I create quality alert
       | "severity"    | "MAJOR"                             |
       | "description" | "Testing ACCEPTANCE TRACEFOSS-1544" |
@@ -222,6 +229,7 @@ Feature: ⭐ [BE][QUALITY_ALERTS] Create (POST) quality alerts (Rest API)
   @TRACEFOSS-1543 @TRACEFOSS-1920 @TEST-904 @TRACEFOSS-1673 @TRACEFOSS-1101 @TEST-1217 @INTEGRATION_TEST
   Scenario: [BE] Check correct processing of targetDate in quality alerts
     When I am logged into TRACE_X_A application
+    When I use assets with ids 'urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a'
     And I create quality alert
       | "severity"    | "MINOR"                             |
       | "description" | "Testing targetDate TRACEFOSS-1543" |
@@ -246,6 +254,7 @@ Feature: ⭐ [BE][QUALITY_ALERTS] Create (POST) quality alerts (Rest API)
   @TRACEFOSS-1539 @TRACEFOSS-1920 @TRACEFOSS-1101 @TRACEFOSS-1673 @TEST-904 @TEST-1217 @INTEGRATION_TEST
   Scenario Outline: [BE] Check correct processing of severity in quality alerts
     When I am logged into TRACE_X_A application
+    When I use assets with ids 'urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a'
     And I create quality alert
       | "severity"    | <severity>                        |
       | "description" | "Testing severity TRACEFOSS-1539" |

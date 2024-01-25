@@ -23,6 +23,12 @@ table {
   @apply font-light;
 }
 
+.menu-column {
+  position: sticky;
+  right: 0;
+  background-color: white;
+  z-index: 1;
+}
 .table--select-all {
   display: inline-flex;
   align-items: center;
@@ -49,9 +55,6 @@ table {
   cursor: pointer;
 }
 
-.mat-mdc-row:hover {
-  outline: 1px solid currentColor;
-}
 
 .table--no-data {
   display: flex;
@@ -78,17 +81,10 @@ table {
 }
 
 .table--selected__container {
-  position: sticky;
-  top: 0;
   z-index: 1;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 10px;
-  // Mat row defines fixed height of 48px.
-  min-height: 48px;
-
-  @apply bg-primaryLight border-r-2;
 }
 
 .loading-table {
@@ -137,6 +133,8 @@ tr.error {
 }
 
 .table--menu {
+  background-color: white;
+
   &__mobile {
     display: none;
   }
@@ -191,7 +189,7 @@ tr.error {
 
 .table--header--tooltip {
   .mdc-tooltip__surface {
-    background-color: rgb(48,48,48);
+    background-color: rgb(48, 48, 48);
     @apply font-medium;
     color: white;
     max-width: 300px;
@@ -200,8 +198,22 @@ tr.error {
     line-height: 20px;
 
   }
+
   .mdc-tooltip--multiline {
     white-space: pre-line;
+  }
+}
+
+.menu-action-button {
+  &--unauthorized {
+    cursor: not-allowed !important;
+
+    .mdc-list-item__primary-text {
+      color: #b0b0b0 !important;
+    }
+    .mat-icon {
+      color: #b0b0b0 !important;
+    }
   }
 }
 

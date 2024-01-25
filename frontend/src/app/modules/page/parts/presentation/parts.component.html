@@ -20,106 +20,138 @@ SPDX-License-Identifier: Apache-2.0
 -->
 
 <div class="parts-table-container">
-    <div class="parts-search-input-wrapper" [formGroup]="searchFormGroup">
-    <app-input
-            [label]="'parts.input.global-search.placeholder' | i18n"
-            [suffixIconHover]="true"
-            [displayClearButton]="true"
-            (suffixIconClick)="triggerPartSearch()"
-            [onEnterActive]="true"
-            [suffixIcon]="'search'"
-            class="parts-search-input"
-            formControlName="partSearch"
-            [parentFormGroup]="searchFormGroup"
-            [parentControlName]="'partSearch'"
-            suffixIconColor="primary"
-    ></app-input>
+  <div class="searchbar-wrapper">
+    <div class="searchbar-container" [formGroup]="searchFormGroup">
+      <app-input
+        [label]="'parts.input.global-search.placeholder' | i18n"
+        [suffixIconHover]="true"
+        [displayClearButton]="true"
+        (suffixIconClick)="triggerPartSearch()"
+        [onEnterActive]="true"
+        [suffixIcon]="'search'"
+        class="parts-search-input"
+        formControlName="partSearch"
+        [parentFormGroup]="searchFormGroup"
+        [parentControlName]="'partSearch'"
+        suffixIconColor="primary"
+      ></app-input>
     </div>
-    <div class="app-bom-lifecycle-activator-container">
-        <app-bom-lifecycle-activator [view]=UserSettingView.PARTS
-                                     (buttonClickEvent)="handleTableActivationEvent($event)"></app-bom-lifecycle-activator>
+  </div>
+  <div class="app-bom-lifecycle-activator-container">
+    <app-bom-lifecycle-activator [view]=UserSettingView.PARTS
+                                 (buttonClickEvent)="handleTableActivationEvent($event)">
+    </app-bom-lifecycle-activator>
+    <div class="table--header--select--button"
+         matTooltip="{{'routing.unauthorized' | i18n}}"
+         matTooltipClass="table--header--tooltip"
+         matTooltipPosition="above"
+         [class.mdc-tooltip--multiline]="true"
+         [matTooltipShowDelay]="1000"
+         [matTooltipDisabled]="roleService.hasAccess(['wip'])"
+    >
+      <app-button
+              *ngIf="(allSelectedItems$ | async).length"
+              (click)="isPublisherOpen$.next(true)"
+              [variant]="'raised'"
+              [color]="'accent'"
+              [isDisabled]="!roleService.hasAccess(['wip'])"
+      >
+        <div class="flex justify-between items-center text-dark p-0.5">
+          <mat-icon class="mr-2">published_with_changes</mat-icon>
+          {{ 'actions.publishAssets' | i18n }}
+        </div>
+      </app-button>
     </div>
-    <div class="split-container-wrapper">
-        <as-split direction="horizontal" class="split-container">
-            <as-split-area data-testid="as-split-area-1-component--test-id" [size]="bomLifecycleSize.asBuiltSize"
-                           class="split-area">
-                <div class="large-text table--header--text">{{"page.asBuiltParts" | i18n}}</div>
-                <div class="parts-as-built-table-wrapper">
-                    <ng-container
-                            *viewContainer="partsAsBuilt$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
-                    <ng-template #mainTmp let-parts="view">
-                        <!-- asBuilt Parts Table-->
-                        <app-parts-table class="parts-asBuilt-table"
-                                         [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
-                                         [labelId]="titleId"
-                                         [multiSelectActive]="true"
-                                         [selectedPartsInfoLabel]="'page.selectedParts.info'"
-                                         [selectedPartsActionLabel]="'page.selectedParts.action'"
-                                         [deselectTrigger]="deselectPartTrigger$ | async"
-                                         [addTrigger]="addPartTrigger$ | async"
-                                         (selected)="onSelectItem($event)"
-                                         (configChanged)="onAsBuiltTableConfigChange($event)"
-                                         (multiSelect)="currentSelectedItems$.next($event)"
-                                         (clickSelectAction)="isAlertOpen$.next(true)"
-                                         (filterActivated)="filterActivated(true, $event )"
-                                         [multiSortList]="tableAsBuiltSortList"
-                                         [tableType]="PartTableType.AS_BUILT_OWN"
-                        ></app-parts-table>
-                    </ng-template>
-                </div>
-            </as-split-area>
-            <as-split-area data-testid="as-split-area-2-component--test-id" [size]="bomLifecycleSize.asPlannedSize"
-                           class="split-area">
-                <div class="large-text table--header--text">{{"page.asPlannedParts" | i18n}}</div>
-                <div class="parts-as-planned-table-wrapper">
-                    <ng-container
-                            *viewContainer="partsAsPlanned$ | async; main: myTmp; error: errorTmp; loading: loaderTmp"></ng-container>
-                    <ng-template #myTmp let-parts="view">
-                        <!-- asPlanned Parts Table-->
-                        <app-parts-table class="parts-asPlanned-table"
-                                         [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
-                                         [labelId]="titleId"
-                                         [multiSelectActive]="true"
-                                         [selectedPartsInfoLabel]="'page.selectedParts.info'"
-                                         [selectedPartsActionLabel]="'page.selectedParts.action'"
-                                         [deselectTrigger]="deselectPartTrigger$ | async"
-                                         [addTrigger]="addPartTrigger$ | async"
-                                         (selected)="onSelectItem($event)"
-                                         (configChanged)="onAsPlannedTableConfigChange($event)"
-                                         (multiSelect)="currentSelectedItems$.next($event)"
-                                         (clickSelectAction)="isAlertOpen$.next(true)"
-                                         (filterActivated)="filterActivated(false, $event)"
-                                         [multiSortList]="tableAsPlannedSortList"
-                                         [tableType]="PartTableType.AS_PLANNED_OWN"
-                        ></app-parts-table>
-
-                    </ng-template>
-                </div>
-            </as-split-area>
-
-        </as-split>
-    </div>
-
-    <app-part-detail></app-part-detail>
-
-    <app-sidenav-wrapper [isOpen]="isAlertOpen$ | async" (sidenavAction)="isAlertOpen$.next($event)">
-        <app-request-alert
-                *ngIf="isAlertOpen$ | async"
-                [selectedItems]="currentSelectedItems$ | async"
-                (deselectPart)="deselectPartTrigger$.next([$event])"
-                (restorePart)="addPartTrigger$.next($event)"
-                (clearSelected)="deselectPartTrigger$.next(currentSelectedItems$.value)"
-                (submitted)="isAlertOpen$.next(false)"
-        ></app-request-alert>
-    </app-sidenav-wrapper>
+  </div>
+  <div class="split-container-wrapper">
+    <as-split direction="horizontal" class="split-container">
+      <as-split-area data-testid="as-split-area-1-component--test-id" [size]="bomLifecycleSize.asBuiltSize"
+                     class="split-area">
 
 
-    <ng-template #errorTmp let-parts="view">
-        <h1>{{ 'dataLoading.error' | i18n }}</h1>
-        <p>{{ parts.error }}</p>
-    </ng-template>
+        <div class="parts-table-wrapper">
+          <ng-container
+            *viewContainer="partsAsBuilt$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
+          <ng-template #mainTmp let-parts="view">
+            <!-- asBuilt Parts Table-->
+            <app-parts-table class="parts-asBuilt-table"
+                             [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
+                             [labelId]="titleId"
+                             [selectedPartsInfoLabel]="'page.selectedParts.info'"
+                             [selectedPartsActionLabel]="'page.selectedParts.action'"
+                             [deselectTrigger]="deselectPartTrigger$ | async"
+                             [addTrigger]="addPartTrigger$ | async"
+                             (selected)="onSelectItem($event)"
+                             (configChanged)="onAsBuiltTableConfigChange($event)"
+                             (multiSelect)="currentSelectedItems$.next($event)"
+                             (clickSelectAction)="isAlertOpen$.next(true)"
+                             (filterActivated)="filterActivated(true, $event )"
+                             [multiSortList]="tableAsBuiltSortList"
+                             [tableHeader]='"page.asBuiltParts" | i18n'
+                             [tableType]="TableType.AS_BUILT_OWN"
+            ></app-parts-table>
+          </ng-template>
+        </div>
+      </as-split-area>
+      <as-split-area data-testid="as-split-area-2-component--test-id" [size]="bomLifecycleSize.asPlannedSize"
+                     class="split-area">
+        <div class="parts-table-wrapper">
+          <ng-container
+            *viewContainer="partsAsPlanned$ | async; main: myTmp; error: errorTmp; loading: loaderTmp"></ng-container>
+          <ng-template #myTmp let-parts="view">
+            <!-- asPlanned Parts Table-->
+            <app-parts-table class="parts-asPlanned-table"
+                             [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
+                             [labelId]="titleId"
+                             [selectedPartsInfoLabel]="'page.selectedParts.info'"
+                             [selectedPartsActionLabel]="'page.selectedParts.action'"
+                             [deselectTrigger]="deselectPartTrigger$ | async"
+                             [addTrigger]="addPartTrigger$ | async"
+                             (selected)="onSelectItem($event)"
+                             (configChanged)="onAsPlannedTableConfigChange($event)"
+                             (multiSelect)="currentSelectedAsPlannedItems$.next($event)"
+                             (clickSelectAction)="isAlertOpen$.next(true)"
+                             (filterActivated)="filterActivated(false, $event)"
+                             [multiSortList]="tableAsPlannedSortList"
+                             [tableHeader]='"page.asPlannedParts" | i18n'
+                             [tableType]="TableType.AS_PLANNED_OWN"
+            ></app-parts-table>
 
-    <ng-template #loaderTmp let-parts="view">
-        <mat-spinner></mat-spinner>
-    </ng-template>
+          </ng-template>
+        </div>
+      </as-split-area>
+
+    </as-split>
+  </div>
+
+  <app-part-detail></app-part-detail>
+
+  <app-sidenav-wrapper [isOpen]="isPublisherOpen$ | async" (sidenavAction)="isPublisherOpen$.next($event)">
+    <app-asset-publisher
+    [selectedAssets] = "allSelectedItems$ | async"
+    (submitted)="isPublisherOpen$.next(false)"
+    ></app-asset-publisher>
+  </app-sidenav-wrapper>
+
+  <app-sidenav-wrapper [isOpen]="isAlertOpen$ | async" (sidenavAction)="isAlertOpen$.next($event)">
+    <app-notification-request
+      *ngIf="isAlertOpen$ | async"
+      [selectedItems]="currentSelectedItems$ | async"
+      [notificationType]="NotificationType.ALERT"
+      (deselectPart)="deselectPartTrigger$.next([$event])"
+      (restorePart)="addPartTrigger$.next($event)"
+      (clearSelected)="deselectPartTrigger$.next(currentSelectedItems$.value)"
+      (submitted)="isAlertOpen$.next(false)"
+    ></app-notification-request>
+  </app-sidenav-wrapper>
+
+
+  <ng-template #errorTmp let-parts="view">
+    <h1>{{ 'dataLoading.error' | i18n }}</h1>
+    <p>{{ parts.error }}</p>
+  </ng-template>
+
+  <ng-template #loaderTmp let-parts="view">
+    <mat-spinner></mat-spinner>
+  </ng-template>
 </div>

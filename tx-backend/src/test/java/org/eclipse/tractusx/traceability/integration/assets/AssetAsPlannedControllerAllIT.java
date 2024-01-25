@@ -85,12 +85,11 @@ class AssetAsPlannedControllerAllIT extends IntegrationTestSpecification {
         assetsSupport.defaultAssetsAsPlannedStored();
 
         //THEN filter=owner,EQUAL,OWN
-        final String filterOperator = "AND";
+        final String filter = "owner,EQUAL," + ownerValue + ",AND";
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
-                .queryParam("filter", "owner,EQUAL," + ownerValue)
-                .queryParam("filterOperator", filterOperator)
+                .queryParam("filter", filter)
                 .when()
                 .get("/api/assets/as-planned")
                 .then()
@@ -115,6 +114,20 @@ class AssetAsPlannedControllerAllIT extends IntegrationTestSpecification {
                 .statusCode(200)
                 .body("page", Matchers.is(2))
                 .body("pageSize", Matchers.is(2));
+    }
+
+    @Test
+    void givenNonExistingSortField_whenGetAssetsAsPlanned_thenBadRequest() throws JoseException {
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .param("page", "2")
+                .param("size", "2")
+                .param("sort", "nonExistingField,ASC")
+                .when()
+                .get("/api/assets/as-planned")
+                .then()
+                .statusCode(400);
     }
 
 }

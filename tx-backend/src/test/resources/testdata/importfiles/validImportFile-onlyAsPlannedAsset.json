@@ -1,0 +1,62 @@
+{
+  "assets" : [
+    {
+      "assetMetaInfo" : {
+        "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01"
+      },
+      "submodels" : [
+        {
+          "aspectType" : "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
+          "payload" : {
+            "validityPeriod" : {
+              "validFrom" : "2019-04-04T03:19:03.000Z",
+              "validTo" : "2024-12-29T10:25:12.000Z"
+            },
+            "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01",
+            "partTypeInformation" : {
+              "manufacturerPartId" : "7805659-25",
+              "classification" : "product",
+              "nameAtManufacturer" : "b/test Vehicle Model B"
+            }
+          }
+        },
+        {
+          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned",
+          "payload" : {
+            "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01",
+            "childItems" : [
+              {
+                "validityPeriod" : {
+                  "validFrom" : "2023-03-21T08:17:29.187+01:00",
+                  "validTo" : "2024-07-01T16:10:00.000+01:00"
+                },
+                "quantity" : {
+                  "quantityNumber" : 1,
+                  "measurementUnit" : "unit:piece"
+                },
+                "createdOn" : "2022-09-03T14:48:54.709Z",
+                "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
+                "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01",
+                "businessPartner" : "BPNL00000003CML1"
+              }
+            ]
+          }
+        },
+        {
+          "aspectType" : "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
+          "payload" : {
+            "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01",
+            "sites" : [
+              {
+                "functionValidUntil" : "2025-02-08T04:30:48.000Z",
+                "function" : "production",
+                "functionValidFrom" : "2019-08-21T02:10:36.000Z",
+                "catenaXSiteId" : "BPNS000004711DMY"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

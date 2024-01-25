@@ -28,6 +28,7 @@ import com.fasterxml.jackson.annotation.Nulls;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataTractionBatteryCode;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
@@ -53,11 +54,12 @@ public record JobDetailResponse(
         Map<String, String> bpns
 ) {
 
+    // TODO constants should be in a proper class which reflects the purpose of it (MW)
     private static final String UNKNOWN_MANUFACTURER_NAME = "UNKNOWN_MANUFACTURER";
     private static final String SINGLE_LEVEL_USAGE_AS_BUILT = "SingleLevelUsageAsBuilt";
     private static final String SINGLE_LEVEL_BOM_AS_BUILT = "SingleLevelBomAsBuilt";
     private static final String SINGLE_LEVEL_BOM_AS_PLANNED = "SingleLevelBomAsPlanned";
-    private static final String JOB_STATUS_COMPLETED = "COMPLETED";
+    public static final String JOB_STATUS_COMPLETED = "COMPLETED";
     private static final String JOB_STATUS_RUNNING = "RUNNING";
 
     @JsonCreator
@@ -101,6 +103,8 @@ public record JobDetailResponse(
                 bpnsMap
         );
     }
+
+    // TODO is this still needed - as we have changed from async runner for IRS Jobs to callback approach this should be deprecated. (MW)
 
     public boolean isRunning() {
         return JOB_STATUS_RUNNING.equals(jobStatus.state());
@@ -165,14 +169,14 @@ public record JobDetailResponse(
                 .stream()
                 .map(semanticDataModel -> semanticDataModel.toDomainAsBuilt(semanticDataModel.localIdentifiers(), shortIds, owner, bpnMapping,
                         Collections.emptyList(),
-                        Collections.emptyList(), Optional.empty()))
+                        Collections.emptyList(), Optional.empty(), ImportState.PERSISTENT))
                 .toList();
         log.info(":: mapped assets: {}", assets);
         return assets;
     }
 
     private List<AssetBase> mapToOtherPartsAsPlanned(Map<String, String> shortIds, Owner owner, Map<String, String> bpnMapping) {
-        List<SemanticDataModel> otherParts = semanticDataModels().stream().filter(semanticDataModel -> !isOwnPart(semanticDataModel, jobStatus)).filter(semanticDataModel -> Aspect.isMasterAspect(semanticDataModel.getAspectType())).toList();
+        List<SemanticDataModel> otherParts = semanticDataModels().stream().filter(semanticDataModel -> !isOwnPart(semanticDataModel, jobStatus)).filter(semanticDataModel -> Aspect.isMainAspect(semanticDataModel.getAspectType())).toList();
         List<SemanticDataModel> isPartSiteInformationAsPlanned =
                 semanticDataModels().stream()
                         .filter(semanticDataModel -> !isOwnPart(semanticDataModel, jobStatus))
@@ -181,11 +185,18 @@ public record JobDetailResponse(
         addPartSiteInformationAsPlannedToOwnPartsAsPlanned(otherParts, isPartSiteInformationAsPlanned);
         log.info(":: mapToOtherPartsAsPlanned()");
         log.info(":: otherParts: {}", otherParts);
+
+        String ownerBpn = jobStatus.parameter().bpn();
+
         final List<AssetBase> assets = otherParts
                 .stream()
-                .map(semanticDataModel -> semanticDataModel.toDomainAsPlanned(shortIds, owner, bpnMapping,
+                .map(semanticDataModel -> semanticDataModel.toDomainAsPlanned(
+                        shortIds,
+                        owner,
+                        bpnMapping,
                         Collections.emptyList(),
-                        Collections.emptyList()))
+                        Collections.emptyList(),
+                        ownerBpn, ImportState.PERSISTENT))
                 .toList();
         log.info(":: mapped assets: {}", assets);
         return assets;
@@ -196,7 +207,7 @@ public record JobDetailResponse(
         List<SemanticDataModel> ownPartsAsPlanned =
                 semanticDataModels().stream()
                         .filter(semanticDataModel -> isOwnPart(semanticDataModel, jobStatus))
-                        .filter(semanticDataModel -> Aspect.isMasterAspect(semanticDataModel.aspectType())).toList();
+                        .filter(semanticDataModel -> Aspect.isMainAspect(semanticDataModel.aspectType())).toList();
 
         List<SemanticDataModel> isPartSiteInformationAsPlanned =
                 semanticDataModels().stream()
@@ -212,17 +223,25 @@ public record JobDetailResponse(
                 .filter(relationship -> SINGLE_LEVEL_BOM_AS_PLANNED.equals(relationship.aspectType().getAspectName()))
                 .collect(Collectors.groupingBy(Relationship::catenaXId, Collectors.toList()));
 
+        String ownerBpn = jobStatus.parameter().bpn();
+
         final List<AssetBase> assets = ownPartsAsPlanned
                 .stream()
-                .map(semanticDataModel -> semanticDataModel.toDomainAsPlanned(shortIds, Owner.OWN, bpnMapping,
+                .map(semanticDataModel -> semanticDataModel.toDomainAsPlanned(
+                        shortIds,
+                        Owner.OWN,
+                        bpnMapping,
                         Collections.emptyList(),
-                        getChildParts(singleLevelBomRelationship, shortIds, semanticDataModel.catenaXId())))
+                        getChildParts(singleLevelBomRelationship, shortIds, semanticDataModel.catenaXId()),
+                        ownerBpn,
+                        ImportState.PERSISTENT
+                ))
                 .toList();
         log.info(":: mapped assets: {}", assets);
         return assets;
     }
 
-    private static void addPartSiteInformationAsPlannedToOwnPartsAsPlanned(List<SemanticDataModel> ownPartsAsPlanned, List<SemanticDataModel> partSiteInformationAsPlanned) {
+    public static void addPartSiteInformationAsPlannedToOwnPartsAsPlanned(List<SemanticDataModel> ownPartsAsPlanned, List<SemanticDataModel> partSiteInformationAsPlanned) {
         for (SemanticDataModel semanticDataModel : ownPartsAsPlanned) {
             for (SemanticDataModel partSiteSemanticDataModel : partSiteInformationAsPlanned) {
                 if (semanticDataModel.getCatenaXId().equals(partSiteSemanticDataModel.getCatenaXId())) {
@@ -234,7 +253,7 @@ public record JobDetailResponse(
 
     private List<AssetBase> mapToOwnPartsAsBuilt(Map<String, String> shortIds, Map<String, String> bpnMapping) {
         List<SemanticDataModel> ownParts = semanticDataModels().stream()
-                .filter(semanticDataModel -> Aspect.isMasterAspect(semanticDataModel.getAspectType()))
+                .filter(semanticDataModel -> Aspect.isMainAspect(semanticDataModel.getAspectType()))
                 .filter(semanticDataModel -> isOwnPart(semanticDataModel, jobStatus))
                 .toList();
         log.info(":: mapToOwnPartsAsBuilt()");
@@ -260,7 +279,7 @@ public record JobDetailResponse(
                 .map(semanticDataModel -> semanticDataModel.toDomainAsBuilt(semanticDataModel.localIdentifiers(), shortIds, Owner.OWN, bpnMapping,
                         getParentParts(customerPartsMap, shortIds, semanticDataModel.catenaXId()),
                         getChildParts(supplierPartsMap, shortIds, semanticDataModel.catenaXId()),
-                        tractionBatteryCodeOptional))
+                        tractionBatteryCodeOptional, ImportState.PERSISTENT))
                 .toList();
         log.info(":: mapped assets: {}", assets);
         return assets;

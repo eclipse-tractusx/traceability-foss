@@ -26,17 +26,20 @@ SPDX-License-Identifier: Apache-2.0
 ></app-notification-common-modal>
 
 <app-notification
+  [notificationType]="NotificationType.INVESTIGATION"
   [queuedAndRequestedNotifications$]="investigationsQueuedAndRequested$"
   [receivedNotifications$]="investigationsReceived$"
   [translationContext]="TranslationContext.COMMONINVESTIGATION"
-  [receivedOptionalColumns]="['targetDate', 'severity', 'createdBy']"
-  [receivedSortableColumns]="{description: true, status: true, createdDate: true, severity: true, createdBy: true, targetDate: true}"
-  [queuedAndRequestedOptionalColumns]="['targetDate', 'severity', 'sendTo']"
-  [queuedAndRequestedSortableColumns]="{description: true, status: true, createdDate: true, severity: true, sendTo: true, targetDate: true}"
+  [isInvestigation]="isInvestigation"
+  [receivedOptionalColumns]="['severity', 'createdBy', 'createdByName', 'targetDate']"
+  [receivedSortableColumns]="{description: true, status: true, createdDate: true, severity: true, createdBy: true, createdByName: true, targetDate: true, menu: false}"
+  [queuedAndRequestedOptionalColumns]="['severity', 'sendTo', 'sendToName', 'targetDate']"
+  [queuedAndRequestedSortableColumns]="{description: true, status: true, createdDate: true, severity: true, sendTo: true, sendToName: true, targetDate: true, menu: false}"
   [receivedMultiSortList]="investigationReceivedSortList"
   [queuedAndRequestedMultiSortList]="investigationQueuedAndRequestedSortList"
   (onReceivedTableConfigChanged)="onReceivedTableConfigChanged($event)"
   (onQueuedAndRequestedTableConfigChanged)="onQueuedAndRequestedTableConfigChanged($event)"
   (selected)="openDetailPage($event)"
+  (investigationFilterChanged)="filterNotifications($event)"
   [menuActionsConfig]="menuActionsConfig"
 ></app-notification>
