@@ -1,54 +1,100 @@
-# \[Concept\] \[#521\] Revoked notification handling
+# Concept #521: Revoked notification handling
 
 | Key           | Value                                                                 |
 |---------------|-----------------------------------------------------------------------|
-| Autor         | ds-crehm                                                              |
+| Author        | ds-crehm                                                              |
 | Creation date | 24.01.2024                                                            |
 | Ticket Id     | #521 https://github.com/eclipse-tractusx/traceability-foss/issues/521 |
 | State         | WIP                                                                   |
 
 # Table of Contents
-1. [Background](#background)
-2. [Scope](#Scope)
-3. [Requirements](#requirements)
-4. [Non-functional requirements](#non-functional-requirements)
-5. [Out of scope](#out-of-scope)
+1. [Overview](#overview)
+2. [Summary](#summary)
+3. [Problem Statement](#problem-statement)
+4. [Requirements](#requirements)
+5. [NFR](#nfr)
+6. [Out of scope](#out-of-scope)
+7. [Assumptions](#assumptions)
+8. [Concept](#concept)
+9. [Glossary](#glossary)
+10. [References](#references)
+11. [Additional Details](#additional-details)
 
-# Background
+# Overview
 
-After a notification is sent, a contract negotiation starts by accessing the EDC.
-During the negotiation the validity of the policy and relevant permissions are checked.
-When the check is successful, the notification will be sent.
-When the check is unsuccessful, the notification will not be sent.
-Currently, in both cases the user will be informed that the notification was successfully sent.
+After a notification is created and approved, a negotiation in the EDC is initiated.
+Once the EDC approves access to the BPN, Trace-X fetches their usage policy.
+There are three possibilities:
+1. The policy is valid (validUntil >= current DateTime) and the notification is permitted to be sent.
+2. The policy is valid (validUntil >= current DateTime) but the notification is **not** permitted to be sent.
+3. The policy is **not** valid (validUntil < current DateTime) and the notification is **not** permitted to be sent (policy details are not relevant in this case).
 
-# Scope
+# Summary
 
-When the policy check is unsuccessful, the user must be notified of this failure as soon as possible.
-It must be possible for him to view detailed information about the reason for this failure. He must be able to resend the notification.
+Currently, there is only one error message and no differentiation between case 2 and 3.
+When the notification is not permitted, the user is only notified about the failure but not about the reason.
+This must now be implemented so that the user knows about the reason behind the rejection and can act accordingly.
+
+# Problem Statement
 
 # Requirements
 
-- The policies must be validated
-  - Does a matching policy exist at all?
-  - Is the policy active? (validUntil date >= currentDateTime)
-- If the policy is not valid, the notification must be rejected
-  - New notification status. E.g. "REJECTED"/"FAILED"
+- During policy check, throw separate Exceptions based on the type of failure.
+  - If policy is not valid -> UsagePolicyExpiredException
+  - If policy is valid but notification not permitted -> UsagePolicyPermissionException
+- New quality investigation & alert status: "Failed"
   - Notification set to this status
-  - Detailed status information stored in the message history of the notification
-  - Pop-up informing the user (e.g. "The notification was not successful. Reason: XXX")
-  - (optional) Clicking on the pop-up sends you to the detail view of the notification
+- Detailed status information stored in the message history of the notification
+- Pop-up informing the user
 - Detailed information about the reason for the rejection must be shown in the detail view of the notification
-- (optional) Detailed information about the relevant policy for that notification must be shown in the detail view of the notification. Policy implementation is in progress and must be considered -> A link to the policy implementation is another possibility
 - User must be able to resend the notification
-  - In the notification overview
-  - In the detail view
 
-# Non-functional requirements
-
-- The time it takes for a notification to be rejected is reasonable. If it takes too long, it will be canceled and the user will be notified.
+# NFR
 
 # Out of scope
 
-- Policies are part of the EDC
-- Contract negotiation is part of the EDC
+# Assumptions
+
+# Concept
+
+### Backend
+
+Instead of only having one UsagePolicyException, there must be two different exceptions.
+
+UsagePolicyException must be renamed to *UsagePolicyPermissionException* and a new *UsagePolicyExpiredException* must be created.
+UsagePolicyPermissionException is thrown whenever the notification is not compliant with the permissions of the policy.
+UsagePolicyExpiredException is thrown whenever
+policy.validUntil < currentTime
+
+A new notification status "Failed" must be implemented.
+
+### Frontend
+
+After creating and approving the notification and one of those errors is thrown:
+1. A pop-up must be shown to the user
+2. The notification status must be changed to "Failed"
+3. A new message must be created and shown in the message history including the error description
+
+UsagePolicyPermissionException:
+![UsagePolicyPermissionException-Mockup.png](UsagePolicyPermissionException-Mockup.png)
+UsagePolicyExpiredException:
+![UsagePolicyExpiredException-Mockup.png](UsagePolicyExpiredException-Mockup.png)
+
+# Glossary
+
+| Abbreviation | Name | Description   |
+|--------------|------|---------------|
+|              |      |               |
+|              |      |               |
+
+# References
+
+# LOP
+
+- How does Trace-X check policies/permissions/constraints currently?
+- When is the UsagePolicyException thrown?
+- How does it look like when this exception is thrown right now?
+
+# Additional Details
+
+Given the dynamic nature of ongoing development, there might be variations between the conceptualization and the current implementation. For the latest status, refer to the documentation.
