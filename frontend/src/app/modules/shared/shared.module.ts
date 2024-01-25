@@ -93,6 +93,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { InfoListComponent } from './components/info-list/info-list.component';
 import { RequestStepperComponent } from './components/request-notification/request-stepper/request-stepper.component';
 import { SupplierPartsComponent } from '@page/other-parts/presentation/supplier-parts/supplier-parts.component';
+import { OwnPartsComponent } from '@page/parts/presentation/own-parts/own-parts.component';
 @NgModule({
   declarations: [
     ToastContainerComponent,
@@ -124,6 +125,7 @@ import { SupplierPartsComponent } from '@page/other-parts/presentation/supplier-
     SidenavWrapperComponent,
     TextareaComponent,
     ErrorMessagePipe,
+    OwnPartsComponent,
     SupplierPartsComponent,
     RequestStepperComponent,
     RequestInvestigationComponent,
@@ -172,6 +174,7 @@ import { SupplierPartsComponent } from '@page/other-parts/presentation/supplier-
     SidenavWrapperComponent,
     TextareaComponent,
     ErrorMessagePipe,
+    OwnPartsComponent,
     SupplierPartsComponent,
     RequestStepperComponent,
     RequestInvestigationComponent,

@@ -243,6 +243,7 @@
   "commonAlert": {
     "viewAll": "Zu allen Warnungen gehen",
     "noAlerts": "Keine aktuellen Qualitätswarnungen",
+    "selectedPartsActions": "Warnung erstellen",
     "noAlertsDescription": "Falls es Qualitätswarnungen gibt, werden sie hier angezeigt.",
     "create": "Warnung definieren",
     "tabs": {

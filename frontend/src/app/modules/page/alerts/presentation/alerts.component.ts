@@ -38,7 +38,7 @@ import {
 } from '@shared/components/table/table.model';
 import { TableSortingUtil } from '@shared/components/table/tableSortingUtil';
 import { SearchHelper } from '@shared/helper/search-helper';
-import { ToastService } from '@shared/index';
+import { ToastService } from '@shared/components/toasts/toast.service';
 import { FilterCongigOptions } from '@shared/model/filter-config';
 import { NotificationTabInformation } from '@shared/model/notification-tab-information';
 import { Notification, NotificationStatusGroup } from '@shared/model/notification.model';

@@ -44,7 +44,7 @@ import { Subscription } from 'rxjs';
 import { InvestigationsFacade } from '../core/investigations.facade';
 import { FormGroup, FormControl } from '@angular/forms';
 import { SearchHelper } from '@shared/helper/search-helper';
-import { ToastService } from '@shared/index';
+import { ToastService } from '@shared/components/toasts/toast.service';
 import { NotificationComponent } from '@shared/modules/notification/presentation/notification.component';
 import { FilterOperator } from '@page/parts/model/parts.model';
 

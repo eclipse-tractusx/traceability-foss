@@ -158,6 +158,21 @@ SPDX-License-Identifier: Apache-2.0
               {{ 'pageTitle.alerts' | i18n }}
               <span class="pl-1 latestFiveLabel">{{ 'table.latestFive' | i18n }}</span>
             </h3>
+            <div *appHasRole="[Role.USER]">
+              <app-button class="button-small"
+                (click)="openRequestDialog(false)"
+                [color]="'primary'"
+                variant="flat">
+                <div class="flex justify-between items-center">
+                  <img class="pr-2"
+                    src="/assets/images/icons/quality_alert_dashboard_icon.svg"
+                    alt="quality alert icon" />
+                  <div class="action-button-text">
+                    {{ 'commonAlert.selectedPartsActions' | i18n }}
+                  </div>
+                </div>
+              </app-button>
+            </div>
           </div>
         </div>
       </mat-card-header>

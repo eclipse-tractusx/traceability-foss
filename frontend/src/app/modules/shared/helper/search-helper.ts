@@ -2,7 +2,7 @@ import { QueryList } from "@angular/core";
 import { NotificationComponent } from "@shared/modules/notification/presentation/notification.component";
 import { PartsTableComponent } from "@shared/components/parts-table/parts-table.component";
 import { MultiSelectAutocompleteComponent } from "@shared/components/multi-select-autocomplete/multi-select-autocomplete.component";
-import { ToastService } from "..";
+import { ToastService } from "@shared/components/toasts/toast.service";
 
 export class SearchHelper {
 

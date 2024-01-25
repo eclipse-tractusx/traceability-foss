@@ -22,7 +22,7 @@
 import { UntypedFormControl, ValidatorFn, Validators } from '@angular/forms';
 import { screen } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
-import { SharedModule } from '..';
+import { SharedModule } from '@shared/shared.module';
 
 describe('ErrorMessagePipe', () => {
   const getErrorsForRules = (value: string | number, rules: ValidatorFn[]) => {

@@ -22,10 +22,10 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
-import { ToastService } from 'src/app/modules/shared/components/toasts/toast.service';
+import { ToastService } from '@shared/components/toasts/toast.service';
 
 export class HttpErrorInterceptor implements HttpInterceptor {
-  constructor(private readonly toastService: ToastService) {}
+  constructor(private readonly toastService: ToastService) { }
 
   public intercept(
     request: HttpRequest<Record<string, unknown>>,

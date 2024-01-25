@@ -7,6 +7,8 @@ import { Part } from '@page/parts/model/parts.model';
 import { ModalComponent } from '@shared/modules/modal/component/modal.component';
 import { FormGroup, FormControl } from '@angular/forms';
 import { SupplierPartsComponent } from '@page/other-parts/presentation/supplier-parts/supplier-parts.component';
+import { OwnPartsComponent } from '@page/parts/presentation/own-parts/own-parts.component';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-request-stepper',
@@ -25,7 +27,11 @@ export class RequestStepperComponent {
   public searchFormGroup = new FormGroup({});
   public searchControl: FormControl;
 
+  public readonly deselectPartTrigger$ = new Subject<Part[]>();
+  public readonly addPartTrigger$ = new Subject<Part>();
+
   @ViewChildren(SupplierPartsComponent) supplierPartsComponents: QueryList<SupplierPartsComponent>;
+  @ViewChildren(OwnPartsComponent) ownPartsComponents: QueryList<OwnPartsComponent>;
   @Output() deselectPart = new EventEmitter<Part>();
 
   protected readonly MainAspectType = MainAspectType;
@@ -86,11 +92,23 @@ export class RequestStepperComponent {
     this.selectedParts = parts;
   }
 
+  public onPartDeselected(part: Part): void {
+    this.deselectPart.emit(part);
+
+    if (this.fromExternal === false) {
+      this.deselectPartTrigger$.next([part]);
+    }
+  }
+
   public triggerPartSearch() {
     const searchValue = this.searchFormGroup.get('partSearch').value;
 
     for (const supplierPartsComponent of this.supplierPartsComponents) {
       supplierPartsComponent.updateSupplierParts(searchValue);
+    }
+
+    for (const ownPartsComponent of this.ownPartsComponents) {
+      ownPartsComponent.updateOwnParts(searchValue);
     }
   }
 

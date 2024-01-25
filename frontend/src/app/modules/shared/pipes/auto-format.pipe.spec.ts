@@ -22,7 +22,7 @@
 import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { screen } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
-import { SharedModule } from '..';
+import { SharedModule } from '@shared/shared.module';
 
 describe('AutoFormatPipe', () => {
   it('should format CalendarDateModel as short date', async () => {

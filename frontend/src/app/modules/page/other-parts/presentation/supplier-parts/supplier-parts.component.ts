@@ -55,6 +55,14 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
   public readonly deselectPartTrigger$ = new Subject<Part[]>();
   public readonly addPartTrigger$ = new Subject<Part>();
 
+  @Input() set deselectTrigger(deselectItems: unknown[]) {
+    if (!deselectItems) {
+      return;
+    }
+
+    this.deselectPartTrigger$.next(deselectItems as Part[]);
+  }
+
   public readonly isInvestigationOpen$ = new BehaviorSubject<boolean>(false);
   public selectedItems: Array<Part> = [];
 

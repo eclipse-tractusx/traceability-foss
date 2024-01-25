@@ -246,6 +246,7 @@
   "commonAlert": {
     "viewAll": "Go to all alerts",
     "noAlerts": "No current quality alerts",
+    "selectedPartsActions": "Create alert",
     "noAlertsDescription": "If there are any quality alerts, they will be displayed here.",
     "create": "Define alert",
     "tabs": {

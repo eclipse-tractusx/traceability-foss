@@ -19,12 +19,14 @@
 
 export function removeSelectedValues(selection: any, itemsToRemove: unknown[]): void {
     const shouldDelete = (row: unknown) => !!itemsToRemove.find(data => JSON.stringify(data) === JSON.stringify(row));
-    let rowsToDelete = selection.selected.filter(data => shouldDelete(data));
-    if (rowsToDelete.length === 0) {
-        rowsToDelete = selection.selected.filter(data => !!itemsToRemove.find(item => (item as any).id === data.id));
-    }
+    const selectedRows = selection.selected.filter(data => !shouldDelete(data) && !itemsToRemove.find(item => (item as any).id === data.id));
 
-    selection.deselect(...rowsToDelete);
+    if (selectedRows.length === 0) {
+        selection.clear();
+        return;
+    }
+    selection.setSelection(...[]);
+    selection.setSelection(...selectedRows);
 };
 
 export function addSelectedValues(selection: any, newData: unknown[]): void {

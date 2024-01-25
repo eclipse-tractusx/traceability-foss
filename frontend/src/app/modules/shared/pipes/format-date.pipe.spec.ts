@@ -22,7 +22,7 @@
 import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { screen } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
-import { SharedModule } from '..';
+import { SharedModule } from '@shared/shared.module';
 
 describe('FormatDatePipe', () => {
   it('should format date having the 1970 value for the year', async () => {

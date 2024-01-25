@@ -20,7 +20,8 @@
  ********************************************************************************/
 
 import { Pagination } from "@core/model/pagination.model";
-import { PartsAssembler, View } from "@shared/index";
+import { PartsAssembler } from '@shared/assembler/parts.assembler';
+import { View } from '@shared/model/view.model';
 import { Part } from "../model/parts.model";
 import { PartsState } from "./parts.state";
 import { mockAssets } from "src/app/mocks/services/parts-mock/partsAsBuilt/partsAsBuilt.test.model";
