@@ -21,11 +21,11 @@ package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.application.importpoc.PublishService;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.PublishAssetException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,12 +39,18 @@ public class PublishServiceImpl implements PublishService {
     private final AssetAsBuiltRepository assetAsBuiltRepository;
 
 
+    private static void validTransientState(AssetBase assetBase) {
+        if (!ImportState.TRANSIENT.equals(assetBase.getImportState())) {
+            throw new PublishAssetException("Asset with ID " + assetBase.getId() + " is not in TRANSIENT state.");
+        }
+    }
+
     @Override
     public void publishAssets(String policyId, List<String> assetIds) {
 
         List<AssetBase> assetAsPlannedList = assetAsPlannedRepository.getAssetsById(assetIds).stream()
                 .peek(assetAsPlanned -> {
-                    checkImportState(assetAsPlanned);
+                    validTransientState(assetAsPlanned);
                     assetAsPlanned.setImportState(ImportState.IN_SYNCHRONIZATION);
                     assetAsPlanned.setPolicyId(policyId);
                 })
@@ -53,18 +59,12 @@ public class PublishServiceImpl implements PublishService {
 
         List<AssetBase> assetAsBuiltList = assetAsBuiltRepository.getAssetsById(assetIds).stream()
                 .peek(assetAsBuilt -> {
-                    checkImportState(assetAsBuilt);
+                    validTransientState(assetAsBuilt);
                     assetAsBuilt.setImportState(ImportState.IN_SYNCHRONIZATION);
                     assetAsBuilt.setPolicyId(policyId);
                 })
                 .toList();
         assetAsBuiltRepository.saveAll(assetAsBuiltList);
-    }
-
-    private static void checkImportState(AssetBase assetBase) {
-        if (!ImportState.TRANSIENT.equals(assetBase.getImportState())) {
-            throw new AssetNotFoundException("Asset with ID " + assetBase.getId() + " is not in TRANSIENT state.");
-        }
     }
 
 }
