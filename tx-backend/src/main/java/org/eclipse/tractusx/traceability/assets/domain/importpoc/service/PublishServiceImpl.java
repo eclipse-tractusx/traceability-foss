@@ -38,11 +38,6 @@ public class PublishServiceImpl implements PublishService {
     private final AssetAsPlannedRepository assetAsPlannedRepository;
     private final AssetAsBuiltRepository assetAsBuiltRepository;
 
-    private static void checkImportState(AssetBase assetBase) {
-        if (!ImportState.TRANSIENT.equals(assetBase.getImportState())) {
-            throw new AssetNotFoundException("Asset with ID " + assetBase.getId() + " is not in TRANSIENT state.");
-        }
-    }
 
     @Override
     public void publishAssets(String policyId, List<String> assetIds) {
@@ -66,5 +61,10 @@ public class PublishServiceImpl implements PublishService {
         assetAsBuiltRepository.saveAll(assetAsBuiltList);
     }
 
+    private static void checkImportState(AssetBase assetBase) {
+        if (!ImportState.TRANSIENT.equals(assetBase.getImportState())) {
+            throw new AssetNotFoundException("Asset with ID " + assetBase.getId() + " is not in TRANSIENT state.");
+        }
+    }
 
 }
