@@ -323,7 +323,7 @@ describe('Parts', () => {
 
   });
 
-  fit('should show success toast and refresh parts on successful publish', async() => {
+  it('should show success toast and refresh parts on successful publish', async() => {
     const { fixture } = await renderParts();
     const { componentInstance } = fixture;
     const partsFacade = (componentInstance as any)['partsFacade'];
@@ -339,7 +339,7 @@ describe('Parts', () => {
     expect(partsFacade.setPartsAsPlanned).toHaveBeenCalled();
   });
 
-  fit('should show error toast and not refresh parts on failed publish', async () => {
+  it('should show error toast and not refresh parts on failed publish', async () => {
     const { fixture } = await renderParts();
     const { componentInstance } = fixture;
     const partsFacade = (componentInstance as any)['partsFacade'];
