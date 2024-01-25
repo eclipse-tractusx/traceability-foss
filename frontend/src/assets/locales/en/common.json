@@ -199,6 +199,10 @@
     "severity": "Severity",
     "severityDescription": "Select the severity for the problem at hand"
   },
+  "requestPublishAssets": {
+    "success": "Request to publish assets was successful",
+    "error": ""
+  },
   "pagination": {
     "itemsPerPageLabel": "Items per page:",
     "nextPageLabel": "Next page",

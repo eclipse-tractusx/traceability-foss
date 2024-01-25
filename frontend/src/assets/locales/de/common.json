@@ -197,6 +197,10 @@
     "severity": "Gefahrenstufe",
     "severityDescription": "Wählen Sie die Gefahrenstufe für das vorliegende Problem"
   },
+  "requestPublishAssets": {
+    "success": "Anfrage zur Veröffentlichung der Produkte war erfolgreich",
+    "error": ""
+  },
   "pagination": {
     "itemsPerPageLabel": "Artikel pro Seite:",
     "nextPageLabel": "Nächsten Seite",
