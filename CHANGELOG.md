@@ -65,6 +65,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Updated github/codeql-action from 2 to 3
 - Updated actions/download-artifact from 3 to 4actions/download-artifact from 3 to 4
 - Updated com.nimbusds:nimbus-jose-jwt from 9.37.1 to 9.37.3
+- Implemented error handling to throw exceptions for assets not in 'TRANSIENT' state within the publishAssets method
 
 ### Removed
 - Shell descriptor entity with underlying logic
