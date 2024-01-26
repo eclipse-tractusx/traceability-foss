@@ -37,7 +37,7 @@ jobs:
           fetch-depth: 0
       - name: Check if CHANGELOG is updated
         id: updated-changelog
-        uses: tj-actions/changed-files@v40
+        uses: tj-actions/changed-files@v41
         with:
           # Avoid using single or double quotes for multiline patterns
           files: |

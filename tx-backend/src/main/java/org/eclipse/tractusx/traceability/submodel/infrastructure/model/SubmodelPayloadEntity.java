@@ -20,10 +20,12 @@ package org.eclipse.tractusx.traceability.submodel.infrastructure.model;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,6 +33,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.GenericSubmodel;
 
 import java.util.List;
 
@@ -42,24 +45,37 @@ import java.util.List;
 @Builder
 public class SubmodelPayloadEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
+
+    private String aspectType;
 
     private String json;
 
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "assets_as_built_submodel_payload",
-            joinColumns = @JoinColumn(name = "submodel_payload_id"),
-            inverseJoinColumns = @JoinColumn(name = "asset_id")
-    )
-    public List<AssetAsBuiltEntity> assets;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "asset_as_built_id")
+    public AssetAsBuiltEntity assetAsBuilt;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "assets_as_planned_submodel_payload",
-            joinColumns = @JoinColumn(name = "submodel_payload_id"),
-            inverseJoinColumns = @JoinColumn(name = "asset_id")
-    )
-    private List<AssetAsPlannedEntity> assetsAsPlanned;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "asset_as_planned_id")
+    private AssetAsPlannedEntity assetAsPlanned;
+
+    public static List<SubmodelPayloadEntity> from(AssetAsBuiltEntity asset, List<GenericSubmodel> submodels) {
+        return submodels.stream().map(submodel -> SubmodelPayloadEntity.builder()
+                        .aspectType(submodel.getAspectType())
+                        .json(submodel.getPayloadRaw())
+                        .assetAsBuilt(asset)
+                        .build())
+                .toList();
+    }
+
+    public static List<SubmodelPayloadEntity> from(AssetAsPlannedEntity asset, List<GenericSubmodel> submodels) {
+        return submodels.stream().map(submodel -> SubmodelPayloadEntity.builder()
+                        .aspectType(submodel.getAspectType())
+                        .json(submodel.getPayloadRaw())
+                        .assetAsPlanned(asset)
+                        .build())
+                .toList();
+    }
 }

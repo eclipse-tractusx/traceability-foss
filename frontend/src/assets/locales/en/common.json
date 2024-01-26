@@ -12,6 +12,7 @@
     "alerts": "Quality alerts",
     "adminRegistry": "Registry lookups",
     "adminBpn": "BPN - EDC configuration",
+    "adminImport": "Data provisioning",
     "unauthorized": "Functionality is disabled because of missing role. Ask your administrator to provide the required role for the functionality."
   },
   "pageTitle": {
@@ -49,7 +50,15 @@
     "remove": "Remove",
     "delete": "Delete",
     "goToQueue": "Go to Queue",
-    "goBack": "Back"
+    "goBack": "Back",
+    "publishAssets": "Publish assets"
+  },
+  "publisher": {
+    "selectedAssets": "Assets selected",
+    "policyToApply": "Policy to apply",
+    "selectPolicyLabel": "Select Policy",
+    "selectPolicyError": "Please select one policy",
+    "publish": "Publish"
   },
   "table": {
     "noResultFound": "NO RESULTS FOUND.",
@@ -105,7 +114,10 @@
       "sentActiveAlerts" : "Created",
       "receivedActiveInvestigations" : "Received",
       "receivedActiveAlerts" : "Received",
-      "sentActiveInvestigations" : "Created"
+      "sentActiveInvestigations" : "Created",
+      "importState": "Import State",
+      "importNote": "Import Note",
+      "importDate": "Import Date"
     }
   },
   "dataLoading": {
@@ -118,6 +130,13 @@
     "Major": "Major",
     "Critical": "Critical",
     "LifeThreatening": "Life-Threatening"
+  },
+  "importState": {
+    "PERSISTENT": "PERSISTENT",
+    "TRANSIENT": "TRANSIENT",
+    "IN_SYNCHRONIZATION": "IN SYNCHRONIZATION",
+    "ERROR": "ERROR",
+    "UNSET": "UNSET"
   },
   "severity": {
     "MINOR": "Minor",
@@ -298,7 +317,13 @@
       "PARTASPLANNED": "PartAsPlanned",
       "UNKNOWN": "Unknown",
       "JUSTINSEQUENCE": "JustInSequence",
-      "TRACTIONBATTERYCODE": "TractionBatteryCode"
+      "TRACTIONBATTERYCODE": "TractionBatteryCode",
+      "TRANSIENT": "Transient",
+      "PERSISTENT": "Persistent",
+      "IN_SYNCHRONIZATION": "In Synchronization",
+      "ERROR": "Error",
+      "UNSET": "Unset"
+
     }
   },
   "parts": {

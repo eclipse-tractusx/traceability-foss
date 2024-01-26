@@ -22,3 +22,4 @@ The following people have contributed to this repository:
 - Lucas Capellino, doubleSlash Net-Business GmbH, https://github.com/ds-lcapellino
 - Abilash Shanmugavel, doubleSlash Net-Business GmbH, https://github.com/abi231002
 - Sebastian Ceronik, doubleSlash Net-Business GmbH, https://github.com/ds-ext-sceronik
+- Christian Rehm, doubleSlash Net-Business GmbH, https://github.com/ds-crehm

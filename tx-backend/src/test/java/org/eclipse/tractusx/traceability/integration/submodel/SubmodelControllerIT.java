@@ -22,7 +22,7 @@ package org.eclipse.tractusx.traceability.integration.submodel;
 import io.restassured.http.ContentType;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.submodel.infrastructure.model.SubmodelEntity;
-import org.eclipse.tractusx.traceability.submodel.infrastructure.reposotory.JpaSubmodelRepository;
+import org.eclipse.tractusx.traceability.submodel.infrastructure.repository.JpaSubmodelRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

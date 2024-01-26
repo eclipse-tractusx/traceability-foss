@@ -19,15 +19,16 @@
 
 package org.eclipse.tractusx.traceability.common.config;
 
+import assets.importpoc.ErrorResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.ValidationException;
+import org.eclipse.tractusx.traceability.assets.application.importpoc.validation.exception.JsonFileProcessingException;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnNotFoundException;
-import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
 import org.eclipse.tractusx.traceability.common.security.TechnicalUserAuthorizationException;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractException;
 import org.eclipse.tractusx.traceability.qualitynotification.application.validation.UpdateQualityNotificationValidationException;
@@ -180,6 +181,12 @@ class ErrorHandlingConfigTest {
     }
 
     @Test
+    void givenJsonFileProcessingException_handler_respondsInternalServerError() throws Exception {
+        mockMvc.perform(get("/jsonFileProcessingException"))
+                .andExpect(status().isInternalServerError());
+    }
+
+    @Test
     void givenException_handler_respondsInternalServerError() throws Exception {
         mockMvc.perform(get("/exception"))
                 .andExpect(status().isInternalServerError());
@@ -318,9 +325,15 @@ class ErrorHandlingConfigTest {
             throw new CreateNotificationContractException("");
         }
 
+        @GetMapping("/jsonFileProcessingException")
+        public void createJsonFileProcessingException() {
+            throw new JsonFileProcessingException(new RuntimeException("reason for JsonFileProcessingException"));
+        }
+
         @GetMapping("/exception")
         public void exception() throws Exception {
             throw new Exception("");
         }
     }
+
 }

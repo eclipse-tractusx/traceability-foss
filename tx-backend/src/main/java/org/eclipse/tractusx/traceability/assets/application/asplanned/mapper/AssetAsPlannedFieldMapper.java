@@ -37,8 +37,6 @@ public class AssetAsPlannedFieldMapper extends BaseRequestFieldMapper {
             Map.entry("idShort", "idShort"),
             Map.entry("owner", "owner"),
             Map.entry("classification", "classification"),
-            Map.entry("underInvestigation", "inInvestigation"),
-            Map.entry("activeAlert", "activeAlert"),
             Map.entry("qualityType", "qualityType"),
             Map.entry("manufacturerPartId", "manufacturerPartId"),
             Map.entry("manufacturerName", "manufacturerName"),
@@ -46,7 +44,9 @@ public class AssetAsPlannedFieldMapper extends BaseRequestFieldMapper {
             Map.entry("semanticDataModel", "semanticDataModel"),
             Map.entry("semanticModelId", "semanticModelId"),
             Map.entry("businessPartner", "manufacturerId"),
-            Map.entry("van", "van")
+            Map.entry("van", "van"),
+            Map.entry("importState", "importState"),
+            Map.entry("importNote", "importNote")
     );
 
     @Override

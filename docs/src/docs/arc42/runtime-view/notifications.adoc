@@ -1,0 +1,4 @@
+= Notifications
+
+include::notifications/quality-investigation-receive.adoc[leveloffset=+1]
+include::notifications/quality-investigation-send.adoc[leveloffset=+1]

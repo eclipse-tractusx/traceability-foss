@@ -213,7 +213,7 @@ app-parts, app-other-parts, app-notifications-tab {
   }
 
   .app-bom-lifecycle-activator-container {
-    grid-column: 1 / span 2; /* This will make it span both columns */
+    display: flex;
     width: 100%;
   }
 

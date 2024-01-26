@@ -163,7 +163,8 @@ edc:
 
 discoveryfinder:
   baseUrl: "https://replace.me"
-
+submodel:
+  baseUrl: "https://replace.me"
 irs:
   baseUrl: "https://replace.me"
 registry:

@@ -26,10 +26,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Singular;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.irs.component.enums.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 
 import java.util.List;
+
+import static org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.BATCH;
+import static org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.JUSTINSEQUENCE;
+import static org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.SERIALPART;
 
 @Slf4j
 @AllArgsConstructor
@@ -48,8 +53,6 @@ public class AssetBase {
     private List<Descriptions> childRelations;
     @Singular
     private List<Descriptions> parentRelations;
-    private boolean activeAlert;
-    private boolean inInvestigation;
     private QualityType qualityType;
     private String van;
     private SemanticDataModel semanticDataModel;
@@ -61,4 +64,16 @@ public class AssetBase {
     private List<QualityNotification> receivedQualityInvestigations;
     private ImportState importState;
     private String importNote;
+    private String policyId;
+
+    public BomLifecycle getBomLifecycle() {
+        if(semanticDataModel.equals(SERIALPART) || semanticDataModel.equals(BATCH) || semanticDataModel.equals(JUSTINSEQUENCE)){
+            return BomLifecycle.AS_BUILT;
+        } else {
+            return BomLifecycle.AS_PLANNED;
+        }
+    }
+    public boolean isOwnAsset(final String bpn){
+        return bpn.equals(manufacturerId);
+    }
 }

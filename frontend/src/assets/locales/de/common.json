@@ -12,6 +12,7 @@
     "alerts": "Qualitätswarnung",
     "adminRegistry": "Registry-Abfragen",
     "adminBpn": "BPN - EDC Konfiguration",
+    "adminImport": "Datenbereitstellung",
     "unauthorized": "Die Funktion ist aufgrund einer fehlenden Rolle deaktiviert. Bitten Sie Ihren Administrator, die erforderliche Rolle für die Funktion bereitzustellen."
   },
   "pageTitle": {
@@ -49,7 +50,15 @@
     "remove": "Entfernen",
     "delete": "Löschen",
     "goToQueue": "Zur Warteschlange",
-    "goBack": "Zurück"
+    "goBack": "Zurück",
+    "publishAssets": "Produkte veröffentlichen"
+  },
+  "publisher": {
+    "selectedAssets": "Ausgewählte Produkte",
+    "policyToApply": "Anzuwendende Richtlinie",
+    "selectPolicyLabel": "Richtlinie auswählen",
+    "selectPolicyError": "Bitte selektieren sie eine Richtlinie",
+    "publish": "Veröffentlichen"
   },
   "table": {
     "noResultFound": "KEINE ERGEBNISSE GEFUNDEN.",
@@ -106,7 +115,11 @@
       "sentActiveAlerts" : "Erstellte",
       "receivedActiveInvestigations" : "Empfangene",
       "receivedActiveAlerts" : "Empfangene",
-      "sentActiveInvestigations" : "Erstellte"
+      "sentActiveInvestigations" : "Erstellte",
+      "importState": "Importstatus",
+      "importNote": "Importbemerkung",
+      "importDate": "Importdatum"
+
     }
   },
   "dataLoading": {
@@ -119,6 +132,13 @@
     "Major": "Schwerwiegend",
     "Critical": "Kritisch",
     "LifeThreatening": "Lebensgefährlich"
+  },
+  "importState": {
+    "PERSISTENT": "PERSISTENT",
+    "TRANSIENT": "TRANSIENT",
+    "IN_SYNCHRONIZATION": "IN SYNCHRONISATION",
+    "ERROR": "FEHLER",
+    "UNSET": "UNDEFINIERT"
   },
   "severity": {
     "MINOR": "Gering",
@@ -295,7 +315,12 @@
       "PARTASPLANNED": "PartAsPlanned",
       "UNKNOWN": "Unknown",
       "JUSTINSEQUENCE": "JustInSequence",
-      "TRACTIONBATTERYCODE": "TractionBatteryCode"
+      "TRACTIONBATTERYCODE": "TractionBatteryCode",
+      "TRANSIENT": "Transient",
+      "PERSISTENT": "Persistent",
+      "IN_SYNCHRONIZATION": "In Synchronisation",
+      "ERROR": "Fehler",
+      "UNSET": "Undefiniert"
     }
   },
   "parts": {

@@ -54,6 +54,13 @@ on:
         options:
         - Yes
         - No
+      trigger_registry_reload:
+        type: choice
+        description: Do You want to trigger registry reload right away?
+        required: true
+        options:
+        - Yes
+        - No
 
 env:
     ARGO_TEST_REGISTRY: "https://argo.dev.demo.catena-x.net/api/v1/applications/tracex-dt-registry-test"
@@ -138,6 +145,10 @@ jobs:
         run: |
           echo "### inputs" >> $GITHUB_STEP_SUMMARY
           echo "- environment: ${{ github.event.inputs.environment }}" >> $GITHUB_STEP_SUMMARY
+          echo "- test data version: ${{ github.event.inputs.testdata_version }}" >> $GITHUB_STEP_SUMMARY
+          echo "- do hard refresh: ${{ github.event.inputs.hard_refresh }}" >> $GITHUB_STEP_SUMMARY
+          echo "- upload test data: ${{ github.event.inputs.testdata_upload }}" >> $GITHUB_STEP_SUMMARY
+          echo "- reload registry: ${{ github.event.inputs.trigger_registry_reload }}" >> $GITHUB_STEP_SUMMARY
 
 
   hard_refresh_environment:
@@ -385,7 +396,7 @@ jobs:
         elif [ "${{ github.event.inputs.testdata_upload }}" == "false" ]; then
           echo "Testdata upload skipped"
         fi
-        
+
   registry_reload:
     needs:
     - upload_testdata
@@ -393,14 +404,15 @@ jobs:
     steps:
     - name: reload the registry
       run: |
-
-        if [ "${{ github.event.inputs.environment }}" == "Dev/Test" ]; then
-          curl -X GET "$ARGO_TEST_RegistryReload"
-          curl -X GET "$ARGO_DEV_RegistryReload"
-        elif [ "${{ github.event.inputs.environment }}" == "E2E-A/E2E-B" ]; then
-          curl -X GET "$ARGO_E2E_A_RegistryReload"
-          curl -X GET "$ARGO_E2E_B_RegistryReload"
-        elif [ "${{ github.event.inputs.environment }}" == "int-a/int-b" ]; then
-          curl -X GET "$ARGO_INT_A_RegistryReload"
-          curl -X GET "$ARGO_INT_B_RegistryReload"
+        if [ "${{ github.event.inputs.trigger_registry_reload }}" == "true" ]; then
+          if [ "${{ github.event.inputs.environment }}" == "Dev/Test" ]; then
+            curl -X GET "$ARGO_TEST_RegistryReload"
+            curl -X GET "$ARGO_DEV_RegistryReload"
+          elif [ "${{ github.event.inputs.environment }}" == "E2E-A/E2E-B" ]; then
+            curl -X GET "$ARGO_E2E_A_RegistryReload"
+            curl -X GET "$ARGO_E2E_B_RegistryReload"
+          elif [ "${{ github.event.inputs.environment }}" == "int-a/int-b" ]; then
+            curl -X GET "$ARGO_INT_A_RegistryReload"
+            curl -X GET "$ARGO_INT_B_RegistryReload"
+          fi
         fi

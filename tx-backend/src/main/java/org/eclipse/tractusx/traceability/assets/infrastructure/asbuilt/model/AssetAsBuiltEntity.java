@@ -25,8 +25,10 @@ import jakarta.persistence.CollectionTable;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,6 +45,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.Semant
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
+import org.eclipse.tractusx.traceability.submodel.infrastructure.model.SubmodelPayloadEntity;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -85,6 +88,9 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
     @ManyToMany(mappedBy = "assets")
     private List<AlertEntity> alerts = new ArrayList<>();
 
+    @OneToMany(mappedBy = "assetAsBuilt", fetch = FetchType.EAGER)
+    private List<SubmodelPayloadEntity> submodels;
+
     public static AssetAsBuiltEntity from(AssetBase asset) {
         ManufacturingInfo manufacturingInfo = ManufacturingInfo.from(asset.getDetailAspectModels());
         TractionBatteryCode tractionBatteryCodeObj = TractionBatteryCode.from(asset.getDetailAspectModels());
@@ -110,15 +116,14 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                         .toList())
                 .qualityType(asset.getQualityType())
                 .van(asset.getVan())
-                .activeAlert(asset.isActiveAlert())
                 .classification(asset.getClassification())
-                .inInvestigation(asset.isInInvestigation())
                 .semanticDataModel(SemanticDataModelEntity.from(asset.getSemanticDataModel()))
                 .productType(tractionBatteryCodeObj.getProductType())
                 .tractionBatteryCode(tractionBatteryCodeObj.getTractionBatteryCode())
                 .subcomponents(tractionBatteryCodeObj.getSubcomponents())
                 .importState(asset.getImportState())
                 .importNote(asset.getImportNote())
+                .policyId(asset.getPolicyId())
                 .build();
     }
 
@@ -139,8 +144,6 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                 .parentRelations(this.getParentDescriptors().stream()
                         .map(parent -> new Descriptions(parent.getId(), parent.getIdShort()))
                         .toList())
-                .inInvestigation(this.isInInvestigation())
-                .activeAlert(this.isActiveAlert())
                 .qualityType(this.getQualityType())
                 .van(this.getVan())
                 .classification(this.getClassification())
@@ -151,6 +154,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                 .receivedQualityInvestigations(emptyIfNull(this.investigations).stream().filter(alert -> NotificationSideBaseEntity.RECEIVER.equals(alert.getSide())).map(InvestigationEntity::toDomain).toList())
                 .importState(this.getImportState())
                 .importNote(this.getImportNote())
+                .policyId(this.getPolicyId())
                 .build();
     }
 

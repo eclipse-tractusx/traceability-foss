@@ -22,6 +22,9 @@ package org.eclipse.tractusx.traceability.integration.qualitynotification.alert;
 import io.restassured.http.ContentType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
+import org.eclipse.tractusx.traceability.common.request.OwnPageable;
+import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
+import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertNotificationsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
@@ -31,6 +34,8 @@ import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
@@ -67,11 +72,10 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(Collections.emptyList())))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts")
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -84,16 +88,15 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
     void givenAlerts_whenProvideBpnFilter_thenReturnExpectedResult() throws JoseException {
         // given
         alertNotificationsSupport.defaultAlertsStored();
-        String filter = "?filter=bpn,STARTS_WITH,BPNL00000001OWN,OR";
+        String filter = "bpn,STARTS_WITH,BPNL00000001OWN,OR";
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts" + filter)
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -103,19 +106,46 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenAlerts_whenProvideBpnFilterAnd_thenReturnExpectedResult() throws JoseException {
+    void givenAlerts_whenProvideTooManyFilters_thenReturnError() throws JoseException {
         // given
         alertNotificationsSupport.defaultAlertsStored();
-        String filter = "?filter=bpn,STARTS_WITH,BPNL00000001OWN,AND&filter=createdDate,AT_LOCAL_DATE,2023-10-10,AND";
+
+        OwnPageable ownPageable = new OwnPageable(0, 10, Collections.emptyList());
+
+        ArrayList<String> filter = new ArrayList<>();
+        filter.add("bpn,STARTS_WITH,BPNL00000001OWN,OR");
+        PageableFilterRequest pageableFilterRequest = new PageableFilterRequest(ownPageable, new SearchCriteriaRequestParam(filter));
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(pageableFilterRequest)
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts" + filter)
+                .log()
+                .uri()
+                .post("/api/alerts/filter")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .body("pageSize", Matchers.is(10))
+                .body("totalItems", Matchers.is(8));
+    }
+
+    @Test
+    void givenAlerts_whenProvideBpnFilterAnd_thenReturnExpectedResult() throws JoseException {
+        // given
+        alertNotificationsSupport.defaultAlertsStored();
+        String filter1 = "bpn,STARTS_WITH,BPNL00000001OWN,AND";
+        String filter2 = "createdDate,AT_LOCAL_DATE,2023-10-10,AND";
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filter1, filter2))))
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -128,16 +158,16 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
     void givenAlerts_whenProvideDateRangeFilters_thenReturnExpectedResult() throws JoseException {
         // given
         alertNotificationsSupport.defaultAlertsStored();
-        String filter = "?filter=createdDate,AFTER_LOCAL_DATE,2023-10-09,AND&filter=createdDate,BEFORE_LOCAL_DATE,2023-10-11,AND";
+        String filter1 = "createdDate,AFTER_LOCAL_DATE,2023-10-09,AND";
+        String filter2 = "createdDate,BEFORE_LOCAL_DATE,2023-10-11,AND";
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filter1, filter2))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts" + filter)
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -150,16 +180,16 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
     void givenAlerts_whenProvideDateRangeFiltersXAnd_thenReturnExpectedResult() throws JoseException {
         // given
         alertNotificationsSupport.defaultAlertsStored();
-        String filter = "?filter=createdDate,AFTER_LOCAL_DATE,2023-10-13,AND&filter=createdDate,BEFORE_LOCAL_DATE,2023-10-07,AND";
+        String filter1 = "createdDate,AFTER_LOCAL_DATE,2023-10-13,AND";
+        String filter2 = "createdDate,BEFORE_LOCAL_DATE,2023-10-07,AND";
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filter1, filter2))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts" + filter)
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -177,48 +207,45 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts" + filter)
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(400);
     }
 
 
     @Test
-    void givenInvestigations_whenInvalidLocalDate_thenReturnBadRequest() throws JoseException {
+    void givenAlerts_whenInvalidLocalDate_thenReturnBadRequest() throws JoseException {
         // given
         alertNotificationsSupport.defaultAlertsStored();
-        String filter = "?filter=createdDate,AT_LOCAL_DATE,2023-10-1111111,AND";
+        String filter = "createdDate,AT_LOCAL_DATE,2023-10-1111111,AND";
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts" + filter)
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(400);
     }
 
     @Test
-    void givenInvestigations_whenTargetDateAtLocalDate_thenExpectedResult() throws JoseException {
+    void givenAlerts_whenTargetDateAtLocalDate_thenExpectedResult() throws JoseException {
         // given
         alertNotificationsSupport.defaultAlertsStored();
-        String filter = "?filter=targetDate,AT_LOCAL_DATE,2023-11-10,AND";
+        String filter = "targetDate,AT_LOCAL_DATE,2023-11-10,AND";
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts" + filter)
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -228,19 +255,17 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenInvestigations_whenProvideFilterWithSeverityCritical_thenReturnAllCritical() throws JoseException {
+    void givenAlerts_whenProvideFilterWithSeverityCritical_thenReturnAllCritical() throws JoseException {
         // given
         alertNotificationsSupport.defaultAlertsStored();
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of("severity,EQUAL,CRITICAL,AND"))))
                 .contentType(ContentType.JSON)
                 .when()
-                .param("filter", "severity,EQUAL,CRITICAL,AND")
-                .get("/api/alerts")
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -250,19 +275,17 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenInvestigations_whenProvideFilterCreatedBy_thenReturnAllCritical() throws JoseException {
+    void givenAlerts_whenProvideFilterCreatedBy_thenReturnAllCritical() throws JoseException {
         // given
         alertNotificationsSupport.defaultAlertsStored();
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of("createdBy,STARTS_WITH,BPNL00000001O,AND"))))
                 .contentType(ContentType.JSON)
                 .when()
-                .param("filter", "createdBy,STARTS_WITH,BPNL00000001O,AND")
-                .get("/api/alerts")
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -272,19 +295,17 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenInvestigations_whenProvideFilterCreatedByName_thenReturnAllCritical() throws JoseException {
+    void givenAlerts_whenProvideFilterCreatedByName_thenReturnAllCritical() throws JoseException {
         // given
         alertNotificationsSupport.defaultAlertsStored();
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of("createdByName,STARTS_WITH,Car,AND"))))
                 .contentType(ContentType.JSON)
                 .when()
-                .param("filter", "createdByName,STARTS_WITH,Car,AND")
-                .get("/api/alerts")
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -294,7 +315,7 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenInvestigations_whenProvideFilterSendTo_thenReturnExpectedResults() throws JoseException {
+    void givenAlerts_whenProvideFilterSendTo_thenReturnExpectedResults() throws JoseException {
         // given
         alertNotificationsSupport.defaultAlertsStored();
         final String filterString = "sendTo,STARTS_WITH,B,AND";
@@ -302,12 +323,10 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .param("filter", filterString)
-                .get("/api/alerts")
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -317,7 +336,7 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenInvestigations_whenProvideFilterSendToSort_thenReturnExpectedResults() throws JoseException {
+    void givenAlerts_whenProvideFilterSendToSort_thenReturnExpectedResults() throws JoseException {
         // given
         alertNotificationsSupport.defaultAlertsStored();
         final String filterString = "sendTo,STARTS_WITH,B,AND";
@@ -326,13 +345,10 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .param("filter", filterString)
-                .param("sort", sortString)
-                .get("/api/alerts")
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -362,15 +378,34 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
         // When
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .param("filter", filter)
-                .get("/api/alerts")
+                .post("/api/alerts/filter")
                 .then()
                 .log().all()
                 .statusCode(200)
                 .assertThat()
                 .body("totalItems", equalTo(1));
+    }
+
+    @Test
+    void givenAlerts_whenProvideFilterLongerThan1100_thenReturnHttp400() throws JoseException {
+        // given
+        alertNotificationsSupport.defaultAlertsStored();
+
+        // when/then
+        SearchCriteriaRequestParam searchCriteriaRequestParam = new SearchCriteriaRequestParam(List.of("description,EQUAL," +"1".repeat(1101)+",AND" ));
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), searchCriteriaRequestParam))
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/alerts/filter")
+                .then()
+                .log().all()
+                .statusCode(400)
+                .body("message", equalTo("Filter string should not be longer than 1100 characters."));
     }
 
 }

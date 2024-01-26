@@ -54,11 +54,12 @@ public record JobDetailResponse(
         Map<String, String> bpns
 ) {
 
+    // TODO constants should be in a proper class which reflects the purpose of it (MW)
     private static final String UNKNOWN_MANUFACTURER_NAME = "UNKNOWN_MANUFACTURER";
     private static final String SINGLE_LEVEL_USAGE_AS_BUILT = "SingleLevelUsageAsBuilt";
     private static final String SINGLE_LEVEL_BOM_AS_BUILT = "SingleLevelBomAsBuilt";
     private static final String SINGLE_LEVEL_BOM_AS_PLANNED = "SingleLevelBomAsPlanned";
-    private static final String JOB_STATUS_COMPLETED = "COMPLETED";
+    public static final String JOB_STATUS_COMPLETED = "COMPLETED";
     private static final String JOB_STATUS_RUNNING = "RUNNING";
 
     @JsonCreator
@@ -102,6 +103,8 @@ public record JobDetailResponse(
                 bpnsMap
         );
     }
+
+    // TODO is this still needed - as we have changed from async runner for IRS Jobs to callback approach this should be deprecated. (MW)
 
     public boolean isRunning() {
         return JOB_STATUS_RUNNING.equals(jobStatus.state());
@@ -173,7 +176,7 @@ public record JobDetailResponse(
     }
 
     private List<AssetBase> mapToOtherPartsAsPlanned(Map<String, String> shortIds, Owner owner, Map<String, String> bpnMapping) {
-        List<SemanticDataModel> otherParts = semanticDataModels().stream().filter(semanticDataModel -> !isOwnPart(semanticDataModel, jobStatus)).filter(semanticDataModel -> Aspect.isMasterAspect(semanticDataModel.getAspectType())).toList();
+        List<SemanticDataModel> otherParts = semanticDataModels().stream().filter(semanticDataModel -> !isOwnPart(semanticDataModel, jobStatus)).filter(semanticDataModel -> Aspect.isMainAspect(semanticDataModel.getAspectType())).toList();
         List<SemanticDataModel> isPartSiteInformationAsPlanned =
                 semanticDataModels().stream()
                         .filter(semanticDataModel -> !isOwnPart(semanticDataModel, jobStatus))
@@ -204,7 +207,7 @@ public record JobDetailResponse(
         List<SemanticDataModel> ownPartsAsPlanned =
                 semanticDataModels().stream()
                         .filter(semanticDataModel -> isOwnPart(semanticDataModel, jobStatus))
-                        .filter(semanticDataModel -> Aspect.isMasterAspect(semanticDataModel.aspectType())).toList();
+                        .filter(semanticDataModel -> Aspect.isMainAspect(semanticDataModel.aspectType())).toList();
 
         List<SemanticDataModel> isPartSiteInformationAsPlanned =
                 semanticDataModels().stream()
@@ -238,7 +241,7 @@ public record JobDetailResponse(
         return assets;
     }
 
-    private static void addPartSiteInformationAsPlannedToOwnPartsAsPlanned(List<SemanticDataModel> ownPartsAsPlanned, List<SemanticDataModel> partSiteInformationAsPlanned) {
+    public static void addPartSiteInformationAsPlannedToOwnPartsAsPlanned(List<SemanticDataModel> ownPartsAsPlanned, List<SemanticDataModel> partSiteInformationAsPlanned) {
         for (SemanticDataModel semanticDataModel : ownPartsAsPlanned) {
             for (SemanticDataModel partSiteSemanticDataModel : partSiteInformationAsPlanned) {
                 if (semanticDataModel.getCatenaXId().equals(partSiteSemanticDataModel.getCatenaXId())) {
@@ -250,7 +253,7 @@ public record JobDetailResponse(
 
     private List<AssetBase> mapToOwnPartsAsBuilt(Map<String, String> shortIds, Map<String, String> bpnMapping) {
         List<SemanticDataModel> ownParts = semanticDataModels().stream()
-                .filter(semanticDataModel -> Aspect.isMasterAspect(semanticDataModel.getAspectType()))
+                .filter(semanticDataModel -> Aspect.isMainAspect(semanticDataModel.getAspectType()))
                 .filter(semanticDataModel -> isOwnPart(semanticDataModel, jobStatus))
                 .toList();
         log.info(":: mapToOwnPartsAsBuilt()");

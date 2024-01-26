@@ -98,6 +98,8 @@ spec:
               value: {{ .Values.edc.apiKey | quote }}
             - name: EDC_PROVIDER_URL
               value: {{ .Values.edc.providerUrl | quote }}
+            - name: SUBMODEL_URL
+              value: {{ .Values.submodel.baseUrl | quote }}
             - name: IRS_URL
               value: {{ .Values.irs.baseUrl | quote }}
             - name: PORTAL_URL
@@ -122,6 +124,10 @@ spec:
               value: {{ .Values.datasource.username | quote }}
             - name: SPRING_DATASOURCE_PASSWORD
               value: {{ .Values.datasource.password | quote }}
+            - name: IRS_ADMIN_API_KEY
+              value: {{ .Values.irsAdminApiKey | quote }}
+            - name: IRS_REGULAR_API_KEY
+              value: {{ .Values.irsRegularApiKey | quote }}
             - name: JAVA_TOOL_OPTIONS
               value: {{ .Values.javaToolOptions | default "" | quote }}
             {{- range $key, $val := .Values.env }}

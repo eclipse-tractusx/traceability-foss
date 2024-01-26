@@ -1,0 +1,41 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam linetype ortho
+skinparam defaultFontName "Architects daughter"
+
+
+entity Assets {
+    * assets : Collection<Asset>
+}
+entity Asset {
+    * catenaXId : String <uuid>
+    * creator : String <author>
+    * shells : Collection<Shell>
+    * submodels : Collection<SubmodelData<T>>
+}
+
+entity Shell {
+    descriptions : Collection<ShellDescription>
+}
+entity ShellDescription {
+    keyValues : Tuple<K,V>
+}
+entity SubmodelData<T> {
+    * aspectType : String <urn>
+    * identification : String <id>
+    * payload : Submodel<T>
+}
+
+entity  Submodel<T>
+
+entity SerialPart
+
+Assets }o--|{ Asset
+Asset  }o--|{ Shell
+Shell }o--|{  ShellDescription
+Asset }o-|{ SubmodelData
+SubmodelData ||--|| Submodel
+Submodel <|-- SerialPart
+
+@enduml

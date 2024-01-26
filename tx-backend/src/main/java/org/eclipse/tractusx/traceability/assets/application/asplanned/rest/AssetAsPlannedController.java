@@ -19,7 +19,9 @@
 
 package org.eclipse.tractusx.traceability.assets.application.asplanned.rest;
 
+import assets.importpoc.ErrorResponse;
 import assets.response.asplanned.AssetAsPlannedResponse;
+import assets.response.base.request.UpdateAssetRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -30,18 +32,17 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.QueryParam;
+import org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper.QualityTypeMapper;
 import org.eclipse.tractusx.traceability.assets.application.asplanned.mapper.AssetAsPlannedFieldMapper;
 import org.eclipse.tractusx.traceability.assets.application.asplanned.mapper.AssetAsPlannedResponseMapper;
 import org.eclipse.tractusx.traceability.assets.application.base.request.GetDetailInformationRequest;
 import org.eclipse.tractusx.traceability.assets.application.base.request.SyncAssetsRequest;
-import org.eclipse.tractusx.traceability.assets.application.base.request.UpdateAssetRequest;
 import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBaseService;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.common.model.BaseRequestFieldMapper;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
-import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -309,7 +310,7 @@ public class AssetAsPlannedController {
     }
 
 
-    @Operation(operationId = "assetByChildId",
+    @Operation(operationId = "assetByChildIdAndAssetId",
             summary = "Get asset by child id",
             tags = {"AssetsAsPlanned"},
             description = "The endpoint returns an asset filtered by child id.",
@@ -360,8 +361,9 @@ public class AssetAsPlannedController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/{assetId}/children/{childId}")
-    public AssetAsPlannedResponse asset(@PathVariable String assetId, @PathVariable String childId) {
-        return AssetAsPlannedResponseMapper.from(assetService.getAssetByChildId(assetId, childId));
+    @SuppressWarnings("unused")
+    public AssetAsPlannedResponse asset(@PathVariable("assetId") String assetId, @PathVariable("childId") String childId) {
+        return AssetAsPlannedResponseMapper.from(assetService.getAssetByChildId(childId));
     }
 
     @Operation(operationId = "updateAsset",
@@ -417,8 +419,7 @@ public class AssetAsPlannedController {
     @PatchMapping("/{assetId}")
     public AssetAsPlannedResponse updateAsset(@PathVariable String assetId, @Valid @RequestBody UpdateAssetRequest updateAssetRequest) {
         return AssetAsPlannedResponseMapper.from(
-                assetService.updateQualityType(assetId, updateAssetRequest.qualityType().toDomain())
-        );
+                assetService.updateQualityType(assetId, QualityTypeMapper.toDomain(updateAssetRequest.qualityType())));
     }
 
     @Operation(operationId = "getDetailInformation",

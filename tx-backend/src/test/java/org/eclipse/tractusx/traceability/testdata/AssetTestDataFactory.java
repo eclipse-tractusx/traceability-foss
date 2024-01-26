@@ -20,7 +20,11 @@
 package org.eclipse.tractusx.traceability.testdata;
 
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataAsBuilt;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.*;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
 
@@ -78,12 +82,10 @@ public class AssetTestDataFactory {
                 .idShort("a/devNTierAPlastics")
                 .semanticModelId("456")
                 .semanticDataModel(SemanticDataModel.SERIALPART)
-                .activeAlert(false)
                 .parentRelations(AssetTestDataFactory.provideParentRelations())
                 .childRelations(AssetTestDataFactory.provideChildRelations())
                 .van("OMAOYGBDTSRCMYSCX")
                 .qualityType(QualityType.CRITICAL)
-                .inInvestigation(false)
                 .owner(Owner.OWN)
                 .manufacturerName("manuName")
                 .manufacturerId("BPNL00000003CML1")

@@ -18,8 +18,7 @@
  ********************************************************************************/
 
 import { HttpParams } from '@angular/common/http';
-import { NotificationFilter } from '../../../mocks/services/investigations-mock/investigations.model';
-import { enrichFilterAndGetUpdatedParams, provideFilterForNotifications } from './filter-helper';
+import { enrichFilterAndGetUpdatedParams, provideFilterListForNotifications } from './filter-helper';
 
 describe('enrichFilterAndGetUpdatedParams', () => {
   it('should append filter parameters for non-date filters', () => {
@@ -101,18 +100,28 @@ describe('enrichFilterAndGetUpdatedParams', () => {
   });
 
   it('should handle provideFilterNotifications', () => {
-    const httpParams = new HttpParams();
-    let httpParamsFilterNotifications = provideFilterForNotifications([], httpParams, null, null);
-    expect(httpParamsFilterNotifications.has('sort')).toBeFalse();
-    expect(httpParamsFilterNotifications.has('filter')).toBeFalse();
+    let filterList = [];
+    filterList = provideFilterListForNotifications( null, null);
+    expect(filterList.length).toEqual(0);
   })
 
   it('should handle provideFilterNotifications successfully', () => {
-    const httpParams = new HttpParams();
     const filter = {notificationIds: ['1']}
-    let httpParamsFilterNotifications = provideFilterForNotifications([], httpParams, filter, null);
-    expect(httpParamsFilterNotifications.get('filter')).toContain('id,EQUAL,1,OR')
+    const filterList = provideFilterListForNotifications( filter, null);
+    expect(filterList).toContain('id,EQUAL,1,OR')
   })
+
+  it('should add filters to the filterList when fullFilter is provided', () => {
+    const mockFilter = null;
+    const mockFullFilter = { test: 'test' };
+
+    const mockHttpParams = jasmine.createSpyObj('HttpParams', ['getAll']);
+    mockHttpParams.getAll.and.returnValue(['filter1', 'filter2']);
+
+    const result = provideFilterListForNotifications(mockFilter, mockFullFilter);
+
+    expect(result).toEqual(['test,STARTS_WITH,test,AND']);
+  });
 
 
 });

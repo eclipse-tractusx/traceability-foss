@@ -95,6 +95,12 @@ export class NotificationTabComponent implements AfterViewInit {
   }
 
   filterActivated(notificationFilter: any): void {
+    // check if there is anything to filter, preventing multiple same requests
+    const noFilterApplied = Object.values(notificationFilter).every((arr) => Array.isArray(arr) && arr.length === 0);
+    if(noFilterApplied) {
+      return;
+    }
+
     this.notificationFilter = notificationFilter;
     const channel = notificationFilter['createdBy'] ? NotificationChannel.RECEIVER : NotificationChannel.SENDER;
     if (this.notificationType === NotificationType.INVESTIGATION) {

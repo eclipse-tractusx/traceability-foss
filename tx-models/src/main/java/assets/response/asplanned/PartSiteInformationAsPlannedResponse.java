@@ -18,7 +18,7 @@
  ********************************************************************************/
 package assets.response.asplanned;
 
-import assets.response.base.DetailAspectDataResponse;
+import assets.response.base.response.DetailAspectDataResponse;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
