@@ -1,0 +1,16 @@
+{
+  "pageDashboard": {
+    "totalInvestigations": {
+      "label": "Offene Untersuchungen"
+    },
+    "totalOfMyParts": {
+      "label": "Meine Produkte"
+    },
+    "totalOfOtherParts": {
+      "label": "Andere Produkte"
+    },
+    "totalAlerts": {
+      "label": "Offene Warnungen"
+    }
+  }
+}
