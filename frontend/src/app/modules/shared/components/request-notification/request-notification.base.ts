@@ -112,10 +112,10 @@ export abstract class RequestNotificationBase {
     this.dialog.open(ModalComponent, {
       autoFocus: false,
       data: {
-        title: 'parts.confirmationDialog.deletePartTitle',
-        message: 'parts.confirmationDialog.deletePartMessage',
+        title: 'parts.confirmationDialog.removePartTitle',
+        message: 'parts.confirmationDialog.removePartMessage',
         buttonLeft: 'confirmationDialog.cancel',
-        buttonRight: 'parts.confirmationDialog.deletePartButton',
+        buttonRight: 'parts.confirmationDialog.removePartButton',
         primaryButtonColour: 'primary',
         onConfirm: () => {
           this.deselectPart.emit(part);

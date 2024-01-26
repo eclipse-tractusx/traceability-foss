@@ -243,6 +243,8 @@
   "commonAlert": {
     "viewAll": "Zu allen Warnungen gehen",
     "noAlerts": "Keine aktuellen Qualitätswarnungen",
+    "discardHeader": "Warnung verwerfen?",
+    "discardMessage": "Ihre Auswahl und Eingaben gehen verloren. Um mit der Bearbeitung Ihrer Warnung fortzufahren, klicken Sie auf \"Fortsetzen\".",
     "selectedPartsActions": "Warnung erstellen",
     "noAlertsDescription": "Falls es Qualitätswarnungen gibt, werden sie hier angezeigt.",
     "create": "Warnung definieren",
@@ -311,9 +313,9 @@
     },
     "openInvestigations": "Offene Warnungen/Untersuchungen",
     "confirmationDialog": {
-      "deletePartTitle": "Produkt löschen?",
-      "deletePartMessage": "Wenn Sie dieses Produkt löschen, wird er vollständig aus der aktuellen Auswahl entfernt.",
-      "deletePartButton": "Löschen",
+      "removePartTitle": "Produkt entfernen?",
+      "removePartMessage": "Wenn Sie dieses Produkt entfernen, wird es aus der aktuellen Auswahl gelöscht.",
+      "removePartButton": "Entfernen",
       "discard": "Ablegen",
       "resume": "Fortsetzen"
     }

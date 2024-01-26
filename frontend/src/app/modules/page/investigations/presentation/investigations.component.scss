@@ -1,3 +1,6 @@
+@import '../../../../../theme/base.scss';
+@tailwind base;
+
 .no-investigations {
   @apply font-semiBold;
   text-align: center;
@@ -10,6 +13,19 @@
   @apply font-regular;
   text-align: center;
   font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+}
+
+.input-wrapper {
+  display: flex;
+  margin-left: auto;
+}
+
+.action-button-text {
+  @extend .label-medium;
+  @apply text-white;
+  font-weight: 600;
   line-height: 20px;
   letter-spacing: 0.1px;
 }

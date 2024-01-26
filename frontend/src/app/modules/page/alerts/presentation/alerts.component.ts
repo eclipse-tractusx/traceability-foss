@@ -45,6 +45,10 @@ import { Notification, NotificationStatusGroup } from '@shared/model/notificatio
 import { TranslationContext } from '@shared/model/translation-context.model';
 import { NotificationComponent } from '@shared/modules/notification/presentation/notification.component';
 import { Subscription } from 'rxjs';
+import { Role } from '@core/user/role.model';
+import { RequestContext } from '@shared/components/request-notification/request-notification.base';
+import { RequestStepperComponent } from '@shared/components/request-notification/request-stepper/request-stepper.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-alerts',
@@ -85,11 +89,13 @@ export class AlertsComponent {
   };
 
   protected readonly PartTableType = PartTableType;
+  protected readonly Role = Role;
 
   constructor(
     public readonly helperService: AlertHelperService,
     public readonly alertsFacade: AlertsFacade,
     private readonly alertDetailFacade: AlertDetailFacade,
+    public dialog: MatDialog,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly cd: ChangeDetectorRef,
@@ -203,6 +209,15 @@ export class AlertsComponent {
     const tabIndex = this.route.snapshot.queryParamMap.get('tabIndex');
     const tabInformation: NotificationTabInformation = { tabIndex: tabIndex, pageNumber: this.pagination.page };
     this.router.navigate([`/${link}/${notification.id}`], { queryParams: tabInformation });
+  }
+
+  public openRequestDialog(): void {
+    this.dialog.open(RequestStepperComponent, {
+      autoFocus: false,
+      data: {
+        context: RequestContext.REQUEST_ALERT
+      }
+    });
   }
 
   public handleConfirmActionCompletedEvent() {

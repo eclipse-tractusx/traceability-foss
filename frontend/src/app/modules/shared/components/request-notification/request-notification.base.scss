@@ -21,11 +21,11 @@
 
 .container {
   overflow-y: hidden;
-  height: 100%;
+  height: 450px;
 }
 
 .chip-container-wrapper {
-  min-height: 120px;
+  max-height: 120px;
   margin-bottom: 10px;
 }
 
@@ -69,10 +69,16 @@
   padding: 0 5px 0 5px;
 }
 
+.buttons-container {
+  position: absolute;
+  bottom: 0;
+  width: 850px;
+  overflow: hidden;
+}
+
 .buttons-wrapper {
   display: flex;
   justify-content: space-between;
-  padding-top: 47px;
 }
 
 .accept-button-text {

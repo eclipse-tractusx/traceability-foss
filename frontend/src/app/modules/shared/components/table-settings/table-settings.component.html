@@ -22,7 +22,8 @@ SPDX-License-Identifier: Apache-2.0
     <div class="dialog--header--container">
       <div class="dialog--header--text">{{title | i18n}}</div>
       <div>
-        <img (click)="dialogRef.close()"
+        <img class="close-button"
+          (click)="dialogRef.close()"
           src="/assets/images/icons/closeDialog_icon.svg"
           width="14px"
           height="14px"

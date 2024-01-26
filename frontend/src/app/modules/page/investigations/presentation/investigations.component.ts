@@ -47,6 +47,10 @@ import { SearchHelper } from '@shared/helper/search-helper';
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { NotificationComponent } from '@shared/modules/notification/presentation/notification.component';
 import { FilterOperator } from '@page/parts/model/parts.model';
+import { Role } from '@core/user/role.model';
+import { RequestContext } from '@shared/components/request-notification/request-notification.base';
+import { RequestStepperComponent } from '@shared/components/request-notification/request-stepper/request-stepper.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-investigations',
@@ -83,6 +87,7 @@ export class InvestigationsComponent {
   };
 
   protected readonly PartTableType = PartTableType;
+  protected readonly Role = Role;
   public readonly searchHelper = new SearchHelper();
 
   constructor(
@@ -90,6 +95,7 @@ export class InvestigationsComponent {
     public readonly investigationsFacade: InvestigationsFacade,
     private readonly investigationDetailFacade: InvestigationDetailFacade,
     private readonly router: Router,
+    public dialog: MatDialog,
     private readonly route: ActivatedRoute,
     private readonly cd: ChangeDetectorRef,
     public toastService: ToastService,
@@ -197,6 +203,15 @@ export class InvestigationsComponent {
 
   public onDefaultPaginationSizeChange(pageSize: number) {
     this.DEFAULT_PAGE_SIZE = pageSize;
+  }
+
+  public openRequestDialog(): void {
+    this.dialog.open(RequestStepperComponent, {
+      autoFocus: false,
+      data: {
+        context: RequestContext.REQUEST_INVESTIGATION
+      }
+    });
   }
 
   public openDetailPage(notification: Notification): void {

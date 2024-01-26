@@ -19,13 +19,16 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+import { TestBed } from '@angular/core/testing';
+import { MatDialog } from '@angular/material/dialog';
 import { InvestigationsModule } from '@page/investigations/investigations.module';
 import { InvestigationsComponent } from '@page/investigations/presentation/investigations.component';
 import { FilterOperator } from '@page/parts/model/parts.model';
+import { RequestContext } from '@shared/components/request-notification/request-notification.base';
+import { RequestStepperComponent } from '@shared/components/request-notification/request-stepper/request-stepper.component';
 import { FilterInfo, FilterMethod, TableEventConfig, TableFilter } from '@shared/components/table/table.model';
-import { NotificationTabInformation } from '@shared/model/notification-tab-information';
 import { InvestigationsService } from '@shared/service/investigations.service';
-import { fireEvent, screen, waitFor } from '@testing-library/angular';
+import { fireEvent, screen } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 
 describe('InvestigationsComponent', () => {
@@ -196,5 +199,19 @@ describe('InvestigationsComponent', () => {
 
     expect(investigationsComponent.filterReceived).toEqual(investigationsReceivedFilters);
     expect(investigationsComponent.filterQueuedAndRequested).toEqual(investigationsCreatedFilters);
+  });
+
+  it('should open the RequestStepperComponent with RequestContext.REQUEST_INVESTIGATION', async () => {
+    const component = (await renderInvestigations()).fixture.componentInstance;
+    const matDialog = TestBed.inject(MatDialog);
+
+    spyOn(matDialog, 'open').and.callThrough();
+
+    component.openRequestDialog();
+
+    expect(matDialog.open).toHaveBeenCalledWith(RequestStepperComponent, {
+      autoFocus: false,
+      data: { context: RequestContext.REQUEST_INVESTIGATION },
+    });
   });
 });

@@ -1,9 +1,10 @@
 <div class="container">
   <div class="header">
-    <div>{{ this.context + '.headline' | i18n }}
+    <div>{{ context + '.headline' | i18n }}
     </div>
     <div>
-      <img (click)="closeAction()"
+      <img class="close-button"
+        (click)="closeAction()"
         src="/assets/images/icons/closeDialog_icon.svg"
         alt="X" />
     </div>
@@ -14,12 +15,12 @@
       appTabAsPanel
       mat-stretch-tabs="false"
       mat-align-tabs="start"
-      class="other-parts-mat-tab-group parts-tab-wrapper">
+      class="other-parts-mat-tab-group parts-tab-wrapper stepper-tab">
       <mat-tab [disabled]="tabIndex !== 0">
         <ng-template mat-tab-label>
           <div class="flex items-center">
             <div class="step"
-              [ngClass]="this.tabIndex === 0 ? 'step--ACTIVE' : 'step--COMPLETED'">
+              [ngClass]="tabIndex === 0 ? 'step--ACTIVE' : 'step--COMPLETED'">
               1</div>
             <div class="select-parts-tab">{{ 'requestNotification.selectParts' | i18n
               }} </div>
@@ -49,7 +50,7 @@
           </div>
         </div>
 
-        <app-own-parts *ngIf="this.context === RequestContext.REQUEST_ALERT"
+        <app-own-parts *ngIf="context === RequestContext.REQUEST_ALERT"
           [bomLifecycle]="MainAspectType.AS_BUILT"
           [showActionButton]="false"
           [showHeader]="false"
@@ -59,7 +60,7 @@
           (onTotalItemsChanged)="onTotalItemsChanged($event)"
           (onPartsSelected)="onPartsSelected($event)"></app-own-parts>
 
-        <app-supplier-parts *ngIf="this.context === RequestContext.REQUEST_INVESTIGATION"
+        <app-supplier-parts *ngIf="context === RequestContext.REQUEST_INVESTIGATION"
           [bomLifecycle]="MainAspectType.AS_BUILT"
           [showActionButton]="false"
           [showHeader]="false"
@@ -73,19 +74,20 @@
         <ng-template mat-tab-label>
           <div class="flex items-center">
             <div class="step"
-              [ngClass]="this.tabIndex === 1 ? 'step--ACTIVE' : 'step--INACTIVE'">
+              [ngClass]="tabIndex === 1 ? 'step--ACTIVE' : 'step--INACTIVE'">
               2</div>
-            <div class="select-parts-tab">{{ (this.context === RequestContext.REQUEST_INVESTIGATION ?
+            <div class="select-parts-tab"
+              [ngClass]="tabIndex === 0 ? 'define-tab' : ''">{{ (context === RequestContext.REQUEST_INVESTIGATION ?
               'commonInvestigation.create' : 'commonAlert.create') | i18n
               }} </div>
           </div>
         </ng-template>
 
-        <app-request-investigation *ngIf="this.context === RequestContext.REQUEST_INVESTIGATION"
+        <app-request-investigation *ngIf="context === RequestContext.REQUEST_INVESTIGATION"
           (onBackClicked)="onBackClicked()"
           (deselectPart)="onPartDeselected($event)"
           [selectedItems]="selectedParts"></app-request-investigation>
-        <app-request-alert *ngIf="this.context === RequestContext.REQUEST_ALERT"
+        <app-request-alert *ngIf="context === RequestContext.REQUEST_ALERT"
           (onBackClicked)="onBackClicked()"
           (deselectPart)="onPartDeselected($event)"
           [selectedItems]="selectedParts"></app-request-alert>
@@ -98,7 +100,7 @@
     <app-button [variant]="'stroked'"
       [isDisabled]="isLoading$ | async"
       (click)="closeAction()"
-      class="mr-4 button-large">
+      class="button-large">
       <div class="cancel-button-text">{{ 'requestNotification.cancel' | i18n }}</div>
     </app-button>
     <app-button [isDisabled]="selectedParts.length === 0"

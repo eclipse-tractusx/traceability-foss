@@ -19,7 +19,7 @@ SPDX-License-Identifier: Apache-2.0
 
 <mat-card>
   <mat-card-header>
-    <div class="inline-block w-full">
+    <div>
       <div class="flex justify-between items-center">
         <h3 class="pl-2 mb-4 flex items-center tableHeader">
           <img class="pr-2"
@@ -29,19 +29,36 @@ SPDX-License-Identifier: Apache-2.0
         </h3>
       </div>
     </div>
-    <div [formGroup]="searchFormGroup">
-      <app-input color="accent"
-        [label]="'parts.input.global-search.placeholderAlertsAndInvestigations' | i18n"
-        [prefixIconHover]="true"
-        (prefixIconClick)="triggerSearch()"
-        [onEnterActive]="true"
-        [prefixIcon]="'search'"
-        formControlName="alertSearch"
-        [isSearchBar]="true"
-        [parentFormGroup]="searchFormGroup"
-        [parentControlName]="'alertSearch'"
-        [displayClearButton]="true"
-        prefixIconColor="accent"></app-input>
+    <div class="input-wrapper">
+      <div [formGroup]="searchFormGroup">
+        <app-input color="accent"
+          [label]="'parts.input.global-search.placeholderAlertsAndInvestigations' | i18n"
+          [prefixIconHover]="true"
+          (prefixIconClick)="triggerSearch()"
+          [onEnterActive]="true"
+          [prefixIcon]="'search'"
+          formControlName="alertSearch"
+          [isSearchBar]="true"
+          [parentFormGroup]="searchFormGroup"
+          [parentControlName]="'alertSearch'"
+          [displayClearButton]="true"
+          prefixIconColor="accent"></app-input>
+      </div>
+      <div *appHasRole="[Role.USER]">
+        <app-button class="button-large pl-5"
+          (click)="openRequestDialog()"
+          [color]="'primary'"
+          variant="flat">
+          <div class="flex justify-between items-center">
+            <img class="pr-2"
+              src="/assets/images/icons/quality_alert_dashboard_icon.svg"
+              alt="quality alert icon" />
+            <div class="action-button-text">
+              {{ 'commonAlert.selectedPartsActions' | i18n }}
+            </div>
+          </div>
+        </app-button>
+      </div>
     </div>
   </mat-card-header>
   <mat-card-content>

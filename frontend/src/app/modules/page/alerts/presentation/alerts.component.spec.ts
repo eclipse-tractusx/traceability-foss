@@ -18,13 +18,16 @@
  ********************************************************************************/
 
 import { AlertsModule } from '@page/alerts/alerts.module';
-import { NotificationTabInformation } from '@shared/model/notification-tab-information';
 import { AlertsService } from '@shared/service/alerts.service';
-import { fireEvent, screen, waitFor } from '@testing-library/angular';
+import { fireEvent, screen } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 import { AlertsComponent } from './alerts.component';
 import { FilterInfo, FilterMethod, TableEventConfig, TableFilter } from '@shared/components/table/table.model';
 import { FilterOperator } from '@page/parts/model/parts.model';
+import { MatDialog } from '@angular/material/dialog';
+import { TestBed } from '@angular/core/testing';
+import { RequestContext } from '@shared/components/request-notification/request-notification.base';
+import { RequestStepperComponent } from '@shared/components/request-notification/request-stepper/request-stepper.component';
 
 describe('AlertsComponent', () => {
   const renderAlerts = async () => {
@@ -191,5 +194,19 @@ describe('AlertsComponent', () => {
 
     expect(alertsComponent.filterReceived).toEqual(alertsReceivedFilters);
     expect(alertsComponent.filterQueuedAndRequested).toEqual(alertsCreatedFilters);
+  });
+
+  it('should open the RequestStepperComponent with RequestContext.REQUEST_ALERT', async () => {
+    const component = (await renderAlerts()).fixture.componentInstance;
+    const matDialog = TestBed.inject(MatDialog);
+
+    spyOn(matDialog, 'open').and.callThrough();
+
+    component.openRequestDialog();
+
+    expect(matDialog.open).toHaveBeenCalledWith(RequestStepperComponent, {
+      autoFocus: false,
+      data: { context: RequestContext.REQUEST_ALERT },
+    });
   });
 });

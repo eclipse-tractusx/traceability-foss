@@ -88,21 +88,23 @@ SPDX-License-Identifier: Apache-2.0
     <app-textarea [label]="'requestNotification.textAreaLabel' | i18n"
       formControlName="description"></app-textarea>
 
-    <div *ngIf="showButtons"
-      class="buttons-wrapper">
-      <app-button [variant]="'stroked'"
-        [isDisabled]="isLoading$ | async"
-        (click)="onBack()"
-        class="mr-4 button-large">
-        <div class="cancel-button-text">{{ 'requestNotification.back' | i18n }}</div>
-      </app-button>
+    <div class="buttons-container">
+      <div *ngIf="showButtons"
+        class="buttons-wrapper">
+        <app-button [variant]="'stroked'"
+          [isDisabled]="isLoading$ | async"
+          (click)="onBack()"
+          class="button-large">
+          <div class="cancel-button-text">{{ 'requestNotification.back' | i18n }}</div>
+        </app-button>
 
-      <app-button class="button-large"
-        [variant]="'flat'"
-        [color]="'primary'"
-        (click)="submit()">
-        <div class="accept-button-text">{{ 'requestNotification.submit' | i18n }}</div>
-      </app-button>
+        <app-button class="button-large"
+          [variant]="'flat'"
+          [color]="'primary'"
+          (click)="submit()">
+          <div class="accept-button-text">{{ 'requestNotification.submit' | i18n }}</div>
+        </app-button>
+      </div>
     </div>
   </form>
 

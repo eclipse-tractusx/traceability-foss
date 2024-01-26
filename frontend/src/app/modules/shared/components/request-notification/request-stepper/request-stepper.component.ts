@@ -73,11 +73,13 @@ export class RequestStepperComponent {
       return;
     }
 
+    const contextTag = this.context === RequestContext.REQUEST_INVESTIGATION ? 'commonInvestigation' : 'commonAlert';
+
     this.dialog.open(ModalComponent, {
       autoFocus: false,
       data: {
-        title: 'commonInvestigation.discardHeader',
-        message: 'commonInvestigation.discardMessage',
+        title: `${contextTag}.discardHeader`,
+        message: `${contextTag}.discardMessage`,
         buttonLeft: 'parts.confirmationDialog.resume',
         buttonRight: 'parts.confirmationDialog.discard',
         primaryButtonColour: 'primary',
