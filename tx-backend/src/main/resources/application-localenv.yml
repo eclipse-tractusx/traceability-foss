@@ -63,7 +63,8 @@ digitalTwinRegistryClient:
 cors:
   origins: >
     http://localhost:4200,
-    http://localhost:4201
+    http://localhost:4201,
+    http://localhost:5200
 
 spring:
   main:
