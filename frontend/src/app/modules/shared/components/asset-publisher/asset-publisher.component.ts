@@ -1,9 +1,9 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {FormControl, Validators} from '@angular/forms';
-import {ImportState, Part} from '@page/parts/model/parts.model';
-import {Policy} from '@page/policies/model/policy.model';
-import {PolicyService} from '@shared/service/policy.service';
-import {Observable, Subscription} from 'rxjs';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
+import { ImportState, Part } from '@page/parts/model/parts.model';
+import { Policy } from '@page/policies/model/policy.model';
+import { PolicyService } from '@shared/service/policy.service';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-asset-publisher',
@@ -46,13 +46,12 @@ export class AssetPublisherComponent {
 
   publish(): void {
     const selectedAssetIds = this.selectedAssets.map(part => part.id);
-    this.policyFormControl.reset();
-    this.selectedAssets = [];
     this.policyService.publishAssets(selectedAssetIds, this.policyFormControl.value).subscribe({
       next: data => {this.submitted.emit(null);},
       error: error => {this.submitted.emit(error);}
     });
-
+    this.policyFormControl.reset();
+    this.selectedAssets = [];
   }
 
   private getPolicies() {
