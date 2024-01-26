@@ -21,10 +21,9 @@ package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.ale
 
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertNotificationEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface JpaAlertNotificationRepository extends JpaRepository<AlertNotificationEntity, String>, JpaSpecificationExecutor<AlertNotificationEntity> {
+public interface JpaAlertNotificationRepository extends JpaRepository<AlertNotificationEntity, String> {
 
 }
