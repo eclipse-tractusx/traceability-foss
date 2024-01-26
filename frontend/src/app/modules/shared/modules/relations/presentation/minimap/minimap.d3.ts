@@ -95,7 +95,6 @@ export class Minimap {
     this.setMapHeight();
 
     this.drawTreeViewport(svg);
-
     D3RenderHelper.renderMinimapClosing(
       svg,
       `${ this.ids.closing }`,
@@ -130,8 +129,6 @@ export class Minimap {
 
   private drawTreeViewport(svg: TreeSvg): void {
     const { width, height } = this.getBorderSize();
-    const xOffset = 64;
-    const yOffset = 5;
 
     const rectGroup = svg
       .append('g')
@@ -139,8 +136,8 @@ export class Minimap {
       .attr('data-testid', this.ids.viewportContainer);
     const rect = rectGroup
       .append('rect')
-      .attr('x', this.treeViewportX + xOffset)
-      .attr('y', this.treeViewportY + yOffset)
+      .attr('x', this.treeViewportX)
+      .attr('y', this.treeViewportY)
       .attr('width', width)
       .attr('height', height)
       .classed('tree--minimap', true);
@@ -150,8 +147,7 @@ export class Minimap {
       const { k, x, y } = this.currentZoom;
 
       if (transform.k === 0) return rectGroup.call(this.zoom.transform, new ZoomTransform(1 / k, x, y));
-
-      if (this.nextTreeUpdateAt < Date.now()) this.moveTree(new ZoomTransform(transform.k, transform.x - 10, transform.y));
+      if (this.nextTreeUpdateAt < Date.now()) this.moveTree(transform);
 
       this.currentZoom = new ZoomTransform(1 / transform.k, transform.x, transform.y);
       return rect.attr('transform', this.currentZoom as any);

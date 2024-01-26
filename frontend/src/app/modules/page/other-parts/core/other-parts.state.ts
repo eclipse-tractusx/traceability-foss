@@ -66,13 +66,13 @@ export class OtherPartsState {
     this._supplierPartsAsBuilt$.update(partsView);
   }
 
-  public get supplierPartsAsBuilt(): View<Pagination<Part>> {
-    return this._supplierPartsAsBuilt$.snapshot;
-  }
-
   public set supplierPartsAsPlanned({ data, loader, error }: View<Pagination<Part>>) {
     const partsView: View<Pagination<Part>> = { data, loader, error };
     this._supplierPartsAsPlanned$.update(partsView);
+  }
+
+  public get supplierPartsAsBuilt(): View<Pagination<Part>> {
+    return this._supplierPartsAsBuilt$.snapshot;
   }
 
   public get supplierPartsAsPlanned(): View<Pagination<Part>> {

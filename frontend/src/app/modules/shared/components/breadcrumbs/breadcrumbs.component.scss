@@ -18,3 +18,46 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+
+.breadcrumb {
+  background: none;
+  font-size: 0.8em;
+  margin: 0;
+  cursor: default;
+  @apply font-light;
+  span {
+    @apply text-primary;
+  }
+
+  a:hover,
+  span:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  li {
+    list-style: none;
+    float: left;
+    margin: 5px 5px 5px 0;
+  }
+
+  li:last-child {
+    margin-right: 20px;
+
+    span {
+      @apply text-doveGray;
+      cursor: default;
+      text-decoration: none;
+    }
+  }
+
+  li::after {
+    content: '>';
+    color: darkgrey;
+    cursor: default;
+  }
+
+  li:last-child::after {
+    content: '';
+  }
+}

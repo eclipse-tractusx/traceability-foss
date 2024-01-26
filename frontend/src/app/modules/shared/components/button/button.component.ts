@@ -38,6 +38,5 @@ export class ButtonComponent {
 
   @Input() label: string;
   @Input() iconName: string;
-  @Input() isDisabled = false;
-  @Input() customClass: string;
+  @Input() isDisabled: boolean = false;
 }

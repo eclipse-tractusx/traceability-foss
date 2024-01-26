@@ -1,10 +1,11 @@
 {
   "pageAlert": {
     "info": "Overview",
-    "reason": "Status log",
+    "reason": "Message history",
     "selectedParts_one": "{{count}} Part selected for this page.",
     "selectedParts_other": "{{count}} Parts selected for this page.",
     "selectPartsAction": "Start alert",
+
     "subHeadline": {
       "affectedParts": "Affected parts",
       "supplierParts": "Supplier parts"

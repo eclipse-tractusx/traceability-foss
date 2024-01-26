@@ -22,7 +22,7 @@
 import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { screen } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
-import { SharedModule } from '@shared/shared.module';
+import { SharedModule } from '..';
 
 describe('FormatDatePipe', () => {
   it('should format date having the 1970 value for the year', async () => {
@@ -42,7 +42,7 @@ describe('FormatDatePipe', () => {
       componentProperties: { date },
     });
 
-    expect(screen.getByText('04/02/2022')).toBeInTheDocument();
+    expect(screen.getByText('2/4/22')).toBeInTheDocument();
   });
 
   it('should format date with options', async () => {
@@ -52,7 +52,7 @@ describe('FormatDatePipe', () => {
       componentProperties: { date },
     });
 
-    expect(screen.getByText('4 Feb 2022, 13:48')).toBeInTheDocument();
+    expect(screen.getByText('Feb 4, 2022, 1:48 PM')).toBeInTheDocument();
   });
 
   it('should return -- if string is empty', async () => {

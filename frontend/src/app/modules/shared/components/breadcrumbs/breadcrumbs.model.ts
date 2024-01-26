@@ -19,15 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-
-@Component({
-  selector: 'app-info-list',
-  templateUrl: './info-list.component.html',
-  styleUrls: ['./info-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class InfoListComponent {
-  @Input() list: Record<string, string>;
-  @Input() title: string;
+export interface BreadcrumbsModel {
+  label: string;
+  url: string;
 }

@@ -19,12 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-export enum Role {
-  USER = 'user',
-  SUPERVISOR = 'supervisor',
-  ADMIN = 'admin',
-  WIP = 'wip',
-}
+export type Role = 'user' | 'supervisor' | 'admin' | 'wip';
 
 export type RoleRelation = {
   role: Role;

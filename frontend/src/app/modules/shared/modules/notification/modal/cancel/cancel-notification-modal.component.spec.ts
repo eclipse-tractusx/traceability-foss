@@ -36,8 +36,8 @@ describe('CancelNotificationModalComponent', () => {
 
   it('should render investigation description', async () => {
     const { notification } = await renderCancelModal(NotificationStatus.CREATED);
-    const description = await waitFor(() => screen.getAllByText(notification.description));
+    const description = await waitFor(() => screen.getByText(notification.description));
 
-    expect(description[0]).toBeInTheDocument();
+    expect(description).toBeInTheDocument();
   });
 });
