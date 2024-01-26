@@ -18,8 +18,8 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.integration.assets;
 
+import assets.response.base.request.QualityTypeRequest;
 import io.restassured.http.ContentType;
-import org.eclipse.tractusx.traceability.assets.application.base.request.QualityTypeRequest;
 import org.eclipse.tractusx.traceability.common.security.JwtRole;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.ForbiddenMatcher;

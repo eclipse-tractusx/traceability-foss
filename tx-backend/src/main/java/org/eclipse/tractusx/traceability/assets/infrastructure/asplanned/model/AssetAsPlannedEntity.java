@@ -62,7 +62,7 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
     private Instant functionValidUntil;
     private String function;
     private Instant functionValidFrom;
-    private String catenaxSiteId;
+    private String catenaXSiteId;
 
 
     @ElementCollection
@@ -113,7 +113,7 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                         .toList())
                 .qualityType(asset.getQualityType())
                 .semanticDataModel(SemanticDataModelEntity.from(asset.getSemanticDataModel()))
-                .catenaxSiteId(asPlannedInfo.getCatenaxSiteId())
+                .catenaXSiteId(asPlannedInfo.getCatenaXSiteId())
                 .importState(asset.getImportState())
                 .importNote(asset.getImportNote())
                 .policyId(asset.getPolicyId())
