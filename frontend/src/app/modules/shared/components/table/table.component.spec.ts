@@ -20,9 +20,9 @@
  ********************************************************************************/
 
 import { Pagination } from '@core/model/pagination.model';
-import { FilterOperator } from '@page/parts/model/parts.model';
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { TableComponent } from '@shared/components/table/table.component';
-import { FilterMethod, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
+import { TableConfig } from '@shared/components/table/table.model';
 import { SharedModule } from '@shared/shared.module';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { getInputFromChildNodes, renderComponent } from '@tests/test-render.utils';
@@ -33,27 +33,27 @@ describe('TableComponent', () => {
   };
   const renderTable = (
     size: number,
-    displayedColumns = ['name'],
+    displayedColumns = [ 'name' ],
     header = { name: 'Name' },
     selected = jasmine.createSpy(),
+    tableType = TableType.AS_BUILT_OWN,
+    autoCompleteEnabled = false,
   ) => {
     const content = generateTableContent(size);
     const data = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
 
     const tableConfig: TableConfig = { displayedColumns, header };
-
     return renderComponent(
-      `<app-table 
-      [paginationData]='data' 
-      [tableConfig]='tableConfig' 
-      (selected)='selected($event)'></app-table>`,
+      `<app-table [paginationData]='data' [tableConfig]='tableConfig' (selected)='selected($event)' [tableType]="tableType" [autocompleteEnabled]="autocompleteEnabled"></app-table>`,
       {
-        declarations: [TableComponent],
-        imports: [SharedModule],
+        declarations: [ TableComponent ],
+        imports: [ SharedModule ],
         componentProperties: {
           data,
           tableConfig,
           selected,
+          tableType,
+          autoCompleteEnabled,
         },
       },
     );
@@ -61,13 +61,34 @@ describe('TableComponent', () => {
 
   it('should render table', async () => {
     const tableSize = 7;
-    await renderTable(tableSize);
+    const content = generateTableContent(tableSize);
+    const data = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
+
+    const tableConfig: TableConfig = {
+      displayedColumns: [ 'select','name' ],
+      header: { name: 'Name for test' },
+      sortableColumns: { select: true, name: true },
+    };
+
+    const configChange = jasmine.createSpy();
+    const component = await renderComponent(
+      `<app-table  [paginationData]='data' [tableConfig]='tableConfig' (configChanged)='configChange($event)'></app-table>`,
+      {
+        declarations: [ TableComponent ],
+        imports: [ SharedModule ],
+        componentProperties: {
+          data,
+          tableConfig,
+          configChange,
+        },
+      },
+    );
 
     const tableElement = screen.getByTestId('table-component--test-id');
     expect(tableElement).toBeInTheDocument();
 
     const tableHeadElement = screen.getByTestId('table-component--head-row');
-    expect(tableHeadElement.children[0].children.length).toBe(1);
+    expect(tableHeadElement.children[0].children.length).toBe(2);
 
     const tableBodyElement = screen.getAllByTestId('table-component--body-row');
     expect(tableBodyElement.length).toBe(tableSize);
@@ -75,7 +96,28 @@ describe('TableComponent', () => {
 
   it('should render table with correctData', async () => {
     const tableSize = 3;
-    await renderTable(tableSize);
+    const content = generateTableContent(tableSize);
+    const data = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
+
+    const tableConfig: TableConfig = {
+      displayedColumns: [ 'select','name' ],
+      header: { name: 'Name for test' },
+      sortableColumns: { select: true, name: true },
+    };
+
+    const configChange = jasmine.createSpy();
+    const component = await renderComponent(
+      `<app-table  [paginationData]='data' [tableConfig]='tableConfig' (configChanged)='configChange($event)'></app-table>`,
+      {
+        declarations: [ TableComponent ],
+        imports: [ SharedModule ],
+        componentProperties: {
+          data,
+          tableConfig,
+          configChange,
+        },
+      },
+    );
 
     expect(screen.getByText('name_0')).toBeInTheDocument();
     expect(screen.getByText('name_1')).toBeInTheDocument();
@@ -84,14 +126,56 @@ describe('TableComponent', () => {
 
   it('should render correct amount of table headers', async () => {
     const tableSize = 3;
-    await renderTable(tableSize, ['name'], { name: 'Name for test' });
+    const content = generateTableContent(tableSize);
+    const data = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
 
-    expect(screen.getByText('table.column.name')).toBeInTheDocument();
+    const tableConfig: TableConfig = {
+      displayedColumns: [ 'select','name' ],
+      header: { name: 'Name for test' },
+      sortableColumns: { select: true, name: true },
+    };
+
+    const configChange = jasmine.createSpy();
+    const component = await renderComponent(
+      `<app-table  [paginationData]='data' [tableConfig]='tableConfig' (configChanged)='configChange($event)'></app-table>`,
+      {
+        declarations: [ TableComponent ],
+        imports: [ SharedModule ],
+        componentProperties: {
+          data,
+          tableConfig,
+          configChange,
+        },
+      },
+    );
+
+    expect(screen.getByText('Name for test')).toBeInTheDocument();
   });
 
   it('should render select column', async () => {
     const tableSize = 3;
-    await renderTable(tableSize, ['select', 'name']);
+    const content = generateTableContent(tableSize);
+    const data = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
+
+    const tableConfig: TableConfig = {
+      displayedColumns: [ 'select','name' ],
+      header: { name: 'Name Sort' },
+      sortableColumns: { select: true, name: true },
+    };
+
+    const configChange = jasmine.createSpy();
+    const component = await renderComponent(
+      `<app-table  [paginationData]='data' [tableConfig]='tableConfig' (configChanged)='configChange($event)'></app-table>`,
+      {
+        declarations: [ TableComponent ],
+        imports: [ SharedModule ],
+        componentProperties: {
+          data,
+          tableConfig,
+          configChange,
+        },
+      },
+    );
 
     const selectAllElement = screen.getByTestId('select-all--test-id');
     expect(selectAllElement).toBeInTheDocument();
@@ -102,7 +186,28 @@ describe('TableComponent', () => {
 
   it('should select all items and deselect all', async () => {
     const tableSize = 3;
-    await renderTable(tableSize, ['select', 'name']);
+    const content = generateTableContent(tableSize);
+    const data = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
+
+    const tableConfig: TableConfig = {
+      displayedColumns: [ 'select','name' ],
+      header: { name: 'Name Sort' },
+      sortableColumns: { select: true, name: true },
+    };
+
+    const configChange = jasmine.createSpy();
+    const component = await renderComponent(
+      `<app-table  [paginationData]='data' [tableConfig]='tableConfig' (configChanged)='configChange($event)'></app-table>`,
+      {
+        declarations: [ TableComponent ],
+        imports: [ SharedModule ],
+        componentProperties: {
+          data,
+          tableConfig,
+          configChange,
+        },
+      },
+    );
 
     const checkboxSelectAll = getInputFromChildNodes(
       screen.getByTestId('select-all--test-id').firstChild.firstChild.childNodes,
@@ -126,7 +231,7 @@ describe('TableComponent', () => {
     const data = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
 
     const tableConfig: TableConfig = {
-      displayedColumns: ['name'],
+      displayedColumns: [ 'name' ],
       header: { name: 'Name Sort' },
       sortableColumns: { name: true },
     };
@@ -135,8 +240,8 @@ describe('TableComponent', () => {
     const component = await renderComponent(
       `<app-table  [paginationData]='data' [tableConfig]='tableConfig' (configChanged)='configChange($event)'></app-table>`,
       {
-        declarations: [TableComponent],
-        imports: [SharedModule],
+        declarations: [ TableComponent ],
+        imports: [ SharedModule ],
         componentProperties: {
           data,
           tableConfig,
@@ -145,223 +250,39 @@ describe('TableComponent', () => {
       },
     );
 
-    const nameElement = screen.getByText('table.column.name');
+    const nameElement = screen.getByText('Name Sort');
     nameElement.click();
 
-    expect(configChange).toHaveBeenCalledWith({
-      page: 0,
-      pageSize: 10,
-      sorting: ['name', 'asc'],
-      filtering: Object({ filterMethod: 'AND' }),
-    });
+    expect(configChange).toHaveBeenCalledWith({ page: 0, pageSize: 10, sorting: [ 'name', 'asc' ] });
     nameElement.click();
-    expect(configChange).toHaveBeenCalledWith({
-      page: 0,
-      pageSize: 10,
-      sorting: ['name', 'desc'],
-      filtering: Object({ filterMethod: 'AND' }),
-    });
+    expect(configChange).toHaveBeenCalledWith({ page: 0, pageSize: 10, sorting: [ 'name', 'desc' ] });
+    nameElement.click();
+    expect(configChange).toHaveBeenCalledWith({ page: 0, pageSize: 10, sorting: [ 'name', 'desc' ] });
   });
 
-  it('should select one item', async () => {
-    const tableSize = 3;
-    const selected = jasmine.createSpy();
-    await renderTable(tableSize, ['name'], { name: 'Name for test' }, selected);
-
-    const tableElement = screen.getByText('name_0');
-    expect(tableElement).toBeInTheDocument();
-
-    tableElement.click();
-    expect(selected).toHaveBeenCalledWith({ name: 'name_0', test: 'test' });
-  });
-
-  it('should emit the correct configChange event on filtering', async () => {
+  it('should display menu icon', async () => {
     const tableSize = 3;
     const content = generateTableContent(tableSize);
-    const paginationData = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
-
+    const data = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
+    const configChange = jasmine.createSpy();
     const tableConfig: TableConfig = {
-      displayedColumns: ['description', 'createdDate', 'status'],
+      displayedColumns: [ 'name', 'menu' ],
       header: { name: 'Name Sort' },
-      filterConfig: [
-        { filterKey: 'description', isTextSearch: true, isDate: false, option: [] },
-        { filterKey: 'createdDate', isTextSearch: false, isDate: true, option: [] },
-        {
-          filterKey: 'status',
-          isTextSearch: false,
-          isDate: false,
-          option: [{ display: 'status1.', value: 'status1', checked: false }],
+      sortableColumns: { name: true, menu: true },
+    };
+
+    const component = await renderComponent(
+      `<app-table  [paginationData]='data' [tableConfig]='tableConfig' (configChanged)='configChange($event)'></app-table>`,
+      {
+        declarations: [ TableComponent ],
+        imports: [ SharedModule ],
+        componentProperties: {
+          data,
+          tableConfig,
+          configChange,
         },
-      ],
-    };
-
-    const { fixture } = await renderComponent(TableComponent, {
-      declarations: [TableComponent],
-      imports: [SharedModule],
-      componentProperties: {
-        paginationData,
-        tableConfig,
       },
-    });
-
-    const { componentInstance } = fixture;
-    const tabelConfigRes: TableEventConfig = {
-      page: 0,
-      pageSize: 10,
-      sorting: undefined,
-      filtering: {
-        filterMethod: FilterMethod.AND,
-        description: { filterValue: 'value1', filterOperator: FilterOperator.STARTS_WITH },
-      },
-    };
-    const tabelConfigResTwo: TableEventConfig = {
-      page: 0,
-      pageSize: 10,
-      sorting: undefined,
-      filtering: {
-        filterMethod: FilterMethod.AND,
-        description: { filterValue: 'value1', filterOperator: FilterOperator.STARTS_WITH },
-        createdDate: { filterValue: '2023-11-11', filterOperator: FilterOperator.AT_LOCAL_DATE },
-      },
-    };
-    const tabelConfigResThree: TableEventConfig = {
-      page: 0,
-      pageSize: 10,
-      sorting: undefined,
-      filtering: {
-        filterMethod: FilterMethod.AND,
-        description: { filterValue: 'value1', filterOperator: FilterOperator.STARTS_WITH },
-        createdDate: { filterValue: '2023-11-11', filterOperator: FilterOperator.AT_LOCAL_DATE },
-        status: [{ filterValue: 'status1', filterOperator: FilterOperator.EQUAL }],
-      },
-    };
-
-    spyOn(componentInstance.configChanged, 'emit');
-
-    componentInstance.filterFormGroup.controls['description'].patchValue('value1');
-    componentInstance.triggerFilterAdding('description', false);
-    fixture.detectChanges();
-    expect(componentInstance.configChanged.emit).toHaveBeenCalledWith(tabelConfigRes);
-
-    componentInstance.filterFormGroup.controls['createdDate'].patchValue('2023-11-11');
-    componentInstance.triggerFilterAdding('createdDate', true);
-    fixture.detectChanges();
-    expect(componentInstance.configChanged.emit).toHaveBeenCalledWith(tabelConfigResTwo);
-
-    componentInstance.tableConfig.filterConfig[2].option[0].checked = true;
-    componentInstance.triggerFilterAdding('status', false);
-    fixture.detectChanges();
-    expect(componentInstance.configChanged.emit).toHaveBeenCalledWith(tabelConfigResThree);
-  });
-
-  it('should fire the correct page change event for changing the page', async () => {
-    const tableSize = 3;
-    const content = generateTableContent(tableSize);
-    const paginationData = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
-
-    const tableConfig: TableConfig = {
-      displayedColumns: ['description', 'createdDate', 'status'],
-      header: { name: 'Name Sort' },
-    };
-
-    const { fixture } = await renderComponent(TableComponent, {
-      declarations: [TableComponent],
-      imports: [SharedModule],
-      componentProperties: {
-        paginationData,
-        tableConfig,
-      },
-    });
-    const { componentInstance } = fixture;
-
-    const tabelConfigRes: TableEventConfig = {
-      page: 1,
-      pageSize: 10,
-      sorting: undefined,
-      filtering: {
-        filterMethod: FilterMethod.AND,
-      },
-    };
-
-    spyOn(componentInstance.configChanged, 'emit');
-
-    componentInstance.onPaginationChange({ pageIndex: 1, pageSize: 10, length: 0 });
-
-    fixture.detectChanges();
-    expect(componentInstance.configChanged.emit).toHaveBeenCalledWith(tabelConfigRes);
-  });
-
-  it('should fire the correct page change event for changing the number of shown items', async () => {
-    const tableSize = 3;
-    const content = generateTableContent(tableSize);
-    const paginationData = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
-
-    const tableConfig: TableConfig = {
-      displayedColumns: ['description', 'createdDate', 'status'],
-      header: { name: 'Name Sort' },
-    };
-
-    const { fixture } = await renderComponent(TableComponent, {
-      declarations: [TableComponent],
-      imports: [SharedModule],
-      componentProperties: {
-        paginationData,
-        tableConfig,
-      },
-    });
-    const { componentInstance } = fixture;
-
-    const tabelConfigRes: TableEventConfig = {
-      page: 0,
-      pageSize: 20,
-      sorting: undefined,
-      filtering: {
-        filterMethod: FilterMethod.AND,
-      },
-    };
-
-    spyOn(componentInstance.configChanged, 'emit');
-
-    componentInstance.onPaginationChange({ pageIndex: 0, pageSize: 20, length: 0 });
-
-    fixture.detectChanges();
-    expect(componentInstance.configChanged.emit).toHaveBeenCalledWith(tabelConfigRes);
-  });
-
-  it('should reset the filterActive value on activating the resetFilterActive function', async () => {
-    const tableSize = 3;
-    const content = generateTableContent(tableSize);
-    const paginationData = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
-    const tableConfig: TableConfig = {
-      displayedColumns: ['description', 'createdDate', 'status'],
-      header: { name: 'Name Sort' },
-      filterConfig: [
-        { filterKey: 'description', isTextSearch: true, isDate: false, option: [] },
-        { filterKey: 'createdDate', isTextSearch: false, isDate: true, option: [] },
-        {
-          filterKey: 'status',
-          isTextSearch: false,
-          isDate: false,
-          option: [{ display: 'status1.', value: 'status1', checked: false }],
-        },
-      ],
-    };
-
-    const { fixture } = await renderComponent(TableComponent, {
-      declarations: [TableComponent],
-      imports: [SharedModule],
-      componentProperties: {
-        paginationData,
-        tableConfig,
-      },
-    });
-    const { componentInstance } = fixture;
-
-    const filterActiveExpected = { description: false, createdDate: false, status: false };
-
-    componentInstance.filterActive['description'] = true;
-    componentInstance.resetFilter();
-
-    expect(componentInstance.filterActive).toEqual(filterActiveExpected);
+    );
+    expect(screen.getAllByText('more_vert').length).toBe(tableSize);
   });
 });

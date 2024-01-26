@@ -23,15 +23,24 @@ import org.eclipse.tractusx.traceability.assets.domain.dashboard.model.Dashboard
 
 public class DashboardResponseMapper {
 
-    private DashboardResponseMapper() {
-    }
-
     public static DashboardResponse from(final Dashboard dashboard) {
         return new DashboardResponse(
-                dashboard.getMyParts(),
-                dashboard.getOtherParts(),
-                dashboard.getInvestigationsReceived(),
-                dashboard.getAlertsReceived()
+                dashboard.getAsBuiltCustomerParts(),
+                dashboard.getAsPlannedCustomerParts(),
+                dashboard.getAsBuiltSupplierParts(),
+                dashboard.getAsPlannedSupplierParts(),
+                dashboard.getAsBuiltOwnParts(),
+                dashboard.getAsPlannedOwnParts(),
+                dashboard.getMyPartsWithOpenAlerts(),
+                dashboard.getMyPartsWithOpenInvestigations(),
+                dashboard.getSupplierPartsWithOpenAlerts(),
+                dashboard.getCustomerPartsWithOpenAlerts(),
+                dashboard.getSupplierPartsWithOpenInvestigations(),
+                dashboard.getCustomerPartsWithOpenInvestigations(),
+                dashboard.getReceivedActiveAlerts(),
+                dashboard.getReceivedActiveInvestigations(),
+                dashboard.getSentActiveAlerts(),
+                dashboard.getSentActiveInvestigations()
         );
     }
 }

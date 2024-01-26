@@ -20,20 +20,18 @@
  ********************************************************************************/
 
 import { LayoutModule } from '@layout/layout.module';
+import { SidenavComponent } from '@layout/sidenav/sidenav.component';
+import { SidenavService } from '@layout/sidenav/sidenav.service';
 import { PartsState } from '@page/parts/core/parts.state';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { PartDetailsState } from '@shared/modules/part-details/core/partDetails.state';
 import { PartDetailsModule } from '@shared/modules/part-details/partDetails.module';
-import { fireEvent, screen, waitFor } from '@testing-library/angular';
+import { screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 import { MOCK_part_1 } from '../../../../../mocks/services/parts-mock/partsAsBuilt/partsAsBuilt.test.model';
 import { PartDetailComponent } from './part-detail.component';
-import { MatTabChangeEvent } from '@angular/material/tabs';
-import { TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
-import { Role } from '@core/user/role.model';
 
 let PartsStateMock: PartsState;
 let PartDetailsStateMock: PartDetailsState;
@@ -49,90 +47,45 @@ describe('PartDetailComponent', () => {
   });
 
   const renderPartDetailComponent = async ({ roles = [] } = {}) => {
-    return await renderComponent(PartDetailComponent, {
-      declarations: [PartDetailComponent],
-      imports: [PartDetailsModule, LayoutModule],
+    return await renderComponent(`<app-sidenav></app-sidenav><app-part-detail></app-part-detail>`, {
+      declarations: [ SidenavComponent, PartDetailComponent ],
+      imports: [ PartDetailsModule, LayoutModule ],
       providers: [
         PartDetailsFacade,
         { provide: PartsState, useFactory: () => PartsStateMock },
         { provide: PartDetailsState, useFactory: () => PartDetailsStateMock },
+        SidenavService,
       ],
       roles,
     });
   };
 
+  it('should render side nav', async () => {
+    await renderPartDetailComponent();
+
+    const sideNavElement = await waitFor(() => screen.getByTestId('sidenav--test-id'));
+    expect(sideNavElement).toBeInTheDocument();
+  });
+
+  it('should render an open sidenav with part details', async () => {
+    await renderPartDetailComponent();
+
+    const sideNavElement = await waitFor(() => screen.getByTestId('sidenav--test-id'));
+    const nameElement = await screen.findByText('BMW AG');
+    const productionDateElement = await screen.findByText('2022-02-04T13:48:54');
+
+    expect(sideNavElement).toBeInTheDocument();
+    await waitFor(() => expect(sideNavElement).toHaveClass('sidenav--container__open'));
+
+    expect(nameElement).toBeInTheDocument();
+    expect(productionDateElement).toBeInTheDocument();
+  });
+
   it('should render child-component table', async () => {
-    await renderPartDetailComponent({ roles: [Role.USER] });
+    await renderPartDetailComponent({ roles: [ 'user' ] });
 
-    try {
-      const childTableHeadline = await screen.findByText('partDetail.investigation.tab.header');
-      expect(childTableHeadline).toBeInTheDocument();
-      expect(await screen.findByText('partDetail.tab.header')).toBeInTheDocument();
-    } catch (error) { }
+    const childTableHeadline = await screen.findByText('partDetail.investigation.headline');
+    expect(childTableHeadline).toBeInTheDocument();
+    expect(await screen.findByText('partDetail.investigation.noSelection.header')).toBeInTheDocument();
   });
-
-  it('should render tabs', async () => {
-    await renderPartDetailComponent({ roles: [Role.USER] });
-    const tabElements = await screen.findAllByRole('tab');
-
-    expect(tabElements.length).toEqual(2);
-  });
-
-  it('should change tab index when onTabChange is called', async () => {
-    const { fixture } = await renderPartDetailComponent({ roles: [Role.USER] });
-
-    const { componentInstance } = fixture;
-    expect(componentInstance.selectedTab).toEqual(0);
-
-    componentInstance.onTabChange({ index: 1 } as MatTabChangeEvent);
-
-    fixture.detectChanges();
-    expect(componentInstance.selectedTab).toEqual(1);
-  });
-
-  it('should call navigateBackToParts when close button is clicked', async () => {
-    const { fixture } = await renderPartDetailComponent({ roles: [Role.USER] });
-
-    const { componentInstance } = fixture;
-    spyOn(componentInstance, 'navigateBackToParts');
-
-    const closeButton = (await waitFor(() => screen.getByTestId('Part-details-back-button-test-id'))) as HTMLInputElement;
-    fireEvent.click(closeButton);
-
-    expect(componentInstance.navigateBackToParts).toHaveBeenCalled();
-
-    componentInstance.navigateBackToParts();
-  });
-
-  it('should navigate back to parts', async () => {
-    const { fixture } = await renderPartDetailComponent({ roles: [Role.USER] });
-    const router = TestBed.inject(Router);
-    const { componentInstance } = fixture;
-    const partDetailsFacade = (componentInstance as any)['partDetailsFacade'];
-    const context = 'some-context';
-
-    spyOn(router, 'navigate').and.stub();
-
-    componentInstance.context = context;
-    componentInstance.navigateBackToParts();
-
-    expect(partDetailsFacade.selectedPart).toEqual(null);
-    expect(router.navigate).toHaveBeenCalledWith([`/${context}`]);
-  });
-
-  it('should navigate to relations page with correct parameters and reload', async () => {
-    const { fixture } = await renderPartDetailComponent({ roles: [Role.USER] });
-
-    const part: any = { id: 123, mainAspectType: MainAspectType.AS_BUILT };
-    const context = 'some-context';
-    const { componentInstance } = fixture;
-
-    spyOn(componentInstance.dialog, 'open');
-    componentInstance.context = context;
-
-    fixture.componentInstance.openRelationPage(part);
-
-    expect(componentInstance.dialog.open).toHaveBeenCalled();
-  });
-
 });

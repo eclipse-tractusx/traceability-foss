@@ -17,41 +17,38 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {
-  Component,
-  EventEmitter,
-  Inject,
-  Input,
-  LOCALE_ID,
-  OnChanges,
-  Output,
-  ViewChild,
-} from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { DatePipe, registerLocaleData } from '@angular/common';
-import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MatSelect } from '@angular/material/select';
-import { pairwise, startWith } from 'rxjs';
-import { CustomDateAdapter } from '@shared/helper/custom-date-adapter';
-import { Platform } from '@angular/cdk/platform';
-import { MatDatepicker, MatDatepickerInputEvent } from '@angular/material/datepicker';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-
+import { Component, EventEmitter, Inject, Injector, Input, LOCALE_ID, OnChanges, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { MatSelectChange } from '@angular/material/select';
+import {
+  AutocompleteStrategy,
+  AutocompleteStrategyMap,
+} from '@shared/components/multi-select-autocomplete/autocomplete-strategy';
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
+import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
+import { PartsService } from '@shared/service/parts.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-multiselect',
   templateUrl: 'multi-select-autocomplete.component.html',
-  styleUrls: ['multi-select-autocomplete.component.scss'],
-  providers: [
-    { provide: DateAdapter, useClass: CustomDateAdapter, deps: [MAT_DATE_LOCALE, Platform] },
-  ],
+  styleUrls: [ 'multi-select-autocomplete.component.scss' ],
 })
+
 export class MultiSelectAutocompleteComponent implements OnChanges {
+
   @Input()
   placeholder: string;
   @Input()
   options: any;
+  allOptions: any;
+  searchedOptions: any;
+  optionsSelected: any;
   @Input()
   disabled = false;
   @Input()
@@ -61,14 +58,13 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   @Input()
   formControl = new FormControl();
   @Input()
-  panelWidth = 'auto';
+  placeholderMultiple;
   @Input()
-  maxDate = new Date();
+  singleSearch = false;
 
   @Input()
-  multiple = false;
-  @Input()
-  textSearch = true;
+  selectedOptions;
+
   @Input()
   isDate = false;
 
@@ -78,198 +74,264 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   @Input()
   appearance = 'standard';
 
+  @Input()
+  filterColumn = null;
+
+  @Input()
+  tableType: TableType = TableType.AS_BUILT_OWN;
+
+  strategy: AutocompleteStrategy;
+
+  public readonly minDate = new Date();
 
   @ViewChild('searchInput', { static: true }) searchInput: any;
 
-  @ViewChild('selectElem', { static: true }) selectElem: MatSelect;
-  @ViewChild(MatDatepicker) datePicker: MatDatepicker<Date>;
+  searchElement: string = '';
 
-  @Output() triggerFilter = new EventEmitter<void>();
+  searchElementChange: EventEmitter<any> = new EventEmitter();
 
-  selectionChange: EventEmitter<any> = new EventEmitter();
+  @ViewChild('selectElem', { static: true }) selectElem: any;
 
-  public filterName = 'filterLabel';
-  public filteredOptions: Array<any> = [];
-  public selectedValue: Array<any> = [];
-  public selectAllChecked = false;
-  public displayString = '';
-  public selectedCheckboxOptions: Array<any> = [];
-  public filterActive = '';
-  public searched = false;
-  private inputTimer;
-  public runningTimer = false;
-  public optionClasses = {};
-  public isSeverity = false;
-  public theSearchElement = '';
-  public theSearchDate: FormControl<Date> = new FormControl();
-  public cleared = true;
+  selectedValue: Array<any> = [];
+  selectAllChecked = false;
 
-  constructor(
-    public datePipe: DatePipe,
-    public _adapter: DateAdapter<any>,
-    @Inject(MAT_DATE_LOCALE) public _locale: string,
-    @Inject(LOCALE_ID) private locale: string,
-  ) {
-    let localeTime = 'en-GB';
-    if (locale === 'de') {
-      localeTime = 'de-DE';
-    }
+  startDate: Date;
+  endDate: Date;
+
+  delayTimeoutId: any;
+
+  suggestionError: boolean = false;
+
+  isLoadingSuggestions: boolean;
+
+  constructor(public datePipe: DatePipe, public _adapter: DateAdapter<any>,
+              @Inject(MAT_DATE_LOCALE) public _locale: string, @Inject(LOCALE_ID) private locale: string, public partsService: PartsService,
+              private readonly formatPartSemanticDataModelToCamelCasePipe: FormatPartSemanticDataModelToCamelCasePipe,
+              private injector: Injector) {
     registerLocaleData(localeDe, 'de', localeDeExtra);
-    this._adapter.setLocale(localeTime);
-    this._adapter.getFirstDayOfWeek = () => { return 1; };
+    this._adapter.setLocale(locale);
   }
 
   ngOnInit(): void {
-    if (this.textSearch) {
-      this.formControl.valueChanges.pipe(startWith(0), pairwise()).subscribe(([_prev, next]: [any, any]) => {
-        this.theSearchElement = next;
-        this.searched = true;
-        this.triggerFilteringTimeout('text');
-      });
-    } else if (this.isDate) {
-      this.filterName = 'filterLabelDate';
-    } else if (this.multiple) {
-      this.filterName = 'filterLabelSelect';
-      this.setColumnClass();
-    }
+    this.strategy = this.injector.get<AutocompleteStrategy>(AutocompleteStrategyMap.get(this.tableType));
+    this.searchElementChange.subscribe((value) => {
+      if (this.delayTimeoutId) {
+        clearTimeout(this.delayTimeoutId);
+        this.delayTimeoutId = null;
+        this.filterItem(value);
+      }
+    });
+
   }
 
   ngOnChanges(): void {
-    this.theSearchElement = this.formControl.value;
-    this.filteredOptions = this.options;
-    if (this.formControl?.value) {
-      this.selectedValue = this.formControl.value;
-      this.formControl.patchValue(this.selectedValue);
-    }
+    this.selectedValue = this.formControl.value;
+    this.formControl.patchValue(this.selectedValue);
+
   }
 
-  public triggerFilteringTimeout(searchType: string): void {
-    this.runningTimer = true;
-    let timeoutTime = 200;
-    if (searchType === 'text') {
-      timeoutTime = 500;
-    } else if (searchType === 'date') {
-      timeoutTime = 750;
-    }
-    clearTimeout(this.inputTimer);
-    this.inputTimer = setTimeout(() => {
-      this.triggerFiltering(searchType);
-    }, timeoutTime);
-  }
-
-  public triggerFiltering(searchType: string): void {
-    this.runningTimer = false;
-    if (searchType === 'text') {
-      this.setFilterActive();
-    } else if (searchType === 'date') {
-      const value = this.datePipe.transform(this.theSearchDate.value, 'yyyy-MM-dd');
-      this.formControl.patchValue(value);
-      if (this.cleared && value === null) {
-        return;
-      }
-      this.cleared = value === null;
-    }
-    this.triggerFilter.emit();
-  }
-
-  public toggleSelect = function (val: any, isSelectAll: boolean): void {
-    if (isSelectAll) {
-      if (val.checked) {
-        this.options.forEach(option => {
-          option.checked = true;
-        });
+  toggleSelectAll(selectCheckbox: any): void {
+    if (selectCheckbox.checked) {
+      // if there are no suggestion but the selectAll checkbox was checked
+      if (!this.searchedOptions.length) {
+        this.formControl.patchValue(this.searchElement);
+        this.selectedValue = this.searchElement as unknown as [];
       } else {
-        this.options.forEach(option => (option.checked = false));
+        this.searchedOptions.forEach(option => {
+          if (!this.selectedValue.includes(option[this.value])) {
+            this.selectedValue = this.selectedValue.concat([ option[this.value] ]);
+          }
+        });
       }
-    } else if (!isSelectAll && !val.checked && this.selectAllChecked) {
-      this.selectAllChecked = false;
-    } else if (!isSelectAll && val.checked && !this.selectAllChecked && this.options.filter(option => !option.checked).length === 0) {
-      this.selectAllChecked = true;
+      this.updateOptionsAndSelections();
+
+    } else {
+      this.selectedValue = [];
+      this.updateOptionsAndSelections();
     }
-    this.triggerFilteringTimeout('multiple');
+    this.formControl.patchValue(this.selectedValue);
   };
 
-
-  public someSelected(): boolean {
-    return this.options.filter(option => option.checked).length > 0 && !this.selectAllChecked;
+  changeSearchTextOptionSingleSearch() {
+    this.formControl.patchValue(this.selectedValue);
   }
 
-  public setFilterActive(): void {
-    this.filterActive = this.theSearchElement;
-    this.cleared = this.theSearchElement === '';
+  shouldHideTextSearchOptionFieldSingleSearch() {
+    return this.searchElement === null || this.searchElement === undefined || this.searchElement === '';
   }
 
-  public dateSelectionEvent(event: MatDatepickerInputEvent<Date>) {
-    if (this.runningTimer) {
-      clearTimeout(this.inputTimer);
-      this.runningTimer = false;
+  displayValue(): string[] {
+    let suffix = '';
+    let displayValue;
+    // add +X others label if multiple
+    if (this.selectedValue?.length > 1) {
+      suffix = (' + ' + (this.selectedValue?.length - 1)) + ' ' + this.placeholderMultiple;
     }
-    const value = this.datePipe.transform(event.value, 'yyyy-MM-dd');
-    this.formControl.patchValue(value);
-    if (this.cleared && value === null) {
+
+    // apply CamelCase to semanticDataModel labels
+    if (this.filterColumn === 'semanticDataModel') {
+      displayValue = [ this.formatPartSemanticDataModelToCamelCasePipe.transformModel(this.selectedValue[0]), suffix ];
+    } else {
+      displayValue = [ this.selectedValue[0], suffix ];
+    }
+
+    // if no value selected, return empty string
+    if (!this.selectedValue.length) {
+      displayValue = [ '' ];
+    }
+
+    return displayValue;
+  }
+
+  filterItem(value: any): void {
+
+    if (!this.searchElement.length) {
       return;
     }
-    this.cleared = value === null;
-    this.triggerFilter.emit();
+
+    if (!value) {
+      this.searchedOptions = [];
+      return;
+    }
+
+    if (this.singleSearch) {
+      return;
+    }
+
+    // emit an event that the searchElement changed
+    // if there is a timeout currently, abort the changes.
+    if (this.delayTimeoutId) {
+      this.searchElementChange.emit(value);
+      return;
+    }
+
+    // if there is no timeout currently, start the delay
+    const timeoutCallback = async (): Promise<void> => {
+      this.isLoadingSuggestions = true;
+      try {
+        firstValueFrom(this.strategy.retrieveSuggestionValues(this.tableType, this.filterColumn, this.searchElement)).then((res) => {
+          if (this.filterColumn === 'semanticDataModel') {
+            // @ts-ignore
+            this.searchedOptions = res.filter(option => !this.selectedValue.includes(option))
+              .map(option => ({
+                display: this.formatPartSemanticDataModelToCamelCasePipe.transformModel(option),
+                value: option,
+              }));
+            this.options = this.searchedOptions;
+            // @ts-ignore
+            this.allOptions = res.map(option => ({
+              display: this.formatPartSemanticDataModelToCamelCasePipe.transformModel(option),
+              value: option,
+            }));
+
+          } else {
+            // add filter for not selected
+            // @ts-ignore
+            this.searchedOptions = res.filter(option => !this.selectedValue.includes(option))
+              .map(option => ({ display: option, value: option }));
+            this.options = this.searchedOptions;
+            // @ts-ignore
+            this.allOptions = res.map(option => ({ display: option, value: option }));
+            this.handleAllSelectedCheckbox();
+          }
+
+          this.suggestionError = !this.searchedOptions?.length;
+        }).catch((error) => {
+          console.error('Error fetching data: ', error);
+          this.suggestionError = !this.searchedOptions.length;
+        }).finally(() => {
+          this.delayTimeoutId = null;
+          this.isLoadingSuggestions = false;
+        });
+      } catch (error) {
+        console.error('Error in timeoutCallback: ', error);
+      }
+    };
+
+    // Start the delay with the callback
+    this.delayTimeoutId = setTimeout(() => {
+      Promise.resolve().then(() => timeoutCallback());
+    }, 500);
   }
 
-  public clickClear(extern = false): boolean {
-    let wasSet = false;
-    if (this.searchInput) {
-      this.searchInput.value = '';
+  startDateSelected(event: MatDatepickerInputEvent<Date>) {
+    this.startDate = event.value;
+    this.searchElement = this.datePipe.transform(this.startDate, 'yyyy-MM-dd');
+  }
+
+  endDateSelected(event: MatDatepickerInputEvent<Date>) {
+    this.endDate = event.value;
+    if (!this.endDate) {
+      return;
     }
-    this.theSearchElement = '';
+    this.searchElement += ',' + this.datePipe.transform(this.endDate, 'yyyy-MM-dd');
+  }
+
+  clickClear(): void {
+    this.selectAllChecked = false;
+    this.formControl.patchValue('');
+    this.formControl.reset();
+    this.searchElement = '';
+
+    this.startDate = null;
+    this.endDate = null;
+    this.searchedOptions = [];
+    this.allOptions = [];
+    this.optionsSelected = [];
+    this.options = [];
     this.selectedValue = [];
-    wasSet = this.formControl.value !== null && ((Array.isArray(this.formControl.value) && this.formControl.value.length > 0) || (!Array.isArray(this.formControl.value) && this.formControl.value !== ''));
-    if (this.isDate) {
-      this.formControl.patchValue(null);
-      this.theSearchDate.patchValue(null);
-    } else if (this.multiple) {
-      this.toggleSelect({ checked: false }, true);
-      this.selectAllChecked = false;
-    } else {
-      this.formControl.patchValue('');
-      this.filterActive = '';
-    }
-    clearTimeout(this.inputTimer);
-    this.runningTimer = false;
-    this.searched = false;
-    if (!extern && (!this.cleared || this.multiple)) {
-      this.triggerFilter.emit();
-    }
-    this.cleared = true;
-    return wasSet;
+    this.suggestionError = false;
+    this.updateOptionsAndSelections();
   }
 
-  private setColumnClass(): void {
-    for (const option of this.options) {
-      const optionClass = { 'body-large': true };
-      if (option['display'].includes('status')) {
-        optionClass['notification-display-status'] = true;
-        optionClass[option['displayClass']] = true;
-      } else if (option['display'].includes('severity')) {
-        optionClass['notification-display-severity'] = true;
-        this.isSeverity = true;
-      }
-      this.optionClasses[option['display']] = optionClass;
+  private updateOptionsAndSelections() {
+    if (this.singleSearch) {
+      return;
+    }
+    if (!this.allOptions) {
+      this.allOptions = [];
+    }
+    this.options = this.allOptions.filter(option => !this.selectedValue.includes(option.value));
+    if (!this.selectedValue) {
+      this.options = this.allOptions;
+    }
+
+    if (!this.searchedOptions) {
+      this.searchedOptions = [];
+    }
+    const filter = this.searchedOptions.filter(val => this.selectedValue.includes(val));
+    for (const selected of this.selectedValue) {
+      filter.push({ display: selected, value: selected });
+    }
+    this.optionsSelected = filter;
+    this.handleAllSelectedCheckbox();
+  }
+
+  dateFilter() {
+    this.formControl.patchValue(this.searchElement);
+  }
+
+  onSelectionChange(matSelectChange: MatSelectChange) {
+    this.selectedValue = matSelectChange.value;
+    this.formControl.patchValue(matSelectChange.value);
+    this.updateOptionsAndSelections();
+  }
+
+  private handleAllSelectedCheckbox() {
+    const noSelectedValues = this.selectedValue?.length === 0;
+    const oneOptionSelected = this.optionsSelected?.length === 1 && this.allOptions?.length === 0;
+    this.selectAllChecked = noSelectedValues ? false : oneOptionSelected || this.allOptions?.length + this.optionsSelected?.length === this.selectedValue?.length;
+  }
+
+  filterKeyCommands(event: any) {
+    if (event.key === 'Enter' || (event.ctrlKey && event.key === 'a' || event.key === ' ')) {
+      event.stopPropagation();
     }
   }
 
-  public onBlur(inputfield: string): void {
-    if (this.runningTimer) {
-      let triggeredFilter = '';
-      clearTimeout(this.inputTimer);
-      if (inputfield === 'textFilter') {
-        triggeredFilter = 'text';
-      } else if (inputfield === 'dateFilter') {
-        triggeredFilter = 'date';
-      } else if (inputfield === 'selectionFilter') {
-        triggeredFilter = 'multiple';
-      }
-      if (triggeredFilter !== '') {
-        this.triggerFiltering(triggeredFilter);
-      }
-    }
-
+  containsIllegalCharactersForI18nKey(text: string) {
+    const allowedCharacters = /^\w+$/;
+    return !allowedCharacters.test(text);
   }
+
 }

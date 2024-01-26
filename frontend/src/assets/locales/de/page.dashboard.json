@@ -1,16 +1,23 @@
 {
   "pageDashboard": {
     "totalInvestigations": {
-      "label": "Offene Untersuchungen"
+      "label": "Qualitätsuntersuchungen"
     },
-    "totalOfMyParts": {
-      "label": "Meine Produkte"
+    "totalAlerts": {
+      "label": "Qualitätswarnungen"
+    },
+    "totalOfParts": {
+      "label": "Produkte"
     },
     "totalOfOtherParts": {
       "label": "Andere Produkte"
     },
-    "totalAlerts": {
-      "label": "Offene Warnungen"
-    }
+    "totalAmount": "Gesamtanzahl",
+    "parts": "Produkte",
+    "investigations": "Untersuchungen",
+    "alerts": "Warnungen",
+    "amountReceived": "Anzahl zugewiesen",
+    "amountCreated": "Anzahl erstellt",
+    "million": "Mio."
   }
 }

@@ -30,12 +30,10 @@ describe('AcceptNotificationModalComponent', () => {
     await renderAcceptModal(NotificationStatus.ACKNOWLEDGED);
     const title = await waitFor(() => screen.getByText('commonInvestigation.modal.acceptTitle'));
     const hint2 = await waitFor(() => screen.getByText('commonInvestigation.modal.acceptReasonHint'));
-    const buttonL = await waitFor(() => screen.getByText('actions.cancel'));
     const buttonR = await waitFor(() => screen.getByText('actions.accept'));
 
     expect(title).toBeInTheDocument();
     expect(hint2).toBeInTheDocument();
-    expect(buttonL).toBeInTheDocument();
     expect(buttonR).toBeInTheDocument();
   });
 

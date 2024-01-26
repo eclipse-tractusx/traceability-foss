@@ -35,7 +35,7 @@ export const renderTree = async () => {
   return renderComponent(
     '<app-part-relation style="width: 1000px; height: 1000px; position: absolute"></app-part-relation>',
     {
-      declarations: [PartRelationComponent],
+      declarations: [ PartRelationComponent ],
       providers: [
         {
           provide: ActivatedRoute,
@@ -44,7 +44,7 @@ export const renderTree = async () => {
           },
         },
       ],
-      imports: [RelationsModule, PartsModule],
+      imports: [ RelationsModule, PartsModule ],
     },
   );
 };

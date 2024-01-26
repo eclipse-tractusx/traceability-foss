@@ -57,7 +57,6 @@ public class IntegrationTestSpecification {
     @Autowired
     DatabaseSupport databaseSupport;
 
-
     @BeforeEach
     void beforeEach() throws JoseException {
         oAuth2ApiSupport.oauth2ApiReturnsJwkCerts(oAuth2Support.jwk());

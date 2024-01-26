@@ -43,12 +43,12 @@ describe('modalComponent', () => {
   // by default we use component as a string, but when need to use spyOn we pass componend class
   const renderModalComponent = (component = `<app-confirm></app-confirm>` as any) => {
     return renderComponent(component, {
-      declarations: [ModalComponent],
+      declarations: [ ModalComponent ],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: confirmModalData },
         { provide: MatDialogRef, useValue: { close: jasmine.createSpy() } },
       ],
-      imports: [SharedModule],
+      imports: [ SharedModule ],
     });
   };
 
@@ -97,7 +97,7 @@ describe('modalComponent', () => {
   });
 
   it('should click confirm button and close - with valid formGroup', async () => {
-    const spyOnFormGroup = jasmine.createSpyObj('FormGroup', ['markAllAsTouched', 'updateValueAndValidity'], {
+    const spyOnFormGroup = jasmine.createSpyObj('FormGroup', [ 'markAllAsTouched', 'updateValueAndValidity' ], {
       valid: true,
     });
     confirmModalData.formGroup = spyOnFormGroup as any;
@@ -120,7 +120,7 @@ describe('modalComponent', () => {
   });
 
   it('should click confirm button but not close', async () => {
-    const spyOnFormGroup = jasmine.createSpyObj('FormGroup', ['markAllAsTouched', 'updateValueAndValidity'], {
+    const spyOnFormGroup = jasmine.createSpyObj('FormGroup', [ 'markAllAsTouched', 'updateValueAndValidity' ], {
       valid: false,
     });
     confirmModalData.formGroup = spyOnFormGroup as any;

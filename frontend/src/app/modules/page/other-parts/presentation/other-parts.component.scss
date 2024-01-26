@@ -19,43 +19,39 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-.split-container {
-  height: 518px;
-  column-gap: 5px;
+.other-parts-container {
+  /*  @apply flex flex-col;*/
+  /*  height: 72vh;*/
 }
 
-.split-container-wrapper {
-  overflow-y: hidden !important;
+
+.split-container {
+  /*  height: auto;*/
+}
+
+.split-container > as-split-area {
+  /*  overflow: hidden;*/
+}
+
+
+.supplier-parts-as-built-table-wrapper {
+
+}
+
+.supplier-parts-as-planned-table-wrapper {
+
+}
+
+.customer-parts-as-built-table-wrapper {
+
+}
+
+.customer-parts-as-planned-table-wrapper {
+
 }
 
 .other-parts-mat-tab-group {
-  width: 100%;
-  overflow-y: hidden !important;
+  /*  margin: 16px;*/
 }
 
-.app-bom-lifecycle-activator-container {
-  grid-column: 1 / span 2;
-  /* This will make it span both columns */
-  width: 100%;
-  border-bottom: 1px solid;
-  @apply border-inactiveShape;
-}
 
-.parts-table-wrapper {
-  @extend .parts-tab-wrapper;
-}
-
-.parts-compact-table-wrapper {
-  height: 80% !important;
-  overflow-y: auto !important;
-}
-
-.parts-tab-wrapper {
-  height: 100% !important;
-  overflow-y: auto !important;
-}
-
-.split-area {
-  overflow-y: hidden !important;
-  height: 405px;
-}

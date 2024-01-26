@@ -17,22 +17,22 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { DatePipe } from '@angular/common';
+
 import { Component, Input, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { Router } from '@angular/router';
-import { OTHER_PARTS_BASE_ROUTE, getRoute } from '@core/known-route';
 import { Pagination } from '@core/model/pagination.model';
 import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import { AssetAsBuiltFilter, AssetAsPlannedFilter, Part } from '@page/parts/model/parts.model';
+import { Part } from '@page/parts/model/parts.model';
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
-import { PartTableType, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
-import { TableSortingUtil } from '@shared/components/table/tableSortingUtil';
+import { TableSortingUtil } from '@shared/components/table/table-sorting.util';
+import { TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
 import { toAssetFilter, toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { Observable } from 'rxjs';
+
 
 @Component({
   selector: 'app-customer-parts',
@@ -49,42 +49,22 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
   public tableCustomerAsBuiltSortList: TableHeaderSort[];
   public tableCustomerAsPlannedSortList: TableHeaderSort[];
 
-  public assetAsBuiltFilter: AssetAsBuiltFilter;
-  public assetAsPlannedFilter: AssetAsPlannedFilter;
-  public readonly searchListAsBuilt: string[];
-  public readonly searchListAsPlanned: string[];
-
-  public DEFAULT_PAGE_SIZE = 50;
-  public ctrlKeyState = false;
-  public globalSearchActive = false;
+  private ctrlKeyState = false;
 
   @Input()
   public bomLifecycle: MainAspectType;
 
   constructor(
-    public readonly otherPartsFacade: OtherPartsFacade,
+    private readonly otherPartsFacade: OtherPartsFacade,
     private readonly partDetailsFacade: PartDetailsFacade,
     private readonly staticIdService: StaticIdService,
-    private readonly router: Router,
-    public datePipe: DatePipe,
   ) {
-    this.searchListAsBuilt = [
-      'semanticDataModel',
-      'nameAtManufacturer',
-      'manufacturerName',
-      'manufacturerPartId',
-      'semanticModelId',
-      'manufacturingDate'];
-    this.searchListAsPlanned = [
-      'semanticDataModel',
-      'nameAtManufacturer',
-      'manufacturerName',
-      'manufacturerPartId',
-      'semanticModelId'];
-    window.addEventListener('keydown', event => {
+
+
+    window.addEventListener('keydown', (event) => {
       this.ctrlKeyState = event.ctrlKey;
     });
-    window.addEventListener('keyup', event => {
+    window.addEventListener('keyup', (event) => {
       this.ctrlKeyState = event.ctrlKey;
     });
   }
@@ -93,58 +73,29 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
     if (this.bomLifecycle === MainAspectType.AS_BUILT) {
       this.customerPartsAsBuilt$ = this.otherPartsFacade.customerPartsAsBuilt$;
       this.tableCustomerAsBuiltSortList = [];
-      this.assetAsBuiltFilter = {};
-      this.otherPartsFacade.setCustomerPartsAsBuilt(0, this.DEFAULT_PAGE_SIZE);
+      this.otherPartsFacade.setCustomerPartsAsBuilt();
     } else if (this.bomLifecycle === MainAspectType.AS_PLANNED) {
       this.customerPartsAsPlanned$ = this.otherPartsFacade.customerPartsAsPlanned$;
       this.tableCustomerAsPlannedSortList = [];
-      this.assetAsPlannedFilter = {};
-      this.otherPartsFacade.setCustomerPartsAsPlanned(0, this.DEFAULT_PAGE_SIZE);
+      this.otherPartsFacade.setCustomerPartsAsPlanned();
     }
   }
 
   updateCustomerParts(searchValue?: string): void {
-    if (searchValue && searchValue !== '') {
-      this.globalSearchActive = true;
-      this.assetAsBuiltFilter = toGlobalSearchAssetFilter(searchValue, true, this.searchListAsBuilt, this.datePipe);
-      this.assetAsPlannedFilter = toGlobalSearchAssetFilter(searchValue, false, this.searchListAsPlanned, this.datePipe);
-      if (this.bomLifecycle === MainAspectType.AS_BUILT) {
-        this.otherPartsFacade.setCustomerPartsAsBuilt(0, this.DEFAULT_PAGE_SIZE, [], this.assetAsBuiltFilter, this.globalSearchActive);
-      } else {
-        this.otherPartsFacade.setCustomerPartsAsPlanned(0, this.DEFAULT_PAGE_SIZE, [], this.assetAsPlannedFilter, this.globalSearchActive);
-      }
+    if (searchValue) {
+      this.otherPartsFacade.setCustomerPartsAsBuilt(0, 50, [], toGlobalSearchAssetFilter(searchValue, true), true);
+      this.otherPartsFacade.setCustomerPartsAsPlanned(0, 50, [], toGlobalSearchAssetFilter(searchValue, false), true);
     } else {
-      this.globalSearchActive = false;
-      this.assetAsBuiltFilter = {};
-      this.assetAsPlannedFilter = {};
-      if (this.bomLifecycle === MainAspectType.AS_BUILT) {
-        this.otherPartsFacade.setCustomerPartsAsBuilt(0, this.DEFAULT_PAGE_SIZE);
-      } else {
-        this.otherPartsFacade.setCustomerPartsAsPlanned(0, this.DEFAULT_PAGE_SIZE);
-      }
+      this.otherPartsFacade.setCustomerPartsAsBuilt();
+      this.otherPartsFacade.setCustomerPartsAsPlanned();
     }
   }
 
   filterActivated(isAsBuilt: boolean, assetFilter: any): void {
-    this.globalSearchActive = false;
     if (isAsBuilt) {
-      this.assetAsBuiltFilter = assetFilter;
-      this.otherPartsFacade.setCustomerPartsAsBuilt(
-        0,
-        this.DEFAULT_PAGE_SIZE,
-        this.tableCustomerAsBuiltSortList,
-        toAssetFilter(this.assetAsBuiltFilter, true),
-        this.globalSearchActive,
-      );
+      this.otherPartsFacade.setCustomerPartsAsBuilt(0, 50, [], toAssetFilter(assetFilter, true));
     } else {
-      this.assetAsPlannedFilter = assetFilter;
-      this.otherPartsFacade.setCustomerPartsAsPlanned(
-        0,
-        this.DEFAULT_PAGE_SIZE,
-        this.tableCustomerAsPlannedSortList,
-        toAssetFilter(this.assetAsPlannedFilter, false),
-        this.globalSearchActive,
-      );
+      this.otherPartsFacade.setCustomerPartsAsPlanned(0, 50, [], toAssetFilter(assetFilter, false));
     }
   }
 
@@ -152,46 +103,25 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
     this.otherPartsFacade.unsubscribeParts();
   }
 
+  public onSelectItem(event: Record<string, unknown>): void {
+    this.partDetailsFacade.selectedPart = event as unknown as Part;
+  }
+
   public onAsBuiltTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
-    let pageSizeValue = this.DEFAULT_PAGE_SIZE;
-    if (pageSize !== 0) {
-      pageSizeValue = pageSize;
-    }
     this.setTableSortingList(sorting, MainAspectType.AS_BUILT);
-    this.otherPartsFacade.setCustomerPartsAsBuilt(page, pageSizeValue, this.tableCustomerAsBuiltSortList, toAssetFilter(this.assetAsBuiltFilter, true), this.globalSearchActive);
+    this.otherPartsFacade.setCustomerPartsAsBuilt(page, pageSize, this.tableCustomerAsBuiltSortList);
   }
 
   public onAsPlannedTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
-    let pageSizeValue = this.DEFAULT_PAGE_SIZE;
-    if (pageSize !== 0) {
-      pageSizeValue = pageSize;
-    }
     this.setTableSortingList(sorting, MainAspectType.AS_PLANNED);
-    this.otherPartsFacade.setCustomerPartsAsPlanned(page, pageSizeValue, this.tableCustomerAsPlannedSortList, toAssetFilter(this.assetAsPlannedFilter, false), this.globalSearchActive);
-  }
-
-  public onDefaultPaginationSizeChange(pageSize: number) {
-    this.DEFAULT_PAGE_SIZE = pageSize;
-  }
-
-  public openDetailPage(part: Part): void {
-    const { link } = getRoute(OTHER_PARTS_BASE_ROUTE);
-    this.router.navigate([`/${link}/${part.id}`], { queryParams: { type: part.mainAspectType } })?.then(_ => window.location.reload());
-  }
-
-  public onSelectItem($event: Record<string, unknown>): void {
-    const selectedPart = $event as unknown as Part;
-    this.partDetailsFacade.mainAspectType = selectedPart.mainAspectType;
-    this.partDetailsFacade.selectedPart = selectedPart;
-    this.openDetailPage(selectedPart);
+    this.otherPartsFacade.setCustomerPartsAsPlanned(page, pageSize, this.tableCustomerAsPlannedSortList);
   }
 
   private setTableSortingList(sorting: TableHeaderSort, partTable: MainAspectType): void {
-    const tableSortList =
-      partTable === MainAspectType.AS_BUILT ? this.tableCustomerAsBuiltSortList : this.tableCustomerAsPlannedSortList;
+    const tableSortList = partTable === MainAspectType.AS_BUILT ? this.tableCustomerAsBuiltSortList : this.tableCustomerAsPlannedSortList;
     TableSortingUtil.setTableSortingList(sorting, tableSortList, this.ctrlKeyState);
   }
 
   protected readonly MainAspectType = MainAspectType;
-  protected readonly PartTableType = PartTableType;
+  protected readonly TableType = TableType;
 }

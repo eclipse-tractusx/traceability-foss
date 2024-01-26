@@ -44,5 +44,6 @@ jobs:
       run: npm install yarn -g
     - name: Install packages
       run: yarn install
-    - name: Run yarn lint
-      run: yarn lint:check
+      # TODO HGO@2024-01-09_09:41 The feature is currently missing in main, therefore disabled for the time being.
+#    - name: Run yarn lint
+#      run: yarn lint:check

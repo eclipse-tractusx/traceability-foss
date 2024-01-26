@@ -19,7 +19,9 @@
 
 package org.eclipse.tractusx.traceability.assets.application.asplanned.rest;
 
+import assets.importpoc.ErrorResponse;
 import assets.response.asplanned.AssetAsPlannedResponse;
+import assets.response.base.request.UpdateAssetRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -30,16 +32,17 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.QueryParam;
-import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper.QualityTypeMapper;
+import org.eclipse.tractusx.traceability.assets.application.asplanned.mapper.AssetAsPlannedFieldMapper;
 import org.eclipse.tractusx.traceability.assets.application.asplanned.mapper.AssetAsPlannedResponseMapper;
 import org.eclipse.tractusx.traceability.assets.application.base.request.GetDetailInformationRequest;
 import org.eclipse.tractusx.traceability.assets.application.base.request.SyncAssetsRequest;
-import org.eclipse.tractusx.traceability.assets.application.base.request.UpdateAssetRequest;
 import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBaseService;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
+import org.eclipse.tractusx.traceability.common.model.BaseRequestFieldMapper;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
-import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,15 +59,16 @@ import java.util.List;
 @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
 @Tag(name = "AssetsAsPlanned")
 @RequestMapping(path = "/assets/as-planned", produces = "application/json", consumes = "application/json")
-@Slf4j
 public class AssetAsPlannedController {
 
-    private static final String API_LOG_START = "Received API call on /assets/as-planned";
-
     private final AssetBaseService assetService;
+    private final BaseRequestFieldMapper fieldMapper;
 
-    public AssetAsPlannedController(@Qualifier("assetAsPlannedServiceImpl") AssetBaseService assetService) {
+    public AssetAsPlannedController(
+            @Qualifier("assetAsPlannedServiceImpl") AssetBaseService assetService,
+            AssetAsPlannedFieldMapper fieldMapper) {
         this.assetService = assetService;
+        this.fieldMapper = fieldMapper;
     }
 
     @Operation(operationId = "sync",
@@ -183,7 +187,7 @@ public class AssetAsPlannedController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("")
     public PageResult<AssetAsPlannedResponse> assets(OwnPageable pageable, SearchCriteriaRequestParam filter) {
-        return AssetAsPlannedResponseMapper.from(assetService.getAssets(OwnPageable.toPageable(pageable), filter.toSearchCriteria()));
+        return AssetAsPlannedResponseMapper.from(assetService.getAssets(OwnPageable.toPageable(pageable, fieldMapper), filter.toSearchCriteria(fieldMapper)));
     }
 
     @Operation(operationId = "distinctFilterValues",
@@ -246,8 +250,8 @@ public class AssetAsPlannedController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("distinctFilterValues")
-    public List<String> distinctFilterValues(@QueryParam("fieldName") String fieldName, @QueryParam("size") Long size) {
-        return assetService.getDistinctFilterValues(fieldName, size);
+    public List<String> distinctFilterValues(@QueryParam("fieldName") String fieldName, @QueryParam("size") Integer size, @QueryParam("startWith") String startWith, @QueryParam("owner") Owner owner) {
+        return assetService.getDistinctFilterValues(fieldMapper.mapRequestFieldName(fieldName), startWith, size, owner);
     }
 
     @Operation(operationId = "assetById",
@@ -306,7 +310,7 @@ public class AssetAsPlannedController {
     }
 
 
-    @Operation(operationId = "assetByChildId",
+    @Operation(operationId = "assetByChildIdAndAssetId",
             summary = "Get asset by child id",
             tags = {"AssetsAsPlanned"},
             description = "The endpoint returns an asset filtered by child id.",
@@ -357,8 +361,9 @@ public class AssetAsPlannedController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/{assetId}/children/{childId}")
-    public AssetAsPlannedResponse asset(@PathVariable String assetId, @PathVariable String childId) {
-        return AssetAsPlannedResponseMapper.from(assetService.getAssetByChildId(assetId, childId));
+    @SuppressWarnings("unused")
+    public AssetAsPlannedResponse asset(@PathVariable("assetId") String assetId, @PathVariable("childId") String childId) {
+        return AssetAsPlannedResponseMapper.from(assetService.getAssetByChildId(childId));
     }
 
     @Operation(operationId = "updateAsset",
@@ -414,14 +419,13 @@ public class AssetAsPlannedController {
     @PatchMapping("/{assetId}")
     public AssetAsPlannedResponse updateAsset(@PathVariable String assetId, @Valid @RequestBody UpdateAssetRequest updateAssetRequest) {
         return AssetAsPlannedResponseMapper.from(
-                assetService.updateQualityType(assetId, updateAssetRequest.qualityType().toDomain())
-        );
+                assetService.updateQualityType(assetId, QualityTypeMapper.toDomain(updateAssetRequest.qualityType())));
     }
 
     @Operation(operationId = "getDetailInformation",
             summary = "Searches for assets by ids.",
             tags = {"AssetsAsPlanned"},
-            description = "The endpoint searches for assets by id and returns a list of them.",
+            description = "The endpoint searchs for assets by id and returns a list of them.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found for Asset", content = @Content(
             mediaType = "application/json",
@@ -479,7 +483,6 @@ public class AssetAsPlannedController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("/detail-information")
     public List<AssetAsPlannedResponse> getDetailInformation(@Valid @RequestBody GetDetailInformationRequest getDetailInformationRequest) {
-        log.info(API_LOG_START + "{} with params: {}", "/detail-information", getDetailInformationRequest);
         return AssetAsPlannedResponseMapper.from(
                 assetService.getAssetsById(getDetailInformationRequest.assetIds())
         );

@@ -24,6 +24,9 @@ import lombok.val;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.common.request.OwnPageable;
+import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
+import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.common.security.JwtRole;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
@@ -52,11 +55,11 @@ import qualitynotification.base.request.UpdateQualityNotificationRequest;
 import qualitynotification.base.request.UpdateQualityNotificationStatusRequest;
 
 import java.time.Instant;
+import java.util.Collections;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.SUPERVISOR;
 
 class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
@@ -145,18 +148,16 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         partIds.forEach(partId -> {
             AssetBase asset = assetAsBuiltRepository.getAssetById(partId);
             assertThat(asset).isNotNull();
-            assertThat(asset.isUnderInvestigation()).isTrue();
         });
 
         investigationNotificationsSupport.assertNotificationsSize(2);
 
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of("channel,EQUAL,SENDER,AND"))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -182,7 +183,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(request))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/investigations")
                 .then()
@@ -210,7 +211,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(request))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/investigations")
                 .then()
@@ -281,12 +282,11 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .extract().path("id");
 
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of("channel,EQUAL,SENDER,AND"))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -302,12 +302,11 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .statusCode(204);
 
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of("channel,EQUAL,SENDER,AND"))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -355,12 +354,11 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
 
         // then
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of("channel,EQUAL,SENDER,AND"))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -376,6 +374,8 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978" // BPN: BPNL00000003AYRE
         );
         String description = "at least 15 characters long investigation description";
+        String filterString = "channel,EQUAL,SENDER,AND";
+        oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
 
         assetsSupport.defaultAssetsStored();
         val startInvestigationRequest = StartQualityNotificationRequest.builder()
@@ -409,12 +409,11 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .statusCode(204);
         // then
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of("channel,EQUAL,SENDER,AND"))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -436,12 +435,11 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
 
         // then
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of("channel,EQUAL,SENDER,AND"))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -508,17 +506,15 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         partIds.forEach(partId -> {
             AssetBase asset = assetAsBuiltRepository.getAssetById(partId);
             assertThat(asset).isNotNull();
-            assertThat(asset.isUnderInvestigation()).isTrue();
         });
 
         investigationNotificationsSupport.assertNotificationsSize(2);
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of("channel,EQUAL,SENDER,AND"))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))

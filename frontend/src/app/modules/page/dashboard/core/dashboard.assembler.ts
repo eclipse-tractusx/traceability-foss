@@ -24,10 +24,30 @@ import { DashboardStats, DashboardStatsResponse } from '../model/dashboard.model
 export class DashboardAssembler {
   public static assembleDashboard(dashboard: DashboardStatsResponse): DashboardStats {
     return {
-      otherParts: dashboard.otherParts,
-      myParts: dashboard.myParts,
-      investigationsReceived: dashboard.investigationsReceived,
-      alertsReceived: dashboard.alertsReceived,
+      // notification counts (where open means notfication status not closed)
+      myPartsWithOpenAlerts: dashboard.myPartsWithOpenAlerts,
+      myPartsWithOpenInvestigations: dashboard.myPartsWithOpenInvestigations,
+
+      // part counts
+      asBuiltCustomerParts: dashboard.asBuiltCustomerParts,
+      asPlannedCustomerParts: dashboard.asPlannedCustomerParts,
+      asBuiltSupplierParts: dashboard.asBuiltSupplierParts,
+      asPlannedSupplierParts: dashboard.asPlannedSupplierParts,
+      asBuiltOwnParts: dashboard.asBuiltOwnParts,
+      asPlannedOwnParts: dashboard.asPlannedOwnParts,
+
+      // calculated
+      totalOwnParts: dashboard.asBuiltOwnParts + dashboard.asPlannedOwnParts,
+      totalOtherParts: dashboard.asBuiltSupplierParts + dashboard.asBuiltCustomerParts + dashboard.asPlannedSupplierParts + dashboard.asPlannedSupplierParts,
+      ownOpenInvestigationsReceived: dashboard.myPartsWithOpenInvestigations,
+      ownOpenInvestigationsCreated: dashboard.supplierPartsWithOpenInvestigations + dashboard.customerPartsWithOpenInvestigations,
+      ownOpenAlertsReceived: dashboard.supplierPartsWithOpenAlerts + dashboard.customerPartsWithOpenAlerts,
+      ownOpenAlertsCreated: dashboard.myPartsWithOpenAlerts,
+      receivedActiveAlerts: dashboard.receivedActiveAlerts,
+      sentActiveAlerts: dashboard.sentActiveAlerts,
+      receivedActiveInvestigations: dashboard.receivedActiveInvestigations,
+      sentActiveInvestigations: dashboard.sentActiveInvestigations,
+
     };
   }
 }

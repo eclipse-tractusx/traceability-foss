@@ -20,7 +20,7 @@ import { APP_INITIALIZER } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TableSettingsService } from '@core/user/table-settings.service';
-import { PartTableType } from '@shared/components/table/table.model';
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { SharedModule } from '@shared/shared.module';
 import { I18NEXT_SERVICE, I18NextModule, ITranslationService } from 'angular-i18next';
 import { TableSettingsComponent } from './table-settings.component';
@@ -39,11 +39,11 @@ describe('TableSettingsComponent', () => {
     ]);
     tableSettingsServiceSpy.getStoredTableSettings.and.callFake(() => {
       return {
-        [PartTableType.AS_BUILT_OWN]: {
+        [TableType.AS_BUILT_OWN]: {
           columnSettingsOptions: new Map<string, boolean>(),
-          columnsForDialog: ['column1', 'column2'],
-          columnsForTable: ['column1'],
-          filterColumnsForTable: ['filterColumn1'],
+          columnsForDialog: [ 'column1', 'column2' ],
+          columnsForTable: [ 'column1' ],
+          filterColumnsForTable: [ 'filtercolumn1' ],
         },
       };
     });
@@ -53,7 +53,7 @@ describe('TableSettingsComponent', () => {
     });
 
     TestBed.configureTestingModule({
-      declarations: [TableSettingsComponent],
+      declarations: [ TableSettingsComponent ],
       imports: [
         SharedModule,
         I18NextModule.forRoot(),
@@ -62,7 +62,8 @@ describe('TableSettingsComponent', () => {
         {
           provide: MatDialogRef,
           useValue: {
-            close: () => { },
+            close: () => {
+            },
           },
         },
         {
@@ -70,9 +71,9 @@ describe('TableSettingsComponent', () => {
           useValue: {
             title: 'Test Title',
             panelClass: 'test-dialog',
-            tableType: PartTableType.AS_BUILT_OWN,
-            defaultColumns: ['column1', 'column2'],
-            defaultFilterColumns: ['filterColumn1', 'filterColumn2'],
+            tableType: TableType.AS_BUILT_OWN,
+            defaultColumns: [ 'column1', 'column2' ],
+            defaultFilterColumns: [ 'filtercolumn1', 'filtercolumn2' ],
           },
         },
         {
@@ -85,11 +86,11 @@ describe('TableSettingsComponent', () => {
             return () =>
               i18next.init({
                 lng: 'en',
-                supportedLngs: ['en', 'de'],
+                supportedLngs: [ 'en', 'de' ],
                 resources: {},
               });
           },
-          deps: [I18NEXT_SERVICE],
+          deps: [ I18NEXT_SERVICE ],
           multi: true,
         },
       ],
@@ -109,9 +110,9 @@ describe('TableSettingsComponent', () => {
     // Assert that component properties are correctly initialized based on MAT_DIALOG_DATA
     expect(component.title).toEqual('Test Title');
     expect(component.panelClass).toEqual('test-dialog');
-    expect(component.tableType).toEqual(PartTableType.AS_BUILT_OWN);
-    expect(component.defaultColumns).toEqual(['column1', 'column2']);
-    expect(component.defaultFilterColumns).toEqual(['filterColumn1', 'filterColumn2']);
+    expect(component.tableType).toEqual(TableType.AS_BUILT_OWN);
+    expect(component.defaultColumns).toEqual([ 'column1', 'column2' ]);
+    expect(component.defaultFilterColumns).toEqual([ 'filtercolumn1', 'filtercolumn2' ]);
     expect(component.isCustomerTable).toEqual(false);
   });
 
@@ -123,28 +124,37 @@ describe('TableSettingsComponent', () => {
     component.save();
 
     // Check that setColumnVisibilitySettings was called with the updated settings
-    expect(tableSettingsService.storeTableSettings).toHaveBeenCalledWith(PartTableType.AS_BUILT_OWN, {
-      [PartTableType.AS_BUILT_OWN]: {
+    expect(tableSettingsService.storeTableSettings).toHaveBeenCalledWith({
+      [TableType.AS_BUILT_OWN]: {
         columnSettingsOptions: columnOptions,
-        columnsForDialog: ['column1', 'column2'],
-        columnsForTable: ['column1'],
-        filterColumnsForTable: ['filterColumn1'],
+        columnsForDialog: [ 'column1', 'column2' ],
+        columnsForTable: [ 'column1' ],
+        filterColumnsForTable: [ 'filtercolumn1' ],
       },
     });
   });
 
+  it('should handle sort list item correctly', () => {
+    component.dialogColumns = [ 'column1', 'column2', 'column3' ];
+    component.selectedColumn = 'column3';
+
+    component.handleSortListItem('up');
+
+    expect(component.dialogColumns).toEqual([ 'column1', 'column3', 'column2' ]);
+  });
+
   it('should reset columns', () => {
-    component.dialogColumns = ['column1', 'column2', 'column3'];
+    component.dialogColumns = [ 'column1', 'column2', 'column3' ];
 
     component.resetColumns();
 
-    expect(component.dialogColumns).toEqual(['column1', 'column2']);
+    expect(component.dialogColumns).toEqual([ 'column1', 'column2' ]);
     expect(component.selectAllSelected).toBe(true);
   });
 
   it('should close the dialog', () => {
     spyOn(component.dialogRef, 'close');
-    component.dialogRef.close()
+    component.dialogRef.close();
     expect(component.dialogRef.close).toHaveBeenCalled();
   });
 });

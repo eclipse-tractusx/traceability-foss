@@ -28,7 +28,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
+import assets.importpoc.ErrorResponse;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractResponse;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.EdcNotificationContractService;
@@ -48,18 +48,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(path = "/edc/notification", produces = "application/json", consumes = "application/json")
 public class EdcNotificationContractController {
 
-	private final EdcNotificationContractService edcNotificationContractService;
+    private final EdcNotificationContractService edcNotificationContractService;
 
-	public EdcNotificationContractController(EdcNotificationContractService edcNotificationContractService) {
-		this.edcNotificationContractService = edcNotificationContractService;
-	}
+    public EdcNotificationContractController(EdcNotificationContractService edcNotificationContractService) {
+        this.edcNotificationContractService = edcNotificationContractService;
+    }
 
-	@Operation(operationId = "createNotificationContract",
-		summary = "Triggers EDC notification contract",
-		tags = {"Notifications"},
-		description = "The endpoint Triggers EDC notification contract based on notification type and method",
-		security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-	@ApiResponses(value = {@ApiResponse(responseCode = "201", description = "Created."),
+    @Operation(operationId = "createNotificationContract",
+            summary = "Triggers EDC notification contract",
+            tags = {"Notifications"},
+            description = "The endpoint Triggers EDC notification contract based on notification type and method",
+            security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "201", description = "Created."),
             @ApiResponse(
                     responseCode = "400",
                     description = "Bad request.",
@@ -103,9 +103,9 @@ public class EdcNotificationContractController {
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
-	@PostMapping("/contract")
-	@ResponseStatus(HttpStatus.CREATED)
-	public CreateNotificationContractResponse createNotificationContract(@Valid @RequestBody CreateNotificationContractRequest request) {
-		return edcNotificationContractService.handle(request);
-	}
+    @PostMapping("/contract")
+    @ResponseStatus(HttpStatus.CREATED)
+    public CreateNotificationContractResponse createNotificationContract(@Valid @RequestBody CreateNotificationContractRequest request) {
+        return edcNotificationContractService.handle(request);
+    }
 }

@@ -20,9 +20,7 @@ SPDX-License-Identifier: Apache-2.0
 -->
 
 <p class="regular-text severity__container">
-  <img class="pr-1.5"
-    [src]="getIconBySeverity(severity)"
-    [alt]="severity" />
-  <span [class]="alternativeTextStyle ? 'alternative-text' : 'text'">{{ 'severity.' + severity
-    | i18n }}</span>
+  <mat-icon class="mr-2 severity__{{ severity }}">{{ getIconBySeverity(severity) }}</mat-icon
+  >
+  {{ 'severity.' + severity | i18n }}
 </p>

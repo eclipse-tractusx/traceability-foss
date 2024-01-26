@@ -34,6 +34,7 @@ export class OtherPartsState {
 
   private readonly _supplierPartsAsBuilt$: State<View<Pagination<Part>>> = new State<View<Pagination<Part>>>({ loader: true });
   private readonly _supplierPartsAsPlanned$: State<View<Pagination<Part>>> = new State<View<Pagination<Part>>>({ loader: true });
+
   public get customerPartsAsBuilt$(): Observable<View<Pagination<Part>>> {
     return this._customerPartsAsBuilt$.observable;
   }

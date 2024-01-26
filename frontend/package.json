@@ -1,13 +1,12 @@
 {
   "name": "trace-x",
-  "version": "8.0.0",
+  "version": "10.2.1",
   "scripts": {
     "analyze": "ng build --configuration=production --stats-json && webpack-bundle-analyzer dist/stats.json",
-    "build:prod": "ng build --output-hashing=all --configuration=debugProd --base-href /{baseHrefPlaceholder}/ --deploy-url /{baseHrefPlaceholder}/",
+    "build:prod": "ng build --output-hashing=all --configuration=debugProd --base-href /{baseHrefPlaceholder}/ --deploy-url /{baseHrefPlaceholder}/ ",
     "build:prodDebug": "ng build --output-hashing=all --configuration=debugProd --base-href /{baseHrefPlaceholder}/ --deploy-url /{baseHrefPlaceholder}/",
     "format": "prettier --write \"src/**/*.{js,ts,json,md,css,scss,html}\"",
     "lint": "eslint --color --fix -c .eslintrc.js --ext .ts ./src/app",
-    "lint:check": "eslint --color -c .eslintrc.js --ext .ts ./src/app",
     "ng": "ng",
     "ng-cdk": "ng update --force @angular/cdk",
     "ng-cli": "ng update --force @angular/cli",
@@ -37,7 +36,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular-material-components/datetime-picker": "^16.0.1",
+    "@angular-material-components/datetime-picker": "9.0.0",
     "@angular/animations": "15.2.8",
     "@angular/cdk": "15.2.8",
     "@angular/common": "15.2.8",
@@ -60,7 +59,7 @@
     "keycloak-angular": "13.0.0",
     "keycloak-js": "21.0.2",
     "lodash-es": "4.17.21",
-    "postcss": "8.4.23",
+    "postcss": "8.4.31",
     "rxjs": "7.8.0",
     "tailwindcss": "3.3.1",
     "tslib": "2.5.0",

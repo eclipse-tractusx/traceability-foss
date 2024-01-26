@@ -40,7 +40,7 @@ import { delay, switchMap, takeWhile, tap } from 'rxjs/operators';
 @Component({
   selector: 'app-part-relation',
   templateUrl: './part-relation.component.html',
-  styleUrls: ['./part-relation.component.scss'],
+  styleUrls: [ './part-relation.component.scss' ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     'class.app-part-relation-host': 'isStandalone',

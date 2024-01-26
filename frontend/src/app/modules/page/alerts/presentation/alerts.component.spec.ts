@@ -18,195 +18,165 @@
  ********************************************************************************/
 
 import { AlertsModule } from '@page/alerts/alerts.module';
-import { AlertsService } from '@shared/service/alerts.service';
-import { fireEvent, screen } from '@testing-library/angular';
+import { NotificationTabInformation } from '@shared/model/notification-tab-information';
+import { NotificationService } from '@shared/service/notification.service';
+import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
+
 import { AlertsComponent } from './alerts.component';
-import { FilterInfo, FilterMethod, TableEventConfig, TableFilter } from '@shared/components/table/table.model';
-import { FilterOperator } from '@page/parts/model/parts.model';
-import { MatDialog } from '@angular/material/dialog';
-import { TestBed } from '@angular/core/testing';
-import { RequestContext } from '@shared/components/request-notification/request-notification.base';
-import { RequestStepperComponent } from '@shared/components/request-notification/request-stepper/request-stepper.component';
+
 
 describe('AlertsComponent', () => {
   const renderAlerts = async () => {
     return await renderComponent(AlertsComponent, {
-      imports: [AlertsModule],
-      providers: [AlertsService],
-      translations: ['page.alert'],
+      imports: [ AlertsModule ],
+      providers: [ NotificationService ],
+      translations: [ 'page.alert' ],
     });
   };
 
-  // it('should call detail page with correct ID', async () => {
-  //   const { fixture } = await renderAlerts();
-  //   fireEvent.click((await waitFor(() => screen.getAllByTestId('table-menu-button')))[0]);
+  it('should call detail page with correct ID', async () => {
+    const { fixture } = await renderAlerts();
+    fireEvent.click((await waitFor(() => screen.getAllByTestId('table-menu-button')))[0]);
 
-  //   const spy = spyOn((fixture.componentInstance as any).router, 'navigate');
-  //   spy.and.returnValue(new Promise(null));
+    const spy = spyOn((fixture.componentInstance as any).router, 'navigate');
+    spy.and.returnValue(new Promise(null));
 
-  //   fireEvent.click(await waitFor(() => screen.getByTestId('table-menu-button--actions.viewDetails')));
-  //   const tabInformation: NotificationTabInformation = { tabIndex: null, pageNumber: undefined }
-  //   expect(spy).toHaveBeenCalledWith(['/alerts/id-84'], { queryParams: tabInformation });
-  // });
-
-  it('should render the component', async () => {
-    await renderAlerts();
-    const alertsHeader = screen.getByText('pageTitle.alerts');
-    expect(alertsHeader).toBeInTheDocument();
+    fireEvent.click(await waitFor(() => screen.getByTestId('table-menu-button--actions.viewDetails')));
+    const tabInformation: NotificationTabInformation = { tabIndex: null, pageNumber: undefined };
+    expect(spy).toHaveBeenCalledWith([ '/alerts/id-84' ], { queryParams: tabInformation });
   });
+
+  it('should call change pagination of received alerts', async () => {
+    await renderAlerts();
+    fireEvent.click(await waitFor(() => screen.getByLabelText('pagination.nextPageLabel', { selector: 'button' })));
+
+    expect(await waitFor(() => screen.getByText('Alert No 20'))).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByText('Alert No 84'))).toBeInTheDocument();
+  });
+
+  it('should call change pagination of queued & requested alerts', async () => {
+    await renderAlerts();
+
+    fireEvent.click(await waitFor(() => screen.getByText('commonAlert.tabs.queuedAndRequested')));
+
+    fireEvent.click(await waitFor(() => screen.getByLabelText('pagination.nextPageLabel', { selector: 'button' })));
+
+    expect(await waitFor(() => screen.getByText('Alert No 20'))).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByText('Alert No 84'))).toBeInTheDocument();
+  });
+
+  it('should sort received alerts after column status', async () => {
+    const { fixture } = await renderAlerts();
+    const alertsComponent = fixture.componentInstance;
+
+    let setTableFunctionSpy = spyOn<any>(alertsComponent, 'setTableSortingList').and.callThrough();
+    let statusColumnHeader = await screen.findByText('table.column.status');
+    await waitFor(() => {
+      fireEvent.click(statusColumnHeader);
+    }, { timeout: 3000 });
+
+
+    expect(setTableFunctionSpy).toHaveBeenCalledWith([ 'status', 'asc' ], 'received');
+
+    expect(alertsComponent['alertReceivedSortList']).toEqual([ [ 'status', 'asc' ] ]);
+  });
+
+  it('should sort queued and requested alerts after column status', async () => {
+    const { fixture } = await renderAlerts();
+    const alertsComponent = fixture.componentInstance;
+
+    fireEvent.click(await waitFor(() => screen.getByText('commonAlert.tabs.queuedAndRequested')));
+
+    let setTableFunctionSpy = spyOn<any>(alertsComponent, 'setTableSortingList').and.callThrough();
+    let statusColumnHeader = await screen.findByText('table.column.status');
+    await waitFor(() => {
+      fireEvent.click(statusColumnHeader);
+    }, { timeout: 3000 });
+
+
+    expect(setTableFunctionSpy).toHaveBeenCalledWith([ 'status', 'asc' ], 'queued-and-requested');
+
+    expect(alertsComponent['alertQueuedAndRequestedSortList']).toEqual([ [ 'status', 'asc' ] ]);
+  });
+
 
   it('should multisort after column description and status', async () => {
     const { fixture } = await renderAlerts();
     const alertsComponent = fixture.componentInstance;
 
-    const paginationOne: TableEventConfig = { page: 0, pageSize: 50, sorting: ['description', 'asc'] };
-    const paginationTwo: TableEventConfig = { page: 0, pageSize: 50, sorting: ['status', 'asc'] };
-    const paginationThree: TableEventConfig = { page: 0, pageSize: 50, sorting: ['status', 'desc'] };
-    alertsComponent.onReceivedTableConfigChange(paginationOne);
+    let setTableFunctionSpy = spyOn<any>(alertsComponent, 'setTableSortingList').and.callThrough();
+    let descriptionColumnHeader = await screen.findByText('table.column.description');
+    await waitFor(() => {
+      fireEvent.click(descriptionColumnHeader);
+    }, { timeout: 3000 });
+    let statusHeader = await screen.findByText('table.column.status');
 
-    expect(alertsComponent.alertReceivedSortList).toEqual([['description', 'asc']]);
-
-    const alertsHeader = screen.getByText('pageTitle.alerts');
-    fireEvent.keyDown(alertsHeader, {
-      ctrlKey: true,
-      charCode: 17,
+    await waitFor(() => {
+      fireEvent.keyDown(statusHeader, {
+        ctrlKey: true,
+        charCode: 17,
+      });
     });
-    alertsComponent.onReceivedTableConfigChange(paginationTwo);
-
-    expect(alertsComponent.alertReceivedSortList).toEqual([
-      ['description', 'asc'],
-      ['status', 'asc'],
-    ]);
-    alertsComponent.onReceivedTableConfigChange(paginationThree);
-
-    expect(alertsComponent.alertReceivedSortList).toEqual([
-      ['description', 'asc'],
-      ['status', 'desc'],
-    ]);
-  });
-  it('should reset the multisortList if a selection is done and the ctrl key is not pressed.', async () => {
-    const { fixture } = await renderAlerts();
-    const alertsComponent = fixture.componentInstance;
-
-    const paginationOne: TableEventConfig = { page: 0, pageSize: 50, sorting: ['description', 'asc'] };
-    const paginationTwo: TableEventConfig = { page: 0, pageSize: 50, sorting: ['status', 'asc'] };
-
-    alertsComponent.onReceivedTableConfigChange(paginationOne);
-
-    expect(alertsComponent.alertReceivedSortList).toEqual([['description', 'asc']]);
-
-    const alertsHeader = screen.getByText('pageTitle.alerts');
-    fireEvent.keyDown(alertsHeader, {
-      ctrlKey: true,
-      charCode: 17,
+    expect(alertsComponent['ctrlKeyState']).toBeTruthy();
+    await waitFor(() => {
+      fireEvent.click(statusHeader);
     });
 
-    alertsComponent.onReceivedTableConfigChange(paginationTwo);
-
-    expect(alertsComponent.alertReceivedSortList).toEqual([
-      ['description', 'asc'],
-      ['status', 'asc'],
-    ]);
-
-    fireEvent.keyUp(alertsHeader, {
-      ctrlKey: false,
-      charCode: 17,
+    await waitFor(() => {
+      fireEvent.keyUp(statusHeader, {
+        ctrlKey: true,
+        charCode: 17,
+      });
     });
 
-    alertsComponent.onReceivedTableConfigChange(paginationOne);
-
-    expect(alertsComponent.alertReceivedSortList).toEqual([['description', 'asc']]);
-  });
-
-  it('should set the default Pagination by recieving a size change event', async () => {
-    const { fixture } = await renderAlerts();
-    const alertsComponent = fixture.componentInstance;
-
-    alertsComponent.onDefaultPaginationSizeChange(100);
-    expect(alertsComponent.DEFAULT_PAGE_SIZE).toEqual(100);
-  });
-
-  it('should use the default page size if the page size in the ReceivedConfig is given as 0', async () => {
-    const { fixture } = await renderAlerts();
-    const alertsComponent = fixture.componentInstance;
-
-    const pagination: TableEventConfig = { page: 0, pageSize: 0, sorting: ['description', 'asc'] };
-    spyOn(alertsComponent.alertsFacade, 'setReceivedAlerts');
-    alertsComponent.onReceivedTableConfigChange(pagination);
-    fixture.detectChanges();
-    expect(alertsComponent.alertsFacade.setReceivedAlerts).toHaveBeenCalledWith(0, 50, [['description', 'asc']], Object({ filterMethod: 'AND' }));
-
-  });
-
-  it('should use the default page size if the page size in the QueuedAndRequestedConfig is given as 0', async () => {
-    const { fixture } = await renderAlerts();
-    const alertsComponent = fixture.componentInstance;
-
-    const pagination: TableEventConfig = { page: 0, pageSize: 0, sorting: ['description', 'asc'] };
-    spyOn(alertsComponent.alertsFacade, 'setQueuedAndRequestedAlerts');
-
-    alertsComponent.onQueuedAndRequestedTableConfigChange(pagination);
-    fixture.detectChanges();
-    expect(alertsComponent.alertsFacade.setQueuedAndRequestedAlerts).toHaveBeenCalledWith(0, 50, [['description', 'asc']], Object({ filterMethod: 'AND' }));
-  });
-
-  it('should pass on the filtering to the api services', async () => {
-    const { fixture } = await renderAlerts();
-    const alertsComponent = fixture.componentInstance;
-
-    const pagination: TableEventConfig = { page: 0, pageSize: 50, sorting: ['description', 'asc'], filtering: { filterMethod: FilterMethod.AND, description: { filterOperator: FilterOperator.STARTS_WITH, filterValue: 'value1' } } };
-    spyOn(alertsComponent.alertsFacade, 'setQueuedAndRequestedAlerts');
-
-    alertsComponent.onQueuedAndRequestedTableConfigChange(pagination);
-    fixture.detectChanges();
-    expect(alertsComponent.alertsFacade.setQueuedAndRequestedAlerts).toHaveBeenCalledWith(0, 50, [['description', 'asc']], Object({ filterMethod: 'AND', description: { filterOperator: FilterOperator.STARTS_WITH, filterValue: 'value1' } }));
-
-    spyOn(alertsComponent.alertsFacade, 'setReceivedAlerts');
-
-    alertsComponent.onReceivedTableConfigChange(pagination);
-    fixture.detectChanges();
-    expect(alertsComponent.alertsFacade.setReceivedAlerts).toHaveBeenCalledWith(0, 50, [['description', 'asc']], Object({ filterMethod: 'AND', description: { filterOperator: FilterOperator.STARTS_WITH, filterValue: 'value1' } }));
-  });
-
-  it('should set the correct filters on triggering the global search', async () => {
-    const { fixture } = await renderAlerts();
-    const alertsComponent = fixture.componentInstance;
-
-    const searchValue = 'value 1';
-    const filterInfo: FilterInfo = { filterValue: searchValue, filterOperator: FilterOperator.STARTS_WITH };
-    const alertsReceivedFilters: TableFilter = {
-      filterMethod: FilterMethod.OR,
-      description: filterInfo,
-      createdBy: filterInfo
-    };
-    const alertsCreatedFilters: TableFilter = {
-      filterMethod: FilterMethod.OR,
-      description: filterInfo,
-      sendTo: filterInfo
-    };
-    const spy1 = spyOn(alertsComponent.alertsFacade, 'setReceivedAlerts');
-    const spy2 = spyOn(alertsComponent.alertsFacade, 'setQueuedAndRequestedAlerts');
-    const spy3 = spyOn(alertsComponent.searchHelper, 'resetFilterAndShowToast');
-
-    alertsComponent.searchControl.patchValue(searchValue);
-    alertsComponent.triggerSearch();
-
-    expect(alertsComponent.filterReceived).toEqual(alertsReceivedFilters);
-    expect(alertsComponent.filterQueuedAndRequested).toEqual(alertsCreatedFilters);
-  });
-
-  it('should open the RequestStepperComponent with RequestContext.REQUEST_ALERT', async () => {
-    const component = (await renderAlerts()).fixture.componentInstance;
-    const matDialog = TestBed.inject(MatDialog);
-
-    spyOn(matDialog, 'open').and.callThrough();
-
-    component.openRequestDialog();
-
-    expect(matDialog.open).toHaveBeenCalledWith(RequestStepperComponent, {
-      autoFocus: false,
-      data: { context: RequestContext.REQUEST_ALERT },
+    await waitFor(() => {
+      fireEvent.click(statusHeader);
     });
+
+
+    expect(setTableFunctionSpy).toHaveBeenCalledWith([ 'description', 'asc' ], 'received');
+    expect(setTableFunctionSpy).toHaveBeenCalledWith([ 'status', 'asc' ], 'received');
+    expect(alertsComponent['alertReceivedSortList']).toEqual([ [ 'description', 'asc' ], [ 'status', 'desc' ] ]);
   });
+
+  it('should reset sorting after third click', async () => {
+    const { fixture } = await renderAlerts();
+    const alertsComponent = fixture.componentInstance;
+
+    let descriptionColumnHeader = await screen.findByText('table.column.description');
+    await waitFor(() => {
+      fireEvent.click(descriptionColumnHeader);
+    }, { timeout: 3000 });
+    let statusColumnHeader = await screen.findByText('table.column.status');
+
+    await waitFor(() => {
+      fireEvent.keyDown(statusColumnHeader, {
+        ctrlKey: true,
+        charCode: 17,
+      });
+    });
+
+    await waitFor(() => {
+      fireEvent.click(statusColumnHeader);
+    });
+
+    await waitFor(() => {
+      fireEvent.keyUp(statusColumnHeader, {
+        ctrlKey: true,
+        charCode: 17,
+      });
+    });
+
+    await waitFor(() => {
+      fireEvent.click(statusColumnHeader);
+    });
+
+    await waitFor(() => {
+      fireEvent.click(statusColumnHeader);
+    });
+
+    expect(alertsComponent['alertReceivedSortList']).toEqual([]);
+  });
+
 });

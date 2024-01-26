@@ -28,7 +28,7 @@ import { renderComponent } from '@tests/test-render.utils';
 describe('Header', () => {
   const renderHeader = () => {
     return renderComponent(HeaderComponent, {
-      imports: [LayoutModule, SharedModule],
+      imports: [ LayoutModule, SharedModule ],
     });
   };
   it('should render header', async () => {

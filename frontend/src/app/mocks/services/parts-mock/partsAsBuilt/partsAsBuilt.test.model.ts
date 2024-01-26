@@ -24,200 +24,200 @@ import { Owner } from '@page/parts/model/owner.enum';
 import { PartResponse, PartsResponse, QualityType, SemanticDataModel } from '@page/parts/model/parts.model';
 
 export const MOCK_part_5 = {
-  "id": "MOCK_part_5",
-  "idShort": "--",
-  "semanticModelId": "NO-613963493493659233961306",
-  "businessPartner": "BPNL00000003CML1",
-  "manufacturerName": "BMW AG",
-  nameAtManufacturer: "M3 Modell",
-  manufacturerPartId: "ManuPartID",
-  "owner": Owner.OWN,
-  "childRelations": [],
-  "parentRelations": [],
-  "activeAlert": false,
-  "underInvestigation": false,
-  "qualityType": QualityType.Ok,
-  "van": "--",
-  "semanticDataModel": SemanticDataModel.SERIALPART,
-  "classification": "component",
-  "detailAspectModels": [
+  'id': 'MOCK_part_5',
+  'idShort': '--',
+  'semanticModelId': 'NO-613963493493659233961306',
+  'businessPartner': 'BPNL00000003CML1',
+  'manufacturerName': 'BMW AG',
+  nameAtManufacturer: 'M3 Modell',
+  manufacturerPartId: 'ManuPartID',
+  'owner': Owner.OWN,
+  'childRelations': [],
+  'parentRelations': [],
+  'qualityType': QualityType.Ok,
+  'van': '--',
+  'semanticDataModel': SemanticDataModel.SERIALPART,
+  'classification': 'component',
+  'detailAspectModels': [
     {
-      "type": DetailAspectType.AS_BUILT,
-      "data": {
-        "partId": "95657762-59",
-        "customerPartId": "95657762-59",
-        "nameAtCustomer": "Door Key",
-        "manufacturingCountry": "DEU",
-        "manufacturingDate": "2022-02-04T13:48:54",
-      }
-    }
+      'type': DetailAspectType.AS_BUILT,
+      'data': {
+        'partId': '95657762-59',
+        'customerPartId': '95657762-59',
+        'nameAtCustomer': 'Door Key',
+        'manufacturingCountry': 'DEU',
+        'manufacturingDate': '2022-02-04T13:48:54',
+      },
+    },
   ],
-  'qualityAlertsInStatusActive': 0,
-  'qualityInvestigationsInStatusActive': 0,
+  'sentQualityAlertIdsInStatusActive': [],
+  'receivedQualityAlertIdsInStatusActive': [],
+  'sentQualityInvestigationIdsInStatusActive': [],
+  'receivedQualityInvestigationIdsInStatusActive': [],
 };
 
 export const MOCK_part_4 = {
-  "id": "MOCK_part_4",
-  "idShort": "--",
-  "semanticModelId": "12345678ABC",
-  "businessPartner": "BPNL00000003CML1",
-  "manufacturerName": "Mercedes",
-  nameAtManufacturer: "C-Klasse",
-  manufacturerPartId: "ManuPartID",
-  "owner": Owner.OWN,
-  "childRelations": [],
-  "parentRelations": [
+  'id': 'MOCK_part_4',
+  'idShort': '--',
+  'semanticModelId': '12345678ABC',
+  'businessPartner': 'BPNL00000003CML1',
+  'manufacturerName': 'Mercedes',
+  nameAtManufacturer: 'C-Klasse',
+  manufacturerPartId: 'ManuPartID',
+  'owner': Owner.OWN,
+  'childRelations': [],
+  'parentRelations': [
     {
-      id: "MOCK_part_2",
-      idShort: "--"
-    }
+      id: 'MOCK_part_2',
+      idShort: '--',
+    },
   ],
-  "activeAlert": false,
-  "underInvestigation": false,
-  "qualityType": QualityType.Ok,
-  "van": "--",
+  'qualityType': QualityType.Ok,
+  'van': '--',
   'semanticDataModel': SemanticDataModel.JUSTINSEQUENCE,
-  "classification": "product",
-  "detailAspectModels": [
+  'classification': 'product',
+  'detailAspectModels': [
     {
-      "type": DetailAspectType.AS_BUILT,
-      "data": {
-        "partId": "123-0.740-3434-A",
-        "customerPartId": "PRT-12345",
-        "nameAtCustomer": "side element A",
-        "manufacturingCountry": "HUR",
-        "manufacturingDate": "2022-02-04T13:48:54",
-      }
-    }
+      'type': DetailAspectType.AS_BUILT,
+      'data': {
+        'partId': '123-0.740-3434-A',
+        'customerPartId': 'PRT-12345',
+        'nameAtCustomer': 'side element A',
+        'manufacturingCountry': 'HUR',
+        'manufacturingDate': '2022-02-04T13:48:54',
+      },
+    },
   ],
-  'qualityAlertsInStatusActive': 0,
-  'qualityInvestigationsInStatusActive': 0,
+  'sentQualityAlertIdsInStatusActive': [],
+  'receivedQualityAlertIdsInStatusActive': [],
+  'sentQualityInvestigationIdsInStatusActive': [],
+  'receivedQualityInvestigationIdsInStatusActive': [],
 };
 
 export const MOCK_part_3 = {
   id: 'MOCK_part_3',
-  "idShort": "--",
-  "semanticModelId": "NO-246880451848384868750731",
-  "businessPartner": "BPNL00000003CML1",
-  "manufacturerName": "Mercedes",
-  nameAtManufacturer: "B-Klasse",
-  manufacturerPartId: "ManuPartID",
-  "owner": Owner.OWN,
-  "childRelations": [
+  'idShort': '--',
+  'semanticModelId': 'NO-246880451848384868750731',
+  'businessPartner': 'BPNL00000003CML1',
+  'manufacturerName': 'Mercedes',
+  nameAtManufacturer: 'B-Klasse',
+  manufacturerPartId: 'ManuPartID',
+  'owner': Owner.OWN,
+  'childRelations': [
     {
-      id: "MOCK_part_1",
-      idShort: "--"
+      id: 'MOCK_part_1',
+      idShort: '--',
 
-    }
+    },
   ],
-  "parentRelations": [],
-  "activeAlert": false,
-  "underInvestigation": false,
-  "qualityType": QualityType.Ok,
-  "van": "--",
-  "semanticDataModel": SemanticDataModel.SERIALPART,
-  "classification": "component",
-  "detailAspectModels": [
+  'parentRelations': [],
+  'qualityType': QualityType.Ok,
+  'van': '--',
+  'semanticDataModel': SemanticDataModel.SERIALPART,
+  'classification': 'component',
+  'detailAspectModels': [
     {
-      "type": DetailAspectType.AS_BUILT,
-      "data": {
-        "partId": "95657762-59",
-        "customerPartId": "95657762-59",
-        "nameAtCustomer": "Door Key",
-        "manufacturingCountry": "DEU",
-        "manufacturingDate": "2022-02-04T13:48:54",
-      }
-    }
+      'type': DetailAspectType.AS_BUILT,
+      'data': {
+        'partId': '95657762-59',
+        'customerPartId': '95657762-59',
+        'nameAtCustomer': 'Door Key',
+        'manufacturingCountry': 'DEU',
+        'manufacturingDate': '2022-02-04T13:48:54',
+      },
+    },
   ],
-  'qualityAlertsInStatusActive': 0,
-  'qualityInvestigationsInStatusActive': 0,
+  'sentQualityAlertIdsInStatusActive': [],
+  'receivedQualityAlertIdsInStatusActive': [],
+  'sentQualityInvestigationIdsInStatusActive': [],
+  'receivedQualityInvestigationIdsInStatusActive': [],
 };
 
 export const MOCK_part_2 = {
   id: 'MOCK_part_2',
-  "idShort": "--",
-  "semanticModelId": "NO-341449848714937445621543",
-  "businessPartner": "BPNL00000003CML1",
-  "manufacturerName": "BMW AG",
-  nameAtManufacturer: "MyAsBuiltPartName",
-  manufacturerPartId: "ManuPartID",
-  "owner": Owner.OWN,
-  "childRelations": [
+  'idShort': '--',
+  'semanticModelId': 'NO-341449848714937445621543',
+  'businessPartner': 'BPNL00000003CML1',
+  'manufacturerName': 'BMW AG',
+  nameAtManufacturer: 'MyAsBuiltPartName',
+  manufacturerPartId: 'ManuPartID',
+  'owner': Owner.OWN,
+  'childRelations': [
     {
-      id: "MOCK_part_4",
-      idShort: "--"
-    }
+      id: 'MOCK_part_4',
+      idShort: '--',
+    },
   ],
-  "parentRelations": [
+  'parentRelations': [
     {
-      "id": "MOCK_part_1",
-      "idShort": "--"
-    }
+      'id': 'MOCK_part_1',
+      'idShort': '--',
+    },
   ],
-  "activeAlert": false,
-  "underInvestigation": false,
-  "qualityType": QualityType.Ok,
-  "van": "--",
-  "semanticDataModel": SemanticDataModel.BATCH,
-  "classification": "component",
-  "detailAspectModels": [
+  'qualityType': QualityType.Ok,
+  'van': '--',
+  'semanticDataModel': SemanticDataModel.BATCH,
+  'classification': 'component',
+  'detailAspectModels': [
     {
-      "type": DetailAspectType.AS_BUILT,
-      "data": {
-        "partId": "95657762-59",
-        "customerPartId": "95657762-59",
-        "nameAtCustomer": "Door Key",
-        "manufacturingCountry": "DEU",
-        "manufacturingDate": "2022-02-04T13:48:54",
-      }
-    }
+      'type': DetailAspectType.AS_BUILT,
+      'data': {
+        'partId': '95657762-59',
+        'customerPartId': '95657762-59',
+        'nameAtCustomer': 'Door Key',
+        'manufacturingCountry': 'DEU',
+        'manufacturingDate': '2022-02-04T13:48:54',
+      },
+    },
   ],
-  'qualityAlertsInStatusActive': 0,
-  'qualityInvestigationsInStatusActive': 0,
+  'sentQualityAlertIdsInStatusActive': [],
+  'receivedQualityAlertIdsInStatusActive': [],
+  'sentQualityInvestigationIdsInStatusActive': [],
+  'receivedQualityInvestigationIdsInStatusActive': [],
 };
 
 export const MOCK_part_1 = {
-  id: "MOCK_part_1",
-  "idShort": "--",
-  "semanticModelId": "NO-341449848714937445621543",
-  "businessPartner": "BPNL00000003CML1",
-  "manufacturerName": "BMW AG",
-  nameAtManufacturer: "Modell Z4",
-  manufacturerPartId: "ManuPartID",
-  "owner": Owner.OWN,
-  "childRelations": [{
+  id: 'MOCK_part_1',
+  'idShort': '--',
+  'semanticModelId': 'NO-341449848714937445621543',
+  'businessPartner': 'BPNL00000003CML1',
+  'manufacturerName': 'BMW AG',
+  nameAtManufacturer: 'Modell Z4',
+  manufacturerPartId: 'ManuPartID',
+  'owner': Owner.OWN,
+  'childRelations': [ {
     id: MOCK_part_2.id,
-    idShort: "--",
+    idShort: '--',
   },
   ],
-  "parentRelations": [{
+  'parentRelations': [ {
     id: MOCK_part_3.id,
-    idShort: "--",
-  }],
-  "activeAlert": false,
-  "underInvestigation": false,
-  "qualityType": QualityType.Ok,
-  "van": "--",
-  "semanticDataModel": SemanticDataModel.BATCH,
-  "classification": "component",
-  "detailAspectModels": [
+    idShort: '--',
+  } ],
+  'qualityType': QualityType.Ok,
+  'van': '--',
+  'semanticDataModel': SemanticDataModel.BATCH,
+  'classification': 'component',
+  'detailAspectModels': [
     {
       type: DetailAspectType.AS_BUILT,
       data: {
-        "partId": "95657762-59",
-        "customerPartId": "95657762-59",
-        "nameAtCustomer": "Door Key",
-        "manufacturingCountry": "DEU",
-        "manufacturingDate": "2022-02-04T13:48:54",
-      }
-    }
+        'partId': '95657762-59',
+        'customerPartId': '95657762-59',
+        'nameAtCustomer': 'Door Key',
+        'manufacturingCountry': 'DEU',
+        'manufacturingDate': '2022-02-04T13:48:54',
+      },
+    },
   ],
-  'qualityAlertsInStatusActive': 0,
-  'qualityInvestigationsInStatusActive': 0,
+  'sentQualityAlertIdsInStatusActive': [],
+  'receivedQualityAlertIdsInStatusActive': [],
+  'sentQualityInvestigationIdsInStatusActive': [],
+  'receivedQualityInvestigationIdsInStatusActive': [],
 };
 
 export const mockAssets: PartsResponse = {
-  content: [MOCK_part_1, MOCK_part_2, MOCK_part_3, MOCK_part_4, MOCK_part_5],
+  content: [ MOCK_part_1, MOCK_part_2, MOCK_part_3, MOCK_part_4, MOCK_part_5 ],
   page: 0,
   pageCount: 1,
   pageSize: 10,

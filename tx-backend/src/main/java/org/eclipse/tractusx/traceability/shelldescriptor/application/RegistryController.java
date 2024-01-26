@@ -29,14 +29,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
-import org.springframework.security.access.prepost.PreAuthorize;
+import assets.importpoc.ErrorResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 @Tag(name = "Registry")
 @RequestMapping(path = "/registry", produces = "application/json")
 @RequiredArgsConstructor
@@ -95,7 +93,7 @@ public class RegistryController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/reload")
     public void reload() {
-        decentralRegistryService.updateShellDescriptorAndSynchronizeAssets();
+        decentralRegistryService.synchronizeAssets();
     }
 
 }

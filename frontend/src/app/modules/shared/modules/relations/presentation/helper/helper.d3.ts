@@ -72,7 +72,7 @@ export class HelperD3 {
       const spacerStart = new Array(Math.floor(spaceCount / 2)).fill(' ').join('');
       const spacerEnd = new Array(Math.ceil(spaceCount / 2)).fill(' ').join('');
 
-      return `${spacerStart}${text}${spacerEnd}`;
+      return `${ spacerStart }${ text }${ spacerEnd }`;
     }
     return text;
   }

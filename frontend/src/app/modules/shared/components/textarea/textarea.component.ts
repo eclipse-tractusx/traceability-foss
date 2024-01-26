@@ -26,7 +26,7 @@ import { StaticIdService } from '@shared/service/staticId.service';
 @Component({
   selector: 'app-textarea',
   templateUrl: './textarea.component.html',
-  styleUrls: ['./textarea.component.scss'],
+  styleUrls: [ './textarea.component.scss' ],
 })
 export class TextareaComponent extends BaseInputComponent<string> {
   constructor(@Inject(Injector) injector: Injector, staticIdService: StaticIdService) {

@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 

@@ -44,14 +44,12 @@ public class AlertsReceiverService {
     private final AssetAsBuiltServiceImpl assetService;
     private final QualityNotificationMapper qualityNotificationMapper;
 
-    public void handleNotificationReceive(final EDCNotification edcNotification) {
-        final BPN qualityAlertCreatorBPN = BPN.of(edcNotification.getSenderBPN());
-        final QualityNotificationMessage notification = notificationMapper.toNotification(edcNotification);
-        final QualityNotification qualityAlert = qualityNotificationMapper.toQualityNotification(qualityAlertCreatorBPN,
-                edcNotification.getInformation(), notification);
-        final QualityNotificationId qualityAlertId = alertRepository.saveQualityNotificationEntity(qualityAlert);
-        assetService.setAssetsAlertStatus(qualityAlert);
-        log.info("Stored received edcNotification in alert with id {}", qualityAlertId);
+    public void handleNotificationReceive(EDCNotification edcNotification) {
+        BPN investigationCreatorBPN = BPN.of(edcNotification.getSenderBPN());
+        QualityNotificationMessage notification = notificationMapper.toNotification(edcNotification);
+        QualityNotification investigation = qualityNotificationMapper.toQualityNotification(investigationCreatorBPN, edcNotification.getInformation(), notification);
+        QualityNotificationId investigationId = alertRepository.saveQualityNotificationEntity(investigation);
+        log.info("Stored received edcNotification in alert with id {}", investigationId);
     }
 
     public void handleNotificationUpdate(EDCNotification edcNotification) {
@@ -68,7 +66,6 @@ public class AlertsReceiverService {
                     throw new InvestigationIllegalUpdate("Failed to handle notification due to unhandled %s status".formatted(edcNotification.convertNotificationStatus()));
         }
         alert.addNotification(notification);
-        assetService.setAssetsAlertStatus(alert);
         QualityNotificationId notificationId = alertRepository.updateQualityNotificationEntity(alert);
         log.info("Stored update edcNotification in investigation with id {}", notificationId);
     }

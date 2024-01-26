@@ -8,6 +8,7 @@
 [![VeraCode Backend](https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/veracode_backend.yml/badge.svg)](https://github.com/Cofinity-X/cofinity-x-ba-traceability-foss/actions/workflows/veracode_backend.yml)
 [![VeraCode Frontend](https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/veracode_frontend.yml/badge.svg)](https://github.com/Cofinity-X/cofinity-x-ba-traceability-foss/actions/workflows/veracode_frontend.yml)
 [![Eclipse DASH IP Check](https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/eclipse-dash.yml/badge.svg)](https://github.com/Cofinity-X/cofinity-x-ba-traceability-foss/actions/workflows/eclipse-dash.yml)
+[![[BE] Dependency check](https://github.com/catenax-ng/tx-traceability-foss/actions/workflows/dependency-check.yml/badge.svg)](https://github.com/Cofinity-X/cofinity-x-ba-traceability-foss/actions/workflows/dependency-check.yml)
 
 ## Trace-X is a system for tracking parts along the supply chain.
 #### A high level of transparency across the supplier network enables faster intervention based on a recorded event in the supply chain. This saves costs by seamlessly tracking parts and creates trust through clearly defined and secure data access by the companies and persons involved in the process.

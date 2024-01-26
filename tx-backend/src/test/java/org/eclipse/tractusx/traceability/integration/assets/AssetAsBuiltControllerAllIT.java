@@ -35,7 +35,10 @@ import java.util.stream.Stream;
 
 import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.everyItem;
+import static org.hamcrest.Matchers.hasEntry;
+import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
@@ -73,18 +76,16 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
                 .body("content.manufacturerName", everyItem(not(equalTo(assetsSupport.emptyText()))));
     }
 
-    // Deprecated please remove once controller has been removed
     @Test
     void shoulReturnSupplierAssets() throws JoseException {
         //GIVEN
         assetsSupport.defaultAssetsStored();
-        final String filterOperator = "AND";
+        final String filter = "owner,EQUAL,SUPPLIER,AND";
         //THEN
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
-                .queryParam("filter", "owner,EQUAL,SUPPLIER")
-                .queryParam("filterOperator", filterOperator)
+                .queryParam("filter", filter)
                 .when()
                 .get("/api/assets/as-built")
                 .then()
@@ -92,18 +93,16 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
                 .body("totalItems", equalTo(12));
     }
 
-    // Deprecated please remove once controller has been removed
     @Test
     void shouldReturnOwnAssets() throws JoseException {
         //GIVEN
         assetsSupport.defaultAssetsStored();
-        final String filterOperator = "AND";
+        final String filter = "owner,EQUAL,OWN,AND";
         //THEN
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
-                .queryParam("filter", "owner,EQUAL,OWN")
-                .queryParam("filterOperator", filterOperator)
+                .queryParam("filter", filter)
                 .when()
                 .get("/api/assets/as-built")
                 .then()
@@ -123,6 +122,7 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
                 .when()
                 .get("/api/assets/as-built")
                 .then()
+                .log().body() // T
                 .statusCode(200)
                 .body("totalItems", equalTo(13))
                 .body("content[0]", hasEntry("id", "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb"))
@@ -130,7 +130,6 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
                 .body("content[0]", hasEntry("semanticModelId", "OMA-TGFAYUHXFLHHUQQMPLTE"))
                 .body("content[0]", hasEntry("businessPartner", "BPNL00000003AYRE"))
                 .body("content[0]", hasEntry("manufacturerName", "Manufacturer Name 1"))
-                .body("content[0]", hasEntry("underInvestigation", false))
                 .body("content[0]", hasEntry("qualityType", "Ok"))
                 .body("content[0]", hasEntry("van", "OMA-TGFAYUHXFLHHUQQMPLTE"))
                 .body("content[0].detailAspectModels[0].data", hasEntry("manufacturingCountry", "DEU"))
@@ -146,13 +145,12 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
     void shouldReturnAssetsByOwnerFiltering(String ownerValue, int totalItemsValue) throws JoseException {
         //GIVEN
         assetsSupport.defaultAssetsStored();
-        final String filterOperator = "AND";
+        final String filter = "owner,EQUAL," + ownerValue + ",AND";
         //THEN
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
-                .queryParam("filter", "owner,EQUAL," + ownerValue)
-                .queryParam("filterOperator", filterOperator)
+                .queryParam("filter", filter)
                 .when()
                 .get("/api/assets/as-built")
                 .then()
@@ -199,6 +197,23 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
                 .body("content[0].detailAspectModels[1]", hasEntry("type", "TRACTION_BATTERY_CODE"));
+    }
+
+    @Test
+    void givenNonExistingSortField_whenGetAssetsAsBuilt_thenBadRequest() throws JoseException {
+        //THEN
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .param("page", "0")
+                .param("size", "10")
+                .param("sort", "nonExistingField,ASC")
+                .when()
+                .log().all()
+                .get("/api/assets/as-built")
+                .then()
+                .log().all()
+                .statusCode(400);
     }
 
 }

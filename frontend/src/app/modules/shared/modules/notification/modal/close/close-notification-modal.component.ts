@@ -48,7 +48,7 @@ export class CloseNotificationModalComponent {
 
   public show(notification: Notification): void {
     this.notification = notification;
-    this.textAreaControl.setValidators([Validators.required, Validators.maxLength(1000), Validators.minLength(15)]);
+    this.textAreaControl.setValidators([ Validators.required, Validators.maxLength(1000), Validators.minLength(15) ]);
 
     const onConfirm = (isConfirmed: boolean) => {
       const reason = this.formGroup.get('reason').value;
@@ -70,7 +70,6 @@ export class CloseNotificationModalComponent {
     const options: ModalData = {
       title: this.translationContext + '.modal.closeTitle',
       buttonRight: 'actions.close',
-      buttonLeft: 'actions.cancel',
 
       template: this.modal,
       formGroup: this.formGroup,

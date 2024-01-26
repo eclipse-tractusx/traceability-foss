@@ -21,106 +21,64 @@ package org.eclipse.tractusx.traceability.common.request;
 
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.eclipse.tractusx.traceability.common.model.BaseRequestFieldMapper;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaFilter;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
-import org.eclipse.tractusx.traceability.common.model.SearchStrategy;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy;
+import org.eclipse.tractusx.traceability.common.model.UnsupportedSearchCriteriaFieldException;
+import org.eclipse.tractusx.traceability.common.request.exception.InvalidFilterException;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import static java.util.Objects.isNull;
 
 @Data
+@Builder
+@NoArgsConstructor
 @AllArgsConstructor
 public class SearchCriteriaRequestParam {
-
     @ArraySchema(arraySchema = @Schema(description = "Filter Criteria", additionalProperties = Schema.AdditionalPropertiesValue.FALSE, example = "owner,EQUAL,OWN"), maxItems = Integer.MAX_VALUE)
-    private List<String> filter;
+    List<String> filter;
 
-    @Schema(description = "The filter logical operator", example = "AND", allowableValues = {"AND", "OR"})
-    private String filterOperator;
+    public List<@Size(max = 1100, message = "Filter string should not be longer than 1100 characters.") String> getFilter() {
+        return filter;
+    }
 
-    public SearchCriteria toSearchCriteria() {
-
-        if (!isNull(this.filter) && isNull(this.filterOperator)) {
-            throw new InvalidFilterException(
-                    "No filter operator found. Please add param filterOperator=AND or filterOperator=OR.");
-        }
-        if (isNull(this.filter) && isNull(this.filterOperator)) {
-            return SearchCriteria.builder().build();
+    public SearchCriteria toSearchCriteria(BaseRequestFieldMapper fieldMapper) {
+        ArrayList<SearchCriteriaFilter> filters = new ArrayList<>();
+        List<String> inputFilters = filter;
+        if (isNull(this.filter)) {
+            inputFilters = Collections.emptyList();
         }
 
-        final List<String> inputFilters = (filter != null) ? filter : Collections.emptyList();
-
-        final List<SearchCriteriaFilter> filters = inputFilters
-                .stream()
-                .map(inputFilter -> {
-                    try {
-                        final String[] filterParams = inputFilter.split(",");
-                        return SearchCriteriaFilter.builder()
-                                .key(handleFilterParameter(filterParams[0]))
-                                .strategy(SearchStrategy.valueOf(filterParams[1]))
+        for (String filter : inputFilters) {
+            try {
+                String[] filterParams = filter.split(",");
+                filters.add(
+                        SearchCriteriaFilter.builder()
+                                .key(fieldMapper.mapRequestFieldName(filterParams[0]))
+                                .strategy(SearchCriteriaStrategy.valueOf(filterParams[1]))
                                 .value(filterParams[2])
-                                .build();
-            } catch (final Exception exception) {
+                                .operator(SearchCriteriaOperator.valueOf(filterParams[3]))
+                                .build());
+            } catch (UnsupportedSearchCriteriaFieldException exception) {
+                throw exception;
+            } catch (Exception exception) {
                 throw new InvalidFilterException(
-                        "Invalid filter param provided filter={provided} expected format is following filter=parameter,operation,value"
-                                .replace("{provided}", inputFilter)
+                        "Invalid filter param provided filter={provided} expected format is following sort=parameter,strategy,value,operator"
+                                .replace("{provided}", filter)
                 );
             }
 
-        })
-                .toList();
-
-        final SearchCriteriaOperator operator;
-        try {
-            operator = SearchCriteriaOperator.valueOf(filterOperator);
-        } catch (final Exception exception) {
-            throw new InvalidFilterException(
-                    "Invalid filter operator provided filterOperator={provided} expected format is following filterOperator=value. Where value is one of AND, OR"
-                            .replace("{provided}", filterOperator)
-            );
         }
-
-        return SearchCriteria.builder().searchCriteriaOperator(operator).searchCriteriaFilterList(filters).build();
-    }
-
-    public SearchCriteria toSearchCriteria(QualityNotificationSide side) {
-        SearchCriteria searchCriteria = this.toSearchCriteria();
-        addSideToSearchCriteria(searchCriteria, side);
-        return searchCriteria;
-    }
-
-    private void addSideToSearchCriteria(SearchCriteria searchCriteria, QualityNotificationSide notificationSide) {
-        Optional.ofNullable(searchCriteria.getSearchCriteriaOperator())
-                .ifPresentOrElse(
-                        searchCriteriaOperator -> {},
-                        () -> searchCriteria.setSearchCriteriaOperator(SearchCriteriaOperator.AND)
-                );
-        final List<SearchCriteriaFilter> filters = new ArrayList<>();
-        Optional.ofNullable(searchCriteria.getSearchCriteriaFilterList())
-                .ifPresent(filters::addAll);
-        final SearchCriteriaFilter sideFilter = SearchCriteriaFilter.builder()
-                .key("side")
-                .strategy(SearchStrategy.EQUAL)
-                .value(notificationSide.toString())
-                .build();
-        filters.add(sideFilter);
-        searchCriteria.setSearchCriteriaFilterList(filters);
-    }
-
-    private static String handleFilterParameter(final String filterParameter) {
-        return switch (filterParameter) {
-            case "qualityAlertsInStatusActive" -> "noOfActiveAlerts";
-            case "qualityInvestigationsInStatusActive" -> "noOfActiveInvestigations";
-            // As long as no clear spelling is defined, be lax with it. https://github.com/eclipse-tractusx/sldt-semantic-models/issues/470
-            default -> filterParameter.equalsIgnoreCase("catenaxsiteid") ? "catenaXSiteId" : filterParameter;
-        };
+        return SearchCriteria.builder().searchCriteriaFilterList(filters).build();
     }
 }

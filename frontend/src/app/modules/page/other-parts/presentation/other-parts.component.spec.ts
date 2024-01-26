@@ -115,8 +115,8 @@ describe('Other Parts', () => {
       await renderOtherParts({ roles: [Role.USER] });
       fireEvent.click(screen.getAllByText('pageOtherParts.tab.supplier')[0]);
 
-      await waitFor(() => expect(screen.getByText('table.column.manufacturer')).toBeInTheDocument());
-      fireEvent.click(screen.getByText('table.column.manufacturer'));
+      await waitFor(() => expect(screen.getByText('table.column.manufacturerName')).toBeInTheDocument());
+      fireEvent.click(screen.getByText('table.column.manufacturerName'));
 
       const supplierParts = await firstValueFrom(otherPartsState.supplierPartsAsBuilt$);
       await waitFor(() =>
@@ -144,8 +144,8 @@ describe('Other Parts', () => {
       let tabs = screen.getAllByText('pageOtherParts.tab.customer');
       fireEvent.click(tabs[0]);
 
-      await waitFor(() => expect(screen.getByText('table.column.manufacturer')).toBeInTheDocument());
-      fireEvent.click(screen.getByText('table.column.manufacturer'));
+      await waitFor(() => expect(screen.getByText('table.column.manufacturerName')).toBeInTheDocument());
+      fireEvent.click(screen.getByText('table.column.manufacturerName'));
 
       const customerParts = await firstValueFrom(otherPartsState.customerPartsAsBuilt$);
       await waitFor(() =>

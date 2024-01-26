@@ -20,6 +20,9 @@
 package org.eclipse.tractusx.traceability.integration.qualitynotification.investigation;
 
 import io.restassured.http.ContentType;
+import org.eclipse.tractusx.traceability.common.request.OwnPageable;
+import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
+import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.BpnSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationNotificationsSupport;
@@ -36,7 +39,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.IntStream;
 
 import static io.restassured.RestAssured.given;
@@ -53,31 +55,19 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
     InvestigationsSupport investigationsSupport;
 
     @Test
-    void shouldNotReturnCreatedInvestigationWithoutAuthentication() {
-        given()
-                .param("page", "0")
-                .param("size", "10")
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/api/investigations/created")
-                .then()
-                .statusCode(401);
-    }
-
-    @Test
-    void shouldNotReturnReceivedInvestigationWithoutAuthentication() {
-        given()
-                .param("page", "0")
-                .param("size", "10")
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/api/investigations/received")
-                .then()
-                .statusCode(401);
-    }
-
-    @Test
     void shouldNotReturnInvestigationWithoutAuthentication() {
+        given()
+                .param("page", "0")
+                .param("size", "10")
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/investigations/filter")
+                .then()
+                .statusCode(401);
+    }
+
+    @Test
+    void shouldNotReturnInvestigationWithIdWithoutAuthentication() {
         given()
                 .contentType(ContentType.JSON)
                 .when()
@@ -87,14 +77,14 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldReturnNoReceivedInvestigations() throws JoseException {
+    void shouldReturnNoInvestigations() throws JoseException {
+        // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of())))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/received")
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -103,111 +93,147 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldReturnNoCreatedInvestigations() throws JoseException {
+    void givenInvestigations_whenGetSenderInvestigationsSortedAsc_thenReturnProperlySorted() throws JoseException {
+        // given
+        String filterString = "channel,EQUAL,SENDER,AND";
+        String sortString = "createdDate,ASC";
+        investigationNotificationsSupport.defaultInvestigationsStored();
+
+        // then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
-                .body("content", Matchers.hasSize(0));
+                .body("totalItems", Matchers.is(8))
+                .body("content", Matchers.hasSize(8))
+                .body("content.description", Matchers.containsInRelativeOrder("1", "2", "3", "4", "5", "6", "7", "8"));
     }
 
     @Test
-    void shouldReturnPagedCreatedInvestigations() throws JoseException {
+    void givenInvestigations_whenGetSenderInvestigationsSortedDesc_thenReturnProperlySorted() throws JoseException {
+        // given
+        String filterString = "channel,EQUAL,SENDER,AND";
+        String sortString = "createdDate,DESC";
+        investigationNotificationsSupport.defaultInvestigationsStored();
+
+        // then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/investigations/filter")
+                .then()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(10))
+                .body("totalItems", Matchers.is(8))
+                .body("content", Matchers.hasSize(8))
+                .body("content.description", Matchers.containsInRelativeOrder("8", "7", "6", "5", "4", "3", "2", "1"));
+    }
+
+
+    @Test
+    void givenSortByDescriptionProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
+        // given
+        String filterString = "channel,EQUAL,SENDER,AND";
+        String sortString = "description,ASC";
+        investigationNotificationsSupport.defaultInvestigationsStored();
+
+        // then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/investigations/filter")
+                .then()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(10))
+                .body("totalItems", Matchers.is(8))
+                .body("content", Matchers.hasSize(8))
+                .body("content.description", Matchers.containsInRelativeOrder("1", "2", "3", "4", "5", "6", "7", "8"));
+    }
+
+    @Test
+    void givenSortByStatusProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
+        // given
+        String filterString = "channel,EQUAL,SENDER,AND";
+        String sortString = "status,ASC";
+        investigationNotificationsSupport.defaultInvestigationsStored();
+
+        // then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/investigations/filter")
+                .then()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(10))
+                .body("totalItems", Matchers.is(8))
+                .body("content", Matchers.hasSize(8))
+                .body("content.status", Matchers.containsInRelativeOrder("ACCEPTED", "ACKNOWLEDGED", "CANCELED", "CLOSED", "CREATED", "DECLINED", "RECEIVED", "SENT"));
+    }
+
+    @Test
+    void givenInvalidSort_whenGet_thenBadRequest() throws JoseException {
+        // given
+        String sortString = "createdDate,failure";
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of())))
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/investigations/filter")
+                .then()
+                .statusCode(400)
+                .body("message", Matchers.is(
+                        "Invalid sort param provided sort=createdDate,failure expected format is following sort=parameter,order"
+                ));
+    }
+
+    @Test
+    void shouldReturnPagedInvestigations() throws JoseException {
         // given
         Instant now = Instant.now();
         String testBpn = bpnSupport.testBpn();
 
         IntStream.range(1, 101)
                 .forEach(
-                        number -> investigationsSupport.storedInvestigation(
-                                InvestigationEntity.builder()
-                                        .assets(Collections.emptyList())
-                                        .bpn(testBpn)
-                                        .status(NotificationStatusBaseEntity.CREATED)
-                                        .side(NotificationSideBaseEntity.SENDER)
-                                        .createdDate(now)
-                                        .build()
-                        )
-                );
-
-        // when/then
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "2")
-                .param("size", "10")
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/api/investigations/created")
-                .then()
-                .statusCode(200)
-                .body("page", Matchers.is(2))
-                .body("pageSize", Matchers.is(10))
-                .body("content", Matchers.hasSize(10))
-                .body("totalItems", Matchers.is(100));
-    }
-
-    @Test
-    void shouldReturnProperlyPagedReceivedInvestigations() throws JoseException {
-        // given
-        Instant now = Instant.now();
-        String testBpn = bpnSupport.testBpn();
-        String senderBPN = "BPN0001";
-        String senderName = "Sender name";
-        String receiverBPN = "BPN0002";
-        String receiverName = "Receiver name";
-
-        IntStream.range(101, 201)
-                .forEach(number ->
-                        {
-                            InvestigationEntity investigationEntity = InvestigationEntity.builder()
-                                    .assets(Collections.emptyList())
-                                    .bpn(testBpn)
-                                    .status(NotificationStatusBaseEntity.CREATED)
-                                    .side(NotificationSideBaseEntity.RECEIVER)
-                                    .createdDate(now)
-                                    .build();
-
-                            InvestigationEntity investigation = investigationsSupport.storedInvestigationFullObject(investigationEntity);
-
-                            InvestigationNotificationEntity notificationEntity = InvestigationNotificationEntity
-                                    .builder()
-                                    .id(UUID.randomUUID().toString())
-                                    .investigation(investigation)
-                                    .createdBy(senderBPN)
-                                    .status(NotificationStatusBaseEntity.CREATED)
-                                    .createdByName(senderName)
-                                    .sendTo(receiverBPN)
-                                    .sendToName(receiverName)
-                                    .messageId("messageId")
-                                    .build();
-
-                            InvestigationNotificationEntity persistedNotification = investigationNotificationsSupport.storedNotification(notificationEntity);
-                            persistedNotification.setInvestigation(investigation);
-                            investigationNotificationsSupport.storedNotification(persistedNotification);
+                        number -> {
+                            investigationsSupport.storedInvestigation(
+                                    InvestigationEntity.builder()
+                                            .assets(Collections.emptyList())
+                                            .bpn(testBpn)
+                                            .status(NotificationStatusBaseEntity.CREATED)
+                                            .side(NotificationSideBaseEntity.SENDER)
+                                            .createdDate(now)
+                                            .build()
+                            );
                         }
                 );
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "2")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(2, 10, List.of()), new SearchCriteriaRequestParam(List.of())))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/received")
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
-                .body("content.createdBy", Matchers.hasItems(senderBPN))
-                .body("content.createdByName", Matchers.hasItems(senderName))
-                .body("content.sendTo", Matchers.hasItems(receiverBPN))
-                .body("content.sendToName", Matchers.hasItems(receiverName))
                 .body("page", Matchers.is(2))
                 .body("pageSize", Matchers.is(10))
                 .body("content", Matchers.hasSize(10))
@@ -215,7 +241,7 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenNoInvestigationId_whenGetInvestigationById_thenReturnNotFound() throws JoseException {
+    void givenNonExistingInvestigation_whenGetInvestigationById_thenReturnNotFound() throws JoseException {
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -229,57 +255,37 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
     @Test
     void shouldReturnInvestigationById() throws JoseException {
         // given
-        String testBpn = bpnSupport.testBpn();
-        String senderBPN = "BPN0001";
-        String senderName = "Sender name";
-        String receiverBPN = "BPN0002";
-        String receiverName = "Receiver name";
-
-        InvestigationEntity investigationEntity =
-                InvestigationEntity
-                        .builder()
-                        .id(1L)
-                        .assets(List.of())
-                        .bpn(testBpn)
-                        .description("1")
-                        .status(NotificationStatusBaseEntity.RECEIVED)
-                        .side(NotificationSideBaseEntity.SENDER)
-                        .createdDate(Instant.now())
-                        .build();
-
-        InvestigationEntity persistedInvestigation = investigationsSupport.storedInvestigationFullObject(investigationEntity);
-
-        InvestigationNotificationEntity notificationEntity = investigationNotificationsSupport.storedNotification(
-                InvestigationNotificationEntity
-                        .builder()
-                        .id("1")
-                        .investigation(persistedInvestigation)
-                        .createdBy(senderBPN)
-                        .createdByName(senderName)
-                        .sendTo(receiverBPN)
-                        .status(NotificationStatusBaseEntity.CREATED)
-                        .sendToName(receiverName)
-                        .build());
-        notificationEntity.setInvestigation(persistedInvestigation);
-        investigationNotificationsSupport.storedNotification(notificationEntity);
-        Long investigationId = persistedInvestigation.getId();
+        InvestigationNotificationEntity storedInvestigationNotification = investigationNotificationsSupport.storeInvestigationNotification();
+        InvestigationEntity storedInvestigation = storedInvestigationNotification.getInvestigation();
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/{investigationId}", investigationId)
+                .get("/api/investigations/{investigationId}", storedInvestigation.getId())
                 .then()
                 .statusCode(200)
-                .body("id", Matchers.is(investigationId.intValue()))
-                .body("status", Matchers.is("RECEIVED"))
-                .body("description", Matchers.is("1"))
+                .body("id", Matchers.is(storedInvestigation.getId().intValue()))
+                .body("status", Matchers.is(storedInvestigation.getStatus().name()))
+                .body("description", Matchers.is(storedInvestigation.getDescription()))
                 .body("assetIds", Matchers.empty())
-                .body("createdBy", Matchers.is(senderBPN))
-                .body("createdByName", Matchers.is(senderName))
-                .body("sendTo", Matchers.is(receiverBPN))
-                .body("sendToName", Matchers.is(receiverName))
+                .body("createdBy", Matchers.is(storedInvestigationNotification.getCreatedBy()))
+                .body("createdByName", Matchers.is(storedInvestigationNotification.getCreatedByName()))
+                .body("sendTo", Matchers.is(storedInvestigationNotification.getSendTo()))
+                .body("sendToName", Matchers.is(storedInvestigationNotification.getSendToName()))
                 .body("createdDate", isIso8601DateTime());
+    }
+
+    @Test
+    void givenNonExistingSortField_whenGetInvestigations_thenBadRequest() throws JoseException {
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of("nonExistingField,ASC")), new SearchCriteriaRequestParam(List.of())))
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/investigations/filter")
+                .then()
+                .statusCode(400);
     }
 }

@@ -25,14 +25,17 @@ import { UserService } from './user.service';
 
 const ROLES_RELATIONS: RoleRelation[] = [
   {
-    role: Role.WIP,
+    role: 'wip',
   },
   {
-    role: Role.ADMIN,
+    role: 'admin',
   },
   {
-    role: Role.SUPERVISOR,
-    child: Role.USER,
+    role: 'supervisor',
+    child: 'user',
+  },
+  {
+    role: 'user',
   },
 ];
 
@@ -40,23 +43,31 @@ const ROLES_RELATIONS: RoleRelation[] = [
   providedIn: 'root',
 })
 export class RoleService {
-  constructor(private readonly userService: UserService) { }
+  constructor(private readonly userService: UserService) {
+  }
 
   public hasAccess(requiredRoles: Role | Role[]): boolean {
-    const requiredRolesList = typeof requiredRoles === 'string' ? [requiredRoles] : requiredRoles;
+    const requiredRolesList = typeof requiredRoles === 'string' ? [ requiredRoles ] : requiredRoles;
 
     const roles = this.userService.roles.map(role => role.toLocaleLowerCase());
-    const allPossibleRoles = [...requiredRolesList, ...this.getParentsRolesFor(requiredRolesList)];
+    const allPossibleRoles = [ ...requiredRolesList, ...this.getParentsRolesFor(requiredRolesList) ];
 
-    return allPossibleRoles.some(possibleRole => roles.includes(possibleRole));
+    if(allPossibleRoles.some(possibleRole => roles.includes(possibleRole))) {
+      return true;
+    } else return roles.includes('admin') && requiredRolesList.includes('admin');
+
   }
 
   public isAtLeastSupervisor(): boolean {
-    return this.hasAccess(Role.SUPERVISOR);
+    return this.hasAccess('supervisor');
   }
 
   public isAtLeastUser(): boolean {
-    return this.hasAccess(Role.USER);
+    return this.hasAccess('user');
+  }
+
+  public isAdmin(): boolean {
+    return this.hasAccess('admin')
   }
 
   private getParentsRolesFor(lookupRoles: Role[]): Role[] {
@@ -64,7 +75,7 @@ export class RoleService {
 
     if (parentRoles.length) {
       const roles = parentRoles.map(({ role }) => role);
-      return [...roles, ...this.getParentsRolesFor(roles)];
+      return [ ...roles, ...this.getParentsRolesFor(roles) ];
     }
 
     return [];
