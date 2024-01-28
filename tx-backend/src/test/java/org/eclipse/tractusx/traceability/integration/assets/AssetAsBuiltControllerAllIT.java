@@ -122,6 +122,7 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
                 .when()
                 .get("/api/assets/as-built")
                 .then()
+                .log().body() // T
                 .statusCode(200)
                 .body("totalItems", equalTo(13))
                 .body("content[0]", hasEntry("id", "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb"))
@@ -129,7 +130,6 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
                 .body("content[0]", hasEntry("semanticModelId", "OMA-TGFAYUHXFLHHUQQMPLTE"))
                 .body("content[0]", hasEntry("businessPartner", "BPNL00000003AYRE"))
                 .body("content[0]", hasEntry("manufacturerName", "Manufacturer Name 1"))
-                .body("content[0]", hasEntry("underInvestigation", false))
                 .body("content[0]", hasEntry("qualityType", "Ok"))
                 .body("content[0]", hasEntry("van", "OMA-TGFAYUHXFLHHUQQMPLTE"))
                 .body("content[0].detailAspectModels[0].data", hasEntry("manufacturingCountry", "DEU"))

@@ -20,7 +20,6 @@
  ********************************************************************************/
 
 import { Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { Notification } from '@shared/model/notification.model';
 import { TranslationContext } from '@shared/model/translation-context.model';
@@ -38,19 +37,17 @@ export class CancelNotificationModalComponent {
   @Input() translationContext: TranslationContext;
   @Output() confirmActionCompleted = new EventEmitter<void>();
 
+
   public notification: Notification;
-  public readonly formGroup;
-  private readonly textAreaControl = new UntypedFormControl();
 
   constructor(private readonly toastService: ToastService, private readonly confirmModalService: ModalService) {
-    this.formGroup = new UntypedFormGroup({ notificationId: this.textAreaControl });
   }
 
   public show(notification: Notification): void {
     this.notification = notification;
-    this.textAreaControl.setValidators([ Validators.required, Validators.pattern(this.notification.id.toString()) ]);
+
     const onConfirm = (isConfirmed: boolean) => {
-      this.formGroup.reset();
+
       if (!isConfirmed) return;
 
       this.cancelCall(notification.id).subscribe({
@@ -66,11 +63,11 @@ export class CancelNotificationModalComponent {
 
     const options: ModalData = {
       title: this.translationContext + '.modal.cancellationTitle',
+      type: this.translationContext + '.modal.cancellationConfirmationLabel',
       buttonRight: 'actions.cancellationConfirm',
       primaryButtonColour: 'warn',
-
+      notificationId: this.notification.id,
       template: this.modal,
-      formGroup: this.formGroup,
       onConfirm,
     };
 

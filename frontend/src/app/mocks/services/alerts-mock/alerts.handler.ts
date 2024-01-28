@@ -19,11 +19,11 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { environment } from '@env';
-import { NotificationStatus } from '@shared/model/notification.model';
-import { rest } from 'msw';
-import { applyPagination, extractPagination } from '../pagination.helper';
-import { AlertIdPrefix, buildMockAlerts, getAlertById } from './alerts.model';
+import {environment} from '@env';
+import {NotificationStatus} from '@shared/model/notification.model';
+import {rest} from 'msw';
+import {applyPagination, extractPaginationOfNotifications} from '../pagination.helper';
+import {AlertIdPrefix, buildMockAlerts, getAlertById} from './alerts.model';
 import {
   AlertIdPrefix as testAlertIdPrefix,
   buildMockAlerts as testBuildMockAlerts,
@@ -49,8 +49,8 @@ const commonHandler = [
 ];
 
 export const alertsHandlers = [
-  rest.get(`*${ environment.apiUrl }/alerts`, (req, res, ctx) => {
-    const pagination = extractPagination(req);
+  rest.post(`*${ environment.apiUrl }/alerts/filter`, (req, res, ctx) => {
+    const pagination = extractPaginationOfNotifications(req);
 
     const currentStatus = [
       NotificationStatus.CREATED,
@@ -65,8 +65,8 @@ export const alertsHandlers = [
     return res(ctx.status(200), ctx.json(applyPagination(buildMockAlerts(currentStatus, 'SENDER'), pagination)));
   }),
 
-  rest.get(`*${ environment.apiUrl }/alerts`, (req, res, ctx) => {
-    const pagination = extractPagination(req);
+  rest.post(`*${ environment.apiUrl }/alerts/filter`, (req, res, ctx) => {
+    const pagination = extractPaginationOfNotifications(req);
 
     const currentStatus = [
       NotificationStatus.RECEIVED,
@@ -120,8 +120,8 @@ export const alertsHandlers = [
 ];
 
 export const alertsTestHandlers = [
-  rest.get(`*${ environment.apiUrl }/alerts`, (req, res, ctx) => {
-    const pagination = extractPagination(req);
+  rest.post(`*${ environment.apiUrl }/alerts/filter`, (req, res, ctx) => {
+    const pagination = extractPaginationOfNotifications(req);
 
     const currentStatus = [
       NotificationStatus.CREATED,
@@ -134,8 +134,8 @@ export const alertsTestHandlers = [
     return res(ctx.status(200), ctx.json(applyPagination(testBuildMockAlerts(currentStatus, 'SENDER'), pagination)));
   }),
 
-  rest.get(`*${ environment.apiUrl }/alerts`, (req, res, ctx) => {
-    const pagination = extractPagination(req);
+  rest.post(`*${ environment.apiUrl }/alerts/filter`, (req, res, ctx) => {
+    const pagination = extractPaginationOfNotifications(req);
 
     const currentStatus = [ NotificationStatus.RECEIVED, NotificationStatus.ACKNOWLEDGED ];
     return res(ctx.status(200), ctx.json(applyPagination(testBuildMockAlerts(currentStatus, 'RECEIVER'), pagination)));

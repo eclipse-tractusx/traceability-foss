@@ -5,8 +5,89 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-
 ## [UNRELEASED - DD.MM.YYYY]
+
+### Added
+
+### Changed
+
+### Removed
+
+## [10.2.1 - 23.01.2024]
+
+### Added
+- Test Release
+
+## [10.2.0 - 22.01.2024]
+
+### Added
+- Import Data Service for data provisioning
+- Added UI to publish own assets
+- Sequence Diagrams for Data Provisioning Flow
+- Added User Manual for Data import
+- Added github action to connect pull request with github issue
+- Added bpn validator to bpn edc mapping
+- Added new /irs/job/callback endpoint to handle irs job finished callback
+- Added Asset import info to parts table and parts detail view
+- SubmodelServerService for calling submodel server with feign client
+- Added GET /policies endpoint to retrieve accepted policies
+- Added POST assets/publish endpoint to publish transient assets
+
+### Changed
+- Fixed security findings
+- Rework GET alerts and investigations endpoint to POST to send a request body
+- Fixed deadline overlap issues for Q-investigations in update menu
+- Fixed sorting of asPlanned parts
+- Fixed unlimited filter parameter length by setting it to 1000 characters max
+- Adjusted cypress tests to new cancellation flow
+- Fixed bug where applying a filter in one table erroneously affected sorting in the other table
+- Moved UpdateAssetRequest to tx-models module
+- updated Compatibility Matrix
+- Irs Jobs are now created with callback parameter set to new /irs/job/callback endpoint
+- Upgraded irs version from 6.12.0 to 6.13.0
+- Switched from OAuth2.0 to API Key authentication for IRS API Requests
+- switched from json-schema-friend:0.12.3 to json-schema-validator:5.4.0 for import file validation
+- Moved logic for active notifications to frontend
+- Updated com.github.spotbugs:spotbugs-maven-plugin from 4.7.3.0 to 4.8.3.0
+- Updated actions/github-script from 5 to 7
+- Updated org.apache.maven.plugins:maven-surefire-plugin from 3.1.2 to 3.2.5
+- Updated org.apache.maven.plugins:maven-failsafe-plugin from 3.0.0-M8 to 3.2.5
+- Updated aquasecurity/trivy-action from 0.16.0 to 0.16.1
+- Updated actions/upload-artifact from 3 to 4
+- Updated github/codeql-action from 2 to 3
+- Updated actions/download-artifact from 3 to 4actions/download-artifact from 3 to 4
+- Updated com.nimbusds:nimbus-jose-jwt from 9.37.1 to 9.37.3
+
+### Removed
+- Shell descriptor entity with underlying logic
+
+## [10.1.0 - 22.12.2023]
+### Added
+- Added an option for testdata upload in Argo Workflow
+- Validation for import data
+- GitHub action that ensures an up-to-date CHANGELOG.md
+
+### Changed
+- Restricted datefield on investigation creation to be only clickable and not editable
+- Removed duplication of request notification component and combined it into a reusable component
+- bump aquasecurity/trivy-action from 0.14.0 to 0.16.0
+- bump actions/setup-python from 4 to 5
+- bump mikefarah/yq from 4.40.2 to 4.40.5
+- bump actions/setup-java from 3 to 4
+- bump org.apache.maven.plugins:maven-jxr-plugin from 3.3.0 to 3.3.1
+- bump org.apache.maven.plugins:maven-checkstyle-plugin from 3.3.0 to 3.3.1
+- bump schedlock.version from 5.9.1 to 5.10.0
+- fixed bug where filter was reset when sorting filtered notifications
+- redesigned notification status confirmation modal
+- bump irs version from 6.9.1 to 6.12.0
+- moved rights and roles matrix from arc42 doc to administration guide
+- Moved accepted policy to helm environments
+- Request IRS policy store to accept IRS policies in addition to our own policy
+
+### Removed
+- Removed registry lookups feature
+
+## [10.0.0 - 12.12.2023]
 ### Added
 - new filtering capabilities ( receivedQualityAlertIdsInStatusActive, sentQualityAlertIdsInStatusActive, receivedQualityInvestigationIdsInStatusActive, sentQualityInvestigationIdsInStatusActive )
 - Validation check if table-settings correct and reset on invalid state
@@ -19,8 +100,10 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Added BPN column to parts table
 - Emit change check to observables in frontend
 - Added an Entity Relationship Model (ERM) into the Architecture Documentation to visually represent our tables and their relationships.
+- Added a step for testing input and included an option for a hard refresh in Argo Workflow
 - Added manufacturer_id to assets_as_planned
 - Added local filtering and auto complete for notifications
+- Added a drag-and-drop option for JSON files and an endpoint to receive them
 
 ### Changed
 - Filter configuration for tables to be resuable and easy to adapt

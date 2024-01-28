@@ -23,8 +23,10 @@ import { DatePipe, TitleCasePipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { RouterModule } from '@angular/router';
+import { AssetPublisherComponent } from '@shared/components/asset-publisher/asset-publisher.component';
 import { BomLifecycleActivatorComponent } from '@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.component';
 import { CardMetricComponent } from '@shared/components/card-metric/card-metric.component';
+import { ChipComponent } from '@shared/components/chip/chip.component';
 import { CountryFlagGeneratorComponent } from '@shared/components/country-flag-generator/country-flag-generator.component';
 import { DateTimeComponent } from '@shared/components/dateTime/dateTime.component';
 import { FormErrorMessageComponent } from '@shared/components/formErrorMessage/formErrorMessage.component';
@@ -33,9 +35,8 @@ import { MultiSelectAutocompleteComponent } from '@shared/components/multi-selec
 import { NotificationOverviewComponent } from '@shared/components/notification-overview/notification-overview.component';
 import { NotificationReasonComponent } from '@shared/components/notification-reason/notification-reason.component';
 import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
-import { RequestInvestigationComponent } from '@shared/components/request-notification';
+import { RequestNotificationComponent } from '@shared/components/request-notification';
 import { RequestEssInvestigationComponent } from '@shared/components/request-notification';
-import { RequestAlertComponent } from '@shared/components/request-notification/request-alert.component';
 import { SeveritySelectComponent } from '@shared/components/severity-select/severity-select.component';
 import { SeverityComponent } from '@shared/components/severity/severity.component';
 import { TableSettingsComponent } from '@shared/components/table-settings/table-settings.component';
@@ -79,7 +80,7 @@ import { PartsService } from './service/parts.service';
 import { StaticIdService } from './service/staticId.service';
 import { TemplateModule } from './template.module';
 import { EssService } from '@shared/service/ess.service';
-import {EssTableComponent} from '@shared/components/ess-table/ess-table.component';
+import { EssTableComponent } from '@shared/components/ess-table/ess-table.component';
 
 @NgModule({
   declarations: [
@@ -111,9 +112,8 @@ import {EssTableComponent} from '@shared/components/ess-table/ess-table.componen
     SidenavWrapperComponent,
     TextareaComponent,
     ErrorMessagePipe,
-    RequestInvestigationComponent,
+    RequestNotificationComponent,
     RequestEssInvestigationComponent,
-    RequestAlertComponent,
     QualityTypeComponent,
     ValueToLablePipe,
     NotificationOverviewComponent,
@@ -132,7 +132,9 @@ import {EssTableComponent} from '@shared/components/ess-table/ess-table.componen
     TableSettingsComponent,
     AbbreviateNumberPipe,
     CardMetricComponent,
-    EssTableComponent,
+    AssetPublisherComponent,
+    ChipComponent,
+    EssTableComponent
   ],
   imports: [ TemplateModule, RouterModule, I18NextModule ],
   exports: [
@@ -160,9 +162,8 @@ import {EssTableComponent} from '@shared/components/ess-table/ess-table.componen
     SidenavWrapperComponent,
     TextareaComponent,
     ErrorMessagePipe,
-    RequestInvestigationComponent,
+    RequestNotificationComponent,
     RequestEssInvestigationComponent,
-    RequestAlertComponent,
     QualityTypeComponent,
     NotificationOverviewComponent,
     NotificationReasonComponent,
@@ -183,7 +184,9 @@ import {EssTableComponent} from '@shared/components/ess-table/ess-table.componen
     CountryFlagGeneratorComponent,
     AbbreviateNumberPipe,
     CardMetricComponent,
-    EssTableComponent,
+    AssetPublisherComponent,
+    ChipComponent,
+    EssTableComponent
   ],
   providers: [
     FormatDatePipe,
@@ -197,7 +200,7 @@ import {EssTableComponent} from '@shared/components/ess-table/ess-table.componen
       useClass: PaginatorIntlService,
     },
     BpdmService,
-    EssService,
+    EssService
   ],
 })
 export class SharedModule {

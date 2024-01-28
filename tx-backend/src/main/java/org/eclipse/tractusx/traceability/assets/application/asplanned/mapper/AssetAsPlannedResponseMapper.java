@@ -47,8 +47,6 @@ public class AssetAsPlannedResponseMapper extends AssetBaseResponseMapper {
                         asset.getParentRelations().stream()
                                 .map(AssetAsPlannedResponseMapper::from)
                                 .toList())
-                .underInvestigation(asset.isInInvestigation())
-                .activeAlert(asset.isActiveAlert())
                 .qualityType(
                         from(asset.getQualityType())
                 )
@@ -59,6 +57,8 @@ public class AssetAsPlannedResponseMapper extends AssetBaseResponseMapper {
                 .receivedQualityAlertIdsInStatusActive(getNotificationIdsInActiveState(asset.getReceivedQualityAlerts()))
                 .sentQualityInvestigationIdsInStatusActive(getNotificationIdsInActiveState(asset.getSentQualityInvestigations()))
                 .receivedQualityInvestigationIdsInStatusActive(getNotificationIdsInActiveState(asset.getReceivedQualityInvestigations()))
+                .importState(toImportStateResponse(asset.getImportState()))
+                .importNote(asset.getImportNote())
                 .build();
     }
 
@@ -79,4 +79,5 @@ public class AssetAsPlannedResponseMapper extends AssetBaseResponseMapper {
                 .map(AssetAsPlannedResponseMapper::from)
                 .toList();
     }
+
 }

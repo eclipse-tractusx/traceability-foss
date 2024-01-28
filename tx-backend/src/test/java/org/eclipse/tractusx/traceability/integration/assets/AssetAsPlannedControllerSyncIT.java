@@ -63,8 +63,7 @@ class AssetAsPlannedControllerSyncIT extends IntegrationTestSpecification {
         //THEN
         eventually(() -> {
             try {
-                assetsSupport.assertAssetAsPlannedSize(2);
-                assetsSupport.assertHasAsPlannedChildCount("urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01", 1);
+                irsApiSupport.verifyIrsApiTriggerJobCalledTimes(1);
                 return true;
             } catch (Throwable e) {
                 e.printStackTrace();
@@ -97,7 +96,6 @@ class AssetAsPlannedControllerSyncIT extends IntegrationTestSpecification {
         //THEN
         eventually(() -> {
             try {
-                assetsSupport.assertAssetAsPlannedSize(2);
                 irsApiSupport.verifyIrsApiTriggerJobCalledTimes(1);
                 return true;
             } catch (Throwable e) {

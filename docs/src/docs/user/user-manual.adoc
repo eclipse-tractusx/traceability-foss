@@ -87,6 +87,20 @@ Navigates to the list of ESS investigations.
 Only applicable for the admin user role.
 Possibility to check the network status based on logfiles and will provide access to configuration possibilities for the application.
 
+==== Data Import Functionality
+
+With the admin user role, you have the ability to import data into the system.
+
+Click on your profile button located in the top right corner and select "Administration" from the dropdown menu.
+
+As you can see in the picture below, you can select a file to import and click on the appearing upload button.
+
+Find the example file at the following link: https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/tx-backend/testdata/import-test-data-CML1_v0.0.12.json
+
+image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/admin_upload_file.png[]
+
+The system will validate the file content. Upon successful validation, assets will be saved as either "AssetAsPlanned" or "AssetAsBuilt", with the import state set to "transient."
+
 === Logout
 
 Use the Icon in upper right corner to open User details and sign out button.

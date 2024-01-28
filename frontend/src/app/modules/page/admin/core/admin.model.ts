@@ -19,37 +19,15 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { CalendarDateModel } from '@core/model/calendar-date.model';
+
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 
-export enum KnownAdminRouts {
-  REGISTRY = 'registry-lookups',
+export enum KnownAdminRoutes {
   BPN = 'configure-bpn',
+  IMPORT = 'configure-import'
 }
 
-export interface RegistryProcess {
-  startDate: CalendarDateModel;
-  registryLookupStatus: RegistryLookupStatus;
-  successShellDescriptorsFetchCount: number;
-  failedShellDescriptorsFetchCount: number;
-  shellDescriptorsFetchDelta: number;
-  endDate: CalendarDateModel;
-}
 
-export interface RegistryProcessResponse {
-  startDate: string; // ISO8601
-  registryLookupStatus: RegistryLookupStatus;
-  successShellDescriptorsFetchCount: number;
-  failedShellDescriptorsFetchCount: number;
-  shellDescriptorsFetchDelta: number;
-  endDate: string; // ISO8601
-}
-
-export enum RegistryLookupStatus {
-  SUCCESSFUL = 'SUCCESSFUL',
-  PARTIALLY_SUCCESS = 'PARTIALLY_SUCCESS',
-  ERROR = 'ERROR',
-}
 
 export interface BpnConfigResponse {
   organization?: string;

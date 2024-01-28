@@ -173,10 +173,21 @@ public class RestProvider {
     }
 
     public List<QualityNotificationResponse> getReceivedNotifications(NotificationTypeEnum notificationType) {
+
         return given().spec(getRequestSpecification())
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/" + notificationType.label + "?size=1000&filter=channel,EQUAL,RECEIVER,AND")
+                .body("{\n" +
+                        "    \"pageAble\": {\n" +
+                        "        \"size\": 1000 \n" +
+                        "    },\n" +
+                        "    \"searchCriteria\": {\n" +
+                        "        \"filter\": [\n" +
+                        "            \"channel,EQUAL,RECEIVER,AND\"\n" +
+                        "        ]\n" +
+                        "    }\n" +
+                        "}")
+                .post("/api/" + notificationType.label + "/filter")
                 .then()
                 .statusCode(HttpStatus.SC_OK)
                 .extract()

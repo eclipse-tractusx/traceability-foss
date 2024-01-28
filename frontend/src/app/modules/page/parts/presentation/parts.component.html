@@ -39,7 +39,29 @@ SPDX-License-Identifier: Apache-2.0
   </div>
   <div class="app-bom-lifecycle-activator-container">
     <app-bom-lifecycle-activator [view]=UserSettingView.PARTS
-                                 (buttonClickEvent)="handleTableActivationEvent($event)"></app-bom-lifecycle-activator>
+                                 (buttonClickEvent)="handleTableActivationEvent($event)">
+    </app-bom-lifecycle-activator>
+    <div class="table--header--select--button"
+         matTooltip="{{'routing.unauthorized' | i18n}}"
+         matTooltipClass="table--header--tooltip"
+         matTooltipPosition="above"
+         [class.mdc-tooltip--multiline]="true"
+         [matTooltipShowDelay]="1000"
+         [matTooltipDisabled]="roleService.hasAccess(['wip'])"
+    >
+      <app-button
+              *ngIf="(allSelectedItems$ | async).length"
+              (click)="isPublisherOpen$.next(true)"
+              [variant]="'raised'"
+              [color]="'accent'"
+              [isDisabled]="!roleService.hasAccess(['wip'])"
+      >
+        <div class="flex justify-between items-center text-dark p-0.5">
+          <mat-icon class="mr-2">published_with_changes</mat-icon>
+          {{ 'actions.publishAssets' | i18n }}
+        </div>
+      </app-button>
+    </div>
   </div>
   <div class="split-container-wrapper">
     <as-split direction="horizontal" class="split-container">
@@ -88,7 +110,7 @@ SPDX-License-Identifier: Apache-2.0
                              [addTrigger]="addPartTrigger$ | async"
                              (selected)="onSelectItem($event)"
                              (configChanged)="onAsPlannedTableConfigChange($event)"
-                             (multiSelect)="currentSelectedItems$.next($event)"
+                             (multiSelect)="currentSelectedAsPlannedItems$.next($event)"
                              (clickSelectAction)="isAlertOpen$.next(true)"
                              (clickSelectEssAction)="isEssOpen$.next(true)"
                              (filterActivated)="filterActivated(false, $event)"
@@ -106,6 +128,13 @@ SPDX-License-Identifier: Apache-2.0
 
   <app-part-detail></app-part-detail>
 
+  <app-sidenav-wrapper [isOpen]="isPublisherOpen$ | async" (sidenavAction)="isPublisherOpen$.next($event)">
+    <app-asset-publisher
+      [selectedAssets] = "allSelectedItems$ | async"
+      (submitted)="isPublisherOpen$.next(false)"
+    ></app-asset-publisher>
+  </app-sidenav-wrapper>
+
   <app-sidenav-wrapper [isOpen]="isEssOpen$ | async" (sidenavAction)="isEssOpen$.next($event)">
     <app-request-ess-investigation
       *ngIf="isEssOpen$ | async"
@@ -118,14 +147,15 @@ SPDX-License-Identifier: Apache-2.0
   </app-sidenav-wrapper>
 
   <app-sidenav-wrapper [isOpen]="isAlertOpen$ | async" (sidenavAction)="isAlertOpen$.next($event)">
-    <app-request-alert
+    <app-notification-request
       *ngIf="isAlertOpen$ | async"
       [selectedItems]="currentSelectedItems$ | async"
+      [notificationType]="NotificationType.ALERT"
       (deselectPart)="deselectPartTrigger$.next([$event])"
       (restorePart)="addPartTrigger$.next($event)"
       (clearSelected)="deselectPartTrigger$.next(currentSelectedItems$.value)"
       (submitted)="isAlertOpen$.next(false)"
-    ></app-request-alert>
+    ></app-notification-request>
   </app-sidenav-wrapper>
 
 

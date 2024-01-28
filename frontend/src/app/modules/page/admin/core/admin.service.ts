@@ -19,52 +19,44 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { ApiService } from '@core/api/api.service';
-import { Pagination } from '@core/model/pagination.model';
-import { environment } from '@env';
-import { AdminAssembler } from '@page/admin/core/admin.assembler';
-import { BpnConfig, BpnConfigResponse, RegistryProcess, RegistryProcessResponse } from '@page/admin/core/admin.model';
-import { TableHeaderSort } from '@shared/components/table/table.model';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {ApiService} from '@core/api/api.service';
+import {environment} from '@env';
+import {AdminAssembler} from '@page/admin/core/admin.assembler';
+import {BpnConfig, BpnConfigResponse} from '@page/admin/core/admin.model';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Injectable()
 export class AdminService {
-  private readonly url = environment.apiUrl;
+    private readonly url = environment.apiUrl;
 
-  constructor(private readonly apiService: ApiService) {
-  }
+    constructor(private readonly apiService: ApiService) {
+    }
 
-  public getScheduledRegistryProcesses(
-    page: number,
-    pageSize: number,
-    sorting: TableHeaderSort,
-  ): Observable<Pagination<RegistryProcess>> {
-    const sort = sorting ? `${ sorting[0] },${ sorting[1] }` : '';
-    const params = new HttpParams().set('page', page).set('size', pageSize).set('sort', sort);
 
-    return this.apiService
-      .getBy<Pagination<RegistryProcessResponse>>(`${ this.url }/metrics/registry-lookup`, params)
-      .pipe(map(data => AdminAssembler.assemblePaginationRegistryProcess(data)));
-  }
+    public createBpnFallbackConfig(bpnConfig: BpnConfig[]): Observable<BpnConfig[]> {
+        return this.apiService.post<BpnConfig[]>(`${this.url}/bpn-config`, bpnConfig);
+    }
 
-  public createBpnFallbackConfig(bpnConfig: BpnConfig[]): Observable<BpnConfig[]> {
-    return this.apiService.post<BpnConfig[]>(`${ this.url }/bpn-config`, bpnConfig);
-  }
+    public readBpnFallbackConfig(): Observable<BpnConfig[]> {
+        return this.apiService
+            .get<BpnConfigResponse[]>(`${this.url}/bpn-config`)
+            .pipe(map(data => AdminAssembler.assembleBpnConfig(data)));
+    }
 
-  public readBpnFallbackConfig(): Observable<BpnConfig[]> {
-    return this.apiService
-      .get<BpnConfigResponse[]>(`${ this.url }/bpn-config`)
-      .pipe(map(data => AdminAssembler.assembleBpnConfig(data)));
-  }
+    public updateBpnFallbackConfig(bpnConfig: BpnConfig[]): Observable<BpnConfig[]> {
+        return this.apiService.put<BpnConfig[]>(`${this.url}/bpn-config`, bpnConfig);
+    }
 
-  public updateBpnFallbackConfig(bpnConfig: BpnConfig[]): Observable<BpnConfig[]> {
-    return this.apiService.put<BpnConfig[]>(`${ this.url }/bpn-config`, bpnConfig);
-  }
+    public deleteBpnFallbackConfig(bpn: string): Observable<void> {
+        return this.apiService.delete<void>(`${this.url}/bpn-config/${bpn}`);
+    }
 
-  public deleteBpnFallbackConfig(bpn: string): Observable<void> {
-    return this.apiService.delete<void>(`${ this.url }/bpn-config/${ bpn }`);
-  }
+    public postJsonFile(file: File): Observable<any> {
+        const formData = new FormData();
+        formData.append('file', file);
+        return this.apiService.postFile(`${this.url}/assets/import`, formData);
+    }
+
 }

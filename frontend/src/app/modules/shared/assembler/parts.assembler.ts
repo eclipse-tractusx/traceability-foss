@@ -80,11 +80,10 @@ export class PartsAssembler {
       manufacturerName: partResponse.manufacturerName,
       manufacturerPartId: partResponse.manufacturerPartId,
       nameAtManufacturer: partResponse.nameAtManufacturer,
+      owner: partResponse.owner,
       businessPartner: partResponse.businessPartner,
       children: partResponse.childRelations.map(child => child.id) || [],
       parents: partResponse.parentRelations?.map(parent => parent.id) || [],
-      activeAlert: partResponse.activeAlert || false,
-      activeInvestigation: partResponse.underInvestigation || false,
       qualityType: partResponse.qualityType || QualityType.Ok,
       van: partResponse.van || '--',
       semanticDataModel: partResponse.semanticDataModel,
@@ -121,6 +120,8 @@ export class PartsAssembler {
       sentActiveInvestigations: partResponse.sentQualityInvestigationIdsInStatusActive,
       receivedActiveInvestigations: partResponse.receivedQualityInvestigationIdsInStatusActive,
 
+      importNote: partResponse.importNote,
+      importState: partResponse.importState
 
     };
   }
@@ -227,6 +228,17 @@ export class PartsAssembler {
     });
   }
 
+  public static mapPartForAssetStateDetailsView(): OperatorFunction<View<Part>, View<Part>> {
+    return map(viewData => {
+      if(!viewData?.data?.importState) {
+        return;
+      }
+
+      const { importNote, importState } = viewData.data;
+      return { data: {importNote, importState} as Part};
+    })
+  }
+
   public static mapPartForTractionBatteryCodeSubComponentsView(): OperatorFunction<View<Part>, View<Part>> {
     return map(viewData => {
       if (!viewData?.data?.tractionBatteryCode || !viewData?.data?.subcomponents?.length) {
@@ -259,7 +271,7 @@ export class PartsAssembler {
     return `${ this.localToApiMapping.get(sorting[0]) || sorting },${ sorting[1] }`;
   }
 
-  public static localToApiMapping = new Map<string, string>([
+  public static readonly localToApiMapping = new Map<string, string>([
     [ 'id', 'id' ],
     [ 'idShort', 'idShort' ],
     [ 'semanticModelId', 'semanticModelId' ],
@@ -285,7 +297,9 @@ export class PartsAssembler {
     [ 'functionValidUntil', 'functionValidUntil' ],
     [ 'sentActiveAlerts', 'sentQualityAlertIdsInStatusActive' ],
     [ 'receivedActiveAlerts', 'receivedQualityAlertIdsInStatusActive' ],
-    [ 'sentActiveInvestigations', 'receivedQualityAlertIdsInStatusActive' ],
-    [ 'receivedActiveInvestigations', 'receivedQualityAlertIdsInStatusActive' ],
+    [ 'sentActiveInvestigations', 'sentQualityInvestigationIdsInStatusActive' ],
+    [ 'receivedActiveInvestigations', 'receivedQualityInvestigationIdsInStatusActive' ],
+    ['importState', 'importState'],
+    ['importNote', 'importNote']
   ]);
 }

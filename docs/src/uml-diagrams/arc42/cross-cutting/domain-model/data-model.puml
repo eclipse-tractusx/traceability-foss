@@ -1,0 +1,30 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam linetype ortho
+skinparam defaultFontName "Architects daughter"
+
+entity ImportJobs {
+    importId
+    jobImportStatus
+    startedOn
+    completedOn
+}
+
+entity ImportedAsset{
+    assetImportId
+    assetImportStatus
+    importMessage
+    importedOn
+    catenaXId
+}
+
+entity Asset {
+    catenaXId
+}
+
+ImportedAsset "1 .. 10k"  -- " 1 " ImportJobs
+Asset " 1 " -- " 1 " ImportedAsset
+
+
+@enduml

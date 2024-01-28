@@ -28,22 +28,23 @@ import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportNote;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
-import org.eclipse.tractusx.traceability.common.model.PageResult;
-import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.AssetCallbackRepository;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.common.repository.CriteriaUtility;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
+import java.util.AbstractMap;
 import java.util.List;
-
-import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+import java.util.Objects;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component
-public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
+public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository, AssetCallbackRepository {
 
     private final JpaAssetAsBuiltRepository jpaAssetAsBuiltRepository;
 
@@ -56,11 +57,6 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
         return jpaAssetAsBuiltRepository.findById(assetId)
                 .map(AssetAsBuiltEntity::toDomain)
                 .orElseThrow(() -> new AssetNotFoundException("Asset with id %s was not found.".formatted(assetId)));
-    }
-
-    @Override
-    public boolean existsById(String globalAssetId) {
-        return jpaAssetAsBuiltRepository.existsById(globalAssetId);
     }
 
     @Override
@@ -78,13 +74,6 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
     }
 
     @Override
-    public PageResult<AssetBase> getAssets(Pageable pageable, SearchCriteria searchCriteria) {
-        List<AssetAsBuildSpecification> assetAsBuildSpecifications = emptyIfNull(searchCriteria.getSearchCriteriaFilterList()).stream().map(AssetAsBuildSpecification::new).toList();
-        Specification<AssetAsBuiltEntity> specification = AssetAsBuildSpecification.toSpecification(assetAsBuildSpecifications);
-        return new PageResult<>(jpaAssetAsBuiltRepository.findAll(specification, pageable), AssetAsBuiltEntity::toDomain);
-    }
-
-    @Override
     public List<String> getFieldValues(String fieldName, String startWith, Integer resultLimit, Owner owner) {
         return CriteriaUtility.getDistinctAssetFieldValues(fieldName, startWith, resultLimit, owner, AssetAsBuiltEntity.class, entityManager);
     }
@@ -92,30 +81,54 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
     @Override
     @Transactional
     public List<AssetBase> getAssets() {
-        return AssetAsBuiltEntity.toDomainList(jpaAssetAsBuiltRepository.findAll());
+        return jpaAssetAsBuiltRepository.findAll().stream()
+                .map(AssetAsBuiltEntity::toDomain)
+                .toList();
     }
 
     @Override
     public AssetBase save(AssetBase asset) {
-        return AssetAsBuiltEntity.toDomain(jpaAssetAsBuiltRepository.save(AssetAsBuiltEntity.from(asset)));
+        return jpaAssetAsBuiltRepository.save(AssetAsBuiltEntity.from(asset)).toDomain();
     }
 
     @Override
     @Transactional
     public List<AssetBase> saveAll(List<AssetBase> assets) {
-        return AssetAsBuiltEntity.toDomainList(jpaAssetAsBuiltRepository.saveAll(AssetAsBuiltEntity.fromList(assets)));
+        return jpaAssetAsBuiltRepository.saveAll(AssetAsBuiltEntity.fromList(assets)).stream()
+                .map(AssetAsBuiltEntity::toDomain)
+                .toList();
     }
 
-
-    @Transactional
     @Override
-    public void updateParentDescriptionsAndOwner(final AssetBase asset) {
-        AssetBase assetById = this.getAssetById(asset.getId());
-        if (assetById.getOwner().equals(Owner.UNKNOWN)) {
-            assetById.setOwner(asset.getOwner());
+    @Transactional
+    public List<AssetBase> saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(List<AssetBase> assets) {
+        if(Objects.isNull(assets)) {
+            return List.of();
         }
-        assetById.setParentRelations(asset.getParentRelations());
-        save(assetById);
+        List<AssetAsBuiltEntity> toPersist = assets.stream().map(assetToPersist -> new AbstractMap.SimpleEntry<AssetBase, AssetBaseEntity>(assetToPersist, jpaAssetAsBuiltRepository.findById(assetToPersist.getId()).orElse(null)))
+                .filter(this::entityIsTransientOrNotExistent)
+                .map(entry -> {
+                    if (entry.getValue() != null) {
+                        entry.getKey().setImportNote(ImportNote.TRANSIENT_UPDATED);
+                    }
+                    return entry.getKey();
+                })
+                .map(AssetAsBuiltEntity::from).toList();
+
+        return jpaAssetAsBuiltRepository.saveAll(toPersist).stream().map(AssetAsBuiltEntity::toDomain).toList();
+    }
+
+    private boolean entityIsTransientOrNotExistent(AbstractMap.SimpleEntry<AssetBase, AssetBaseEntity> assetBaseAssetBaseEntitySimpleEntry) {
+        if (Objects.isNull(assetBaseAssetBaseEntitySimpleEntry.getValue())) {
+            return true;
+        }
+        return assetBaseAssetBaseEntitySimpleEntry.getValue().getImportState() == ImportState.TRANSIENT;
+    }
+
+    @Override
+    public Optional<AssetBase> findById(String assetId) {
+        return jpaAssetAsBuiltRepository.findById(assetId)
+                .map(AssetAsBuiltEntity::toDomain);
     }
 
     @Transactional
@@ -127,10 +140,5 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
     @Override
     public long countAssetsByOwner(Owner owner) {
         return jpaAssetAsBuiltRepository.countAssetsByOwner(owner);
-    }
-
-    @Override
-    public List<AssetAsBuiltEntity> findByOwner(Owner owner) {
-        return jpaAssetAsBuiltRepository.findByOwner(owner);
     }
 }

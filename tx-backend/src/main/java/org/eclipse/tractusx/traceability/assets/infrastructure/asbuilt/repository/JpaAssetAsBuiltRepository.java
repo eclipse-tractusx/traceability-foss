@@ -33,10 +33,6 @@ import java.util.List;
 
 @Repository
 public interface JpaAssetAsBuiltRepository extends JpaRepository<AssetAsBuiltEntity, String>, JpaSpecificationExecutor<AssetAsBuiltEntity> {
-
-    @Query("SELECT asset FROM AssetAsBuiltEntity asset WHERE asset.owner = :owner")
-    List<AssetAsBuiltEntity> findByOwner(@Param("owner") Owner owner);
-
     List<AssetAsBuiltEntity> findByIdIn(List<String> assetIds);
 
     @Query("SELECT COUNT(asset) FROM AssetAsBuiltEntity asset WHERE asset.owner = :owner")

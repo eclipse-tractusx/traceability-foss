@@ -28,9 +28,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface JpaAssetAsPlannedRepository extends JpaRepository<AssetAsPlannedEntity, String>, JpaSpecificationExecutor<AssetAsPlannedEntity> {
-    @Query("SELECT asset FROM AssetAsPlannedEntity asset WHERE asset.owner = :owner")
-    List<AssetAsPlannedEntity> findByOwner(@Param("owner") Owner owner);
-
     List<AssetAsPlannedEntity> findByIdIn(List<String> assetIds);
 
     @Query("SELECT COUNT(asset) FROM AssetAsPlannedEntity asset WHERE asset.owner = :owner")

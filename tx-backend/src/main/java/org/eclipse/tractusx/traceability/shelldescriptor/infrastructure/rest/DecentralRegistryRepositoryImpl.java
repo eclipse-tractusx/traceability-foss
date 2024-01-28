@@ -23,7 +23,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.registryclient.decentral.DecentralDigitalTwinRegistryService;
 import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
-import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.DecentralRegistryRepository;
 import org.springframework.stereotype.Component;
 
@@ -38,14 +37,13 @@ public class DecentralRegistryRepositoryImpl implements DecentralRegistryReposit
     private final DecentralDigitalTwinRegistryService decentralDigitalTwinRegistryService;
 
     @Override
-    public List<ShellDescriptor> retrieveShellDescriptorsByBpn(String bpn) {
+    public List<String> retrieveShellDescriptorsByBpn(String bpn) {
         try {
-            return ShellDescriptor.fromGlobalAssetIds(decentralDigitalTwinRegistryService.lookupGlobalAssetIds(bpn));
+            return decentralDigitalTwinRegistryService.lookupGlobalAssetIds(bpn).stream().toList();
         } catch (RegistryServiceException exception) {
             log.error("Could not retrieve globalAssetIds by bpn " + bpn, exception);
             return Collections.emptyList();
         }
     }
-
 
 }

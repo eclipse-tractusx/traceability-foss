@@ -46,6 +46,6 @@ class RegistryControllerTest {
         registryController.reload();
 
         // then
-        verify(registryFacade, times(1)).updateShellDescriptorAndSynchronizeAssets();
+        verify(registryFacade, times(1)).synchronizeAssets();
     }
 }

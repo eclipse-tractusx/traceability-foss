@@ -21,45 +21,66 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.config.IrsPolicyConfig;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterJobRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterPolicyRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobDetailResponse;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobStatus;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.PolicyResponse;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.RegisterJobResponse;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.IrsPolicy;
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class IrsService implements IrsRepository {
 
-    private final IRSApiClient irsClient;
+    private final IRSApiClient irsApiClient;
     private final BpnRepository bpnRepository;
-    private final IrsPolicyConfig irsPolicyConfig;
-    @Value("${traceability.bpn}")
-    private String applicationBPN;
+    private final TraceabilityProperties traceabilityProperties;
     private final ObjectMapper objectMapper;
+    private final AssetCallbackRepository assetAsBuiltCallbackRepository;
+    private final AssetCallbackRepository assetAsPlannedCallbackRepository;
+
+    private String adminApiKey;
+    private String regularApiKey;
+
+    public IrsService(
+            IRSApiClient irsApiClient,
+            BpnRepository bpnRepository,
+            TraceabilityProperties traceabilityProperties,
+            ObjectMapper objectMapper,
+            @Qualifier("assetAsBuiltRepositoryImpl")
+            AssetCallbackRepository assetAsBuiltCallbackRepository,
+            @Qualifier("assetAsPlannedRepositoryImpl")
+            AssetCallbackRepository assetAsPlannedCallbackRepository,
+            @Value("${feign.irsApi.adminApiKey}") final String adminApiKey,
+            @Value("${feign.irsApi.regularApiKey}") final String regularApikey) {
+        this.irsApiClient = irsApiClient;
+        this.bpnRepository = bpnRepository;
+        this.traceabilityProperties = traceabilityProperties;
+        this.objectMapper = objectMapper;
+        this.assetAsBuiltCallbackRepository = assetAsBuiltCallbackRepository;
+        this.assetAsPlannedCallbackRepository = assetAsPlannedCallbackRepository;
+        this.adminApiKey = adminApiKey;
+        this.regularApiKey = regularApikey;
+    }
 
     @Override
-    public List<AssetBase> findAssets(String globalAssetId, Direction direction, List<String> aspects, BomLifecycle bomLifecycle) {
-        RegisterJobRequest registerJobRequest = RegisterJobRequest.buildJobRequest(globalAssetId, applicationBPN, direction, aspects, bomLifecycle);
+    public void createJobToResolveAssets(String globalAssetId, Direction direction, List<String> aspects, BomLifecycle bomLifecycle) {
+        RegisterJobRequest registerJobRequest = RegisterJobRequest.buildJobRequest(globalAssetId, traceabilityProperties.getBpn().toString(), direction, aspects, bomLifecycle, traceabilityProperties.getUrl());
         log.info("Build HTTP Request {}", registerJobRequest);
         try {
             log.info("Build HTTP Request as JSON {}", objectMapper.writeValueAsString(registerJobRequest));
@@ -67,12 +88,18 @@ public class IrsService implements IrsRepository {
             log.error("exception", e);
         }
 
-        RegisterJobResponse startJobResponse = irsClient.registerJob(registerJobRequest);
-        JobDetailResponse jobResponse = irsClient.getJobDetails(startJobResponse.id());
+        irsApiClient.registerJob(regularApiKey, registerJobRequest);
+    }
 
-        JobStatus jobStatus = jobResponse.jobStatus();
-        long runtime = (jobStatus.lastModifiedOn().getTime() - jobStatus.startedOn().getTime()) / 1000;
-        log.info("IRS call for globalAssetId: {} finished with status: {}, runtime {} s.", globalAssetId, jobStatus.state(), runtime);
+    @Override
+    public void handleJobFinishedCallback(String jobId, String state) {
+        if (!Objects.equals(state, JobDetailResponse.JOB_STATUS_COMPLETED)) {
+            return;
+        }
+        JobDetailResponse jobResponse = irsApiClient.getJobDetails(regularApiKey, jobId);
+
+        long runtime = (jobResponse.jobStatus().lastModifiedOn().getTime() - jobResponse.jobStatus().startedOn().getTime()) / 1000;
+        log.info("IRS call for globalAssetId: {} finished with status: {}, runtime {} s.", jobResponse.jobStatus().globalAssetId(), jobResponse.jobStatus().state(), runtime);
         try {
             log.info("Received HTTP Response: {}", objectMapper.writeValueAsString(jobResponse));
         } catch (Exception e) {
@@ -85,55 +112,74 @@ public class IrsService implements IrsRepository {
             } catch (Exception e) {
                 log.warn("BPN Mapping Exception", e);
             }
-            return jobResponse.convertAssets();
+
+            // persist converted assets
+            jobResponse.convertAssets().forEach(assetBase -> {
+                if (assetBase.getBomLifecycle() == org.eclipse.tractusx.irs.component.enums.BomLifecycle.AS_BUILT) {
+                    saveOrUpdateAssets(assetAsBuiltCallbackRepository, assetBase);
+                } else if (assetBase.getBomLifecycle() == org.eclipse.tractusx.irs.component.enums.BomLifecycle.AS_PLANNED) {
+                    saveOrUpdateAssets(assetAsPlannedCallbackRepository, assetBase);
+                }
+            });
         }
-        return Collections.emptyList();
+    }
+
+    void saveOrUpdateAssets(AssetCallbackRepository repository, AssetBase asset) {
+        Optional<AssetBase> existingAssetOptional = repository.findById(asset.getId());
+        if (existingAssetOptional.isPresent()) {
+            AssetBase existingAsset = existingAssetOptional.get();
+            if (existingAsset.getOwner().equals(Owner.UNKNOWN)) {
+                existingAsset.setOwner(asset.getOwner());
+            }
+            if (!asset.getParentRelations().isEmpty()) {
+                existingAsset.setParentRelations(asset.getParentRelations());
+            }
+            repository.save(existingAsset);
+        } else {
+            repository.save(asset);
+        }
     }
 
     @Override
     public void createIrsPolicyIfMissing() {
         log.info("Check if irs policy exists");
-        List<IrsPolicy> irsPolicies = irsClient.getPolicies().stream().map(PolicyResponse::toDomain)
-                .toList();
+        List<PolicyResponse> irsPolicies = irsApiClient.getPolicies(adminApiKey);
         log.info("Irs has following policies: {}", irsPolicies);
 
-
-        final List<IrsPolicy> requiredPolicies = irsPolicyConfig.getPolicies();
-
-        log.info("Required policies from application yaml are : {}", requiredPolicies);
-
-        final List<IrsPolicy> existingPolicy = irsPolicies.stream().filter(
-                        irsPolicy -> requiredPolicies.stream()
-                                .map(IrsPolicy::getPolicyId)
-                                .toList()
-                                .contains(irsPolicy.getPolicyId()))
-                .toList();
-        final List<IrsPolicy> missingPolicies = requiredPolicies.stream().filter(requiredPolicy -> !irsPolicies.stream()
-                        .map(IrsPolicy::getPolicyId)
-                        .toList()
-                        .contains(requiredPolicy.getPolicyId()))
-                .toList();
-
-        existingPolicy.forEach(policy -> checkAndUpdatePolicy(policy, requiredPolicies));
+        log.info("Required constraints from application yaml are : {}", traceabilityProperties.getRightOperand());
 
 
-        missingPolicies.forEach(this::createPolicy);
-    }
+        //update existing policies
+        irsPolicies.stream().filter(
+                        irsPolicy -> traceabilityProperties.getRightOperand().equals(irsPolicy.policyId()))
+                .forEach(existingPolicy -> checkAndUpdatePolicy(irsPolicies));
 
-    private void createPolicy(IrsPolicy requiredPolicy) {
-        log.info("Irs policy does not exist creating {}", requiredPolicy);
-        irsClient.registerPolicy(RegisterPolicyRequest.from(requiredPolicy));
-    }
 
-    private void checkAndUpdatePolicy(IrsPolicy existingPolicy, List<IrsPolicy> requiredPolicies) {
-        Optional<IrsPolicy> requiredPolicy = requiredPolicies.stream().filter(policyItem -> policyItem.getPolicyId().equals(existingPolicy.getPolicyId())).findFirst();
-        if (requiredPolicy.isPresent() &&
-                requiredPolicy.get().getTtlAsInstant().isAfter(existingPolicy.getTtlAsInstant())
-        ) {
-            log.info("IRS Policy {} has outdated validity updating new ttl {}", existingPolicy, requiredPolicy);
-            irsClient.deletePolicy(existingPolicy.getPolicyId());
-            irsClient.registerPolicy(RegisterPolicyRequest.from(requiredPolicy.get()));
+        //create missing policies
+        boolean missingPolicy = irsPolicies.stream().noneMatch(irsPolicy -> irsPolicy.policyId().equals(traceabilityProperties.getRightOperand()));
+        if (missingPolicy) {
+            createPolicy();
         }
+    }
+
+    private void createPolicy() {
+        log.info("Irs policy does not exist creating {}", traceabilityProperties.getRightOperand());
+        irsApiClient.registerPolicy(adminApiKey, RegisterPolicyRequest.from(traceabilityProperties.getLeftOperand(), OperatorType.fromValue(traceabilityProperties.getOperatorType()), traceabilityProperties.getRightOperand(), traceabilityProperties.getValidUntil()));
+    }
+
+    private void checkAndUpdatePolicy(List<PolicyResponse> requiredPolicies) {
+        Optional<PolicyResponse> requiredPolicy = requiredPolicies.stream().filter(policyItem -> policyItem.policyId().equals(traceabilityProperties.getRightOperand())).findFirst();
+        if (requiredPolicy.isPresent() &&
+                traceabilityProperties.getValidUntil().isAfter(requiredPolicy.get().validUntil())
+        ) {
+            log.info("IRS Policy {} has outdated validity updating new ttl {}", traceabilityProperties.getRightOperand(), requiredPolicy);
+            irsApiClient.deletePolicy(adminApiKey, traceabilityProperties.getRightOperand());
+            irsApiClient.registerPolicy(adminApiKey, RegisterPolicyRequest.from(traceabilityProperties.getLeftOperand(), OperatorType.fromValue(traceabilityProperties.getOperatorType()), traceabilityProperties.getRightOperand(), traceabilityProperties.getValidUntil()));
+        }
+    }
+
+    public List<PolicyResponse> getPolicies() {
+        return irsApiClient.getPolicies(adminApiKey);
     }
 
 }

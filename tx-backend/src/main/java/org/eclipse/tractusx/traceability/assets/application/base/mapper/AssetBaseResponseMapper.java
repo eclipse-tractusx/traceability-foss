@@ -23,13 +23,14 @@ import assets.response.asbuilt.DetailAspectDataTractionBatteryCodeResponse;
 import assets.response.asbuilt.DetailAspectDataTractionBatteryCodeResponse.DetailAspectDataTractionBatteryCodeSubcomponentResponse;
 import assets.response.asplanned.DetailAspectDataAsPlannedResponse;
 import assets.response.asplanned.PartSiteInformationAsPlannedResponse;
-import assets.response.base.DescriptionsResponse;
-import assets.response.base.DetailAspectDataResponse;
-import assets.response.base.DetailAspectModelResponse;
-import assets.response.base.DetailAspectTypeResponse;
-import assets.response.base.OwnerResponse;
-import assets.response.base.QualityTypeResponse;
-import assets.response.base.SemanticDataModelResponse;
+import assets.response.base.response.DescriptionsResponse;
+import assets.response.base.response.DetailAspectDataResponse;
+import assets.response.base.response.DetailAspectModelResponse;
+import assets.response.base.response.DetailAspectTypeResponse;
+import assets.response.base.response.ImportStateResponse;
+import assets.response.base.response.OwnerResponse;
+import assets.response.base.response.QualityTypeResponse;
+import assets.response.base.response.SemanticDataModelResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +40,7 @@ import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.Deta
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataAsPlanned;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataPartSiteInformationAsPlanned;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel;
@@ -146,5 +148,13 @@ public class AssetBaseResponseMapper {
     private static List<DetailAspectDataTractionBatteryCodeSubcomponentResponse> from(List<DetailAspectDataTractionBatteryCodeSubcomponent> subcomponents) {
         return subcomponents.stream().map(entry -> DetailAspectDataTractionBatteryCodeSubcomponentResponse.builder().tractionBatteryCode(entry.getTractionBatteryCode())
                 .productType(entry.getProductType()).build()).toList();
+    }
+
+    public static ImportStateResponse toImportStateResponse(ImportState importState) {
+        if (importState == null) {
+            return ImportStateResponse.UNSET;
+        } else {
+            return ImportStateResponse.valueOf(importState.name());
+        }
     }
 }

@@ -32,6 +32,7 @@ import org.springframework.context.annotation.Configuration;
         "org.eclipse.tractusx.traceability.assets.infrastructure.base.irs",
         "org.eclipse.tractusx.traceability.bpdm",
         "org.eclipse.tractusx.traceability.discovery.infrastructure.repository",
+        "org.eclipse.tractusx.traceability.submodel.infrastructure.repository"
 })
 public class FeignGlobalConfig {
 

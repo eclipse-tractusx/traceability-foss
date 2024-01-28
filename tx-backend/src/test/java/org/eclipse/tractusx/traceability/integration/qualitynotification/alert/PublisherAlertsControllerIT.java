@@ -25,6 +25,9 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.common.request.OwnPageable;
+import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
+import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.common.security.JwtRole;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertNotificationsSupport;
@@ -53,11 +56,12 @@ import qualitynotification.base.request.UpdateQualityNotificationRequest;
 import qualitynotification.base.request.UpdateQualityNotificationStatusRequest;
 
 import java.time.Instant;
+import java.util.Collections;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
+import static org.eclipse.tractusx.traceability.common.security.JwtRole.SUPERVISOR;
 
 class PublisherAlertsControllerIT extends IntegrationTestSpecification {
 
@@ -114,6 +118,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     @Test
     void shouldStartAlert() throws JsonProcessingException, JoseException {
         // given
+        String filterString = "channel,EQUAL,SENDER,AND";
         List<String> partIds = List.of(
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
                 "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb", // BPN: BPNL00000003AYRE
@@ -137,7 +142,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(request))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/alerts")
                 .then()
@@ -148,7 +153,6 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 partId -> {
                     AssetBase asset = assetAsBuiltRepository.getAssetById(partId);
                     assertThat(asset).isNotNull();
-                    assertThat(asset.isActiveAlert()).isTrue();
                 }
         );
 
@@ -156,13 +160,11 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
 
         // when/then
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .param("filter", "channel,EQUAL,SENDER,AND")
-                .get("/api/alerts")
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -194,7 +196,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(request))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/alerts")
                 .then()
@@ -205,7 +207,6 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 partId -> {
                     AssetBase asset = assetAsPlannedRepository.getAssetById(partId);
                     assertThat(asset).isNotNull();
-                    assertThat(asset.isActiveAlert()).isTrue();
                 }
         );
 
@@ -213,12 +214,11 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
 
         // when/then
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), null))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts")
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -244,7 +244,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(request))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/alerts")
                 .then()
@@ -273,7 +273,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(request))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/alerts")
                 .then()
@@ -339,7 +339,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         val alertId = given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(startAlertRequest))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/alerts")
                 .then()
@@ -347,13 +347,11 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .extract().path("id");
 
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .param("filter", filterString)
-                .get("/api/alerts")
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -362,7 +360,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
 
         // when
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/alerts/$alertId/cancel".replace("$alertId", alertId.toString()))
@@ -371,13 +369,11 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
 
         // then
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .param("filter", filterString)
-                .get("/api/alerts")
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -388,6 +384,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     @Test
     void shouldApproveAlertStatus() throws JsonProcessingException, JoseException {
         // given
+        String filterString = "channel,EQUAL,SENDER,AND";
         List<String> partIds = List.of(
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
                 "urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef"  // BPN: BPNL00000003AXS3
@@ -408,7 +405,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         var alertId = given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(startAlertRequest))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/alerts")
                 .then()
@@ -419,7 +416,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
 
         given()
                 .contentType(ContentType.JSON)
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/alerts/$alertId/approve".replace("$alertId", alertId.toString()))
                 .then()
@@ -427,13 +424,12 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
 
         // then
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .param("filter", "channel,EQUAL,SENDER,AND")
-                .get("/api/alerts")
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -465,7 +461,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         val alertId = given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(startAlertRequest))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/alerts")
                 .then()
@@ -478,7 +474,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         // when
         given()
                 .contentType(ContentType.JSON)
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/alerts/$alertId/approve".replace("$alertId", alertId.toString()))
                 .then()
@@ -486,13 +482,11 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
 
         // then
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .param("filter", filterString)
-                .get("/api/alerts")
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -505,7 +499,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(closeAlertRequest))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/alerts/$alertId/close".replace("$alertId", alertId.toString()))
                 .then()
@@ -513,13 +507,11 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
 
         // then
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .param("filter", filterString)
-                .get("/api/alerts")
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -533,7 +525,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     @Test
     void givenNonExistingAlert_whenCancel_thenReturnNotFound() throws JoseException {
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/alerts/1/cancel")
@@ -577,7 +569,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(startAlertRequest))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/alerts")
                 .then()
@@ -588,19 +580,16 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         partIds.forEach(partId -> {
             AssetBase asset = assetAsBuiltRepository.getAssetById(partId);
             assertThat(asset).isNotNull();
-            assertThat(asset.isActiveAlert()).isTrue();
         });
 
         alertNotificationsSupport.assertAlertNotificationsSize(1);
 
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .param("filter", filterString)
-                .get("/api/alerts")
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))

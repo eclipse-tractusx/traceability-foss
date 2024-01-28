@@ -18,9 +18,13 @@
 name: "[BE][FE][HELM] Lint and Test"
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
     paths:
       - 'charts/**'
+
   workflow_dispatch:
   workflow_call: # Trigger by another workflow
     inputs:

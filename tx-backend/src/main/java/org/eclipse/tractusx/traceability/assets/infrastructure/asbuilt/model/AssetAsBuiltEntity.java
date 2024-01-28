@@ -25,8 +25,10 @@ import jakarta.persistence.CollectionTable;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,6 +45,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.Semant
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
+import org.eclipse.tractusx.traceability.submodel.infrastructure.model.SubmodelPayloadEntity;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -85,6 +88,9 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
     @ManyToMany(mappedBy = "assets")
     private List<AlertEntity> alerts = new ArrayList<>();
 
+    @OneToMany(mappedBy = "assetAsBuilt", fetch = FetchType.EAGER)
+    private List<SubmodelPayloadEntity> submodels;
+
     public static AssetAsBuiltEntity from(AssetBase asset) {
         ManufacturingInfo manufacturingInfo = ManufacturingInfo.from(asset.getDetailAspectModels());
         TractionBatteryCode tractionBatteryCodeObj = TractionBatteryCode.from(asset.getDetailAspectModels());
@@ -110,51 +116,46 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                         .toList())
                 .qualityType(asset.getQualityType())
                 .van(asset.getVan())
-                .activeAlert(asset.isActiveAlert())
                 .classification(asset.getClassification())
-                .inInvestigation(asset.isInInvestigation())
                 .semanticDataModel(SemanticDataModelEntity.from(asset.getSemanticDataModel()))
                 .productType(tractionBatteryCodeObj.getProductType())
                 .tractionBatteryCode(tractionBatteryCodeObj.getTractionBatteryCode())
                 .subcomponents(tractionBatteryCodeObj.getSubcomponents())
+                .importState(asset.getImportState())
+                .importNote(asset.getImportNote())
+                .policyId(asset.getPolicyId())
                 .build();
     }
 
-    public static AssetBase toDomain(AssetAsBuiltEntity entity) {
+    public AssetBase toDomain() {
         return AssetBase.builder()
-                .id(entity.getId())
-                .idShort(entity.getIdShort())
-                .semanticDataModel(SemanticDataModelEntity.toDomain(entity.getSemanticDataModel()))
-                .semanticModelId(entity.getSemanticModelId())
-                .manufacturerId(entity.getManufacturerId())
-                .manufacturerName(entity.getManufacturerName())
-                .nameAtManufacturer(entity.getNameAtManufacturer())
-                .manufacturerPartId(entity.getManufacturerPartId())
-                .owner(entity.getOwner())
-                .childRelations(entity.getChildDescriptors().stream()
+                .id(this.getId())
+                .idShort(this.getIdShort())
+                .semanticDataModel(SemanticDataModelEntity.toDomain(this.getSemanticDataModel()))
+                .semanticModelId(this.getSemanticModelId())
+                .manufacturerId(this.getManufacturerId())
+                .manufacturerName(this.getManufacturerName())
+                .nameAtManufacturer(this.getNameAtManufacturer())
+                .manufacturerPartId(this.getManufacturerPartId())
+                .owner(this.getOwner())
+                .childRelations(this.getChildDescriptors().stream()
                         .map(child -> new Descriptions(child.getId(), child.getIdShort()))
                         .toList())
-                .parentRelations(entity.getParentDescriptors().stream()
+                .parentRelations(this.getParentDescriptors().stream()
                         .map(parent -> new Descriptions(parent.getId(), parent.getIdShort()))
                         .toList())
-                .inInvestigation(entity.isInInvestigation())
-                .activeAlert(entity.isActiveAlert())
-                .qualityType(entity.getQualityType())
-                .van(entity.getVan())
-                .classification(entity.getClassification())
-                .detailAspectModels(DetailAspectModel.from(entity))
-                .sentQualityAlerts(emptyIfNull(entity.alerts).stream().filter(alert -> NotificationSideBaseEntity.SENDER.equals(alert.getSide())).map(AlertEntity::toDomain).toList())
-                .receivedQualityAlerts(emptyIfNull(entity.alerts).stream().filter(alert -> NotificationSideBaseEntity.RECEIVER.equals(alert.getSide())).map(AlertEntity::toDomain).toList())
-                .sentQualityInvestigations(emptyIfNull(entity.investigations).stream().filter(alert -> NotificationSideBaseEntity.SENDER.equals(alert.getSide())).map(InvestigationEntity::toDomain).toList())
-                .receivedQualityInvestigations(emptyIfNull(entity.investigations).stream().filter(alert -> NotificationSideBaseEntity.RECEIVER.equals(alert.getSide())).map(InvestigationEntity::toDomain).toList())
-
+                .qualityType(this.getQualityType())
+                .van(this.getVan())
+                .classification(this.getClassification())
+                .detailAspectModels(DetailAspectModel.from(this))
+                .sentQualityAlerts(emptyIfNull(this.alerts).stream().filter(alert -> NotificationSideBaseEntity.SENDER.equals(alert.getSide())).map(AlertEntity::toDomain).toList())
+                .receivedQualityAlerts(emptyIfNull(this.alerts).stream().filter(alert -> NotificationSideBaseEntity.RECEIVER.equals(alert.getSide())).map(AlertEntity::toDomain).toList())
+                .sentQualityInvestigations(emptyIfNull(this.investigations).stream().filter(alert -> NotificationSideBaseEntity.SENDER.equals(alert.getSide())).map(InvestigationEntity::toDomain).toList())
+                .receivedQualityInvestigations(emptyIfNull(this.investigations).stream().filter(alert -> NotificationSideBaseEntity.RECEIVER.equals(alert.getSide())).map(InvestigationEntity::toDomain).toList())
+                .importState(this.getImportState())
+                .importNote(this.getImportNote())
+                .policyId(this.getPolicyId())
                 .build();
-    }
-
-    public static List<AssetBase> toDomainList(List<AssetAsBuiltEntity> entities) {
-        return entities.stream()
-                .map(AssetAsBuiltEntity::toDomain)
-                .toList();
     }
 
     public static List<AssetAsBuiltEntity> fromList(List<AssetBase> assets) {

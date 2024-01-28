@@ -19,8 +19,8 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {AfterViewInit, Component, EventEmitter, Input, Output, TemplateRef, ViewChild} from '@angular/core';
-import {TableType} from '@shared/components/multi-select-autocomplete/table-type.model';
+import { AfterViewInit, Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
+import { NotificationChannel, TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import {
   CreateHeaderFromColumns,
   DisplayColumns,
@@ -29,9 +29,9 @@ import {
   TableEventConfig,
   TableHeaderSort,
 } from '@shared/components/table/table.model';
-import {Notification, NotificationFilter, Notifications, NotificationType} from '@shared/model/notification.model';
-import {View} from '@shared/model/view.model';
-import {Observable} from 'rxjs';
+import { Notification, NotificationFilter, Notifications, NotificationType } from '@shared/model/notification.model';
+import { View } from '@shared/model/view.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-notifications-tab',
@@ -95,8 +95,14 @@ export class NotificationTabComponent implements AfterViewInit {
   }
 
   filterActivated(notificationFilter: any): void {
+    // check if there is anything to filter, preventing multiple same requests
+    const noFilterApplied = Object.values(notificationFilter).every((arr) => Array.isArray(arr) && arr.length === 0);
+    if(noFilterApplied) {
+      return;
+    }
+
     this.notificationFilter = notificationFilter;
-    const channel = notificationFilter['createdBy'] ? 'RECEIVER' : 'SENDER';
+    const channel = notificationFilter['createdBy'] ? NotificationChannel.RECEIVER : NotificationChannel.SENDER;
     if (this.notificationType === NotificationType.INVESTIGATION) {
       this.investigationsFilterChanged.emit({
         channel: channel,
@@ -109,8 +115,6 @@ export class NotificationTabComponent implements AfterViewInit {
         filter: notificationFilter,
       });
     }
-    // output event to either investigation or alert with channel and filter
-
   }
 
   public selectNotification(notification: Record<string, unknown>): void {

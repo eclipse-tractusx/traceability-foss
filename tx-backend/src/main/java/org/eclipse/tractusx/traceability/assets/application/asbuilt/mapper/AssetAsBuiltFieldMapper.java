@@ -39,8 +39,6 @@ public class AssetAsBuiltFieldMapper extends BaseRequestFieldMapper {
             Map.entry("idShort", "idShort"),
             Map.entry("owner", "owner"),
             Map.entry("classification", "classification"),
-            Map.entry("underInvestigation", "inInvestigation"),
-            Map.entry("activeAlert", "activeAlert"),
             Map.entry("qualityType", "qualityType"),
             Map.entry("manufacturerPartId", "manufacturerPartId"),
             Map.entry("manufacturerName", "manufacturerName"),
@@ -50,10 +48,12 @@ public class AssetAsBuiltFieldMapper extends BaseRequestFieldMapper {
             Map.entry("van", "van"),
             Map.entry("businessPartner", "manufacturerId"),
             Map.entry("alerts", "alerts"),
-            Map.entry("sentQualityAlertIdsInStatusActive", "sentActiveAlertsCount"),
-            Map.entry("sentQualityInvestigationIdsInStatusActive", "sentActiveInvestigationsCount"),
-            Map.entry("receivedQualityAlertIdsInStatusActive", "receivedActiveAlertsCount"),
-            Map.entry("receivedQualityInvestigationIdsInStatusActive", "receivedActiveInvestigationsCount")
+            Map.entry("sentQualityAlertIdsInStatusActive", "sentActiveAlerts"),
+            Map.entry("sentQualityInvestigationIdsInStatusActive", "sentActiveInvestigations"),
+            Map.entry("receivedQualityAlertIdsInStatusActive", "receivedActiveAlerts"),
+            Map.entry("receivedQualityInvestigationIdsInStatusActive", "receivedActiveInvestigations"),
+            Map.entry("importState", "importState"),
+            Map.entry("importNote", "importNote")
     );
 
     @Override

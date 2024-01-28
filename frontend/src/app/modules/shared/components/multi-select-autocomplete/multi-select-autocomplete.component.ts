@@ -167,7 +167,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     if (this.selectedValue?.length > 1) {
       suffix = (' + ' + (this.selectedValue?.length - 1)) + ' ' + this.placeholderMultiple;
     }
-    debugger;
+
     // apply CamelCase to semanticDataModel labels
     if (this.filterColumn === 'semanticDataModel') {
       displayValue = [ this.formatPartSemanticDataModelToCamelCasePipe.transformModel(this.selectedValue[0]), suffix ];
@@ -252,11 +252,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     this.delayTimeoutId = setTimeout(() => {
       Promise.resolve().then(() => timeoutCallback());
     }, 500);
-  }
-
-  // DO NOT REMOVE: Used by parent component
-  isUnsupportedAutoCompleteField(fieldName: string) {
-    return fieldName === 'activeAlerts' || fieldName === 'activeInvestigations';
   }
 
   startDateSelected(event: MatDatepickerInputEvent<Date>) {

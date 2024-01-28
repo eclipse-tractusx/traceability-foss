@@ -12,6 +12,8 @@
     "alerts": "Quality alerts",
     "adminRegistry": "Registry lookups",
     "adminBpn": "BPN - EDC configuration",
+    "adminImport": "Data provisioning",
+    "unauthorized": "Functionality is disabled because of missing role. Ask your administrator to provide the required role for the functionality.",
     "ess": "ESS investigations"
   },
   "pageTitle": {
@@ -50,7 +52,15 @@
     "remove": "Remove",
     "delete": "Delete",
     "goToQueue": "Go to Queue",
-    "goBack": "Back"
+    "goBack": "Back",
+    "publishAssets": "Publish assets"
+  },
+  "publisher": {
+    "selectedAssets": "Assets selected",
+    "policyToApply": "Policy to apply",
+    "selectPolicyLabel": "Select Policy",
+    "selectPolicyError": "Please select one policy",
+    "publish": "Publish"
   },
   "table": {
     "noResultFound": "NO RESULTS FOUND.",
@@ -70,14 +80,6 @@
       "saveAction": "Save",
       "alert": "Quality Alert",
       "investigation": "Quality Investigation"
-    },
-    "adminColumn": {
-      "startDate": "Start date",
-      "registryLookupStatus": "Status",
-      "successShellDescriptorsFetchCount": "Successful fetches",
-      "failedShellDescriptorsFetchCount": "Failed fetches",
-      "shellDescriptorsFetchDelta": "Fetch Delta",
-      "endDate": "End date"
     },
     "column": {
       "id": "ID",
@@ -115,8 +117,9 @@
       "receivedActiveInvestigations" : "Received",
       "receivedActiveAlerts" : "Received",
       "sentActiveInvestigations" : "Created",
-      "activeAlerts" : "Active Quality alerts",
-      "activeInvestigations" : "Active Quality investigations",
+      "importState": "Import State",
+      "importNote": "Import Note",
+      "importDate": "Import Date",
       "rowNumber": "No",
       "partName": "Part name",
       "companyName": "Name of company under investigation",
@@ -139,6 +142,13 @@
     "Major": "Major",
     "Critical": "Critical",
     "LifeThreatening": "Life-Threatening"
+  },
+  "importState": {
+    "PERSISTENT": "PERSISTENT",
+    "TRANSIENT": "TRANSIENT",
+    "IN_SYNCHRONIZATION": "IN SYNCHRONIZATION",
+    "ERROR": "ERROR",
+    "UNSET": "UNSET"
   },
   "severity": {
     "MINOR": "Minor",
@@ -231,6 +241,7 @@
       "closeReasonHint": "Enter the reason for close action.",
       "cancellationTitle": "Cancellation of investigation",
       "cancellationHint": "Enter the ID of the investigation to confirm your cancellation.",
+      "cancellationConfirmationLabel": "Yes, I confirm that I want to cancel the investigation with the ID: ",
       "declineTitle": "Decline of investigation",
       "declineReasonHint": "Enter the reason for declining this investigation.",
       "successfullyAccepted": "Investigation was accepted successfully.",
@@ -272,6 +283,7 @@
       "closeReasonHint": "Enter the reason for close action.",
       "cancellationTitle": "Cancellation of alert",
       "cancellationHint": "Enter the ID of the alert to confirm your cancellation.",
+      "cancellationConfirmationLabel": "Yes, I confirm that I want to cancel the alert with the ID: ",
       "declineTitle": "Decline of alert",
       "declineReasonHint": "Enter the reason for declining this alert.",
       "successfullyAccepted": "Alert was accepted successfully.",
@@ -317,7 +329,13 @@
       "PARTASPLANNED": "PartAsPlanned",
       "UNKNOWN": "Unknown",
       "JUSTINSEQUENCE": "JustInSequence",
-      "TRACTIONBATTERYCODE": "TractionBatteryCode"
+      "TRACTIONBATTERYCODE": "TractionBatteryCode",
+      "TRANSIENT": "Transient",
+      "PERSISTENT": "Persistent",
+      "IN_SYNCHRONIZATION": "In Synchronization",
+      "ERROR": "Error",
+      "UNSET": "Unset"
+
     }
   },
   "parts": {

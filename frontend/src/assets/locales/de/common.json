@@ -11,7 +11,9 @@
     "investigations": "Qualitätsuntersuchung",
     "alerts": "Qualitätswarnung",
     "adminRegistry": "Registry-Abfragen",
-    "adminBpn": "BPN - EDC Konfiguration"
+    "adminBpn": "BPN - EDC Konfiguration",
+    "adminImport": "Datenbereitstellung",
+    "unauthorized": "Die Funktion ist aufgrund einer fehlenden Rolle deaktiviert. Bitten Sie Ihren Administrator, die erforderliche Rolle für die Funktion bereitzustellen."
   },
   "pageTitle": {
     "dashboard": "Dashboard",
@@ -48,7 +50,15 @@
     "remove": "Entfernen",
     "delete": "Löschen",
     "goToQueue": "Zur Warteschlange",
-    "goBack": "Zurück"
+    "goBack": "Zurück",
+    "publishAssets": "Produkte veröffentlichen"
+  },
+  "publisher": {
+    "selectedAssets": "Ausgewählte Produkte",
+    "policyToApply": "Anzuwendende Richtlinie",
+    "selectPolicyLabel": "Richtlinie auswählen",
+    "selectPolicyError": "Bitte selektieren sie eine Richtlinie",
+    "publish": "Veröffentlichen"
   },
   "table": {
     "noResultFound": "KEINE ERGEBNISSE GEFUNDEN.",
@@ -68,14 +78,6 @@
       "saveAction": "Speichern",
       "alert": "Qualitätswarnung",
       "investigation": "Qualitätsuntersuchung"
-    },
-    "adminColumn": {
-      "startDate": "Startdatum",
-      "registryLookupStatus": "Status",
-      "successShellDescriptorsFetchCount": "Erfolgreiche Abrufe",
-      "failedShellDescriptorsFetchCount": "Fehlgeschlagene Abrufe",
-      "shellDescriptorsFetchDelta": "Abruf-Delta",
-      "endDate": "Enddatum"
     },
     "column": {
       "id": "ID",
@@ -114,6 +116,9 @@
       "receivedActiveInvestigations" : "Empfangene",
       "receivedActiveAlerts" : "Empfangene",
       "sentActiveInvestigations" : "Erstellte",
+      "importState": "Importstatus",
+      "importNote": "Importbemerkung",
+      "importDate": "Importdatum",
       "rowNumber": "No",
       "partName": "Teilname",
       "companyName": "Name des untersuchten Unternehmens",
@@ -124,6 +129,7 @@
       "created": "Erstellt",
       "updated": "Zeitpunkt des Ergebnisses",
       "catenaxSiteId": "SiteId"
+
     }
   },
   "dataLoading": {
@@ -136,6 +142,13 @@
     "Major": "Schwerwiegend",
     "Critical": "Kritisch",
     "LifeThreatening": "Lebensgefährlich"
+  },
+  "importState": {
+    "PERSISTENT": "PERSISTENT",
+    "TRANSIENT": "TRANSIENT",
+    "IN_SYNCHRONIZATION": "IN SYNCHRONISATION",
+    "ERROR": "FEHLER",
+    "UNSET": "UNDEFINIERT"
   },
   "severity": {
     "MINOR": "Gering",
@@ -224,6 +237,7 @@
       "closeReasonHint": "Geben Sie den Grund für das Schließen ein.",
       "cancellationTitle": "Abbruch der Untersuchung",
       "cancellationHint": "Geben Sie die ID der Untersuchung ein, um Ihre Abbruchanfrage zu bestätigen.",
+      "cancellationConfirmationLabel": "Ja, ich bestätige die Stornierung der Untersuchung mit der ID: ",
       "declineTitle": "Ablehnung der Untersuchung",
       "declineReasonHint": "Geben Sie den Grund für die Ablehnung dieser Untersuchung ein.",
       "successfullyAccepted": "Untersuchung wurde erfolgreich angenommen.",
@@ -265,6 +279,7 @@
       "closeReasonHint": "Geben Sie den Grund für das Schließen ein.",
       "cancellationTitle": "Abbruch der Qualitätswarnung",
       "cancellationHint": "Geben Sie die ID der Qualitätswarnung ein, um Ihre Abbruchanfrage zu bestätigen.",
+      "cancellationConfirmationLabel": "Ja, ich bestätige die Stornierung der Warnung mit der ID: ",
       "declineTitle": "Ablehnung der Qualitätswarnung",
       "declineReasonHint": "Geben Sie den Grund für die Ablehnung dieser Qualitätswarnung ein.",
       "successfullyAccepted": "Qualitätswarnung wurde erfolgreich angenommen.",
@@ -310,7 +325,12 @@
       "PARTASPLANNED": "PartAsPlanned",
       "UNKNOWN": "Unknown",
       "JUSTINSEQUENCE": "JustInSequence",
-      "TRACTIONBATTERYCODE": "TractionBatteryCode"
+      "TRACTIONBATTERYCODE": "TractionBatteryCode",
+      "TRANSIENT": "Transient",
+      "PERSISTENT": "Persistent",
+      "IN_SYNCHRONIZATION": "In Synchronisation",
+      "ERROR": "Fehler",
+      "UNSET": "Undefiniert"
     }
   },
   "parts": {
