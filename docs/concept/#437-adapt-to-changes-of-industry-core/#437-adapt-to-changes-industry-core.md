@@ -9,17 +9,11 @@
 
 # Table of Contents
 1. [Overview](#overview)
-2. [Summary](#summary)
-3. [Problem Statement](#problem-statement)
-4. [Requirements](#requirements)
-5. [NFR](#nfr)
-6. [Out of scope](#out-of-scope)
-7. [Assumptions](#assumptions)
-8. [Concept](#concept)
-9. [Definition of the Industry Core](#definition-of-the-industry-core)
-9. [Glossary](#glossary)
-10. [References](#references)
-11. [Additional Details](#additional-details)
+2. [Problem Statement](#problem-statement)
+3. [Concept](#concept)
+4. [Definition of the Industry Core](#definition-of-the-industry-core)
+5. [Glossary](#glossary)
+6. [References](#references)
 
 # Overview
 
@@ -39,17 +33,8 @@ Notification base message exchange.
 5. Components-Based Data Exchange
 The core enables the sending of notifications, indicating that there's a mechanism for alerting or informing relevant parties about specific events or changes within the system.
 
-# Summary
-
 # Problem Statement
-
-# Requirements
-
-# NFR
-
-# Out of scope
-
-# Assumptions
+The product Trace-X MUST align with the Industry Code Standard CX-126 and CX-127.
 
 # Concept
 
@@ -218,5 +203,3 @@ ASS parameter assetLifecyclePhase will not be used anymore to detect BOMLifecycl
 - [CX-0126 Industry Core Part Type Standard 1.0.0](https://github.com/catenax-eV/product-standardization-prod/blob/CX-0126-IndustryCorePartType-v1.0.0/standards/CX-0126-IndustryCorePartType/1.0.0/CX-0126-Industry-Core-Part-Type.pdf)
 - [CX-0126 Industry Core Part Instance Standard 1.0.0](https://github.com/catenax-eV/product-standardization-prod/blob/CX-0127-IndustryCorePartInstance-v1.0.0/standards/CX-0127-IndustryCorePartInstance/1.0.0/CX%20-%200127%20Industry%20Core%20Part%20Instance%201.0.0.pdf)
 
-# Additional Details
-Given the dynamic nature of ongoing development, there might be variations between the conceptualization and the current implementation. For the latest status, refer to the documentation.
