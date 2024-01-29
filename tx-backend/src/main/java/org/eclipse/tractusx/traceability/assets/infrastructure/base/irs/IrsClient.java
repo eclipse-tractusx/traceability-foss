@@ -40,22 +40,22 @@ import static org.eclipse.tractusx.traceability.common.config.RestTemplateConfig
 
 @Component
 public class IrsClient {
-    private final RestTemplate irsAdminRestTemplate;
+    private RestTemplate irsAdminTemplate;
 
-    private final RestTemplate irsRegularRestTemplate;
+    private RestTemplate irsRegularTemplate;
 
     private final TraceabilityProperties traceabilityProperties;
 
-    public IrsClient(@Qualifier(IRS_ADMIN_TEMPLATE) RestTemplate irsAdminRestTemplate,
-                     @Qualifier(IRS_REGULAR_TEMPLATE) RestTemplate irsRegularRestTemplate,
+    public IrsClient(@Qualifier(IRS_ADMIN_TEMPLATE) RestTemplate irsAdminTemplate,
+                     @Qualifier(IRS_REGULAR_TEMPLATE) RestTemplate irsRegularTemplate,
                      TraceabilityProperties traceabilityProperties) {
-        this.irsAdminRestTemplate = irsAdminRestTemplate;
-        this.irsRegularRestTemplate = irsRegularRestTemplate;
+        this.irsAdminTemplate = irsAdminTemplate;
+        this.irsRegularTemplate = irsRegularTemplate;
         this.traceabilityProperties = traceabilityProperties;
     }
 
     public List<PolicyResponse> getPolicies() {
-        ResponseEntity<List<PolicyResponse>> responseEntity = irsAdminRestTemplate.exchange(
+        ResponseEntity<List<PolicyResponse>> responseEntity = irsAdminTemplate.exchange(
                 "/irs/policies/",
                 HttpMethod.GET,
                 null,
@@ -66,23 +66,23 @@ public class IrsClient {
     }
 
     public void deletePolicy() {
-        irsAdminRestTemplate.exchange("/irs/policies/" + traceabilityProperties.getRightOperand(), HttpMethod.DELETE, null, new ParameterizedTypeReference<>() {
+        irsAdminTemplate.exchange("/irs/policies/" + traceabilityProperties.getRightOperand(), HttpMethod.DELETE, null, new ParameterizedTypeReference<>() {
         });
     }
 
     public void registerPolicy() {
         RegisterPolicyRequest registerPolicyRequest = RegisterPolicyRequest.from(traceabilityProperties.getLeftOperand(), OperatorType.fromValue(traceabilityProperties.getOperatorType()), traceabilityProperties.getRightOperand(), traceabilityProperties.getValidUntil());
-        irsAdminRestTemplate.exchange("/irs/policies/", HttpMethod.POST, new HttpEntity<>(registerPolicyRequest), Void.class);
+        irsAdminTemplate.exchange("/irs/policies/", HttpMethod.POST, new HttpEntity<>(registerPolicyRequest), Void.class);
     }
 
     public void registerJob(RegisterJobRequest registerJobRequest) {
-        irsRegularRestTemplate.exchange("/irs/jobs/", HttpMethod.POST, new HttpEntity<>(registerJobRequest), Void.class);
+        irsRegularTemplate.exchange("/irs/jobs/", HttpMethod.POST, new HttpEntity<>(registerJobRequest), Void.class);
     }
 
 
     @Nullable
     public JobDetailResponse getJobDetailResponse(String jobId) {
-        return irsRegularRestTemplate.exchange("/irs/jobs/" + jobId, HttpMethod.GET, null, new ParameterizedTypeReference<JobDetailResponse>() {
+        return irsRegularTemplate.exchange("/irs/jobs/" + jobId, HttpMethod.GET, null, new ParameterizedTypeReference<JobDetailResponse>() {
         }).getBody();
     }
 }
