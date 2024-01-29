@@ -24,7 +24,7 @@ logging:
       springframework:
         web:
           client:
-            RestTemplate=DEBUG
+            RestTemplate: DEBUG
 traceability:
   bpn: ${TRACEABILITY_BPN}
   url: ${TRACEABILITY_URL}
