@@ -18,7 +18,13 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 ################################################################################
-
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          client:
+            RestTemplate=DEBUG:
 traceability:
   bpn: ${TRACEABILITY_BPN}
   url: ${TRACEABILITY_URL}

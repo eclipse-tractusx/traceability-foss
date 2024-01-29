@@ -17,6 +17,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Adjusted sync logic to create jobs only for related BomLifecycles
 - Spring core updated from 6.0.14 to 6.0.16
 - Springboot updated from 3.1.6 to 3.1.7
+- Migrated from okhttpclient (feign implementation) to resttemplate.
 
 ### Removed
 

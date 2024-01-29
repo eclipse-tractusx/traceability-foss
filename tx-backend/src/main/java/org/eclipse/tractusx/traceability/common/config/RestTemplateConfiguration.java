@@ -26,13 +26,9 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.ConnectionPool;
-import okhttp3.OkHttpClient;
-import org.aspectj.weaver.tools.Trace;
 import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
 import org.eclipse.tractusx.traceability.common.properties.FeignDefaultProperties;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
-import org.hibernate.query.sqm.TemporalUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,10 +45,8 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
-import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @Configuration
 @RequiredArgsConstructor
