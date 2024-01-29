@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.rest;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.irs.component.assetadministrationshell.AssetAdministrationShellDescriptor;
 import org.eclipse.tractusx.irs.registryclient.decentral.DecentralDigitalTwinRegistryService;
 import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.DecentralRegistryRepository;
@@ -37,9 +38,9 @@ public class DecentralRegistryRepositoryImpl implements DecentralRegistryReposit
     private final DecentralDigitalTwinRegistryService decentralDigitalTwinRegistryService;
 
     @Override
-    public List<String> retrieveShellDescriptorsByBpn(String bpn) {
+    public List<AssetAdministrationShellDescriptor> retrieveShellDescriptorsByBpn(String bpn) {
         try {
-            return decentralDigitalTwinRegistryService.lookupGlobalAssetIds(bpn).stream().toList();
+            return decentralDigitalTwinRegistryService.lookupShellsByBPN(bpn).stream().toList();
         } catch (RegistryServiceException exception) {
             log.error("Could not retrieve globalAssetIds by bpn " + bpn, exception);
             return Collections.emptyList();

@@ -157,8 +157,6 @@ class IrsServiceTest {
     @ParameterizedTest
     @MethodSource("provideDirections")
     void testFindAssets_completedJob_returnsConvertedAssets(Direction direction) {
-
-        RegisterJobResponse jobId = new RegisterJobResponse("123");
         // Given
         when(traceabilityProperties.getBpn()).thenReturn(BPN.of("test"));
 
