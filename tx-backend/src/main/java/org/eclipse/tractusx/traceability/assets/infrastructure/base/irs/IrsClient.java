@@ -40,8 +40,10 @@ import static org.eclipse.tractusx.traceability.common.config.RestTemplateConfig
 
 @Component
 public class IrsClient {
-    private RestTemplate irsAdminTemplate;
 
+    @Qualifier(IRS_ADMIN_TEMPLATE)
+    private RestTemplate irsAdminTemplate;
+    @Qualifier(IRS_REGULAR_TEMPLATE)
     private RestTemplate irsRegularTemplate;
 
     private final TraceabilityProperties traceabilityProperties;
