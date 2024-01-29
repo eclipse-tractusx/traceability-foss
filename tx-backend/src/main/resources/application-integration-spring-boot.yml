@@ -29,6 +29,7 @@ traceability:
   adminApiKey: testAdminKey
   regularApiKey: testRegularKey
   irsBase: "http://127.0.0.1"
+  submodelBase: "http://127.0.0.1"
   supportedAspectTypes:
     asBuiltTypes:
       mainAsBuiltAspectType:
@@ -130,6 +131,11 @@ feign:
     url: ""
   portalApi:
     url: ""
+  default:
+    connectionTimeoutMillis: 200
+    readTimeoutMillis: 500
+    maxIdleConnections: 10
+    keepAliveDurationMinutes: 5
 cors:
   origins: >
     "https://localhost:4200"

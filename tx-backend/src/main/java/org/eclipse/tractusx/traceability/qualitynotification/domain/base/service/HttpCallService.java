@@ -20,42 +20,45 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.qualitynotification.domain.base.service;
 
+
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.BadRequestException;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.DefaultUriBuilderFactory;
 
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import static java.lang.String.format;
+import static org.eclipse.tractusx.traceability.common.config.RestTemplateConfiguration.EDC_NOTIFICATION_TEMPLATE;
 
 // TODO - either refactor this class to use feignClient with a common httpClient or remove it once IRS-Lib is done
 @Slf4j
 @Component
 public class HttpCallService {
 
-    private final OkHttpClient httpClient;
 
-    public HttpCallService(OkHttpClient httpClient) {
-        this.httpClient = withIncreasedTimeout(httpClient);
-    }
+    private final RestTemplate edcNotificationTemplate;
 
-    private static OkHttpClient withIncreasedTimeout(OkHttpClient httpClient) {
-        return httpClient.newBuilder()
-                .connectTimeout(10, TimeUnit.SECONDS)
-                .readTimeout(25, TimeUnit.SECONDS)
-                .writeTimeout(50, TimeUnit.SECONDS)
-                .build();
+    public HttpCallService(@Qualifier(EDC_NOTIFICATION_TEMPLATE) RestTemplate edcNotificationTemplate) {
+        this.edcNotificationTemplate = edcNotificationTemplate;
     }
 
 
-    public void sendRequest(Request request) throws IOException {
-        try (var response = httpClient.newCall(request).execute()) {
-            var body = response.body();
-            if (!response.isSuccessful() || body == null) {
-                throw new BadRequestException(format("Control plane responded with: %s %s", response.code(), body != null ? body.string() : ""));
+    public void sendRequest(EdcNotificationRequest request) {
+        edcNotificationTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory(request.getUrl()));
+        HttpEntity<String> entity = new HttpEntity<>(request.getBody(), request.getHeaders());
+        try {
+            var response = edcNotificationTemplate.exchange("", HttpMethod.POST, entity, new ParameterizedTypeReference<>() {
+            });
+            var body = response.getBody();
+            if (!response.getStatusCode().is2xxSuccessful() || body == null) {
+                throw new BadRequestException(format("Control plane responded with: %s %s", response.getStatusCode(), body != null ? body.toString() : ""));
             }
         } catch (Exception e) {
             throw e;

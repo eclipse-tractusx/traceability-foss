@@ -170,6 +170,12 @@ spring:
 
 jwt:
   resource-client: ${JWT_RESOURCE_CLIENT}
+feign:
+  default:
+    connectionTimeoutMillis: 200
+    readTimeoutMillis: 500
+    maxIdleConnections: 10
+    keepAliveDurationMinutes: 5
 
 cache:
   bpn:

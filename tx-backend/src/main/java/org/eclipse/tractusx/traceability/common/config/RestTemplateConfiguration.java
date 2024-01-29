@@ -64,6 +64,7 @@ public class RestTemplateConfiguration {
     public static final String EDC_REST_TEMPLATE = "edcRestTemplate";
     public static final String REST_TEMPLATE = "restTemplate";
     public static final String SUBMODEL_TEMPLATE = "submodelTemplate";
+    public static final String EDC_NOTIFICATION_TEMPLATE = "edcNotificationTemplate";
 
     private static final String EDC_API_KEY_HEADER_NAME = "X-Api-Key";
 
@@ -78,6 +79,16 @@ public class RestTemplateConfiguration {
         return new RestTemplateBuilder()
                 .rootUri(edcProperties.getProviderEdcUrl())
                 .defaultHeader(EDC_API_KEY_HEADER_NAME, edcProperties.getApiAuthKey())
+                .build();
+    }
+
+    @Bean
+    @Qualifier(EDC_NOTIFICATION_TEMPLATE)
+    public RestTemplate edcNotificationTemplate(EdcProperties edcProperties) {
+        return new RestTemplateBuilder()
+                .defaultHeader(EDC_API_KEY_HEADER_NAME, edcProperties.getApiAuthKey())
+                .setConnectTimeout(Duration.ofSeconds(10L))
+                .setReadTimeout(Duration.ofSeconds(25L))
                 .build();
     }
 
