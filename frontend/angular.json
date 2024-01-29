@@ -137,11 +137,11 @@
                 }
               ]
             },
-            "localBackendCfx": {
+            "localBackendTractusX": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.localBackendCfx.ts"
+                  "with": "src/environments/environment.localBackendTractusX.ts"
                 }
               ]
             },
@@ -215,8 +215,8 @@
             "localBackendNoAuth": {
               "browserTarget": "trace-x:build:dev,localBackendNoAuth"
             },
-            "localBackendCfx": {
-              "browserTarget": "trace-x:build:dev,localBackendCfx"
+            "localBackendTractusX": {
+              "browserTarget": "trace-x:build:dev,localBackendTractusX"
             },
             "production": {
               "browserTarget": "trace-x:build:production"
