@@ -28,6 +28,7 @@ import org.eclipse.tractusx.traceability.common.properties.TraceabilityPropertie
 import org.jetbrains.annotations.Nullable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -56,13 +57,14 @@ public class IrsClient {
 
     public List<PolicyResponse> getPolicies() {
 
-        irsAdminTemplate.getInterceptors().forEach(clientHttpRequestInterceptor -> {
-            log.info(clientHttpRequestInterceptor.toString());
-        });
+        irsAdminTemplate.getInterceptors().forEach(clientHttpRequestInterceptor -> log.info(clientHttpRequestInterceptor.toString()));
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("test", "test");
+        HttpEntity<Void> httpEntity = new HttpEntity<>(null, headers);
         ResponseEntity<List<PolicyResponse>> responseEntity = irsAdminTemplate.exchange(
                 "/irs/policies/",
                 HttpMethod.GET,
-                null,
+                httpEntity,
                 new ParameterizedTypeReference<>() {
                 }
         );
