@@ -1,5 +1,6 @@
 package org.eclipse.tractusx.traceability.common.config;
 
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpRequest;
@@ -13,13 +14,14 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
+@ToString
 @Slf4j
 public class LoggingInterceptor implements ClientHttpRequestInterceptor {
 
     @Override
     public @NotNull ClientHttpResponse intercept(
             @NotNull HttpRequest req, byte @NotNull [] reqBody, ClientHttpRequestExecution ex) throws IOException {
-        req.getHeaders().forEach((s, strings) -> log.debug("Request header: {}", new String(s + strings.toString())));
+        req.getHeaders().forEach((s, strings) -> log.debug("Request header: {}", s));
         log.debug("Request body: {}", new String(reqBody, StandardCharsets.UTF_8));
         ClientHttpResponse response = ex.execute(req, reqBody);
         InputStreamReader isr = new InputStreamReader(
