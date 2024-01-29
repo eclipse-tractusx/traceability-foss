@@ -70,7 +70,7 @@ public class RestTemplateConfiguration {
 
     @Bean
     @Qualifier(EDC_REST_TEMPLATE)
-    public RestTemplate edcRestTemplate(EdcProperties edcProperties) {
+    public RestTemplate edcRestTemplate(@Autowired EdcProperties edcProperties) {
         return new RestTemplateBuilder()
                 .rootUri(edcProperties.getProviderEdcUrl())
                 .defaultHeader(EDC_API_KEY_HEADER_NAME, edcProperties.getApiAuthKey())
@@ -81,14 +81,14 @@ public class RestTemplateConfiguration {
 
     @Bean
     @Qualifier(EDC_NOTIFICATION_TEMPLATE)
-    public RestTemplate edcNotificationTemplate(EdcProperties edcProperties) {
+    public RestTemplate edcNotificationTemplate(@Autowired EdcProperties edcProperties) {
         return new RestTemplateBuilder()
                 .defaultHeader(EDC_API_KEY_HEADER_NAME, edcProperties.getApiAuthKey())
                 .build();
     }
 
     @Bean
-    public RestTemplate irsAdminTemplate(TraceabilityProperties traceabilityProperties) {
+    public RestTemplate irsAdminTemplate(@Autowired TraceabilityProperties traceabilityProperties) {
         return new RestTemplateBuilder()
                 .rootUri(traceabilityProperties.getIrsBase())
                 .defaultHeader(IRS_API_KEY_HEADER_NAME, traceabilityProperties.getAdminApiKey())
@@ -97,7 +97,7 @@ public class RestTemplateConfiguration {
     }
 
     @Bean
-    public RestTemplate irsRegularTemplate(TraceabilityProperties traceabilityProperties) {
+    public RestTemplate irsRegularTemplate(@Autowired TraceabilityProperties traceabilityProperties) {
         return new RestTemplateBuilder()
                 .rootUri(traceabilityProperties.getIrsBase())
                 .defaultHeader(IRS_API_KEY_HEADER_NAME, traceabilityProperties.getRegularApiKey())
@@ -107,7 +107,7 @@ public class RestTemplateConfiguration {
 
     @Bean
     @Qualifier(REST_TEMPLATE)
-    public RestTemplate edcTemplate(TraceabilityProperties traceabilityProperties) {
+    public RestTemplate edcTemplate(@Autowired TraceabilityProperties traceabilityProperties) {
         return new RestTemplateBuilder()
                 .defaultHeader(IRS_API_KEY_HEADER_NAME, traceabilityProperties.getAdminApiKey())
                 .build();
@@ -116,7 +116,7 @@ public class RestTemplateConfiguration {
 
     @Bean
     @Qualifier(SUBMODEL_TEMPLATE)
-    public RestTemplate submodelRestTemplate(TraceabilityProperties traceabilityProperties, @Autowired FeignDefaultProperties feignDefaultProperties) {
+    public RestTemplate submodelRestTemplate(@Autowired TraceabilityProperties traceabilityProperties, @Autowired FeignDefaultProperties feignDefaultProperties) {
 
         return new RestTemplateBuilder()
                 .rootUri(traceabilityProperties.getSubmodelBase())
@@ -138,7 +138,7 @@ public class RestTemplateConfiguration {
     }
 
     @Bean
-    public RestTemplate edcClientRestTemplate(TraceabilityProperties traceabilityProperties) {
+    public RestTemplate edcClientRestTemplate(@Autowired TraceabilityProperties traceabilityProperties) {
         return new RestTemplateBuilder()
                 .defaultHeader(IRS_API_KEY_HEADER_NAME, traceabilityProperties.getAdminApiKey())
                 .build();
