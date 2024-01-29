@@ -57,6 +57,7 @@ public class IrsClient {
     }
 
     public List<PolicyResponse> getPolicies() {
+
         ResponseEntity<List<PolicyResponse>> responseEntity = irsAdminTemplate.exchange(
                 "/irs/policies/",
                 HttpMethod.GET,

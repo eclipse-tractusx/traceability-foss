@@ -26,6 +26,7 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.weaver.tools.Trace;
 import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
 import org.eclipse.tractusx.traceability.common.properties.FeignDefaultProperties;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
@@ -108,8 +109,9 @@ public class RestTemplateConfiguration {
 
     @Bean
     @Qualifier(REST_TEMPLATE)
-    public RestTemplate edcTemplate() {
+    public RestTemplate edcTemplate(TraceabilityProperties traceabilityProperties) {
         return new RestTemplateBuilder()
+                .defaultHeader(IRS_API_KEY_HEADER_NAME, traceabilityProperties.getAdminApiKey())
                 .build();
     }
 
@@ -120,6 +122,7 @@ public class RestTemplateConfiguration {
 
         return new RestTemplateBuilder()
                 .rootUri(traceabilityProperties.getSubmodelBase())
+                .defaultHeader(IRS_API_KEY_HEADER_NAME, traceabilityProperties.getAdminApiKey())
                 .setConnectTimeout(Duration.ofMillis(feignDefaultProperties.getConnectionTimeoutMillis()))
                 .setReadTimeout(Duration.ofMillis(feignDefaultProperties.getReadTimeoutMillis()))
                 .build();
@@ -128,16 +131,18 @@ public class RestTemplateConfiguration {
     @Bean
     public RestTemplate digitalTwinRegistryRestTemplate(
             final RestTemplateBuilder restTemplateBuilder,
-            @Value("${digitalTwinRegistryClient.oAuthClientId}") final String clientRegistrationId) {
+            @Value("${digitalTwinRegistryClient.oAuthClientId}") final String clientRegistrationId, TraceabilityProperties traceabilityProperties) {
         oAuthRestTemplate(restTemplateBuilder,
                 clientRegistrationId).build();
         return oAuthRestTemplate(restTemplateBuilder,
-                clientRegistrationId).build();
+                clientRegistrationId).defaultHeader(IRS_API_KEY_HEADER_NAME, traceabilityProperties.getAdminApiKey()).
+        build();
     }
 
     @Bean
-    public RestTemplate edcClientRestTemplate() {
+    public RestTemplate edcClientRestTemplate(TraceabilityProperties traceabilityProperties) {
         return new RestTemplateBuilder()
+                .defaultHeader(IRS_API_KEY_HEADER_NAME, traceabilityProperties.getAdminApiKey())
                 .build();
     }
 
