@@ -562,6 +562,62 @@ Enables &lt;true> or disables &lt;false> pgadmin4 console for the PostgreSQL dat
 
 Enables &lt;true> or disables &lt;false> a K8S Ingress for the pgadmin4 console
 
+## Portal Configuration
+
+The following process is required to successfully connect to the portal:
+
+### Company Registration
+
+[How To](https://portal.int.demo.catena-x.net/documentation)
+
+#### Additional info
+
+Each instance of trace-x reflects an own company, which is associated with one BPN.
+
+### User Registration
+
+[How To](https://portal.int.demo.catena-x.net/documentation/)
+
+#### Additional info
+
+The user registration is a self service. Each user can have one or multiple trace-x roles assigned.
+
+### Connector Registration
+
+[How To](https://portal.int.demo.catena-x.net/documentation/)
+
+#### Additional info
+
+A connector in the context of trace-x is a Eclipse-Dataspace-Connector. This connector needs to be configured by the public controlplane url.
+
+### App Registration
+
+[How To](https://portal.int.demo.catena-x.net/documentation/)
+
+#### Additional info
+
+A connector in the context of trace-x is a Eclipse-Dataspace-Connector. This connector needs to be configured by the public controlplane url.
+
+### Create App Subscription
+
+[How To](https://portal.int.demo.catena-x.net/documentation/)
+
+#### Additional info
+
+An app subscription is necessary to be able to setup a frontend url which will be authorized through keycloak and accessible with the portal.
+
+### Activate App Subscription
+
+[How To](https://portal.int.demo.catena-x.net/documentation/)
+
+#### Additional info
+
+The app subscription needs to be activated from all instances which want to participate in the trace-x use case.
+
+### Retrieve Wallet Configuration
+
+[How To](https://portal.int.demo.catena-x.net/documentation/)
+
 ## Troubleshooting
 
 Coming soon...

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.18">
-<title>Structure</title>
+<title>Portal Configuration</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -437,36 +437,145 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body class="article">
+<body id="_portal_configuration" class="article toc2 toc-left">
 <div id="header">
-<h1>Structure</h1>
-</div>
-<div id="content">
-<div class="paragraph">
-<p>Trace-X is divided into two components: Frontend and Backend.
-It roughly can be broken down into the following parts:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Asset controllers to get the asset information</p>
+<h1>Portal Configuration</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_company_registration">Company Registration</a>
+<ul class="sectlevel2">
+<li><a href="#_additional_info">Additional info</a></li>
+</ul>
 </li>
-<li>
-<p>Dashboard controller to get dashboard related summed up information</p>
+<li><a href="#_user_registration">User Registration</a>
+<ul class="sectlevel2">
+<li><a href="#_additional_info_2">Additional info</a></li>
+</ul>
 </li>
-<li>
-<p>Registry controller to fetch assets from the Digital Twin Registry</p>
+<li><a href="#_connector_registration">Connector Registration</a>
+<ul class="sectlevel2">
+<li><a href="#_additional_info_3">Additional info</a></li>
+</ul>
 </li>
-<li>
-<p>Notification controllers to get notification information</p>
+<li><a href="#_app_registration">App Registration</a>
+<ul class="sectlevel2">
+<li><a href="#_additional_info_4">Additional info</a></li>
+</ul>
 </li>
-<li>
-<p>Submodel controller for providing asset data functionality</p>
+<li><a href="#_create_app_subscription">Create App Subscription</a>
+<ul class="sectlevel2">
+<li><a href="#_additional_info_5">Additional info</a></li>
+</ul>
 </li>
+<li><a href="#_activate_app_subscription">Activate App Subscription</a>
+<ul class="sectlevel2">
+<li><a href="#_additional_info_6">Additional info</a></li>
+</ul>
+</li>
+<li><a href="#_retrieve_wallet_configuration">Retrieve Wallet Configuration</a></li>
 </ul>
 </div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
-<p>The backend does a request to the Digital Twin Registry utilizing the Registry controller. Extracted data from the response is made available through the Asset controller and the Dashboard controller to the Frontend.</p>
+<p>The following process is required to successfully connect to the portal:</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_company_registration">Company Registration</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://portal.int.demo.catena-x.net/documentation">How To</a></p>
+</div>
+<div class="sect2">
+<h3 id="_additional_info">Additional info</h3>
+<div class="paragraph">
+<p>Each instance of trace-x reflects an own company, which is associated with one BPN.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_user_registration">User Registration</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://portal.int.demo.catena-x.net/documentation/">How To</a></p>
+</div>
+<div class="sect2">
+<h3 id="_additional_info_2">Additional info</h3>
+<div class="paragraph">
+<p>The user registration is a self service. Each user can have one or multiple trace-x roles assigned.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_connector_registration">Connector Registration</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://portal.int.demo.catena-x.net/documentation/">How To</a></p>
+</div>
+<div class="sect2">
+<h3 id="_additional_info_3">Additional info</h3>
+<div class="paragraph">
+<p>A connector in the context of trace-x is a Eclipse-Dataspace-Connector. This connector needs to be configured by the public controlplane url.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_app_registration">App Registration</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://portal.int.demo.catena-x.net/documentation/">How To</a></p>
+</div>
+<div class="sect2">
+<h3 id="_additional_info_4">Additional info</h3>
+<div class="paragraph">
+<p>A connector in the context of trace-x is a Eclipse-Dataspace-Connector. This connector needs to be configured by the public controlplane url.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_create_app_subscription">Create App Subscription</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://portal.int.demo.catena-x.net/documentation/">How To</a></p>
+</div>
+<div class="sect2">
+<h3 id="_additional_info_5">Additional info</h3>
+<div class="paragraph">
+<p>An app subscription is necessary to be able to setup a frontend url which will be authorized through keycloak and accessible with the portal.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_activate_app_subscription">Activate App Subscription</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://portal.int.demo.catena-x.net/documentation/">How To</a></p>
+</div>
+<div class="sect2">
+<h3 id="_additional_info_6">Additional info</h3>
+<div class="paragraph">
+<p>The app subscription needs to be activated from all instances which want to participate in the trace-x use case.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_retrieve_wallet_configuration">Retrieve Wallet Configuration</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://portal.int.demo.catena-x.net/documentation/">How To</a></p>
+</div>
+</div>
 </div>
 </div>
 <div id="footer">
