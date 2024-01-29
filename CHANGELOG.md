@@ -10,6 +10,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 
 ### Changed
+- Merge from upstream to align with CofinityX
 
 ### Removed
 

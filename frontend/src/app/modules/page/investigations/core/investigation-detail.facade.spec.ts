@@ -68,20 +68,20 @@ describe('InvestigationDetailFacade', () => {
     },
   ].forEach(object => {
 
-    describe(`${object.method}()`, () => {
+    describe(`${ object.method }()`, () => {
 
       let part: Part;
 
-      beforeEach(function () {
+      beforeEach(function() {
 
         part = PartsAssembler.assemblePart(MOCK_part_1, MainAspectType.AS_BUILT);
 
-        this.spy = spyOn(partService, 'sortParts').and.callFake(() => [part]);
+        this.spy = spyOn(partService, 'sortParts').and.callFake(() => [ part ]);
       });
 
-      [[part], null, undefined].forEach((fallacy, index) => {
+      [ [ part ], null, undefined ].forEach((fallacy, index) => {
 
-        it('should pass sortParts', function () {
+        it('should pass sortParts', function() {
 
           spyOnProperty(investigationDetailState, object.prop, 'get').and.returnValue({
             data: fallacy,
@@ -100,24 +100,24 @@ describe('InvestigationDetailFacade', () => {
             })();
         });
 
-        // it('should set part infos after sort', function () {
+        it('should set part infos after sort', function() {
 
-        //   spyOnProperty(investigationDetailState, object.prop, 'get').and.returnValue({
-        //     data: fallacy,
-        //   });
+          spyOnProperty(investigationDetailState, object.prop, 'get').and.returnValue({
+            data: fallacy,
+          });
 
-        //   this.spyPropSet = spyOnProperty(investigationDetailState, object.prop, 'set');
+          this.spyPropSet = spyOnProperty(investigationDetailState, object.prop, 'set');
 
-        //   investigationDetailFacade[object.method]('', '');
+          investigationDetailFacade[object.method]('', '');
 
-        //   index == 0
-        //     ? (() => {
-        //       expect(this.spyPropSet).toHaveBeenCalledTimes(1);
-        //     })()
-        //     : (() => {
-        //       expect(this.spyPropSet).not.toHaveBeenCalledTimes(1);
-        //     })();
-        // });
+          index == 0
+            ? (() => {
+              expect(this.spyPropSet).toHaveBeenCalledTimes(1);
+            })()
+            : (() => {
+              expect(this.spyPropSet).not.toHaveBeenCalledTimes(1);
+            })();
+        });
       });
     });
   });

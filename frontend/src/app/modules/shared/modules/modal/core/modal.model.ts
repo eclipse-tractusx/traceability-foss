@@ -30,8 +30,7 @@ export interface ModalData {
   primaryButtonColour?: 'primary' | 'accent' | 'warn';
   notificationId?: string;
 
-  template?: TemplateRef<unknown>;
-  message?: string;
+  template: TemplateRef<unknown>;
   onConfirm: (isConfirmed: boolean) => void;
 
   formGroup?: UntypedFormGroup;

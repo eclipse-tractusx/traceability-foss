@@ -19,7 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, Inject, Injector, } from '@angular/core';
+import { Component, Inject, Injector } from '@angular/core';
 import { BaseInputComponent } from '@shared/abstraction/baseInput/baseInput.component';
 import { StaticIdService } from '@shared/service/staticId.service';
 

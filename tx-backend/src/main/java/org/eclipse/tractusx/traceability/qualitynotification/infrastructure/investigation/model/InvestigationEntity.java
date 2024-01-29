@@ -43,9 +43,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationBaseEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
-import org.hibernate.annotations.Formula;
 
-import java.time.Instant;
 import java.util.List;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
@@ -77,20 +75,6 @@ public class InvestigationEntity extends NotificationBaseEntity {
     @OneToMany(mappedBy = "investigation")
     private List<InvestigationNotificationEntity> notifications;
 
-    @Formula("(select A.severity from investigation_notification A where A.investigation_id=id limit 1)")
-    private Integer severity;
-
-    @Formula("(select A.created_by from investigation_notification A where A.investigation_id=id limit 1)")
-    private String createdBy;
-
-    @Formula("(select A.target_date from investigation_notification A where A.investigation_id=id limit 1)")
-    private Instant targetDate;
-
-    @Formula("(select A.send_to_name from investigation_notification A where A.investigation_id=id limit 1)")
-    private String sendToName;
-
-    @Formula("(select A.send_to from investigation_notification A where A.investigation_id=id limit 1)")
-    private String sendTo;
 
     public static QualityNotification toDomain(InvestigationEntity investigationEntity) {
         List<QualityNotificationMessage> notifications = emptyIfNull(investigationEntity.getNotifications()).stream()

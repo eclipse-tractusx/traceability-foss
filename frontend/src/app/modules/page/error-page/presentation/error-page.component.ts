@@ -31,11 +31,11 @@ import { map } from 'rxjs/operators';
   styleUrls: [ './error-page.component.scss' ],
 })
 export class ErrorPageComponent {
-  public title = 'errorPage.title';
-  public message = 'errorPage.message';
-  public actionUrl = '#';
-  public actionLabel = 'actions.homepage';
-  public showSignOutButton = false;
+  public title: string = 'errorPage.title';
+  public message: string = 'errorPage.message';
+  public actionUrl: string = '#';
+  public actionLabel: string = 'actions.homepage';
+  public showSignOutButton: boolean = false;
 
   constructor(
     private readonly roleService: RoleService,

@@ -34,7 +34,6 @@ import qualitynotification.investigation.response.InvestigationResponse;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 
@@ -48,8 +47,8 @@ public class InvestigationResponseMapper {
                 .id(qualityNotification.getNotificationId().value())
                 .status(QualityNotificationMapper.from(qualityNotification.getNotificationStatus()))
                 .description(qualityNotification.getDescription())
-                .createdBy(getCreatedByOfOldestMessage(qualityNotification.getNotifications()))
-                .createdByName(getCreatedByNameOfOldestMessage(qualityNotification.getNotifications()))
+                .createdBy(getSenderBPN(qualityNotification.getNotifications()))
+                .createdByName(getSenderName(qualityNotification.getNotifications()))
                 .createdDate(qualityNotification.getCreatedAt().toString())
                 .assetIds(Collections.unmodifiableList(qualityNotification.getAssetIds()))
                 .channel(QualityNotificationMapper.from(qualityNotification.getNotificationSide()))
@@ -58,8 +57,8 @@ public class InvestigationResponseMapper {
                         qualityNotification.getAcceptReason(),
                         qualityNotification.getDeclineReason()
                 ))
-                .sendTo(getSendToOfOldestMessage(qualityNotification.getNotifications()))
-                .sendToName(getSendToNameOfOldestMessage(qualityNotification.getNotifications()))
+                .sendTo(getReceiverBPN(qualityNotification.getNotifications()))
+                .sendToName(getReceiverName(qualityNotification.getNotifications()))
                 .severity(QualityNotificationMapper.from(qualityNotification.getNotifications().stream().findFirst().map(QualityNotificationMessage::getSeverity).orElse(QualityNotificationSeverity.MINOR)))
                 .targetDate(qualityNotification.getNotifications().stream().findFirst().map(QualityNotificationMessage::getTargetDate).map(Instant::toString).orElse(null))
                 .errorMessage(qualityNotification.getErrorMessage())
@@ -76,30 +75,30 @@ public class InvestigationResponseMapper {
         return new PageResult<>(investigationDataPage);
     }
 
-    private static String getCreatedByOfOldestMessage(Collection<QualityNotificationMessage> notifications) {
+    private static String getSenderBPN(Collection<QualityNotificationMessage> notifications) {
         return notifications.stream()
-                .min(Comparator.comparing(QualityNotificationMessage::getCreated))
+                .findFirst()
                 .map(QualityNotificationMessage::getCreatedBy)
                 .orElse(null);
     }
 
-    private static String getSendToOfOldestMessage(Collection<QualityNotificationMessage> notifications) {
+    private static String getReceiverBPN(Collection<QualityNotificationMessage> notifications) {
         return notifications.stream()
-                .min(Comparator.comparing(QualityNotificationMessage::getCreated))
+                .findFirst()
                 .map(QualityNotificationMessage::getSendTo)
                 .orElse(null);
     }
 
-    private static String getCreatedByNameOfOldestMessage(Collection<QualityNotificationMessage> notifications) {
+    private static String getSenderName(Collection<QualityNotificationMessage> notifications) {
         return notifications.stream()
-                .min(Comparator.comparing(QualityNotificationMessage::getCreated))
+                .findFirst()
                 .map(QualityNotificationMessage::getCreatedByName)
                 .orElse(null);
     }
 
-    private static String getSendToNameOfOldestMessage(Collection<QualityNotificationMessage> notifications) {
+    private static String getReceiverName(Collection<QualityNotificationMessage> notifications) {
         return notifications.stream()
-                .min(Comparator.comparing(QualityNotificationMessage::getCreated))
+                .findFirst()
                 .map(QualityNotificationMessage::getSendToName)
                 .orElse(null);
     }

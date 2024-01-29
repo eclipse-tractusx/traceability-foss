@@ -45,7 +45,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
 @Tag(name = "BpnEdcMapping")
 @RequestMapping(path = "/bpn-config")
 @Validated

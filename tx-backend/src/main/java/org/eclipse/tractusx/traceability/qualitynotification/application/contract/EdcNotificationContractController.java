@@ -43,7 +43,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Validated
 @RestController
-@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+@PreAuthorize("hasAnyRole('ROLE_SUPERVISOR')")
 @Tag(name = "Notifications")
 @RequestMapping(path = "/edc/notification", produces = "application/json", consumes = "application/json")
 public class EdcNotificationContractController {
