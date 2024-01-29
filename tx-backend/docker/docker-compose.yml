@@ -19,13 +19,13 @@ name: trace-foss
 services:
   postgres:
     image: postgres:14.4
+    environment:
+      - POSTGRES_PASSWORD=docker
     volumes:
       - postgres-data:/var/lib/postgresql/data
       - ./db-init:/docker-entrypoint-initdb.d
     ports:
       - 5432:5432
-    environment:
-      - POSTGRES_PASSWORD=docker
     expose:
       - 5432
     networks:
@@ -38,25 +38,27 @@ services:
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:-admin}
       DB_SCHEMA: public
       KC_HOSTNAME: ${KC_HOSTNAME:-localhost}
-    command:
-      - start-dev
-      - --import-realm
     volumes:
       # Mount path can be customized according to the project folder structure
       - ./cx_keycloak_realm/cx-realm.json:/opt/keycloak/data/import/realm.json
     ports:
       - 4011:8080
+    command:
+      - start-dev
+      - --import-realm
     networks:
       - tracex-net
 
   wiremock:
     image: wiremock/wiremock
-    ports:
-      - 5001:8080
     volumes:
       - ./wiremock:/home/wiremock
+    ports:
+      - 5001:8080
     extra_hosts:
       - host.docker.internal:host-gateway
+    networks:
+      - tracex-net
 
 networks:
   tracex-net:

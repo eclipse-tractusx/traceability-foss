@@ -18,10 +18,6 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-.section {
-  width: 100%;
-}
-
 
 .message--username__right {
   display: flex;
@@ -44,6 +40,7 @@
 }
 
 .message--text {
+  max-width: 400px;
   word-wrap: break-word;
   word-break: break-word;
   margin-bottom: 20px;
@@ -51,7 +48,7 @@
 
   position: relative;
   padding: 10px 20px;
-  border-radius: 10px;
+  border-radius: 25px;
 }
 
 .message--text__date {
@@ -75,20 +72,19 @@
 
   @apply text-dark pt-3;
 
-  &>p:first-child {
+  & > p:first-child {
     @apply font-semiBold;
   }
 
-  &>p {
-    font-size: 12px;
+  & > p {
+    font-size: 10px;
     text-transform: uppercase;
   }
 
-  &>.message--text__date {
+  & > .message--text__date {
     margin-right: 20px;
   }
 }
-
 
 .message--text__right {
   @apply bg-createdLight text-createdDark;
@@ -149,10 +145,4 @@
   background: white;
   border-bottom-right-radius: 10px;
   transform: translate(-30px, -2px);
-}
-
-.message--text__none {
-  @apply bg-surfaceMedium text-createdDark;
-  float: center;
-  width: 100%;
 }

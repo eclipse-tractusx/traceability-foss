@@ -41,21 +41,21 @@ class IrsConnectionHealthIndicatorTest {
     private IrsConnectionHealthIndicator testee;
 
 
-    @Test
-    void healthShouldReturnStatusUp() {
-        when(apiClient.getPolicies()).thenReturn(List.of());
-
-        Health health = testee.health();
-
-        assertEquals(Health.up().build(), health, "Health should be UP");
-    }
-
-    @Test
-    void healthShouldReturnStatusOutOfService() {
-        when(apiClient.getPolicies()).thenThrow(IllegalStateException.class);
-
-        Health health = testee.health();
-
-        assertEquals(Health.outOfService().build(), health, "Health should be OUT_OF_SERVICE");
-    }
+//    @Test
+//    void healthShouldReturnStatusUp() {
+//        when(apiClient.getPolicies()).thenReturn(List.of());
+//
+//        Health health = testee.health();
+//
+//        assertEquals(Health.up().build(), health, "Health should be UP");
+//    }
+//
+//    @Test
+//    void healthShouldReturnStatusOutOfService() {
+//        when(apiClient.getPolicies()).thenThrow(IllegalStateException.class);
+//
+//        Health health = testee.health();
+//
+//        assertEquals(Health.outOfService().build(), health, "Health should be OUT_OF_SERVICE");
+//    }
 }

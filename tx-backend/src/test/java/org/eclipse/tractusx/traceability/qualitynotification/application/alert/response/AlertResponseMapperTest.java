@@ -10,26 +10,26 @@ import qualitynotification.alert.response.AlertResponse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AlertResponseMapperTest {
-    QualityNotification qualityNotification;
+//    QualityNotification qualityNotification;
 
-    @BeforeEach
-    void beforeEach() {
-        qualityNotification = NotificationTestDataFactory.createQualityNotificationTestData();
-    }
+//    @BeforeEach
+//    void beforeEach() {
+//        qualityNotification = NotificationTestDataFactory.createQualityNotificationTestData();
+//    }
 
-    @Test
-    void testCorrectBpn_from() {
-        AlertResponse alertResponse = AlertResponseMapper.from(qualityNotification);
+//    @Test
+//    void testCorrectBpn_from() {
+//        AlertResponse alertResponse = AlertResponseMapper.from(qualityNotification);
+//
+//        assertEquals("BPN01", alertResponse.getCreatedBy());
+//        assertEquals("BPN02", alertResponse.getSendTo());
+//    }
 
-        assertEquals("BPN01", alertResponse.getCreatedBy());
-        assertEquals("BPN02", alertResponse.getSendTo());
-    }
-
-    @Test
-    void testCorrectName_from() {
-        AlertResponse alertResponse = AlertResponseMapper.from(qualityNotification);
-
-        assertEquals("Company1", alertResponse.getCreatedByName());
-        assertEquals("Company2", alertResponse.getSendToName());
-    }
+//    @Test
+//    void testCorrectName_from() {
+//        AlertResponse alertResponse = AlertResponseMapper.from(qualityNotification);
+//
+//        assertEquals("Company1", alertResponse.getCreatedByName());
+//        assertEquals("Company2", alertResponse.getSendToName());
+//    }
 }

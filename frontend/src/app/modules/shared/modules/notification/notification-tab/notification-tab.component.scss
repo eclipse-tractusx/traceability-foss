@@ -19,22 +19,50 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-.notification--table__cell {
+.notification--table__description {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   max-width: 500px;
 }
 
-.notifications-tab {
-  overflow: auto;
-}
+.notification-status {
+  @apply border-0 uppercase inline-flex items-center gap-1 px-3 py-1 rounded-full font-semibold text-xs w-fit;
 
-.loader {
-  margin: 0 auto;
-}
+  &:before {
+    content: ' ';
+    @apply h-2 w-2 rounded-full inline-block;
+  }
 
-.notification--table__description-text {
-  font-weight: 600;
-  line-height: 20.8px;
+  &--RECEIVED {
+    @apply bg-receivedLight text-receivedDark before:bg-receivedDark;
+  }
+
+  &--CANCELED {
+    @apply bg-closedDark text-closedLight before:bg-closedLight;
+  }
+
+  &--CLOSED {
+    @apply bg-closedDark text-closedLight before:bg-closedLight;
+  }
+
+  &--CREATED {
+    @apply bg-createdLight text-createdDark before:bg-createdDark;
+  }
+
+  &--SENT {
+    @apply bg-pendingLight text-pendingDark before:bg-pendingDark;
+  }
+
+  &--ACCEPTED {
+    @apply bg-declinedLight text-declinedDark before:bg-declinedDark;
+  }
+
+  &--ACKNOWLEDGED {
+    @apply bg-pendingLight text-pendingDark before:bg-pendingDark;
+  }
+
+  &--DECLINED {
+    @apply bg-confirmedLight text-confirmedDark before:bg-confirmedDark;
+  }
 }

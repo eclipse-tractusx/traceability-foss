@@ -21,7 +21,7 @@
 
 import { screen } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
-import { SharedModule } from '@shared/shared.module';
+import { SharedModule } from '..';
 
 describe('I18nPipe', () => {
   it('should format string without errors', async () => {

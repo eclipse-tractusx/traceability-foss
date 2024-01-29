@@ -42,7 +42,6 @@ import {
 } from '../../../../mocks/services/otherParts-mock/otherParts.test.model';
 import { OtherPartsModule } from '../other-parts.module';
 import { OtherPartsComponent } from './other-parts.component';
-import { Role } from '@core/user/role.model';
 
 describe('Other Parts', () => {
   let otherPartsState: OtherPartsState;
@@ -55,9 +54,9 @@ describe('Other Parts', () => {
 
   const renderOtherParts = ({ roles = [] } = {}) =>
     renderComponent(OtherPartsComponent, {
-      declarations: [SupplierPartsComponent, CustomerPartsComponent],
-      imports: [OtherPartsModule],
-      providers: [{ provide: OtherPartsState, useFactory: () => otherPartsState }, { provide: PartsState }],
+      declarations: [ SupplierPartsComponent, CustomerPartsComponent ],
+      imports: [ OtherPartsModule ],
+      providers: [ { provide: OtherPartsState, useFactory: () => otherPartsState }, { provide: PartsState } ],
       roles,
     });
 
@@ -83,13 +82,13 @@ describe('Other Parts', () => {
     expect(tabElements.length).toEqual(4);
   });
 
-  // it('should render selected parts information', async () => {
-  //   await renderOtherParts({ roles: [ 'user' ] });
-  //   await screen.findByTestId('table-component--test-id');
-  //   const selectedPartsInfo = await screen.getByText('page.selectedParts.info');
+  it('should render selected parts information', async () => {
+    await renderOtherParts({ roles: [ 'user' ] });
+    await screen.findByTestId('table-component--test-id');
+    const selectedPartsInfo = await screen.getByText('page.selectedParts.info');
 
-  //   expect(selectedPartsInfo).toBeInTheDocument();
-  // });
+    expect(selectedPartsInfo).toBeInTheDocument();
+  });
 
 
   it('should set selectedTab correctly', async () => {
@@ -112,7 +111,7 @@ describe('Other Parts', () => {
       formatPartSemanticToCamelCase = new FormatPartSemanticDataModelToCamelCasePipe();
     });
     it('should request supplier parts if first tab is selected', async () => {
-      await renderOtherParts({ roles: [Role.USER] });
+      await renderOtherParts({ roles: [ 'user' ] });
       fireEvent.click(screen.getAllByText('pageOtherParts.tab.supplier')[0]);
 
       await waitFor(() => expect(screen.getByText('table.column.manufacturerName')).toBeInTheDocument());
@@ -140,7 +139,7 @@ describe('Other Parts', () => {
     });
 
     it('should request customer parts if second tab is selected', async () => {
-      const fixture = await renderOtherParts({ roles: [Role.USER] });
+      const fixture = await renderOtherParts({ roles: [ 'user' ] });
       let tabs = screen.getAllByText('pageOtherParts.tab.customer');
       fireEvent.click(tabs[0]);
 

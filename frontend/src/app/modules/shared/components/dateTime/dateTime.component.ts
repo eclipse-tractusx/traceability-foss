@@ -19,7 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, Inject, Injector, Input, } from '@angular/core';
+import { Component, Inject, Injector, Input } from '@angular/core';
 import { BaseInputComponent } from '@shared/abstraction/baseInput/baseInput.component';
 import { StaticIdService } from '@shared/service/staticId.service';
 
@@ -33,15 +33,15 @@ export type DateTimeString = `${ DateString }T${ TimeString }`;
 })
 export class DateTimeComponent extends BaseInputComponent<Date> {
   @Input() set min(date: Date) {
-    this.minDate = date;
+    this.minDate = date.toISOString().substring(0, 16) as DateTimeString;
   }
 
   @Input() set max(date: Date) {
-    this.maxDate = date;
+    this.maxDate = date.toISOString().substring(0, 16) as DateTimeString;
   }
 
-  public minDate: Date;
-  public maxDate: Date;
+  public minDate: DateTimeString;
+  public maxDate: DateTimeString;
 
   constructor(@Inject(Injector) injector: Injector, staticIdService: StaticIdService) {
     super(injector, staticIdService);

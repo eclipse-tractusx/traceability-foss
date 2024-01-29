@@ -6,5 +6,5 @@ import { Component, Input } from '@angular/core';
   styleUrls: [ './sass/flag-css.scss' ],
 })
 export class CountryFlagGeneratorComponent {
-  @Input() countryCode = '';
+  @Input() countryCode: string = '';
 }

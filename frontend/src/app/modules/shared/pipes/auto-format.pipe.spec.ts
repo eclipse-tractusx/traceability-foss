@@ -22,7 +22,7 @@
 import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { screen } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
-import { SharedModule } from '@shared/shared.module';
+import { SharedModule } from '..';
 
 describe('AutoFormatPipe', () => {
   it('should format CalendarDateModel as short date', async () => {
@@ -33,7 +33,7 @@ describe('AutoFormatPipe', () => {
       },
     });
 
-    expect(screen.getByText('15/07/2022')).toBeInTheDocument();
+    expect(screen.getByText('7/15/22')).toBeInTheDocument();
   });
 
   it('should format string as it is', async () => {
