@@ -73,7 +73,7 @@ public class RestTemplateConfiguration {
     public RestTemplate edcRestTemplate(@Autowired EdcProperties edcProperties) {
         return new RestTemplateBuilder()
                 .rootUri(edcProperties.getProviderEdcUrl())
-                .defaultHeader(EDC_API_KEY_HEADER_NAME, edcProperties.getApiAuthKey())
+   /*             .defaultHeader(EDC_API_KEY_HEADER_NAME, edcProperties.getApiAuthKey())*/
                 .setConnectTimeout(Duration.ofSeconds(10L))
                 .setReadTimeout(Duration.ofSeconds(25L))
                 .build();
@@ -83,7 +83,7 @@ public class RestTemplateConfiguration {
     @Qualifier(EDC_NOTIFICATION_TEMPLATE)
     public RestTemplate edcNotificationTemplate(@Autowired EdcProperties edcProperties) {
         return new RestTemplateBuilder()
-                .defaultHeader(EDC_API_KEY_HEADER_NAME, edcProperties.getApiAuthKey())
+            /*    .defaultHeader(EDC_API_KEY_HEADER_NAME, edcProperties.getApiAuthKey())*/
                 .build();
     }
 
