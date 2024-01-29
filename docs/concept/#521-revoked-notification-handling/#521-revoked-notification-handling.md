@@ -5,37 +5,30 @@
 | Author        | ds-crehm                                                              |
 | Creation date | 24.01.2024                                                            |
 | Ticket Id     | #521 https://github.com/eclipse-tractusx/traceability-foss/issues/521 |
-| State         | WIP                                                                   |
+| State         | DRAFT                                                                 |
 
 # Table of Contents
 1. [Overview](#overview)
 2. [Summary](#summary)
-3. [Problem Statement](#problem-statement)
-4. [Requirements](#requirements)
-5. [NFR](#nfr)
-6. [Out of scope](#out-of-scope)
-7. [Assumptions](#assumptions)
-8. [Concept](#concept)
-9. [Glossary](#glossary)
-10. [References](#references)
-11. [Additional Details](#additional-details)
+3. [Requirements](#requirements)
+4. [Assumptions](#assumptions)
+5. [Concept](#concept)
+6. [References](#references)
 
 # Overview
 
 After a notification is created and approved, relevant policies must be verified before it can be sent.
 There are three possibilities:
-1. The policy is valid (validUntil >= current DateTime) and the notification is permitted to be sent.
-2. The policy is valid (validUntil >= current DateTime) but the notification is **not** permitted to be sent.
-3. The policy is **not** valid (validUntil < current DateTime) and the notification is **not** permitted to be sent (policy details are not relevant in this case).
+1. All constraints are fulfilled. The notification may be sent.
+2. The policy is expired (validUntil DateTime < current DateTime). The notification is not permitted to be sent.
+3. One or more policy-based constraints are not fulfilled. The notification is not permitted to be sent.
 
-Policies are stored in the IRS. The IRS provides an API to fetch and verify policies.
+Policies are stored in the IRS' policy store. The IRS provides a policy store API to create, fetch and verify policies.
 
 # Summary
 
-When the notification is not sent because of a permission issue or an invalid policy, the user must be notified properly.
+If the notification may not be sent after the policy verification, the user must be notified properly.
 The status of the notification must be updated accordingly.
-
-# Problem Statement
 
 # Requirements
 
@@ -44,13 +37,9 @@ The status of the notification must be updated accordingly.
   - If policy is valid but notification not permitted -> UsagePolicyPermissionException
 - New quality investigation & alert status: "Failed"
   - Notification set to this status, when it could not be sent due to the policy exceptions
-- Pop-up informing the user of the exception
+- Error text message informing the user of the exception
 - Detailed status information stored in the message history of the notification
 - User must be able to resend the notification
-
-# NFR
-
-# Out of scope
 
 # Assumptions
 
@@ -66,9 +55,12 @@ Instead of only having one UsagePolicyException, there must be two different exc
 - UsagePolicyPermissionException (thrown when permission validation fails; contains information from the IRS policy checker response)
 - UsagePolicyExpiredException (thrown when policy validUntil DateTime < current DateTime)
 
-When either of these is thrown, the notification will be set to the new status "Failed".
-A message is stored in the message history, containing information about the exception.
+When either of these is thrown, the notification will be set to the new status "Failed" and a message is stored in the message history, containing information about the exception.
 
+New notification status flow:
+![Notification-Status-Flow.png](Notification-Status-Flow.png)
+
+Creating and sending notifications:
 ```mermaid
 sequenceDiagram
     participant TraceX
@@ -103,7 +95,7 @@ sequenceDiagram
 ### Frontend
 
 After creating and approving the notification and one of the exceptions is thrown:
-1. A pop-up must be shown to the user
+1. An error text message must be shown to the user
 2. The notification status must be changed to "Failed"
 3. A new message must be created and shown in the message history including the error description
 
@@ -112,15 +104,6 @@ UsagePolicyPermissionException:
 UsagePolicyExpiredException:
 ![UsagePolicyExpiredException-Mockup.png](UsagePolicyExpiredException-Mockup.png)
 
-# Glossary
-
-| Abbreviation | Name | Description   |
-|--------------|------|---------------|
-|              |      |               |
-|              |      |               |
-
 # References
 
-# Additional Details
-
-Given the dynamic nature of ongoing development, there might be variations between the conceptualization and the current implementation. For the latest status, refer to the documentation.
+- Current notification status flow: https://eclipse-tractusx.github.io/traceability-foss/docs/user/user-manual.html
