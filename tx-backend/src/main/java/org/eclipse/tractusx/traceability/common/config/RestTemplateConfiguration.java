@@ -35,6 +35,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
@@ -90,6 +92,7 @@ public class RestTemplateConfiguration {
         return new RestTemplateBuilder()
                 .rootUri(traceabilityProperties.getIrsBase())
                 .interceptors(new LoggingInterceptor())
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) // Set Content-Type header
                 .defaultHeader(IRS_API_KEY_HEADER_NAME, traceabilityProperties.getAdminApiKey())
                 .messageConverters(customMessageConverters())
                 .build();
@@ -101,6 +104,7 @@ public class RestTemplateConfiguration {
                 .rootUri(traceabilityProperties.getIrsBase())
                 .interceptors(new LoggingInterceptor())
                 .defaultHeader(IRS_API_KEY_HEADER_NAME, traceabilityProperties.getRegularApiKey())
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) // Set Content-Type header
                 .messageConverters(customMessageConverters())
                 .build();
     }
