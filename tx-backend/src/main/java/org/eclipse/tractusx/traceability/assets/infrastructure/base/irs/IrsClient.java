@@ -20,6 +20,7 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
+import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterJobRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterPolicyRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobDetailResponse;
@@ -33,7 +34,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Component
@@ -57,14 +60,10 @@ public class IrsClient {
     }
 
     public List<PolicyResponse> getPolicies() {
-        ResponseEntity<List<PolicyResponse>> responseEntity = irsAdminTemplate.exchange(
-                POLICY_PATH,
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<>() {
-                }
-        );
-        return responseEntity.getBody();
+        ResponseEntity<PolicyResponse[]> responseEntity =
+                irsAdminTemplate
+                        .exchange(POLICY_PATH,HttpMethod.POST,null, PolicyResponse[].class);
+        return List.of(Objects.requireNonNull(responseEntity.getBody()));
     }
 
     public void deletePolicy() {
