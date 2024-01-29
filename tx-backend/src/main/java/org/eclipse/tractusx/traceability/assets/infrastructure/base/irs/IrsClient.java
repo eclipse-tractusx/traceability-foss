@@ -28,7 +28,6 @@ import org.eclipse.tractusx.traceability.common.properties.TraceabilityPropertie
 import org.jetbrains.annotations.Nullable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -47,6 +46,8 @@ public class IrsClient {
 
     private final TraceabilityProperties traceabilityProperties;
 
+    private static final String POLICY_PATH = "/irs/policies";
+
     public IrsClient(RestTemplate irsAdminTemplate,
                      RestTemplate irsRegularTemplate,
                      TraceabilityProperties traceabilityProperties) {
@@ -56,15 +57,10 @@ public class IrsClient {
     }
 
     public List<PolicyResponse> getPolicies() {
-
-        irsAdminTemplate.getInterceptors().forEach(clientHttpRequestInterceptor -> log.info(clientHttpRequestInterceptor.toString()));
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("test", "test");
-        HttpEntity<Void> httpEntity = new HttpEntity<>(null, headers);
         ResponseEntity<List<PolicyResponse>> responseEntity = irsAdminTemplate.exchange(
-                "/irs/policies/",
+                POLICY_PATH,
                 HttpMethod.GET,
-                httpEntity,
+                null,
                 new ParameterizedTypeReference<>() {
                 }
         );
@@ -72,13 +68,13 @@ public class IrsClient {
     }
 
     public void deletePolicy() {
-        irsAdminTemplate.exchange("/irs/policies/" + traceabilityProperties.getRightOperand(), HttpMethod.DELETE, null, new ParameterizedTypeReference<>() {
+        irsAdminTemplate.exchange(POLICY_PATH + "/" + traceabilityProperties.getRightOperand(), HttpMethod.DELETE, null, new ParameterizedTypeReference<>() {
         });
     }
 
     public void registerPolicy() {
         RegisterPolicyRequest registerPolicyRequest = RegisterPolicyRequest.from(traceabilityProperties.getLeftOperand(), OperatorType.fromValue(traceabilityProperties.getOperatorType()), traceabilityProperties.getRightOperand(), traceabilityProperties.getValidUntil());
-        irsAdminTemplate.exchange("/irs/policies/", HttpMethod.POST, new HttpEntity<>(registerPolicyRequest), Void.class);
+        irsAdminTemplate.exchange(POLICY_PATH, HttpMethod.POST, new HttpEntity<>(registerPolicyRequest), Void.class);
     }
 
     public void registerJob(RegisterJobRequest registerJobRequest) {

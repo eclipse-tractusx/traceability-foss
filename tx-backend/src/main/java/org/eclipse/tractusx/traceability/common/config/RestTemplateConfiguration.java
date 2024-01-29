@@ -53,8 +53,6 @@ import java.util.List;
 @Slf4j
 public class RestTemplateConfiguration {
 
-    public static final String IRS_ADMIN_TEMPLATE = "irsAdminTemplate";
-    public static final String IRS_REGULAR_TEMPLATE = "irsRegularTemplate";
     public static final String EDC_REST_TEMPLATE = "edcRestTemplate";
     public static final String REST_TEMPLATE = "restTemplate";
     public static final String SUBMODEL_TEMPLATE = "submodelTemplate";
@@ -66,7 +64,7 @@ public class RestTemplateConfiguration {
 
     private final OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
     private final ClientRegistrationRepository clientRegistrationRepository;
-    private final TraceabilityProperties traceabilityProperties;
+
 
     @Bean
     @Qualifier(EDC_REST_TEMPLATE)
@@ -89,25 +87,19 @@ public class RestTemplateConfiguration {
 
     @Bean
     public RestTemplate irsAdminTemplate(@Autowired TraceabilityProperties traceabilityProperties) {
-
-
         return new RestTemplateBuilder()
                 .rootUri(traceabilityProperties.getIrsBase())
                 .interceptors(new LoggingInterceptor())
                 .defaultHeader(IRS_API_KEY_HEADER_NAME, traceabilityProperties.getAdminApiKey())
-                .defaultHeader("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36")
                 .messageConverters(customMessageConverters())
                 .build();
     }
 
     @Bean
     public RestTemplate irsRegularTemplate(@Autowired TraceabilityProperties traceabilityProperties) {
-
-
         return new RestTemplateBuilder()
                 .rootUri(traceabilityProperties.getIrsBase())
                 .interceptors(new LoggingInterceptor())
-                .defaultHeader("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36")
                 .defaultHeader(IRS_API_KEY_HEADER_NAME, traceabilityProperties.getRegularApiKey())
                 .messageConverters(customMessageConverters())
                 .build();
@@ -115,9 +107,9 @@ public class RestTemplateConfiguration {
 
     @Bean
     @Qualifier(REST_TEMPLATE)
-    public RestTemplate edcTemplate(@Autowired TraceabilityProperties traceabilityProperties) {
+    public RestTemplate edcTemplate() {
         return new RestTemplateBuilder()
-                .defaultHeader(IRS_API_KEY_HEADER_NAME, traceabilityProperties.getAdminApiKey())
+                .interceptors(new LoggingInterceptor())
                 .build();
     }
 
@@ -128,7 +120,7 @@ public class RestTemplateConfiguration {
 
         return new RestTemplateBuilder()
                 .rootUri(traceabilityProperties.getSubmodelBase())
-                .defaultHeader(IRS_API_KEY_HEADER_NAME, traceabilityProperties.getAdminApiKey())
+                .interceptors(new LoggingInterceptor())
                 .setConnectTimeout(Duration.ofMillis(feignDefaultProperties.getConnectionTimeoutMillis()))
                 .setReadTimeout(Duration.ofMillis(feignDefaultProperties.getReadTimeoutMillis()))
                 .build();
@@ -137,18 +129,17 @@ public class RestTemplateConfiguration {
     @Bean
     public RestTemplate digitalTwinRegistryRestTemplate(
             final RestTemplateBuilder restTemplateBuilder,
-            @Value("${digitalTwinRegistryClient.oAuthClientId}") final String clientRegistrationId, TraceabilityProperties traceabilityProperties) {
+            @Value("${digitalTwinRegistryClient.oAuthClientId}") final String clientRegistrationId) {
         oAuthRestTemplate(restTemplateBuilder,
                 clientRegistrationId).build();
         return oAuthRestTemplate(restTemplateBuilder,
-                clientRegistrationId).defaultHeader(IRS_API_KEY_HEADER_NAME, traceabilityProperties.getAdminApiKey()).
+                clientRegistrationId).interceptors(new LoggingInterceptor()).
                 build();
     }
 
     @Bean
-    public RestTemplate edcClientRestTemplate(@Autowired TraceabilityProperties traceabilityProperties) {
-        return new RestTemplateBuilder()
-                .defaultHeader(IRS_API_KEY_HEADER_NAME, traceabilityProperties.getAdminApiKey())
+    public RestTemplate edcClientRestTemplate() {
+        return new RestTemplateBuilder().interceptors(new LoggingInterceptor())
                 .build();
     }
 
