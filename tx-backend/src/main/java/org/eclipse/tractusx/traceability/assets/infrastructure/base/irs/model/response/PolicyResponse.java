@@ -26,7 +26,6 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.IrsPol
 import java.time.OffsetDateTime;
 import java.util.List;
 
-@ToString
 public record PolicyResponse(
         String policyId,
         OffsetDateTime createdOn,
