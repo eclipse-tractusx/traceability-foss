@@ -21,14 +21,14 @@ public class LoggingInterceptor implements ClientHttpRequestInterceptor {
     @Override
     public @NotNull ClientHttpResponse intercept(
             @NotNull HttpRequest req, byte @NotNull [] reqBody, ClientHttpRequestExecution ex) throws IOException {
-        req.getHeaders().forEach((s, strings) -> log.debug("Request header: {}", s));
-        log.debug("Request body: {}", new String(reqBody, StandardCharsets.UTF_8));
+        req.getHeaders().forEach((s, strings) -> log.info("Request header: {}", s));
+        log.info("Request body: {}", new String(reqBody, StandardCharsets.UTF_8));
         ClientHttpResponse response = ex.execute(req, reqBody);
         InputStreamReader isr = new InputStreamReader(
                 response.getBody(), StandardCharsets.UTF_8);
         String body = new BufferedReader(isr).lines()
                 .collect(Collectors.joining("\n"));
-        log.debug("Response body: {}", body);
+        log.info("Response body: {}", body);
         return response;
     }
 }

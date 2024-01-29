@@ -89,10 +89,13 @@ public class RestTemplateConfiguration {
 
     @Bean
     public RestTemplate irsAdminTemplate(@Autowired TraceabilityProperties traceabilityProperties) {
+
+
         return new RestTemplateBuilder()
                 .rootUri(traceabilityProperties.getIrsBase())
                 .interceptors(new LoggingInterceptor())
                 .defaultHeader(IRS_API_KEY_HEADER_NAME, traceabilityProperties.getAdminApiKey())
+                .defaultHeader("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36")
                 .messageConverters(customMessageConverters())
                 .build();
     }
@@ -104,6 +107,7 @@ public class RestTemplateConfiguration {
         return new RestTemplateBuilder()
                 .rootUri(traceabilityProperties.getIrsBase())
                 .interceptors(new LoggingInterceptor())
+                .defaultHeader("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36")
                 .defaultHeader(IRS_API_KEY_HEADER_NAME, traceabilityProperties.getRegularApiKey())
                 .messageConverters(customMessageConverters())
                 .build();
