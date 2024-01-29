@@ -88,7 +88,6 @@ public class RestTemplateConfiguration {
     }
 
     @Bean
-    @Qualifier(IRS_ADMIN_TEMPLATE)
     public RestTemplate irsAdminTemplate(TraceabilityProperties traceabilityProperties) {
         return new RestTemplateBuilder()
                 .rootUri(traceabilityProperties.getIrsBase())
@@ -98,7 +97,6 @@ public class RestTemplateConfiguration {
     }
 
     @Bean
-    @Qualifier(IRS_REGULAR_TEMPLATE)
     public RestTemplate irsRegularTemplate(TraceabilityProperties traceabilityProperties) {
         return new RestTemplateBuilder()
                 .rootUri(traceabilityProperties.getIrsBase())

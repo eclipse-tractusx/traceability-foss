@@ -18,6 +18,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterJobRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterPolicyRequest;
@@ -25,7 +26,6 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.PolicyResponse;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.jetbrains.annotations.Nullable;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -35,21 +35,19 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
-import static org.eclipse.tractusx.traceability.common.config.RestTemplateConfiguration.IRS_ADMIN_TEMPLATE;
-import static org.eclipse.tractusx.traceability.common.config.RestTemplateConfiguration.IRS_REGULAR_TEMPLATE;
-
+@Slf4j
 @Component
 public class IrsClient {
 
-    @Qualifier(IRS_ADMIN_TEMPLATE)
-    private RestTemplate irsAdminTemplate;
-    @Qualifier(IRS_REGULAR_TEMPLATE)
-    private RestTemplate irsRegularTemplate;
+
+    private final RestTemplate irsAdminTemplate;
+
+    private final RestTemplate irsRegularTemplate;
 
     private final TraceabilityProperties traceabilityProperties;
 
-    public IrsClient(@Qualifier(IRS_ADMIN_TEMPLATE) RestTemplate irsAdminTemplate,
-                     @Qualifier(IRS_REGULAR_TEMPLATE) RestTemplate irsRegularTemplate,
+    public IrsClient(RestTemplate irsAdminTemplate,
+                     RestTemplate irsRegularTemplate,
                      TraceabilityProperties traceabilityProperties) {
         this.irsAdminTemplate = irsAdminTemplate;
         this.irsRegularTemplate = irsRegularTemplate;
@@ -58,6 +56,9 @@ public class IrsClient {
 
     public List<PolicyResponse> getPolicies() {
 
+        irsAdminTemplate.getInterceptors().forEach(clientHttpRequestInterceptor -> {
+            log.info(clientHttpRequestInterceptor.toString());
+        });
         ResponseEntity<List<PolicyResponse>> responseEntity = irsAdminTemplate.exchange(
                 "/irs/policies/",
                 HttpMethod.GET,
