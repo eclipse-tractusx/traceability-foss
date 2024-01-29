@@ -18,6 +18,10 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
 import org.eclipse.tractusx.irs.edc.client.policy.Policy;
@@ -45,6 +49,7 @@ public class IrsClient {
 
     private final RestTemplate irsAdminTemplate;
 
+    private final ObjectMapper objectMapper;
     private final RestTemplate irsRegularTemplate;
 
     private final TraceabilityProperties traceabilityProperties;
@@ -53,18 +58,29 @@ public class IrsClient {
 
     public IrsClient(RestTemplate irsAdminTemplate,
                      RestTemplate irsRegularTemplate,
-                     TraceabilityProperties traceabilityProperties) {
+                     TraceabilityProperties traceabilityProperties, ObjectMapper objectMapper) {
         this.irsAdminTemplate = irsAdminTemplate;
         this.irsRegularTemplate = irsRegularTemplate;
         this.traceabilityProperties = traceabilityProperties;
+        this.objectMapper = objectMapper;
     }
 
     public List<PolicyResponse> getPolicies() {
-        ResponseEntity<PolicyResponse[]> responseEntity =
+        ResponseEntity<String> responseEntity =
                 irsAdminTemplate
-                        .exchange(POLICY_PATH, HttpMethod.GET, null, new ParameterizedTypeReference<PolicyResponse[]>() {
-                        });
-        return List.of(Objects.requireNonNull(responseEntity.getBody()));
+                        .exchange(POLICY_PATH, HttpMethod.GET, null, String.class);
+        log.info(responseEntity.getBody(), "Body");
+        try {
+            List<PolicyResponse> policyResponses = objectMapper.readValue(responseEntity.getBody(), new TypeReference<List<PolicyResponse>>() {
+            });
+            log.info(policyResponses.toString(), "policy");
+            return policyResponses;
+
+        } catch (JsonMappingException e) {
+            throw new RuntimeException(e);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void deletePolicy() {

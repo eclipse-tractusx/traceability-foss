@@ -19,12 +19,14 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response;
 
+import lombok.ToString;
 import org.eclipse.tractusx.irs.edc.client.policy.Permission;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.IrsPolicy;
 
 import java.time.OffsetDateTime;
 import java.util.List;
 
+@ToString
 public record PolicyResponse(
         String policyId,
         OffsetDateTime createdOn,
