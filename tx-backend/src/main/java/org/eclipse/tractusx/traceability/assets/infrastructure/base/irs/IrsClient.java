@@ -60,10 +60,11 @@ public class IrsClient {
     }
 
     public List<PolicyResponse> getPolicies() {
-        ResponseEntity<PolicyResponse[]> responseEntity =
+        ResponseEntity<List<PolicyResponse>> responseEntity =
                 irsAdminTemplate
-                        .exchange(POLICY_PATH,HttpMethod.POST,null, PolicyResponse[].class);
-        return List.of(Objects.requireNonNull(responseEntity.getBody()));
+                        .exchange(POLICY_PATH, HttpMethod.GET, null, new ParameterizedTypeReference<List<PolicyResponse>>() {
+                        });
+        return responseEntity.getBody();
     }
 
     public void deletePolicy() {
