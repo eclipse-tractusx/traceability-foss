@@ -20,14 +20,27 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.common.config;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.ConnectionPool;
+import okhttp3.OkHttpClient;
+import org.aspectj.weaver.tools.Trace;
 import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
+import org.eclipse.tractusx.traceability.common.properties.FeignDefaultProperties;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
+import org.hibernate.query.sqm.TemporalUnit;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProviderBuilder;
@@ -35,15 +48,26 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.Duration;
+import java.time.temporal.Temporal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 @Configuration
 @RequiredArgsConstructor
 @Slf4j
-public class EdcRestTemplateConfiguration {
+public class RestTemplateConfiguration {
 
+    public static final String IRS_ADMIN_TEMPLATE = "irsAdminTemplate";
+    public static final String IRS_REGULAR_TEMPLATE = "irsRegularTemplate";
     public static final String EDC_REST_TEMPLATE = "edcRestTemplate";
     public static final String REST_TEMPLATE = "restTemplate";
+    public static final String SUBMODEL_TEMPLATE = "submodelTemplate";
 
     private static final String EDC_API_KEY_HEADER_NAME = "X-Api-Key";
+
+    private static final String IRS_API_KEY_HEADER_NAME = "X-API-KEY";
 
     private final OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
     private final ClientRegistrationRepository clientRegistrationRepository;
@@ -58,9 +82,41 @@ public class EdcRestTemplateConfiguration {
     }
 
     @Bean
+    @Qualifier(IRS_ADMIN_TEMPLATE)
+    public RestTemplate irsAdminTemplate(TraceabilityProperties traceabilityProperties) {
+        return new RestTemplateBuilder()
+                .rootUri(traceabilityProperties.getIrsBase())
+                .defaultHeader(IRS_API_KEY_HEADER_NAME, traceabilityProperties.getAdminApiKey())
+                .messageConverters(customMessageConverters())
+                .build();
+    }
+
+    @Bean
+    @Qualifier(IRS_REGULAR_TEMPLATE)
+    public RestTemplate irsRegularTemplate(TraceabilityProperties traceabilityProperties) {
+        return new RestTemplateBuilder()
+                .rootUri(traceabilityProperties.getIrsBase())
+                .defaultHeader(IRS_API_KEY_HEADER_NAME, traceabilityProperties.getRegularApiKey())
+                .messageConverters(customMessageConverters())
+                .build();
+    }
+
+    @Bean
     @Qualifier(REST_TEMPLATE)
     public RestTemplate edcTemplate() {
         return new RestTemplateBuilder()
+                .build();
+    }
+
+
+    @Bean
+    @Qualifier(SUBMODEL_TEMPLATE)
+    public RestTemplate submodelRestTemplate(TraceabilityProperties traceabilityProperties, @Autowired FeignDefaultProperties feignDefaultProperties) {
+
+        return new RestTemplateBuilder()
+                .rootUri(traceabilityProperties.getSubmodelBase())
+                .setConnectTimeout(Duration.ofMillis(feignDefaultProperties.getConnectionTimeoutMillis()))
+                .setReadTimeout(Duration.ofMillis(feignDefaultProperties.getReadTimeoutMillis()))
                 .build();
     }
 
@@ -98,6 +154,23 @@ public class EdcRestTemplateConfiguration {
         authorizedClientManager.setAuthorizedClientProvider(authorizedClientProvider);
 
         return authorizedClientManager;
+    }
+
+    private List<HttpMessageConverter<?>> customMessageConverters() {
+        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+        converter.setObjectMapper(JsonMapper.builder()
+                .configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE, true)
+                .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
+                .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true)
+                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+                .build()
+                .registerModules(new JavaTimeModule()));
+
+        // Add the custom converter to the list of message converters
+        List<HttpMessageConverter<?>> converters = new ArrayList<>();
+        converters.add(converter);
+
+        return converters;
     }
 
 }

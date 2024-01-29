@@ -26,6 +26,9 @@ traceability:
   operatorType: "eq"
   rightOperand: "ID Trace 3.1"
   validUntil: "2023-07-04T16:01:05.309Z"
+  adminApiKey: testAdminKey
+  regularApiKey: testRegularKey
+  irsBase: "http://127.0.0.1"
   supportedAspectTypes:
     asBuiltTypes:
       mainAsBuiltAspectType:
