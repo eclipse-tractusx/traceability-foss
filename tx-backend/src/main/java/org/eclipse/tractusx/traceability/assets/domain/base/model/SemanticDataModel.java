@@ -19,12 +19,13 @@
 
 package org.eclipse.tractusx.traceability.assets.domain.base.model;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor
 public enum SemanticDataModel {
     BATCH("Batch"), SERIALPART("SerialPart"), UNKNOWN(""), PARTASPLANNED("PartAsPlanned"), JUSTINSEQUENCE("JustInSequence");
 
-    private String name;
-
-    SemanticDataModel(String name) {
-        this.name = name;
-    }
+    private final String value;
 }
