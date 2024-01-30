@@ -35,9 +35,9 @@ The status of the notification must be updated accordingly.
 - During policy check, throw separate Exceptions based on the type of failure.
   - If policy is not valid -> UsagePolicyExpiredException
   - If policy is valid but notification not permitted -> UsagePolicyPermissionException
-- New quality investigation & alert status: "Failed"
+- Transient quality investigation & alert status: "FAILED"
   - Notification set to this status, when it could not be sent due to the policy exceptions
-- Error text message informing the user of the exception
+- Error toast message informing the user of the exception
 - Detailed status information stored in the message history of the notification
 - User must be able to resend the notification
 
@@ -55,9 +55,11 @@ Instead of only having one UsagePolicyException, there must be two different exc
 - UsagePolicyPermissionException (thrown when permission validation fails; contains information from the IRS policy checker response)
 - UsagePolicyExpiredException (thrown when policy validUntil DateTime < current DateTime)
 
-When either of these is thrown, the notification will be set to the new status "Failed" and a message is stored in the message history, containing information about the exception.
+When either of these is thrown, the notification will be set to the transient status "FAILED" and a message is stored in the message history, containing information about the exception.
+The standard notification status flow must **not** be changed. The "FAILED" status will only extend this standard within Trace-X.
+After the notification is successfully resent, the status will be set to "SENT". Alternatively, the user can cancel the notification flow, which will set the status to "CANCELLED"/"CLOSED".
 
-New notification status flow:
+Notification status flow:
 ![Notification-Status-Flow.png](Notification-Status-Flow.png)
 
 Creating and sending notifications:
@@ -87,7 +89,7 @@ sequenceDiagram
             IRSLib-->>TraceX: UsagePolicyExpiredException
         end
         deactivate IRSLib
-        TraceX->>TraceX: Notification status = Failed
+        TraceX->>TraceX: Notification status = FAILED
         TraceX->>TraceX: Create error message
     end
 ```
@@ -95,8 +97,8 @@ sequenceDiagram
 ### Frontend
 
 After creating and approving the notification and one of the exceptions is thrown:
-1. An error text message must be shown to the user
-2. The notification status must be changed to "Failed"
+1. An error toast message must be shown to the user
+2. The notification status must be changed to "FAILED"
 3. A new message must be created and shown in the message history including the error description
 
 UsagePolicyPermissionException:
