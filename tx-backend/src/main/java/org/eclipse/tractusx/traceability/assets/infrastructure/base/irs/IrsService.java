@@ -1,7 +1,7 @@
 /********************************************************************************
  * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
  * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022, 2023, 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -39,6 +39,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -143,43 +144,53 @@ public class IrsService implements IrsRepository {
     @Override
     public void createIrsPolicyIfMissing() {
         log.info("Check if irs policy exists");
-        List<PolicyResponse> irsPolicies = irsApiClient.getPolicies(adminApiKey);
+        List<PolicyResponse> irsPolicies = Objects.requireNonNullElse(irsApiClient.getPolicies(adminApiKey), Collections.emptyList());
         log.info("Irs has following policies: {}", irsPolicies);
-
         log.info("Required constraints from application yaml are : {}", traceabilityProperties.getRightOperand());
 
 
-        //update existing policies
-        irsPolicies.stream().filter(
-                        irsPolicy -> traceabilityProperties.getRightOperand().equals(irsPolicy.policyId()))
-                .forEach(existingPolicy -> checkAndUpdatePolicy(irsPolicies));
+        PolicyResponse matchingIrsPolicy = irsPolicies.stream()
+                .filter(irsPolicy -> irsPolicy.permissions().stream()
+                        .flatMap(permission -> permission.getConstraints().stream())
+                        .anyMatch(constraint ->
+                                constraint.getOr().stream().anyMatch(rightO ->
+                                        rightO.getRightOperand().stream().anyMatch(value ->
+                                                value.equals(traceabilityProperties.getRightOperand())))
+                                        ||
+                                        constraint.getAnd().stream().allMatch(rightO ->
+                                                rightO.getRightOperand().stream().allMatch(value ->
+                                                        value.equals(traceabilityProperties.getRightOperand())))
+                        ))
+                .findFirst()
+                .orElse(null);
 
-
-        //create missing policies
-        boolean missingPolicy = irsPolicies.stream().noneMatch(irsPolicy -> irsPolicy.policyId().equals(traceabilityProperties.getRightOperand()));
-        if (missingPolicy) {
-            createPolicy();
+        if (matchingIrsPolicy == null) {
+            createMissingPolicies();
+        } else {
+            checkAndUpdateExpiredPolicies((matchingIrsPolicy));
         }
     }
 
-    private void createPolicy() {
+    private void createMissingPolicies() {
         log.info("Irs policy does not exist creating {}", traceabilityProperties.getRightOperand());
         irsApiClient.registerPolicy(adminApiKey, RegisterPolicyRequest.from(traceabilityProperties.getLeftOperand(), OperatorType.fromValue(traceabilityProperties.getOperatorType()), traceabilityProperties.getRightOperand(), traceabilityProperties.getValidUntil()));
     }
 
-    private void checkAndUpdatePolicy(List<PolicyResponse> requiredPolicies) {
-        Optional<PolicyResponse> requiredPolicy = requiredPolicies.stream().filter(policyItem -> policyItem.policyId().equals(traceabilityProperties.getRightOperand())).findFirst();
-        if (requiredPolicy.isPresent() &&
-                traceabilityProperties.getValidUntil().isAfter(requiredPolicy.get().validUntil())
-        ) {
-            log.info("IRS Policy {} has outdated validity updating new ttl {}", traceabilityProperties.getRightOperand(), requiredPolicy);
+    private void checkAndUpdateExpiredPolicies(PolicyResponse matchingIrsPolicy) {
+        if (isPolicyExpired(matchingIrsPolicy)) {
+            log.info("IRS Policy {} has outdated validity updating new ttl {}", traceabilityProperties.getRightOperand(), matchingIrsPolicy);
             irsApiClient.deletePolicy(adminApiKey, traceabilityProperties.getRightOperand());
             irsApiClient.registerPolicy(adminApiKey, RegisterPolicyRequest.from(traceabilityProperties.getLeftOperand(), OperatorType.fromValue(traceabilityProperties.getOperatorType()), traceabilityProperties.getRightOperand(), traceabilityProperties.getValidUntil()));
         }
     }
 
+    private boolean isPolicyExpired(PolicyResponse requiredPolicy) {
+        return traceabilityProperties.getValidUntil().isAfter(requiredPolicy.validUntil());
+    }
+
     public List<PolicyResponse> getPolicies() {
         return irsApiClient.getPolicies(adminApiKey);
     }
+
 
 }
