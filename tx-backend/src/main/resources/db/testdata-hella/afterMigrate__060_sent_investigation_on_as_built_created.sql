@@ -6,9 +6,9 @@
 
 ---
 insert into investigation
-    (id                     , bpn      , close_reason, created                              , description                                                           , status   , side    , accept_reason, decline_reason, updated, error_message)
+    (id                     , bpn      , close_reason, created                             , description                                                           , status   , side    , accept_reason, decline_reason, updated, error_message)
 values
-    (${investigationSentId1}, ${bpnOwn}, null        , current_timestamp - interval '1 day' , 'Investigation on Osram Front Left-AX400 due to excessive brightness.', 'CREATED', 'SENDER', null         , null          , null   , null);
+    (${investigationSentId1}, ${bpnOwn}, null        , current_timestamp - interval '1 day', 'Investigation on Osram Front Left-AX400 due to excessive brightness.', 'CREATED', 'SENDER', null         , null          , null   , null);
 
 ---
 -- reset sequence to highest next-val
@@ -16,9 +16,9 @@ select setval('investigation_id_seq', (select max(i.id) from investigation i), t
 
 ---
 insert into investigation_notification
-    (id                                 , contract_agreement_id, edc_url, notification_reference_id, created_by, send_to        , investigation_id       , target_date                          , severity, created_by_name, send_to_name, edc_notification_id                   , status, created                             , updated                              , message_id                            , is_initial)
+    (id                                 , contract_agreement_id, edc_url, notification_reference_id, created_by, send_to        , investigation_id       , target_date                          , severity  , created_by_name, send_to_name, edc_notification_id                   , status   , created                             , updated                              , message_id                            , is_initial)
 values
-    (${investigationNotificationSentId1}, null                 , null   , null                     , ${bpnOwn} , ${bpnSupplier1}, ${investigationSentId1}, current_timestamp + interval '1 week', 2       , 'Hella'        , 'Osram'     , 'c01353db-640a-44c4-9a87-28fa3a950a95', 0     , current_timestamp - interval '1 day', current_timestamp - interval '1 hour', '71d7cb88-a208-434b-993e-74aeb331fd11', true);
+    (${investigationNotificationSentId1}, null                 , null   , null                     , ${bpnOwn} , ${bpnSupplier1}, ${investigationSentId1}, current_timestamp + interval '1 week', 'CRITICAL', 'Hella'        , 'Osram'     , 'c01353db-640a-44c4-9a87-28fa3a950a95', 'CREATED', current_timestamp - interval '1 day', current_timestamp - interval '1 hour', '71d7cb88-a208-434b-993e-74aeb331fd11', true);
 
 ---
 -- join investigation to asset
