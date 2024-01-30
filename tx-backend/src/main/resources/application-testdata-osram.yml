@@ -21,7 +21,7 @@
 
 spring:
   flyway:
-    locations: /db/migration,/db/testdata-osram,${flyway.truncate-location}
+    locations: /db/migration,/db/testdata-osram
     placeholders:
       bpnOwn: "'BPNL00000000GNDU'"
       bpnSupplier21: "'BPNL00SUPPLIER21'"
