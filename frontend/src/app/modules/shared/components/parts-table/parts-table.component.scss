@@ -16,11 +16,24 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+:host {
+  .mat-mdc-header-row {
+    font-family: Catena-X Light, sans-serif !important;
+  }
+
+  .mat-mdc-header-cell {
+    font-weight: bold !important;
+  }
+}
+
 
 table {
   width: 100%;
   @apply font-light;
 }
+
+
+
 
 
 .table--select-all {
