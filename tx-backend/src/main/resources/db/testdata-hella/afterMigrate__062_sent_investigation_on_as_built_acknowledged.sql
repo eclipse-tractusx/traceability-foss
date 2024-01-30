@@ -35,9 +35,9 @@ values
     (${investigationSentId3}, ${assetAsBuiltId05});
 
 ---
-update assets_as_built
-    set in_investigation = true
-    where id in (${assetAsBuiltId05});
+-- update assets_as_built
+--     set in_investigation = true
+--     where id in (${assetAsBuiltId05});
 
 ---
 -- ACK by receiver notification message

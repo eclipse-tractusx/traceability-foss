@@ -35,9 +35,9 @@ values
     (${investigationReceivedId3}, ${assetAsBuiltId11});
 
 ---
-update assets_as_built
-    set in_investigation = true
-    where id in (${assetAsBuiltId11});
+-- update assets_as_built
+--     set in_investigation = true
+--     where id in (${assetAsBuiltId11});
 
 ---
 ---

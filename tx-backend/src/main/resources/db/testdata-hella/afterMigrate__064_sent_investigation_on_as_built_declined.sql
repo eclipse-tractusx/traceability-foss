@@ -35,9 +35,9 @@ values
     (${investigationSentId5}, ${assetAsBuiltId24});
 
 ---
-update assets_as_built
-    set in_investigation = true
-    where id in (${assetAsBuiltId24});
+-- update assets_as_built
+--     set in_investigation = true
+--     where id in (${assetAsBuiltId24});
 
 ---
 -- DECLINED by receiver notification message

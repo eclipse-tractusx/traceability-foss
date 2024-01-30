@@ -36,6 +36,6 @@ values
     (${alertSentId1}, ${assetAsBuiltId07});
 
 ---
-update assets_as_built
-    set active_alert = true
-    where id in (${assetAsBuiltId07});
+-- update assets_as_built
+--     set active_alert = true
+--     where id in (${assetAsBuiltId07});
