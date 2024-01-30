@@ -44,6 +44,7 @@ import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class ImportControllerIT extends IntegrationTestSpecification {
 
@@ -399,9 +400,22 @@ class ImportControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenInvalidAssetID_whenPublishData_thenStatusCode500() throws JoseException {
+    void givenInvalidAssetID_whenPublishData_thenStatusCode404() throws JoseException {
         // given
-        RegisterAssetRequest registerAssetRequest = new RegisterAssetRequest("Trace-X policy", List.of("test"));
+        String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
+        File file = new File(path);
+
+        given()
+                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .when()
+                .multiPart(file)
+                .post("/api/assets/import")
+                .then()
+                .statusCode(200)
+                .extract().as(ImportResponse.class);
+
+        RegisterAssetRequest registerAssetRequest = new RegisterAssetRequest("Trace-X policy", List.of("test", "urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f"));
+
 
         // when
         given()
@@ -412,5 +426,10 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .post("/api/assets/publish")
                 .then()
                 .statusCode(500);
+
+        //then
+        AssetBase asset = assetAsBuiltRepository.getAssetById("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f");
+        assertNull(asset.getPolicyId());
+        assertThat(ImportState.TRANSIENT).isEqualTo(asset.getImportState());
     }
 }
