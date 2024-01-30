@@ -29,9 +29,9 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.PublishAssetException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 @Slf4j
@@ -68,15 +68,10 @@ public class PublishServiceImpl implements PublishService {
     }
 
     private boolean checkAssetFound(String assetId) {
-        List<AssetBase> assetList = new ArrayList<>();
-        assetList.addAll(assetAsBuiltRepository.getAssets());
-        assetList.addAll(assetAsPlannedRepository.getAssets());
-        for (AssetBase asset : assetList) {
-            if (asset.getId().equals(assetId)) {
-                return true;
-            }
+        if (Stream.concat(assetAsBuiltRepository.getAssets().stream(), assetAsPlannedRepository.getAssets().stream()).anyMatch(asset -> asset.getId().equals(assetId))) {
+            return true;
         }
-        throw new PublishAssetException("No asset found with the provided ID." + assetId);
+        throw new PublishAssetException("No asset found with the provided ID: " + assetId);
     }
 
     private boolean validTransientState(AssetBase assetBase) {
