@@ -28,7 +28,6 @@ global:
 
 #########################
 # Frontend Chart Values configuration     #
-# Frontend Chart Values configuration     #
 #########################
 frontend:
   # Default values for k8s-helm-example.
@@ -253,7 +252,7 @@ backend:
     timeoutSeconds: 1
   readinessProbe:
     failureThreshold: 6
-    initialDelaySeconds: 240
+    initialDelaySeconds: 180
     periodSeconds: 10
     successThreshold: 1
     timeoutSeconds: 1
@@ -297,10 +296,8 @@ backend:
     dataEndpointUrl: "CHANGEME"  # example: https://<tractusx-connector.controlplane.ingress.hosts>/management"
 
   discoveryfinder:
-    baseUrl: "CHANGEME"  # example: https://discoveryfinder.net/discoveryfinder/api/v1.0/administration/connectors/discovery/search
+    baseUrl: "CHANGEME"  # example: https://discoveryfinder.net/discoveryfinder/api/administration/connectors/discovery/search
 
-  submodel:
-    baseUrl: "https://replace.me"  # backend url
   irs:
     baseUrl: "https://replace.me"  # https://<irs-helm.ingress.host>
   registry:

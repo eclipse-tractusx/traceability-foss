@@ -374,7 +374,6 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978" // BPN: BPNL00000003AYRE
         );
         String description = "at least 15 characters long investigation description";
-        String filterString = "channel,EQUAL,SENDER,AND";
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
 
         assetsSupport.defaultAssetsStored();

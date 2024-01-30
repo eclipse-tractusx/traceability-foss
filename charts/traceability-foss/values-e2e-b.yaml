@@ -95,8 +95,8 @@ configuration:
     # -- remove irs url for environments that support official discovery finder ( not mock ) and replace alias with above one
     discoveryFinderIrsUrl: &discovery_finder_irs_url 'https://tracex-discovery-mock-e2e-b.dev.demo.catena-x.net/irs/api/v1.0/administration/connectors/discovery/search'
     serviceAccount:
-      clientId: &service_account_id <path:traceability-foss/data/int/keycloak/oauth2#clientId> #sa267
-      clientPassword: &service_account_password <path:traceability-foss/data/int/keycloak/oauth2#clientSecret>
+      clientId: &service_account_id <path:traceability-foss/data/e2e-b/keycloak/oauth2#clientId> #sa267
+      clientPassword: &service_account_password <path:traceability-foss/data/e2e-b/keycloak/oauth2#clientSecret>
     auth:
       keycloakUrl: &portal_auth_keycloak_url <path:traceability-foss/data/e2e/b/frontend#catenax_portal_keycloak_url>
       tokenUri: &central_idp_token_uri 'https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token'

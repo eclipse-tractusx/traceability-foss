@@ -31,6 +31,7 @@ import org.springframework.context.annotation.Configuration;
 @EnableFeignClients(basePackages = {
         "org.eclipse.tractusx.traceability.assets.infrastructure.base.irs",
         "org.eclipse.tractusx.traceability.discovery.infrastructure.repository",
+        "org.eclipse.tractusx.traceability.submodel.infrastructure.repository"
 })
 public class FeignGlobalConfig {
 
