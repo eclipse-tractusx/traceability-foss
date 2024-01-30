@@ -118,7 +118,7 @@
     "webpack-bundle-analyzer": "4.8.0"
   },
   "resolutions": {
-    "@angular-devkit/build-angular": "15.2.8"
+    "@angular-devkit/build-angular": "16.2.12"
   },
   "msw": {
     "workerDirectory": "src"

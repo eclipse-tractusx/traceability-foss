@@ -31,7 +31,7 @@
     "@angular-devkit/core" "16.2.12"
     rxjs "7.8.1"
 
-"@angular-devkit/build-angular@^16.0.0", "@angular-devkit/build-angular@16.2.12":
+"@angular-devkit/build-angular@^16.0.0", "@angular-devkit/build-angular@^16.2.12":
   version "16.2.12"
   resolved "https://registry.npmjs.org/@angular-devkit/build-angular/-/build-angular-16.2.12.tgz"
   integrity sha512-VVGKZ0N3gyR0DP7VrcZl4io3ruWYT94mrlyJsJMLlrYy/EX8JCvqrJC9c+dscrtKjhZzjwdyhszkJQY4JfwACA==
@@ -8611,7 +8611,7 @@ karma@^6.0.0, karma@^6.3.0, karma@>=0.9, karma@6.4.2:
     ua-parser-js "^0.7.30"
     yargs "^16.1.1"
 
-keycloak-angular@^14.2.0:
+keycloak-angular@14.2.0:
   version "14.2.0"
   resolved "https://registry.npmjs.org/keycloak-angular/-/keycloak-angular-14.2.0.tgz"
   integrity sha512-T7GmiWY/a22/BKwbApyb7wd0c93eSDxdIX8UCGYmFcHDRJ1yOXrG7LHc9vGvE/sx3xPIyPAZ6YG6BAJq0r0AZQ==
