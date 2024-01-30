@@ -44,6 +44,7 @@ import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 class ImportControllerIT extends IntegrationTestSpecification {
@@ -430,6 +431,6 @@ class ImportControllerIT extends IntegrationTestSpecification {
         //then
         AssetBase asset = assetAsBuiltRepository.getAssetById("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f");
         assertNull(asset.getPolicyId());
-        assertThat(ImportState.TRANSIENT).isEqualTo(asset.getImportState());
+        assertEquals(asset.getImportState(), ImportState.TRANSIENT);
     }
 }

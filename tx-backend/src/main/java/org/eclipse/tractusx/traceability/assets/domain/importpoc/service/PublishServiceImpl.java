@@ -30,7 +30,6 @@ import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.Publi
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
@@ -62,7 +61,7 @@ public class PublishServiceImpl implements PublishService {
                     asset.setPolicyId(policyId);
                     return asset;
                 })
-                .collect(Collectors.toList());
+                .toList();
 
         repository.saveAll(saveList);
     }
