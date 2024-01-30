@@ -1,0 +1,65 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName "Architects daughter"
+title Sequence Diagram: TraceX Interaction with IRS on startup
+participant "TraceXConfig" as Config
+participant "TraceX" as TraceX
+participant "IRS " as IRS
+
+Config -> TraceX : ID 3.0 Trace
+TraceX -> IRS : Get Policies
+IRS -> TraceX: Return policies (Default Policies from IRS (C1: Membership, C2: Framework, C3: ID3.0)
+TraceX -> IRS : Create(not exists) or update(exists)
+
+@enduml
+
+
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName "Architects daughter"
+
+title Sequence Diagram: TraceX Interaction with EDC on startup (As is)
+participant "TraceXConfig" as Config
+participant "TraceX" as TraceX
+participant "EDC " as EDC
+Config -> TraceX : ID 3.0 Trace
+TraceX -> EDC : Create notification asset, policy, definition
+@enduml
+
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName "Architects daughter"
+
+title Sequence Diagram: TraceX Interaction with EDC on startup (To be)
+participant "IRS" as IRS
+participant "TraceX" as TraceX
+participant "EDC " as EDC
+TraceX -> IRS: Get Policies
+IRS -> TraceX : return policy(c1,c2,c3,c4)
+TraceX -> EDC : Create notification asset, policy, definition
+@enduml
+
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName "Architects daughter"
+
+title Sequence Diagram: Sending notifications
+participant "TraceX" as TraceX
+participant "TraceXIRSLib" as TraceXIRSLib
+participant "IRS " as IRS
+participant "EDC " as EDC
+
+TraceX -> TraceX: ...
+TraceX -> EDC: Get catalog
+EDC -> TraceX: -> Return catalog
+TraceX -> TraceX: Filter for notification type (alert / investigation) / method(update, receive)
+TraceX -> TraceXIRSLib: Validate if catalog policy matches the configured policies in IRS Lib (3 Default Policies)
+TraceXIRSLib -> TraceX: Valid
+TraceX -> EDC: Send out notification
+@enduml
+
+
