@@ -6,5 +6,5 @@ insert into assets_as_built_parents
     (asset_as_built_id  , id                 , id_short)
 values
     -- supplier has parent owner
-    (${assetAsBuiltId01}, ${assetAsBuiltId07}, 'BMW-Z1'),  -- Xenon Left-Headlights has parent Z1
-    (${assetAsBuiltId02}, ${assetAsBuiltId07}, 'BMW-Z1');  -- Xenon Right-Headlights has parent Z1
+    (${assetAsBuiltId01}, ${assetAsBuiltId07}, 'BMW-Z1'), -- Xenon Left-Headlights has parent Z1
+    (${assetAsBuiltId02}, ${assetAsBuiltId07}, 'BMW-Z1'); -- Xenon Right-Headlights has parent Z1

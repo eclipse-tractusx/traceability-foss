@@ -20,14 +20,15 @@ truncate table
     assets_as_planned_childs,
     assets_as_planned_investigations,
     assets_as_built_notifications,
---    bpn_storage,
+    bpn_storage,
     investigation,
-    investigation_notification;
---    shell_descriptor,
---    submodel,
---    traction_battery_code_subcomponent;
+    investigation_notification,
+    shell_descriptor,
+    submodel,
+    traction_battery_code_subcomponent
+    cascade;
 
 ---
 -- reset sequences
-select setval('alert_id_seq', 1, true);
+select setval('alert_id_seq'        , 1, true);
 select setval('investigation_id_seq', 1, true);
