@@ -21,6 +21,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Springboot updated from 3.1.6 to 3.1.7
 - Implemented asset publisher component functionality
 - Updated postgres to version 15.4
+- Migrated from okhttpclient (feign implementation) to resttemplate.
 
 ### Removed
 

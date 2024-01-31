@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,28 +16,19 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.qualitynotification.domain.base.service;
 
-package org.eclipse.tractusx.traceability.submodel.infrastructure.repository;
+import lombok.Builder;
+import lombok.Data;
+import org.springframework.http.HttpHeaders;
 
-import lombok.RequiredArgsConstructor;
-import org.eclipse.tractusx.traceability.submodel.domain.repository.SubmodelServerRepository;
-import org.springframework.stereotype.Service;
+@Data
+@Builder
+public class EdcNotificationRequest {
 
-@Service
-@RequiredArgsConstructor
-public class SubmodelServerClientImpl implements SubmodelServerRepository {
+    private String url;
+    private HttpHeaders headers;
+    private String body;
 
-
-    private final SubmodelClient submodelClient;
-
-    @Override
-    public void saveSubmodel(String submodelId, String submodel) {
-        submodelClient.createSubmodel(submodelId, submodel);
-    }
-
-    @Override
-    public String getSubmodel(String submodelId) {
-        return submodelClient.getSubmodel(submodelId);
-    }
 
 }
