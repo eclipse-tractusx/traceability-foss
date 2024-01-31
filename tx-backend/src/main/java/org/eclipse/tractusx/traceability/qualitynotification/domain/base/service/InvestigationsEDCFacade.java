@@ -25,8 +25,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.MediaType;
-import okhttp3.Request;
 import org.eclipse.edc.catalog.spi.CatalogRequest;
 import org.eclipse.edc.spi.query.Criterion;
 import org.eclipse.edc.spi.query.QuerySpec;
@@ -48,7 +46,6 @@ import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,8 +57,6 @@ import static org.eclipse.tractusx.traceability.common.config.JsonLdConfiguratio
 public class InvestigationsEDCFacade {
 
     public static final String DEFAULT_PROTOCOL = "dataspace-protocol-http";
-
-    private static final MediaType JSON = MediaType.get("application/json");
 
     private final HttpCallService httpCallService;
 
@@ -149,7 +144,7 @@ public class InvestigationsEDCFacade {
 
         HttpHeaders headers = new HttpHeaders();
         headers.set(dataReference.getAuthKey(), dataReference.getAuthCode());
-        headers.set("Content-Type", JSON.type());
+        headers.set("Content-Type", "application/json");
         log.info(":::: Send notification Data  body :{}, dataReferenceEndpoint :{}", body, dataReference.getEndpoint());
         return EdcNotificationRequest.builder()
                 .url(dataReference.getEndpoint())

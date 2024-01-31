@@ -22,7 +22,6 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.base.servic
 
 
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.BadRequestException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.ParameterizedTypeReference;
@@ -31,8 +30,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
-
-import java.util.concurrent.TimeUnit;
 
 import static java.lang.String.format;
 import static org.eclipse.tractusx.traceability.common.config.RestTemplateConfiguration.EDC_NOTIFICATION_TEMPLATE;
