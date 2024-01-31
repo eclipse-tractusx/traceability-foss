@@ -1,7 +1,7 @@
 /********************************************************************************
  * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
  * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022, 2023, 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -21,7 +21,7 @@
 
 import { environment } from '@env';
 import { rest } from 'msw';
-import { getBpnConfig } from './admin.model';
+import { getBpnConfig, getImportReport } from './admin.model';
 
 export const adminHandler = (_ => {
 
@@ -42,5 +42,10 @@ export const adminHandler = (_ => {
     rest.delete(`*${ environment.apiUrl }/bpn-config/:bpn`, (req, res, ctx) => {
       return res(ctx.status(204));
     }),
+
+    rest.post(`*${ environment.apiUrl }/assets/import`, (req, res, ctx) => {
+      return res(ctx.status(200), ctx.json(getImportReport()));
+    })
+
   ];
 })();
