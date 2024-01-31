@@ -109,6 +109,11 @@ irs-edc-client:
     timeout:
       read: PT90S # HTTP read timeout for the submodel client
       connect: PT90S # HTTP connect timeout for the submodel client
+  discoveryFinderClient:
+    cacheTTL: PT24H  # Time to live for DiscoveryFinderClient for findDiscoveryEndpoints method cache
+  connectorEndpointService:
+    cacheTTL: PT24H  # Time to live for ConnectorEndpointService for fetchConnectorEndpoints method cache
+
 
 server:
   servlet:
@@ -216,5 +221,4 @@ digitalTwinRegistryClient:
   discoveryFinderUrl: ${DISCOVERY_FINDER_URL_WITH_PATH}
   descriptorEndpoint: "" # required if type is "central", must contain the placeholder {aasIdentifier}
   shellLookupEndpoint: "" # required if type is "central", must contain the placeholder {assetIds}
-
 

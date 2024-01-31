@@ -33,7 +33,13 @@ import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.Decen
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.List;
+
+import static org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.BATCH;
+import static org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.JUSTINSEQUENCE;
+import static org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.PARTASPLANNED;
+import static org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.SERIALPART;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -45,41 +51,29 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
     private final TraceabilityProperties traceabilityProperties;
     private final DecentralRegistryRepository decentralRegistryRepository;
 
+    private static final List<String> AS_BUILT_ASPECT_TYPES = List.of(SERIALPART.getValue(), BATCH.getValue(), JUSTINSEQUENCE.getValue());
+    private static final List<String> AS_PLANNED_ASPECT_TYPES = List.of(PARTASPLANNED.getValue());
+
     @Override
     @Async(value = AssetsAsyncConfig.LOAD_SHELL_DESCRIPTORS_EXECUTOR)
     public void synchronizeAssets() {
+        Collection<AssetAdministrationShellDescriptor> shellDescriptors = decentralRegistryRepository.retrieveShellDescriptorsByBpn(traceabilityProperties.getBpn().toString());
+        Collection<AssetAdministrationShellDescriptor> asBuiltShellDescriptors = shellDescriptors.stream().filter(this::isAsBuilt).toList();
+        Collection<AssetAdministrationShellDescriptor> asPlannedShellDescriptors = shellDescriptors.stream().filter(this::isAsPlanned).toList();
 
-        // TODO we will retrieve Collections<AssetAdministrationShellDescriptor> and need to filter for each semanticModelIdKey
-        // Example of response: 	"idShort": "SingleLevelUsageAsBuilt",
-        //					"id": "urn:uuid:3fa9cf02-1064-459f-a17e-1cbc819c2f2e",
-        //					"semanticId": {
-        //						"type": "ExternalReference",
-        //						"keys": [
-        //							{
-        //								"type": "GlobalReference",
-        //								"value": "urn:bamm:io.catenax.single_level_usage_as_built:2.0.0#SingleLevelUsageAsBuilt"
-        //							}
-        //						]
-        //					},
-        //					"supplementalSemanticId": [],
-        //					"description": [],
-        //					"displayName": []
-        //				}
-        //			]
-        //		},
-        // https://irs-aas-registry.dev.demo.catena-x.net/semantics/registry/api/v3.0/shell-descriptors
-        // Result should be a list of globalAssetIds associcated with asBuilt and another list asPlanned
+        asBuiltShellDescriptors.forEach(shellDescriptor -> assetAsBuiltService.synchronizeAssetsAsync(shellDescriptor.getGlobalAssetId()));
+        asPlannedShellDescriptors.forEach(shellDescriptor -> assetAsPlannedService.synchronizeAssetsAsync(shellDescriptor.getGlobalAssetId()));
+    }
 
 
+    // TODO: consider creating support method on AssetAdministrationShellDescriptor.is(BomLifecycle lifecycle) that will be usable on our code
+    // IRS already have BomLifecycle in their domain so we can use it there also
+    private boolean isAsBuilt(AssetAdministrationShellDescriptor shellDescriptor) {
+        return !shellDescriptor.filterDescriptorsByAspectTypes(AS_BUILT_ASPECT_TYPES).isEmpty();
+    }
 
-        List<String> globalAssetIdsForApplicationBpn = decentralRegistryRepository.retrieveShellDescriptorsByBpn(traceabilityProperties.getBpn().toString());
-        globalAssetIdsForApplicationBpn
-                .forEach(globalAssetId -> {
-                    //TODO: differentiate if this is either as-planned or as-built. Otherwise we have twice the load here.
-                    // DT-Library offers methods to requests additional info to get the bomlifecycle
-                    assetAsPlannedService.synchronizeAssetsAsync(globalAssetId);
-                    assetAsBuiltService.synchronizeAssetsAsync(globalAssetId);
-                });
+    private boolean isAsPlanned(AssetAdministrationShellDescriptor shellDescriptor) {
+        return !shellDescriptor.filterDescriptorsByAspectTypes(AS_PLANNED_ASPECT_TYPES).isEmpty();
     }
 }
 
