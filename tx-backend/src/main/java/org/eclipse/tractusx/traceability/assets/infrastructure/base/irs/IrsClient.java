@@ -81,7 +81,7 @@ public class IrsClient {
     }
 
     public void registerJob(RegisterJobRequest registerJobRequest) {
-        irsRegularTemplate.exchange("/irs/jobs/", HttpMethod.POST, new HttpEntity<>(registerJobRequest), Void.class);
+        irsRegularTemplate.exchange("/irs/jobs", HttpMethod.POST, new HttpEntity<>(registerJobRequest), Void.class);
     }
 
 
