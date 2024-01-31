@@ -10,7 +10,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 - Added AVD-KSV-0014 to trivy ignore
 - Added tooltips on functionalities that are unauthorized or unavailable
--
+- Added concept for adaptions for IndustryCore Changes CX-0126 and CX-0127
+
 ### Changed
 - Updated Irs Library from 1.4.1-SNAPSHOT to 1.5.1-SNAPSHOT
 - Changed some java implementations according to security findings ( business logic unchanged )
