@@ -39,7 +39,6 @@ import static org.eclipse.tractusx.traceability.common.config.RestTemplateConfig
 @Component
 public class HttpCallService {
 
-
     private final RestTemplate edcNotificationTemplate;
 
     public HttpCallService(@Qualifier(EDC_NOTIFICATION_TEMPLATE) RestTemplate edcNotificationTemplate) {
@@ -48,16 +47,19 @@ public class HttpCallService {
 
 
     public void sendRequest(EdcNotificationRequest request) {
-        edcNotificationTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory(request.getUrl()));
         HttpEntity<String> entity = new HttpEntity<>(request.getBody(), request.getHeaders());
         try {
-            var response = edcNotificationTemplate.exchange("", HttpMethod.POST, entity, new ParameterizedTypeReference<>() {
+            var response = edcNotificationTemplate.exchange(request.getUrl(), HttpMethod.POST, entity, new ParameterizedTypeReference<>() {
             });
+            log.info("Control plane responded with response: {}", response);
             var body = response.getBody();
+            log.info("Control plane responded with body: {}", body);
+            log.info("Control plane responded with status: {}", response.getStatusCode());
             if (!response.getStatusCode().is2xxSuccessful() || body == null) {
                 throw new BadRequestException(format("Control plane responded with: %s %s", response.getStatusCode(), body != null ? body.toString() : ""));
             }
         } catch (Exception e) {
+            log.warn(e.getMessage());
             throw e;
         }
     }
