@@ -14,9 +14,10 @@
     "adminBpn": "BPN - EDC configuration",
     "adminImport": "Data provisioning",
     "unauthorized": "Functionality is disabled because of missing role. Ask your administrator to provide the required role for the functionality.",
-    "notAllowedForAsPlanned": "This function is not available for Parts in the Lifecycle \"AsPlanned\". ",
+    "notAllowedForAsPlanned": "This function is not available for Parts in the Lifecycle \"AsPlanned\".",
     "noChildPartsForInvestigation": "This function is not available for Parts without components.",
-    "noCustomerAsPlannedParts": "Customer parts in lifecycle \"AsPlanned\" are not available."
+    "noCustomerAsPlannedParts": "Customer parts in lifecycle \"AsPlanned\" are not available.",
+    "nonTransientPart": "One or more selected parts are not in the required import state \"TRANSIENT\"."
   },
   "pageTitle": {
     "dashboard": "Dashboard",
@@ -197,6 +198,10 @@
     "submit": "ADD TO QUEUE",
     "severity": "Severity",
     "severityDescription": "Select the severity for the problem at hand"
+  },
+  "requestPublishAssets": {
+    "success": "Request to publish assets was successful",
+    "error": ""
   },
   "pagination": {
     "itemsPerPageLabel": "Items per page:",
