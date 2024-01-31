@@ -21,12 +21,12 @@
 
 spring:
   flyway:
-    locations: /db/migration,/db/testdata-osram,${flyway.truncate-location}
+    locations: /db/migration,/db/testdata-osram
     placeholders:
-      bpnOwn: "'BPNL00000000GNDU'"
+      bpnOwn:        "'BPNL00000000GNDU'"
       bpnSupplier21: "'BPNL00SUPPLIER21'"
       bpnSupplier22: "'BPNL00SUPPLIER22'"
-      bpnCustomer1: "'BPNL000000000001'"
+      bpnCustomer1:  "'BPNL000000000001'"
 
       assetAsBuiltId01: "'urn:uuid:6ec3f1db-2798-454b-a73f-0d21a8966c77'"
       assetAsBuiltId02: "'urn:uuid:132fd82b-caab-476b-b453-b7273a4c7c01'"
@@ -70,4 +70,3 @@ spring:
       investigationNotificationSentId2b: "'b5b4612e-6ed6-47c2-8f52-adefe3d5b99a'"
 
       investigationNotificationReceivedId1: "'0678b9c6-a9c4-4ff9-a5e2-c6cd19c5f8c6'"
-
