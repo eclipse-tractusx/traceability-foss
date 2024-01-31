@@ -30,14 +30,12 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.con
 import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.contract.model.EdcContractDefinitionCriteria;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.contract.model.EdcCreateContractDefinitionRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import static org.eclipse.tractusx.traceability.common.config.EdcRestTemplateConfiguration.EDC_REST_TEMPLATE;
 import static org.eclipse.tractusx.traceability.common.config.JsonLdConfigurationTraceX.NAMESPACE_EDC;
 import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitize;
 import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitizeHtml;
@@ -51,13 +49,13 @@ public class EdcContractDefinitionService {
     private static final String ASSET_SELECTOR_TYPE = "CriterionDto";
     private static final String CONTRACT_DEFINITION_TYPE = "ContractDefinition";
 
-    private final RestTemplate restTemplate;
+    private final RestTemplate edcRestTemplate;
     private final EdcProperties edcProperties;
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public EdcContractDefinitionService(@Qualifier(EDC_REST_TEMPLATE) RestTemplate edcRestTemplate, EdcProperties edcProperties, ObjectMapper objectMapper) {
-        this.restTemplate = edcRestTemplate;
+    public EdcContractDefinitionService(RestTemplate edcRestTemplate, EdcProperties edcProperties, ObjectMapper objectMapper) {
+        this.edcRestTemplate = edcRestTemplate;
         this.edcProperties = edcProperties;
         this.objectMapper = objectMapper;
     }
@@ -85,7 +83,7 @@ public class EdcContractDefinitionService {
         final ResponseEntity<String> createContractDefinitionResponse;
         log.info("EdcCreateContractDefinitionRequest {}", objectMapper.writeValueAsString(createContractDefinitionRequest));
         try {
-            createContractDefinitionResponse = restTemplate.postForEntity(edcProperties.getContractDefinitionsPath(), createContractDefinitionRequest, String.class);
+            createContractDefinitionResponse = edcRestTemplate.postForEntity(edcProperties.getContractDefinitionsPath(), createContractDefinitionRequest, String.class);
         } catch (RestClientException e) {
             log.error("Failed to create edc contract definition for {} notification asset and {} policy definition id. Reason: ", notificationAssetId, accessPolicyId, e);
 

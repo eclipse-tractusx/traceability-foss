@@ -178,8 +178,12 @@ Attributes in Angular template should be properly ordered by groups:
 
 `java -jar scripts/download/org.eclipse.dash.licenses-0.0.1-SNAPSHOT.jar yarn.lock -review -token <token> -project automotive.tractusx`
 
-## <ins>Contact</ins> <a name="contact"></a>
+## Contact
 
-Contact the project developers via the project's "dev" list.
+Contact the Eclipse Tractus-X developers via the developer mailing list.
 
-- https://accounts.eclipse.org/mailing-list/tractusx-dev
+* https://accounts.eclipse.org/mailing-list/tractusx-dev
+
+Contact the project developers via eclipse matrix chat.
+
+* Eclipse Matrix Chat https://chat.eclipse.org/#/room/#tractusx-trace-x:matrix.eclipse.org

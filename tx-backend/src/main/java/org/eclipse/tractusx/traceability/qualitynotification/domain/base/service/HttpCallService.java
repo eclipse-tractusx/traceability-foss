@@ -20,14 +20,14 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.qualitynotification.domain.base.service;
 
-import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.BadRequestException;
-import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
+import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.BadRequestException;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 import static java.lang.String.format;
 
@@ -36,28 +36,25 @@ import static java.lang.String.format;
 @Component
 public class HttpCallService {
 
-    private final OkHttpClient httpClient;
+    private final RestTemplate edcNotificationTemplate;
 
-    public HttpCallService(OkHttpClient httpClient) {
-        this.httpClient = withIncreasedTimeout(httpClient);
-    }
-
-    private static OkHttpClient withIncreasedTimeout(OkHttpClient httpClient) {
-        return httpClient.newBuilder()
-                .connectTimeout(10, TimeUnit.SECONDS)
-                .readTimeout(25, TimeUnit.SECONDS)
-                .writeTimeout(50, TimeUnit.SECONDS)
-                .build();
+    public HttpCallService(RestTemplate edcNotificationTemplate) {
+        this.edcNotificationTemplate = edcNotificationTemplate;
     }
 
 
-    public void sendRequest(Request request) throws IOException {
-        try (var response = httpClient.newCall(request).execute()) {
-            var body = response.body();
-            if (!response.isSuccessful() || body == null) {
-                throw new BadRequestException(format("Control plane responded with: %s %s", response.code(), body != null ? body.string() : ""));
+    public void sendRequest(EdcNotificationRequest request) {
+        HttpEntity<String> entity = new HttpEntity<>(request.getBody(), request.getHeaders());
+        try {
+            var response = edcNotificationTemplate.exchange(request.getUrl(), HttpMethod.POST, entity, new ParameterizedTypeReference<>() {
+            });
+            log.info("Control plane responded with response: {}", response);
+            log.info("Control plane responded with status: {}", response.getStatusCode());
+            if (!response.getStatusCode().is2xxSuccessful()) {
+                throw new BadRequestException(format("Control plane responded with: %s", response.getStatusCode()));
             }
         } catch (Exception e) {
+            log.warn(e.getMessage());
             throw e;
         }
     }
