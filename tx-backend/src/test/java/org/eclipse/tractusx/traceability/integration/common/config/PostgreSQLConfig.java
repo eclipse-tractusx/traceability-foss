@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023,2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -31,7 +31,7 @@ public class PostgreSQLConfig {
 
     // will be started before and stopped after each test method
     @Container
-    private static final PostgreSQLContainer postgresqlContainer = new PostgreSQLContainer("postgres:14.4")
+    private static final PostgreSQLContainer postgresqlContainer = new PostgreSQLContainer("postgres:15.4")
             .withDatabaseName("trace")
             .withUsername("foo")
             .withPassword("secret");

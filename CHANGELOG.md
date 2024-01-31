@@ -18,6 +18,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Spring core updated from 6.0.14 to 6.0.16
 - Springboot updated from 3.1.6 to 3.1.7
 - Implemented asset publisher component functionality
+- Updated postgres to version 15.4
 
 ### Removed
 
@@ -40,7 +41,6 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - SubmodelServerService for calling submodel server with feign client
 - Added GET /policies endpoint to retrieve accepted policies
 - Added POST assets/publish endpoint to publish transient assets
-
 
 ### Changed
 - Fixed security findings
