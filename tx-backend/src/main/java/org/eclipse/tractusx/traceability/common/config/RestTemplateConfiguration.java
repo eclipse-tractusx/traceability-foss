@@ -30,7 +30,6 @@ import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
 import org.eclipse.tractusx.traceability.common.properties.FeignDefaultProperties;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -55,21 +54,15 @@ import java.util.List;
 @Slf4j
 public class RestTemplateConfiguration {
 
-    public static final String EDC_REST_TEMPLATE = "edcRestTemplate";
-    public static final String REST_TEMPLATE = "restTemplate";
-    public static final String SUBMODEL_TEMPLATE = "submodelTemplate";
-    public static final String EDC_NOTIFICATION_TEMPLATE = "edcNotificationTemplate";
-
     private static final String EDC_API_KEY_HEADER_NAME = "X-Api-Key";
-
     private static final String IRS_API_KEY_HEADER_NAME = "X-API-KEY";
 
     private final OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
     private final ClientRegistrationRepository clientRegistrationRepository;
 
 
+    /* RestTemplate used by trace x for the edc contracts used within the edc provider.*/
     @Bean
-    @Qualifier(EDC_REST_TEMPLATE)
     public RestTemplate edcRestTemplate(@Autowired EdcProperties edcProperties) {
         return new RestTemplateBuilder()
                 .rootUri(edcProperties.getProviderEdcUrl())
@@ -79,14 +72,15 @@ public class RestTemplateConfiguration {
                 .build();
     }
 
+    /* RestTemplate used by trace x for the notification transfer to the edc controlplane including edc api key*/
     @Bean
-    @Qualifier(EDC_NOTIFICATION_TEMPLATE)
     public RestTemplate edcNotificationTemplate(@Autowired EdcProperties edcProperties) {
         return new RestTemplateBuilder()
                 .defaultHeader(EDC_API_KEY_HEADER_NAME, edcProperties.getApiAuthKey())
                 .build();
     }
 
+    /* RestTemplate used by trace x for the irs api with the admin api key*/
     @Bean
     public RestTemplate irsAdminTemplate(@Autowired TraceabilityProperties traceabilityProperties) {
         return new RestTemplateBuilder()
@@ -96,6 +90,7 @@ public class RestTemplateConfiguration {
                 .build();
     }
 
+    /* RestTemplate used by trace x for the irs api with the regular api key*/
     @Bean
     public RestTemplate irsRegularTemplate(@Autowired TraceabilityProperties traceabilityProperties) {
         return new RestTemplateBuilder()
@@ -106,18 +101,9 @@ public class RestTemplateConfiguration {
                 .build();
     }
 
+    /* RestTemplate used by trace x for the submodel server*/
     @Bean
-    @Qualifier(REST_TEMPLATE)
-    public RestTemplate edcTemplate() {
-        return new RestTemplateBuilder()
-                .build();
-    }
-
-
-    @Bean
-    @Qualifier(SUBMODEL_TEMPLATE)
     public RestTemplate submodelRestTemplate(@Autowired TraceabilityProperties traceabilityProperties, @Autowired FeignDefaultProperties feignDefaultProperties) {
-
         return new RestTemplateBuilder()
                 .rootUri(traceabilityProperties.getSubmodelBase())
                 .setConnectTimeout(Duration.ofMillis(feignDefaultProperties.getConnectionTimeoutMillis()))
@@ -125,6 +111,7 @@ public class RestTemplateConfiguration {
                 .build();
     }
 
+    /* RestTemplate used by the digital twin registry client library*/
     @Bean
     public RestTemplate digitalTwinRegistryRestTemplate(
             final RestTemplateBuilder restTemplateBuilder,
@@ -135,6 +122,7 @@ public class RestTemplateConfiguration {
                 clientRegistrationId).build();
     }
 
+    /* RestTemplate used by the edc client library*/
     @Bean
     public RestTemplate edcClientRestTemplate() {
         return new RestTemplateBuilder()

@@ -23,41 +23,38 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.base.servic
 
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.BadRequestException;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.DefaultUriBuilderFactory;
 
 import static java.lang.String.format;
-import static org.eclipse.tractusx.traceability.common.config.RestTemplateConfiguration.EDC_NOTIFICATION_TEMPLATE;
 
 // TODO - either refactor this class to use feignClient with a common httpClient or remove it once IRS-Lib is done
 @Slf4j
 @Component
 public class HttpCallService {
 
-
     private final RestTemplate edcNotificationTemplate;
 
-    public HttpCallService(@Qualifier(EDC_NOTIFICATION_TEMPLATE) RestTemplate edcNotificationTemplate) {
+    public HttpCallService(RestTemplate edcNotificationTemplate) {
         this.edcNotificationTemplate = edcNotificationTemplate;
     }
 
 
     public void sendRequest(EdcNotificationRequest request) {
-        edcNotificationTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory(request.getUrl()));
         HttpEntity<String> entity = new HttpEntity<>(request.getBody(), request.getHeaders());
         try {
-            var response = edcNotificationTemplate.exchange("", HttpMethod.POST, entity, new ParameterizedTypeReference<>() {
+            var response = edcNotificationTemplate.exchange(request.getUrl(), HttpMethod.POST, entity, new ParameterizedTypeReference<>() {
             });
-            var body = response.getBody();
-            if (!response.getStatusCode().is2xxSuccessful() || body == null) {
-                throw new BadRequestException(format("Control plane responded with: %s %s", response.getStatusCode(), body != null ? body.toString() : ""));
+            log.info("Control plane responded with response: {}", response);
+            log.info("Control plane responded with status: {}", response.getStatusCode());
+            if (!response.getStatusCode().is2xxSuccessful()) {
+                throw new BadRequestException(format("Control plane responded with: %s", response.getStatusCode()));
             }
         } catch (Exception e) {
+            log.warn(e.getMessage());
             throw e;
         }
     }
