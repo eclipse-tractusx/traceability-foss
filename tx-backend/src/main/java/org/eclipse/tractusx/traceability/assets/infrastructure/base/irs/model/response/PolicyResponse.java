@@ -19,7 +19,6 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response;
 
-import lombok.ToString;
 import org.eclipse.tractusx.irs.edc.client.policy.Permission;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.IrsPolicy;
 
