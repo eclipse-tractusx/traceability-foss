@@ -1,4 +1,4 @@
-# Copyright (c) 2023 Contributors to the Eclipse Foundation
+# Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -18,7 +18,7 @@ name: trace-foss
 
 services:
   postgres:
-    image: "postgres:14.4"
+    image: "postgres:15.4"
     volumes:
       - postgres-data:/var/lib/postgresql/data
       - ./db-init:/docker-entrypoint-initdb.d
