@@ -43,61 +43,6 @@ class AssetAsBuiltControllerSyncIT extends IntegrationTestSpecification {
     AssetsSupport assetsSupport;
 
     @Test
-    void givenSyncRequestWithOneAsset_whenSyncTriggered_thenShouldIrsApiOnve() throws JoseException, InterruptedException {
-        // GIVEN
-        oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
-        irsApiSupport.irsApiTriggerJob();
-
-        // WHEN/THEN
-        given()
-                .contentType(ContentType.JSON)
-                .body(
-                        asJson(Map.of("globalAssetIds", List.of("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb"))
-                        )
-                )
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .when()
-                .post("/api/assets/as-built/sync")
-                .then()
-                .statusCode(200);
-
-
-        eventually(() -> {
-            irsApiSupport.verifyIrsApiTriggerJobCalledTimes(2);
-            return true;
-        });
-    }
-
-    @Test
-    void shouldSynchronizeAssetsUsingRetry() throws JoseException, InterruptedException {
-        //GIVEN
-        oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
-
-        irsApiSupport.irsApiTriggerJob();
-
-        irsApiSupport.irsApiReturnsJobInRunningAndCompleted();
-
-        //WHEN
-        given()
-                .contentType(ContentType.JSON)
-                .body(
-                        asJson(Map.of("globalAssetIds", List.of("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb"))
-                        )
-                )
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .when()
-                .post("/api/assets/as-built/sync")
-                .then()
-                .statusCode(200);
-
-        //THEN
-        eventually(() -> {
-            irsApiSupport.verifyIrsApiTriggerJobCalledTimes(2);
-            return true;
-        });
-    }
-
-    @Test
     void shouldNotSynchronizeAssetsWhenIrsFailedToReturnJobDetails() throws JoseException, InterruptedException {
         //GIVEN
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();

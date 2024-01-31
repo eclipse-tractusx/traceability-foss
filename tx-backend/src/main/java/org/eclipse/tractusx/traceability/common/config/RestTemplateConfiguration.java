@@ -20,14 +20,25 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.common.config;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
+import org.eclipse.tractusx.traceability.common.properties.FeignDefaultProperties;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProviderBuilder;
@@ -35,25 +46,63 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
+
 @Configuration
 @RequiredArgsConstructor
 @Slf4j
-public class EdcRestTemplateConfiguration {
+public class RestTemplateConfiguration {
 
     public static final String EDC_REST_TEMPLATE = "edcRestTemplate";
     public static final String REST_TEMPLATE = "restTemplate";
+    public static final String SUBMODEL_TEMPLATE = "submodelTemplate";
+    public static final String EDC_NOTIFICATION_TEMPLATE = "edcNotificationTemplate";
 
     private static final String EDC_API_KEY_HEADER_NAME = "X-Api-Key";
+
+    private static final String IRS_API_KEY_HEADER_NAME = "X-API-KEY";
 
     private final OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
     private final ClientRegistrationRepository clientRegistrationRepository;
 
+
     @Bean
     @Qualifier(EDC_REST_TEMPLATE)
-    public RestTemplate edcRestTemplate(EdcProperties edcProperties) {
+    public RestTemplate edcRestTemplate(@Autowired EdcProperties edcProperties) {
         return new RestTemplateBuilder()
                 .rootUri(edcProperties.getProviderEdcUrl())
                 .defaultHeader(EDC_API_KEY_HEADER_NAME, edcProperties.getApiAuthKey())
+                .setConnectTimeout(Duration.ofSeconds(10L))
+                .setReadTimeout(Duration.ofSeconds(25L))
+                .build();
+    }
+
+    @Bean
+    @Qualifier(EDC_NOTIFICATION_TEMPLATE)
+    public RestTemplate edcNotificationTemplate(@Autowired EdcProperties edcProperties) {
+        return new RestTemplateBuilder()
+                .defaultHeader(EDC_API_KEY_HEADER_NAME, edcProperties.getApiAuthKey())
+                .build();
+    }
+
+    @Bean
+    public RestTemplate irsAdminTemplate(@Autowired TraceabilityProperties traceabilityProperties) {
+        return new RestTemplateBuilder()
+                .rootUri(traceabilityProperties.getIrsBase())
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) // Set Content-Type header
+                .defaultHeader(IRS_API_KEY_HEADER_NAME, traceabilityProperties.getAdminApiKey())
+                .build();
+    }
+
+    @Bean
+    public RestTemplate irsRegularTemplate(@Autowired TraceabilityProperties traceabilityProperties) {
+        return new RestTemplateBuilder()
+                .rootUri(traceabilityProperties.getIrsBase())
+                .defaultHeader(IRS_API_KEY_HEADER_NAME, traceabilityProperties.getRegularApiKey())
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) // Set Content-Type header
+                .messageConverters(customMessageConverters())
                 .build();
     }
 
@@ -61,6 +110,18 @@ public class EdcRestTemplateConfiguration {
     @Qualifier(REST_TEMPLATE)
     public RestTemplate edcTemplate() {
         return new RestTemplateBuilder()
+                .build();
+    }
+
+
+    @Bean
+    @Qualifier(SUBMODEL_TEMPLATE)
+    public RestTemplate submodelRestTemplate(@Autowired TraceabilityProperties traceabilityProperties, @Autowired FeignDefaultProperties feignDefaultProperties) {
+
+        return new RestTemplateBuilder()
+                .rootUri(traceabilityProperties.getSubmodelBase())
+                .setConnectTimeout(Duration.ofMillis(feignDefaultProperties.getConnectionTimeoutMillis()))
+                .setReadTimeout(Duration.ofMillis(feignDefaultProperties.getReadTimeoutMillis()))
                 .build();
     }
 
@@ -98,6 +159,23 @@ public class EdcRestTemplateConfiguration {
         authorizedClientManager.setAuthorizedClientProvider(authorizedClientProvider);
 
         return authorizedClientManager;
+    }
+
+    private List<HttpMessageConverter<?>> customMessageConverters() {
+        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+        converter.setObjectMapper(JsonMapper.builder()
+                .configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE, true)
+                .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
+                .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true)
+                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+                .build()
+                .registerModules(new JavaTimeModule()));
+
+        // Add the custom converter to the list of message converters
+        List<HttpMessageConverter<?>> converters = new ArrayList<>();
+        converters.add(converter);
+
+        return converters;
     }
 
 }
