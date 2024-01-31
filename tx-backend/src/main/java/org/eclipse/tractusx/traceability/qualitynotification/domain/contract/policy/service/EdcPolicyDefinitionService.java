@@ -35,7 +35,6 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.pol
 import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.policy.model.EdcPolicyPermissionConstraint;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.policy.model.EdcPolicyPermissionConstraintExpression;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -46,7 +45,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 import java.util.UUID;
 
-import static org.eclipse.tractusx.traceability.common.config.RestTemplateConfiguration.EDC_REST_TEMPLATE;
 import static org.eclipse.tractusx.traceability.common.config.JsonLdConfigurationTraceX.NAMESPACE_ODRL;
 import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitize;
 import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitizeHtml;
@@ -62,15 +60,14 @@ public class EdcPolicyDefinitionService {
     private static final String CONSTRAINT = "Constraint";
     private static final String OPERATOR_PREFIX = "odrl:";
     private final ObjectMapper objectMapper;
-    private final RestTemplate restTemplate;
+    private final RestTemplate edcRestTemplate;
     private final EdcProperties edcProperties;
-
     private final TraceabilityProperties traceabilityProperties;
 
     @Autowired
-    public EdcPolicyDefinitionService(ObjectMapper objectMapper, @Qualifier(EDC_REST_TEMPLATE) RestTemplate edcRestTemplate, EdcProperties edcProperties, TraceabilityProperties traceabilityProperties) {
+    public EdcPolicyDefinitionService(ObjectMapper objectMapper, RestTemplate edcRestTemplate, EdcProperties edcProperties, TraceabilityProperties traceabilityProperties) {
         this.objectMapper = objectMapper;
-        this.restTemplate = edcRestTemplate;
+        this.edcRestTemplate = edcRestTemplate;
         this.edcProperties = edcProperties;
         this.traceabilityProperties = traceabilityProperties;
     }
@@ -110,7 +107,7 @@ public class EdcPolicyDefinitionService {
         log.info("EdcCreatePolicyDefinitionRequest {}", objectMapper.writeValueAsString(edcCreatePolicyDefinitionRequest));
         final ResponseEntity<String> createPolicyDefinitionResponse;
         try {
-            createPolicyDefinitionResponse = restTemplate.postForEntity(edcProperties.getPolicyDefinitionsPath(), edcCreatePolicyDefinitionRequest, String.class);
+            createPolicyDefinitionResponse = edcRestTemplate.postForEntity(edcProperties.getPolicyDefinitionsPath(), edcCreatePolicyDefinitionRequest, String.class);
         } catch (RestClientException e) {
             log.error("Failed to create EDC notification asset policy. Reason: ", e);
 
@@ -143,7 +140,7 @@ public class EdcPolicyDefinitionService {
                 .toUriString();
 
         try {
-            restTemplate.delete(deleteUri);
+            edcRestTemplate.delete(deleteUri);
         } catch (RestClientException e) {
             log.error("Failed to delete EDC notification asset policy {}. Reason: ", cleanAccessPolicyId, e);
         }
