@@ -1,11 +1,11 @@
 # IndustryCore Changes #437
 
-| Key           | Value             |
-|---------------|-------------------|
-| Autor         | @ds-mkanal        |
-| Creation date | 26.01.2024        |
-| Ticket Id     | https://github.com/eclipse-tractusx/traceability-foss/issues/437        |
-| State         | WIP |
+| Key           | Value                                                                                                                                                      |
+|---------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Autor         | @ds-mkanal                                                                                                                                                 |
+| Creation date | 26.01.2024                                                                                                                                                 |
+| Ticket Id     | [#437](https://github.com/eclipse-tractusx/traceability-foss/issues/437) [#357](https://github.com/eclipse-tractusx/item-relationship-service/issues/357) [#437]( |
+| State         | WIP                                                                                                                                                        |
 
 # Table of Contents
 1. [Overview](#overview)
@@ -40,21 +40,25 @@ The product Trace-X MUST align with the Industry Code Standard CX-126 and CX-127
 
 ## Version matrix
 
-|Artefact| Version | Availability                                     | link                                                                                                                                              |
-|---|---------|--------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
-| AAS |         |                                                  |                                                                                                                                                   |
-| PartAsPlanned | 1.0.1   | Mandatory                                        | [PartAsPlanned 1.0.1](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.part_as_planned/1.0.1)                        |
- |PartAsPlanned | 2.0.0   | Optional (Mandatory for next version of CX-0126) | [PartAsPlanned 2.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.part_as_planned/2.0.0)                        |
-| SingleLevelBomAsPlanned| 1.1.0   | Mandatory | [SingleLevelBomAsPlanned 1.1.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.single_level_bom_as_planned/1.1.0)] |
-| SingleLevelBomAsPlanned| 2.0.0   | Optional (Mandatory for next version of CX-0126) | [SingleLevelBomAsPlanned 2.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.single_level_bom_as_planned/2.2.0)] |
-| SerialPart| 1.0.1   | Mandatory                     | [SerialPart 1.0.1](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.serial_part/1.0.1)                               |
-| SerialPart| 2.0.0   | Optional                     | [SerialPart 2.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.serial_part/2.0.0)                               |
-| Batch| 2.0.0   | Mandatory| [Batch 2.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.batch/2.0.0)                                          |
-| Batch| 2.0.1   | Optional| [Batch 2.0.1](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.batch/2.0.1)                                          |
-| JustInSequencePart| 2.0.0   | Optional| [JustInSequencePart 2.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.just_in_sequence_part/2.0.0)             |
-| SingleLevelBomAsBuilt| 2.0.0   | Mandatory| [SingleLevelBomAsBuilt 2.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.single_level_bom_as_built/2.0.0)      |
-| PartSiteInformationAsBuilt| X.X.X   | | TODO                                                                                                                                              |
+|Artefact| Version | Availability                                        | link                                                                                                                                              |
+|---|---------|-----------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
+| AAS |         |                                                     |                                                                                                                                                   |
+| PartAsPlanned | 1.0.1   | Mandatory                                           | [PartAsPlanned 1.0.1](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.part_as_planned/1.0.1)                        |
+ |PartAsPlanned | 2.0.0   | Optional (Mandatory for next version of CX-0126)    | [PartAsPlanned 2.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.part_as_planned/2.0.0)                        |
+| SingleLevelBomAsPlanned| 1.1.0   | Mandatory                                           | [SingleLevelBomAsPlanned 1.1.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.single_level_bom_as_planned/1.1.0)] |
+| SingleLevelBomAsPlanned| 2.0.0   | Optional (Mandatory for next version of CX-0126)    | [SingleLevelBomAsPlanned 2.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.single_level_bom_as_planned/2.2.0)] |
+| SerialPart| 1.0.1   | Mandatory                                           | [SerialPart 1.0.1](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.serial_part/1.0.1)                               |
+| SerialPart| 2.0.0   | Optional                                            | [SerialPart 2.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.serial_part/2.0.0)                               |
+| Batch| 2.0.0   | Mandatory                                           | [Batch 2.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.batch/2.0.0)                                          |
+| Batch| 2.0.1   | Optional                                            | [Batch 2.0.1](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.batch/2.0.1)                                          |
+| JustInSequencePart| 2.0.0   | Optional                                            | [JustInSequencePart 2.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.just_in_sequence_part/2.0.0)             |
+| SingleLevelBomAsBuilt| 2.0.0   | Mandatory                                           | [SingleLevelBomAsBuilt 2.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.single_level_bom_as_built/2.0.0)      |
+| PartSiteInformationAsBuilt| 1.0.0   | Integrated in Aspects JustInSequencePart / Batch / SerialPart | https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.shared.part_site_information_as_built/1.0.0                                                                                                                                               |
 
+
+- JustInSequencePart:  https://github.com/eclipse-tractusx/sldt-semantic-models/pull/563
+- Batch : https://github.com/eclipse-tractusx/sldt-semantic-models/pull/562
+- SerialPart: https://github.com/eclipse-tractusx/sldt-semantic-models/pull/557
 
 ## Changes in AAS handling
 
@@ -62,9 +66,9 @@ The product Trace-X MUST align with the Industry Code Standard CX-126 and CX-127
 
 |Parameter | Availability version aas 3.0.0 / 3.1.0 |  Availability version aas 3.x.x |
 |----|---|--|
-|manufacturerId | TODO | Mandatory |
-|manufacturerPartId | TODO | Mandatory |
-|customerPartId | TODO | Optional  |
+|manufacturerId | Mandatory | Mandatory |
+|manufacturerPartId | Mandatory | Mandatory |
+|customerPartId | Optional | Optional  |
 
 
 ### Descope @Deprecated assetLifecyclePhase
@@ -80,6 +84,12 @@ ASS parameter assetLifecyclePhase will not be used anymore to detect BOMLifecycl
 | Name         | digitalTwinType | Name of paramter in AAS                                                                               |
 | Availability | Mandatory | Parameter is mandatory - adjust required checks - Add exception handling in case parameter is not set |
 | Values       | PartType / PartInstance | PartType= asPlanned parts / PartInstance == parts on an instance level (e.g. serialized parts, batches, and JIS parts) |
+
+#### Configuration of parameter 'digitalTwinType'
+Parameter is configurable for dDTR instance and has to be configured for integration test.
+
+https://github.com/eclipse-tractusx/sldt-digital-twin-registry/blob/f438fe96a7ae1f1b920e8e4fb4114fb7af32643d/charts/registry/values.yaml#L51
+https://github.com/eclipse-tractusx/sldt-digital-twin-registry/blob/f438fe96a7ae1f1b920e8e4fb4114fb7af32643d/charts/registry/README.md#:~:text=externalSubjectIdWildcardAllowedTypes
 
 ### Visbility of Specific Asset IDs in the DTR
 * Usage of parameter 'externalSubjectIds' which contains 'specificAssetIds'.  Parameter 'externalSubjectIds' restricts visibility exclusively to manufacturer.
@@ -118,10 +128,10 @@ ASS parameter assetLifecyclePhase will not be used anymore to detect BOMLifecycl
 | [x]       | CX-0002 Digital Twins in Catena-X 2.2.0               | Trace-X  notification process and consumption of assets is bases on DT standards                                         |
 | [x]       | CX-0003 SAMM Aspect Meta Model 1.1.0                  | Trace-X using Semantic Models using SAMM standard                                                                        |                                                                                                                       |
 | [x]       | CX-0018 Eclipse Data Space Connector (EDC) 2.1.0      | Data consumption and data provision as well as the sending and receiving of messages takes place exclusively via the EDC |
-| [x]       | CX-0019 Aspect Model SerialPart                       | TODO                                                                                                                     |
-| [x]       | CX-0020 Aspect Model SingleLevelBomAsBuilt            | TODO                                                                                                                     |
-| [x]       | CX-0021 Aspect Model: Batch                           | TODO                                                                                                                     |
-| [x]       | CX-0060 Triangle Traceability - Digital Twin As-Built | TODO                                                                                                                     |
+| [x]       | CX-0019 Aspect Model SerialPart                       | The semantic model SerialPart describes a submodel for a digital twin of a serialised part providing essential information about this part                                                                                                                     |
+| [x]       | CX-0020 Aspect Model SingleLevelBomAsBuilt            | The Industry Core: Part Instance aims on building product genealogy information throughout the supply chain. Therefore it is required to link a produced part with its predecessor items.                                                                                                                     |
+| [x]       | CX-0021 Aspect Model: Batch                           | A batch is a quantity of (semi-) finished products or (raw) material product that have been produced under the same circumstances (e.g., same production location), as specified groups or amounts, within a certain time frame.                                                                                                                      |
+| [x]       | CX-0060 Triangle Traceability - Digital Twin As-Built | Digital Twin As-Built                                                                                                                     |
 
 ## Describe Part at type and instance level
 
