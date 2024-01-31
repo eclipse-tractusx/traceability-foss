@@ -10,13 +10,14 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 - Added AVD-KSV-0014 to trivy ignore
 - Added tooltips on functionalities that are unauthorized or unavailable
--
+
 ### Changed
 - Updated Irs Library from 1.4.1-SNAPSHOT to 1.5.1-SNAPSHOT
 - Changed some java implementations according to security findings ( business logic unchanged )
 - Adjusted sync logic to create jobs only for related BomLifecycles
 - Spring core updated from 6.0.14 to 6.0.16
 - Springboot updated from 3.1.6 to 3.1.7
+- Implemented asset publisher component functionality
 
 ### Removed
 
