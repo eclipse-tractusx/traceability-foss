@@ -43,4 +43,4 @@ dependencies:
     alias: edc-postgresql
     name: postgresql
     repository: https://charts.bitnami.com/bitnami
-    version: 12.1.6
+    version: 12.12.10
