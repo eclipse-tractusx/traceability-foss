@@ -186,4 +186,4 @@ Contact the Eclipse Tractus-X developers via the developer mailing list.
 
 Contact the project developers via eclipse matrix chat.
 
-* Eclipse Matrix Chat https://chat.eclipse.org/#/room/#tractusx-irs:matrix.eclipse.org
+* Eclipse Matrix Chat https://chat.eclipse.org/#/room/#tractusx-trace-x:matrix.eclipse.org
