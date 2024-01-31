@@ -85,6 +85,7 @@ public class ApplicationConfig {
     @Lazy
     IrsService irsService;
 
+
     private final AcceptedPoliciesProvider.DefaultAcceptedPoliciesProvider defaultAcceptedPoliciesProvider;
 
     @Bean
@@ -133,16 +134,16 @@ public class ApplicationConfig {
 
     @Bean
     public void registerDecentralRegistryPermissions() throws JsonProcessingException {
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.registerModule(new JavaTimeModule());
-            List<AcceptedPolicy> acceptedPolicy = buildAcceptedPolicies();
-            defaultAcceptedPoliciesProvider.addAcceptedPolicies(acceptedPolicy);
-            log.info("Successfully added permission to irs client lib provider: {}", mapper.writeValueAsString(acceptedPolicy));
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        List<AcceptedPolicy> acceptedPolicy = buildAcceptedPolicies();
+        defaultAcceptedPoliciesProvider.addAcceptedPolicies(acceptedPolicy);
+        log.info("Successfully added permission to irs client lib provider: {}", mapper.writeValueAsString(acceptedPolicy));
     }
 
     @NotNull
     private List<AcceptedPolicy> buildAcceptedPolicies() {
-        List<AcceptedPolicy> acceptedPolicies= new ArrayList<>();
+        List<AcceptedPolicy> acceptedPolicies = new ArrayList<>();
 
         //add own policy
         acceptedPolicies.addAll(createOwnAcceptedPolicies(traceabilityProperties.getValidUntil()));
@@ -150,7 +151,7 @@ public class ApplicationConfig {
         //add IRS policies
         try {
             acceptedPolicies.addAll(createIrsAcceptedPolicies());
-        }catch (Exception exception){
+        } catch (Exception exception) {
             log.error("Failed to create Irs Policies : ", exception);
         }
         return acceptedPolicies;

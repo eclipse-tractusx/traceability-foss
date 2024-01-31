@@ -10,6 +10,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 - Added AVD-KSV-0014 to trivy ignore
 - Added tooltips on functionalities that are unauthorized or unavailable
+- Added concept #521 revoked notification handling
+- Added eclipse trace-x matrix channel to README.md and CONTRIBUTING.md
 
 ### Changed
 - Updated Irs Library from 1.4.1-SNAPSHOT to 1.5.1-SNAPSHOT
@@ -19,6 +21,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Springboot updated from 3.1.6 to 3.1.7
 - Updated Angular and its dependencies from 15.2.8 to latest version 16 release
 - Implemented asset publisher component functionality
+- Updated postgres to version 15.4
+- Migrated from okhttpclient (feign implementation) to resttemplate.
 
 ### Removed
 
@@ -41,7 +45,6 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - SubmodelServerService for calling submodel server with feign client
 - Added GET /policies endpoint to retrieve accepted policies
 - Added POST assets/publish endpoint to publish transient assets
-
 
 ### Changed
 - Fixed security findings
