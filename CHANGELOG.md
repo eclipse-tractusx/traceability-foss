@@ -18,6 +18,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Spring core updated from 6.0.14 to 6.0.16
 - Springboot updated from 3.1.6 to 3.1.7
 - Implemented asset publisher component functionality
+- Update Spring version to 3.2.2
 
 ### Removed
 
