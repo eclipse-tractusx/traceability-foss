@@ -22,6 +22,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Implemented asset publisher component functionality
 - Updated postgres to version 15.4
 - Migrated from okhttpclient (feign implementation) to resttemplate.
+- Refactored rest templates
 
 ### Removed
 
