@@ -92,6 +92,7 @@ public class RestTemplateConfiguration {
         return new RestTemplateBuilder()
                 .rootUri(traceabilityProperties.getIrsBase())
                 .interceptors(new LoggingInterceptor())
+                .messageConverters(customMessageConverters())
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) // Set Content-Type header
                 .defaultHeader(IRS_API_KEY_HEADER_NAME, traceabilityProperties.getAdminApiKey())
                 .build();
