@@ -401,7 +401,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenInvalidAssetID_whenPublishData_thenStatusCode404() throws JoseException {
+    void givenInvalidAssetID_whenPublishData_thenStatusCode500() throws JoseException {
         // given
         String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
         File file = new File(path);
