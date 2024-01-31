@@ -146,10 +146,31 @@ Parts that are in a quality alert are highlighted yellow.
 #### Parts selection -> Create Quality alert
 
 Select one or multiple child components/parts/batches that are build into your part.
-Selection will enable you to create a quality alert (notification) to your customers.
+Selection will enable you to create a quality alert (notification) to your customers. For this action, a button appears at the top right of the table as soon as an asset has been selected
 The quality alert will be added to a queue (queued & requested inbox) and not directly sent to the customers.
 
 Once the quality alert is created you will get a pop-up and can directly navigate to the inbox for further action.
+
+#### Parts selection -> Publish Assets
+
+Select one or multiple parts that are in the AsBuilt lifecycle. A button will appear on the right of the lifecycle view selection:
+
+![publish_assets_button](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/publish_assets_button.png)
+
+Selection will enable you to publish assets with the goal to persist them (import state "persistent").
+With a click on the button a window will be opened, where the selected assets are displayed and a required policy must be selected:
+
+![publish_assets_view](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/publish_assets_view.png)
+
+The following table explains the different import state an asset can have:
+
+|     |     |
+| --- | --- |
+| transient | Asset is uploaded but not synchronized with the Item Relationship Service (IRS). |
+| in_synchronization | Asset is in the process of synchronizing with the IRS. |
+| persistent | Asset is successfully synchronized with the IRS. |
+| unset | The import state of the asset was not set |
+| error | Along the import state transition and error occurred. |
 
 #### Parts table column settings
 
@@ -195,6 +216,10 @@ Zooming in/out can be done with the corresponding control buttons.
 
 ![open-new-tab](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/open-new-tab.png) Open part tree in new tab to zoom, scroll and focus in a larger view.
 A minimap on the bottom right provides an overview of the current position on the part tree.
+
+##### Asset State
+
+Information about the import process and state of the part.
 
 ##### Manufacturer data
 

@@ -469,6 +469,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_asbuilt_lifecycle_parts">AsBuilt Lifecycle Parts</a></li>
 <li><a href="#_asplanned_lifecycle_parts">AsPlanned Lifecycle Parts</a></li>
 <li><a href="#_parts_selection_create_quality_alert">Parts selection &#8594; Create Quality alert</a></li>
+<li><a href="#_parts_selection_publish_assets">Parts selection &#8594; Publish Assets</a></li>
 <li><a href="#_parts_table_column_settings">Parts table column settings</a></li>
 <li><a href="#_part_details">Part details</a></li>
 </ul>
@@ -756,12 +757,63 @@ Parts that are in a quality alert are highlighted yellow.</p>
 <h3 id="_parts_selection_create_quality_alert">Parts selection &#8594; Create Quality alert</h3>
 <div class="paragraph">
 <p>Select one or multiple child components/parts/batches that are build into your part.
-Selection will enable you to create a quality alert (notification) to your customers.
+Selection will enable you to create a quality alert (notification) to your customers. For this action, a button appears at the top right of the table as soon as an asset has been selected
 The quality alert will be added to a queue (queued &amp; requested inbox) and not directly sent to the customers.</p>
 </div>
 <div class="paragraph">
 <p>Once the quality alert is created you will get a pop-up and can directly navigate to the inbox for further action.</p>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_parts_selection_publish_assets">Parts selection &#8594; Publish Assets</h3>
+<div class="paragraph">
+<p>Select one or multiple parts that are in the AsBuilt lifecycle. A button will appear on the right of the lifecycle view selection:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/publish_assets_button.png" alt="publish assets button">
+</div>
+</div>
+<div class="paragraph">
+<p>Selection will enable you to publish assets with the goal to persist them (import state "persistent").
+With a click on the button a window will be opened, where the selected assets are displayed and a required policy must be selected:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/publish_assets_view.png" alt="publish assets view">
+</div>
+</div>
+<div class="paragraph">
+<p>The following table explains the different import state an asset can have:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">transient</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Asset is uploaded but not synchronized with the Item Relationship Service (IRS).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">in_synchronization</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Asset is in the process of synchronizing with the IRS.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">persistent</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Asset is successfully synchronized with the IRS.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">unset</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The import state of the asset was not set</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">error</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Along the import state transition and error occurred.</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_parts_table_column_settings">Parts table column settings</h3>
@@ -826,6 +878,12 @@ Zooming in/out can be done with the corresponding control buttons.</p>
 <div class="paragraph">
 <p><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/open-new-tab.png" alt="open new tab"></span> Open part tree in new tab to zoom, scroll and focus in a larger view.
 A minimap on the bottom right provides an overview of the current position on the part tree.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_asset_state">Asset State</h4>
+<div class="paragraph">
+<p>Information about the import process and state of the part.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1289,7 +1347,7 @@ One exception to this rule: the transition from status SENT to status RECEIVED i
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-01-29 07:09:56 UTC
+Last updated 2024-01-31 12:40:08 UTC
 </div>
 </div>
 </body>
