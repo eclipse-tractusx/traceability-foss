@@ -66,21 +66,8 @@ public class IrsClient {
     }
 
     public List<PolicyResponse> getPolicies() {
-        ResponseEntity<String> responseEntity =
-                irsAdminTemplate
-                        .exchange(POLICY_PATH, HttpMethod.GET, null, String.class);
-        log.info(responseEntity.getBody(), "Body");
-        try {
-            List<PolicyResponse> policyResponses = objectMapper.readValue(responseEntity.getBody(), new TypeReference<List<PolicyResponse>>() {
-            });
-            log.info(policyResponses.toString(), "policy");
-            return policyResponses;
-
-        } catch (JsonMappingException e) {
-            throw new RuntimeException(e);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+        return irsAdminTemplate.exchange(POLICY_PATH, HttpMethod.GET, null, new ParameterizedTypeReference<List<PolicyResponse>>() {
+        }).getBody();
     }
 
     public void deletePolicy() {

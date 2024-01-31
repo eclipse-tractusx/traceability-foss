@@ -91,8 +91,6 @@ public class RestTemplateConfiguration {
     public RestTemplate irsAdminTemplate(@Autowired TraceabilityProperties traceabilityProperties) {
         return new RestTemplateBuilder()
                 .rootUri(traceabilityProperties.getIrsBase())
-                .interceptors(new LoggingInterceptor())
-                .messageConverters(customMessageConverters())
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) // Set Content-Type header
                 .defaultHeader(IRS_API_KEY_HEADER_NAME, traceabilityProperties.getAdminApiKey())
                 .build();
@@ -102,7 +100,6 @@ public class RestTemplateConfiguration {
     public RestTemplate irsRegularTemplate(@Autowired TraceabilityProperties traceabilityProperties) {
         return new RestTemplateBuilder()
                 .rootUri(traceabilityProperties.getIrsBase())
-                .interceptors(new LoggingInterceptor())
                 .defaultHeader(IRS_API_KEY_HEADER_NAME, traceabilityProperties.getRegularApiKey())
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) // Set Content-Type header
                 .messageConverters(customMessageConverters())
@@ -113,7 +110,6 @@ public class RestTemplateConfiguration {
     @Qualifier(REST_TEMPLATE)
     public RestTemplate edcTemplate() {
         return new RestTemplateBuilder()
-                .interceptors(new LoggingInterceptor())
                 .build();
     }
 
@@ -124,7 +120,6 @@ public class RestTemplateConfiguration {
 
         return new RestTemplateBuilder()
                 .rootUri(traceabilityProperties.getSubmodelBase())
-                .interceptors(new LoggingInterceptor())
                 .setConnectTimeout(Duration.ofMillis(feignDefaultProperties.getConnectionTimeoutMillis()))
                 .setReadTimeout(Duration.ofMillis(feignDefaultProperties.getReadTimeoutMillis()))
                 .build();
@@ -137,13 +132,12 @@ public class RestTemplateConfiguration {
         oAuthRestTemplate(restTemplateBuilder,
                 clientRegistrationId).build();
         return oAuthRestTemplate(restTemplateBuilder,
-                clientRegistrationId).interceptors(new LoggingInterceptor()).
-                build();
+                clientRegistrationId).build();
     }
 
     @Bean
     public RestTemplate edcClientRestTemplate() {
-        return new RestTemplateBuilder().interceptors(new LoggingInterceptor())
+        return new RestTemplateBuilder()
                 .build();
     }
 

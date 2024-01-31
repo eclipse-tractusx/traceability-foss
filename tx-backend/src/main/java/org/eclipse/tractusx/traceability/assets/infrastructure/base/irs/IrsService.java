@@ -1,7 +1,7 @@
 /********************************************************************************
  * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
  * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022, 2023, 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -83,7 +83,6 @@ public class IrsService implements IrsRepository {
     }
 
 
-
     @Override
     public void handleJobFinishedCallback(String jobId, String state) {
         if (!Objects.equals(state, JobDetailResponse.JOB_STATUS_COMPLETED)) {
@@ -117,8 +116,6 @@ public class IrsService implements IrsRepository {
         }
     }
 
-
-
     void saveOrUpdateAssets(AssetCallbackRepository repository, AssetBase asset) {
         Optional<AssetBase> existingAssetOptional = repository.findById(asset.getId());
         if (existingAssetOptional.isPresent()) {
@@ -144,38 +141,47 @@ public class IrsService implements IrsRepository {
         log.info("Required constraints from application yaml are : {}", traceabilityProperties.getRightOperand());
 
 
-        //update existing policies
-        irsPolicies.stream().filter(
-                        irsPolicy -> traceabilityProperties.getRightOperand().equals(irsPolicy.policyId()))
-                .forEach(existingPolicy -> checkAndUpdatePolicy(irsPolicies));
+        PolicyResponse matchingIrsPolicy = irsPolicies.stream()
+                .filter(irsPolicy -> irsPolicy.permissions().stream()
+                        .flatMap(permission -> permission.getConstraints().stream())
+                        .anyMatch(constraint ->
+                                constraint.getOr().stream().anyMatch(rightO ->
+                                        rightO.getRightOperand().stream().anyMatch(value ->
+                                                value.equals(traceabilityProperties.getRightOperand())))
+                                        ||
+                                        constraint.getAnd().stream().allMatch(rightO ->
+                                                rightO.getRightOperand().stream().allMatch(value ->
+                                                        value.equals(traceabilityProperties.getRightOperand())))
+                        ))
+                .findFirst()
+                .orElse(null);
 
-
-        //create missing policies
-        boolean missingPolicy = irsPolicies.stream().noneMatch(irsPolicy -> irsPolicy.policyId().equals(traceabilityProperties.getRightOperand()));
-        if (missingPolicy) {
-            createPolicy();
+        if (matchingIrsPolicy == null) {
+            createMissingPolicies();
+        } else {
+            checkAndUpdatePolicy(matchingIrsPolicy);
         }
     }
 
-    private void createPolicy() {
+    private void createMissingPolicies() {
         log.info("Irs policy does not exist creating {}", traceabilityProperties.getRightOperand());
         this.irsClient.registerPolicy();
     }
 
-    private void checkAndUpdatePolicy(List<PolicyResponse> requiredPolicies) {
-        Optional<PolicyResponse> requiredPolicy = requiredPolicies.stream().filter(policyItem -> policyItem.policyId().equals(traceabilityProperties.getRightOperand())).findFirst();
-        if (requiredPolicy.isPresent() &&
-                traceabilityProperties.getValidUntil().isAfter(requiredPolicy.get().validUntil())
-        ) {
+    private void checkAndUpdatePolicy(PolicyResponse requiredPolicy) {
+        if (isPolicyExpired(requiredPolicy)) {
             log.info("IRS Policy {} has outdated validity updating new ttl {}", traceabilityProperties.getRightOperand(), requiredPolicy);
             this.irsClient.deletePolicy();
             this.irsClient.registerPolicy();
         }
     }
 
-    public List<PolicyResponse> getPolicies() {
-      return irsClient.getPolicies();
+    private boolean isPolicyExpired(PolicyResponse requiredPolicy) {
+        return traceabilityProperties.getValidUntil().isAfter(requiredPolicy.validUntil());
     }
 
+    public List<PolicyResponse> getPolicies() {
+        return irsClient.getPolicies();
+    }
 
 }
