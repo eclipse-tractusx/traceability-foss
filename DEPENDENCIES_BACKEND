@@ -47,7 +47,9 @@ maven/mavencentral/com.nimbusds/oauth2-oidc-sdk/9.43.3, Apache-2.0, approved, cl
 maven/mavencentral/com.squareup.okhttp3/okhttp-dnsoverhttps/4.10.0, Apache-2.0, approved, clearlydefined
 maven/mavencentral/com.squareup.okhttp3/okhttp-dnsoverhttps/4.11.0, Apache-2.0, approved, clearlydefined
 maven/mavencentral/com.squareup.okhttp3/okhttp/4.10.0, Apache-2.0 AND MPL-2.0, approved, #3057
+maven/mavencentral/com.squareup.okhttp3/okhttp/4.11.0, Apache-2.0, approved, #9240
 maven/mavencentral/com.squareup.okio/okio-jvm/3.5.0, Apache-2.0, approved, #9851
+maven/mavencentral/com.squareup.okio/okio/3.2.0, Apache-2.0, approved, clearlydefined
 maven/mavencentral/com.sun.istack/istack-commons-runtime/4.1.1, BSD-3-Clause, approved, #2590
 maven/mavencentral/com.sun.istack/istack-commons-runtime/4.1.2, BSD-3-Clause, approved, #2590
 maven/mavencentral/com.sun.mail/mailapi/1.6.2, CDDL-1.1 OR GPL-2.0-only WITH Classpath-exception-2.0, approved, clearlydefined
@@ -86,8 +88,7 @@ maven/mavencentral/io.github.openfeign.form/feign-form-spring/3.8.0, Apache-2.0,
 maven/mavencentral/io.github.openfeign.form/feign-form/3.8.0, Apache-2.0, approved, clearlydefined
 maven/mavencentral/io.github.openfeign/feign-core/12.3, Apache-2.0, approved, clearlydefined
 maven/mavencentral/io.github.openfeign/feign-jackson/12.3, Apache-2.0, approved, #8095
-maven/mavencentral/io.github.openfeign/feign-okhttp/12.3, Apache-2.0, approved, clearlydefined
-maven/mavencentral/io.github.openfeign/feign-slf4j/12.4, Apache-2.0, approved, clearlydefined
+maven/mavencentral/io.github.openfeign/feign-slf4j/12.3, Apache-2.0, approved, clearlydefined
 maven/mavencentral/io.github.resilience4j/resilience4j-annotations/2.0.2, Apache-2.0, approved, clearlydefined
 maven/mavencentral/io.github.resilience4j/resilience4j-bulkhead/2.0.2, Apache-2.0, approved, clearlydefined
 maven/mavencentral/io.github.resilience4j/resilience4j-circuitbreaker/2.0.2, Apache-2.0, approved, clearlydefined
@@ -280,9 +281,9 @@ maven/mavencentral/org.eclipse.jetty/jetty-webapp/11.0.17, EPL-2.0 OR Apache-2.0
 maven/mavencentral/org.eclipse.jetty/jetty-webapp/11.0.19, EPL-2.0 OR Apache-2.0, approved, rt.jetty
 maven/mavencentral/org.eclipse.jetty/jetty-xml/11.0.17, EPL-2.0 OR Apache-2.0, approved, rt.jetty
 maven/mavencentral/org.eclipse.jetty/jetty-xml/11.0.19, EPL-2.0 OR Apache-2.0, approved, rt.jetty
-maven/mavencentral/org.eclipse.tractusx.irs/irs-edc-client/1.5.1-20240125.102637-14, Apache-2.0, approved, automotive.tractusx
-maven/mavencentral/org.eclipse.tractusx.irs/irs-models/1.5.1-20240125.102637-14, Apache-2.0, approved, automotive.tractusx
-maven/mavencentral/org.eclipse.tractusx.irs/irs-registry-client/1.5.1-20240125.102637-14, Apache-2.0, approved, automotive.tractusx
+maven/mavencentral/org.eclipse.tractusx.irs/irs-edc-client/1.5.1-20240129.132301-15, Apache-2.0, approved, automotive.tractusx
+maven/mavencentral/org.eclipse.tractusx.irs/irs-models/1.5.1-20240129.132301-15, Apache-2.0, approved, automotive.tractusx
+maven/mavencentral/org.eclipse.tractusx.irs/irs-registry-client/1.5.1-20240129.132301-15, Apache-2.0, approved, automotive.tractusx
 maven/mavencentral/org.eclipse.tractusx.traceability/tx-backend/0.0.1-SNAPSHOT, Apache-2.0, approved, automotive.tractusx
 maven/mavencentral/org.eclipse.tractusx.traceability/tx-models/0.0.1-SNAPSHOT, Apache-2.0, approved, automotive.tractusx
 maven/mavencentral/org.flywaydb/flyway-core/9.16.3, Apache-2.0, approved, #7935
