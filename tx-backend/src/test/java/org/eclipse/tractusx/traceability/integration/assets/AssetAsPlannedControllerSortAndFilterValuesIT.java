@@ -51,7 +51,7 @@ class AssetAsPlannedControllerSortAndFilterValuesIT extends IntegrationTestSpeci
                 // As long as no clear spelling for 'catenaxSiteId' is defined, test on different spellings. https://github.com/eclipse-tractusx/sldt-semantic-models/issues/470
                 Arguments.of("nameAtManufacturer,asc", "catenaXSiteId,EQUAL,BPNS000004711DMY", "AND",
                         new String[]{"HVModul", "OEMAHighVoltageBattery", "VehicleModelA", "ZBZELLE"}),
-                Arguments.of("nameAtManufacturer,asc", "catenaxSiteId,EQUAL,BPNS000004711DMY", "AND",
+                Arguments.of("nameAtManufacturer,asc", "catenaXSiteId,EQUAL,BPNS000004711DMY", "AND",
                         new String[]{"HVModul", "OEMAHighVoltageBattery", "VehicleModelA", "ZBZELLE"})
         );
     }

@@ -53,7 +53,7 @@ class AssetAsPlannedControllerSortValuesIT extends IntegrationTestSpecification 
                         new String[]{"ZBZELLE", "HVModul", "OEMAHighVoltageBattery", "VehicleModelA", "TierBECU1",
                                 "SubTierASensor", "TierAGearbox", "NTierACathodeMaterial", "NTierANTierProduct",
                                 "NTierAPlastics", "SubTierBSealant", "SubTierBGlue"}),
-                Arguments.of("catenaxSiteId,asc",
+                Arguments.of("catenaXSiteId,asc",
                         new String[]{"SubTierBGlue", "SubTierBSealant", "NTierAPlastics", "NTierANTierProduct",
                                 "NTierACathodeMaterial", "TierAGearbox", "SubTierASensor", "TierBECU1", "VehicleModelA",
                                 "OEMAHighVoltageBattery", "HVModul", "ZBZELLE"})
