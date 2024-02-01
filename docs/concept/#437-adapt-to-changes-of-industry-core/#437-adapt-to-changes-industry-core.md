@@ -4,7 +4,7 @@
 |---------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Autor         | @ds-mkanal                                                                                                                                                 |
 | Creation date | 26.01.2024                                                                                                                                                 |
-| Ticket Id     | [#437](https://github.com/eclipse-tractusx/traceability-foss/issues/437) [#357](https://github.com/eclipse-tractusx/item-relationship-service/issues/357) [#437]( |
+| Ticket Id     | [#437](https://github.com/eclipse-tractusx/traceability-foss/issues/437) [#357](https://github.com/eclipse-tractusx/item-relationship-service/issues/357)  |
 | State         | WIP                                                                                                                                                        |
 
 # Table of Contents
