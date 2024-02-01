@@ -26,9 +26,13 @@ import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.NotificationMethod;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.NotificationType;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.asset.model.*;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.asset.model.CreateEdcAssetException;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.asset.model.EdcAsset;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.asset.model.EdcAssetProperties;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.asset.model.EdcContext;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.asset.model.EdcCreateDataAssetRequest;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.asset.model.EdcDataAddress;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -38,7 +42,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.UUID;
 
-import static org.eclipse.tractusx.traceability.common.config.EdcRestTemplateConfiguration.EDC_REST_TEMPLATE;
 import static org.eclipse.tractusx.traceability.common.config.JsonLdConfigurationTraceX.NAMESPACE_EDC;
 import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitize;
 import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitizeHtml;
@@ -55,13 +58,13 @@ public class EdcNotificationAssetService {
     private static final String TRACE_FOSS_QUALITY_NOTIFICATION_ALERT_URL_TEMPLATE = "/api/qualityalerts/%s";
 
     private final TraceabilityProperties traceabilityProperties;
-    private final RestTemplate restTemplate;
+    private final RestTemplate edcRestTemplate;
     private final EdcProperties edcProperties;
 
     @Autowired
-    public EdcNotificationAssetService(TraceabilityProperties traceabilityProperties, @Qualifier(EDC_REST_TEMPLATE) RestTemplate edcRestTemplate, EdcProperties edcProperties) {
+    public EdcNotificationAssetService(TraceabilityProperties traceabilityProperties, RestTemplate edcRestTemplate, EdcProperties edcProperties) {
         this.traceabilityProperties = traceabilityProperties;
-        this.restTemplate = edcRestTemplate;
+        this.edcRestTemplate = edcRestTemplate;
         this.edcProperties = edcProperties;
     }
 
@@ -111,7 +114,7 @@ public class EdcNotificationAssetService {
         final ResponseEntity<String> createEdcDataAssetResponse;
 
         try {
-            createEdcDataAssetResponse = restTemplate.postForEntity(
+            createEdcDataAssetResponse = edcRestTemplate.postForEntity(
                     edcProperties.getAssetsPath(),
                     createDataAssetRequest,
                     String.class
@@ -146,7 +149,7 @@ public class EdcNotificationAssetService {
                 .toUriString();
 
         try {
-            restTemplate.delete(deleteUri);
+            edcRestTemplate.delete(deleteUri);
         } catch (RestClientException e) {
             log.error("Failed to delete EDC notification asset {}. Reason: ", notificationAssetId, e);
         }

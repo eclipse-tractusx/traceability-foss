@@ -79,7 +79,6 @@ SPDX-License-Identifier: Apache-2.0
                 </exclusion>
             </exclusions>
         </dependency>
-
         <!-- Remove once org.eclipse.tractusx.irs#irs-registry-client delivers the correct version.-->
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
@@ -295,16 +294,6 @@ SPDX-License-Identifier: Apache-2.0
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-jackson</artifactId>
             <version>${feign.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.openfeign</groupId>
-            <artifactId>feign-okhttp</artifactId>
-            <version>${feign.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.openfeign</groupId>
-            <artifactId>feign-slf4j</artifactId>
-            <version>${feign-slf4j.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.scribejava</groupId>
