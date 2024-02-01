@@ -47,7 +47,7 @@ SPDX-License-Identifier: Apache-2.0
          matTooltipPosition="above"
          [class.mdc-tooltip--multiline]="true"
          [matTooltipShowDelay]="1000"
-         [matTooltipDisabled]="roleService.hasAccess(['wip'])"
+         [matTooltipDisabled]="roleService.hasAccess(['admin'])"
     >
       <app-button
               *ngIf="(allSelectedItems$ | async).length"
@@ -131,7 +131,8 @@ SPDX-License-Identifier: Apache-2.0
   <app-sidenav-wrapper [isOpen]="isPublisherOpen$ | async" (sidenavAction)="isPublisherOpen$.next($event)">
     <app-asset-publisher
     [selectedAssets] = "allSelectedItems$ | async"
-    (submitted)="isPublisherOpen$.next(false)"
+    [isOpen]="isPublisherOpen$"
+    (submitted)="isPublisherOpen$.next(false); refreshPartsOnPublish($event);"
     ></app-asset-publisher>
   </app-sidenav-wrapper>
 

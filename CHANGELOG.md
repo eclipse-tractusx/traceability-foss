@@ -11,6 +11,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Added AVD-KSV-0014 to trivy ignore
 - Added tooltips on functionalities that are unauthorized or unavailable
 - Added concept for adaptions for IndustryCore Changes CX-0126 and CX-0127
+- Added concept #521 revoked notification handling
+- Added eclipse trace-x matrix channel to README.md and CONTRIBUTING.md
 
 ### Changed
 - Updated Irs Library from 1.4.1-SNAPSHOT to 1.5.1-SNAPSHOT
@@ -18,6 +20,11 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Adjusted sync logic to create jobs only for related BomLifecycles
 - Spring core updated from 6.0.14 to 6.0.16
 - Springboot updated from 3.1.6 to 3.1.7
+- Updated Angular and its dependencies from 15.2.8 to latest version 16 release
+- Implemented asset publisher component functionality
+- Updated postgres to version 15.4
+- Migrated from okhttpclient (feign implementation) to resttemplate.
+- Refactored rest templates
 
 ### Removed
 
@@ -40,7 +47,6 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - SubmodelServerService for calling submodel server with feign client
 - Added GET /policies endpoint to retrieve accepted policies
 - Added POST assets/publish endpoint to publish transient assets
-
 
 ### Changed
 - Fixed security findings
@@ -66,6 +72,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Updated github/codeql-action from 2 to 3
 - Updated actions/download-artifact from 3 to 4actions/download-artifact from 3 to 4
 - Updated com.nimbusds:nimbus-jose-jwt from 9.37.1 to 9.37.3
+- Changed some java implementations according to security findings ( business logic unchanged )
+- Updated createIrsPolicyIfMissing() method to validate policies based on rightOperand values rather than policyIDs
 
 ### Removed
 - Shell descriptor entity with underlying logic

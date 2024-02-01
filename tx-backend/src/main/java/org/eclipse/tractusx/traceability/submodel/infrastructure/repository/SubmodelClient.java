@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,25 +16,30 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-
 package org.eclipse.tractusx.traceability.submodel.infrastructure.repository;
 
-import feign.Param;
-import feign.RequestLine;
-import org.eclipse.tractusx.traceability.common.config.SubmodelApiConfig;
-import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.client.RestTemplate;
 
-@FeignClient(
-        contextId = "submodelServerContextId",
-        name = "submodelServer",
-        url = "${feign.submodelApi.url}",
-        configuration = {SubmodelApiConfig.class}
-)
-public interface SubmodelServerApiClient {
-    @RequestLine("POST /api/submodel/data/{submodelId}")
-    void createSubmodel(@Param("submodelId") String submodelId, @RequestBody String payload);
+@Component
+public class SubmodelClient {
 
-    @RequestLine("GET /api/submodel/data/{submodelId}")
-    String getSubmodel(@Param("submodelId") String submodelId);
+    private final RestTemplate submodelRestTemplate;
+
+
+    public SubmodelClient(RestTemplate submodelRestTemplate) {
+        this.submodelRestTemplate = submodelRestTemplate;
+    }
+
+    public void createSubmodel(String submodelId, @RequestBody String payload) {
+        submodelRestTemplate.exchange("/api/submodel/data/" + submodelId, HttpMethod.POST, new HttpEntity<>(payload), Void.class);
+    }
+
+
+    public String getSubmodel(String submodelId) {
+        return submodelRestTemplate.exchange("/api/submodel/data/" + submodelId, HttpMethod.GET, null, String.class).getBody();
+    }
 }

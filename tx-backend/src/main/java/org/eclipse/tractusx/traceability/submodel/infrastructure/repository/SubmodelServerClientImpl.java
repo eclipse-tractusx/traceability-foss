@@ -27,16 +27,17 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class SubmodelServerClientImpl implements SubmodelServerRepository {
 
-    private final SubmodelServerApiClient submodelServerApiClient;
+
+    private final SubmodelClient submodelClient;
 
     @Override
     public void saveSubmodel(String submodelId, String submodel) {
-        submodelServerApiClient.createSubmodel(submodelId, submodel);
+        submodelClient.createSubmodel(submodelId, submodel);
     }
 
     @Override
     public String getSubmodel(String submodelId) {
-        return submodelServerApiClient.getSubmodel(submodelId);
+        return submodelClient.getSubmodel(submodelId);
     }
 
 }
