@@ -23,14 +23,13 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface AssetRepository {
     AssetBase getAssetById(String assetId);
 
     List<AssetBase> getAssetsById(List<String> assetIds);
 
-    Optional<AssetBase> findById(final String assetId);
+    boolean existsById(String assetId);
 
     AssetBase getAssetByChildId(String childId);
 

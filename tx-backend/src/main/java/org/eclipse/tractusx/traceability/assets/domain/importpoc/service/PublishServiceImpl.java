@@ -30,7 +30,6 @@ import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.Publi
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 
 @Slf4j
@@ -49,6 +48,12 @@ public class PublishServiceImpl implements PublishService {
         saveAssetsInRepository(policyId, assetIds, assetAsBuiltRepository);
     }
 
+    private void throwIfNotExists(String assetId) {
+        if (!(assetAsBuiltRepository.existsById(assetId) || assetAsPlannedRepository.existsById(assetId))) {
+            throw new PublishAssetException("No asset found with the provided ID: " + assetId);
+        }
+    }
+
 
     private void saveAssetsInRepository(String policyId, List<String> assetIds, AssetRepository repository) {
         List<AssetBase> assetList = repository.getAssetsById(assetIds);
@@ -61,14 +66,6 @@ public class PublishServiceImpl implements PublishService {
                 .toList();
 
         repository.saveAll(saveList);
-    }
-
-    private void throwIfNotExists(String assetId) {
-
-        if (Stream.concat(assetAsBuiltRepository.findById(assetId).stream(), assetAsPlannedRepository.findById(assetId)
-                .stream()).noneMatch(asset -> asset.getId().equals(assetId))) {
-            throw new PublishAssetException("No asset found with the provided ID: " + assetId);
-        }
     }
 
     private boolean validTransientState(AssetBase assetBase) {

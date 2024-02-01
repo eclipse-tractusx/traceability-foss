@@ -63,6 +63,12 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository, A
     }
 
     @Override
+    @jakarta.transaction.Transactional
+    public boolean existsById(String assetId) {
+        return jpaAssetAsPlannedRepository.existsById(assetId);
+    }
+
+    @Override
     public List<AssetBase> getAssetsById(List<String> assetIds) {
         return jpaAssetAsPlannedRepository.findByIdIn(assetIds).stream().map(AssetAsPlannedEntity::toDomain)
                 .toList();
