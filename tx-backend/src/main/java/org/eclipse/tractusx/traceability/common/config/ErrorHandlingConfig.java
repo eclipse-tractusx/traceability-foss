@@ -32,6 +32,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.eclipse.tractusx.traceability.assets.application.importpoc.validation.exception.JsonFileProcessingException;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.ImportException;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.PublishAssetException;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnNotFoundException;
 import org.eclipse.tractusx.traceability.common.domain.ParseLocalDateException;
 import org.eclipse.tractusx.traceability.common.model.UnsupportedSearchCriteriaFieldException;
@@ -105,6 +106,13 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
 
     @ExceptionHandler(AssetNotFoundException.class)
     ResponseEntity<ErrorResponse> handleAssetNotFoundException(AssetNotFoundException exception) {
+        log.warn("handleAssetNotFoundException", exception);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ErrorResponse(exception.getMessage()));
+    }
+
+    @ExceptionHandler(PublishAssetException.class)
+    ResponseEntity<ErrorResponse> handlePublishAssetException(PublishAssetException exception) {
         log.warn("handleAssetNotFoundException", exception);
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse(exception.getMessage()));

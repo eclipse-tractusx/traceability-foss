@@ -401,7 +401,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenInvalidAssetID_whenPublishData_thenStatusCode500() throws JoseException {
+    void givenInvalidAssetID_whenPublishData_thenStatusCode404() throws JoseException {
         // given
         String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
         File file = new File(path);
@@ -426,7 +426,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .body(registerAssetRequest)
                 .post("/api/assets/publish")
                 .then()
-                .statusCode(500);
+                .statusCode(404);
 
         //then
         AssetBase asset = assetAsBuiltRepository.getAssetById("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f");

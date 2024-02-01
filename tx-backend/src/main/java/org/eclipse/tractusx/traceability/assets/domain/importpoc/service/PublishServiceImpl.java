@@ -43,12 +43,10 @@ public class PublishServiceImpl implements PublishService {
 
     @Override
     public void publishAssets(String policyId, List<String> assetIds) {
-        List<String> validAssetIds = assetIds.stream()
-                .filter(this::assetExists)
-                .toList();
+        assetIds.forEach(this::throwIfNotExists);
 
-        saveAssetsInRepository(policyId, validAssetIds, assetAsPlannedRepository);
-        saveAssetsInRepository(policyId, validAssetIds, assetAsBuiltRepository);
+        saveAssetsInRepository(policyId, assetIds, assetAsPlannedRepository);
+        saveAssetsInRepository(policyId, assetIds, assetAsBuiltRepository);
     }
 
 
@@ -56,23 +54,21 @@ public class PublishServiceImpl implements PublishService {
         List<AssetBase> assetList = repository.getAssetsById(assetIds);
         List<AssetBase> saveList = assetList.stream()
                 .filter(this::validTransientState)
-                .map(asset -> {
+                .peek(asset -> {
                     asset.setImportState(ImportState.IN_SYNCHRONIZATION);
                     asset.setPolicyId(policyId);
-                    return asset;
                 })
                 .toList();
 
         repository.saveAll(saveList);
     }
 
-    private boolean assetExists(String assetId) {
+    private void throwIfNotExists(String assetId) {
 
         if (Stream.concat(assetAsBuiltRepository.findById(assetId).stream(), assetAsPlannedRepository.findById(assetId)
-                .stream()).anyMatch(asset -> asset.getId().equals(assetId))) {
-            return true;
+                .stream()).noneMatch(asset -> asset.getId().equals(assetId))) {
+            throw new PublishAssetException("No asset found with the provided ID: " + assetId);
         }
-        throw new PublishAssetException("No asset found with the provided ID: " + assetId);
     }
 
     private boolean validTransientState(AssetBase assetBase) {
