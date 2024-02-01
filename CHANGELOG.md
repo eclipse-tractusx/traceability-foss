@@ -24,7 +24,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Updated postgres to version 15.4
 - Migrated from okhttpclient (feign implementation) to resttemplate.
 - Refactored rest templates
-- tx-parent-spring-boot/pom.xml
+- Error handling when publishing assets
 
 ### Removed
 
