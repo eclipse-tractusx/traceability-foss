@@ -73,7 +73,7 @@ SPDX-License-Identifier: Apache-2.0
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-core</artifactId>
-                <version>${spring.core}</version>
+                <version>${spring-core.version}</version>
 
             </dependency>
             <!-- Spring Test Dependencies -->
