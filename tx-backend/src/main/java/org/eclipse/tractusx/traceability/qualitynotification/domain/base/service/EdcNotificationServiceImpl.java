@@ -82,6 +82,7 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
         return CompletableFuture.completedFuture(null);
     }
 
+    // #606 TODO add within the catch a service call which updates a notification error message field with the error message from the exception so that we can execute a retry within the e2e testing.
     private boolean handleSendingNotification(QualityNotificationMessage notification, String senderEdcUrl, String receiverUrl) {
         try {
             edcFacade.startEdcTransfer(notification, receiverUrl, senderEdcUrl);
