@@ -93,8 +93,7 @@ public class IrsApiSupport {
 
     public void irsJobDetailsAsPlanned() {
         whenHttp(restitoProvider.stubServer()).match(
-                        get("/irs/jobs/ebb79c45-7bba-4169-bf17-SUCCESSFUL_AS_PLANNED"),
-                        withHeader(HttpHeaders.AUTHORIZATION)
+                        get("/irs/jobs/ebb79c45-7bba-4169-bf17-SUCCESSFUL_AS_PLANNED")
                 )
                 .then(
                         ok(),
@@ -165,8 +164,7 @@ public class IrsApiSupport {
 
     public void irsApiReturnsJobDetails() {
         whenHttp(restitoProvider.stubServer()).match(
-                        get("/irs/jobs/ebb79c45-7bba-4169-bf17-3e719989ab54"),
-                        withHeader(HttpHeaders.AUTHORIZATION)
+                        get("/irs/jobs/ebb79c45-7bba-4169-bf17-3e719989ab54")
                 )
                 .then(
                         ok(),

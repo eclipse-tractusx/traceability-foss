@@ -1,6 +1,4 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
  * Copyright (c) 2022, 2023, 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
@@ -18,29 +16,14 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+import { environment } from '@env';
+import { rest } from 'msw';
+import { getPolicies } from './policy.model';
 
-import { setupWorker } from 'msw';
-import {
-  adminHandler,
-  dashboardHandler,
-  errorHandler,
-  investigationsTestHandlers,
-  otherPartsAsBuiltHandlers,
-  otherPartsAsBuiltHandlersTest,
-  partsHandlersTest,
-  policyHandler,
-} from '../app/mocks/services';
-import { alertsTestHandlers } from '../app/mocks/services/alerts-mock/alerts.handler';
-
-const handlers = [
-  ...dashboardHandler,
-  ...otherPartsAsBuiltHandlers,
-  ...otherPartsAsBuiltHandlersTest,
-  ...partsHandlersTest,
-  ...investigationsTestHandlers,
-  ...alertsTestHandlers,
-  ...adminHandler,
-  ...errorHandler,
-  ...policyHandler
-];
-export const worker = setupWorker(...handlers);
+export const policyHandler = (_ => {
+  return [
+    rest.get(`*${ environment.apiUrl }/policies`, (req, res, ctx) => {
+      return res(ctx.status(200), ctx.json(getPolicies()));
+    })
+  ]
+})();
