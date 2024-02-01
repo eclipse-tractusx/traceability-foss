@@ -85,6 +85,37 @@ ASS parameter assetLifecyclePhase will not be used anymore to detect BOMLifecycl
 | Availability | Mandatory | Parameter is mandatory - adjust required checks - Add exception handling in case parameter is not set |
 | Values       | PartType / PartInstance | PartType= asPlanned parts / PartInstance == parts on an instance level (e.g. serialized parts, batches, and JIS parts) |
 
+#### Detect Lifecycle in AAS
+
+````mermaid
+
+sequenceDiagram
+    %%{init: {'theme': 'dark', 'themeVariables': { 'fontSize': '15px'}}}%%
+    autonumber
+    IRS ->> BOMLifecycleDetector : detectBOMLifecycleInAASBOMLifecycleDetector ->> BOMLifecycleDetector : digitalTwinType
+alt aas contains 'digitalTwinType'
+    alt digitalTwinType="PartType"
+       BOMLifecycleDetector -->>  IRS : return asPlanned
+    else digitalTwinType="PartInstance"
+       BOMLifecycleDetector -->>  IRS : return asBuilt
+    else digitalTwinType any other value or null
+       BOMLifecycleDetector -->>  IRS : throw Exception
+    end
+else   aas contains 'assetLifecyclePhase'
+   alt assetLifecyclePhase="AsBuilt"
+        BOMLifecycleDetector -->>  IRS : return asBuilt
+   else assetLifecyclePhase="AsPlanned"
+        BOMLifecycleDetector -->>  IRS : return asPlanned
+   else assetLifecyclePhase any other value or null
+        BOMLifecycleDetector -->>  IRS :   throw Exception
+   end
+else
+   IRS -->> BOMLifecycleDetector : throw Exception (BOMLifecylce could not be detected)
+   BOMLifecycleDetector -->> IRS : retrun BOMLifecyle
+end
+
+````
+
 #### Configuration of parameter 'digitalTwinType'
 Parameter is configurable for dDTR instance and has to be configured for integration test.
 
