@@ -22,6 +22,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Updated Angular and its dependencies from 15.2.8 to latest version 16 release
 - Implemented asset publisher component functionality
 - Updated postgres to version 15.4
+- Update Spring version to 3.1.8
 - Migrated from okhttpclient (feign implementation) to resttemplate.
 - Refactored rest templates
 
