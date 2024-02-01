@@ -44,7 +44,7 @@ public class PublishServiceImpl implements PublishService {
     @Override
     public void publishAssets(String policyId, List<String> assetIds) {
         List<String> validAssetIds = assetIds.stream()
-                .filter(this::checkAssetFound)
+                .filter(this::assetExists)
                 .toList();
 
         saveAssetsInRepository(policyId, validAssetIds, assetAsPlannedRepository);
@@ -66,8 +66,10 @@ public class PublishServiceImpl implements PublishService {
         repository.saveAll(saveList);
     }
 
-    private boolean checkAssetFound(String assetId) {
-        if (Stream.concat(assetAsBuiltRepository.getAssets().stream(), assetAsPlannedRepository.getAssets().stream()).anyMatch(asset -> asset.getId().equals(assetId))) {
+    private boolean assetExists(String assetId) {
+
+        if (Stream.concat(assetAsBuiltRepository.findById(assetId).stream(), assetAsPlannedRepository.findById(assetId)
+                .stream()).anyMatch(asset -> asset.getId().equals(assetId))) {
             return true;
         }
         throw new PublishAssetException("No asset found with the provided ID: " + assetId);
