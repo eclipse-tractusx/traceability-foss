@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023,2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -28,7 +28,6 @@ import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.UUID;
 
 public record RegisterPolicyRequest(
         String policyId,
@@ -37,7 +36,7 @@ public record RegisterPolicyRequest(
 ) {
     public static RegisterPolicyRequest from(String leftOperand, OperatorType operatorType, String rightOperand, OffsetDateTime ttl) {
         return new RegisterPolicyRequest(
-                UUID.randomUUID().toString(),
+                rightOperand,
                 ttl.toInstant(),
                 List.of(new Permission(
                         PolicyType.USE,
