@@ -119,7 +119,7 @@ end
 #### Configuration of parameter 'digitalTwinType'
 Parameter is configurable for dDTR instance and has to be configured for integration test.
 
-https://github.com/eclipse-tractusx/sldt-digital-twin-registry/blob/f438fe96a7ae1f1b920e8e4fb4114fb7af32643d/charts/registry/values.yaml#L51
+[values.yaml](https://github.com/eclipse-tractusx/sldt-digital-twin-registry/blob/f438fe96a7ae1f1b920e8e4fb4114fb7af32643d/charts/registry/values.yaml#L51)
 - [externalSubjectIdWildcardAllowedTypes](https://github.com/eclipse-tractusx/sldt-digital-twin-registry/blob/f438fe96a7ae1f1b920e8e4fb4114fb7af32643d/charts/registry/README.md#:~:text=externalSubjectIdWildcardAllowedTypes)
 
 ### Visbility of Specific Asset IDs in the DTR
