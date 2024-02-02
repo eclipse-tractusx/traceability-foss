@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023,2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -46,18 +46,10 @@ public class PublishServiceImpl implements PublishService {
         //Update assets with policy id
         assetIds.forEach(this::throwIfNotExists);
 
+        log.info("Updating status of asPlannedAssets.");
         saveAssetsInRepository(policyId, assetIds, assetAsPlannedRepository);
+        log.info("Updating status of asBuiltAssets.");
         saveAssetsInRepository(policyId, assetIds, assetAsBuiltRepository);
-        assetAsPlannedRepository.saveAll(assetAsPlannedList);
-        log.info("Successfully set asPlannedAssets {} in status IN_SYNCHRONIZATION", assetAsPlannedList.stream().map(AssetBase::getId).collect(Collectors.joining(", ")));
-
-        List<AssetBase> assetAsBuiltList = assetAsBuiltRepository.getAssetsById(assetIds).stream()
-                .filter(assetAsBuilt -> ImportState.TRANSIENT.equals(assetAsBuilt.getImportState()))
-                .peek(assetAsBuilt -> assetAsBuilt.setImportState(ImportState.IN_SYNCHRONIZATION))
-                .peek(assetAsBuilt -> assetAsBuilt.setPolicyId(policyId))
-                .toList();
-        assetAsBuiltRepository.saveAll(assetAsBuiltList);
-        log.info("Successfully set asBuiltAssets {} in status IN_SYNCHRONIZATION", assetAsBuiltList.stream().map(AssetBase::getId).collect(Collectors.joining(", ")));
     }
     private void throwIfNotExists(String assetId) {
         if (!(assetAsBuiltRepository.existsById(assetId) || assetAsPlannedRepository.existsById(assetId))) {
@@ -76,7 +68,9 @@ public class PublishServiceImpl implements PublishService {
                     return asset;
                 }).toList();
 
-        repository.saveAll(saveList);
+        List<AssetBase> assetBases = repository.saveAll(saveList);
+
+        log.info("Successfully set {} in status IN_SYNCHRONIZATION", assetBases.stream().map(AssetBase::getId).collect(Collectors.joining(", ")));
     }
 
     private boolean validTransientState(AssetBase assetBase) {
