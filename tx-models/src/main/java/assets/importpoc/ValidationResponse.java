@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,11 +19,22 @@
 
 package assets.importpoc;
 
+import org.springframework.util.CollectionUtils;
+
 import java.util.List;
 
 
 public record ValidationResponse(List<String> validationErrors) {
     public static ValidationResponse emptyValidationResult() {
         return new ValidationResponse(List.of());
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        if (!CollectionUtils.isEmpty(validationErrors)) {
+            validationErrors.forEach(error -> stringBuilder.append(error).append(","));
+        }
+        return stringBuilder.toString();
     }
 }
