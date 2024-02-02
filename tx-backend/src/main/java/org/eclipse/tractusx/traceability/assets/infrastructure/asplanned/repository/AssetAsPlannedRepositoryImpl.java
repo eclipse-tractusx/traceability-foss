@@ -63,7 +63,7 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository, A
     }
 
     @Override
-    @jakarta.transaction.Transactional
+    @Transactional
     public boolean existsById(String assetId) {
         return jpaAssetAsPlannedRepository.existsById(assetId);
     }

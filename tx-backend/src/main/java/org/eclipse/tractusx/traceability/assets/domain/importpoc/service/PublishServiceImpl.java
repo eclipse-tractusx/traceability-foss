@@ -59,11 +59,11 @@ public class PublishServiceImpl implements PublishService {
         List<AssetBase> assetList = repository.getAssetsById(assetIds);
         List<AssetBase> saveList = assetList.stream()
                 .filter(this::validTransientState)
-                .peek(asset -> {
+                .map(asset -> {
                     asset.setImportState(ImportState.IN_SYNCHRONIZATION);
                     asset.setPolicyId(policyId);
-                })
-                .toList();
+                    return asset;
+                }).toList();
 
         repository.saveAll(saveList);
     }
