@@ -1196,7 +1196,7 @@ npm/npmjs/@angular-eslint/template-parser/16.3.1, MIT, approved, clearlydefined
 npm/npmjs/@angular-eslint/utils/16.3.1, MIT, approved, clearlydefined
 npm/npmjs/@angular-material-components/datetime-picker/16.0.1, MIT, approved, clearlydefined
 npm/npmjs/@angular/animations/16.2.12, MIT, approved, clearlydefined
-npm/npmjs/@angular/cdk/16.2.13, , restricted, clearlydefined
+npm/npmjs/@angular/cdk/16.2.13, MIT, approved, clearlydefined
 npm/npmjs/@angular/cli/16.2.12, , restricted, clearlydefined
 npm/npmjs/@angular/common/16.2.12, MIT, approved, clearlydefined
 npm/npmjs/@angular/compiler-cli/16.2.12, MIT, approved, clearlydefined

@@ -98,7 +98,9 @@ public class InvestigationsEDCFacade {
     }
 
     private String negotiateContractAgreement(final String receiverEdcUrl, final CatalogItem catalogItem) {
+
         try {
+            log.info("Negotiation of contract agreement for receiverEdcUrl {} and catalogItem {}", receiverEdcUrl, catalogItem);
             return Optional.ofNullable(contractNegotiationService.negotiate(receiverEdcUrl + edcProperties.getIdsPath(), catalogItem))
                     .orElseThrow()
                     .getContractAgreementId();

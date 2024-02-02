@@ -74,6 +74,7 @@ jobs:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@0.16.1
         with:
+          trivyignores: "./.github/workflows/.trivyignore"
           image-ref: 'localhost:5000/traceability-foss:fe_${{ github.sha }}'
           format: "sarif"
           limit-severities-for-sarif: true
@@ -133,6 +134,7 @@ jobs:
       - name: Run Trivy vulnerability scanner in repo mode
         uses: aquasecurity/trivy-action@0.16.1
         with:
+          trivyignores: "./.github/workflows/.trivyignore"
           scan-type: "config"
           hide-progress: false
           format: "sarif"

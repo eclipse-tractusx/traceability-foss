@@ -127,10 +127,12 @@ public class ImportController {
 
     @PostMapping(value = "/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ImportResponse> importJson(@RequestPart("file") MultipartFile file) {
+        log.info("Received request to import assets.");
         List<String> jsonSchemaErrors = jsonFileValidator.isValid(file);
         ValidationResponse validationResponse = new ValidationResponse(jsonSchemaErrors);
 
         if (!jsonSchemaErrors.isEmpty()) {
+            log.warn("Asset import request cannot be processed. Errors: {}", validationResponse);
             return ResponseEntity
                     .badRequest()
                     .body(new ImportResponse(validationResponse));
@@ -155,6 +157,7 @@ public class ImportController {
                         assetBaseSet.getValue())
                 ).toList();
 
+        log.info("Successfully imported {} assets.", importStateMessages.size());
         ImportResponse importResponse = new ImportResponse(importStateMessages);
 
         return ResponseEntity.ok(importResponse);

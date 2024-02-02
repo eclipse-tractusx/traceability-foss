@@ -30,6 +30,7 @@ import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.Publi
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -42,12 +43,22 @@ public class PublishServiceImpl implements PublishService {
 
     @Override
     public void publishAssets(String policyId, List<String> assetIds) {
+        //Update assets with policy id
         assetIds.forEach(this::throwIfNotExists);
 
         saveAssetsInRepository(policyId, assetIds, assetAsPlannedRepository);
         saveAssetsInRepository(policyId, assetIds, assetAsBuiltRepository);
-    }
+        assetAsPlannedRepository.saveAll(assetAsPlannedList);
+        log.info("Successfully set asPlannedAssets {} in status IN_SYNCHRONIZATION", assetAsPlannedList.stream().map(AssetBase::getId).collect(Collectors.joining(", ")));
 
+        List<AssetBase> assetAsBuiltList = assetAsBuiltRepository.getAssetsById(assetIds).stream()
+                .filter(assetAsBuilt -> ImportState.TRANSIENT.equals(assetAsBuilt.getImportState()))
+                .peek(assetAsBuilt -> assetAsBuilt.setImportState(ImportState.IN_SYNCHRONIZATION))
+                .peek(assetAsBuilt -> assetAsBuilt.setPolicyId(policyId))
+                .toList();
+        assetAsBuiltRepository.saveAll(assetAsBuiltList);
+        log.info("Successfully set asBuiltAssets {} in status IN_SYNCHRONIZATION", assetAsBuiltList.stream().map(AssetBase::getId).collect(Collectors.joining(", ")));
+    }
     private void throwIfNotExists(String assetId) {
         if (!(assetAsBuiltRepository.existsById(assetId) || assetAsPlannedRepository.existsById(assetId))) {
             throw new PublishAssetException("No asset found with the provided ID: " + assetId);

@@ -18,6 +18,7 @@
 8. [Concept](#concept)
 9. [Glossary](#glossary)
 10. [References](#references)
+11. [Additional Details](#additional-details)
 
 
 # Overview

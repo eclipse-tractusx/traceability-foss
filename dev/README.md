@@ -134,10 +134,6 @@ curl --request POST \
 -
 ```
 
-## Documentation of Testdata
-
-https://confluence.catena-x.net/display/BDPQ/%28TRF%29+%5BTRACEFOSS-1278%5D+%3A+Setup+Trace-X+Instances+as+own+virtual+companies+in+DEV+and+INT+environment
-
 ## Structure of Testdata
 
 Consists of a List of the following structured entries:
