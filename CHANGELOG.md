@@ -26,6 +26,11 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Update Spring version to 3.1.8
 - Migrated from okhttpclient (feign implementation) to resttemplate.
 - Refactored rest templates
+- Bumped jacoco-maven-plugin from 0.8.8 to 0.8.11
+- Bumped cypress-io/github-action from 6.6.0 to 6.6.1
+- Bumped tj-actions/changed-files from v41 to v42
+- Bumped junit-bom version from 5.9.3 to 5.10.1
+- Fixed some response type descriptions within swagger documentation
 
 ### Removed
 

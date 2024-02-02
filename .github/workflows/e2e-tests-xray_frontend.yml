@@ -66,7 +66,7 @@ jobs:
         run: ./scripts/xray-download-feature-files.sh
 
       - name: Save cypress/e2e folder
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: cypress - e2e
           if-no-files-found: error
@@ -101,7 +101,7 @@ jobs:
           node-version: 18.x
 
       - name: Cypress run all tests
-        uses: cypress-io/github-action@v6.6.0 # use the explicit version number
+        uses: cypress-io/github-action@v6.6.1 # use the explicit version number
         with:
           start: npm run start:auth:e2ea
           wait-on: "http://localhost:4200"
@@ -127,7 +127,7 @@ jobs:
 
       - name: Archive cypress artifacts
         if: success() || failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: cypress generated files - chrome
           path: |
@@ -163,7 +163,7 @@ jobs:
  #         node-version: 18.x
 #
  #     - name: Cypress run all tests
-  #       uses: cypress-io/github-action@v6.6.0 # use the explicit version number
+  #       uses: cypress-io/github-action@v6.6.1 # use the explicit version number
  #       with:
  #         start: npm start
  #         wait-on: "http://localhost:4200"
@@ -182,7 +182,7 @@ jobs:
 #
  #     - name: Archive cypress artifacts
  #       if: success() || failure()
- #       uses: actions/upload-artifact@v3
+ #       uses: actions/upload-artifact@v4
  #       with:
  #         name: cypress generated files - firefox
  #         path: |
@@ -226,7 +226,7 @@ jobs:
  #       run: npx playwright install --with-deps webkit
 #
  #     - name: Cypress run all tests
-  #       uses: cypress-io/github-action@v6.6.0 # use the explicit version number
+  #       uses: cypress-io/github-action@v6.6.1 # use the explicit version number
  #       with:
  #         start: npm start:auth:e2ea
  #         wait-on: "http://localhost:4200"
@@ -245,7 +245,7 @@ jobs:
 #
  #     - name: Archive cypress artifacts
  #       if: success() || failure()
- #       uses: actions/upload-artifact@v3
+ #       uses: actions/upload-artifact@v4
  #       with:
  #         name: cypress generated files - webkit
  #         path: |
