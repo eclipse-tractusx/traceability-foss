@@ -44,30 +44,27 @@ class ReadReceivedInvestigationsSortedWithSearchCriteriaIT extends IntegrationTe
                         0,
                         50,
                         "createdDate,desc",
-                        "status,EQUAL,RECEIVED",
-                        "status,EQUAL,ACCEPTED",
-                        "severity,EQUAL,2",
-                        "AND",
+                        "status,EQUAL,RECEIVED,AND",
+                        "status,EQUAL,ACCEPTED,AND",
+                        "severity,EQUAL,2,AND",
                         new String[]{"RECEIVED"}
                 ),
                 Arguments.of(
                         0,
                         50,
                         "createdDate,desc",
-                        "status,EQUAL,ACCEPTED",
-                        "severity,EQUAL,3",
-                        "severity,EQUAL,2",
-                        "AND",
+                        "status,EQUAL,ACCEPTED,AND",
+                        "severity,EQUAL,3,AND",
+                        "severity,EQUAL,2,AND",
                         new String[]{"ACCEPTED", "ACCEPTED"}
                 ),
                 Arguments.of(
                         0,
                         5,
                         "createdDate,desc",
-                        "createdBy,STARTS_WITH,BPNL00000000000A",
-                        "status,EQUAL,ACKNOWLEDGED",
-                        "severity,EQUAL,2",
-                        "AND",
+                        "createdBy,STARTS_WITH,BPNL00000000000A,AND",
+                        "status,EQUAL,ACKNOWLEDGED,AND",
+                        "severity,EQUAL,2,AND",
                         new String[]{"ACKNOWLEDGED"}
                 )
         );
@@ -82,7 +79,6 @@ class ReadReceivedInvestigationsSortedWithSearchCriteriaIT extends IntegrationTe
             final String filter1,
             final String filter2,
             final String filter3,
-            final String filterOperator,
             final String[] expectedOrderOfIdShortItems
     ) throws JoseException {
 
@@ -94,7 +90,6 @@ class ReadReceivedInvestigationsSortedWithSearchCriteriaIT extends IntegrationTe
                 .param("filter", filter1)
                 .param("filter", filter2)
                 .param("filter", filter3)
-                .param("filterOperator", filterOperator)
                 .param("sort", sort)
                 .log().all()
                 .when()
@@ -113,11 +108,10 @@ class ReadReceivedInvestigationsSortedWithSearchCriteriaIT extends IntegrationTe
                 .contentType(ContentType.JSON)
                 .param("page", 0)
                 .param("size", 5)
-                .param("filter", "status,EQUAL,RECEIVED")
-                .param("filter", "status,EQUAL,ACKNOWLEDGED")
-                .param("filter", "status,EQUAL,ACCEPTED")
-                .param("filter", "status,EQUAL,DECLINED")
-                .param("filterOperator", "OR")
+                .param("filter", "status,EQUAL,RECEIVED,OR")
+                .param("filter", "status,EQUAL,ACKNOWLEDGED,OR")
+                .param("filter", "status,EQUAL,ACCEPTED,OR")
+                .param("filter", "status,EQUAL,DECLINED,OR")
                 .param("sort", "createdDate,desc")
                 .log().all()
                 .when()

@@ -43,10 +43,9 @@ class ReadCreatedInvestigationsSortedWithSearchCriteriaIT extends IntegrationTes
                         0,
                         50,
                         "createdDate,desc",
-                        "status,EQUAL,SENT",
-                        "status,EQUAL,ACCEPTED",
-                        "severity,EQUAL,2",
-                        "AND",
+                        "status,EQUAL,,",
+                        "status,EQUAL,ACCEPTED,AND",
+                        "severity,EQUAL,2,AND",
                         new String[]{"SENT", "SENT"}
                 ),
                 Arguments.of(
@@ -81,7 +80,6 @@ class ReadCreatedInvestigationsSortedWithSearchCriteriaIT extends IntegrationTes
             final String filter1,
             final String filter2,
             final String filter3,
-            final String filterOperator,
             final String[] expectedOrderOfIdShortItems
     ) throws JoseException {
 
@@ -93,7 +91,6 @@ class ReadCreatedInvestigationsSortedWithSearchCriteriaIT extends IntegrationTes
                 .param("filter", filter1)
                 .param("filter", filter2)
                 .param("filter", filter3)
-                .param("filterOperator", filterOperator)
                 .param("sort", sort)
                 .log().all()
                 .when()

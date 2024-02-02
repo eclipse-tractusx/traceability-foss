@@ -43,10 +43,9 @@ class ReadCreatedAlertsSortedWithSearchCriteriaIT extends IntegrationTestSpecifi
                         0,
                         50,
                         "createdDate,desc",
-                        "status,EQUAL,SENT",
-                        "status,EQUAL,ACCEPTED",
-                        "severity,EQUAL,2",
-                        "AND",
+                        "status,EQUAL,SENT,AND",
+                        "status,EQUAL,ACCEPTED,AND",
+                        "severity,EQUAL,2,AND",
                         new String[]{"SENT", "SENT"}
                 ),
 
@@ -54,20 +53,18 @@ class ReadCreatedAlertsSortedWithSearchCriteriaIT extends IntegrationTestSpecifi
                         0,
                         50,
                         "createdDate,desc",
-                        "status,EQUAL,CREATED",
-                        "severity,EQUAL,1",
-                        "severity,EQUAL,2",
-                        "AND",
+                        "status,EQUAL,CREATED,AND",
+                        "severity,EQUAL,1,AND",
+                        "severity,EQUAL,2,AND",
                         new String[]{"CREATED"}
                 ),
                 Arguments.of(
                         0,
                         50,
                         "createdDate,desc",
-                        "sendTo,STARTS_WITH,BPNL000000000001",
-                        "status,EQUAL,CREATED",
-                        "severity,EQUAL,1",
-                        "AND",
+                        "sendTo,STARTS_WITH,BPNL000000000001,AND",
+                        "status,EQUAL,CREATED,AND",
+                        "severity,EQUAL,1,AND",
                         new String[]{"CREATED"}
                 )
         );
@@ -82,7 +79,6 @@ class ReadCreatedAlertsSortedWithSearchCriteriaIT extends IntegrationTestSpecifi
             final String filter1,
             final String filter2,
             final String filter3,
-            final String filterOperator,
             final String[] expectedOrderOfIdShortItems
     ) throws JoseException {
 
@@ -94,7 +90,6 @@ class ReadCreatedAlertsSortedWithSearchCriteriaIT extends IntegrationTestSpecifi
                 .param("filter", filter1)
                 .param("filter", filter2)
                 .param("filter", filter3)
-                .param("filterOperator", filterOperator)
                 .param("sort", sort)
                 .log().all()
                 .when()
