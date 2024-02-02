@@ -28,6 +28,7 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -46,6 +47,7 @@ public class PublishServiceImpl implements PublishService {
                 .peek(assetAsPlanned -> assetAsPlanned.setPolicyId(policyId))
                 .toList();
         assetAsPlannedRepository.saveAll(assetAsPlannedList);
+        log.info("Successfully set asPlannedAssets {} in status IN_SYNCHRONIZATION", assetAsPlannedList.stream().map(AssetBase::getId).collect(Collectors.joining(", ")));
 
         List<AssetBase> assetAsBuiltList = assetAsBuiltRepository.getAssetsById(assetIds).stream()
                 .filter(assetAsBuilt -> ImportState.TRANSIENT.equals(assetAsBuilt.getImportState()))
@@ -53,5 +55,6 @@ public class PublishServiceImpl implements PublishService {
                 .peek(assetAsBuilt -> assetAsBuilt.setPolicyId(policyId))
                 .toList();
         assetAsBuiltRepository.saveAll(assetAsBuiltList);
+        log.info("Successfully set asBuiltAssets {} in status IN_SYNCHRONIZATION", assetAsBuiltList.stream().map(AssetBase::getId).collect(Collectors.joining(", ")));
     }
 }
