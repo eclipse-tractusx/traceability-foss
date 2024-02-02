@@ -19,8 +19,6 @@
 
 package assets.importpoc;
 
-import org.springframework.util.CollectionUtils;
-
 import java.util.List;
 
 
@@ -29,12 +27,4 @@ public record ValidationResponse(List<String> validationErrors) {
         return new ValidationResponse(List.of());
     }
 
-    @Override
-    public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        if (!CollectionUtils.isEmpty(validationErrors)) {
-            validationErrors.forEach(error -> stringBuilder.append(error).append(","));
-        }
-        return stringBuilder.toString();
-    }
 }
