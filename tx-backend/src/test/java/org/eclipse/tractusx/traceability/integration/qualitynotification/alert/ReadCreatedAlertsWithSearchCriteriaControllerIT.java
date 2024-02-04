@@ -20,6 +20,9 @@
 package org.eclipse.tractusx.traceability.integration.qualitynotification.alert;
 
 import io.restassured.http.ContentType;
+import org.eclipse.tractusx.traceability.common.request.OwnPageable;
+import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
+import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertNotificationsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.BpnSupport;
@@ -36,6 +39,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 import java.util.stream.Stream;
 
 import static io.restassured.RestAssured.given;
@@ -53,7 +57,8 @@ class ReadCreatedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSpe
     @Test
     void givenFilterBySendToProvided_whenGetAlerts_thenReturnCreatedAlertsFilteredBySendTo() throws JoseException {
         // given
-        String filterString = "sendTo,EQUAL,BPNL000000000001,AND";
+        String filterString = "channel,EQUAL,SENDER,AND";
+        String filter = "sendTo,EQUAL,BPNL000000000001,AND";
         String testBpn = bpnSupport.testBpn();
 
         AlertNotificationEntity[] alertNotificationEntities = AlertTestDataFactory.createSenderMajorityAlertNotificationEntitiesTestData(testBpn);
@@ -61,13 +66,12 @@ class ReadCreatedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSpe
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("filter", filterString)
+                .body(new PageableFilterRequest(new OwnPageable(0, 10,List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/created")
+                .post("/api/alerts/filter")
                 .then()
+                .log().all()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
@@ -79,10 +83,11 @@ class ReadCreatedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSpe
     @Test
     void givenFilterByCreatedDateProvided_whenGetAlerts_thenReturnCreatedAlertsFilteredByCreatedDate() throws JoseException {
         // given
+        String filterString = "channel,EQUAL,SENDER,AND";
         Date myDate = Date.from(Instant.now());
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = formatter.format(myDate);
-        String filterString = "createdDate,AT_LOCAL_DATE," + formattedDate + ",AND";
+        String filter = "createdDate,AT_LOCAL_DATE," + formattedDate + ",AND";
         String testBpn = bpnSupport.testBpn();
 
         AlertNotificationEntity[] alertNotificationEntities = AlertTestDataFactory.createSenderMajorityAlertNotificationEntitiesTestData(testBpn);
@@ -90,13 +95,12 @@ class ReadCreatedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSpe
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("filter", filterString)
+                .body(new PageableFilterRequest(new OwnPageable(0, 10,List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/created")
+                .post("/api/alerts/filter")
                 .then()
+                .log().all()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
@@ -107,7 +111,8 @@ class ReadCreatedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSpe
     @Test
     void givenFilterBySendToNameProvided_whenGetAlerts_thenReturnCreatedAlertsFilteredBySendToName() throws JoseException {
         // given
-        String filterString = "sendToName,EQUAL,OEM2,AND";
+        String filterString = "channel,EQUAL,SENDER,AND";
+        String filter = "sendToName,EQUAL,OEM2,AND";
         String testBpn = bpnSupport.testBpn();
 
         AlertNotificationEntity[] alertNotificationEntities = AlertTestDataFactory.createSenderMajorityAlertNotificationEntitiesTestData(testBpn);
@@ -115,13 +120,12 @@ class ReadCreatedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSpe
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("filter", filterString)
+                .body(new PageableFilterRequest(new OwnPageable(0, 10,List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/created")
+                .post("/api/alerts/filter")
                 .then()
+                .log().all()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
@@ -133,7 +137,8 @@ class ReadCreatedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSpe
     @Test
     void givenFilterByStatusProvided_whenGetAlerts_thenReturnCreatedAlertsFilteredByStatus() throws JoseException {
         // given
-        String filterString = "status,EQUAL,ACCEPTED,AND";
+        String filterString = "channel,EQUAL,SENDER,AND";
+        String filter = "status,EQUAL,ACCEPTED,AND";
         String testBpn = bpnSupport.testBpn();
 
         AlertNotificationEntity[] alertNotificationEntities = AlertTestDataFactory.createSenderMajorityAlertNotificationEntitiesTestData(testBpn);
@@ -141,13 +146,12 @@ class ReadCreatedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSpe
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("filter", filterString)
+                .body(new PageableFilterRequest(new OwnPageable(0, 10,List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/created")
+                .post("/api/alerts/filter")
                 .then()
+                .log().all()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
@@ -159,7 +163,8 @@ class ReadCreatedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSpe
     @Test
     void givenFilterBySeverityProvided_whenGetAlerts_thenReturnCreatedAlertsFilteredBySeverity() throws JoseException {
         // given
-        String filterString = "severity,EQUAL,3,AND";
+        String filterString = "channel,EQUAL,SENDER,AND";
+        String filter = "severity,EQUAL,LIFE-THREATENING,AND";
         String testBpn = bpnSupport.testBpn();
 
         AlertNotificationEntity[] alertNotificationEntities = AlertTestDataFactory.createSenderMajorityAlertNotificationEntitiesTestData(testBpn);
@@ -167,13 +172,12 @@ class ReadCreatedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSpe
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("filter", filterString)
+                .body(new PageableFilterRequest(new OwnPageable(0, 10,List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/created")
+                .post("/api/alerts/filter")
                 .then()
+                .log().all()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
@@ -185,7 +189,8 @@ class ReadCreatedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSpe
     @Test
     void givenFilterByCreatedByProvided_whenGetAlerts_thenReturnCreatedAlertsFilteredByCreatedBy() throws JoseException {
         // given
-        String filterString = "createdBy,EQUAL,BPNL00000000000A,AND";
+        String filterString = "channel,EQUAL,SENDER,AND";
+        String filter = "createdBy,EQUAL,BPNL00000000000A,AND";
         String testBpn = bpnSupport.testBpn();
 
         AlertNotificationEntity[] alertNotificationEntities = AlertTestDataFactory.createSenderMajorityAlertNotificationEntitiesTestData(testBpn);
@@ -193,13 +198,12 @@ class ReadCreatedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSpe
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("filter", filterString)
+                .body(new PageableFilterRequest(new OwnPageable(0, 10,List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/created")
+                .post("/api/alerts/filter")
                 .then()
+                .log().all()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
@@ -211,7 +215,8 @@ class ReadCreatedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSpe
     @Test
     void givenFilterByDescriptionProvided_whenGetAlerts_thenReturnCreatedAlertsFilteredByDescription() throws JoseException {
         // given
-        String filterString = "description,STARTS_WITH,First,AND";
+        String filterString = "channel,EQUAL,SENDER,AND";
+        String filter = "description,STARTS_WITH,First,AND";
         String testBpn = bpnSupport.testBpn();
 
         AlertNotificationEntity[] alertNotificationEntities = AlertTestDataFactory.createSenderMajorityAlertNotificationEntitiesTestData(testBpn);
@@ -219,13 +224,12 @@ class ReadCreatedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSpe
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("filter", filterString)
+                .body(new PageableFilterRequest(new OwnPageable(0, 10,List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/created")
+                .post("/api/alerts/filter")
                 .then()
+                .log().all()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
@@ -237,6 +241,7 @@ class ReadCreatedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSpe
     @Test
     void givenFilterByDescriptionAndSendToProvided_whenGetAlerts_thenReturnCreatedAlertsFilteredByDescriptionAndSendTo() throws JoseException {
         // given
+        String filterString = "channel,EQUAL,SENDER,AND";
         String filterString1 = "description,STARTS_WITH,First,AND";
         String filterString2 = "sendTo,EQUAL,BPNL000000000001,AND";
         String testBpn = bpnSupport.testBpn();
@@ -246,14 +251,12 @@ class ReadCreatedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSpe
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("filter", filterString1)
-                .param("filter", filterString2)
+                .body(new PageableFilterRequest(new OwnPageable(0, 10,List.of()), new SearchCriteriaRequestParam(List.of(filterString,filterString1,filterString2))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/created")
+                .post("/api/alerts/filter")
                 .then()
+                .log().all()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
@@ -266,6 +269,7 @@ class ReadCreatedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSpe
     @Test
     void givenFilterBySendToNameOrSendToProvided_whenGetAlerts_thenReturnCreatedAlertsFilteredBySendToNameOrSendTo() throws JoseException {
         // given
+        String filterString = "channel,EQUAL,SENDER,AND";
         String filterString1 = "sendToName,EQUAL,OEM2,AND";
         String filterString2 = "sendTo,EQUAL,BPNL000000000001,AND";
         String testBpn = bpnSupport.testBpn();
@@ -275,14 +279,12 @@ class ReadCreatedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSpe
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("filter", filterString1)
-                .param("filter", filterString2)
+                .body(new PageableFilterRequest(new OwnPageable(0, 10,List.of()), new SearchCriteriaRequestParam(List.of(filterString,filterString1,filterString2))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/created")
+                .post("/api/alerts/filter")
                 .then()
+                .log().all()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
@@ -311,6 +313,7 @@ class ReadCreatedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSpe
     @MethodSource("filterArguments")
     void testIfFilteringIsCaseInsensitive(String filter) throws JoseException {
 
+        String filterString = "channel,EQUAL,SENDER,AND";
         String testBpn = bpnSupport.testBpn();
 
         AlertNotificationEntity[] alertNotificationEntities = AlertTestDataFactory.createSenderMajorityAlertNotificationEntitiesTestData(testBpn);
@@ -318,13 +321,10 @@ class ReadCreatedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSpe
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10,List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
                 .contentType(ContentType.JSON)
-                .param("page", 0)
-                .param("size", 50)
-                .param("filter", filter)
-                .log().all()
                 .when()
-                .get("/api/alerts/created")
+                .post("/api/alerts/filter")
                 .then()
                 .log().all()
                 .statusCode(200)
