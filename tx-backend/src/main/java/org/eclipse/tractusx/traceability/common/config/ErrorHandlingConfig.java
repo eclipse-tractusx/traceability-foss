@@ -113,7 +113,7 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
 
     @ExceptionHandler(PublishAssetException.class)
     ResponseEntity<ErrorResponse> handlePublishAssetException(PublishAssetException exception) {
-        log.warn("handleAssetNotFoundException", exception);
+        log.warn("handlePublishAssetException", exception);
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse(exception.getMessage()));
     }
