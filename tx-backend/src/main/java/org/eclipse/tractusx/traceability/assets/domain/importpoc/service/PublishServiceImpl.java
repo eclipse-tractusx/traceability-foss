@@ -47,9 +47,9 @@ public class PublishServiceImpl implements PublishService {
         assetIds.forEach(this::throwIfNotExists);
 
         log.info("Updating status of asPlannedAssets.");
-        saveAssetsInRepository(policyId, assetIds, assetAsPlannedRepository);
+        updateAssetWithStatusAndPolicy(policyId, assetIds, assetAsPlannedRepository);
         log.info("Updating status of asBuiltAssets.");
-        saveAssetsInRepository(policyId, assetIds, assetAsBuiltRepository);
+        updateAssetWithStatusAndPolicy(policyId, assetIds, assetAsBuiltRepository);
     }
     private void throwIfNotExists(String assetId) {
         if (!(assetAsBuiltRepository.existsById(assetId) || assetAsPlannedRepository.existsById(assetId))) {
@@ -58,7 +58,7 @@ public class PublishServiceImpl implements PublishService {
     }
 
 
-    private void saveAssetsInRepository(String policyId, List<String> assetIds, AssetRepository repository) {
+    private void updateAssetWithStatusAndPolicy(String policyId, List<String> assetIds, AssetRepository repository) {
         List<AssetBase> assetList = repository.getAssetsById(assetIds);
         List<AssetBase> saveList = assetList.stream()
                 .filter(this::validTransientState)
