@@ -6,8 +6,8 @@ insert into assets_as_built_childs
     (asset_as_built_id  , id                 , id_short)
 values
     -- owner has child of supplier
-    (${assetAsBuiltId07}, ${assetAsBuiltId09}, 'S-GlassBulb'),  -- Turning Light Bulb has child Glass bulb
-    (${assetAsBuiltId07}, ${assetAsBuiltId10}, 'P-Packaging'),  -- Turning Light Bulb has child Packaging
+    (${assetAsBuiltId07}, ${assetAsBuiltId09}, 'S-GlassBulb'), -- Turning Light Bulb has child Glass bulb
+    (${assetAsBuiltId07}, ${assetAsBuiltId10}, 'P-Packaging'), -- Turning Light Bulb has child Packaging
 
     -- customer has child owner
     (${assetAsBuiltId01}, ${assetAsBuiltId05}, 'Left Head Bulb'),      -- Xenon Left-Headlights has child Left Head Bulb

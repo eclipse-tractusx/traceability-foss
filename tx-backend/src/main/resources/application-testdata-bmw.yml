@@ -21,9 +21,9 @@
 
 spring:
   flyway:
-    locations: /db/migration,/db/testdata-bmw,${flyway.truncate-location}
+    locations: /db/migration,/db/testdata-bmw
     placeholders:
-      bpnOwn: "'BPNL00000000GNDU'"
+      bpnOwn:       "'BPNL00000000GNDU'"
       bpnSupplier1: "'BPNL000000000001'"
 
       assetAsBuiltId01: "'urn:uuid:6ec3f1db-2798-454b-a73f-0d21a8966c77'"
