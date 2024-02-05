@@ -20,6 +20,9 @@
 package org.eclipse.tractusx.traceability.integration.qualitynotification.investigation;
 
 import io.restassured.http.ContentType;
+import org.eclipse.tractusx.traceability.common.request.OwnPageable;
+import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
+import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.BpnSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationNotificationsSupport;
@@ -36,6 +39,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 import java.util.stream.Stream;
 
 import static io.restassured.RestAssured.given;
@@ -52,7 +56,8 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
     @Test
     void givenFilterBySendToProvided_whenGetInvestigations_thenReturnCreatedInvestigationsFilteredBySendTo() throws JoseException {
         // given
-        String filterString = "sendTo,EQUAL,BPNL000000000001,AND";
+        String filterString = "channel,EQUAL,SENDER,AND";
+        String filter = "sendTo,EQUAL,BPNL000000000001,AND";
         String testBpn = bpnSupport.testBpn();
 
         InvestigationNotificationEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createSenderMajorityInvestigationNotificationEntitiesTestData(testBpn);
@@ -60,13 +65,12 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("filter", filterString)
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .post("/api/investigations/filter")
                 .then()
+                .log().all()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
@@ -78,10 +82,11 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
     @Test
     void givenFilterByCreatedDateProvided_whenGetInvestigations_thenReturnCreatedInvestigationsFilteredByCreatedDate() throws JoseException {
         // given
+        String filterString = "channel,EQUAL,SENDER,AND";
         Date myDate = Date.from(Instant.now());
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = formatter.format(myDate);
-        String filterString = "createdDate,AT_LOCAL_DATE," + formattedDate +",AND";
+        String filter = "createdDate,AT_LOCAL_DATE," + formattedDate +",AND";
         String testBpn = bpnSupport.testBpn();
 
         InvestigationNotificationEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createSenderMajorityInvestigationNotificationEntitiesTestData(testBpn);
@@ -89,13 +94,12 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("filter", filterString)
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .post("/api/investigations/filter")
                 .then()
+                .log().all()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
@@ -106,7 +110,8 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
     @Test
     void givenFilterBySendToNameProvided_whenGetInvestigations_thenReturnCreatedInvestigationsFilteredBySendToName() throws JoseException {
         // given
-        String filterString = "sendToName,EQUAL,OEM2,AND";
+        String filterString = "channel,EQUAL,SENDER,AND";
+        String filter = "sendToName,EQUAL,OEM2,AND";
         String testBpn = bpnSupport.testBpn();
 
         InvestigationNotificationEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createSenderMajorityInvestigationNotificationEntitiesTestData(testBpn);
@@ -114,13 +119,12 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("filter", filterString)
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .post("/api/investigations/filter")
                 .then()
+                .log().all()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
@@ -132,7 +136,8 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
     @Test
     void givenFilterByStatusProvided_whenGetInvestigations_thenReturnCreatedInvestigationsFilteredByStatus() throws JoseException {
         // given
-        String filterString = "status,EQUAL,ACCEPTED,AND";
+        String filterString = "channel,EQUAL,SENDER,AND";
+        String filter = "status,EQUAL,ACCEPTED,AND";
         String testBpn = bpnSupport.testBpn();
 
         InvestigationNotificationEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createSenderMajorityInvestigationNotificationEntitiesTestData(testBpn);
@@ -140,13 +145,12 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("filter", filterString)
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .post("/api/investigations/filter")
                 .then()
+                .log().all()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
@@ -158,7 +162,8 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
     @Test
     void givenFilterBySeverityProvided_whenGetInvestigations_thenReturnCreatedInvestigationsFilteredBySeverity() throws JoseException {
         // given
-        String filterString = "severity,EQUAL,3,AND";
+        String filterString = "channel,EQUAL,SENDER,AND";
+        String filter =   "severity,EQUAL,LIFE_THREATENING,AND";
         String testBpn = bpnSupport.testBpn();
 
         InvestigationNotificationEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createSenderMajorityInvestigationNotificationEntitiesTestData(testBpn);
@@ -166,13 +171,12 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("filter", filterString)
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .post("/api/investigations/filter")
                 .then()
+                .log().all()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
@@ -184,7 +188,8 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
     @Test
     void givenFilterByCreatedByProvided_whenGetInvestigations_thenReturnCreatedInvestigationsFilteredByCreatedBy() throws JoseException {
         // given
-        String filterString = "createdBy,EQUAL,BPNL00000000000A,AND";
+        String filterString = "channel,EQUAL,SENDER,AND";
+        String filter = "createdBy,EQUAL,BPNL00000000000A,AND";
         String testBpn = bpnSupport.testBpn();
 
         InvestigationNotificationEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createSenderMajorityInvestigationNotificationEntitiesTestData(testBpn);
@@ -192,13 +197,12 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("filter", filterString)
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .post("/api/investigations/filter")
                 .then()
+                .log().all()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
@@ -210,7 +214,8 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
     @Test
     void givenFilterByDescriptionProvided_whenGetInvestigations_thenReturnCreatedInvestigationsFilteredByDescription() throws JoseException {
         // given
-        String filterString = "description,STARTS_WITH,First,AND";
+        String filterString = "channel,EQUAL,SENDER,AND";
+        String filter = "description,STARTS_WITH,First,AND";
         String testBpn = bpnSupport.testBpn();
 
         InvestigationNotificationEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createSenderMajorityInvestigationNotificationEntitiesTestData(testBpn);
@@ -218,13 +223,12 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("filter", filterString)
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .post("/api/investigations/filter")
                 .then()
+                .log().all()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
@@ -236,6 +240,7 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
     @Test
     void givenFilterByDescriptionAndSendToProvided_whenGetInvestigations_thenReturnCreatedInvestigationsFilteredByDescriptionAndSendTo() throws JoseException {
         // given
+        String filterString = "channel,EQUAL,SENDER,AND";
         String filterString1 = "description,STARTS_WITH,First,AND";
         String filterString2 = "sendTo,EQUAL,BPNL000000000001,AND";
         String testBpn = bpnSupport.testBpn();
@@ -245,14 +250,12 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("filter", filterString1)
-                .param("filter", filterString2)
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString,filterString1,filterString2))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .post("/api/investigations/filter")
                 .then()
+                .log().all()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
@@ -265,6 +268,7 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
     @Test
     void givenFilterBySendToNameOrSendToProvided_whenGetInvestigations_thenReturnCreatedInvestigationsFilteredBySendToNameOrSendTo() throws JoseException {
         // given
+        String filterString = "channel,EQUAL,SENDER,AND";
         String filterString1 = "sendToName,EQUAL,OEM2,OR";
         String filterString2 = "sendTo,EQUAL,BPNL000000000001,OR";
         String testBpn = bpnSupport.testBpn();
@@ -274,14 +278,12 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("filter", filterString1)
-                .param("filter", filterString2)
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString,filterString1,filterString2))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .post("/api/investigations/filter")
                 .then()
+                .log().all()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
@@ -294,22 +296,22 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
     private static Stream<Arguments> filterArguments() {
         return Stream.of(
                 Arguments.of(
-                        "description,STARTS_WITH,first,AND"
+                        "description","first","SENDER"
                 ),
                 Arguments.of(
-                        "description,STARTS_WITH,First,AND"
-
+                        "description","First","SENDER"
                 ),
                 Arguments.of(
-                        "description,STARTS_WITH,FIRST,AND"
+                        "description","FIRST","SENDER"
                 )
         );
     }
 
     @ParameterizedTest
     @MethodSource("filterArguments")
-    void testIfFilteringIsCaseInsensitive(String filter) throws JoseException {
-
+    void testIfFilteringIsCaseInsensitive(String fieldName,
+                                          String startWith,
+                                          String channel) throws JoseException {
         String testBpn = bpnSupport.testBpn();
 
         InvestigationNotificationEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createSenderMajorityInvestigationNotificationEntitiesTestData(testBpn);
@@ -318,17 +320,17 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
-                .param("page", 0)
-                .param("size", 50)
-                .param("filter", filter)
                 .log().all()
                 .when()
-                .get("/api/investigations/created")
+                .param("fieldName", fieldName)
+                .param("size", 50)
+                .param("startWith", startWith)
+                .param("channel", channel)
+                .get("/api/investigations/distinctFilterValues")
                 .then()
                 .log().all()
                 .statusCode(200)
-                .body("totalItems", equalTo(1))
-                .body("content.description[0]", equalTo("First Investigation on Asset1"));
-
+                .assertThat()
+                .body(".", Matchers.containsInRelativeOrder(List.of("First Investigation on Asset1").toArray()));
     }
 }

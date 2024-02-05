@@ -58,7 +58,7 @@ class ReadReceivedAlertsSortedWithSearchCriteriaIT extends IntegrationTestSpecif
                         50,
                         "createdDate,desc",
                         "status,EQUAL,ACCEPTED,AND",
-                        "severity,EQUAL,LIFE-THREATENING,AND",
+                        "severity,EQUAL,LIFE_THREATENING,AND",
                         "severity,EQUAL,MAJOR,AND",
                         new String[]{"ACCEPTED", "ACCEPTED"}
                 ),

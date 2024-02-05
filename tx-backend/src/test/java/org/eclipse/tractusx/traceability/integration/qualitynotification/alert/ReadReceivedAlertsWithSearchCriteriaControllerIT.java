@@ -164,7 +164,9 @@ class ReadReceivedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSp
     void givenFilterBySeverityProvided_whenGetAlerts_thenReturnReceivedAlertsFilteredBySeverity() throws JoseException {
         // given
         String filterString = "channel,EQUAL,RECEIVER,AND";
-        String filter = "severity,EQUAL,LIFE-THREATENING,AND";
+        String filter = "severity,EQUAL,LIFE_THREATENING,AND";
+        String sort = "createdDate,desc";
+
         String testBpn = bpnSupport.testBpn();
 
         AlertNotificationEntity[] alertNotificationEntities = AlertTestDataFactory.createReceiverMajorityAlertNotificationEntitiesTestData(testBpn);
@@ -172,7 +174,7 @@ class ReadReceivedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSp
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sort)), new SearchCriteriaRequestParam(List.of(filterString,filter))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/alerts/filter")
@@ -297,23 +299,22 @@ class ReadReceivedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSp
     private static Stream<Arguments> filterArguments() {
         return Stream.of(
                 Arguments.of(
-                        "description,STARTS_WITH,first,AND"
+                        "description","first","RECEIVER"
                 ),
                 Arguments.of(
-                        "description,STARTS_WITH,First,AND"
-
+                        "description","First","RECEIVER"
                 ),
                 Arguments.of(
-                        "description,STARTS_WITH,FIRST,AND"
+                        "description","FIRST","RECEIVER"
                 )
         );
     }
 
     @ParameterizedTest
     @MethodSource("filterArguments")
-    void testIfFilteringIsCaseInsensitive(String filter) throws JoseException {
-
-        String filterString = "channel,EQUAL,RECEIVER,AND";
+    void testIfFilteringIsCaseInsensitive(String fieldName,
+                                          String startWith,
+                                          String channel) throws JoseException {
         String testBpn = bpnSupport.testBpn();
 
         AlertNotificationEntity[] alertNotificationEntities = AlertTestDataFactory.createReceiverMajorityAlertNotificationEntitiesTestData(testBpn);
@@ -321,14 +322,18 @@ class ReadReceivedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSp
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 50, List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
                 .contentType(ContentType.JSON)
+                .log().all()
                 .when()
-                .post("/api/alerts/filter")
+                .param("fieldName", fieldName)
+                .param("size", 50)
+                .param("startWith", startWith)
+                .param("channel", channel)
+                .get("/api/alerts/distinctFilterValues")
                 .then()
                 .log().all()
                 .statusCode(200)
-                .body("totalItems", equalTo(1))
-                .body("content.description[0]", equalTo("First Alert on Asset1"));
+                .assertThat()
+                .body(".", Matchers.containsInRelativeOrder(List.of("First Alert on Asset1").toArray()));
     }
 }

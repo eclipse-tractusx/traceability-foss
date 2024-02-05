@@ -44,7 +44,8 @@ import java.util.stream.Stream;
 
 import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
-import static org.hamcrest.Matchers.equalTo;
+
+
 
 class ReadCreatedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSpecification {
 
@@ -164,7 +165,8 @@ class ReadCreatedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSpe
     void givenFilterBySeverityProvided_whenGetAlerts_thenReturnCreatedAlertsFilteredBySeverity() throws JoseException {
         // given
         String filterString = "channel,EQUAL,SENDER,AND";
-        String filter = "severity,EQUAL,LIFE-THREATENING,AND";
+        String filter = "severity,EQUAL,LIFE_THREATENING,AND";
+        String sort = "createdDate,desc";
         String testBpn = bpnSupport.testBpn();
 
         AlertNotificationEntity[] alertNotificationEntities = AlertTestDataFactory.createSenderMajorityAlertNotificationEntitiesTestData(testBpn);
@@ -172,7 +174,7 @@ class ReadCreatedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSpe
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10,List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sort)), new SearchCriteriaRequestParam(List.of(filterString,filter))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/alerts/filter")
@@ -270,8 +272,8 @@ class ReadCreatedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSpe
     void givenFilterBySendToNameOrSendToProvided_whenGetAlerts_thenReturnCreatedAlertsFilteredBySendToNameOrSendTo() throws JoseException {
         // given
         String filterString = "channel,EQUAL,SENDER,AND";
-        String filterString1 = "sendToName,EQUAL,OEM2,AND";
-        String filterString2 = "sendTo,EQUAL,BPNL000000000001,AND";
+        String filterString1 = "sendToName,EQUAL,OEM2,OR";
+        String filterString2 = "sendTo,EQUAL,BPNL000000000001,OR";
         String testBpn = bpnSupport.testBpn();
 
         AlertNotificationEntity[] alertNotificationEntities = AlertTestDataFactory.createSenderMajorityAlertNotificationEntitiesTestData(testBpn);
@@ -297,23 +299,21 @@ class ReadCreatedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSpe
     private static Stream<Arguments> filterArguments() {
         return Stream.of(
                 Arguments.of(
-                        "description,STARTS_WITH,first,AND"
+                        "description","first","SENDER"
                 ),
                 Arguments.of(
-                        "description,STARTS_WITH,First,AND"
-
+                        "description","First","SENDER"
                 ),
                 Arguments.of(
-                        "description,STARTS_WITH,FIRST,AND"
+                        "description","FIRST","SENDER"
                 )
         );
     }
 
     @ParameterizedTest
     @MethodSource("filterArguments")
-    void testIfFilteringIsCaseInsensitive(String filter) throws JoseException {
-
-        String filterString = "channel,EQUAL,SENDER,AND";
+    void testIfFilteringIsCaseInsensitive(String fieldName,String startWith,String channel) throws JoseException {
+        // given
         String testBpn = bpnSupport.testBpn();
 
         AlertNotificationEntity[] alertNotificationEntities = AlertTestDataFactory.createSenderMajorityAlertNotificationEntitiesTestData(testBpn);
@@ -321,14 +321,18 @@ class ReadCreatedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSpe
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10,List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
                 .contentType(ContentType.JSON)
+                .log().all()
                 .when()
-                .post("/api/alerts/filter")
+                .param("fieldName", fieldName)
+                .param("size", 50)
+                .param("startWith", startWith)
+                .param("channel", channel)
+                .get("/api/alerts/distinctFilterValues")
                 .then()
                 .log().all()
                 .statusCode(200)
-                .body("totalItems", equalTo(1))
-                .body("content.description[0]", equalTo("First Alert on Asset1"));
+                .assertThat()
+                .body(".", Matchers.containsInRelativeOrder(List.of("First Alert on Asset1").toArray()));
     }
 }
