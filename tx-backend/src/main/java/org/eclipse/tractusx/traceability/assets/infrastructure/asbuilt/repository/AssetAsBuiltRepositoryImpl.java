@@ -60,6 +60,12 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository, Asset
     }
 
     @Override
+    @Transactional
+    public boolean existsById(String assetId) {
+        return jpaAssetAsBuiltRepository.existsById(assetId);
+    }
+
+    @Override
     public List<AssetBase> getAssetsById(List<String> assetIds) {
         return jpaAssetAsBuiltRepository.findByIdIn(assetIds).stream()
                 .map(AssetAsBuiltEntity::toDomain)
