@@ -30,6 +30,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Bumped cypress-io/github-action from 6.6.0 to 6.6.1
 - Bumped tj-actions/changed-files from v41 to v42
 - Fixed some response type descriptions within swagger documentation
+- Error handling when publishing assets
 
 ### Removed
 
