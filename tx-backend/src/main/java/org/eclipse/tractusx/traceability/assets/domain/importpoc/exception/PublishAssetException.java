@@ -16,15 +16,10 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.assets.domain.importpoc.exception;
 
-package assets.importpoc;
-
-import java.util.List;
-
-
-public record ValidationResponse(List<String> validationErrors) {
-    public static ValidationResponse emptyValidationResult() {
-        return new ValidationResponse(List.of());
+public class PublishAssetException extends RuntimeException {
+    public PublishAssetException(String message) {
+        super(message);
     }
-
 }
