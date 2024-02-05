@@ -8,6 +8,14 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [UNRELEASED - DD.MM.YYYY]
 
 ### Added
+
+### Changed
+
+### Removed
+
+## [10.3.0 - 05.02.2024]
+
+### Added
 - Added AVD-KSV-0014 to trivy ignore
 - Added tooltips on functionalities that are unauthorized or unavailable
 - Added concept for adaptions for IndustryCore Changes CX-0126 and CX-0127
