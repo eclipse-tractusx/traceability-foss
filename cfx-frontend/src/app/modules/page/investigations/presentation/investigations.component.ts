@@ -28,12 +28,10 @@ import { NotificationMenuActionsAssembler } from '@shared/assembler/notification
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
 import {
   MenuActionConfig,
-  PartTableType,
   TableEventConfig,
   TableHeaderSort,
   TableFilter,
   FilterMethod,
-  FilterInfo,
 } from '@shared/components/table/table.model';
 import { TableSortingUtil } from '@shared/components/table/tableSortingUtil';
 import { FilterCongigOptions } from '@shared/model/filter-config';
@@ -46,11 +44,11 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { SearchHelper } from '@shared/helper/search-helper';
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { NotificationComponent } from '@shared/modules/notification/presentation/notification.component';
-import { FilterOperator } from '@page/parts/model/parts.model';
 import { Role } from '@core/user/role.model';
 import { RequestContext } from '@shared/components/request-notification/request-notification.base';
 import { RequestStepperComponent } from '@shared/components/request-notification/request-stepper/request-stepper.component';
 import { MatDialog } from '@angular/material/dialog';
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 
 @Component({
   selector: 'app-investigations',
@@ -86,7 +84,7 @@ export class InvestigationsComponent {
     sorting: ['createdDate', 'desc'],
   };
 
-  protected readonly PartTableType = PartTableType;
+  protected readonly TableType = TableType;
   protected readonly Role = Role;
   public readonly searchHelper = new SearchHelper();
 
@@ -114,17 +112,15 @@ export class InvestigationsComponent {
   public ngOnInit(): void {
     this.paramSubscription = this.route.queryParams.subscribe(params => {
       this.pagination.page = params?.pageNumber;
-      this.investigationsFacade.setReceivedInvestigations(
+      this.investigationsFacade.setReceivedInvestigation(
         this.pagination.page,
         this.pagination.pageSize,
         this.investigationReceivedSortList,
-        this.filterReceived,
       );
       this.investigationsFacade.setQueuedAndRequestedInvestigations(
         this.pagination.page,
         this.pagination.pageSize,
         this.investigationQueuedAndRequestedSortList,
-        this.filterQueuedAndRequested,
       );
     });
     this.setupFilterConfig();
@@ -176,11 +172,10 @@ export class InvestigationsComponent {
     if (pagination.filtering && Object.keys(pagination.filtering).length > 1) {
       this.filterReceived = pagination.filtering;
     }
-    this.investigationsFacade.setReceivedInvestigations(
+    this.investigationsFacade.setReceivedInvestigation(
       this.pagination.page,
       this.pagination.pageSize,
       this.investigationReceivedSortList,
-      this.filterReceived,
     );
   }
 
@@ -197,7 +192,6 @@ export class InvestigationsComponent {
       this.pagination.page,
       this.pagination.pageSize,
       this.investigationQueuedAndRequestedSortList,
-      this.filterQueuedAndRequested,
     );
   }
 
@@ -226,16 +220,16 @@ export class InvestigationsComponent {
     this.ngOnInit();
   }
 
-  public triggerSearch(): void {
-    this.searchHelper.resetFilterAndShowToast(false, this.notificationComponent, this.toastService);
-    const searchValue = this.searchControl.value;
-    const filterInfo: FilterInfo = { filterValue: searchValue, filterOperator: FilterOperator.STARTS_WITH };
-    this.filterReceived = { filterMethod: FilterMethod.OR, description: filterInfo, createdBy: filterInfo };
-    this.filterQueuedAndRequested = { filterMethod: FilterMethod.OR, description: filterInfo, sendTo: filterInfo };
+  // public triggerSearch(): void {
+  //   this.searchHelper.resetFilterAndShowToast(false, this.notificationComponent, this.toastService);
+  //   const searchValue = this.searchControl.value;
+  //   const filterInfo: FilterInfo = { filterValue: searchValue, filterOperator: FilterOperator.STARTS_WITH };
+  //   this.filterReceived = { filterMethod: FilterMethod.OR, description: filterInfo, createdBy: filterInfo };
+  //   this.filterQueuedAndRequested = { filterMethod: FilterMethod.OR, description: filterInfo, sendTo: filterInfo };
 
-    this.investigationsFacade.setReceivedInvestigations(this.pagination.page, this.pagination.pageSize, this.investigationReceivedSortList, this.filterReceived);
-    this.investigationsFacade.setQueuedAndRequestedInvestigations(this.pagination.page, this.pagination.pageSize, this.investigationQueuedAndRequestedSortList, this.filterQueuedAndRequested);
-  }
+  //   this.investigationsFacade.setReceivedInvestigation(this.pagination.page, this.pagination.pageSize, this.investigationReceivedSortList, this.filterReceived);
+  //   this.investigationsFacade.setQueuedAndRequestedInvestigations(this.pagination.page, this.pagination.pageSize, this.investigationQueuedAndRequestedSortList, this.filterQueuedAndRequested);
+  // }
 
   private setTableSortingList(sorting: TableHeaderSort, notificationTable: NotificationStatusGroup): void {
     const tableSortList =

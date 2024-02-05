@@ -25,8 +25,9 @@ import { Pagination } from '@core/model/pagination.model';
 import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { AssetAsBuiltFilter, AssetAsPlannedFilter, Part } from '@page/parts/model/parts.model';
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
-import { PartTableType, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
+import { TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
 import { TableSortingUtil } from '@shared/components/table/tableSortingUtil';
 import { toAssetFilter, toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
 import { View } from '@shared/model/view.model';
@@ -104,24 +105,31 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
   }
 
   updateCustomerParts(searchValue?: string): void {
-    if (searchValue && searchValue !== '') {
-      this.globalSearchActive = true;
-      this.assetAsBuiltFilter = toGlobalSearchAssetFilter(searchValue, true, this.searchListAsBuilt, this.datePipe);
-      this.assetAsPlannedFilter = toGlobalSearchAssetFilter(searchValue, false, this.searchListAsPlanned, this.datePipe);
-      if (this.bomLifecycle === MainAspectType.AS_BUILT) {
-        this.otherPartsFacade.setCustomerPartsAsBuilt(0, this.DEFAULT_PAGE_SIZE, [], this.assetAsBuiltFilter, this.globalSearchActive);
-      } else {
-        this.otherPartsFacade.setCustomerPartsAsPlanned(0, this.DEFAULT_PAGE_SIZE, [], this.assetAsPlannedFilter, this.globalSearchActive);
-      }
+    // if (searchValue && searchValue !== '') {
+    //   this.globalSearchActive = true;
+    //   this.assetAsBuiltFilter = toGlobalSearchAssetFilter(searchValue, true, this.searchListAsBuilt, this.datePipe);
+    //   this.assetAsPlannedFilter = toGlobalSearchAssetFilter(searchValue, false, this.searchListAsPlanned, this.datePipe);
+    //   if (this.bomLifecycle === MainAspectType.AS_BUILT) {
+    //     this.otherPartsFacade.setCustomerPartsAsBuilt(0, this.DEFAULT_PAGE_SIZE, [], this.assetAsBuiltFilter, this.globalSearchActive);
+    //   } else {
+    //     this.otherPartsFacade.setCustomerPartsAsPlanned(0, this.DEFAULT_PAGE_SIZE, [], this.assetAsPlannedFilter, this.globalSearchActive);
+    //   }
+    // } else {
+    //   this.globalSearchActive = false;
+    //   this.assetAsBuiltFilter = {};
+    //   this.assetAsPlannedFilter = {};
+    //   if (this.bomLifecycle === MainAspectType.AS_BUILT) {
+    //     this.otherPartsFacade.setCustomerPartsAsBuilt(0, this.DEFAULT_PAGE_SIZE);
+    //   } else {
+    //     this.otherPartsFacade.setCustomerPartsAsPlanned(0, this.DEFAULT_PAGE_SIZE);
+    //   }
+    // }
+    if (searchValue) {
+      this.otherPartsFacade.setCustomerPartsAsBuilt(0, 50, [], toGlobalSearchAssetFilter(searchValue, true), true);
+      this.otherPartsFacade.setCustomerPartsAsPlanned(0, 50, [], toGlobalSearchAssetFilter(searchValue, false), true);
     } else {
-      this.globalSearchActive = false;
-      this.assetAsBuiltFilter = {};
-      this.assetAsPlannedFilter = {};
-      if (this.bomLifecycle === MainAspectType.AS_BUILT) {
-        this.otherPartsFacade.setCustomerPartsAsBuilt(0, this.DEFAULT_PAGE_SIZE);
-      } else {
-        this.otherPartsFacade.setCustomerPartsAsPlanned(0, this.DEFAULT_PAGE_SIZE);
-      }
+      this.otherPartsFacade.setCustomerPartsAsBuilt();
+      this.otherPartsFacade.setCustomerPartsAsPlanned();
     }
   }
 
@@ -193,5 +201,5 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
   }
 
   protected readonly MainAspectType = MainAspectType;
-  protected readonly PartTableType = PartTableType;
+  protected readonly TableType = TableType;
 }

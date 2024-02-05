@@ -24,17 +24,14 @@ import { ALERT_BASE_ROUTE, getRoute } from '@core/known-route';
 import { AlertDetailFacade } from '@page/alerts/core/alert-detail.facade';
 import { AlertHelperService } from '@page/alerts/core/alert-helper.service';
 import { AlertsFacade } from '@page/alerts/core/alerts.facade';
-import { FilterOperator } from '@page/parts/model/parts.model';
 import { NotificationMenuActionsAssembler } from '@shared/assembler/notificationMenuActions.assembler';
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
 import {
-  PartTableType,
   MenuActionConfig,
   TableEventConfig,
   TableHeaderSort,
   TableFilter,
   FilterMethod,
-  FilterInfo,
 } from '@shared/components/table/table.model';
 import { TableSortingUtil } from '@shared/components/table/tableSortingUtil';
 import { SearchHelper } from '@shared/helper/search-helper';
@@ -49,6 +46,7 @@ import { Role } from '@core/user/role.model';
 import { RequestContext } from '@shared/components/request-notification/request-notification.base';
 import { RequestStepperComponent } from '@shared/components/request-notification/request-stepper/request-stepper.component';
 import { MatDialog } from '@angular/material/dialog';
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 
 @Component({
   selector: 'app-alerts',
@@ -88,7 +86,7 @@ export class AlertsComponent {
     sorting: ['createdDate', 'desc'],
   };
 
-  protected readonly PartTableType = PartTableType;
+  protected readonly TableType = TableType;
   protected readonly Role = Role;
 
   constructor(
@@ -118,14 +116,12 @@ export class AlertsComponent {
       this.alertsFacade.setReceivedAlerts(
         this.pagination.page,
         this.pagination.pageSize,
-        this.alertReceivedSortList,
-        this.filterReceived,
+        this.alertReceivedSortList
       );
       this.alertsFacade.setQueuedAndRequestedAlerts(
         this.pagination.page,
         this.pagination.pageSize,
-        this.alertQueuedAndRequestedSortList,
-        this.filterQueuedAndRequested,
+        this.alertQueuedAndRequestedSortList
       );
     });
     this.setupFilterConfig();
@@ -178,7 +174,6 @@ export class AlertsComponent {
       this.pagination.page,
       this.pagination.pageSize,
       this.alertReceivedSortList,
-      this.filterReceived,
     );
   }
 
@@ -194,8 +189,7 @@ export class AlertsComponent {
     this.alertsFacade.setQueuedAndRequestedAlerts(
       this.pagination.page,
       this.pagination.pageSize,
-      this.alertQueuedAndRequestedSortList,
-      this.filterQueuedAndRequested,
+      this.alertQueuedAndRequestedSortList
     );
   }
 
@@ -224,16 +218,16 @@ export class AlertsComponent {
     this.ngOnInit();
   }
 
-  public triggerSearch(): void {
-    this.searchHelper.resetFilterAndShowToast(false, this.notificationComponent, this.toastService);
-    const searchValue = this.searchControl.value;
-    const filterInfo: FilterInfo = { filterValue: searchValue, filterOperator: FilterOperator.STARTS_WITH };
-    this.filterReceived = { filterMethod: FilterMethod.OR, description: filterInfo, createdBy: filterInfo };
-    this.filterQueuedAndRequested = { filterMethod: FilterMethod.OR, description: filterInfo, sendTo: filterInfo };
+  // public triggerSearch(): void {
+  //   this.searchHelper.resetFilterAndShowToast(false, this.notificationComponent, this.toastService);
+  //   const searchValue = this.searchControl.value;
+  //   const filterInfo: FilterInfo = { filterValue: searchValue, filterOperator: FilterOperator.STARTS_WITH };
+  //   this.filterReceived = { filterMethod: FilterMethod.OR, description: filterInfo, createdBy: filterInfo };
+  //   this.filterQueuedAndRequested = { filterMethod: FilterMethod.OR, description: filterInfo, sendTo: filterInfo };
 
-    this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize, this.alertReceivedSortList, this.filterReceived);
-    this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize, this.alertQueuedAndRequestedSortList, this.filterQueuedAndRequested);
-  }
+  //   this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize, this.alertReceivedSortList, this.filterReceived);
+  //   this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize, this.alertQueuedAndRequestedSortList, this.filterQueuedAndRequested);
+  // }
 
   private setTableSortingList(sorting: TableHeaderSort, notificationTable: NotificationStatusGroup): void {
     const tableSortList =
