@@ -23,7 +23,6 @@ import { Component, EventEmitter, Input, Output, QueryList, ViewChildren } from 
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   MenuActionConfig,
-  PartTableType,
   TableEventConfig,
   TableHeaderSort,
 } from '@shared/components/table/table.model';
@@ -33,6 +32,7 @@ import { StaticIdService } from '@shared/service/staticId.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { NotificationTabComponent } from '../notification-tab/notification-tab.component';
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 
 @Component({
   selector: 'app-notification',
@@ -51,7 +51,7 @@ export class NotificationComponent {
   @Input() queuedAndRequestedSortableColumns: Record<string, boolean> = {};
   @Input() receivedMultiSortList: TableHeaderSort[] = [];
   @Input() queuedAndRequestedMultiSortList: TableHeaderSort[] = [];
-  @Input() tablesType: PartTableType[];
+  @Input() tablesType: TableType[];
   @Input() receivedFilterConfig: any[] = [];
   @Input() queuedAndRequestedFilterConfig: any[] = [];
 
@@ -67,13 +67,13 @@ export class NotificationComponent {
 
   public itemCount: number[] = [];
 
-  protected readonly PartTableType = PartTableType;
+  protected readonly TableType = TableType;
 
   constructor(
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly staticIdService: StaticIdService,
-  ) {}
+  ) { }
 
   public onTabChange(tabIndex: number): void {
     void this.router.navigate([], { queryParams: { tabIndex }, replaceUrl: true });

@@ -20,7 +20,7 @@ import { APP_INITIALIZER } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TableSettingsService } from '@core/user/table-settings.service';
-import { PartTableType } from '@shared/components/table/table.model';
+import { TableType } from '@shared/components/table/table.model';
 import { SharedModule } from '@shared/shared.module';
 import { I18NEXT_SERVICE, I18NextModule, ITranslationService } from 'angular-i18next';
 import { TableSettingsComponent } from './table-settings.component';
@@ -39,7 +39,7 @@ describe('TableSettingsComponent', () => {
     ]);
     tableSettingsServiceSpy.getStoredTableSettings.and.callFake(() => {
       return {
-        [PartTableType.AS_BUILT_OWN]: {
+        [TableType.AS_BUILT_OWN]: {
           columnSettingsOptions: new Map<string, boolean>(),
           columnsForDialog: ['column1', 'column2'],
           columnsForTable: ['column1'],
@@ -48,7 +48,7 @@ describe('TableSettingsComponent', () => {
       };
     });
 
-    tableSettingsServiceSpy.storeTableSettings.and.callFake((partTableType, tableSettingsList) => {
+    tableSettingsServiceSpy.storeTableSettings.and.callFake((TableType, tableSettingsList) => {
       return;
     });
 
@@ -70,7 +70,7 @@ describe('TableSettingsComponent', () => {
           useValue: {
             title: 'Test Title',
             panelClass: 'test-dialog',
-            tableType: PartTableType.AS_BUILT_OWN,
+            tableType: TableType.AS_BUILT_OWN,
             defaultColumns: ['column1', 'column2'],
             defaultFilterColumns: ['filterColumn1', 'filterColumn2'],
           },
@@ -109,7 +109,7 @@ describe('TableSettingsComponent', () => {
     // Assert that component properties are correctly initialized based on MAT_DIALOG_DATA
     expect(component.title).toEqual('Test Title');
     expect(component.panelClass).toEqual('test-dialog');
-    expect(component.tableType).toEqual(PartTableType.AS_BUILT_OWN);
+    expect(component.tableType).toEqual(TableType.AS_BUILT_OWN);
     expect(component.defaultColumns).toEqual(['column1', 'column2']);
     expect(component.defaultFilterColumns).toEqual(['filterColumn1', 'filterColumn2']);
     expect(component.isCustomerTable).toEqual(false);
@@ -123,8 +123,8 @@ describe('TableSettingsComponent', () => {
     component.save();
 
     // Check that setColumnVisibilitySettings was called with the updated settings
-    expect(tableSettingsService.storeTableSettings).toHaveBeenCalledWith(PartTableType.AS_BUILT_OWN, {
-      [PartTableType.AS_BUILT_OWN]: {
+    expect(tableSettingsService.storeTableSettings).toHaveBeenCalledWith(TableType.AS_BUILT_OWN, {
+      [TableType.AS_BUILT_OWN]: {
         columnSettingsOptions: columnOptions,
         columnsForDialog: ['column1', 'column2'],
         columnsForTable: ['column1'],

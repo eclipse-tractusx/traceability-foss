@@ -72,11 +72,11 @@ SPDX-License-Identifier: Apache-2.0
       mat-row
       data-testid="table-component--body-row"></tr>
 
-    <ng-container *ngIf="!!tableConfig.menuActionsConfig">
+    <!--<ng-container *ngIf="!!tableConfig.menuActionsConfig">
       <tr *matRowDef="let row; columns: ['expandMenuActions']"
         class="expand-row no-hover table--menu__mobile"
         mat-row></tr>
-    </ng-container>
+    </ng-container>-->
 
     <tr *matNoDataRow
       class="mat-row no-hover"
@@ -215,17 +215,30 @@ SPDX-License-Identifier: Apache-2.0
               <mat-menu #selectMenu="matMenu"
                 xPosition="before"
                 class="menu-input-field">
-                <ng-container *ngFor="let filter of filterConfiguration">
+                <ng-container *ngFor="let filter of tableViewConfig.displayFilterColumnMappings">
                   <div (click)="$event.stopPropagation()"
                     *ngIf="filter.filterKey === column || filter.column === column">
-                    <app-multiselect [options]="filter.option"
+
+                    <app-multiselect [placeholder]="'multiSelect.placeholder' | i18n"
+                      [options]="filter.option"
+                      [isDate]="filter.isDate"
+                      [singleSearch]="filter.singleSearch"
+                      [filterColumn]="filter.filterKey"
+                      [tableType]="tableType"
+                      (triggerFilter)="triggerFilterAdding()"
+                      [placeholderMultiple]="('multiSelect.multipleResults' | i18n)"
+                      ngDefaultControl
+                      [formControl]="filterFormGroup.controls[filter.filterKey]">
+                    </app-multiselect>
+
+                    <!--<app-multiselect [options]="filter.option"
                       [multiple]="isMultipleSearch(filter)"
                       [textSearch]="filter.isTextSearch"
                       [isDate]="filter.isDate"
                       [maxDate]="filter.maxDate"
                       (triggerFilter)="triggerFilterAdding()"
                       ngDefaultControl
-                      [formControl]="filterFormGroup.controls[filter.filterKey]"></app-multiselect>
+                      [formControl]="filterFormGroup.controls[filter.filterKey]"></app-multiselect>-->
                   </div>
                 </ng-container>
               </mat-menu>
