@@ -12,7 +12,7 @@ values
 
 ---
 -- reset sequence to highest next-val
-select setval('alert_id_seq', (select max(a.id) from alert a), true);
+select setval('alert_id_seq1', (select max(a.id) from alert a), true);
 
 ---
 insert into alert_notification
