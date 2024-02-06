@@ -19,6 +19,9 @@
 package org.eclipse.tractusx.traceability.integration.qualitynotification.investigation;
 
 import io.restassured.http.ContentType;
+import org.eclipse.tractusx.traceability.common.request.OwnPageable;
+import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
+import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.common.security.JwtRole;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.ForbiddenMatcher;
@@ -77,13 +80,17 @@ class InvestigationsControllerAuthorizationIT extends IntegrationTestSpecificati
     @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#allRolesAllowed")
     void shouldAllowGetCreatedEndpointOnlyForSpecificRoles(JwtRole role, boolean isAllowed) throws JoseException {
 
+        String filterString = "channel,EQUAL,SENDER,AND";
+
         given()
                 .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
-        .when()
-                .get(ROOT + "/created")
+                .when()
+                .post(ROOT + "/filter")
                 .then()
-        .assertThat()
+                .log().all()
+                .assertThat()
                 .statusCode(new ForbiddenMatcher(isAllowed));
 
     }
@@ -92,15 +99,18 @@ class InvestigationsControllerAuthorizationIT extends IntegrationTestSpecificati
     @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#allRolesAllowed")
     void shouldAllowGetReceivedEndpointOnlyForSpecificRoles(JwtRole role, boolean isAllowed) throws JoseException {
 
+        String filterString = "channel,EQUAL,RECEIVER,AND";
+
         given()
                 .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
-        .when()
-                .get(ROOT + "/received")
-        .then()
+                .when()
+                .post(ROOT + "/filter")
+                .then()
+                .log().all()
                 .assertThat()
                 .statusCode(new ForbiddenMatcher(isAllowed));
-
     }
 
     @ParameterizedTest
@@ -118,8 +128,13 @@ class InvestigationsControllerAuthorizationIT extends IntegrationTestSpecificati
 
     }
 
+    /*
+     * Cofinity initially allowed both Supervisor and User roles to approve investigation.
+     * However, following Upstream's code changes and considering the logic, it now makes sense
+     * to restrict investigation approval to only the Supervisor role, as per the updated requirements.
+     */
     @ParameterizedTest
-    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#supervisorAndUserRolesAllowed")
+    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#supervisorRoleAllowed")
     void shouldAllowApproveEndpointOnlyForSpecificRoles(JwtRole role, boolean isAllowed) throws JoseException {
 
         given()
@@ -134,7 +149,7 @@ class InvestigationsControllerAuthorizationIT extends IntegrationTestSpecificati
     }
 
     @ParameterizedTest
-    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#supervisorRoleAllowed")
+    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#supervisorAndUserRolesAllowed")
     void shouldAllowCancelEndpointOnlyForSpecificRoles(JwtRole role, boolean isAllowed) throws JoseException {
 
         given()
@@ -148,6 +163,11 @@ class InvestigationsControllerAuthorizationIT extends IntegrationTestSpecificati
 
     }
 
+    /*
+     * Cofinity initially allowed both Supervisor and User roles to close investigation.
+     * However, following Upstream's code changes and considering the logic, it now makes sense
+     * to restrict investigation close to only the Supervisor role, as per the updated requirements.
+     */
     @ParameterizedTest
     @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#supervisorRoleAllowed")
     void shouldAllowCloseEndpointOnlyForSpecificRoles(JwtRole role, boolean isAllowed) throws JoseException, JsonProcessingException {

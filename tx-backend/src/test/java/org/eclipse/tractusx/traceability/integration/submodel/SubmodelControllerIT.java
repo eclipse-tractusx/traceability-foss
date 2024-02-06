@@ -23,6 +23,7 @@ import io.restassured.http.ContentType;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.submodel.infrastructure.model.SubmodelEntity;
 import org.eclipse.tractusx.traceability.submodel.infrastructure.repository.JpaSubmodelRepository;
+import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -30,6 +31,8 @@ import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
+import static org.eclipse.tractusx.traceability.common.security.JwtRole.USER;
 
 class SubmodelControllerIT extends IntegrationTestSpecification {
 
@@ -37,7 +40,7 @@ class SubmodelControllerIT extends IntegrationTestSpecification {
     JpaSubmodelRepository jpaSubmodelRepository;
 
     @Test
-    void givenNoSubmodels_whenDeleteAll_thenDeleteSubmodelsFromDatabase() {
+    void givenNoSubmodels_whenDeleteAll_thenDeleteSubmodelsFromDatabase() throws JoseException {
         // given
         String submodelId = "UUID:Xa123123";
         jpaSubmodelRepository.save(SubmodelEntity.builder()
@@ -49,6 +52,8 @@ class SubmodelControllerIT extends IntegrationTestSpecification {
 
         // when
         given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
                 .log().all()
                 .when()
                 .delete("/api/submodel/data")
@@ -62,7 +67,7 @@ class SubmodelControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenSubmodel_whenGetById_thenGetIt() {
+    void givenSubmodel_whenGetById_thenGetIt() throws JoseException {
         // given
         String submodelId = "UUID:Xa123123";
         String payload = "Payload string";
@@ -73,6 +78,8 @@ class SubmodelControllerIT extends IntegrationTestSpecification {
 
         // when
         String responseBody = given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
                 .log().all()
                 .when()
                 .get("/api/submodel/data/" + submodelId)
@@ -87,12 +94,14 @@ class SubmodelControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenNoSubmodels_whenGetById_thenNotFound() {
+    void givenNoSubmodels_whenGetById_thenNotFound() throws JoseException {
         // given
         String submodelId = "UUID:Xa123123";
 
         // when/then
         given()
+                .header(oAuth2Support.jwtAuthorization(USER))
+                .contentType(ContentType.JSON)
                 .log().all()
                 .when()
                 .get("/api/submodel/data/" + submodelId)
@@ -102,13 +111,15 @@ class SubmodelControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenSubmodel_whenSave_thenSaveIntoDatabase() {
+    void givenSubmodel_whenSave_thenSaveIntoDatabase() throws JoseException {
         // given
         String submodelId = "submodelId";
         String requestContent = "test request";
 
         // when
         given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
                 .contentType(ContentType.JSON)
                 .log().all()
                 .when()
