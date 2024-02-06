@@ -12,7 +12,7 @@ values
 
 ---
 -- reset sequence to highest next-val
-select setval('investigation_id_seq', (select max(i.id) from investigation i), true);
+select setval('investigation_id_seq1', (select max(i.id) from investigation i), true);
 
 ---
 insert into investigation_notification
