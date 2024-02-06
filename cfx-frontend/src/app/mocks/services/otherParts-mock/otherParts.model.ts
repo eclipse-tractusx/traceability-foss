@@ -24,460 +24,432 @@ import { PartResponse } from '@page/parts/model/parts.model';
 export const otherPartsAssets = [
 
   {
-    "id": "urn:uuid:6ec3f1db-2798-454b-a73f-0d21a8966c74",
-    "idShort": "--",
-    "semanticModelId": "NO-613963493493659233961306",
-    "businessPartner": "BPNL00000003CML1",
-    "manufacturerName": "--",
-    "nameAtManufacturer": "SupplierPartName",
-    "manufacturerPartId": "MySupplierPartId",
-    "owner": "SUPPLIER",
-    "childRelations": [],
-    "parentRelations": [
+    'id': 'urn:uuid:6ec3f1db-2798-454b-a73f-0d21a8966c74',
+    'idShort': '--',
+    'semanticModelId': 'NO-613963493493659233961306',
+    'businessPartner': 'BPNL00000003CML1',
+    'manufacturerName': '--',
+    'nameAtManufacturer': 'SupplierPartName',
+    'manufacturerPartId': 'MySupplierPartId',
+    'owner': 'SUPPLIER',
+    'childRelations': [],
+    'parentRelations': [
       {
-        "id": "urn:uuid:c47b9f8b-48d0-4ef4-8f0b-e965a225cb8d",
-        "idShort": null
-      }
+        'id': 'urn:uuid:c47b9f8b-48d0-4ef4-8f0b-e965a225cb8d',
+        'idShort': null,
+      },
     ],
-    "activeAlert": false,
-    "underInvestigation": false,
-    "qualityType": "Ok",
-    "van": "--",
-    "semanticDataModel": "SERIALPART",
-    "classification": "component",
-    "detailAspectModels": [
+    'qualityType': 'Ok',
+    'van': '--',
+    'semanticDataModel': 'SERIALPART',
+    'classification': 'component',
+    'detailAspectModels': [
       {
-        "type": "AS_BUILT",
-        "data": {
-          "partId": "95657762-59",
-          "customerPartId": "95657762-59",
-          "nameAtCustomer": "Door Key",
-          "manufacturingCountry": "DEU",
-          "manufacturingDate": "2022-02-04T13:48:54"
-        }
-      }
-    ]
+        'type': 'AS_BUILT',
+        'data': {
+          'partId': '95657762-59',
+          'customerPartId': '95657762-59',
+          'nameAtCustomer': 'Door Key',
+          'manufacturingCountry': 'DEU',
+          'manufacturingDate': '2022-02-04T13:48:54',
+        },
+      },
+    ],
   },
   {
-    "id": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e43842",
-    "idShort": "--",
-    "semanticModelId": "12345678ABC",
-    "businessPartner": "BPNL00000003CML1",
-    "manufacturerName": "--",
-    "nameAtManufacturer": "SupplierPartName",
-    "manufacturerPartId": "MySupplierPartId",
-    "owner": "SUPPLIER",
-    "childRelations": [{
-      "id": "urn:uuid:c47b9f8b-48d0-4ef4-8f0b-e965a225cb8d",
-      "idShort": null
+    'id': 'urn:uuid:0733946c-59c6-41ae-9570-cb43a6e43842',
+    'idShort': '--',
+    'semanticModelId': '12345678ABC',
+    'businessPartner': 'BPNL00000003CML1',
+    'manufacturerName': '--',
+    'nameAtManufacturer': 'SupplierPartName',
+    'manufacturerPartId': 'MySupplierPartId',
+    'owner': 'SUPPLIER',
+    'childRelations': [{
+      'id': 'urn:uuid:c47b9f8b-48d0-4ef4-8f0b-e965a225cb8d',
+      'idShort': null,
     }],
-    "parenRelations": [{
-      "id": "urn:uuid:c47b9f8b-48d0-4ef4-8f0b-e965a225cb8d",
-      "idShort": null
+    'parenRelations': [{
+      'id': 'urn:uuid:c47b9f8b-48d0-4ef4-8f0b-e965a225cb8d',
+      'idShort': null,
     }],
-    "activeAlert": false,
-    "underInvestigation": false,
-    "qualityType": "Ok",
-    "van": "--",
-    "semanticDataModel": "JUSTINSEQUENCE",
-    "classification": "product",
-    "detailAspectModels": [
+    'qualityType': 'Ok',
+    'van': '--',
+    'semanticDataModel': 'JUSTINSEQUENCE',
+    'classification': 'product',
+    'detailAspectModels': [
       {
-        "type": "AS_BUILT",
-        "data": {
-          "partId": "123-0.740-3434-A",
-          "customerPartId": "PRT-12345",
-          "nameAtCustomer": "side element A",
-          "manufacturingCountry": "HUR",
-          "manufacturingDate": "2022-02-04T13:48:54"
-        }
-      }
-    ]
-  },
-  {
-    "id": "urn:uuid:4a5e9ff6-2d5c-4510-a90e-d55af3ba502f",
-    "idShort": "--",
-    "semanticModelId": "NO-246880451848384868750731",
-    "businessPartner": "BPNL00000003CML1",
-    "manufacturerName": "--",
-    "nameAtManufacturer": "SupplierPartName",
-    "manufacturerPartId": "MySupplierPartId",
-    "owner": "OWN",
-    "childRelations": [],
-    "parentRelations": [
-      {
-        "id": "urn:uuid:f11ddc62-3bd5-468f-b7b0-110fe13ed0cd",
-        "idShort": null
-      }
+        'type': 'AS_BUILT',
+        'data': {
+          'partId': '123-0.740-3434-A',
+          'customerPartId': 'PRT-12345',
+          'nameAtCustomer': 'side element A',
+          'manufacturingCountry': 'HUR',
+          'manufacturingDate': '2022-02-04T13:48:54',
+        },
+      },
     ],
-    "activeAlert": false,
-    "underInvestigation": false,
-    "qualityType": "Ok",
-    "van": "--",
-    "semanticDataModel": "SERIALPART",
-    "classification": "component",
-    "detailAspectModels": [
-      {
-        "type": "AS_BUILT",
-        "data": {
-          "partId": "95657762-59",
-          "customerPartId": "95657762-59",
-          "nameAtCustomer": "Door Key",
-          "manufacturingCountry": "DEU",
-          "manufacturingDate": "2022-02-04T13:48:54"
-        }
-      }
-    ]
   },
   {
-    "id": "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa03",
-    "idShort": "--",
-    "semanticModelId": "NO-341449848714937445621543",
-    "businessPartner": "BPNL00000003CML1",
-    "manufacturerName": "--",
-    "nameAtManufacturer": "SupplierPartName",
-    "manufacturerPartId": "MySupplierPartId",
-    "owner": "SUPPLIER",
-    "childRelations": [],
-    "parentRelations": [
+    'id': 'urn:uuid:4a5e9ff6-2d5c-4510-a90e-d55af3ba502f',
+    'idShort': '--',
+    'semanticModelId': 'NO-246880451848384868750731',
+    'businessPartner': 'BPNL00000003CML1',
+    'manufacturerName': '--',
+    'nameAtManufacturer': 'SupplierPartName',
+    'manufacturerPartId': 'MySupplierPartId',
+    'owner': 'OWN',
+    'childRelations': [],
+    'parentRelations': [
       {
-        "id": "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb02",
-        "idShort": null
-      }
+        'id': 'urn:uuid:f11ddc62-3bd5-468f-b7b0-110fe13ed0cd',
+        'idShort': null,
+      },
     ],
-    "activeAlert": false,
-    "underInvestigation": false,
-    "qualityType": "Ok",
-    "van": "--",
-    "semanticDataModel": "BATCH",
-    "classification": "component",
-    "detailAspectModels": [
+    'qualityType': 'Ok',
+    'van': '--',
+    'semanticDataModel': 'SERIALPART',
+    'classification': 'component',
+    'detailAspectModels': [
       {
-        "type": "AS_BUILT",
-        "data": {
-          "partId": "95657762-59",
-          "customerPartId": "95657762-59",
-          "nameAtCustomer": "Door Key",
-          "manufacturingCountry": "DEU",
-          "manufacturingDate": "2022-02-04T13:48:54"
-        }
-      }
-    ]
-  },
-  {
-    "id": "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa01",
-    "idShort": "--",
-    "semanticModelId": "NO-341449848714937445621543",
-    "businessPartner": "BPNL00000003CML1",
-    "manufacturerName": "--",
-    "nameAtManufacturer": "SupplierPartName",
-    "manufacturerPartId": "MySupplierPartId",
-    "owner": "SUPPLIER",
-    "childRelations": [],
-    "parentRelations": [],
-    "activeAlert": false,
-    "underInvestigation": false,
-    "qualityType": "Ok",
-    "van": "--",
-    "semanticDataModel": "BATCH",
-    "classification": "component",
-    "detailAspectModels": [
-      {
-        "type": "AS_BUILT",
-        "data": {
-          "partId": "95657762-59",
-          "customerPartId": "95657762-59",
-          "nameAtCustomer": "Door Key",
-          "manufacturingCountry": "DEU",
-          "manufacturingDate": "2022-02-04T13:48:54"
-        }
-      }
-    ]
-  },
-  {
-    "id": "urn:uuid:d8030bbf-a874-49fb-b2e1-7610f0ccad12",
-    "idShort": "--",
-    "semanticModelId": "OMAYSKEITUGNVHKKX",
-    "businessPartner": "BPNL00000003CML1",
-    "manufacturerName": "--",
-    "nameAtManufacturer": "SupplierPartName",
-    "manufacturerPartId": "MySupplierPartId",
-    "owner": "SUPPLIER",
-    "childRelations": [
-      {
-        "id": "urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a",
-        "idShort": null
-      }
+        'type': 'AS_BUILT',
+        'data': {
+          'partId': '95657762-59',
+          'customerPartId': '95657762-59',
+          'nameAtCustomer': 'Door Key',
+          'manufacturingCountry': 'DEU',
+          'manufacturingDate': '2022-02-04T13:48:54',
+        },
+      },
     ],
-    "parentRelations": [],
-    "activeAlert": false,
-    "underInvestigation": false,
-    "qualityType": "Ok",
-    "van": "OMAYSKEITUGNVHKKX",
-    "semanticDataModel": "SERIALPART",
-    "classification": "product",
-    "detailAspectModels": [
-      {
-        "type": "AS_BUILT",
-        "data": {
-          "partId": "JQ-87",
-          "customerPartId": "--",
-          "nameAtCustomer": "--",
-          "manufacturingCountry": "DEU",
-          "manufacturingDate": "2015-03-07T18:38:12"
-        }
-      }
-    ]
   },
   {
-    "id": "urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a",
-    "idShort": "--",
-    "semanticModelId": "NO-989134870198932317923938",
-    "businessPartner": "BPNL00000003CNKC",
-    "manufacturerName": "TEST_BPN_IRS_1",
-    "nameAtManufacturer": "SupplierPartName",
-    "manufacturerPartId": "MySupplierPartId",
-    "owner": "SUPPLIER",
-    "childRelations": [],
-    "parentRelations": [],
-    "activeAlert": false,
-    "underInvestigation": false,
-    "qualityType": "Ok",
-    "van": "--",
-    "semanticDataModel": "SERIALPART",
-    "classification": "component",
-    "detailAspectModels": [
+    'id': 'urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa03',
+    'idShort': '--',
+    'semanticModelId': 'NO-341449848714937445621543',
+    'businessPartner': 'BPNL00000003CML1',
+    'manufacturerName': '--',
+    'nameAtManufacturer': 'SupplierPartName',
+    'manufacturerPartId': 'MySupplierPartId',
+    'owner': 'SUPPLIER',
+    'childRelations': [],
+    'parentRelations': [
       {
-        "type": "AS_BUILT",
-        "data": {
-          "partId": "22782277-50",
-          "customerPartId": "22782277-50",
-          "nameAtCustomer": "Door front-left",
-          "manufacturingCountry": "DEU",
-          "manufacturingDate": "2022-02-04T13:48:54"
-        }
-      }
-    ]
-  },
-  {
-    "id": "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa02",
-    "idShort": "--",
-    "semanticModelId": "NO-341449848714937445621543",
-    "businessPartner": "BPNL00000003CML1",
-    "manufacturerName": "--",
-    "nameAtManufacturer": "SupplierPartName",
-    "manufacturerPartId": "MySupplierPartId",
-    "owner": "CUSTOMER",
-    "childRelations": [
-      {
-        "id": "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb01",
-        "idShort": null
-      }
+        'id': 'urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb02',
+        'idShort': null,
+      },
     ],
-    "parentRelations": [],
-    "activeAlert": false,
-    "underInvestigation": false,
-    "qualityType": "Ok",
-    "van": "--",
-    "semanticDataModel": "BATCH",
-    "classification": "component",
-    "detailAspectModels": [
+    'qualityType': 'Ok',
+    'van': '--',
+    'semanticDataModel': 'BATCH',
+    'classification': 'component',
+    'detailAspectModels': [
       {
-        "type": "AS_BUILT",
-        "data": {
-          "partId": "95657762-59",
-          "customerPartId": "95657762-59",
-          "nameAtCustomer": "Door Key",
-          "manufacturingCountry": "DEU",
-          "manufacturingDate": "2022-02-04T13:48:54"
-        }
-      }
-    ]
-  },
-  {
-    "id": "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb01",
-    "idShort": "--",
-    "semanticModelId": "NO-341449848714937445621543",
-    "businessPartner": "BPNL00000003CNKC",
-    "manufacturerName": "TEST_BPN_IRS_1",
-    "nameAtManufacturer": "SupplierPartName",
-    "manufacturerPartId": "MySupplierPartId",
-    "owner": "CUSTOMER",
-    "childRelations": [],
-    "parentRelations": [],
-    "activeAlert": false,
-    "underInvestigation": false,
-    "qualityType": "Ok",
-    "van": "--",
-    "semanticDataModel": "BATCH",
-    "classification": "component",
-    "detailAspectModels": [
-      {
-        "type": "AS_BUILT",
-        "data": {
-          "partId": "95657762-59",
-          "customerPartId": "95657762-59",
-          "nameAtCustomer": "Door Key",
-          "manufacturingCountry": "DEU",
-          "manufacturingDate": "2022-02-04T13:48:54"
-        }
-      }
-    ]
-  },
-  {
-    "id": "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22",
-    "idShort": "--",
-    "semanticModelId": "OMAOYGBDTSRCMYSCX",
-    "businessPartner": "BPNL00000003CML1",
-    "manufacturerName": "--",
-    "nameAtManufacturer": "SupplierPartName",
-    "manufacturerPartId": "MySupplierPartId",
-    "owner": "CUSTOMER",
-    "childRelations": [
-      {
-        "id": "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd",
-        "idShort": null
-      }
+        'type': 'AS_BUILT',
+        'data': {
+          'partId': '95657762-59',
+          'customerPartId': '95657762-59',
+          'nameAtCustomer': 'Door Key',
+          'manufacturingCountry': 'DEU',
+          'manufacturingDate': '2022-02-04T13:48:54',
+        },
+      },
     ],
-    "parentRelations": [],
-    "activeAlert": false,
-    "underInvestigation": false,
-    "qualityType": "Ok",
-    "van": "OMAOYGBDTSRCMYSCX",
-    "semanticDataModel": "SERIALPART",
-    "classification": "product",
-    "detailAspectModels": [
-      {
-        "type": "AS_BUILT",
-        "data": {
-          "partId": "IF-53",
-          "customerPartId": "--",
-          "nameAtCustomer": "--",
-          "manufacturingCountry": "DEU",
-          "manufacturingDate": "2018-09-28T02:15:57"
-        }
-      }
-    ]
   },
   {
-    "id": "urn:uuid:c47b9f8b-48d0-4ef4-8f0b-e965a225cb8d",
-    "idShort": "--",
-    "semanticModelId": "NO-477013846751358222215326",
-    "businessPartner": "BPNL00000003CNKC",
-    "manufacturerName": "TEST_BPN_IRS_1",
-    "nameAtManufacturer": "SupplierPartName",
-    "manufacturerPartId": "MySupplierPartId",
-    "owner": "CUSTOMER",
-    "childRelations": [],
-    "parentRelations": [],
-    "activeAlert": false,
-    "underInvestigation": false,
-    "qualityType": "Ok",
-    "van": "--",
-    "semanticDataModel": "SERIALPART",
-    "classification": "component",
-    "detailAspectModels": [
+    'id': 'urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa01',
+    'idShort': '--',
+    'semanticModelId': 'NO-341449848714937445621543',
+    'businessPartner': 'BPNL00000003CML1',
+    'manufacturerName': '--',
+    'nameAtManufacturer': 'SupplierPartName',
+    'manufacturerPartId': 'MySupplierPartId',
+    'owner': 'SUPPLIER',
+    'childRelations': [],
+    'parentRelations': [],
+    'qualityType': 'Ok',
+    'van': '--',
+    'semanticDataModel': 'BATCH',
+    'classification': 'component',
+    'detailAspectModels': [
       {
-        "type": "AS_BUILT",
-        "data": {
-          "partId": "22782277-50",
-          "customerPartId": "22782277-50",
-          "nameAtCustomer": "Door front-left",
-          "manufacturingCountry": "DEU",
-          "manufacturingDate": "2022-02-04T13:48:54"
-        }
-      }
-    ]
+        'type': 'AS_BUILT',
+        'data': {
+          'partId': '95657762-59',
+          'customerPartId': '95657762-59',
+          'nameAtCustomer': 'Door Key',
+          'manufacturingCountry': 'DEU',
+          'manufacturingDate': '2022-02-04T13:48:54',
+        },
+      },
+    ],
   },
   {
-    "id": "urn:uuid:f11ddc62-3bd5-468f-b7b0-110fe13ed0cd",
-    "idShort": "--",
-    "semanticModelId": "NO-004314332935115065980115",
-    "businessPartner": "BPNL00000003CNKC",
-    "manufacturerName": "TEST_BPN_IRS_1",
-    "nameAtManufacturer": "SupplierPartName",
-    "manufacturerPartId": "MySupplierPartId",
-    "owner": "CUSTOMER",
-    "childRelations": [],
-    "parentRelations": [],
-    "activeAlert": false,
-    "underInvestigation": false,
-    "qualityType": "Ok",
-    "van": "--",
-    "semanticDataModel": "SERIALPART",
-    "classification": "component",
-    "detailAspectModels": [
+    'id': 'urn:uuid:d8030bbf-a874-49fb-b2e1-7610f0ccad12',
+    'idShort': '--',
+    'semanticModelId': 'OMAYSKEITUGNVHKKX',
+    'businessPartner': 'BPNL00000003CML1',
+    'manufacturerName': '--',
+    'nameAtManufacturer': 'SupplierPartName',
+    'manufacturerPartId': 'MySupplierPartId',
+    'owner': 'SUPPLIER',
+    'childRelations': [
       {
-        "type": "AS_BUILT",
-        "data": {
-          "partId": "22782277-50",
-          "customerPartId": "22782277-50",
-          "nameAtCustomer": "Door front-left",
-          "manufacturingCountry": "DEU",
-          "manufacturingDate": "2022-02-04T13:48:54"
-        }
-      }
-    ]
+        'id': 'urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a',
+        'idShort': null,
+      },
+    ],
+    'parentRelations': [],
+    'qualityType': 'Ok',
+    'van': 'OMAYSKEITUGNVHKKX',
+    'semanticDataModel': 'SERIALPART',
+    'classification': 'product',
+    'detailAspectModels': [
+      {
+        'type': 'AS_BUILT',
+        'data': {
+          'partId': 'JQ-87',
+          'customerPartId': '--',
+          'nameAtCustomer': '--',
+          'manufacturingCountry': 'DEU',
+          'manufacturingDate': '2015-03-07T18:38:12',
+        },
+      },
+    ],
   },
   {
-    "id": "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb02",
-    "idShort": "--",
-    "semanticModelId": "NO-341449848714937445621543",
-    "businessPartner": "BPNL00000003CNKC",
-    "manufacturerName": "TEST_BPN_IRS_1",
-    "nameAtManufacturer": "SupplierPartName",
-    "manufacturerPartId": "MySupplierPartId",
-    "owner": "CUSTOMER",
-    "childRelations": [],
-    "parentRelations": [],
-    "activeAlert": false,
-    "underInvestigation": false,
-    "qualityType": "Ok",
-    "van": "--",
-    "semanticDataModel": "BATCH",
-    "classification": "component",
-    "detailAspectModels": [
+    'id': 'urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a',
+    'idShort': '--',
+    'semanticModelId': 'NO-989134870198932317923938',
+    'businessPartner': 'BPNL00000003CNKC',
+    'manufacturerName': 'TEST_BPN_IRS_1',
+    'nameAtManufacturer': 'SupplierPartName',
+    'manufacturerPartId': 'MySupplierPartId',
+    'owner': 'SUPPLIER',
+    'childRelations': [],
+    'parentRelations': [],
+    'qualityType': 'Ok',
+    'van': '--',
+    'semanticDataModel': 'SERIALPART',
+    'classification': 'component',
+    'detailAspectModels': [
       {
-        "type": "AS_BUILT",
-        "data": {
-          "partId": "95657762-59",
-          "customerPartId": "95657762-59",
-          "nameAtCustomer": "Door Key",
-          "manufacturingCountry": "DEU",
-          "manufacturingDate": "2022-02-04T13:48:54"
-        }
-      }
-    ]
+        'type': 'AS_BUILT',
+        'data': {
+          'partId': '22782277-50',
+          'customerPartId': '22782277-50',
+          'nameAtCustomer': 'Door front-left',
+          'manufacturingCountry': 'DEU',
+          'manufacturingDate': '2022-02-04T13:48:54',
+        },
+      },
+    ],
   },
   {
-    "id": "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd",
-    "idShort": "--",
-    "semanticModelId": "NO-313869652971440618042264",
-    "businessPartner": "BPNL00000003CNKC",
-    "manufacturerName": "TEST_BPN_IRS_1",
-    "nameAtManufacturer": "SupplierPartName",
-    "manufacturerPartId": "MySupplierPartId",
-    "owner": "SUPPLIER",
-    "childRelations": [],
-    "parentRelations": [],
-    "activeAlert": true,
-    "underInvestigation": true,
-    "qualityType": "Ok",
-    "van": "--",
-    "semanticDataModel": "SERIALPART",
-    "classification": "component",
-    "detailAspectModels": [
+    'id': 'urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa02',
+    'idShort': '--',
+    'semanticModelId': 'NO-341449848714937445621543',
+    'businessPartner': 'BPNL00000003CML1',
+    'manufacturerName': '--',
+    'nameAtManufacturer': 'SupplierPartName',
+    'manufacturerPartId': 'MySupplierPartId',
+    'owner': 'CUSTOMER',
+    'childRelations': [
       {
-        "type": "AS_BUILT",
-        "data": {
-          "partId": "22782277-50",
-          "customerPartId": "22782277-50",
-          "nameAtCustomer": "Door front-left",
-          "manufacturingCountry": "DEU",
-          "manufacturingDate": "2022-02-04T13:48:54"
-        }
-      }
-    ]
+        'id': 'urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb01',
+        'idShort': null,
+      },
+    ],
+    'parentRelations': [],
+    'qualityType': 'Ok',
+    'van': '--',
+    'semanticDataModel': 'BATCH',
+    'classification': 'component',
+    'detailAspectModels': [
+      {
+        'type': 'AS_BUILT',
+        'data': {
+          'partId': '95657762-59',
+          'customerPartId': '95657762-59',
+          'nameAtCustomer': 'Door Key',
+          'manufacturingCountry': 'DEU',
+          'manufacturingDate': '2022-02-04T13:48:54',
+        },
+      },
+    ],
+  },
+  {
+    'id': 'urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb01',
+    'idShort': '--',
+    'semanticModelId': 'NO-341449848714937445621543',
+    'businessPartner': 'BPNL00000003CNKC',
+    'manufacturerName': 'TEST_BPN_IRS_1',
+    'nameAtManufacturer': 'SupplierPartName',
+    'manufacturerPartId': 'MySupplierPartId',
+    'owner': 'CUSTOMER',
+    'childRelations': [],
+    'parentRelations': [],
+    'qualityType': 'Ok',
+    'van': '--',
+    'semanticDataModel': 'BATCH',
+    'classification': 'component',
+    'detailAspectModels': [
+      {
+        'type': 'AS_BUILT',
+        'data': {
+          'partId': '95657762-59',
+          'customerPartId': '95657762-59',
+          'nameAtCustomer': 'Door Key',
+          'manufacturingCountry': 'DEU',
+          'manufacturingDate': '2022-02-04T13:48:54',
+        },
+      },
+    ],
+  },
+  {
+    'id': 'urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22',
+    'idShort': '--',
+    'semanticModelId': 'OMAOYGBDTSRCMYSCX',
+    'businessPartner': 'BPNL00000003CML1',
+    'manufacturerName': '--',
+    'nameAtManufacturer': 'SupplierPartName',
+    'manufacturerPartId': 'MySupplierPartId',
+    'owner': 'CUSTOMER',
+    'childRelations': [
+      {
+        'id': 'urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd',
+        'idShort': null,
+      },
+    ],
+    'parentRelations': [],
+    'qualityType': 'Ok',
+    'van': 'OMAOYGBDTSRCMYSCX',
+    'semanticDataModel': 'SERIALPART',
+    'classification': 'product',
+    'detailAspectModels': [
+      {
+        'type': 'AS_BUILT',
+        'data': {
+          'partId': 'IF-53',
+          'customerPartId': '--',
+          'nameAtCustomer': '--',
+          'manufacturingCountry': 'DEU',
+          'manufacturingDate': '2018-09-28T02:15:57',
+        },
+      },
+    ],
+  },
+  {
+    'id': 'urn:uuid:c47b9f8b-48d0-4ef4-8f0b-e965a225cb8d',
+    'idShort': '--',
+    'semanticModelId': 'NO-477013846751358222215326',
+    'businessPartner': 'BPNL00000003CNKC',
+    'manufacturerName': 'TEST_BPN_IRS_1',
+    'nameAtManufacturer': 'SupplierPartName',
+    'manufacturerPartId': 'MySupplierPartId',
+    'owner': 'CUSTOMER',
+    'childRelations': [],
+    'parentRelations': [],
+    'qualityType': 'Ok',
+    'van': '--',
+    'semanticDataModel': 'SERIALPART',
+    'classification': 'component',
+    'detailAspectModels': [
+      {
+        'type': 'AS_BUILT',
+        'data': {
+          'partId': '22782277-50',
+          'customerPartId': '22782277-50',
+          'nameAtCustomer': 'Door front-left',
+          'manufacturingCountry': 'DEU',
+          'manufacturingDate': '2022-02-04T13:48:54',
+        },
+      },
+    ],
+  },
+  {
+    'id': 'urn:uuid:f11ddc62-3bd5-468f-b7b0-110fe13ed0cd',
+    'idShort': '--',
+    'semanticModelId': 'NO-004314332935115065980115',
+    'businessPartner': 'BPNL00000003CNKC',
+    'manufacturerName': 'TEST_BPN_IRS_1',
+    'nameAtManufacturer': 'SupplierPartName',
+    'manufacturerPartId': 'MySupplierPartId',
+    'owner': 'CUSTOMER',
+    'childRelations': [],
+    'parentRelations': [],
+    'qualityType': 'Ok',
+    'van': '--',
+    'semanticDataModel': 'SERIALPART',
+    'classification': 'component',
+    'detailAspectModels': [
+      {
+        'type': 'AS_BUILT',
+        'data': {
+          'partId': '22782277-50',
+          'customerPartId': '22782277-50',
+          'nameAtCustomer': 'Door front-left',
+          'manufacturingCountry': 'DEU',
+          'manufacturingDate': '2022-02-04T13:48:54',
+        },
+      },
+    ],
+  },
+  {
+    'id': 'urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb02',
+    'idShort': '--',
+    'semanticModelId': 'NO-341449848714937445621543',
+    'businessPartner': 'BPNL00000003CNKC',
+    'manufacturerName': 'TEST_BPN_IRS_1',
+    'nameAtManufacturer': 'SupplierPartName',
+    'manufacturerPartId': 'MySupplierPartId',
+    'owner': 'CUSTOMER',
+    'childRelations': [],
+    'parentRelations': [],
+    'qualityType': 'Ok',
+    'van': '--',
+    'semanticDataModel': 'BATCH',
+    'classification': 'component',
+    'detailAspectModels': [
+      {
+        'type': 'AS_BUILT',
+        'data': {
+          'partId': '95657762-59',
+          'customerPartId': '95657762-59',
+          'nameAtCustomer': 'Door Key',
+          'manufacturingCountry': 'DEU',
+          'manufacturingDate': '2022-02-04T13:48:54',
+        },
+      },
+    ],
+  },
+  {
+    'id': 'urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd',
+    'idShort': '--',
+    'semanticModelId': 'NO-313869652971440618042264',
+    'businessPartner': 'BPNL00000003CNKC',
+    'manufacturerName': 'TEST_BPN_IRS_1',
+    'nameAtManufacturer': 'SupplierPartName',
+    'manufacturerPartId': 'MySupplierPartId',
+    'owner': 'SUPPLIER',
+    'childRelations': [],
+    'parentRelations': [],
+    'qualityType': 'Ok',
+    'van': '--',
+    'semanticDataModel': 'SERIALPART',
+    'classification': 'component',
+    'detailAspectModels': [
+      {
+        'type': 'AS_BUILT',
+        'data': {
+          'partId': '22782277-50',
+          'customerPartId': '22782277-50',
+          'nameAtCustomer': 'Door front-left',
+          'manufacturingCountry': 'DEU',
+          'manufacturingDate': '2022-02-04T13:48:54',
+        },
+      },
+    ],
   },
   /*
   {
@@ -497,8 +469,6 @@ export const otherPartsAssets = [
     owner: 'SUPPLIER',
     childRelations: [],
     parentRelations: [],
-    activeAlert: false,
-    underInvestigation: true,
     qualityType: 'Ok',
     van: 'myvan2',
     semanticDataModel: 'SERIALPART',
@@ -520,8 +490,6 @@ export const otherPartsAssets = [
     owner: 'SUPPLIER',
     childRelations: [],
     parentRelations: [],
-    activeAlert: false,
-    underInvestigation: false,
     qualityType: 'Ok',
     van: 'myvan3',
     semanticDataModel: 'SERIALPART',
@@ -543,8 +511,6 @@ export const otherPartsAssets = [
     owner: 'CUSTOMER',
     childRelations: [],
     parentRelations: [],
-    activeAlert: false,
-    underInvestigation: false,
     qualityType: 'Ok',
     van: 'myvan4',
     semanticDataModel: 'BATCH'
@@ -578,8 +544,6 @@ export const otherPartsAssets = [
       { id: 'urn:uuid:aab00d1e-650a-4e3d-a8af-57c7008eadec', idShort: '--' }
     ],
     parentRelations: [],
-    activeAlert: false,
-    underInvestigation: false,
     qualityType: 'Ok',
     van: 'myvan5',
     semanticDataModel: 'SERIALPART',

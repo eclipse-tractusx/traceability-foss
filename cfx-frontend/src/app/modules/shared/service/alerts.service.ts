@@ -45,7 +45,7 @@ import { addFilteringParams } from '@shared/helper/filter-helper';
 export class AlertsService {
   private readonly url = environment.apiUrl;
 
-  constructor(private readonly apiService: ApiService) {}
+  constructor(private readonly apiService: ApiService) { }
 
   public getCreatedAlerts(
     page: number,

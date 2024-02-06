@@ -25,10 +25,10 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { CustomerPartsComponent } from '@page/other-parts/presentation/customer-parts/customer-parts.component';
 import { SupplierPartsComponent } from '@page/other-parts/presentation/supplier-parts/supplier-parts.component';
+import { resetMultiSelectionAutoCompleteComponent } from '@page/parts/core/parts.helper';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { BomLifecycleSize } from '@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model';
 import { ToastService } from '@shared/components/toasts/toast.service';
-import { SearchHelper } from '@shared/helper/search-helper';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { BomLifecycleSettingsService, UserSettingView } from '@shared/service/bom-lifecycle-settings.service';
 import { StaticIdService } from '@shared/service/staticId.service';
@@ -44,7 +44,6 @@ export class OtherPartsComponent implements OnDestroy, OnInit {
 
     public readonly supplierTabLabelId = this.staticIdService.generateId('OtherParts.supplierTabLabel');
     public readonly customerTabLabelId = this.staticIdService.generateId('OtherParts.customerTabLabel');
-    public readonly searchHelper = new SearchHelper();
 
     public searchFormGroup = new FormGroup({});
     public searchControl: FormControl;
@@ -84,14 +83,19 @@ export class OtherPartsComponent implements OnDestroy, OnInit {
     }
 
     private resetFilterAndShowToast() {
-        const resetComponents = (components: QueryList<SupplierPartsComponent> | QueryList<CustomerPartsComponent>) => {
+        const oneFilterSet = false;
+
+        const resetComponents = (
+            components: QueryList<SupplierPartsComponent> | QueryList<CustomerPartsComponent>,
+        ) => {
             for (const component of components) {
-                const filterIsSet = this.searchHelper.resetFilterForAssetComponents(component.partsTableComponents, false);
+                const filterIsSet = resetMultiSelectionAutoCompleteComponent(component.partsTableComponents, oneFilterSet);
                 if (filterIsSet) {
                     this.toastService.info('parts.input.global-search.toastInfo');
                 }
             }
         };
+
         resetComponents(this.supplierPartsComponents);
         resetComponents(this.customerPartsComponents);
     }

@@ -35,7 +35,7 @@ import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { buildMockInvestigations } from '../../../../../mocks/services/investigations-mock/investigations.test.model';
 import { NotificationModule } from '../notification.module';
-import { PartTableType } from '@shared/components/table/table.model';
+import { TableType } from '@shared/components/table/table.model';
 
 describe('NotificationsInboxComponent', () => {
   let clickHandler;
@@ -88,7 +88,7 @@ describe('NotificationsInboxComponent', () => {
           receivedNotifications$,
           clickHandler,
           menuActionsConfig,
-          tablesType: [PartTableType.INVESTIGATIONS_RECEIVED, PartTableType.INVESTIGATIONS_SENT],
+          tablesType: [TableType.INVESTIGATIONS_RECEIVED, TableType.INVESTIGATIONS_SENT],
         },
       },
     );

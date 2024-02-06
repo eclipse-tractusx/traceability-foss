@@ -36,7 +36,6 @@ SPDX-License-Identifier: Apache-2.0
         <app-input color="accent"
           [label]="'parts.input.global-search.placeholderAlertsAndInvestigations' | i18n"
           [prefixIconHover]="true"
-          (prefixIconClick)="triggerSearch()"
           [onEnterActive]="true"
           [prefixIcon]="'search'"
           formControlName="investigationSearch"
@@ -70,7 +69,7 @@ SPDX-License-Identifier: Apache-2.0
     <app-notification [queuedAndRequestedNotifications$]="investigationsQueuedAndRequested$"
       [receivedNotifications$]="investigationsReceived$"
       [translationContext]="TranslationContext.COMMONINVESTIGATION"
-      [tablesType]="[PartTableType.INVESTIGATIONS_RECEIVED, PartTableType.INVESTIGATIONS_SENT]"
+      [tablesType]="[TableType.RECEIVED_INVESTIGATION, TableType.CREATED_INVESTIGATION]"
       [receivedOptionalColumns]="['targetDate', 'severity', 'createdBy']"
       [receivedSortableColumns]="{
         description: true,

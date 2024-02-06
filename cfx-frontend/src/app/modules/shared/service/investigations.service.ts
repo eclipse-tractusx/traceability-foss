@@ -46,7 +46,7 @@ import { addFilteringParams } from '@shared/helper/filter-helper';
 export class InvestigationsService {
   private readonly url = environment.apiUrl;
 
-  constructor(private readonly apiService: ApiService) {}
+  constructor(private readonly apiService: ApiService) { }
 
   public getCreatedInvestigations(
     page: number,

@@ -22,7 +22,6 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { PartsFacade } from '@page/parts/core/parts.facade';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import { PartTableType } from '@shared/components/table/table.model';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { BomLifecycleSize } from '@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model';
 import { BomLifecycleSettingsService, UserSettingView } from '@shared/service/bom-lifecycle-settings.service';
@@ -30,6 +29,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { SearchHelper } from '@shared/helper/search-helper';
 import { OwnPartsComponent } from './own-parts/own-parts.component';
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
+import { resetMultiSelectionAutoCompleteComponent } from '../core/parts.helper';
 
 @Component({
   selector: 'app-parts',
@@ -47,7 +48,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   public globalSearchActive = false;
 
   protected readonly UserSettingView = UserSettingView;
-  protected readonly PartTableType = PartTableType;
+  protected readonly TableType = TableType;
   protected readonly MainAspectType = MainAspectType;
   public readonly searchHelper = new SearchHelper();
 
@@ -85,15 +86,24 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private resetFilterAndShowToast() {
-    const resetComponents = (components: QueryList<OwnPartsComponent>) => {
-      for (const component of components) {
-        const filterIsSet = this.searchHelper.resetFilterForAssetComponents(component.partsTableComponents, false);
-        if (filterIsSet) {
-          this.toastService.info('parts.input.global-search.toastInfo');
-        }
-      }
-    };
-    resetComponents(this.ownPartsComponents);
+    // const resetComponents = (components: QueryList<OwnPartsComponent>) => {
+    //   for (const component of components) {
+    //     const filterIsSet = this.searchHelper.resetFilterForAssetComponents(component.partsTableComponents, false);
+    //     if (filterIsSet) {
+    //       this.toastService.info('parts.input.global-search.toastInfo');
+    //     }
+    //   }
+    // };
+    // resetComponents(this.ownPartsComponents);
+    let filterIsSet;
+
+    for (const ownPartsComponent of this.ownPartsComponents) {
+      filterIsSet = resetMultiSelectionAutoCompleteComponent(ownPartsComponent.partsTableComponents, false);
+    }
+
+    if (filterIsSet) {
+      this.toastService.info('parts.input.global-search.toastInfo');
+    }
   }
 
   public ngAfterViewInit(): void {
