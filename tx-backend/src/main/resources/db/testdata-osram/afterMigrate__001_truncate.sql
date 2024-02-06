@@ -29,5 +29,5 @@ truncate table
 
 ---
 -- reset sequences
-select setval('alert_id_seq'        , 1, true);
-select setval('investigation_id_seq', 1, true);
+select setval('alert_id_seq1'        , 1, true);
+select setval('investigation_id_seq1', 1, true);
