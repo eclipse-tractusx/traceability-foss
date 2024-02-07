@@ -36,11 +36,6 @@ values
     (${alertReceivedId4}, ${assetAsBuiltId23});
 
 ---
--- update assets_as_built
---     set active_alert = true
---     where id in (${assetAsBuiltId23});
-
----
 ---
 -- DECLINED by receiver notification message
 insert into alert_notification

@@ -36,11 +36,6 @@ values
     (${alertReceivedId5}, ${assetAsBuiltId22});
 
 ---
--- update assets_as_built
---     set active_alert = false
---     where id in (${assetAsBuiltId22});
-
----
 ---
 -- CLOSED by sender notification message
 insert into alert_notification
