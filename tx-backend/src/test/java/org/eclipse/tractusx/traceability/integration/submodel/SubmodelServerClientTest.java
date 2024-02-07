@@ -52,5 +52,4 @@ class SubmodelServerClientTest extends IntegrationTestSpecification {
 //        assertThat(result).isEqualTo(submodel);
 //
 //    }
-
 }

@@ -68,7 +68,7 @@ class ReadInvestigationsAndTestAllPagesIT extends IntegrationTestSpecification {
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(page, 2, List.of(sort)), new SearchCriteriaRequestParam(List.of(filterString,filter1,filter2))))
+                .body(new PageableFilterRequest(new OwnPageable(page, 2, List.of(sort)), new SearchCriteriaRequestParam(List.of(filterString, filter1, filter2))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/investigations/filter")
@@ -116,7 +116,7 @@ class ReadInvestigationsAndTestAllPagesIT extends IntegrationTestSpecification {
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(page, 2, List.of(sort)), new SearchCriteriaRequestParam(List.of(filterString,filter1,filter2))))
+                .body(new PageableFilterRequest(new OwnPageable(page, 2, List.of(sort)), new SearchCriteriaRequestParam(List.of(filterString, filter1, filter2))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/investigations/filter")

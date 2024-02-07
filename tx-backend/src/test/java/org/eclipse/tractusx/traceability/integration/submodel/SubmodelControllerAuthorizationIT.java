@@ -47,12 +47,11 @@ class SubmodelControllerAuthorizationIT extends IntegrationTestSpecification {
         given()
                 .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
                 .contentType(ContentType.JSON)
-        .when()
+                .when()
                 .get(ROOT + "/123")
                 .then()
-        .assertThat()
+                .assertThat()
                 .statusCode(new ForbiddenMatcher(isAllowed));
-
     }
 
     @ParameterizedTest
@@ -63,12 +62,11 @@ class SubmodelControllerAuthorizationIT extends IntegrationTestSpecification {
                 .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString("submodelPayload"))
-        .when()
+                .when()
                 .post(ROOT + "/123")
-        .then()
+                .then()
                 .assertThat()
                 .statusCode(new ForbiddenMatcher(isAllowed));
-
     }
 
     @ParameterizedTest
@@ -78,11 +76,10 @@ class SubmodelControllerAuthorizationIT extends IntegrationTestSpecification {
         given()
                 .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
                 .contentType(ContentType.JSON)
-        .when()
+                .when()
                 .delete(ROOT)
-        .then()
+                .then()
                 .assertThat()
                 .statusCode(new ForbiddenMatcher(isAllowed));
-
     }
  }

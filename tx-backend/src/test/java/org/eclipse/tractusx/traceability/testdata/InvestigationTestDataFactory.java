@@ -732,7 +732,6 @@ public class InvestigationTestDataFactory {
                 .createdDate(now.plusSeconds(80L))
                 .build();
 
-
         return new InvestigationEntity[]{firstInvestigation, secondInvestigation, thirdInvestigation, fourthInvestigation, fifthInvestigation};
     }
 }

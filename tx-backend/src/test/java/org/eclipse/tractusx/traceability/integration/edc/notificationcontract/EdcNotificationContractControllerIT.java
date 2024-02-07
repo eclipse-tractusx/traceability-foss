@@ -121,7 +121,6 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
         edcSupport.verifyDeleteNotificationAssetEndpointCalledTimes(0);
         edcSupport.verifyDeletePolicyDefinitionEndpointCalledTimes(0);
         edcSupport.verifyDeleteContractDefinitionEndpointCalledTimes(0);
-
     }
 
     /*

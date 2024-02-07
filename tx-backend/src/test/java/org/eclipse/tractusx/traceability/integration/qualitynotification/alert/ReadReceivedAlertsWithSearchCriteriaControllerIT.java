@@ -66,7 +66,7 @@ class ReadReceivedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSp
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filter))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/alerts/filter")
@@ -87,7 +87,7 @@ class ReadReceivedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSp
         Date myDate = Date.from(Instant.now());
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = formatter.format(myDate);
-        String filter = "createdDate,AT_LOCAL_DATE," + formattedDate +",AND";
+        String filter = "createdDate,AT_LOCAL_DATE," + formattedDate + ",AND";
         String testBpn = bpnSupport.testBpn();
 
         AlertNotificationEntity[] alertNotificationEntities = AlertTestDataFactory.createReceiverMajorityAlertNotificationEntitiesTestData(testBpn);
@@ -95,7 +95,7 @@ class ReadReceivedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSp
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filter))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/alerts/filter")
@@ -120,7 +120,7 @@ class ReadReceivedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSp
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filter))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/alerts/filter")
@@ -146,7 +146,7 @@ class ReadReceivedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSp
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filter))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/alerts/filter")
@@ -174,7 +174,7 @@ class ReadReceivedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSp
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sort)), new SearchCriteriaRequestParam(List.of(filterString,filter))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sort)), new SearchCriteriaRequestParam(List.of(filterString, filter))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/alerts/filter")
@@ -200,7 +200,7 @@ class ReadReceivedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSp
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filter))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/alerts/filter")
@@ -226,7 +226,7 @@ class ReadReceivedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSp
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filter))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/alerts/filter")
@@ -253,7 +253,7 @@ class ReadReceivedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSp
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString,filterString1,filterString2))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filterString1, filterString2))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/alerts/filter")
@@ -281,7 +281,7 @@ class ReadReceivedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSp
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString,filterString1,filterString2))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filterString1, filterString2))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/alerts/filter")
@@ -299,13 +299,13 @@ class ReadReceivedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSp
     private static Stream<Arguments> filterArguments() {
         return Stream.of(
                 Arguments.of(
-                        "description","first","RECEIVER"
+                        "description", "first", "RECEIVER"
                 ),
                 Arguments.of(
-                        "description","First","RECEIVER"
+                        "description", "First", "RECEIVER"
                 ),
                 Arguments.of(
-                        "description","FIRST","RECEIVER"
+                        "description", "FIRST", "RECEIVER"
                 )
         );
     }

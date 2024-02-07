@@ -197,8 +197,6 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 new ImportStateMessage("urn:uuid:da978a30-4dde-4d76-808a-b7946763ff0d", true),
                 new ImportStateMessage("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f", true)
         );
-
-
     }
 
     @Test
@@ -301,7 +299,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
         assertThat(result.validationResult().validationErrors())
                 .containsExactlyInAnyOrder(
                         "Could not find assets"
-                        );
+                );
     }
 
     @Test
@@ -395,6 +393,5 @@ class ImportControllerIT extends IntegrationTestSpecification {
         AssetBase asset = assetAsBuiltRepository.getAssetById("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f");
         assertThat("Trace-X policy").isEqualTo(asset.getPolicyId());
         assertThat(ImportState.IN_SYNCHRONIZATION).isEqualTo(asset.getImportState());
-
     }
 }

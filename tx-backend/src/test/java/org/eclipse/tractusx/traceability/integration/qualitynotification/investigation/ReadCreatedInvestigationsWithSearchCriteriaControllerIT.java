@@ -65,7 +65,7 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filter))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/investigations/filter")
@@ -86,7 +86,7 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
         Date myDate = Date.from(Instant.now());
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = formatter.format(myDate);
-        String filter = "createdDate,AT_LOCAL_DATE," + formattedDate +",AND";
+        String filter = "createdDate,AT_LOCAL_DATE," + formattedDate + ",AND";
         String testBpn = bpnSupport.testBpn();
 
         InvestigationNotificationEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createSenderMajorityInvestigationNotificationEntitiesTestData(testBpn);
@@ -94,7 +94,7 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filter))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/investigations/filter")
@@ -119,7 +119,7 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filter))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/investigations/filter")
@@ -145,7 +145,7 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filter))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/investigations/filter")
@@ -163,7 +163,7 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
     void givenFilterBySeverityProvided_whenGetInvestigations_thenReturnCreatedInvestigationsFilteredBySeverity() throws JoseException {
         // given
         String filterString = "channel,EQUAL,SENDER,AND";
-        String filter =   "severity,EQUAL,LIFE_THREATENING,AND";
+        String filter = "severity,EQUAL,LIFE_THREATENING,AND";
         String testBpn = bpnSupport.testBpn();
 
         InvestigationNotificationEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createSenderMajorityInvestigationNotificationEntitiesTestData(testBpn);
@@ -171,7 +171,7 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filter))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/investigations/filter")
@@ -197,7 +197,7 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filter))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/investigations/filter")
@@ -223,7 +223,7 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filter))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/investigations/filter")
@@ -250,7 +250,7 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString,filterString1,filterString2))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filterString1, filterString2))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/investigations/filter")
@@ -278,7 +278,7 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString,filterString1,filterString2))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filterString1, filterString2))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/investigations/filter")
@@ -296,13 +296,13 @@ class ReadCreatedInvestigationsWithSearchCriteriaControllerIT extends Integratio
     private static Stream<Arguments> filterArguments() {
         return Stream.of(
                 Arguments.of(
-                        "description","first","SENDER"
+                        "description", "first", "SENDER"
                 ),
                 Arguments.of(
-                        "description","First","SENDER"
+                        "description", "First", "SENDER"
                 ),
                 Arguments.of(
-                        "description","FIRST","SENDER"
+                        "description", "FIRST", "SENDER"
                 )
         );
     }

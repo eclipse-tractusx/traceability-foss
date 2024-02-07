@@ -65,7 +65,7 @@ class ReadReceivedInvestigationsWithSearchCriteriaControllerIT extends Integrati
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filter))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/investigations/filter")
@@ -85,7 +85,7 @@ class ReadReceivedInvestigationsWithSearchCriteriaControllerIT extends Integrati
         Date myDate = Date.from(Instant.now());
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = formatter.format(myDate);
-        String filter = "createdDate,AT_LOCAL_DATE," + formattedDate +",AND";
+        String filter = "createdDate,AT_LOCAL_DATE," + formattedDate + ",AND";
         String testBpn = bpnSupport.testBpn();
 
         InvestigationNotificationEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createReceiverMajorityInvestigationNotificationEntitiesTestData(testBpn);
@@ -93,7 +93,7 @@ class ReadReceivedInvestigationsWithSearchCriteriaControllerIT extends Integrati
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filter))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/investigations/filter")
@@ -117,7 +117,7 @@ class ReadReceivedInvestigationsWithSearchCriteriaControllerIT extends Integrati
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filter))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/investigations/filter")
@@ -142,7 +142,7 @@ class ReadReceivedInvestigationsWithSearchCriteriaControllerIT extends Integrati
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filter))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/investigations/filter")
@@ -167,7 +167,7 @@ class ReadReceivedInvestigationsWithSearchCriteriaControllerIT extends Integrati
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filter))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/investigations/filter")
@@ -192,7 +192,7 @@ class ReadReceivedInvestigationsWithSearchCriteriaControllerIT extends Integrati
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filter))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/investigations/filter")
@@ -217,7 +217,7 @@ class ReadReceivedInvestigationsWithSearchCriteriaControllerIT extends Integrati
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filter))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/investigations/filter")
@@ -243,7 +243,7 @@ class ReadReceivedInvestigationsWithSearchCriteriaControllerIT extends Integrati
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString,filterString1,filterString2))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filterString1, filterString2))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/investigations/filter")
@@ -270,7 +270,7 @@ class ReadReceivedInvestigationsWithSearchCriteriaControllerIT extends Integrati
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString,filterString1,filterString2))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filterString1, filterString2))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/investigations/filter")
@@ -287,13 +287,13 @@ class ReadReceivedInvestigationsWithSearchCriteriaControllerIT extends Integrati
     private static Stream<Arguments> filterArguments() {
         return Stream.of(
                 Arguments.of(
-                        "description","first","RECEIVER"
+                        "description", "first", "RECEIVER"
                 ),
                 Arguments.of(
-                        "description","First","RECEIVER"
+                        "description", "First", "RECEIVER"
                 ),
                 Arguments.of(
-                        "description","FIRST","RECEIVER"
+                        "description", "FIRST", "RECEIVER"
                 )
         );
     }

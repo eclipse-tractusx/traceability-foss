@@ -38,6 +38,7 @@ class EdcNotificationContractControllerAuthorizationIT extends IntegrationTestSp
 
     /*
      * TODO (Pooja):
+     * - Task DO-5327
      * - Review and update PreAuthorize condition in EDCNotificationContract Controller
      * - According to Cofinity requirement, only ADMIN has permission
      * - According to Upstream requirement, SUPERVISOR has permission
@@ -52,17 +53,16 @@ class EdcNotificationContractControllerAuthorizationIT extends IntegrationTestSp
                 .contentType(ContentType.JSON)
                 .body(
                         """
-                            {
-                            "notificationType" : "QUALITY_INVESTIGATION",
-                            "notificationMethod" : "RECEIVE"
-                            }
-                         """
-                         )
-        .when()
+                                   {
+                                   "notificationType" : "QUALITY_INVESTIGATION",
+                                   "notificationMethod" : "RECEIVE"
+                                   }
+                                """
+                )
+                .when()
                 .post(ROOT)
                 .then()
-        .assertThat()
+                .assertThat()
                 .statusCode(new ForbiddenMatcher(isAllowed));
-
     }
  }

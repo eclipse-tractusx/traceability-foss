@@ -90,7 +90,7 @@ class ReadCreatedAlertsSortedWithSearchCriteriaIT extends IntegrationTestSpecifi
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(page, size, List.of(sort)), new SearchCriteriaRequestParam(List.of(filterString,filter1,filter2,filter3))))
+                .body(new PageableFilterRequest(new OwnPageable(page, size, List.of(sort)), new SearchCriteriaRequestParam(List.of(filterString, filter1, filter2, filter3))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/alerts/filter")

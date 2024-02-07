@@ -46,7 +46,7 @@ class ReadCreatedAlertsInSortedOrderControllerIT extends IntegrationTestSpecific
     @Autowired
     BpnSupport bpnSupport;
 
-   @Test
+    @Test
     void givenSortByCreatedDateProvided_whenGetAlerts_thenReturnAlertsProperlySorted() throws JoseException {
         // given
         String sortString = "createdDate,desc";
@@ -71,7 +71,7 @@ class ReadCreatedAlertsInSortedOrderControllerIT extends IntegrationTestSpecific
                 .body("totalItems", Matchers.is(4))
                 .body("content.description",
                         Matchers.containsInRelativeOrder("Second Alert on Asset2", "Fourth Alert on Asset4",
-                        "Third Alert on Asset3", "First Alert on Asset1"));
+                                "Third Alert on Asset3", "First Alert on Asset1"));
     }
 
     @Test

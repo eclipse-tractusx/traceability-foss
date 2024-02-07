@@ -161,7 +161,6 @@ class ReceiverInvestigationsControllerIT extends IntegrationTestSpecification {
                 .statusCode(400);
     }
 
-
     private static Stream<Arguments> invalidRequest() {
         return Stream.of(
                 arguments("""
@@ -196,5 +195,4 @@ class ReceiverInvestigationsControllerIT extends IntegrationTestSpecification {
                         """.replace("$status", UpdateQualityNotificationStatusRequest.DECLINED.name()))
         );
     }
-
 }

@@ -68,12 +68,11 @@ class InvestigationsControllerAuthorizationIT extends IntegrationTestSpecificati
                 .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(request))
-        .when()
+                .when()
                 .post(ROOT)
-        .then()
+                .then()
                 .assertThat()
                 .statusCode(new ForbiddenMatcher(isAllowed));
-
     }
 
     @ParameterizedTest
@@ -92,7 +91,6 @@ class InvestigationsControllerAuthorizationIT extends IntegrationTestSpecificati
                 .log().all()
                 .assertThat()
                 .statusCode(new ForbiddenMatcher(isAllowed));
-
     }
 
     @ParameterizedTest
@@ -120,18 +118,19 @@ class InvestigationsControllerAuthorizationIT extends IntegrationTestSpecificati
         given()
                 .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
                 .contentType(ContentType.JSON)
-        .when()
+                .when()
                 .get(ROOT + "/123")
-        .then()
+                .then()
                 .assertThat()
                 .statusCode(new ForbiddenMatcher(isAllowed));
-
     }
 
     /*
+     * TODO (Pooja):
      * Cofinity initially allowed both Supervisor and User roles to approve investigation.
      * However, following Upstream's code changes and considering the logic, it now makes sense
      * to restrict investigation approval to only the Supervisor role, as per the updated requirements.
+     * Frontend need to change as well as
      */
     @ParameterizedTest
     @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#supervisorRoleAllowed")
@@ -140,12 +139,11 @@ class InvestigationsControllerAuthorizationIT extends IntegrationTestSpecificati
         given()
                 .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
                 .contentType(ContentType.JSON)
-        .when()
+                .when()
                 .post(ROOT + "/123/approve")
-        .then()
+                .then()
                 .assertThat()
                 .statusCode(new ForbiddenMatcher(isAllowed));
-
     }
 
     @ParameterizedTest
@@ -155,18 +153,19 @@ class InvestigationsControllerAuthorizationIT extends IntegrationTestSpecificati
         given()
                 .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
                 .contentType(ContentType.JSON)
-        .when()
+                .when()
                 .post(ROOT + "/123/cancel")
-        .then()
+                .then()
                 .assertThat()
                 .statusCode(new ForbiddenMatcher(isAllowed));
-
     }
 
     /*
+     * TODO (Pooja):
      * Cofinity initially allowed both Supervisor and User roles to close investigation.
      * However, following Upstream's code changes and considering the logic, it now makes sense
      * to restrict investigation close to only the Supervisor role, as per the updated requirements.
+     * Frontend need to change as well as
      */
     @ParameterizedTest
     @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#supervisorRoleAllowed")
@@ -178,12 +177,11 @@ class InvestigationsControllerAuthorizationIT extends IntegrationTestSpecificati
                 .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(request))
-        .when()
+                .when()
                 .post(ROOT + "/123/close")
-        .then()
+                .then()
                 .assertThat()
                 .statusCode(new ForbiddenMatcher(isAllowed));
-
     }
 
     @ParameterizedTest
@@ -198,11 +196,10 @@ class InvestigationsControllerAuthorizationIT extends IntegrationTestSpecificati
                 .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(request))
-        .when()
+                .when()
                 .post(ROOT + "/123/update")
-        .then()
+                .then()
                 .assertThat()
                 .statusCode(new ForbiddenMatcher(isAllowed));
-
     }
  }

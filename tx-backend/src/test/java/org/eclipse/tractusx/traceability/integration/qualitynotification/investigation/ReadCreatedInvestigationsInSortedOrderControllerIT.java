@@ -121,7 +121,7 @@ class ReadCreatedInvestigationsInSortedOrderControllerIT extends IntegrationTest
                 .body("pageSize", Matchers.is(10))
                 .body("content", Matchers.hasSize(4))
                 .body("totalItems", Matchers.is(4))
-                .body("content.status", Matchers.containsInRelativeOrder( "ACCEPTED","ACKNOWLEDGED","CREATED", "SENT"));
+                .body("content.status", Matchers.containsInRelativeOrder("ACCEPTED", "ACKNOWLEDGED", "CREATED", "SENT"));
     }
 
     @Test
@@ -146,7 +146,7 @@ class ReadCreatedInvestigationsInSortedOrderControllerIT extends IntegrationTest
                 .body("pageSize", Matchers.is(10))
                 .body("content", Matchers.hasSize(4))
                 .body("totalItems", Matchers.is(4))
-                .body("content.severity", Matchers.containsInRelativeOrder("CRITICAL", "LIFE-THREATENING","MAJOR", "MINOR"));
+                .body("content.severity", Matchers.containsInRelativeOrder("CRITICAL", "LIFE-THREATENING", "MAJOR", "MINOR"));
     }
 
     @Test

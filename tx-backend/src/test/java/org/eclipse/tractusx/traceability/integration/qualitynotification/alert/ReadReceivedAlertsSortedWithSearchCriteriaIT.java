@@ -90,7 +90,7 @@ class ReadReceivedAlertsSortedWithSearchCriteriaIT extends IntegrationTestSpecif
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(page, size, List.of(sort)), new SearchCriteriaRequestParam(List.of(filterString,filter1,filter2,filter3))))
+                .body(new PageableFilterRequest(new OwnPageable(page, size, List.of(sort)), new SearchCriteriaRequestParam(List.of(filterString, filter1, filter2, filter3))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/alerts/filter")
@@ -106,13 +106,13 @@ class ReadReceivedAlertsSortedWithSearchCriteriaIT extends IntegrationTestSpecif
         String sort = "createdDate,desc";
         String filterString = "channel,EQUAL,RECEIVER,AND";
         String filter1 = "status,EQUAL,RECEIVED,OR";
-        String filter2= "status,EQUAL,ACKNOWLEDGED,OR";
-        String filter3= "status,EQUAL,ACCEPTED,OR";
-        String filter4= "status,EQUAL,DECLINED,OR";
+        String filter2 = "status,EQUAL,ACKNOWLEDGED,OR";
+        String filter3 = "status,EQUAL,ACCEPTED,OR";
+        String filter4 = "status,EQUAL,DECLINED,OR";
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 5, List.of(sort)), new SearchCriteriaRequestParam(List.of(filterString,filter1,filter2,filter3,filter4))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 5, List.of(sort)), new SearchCriteriaRequestParam(List.of(filterString, filter1, filter2, filter3, filter4))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/alerts/filter")

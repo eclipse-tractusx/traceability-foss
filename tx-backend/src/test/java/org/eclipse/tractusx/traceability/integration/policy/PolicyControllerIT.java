@@ -27,8 +27,6 @@ import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 
 class PolicyControllerIT extends IntegrationTestSpecification {
-
-
     @Test
     void shouldReturnPolicy() throws JoseException {
         // when/then
@@ -40,6 +38,5 @@ class PolicyControllerIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(200)
                 .log().all();
-
     }
 }

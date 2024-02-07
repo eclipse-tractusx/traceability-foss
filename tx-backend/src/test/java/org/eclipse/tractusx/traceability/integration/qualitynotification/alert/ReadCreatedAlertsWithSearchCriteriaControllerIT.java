@@ -67,7 +67,7 @@ class ReadCreatedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSpe
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10,List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filter))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/alerts/filter")
@@ -96,7 +96,7 @@ class ReadCreatedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSpe
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10,List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filter))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/alerts/filter")
@@ -121,7 +121,7 @@ class ReadCreatedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSpe
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10,List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filter))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/alerts/filter")
@@ -147,7 +147,7 @@ class ReadCreatedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSpe
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10,List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filter))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/alerts/filter")
@@ -174,7 +174,7 @@ class ReadCreatedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSpe
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sort)), new SearchCriteriaRequestParam(List.of(filterString,filter))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sort)), new SearchCriteriaRequestParam(List.of(filterString, filter))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/alerts/filter")
@@ -200,7 +200,7 @@ class ReadCreatedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSpe
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10,List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filter))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/alerts/filter")
@@ -226,7 +226,7 @@ class ReadCreatedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSpe
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10,List.of()), new SearchCriteriaRequestParam(List.of(filterString,filter))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filter))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/alerts/filter")
@@ -253,7 +253,7 @@ class ReadCreatedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSpe
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10,List.of()), new SearchCriteriaRequestParam(List.of(filterString,filterString1,filterString2))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filterString1, filterString2))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/alerts/filter")
@@ -281,7 +281,7 @@ class ReadCreatedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSpe
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10,List.of()), new SearchCriteriaRequestParam(List.of(filterString,filterString1,filterString2))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filterString1, filterString2))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/alerts/filter")
@@ -299,20 +299,20 @@ class ReadCreatedAlertsWithSearchCriteriaControllerIT extends IntegrationTestSpe
     private static Stream<Arguments> filterArguments() {
         return Stream.of(
                 Arguments.of(
-                        "description","first","SENDER"
+                        "description", "first", "SENDER"
                 ),
                 Arguments.of(
-                        "description","First","SENDER"
+                        "description", "First", "SENDER"
                 ),
                 Arguments.of(
-                        "description","FIRST","SENDER"
+                        "description", "FIRST", "SENDER"
                 )
         );
     }
 
     @ParameterizedTest
     @MethodSource("filterArguments")
-    void testIfFilteringIsCaseInsensitive(String fieldName,String startWith,String channel) throws JoseException {
+    void testIfFilteringIsCaseInsensitive(String fieldName, String startWith, String channel) throws JoseException {
         // given
         String testBpn = bpnSupport.testBpn();
 

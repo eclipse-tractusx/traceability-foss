@@ -68,7 +68,6 @@ class InvestigationControllerFilterValuesIT extends IntegrationTestSpecification
                 .body(".", Matchers.containsInRelativeOrder(List.of("1", "11", "2", "22", "3", "33", "4", "44", "5", "55", "6", "7", "8").toArray()));
     }
 
-
     @Test
     void givenDescriptionFieldStartWith_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
         // given

@@ -90,15 +90,14 @@ class ReadReceivedInvestigationsSortedWithSearchCriteriaIT extends IntegrationTe
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(page, size, List.of(sort)), new SearchCriteriaRequestParam(List.of(filterString,filter1,filter2,filter3))))
+                .body(new PageableFilterRequest(new OwnPageable(page, size, List.of(sort)), new SearchCriteriaRequestParam(List.of(filterString, filter1, filter2, filter3))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
                 .body("totalItems", equalTo(expectedOrderOfIdShortItems.length))
-                .body("content.status", Matchers.containsInRelativeOrder(expectedOrderOfIdShortItems))
-        ;
+                .body("content.status", Matchers.containsInRelativeOrder(expectedOrderOfIdShortItems));
     }
 
     @Test
@@ -106,14 +105,14 @@ class ReadReceivedInvestigationsSortedWithSearchCriteriaIT extends IntegrationTe
         // given
         String filterString = "channel,EQUAL,RECEIVER,AND";
         String filter1 = "status,EQUAL,RECEIVED,OR";
-        String filter2 =  "status,EQUAL,ACKNOWLEDGED,OR";
-        String filter3= "status,EQUAL,ACCEPTED,OR";
+        String filter2 = "status,EQUAL,ACKNOWLEDGED,OR";
+        String filter3 = "status,EQUAL,ACCEPTED,OR";
         String filter4 = "status,EQUAL,DECLINED,OR";
         String sort = "createdDate,desc";
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 5, List.of(sort)), new SearchCriteriaRequestParam(List.of(filterString,filter1,filter2,filter3,filter4))))
+                .body(new PageableFilterRequest(new OwnPageable(0, 5, List.of(sort)), new SearchCriteriaRequestParam(List.of(filterString, filter1, filter2, filter3, filter4))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/investigations/filter")

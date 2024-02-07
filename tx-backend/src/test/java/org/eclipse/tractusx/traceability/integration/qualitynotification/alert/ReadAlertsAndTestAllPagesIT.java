@@ -31,124 +31,29 @@ class ReadAlertsAndTestAllPagesIT extends IntegrationTestSpecification {
     @Autowired
     AlertNotificationsSupport alertNotificationsSupport;
 
-   /* private static Stream<Arguments> createdArguments() {
-        return Stream.of(
-                Arguments.of(
-                        0,
-                        new String[]{"SENT", "SENT"}
-                ),
-
-                Arguments.of(
-                        1,
-                        new String[]{"CREATED"}
-                )
-        );
-    }*/
-
-/*    @ParameterizedTest
-    @MethodSource("createdArguments")
-    void givenSmallPageSize_whenCallCreatedEndpoint_thenReturnExpectedResponse(
-            final int page,
-            final String[] expectedOrderOfIdShortItems
-    ) throws JoseException {
-
-        final AlertNotificationEntity[] testData = AlertTestDataFactory.createSenderMajorityAlertNotificationEntitiesTestData(bpnSupport.testBpn());
-        alertNotificationsSupport.storedAlertNotifications(testData);
-
-        final AlertNotificationEntity[] extendedTestData = AlertTestDataFactory.createExtendedSenderAlertNotificationEntitiesTestData(bpnSupport.testBpn());
-        alertNotificationsSupport.storedAlertNotifications(extendedTestData);
-
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .contentType(ContentType.JSON)
-                .param("page", page)
-                .param("size", 2)
-                .param("filter", "status,EQUAL,SENT,AND")
-                .param("filter", "status,EQUAL,CREATED,AND")
-                .param("sort", "createdDate,desc")
-                .log().all()
-                .when()
-                .get("/api/alerts/created")
-                .then()
-                .log().all()
-                .statusCode(200)
-                .body("totalItems", equalTo(3))
-                .body("content.status", Matchers.containsInRelativeOrder(expectedOrderOfIdShortItems));
-    }*/
-
-   /* private static Stream<Arguments> receivedArguments() {
-        return Stream.of(
-                Arguments.of(
-                        0,
-                        new String[]{"RECEIVED", "RECEIVED"}
-                ),
-
-                Arguments.of(
-                        1,
-                        new String[]{"ACCEPTED", "ACCEPTED"}
-                ),
-                Arguments.of(
-                        2,
-                        new String[]{"ACCEPTED"}
-                )
-        );
-    }
-
-    @ParameterizedTest
-    @MethodSource("receivedArguments")
-    void givenSmallPageSize_whenCallReceivedEndpoint_thenReturnExpectedResponse(
-            final long page,
-            final String[] expectedOrderOfIdShortItems
-    ) throws JoseException {
-
-        final AlertNotificationEntity[] testData = AlertTestDataFactory.createReceiverMajorityAlertNotificationEntitiesTestData(bpnSupport.testBpn());
-        alertNotificationsSupport.storedAlertNotifications(testData);
-
-        final AlertNotificationEntity[] extendedTestData = AlertTestDataFactory.createExtendedReceiverAlertNotificationEntitiesTestData(bpnSupport.testBpn());
-        alertNotificationsSupport.storedAlertNotifications(extendedTestData);
-
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .contentType(ContentType.JSON)
-                .param("page", page)
-                .param("size", 2)
-                .param("filter", "status,EQUAL,RECEIVED,AND")
-                .param("filter", "status,EQUAL,ACCEPTED,AND")
-                .param("sort", "createdDate,desc")
-                .log().all()
-                .when()
-                .get("/api/alerts/received")
-                .then()
-                .log().all()
-                .statusCode(200)
-                .body("totalItems", equalTo(5))
-                .body("content.status", Matchers.containsInRelativeOrder(expectedOrderOfIdShortItems));
-    }*/
-
-
     private static Stream<Arguments> createdArguments() {
         return Stream.of(
                 Arguments.of(
                         0,
                         "status,EQUAL,SENT,AND",
-                        2,
+                        "status,EQUAL,CREATED,AND",
                         new String[]{"SENT", "SENT"}
                 ),
-
                 Arguments.of(
                         1,
+                        "status,EQUAL,SENT,AND",
                         "status,EQUAL,CREATED,AND",
-                        1,
                         new String[]{"CREATED"}
                 )
         );
     }
+
     @ParameterizedTest
     @MethodSource("createdArguments")
     void givenSmallPageSize_whenCallCreatedEndpoint_thenReturnExpectedResponse(
-            final long page,
-            final String filter,
-            final int totalItems,
+            final int page,
+            final String filter1,
+            final String filter2,
             final String[] expectedOrderOfIdShortItems
     ) throws JoseException {
         // given
@@ -160,19 +65,18 @@ class ReadAlertsAndTestAllPagesIT extends IntegrationTestSpecification {
 
         final AlertNotificationEntity[] extendedTestData = AlertTestDataFactory.createExtendedSenderAlertNotificationEntitiesTestData(bpnSupport.testBpn());
         alertNotificationsSupport.storedAlertNotifications(extendedTestData);
+
         // then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 2, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString,filter))))
+                .body(new PageableFilterRequest(new OwnPageable(page, 2, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString, filter1, filter2))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/alerts/filter")
                 .then()
                 .log().all()
                 .statusCode(200)
-                .body("page", Matchers.is(0))
-                .body("pageSize", Matchers.is(2))
-                .body("totalItems", equalTo(totalItems))
+                .body("totalItems", equalTo(3))
                 .body("content.status", Matchers.containsInRelativeOrder(expectedOrderOfIdShortItems));
     }
 
@@ -181,15 +85,20 @@ class ReadAlertsAndTestAllPagesIT extends IntegrationTestSpecification {
                 Arguments.of(
                         0,
                         "status,EQUAL,RECEIVED,AND",
-                        2,
+                        "status,EQUAL,ACCEPTED,AND",
                         new String[]{"RECEIVED", "RECEIVED"}
                 ),
-
                 Arguments.of(
                         1,
+                        "status,EQUAL,RECEIVED,AND",
                         "status,EQUAL,ACCEPTED,AND",
-                        3,
                         new String[]{"ACCEPTED", "ACCEPTED"}
+                ),
+                Arguments.of(
+                        2,
+                        "status,EQUAL,RECEIVED,AND",
+                        "status,EQUAL,ACCEPTED,AND",
+                        new String[]{"ACCEPTED"}
                 )
         );
     }
@@ -197,9 +106,9 @@ class ReadAlertsAndTestAllPagesIT extends IntegrationTestSpecification {
     @ParameterizedTest
     @MethodSource("receivedArguments")
     void givenSmallPageSize_whenCallReceivedEndpoint_thenReturnExpectedResponse(
-            final long page,
-            final String filter,
-            final int totalItems,
+            final int page,
+            final String filter1,
+            final String filter2,
             final String[] expectedOrderOfIdShortItems
     ) throws JoseException {
 
@@ -212,18 +121,17 @@ class ReadAlertsAndTestAllPagesIT extends IntegrationTestSpecification {
         final AlertNotificationEntity[] extendedTestData = AlertTestDataFactory.createExtendedReceiverAlertNotificationEntitiesTestData(bpnSupport.testBpn());
         alertNotificationsSupport.storedAlertNotifications(extendedTestData);
 
+        // then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 2, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString,filter))))
+                .body(new PageableFilterRequest(new OwnPageable(page, 2, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString, filter1, filter2))))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/alerts/filter")
                 .then()
                 .log().all()
                 .statusCode(200)
-                .body("page", Matchers.is(0))
-                .body("pageSize", Matchers.is(2))
-                .body("totalItems", equalTo(totalItems))
+                .body("totalItems", equalTo(5))
                 .body("content.status", Matchers.containsInRelativeOrder(expectedOrderOfIdShortItems));
     }
 }

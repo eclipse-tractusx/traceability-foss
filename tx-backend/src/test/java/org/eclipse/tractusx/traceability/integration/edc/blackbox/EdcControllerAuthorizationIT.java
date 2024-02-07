@@ -34,12 +34,11 @@ class EdcControllerAuthorizationIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .body(edcNotification)
                 .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
-        .when()
+                .when()
                 .post(ROOT + "/qualitynotifications/receive")
-        .then()
+                .then()
                 .assertThat()
                 .statusCode(new ForbiddenMatcher(isAllowed));
-
     }
 
     @ParameterizedTest
@@ -59,7 +58,6 @@ class EdcControllerAuthorizationIT extends IntegrationTestSpecification {
                 .then()
                 .assertThat()
                 .statusCode(new ForbiddenMatcher(isAllowed));
-
     }
 
     @ParameterizedTest
@@ -79,7 +77,6 @@ class EdcControllerAuthorizationIT extends IntegrationTestSpecification {
                 .then()
                 .assertThat()
                 .statusCode(new ForbiddenMatcher(isAllowed));
-
     }
 
     @ParameterizedTest
@@ -99,7 +96,6 @@ class EdcControllerAuthorizationIT extends IntegrationTestSpecification {
                 .then()
                 .assertThat()
                 .statusCode(new ForbiddenMatcher(isAllowed));
-
     }
 
     private String readFile(final String filePath) throws IOException {

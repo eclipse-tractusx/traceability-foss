@@ -71,7 +71,6 @@ class EdcNotificationModelIT extends IntegrationTestSpecification {
         assertThat(edcNotification.content().information()).isEqualTo("Some long description");
         assertThat(edcNotification.content().listOfAffectedItems()).hasSize(1);
         assertThat(edcNotification.content().listOfAffectedItems().stream().findFirst().get()).contains("urn:uuid:171fed54-26aa-4848-a025-81aaca557f37");
-
         assertThat(edcNotification.convertNotificationStatus()).isEqualTo(QualityNotificationStatus.SENT);
         assertThat(edcNotification.convertNotificationType()).isEqualTo(NotificationType.QMINVESTIGATION);
     }

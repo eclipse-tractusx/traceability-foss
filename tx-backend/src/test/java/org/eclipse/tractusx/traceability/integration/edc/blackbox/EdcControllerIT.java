@@ -164,7 +164,6 @@ class EdcControllerIT extends IntegrationTestSpecification {
                 .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                 .build();
 
-
         InvestigationEntity investigation = InvestigationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn("BPNL00000003AXS3")
@@ -183,10 +182,8 @@ class EdcControllerIT extends IntegrationTestSpecification {
 
         investigationsSupport.storedInvestigationFullObject(investigation);
 
-
         String notificationJson = readFile("/testdata/edc_notification_classification_unsupported.json").replaceAll("REPLACE_ME", notificationEntity.getEdcNotificationId());
         EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
-
 
         // when
         given()
@@ -200,7 +197,6 @@ class EdcControllerIT extends IntegrationTestSpecification {
 
         // then
         investigationNotificationsSupport.assertNotificationsSize(1);
-
     }
 
     @Test

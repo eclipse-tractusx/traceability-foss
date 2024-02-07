@@ -77,7 +77,6 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .statusCode(401);
     }
 
-
     @Test
     void shouldReturnNoAlerts() throws JoseException {
         given()
@@ -306,7 +305,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
     @Test
     void givenNonExistingSortField_whenGetAlerts_thenBadRequest() throws JoseException {
         //GIVEN
-        String sortString= "nonExistingField,ASC";
+        String sortString = "nonExistingField,ASC";
 
         //WHEN
         //THEN
