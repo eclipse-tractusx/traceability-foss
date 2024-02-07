@@ -38,7 +38,7 @@ class RegistryControllerAuthorizationIT extends IntegrationTestSpecification {
 
     /*
      * TODO (Pooja):
-     * - Review and update PreAuthorize condition in RegistryController
+     * - Review and update PreAuthorize condition in RegistryController as per Cofinity requirement
      * - According to Cofinity requirement, only ADMIN has permission
      * - According to Upstream requirement, ADMIN has permission but there should be no PreAuthorize
      */

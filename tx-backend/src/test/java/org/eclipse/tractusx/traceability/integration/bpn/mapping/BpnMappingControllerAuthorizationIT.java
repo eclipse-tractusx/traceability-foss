@@ -45,7 +45,7 @@ class BpnMappingControllerAuthorizationIT extends IntegrationTestSpecification {
 
     /*
      * TODO (Pooja):
-     * - Review and update PreAuthorize condition in BPNMapping Controller
+     * - Review and update PreAuthorize condition in BPNMapping Controller as per Cofinity requirement
      * - According to Cofinity requirement, only ADMIN has permission
      * - According to Upstream requirement, ADMIN and SUPERVISOR have permission
      */
@@ -66,7 +66,7 @@ class BpnMappingControllerAuthorizationIT extends IntegrationTestSpecification {
 
     /*
      * TODO (Pooja):
-     * - Review and update PreAuthorize condition in BPNMapping Controller
+     * - Review and update PreAuthorize condition in BPNMapping Controller as per Cofinity requirement
      * - According to Cofinity requirement, only ADMIN has permission
      * - According to Upstream requirement, ADMIN and SUPERVISOR have permission
      */
@@ -88,7 +88,7 @@ class BpnMappingControllerAuthorizationIT extends IntegrationTestSpecification {
 
     /*
      * TODO (Pooja):
-     * - Review and update PreAuthorize condition in BPNMapping Controller
+     * - Review and update PreAuthorize condition in BPNMapping Controller as per Cofinity requirement
      * - According to Cofinity requirement, only ADMIN has permission
      * - According to Upstream requirement, ADMIN and SUPERVISOR have permission
      */
@@ -110,7 +110,7 @@ class BpnMappingControllerAuthorizationIT extends IntegrationTestSpecification {
 
     /*
      * TODO (Pooja):
-     * - Review and update PreAuthorize condition in BPNMapping Controller
+     * - Review and update PreAuthorize condition in BPNMapping Controller as per Cofinity requirement
      * - According to Cofinity requirement, only ADMIN has permission
      * - According to Upstream requirement, ADMIN and SUPERVISOR have permission
      */

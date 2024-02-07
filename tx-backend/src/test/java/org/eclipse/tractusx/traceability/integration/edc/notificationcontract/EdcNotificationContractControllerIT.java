@@ -45,7 +45,7 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
 
     /*
      * TODO (Pooja):
-     * - Review and update PreAuthorize condition in EDCNotificationContract Controller
+     * - Review and update PreAuthorize condition in EDCNotificationContract Controller as per Cofinity requirement
      * - According to Cofinity requirement, only ADMIN has permission
      * - According to Upstream requirement, ADMIN and SUPERVISOR have permission
      */
@@ -87,7 +87,7 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
 
     /*
      * TODO (Pooja):
-     * - Review and update PreAuthorize condition in EDCNotificationContract Controller
+     * - Review and update PreAuthorize condition in EDCNotificationContract Controller as per Cofinity requirement
      * - According to Cofinity requirement, only ADMIN has permission
      * - According to Upstream requirement, ADMIN and SUPERVISOR have permission
      */
@@ -126,7 +126,7 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
 
     /*
      * TODO (Pooja):
-     * - Review and update PreAuthorize condition in EDCNotificationContract Controller
+     * - Review and update PreAuthorize condition in EDCNotificationContract Controller as per Cofinity requirement
      * - According to Cofinity requirement, only ADMIN has permission
      * - According to Upstream requirement, ADMIN and SUPERVISOR have permission
      */
@@ -167,7 +167,7 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
 
     /*
      * TODO (Pooja):
-     * - Review and update PreAuthorize condition in EDCNotificationContract Controller
+     * - Review and update PreAuthorize condition in EDCNotificationContract Controller as per Cofinity requirement
      * - According to Cofinity requirement, only ADMIN has permission
      * - According to Upstream requirement, ADMIN and SUPERVISOR have permission
      */
@@ -210,7 +210,7 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
 
     /*
      * TODO (Pooja):
-     * - Review and update PreAuthorize condition in EDCNotificationContract Controller
+     * - Review and update PreAuthorize condition in EDCNotificationContract Controller as per Cofinity requirement
      * - According to Cofinity requirement, only ADMIN has permission
      * - According to Upstream requirement, ADMIN and SUPERVISOR have permission
      */
@@ -234,7 +234,7 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
 
     /*
      * TODO (Pooja):
-     * - Review and update PreAuthorize condition in EDCNotificationContract Controller
+     * - Review and update PreAuthorize condition in EDCNotificationContract Controller as per Cofinity requirement
      * - According to Cofinity requirement, only ADMIN has permission
      * - According to Upstream requirement, ADMIN and SUPERVISOR have permission
      */
@@ -259,7 +259,7 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
 
     /*
      * TODO (Pooja):
-     * - Review and update PreAuthorize condition in EDCNotificationContract Controller
+     * - Review and update PreAuthorize condition in EDCNotificationContract Controller as per Cofinity requirement
      * - According to Cofinity requirement, only ADMIN has permission
      * - According to Upstream requirement, ADMIN and SUPERVISOR have permission
      */
@@ -284,7 +284,7 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
 
     /*
      * TODO (Pooja):
-     * - Review and update PreAuthorize condition in EDCNotificationContract Controller
+     * - Review and update PreAuthorize condition in EDCNotificationContract Controller as per Cofinity requirement
      * - According to Cofinity requirement, only ADMIN has permission
      * - According to Upstream requirement, ADMIN and SUPERVISOR have permission
      */
@@ -314,7 +314,7 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
 
     /*
      * TODO (Pooja):
-     * - Review and update PreAuthorize condition in EDCNotificationContract Controller
+     * - Review and update PreAuthorize condition in EDCNotificationContract Controller as per Cofinity requirement
      * - According to Cofinity requirement, only ADMIN has permission
      * - According to Upstream requirement, ADMIN and SUPERVISOR have permission
      */
