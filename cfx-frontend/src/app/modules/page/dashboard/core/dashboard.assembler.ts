@@ -24,10 +24,10 @@ import { DashboardStats, DashboardStatsResponse } from '../model/dashboard.model
 export class DashboardAssembler {
   public static assembleDashboard(dashboard: DashboardStatsResponse): DashboardStats {
     return {
-      otherParts: dashboard.otherParts,
-      myParts: dashboard.myParts,
-      investigationsReceived: dashboard.investigationsReceived,
-      alertsReceived: dashboard.alertsReceived,
+      totalOwnParts: dashboard.asBuiltOwnParts + dashboard.asPlannedOwnParts,
+      totalOtherParts: dashboard.asBuiltSupplierParts + dashboard.asBuiltCustomerParts + dashboard.asPlannedSupplierParts + dashboard.asPlannedSupplierParts,
+      investigationsReceived: dashboard.receivedActiveInvestigations,
+      alertsReceived: dashboard.receivedActiveAlerts,
     };
   }
 }

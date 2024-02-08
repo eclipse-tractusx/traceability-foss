@@ -76,19 +76,22 @@ export class InvestigationsService {
     page: number,
     pageSize: number,
     sorting: TableHeaderSort[],
-    filtering?: TableFilter,
+    // TODO check and remove is needed after migration
+    _filtering?: TableFilter,
   ): Observable<Notifications> {
     const sort = sorting.length ? sorting : ['createdDate,desc'];
-    let params = new HttpParams().set('page', page).set('size', pageSize);
-    if (filtering) {
-      params = addFilteringParams(filtering, params);
-    }
-    sort.forEach(sortingItem => {
-      params = params.append('sort', sortingItem);
-    });
 
     return this.apiService
-      .getBy<NotificationsResponse>(`${this.url}/investigations/received`, params)
+      .post<NotificationsResponse>(`${this.url}/investigations/filter`, {
+        pageAble: {
+          page: page,
+          size: pageSize,
+          sort: sort,
+        },
+        searchCriteria: {
+          filter: ['channel,EQUAL,RECEIVER,AND'],
+        },
+      })
       .pipe(
         map(investigations =>
           NotificationAssembler.assembleNotifications(investigations, NotificationType.INVESTIGATION),
