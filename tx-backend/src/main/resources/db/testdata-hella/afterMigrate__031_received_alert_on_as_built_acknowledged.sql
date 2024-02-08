@@ -36,11 +36,6 @@ values
     (${alertReceivedId2}, ${assetAsBuiltId06});
 
 ---
--- update assets_as_built
---     set active_alert = true
---     where id in (${assetAsBuiltId06});
-
----
 ---
 -- ACK by receiver notification message
 insert into alert_notification

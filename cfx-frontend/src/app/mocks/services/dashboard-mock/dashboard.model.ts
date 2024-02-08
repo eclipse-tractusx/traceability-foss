@@ -22,8 +22,20 @@
 import { DashboardStatsResponse } from '@page/dashboard/model/dashboard.model';
 
 export const mockDashboardStats: DashboardStatsResponse = {
-  otherParts: 5,
-  myParts: 3,
-  investigationsReceived: 20,
-  alertsReceived: 101,
+  "asBuiltCustomerParts": 10,
+  "asPlannedCustomerParts": 10,
+  "asBuiltSupplierParts": 10,
+  "asPlannedSupplierParts": 10,
+  "asBuiltOwnParts": 10,
+  "asPlannedOwnParts": 10,
+  "myPartsWithOpenAlerts": 1,
+  "myPartsWithOpenInvestigations": 0,
+  "supplierPartsWithOpenAlerts": 0,
+  "customerPartsWithOpenAlerts": 0,
+  "supplierPartsWithOpenInvestigations": 1,
+  "customerPartsWithOpenInvestigations": 0,
+  "receivedActiveAlerts": 1,
+  "receivedActiveInvestigations": 1,
+  "sentActiveAlerts": 0,
+  "sentActiveInvestigations": 0
 };

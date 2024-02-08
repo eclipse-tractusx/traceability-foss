@@ -63,7 +63,9 @@ spring:
 ```
 Database scripts are executed with Flyway. Put the scripts at [migration](src/main/resources/db/migration).
 
-Testdata are created by activating profile 'testdata-(x)', with '(x)' being either 'bmw', 'hella', or 'osram'. Scripts are located at a respective folder below [db](src/main/resources/db). In order to clear all data from the database before, the profile 'testdata-truncate' needs to be activated additionally. If you only want to clear the database but not insert testdata, activate profile 'testdata-truncate-only'.
+Testdata can be created by activating a profile 'testdata-(x)', with '(x)' being either 'bmw', 'hella', or 'osram'. Scripts are located at a respective folder below [db](src/main/resources/db).
+For every profile out of the three, the database will be truncated before.
+In order to clear all data from the database, only the profile 'testdata-truncate' needs to be activated instead.
 
 * `postgresql.secret.initUserDbSql` - database initialization script, contains username and password for databases used by the service.
 Please note that the final script should be encoded using Base64 encoding and then added to a secret. Sample command:

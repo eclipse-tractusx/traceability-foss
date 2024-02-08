@@ -19,16 +19,29 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+
 export interface DashboardStats {
-  otherParts: number | null;
-  myParts: number;
-  investigationsReceived?: number;
-  alertsReceived?: number;
+  totalOtherParts: number,
+  totalOwnParts: number,
+  investigationsReceived: number,
+  alertsReceived: number,
 }
 
 export interface DashboardStatsResponse {
-  otherParts: number | null;
-  myParts: number;
-  investigationsReceived?: number;
-  alertsReceived?: number;
+  asBuiltCustomerParts: number;
+  asPlannedCustomerParts: number;
+  asBuiltSupplierParts: number;
+  asPlannedSupplierParts: number;
+  asBuiltOwnParts: number;
+  asPlannedOwnParts: number;
+  myPartsWithOpenAlerts: number;
+  myPartsWithOpenInvestigations: number;
+  supplierPartsWithOpenAlerts: number;
+  customerPartsWithOpenAlerts: number;
+  supplierPartsWithOpenInvestigations: number;
+  customerPartsWithOpenInvestigations: number;
+  receivedActiveAlerts: number;
+  receivedActiveInvestigations: number;
+  sentActiveAlerts: number;
+  sentActiveInvestigations: number;
 }
