@@ -54,7 +54,7 @@ class ReadInvestigationsAndTestAllPagesIT extends IntegrationTestSpecification {
             final int page,
             final String[] expectedOrderOfIdShortItems
     ) throws JoseException {
-        // given
+       // Given
         String filterString = "channel,EQUAL,SENDER,AND";
         String filter1 = "status,EQUAL,SENT,AND";
         String filter2 = "status,EQUAL,ACCEPTED,AND";
@@ -66,6 +66,7 @@ class ReadInvestigationsAndTestAllPagesIT extends IntegrationTestSpecification {
         final InvestigationNotificationEntity[] extendedTestData = InvestigationTestDataFactory.createExtendedSenderInvestigationNotificationEntitiesTestData(bpnSupport.testBpn());
         investigationNotificationsSupport.storedNotifications(extendedTestData);
 
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(page, 2, List.of(sort)), new SearchCriteriaRequestParam(List.of(filterString, filter1, filter2))))
@@ -102,7 +103,7 @@ class ReadInvestigationsAndTestAllPagesIT extends IntegrationTestSpecification {
             final int page,
             final String[] expectedOrderOfIdShortItems
     ) throws JoseException {
-        // given
+       // Given
         String filterString = "channel,EQUAL,RECEIVER,AND";
         String filter1 = "status,EQUAL,RECEIVED,AND";
         String filter2 = "status,EQUAL,ACCEPTED,AND";
@@ -114,6 +115,7 @@ class ReadInvestigationsAndTestAllPagesIT extends IntegrationTestSpecification {
         final InvestigationNotificationEntity[] extendedTestData = InvestigationTestDataFactory.createExtendedReceiverInvestigationNotificationEntitiesTestData(bpnSupport.testBpn());
         investigationNotificationsSupport.storedNotifications(extendedTestData);
 
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(page, 2, List.of(sort)), new SearchCriteriaRequestParam(List.of(filterString, filter1, filter2))))

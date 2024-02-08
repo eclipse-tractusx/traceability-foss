@@ -76,10 +76,10 @@ class DashboardControllerIT extends IntegrationTestSpecification {
     @ParameterizedTest
     @MethodSource("roles")
     void givenRoles_whenGetDashboard_thenReturnResponse(final List<JwtRole> roles) throws JoseException {
-        // given
+       // Given
         assetsSupport.defaultAssetsStored();
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(roles.toArray(new JwtRole[0])))
                 .contentType(ContentType.JSON)
@@ -107,7 +107,7 @@ class DashboardControllerIT extends IntegrationTestSpecification {
 
     @Test
     void givenAlertsWithAssets_whenGetDashboard_thenReturnResponse() throws JoseException {
-        // given
+       // Given
         assetsSupport.defaultAssetsStored();
         List<AssetAsBuiltEntity> assets = assetAsBuiltRepository.findAll();
         List<AssetAsBuiltEntity> ownAssets = assets.stream()
@@ -119,7 +119,7 @@ class DashboardControllerIT extends IntegrationTestSpecification {
         alertsSupport.storeAlertWithStatusAndAssets(RECEIVED, supplierAssets, null);
         alertsSupport.storeAlertWithStatusAndAssets(SENT, ownAssets, null);
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -147,10 +147,10 @@ class DashboardControllerIT extends IntegrationTestSpecification {
 
     @Test
     void givenNoRoles_whenGetDashboard_thenReturn401() throws JoseException {
-        // given
+       // Given
         assetsSupport.defaultAssetsStored();
 
-        // when/then
+        // Then
         given()
                 .contentType(ContentType.JSON)
                 .log().all()
@@ -160,7 +160,7 @@ class DashboardControllerIT extends IntegrationTestSpecification {
 
     @Test
     void givenPendingInvestigation_whenGetDashboard_thenReturnPendingInvestigation() throws JoseException, JsonProcessingException {
-        // given
+       // Given
         assetsSupport.defaultAssetsStored();
         investigationsSupport.defaultReceivedInvestigationStored();
         String assetId = "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978";
@@ -171,7 +171,7 @@ class DashboardControllerIT extends IntegrationTestSpecification {
                 .isAsBuilt(true)
                 .build();
 
-        // when
+        // When
         given()
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .contentType(ContentType.JSON)
@@ -181,7 +181,7 @@ class DashboardControllerIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(201);
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .contentType(ContentType.JSON)

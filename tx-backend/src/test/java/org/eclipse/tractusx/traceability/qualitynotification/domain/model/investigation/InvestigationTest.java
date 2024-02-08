@@ -236,7 +236,7 @@ class InvestigationTest {
     @DisplayName("Forbid Acknowledge Investigation with invalid status")
     @MethodSource("provideInvalidStatusForAcknowledgeInvestigation")
     void forbidAcknowledgeInvestigationWithStatusClosed(QualityNotificationStatus status) {
-        // Given
+       // Given
         investigation = receiverInvestigationWithStatus(status);
         QualityNotificationMessage notification = testNotification();
         assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> investigation.acknowledge(notification));

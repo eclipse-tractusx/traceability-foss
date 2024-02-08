@@ -51,12 +51,12 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
      */
     //@Test
     void shouldCreateEdcContract() throws JoseException {
-        // given
+       // Given
         edcSupport.edcWillCreateNotificationAsset();
         edcSupport.edcWillCreatePolicyDefinition();
         edcSupport.edcWillCreateContractDefinition();
 
-        // then
+       // Then
         given()
                 .contentType(ContentType.JSON)
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
@@ -93,10 +93,10 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
      */
     //@Test
     void shouldNotCreateEdcContractWhenNotificationAssetCreationFailed() throws JoseException {
-        // given
+       // Given
         edcSupport.edcWillFailToCreateNotificationAsset();
 
-        // then
+       // Then
         given()
                 .contentType(ContentType.JSON)
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
@@ -131,13 +131,13 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
      */
     //@Test
     void shouldNotCreateEdcContractAndDoRollbackWhenPolicyDefinitionCreationFailed() throws JoseException {
-        // given
+       // Given
         edcSupport.edcWillCreateNotificationAsset();
         edcSupport.edcWillFailToCreatePolicyDefinition();
 
         edcSupport.edcWillRemoveNotificationAsset();
 
-        // when/then
+        // Then
         given()
                 .contentType(ContentType.JSON)
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
@@ -172,7 +172,7 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
      */
     //@Test
     void shouldNotCreateEdcContractAndDoRollbackWhenContractDefinitionCreationFailed() throws JoseException {
-        // given
+       // Given
         edcSupport.edcWillCreateNotificationAsset();
         edcSupport.edcWillCreatePolicyDefinition();
         edcSupport.edcWillFailToCreateContractDefinition();
@@ -180,7 +180,7 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
         edcSupport.edcWillRemovePolicyDefinition();
         edcSupport.edcWillRemoveNotificationAsset();
 
-        // then
+       // Then
         given()
                 .contentType(ContentType.JSON)
                 .header(oAuth2Support.jwtAuthorization(ADMIN))

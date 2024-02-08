@@ -135,7 +135,6 @@ class InvestigationsControllerAuthorizationIT extends IntegrationTestSpecificati
     @ParameterizedTest
     @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#supervisorRoleAllowed")
     void shouldAllowApproveEndpointOnlyForSpecificRoles(JwtRole role, boolean isAllowed) throws JoseException {
-
         given()
                 .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
                 .contentType(ContentType.JSON)
@@ -149,7 +148,6 @@ class InvestigationsControllerAuthorizationIT extends IntegrationTestSpecificati
     @ParameterizedTest
     @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#supervisorAndUserRolesAllowed")
     void shouldAllowCancelEndpointOnlyForSpecificRoles(JwtRole role, boolean isAllowed) throws JoseException {
-
         given()
                 .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
                 .contentType(ContentType.JSON)

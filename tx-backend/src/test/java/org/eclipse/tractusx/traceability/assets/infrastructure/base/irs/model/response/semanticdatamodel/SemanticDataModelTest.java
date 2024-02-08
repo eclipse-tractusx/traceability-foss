@@ -32,12 +32,12 @@ class SemanticDataModelTest {
             "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned"
     })
     void test_IsAsPlanned(String aspectType) {
-        //GIVEN
+       // Given
         SemanticDataModel semanticDataModel = new SemanticDataModel();
         semanticDataModel.setAspectType(aspectType);
-        //WHEN
+       // When
         boolean asPlanned = semanticDataModel.isAsPlanned();
-        //THEN
+       // Then
         assertTrue(asPlanned);
     }
 
@@ -53,12 +53,12 @@ class SemanticDataModelTest {
             "urn:bamm:io.catenax.serial_part:1.1.0#SerialPart",
             "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart"})
     void test_IsAsBuilt(String aspectType) {
-        //GIVEN
+       // Given
         SemanticDataModel semanticDataModel = new SemanticDataModel();
         semanticDataModel.setAspectType(aspectType);
-        //WHEN
+       // When
         boolean asBuilt = semanticDataModel.isAsBuilt();
-        //THEN
+       // Then
         assertTrue(asBuilt);
     }
 }

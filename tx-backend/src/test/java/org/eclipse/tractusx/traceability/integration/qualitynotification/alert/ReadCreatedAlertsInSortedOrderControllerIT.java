@@ -48,7 +48,7 @@ class ReadCreatedAlertsInSortedOrderControllerIT extends IntegrationTestSpecific
 
     @Test
     void givenSortByCreatedDateProvided_whenGetAlerts_thenReturnAlertsProperlySorted() throws JoseException {
-        // given
+       // Given
         String sortString = "createdDate,desc";
         String filterString = "channel,EQUAL,SENDER,AND";
         String testBpn = bpnSupport.testBpn();
@@ -56,6 +56,7 @@ class ReadCreatedAlertsInSortedOrderControllerIT extends IntegrationTestSpecific
         final AlertNotificationEntity[] testData = AlertTestDataFactory.createSenderMajorityAlertNotificationEntitiesTestData(testBpn);
         alertNotificationsSupport.storedAlertNotifications(testData);
 
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
@@ -76,7 +77,7 @@ class ReadCreatedAlertsInSortedOrderControllerIT extends IntegrationTestSpecific
 
     @Test
     void givenSortByDescriptionProvided_whenGetAlerts_thenReturnAlertsProperlySorted() throws JoseException {
-        // given
+       // Given
         String sortString = "description,desc";
         String filterString = "channel,EQUAL,SENDER,AND";
         String testBpn = bpnSupport.testBpn();
@@ -84,6 +85,7 @@ class ReadCreatedAlertsInSortedOrderControllerIT extends IntegrationTestSpecific
         final AlertNotificationEntity[] testData = AlertTestDataFactory.createSenderMajorityAlertNotificationEntitiesTestData(testBpn);
         alertNotificationsSupport.storedAlertNotifications(testData);
 
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
@@ -104,7 +106,7 @@ class ReadCreatedAlertsInSortedOrderControllerIT extends IntegrationTestSpecific
 
     @Test
     void givenSortByStatusProvided_whenGetAlerts_thenReturnAlertsProperlySorted() throws JoseException {
-        // given
+       // Given
         String sortString = "status,asc";
         String filterString = "channel,EQUAL,SENDER,AND";
         String testBpn = bpnSupport.testBpn();
@@ -112,6 +114,7 @@ class ReadCreatedAlertsInSortedOrderControllerIT extends IntegrationTestSpecific
         final AlertNotificationEntity[] testData = AlertTestDataFactory.createSenderMajorityAlertNotificationEntitiesTestData(testBpn);
         alertNotificationsSupport.storedAlertNotifications(testData);
 
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
@@ -130,7 +133,7 @@ class ReadCreatedAlertsInSortedOrderControllerIT extends IntegrationTestSpecific
 
     @Test
     void givenSortBySeverityProvided_whenGetAlerts_thenReturnAlertsProperlySorted() throws JoseException {
-        // given
+       // Given
         String sortString = "severity,asc";
         String filterString = "channel,EQUAL,SENDER,AND";
         String testBpn = bpnSupport.testBpn();
@@ -138,6 +141,7 @@ class ReadCreatedAlertsInSortedOrderControllerIT extends IntegrationTestSpecific
         final AlertNotificationEntity[] testData = AlertTestDataFactory.createSenderMajorityAlertNotificationEntitiesTestData(testBpn);
         alertNotificationsSupport.storedAlertNotifications(testData);
 
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
@@ -156,10 +160,11 @@ class ReadCreatedAlertsInSortedOrderControllerIT extends IntegrationTestSpecific
 
     @Test
     void givenInvalidSort_whenGetCreated_thenBadRequest() throws JoseException {
-        // given
+       // Given
         String sortString = "createdDate,failure";
         String filterString = "channel,EQUAL,SENDER,AND";
 
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
@@ -176,7 +181,7 @@ class ReadCreatedAlertsInSortedOrderControllerIT extends IntegrationTestSpecific
 
     @Test
     void givenSortBySendToProvided_whenGetAlerts_thenReturnAlertsProperlySorted() throws JoseException {
-        // given
+       // Given
         String sortString = "sendTo,desc";
         String filterString = "channel,EQUAL,SENDER,AND";
         String testBpn = bpnSupport.testBpn();
@@ -184,6 +189,7 @@ class ReadCreatedAlertsInSortedOrderControllerIT extends IntegrationTestSpecific
         final AlertNotificationEntity[] testData = AlertTestDataFactory.createSenderMajorityAlertNotificationEntitiesTestData(testBpn);
         alertNotificationsSupport.storedAlertNotifications(testData);
 
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
@@ -202,7 +208,7 @@ class ReadCreatedAlertsInSortedOrderControllerIT extends IntegrationTestSpecific
 
     @Test
     void givenSortByTargetDateProvided_whenGetAlerts_thenReturnAlertsProperlySorted() throws JoseException {
-        // given
+       // Given
         String sortString = "targetDate,asc";
         String filterString = "channel,EQUAL,SENDER,AND";
         String testBpn = bpnSupport.testBpn();
@@ -210,6 +216,7 @@ class ReadCreatedAlertsInSortedOrderControllerIT extends IntegrationTestSpecific
         final AlertNotificationEntity[] testData = AlertTestDataFactory.createSenderMajorityAlertNotificationEntitiesTestData(testBpn);
         alertNotificationsSupport.storedAlertNotifications(testData);
 
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))

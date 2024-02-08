@@ -59,11 +59,11 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
 
     @Test
     void shouldReturnAssetsWithManufacturerName() throws JoseException {
-        //GIVEN
+       // Given
         bpnSupport.cachedBpnsForDefaultAssets();
         assetsSupport.defaultAssetsStored();
 
-        //THEN
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -78,10 +78,11 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
 
     @Test
     void shoulReturnSupplierAssets() throws JoseException {
-        //GIVEN
+       // Given
         assetsSupport.defaultAssetsStored();
         final String filter = "owner,EQUAL,SUPPLIER,AND";
-        //THEN
+
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -95,10 +96,11 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
 
     @Test
     void shouldReturnOwnAssets() throws JoseException {
-        //GIVEN
+       // Given
         assetsSupport.defaultAssetsStored();
         final String filter = "owner,EQUAL,OWN,AND";
-        //THEN
+
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -112,10 +114,10 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
 
     @Test
     void shouldReturnAllAssets() throws JoseException {
-        //GIVEN
+       // Given
         assetsSupport.defaultAssetsStored();
 
-        //THEN
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -142,10 +144,11 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
     @ParameterizedTest
     @MethodSource("owners")
     void shouldReturnAssetsByOwnerFiltering(String ownerValue, int totalItemsValue) throws JoseException {
-        //GIVEN
+       // Given
         assetsSupport.defaultAssetsStored();
         final String filter = "owner,EQUAL," + ownerValue + ",AND";
-        //THEN
+
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -159,10 +162,10 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
 
     @Test
     void shouldGetPageOfAssets() throws JoseException {
-        //GIVEN
+       // Given
         assetsSupport.defaultAssetsStored();
 
-        //THEN
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -178,10 +181,10 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
 
     @Test
     void shouldGetTractionBatteryCodeAsset() throws JoseException {
-        //GIVEN
+       // Given
         assetsSupport.tractionBatteryCodeAssetsStored();
 
-        //THEN
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -200,7 +203,6 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
 
     @Test
     void givenNonExistingSortField_whenGetAssetsAsBuilt_thenBadRequest() throws JoseException {
-        //THEN
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)

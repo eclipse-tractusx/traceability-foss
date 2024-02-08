@@ -67,7 +67,7 @@ class AssetAsBuiltControllerSortByAlertsAndInvestigationsCountIT extends Integra
 
     @Test
     void givenAlertsForAsset_whenCallWithSortByQualityAlertsInStatusActiveDesc_thenReturnAssetsWithActiveAlertsCountInDesc() throws JoseException {
-        // Given
+       // Given
         AssetAsBuiltEntity assetAsBuilt1 = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").orElseThrow();
         alertsSupport.storeAlertWithStatusAndAssets(CREATED, List.of(assetAsBuilt1), null, SENDER);
         alertsSupport.storeAlertWithStatusAndAssets(SENT, List.of(assetAsBuilt1), null, SENDER);
@@ -98,6 +98,7 @@ class AssetAsBuiltControllerSortByAlertsAndInvestigationsCountIT extends Integra
                 .jsonPath()
                 .getList("content.sentQualityAlertIdsInStatusActive");
 
+       // Then
         List<Integer> numberOfItems = notificationIdLists.stream()
                 .mapToInt(List::size)
                 .boxed()
@@ -108,7 +109,7 @@ class AssetAsBuiltControllerSortByAlertsAndInvestigationsCountIT extends Integra
 
     @Test
     void givenAlertsForAsset_whenCallWithSortByQualityAlertsInStatusActiveAsc_thenReturnAssetsWithActiveAlertsCountInAsc() throws JoseException {
-        // Given
+       // Given
         AssetAsBuiltEntity assetAsBuilt1 = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").orElseThrow();
         alertsSupport.storeAlertWithStatusAndAssets(CREATED, List.of(assetAsBuilt1), null, SENDER);
         alertsSupport.storeAlertWithStatusAndAssets(SENT, List.of(assetAsBuilt1), null, SENDER);
@@ -139,6 +140,8 @@ class AssetAsBuiltControllerSortByAlertsAndInvestigationsCountIT extends Integra
                 .jsonPath()
                 .getList("content.sentQualityAlertIdsInStatusActive");
 
+
+       // Then
         List<Integer> numberOfItems = notificationIdLists.stream()
                 .mapToInt(List::size)
                 .boxed()
@@ -149,7 +152,7 @@ class AssetAsBuiltControllerSortByAlertsAndInvestigationsCountIT extends Integra
 
     @Test
     void givenInvestigationsForAsset_whenCallWithSortByQualityInvestigationsInStatusActiveDesc_thenReturnAssetsWithActiveInvestigationsCountInDesc() throws JoseException {
-        // Given
+       // Given
         assetsSupport.defaultMultipleAssetsAsBuiltStored();
         AssetAsBuiltEntity assetAsBuilt1 = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").orElseThrow();
         investigationsSupport.storeInvestigationWithStatusAndAssets(RECEIVED, List.of(assetAsBuilt1), null, RECEIVER);
@@ -179,6 +182,7 @@ class AssetAsBuiltControllerSortByAlertsAndInvestigationsCountIT extends Integra
                 .jsonPath()
                 .getList("content.receivedQualityInvestigationIdsInStatusActive");
 
+       // Then
         List<Integer> numberOfItems = notificationIdLists.stream()
                 .mapToInt(List::size)
                 .boxed()
@@ -189,7 +193,7 @@ class AssetAsBuiltControllerSortByAlertsAndInvestigationsCountIT extends Integra
 
     @Test
     void givenInvestigationsForAsset_whenCallWithSortByQualityInvestigationsInStatusActiveAsc_thenReturnAssetsWithActiveInvestigationsCountInAsc() throws JoseException {
-        // Given
+       // Given
         assetsSupport.defaultMultipleAssetsAsBuiltStored();
         assetsSupport.defaultMultipleAssetsAsBuiltStored();
         AssetAsBuiltEntity assetAsBuilt1 = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").orElseThrow();
@@ -220,6 +224,7 @@ class AssetAsBuiltControllerSortByAlertsAndInvestigationsCountIT extends Integra
                 .jsonPath()
                 .getList("content.receivedQualityInvestigationIdsInStatusActive");
 
+       // Then
         List<Integer> numberOfItems = notificationIdLists.stream()
                 .mapToInt(List::size)
                 .boxed()
@@ -252,7 +257,7 @@ class AssetAsBuiltControllerSortByAlertsAndInvestigationsCountIT extends Integra
         final long page = 0;
         final long size = 50;
 
-        // Given
+       // Given
         assetsSupport.defaultMultipleAssetsAsBuiltStored();
         final AssetAsBuiltEntity assetAsBuilt1 = jpaAssetAsBuiltRepository.findById(
                 "urn:uuid:f7cf62fe-9e25-472b-9148-66ebcc291f31").orElseThrow();
@@ -311,6 +316,7 @@ class AssetAsBuiltControllerSortByAlertsAndInvestigationsCountIT extends Integra
                 .jsonPath()
                 .getList(contentField);
 
+       // Then
         List<Integer> numberOfItems = notificationIdLists.stream()
                 .mapToInt(List::size)
                 .boxed()

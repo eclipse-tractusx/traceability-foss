@@ -25,11 +25,11 @@ class EdcControllerAuthorizationIT extends IntegrationTestSpecification {
     @ParameterizedTest
     @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#noRoleRequired")
     void shouldAllowQnReceiveEndpointRegardlessOfRole(JwtRole role, boolean isAllowed) throws JoseException, IOException {
-
+        // Given
         String notificationJson = readFile("/testdata/edc_notification_okay.json");
         EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
 
-        // when/then
+        // Then
         given()
                 .contentType(ContentType.JSON)
                 .body(edcNotification)
@@ -44,11 +44,11 @@ class EdcControllerAuthorizationIT extends IntegrationTestSpecification {
     @ParameterizedTest
     @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#noRoleRequired")
     void shouldAllowQnUpdateEndpointRegardlessOfRole(JwtRole role, boolean isAllowed) throws JoseException, IOException {
-
+        // Given
         String notificationJson = readFile("/testdata/edc_notification_okay_update.json");
         EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
 
-        // when/then
+        // Then
         given()
                 .contentType(ContentType.JSON)
                 .body(edcNotification)
@@ -63,11 +63,11 @@ class EdcControllerAuthorizationIT extends IntegrationTestSpecification {
     @ParameterizedTest
     @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#noRoleRequired")
     void shouldAllowAnReceiveEndpointRegardlessOfRole(JwtRole role, boolean isAllowed) throws JoseException, IOException {
-
+        // Given
         String notificationJson = readFile("/testdata/edc_alert_okay.json");
         EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
 
-        // when/then
+        // Then
         given()
                 .contentType(ContentType.JSON)
                 .body(edcNotification)
@@ -82,11 +82,11 @@ class EdcControllerAuthorizationIT extends IntegrationTestSpecification {
     @ParameterizedTest
     @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#noRoleRequired")
     void shouldAllowAnUpdateEndpointRegardlessOfRole(JwtRole role, boolean isAllowed) throws JoseException, IOException {
-
+        // Given
         String notificationJson = readFile("/testdata/edc_alert_okay_update.json");
         EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
 
-        // when/then
+        // Then
         given()
                 .contentType(ContentType.JSON)
                 .body(edcNotification)

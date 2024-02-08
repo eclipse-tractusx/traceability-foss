@@ -41,7 +41,7 @@ class SubmodelControllerIT extends IntegrationTestSpecification {
 
     @Test
     void givenNoSubmodels_whenDeleteAll_thenDeleteSubmodelsFromDatabase() throws JoseException {
-        // given
+       // Given
         String submodelId = "UUID:Xa123123";
         jpaSubmodelRepository.save(SubmodelEntity.builder()
                 .id(submodelId)
@@ -50,7 +50,7 @@ class SubmodelControllerIT extends IntegrationTestSpecification {
         List<SubmodelEntity> savedSubmodels = jpaSubmodelRepository.findAll();
         assertThat(savedSubmodels).isNotEmpty();
 
-        // when
+        // When
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -61,14 +61,14 @@ class SubmodelControllerIT extends IntegrationTestSpecification {
                 .log().all()
                 .statusCode(204);
 
-        // then
+       // Then
         List<SubmodelEntity> submodelsAfterDeletion = jpaSubmodelRepository.findAll();
         assertThat(submodelsAfterDeletion).isEmpty();
     }
 
     @Test
     void givenSubmodel_whenGetById_thenGetIt() throws JoseException {
-        // given
+       // Given
         String submodelId = "UUID:Xa123123";
         String payload = "Payload string";
         jpaSubmodelRepository.save(SubmodelEntity.builder()
@@ -76,7 +76,7 @@ class SubmodelControllerIT extends IntegrationTestSpecification {
                 .submodel(payload)
                 .build());
 
-        // when
+        // When
         String responseBody = given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -89,16 +89,16 @@ class SubmodelControllerIT extends IntegrationTestSpecification {
                 .extract()
                 .asString();
 
-        // then
+       // Then
         assertThat(responseBody).isEqualTo(payload);
     }
 
     @Test
     void givenNoSubmodels_whenGetById_thenNotFound() throws JoseException {
-        // given
+       // Given
         String submodelId = "UUID:Xa123123";
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(USER))
                 .contentType(ContentType.JSON)
@@ -112,11 +112,11 @@ class SubmodelControllerIT extends IntegrationTestSpecification {
 
     @Test
     void givenSubmodel_whenSave_thenSaveIntoDatabase() throws JoseException {
-        // given
+       // Given
         String submodelId = "submodelId";
         String requestContent = "test request";
 
-        // when
+        // When
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -128,7 +128,7 @@ class SubmodelControllerIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(204);
 
-        // then
+       // Then
         SubmodelEntity entity = jpaSubmodelRepository.findById(submodelId).get();
         assertThat(entity.getId()).isEqualTo(submodelId);
         assertThat(entity.getSubmodel()).isEqualTo(requestContent);

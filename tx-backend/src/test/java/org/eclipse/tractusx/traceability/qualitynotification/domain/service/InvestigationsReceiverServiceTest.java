@@ -75,7 +75,7 @@ class InvestigationsReceiverServiceTest {
     @DisplayName("Test testHandleNotificationReceiveValidSentNotification sent is valid")
     void testHandleNotificationReceiveValidSentNotification() {
 
-        // Given
+       // Given
         List<QualityNotificationAffectedPart> affectedParts = List.of(new QualityNotificationAffectedPart("partId"));
         QualityNotificationMessage notification = QualityNotificationMessage.builder()
                 .id("123")
@@ -108,7 +108,7 @@ class InvestigationsReceiverServiceTest {
 
         // When
         service.handleNotificationReceive(edcNotification);
-        // Then
+       // Then
         Mockito.verify(mockRepository).saveQualityNotificationEntity(investigationTestData);
     }
 
@@ -116,7 +116,7 @@ class InvestigationsReceiverServiceTest {
     @DisplayName("Test testHandleNotificationUpdateValidAcknowledgeNotificationTransition is valid")
     void testHandleNotificationUpdateValidAcknowledgeNotificationTransition() {
 
-        // Given
+       // Given
         List<QualityNotificationAffectedPart> affectedParts = List.of(new QualityNotificationAffectedPart("partId"));
 
 
@@ -151,7 +151,7 @@ class InvestigationsReceiverServiceTest {
 
         // When
         service.handleNotificationUpdate(edcNotification);
-        // Then
+       // Then
         Mockito.verify(mockRepository).updateQualityNotificationEntity(investigationTestData);
     }
 
@@ -159,7 +159,7 @@ class InvestigationsReceiverServiceTest {
     @DisplayName("Test testHandleNotificationUpdateValidDeclineNotificationTransition is valid")
     void testHandleNotificationUpdateValidDeclineNotificationTransition() {
 
-        // Given
+       // Given
         List<QualityNotificationAffectedPart> affectedParts = List.of(new QualityNotificationAffectedPart("partId"));
 
         QualityNotificationMessage notification = QualityNotificationMessage.builder()
@@ -192,7 +192,7 @@ class InvestigationsReceiverServiceTest {
 
         // When
         service.handleNotificationUpdate(edcNotification);
-        // Then
+       // Then
         Mockito.verify(mockRepository).updateQualityNotificationEntity(investigationTestData);
     }
 
@@ -200,7 +200,7 @@ class InvestigationsReceiverServiceTest {
     @DisplayName("Test testHandleNotificationUpdateValidAcknowledgeNotification is valid")
     void testHandleNotificationUpdateValidAcceptedNotificationTransition() {
 
-        // Given
+       // Given
         List<QualityNotificationAffectedPart> affectedParts = List.of(new QualityNotificationAffectedPart("partId"));
 
         QualityNotificationMessage notification = QualityNotificationMessage.builder()
@@ -233,7 +233,7 @@ class InvestigationsReceiverServiceTest {
 
         // When
         service.handleNotificationUpdate(edcNotification);
-        // Then
+       // Then
         Mockito.verify(mockRepository).updateQualityNotificationEntity(investigationTestData);
     }
 
@@ -241,7 +241,7 @@ class InvestigationsReceiverServiceTest {
     @DisplayName("Test testHandleNotificationUpdateValidAcknowledgeNotification is valid")
     void testHandleNotificationUpdateValidCloseNotificationTransition() {
 
-        // Given
+       // Given
         List<QualityNotificationAffectedPart> affectedParts = List.of(new QualityNotificationAffectedPart("partId"));
 
         QualityNotificationMessage notification = QualityNotificationMessage.builder()
@@ -274,7 +274,7 @@ class InvestigationsReceiverServiceTest {
 
         // When
         service.handleNotificationUpdate(edcNotification);
-        // Then
+       // Then
         Mockito.verify(mockRepository).updateQualityNotificationEntity(investigationTestData);
     }
 

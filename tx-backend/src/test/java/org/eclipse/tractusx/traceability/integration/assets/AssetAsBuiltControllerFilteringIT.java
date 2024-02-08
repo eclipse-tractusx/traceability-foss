@@ -65,10 +65,10 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
     @Test
     void givenNoFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
-        // given
+      // Given
         assetsSupport.defaultAssetsStored();
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -83,10 +83,10 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
     @Test
     void givenIdAndIdShortFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
-        // given
+      // Given
         assetsSupport.defaultAssetsStored();
         final String filter = "?filter=id,STARTS_WITH,urn:uuid:1,AND&filter=idShort,STARTS_WITH,engineering,AND";
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -101,11 +101,11 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
     @Test
     void givenOwnFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
-        // given
+      // Given
         assetsSupport.defaultAssetsStored();
         final String filter = "?filter=owner,EQUAL,OWN,AND";
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -120,11 +120,11 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
     @Test
     void givenManufacturerIdFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
-        // given
+      // Given
         assetsSupport.defaultAssetsStored();
         final String filter = "?filter=businessPartner,EQUAL,BPNL00000003B0Q0,AND";
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -139,11 +139,11 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
     @Test
     void givenManufacturerIdAndSemanticModelIdFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
-        // given
+      // Given
         assetsSupport.defaultAssetsStored();
         final String filter = "?filter=businessPartner,EQUAL,BPNL00000003B0Q0,AND&filter=semanticModelId,STARTS_WITH,NO-3404609481920549,AND";
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -158,11 +158,11 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
     @Test
     void givenIdShortStartsWithFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
-        // given
+      // Given
         assetsSupport.defaultAssetsStored();
         final String filter = "?filter=idShort,STARTS_WITH,ntier_,AND";
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -177,11 +177,11 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
     @Test
     void givenManufacturingDateFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
-        // given
+      // Given
         assetsSupport.defaultAssetsStored();
         final String filter = "?filter=manufacturingDate,AT_LOCAL_DATE,2014-11-18,AND";
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -196,11 +196,11 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
     @Test
     void givenSemanticDataModelAndManufacturingDateFilterOR_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
-        // given
+      // Given
         assetsSupport.defaultAssetsStored();
         final String filter = "?filter=manufacturingDate,AT_LOCAL_DATE,2014-11-18,OR&filter=semanticDataModel,EQUAL,SERIALPART,OR";
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -215,11 +215,11 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
     @Test
     void givenSemanticDataModelAndManufacturingDateFilterAnd_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
-        // given
+      // Given
         assetsSupport.defaultAssetsStored();
         final String filter = "?filter=manufacturingDate,AT_LOCAL_DATE,2014-11-18,AND&filter=semanticDataModel,EQUAL,SERIALPART,AND";
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -234,11 +234,11 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
     @Test
     void givenSemanticDataModelAndOwnerOR_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
-        // given
+      // Given
         assetsSupport.defaultAssetsStored();
         final String filter = "?filter=owner,EQUAL,SUPPLIER,AND&filter=id,STARTS_WITH,urn:uuid:f7cf62fe-9e25-472b-9148-66,OR";
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -253,11 +253,11 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
     @Test
     void givenSemanticDataModelAsMultipleValuesAndOwnerOR_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
-        // given
+      // Given
         assetsSupport.defaultAssetsStored();
         final String filter = "?filter=owner,EQUAL,SUPPLIER,AND&filter=semanticDataModel,EQUAL,SERIALPART,OR&filter=semanticDataModel,EQUAL,BATCH,OR";
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -272,11 +272,11 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
     @Test
     void givenNonExistingFilterField_whenGetAssetsAsBuilt_thenBadRequest() throws JoseException {
-        // given
+      // Given
         assetsSupport.defaultAssetsStored();
         final String filter = "?filter=nonExistingField,EQUAL,SUPPLIER,AND";
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -290,7 +290,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
     @Test
     void givenAssetsWithAlerts_whenGetAssetsWithActiveAlertCountFilter_thenReturnProperAssets() throws JoseException {
-        // Given
+      // Given
         assetsSupport.defaultAssetsStored();
         AssetAsBuiltEntity assetAsBuilt = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").orElseThrow();
         alertsSupport.storeAlertWithStatusAndAssets(CREATED, List.of(assetAsBuilt), null);
@@ -304,7 +304,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
         final String filter = "receivedQualityAlertIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,6,AND";
 
-        // When
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -320,7 +320,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
     @Test
     void givenAssetsWithAlerts_whenGetAssetsWithActiveAlertCountFilter2_thenReturnProperAssets() throws JoseException {
-        // Given
+      // Given
         assetsSupport.defaultAssetsStored();
         AssetAsBuiltEntity assetAsBuilt = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").orElseThrow();
         AssetAsBuiltEntity assetAsBuilt1 = jpaAssetAsBuiltRepository.findById("urn:uuid:7fa65f10-9dc1-49fe-818a-09c7313a4562").orElseThrow();
@@ -336,7 +336,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
         final String filter = "receivedQualityAlertIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,2,AND";
 
-        // When
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -352,7 +352,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
     @Test
     void givenAssetsWithInvestigations_whenGetAssetsWithActiveSentInvestigationCountFilter_thenReturnProperAssets() throws JoseException {
-        // Given
+      // Given
         assetsSupport.defaultAssetsStored();
         AssetAsBuiltEntity assetAsBuilt = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").orElseThrow();
         investigationsSupport.storeInvestigationWithStatusAndAssets(CREATED, List.of(assetAsBuilt), null, SENDER);
@@ -367,8 +367,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
         final String filter = "sentQualityInvestigationIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,6,AND";
 
-
-        // When
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -383,7 +382,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
     @Test
     void givenAssetsWithInvestigations_whenGetAssetsWithActiveReceivedInvestigationCountFilter_thenReturnProperAssets() throws JoseException {
-        // Given
+       // Given
         assetsSupport.defaultAssetsStored();
         AssetAsBuiltEntity assetAsBuilt = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").orElseThrow();
         investigationsSupport.storeInvestigationWithStatusAndAssets(CREATED, List.of(assetAsBuilt), null, SENDER);
@@ -406,7 +405,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
         final String filter = "receivedQualityInvestigationIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,7,AND";
 
-        // When
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -421,7 +420,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
     @Test
     void givenAssetsWithInvestigations_whenGetAssetsWithActiveInvestigationCountFilter2_thenReturnProperAssets() throws JoseException {
-        // Given
+       // Given
         assetsSupport.defaultAssetsStored();
         AssetAsBuiltEntity assetAsBuilt = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").orElseThrow();
         AssetAsBuiltEntity assetAsBuilt1 = jpaAssetAsBuiltRepository.findById("urn:uuid:7fa65f10-9dc1-49fe-818a-09c7313a4562").orElseThrow();
@@ -437,7 +436,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
         final String filter = "receivedQualityInvestigationIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,2,AND";
 
-        // When
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -452,7 +451,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
     @Test
     void givenAssetsWithAlerts_whenGetAssetSortedBySentActiveAlertsDesc_thenReturnProperAssets() throws JoseException {
-        // Given
+       // Given
         assetsSupport.defaultAssetsStored();
 
         List<AssetAsBuiltEntity> assets = jpaAssetAsBuiltRepository.findAll();
@@ -465,7 +464,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
         final String sort = "sentQualityAlertIdsInStatusActive,ASC";
 
-        // When
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -481,7 +480,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
     @Test
     void givenAssetsWithInvestigations_whenGetAssetsWithActiveInvestigationCountFilter3_thenReturnProperAssets() throws JoseException {
-        // Given
+       // Given
         assetsSupport.defaultAssetsStored();
         AssetAsBuiltEntity assetAsBuilt = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").orElseThrow();
         AssetAsBuiltEntity assetAsBuilt1 = jpaAssetAsBuiltRepository.findById("urn:uuid:7fa65f10-9dc1-49fe-818a-09c7313a4562").orElseThrow();
@@ -497,7 +496,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
         final String filter = "receivedQualityInvestigationIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,0,AND";
 
-        // When
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -512,7 +511,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
     @Test
     void givenAssetsWithInvestigations_whenGetAssetsWithActiveInvestigationCountFilter4_thenReturnProperAssets() throws JoseException {
-        // Given
+       // Given
         assetsSupport.defaultAssetsStored();
         AssetAsBuiltEntity assetAsBuilt = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").orElseThrow();
         AssetAsBuiltEntity assetAsBuilt1 = jpaAssetAsBuiltRepository.findById("urn:uuid:7fa65f10-9dc1-49fe-818a-09c7313a4562").orElseThrow();
@@ -528,7 +527,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
         final String filter = "receivedQualityAlertIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,0,AND";
 
-        // When
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -543,7 +542,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
     @Test
     void givenAssetsWithInvestigations_whenGetAssetsWithActiveInvestigationCountFilter5_thenReturnProperAssets() throws JoseException {
-        // Given
+       // Given
         assetsSupport.defaultAssetsStored();
         AssetAsBuiltEntity assetAsBuilt = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").orElseThrow();
         AssetAsBuiltEntity assetAsBuilt1 = jpaAssetAsBuiltRepository.findById("urn:uuid:7fa65f10-9dc1-49fe-818a-09c7313a4562").orElseThrow();
@@ -560,7 +559,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
         final String filter1 = "receivedQualityAlertIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,0,AND";
         final String filter2 = "receivedQualityInvestigationIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,2,AND";
 
-        // When
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -576,7 +575,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
     @Test
     void givenAssetsWithInvestigations_whenGetAssetsWithActiveInvestigationCountFilter6_thenReturnProperAssets() throws JoseException {
-        // Given
+       // Given
         assetsSupport.defaultAssetsStored();
         AssetAsBuiltEntity assetAsBuilt = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").orElseThrow();
         AssetAsBuiltEntity assetAsBuilt1 = jpaAssetAsBuiltRepository.findById("urn:uuid:7fa65f10-9dc1-49fe-818a-09c7313a4562").orElseThrow();
@@ -603,7 +602,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
         final String filter3 = "sentQualityAlertIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,1,AND";
         final String filter4 = "sentQualityInvestigationIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,2,AND";
 
-        // When
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -621,11 +620,11 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
     @Test
     void givenAssetsWithImportStateExistent_whenCallFilteredEndpoint_thenReturnProperAssets() throws JoseException {
-        // given
+       // Given
         assetsSupport.defaultAssetsStored();
         final String filter = "?filter=importState,EQUAL,PERSISTENT,AND,importNote,STARTS_WITH,A,AND";
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -640,7 +639,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
     @Test
     void givenAssetsWithImportStateTransientExistent_whenCallFilteredEndpoint_thenReturnProperAssets() throws JoseException {
-        // given
+       // Given
         assetsSupport.defaultAssetsStored();
         AssetAsBuiltEntity assetAsBuilt = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").orElseThrow();
         assetAsBuilt.setImportState(ImportState.TRANSIENT);
@@ -648,7 +647,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
         final String filter = "?filter=importState,EQUAL,TRANSIENT,AND";
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)

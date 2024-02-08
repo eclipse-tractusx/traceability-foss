@@ -40,16 +40,16 @@ class JwtRolesExtractorTest {
     @Test
     @DisplayName("Extract Jwt Roles successfully")
     void testExtractJwtResourceClientRoles() {
-        // given
+      // Given
         String resourceClient = "unit-tests";
         Set<JwtRole> roles = Set.of(JwtRole.USER, JwtRole.ADMIN, JwtRole.SUPERVISOR);
         Set<String> mappedRoles = roles.stream().map(JwtRole::getDescription).collect(Collectors.toSet());
         Jwt token = createToken(mappedRoles, resourceClient);
 
-        // when
+        // When
         Set<JwtRole> extractedRoles = JwtRolesExtractor.extract(token, resourceClient);
 
-        // then
+       // Then
         assertEquals(roles, extractedRoles);
     }
 
@@ -57,31 +57,31 @@ class JwtRolesExtractorTest {
     @DisplayName("Extract Only Mapped Jwt Roles successfully")
     void testExtractOnlyMappedJwtRoles() {
 
-        // given
+      // Given
         String resourceClient = "unit-tests";
         Set<JwtRole> roles = Set.of(JwtRole.USER, JwtRole.ADMIN);
         Jwt token = createToken(roles.stream().map(JwtRole::getDescription).collect(Collectors.toSet()), resourceClient);
 
-        // when
+        // When
         Set<JwtRole> extractedRoles = JwtRolesExtractor.extract(token, resourceClient);
 
-        // then
+       // Then
         assertEquals(roles, extractedRoles);
     }
 
     @Test
     @DisplayName("Extraction empty in case of unknown Resource Client")
     void testExtractNoRolesWithUnknownResource() {
-        // given
+       // Given
         String resourceClient = "unit-tests";
         Set<JwtRole> roles = Set.of(JwtRole.USER, JwtRole.ADMIN, JwtRole.SUPERVISOR);
         Set<String> mappedRoles = roles.stream().map(JwtRole::getDescription).collect(Collectors.toSet());
         Jwt token = createToken(mappedRoles, resourceClient);
 
-        // when
+        // When
         Set<JwtRole> extractedRoles = JwtRolesExtractor.extract(token, "unknown-resource-client");
 
-        // then
+       // Then
         assertTrue(extractedRoles.isEmpty());
     }
 

@@ -73,7 +73,7 @@ class NotificationsEDCFacadeTest {
 
     @Test
     void givenCorrectInvestigationMessage_whenStartEdcTransfer_thenSendIt() throws Exception {
-        // given
+       // Given
         final String receiverEdcUrl = "https://receiver.com";
         final String senderEdcUrl = "https://sender.com";
         final String agreementId = "negotiationId";
@@ -98,16 +98,16 @@ class NotificationsEDCFacadeTest {
         when(endpointDataReferenceStorage.remove(agreementId)).thenReturn(Optional.ofNullable(endpointDataReference));
         when(objectMapper.writeValueAsString(any())).thenReturn("{body}");
 
-        // when
+        // When
         notificationsEDCFacade.startEdcTransfer(notificationMessage, receiverEdcUrl, senderEdcUrl);
 
-        // then
+       // Then
         verify(httpCallService).sendRequest(any());
     }
 
     @Test
     void givenCorrectInvestigationMessageButSendRequestThrowsException_whenStartEdcTransfer_thenThrowSendNotificationException() throws Exception {
-        // given
+       // Given
         final String receiverEdcUrl = "https://receiver.com";
         final String senderEdcUrl = "https://sender.com";
         final String agreementId = "negotiationId";
@@ -133,13 +133,13 @@ class NotificationsEDCFacadeTest {
         when(objectMapper.writeValueAsString(any())).thenReturn("{body}");
         doThrow(new RuntimeException()).when(httpCallService).sendRequest(any());
 
-        // when/then
+        // Then
         assertThrows(SendNotificationException.class, () -> notificationsEDCFacade.startEdcTransfer(notificationMessage, receiverEdcUrl, senderEdcUrl));
     }
 
     @Test
     void givenCorrectInvestigationMessageButNegotiateContractAgreementHasNoCatalogItem_whenStartEdcTransfer_thenThrowContractNegotiationException() throws Exception {
-        // given
+       // Given
         final String receiverEdcUrl = "https://receiver.com";
         final String senderEdcUrl = "https://sender.com";
         final QualityNotificationMessage notificationMessage = QualityNotificationMessage.builder()
@@ -156,13 +156,13 @@ class NotificationsEDCFacadeTest {
         when(contractNegotiationService.negotiate(receiverEdcUrl + idsPath, catalogItem))
                 .thenReturn(null);
 
-        // when/then
+        // Then
         assertThrows(ContractNegotiationException.class, () -> notificationsEDCFacade.startEdcTransfer(notificationMessage, receiverEdcUrl, senderEdcUrl));
     }
 
     @Test
     void givenCorrectInvestigationMessageButCatalogItem_whenStartEdcTransfer_thenThrowSendNotificationException() {
-        // given
+       // Given
         final String receiverEdcUrl = "https://receiver.com";
         final String senderEdcUrl = "https://sender.com";
         final QualityNotificationMessage notificationMessage = QualityNotificationMessage.builder()
@@ -174,7 +174,7 @@ class NotificationsEDCFacadeTest {
         when(edcProperties.getIdsPath()).thenReturn(idsPath);
         when(edcCatalogFacade.fetchCatalogItems(any())).thenReturn(List.of());
 
-        // when/then
+        // Then
         assertThrows(NoCatalogItemException.class, () -> notificationsEDCFacade.startEdcTransfer(notificationMessage, receiverEdcUrl, senderEdcUrl));
     }
 }

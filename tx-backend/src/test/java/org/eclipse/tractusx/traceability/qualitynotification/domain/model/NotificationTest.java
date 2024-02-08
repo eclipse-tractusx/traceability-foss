@@ -31,7 +31,7 @@ class NotificationTest {
 
     @Test
     void testCopyAndSwitchSenderAndReceiverIsAppBpn() {
-        // Given
+       // Given
         QualityNotificationMessage notificationTestData = NotificationTestDataFactory.createQualityNotificationMessageTestData();
 
         BPN applicationBPN = new BPN("recipientBPN");
@@ -40,14 +40,14 @@ class NotificationTest {
         // When
         QualityNotificationMessage switchedNotification = notificationTestData.copyAndSwitchSenderAndReceiver(applicationBPN);
 
-        // Then
+       // Then
         assertThat(switchedNotification.getSendTo()).isEqualTo(senderBPN);
         assertThat(switchedNotification.getCreatedBy()).isEqualTo(receiverBPN);
     }
 
     @Test
     void testCopyAndSwitchSenderAndReceiverIsNotAppBpn() {
-        // Given
+       // Given
         QualityNotificationMessage notificationTestData = NotificationTestDataFactory.createQualityNotificationMessageTestData();
 
         BPN applicationBPN = new BPN("senderBPN");
@@ -57,7 +57,7 @@ class NotificationTest {
         // When
         QualityNotificationMessage switchedNotification = notificationTestData.copyAndSwitchSenderAndReceiver(applicationBPN);
 
-        // Then
+       // Then
         assertThat(switchedNotification.getSendTo()).isEqualTo(receiverBPN);
         assertThat(switchedNotification.getCreatedBy()).isEqualTo(senderBPN);
     }

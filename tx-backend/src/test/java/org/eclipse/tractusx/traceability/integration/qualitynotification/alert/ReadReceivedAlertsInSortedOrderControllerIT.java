@@ -49,7 +49,7 @@ class ReadReceivedAlertsInSortedOrderControllerIT extends IntegrationTestSpecifi
 
     @Test
     void givenSortByCreatedDateProvided_whenGetAlerts_thenReturnAlertsProperlySorted() throws JoseException {
-        // given
+       // Given
         String sortString = "createdDate,desc";
         String filterString = "channel,EQUAL,RECEIVER,AND";
         String testBpn = bpnSupport.testBpn();
@@ -57,6 +57,7 @@ class ReadReceivedAlertsInSortedOrderControllerIT extends IntegrationTestSpecifi
         AlertNotificationEntity[] alertNotificationEntities = AlertTestDataFactory.createReceiverMajorityAlertNotificationEntitiesTestData(testBpn);
         alertNotificationsSupport.storedAlertNotifications(alertNotificationEntities);
 
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
@@ -77,7 +78,7 @@ class ReadReceivedAlertsInSortedOrderControllerIT extends IntegrationTestSpecifi
 
     @Test
     void givenSortByDescriptionProvided_whenGetAlerts_thenReturnAlertsProperlySorted() throws JoseException {
-        // given
+       // Given
         String sortString = "description,desc";
         String filterString = "channel,EQUAL,RECEIVER,AND";
         String testBpn = bpnSupport.testBpn();
@@ -85,6 +86,7 @@ class ReadReceivedAlertsInSortedOrderControllerIT extends IntegrationTestSpecifi
         AlertNotificationEntity[] alertNotificationEntities = AlertTestDataFactory.createReceiverMajorityAlertNotificationEntitiesTestData(testBpn);
         alertNotificationsSupport.storedAlertNotifications(alertNotificationEntities);
 
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
@@ -105,7 +107,7 @@ class ReadReceivedAlertsInSortedOrderControllerIT extends IntegrationTestSpecifi
 
     @Test
     void givenSortByStatusProvided_whenGetAlerts_thenReturnAlertsProperlySorted() throws JoseException {
-        // given
+       // Given
         String sortString = "status,asc";
         String filterString = "channel,EQUAL,RECEIVER,AND";
         String testBpn = bpnSupport.testBpn();
@@ -113,6 +115,7 @@ class ReadReceivedAlertsInSortedOrderControllerIT extends IntegrationTestSpecifi
         AlertNotificationEntity[] alertNotificationEntities = AlertTestDataFactory.createReceiverMajorityAlertNotificationEntitiesTestData(testBpn);
         alertNotificationsSupport.storedAlertNotifications(alertNotificationEntities);
 
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
@@ -131,7 +134,7 @@ class ReadReceivedAlertsInSortedOrderControllerIT extends IntegrationTestSpecifi
 
     @Test
     void givenSortBySeverityProvided_whenGetAlerts_thenReturnAlertsProperlySorted() throws JoseException {
-        // given
+       // Given
         String sortString = "severity,asc";
         String filterString = "channel,EQUAL,RECEIVER,AND";
         String testBpn = bpnSupport.testBpn();
@@ -139,6 +142,7 @@ class ReadReceivedAlertsInSortedOrderControllerIT extends IntegrationTestSpecifi
         AlertNotificationEntity[] alertNotificationEntities = AlertTestDataFactory.createReceiverMajorityAlertNotificationEntitiesTestData(testBpn);
         alertNotificationsSupport.storedAlertNotifications(alertNotificationEntities);
 
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
@@ -157,11 +161,11 @@ class ReadReceivedAlertsInSortedOrderControllerIT extends IntegrationTestSpecifi
 
     @Test
     void givenInvalidSort_whenGetCreated_thenBadRequest() throws JoseException {
-        // given
+       // Given
         String sortString = "createdDate,failure";
         String filterString = "channel,EQUAL,RECEIVER,AND";
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
@@ -177,7 +181,7 @@ class ReadReceivedAlertsInSortedOrderControllerIT extends IntegrationTestSpecifi
 
     @Test
     void givenSortBySendToProvided_whenGetAlerts_thenReturnAlertsProperlySorted() throws JoseException {
-        // given
+       // Given
         String sortString = "sendTo,desc";
         String filterString = "channel,EQUAL,RECEIVER,AND";
         String testBpn = bpnSupport.testBpn();
@@ -185,6 +189,7 @@ class ReadReceivedAlertsInSortedOrderControllerIT extends IntegrationTestSpecifi
         AlertNotificationEntity[] alertNotificationEntities = AlertTestDataFactory.createReceiverMajorityAlertNotificationEntitiesTestData(testBpn);
         alertNotificationsSupport.storedAlertNotifications(alertNotificationEntities);
 
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
@@ -203,7 +208,7 @@ class ReadReceivedAlertsInSortedOrderControllerIT extends IntegrationTestSpecifi
 
     @Test
     void givenSortByTargetDateProvided_whenGetAlerts_thenReturnAlertsProperlySorted() throws JoseException {
-        // given
+       // Given
         String sortString = "targetDate,asc";
         String filterString = "channel,EQUAL,RECEIVER,AND";
         String testBpn = bpnSupport.testBpn();
@@ -211,6 +216,7 @@ class ReadReceivedAlertsInSortedOrderControllerIT extends IntegrationTestSpecifi
         AlertNotificationEntity[] alertNotificationEntities = AlertTestDataFactory.createReceiverMajorityAlertNotificationEntitiesTestData(testBpn);
         alertNotificationsSupport.storedAlertNotifications(alertNotificationEntities);
 
+        // Then
         // not all entities have a different target date
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))

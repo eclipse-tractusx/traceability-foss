@@ -50,10 +50,10 @@ class ReceiverInvestigationsControllerIT extends IntegrationTestSpecification {
 
     @Test
     void ShouldAcknowledgeReceivedInvestigation() throws JoseException {
-        // given
+       // Given
         val investigationId = investigationsSupport.defaultReceivedInvestigationStored();
 
-        // when
+        // When
         given()
                 .contentType(ContentType.JSON)
                 .body("""
@@ -67,7 +67,7 @@ class ReceiverInvestigationsControllerIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(204);
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of())))
@@ -84,10 +84,10 @@ class ReceiverInvestigationsControllerIT extends IntegrationTestSpecification {
 
     @Test
     void shouldNotUpdateToAcknowledgedNonExistingInvestigation() throws JoseException {
-        // given
+       // Given
         final long notExistingInvestigationId = 1234L;
 
-        // when/then
+        // Then
         given()
                 .contentType(ContentType.JSON)
                 .body("""
@@ -104,10 +104,10 @@ class ReceiverInvestigationsControllerIT extends IntegrationTestSpecification {
 
     @Test
     void shouldNotUpdateToAcceptedNonExistingInvestigation() throws JoseException {
-        // given
+       // Given
         final long notExistingInvestigationId = 1234L;
 
-        // when
+        // Then
         given()
                 .contentType(ContentType.JSON)
                 .body("""
@@ -125,10 +125,10 @@ class ReceiverInvestigationsControllerIT extends IntegrationTestSpecification {
 
     @Test
     void shouldNotUpdateToDeclinedNonExistingInvestigation() throws JoseException {
-        // given
+       // Given
         final long notExistingInvestigationId = 1234L;
 
-        // when
+        // Then
         given()
                 .contentType(ContentType.JSON)
                 .body("""
@@ -147,10 +147,10 @@ class ReceiverInvestigationsControllerIT extends IntegrationTestSpecification {
     @ParameterizedTest
     @MethodSource("invalidRequest")
     void shouldNotUpdateWithInvalidRequest(final String request) throws JoseException {
-        // given
+       // Given
         final long notExistingInvestigationId = 1234L;
 
-        // when
+        // Then
         given()
                 .contentType(ContentType.JSON)
                 .body(request)

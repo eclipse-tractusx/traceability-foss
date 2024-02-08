@@ -84,10 +84,10 @@ class ReadCreatedInvestigationsSortedWithSearchCriteriaIT extends IntegrationTes
             final String filter3,
             final String[] expectedOrderOfIdShortItems
     ) throws JoseException {
-        // given
+       // Given
         String filterString = "channel,EQUAL,SENDER,AND";
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(page, size, List.of(sort)), new SearchCriteriaRequestParam(List.of(filterString, filter1, filter2, filter3))))

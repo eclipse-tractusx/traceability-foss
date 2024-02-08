@@ -77,7 +77,7 @@ class AssetAsBuiltControllerByIdIT extends IntegrationTestSpecification {
 
     @Test
     void givenAlertsForAsset_whenCallAssetById_thenReturnProperCount() throws JoseException {
-        // Given
+      // Given
         assetsSupport.defaultAssetsStored();
         AssetAsBuiltEntity assetAsBuilt = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").orElseThrow();
         alertsSupport.storeAlertWithStatusAndAssets(CREATED, List.of(assetAsBuilt), null);
@@ -89,7 +89,7 @@ class AssetAsBuiltControllerByIdIT extends IntegrationTestSpecification {
         alertsSupport.storeAlertWithStatusAndAssets(CANCELED, List.of(assetAsBuilt), null);
         alertsSupport.storeAlertWithStatusAndAssets(CLOSED, List.of(assetAsBuilt), null);
 
-        // When
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -104,7 +104,7 @@ class AssetAsBuiltControllerByIdIT extends IntegrationTestSpecification {
 
     @Test
     void givenInvestigationsForAsset_whenCallAssetById_thenReturnProperCount() throws JoseException {
-        // Given
+      // Given
         assetsSupport.defaultAssetsStored();
         AssetAsBuiltEntity assetAsBuilt = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").orElseThrow();
         investigationsSupport.storeInvestigationWithStatusAndAssets(CREATED, List.of(assetAsBuilt), null);
@@ -116,7 +116,7 @@ class AssetAsBuiltControllerByIdIT extends IntegrationTestSpecification {
         investigationsSupport.storeInvestigationWithStatusAndAssets(CANCELED, List.of(assetAsBuilt), null);
         investigationsSupport.storeInvestigationWithStatusAndAssets(CLOSED, List.of(assetAsBuilt), null);
 
-        // When
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -130,10 +130,10 @@ class AssetAsBuiltControllerByIdIT extends IntegrationTestSpecification {
 
     @Test
     void shouldReturnAssetsForAuthenticatedUserWithRole() throws JoseException {
-        //GIVEN
+       // Given
         assetsSupport.defaultAssetsStored();
 
-        //THEN
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -155,10 +155,10 @@ class AssetAsBuiltControllerByIdIT extends IntegrationTestSpecification {
 
     @Test
     void shouldGetChildrenAsset() throws JoseException {
-        //GIVEN
+       // Given
         assetsSupport.defaultAssetsStored();
 
-        //THEN
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -172,10 +172,10 @@ class AssetAsBuiltControllerByIdIT extends IntegrationTestSpecification {
 
     @Test
     void shouldReturn404WhenChildrenAssetIsNotFound() throws JoseException {
-        //GIVEN
+       // Given
         assetsSupport.defaultAssetsStored();
 
-        //THEN
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -214,11 +214,11 @@ class AssetAsBuiltControllerByIdIT extends IntegrationTestSpecification {
 
     @Test
     void shouldUpdateQualityTypeForExistingAsset() throws JoseException {
-        //GIVEN
+       // Given
         assetsSupport.defaultAssetsStored();
         String existingAssetId = "urn:uuid:1ae94880-e6b0-4bf3-ab74-8148b63c0640";
 
-        //THEN
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)

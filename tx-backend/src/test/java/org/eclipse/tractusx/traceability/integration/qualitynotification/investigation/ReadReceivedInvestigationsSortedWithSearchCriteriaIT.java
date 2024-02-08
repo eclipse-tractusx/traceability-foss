@@ -85,9 +85,10 @@ class ReadReceivedInvestigationsSortedWithSearchCriteriaIT extends IntegrationTe
             final String filter3,
             final String[] expectedOrderOfIdShortItems
     ) throws JoseException {
-        // given
+       // Given
         String filterString = "channel,EQUAL,RECEIVER,AND";
 
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(page, size, List.of(sort)), new SearchCriteriaRequestParam(List.of(filterString, filter1, filter2, filter3))))
@@ -102,7 +103,7 @@ class ReadReceivedInvestigationsSortedWithSearchCriteriaIT extends IntegrationTe
 
     @Test
     void testDashboardLatestFiveActiveInvestigationEntries() throws JoseException {
-        // given
+       // Given
         String filterString = "channel,EQUAL,RECEIVER,AND";
         String filter1 = "status,EQUAL,RECEIVED,OR";
         String filter2 = "status,EQUAL,ACKNOWLEDGED,OR";
@@ -110,6 +111,7 @@ class ReadReceivedInvestigationsSortedWithSearchCriteriaIT extends IntegrationTe
         String filter4 = "status,EQUAL,DECLINED,OR";
         String sort = "createdDate,desc";
 
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 5, List.of(sort)), new SearchCriteriaRequestParam(List.of(filterString, filter1, filter2, filter3, filter4))))

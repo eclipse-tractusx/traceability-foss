@@ -49,11 +49,11 @@ class ApplicationStartupConfigTest {
     @Test
     void whenCallRegisterIrsPolicy_thenCallRepository() {
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        // when
+        // When
         executor.execute(() -> {
             applicationStartupConfig.registerIrsPolicy();
 
-            // then
+           // Then
             verify(irsRepository, times(1)).createIrsPolicyIfMissing();
         });
 
@@ -63,11 +63,11 @@ class ApplicationStartupConfigTest {
     @Test
     void whenCallCreateNotificationContracts_thenCallContractService() {
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        // when
+        // When
         executor.execute(() -> {
             applicationStartupConfig.registerIrsPolicy();
 
-            // then
+           // Then
             verify(edcNotificationContractService, times(4)).handle(any());
         });
 

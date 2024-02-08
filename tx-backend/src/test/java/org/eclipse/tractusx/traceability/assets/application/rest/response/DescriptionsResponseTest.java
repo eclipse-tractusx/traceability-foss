@@ -31,15 +31,15 @@ class DescriptionsResponseTest {
 
     @Test
     void givenDescriptionsResponse_whenFrom_thenMapCorrectly() {
-        // given
+      // Given
         final String id = "identifier";
         final String shortId = "shortIdentifier";
         final Descriptions response = new Descriptions(id, shortId);
 
-        // when
+        // When
         final DescriptionsResponse result = AssetAsBuiltResponseMapper.from(response);
 
-        // then
+       // Then
         assertThat(result).usingRecursiveComparison()
                 .isEqualTo(response);
     }

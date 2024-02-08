@@ -58,14 +58,14 @@ class DecentralRegistryServiceImplTest {
 
     @Test
     void testUpdateShellDescriptorAndSynchronizeAssets() throws RegistryServiceException {
-        // Given
+       // Given
         when(traceabilityProperties.getBpn()).thenReturn(BPN.of("test"));
         when(decentralRegistryRepository.retrieveShellDescriptorsByBpn(BPN.of("test").toString())).thenReturn(List.of("id1","id2"));
 
         // When
         registryFacade.synchronizeAssets();
 
-        // Then
+       // Then
         verify(assetAsBuiltService, times(2)).synchronizeAssetsAsync(any(String.class));
         verify(assetAsPlannedService, times(2)).synchronizeAssetsAsync(any(String.class));
     }

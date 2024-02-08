@@ -56,13 +56,13 @@ class AssetAsPlannedServiceImplTest {
 
     @Test
     void synchronizeAssets_shouldSaveCombinedAssets_whenNoException() {
-        // given
+      // Given
         String globalAssetId = "123";
 
-        // when
+        // When
         assetService.synchronizeAssetsAsync(globalAssetId);
 
-        // then
+       // Then
         verify(irsRepository).createJobToResolveAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsPlanned(), BomLifecycle.AS_PLANNED);
     }
 }

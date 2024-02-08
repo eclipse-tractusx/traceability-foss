@@ -29,7 +29,7 @@ import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 class PolicyControllerIT extends IntegrationTestSpecification {
     @Test
     void shouldReturnPolicy() throws JoseException {
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)

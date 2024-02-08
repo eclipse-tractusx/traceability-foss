@@ -47,7 +47,7 @@ class ReadReceivedInvestigationsInSortedOrderControllerIT extends IntegrationTes
 
     @Test
     void givenSortByCreatedDateProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
-        // given
+       // Given
         String filterString = "channel,EQUAL,RECEIVER,AND";
         String sortString = "createdDate,desc";
         String testBpn = bpnSupport.testBpn();
@@ -55,7 +55,7 @@ class ReadReceivedInvestigationsInSortedOrderControllerIT extends IntegrationTes
         InvestigationNotificationEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createReceiverMajorityInvestigationNotificationEntitiesTestData(testBpn);
         investigationNotificationsSupport.storedNotifications(investigationNotificationEntities);
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
@@ -76,7 +76,7 @@ class ReadReceivedInvestigationsInSortedOrderControllerIT extends IntegrationTes
 
     @Test
     void givenSortByDescriptionProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
-        // given
+       // Given
         String filterString = "channel,EQUAL,RECEIVER,AND";
         String sortString = "description,desc";
         String testBpn = bpnSupport.testBpn();
@@ -84,6 +84,7 @@ class ReadReceivedInvestigationsInSortedOrderControllerIT extends IntegrationTes
         InvestigationNotificationEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createReceiverMajorityInvestigationNotificationEntitiesTestData(testBpn);
         investigationNotificationsSupport.storedNotifications(investigationNotificationEntities);
 
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
@@ -103,7 +104,7 @@ class ReadReceivedInvestigationsInSortedOrderControllerIT extends IntegrationTes
 
     @Test
     void givenSortByStatusProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
-        // given
+       // Given
         String filterString = "channel,EQUAL,RECEIVER,AND";
         String sortString = "status,asc";
         String testBpn = bpnSupport.testBpn();
@@ -111,6 +112,7 @@ class ReadReceivedInvestigationsInSortedOrderControllerIT extends IntegrationTes
         InvestigationNotificationEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createReceiverMajorityInvestigationNotificationEntitiesTestData(testBpn);
         investigationNotificationsSupport.storedNotifications(investigationNotificationEntities);
 
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
@@ -128,7 +130,7 @@ class ReadReceivedInvestigationsInSortedOrderControllerIT extends IntegrationTes
 
     @Test
     void givenSortBySeverityProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
-        // given
+       // Given
         String filterString = "channel,EQUAL,RECEIVER,AND";
         String sortString = "severity,asc";
         String testBpn = bpnSupport.testBpn();
@@ -136,6 +138,7 @@ class ReadReceivedInvestigationsInSortedOrderControllerIT extends IntegrationTes
         InvestigationNotificationEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createReceiverMajorityInvestigationNotificationEntitiesTestData(testBpn);
         investigationNotificationsSupport.storedNotifications(investigationNotificationEntities);
 
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
@@ -153,11 +156,11 @@ class ReadReceivedInvestigationsInSortedOrderControllerIT extends IntegrationTes
 
     @Test
     void givenInvalidSort_whenGetCreated_thenBadRequest() throws JoseException {
-        // given
+       // Given
         String filterString = "channel,EQUAL,RECEIVER,AND";
         String sortString = "createdDate,failure";
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
@@ -173,7 +176,7 @@ class ReadReceivedInvestigationsInSortedOrderControllerIT extends IntegrationTes
 
     @Test
     void givenSortBySendToProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
-        // given
+       // Given
         String filterString = "channel,EQUAL,RECEIVER,AND";
         String sortString = "sendTo,desc";
         String testBpn = bpnSupport.testBpn();
@@ -181,6 +184,7 @@ class ReadReceivedInvestigationsInSortedOrderControllerIT extends IntegrationTes
         InvestigationNotificationEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createReceiverMajorityInvestigationNotificationEntitiesTestData(testBpn);
         investigationNotificationsSupport.storedNotifications(investigationNotificationEntities);
 
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
@@ -198,7 +202,7 @@ class ReadReceivedInvestigationsInSortedOrderControllerIT extends IntegrationTes
 
     @Test
     void givenSortByTargetDateProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
-        // given
+       // Given
         String filterString = "channel,EQUAL,RECEIVER,AND";
         String sortString = "targetDate,asc";
         String testBpn = bpnSupport.testBpn();
@@ -206,6 +210,7 @@ class ReadReceivedInvestigationsInSortedOrderControllerIT extends IntegrationTes
         InvestigationNotificationEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createReceiverMajorityInvestigationNotificationEntitiesTestData(testBpn);
         investigationNotificationsSupport.storedNotifications(investigationNotificationEntities);
 
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))

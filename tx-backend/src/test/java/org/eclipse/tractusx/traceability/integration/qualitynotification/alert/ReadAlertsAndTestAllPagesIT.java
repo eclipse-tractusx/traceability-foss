@@ -56,7 +56,7 @@ class ReadAlertsAndTestAllPagesIT extends IntegrationTestSpecification {
             final String filter2,
             final String[] expectedOrderOfIdShortItems
     ) throws JoseException {
-        // given
+       // Given
         String filterString = "channel,EQUAL,SENDER,AND";
         String sortString = "createdDate,DESC";
 
@@ -66,7 +66,7 @@ class ReadAlertsAndTestAllPagesIT extends IntegrationTestSpecification {
         final AlertNotificationEntity[] extendedTestData = AlertTestDataFactory.createExtendedSenderAlertNotificationEntitiesTestData(bpnSupport.testBpn());
         alertNotificationsSupport.storedAlertNotifications(extendedTestData);
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(page, 2, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString, filter1, filter2))))
@@ -121,7 +121,7 @@ class ReadAlertsAndTestAllPagesIT extends IntegrationTestSpecification {
         final AlertNotificationEntity[] extendedTestData = AlertTestDataFactory.createExtendedReceiverAlertNotificationEntitiesTestData(bpnSupport.testBpn());
         alertNotificationsSupport.storedAlertNotifications(extendedTestData);
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(page, 2, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString, filter1, filter2))))
