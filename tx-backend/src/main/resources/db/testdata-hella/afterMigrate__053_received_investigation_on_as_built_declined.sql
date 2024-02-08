@@ -35,11 +35,6 @@ values
     (${investigationReceivedId4}, ${assetAsBuiltId13});
 
 ---
--- update assets_as_built
---     set in_investigation = true
---     where id in (${assetAsBuiltId13});
-
----
 ---
 -- DECLINED by receiver notification message
 insert into investigation_notification

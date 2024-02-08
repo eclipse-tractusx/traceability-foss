@@ -33,8 +33,3 @@ insert into assets_as_built_investigations
     (investigation_id       , asset_id)
 values
     (${investigationSentId6}, ${assetAsBuiltId20});
-
----
--- update assets_as_built
---     set in_investigation = false
---     where id in (${assetAsBuiltId20});

@@ -35,11 +35,6 @@ values
     (${investigationReceivedId2}, ${assetAsBuiltId02});
 
 ---
--- update assets_as_built
---     set in_investigation = true
---     where id in (${assetAsBuiltId02});
-
----
 ---
 -- ACK by receiver notification message
 insert into investigation_notification

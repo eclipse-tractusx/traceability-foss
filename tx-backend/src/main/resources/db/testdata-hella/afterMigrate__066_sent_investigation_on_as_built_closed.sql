@@ -35,11 +35,6 @@ values
     (${investigationSentId7}, ${assetAsBuiltId06});
 
 ---
--- update assets_as_built
---     set in_investigation = false
---     where id in (${assetAsBuiltId06});
-
----
 -- CLOSED by sender notification message
 insert into investigation_notification
     (id                                  , contract_agreement_id, edc_url                                                 , notification_reference_id, created_by, send_to        , investigation_id       , target_date                          , severity  , created_by_name, send_to_name, edc_notification_id                   , status    , created                              , updated                              , message_id                            , is_initial)

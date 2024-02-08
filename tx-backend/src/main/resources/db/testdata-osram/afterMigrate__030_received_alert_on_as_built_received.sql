@@ -33,8 +33,3 @@ insert into assets_as_built_alerts
     (alert_id           , asset_id)
 values
     (${alertReceivedId1}, ${assetAsBuiltId10});
-
----
--- update assets_as_built
---     set active_alert              = true
---     where id in (${assetAsBuiltId10});
