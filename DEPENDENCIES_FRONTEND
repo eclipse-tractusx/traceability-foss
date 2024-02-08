@@ -460,7 +460,7 @@ npm/npmjs/-/has-flag/4.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/has-property-descriptors/1.0.1, MIT, approved, #11098
 npm/npmjs/-/has-proto/1.0.1, MIT, approved, #6175
 npm/npmjs/-/has-symbols/1.0.3, MIT, approved, clearlydefined
-npm/npmjs/-/has-tostringtag/1.0.0, MIT, approved, clearlydefined
+npm/npmjs/-/has-tostringtag/1.0.0, MIT, approved, #13161
 npm/npmjs/-/has-unicode/2.0.1, ISC, approved, clearlydefined
 npm/npmjs/-/has/1.0.3, MIT, approved, #10930
 npm/npmjs/-/hasown/2.0.0, MIT, approved, #11097
