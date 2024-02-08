@@ -56,7 +56,6 @@ class AssetAsBuiltControllerByIdIT extends IntegrationTestSpecification {
     @Autowired
     AssetsSupport assetsSupport;
 
-
     @Autowired
     JpaAssetAsBuiltRepository jpaAssetAsBuiltRepository;
 
@@ -248,5 +247,4 @@ class AssetAsBuiltControllerByIdIT extends IntegrationTestSpecification {
                 .statusCode(200)
                 .body("qualityType", equalTo("Critical"));
     }
-
 }

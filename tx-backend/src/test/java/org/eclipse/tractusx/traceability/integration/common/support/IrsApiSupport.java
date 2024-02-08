@@ -101,7 +101,6 @@ public class IrsApiSupport {
                         header("Content-Type", "application/json"),
 
                         restitoProvider.jsonResponseFromFile("./stubs/irs/get/jobs/id/response_200_downward_asPlanned.json"));
-
     }
 
     public void irsApiTriggerJobAsPlanned() {

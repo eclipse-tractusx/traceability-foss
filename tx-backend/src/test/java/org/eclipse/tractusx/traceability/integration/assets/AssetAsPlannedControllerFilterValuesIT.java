@@ -218,6 +218,7 @@ class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecificatio
                 .assertThat()
                 .body("size()", is(1));
     }
+
     @Test
     void givenEnumTypeFieldNameImportState_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
         // given

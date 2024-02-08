@@ -35,7 +35,6 @@ import static org.hamcrest.Matchers.hasSize;
 
 class AssetAsPlannedControllerDetailInformationIT extends IntegrationTestSpecification {
 
-
     @Autowired
     BpnSupport bpnSupport;
 

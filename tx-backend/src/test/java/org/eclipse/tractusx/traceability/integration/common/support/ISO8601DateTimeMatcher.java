@@ -36,7 +36,6 @@ public class ISO8601DateTimeMatcher extends TypeSafeMatcher<String> {
         } catch (DateTimeParseException ignored) {
             return false;
         }
-
         return true;
     }
 

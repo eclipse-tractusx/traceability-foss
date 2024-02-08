@@ -70,7 +70,6 @@ class AssetAsPlannedControllerSyncIT extends IntegrationTestSpecification {
                 return false;
             }
         });
-
     }
 
     @Test

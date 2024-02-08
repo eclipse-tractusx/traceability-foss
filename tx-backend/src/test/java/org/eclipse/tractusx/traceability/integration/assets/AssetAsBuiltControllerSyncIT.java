@@ -102,7 +102,6 @@ class AssetAsBuiltControllerSyncIT extends IntegrationTestSpecification {
         //GIVEN
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         irsApiSupport.irsApiTriggerJob();
-
         irsApiSupport.irsJobDetailsApiFailed();
 
         //WHEN
@@ -130,8 +129,6 @@ class AssetAsBuiltControllerSyncIT extends IntegrationTestSpecification {
         //GIVEN
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         irsApiSupport.irsApiTriggerJob();
-
-
         irsApiSupport.irsApiReturnsJobInRunningState();
 
         //WHEN

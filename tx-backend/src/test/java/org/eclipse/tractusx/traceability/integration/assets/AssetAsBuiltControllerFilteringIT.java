@@ -406,7 +406,6 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
         final String filter = "receivedQualityInvestigationIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,7,AND";
 
-
         // When
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
@@ -438,7 +437,6 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
         final String filter = "receivedQualityInvestigationIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,2,AND";
 
-
         // When
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
@@ -466,7 +464,6 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
         }
 
         final String sort = "sentQualityAlertIdsInStatusActive,ASC";
-
 
         // When
         given()
@@ -500,7 +497,6 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
         final String filter = "receivedQualityInvestigationIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,0,AND";
 
-
         // When
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
@@ -531,7 +527,6 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
         investigationsSupport.storeInvestigationWithStatusAndAssets(CLOSED, List.of(assetAsBuilt), null);
 
         final String filter = "receivedQualityAlertIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,0,AND";
-
 
         // When
         given()
@@ -564,7 +559,6 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
         final String filter1 = "receivedQualityAlertIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,0,AND";
         final String filter2 = "receivedQualityInvestigationIdsInStatusActive,NOTIFICATION_COUNT_EQUAL,2,AND";
-
 
         // When
         given()
@@ -651,7 +645,6 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
         AssetAsBuiltEntity assetAsBuilt = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").orElseThrow();
         assetAsBuilt.setImportState(ImportState.TRANSIENT);
         jpaAssetAsBuiltRepository.save(assetAsBuilt);
-
 
         final String filter = "?filter=importState,EQUAL,TRANSIENT,AND";
 

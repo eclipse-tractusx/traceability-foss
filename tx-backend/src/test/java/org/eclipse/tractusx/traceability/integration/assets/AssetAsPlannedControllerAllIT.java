@@ -129,5 +129,4 @@ class AssetAsPlannedControllerAllIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(400);
     }
-
 }

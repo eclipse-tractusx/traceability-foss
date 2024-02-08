@@ -57,12 +57,11 @@ class BpnMappingControllerAuthorizationIT extends IntegrationTestSpecification {
         given()
                 .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
                 .contentType(ContentType.JSON)
-        .when()
+                .when()
                 .get(ROOT)
                 .then()
-        .assertThat()
+                .assertThat()
                 .statusCode(new ForbiddenMatcher(isAllowed));
-
     }
 
     /*
@@ -80,12 +79,11 @@ class BpnMappingControllerAuthorizationIT extends IntegrationTestSpecification {
                 .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(List.of()))
-        .when()
+                .when()
                 .post(ROOT)
                 .then()
-        .assertThat()
+                .assertThat()
                 .statusCode(new ForbiddenMatcher(isAllowed));
-
     }
 
     /*
@@ -103,12 +101,11 @@ class BpnMappingControllerAuthorizationIT extends IntegrationTestSpecification {
                 .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(List.of()))
-        .when()
+                .when()
                 .put(ROOT)
-        .then()
+                .then()
                 .assertThat()
                 .statusCode(new ForbiddenMatcher(isAllowed));
-
     }
 
     /*
@@ -125,11 +122,10 @@ class BpnMappingControllerAuthorizationIT extends IntegrationTestSpecification {
         given()
                 .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
                 .contentType(ContentType.JSON)
-        .when()
+                .when()
                 .delete(ROOT + "/123")
-        .then()
+                .then()
                 .assertThat()
                 .statusCode(new ForbiddenMatcher(isAllowed));
-
     }
  }

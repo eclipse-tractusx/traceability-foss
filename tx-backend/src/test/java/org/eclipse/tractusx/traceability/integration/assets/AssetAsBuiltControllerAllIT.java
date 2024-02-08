@@ -137,7 +137,6 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
                 .body("content[0].detailAspectModels[0].data", hasEntry("partId", assetsSupport.emptyText()))
                 .body("content[0].detailAspectModels[0].data", hasEntry("nameAtCustomer", assetsSupport.emptyText()))
                 .body("content[0].detailAspectModels[0].data", hasEntry("customerPartId", assetsSupport.emptyText()));
-
     }
 
     @ParameterizedTest
@@ -215,5 +214,4 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
                 .log().all()
                 .statusCode(400);
     }
-
 }
