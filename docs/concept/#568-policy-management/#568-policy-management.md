@@ -26,6 +26,7 @@ In the Catena-X ecosystem every partner can potentially communicate to every oth
 To remain in control of their own data, each partner can use policies to place conditions on the access of their data.
 In order to use these policies they must first be created and attached to the assets of a partner.
 
+
 # Summary
 It must be possible for an Administrator of Trace-X to create, read, update and delete policies, which are then stored in the IRS policy store.
 
