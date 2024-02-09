@@ -35,7 +35,6 @@ import static org.hamcrest.Matchers.equalTo;
 
 class ActuatorIT extends IntegrationTestSpecification {
 
-
     @Autowired
     private MockMvc mockMvc;
 
@@ -76,6 +75,4 @@ class ActuatorIT extends IntegrationTestSpecification {
                 .then().statusCode(200)
                 .body("status", equalTo("UP"));
     }
-
-
 }

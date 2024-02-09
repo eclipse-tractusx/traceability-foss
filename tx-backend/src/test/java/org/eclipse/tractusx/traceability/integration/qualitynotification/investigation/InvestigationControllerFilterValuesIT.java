@@ -47,12 +47,12 @@ class InvestigationControllerFilterValuesIT extends IntegrationTestSpecification
 
     @Test
     void givenDescriptionField_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
-        // given
+       // Given
         investigationNotificationsSupport.defaultInvestigationsStored();
         final String fieldName = "description";
         final Integer size = 200;
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -68,16 +68,15 @@ class InvestigationControllerFilterValuesIT extends IntegrationTestSpecification
                 .body(".", Matchers.containsInRelativeOrder(List.of("1", "11", "2", "22", "3", "33", "4", "44", "5", "55", "6", "7", "8").toArray()));
     }
 
-
     @Test
     void givenDescriptionFieldStartWith_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
-        // given
+       // Given
         investigationNotificationsSupport.defaultInvestigationsStored();
         final String fieldName = "description";
         final Integer size = 200;
         final String startWith = "1";
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -96,14 +95,14 @@ class InvestigationControllerFilterValuesIT extends IntegrationTestSpecification
 
     @Test
     void givenDescriptionFieldStartWithAndReceiver_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
-        // given
+       // Given
         investigationNotificationsSupport.defaultInvestigationsStored();
         final String fieldName = "description";
         final Integer size = 200;
         final String startWith = "1";
         final String channel = "RECEIVER";
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -123,14 +122,14 @@ class InvestigationControllerFilterValuesIT extends IntegrationTestSpecification
 
     @Test
     void givenDescriptionFieldStartWithAndSender_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
-        // given
+       // Given
         investigationNotificationsSupport.defaultInvestigationsStored();
         final String fieldName = "description";
         final Integer size = 200;
         final String startWith = "1";
         final String channel = "SENDER";
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -150,12 +149,12 @@ class InvestigationControllerFilterValuesIT extends IntegrationTestSpecification
 
     @Test
     void givenBpnField_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
-        // given
+       // Given
         investigationNotificationsSupport.defaultInvestigationsStored();
         final String fieldName = "bpn";
         Integer size = 200;
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -173,13 +172,13 @@ class InvestigationControllerFilterValuesIT extends IntegrationTestSpecification
 
     @Test
     void givenBpnFieldStartWithCaseInsensitive1_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
-        // given
+       // Given
         investigationNotificationsSupport.defaultInvestigationsStored();
         final String fieldName = "bpn";
         final Integer size = 200;
         final String startWith = "bpnl";
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -198,13 +197,13 @@ class InvestigationControllerFilterValuesIT extends IntegrationTestSpecification
 
     @Test
     void givenBpnFieldStartWithCaseInsensitive2_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
-        // given
+       // Given
         investigationNotificationsSupport.defaultInvestigationsStored();
         final String fieldName = "bpn";
         final Integer size = 200;
         final String startWith = "bpNl";
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -223,12 +222,12 @@ class InvestigationControllerFilterValuesIT extends IntegrationTestSpecification
 
     @Test
     void givenCreatedDateField_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
-        // given
+       // Given
         investigationNotificationsSupport.defaultInvestigationsStored();
         final String fieldName = "createdDate";
         Integer size = 200;
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -254,11 +253,11 @@ class InvestigationControllerFilterValuesIT extends IntegrationTestSpecification
 
     @Test
     void givenCreatedDateFieldAndNoSize_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
-        // given
+       // Given
         investigationNotificationsSupport.defaultInvestigationsStored();
         final String fieldName = "createdDate";
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -283,12 +282,12 @@ class InvestigationControllerFilterValuesIT extends IntegrationTestSpecification
 
     @Test
     void givenCreatedByField_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
-        // given
+       // Given
         investigationNotificationsSupport.defaultInvestigationsStored();
         final String fieldName = "createdBy";
         Integer size = 200;
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -306,13 +305,13 @@ class InvestigationControllerFilterValuesIT extends IntegrationTestSpecification
 
     @Test
     void givenCreatedByFieldAndSender_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
-        // given
+       // Given
         investigationNotificationsSupport.defaultInvestigationsStored();
         final String fieldName = "createdBy";
         Integer size = 200;
         final String channel = "SENDER";
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -331,13 +330,13 @@ class InvestigationControllerFilterValuesIT extends IntegrationTestSpecification
 
     @Test
     void givenCreatedByFieldAndReceiver_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
-        // given
+       // Given
         investigationNotificationsSupport.defaultInvestigationsStored();
         final String fieldName = "createdBy";
         Integer size = 200;
         final String channel = "RECEIVER";
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)

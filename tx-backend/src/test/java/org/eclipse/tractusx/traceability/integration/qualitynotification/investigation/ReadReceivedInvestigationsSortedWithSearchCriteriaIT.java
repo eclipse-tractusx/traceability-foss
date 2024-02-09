@@ -1,6 +1,9 @@
 package org.eclipse.tractusx.traceability.integration.qualitynotification.investigation;
 
 import io.restassured.http.ContentType;
+import org.eclipse.tractusx.traceability.common.request.OwnPageable;
+import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
+import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.BpnSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationNotificationsSupport;
@@ -15,6 +18,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import static io.restassured.RestAssured.given;
@@ -44,30 +48,27 @@ class ReadReceivedInvestigationsSortedWithSearchCriteriaIT extends IntegrationTe
                         0,
                         50,
                         "createdDate,desc",
-                        "status,EQUAL,RECEIVED",
-                        "status,EQUAL,ACCEPTED",
-                        "severity,EQUAL,2",
-                        "AND",
+                        "status,EQUAL,RECEIVED,AND",
+                        "status,EQUAL,ACCEPTED,AND",
+                        "severity,EQUAL,CRITICAL,AND",
                         new String[]{"RECEIVED"}
                 ),
                 Arguments.of(
                         0,
                         50,
                         "createdDate,desc",
-                        "status,EQUAL,ACCEPTED",
-                        "severity,EQUAL,3",
-                        "severity,EQUAL,2",
-                        "AND",
+                        "status,EQUAL,ACCEPTED,AND",
+                        "severity,EQUAL,CRITICAL,AND",
+                        "severity,EQUAL,LIFE_THREATENING,AND",
                         new String[]{"ACCEPTED", "ACCEPTED"}
                 ),
                 Arguments.of(
                         0,
                         5,
                         "createdDate,desc",
-                        "createdBy,STARTS_WITH,BPNL00000000000A",
-                        "status,EQUAL,ACKNOWLEDGED",
-                        "severity,EQUAL,2",
-                        "AND",
+                        "sendTo,STARTS_WITH,BPNL000000000001,AND",
+                        "status,EQUAL,ACKNOWLEDGED,AND",
+                        "severity,EQUAL,CRITICAL,AND",
                         new String[]{"ACKNOWLEDGED"}
                 )
         );
@@ -76,31 +77,25 @@ class ReadReceivedInvestigationsSortedWithSearchCriteriaIT extends IntegrationTe
     @ParameterizedTest
     @MethodSource("sortAndFilterArguments")
     void givenSortAndTwoStatusFilters_whenCallSortAndFilterEndpoint_thenReturnExpectedResponse(
-            final long page,
-            final long size,
+            final int page,
+            final int size,
             final String sort,
             final String filter1,
             final String filter2,
             final String filter3,
-            final String filterOperator,
             final String[] expectedOrderOfIdShortItems
     ) throws JoseException {
+       // Given
+        String filterString = "channel,EQUAL,RECEIVER,AND";
 
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .body(new PageableFilterRequest(new OwnPageable(page, size, List.of(sort)), new SearchCriteriaRequestParam(List.of(filterString, filter1, filter2, filter3))))
                 .contentType(ContentType.JSON)
-                .param("page", page)
-                .param("size", size)
-                .param("filter", filter1)
-                .param("filter", filter2)
-                .param("filter", filter3)
-                .param("filterOperator", filterOperator)
-                .param("sort", sort)
-                .log().all()
                 .when()
-                .get("/api/investigations/received")
+                .post("/api/investigations/filter")
                 .then()
-                .log().all()
                 .statusCode(200)
                 .body("totalItems", equalTo(expectedOrderOfIdShortItems.length))
                 .body("content.status", Matchers.containsInRelativeOrder(expectedOrderOfIdShortItems));
@@ -108,22 +103,22 @@ class ReadReceivedInvestigationsSortedWithSearchCriteriaIT extends IntegrationTe
 
     @Test
     void testDashboardLatestFiveActiveInvestigationEntries() throws JoseException {
+       // Given
+        String filterString = "channel,EQUAL,RECEIVER,AND";
+        String filter1 = "status,EQUAL,RECEIVED,OR";
+        String filter2 = "status,EQUAL,ACKNOWLEDGED,OR";
+        String filter3 = "status,EQUAL,ACCEPTED,OR";
+        String filter4 = "status,EQUAL,DECLINED,OR";
+        String sort = "createdDate,desc";
+
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .body(new PageableFilterRequest(new OwnPageable(0, 5, List.of(sort)), new SearchCriteriaRequestParam(List.of(filterString, filter1, filter2, filter3, filter4))))
                 .contentType(ContentType.JSON)
-                .param("page", 0)
-                .param("size", 5)
-                .param("filter", "status,EQUAL,RECEIVED")
-                .param("filter", "status,EQUAL,ACKNOWLEDGED")
-                .param("filter", "status,EQUAL,ACCEPTED")
-                .param("filter", "status,EQUAL,DECLINED")
-                .param("filterOperator", "OR")
-                .param("sort", "createdDate,desc")
-                .log().all()
                 .when()
-                .get("/api/investigations/received")
+                .post("/api/investigations/filter")
                 .then()
-                .log().all()
                 .statusCode(200)
                 .body("totalItems", equalTo(6))
                 .body("content.status", Matchers.containsInRelativeOrder("RECEIVED", "ACKNOWLEDGED", "ACCEPTED", "ACCEPTED", "RECEIVED"));

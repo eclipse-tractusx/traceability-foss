@@ -76,7 +76,7 @@ class AssetAsPlannedControllerByIdIT extends IntegrationTestSpecification {
 
     @Test
     void givenAlertsForAsset_whenCallAssetById_thenReturnProperCount() throws JoseException {
-        // Given
+       // Given
         assetsSupport.defaultAssetsAsPlannedStored();
         AssetAsPlannedEntity asset = jpaAssetAsPlannedRepository.findById("urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01").orElseThrow();
         alertsSupport.storeAlertWithStatusAndAssets(CREATED, null, List.of(asset));
@@ -88,7 +88,7 @@ class AssetAsPlannedControllerByIdIT extends IntegrationTestSpecification {
         alertsSupport.storeAlertWithStatusAndAssets(CANCELED, null, List.of(asset));
         alertsSupport.storeAlertWithStatusAndAssets(CLOSED, null, List.of(asset));
 
-        // When
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -103,7 +103,7 @@ class AssetAsPlannedControllerByIdIT extends IntegrationTestSpecification {
 
     @Test
     void givenInvestigationsForAsset_whenCallAssetById_thenReturnProperCount() throws JoseException {
-        // Given
+       // Given
         assetsSupport.defaultAssetsAsPlannedStored();
         AssetAsPlannedEntity asset = jpaAssetAsPlannedRepository.findById("urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01").orElseThrow();
         investigationsSupport.storeInvestigationWithStatusAndAssets(CREATED, null, List.of(asset));
@@ -115,7 +115,7 @@ class AssetAsPlannedControllerByIdIT extends IntegrationTestSpecification {
         investigationsSupport.storeInvestigationWithStatusAndAssets(CANCELED, null, List.of(asset));
         investigationsSupport.storeInvestigationWithStatusAndAssets(CLOSED, null, List.of(asset));
 
-        // When
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -129,10 +129,10 @@ class AssetAsPlannedControllerByIdIT extends IntegrationTestSpecification {
 
     @Test
     void shouldReturnAssetsForAuthenticatedUserWithRole() throws JoseException {
-        //GIVEN
+       // Given
         assetsSupport.defaultAssetsAsPlannedStored();
 
-        //THEN
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -156,10 +156,10 @@ class AssetAsPlannedControllerByIdIT extends IntegrationTestSpecification {
 
     @Test
     void shouldGetChildrenAsset() throws JoseException {
-        //GIVEN
+       // Given
         assetsSupport.defaultAssetsAsPlannedStored();
 
-        //THEN
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -172,10 +172,10 @@ class AssetAsPlannedControllerByIdIT extends IntegrationTestSpecification {
 
     @Test
     void shouldReturn404WhenChildrenAssetIsNotFound() throws JoseException {
-        //GIVEN
+       // Given
         assetsSupport.defaultAssetsAsPlannedStored();
 
-        //THEN
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -214,11 +214,11 @@ class AssetAsPlannedControllerByIdIT extends IntegrationTestSpecification {
 
     @Test
     void shouldUpdateQualityTypeForExistingAsset() throws JoseException {
-        //GIVEN
+       // Given
         assetsSupport.defaultAssetsAsPlannedStored();
         String existingAssetId = "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01";
 
-        //THEN
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -250,13 +250,13 @@ class AssetAsPlannedControllerByIdIT extends IntegrationTestSpecification {
 
     @Test
     void shouldReturnAssetAsPlannedWithBusinessPartner() throws JoseException {
-        //GIVEN
+       // Given
         assetsSupport.defaultAssetsAsPlannedStored();
         String existingAssetId = "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01";
         String expectedBusinessPartner = "BPNL00000003CML1";
         String expectedManufacturerName = "TEST_MANUFACTURER_NAME_CML1";
 
-        //THEN
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -266,7 +266,5 @@ class AssetAsPlannedControllerByIdIT extends IntegrationTestSpecification {
                 .statusCode(200)
                 .body("businessPartner", equalTo(expectedBusinessPartner))
                 .body("manufacturerName", equalTo(expectedManufacturerName));
-
     }
-
 }

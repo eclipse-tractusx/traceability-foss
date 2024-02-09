@@ -52,12 +52,12 @@ class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecificatio
             Long resultLimit,
             Integer expectedSize
     ) throws JoseException {
-        // given
+       // Given
         assetsSupport.defaultAssetsAsPlannedStored();
         final String fieldNameParam = "fieldName=" + fieldName;
         final String sizeParam = "size=" + resultLimit.toString();
 
-        // then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -73,13 +73,13 @@ class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecificatio
 
     @Test
     void givenNotEnumTypeFieldNameAndSizeAndOwnerOwn_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
-        // given
+       // Given
         assetsSupport.defaultAssetsAsPlannedStored();
         String fieldName = "id";
         String resultLimit = "100";
         String owner = "OWN";
 
-        // then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -98,12 +98,12 @@ class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecificatio
 
     @Test
     void givenNotEnumTypeFieldNameAndOwnerOwn_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
-        // given
+       // Given
         assetsSupport.defaultAssetsAsPlannedStored();
         String fieldName = "id";
         String owner = "OWN";
 
-        // then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -121,12 +121,12 @@ class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecificatio
 
     @Test
     void givenIdShortLowerCase_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
-        // given
+       // Given
         assetsSupport.defaultAssetsAsPlannedStored();
         String fieldName = "idShort";
         String startWith = "vehicle";
 
-        // then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -146,12 +146,12 @@ class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecificatio
 
     @Test
     void givenIdShortMixedCase_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
-        // given
+       // Given
         assetsSupport.defaultAssetsAsPlannedStored();
         String fieldName = "idShort";
         String startWith = "vehicleMODEL";
 
-        // then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -171,13 +171,13 @@ class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecificatio
 
     @Test
     void givenWrongOwnerEnum_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
-        // given
+       // Given
         assetsSupport.defaultAssetsAsPlannedStored();
         String fieldName = "id";
         String resultLimit = "100";
         String owner = "nonExistentEnumValue";
 
-        // then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -196,13 +196,13 @@ class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecificatio
 
     @Test
     void givenNotEnumTypeFieldNameAndSizeAndOwnerSupplier_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
-        // given
+       // Given
         assetsSupport.defaultAssetsAsPlannedStored();
         String fieldName = "id";
         String resultLimit = "100";
         String owner = "SUPPLIER";
 
-        // then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -218,15 +218,16 @@ class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecificatio
                 .assertThat()
                 .body("size()", is(1));
     }
+
     @Test
     void givenEnumTypeFieldNameImportState_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
-        // given
+       // Given
         assetsSupport.defaultAssetsAsPlannedStored();
         String fieldName = "importState";
         String resultLimit = "100";
         String owner = "OWN";
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)

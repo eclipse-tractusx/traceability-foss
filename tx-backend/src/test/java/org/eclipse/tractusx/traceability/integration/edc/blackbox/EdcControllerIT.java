@@ -63,12 +63,12 @@ class EdcControllerIT extends IntegrationTestSpecification {
 
     @Test
     void shouldCreateAnInvestigationIncludingNotificationOnAPICallClass() throws IOException, JoseException {
-        // given
+      // Given
         assetsSupport.defaultAssetsStored();
         String notificationJson = readFile("/testdata/edc_notification_okay.json");
         EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
 
-        // when/then
+        // Then
         given()
                 .contentType(ContentType.JSON)
                 .body(edcNotification)
@@ -78,7 +78,7 @@ class EdcControllerIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(200);
 
-        // then
+       // Then
         investigationNotificationsSupport.assertNotificationsSize(1);
         investigationsSupport.assertInvestigationsSize(1);
         investigationsSupport.assertInvestigationStatus(QualityNotificationStatus.RECEIVED);
@@ -86,11 +86,11 @@ class EdcControllerIT extends IntegrationTestSpecification {
 
     @Test
     void shouldCreateAnInvestigationOnApiCallbackBadRequestBpnDoesNotMatchAppBpn() throws IOException, JoseException {
-        // given
+      // Given
         String notificationJson = readFile("/testdata/edc_notification_wrong_bpn.json");
         EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
 
-        // when
+        // When
         given()
                 .contentType(ContentType.JSON)
                 .body(edcNotification)
@@ -100,14 +100,14 @@ class EdcControllerIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(400);
 
-        // then
+       // Then
         investigationNotificationsSupport.assertNotificationsSize(0);
         investigationsSupport.assertInvestigationsSize(0);
     }
 
     @Test
     void shouldAddANotificationToExistingInvestigationOnAPICallback() throws IOException, JoseException {
-        // given
+      // Given
         assetsSupport.defaultAssetsStored();
         InvestigationNotificationEntity notification = InvestigationNotificationEntity
                 .builder()
@@ -138,7 +138,7 @@ class EdcControllerIT extends IntegrationTestSpecification {
         EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
 
 
-        // when
+        // When
         given()
                 .contentType(ContentType.JSON)
                 .body(edcNotification)
@@ -148,7 +148,7 @@ class EdcControllerIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(200);
 
-        // then
+       // Then
         investigationNotificationsSupport.assertNotificationsSize(2);
         investigationsSupport.assertInvestigationsSize(1);
         investigationsSupport.assertInvestigationStatus(QualityNotificationStatus.ACKNOWLEDGED);
@@ -156,14 +156,13 @@ class EdcControllerIT extends IntegrationTestSpecification {
 
     @Test
     void shouldThrowBadRequestBecauseEdcNotificationMethodIsNotSupported() throws IOException, JoseException {
-        // given
+      // Given
         assetsSupport.defaultAssetsStored();
         InvestigationNotificationEntity notification = InvestigationNotificationEntity
                 .builder()
                 .id("1")
                 .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                 .build();
-
 
         InvestigationEntity investigation = InvestigationEntity.builder()
                 .assets(Collections.emptyList())
@@ -183,12 +182,10 @@ class EdcControllerIT extends IntegrationTestSpecification {
 
         investigationsSupport.storedInvestigationFullObject(investigation);
 
-
         String notificationJson = readFile("/testdata/edc_notification_classification_unsupported.json").replaceAll("REPLACE_ME", notificationEntity.getEdcNotificationId());
         EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
 
-
-        // when
+        // When
         given()
                 .contentType(ContentType.JSON)
                 .body(edcNotification)
@@ -198,14 +195,13 @@ class EdcControllerIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(400);
 
-        // then
+       // Then
         investigationNotificationsSupport.assertNotificationsSize(1);
-
     }
 
     @Test
     void shouldCallUpdateApiWithWrongRequestObject() throws JoseException {
-        // given
+      // Given
         InvestigationEntity investigation = InvestigationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn("BPNL00000003AXS3")
@@ -216,7 +212,7 @@ class EdcControllerIT extends IntegrationTestSpecification {
 
         investigationsSupport.storedInvestigationFullObject(investigation);
 
-        // when
+        // When
         given()
                 .contentType(ContentType.JSON)
                 .body("{\n" +
@@ -244,7 +240,7 @@ class EdcControllerIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(400);
 
-        // then
+       // Then
         investigationNotificationsSupport.assertNotificationsSize(0);
         investigationsSupport.assertInvestigationsSize(1);
         investigationsSupport.assertInvestigationStatus(QualityNotificationStatus.RECEIVED);

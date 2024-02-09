@@ -53,17 +53,17 @@ class PolicyServiceImplTest {
     void testGetPolicyByID() {
 
 
-        // GIVEN
+       // Given
         String policyId = "policy123";
         OffsetDateTime createdOn = OffsetDateTime.parse("2023-07-03T16:01:05.309Z");
         List<AcceptedPolicy> acceptedPolicies = List.of(
                 new AcceptedPolicy(new Policy("policy123", createdOn,null, null),null));
 
-        // WHEN
+        // When
         when(acceptedPoliciesProvider.getAcceptedPolicies()).thenReturn(acceptedPolicies);
         List<Policy> result = policyService.getAllPolicies();
 
-        // THEN
+       // Then
         assertNotNull(result);
         assertEquals(policyId, result.get(0).getPolicyId());
         assertEquals(createdOn, result.get(0).getCreatedOn());

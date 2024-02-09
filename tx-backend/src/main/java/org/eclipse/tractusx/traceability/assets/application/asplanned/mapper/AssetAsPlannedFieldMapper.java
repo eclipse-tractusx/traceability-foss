@@ -32,7 +32,7 @@ public class AssetAsPlannedFieldMapper extends BaseRequestFieldMapper {
             Map.entry("functionValidUntil", "functionValidUntil"),
             Map.entry("function", "function"),
             Map.entry("functionValidFrom", "functionValidFrom"),
-            Map.entry("catenaxSiteId", "catenaxSiteId"),
+            Map.entry("catenaXSiteId", "catenaXSiteId"),
             Map.entry("id", "id"),
             Map.entry("idShort", "idShort"),
             Map.entry("owner", "owner"),

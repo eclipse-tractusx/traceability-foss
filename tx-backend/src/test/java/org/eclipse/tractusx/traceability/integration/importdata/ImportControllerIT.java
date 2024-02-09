@@ -58,11 +58,11 @@ class ImportControllerIT extends IntegrationTestSpecification {
 
     @Test
     void givenValidFile_whenImportData_thenValidationShouldPass() throws JoseException {
-        // given
+       // Given
         String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
         File file = new File(path);
 
-        // when/then
+        // Then
         ImportResponse result = given()
                 .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
                 .when()
@@ -100,11 +100,11 @@ class ImportControllerIT extends IntegrationTestSpecification {
 
     @Test
     void givenValidFileWithAsBuiltOnly_whenImportData_thenValidationShouldPass() throws JoseException {
-        // given
+       // Given
         String path = getClass().getResource("/testdata/importfiles/validImportFile-onlyAsBuiltAsset.json").getFile();
         File file = new File(path);
 
-        // when/then
+        // Then
         ImportResponse result = given()
                 .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
                 .when()
@@ -125,11 +125,11 @@ class ImportControllerIT extends IntegrationTestSpecification {
 
     @Test
     void givenValidFileWithAsPlannedOnly_whenImportData_thenValidationShouldPass() throws JoseException {
-        // given
+       // Given
         String path = getClass().getResource("/testdata/importfiles/validImportFile-onlyAsPlannedAsset.json").getFile();
         File file = new File(path);
 
-        // when/then
+        // Then
         ImportResponse result = given()
                 .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
                 .when()
@@ -150,7 +150,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
 
     @Test
     void givenValidFile_whenImportDataButAssetExistInPersistentImportState_thenValidationShouldPassAndExpectedResponse() throws JoseException {
-        // given
+       // Given
         String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
         File file = new File(path);
         AssetBase asset = AssetBase.builder()
@@ -166,7 +166,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .importState(ImportState.PERSISTENT)
                 .build();
         assetAsBuiltRepository.save(asset);
-        // when/then
+        // Then
         ImportResponse result = given()
                 .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
                 .when()
@@ -197,13 +197,11 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 new ImportStateMessage("urn:uuid:da978a30-4dde-4d76-808a-b7946763ff0d", true),
                 new ImportStateMessage("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f", true)
         );
-
-
     }
 
     @Test
     void givenValidFile_whenImportDataButAssetExistInTransientImportState_thenValidationShouldPassAndExpectedResponse() throws JoseException {
-        // given
+       // Given
         String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
         File file = new File(path);
         AssetBase asset = AssetBase.builder()
@@ -219,7 +217,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .importState(ImportState.TRANSIENT)
                 .build();
         assetAsBuiltRepository.save(asset);
-        // when/then
+        // Then
         ImportResponse result = given()
                 .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
                 .when()
@@ -257,11 +255,11 @@ class ImportControllerIT extends IntegrationTestSpecification {
 
     @Test
     void givenInvalidFile_whenImportData_thenValidationShouldNotPass() throws JoseException {
-        // given
+       // Given
         String path = getClass().getResource("/testdata/importfiles/invalidImportFile.json").getFile();
         File file = new File(path);
 
-        // when
+        // When
         ImportResponse result = given()
                 .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
                 .when()
@@ -271,7 +269,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .statusCode(400)
                 .extract().as(ImportResponse.class);
 
-        // then
+       // Then
         assertThat(result.importStateMessage()).isEmpty();
         assertThat(result.validationResult().validationErrors())
                 .containsExactlyInAnyOrder(
@@ -283,11 +281,11 @@ class ImportControllerIT extends IntegrationTestSpecification {
 
     @Test
     void givenInvalidFile_whenImportDataWithBadStructure_thenValidationShouldNotPass() throws JoseException {
-        // given
+       // Given
         String path = getClass().getResource("/testdata/importfiles/invalidImportFileBadStructure.json").getFile();
         File file = new File(path);
 
-        // when
+        // When
         ImportResponse result = given()
                 .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
                 .when()
@@ -301,16 +299,16 @@ class ImportControllerIT extends IntegrationTestSpecification {
         assertThat(result.validationResult().validationErrors())
                 .containsExactlyInAnyOrder(
                         "Could not find assets"
-                        );
+                );
     }
 
     @Test
     void givenValidFile_whenImportDataWithWrongBPN_thenValidationShouldNotPass() throws JoseException {
-        // given
+       // Given
         String path = getClass().getResource("/testdata/importfiles/validImportFileButWrongBPN.json").getFile();
         File file = new File(path);
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
                 .when()
@@ -326,11 +324,11 @@ class ImportControllerIT extends IntegrationTestSpecification {
 
     @Test
     void givenInvalidFileExtension_whenImportData_thenValidationShouldPass() throws JoseException {
-        // given
+       // Given
         String path = getClass().getResource("/testdata/importfiles/invalidExtensionFile.xml").getFile();
         File file = new File(path);
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
                 .when()
@@ -346,11 +344,11 @@ class ImportControllerIT extends IntegrationTestSpecification {
 
     @Test
     void givenInvalidAspect_whenImportData_thenValidationShouldNotPass() throws JoseException {
-        // given
+       // Given
         String path = getClass().getResource("/testdata/importfiles/invalidImportFile-notSupportedAspect.json").getFile();
         File file = new File(path);
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
                 .when()
@@ -366,7 +364,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
 
     @Test
     void givenValidFile_whenPublishData_thenStatusShouldChangeToInSynchronization() throws JoseException {
-        // given
+       // Given
         String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
         File file = new File(path);
 
@@ -381,7 +379,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
 
         RegisterAssetRequest registerAssetRequest = new RegisterAssetRequest("Trace-X policy", List.of("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f"));
 
-        // when
+        // When
         given()
                 .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
                 .contentType(ContentType.JSON)
@@ -391,10 +389,9 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(201);
 
-        //then
+       // Then
         AssetBase asset = assetAsBuiltRepository.getAssetById("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f");
         assertThat("Trace-X policy").isEqualTo(asset.getPolicyId());
         assertThat(ImportState.IN_SYNCHRONIZATION).isEqualTo(asset.getImportState());
-
     }
 }

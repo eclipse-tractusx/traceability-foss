@@ -48,12 +48,12 @@ class AssetAsBuiltControllerFilterValuesIT extends IntegrationTestSpecification 
             Long resultLimit,
             Integer expectedSize
     ) throws JoseException {
-        // given
+      // Given
         assetsSupport.defaultAssetsStored();
         final String fieldNameParam = "fieldName=" + fieldName;
         final String sizeParam = "size=" + resultLimit.toString();
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -75,10 +75,10 @@ class AssetAsBuiltControllerFilterValuesIT extends IntegrationTestSpecification 
             Long resultLimit,
             Integer expectedSize
     ) throws JoseException {
-        // given
+      // Given
         assetsSupport.defaultAssetsStored();
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -97,13 +97,13 @@ class AssetAsBuiltControllerFilterValuesIT extends IntegrationTestSpecification 
 
     @Test
     void givenNotEnumTypeFieldNameAndSizeAndOwnerOwn_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
-        // given
+      // Given
         assetsSupport.defaultAssetsStored();
         String fieldName = "id";
         String resultLimit = "100";
         String owner = "OWN";
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -122,13 +122,13 @@ class AssetAsBuiltControllerFilterValuesIT extends IntegrationTestSpecification 
 
     @Test
     void givenBusinessPartnerLowercase_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
-        // given
+      // Given
         assetsSupport.defaultAssetsStored();
         String fieldName = "businessPartner";
         String resultLimit = "100";
         String startWith = "bpnl";
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -153,13 +153,13 @@ class AssetAsBuiltControllerFilterValuesIT extends IntegrationTestSpecification 
 
     @Test
     void givenBusinessPartnerMixedCase_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
-        // given
+      // Given
         assetsSupport.defaultAssetsStored();
         String fieldName = "businessPartner";
         String resultLimit = "100";
         String startWith = "bpNl";
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -184,13 +184,13 @@ class AssetAsBuiltControllerFilterValuesIT extends IntegrationTestSpecification 
 
     @Test
     void givenNotExistentOwnerEnumValue_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
-        // given
+      // Given
         assetsSupport.defaultAssetsStored();
         String fieldName = "id";
         String resultLimit = "100";
         String owner = "NON_EXISTENT_ENUM_VALUE";
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -209,11 +209,11 @@ class AssetAsBuiltControllerFilterValuesIT extends IntegrationTestSpecification 
 
     @Test
     void givenIdFieldNameAndNoResultLimit_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
-        // given
+      // Given
         assetsSupport.defaultAssetsStored();
         String fieldName = "id";
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -230,13 +230,13 @@ class AssetAsBuiltControllerFilterValuesIT extends IntegrationTestSpecification 
 
     @Test
     void givenNotEnumTypeFieldNameAndSizeAndOwnerSupplier_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
-        // given
+      // Given
         assetsSupport.defaultAssetsStored();
         String fieldName = "id";
         String resultLimit = "100";
         String owner = "SUPPLIER";
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -255,13 +255,13 @@ class AssetAsBuiltControllerFilterValuesIT extends IntegrationTestSpecification 
 
     @Test
     void givenEnumTypeFieldNameImportState_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
-        // given
+      // Given
         assetsSupport.defaultAssetsStored();
         String fieldName = "importState";
         String resultLimit = "100";
         String owner = "OWN";
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)

@@ -67,7 +67,7 @@ class DashboardServiceImplTest {
 //    @Test
 //    void givenAllRepositories_whenGetDashboard_executing() {
 //
-//        // given
+//       // Given
 //        when(assetAsBuiltRepository.countAssetsByOwner(Owner.OWN)).thenReturn(1L);
 //        when(assetAsPlannedRepository.countAssetsByOwner(Owner.OWN)).thenReturn(2L);
 //
@@ -80,10 +80,10 @@ class DashboardServiceImplTest {
 //        when(investigationsRepository.countAll(isA(SearchCriteria.class))).thenReturn(7L);
 //        when(alertRepository.countAll(isA(SearchCriteria.class))).thenReturn(8L);
 //
-//        // when
+//        // When
 //        final Dashboard dashboard = dashboardService.getDashboard();
 //
-//        // then
+//       // Then
 //        assertThat(dashboard.getMyParts(), is(3L));
 //        assertThat(dashboard.getOtherParts(), is(18L));
 //        assertThat(dashboard.getInvestigationsReceived(), is(7L));

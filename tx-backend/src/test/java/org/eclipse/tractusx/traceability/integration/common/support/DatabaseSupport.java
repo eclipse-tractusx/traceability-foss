@@ -50,7 +50,6 @@ public class DatabaseSupport {
             "traction_battery_code_subcomponent"
     });
 
-
     @Autowired
     JdbcTemplate jdbcTemplate;
 

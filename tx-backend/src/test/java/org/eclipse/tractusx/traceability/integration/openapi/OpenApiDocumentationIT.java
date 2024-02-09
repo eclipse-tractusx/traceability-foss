@@ -35,12 +35,12 @@ class OpenApiDocumentationIT extends IntegrationTestSpecification {
 
     @Test
     void shouldGenerateOpenapiDocumentation() throws IOException {
-        // when
+        // When
         var response = given()
                 .when()
                 .get("/api/v3/api-docs");
 
-        // then
+       // Then
         response.then()
                 .statusCode(200);
 

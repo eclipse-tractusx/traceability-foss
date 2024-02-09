@@ -66,10 +66,10 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
 
     @Test
     void givenInvestigations_whenProvideNoFilter_thenReturnAll() throws JoseException {
-        // given
+       // Given
         investigationNotificationSupport.defaultInvestigationsStored();
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of())))
@@ -86,11 +86,11 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
 
     @Test
     void givenInvestigations_whenProvideBpnFilter_thenReturnExpectedResult() throws JoseException {
-        // given
+       // Given
         investigationNotificationSupport.defaultInvestigationsStored();
         String filter = "bpn,STARTS_WITH,BPNL00000002OTHER,OR";
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filter))))
@@ -107,12 +107,12 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
 
     @Test
     void givenInvestigations_whenProvideBpnFilterAnd_thenReturnExpectedResult() throws JoseException {
-        // given
+       // Given
         investigationNotificationSupport.defaultInvestigationsStored();
         String filter1 = "bpn,STARTS_WITH,BPNL00000001OWN,AND";
         String filter2 = "createdDate,AT_LOCAL_DATE,2023-10-10,AND";
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filter1, filter2))))
@@ -129,7 +129,7 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
 
     @Test
     void givenAlerts_whenProvideTooManyFilters_thenReturnError() throws JoseException {
-        // given
+       // Given
         investigationNotificationSupport.defaultInvestigationsStored();
 
         OwnPageable ownPageable = new OwnPageable(0, 10, Collections.emptyList());
@@ -138,7 +138,7 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
         filter.add("bpn,STARTS_WITH,BPNL00000001OWN,OR");
         PageableFilterRequest pageableFilterRequest = new PageableFilterRequest(ownPageable, new SearchCriteriaRequestParam(filter));
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(pageableFilterRequest)
@@ -156,11 +156,11 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
 
     @Test
     void givenInvestigations_whenInvalidLocalDate_thenReturnBadRequest() throws JoseException {
-        // given
+       // Given
         investigationNotificationSupport.defaultInvestigationsStored();
         String filter = "createdDate,AT_LOCAL_DATE,2023-10-1111111,AND";
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filter))))
@@ -173,11 +173,11 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
 
     @Test
     void givenInvestigations_whenTargetDateAtLocalDate_thenExpectedResult() throws JoseException {
-        // given
+       // Given
         investigationNotificationSupport.defaultInvestigationsStored();
         String filter = "targetDate,AT_LOCAL_DATE,2023-11-10,AND";
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filter))))
@@ -194,11 +194,11 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
 
     @Test
     void givenInvestigations_whenSendToFilter_thenExpectedResult() throws JoseException {
-        // given
+       // Given
         investigationNotificationSupport.defaultInvestigationsStored();
         String filter = "sendTo,STARTS_WITH,B,AND";
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filter))))
@@ -215,12 +215,12 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
 
     @Test
     void givenInvestigations_whenSendToFilterAndSort_thenExpectedResult() throws JoseException {
-        // given
+       // Given
         investigationNotificationSupport.defaultInvestigationsStored();
         String filter = "sendTo,STARTS_WITH,B,AND";
         String sortString = "sendTo,ASC";
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filter))))
@@ -237,11 +237,11 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
 
     @Test
     void givenInvestigations_whenProvideFilterWithSeverityCritical_thenReturnAllCritical() throws JoseException {
-        // given
+       // Given
         investigationNotificationSupport.defaultInvestigationsStored();
         String filter = "severity,EQUAL,CRITICAL,AND";
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filter))))
@@ -258,11 +258,11 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
 
     @Test
     void givenInvestigations_whenProvideFilterCreatedBy_thenReturnAllCritical() throws JoseException {
-        // given
+       // Given
         investigationNotificationSupport.defaultInvestigationsStored();
         String filter = "createdBy,STARTS_WITH,BPNL00000001O,AND";
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filter))))
@@ -279,11 +279,11 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
 
     @Test
     void givenInvestigations_whenProvideFilterCreatedByName_thenReturnAllCritical() throws JoseException {
-        // given
+       // Given
         investigationNotificationSupport.defaultInvestigationsStored();
         String filter = "createdByName,STARTS_WITH,Car,AND";
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filter))))
@@ -300,12 +300,12 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
 
     @Test
     void givenAlerts_whenProvideDateRangeFilters_thenReturnExpectedResult() throws JoseException {
-        // given
+       // Given
         investigationNotificationSupport.defaultInvestigationsStored();
         String filter1 = "createdDate,AFTER_LOCAL_DATE,2023-10-09,AND";
         String filter2 = "createdDate,BEFORE_LOCAL_DATE,2023-10-11,AND";
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filter1, filter2))))
@@ -322,12 +322,12 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
 
     @Test
     void givenAlerts_whenProvideDateRangeFiltersXAnd_thenReturnExpectedResult() throws JoseException {
-        // given
+       // Given
         investigationNotificationSupport.defaultInvestigationsStored();
         String filter1 = "createdDate,AFTER_LOCAL_DATE,2023-10-12,AND";
         String filter2 = "createdDate,BEFORE_LOCAL_DATE,2023-10-08,AND";
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filter1, filter2))))
@@ -344,11 +344,11 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
 
     @Test
     void givenNonExistingFilterField_whenGetInvestigations_thenBadRequest() throws JoseException {
-        // given
+       // Given
         investigationNotificationSupport.defaultInvestigationsStored();
         String filter = "nonExistingField,AFTER_LOCAL_DATE,2023-10-12,AND";
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filter))))
@@ -361,13 +361,14 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
 
     @Test
     void givenInvestigations_whenGetInvestigationsByAssetId_thenReturnOnlyRelatedInvestigations() throws JoseException {
-        // Given
+       // Given
         assetsSupport.defaultAssetsStored();
         AssetAsBuiltEntity assetAsBuilt = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").orElseThrow();
-        AssetAsBuiltEntity assetAsBuilt2 = jpaAssetAsBuiltRepository.findById("urn:uuid:7fa65f10-9dc1-49fe-818a-09c7313a4562").orElseThrow();
         investigationsSupport.storeInvestigationWithStatusAndAssets(CREATED, List.of(assetAsBuilt), null);
         investigationsSupport.storeInvestigationWithStatusAndAssets(SENT, List.of(assetAsBuilt), null);
         investigationsSupport.storeInvestigationWithStatusAndAssets(RECEIVED, List.of(assetAsBuilt), null);
+
+        AssetAsBuiltEntity assetAsBuilt2 = jpaAssetAsBuiltRepository.findById("urn:uuid:7fa65f10-9dc1-49fe-818a-09c7313a4562").orElseThrow();
         investigationsSupport.storeInvestigationWithStatusAndAssets(ACKNOWLEDGED, List.of(assetAsBuilt2), null);
         investigationsSupport.storeInvestigationWithStatusAndAssets(ACCEPTED, List.of(assetAsBuilt2), null);
         investigationsSupport.storeInvestigationWithStatusAndAssets(DECLINED, List.of(assetAsBuilt2), null);
@@ -376,11 +377,9 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
 
         final String filter = "assetId,EQUAL,urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb,AND";
 
-
-        // When
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-
                 .body(new PageableFilterRequest(null, new SearchCriteriaRequestParam(List.of(filter))))
                 .contentType(ContentType.JSON)
                 .when()

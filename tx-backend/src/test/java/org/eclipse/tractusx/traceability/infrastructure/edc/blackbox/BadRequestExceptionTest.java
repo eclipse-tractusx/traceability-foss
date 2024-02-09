@@ -31,11 +31,11 @@ class BadRequestExceptionTest {
 
     @Test
     void givenBadRequestException_thenShouldHaveProperMessage() {
-        // given
+      // Given
         String message = "message";
         BadRequestException exception = new BadRequestException(message);
 
-        // then
+       // Then
         assertThat(exception.getMessage()).isEqualTo(message);
     }
 

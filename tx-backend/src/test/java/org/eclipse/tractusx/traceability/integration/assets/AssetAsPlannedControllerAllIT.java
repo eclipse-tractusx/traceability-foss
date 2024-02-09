@@ -60,11 +60,11 @@ class AssetAsPlannedControllerAllIT extends IntegrationTestSpecification {
 
     @Test
     void shouldReturnAssetsWithManufacturerName() throws JoseException {
-        //GIVEN
+       // Given
         bpnSupport.cachedBpnsForAsPlannedAssets();
         assetsSupport.defaultAssetsAsPlannedStored();
 
-        //THEN
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -81,11 +81,12 @@ class AssetAsPlannedControllerAllIT extends IntegrationTestSpecification {
     @ParameterizedTest
     @MethodSource("owners")
     void shouldReturnAssetsByOwnerFiltering(String ownerValue, int totalItemsValue) throws JoseException {
-        //GIVEN
+       // Given
         assetsSupport.defaultAssetsAsPlannedStored();
-
-        //THEN filter=owner,EQUAL,OWN
         final String filter = "owner,EQUAL," + ownerValue + ",AND";
+        //filter=owner,EQUAL,OWN
+
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -99,10 +100,10 @@ class AssetAsPlannedControllerAllIT extends IntegrationTestSpecification {
 
     @Test
     void shouldGetPageOfAssets() throws JoseException {
-        //GIVEN
+       // Given
         assetsSupport.defaultAssetsAsPlannedStored();
 
-        //THEN
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -129,5 +130,4 @@ class AssetAsPlannedControllerAllIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(400);
     }
-
 }

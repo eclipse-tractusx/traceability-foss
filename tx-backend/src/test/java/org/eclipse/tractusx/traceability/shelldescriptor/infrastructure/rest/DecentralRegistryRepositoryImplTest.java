@@ -42,7 +42,7 @@ class DecentralRegistryRepositoryImplTest {
 
     @Test
     void testRetrieveShellDescriptorsByBpnSuccess() throws RegistryServiceException {
-        // Given
+       // Given
         String bpn = "12345";
         List<String> globalAssetIds = Arrays.asList("asset1", "asset2");
 
@@ -53,13 +53,13 @@ class DecentralRegistryRepositoryImplTest {
         // When
         List<String> actualDescriptors = decentralRegistryRepository.retrieveShellDescriptorsByBpn(bpn);
 
-        // Then
+       // Then
         assertThat(actualDescriptors).containsExactlyInAnyOrderElementsOf(List.of("asset1", "asset2"));
     }
 
     @Test
     void testRetrieveShellDescriptorsByBpnRegistryServiceException() throws RegistryServiceException {
-        // Given
+       // Given
         String bpn = "12345";
 
         when(decentralDigitalTwinRegistryService.lookupGlobalAssetIds(bpn)).thenThrow(new RegistryServiceException("Error"));
@@ -69,7 +69,7 @@ class DecentralRegistryRepositoryImplTest {
         // When
         List<String> actualDescriptors = decentralRegistryRepository.retrieveShellDescriptorsByBpn(bpn);
 
-        // Then
+       // Then
         assertThat(actualDescriptors).isEmpty();
     }
 }

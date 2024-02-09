@@ -62,7 +62,7 @@ class EdcNotificationServiceImplTest {
 
     @Test
     void testNotificationsServiceUpdateAsync() {
-        // given
+       // Given
         String bpn = "BPN1234";
         String edcReceiverUrl = "https://not-real-edc-receiver-url.com";
         String edcSenderUrl = "https://not-real-edc-sender-url.com";
@@ -79,16 +79,16 @@ class EdcNotificationServiceImplTest {
                 .isInitial(false)
                 .build();
 
-        // when
+        // When
         notificationsService.asyncNotificationMessageExecutor(notification);
 
-        // then
+       // Then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
     }
 
     @Test
     void testNotificationsServiceAlertNotificationUpdateAsync() {
-        // given
+       // Given
         String bpn = "BPN1234";
         String edcReceiverUrl = "https://not-real-edc-receiver-url.com";
         String edcSenderUrl = "https://not-real-edc-sender-url.com";
@@ -105,16 +105,16 @@ class EdcNotificationServiceImplTest {
                 .isInitial(false)
                 .build();
 
-        // when
+        // When
         notificationsService.asyncNotificationMessageExecutor(notification);
 
-        // then
+       // Then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
     }
 
     @Test
     void givenNoCatalogItemException_whenHandleSendingInvestigation_thenHandleIt() {
-        // given
+       // Given
         String bpn = "BPN1234";
         String edcReceiverUrl = "https://not-real-edc-receiver-url.com";
         String edcSenderUrl = "https://not-real-edc-sender-url.com";
@@ -130,16 +130,16 @@ class EdcNotificationServiceImplTest {
                 .build();
         doThrow(new NoCatalogItemException()).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
-        // when
+        // When
         notificationsService.asyncNotificationMessageExecutor(notification);
 
-        // then
+       // Then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
     }
 
     @Test
     void givenSendNotificationException_whenHandleSendingInvestigation_thenHandleIt() {
-        // given
+       // Given
         String bpn = "BPN1234";
         String edcReceiverUrl = "https://not-real-edc-receiver-url.com";
         String edcSenderUrl = "https://not-real-edc-sender-url.com";
@@ -155,16 +155,16 @@ class EdcNotificationServiceImplTest {
                 .build();
         doThrow(new SendNotificationException("message", new RuntimeException())).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
-        // when
+        // When
         notificationsService.asyncNotificationMessageExecutor(notification);
 
-        // then
+       // Then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
     }
 
     @Test
     void givenSendNoEndpointDataReferenceException_whenHandleSendingInvestigation_thenHandleIt() {
-        // given
+       // Given
         String bpn = "BPN1234";
         String edcReceiverUrl = "https://not-real-edc-receiver-url.com";
         String edcSenderUrl = "https://not-real-edc-sender-url.com";
@@ -180,16 +180,16 @@ class EdcNotificationServiceImplTest {
                 .build();
         doThrow(new NoEndpointDataReferenceException("message")).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
-        // when
+        // When
         notificationsService.asyncNotificationMessageExecutor(notification);
 
-        // then
+       // Then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
     }
 
     @Test
     void givenContractNegotiationException_whenHandleSendingInvestigation_thenHandleIt() {
-        // given
+       // Given
         String bpn = "BPN1234";
         String edcReceiverUrl = "https://not-real-edc-receiver-url.com";
         String edcSenderUrl = "https://not-real-edc-sender-url.com";
@@ -205,17 +205,17 @@ class EdcNotificationServiceImplTest {
                 .build();
         doThrow(new ContractNegotiationException("message")).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
-        // when
+        // When
         notificationsService.asyncNotificationMessageExecutor(notification);
 
-        // then
+       // Then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
     }
 
 
     @Test
     void givenNoCatalogItemException_whenHandleSendingAlert_thenHandleIt() {
-        // given
+       // Given
         String bpn = "BPN1234";
         String edcReceiverUrl = "https://not-real-edc-receiver-url.com";
         String edcSenderUrl = "https://not-real-edc-sender-url.com";
@@ -231,16 +231,16 @@ class EdcNotificationServiceImplTest {
                 .build();
         doThrow(new NoCatalogItemException()).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
-        // when
+        // When
         notificationsService.asyncNotificationMessageExecutor(notification);
 
-        // then
+       // Then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
     }
 
     @Test
     void givenSendNotificationException_whenHandleSendingAlert_thenHandleIt() {
-        // given
+       // Given
         String bpn = "BPN1234";
         String edcReceiverUrl = "https://not-real-edc-receiver-url.com";
         String edcSenderUrl = "https://not-real-edc-sender-url.com";
@@ -256,16 +256,16 @@ class EdcNotificationServiceImplTest {
                 .build();
         doThrow(new SendNotificationException("message", new RuntimeException())).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
-        // when
+        // When
         notificationsService.asyncNotificationMessageExecutor(notification);
 
-        // then
+       // Then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
     }
 
     @Test
     void givenSendNoEndpointDataReferenceException_whenHandleSendingAlert_thenHandleIt() {
-        // given
+       // Given
         String bpn = "BPN1234";
         String edcReceiverUrl = "https://not-real-edc-receiver-url.com";
         String edcSenderUrl = "https://not-real-edc-sender-url.com";
@@ -281,16 +281,16 @@ class EdcNotificationServiceImplTest {
                 .build();
         doThrow(new NoEndpointDataReferenceException("message")).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
-        // when
+        // When
         notificationsService.asyncNotificationMessageExecutor(notification);
 
-        // then
+       // Then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
     }
 
     @Test
     void givenContractNegotiationException_whenHandleSendingAlert_thenHandleIt() {
-        // given
+       // Given
         String bpn = "BPN1234";
         String edcReceiverUrl = "https://not-real-edc-receiver-url.com";
         String edcSenderUrl = "https://not-real-edc-sender-url.com";
@@ -306,10 +306,10 @@ class EdcNotificationServiceImplTest {
                 .build();
         doThrow(new ContractNegotiationException("message")).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
-        // when
+        // When
         notificationsService.asyncNotificationMessageExecutor(notification);
 
-        // then
+       // Then
         verify(edcFacade).startEdcTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
     }
 }

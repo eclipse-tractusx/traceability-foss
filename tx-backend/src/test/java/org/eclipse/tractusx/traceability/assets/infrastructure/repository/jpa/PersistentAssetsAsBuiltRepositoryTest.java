@@ -40,7 +40,7 @@ class PersistentAssetsAsBuiltRepositoryTest {
 
     @Test
     void testToAsset() {
-        // Given
+      // Given
         AssetAsBuiltEntity entity = AssetAsBuiltEntity.builder()
                 .id("urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01")
                 .idShort("a/devNTierAPlastics")
@@ -79,11 +79,11 @@ class PersistentAssetsAsBuiltRepositoryTest {
                 )
                 .build();
 
-        // when
+        // When
         AssetBase asset = entity.toDomain();
 
 
-        // then
+       // Then
         AssetBase expected = createAssetTestData();
 
         Assertions.assertEquals(asset.getId(), expected.getId());

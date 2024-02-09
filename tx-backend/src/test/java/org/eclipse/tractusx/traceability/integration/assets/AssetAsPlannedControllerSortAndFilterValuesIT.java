@@ -49,9 +49,9 @@ class AssetAsPlannedControllerSortAndFilterValuesIT extends IntegrationTestSpeci
     private static Stream<Arguments> sortAndFilterArguments() {
         return Stream.of(
                 // As long as no clear spelling for 'catenaxSiteId' is defined, test on different spellings. https://github.com/eclipse-tractusx/sldt-semantic-models/issues/470
-                Arguments.of("nameAtManufacturer,asc", "catenaXSiteId,EQUAL,BPNS000004711DMY", "AND",
+                Arguments.of("nameAtManufacturer,asc", "catenaXSiteId,EQUAL,BPNS000004711DMY,AND",
                         new String[]{"HVModul", "OEMAHighVoltageBattery", "VehicleModelA", "ZBZELLE"}),
-                Arguments.of("nameAtManufacturer,asc", "catenaxSiteId,EQUAL,BPNS000004711DMY", "AND",
+                Arguments.of("nameAtManufacturer,asc", "catenaXSiteId,EQUAL,BPNS000004711DMY,AND",
                         new String[]{"HVModul", "OEMAHighVoltageBattery", "VehicleModelA", "ZBZELLE"})
         );
     }
@@ -61,7 +61,6 @@ class AssetAsPlannedControllerSortAndFilterValuesIT extends IntegrationTestSpeci
     void givenSortArguments_whenCallSortAndFilterEndpoint_thenReturnExpectedResponse(
             final String sort,
             final String filter,
-            final String filterOperator,
             final String[] expectedOrderOfIdShortItems
     ) throws JoseException {
 
@@ -75,7 +74,6 @@ class AssetAsPlannedControllerSortAndFilterValuesIT extends IntegrationTestSpeci
                 .param("size", size)
                 .param("sort", sort)
                 .param("filter", filter)
-                .param("filterOperator", filterOperator)
                 .log().all()
                 .when()
                 .get("/api/assets/as-planned")

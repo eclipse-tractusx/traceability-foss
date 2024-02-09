@@ -28,12 +28,12 @@ class SendNotificationExceptionTest {
 
     @Test
     void givenSendNotificationException_thenShouldHaveProperMessage() {
-        // given
+      // Given
         final String message = "message";
         final Throwable exceptionParam = new RuntimeException("test");
         SendNotificationException exception = new SendNotificationException(message, exceptionParam);
 
-        // then
+       // Then
         assertThat(exception.getMessage()).isEqualTo(message);
         assertThat(exception.getCause()).isEqualTo(exceptionParam);
     }

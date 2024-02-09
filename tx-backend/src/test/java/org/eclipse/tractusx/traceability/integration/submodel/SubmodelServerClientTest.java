@@ -22,14 +22,14 @@ class SubmodelServerClientTest extends IntegrationTestSpecification {
 
 //    @Test
 //    void givenSubmodel_whenSaveSubmodel_thenIsPersistedToServer() {
-//        // given
+//       // Given
 //        String submodelId = "ID_OF_SUBMODEL";
 //        String submodel = "SUBMODEL PAYLOAD";
 //
-//        // when
+//        // When
 //        String savedId = SubmodelServerService.saveSubmodel(submodelId, submodel);
 //
-//        // then
+//       // Then
 //        Optional<SubmodelEntity> result = repository.findById(submodelId);
 //        assertThat(result.get().getSubmodel()).isEqualTo(submodel);
 //        assertThat(savedId).isEqualTo(submodelId);
@@ -37,7 +37,7 @@ class SubmodelServerClientTest extends IntegrationTestSpecification {
 
 //    @Test
 //    void givenSubmodel_whenGetSubmodel_thenIsRetrievedFromServer() {
-//        // given
+//       // Given
 //        String submodelId = "1234";
 //        String submodel = "SUBMODEL PAYLOAD";
 //        repository.save(SubmodelEntity.builder()
@@ -45,12 +45,11 @@ class SubmodelServerClientTest extends IntegrationTestSpecification {
 //                        .submodel(submodel)
 //                .build());
 //
-//        // when
+//        // When
 //        String result = SubmodelServerService.getSubmodel(submodelId);
 //
-//        // then
+//       // Then
 //        assertThat(result).isEqualTo(submodel);
 //
 //    }
-
 }

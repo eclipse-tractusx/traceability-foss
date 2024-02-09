@@ -40,10 +40,10 @@ class AssetAsPlannedControllerFilteringIT extends IntegrationTestSpecification {
 
     @Test
     void givenNoFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
-        // given
+       // Given
         assetsSupport.defaultAssetsAsPlannedStored();
 
-        // then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -58,10 +58,11 @@ class AssetAsPlannedControllerFilteringIT extends IntegrationTestSpecification {
 
     @Test
     void givenOwnFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
-        // given
+       // Given
         assetsSupport.defaultAssetsAsPlannedStored();
         final String filter = "?filter=owner,EQUAL,OWN,AND";
-        // then
+
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -76,11 +77,11 @@ class AssetAsPlannedControllerFilteringIT extends IntegrationTestSpecification {
 
     @Test
     void givenNameAtManufacturerFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
-        // given
+       // Given
         assetsSupport.defaultAssetsAsPlannedStored();
         final String filter = "?filter=nameAtManufacturer,STARTS_WITH,Vehicle,AND";
 
-        // then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -95,11 +96,11 @@ class AssetAsPlannedControllerFilteringIT extends IntegrationTestSpecification {
 
     @Test
     void givenNameAtManufacturerAndOwnerFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
-        // given
+       // Given
         assetsSupport.defaultAssetsAsPlannedStored();
         final String filter = "?filter=nameAtManufacturer,STARTS_WITH,Vehicle,AND&filter=owner,EQUAL,SUPPLIER,AND";
 
-        // then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -114,11 +115,11 @@ class AssetAsPlannedControllerFilteringIT extends IntegrationTestSpecification {
 
     @Test
     void givenSemanticDataModelAndOwnerOR_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
-        // given
+       // Given
         assetsSupport.defaultAssetsAsPlannedStored();
         final String filter = "?filter=owner,EQUAL,SUPPLIER,OR&filter=id,STARTS_WITH,urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01,OR";
 
-        // then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -133,11 +134,11 @@ class AssetAsPlannedControllerFilteringIT extends IntegrationTestSpecification {
 
     @Test
     void givenNonExistingFilterField_whenGetAssetsAsPlanned_thenBadRequest() throws JoseException {
-        // given
+       // Given
         assetsSupport.defaultAssetsAsPlannedStored();
         final String filter = "?filter=nonExistingField,EQUAL,SUPPLIER,OR";
 
-        // then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -151,11 +152,11 @@ class AssetAsPlannedControllerFilteringIT extends IntegrationTestSpecification {
 
     @Test
     void givenAssetsWithImportStateExistent_whenCallFilteredEndpoint_thenReturnProperAssets() throws JoseException {
-        // given
+       // Given
         assetsSupport.defaultAssetsAsPlannedStored();
         final String filter = "?filter=importState,EQUAL,PERSISTENT,AND,importNote,STARTS_WITH,A,AND";
 
-        // then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)

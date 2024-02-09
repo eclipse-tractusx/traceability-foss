@@ -47,12 +47,12 @@ class JobDetailResponseTest {
 //    void testAssetConverterAddsParentAssets() throws IOException {
 //        InputStream file = JobDetailResponseTest.class.getResourceAsStream("/data/irs_assets_v3_singleUsageAsBuilt.json");
 //        JobDetailResponse response = mapper.readValue(file, JobDetailResponse.class);
-//        // when
+//        // When
 //        List<AssetBase> assets = response.convertAssets();
 //        AssetBase ownAsset = assets.get(0);
 //        AssetBase parentAsset = assets.get(1);
 //
-//        // then
+//       // Then
 //        final String ownAssetId = "urn:uuid:8f9d8c7f-6d7a-48f1-9959-9fa3a1a7a891";
 //        final String parentAssetId = "urn:uuid:3e300930-0e1c-459c-8914-1ac631176716";
 //
@@ -71,10 +71,10 @@ class JobDetailResponseTest {
 //    void testAssetConverterWithNullManufacturerNames() throws IOException {
 //        InputStream file = JobDetailResponseTest.class.getResourceAsStream("/data/irs_job_response_with_null_manufacturer_names.json");
 //
-//        // when
+//        // When
 //        JobDetailResponse response = mapper.readValue(file, JobDetailResponse.class);
 //
-//        // then
+//       // Then
 //        assertThat(response).isNotNull();
 //        assertThat(response.bpns())
 //                .containsEntry("BPNL00000003AZQP", "UNKNOWN_MANUFACTURER")

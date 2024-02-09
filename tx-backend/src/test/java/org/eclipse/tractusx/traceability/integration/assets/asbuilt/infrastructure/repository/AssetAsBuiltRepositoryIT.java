@@ -48,13 +48,13 @@ class AssetAsBuiltRepositoryIT extends IntegrationTestSpecification {
             Integer resultLimit,
             Integer expectedSize
     ) {
-        // given
+       // Given
         assetsSupport.defaultAssetsStored();
 
-        // when
+        // When
         List<String> result = assetAsBuiltRepository.getFieldValues(fieldName, startWith, resultLimit, null);
 
-        // then
+       // Then
         assertThat(result)
                 .isSortedAccordingTo(String::compareTo)
                 .hasSize(expectedSize);

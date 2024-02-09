@@ -78,7 +78,6 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
 
     @Test
     void shouldReturnNoInvestigations() throws JoseException {
-        // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of())))
@@ -94,12 +93,12 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
 
     @Test
     void givenInvestigations_whenGetSenderInvestigationsSortedAsc_thenReturnProperlySorted() throws JoseException {
-        // given
+       // Given
         String filterString = "channel,EQUAL,SENDER,AND";
         String sortString = "createdDate,ASC";
         investigationNotificationsSupport.defaultInvestigationsStored();
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
@@ -117,12 +116,12 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
 
     @Test
     void givenInvestigations_whenGetSenderInvestigationsSortedDesc_thenReturnProperlySorted() throws JoseException {
-        // given
+       // Given
         String filterString = "channel,EQUAL,SENDER,AND";
         String sortString = "createdDate,DESC";
         investigationNotificationsSupport.defaultInvestigationsStored();
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
@@ -141,12 +140,12 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
 
     @Test
     void givenSortByDescriptionProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
-        // given
+       // Given
         String filterString = "channel,EQUAL,SENDER,AND";
         String sortString = "description,ASC";
         investigationNotificationsSupport.defaultInvestigationsStored();
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
@@ -164,12 +163,12 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
 
     @Test
     void givenSortByStatusProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
-        // given
+       // Given
         String filterString = "channel,EQUAL,SENDER,AND";
         String sortString = "status,ASC";
         investigationNotificationsSupport.defaultInvestigationsStored();
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
@@ -187,10 +186,10 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
 
     @Test
     void givenInvalidSort_whenGet_thenBadRequest() throws JoseException {
-        // given
+       // Given
         String sortString = "createdDate,failure";
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of())))
@@ -206,7 +205,7 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
 
     @Test
     void shouldReturnPagedInvestigations() throws JoseException {
-        // given
+       // Given
         Instant now = Instant.now();
         String testBpn = bpnSupport.testBpn();
 
@@ -225,7 +224,7 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
                         }
                 );
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(2, 10, List.of()), new SearchCriteriaRequestParam(List.of())))
@@ -254,11 +253,11 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
 
     @Test
     void shouldReturnInvestigationById() throws JoseException {
-        // given
+       // Given
         InvestigationNotificationEntity storedInvestigationNotification = investigationNotificationsSupport.storeInvestigationNotification();
         InvestigationEntity storedInvestigation = storedInvestigationNotification.getInvestigation();
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)

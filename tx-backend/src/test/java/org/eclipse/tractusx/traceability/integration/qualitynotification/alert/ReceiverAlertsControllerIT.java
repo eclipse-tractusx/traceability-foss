@@ -49,11 +49,11 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
 
     @Test
     void ShouldAcknowledgeReceivedAlert() throws JoseException {
-        // given
+       // Given
         var alertId = alertsSupport.defaultReceivedAlertStored();
         String filterString = "channel,EQUAL,RECEIVER,AND";
 
-        // when
+        // When
         given()
                 .contentType(ContentType.JSON)
                 .body(
@@ -69,7 +69,7 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(204);
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString))))
@@ -85,11 +85,11 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
 
     @Test
     void shouldNotUpdateToAcknowledgedNonExistingAlert() throws JoseException {
-        // given
+       // Given
         final long notExistingAlertId = 1234L;
         String filterString = "channel,EQUAL,RECEIVER,AND";
 
-        // when
+        // When
         given()
                 .contentType(ContentType.JSON)
                 .body("""
@@ -103,7 +103,7 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(404);
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 15, List.of()), new SearchCriteriaRequestParam(List.of(filterString))))
@@ -119,11 +119,11 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
 
     @Test
     void shouldNotUpdateToAcceptedNonExistingAlert() throws JoseException {
-        // given
+       // Given
         final long notExistingAlertId = 1234L;
         String filterString = "channel,EQUAL,RECEIVER,AND";
 
-        // when
+        // When
         given()
                 .contentType(ContentType.JSON)
                 .body("""
@@ -138,7 +138,7 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(404);
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 15, List.of()), new SearchCriteriaRequestParam(List.of(filterString))))
@@ -154,11 +154,11 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
 
     @Test
     void shouldNotUpdateToDeclinedNonExistingAlert() throws JoseException {
-        // given
+       // Given
         final long notExistingAlertId = 1234L;
         String filterString = "channel,EQUAL,RECEIVER,AND";
 
-        // when
+        // When
         given()
                 .contentType(ContentType.JSON)
                 .body("""
@@ -173,7 +173,7 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(404);
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 15, List.of()), new SearchCriteriaRequestParam(List.of(filterString))))
@@ -190,11 +190,11 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
     @ParameterizedTest
     @MethodSource("invalidRequest")
     void shouldNotUpdateWithInvalidRequest(final String request) throws JoseException {
-        // given
+       // Given
         final long notExistingAlertId = 1234L;
         String filterString = "channel,EQUAL,SENDER,AND";
 
-        // when
+        // When
         given()
                 .contentType(ContentType.JSON)
                 .body(request)
@@ -204,7 +204,7 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(400);
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(new PageableFilterRequest(new OwnPageable(0, 15, List.of()), new SearchCriteriaRequestParam(List.of(filterString))))
@@ -252,5 +252,4 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
                         """.replace("$status", UpdateQualityNotificationStatusRequest.DECLINED.name()))
         );
     }
-
 }

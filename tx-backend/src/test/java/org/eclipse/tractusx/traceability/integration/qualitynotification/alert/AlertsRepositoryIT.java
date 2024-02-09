@@ -57,7 +57,7 @@ class AlertsRepositoryIT extends IntegrationTestSpecification {
 
     @Test
     void givenAlertsWithAssets_whenCountDistinctAffectedSupplierPartsWithAlertReceivedStatus_thenReturnProperCount() {
-        // given
+       // Given
         assetsSupport.defaultAssetsStored();
         List<AssetAsBuiltEntity> assets = assetAsBuiltRepository.findAll();
         List<AssetAsBuiltEntity> ownAssets = assets.stream()
@@ -71,16 +71,16 @@ class AlertsRepositoryIT extends IntegrationTestSpecification {
         alertsSupport.storeAlertWithStatusAndAssets(SENT, ownAssets, null);
         assertThat(jpaAlertRepository.findAll()).hasSize(3);
 
-        // when
+        // When
         Long result = repository.countPartsByStatusAndOwnership(List.of(QualityNotificationStatus.RECEIVED), Owner.SUPPLIER);
 
-        // then
+       // Then
         assertThat(result).isEqualTo(12);
     }
 
     @Test
     void givenAlertsWithAssets_whenCountDistinctAffectedOwnPartsWithAlertSentStatus_thenReturnProperCount() {
-        // given
+       // Given
         assetsSupport.defaultAssetsStored();
         List<AssetAsBuiltEntity> assets = assetAsBuiltRepository.findAll();
         List<AssetAsBuiltEntity> ownAssets = assets.stream()
@@ -94,10 +94,10 @@ class AlertsRepositoryIT extends IntegrationTestSpecification {
         alertsSupport.storeAlertWithStatusAndAssets(SENT, ownAssets, null);
         assertThat(jpaAlertRepository.findAll()).hasSize(3);
 
-        // when
+        // When
         Long result = repository.countPartsByStatusAndOwnership(List.of(QualityNotificationStatus.SENT), Owner.OWN);
 
-        // then
+       // Then
         assertThat(result).isEqualTo(1);
     }
 }
