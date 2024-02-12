@@ -66,6 +66,7 @@ New API **/api/alerts/:id** Or **/api/investigations/:id** or **/api/notificatio
 - All partIds in request are:
     - Atleast one item in partlistId list (Otherwise 403 Forbidden)
     - Existing (Otherwise 404 Not found)
+    - unique (unique id, otherwise 403 Forbidden)
     - in importState PERSISTENT (Otherwise 403 Forbidden)
     - In bomLifeCycle asBuilt (Otherwise 403 Forbidden)
     - If alert -> only own Parts (Otherwise 403 Forbidden)
