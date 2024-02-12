@@ -87,9 +87,6 @@ export class OwnPartsComponent implements OnInit, OnDestroy {
   public assetAsSupportedFilter: AssetAsSupportedFilter;
   public assetAsOrderedFilter: AssetAsOrderedFilter;
 
-  public readonly searchListAsBuilt: string[];
-  public readonly searchListAsPlanned: string[];
-
   public DEFAULT_PAGE_SIZE = 50;
   public ctrlKeyState = false;
   public globalSearchActive = false;
@@ -123,36 +120,6 @@ export class OwnPartsComponent implements OnInit, OnDestroy {
     this.tableAsOrderedSortList = [];
     this.tableAsSupportedSortList = [];
     this.tableAsRecycledSortList = [];
-    this.searchListAsBuilt = [
-      'id',
-      'idShort',
-      'nameAtManufacturer',
-      'manufacturerName',
-      'manufacturerPartId',
-      'customerPartId',
-      'classification',
-      'nameAtCustomer',
-      'semanticDataModel',
-      'semanticModelId',
-      'manufacturingDate',
-      'manufacturingCountry',
-    ];
-    this.searchListAsPlanned = [
-      'id',
-      'idShort',
-      'nameAtManufacturer',
-      'manufacturerName',
-      'manufacturerPartId',
-      'classification',
-      'semanticDataModel',
-      'semanticModelId',
-      'validityPeriodFrom',
-      'validityPeriodTo',
-      'function',
-      'catenaXSiteId',
-      'functionValidFrom',
-      'functionValidUntil',
-    ];
 
     this.assetAsBuiltFilter = {};
     this.assetAsDesignedFilter = {};
@@ -178,35 +145,6 @@ export class OwnPartsComponent implements OnInit, OnDestroy {
   }
 
   public updateOwnParts(searchValue?: string) {
-    // if (searchValue && searchValue !== '') {
-    //   this.globalSearchActive = true;
-    //   this.assetAsBuiltFilter = toGlobalSearchAssetFilter(searchValue, true, this.searchListAsBuilt, this.datePipe);
-    //   this.assetAsPlannedFilter = toGlobalSearchAssetFilter(searchValue, false, this.searchListAsPlanned, this.datePipe);
-    //   this.partsFacade.setPartsAsBuilt(
-    //     0,
-    //     this.DEFAULT_PAGE_SIZE,
-    //     this.tableAsPlannedSortList,
-    //     this.assetAsBuiltFilter,
-    //     this.globalSearchActive,
-    //   );
-    //   this.partsFacade.setPartsAsPlanned(
-    //     0,
-    //     this.DEFAULT_PAGE_SIZE,
-    //     this.tableAsBuiltSortList,
-    //     this.assetAsPlannedFilter,
-    //     this.globalSearchActive,
-    //   );
-    // } else {
-    //   this.globalSearchActive = false;
-    //   this.assetAsBuiltFilter = {};
-    //   this.assetAsPlannedFilter = {};
-    //   this.partsFacade.setPartsAsBuilt(0, this.DEFAULT_PAGE_SIZE);
-    //   this.partsFacade.setPartsAsPlanned(0, this.DEFAULT_PAGE_SIZE);
-    // }
-
-    // this.resetFilterAndShowToast();
-    // const searchValue = this.searchFormGroup.get('partSearch').value;
-
     if (searchValue && searchValue !== '') {
       this.partsFacade.setPartsAsPlanned(0, this.DEFAULT_PAGE_SIZE, this.tableAsPlannedSortList, toGlobalSearchAssetFilter(searchValue, false), true);
       this.partsFacade.setPartsAsBuilt(0, this.DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toGlobalSearchAssetFilter(searchValue, true), true);
@@ -237,7 +175,6 @@ export class OwnPartsComponent implements OnInit, OnDestroy {
         dialogRef.componentInstance.deselectPart.unsubscribe();
       });
     }
-
   }
 
   filterActivated(type: MainAspectType, assetFilter: any): void {

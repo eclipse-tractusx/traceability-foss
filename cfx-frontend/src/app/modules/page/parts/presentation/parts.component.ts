@@ -86,15 +86,6 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private resetFilterAndShowToast() {
-    // const resetComponents = (components: QueryList<OwnPartsComponent>) => {
-    //   for (const component of components) {
-    //     const filterIsSet = this.searchHelper.resetFilterForAssetComponents(component.partsTableComponents, false);
-    //     if (filterIsSet) {
-    //       this.toastService.info('parts.input.global-search.toastInfo');
-    //     }
-    //   }
-    // };
-    // resetComponents(this.ownPartsComponents);
     let filterIsSet;
 
     for (const ownPartsComponent of this.ownPartsComponents) {

@@ -24,7 +24,7 @@ import {
   getFilterOperatorValue,
 } from '@page/parts/model/parts.model';
 import { NotificationFilter } from '../../../mocks/services/investigations-mock/investigations.model';
-import { TableFilter } from '@shared/components/table/table.model';
+import { FilterMethod, TableFilter } from '@shared/components/table/table.model';
 
 export const DATE_FILTER_KEYS = ['manufacturingDate', 'functionValidFrom', 'functionValidUntil', 'validityPeriodFrom', 'validityPeriodTo', 'createdDate', 'targetDate'];
 
@@ -94,10 +94,10 @@ export function enrichDeeplinkFilterAndGetUpdatedFilter(filter: any): string[] {
 
     if (Array.isArray(filter.notificationIds)) {
       filter.notificationIds.forEach(notificationId => {
-        filterList.push('id,EQUAL,' + notificationId + ',OR');
+        filterList.push('status,EQUAL,' + notificationId + ',OR');
       });
     } else {
-      filterList.push('id,EQUAL,' + filter.notificationIds + ',OR');
+      filterList.push('status,EQUAL,' + filter.notificationIds + ',OR');
     }
 
   }
@@ -179,7 +179,7 @@ export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, para
   return params;
 }
 
-export function provideFilterListForNotifications(filter?: NotificationFilter, fullFilter?: any): string[] {
+export function provideFilterListForNotifications(filter?: NotificationFilter, fullFilter?: any, filterMethod = FilterMethod.AND): string[] {
   let filterList: string[] = [];
 
   if (filter && !fullFilter) {
@@ -187,14 +187,12 @@ export function provideFilterListForNotifications(filter?: NotificationFilter, f
   }
 
   if (!filter && fullFilter) {
-    const params = enrichFilterAndGetUpdatedParams(fullFilter, new HttpParams(), 'AND');
+    const params = enrichFilterAndGetUpdatedParams(fullFilter, new HttpParams(), filterMethod);
     const filterParams = params.getAll('filter');
     if (filterParams) {
-      filterParams.forEach(filter => { filterList.push(filter) });
+      filterParams.forEach(filter => { filterList.push(filter); });
     }
-
   }
-
   return filterList;
 }
 

@@ -51,7 +51,7 @@ export class PartsAssembler {
       return null;
     }
 
-    let createdSemanticModel = PartsAssembler.createSemanticModelFromPartResponse(partResponse);
+    const createdSemanticModel = PartsAssembler.createSemanticModelFromPartResponse(partResponse);
 
     // Access the partId property
 
@@ -236,7 +236,7 @@ export class PartsAssembler {
 
       const { importNote, importState } = viewData.data;
       return { data: { importNote, importState } as Part };
-    })
+    });
   }
 
   public static mapPartForTractionBatteryCodeSubComponentsView(): OperatorFunction<View<Part>, View<Part>> {

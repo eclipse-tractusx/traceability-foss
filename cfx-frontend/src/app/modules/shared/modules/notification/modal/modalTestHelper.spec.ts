@@ -45,6 +45,7 @@ class AcceptModalComponent implements AfterViewInit {
   @ViewChild(AcceptNotificationModalComponent) modal: AcceptNotificationModalComponent;
   @Input() notification: Notification;
   public call = (id: string) => of(null);
+
   public ngAfterViewInit() {
     this.modal.show(this.notification);
   }
@@ -61,6 +62,7 @@ class AcknowledgeModalComponent implements AfterViewInit {
   @ViewChild(AcknowledgeNotificationModalComponent) modal: AcknowledgeNotificationModalComponent;
   @Input() notification: Notification;
   public call = (id: string) => of(null);
+
   public ngAfterViewInit() {
     this.modal.show(this.notification);
   }
@@ -77,6 +79,7 @@ class ApproveModalComponent implements AfterViewInit {
   @ViewChild(ApproveNotificationModalComponent) modal: ApproveNotificationModalComponent;
   @Input() notification: Notification;
   public call = (id: string) => of(null);
+
   public ngAfterViewInit() {
     this.modal.show(this.notification);
   }
@@ -93,6 +96,7 @@ class CancelModalComponent implements AfterViewInit {
   @ViewChild(CancelNotificationModalComponent) modal: CancelNotificationModalComponent;
   @Input() notification: Notification;
   public call = (id: string) => of(null);
+
   public ngAfterViewInit() {
     this.modal.show(this.notification);
   }
@@ -109,6 +113,7 @@ class DeclineModalComponent implements AfterViewInit {
   @ViewChild(DeclineNotificationModalComponent) modal: DeclineNotificationModalComponent;
   @Input() notification: Notification;
   public call = (id: string) => of(null);
+
   public ngAfterViewInit() {
     this.modal.show(this.notification);
   }
@@ -125,6 +130,7 @@ class CloseModalComponent implements AfterViewInit {
   @ViewChild(CloseNotificationModalComponent) modal: CloseNotificationModalComponent;
   @Input() notification: Notification;
   public call = (id: string) => of(null);
+
   public ngAfterViewInit() {
     this.modal.show(this.notification);
   }
@@ -135,8 +141,10 @@ class CloseModalComponent implements AfterViewInit {
 export const notificationTemplate: Notification = {
   id: 'id-1',
   description: 'Investigation No 1',
-  createdBy: { name: 'OEM xxxxxxxxxxxxxxx A', bpn: 'BPN10000000OEM0A' },
-  sendTo: { name: 'OEM xxxxxxxxxxxxxxx B', bpn: 'BPN20000000OEM0B' },
+  createdBy: 'BPNA',
+  createdByName: 'CompanyA',
+  sendTo: 'BPNB',
+  sendToName: 'CompanyB',
   reason: { close: '', accept: '', decline: '' },
   isFromSender: false,
   assetIds: ['MOCK_part_1'],

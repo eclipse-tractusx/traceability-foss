@@ -19,28 +19,25 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { MetricData } from '@page/dashboard/presentation/dashboard.model';
-import { StaticIdService } from '@shared/service/staticId.service';
+export interface DeeplinkAssetNotificationIds {
+  notificationIds: string[];
+}
 
-@Component({
-  selector: 'app-card-icon',
-  templateUrl: './card-icon.component.html',
-  styleUrls: ['./card-icon.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class CardIconComponent {
-  public readonly htmlIdBase = 'app-card-icon-';
-  public readonly htmlId: string;
-  public readonly iconPath = '/assets/images/icons/';
+export interface DeeplinkNotificationFilter {
+  receivedFilter: DeeplinkAssetNotificationIds,
+  sentFilter: DeeplinkAssetNotificationIds
+}
 
-  @Input() label: string;
-  @Input() stats: number | string;
-  @Input() icon: string;
-  @Input() metricData: MetricData[];
-
-
-  constructor(staticIdService: StaticIdService) {
-    this.htmlId = staticIdService.generateId(this.htmlIdBase);
+export function createDeeplinkNotificationFilter(params: any): DeeplinkNotificationFilter {
+  let receivedFilter = null;
+  let sentFilter = null;
+  if (params.deeplink) {
+    if (params.received === 'true' && params?.notificationIds?.length > 0) {
+      receivedFilter = { notificationIds: params.notificationIds };
+    }
+    if (params.received === 'false' && params?.notificationIds?.length > 0) {
+      sentFilter = { notificationIds: params.notificationIds };
+    }
+    return { receivedFilter, sentFilter };
   }
 }

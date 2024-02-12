@@ -24,7 +24,7 @@ import { environment } from '@env';
 import { NotificationAssembler } from '@shared/assembler/notification.assembler';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { DateTimeString } from '@shared/components/dateTime/dateTime.component';
-import { TableHeaderSort } from '@shared/components/table/table.model';
+import { FilterMethod, TableHeaderSort } from '@shared/components/table/table.model';
 import { provideFilterListForNotifications } from '@shared/helper/filter-helper';
 import { Severity } from '@shared/model/severity.model';
 import type { Observable } from 'rxjs';
@@ -52,11 +52,11 @@ export class NotificationService {
 
 
   // TODO: merge functions for created and received notifications
-  public getCreated(page: number, pageSize: number, sorting: TableHeaderSort[], filter?: NotificationFilter, fullFilter?: any, isInvestigation = true): Observable<Notifications> {
+  public getCreated(page: number, pageSize: number, sorting: TableHeaderSort[], filter?: NotificationFilter, fullFilter?: any, isInvestigation = true, filterMethod = FilterMethod.AND): Observable<Notifications> {
     const sort = sorting.length ? sorting.map(array => `${array[0]},${array[1]}`) : ['createdDate,desc'];
     const requestUrl = this.determineRequestUrl(isInvestigation) + '/filter';
     const notificationType = isInvestigation ? NotificationType.INVESTIGATION : NotificationType.ALERT;
-    const additionalFilters = new Set([...provideFilterListForNotifications(filter, fullFilter), 'channel,EQUAL,SENDER,AND']);
+    const additionalFilters = new Set([...provideFilterListForNotifications(filter, fullFilter, filterMethod), 'channel,EQUAL,SENDER,AND']);
 
     const body = {
       pageAble: {
@@ -74,11 +74,11 @@ export class NotificationService {
       .pipe(map(data => NotificationAssembler.assembleNotifications(data, notificationType)));
   }
 
-  public getReceived(page: number, pageSize: number, sorting: TableHeaderSort[], filter?: NotificationFilter, fullFilter?: any, isInvestigation = true): Observable<Notifications> {
+  public getReceived(page: number, pageSize: number, sorting: TableHeaderSort[], filter?: NotificationFilter, fullFilter?: any, isInvestigation = true, filterMethod = FilterMethod.AND): Observable<Notifications> {
     const sort = sorting.length ? sorting.map(array => `${array[0]},${array[1]}`) : ['createdDate,desc'];
     const requestUrl = this.determineRequestUrl(isInvestigation) + '/filter';
     const notificationType = isInvestigation ? NotificationType.INVESTIGATION : NotificationType.ALERT;
-    const additionalFilters = new Set([...provideFilterListForNotifications(filter, fullFilter), 'channel,EQUAL,RECEIVER,AND']);
+    const additionalFilters = new Set([...provideFilterListForNotifications(filter, fullFilter, filterMethod), 'channel,EQUAL,RECEIVER,AND']);
 
     const body = {
       pageAble: {
@@ -107,7 +107,6 @@ export class NotificationService {
 
   public createAlert(partIds: string[], description: string, severity: Severity, bpn: string, isAsBuilt: boolean): Observable<string> {
     const body = { partIds, description, severity, receiverBpn: bpn, isAsBuilt };
-
     return this.apiService.post<NotificationCreateResponse>(`${this.url}/alerts`, body).pipe(map(({ id }) => id));
   }
 

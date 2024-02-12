@@ -21,7 +21,7 @@
 
 import { Injectable } from '@angular/core';
 import { provideDataObject } from '@page/parts/core/parts.helper';
-import { TableHeaderSort } from '@shared/components/table/table.model';
+import { FilterMethod, TableHeaderSort } from '@shared/components/table/table.model';
 import { Notification, Notifications, NotificationStatus } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { NotificationService } from '@shared/service/notification.service';
@@ -52,20 +52,20 @@ export class InvestigationsFacade {
     return this.notificationService.getNotificationById(id, true);
   }
 
-  public setReceivedInvestigation(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: NotificationFilter, fullFilter?: any): void {
+  public setReceivedInvestigation(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: NotificationFilter, fullFilter?: any, filterMethod = FilterMethod.AND): void {
     this.investigationReceivedSubscription?.unsubscribe();
     this.investigationReceivedSubscription = this.notificationService
-      .getReceived(page, pageSize, sorting, filter, fullFilter, true)
+      .getReceived(page, pageSize, sorting, filter, fullFilter, true, filterMethod)
       .subscribe({
         next: data => (this.investigationsState.investigationsReceived = { data: provideDataObject(data) }),
         error: (error: Error) => (this.investigationsState.investigationsReceived = { error }),
       });
   }
 
-  public setQueuedAndRequestedInvestigations(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: NotificationFilter, fullFilter?: any): void {
+  public setQueuedAndRequestedInvestigations(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: NotificationFilter, fullFilter?: any, filterMethod = FilterMethod.AND): void {
     this.investigationQueuedAndRequestedSubscription?.unsubscribe();
     this.investigationQueuedAndRequestedSubscription = this.notificationService
-      .getCreated(page, pageSize, sorting, filter, fullFilter, true)
+      .getCreated(page, pageSize, sorting, filter, fullFilter, true, filterMethod)
       .subscribe({
         next: data => (this.investigationsState.investigationsQueuedAndRequested = { data: provideDataObject(data) }),
         error: (error: Error) => (this.investigationsState.investigationsQueuedAndRequested = { error }),

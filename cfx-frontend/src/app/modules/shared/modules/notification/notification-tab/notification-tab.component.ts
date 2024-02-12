@@ -20,7 +20,7 @@
  ********************************************************************************/
 
 import { AfterViewInit, Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
-import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
+import { NotificationChannel, TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { TableComponent } from '@shared/components/table/table.component';
 import {
   CreateHeaderFromColumns,
@@ -30,7 +30,7 @@ import {
   TableEventConfig,
   TableHeaderSort,
 } from '@shared/components/table/table.model';
-import { Notification, Notifications } from '@shared/model/notification.model';
+import { Notification, NotificationFilter, NotificationType, Notifications } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { Observable } from 'rxjs';
 
@@ -49,13 +49,17 @@ export class NotificationTabComponent implements AfterViewInit {
   @Input() sortableColumns: Record<string, boolean> = {};
   @Input() multiSortList: TableHeaderSort[] = [];
   @Input() enableScroll = true;
+  @Input() notificationType = NotificationType.INVESTIGATION;
   @Input() tableType: TableType;
   @Input() filterConfig: any[] = [];
+  @Input() autocompleteEnabled = true;
 
   @Output() tableConfigChanged = new EventEmitter<TableEventConfig>();
   @Output() selected = new EventEmitter<Notification>();
   @Output() itemCount = new EventEmitter<number>();
   @Output() onPaginationPageSizeChange = new EventEmitter<number>();
+  @Output() investigationsFilterChanged = new EventEmitter<any>();
+  @Output() alertsFilterChanged = new EventEmitter<any>();
 
   @ViewChild('idTmp') idTemplate: TemplateRef<unknown>;
   @ViewChild('statusTmp') statusTemplate: TemplateRef<unknown>;
@@ -68,6 +72,9 @@ export class NotificationTabComponent implements AfterViewInit {
 
   public tableConfig: TableConfig<keyof Notification>;
   public filteredContent = false;
+
+  public notificationFilter: NotificationFilter;
+
 
   protected readonly TableType = TableType;
 
@@ -113,5 +120,22 @@ export class NotificationTabComponent implements AfterViewInit {
 
   public onFilterChange(): void {
     this.filteredContent = true;
+  }
+
+  public filterActivated(notificationFilter: any): void {
+    this.notificationFilter = notificationFilter;
+    const channel = notificationFilter['createdBy'] ? NotificationChannel.RECEIVER : NotificationChannel.SENDER;
+    if (this.notificationType === NotificationType.INVESTIGATION) {
+      this.investigationsFilterChanged.emit({
+        channel: channel,
+        filter: notificationFilter,
+      });
+    }
+    if (this.notificationType === NotificationType.ALERT) {
+      this.alertsFilterChanged.emit({
+        channel: channel,
+        filter: notificationFilter,
+      });
+    }
   }
 }

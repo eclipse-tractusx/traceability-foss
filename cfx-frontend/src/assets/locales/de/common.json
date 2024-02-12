@@ -82,7 +82,7 @@
     },
     "column": {
       "id": "ID",
-      "!": "!",
+      "hasAlerts": "!",
       "idShort": "Kurz-ID",
       "name": "Name",
       "manufacturer": "Hersteller",
@@ -91,7 +91,10 @@
       "customerPartId": "Kunden Produktnummer",
       "classification": "Klassifizierung",
       "nameAtCustomer": "Kunden Produktname",
-      "nameAtManufacturer": "Hersteller Produktname",
+      "manufacturerName": "Hersteller Name",
+      "receivedActiveAlerts": "Aktive Qualitätswarnungen",
+      "receivedActiveInvestigations": "Aktive Qualitätsuntersuchungen",
+      "nameAtManufacturer": "Name",
       "semanticModelId": "Semantische Modellnummer",
       "qualityType": "Qualitätsstufe",
       "manufacturingDate": "Produktionsdatum",
@@ -295,6 +298,7 @@
   },
   "multiSelect": {
     "filterLabel": "Filter",
+    "multipleResults": "Andere",
     "placeholder": "Alle",
     "selectAll": "Alle",
     "filterLabelDate": "Nach Datum filtern",

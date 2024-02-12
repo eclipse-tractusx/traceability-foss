@@ -31,9 +31,9 @@ import {
 } from '@shared/components/request-notification/request-notification.base';
 import { getRoute, INVESTIGATION_BASE_ROUTE } from '@core/known-route';
 import { NotificationStatusGroup } from '@shared/model/notification.model';
-import { InvestigationsService } from '@shared/service/investigations.service';
 import { Part } from '@page/parts/model/parts.model';
 import { MatDialog } from '@angular/material/dialog';
+import { NotificationService } from '@shared/service/notification.service';
 
 @Component({
   selector: 'app-request-investigation',
@@ -51,7 +51,7 @@ export class RequestInvestigationComponent extends RequestNotificationBase {
 
   public readonly context: RequestContext = RequestContext.REQUEST_INVESTIGATION;
 
-  constructor(toastService: ToastService, private readonly investigationsService: InvestigationsService, public dialog: MatDialog) {
+  constructor(toastService: ToastService, private readonly investigationsService: NotificationService, public dialog: MatDialog) {
     super(toastService, dialog);
   }
 
@@ -75,7 +75,7 @@ export class RequestInvestigationComponent extends RequestNotificationBase {
     const { description, targetDate, severity } = this.formGroup.value;
     const { link, queryParams } = getRoute(INVESTIGATION_BASE_ROUTE, NotificationStatusGroup.QUEUED_AND_REQUESTED);
 
-    this.investigationsService.postInvestigation(partIds, description, severity, targetDate).subscribe({
+    this.investigationsService.createInvestigation(partIds, description, severity, targetDate).subscribe({
       next: () => this.onSuccessfulSubmit(link, queryParams),
       error: () => this.onUnsuccessfulSubmit(),
     });

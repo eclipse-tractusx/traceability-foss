@@ -1,12 +1,14 @@
 import { FormControl } from '@angular/forms';
 
 export class PartsTableConfigUtils {
+  private static excludedColumns = ['select', 'menu', 'hasAlerts'];
 
   public static createFormGroup(displayedColumns: any): Record<string, FormControl> {
     const formGroup: Record<string, FormControl> = {};
 
     for (const column of displayedColumns) {
-      if (column !== 'select' && column !== 'menu') {
+
+      if (this.excludedColumns.includes(column) === false) {
         formGroup[column] = new FormControl([]);
       }
 
@@ -15,7 +17,7 @@ export class PartsTableConfigUtils {
   }
 
   public static createFilterColumns(displayedColumns: string[], hasFilterCol = true, hasMenuCol = true): string[] {
-    const array = displayedColumns.filter((column: string) => 'select' !== column && 'menu' !== column).map((column: string) => 'filter' + column);
+    const array = displayedColumns.filter((column: string) => this.excludedColumns.includes(column) === false).map((column: string) => 'filter' + column);
     let filter = null;
     let menu = null;
     if (hasFilterCol) {
@@ -30,10 +32,9 @@ export class PartsTableConfigUtils {
   public static generateFilterColumnsMapping(sortableColumns: any, dateFields?: string[], singleSearchFields?: string[], hasFilterCol = true, hasMenuCol = true): any[] {
 
     const filterColumnsMapping: any[] = [];
-    const excludedFields = ['select', 'menu'];
     for (const key in sortableColumns) {
       // eslint-disable-next-line no-prototype-builtins
-      if (sortableColumns.hasOwnProperty(key) && !excludedFields.includes(key)) {
+      if (sortableColumns.hasOwnProperty(key) && !this.excludedColumns.includes(key)) {
         // This key goes to the backend rest api
         const filterKey = key;
         const headerKey = 'filter' + key;

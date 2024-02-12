@@ -37,7 +37,6 @@ export class TableFilterConfiguration implements TableViewConfig {
     this.filterColumns = PartsTableConfigUtils.createFilterColumns(this.displayedColumns);
     this.sortableColumns = sortableColumns;
     this.displayFilterColumnMappings = PartsTableConfigUtils.generateFilterColumnsMapping(sortableColumns, dateFields, singleSearchFields);
-
   }
 
   public filterConfiguration(): TableViewConfig {

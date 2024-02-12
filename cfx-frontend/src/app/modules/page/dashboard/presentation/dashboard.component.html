@@ -113,6 +113,7 @@ SPDX-License-Identifier: Apache-2.0
       <mat-card-content>
         <app-notifications-tab [tableType]="TableType.RECEIVED_INVESTIGATION"
           [enableScroll]="false"
+          [autocompleteEnabled]="false"
           [notificationsView$]="investigations$"
           class="notications-tab"
           [translationContext]="'commonInvestigation'"
@@ -180,6 +181,7 @@ SPDX-License-Identifier: Apache-2.0
       <mat-card-content>
         <app-notifications-tab [enableScroll]="false"
           [notificationsView$]="alerts$"
+          [autocompleteEnabled]="false"
           [tableType]="TableType.RECEIVED_ALERT"
           [translationContext]="'commonAlert'"
           [labelId]="'dashboard-alerts'"

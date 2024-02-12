@@ -16,32 +16,11 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-// should be mapped into
-// eslint-disable-next-line @typescript-eslint/ban-types
-export type SemanticModel = {}
-
-export type AsBuiltAspectModel = {
-  partId: string;
-  customerPartId: string;
-  nameAtCustomer: string;
-  manufacturingDate: string;
-  manufacturingCountry: string;
-}
-
-export type AsPlannedAspectModel = {
-  validityPeriodFrom: string;
-  validityPeriodTo: string;
-}
-
-export type PartSiteInformationAsPlanned = {
-  function: string,
-  catenaXSiteId: string
-  functionValidFrom: string,
-  functionValidUntil: string
-}
-
-export type TractionBatteryCode = {
-  productType: string,
-  tractionBatteryCode: string,
-  subcomponents?: TractionBatteryCode[]
+export enum NotificationAction {
+  APPROVE = 'approve',
+  CANCEL = 'cancel',
+  CLOSE = 'close',
+  ACKNOWLEDGE = 'acknowledge',
+  ACCEPT = 'accept',
+  DECLINE = 'decline',
 }

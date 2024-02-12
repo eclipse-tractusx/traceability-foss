@@ -20,16 +20,16 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
-import { RoleService } from '@core/user/role.service';
 import { InvestigationsFacade } from '@page/investigations/core/investigations.facade';
-import { Notification, NotificationStatus } from '@shared/model/notification.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
+
 export class InvestigationHelperService {
-  constructor(private readonly roleService: RoleService, private readonly investigationsFacade: InvestigationsFacade) { }
+  constructor(private readonly investigationsFacade: InvestigationsFacade) {
+  }
 
   public approve(id: string): Observable<void> {
     return this.investigationsFacade.approveInvestigation(id);
@@ -53,30 +53,5 @@ export class InvestigationHelperService {
 
   public decline(id: string, reason: string): Observable<void> {
     return this.investigationsFacade.declineInvestigation(id, reason);
-  }
-
-  public showApproveButton({ status, isFromSender } = {} as Notification): boolean {
-    return isFromSender && status === NotificationStatus.CREATED && this.roleService.isAtLeastSupervisor();
-  }
-
-  public showCancelButton({ status, isFromSender } = {} as Notification): boolean {
-    return isFromSender && status === NotificationStatus.CREATED && this.roleService.isAtLeastUser();
-  }
-
-  public showCloseButton({ status, isFromSender } = {} as Notification): boolean {
-    const disallowedStatus = [NotificationStatus.CREATED, NotificationStatus.CLOSED, NotificationStatus.CANCELED];
-    return isFromSender && !disallowedStatus.includes(status) && this.roleService.isAtLeastSupervisor();
-  }
-
-  public showAcknowledgeButton({ status, isFromSender } = {} as Notification): boolean {
-    return !isFromSender && status === NotificationStatus.RECEIVED && this.roleService.isAtLeastUser();
-  }
-
-  public showAcceptButton({ status, isFromSender } = {} as Notification): boolean {
-    return !isFromSender && status === NotificationStatus.ACKNOWLEDGED && this.roleService.isAtLeastUser();
-  }
-
-  public showDeclineButton({ status, isFromSender } = {} as Notification): boolean {
-    return !isFromSender && status === NotificationStatus.ACKNOWLEDGED && this.roleService.isAtLeastUser();
   }
 }

@@ -26,7 +26,7 @@ import {
   TableEventConfig,
   TableHeaderSort,
 } from '@shared/components/table/table.model';
-import { Notification, Notifications } from '@shared/model/notification.model';
+import { Notification, NotificationType, Notifications } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { Observable } from 'rxjs';
@@ -52,6 +52,7 @@ export class NotificationComponent {
   @Input() receivedMultiSortList: TableHeaderSort[] = [];
   @Input() queuedAndRequestedMultiSortList: TableHeaderSort[] = [];
   @Input() tablesType: TableType[];
+  @Input() notificationType = NotificationType.INVESTIGATION;
   @Input() receivedFilterConfig: any[] = [];
   @Input() queuedAndRequestedFilterConfig: any[] = [];
 
@@ -59,6 +60,8 @@ export class NotificationComponent {
   @Output() onQueuedAndRequestedTableConfigChanged = new EventEmitter<TableEventConfig>();
   @Output() selected = new EventEmitter<Notification>();
   @Output() onPaginationPageSizeChange = new EventEmitter<number>();
+  @Output() investigationFilterChanged = new EventEmitter<any>();
+  @Output() alertFilterChanged = new EventEmitter<any>();
 
   public readonly tabIndex$ = this.route.queryParams.pipe(map(params => parseInt(params.tabIndex, 10) || 0));
 

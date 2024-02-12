@@ -16,6 +16,7 @@
     "manufacturer": "Manufacturer",
     "manufacturerPartId": "Manufacturer part ID",
     "nameAtManufacturer": "Name at manufacturer",
+    "manufacturerName": "Manufacturer name",
     "nameAtCustomer": "Name at customer",
     "customerPartId": "Customer part ID",
     "semanticDataModel": "Semantic Data Model",

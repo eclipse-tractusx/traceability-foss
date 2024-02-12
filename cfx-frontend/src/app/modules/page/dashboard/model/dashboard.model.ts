@@ -19,29 +19,52 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 export interface DashboardStats {
-  totalOtherParts: number,
+  // notification counts (where open means notficaiton status not closed)
+  myPartsWithOpenAlerts: number,
+  myPartsWithOpenInvestigations: number,
+
+  // part counts
+  asBuiltCustomerParts: number,
+  asPlannedCustomerParts: number,
+  asBuiltSupplierParts: number,
+  asPlannedSupplierParts: number,
+  asBuiltOwnParts: number,
+  asPlannedOwnParts: number
+
+  // calculated counts
   totalOwnParts: number,
-  investigationsReceived: number,
-  alertsReceived: number,
+  totalOtherParts: number,
+  ownOpenInvestigationsReceived: number,
+  ownOpenInvestigationsCreated: number,
+  ownOpenAlertsReceived: number,
+  ownOpenAlertsCreated: number,
+  receivedActiveAlerts: number,
+  receivedActiveInvestigations: number,
+  sentActiveAlerts: number,
+  sentActiveInvestigations: number
+
 }
 
 export interface DashboardStatsResponse {
-  asBuiltCustomerParts: number;
-  asPlannedCustomerParts: number;
-  asBuiltSupplierParts: number;
-  asPlannedSupplierParts: number;
-  asBuiltOwnParts: number;
-  asPlannedOwnParts: number;
-  myPartsWithOpenAlerts: number;
-  myPartsWithOpenInvestigations: number;
-  supplierPartsWithOpenAlerts: number;
-  customerPartsWithOpenAlerts: number;
-  supplierPartsWithOpenInvestigations: number;
-  customerPartsWithOpenInvestigations: number;
-  receivedActiveAlerts: number;
-  receivedActiveInvestigations: number;
-  sentActiveAlerts: number;
-  sentActiveInvestigations: number;
+  // notification counts (where open means notficaiton status not closed)
+  myPartsWithOpenAlerts: number,
+  myPartsWithOpenInvestigations: number,
+  supplierPartsWithOpenInvestigations: number,
+  customerPartsWithOpenInvestigations: number,
+  supplierPartsWithOpenAlerts: number,
+  customerPartsWithOpenAlerts: number,
+
+  // part counts
+  asBuiltCustomerParts: number,
+  asPlannedCustomerParts: number,
+  asBuiltSupplierParts: number,
+  asPlannedSupplierParts: number,
+  asBuiltOwnParts: number,
+  asPlannedOwnParts: number,
+
+  receivedActiveAlerts: number,
+  receivedActiveInvestigations: number,
+  sentActiveAlerts: number,
+  sentActiveInvestigations: number
 }

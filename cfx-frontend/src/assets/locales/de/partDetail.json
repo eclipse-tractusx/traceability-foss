@@ -14,6 +14,7 @@
     "qualityType": "Qualitätsstufe",
     "productionDate": "Produktionsdatum",
     "manufacturer": "Hersteller",
+    "manufacturerName": "Hersteller Name",
     "manufacturerPartId": "Hersteller Produktnummer",
     "nameAtManufacturer": "Hersteller Produktname",
     "nameAtCustomer": "Name beim Kunden",

@@ -158,7 +158,7 @@ SPDX-License-Identifier: Apache-2.0
       <ng-container matColumnDef="{{ column }}">
         <th class="table--header"
           *matHeaderCellDef
-          matTooltip="{{ column === '!' ? ('parts.openInvestigations' |i18n) : '' }}"
+          matTooltip="{{ column === 'hasAlerts' ? ('parts.openInvestigations' |i18n) : '' }}"
           matTooltipClass="table--header--tooltip"
           matTooltipPosition="above"
           [class.mdc-tooltip--multiline]="true"
@@ -166,7 +166,7 @@ SPDX-License-Identifier: Apache-2.0
           [mat-sort-header]="tableConfig.sortableColumns?.[column] ? '' : null"
           [disabled]="!tableConfig.sortableColumns?.[column]"
           mat-header-cell
-          [ngClass]="{ hasQualityAlertsHeader: column === '!' }"
+          [ngClass]="{ hasQualityAlertsHeader: column === 'hasAlerts' }"
           class="table--header--id: column === 'id'">
           <ng-container *ngIf="tableConfig?.header?.[column]; else pureColumn">
             <div class="table--header--cell">
@@ -176,7 +176,7 @@ SPDX-License-Identifier: Apache-2.0
                   tableConfig?.header?.[column] | i18n }}
                 </div>
                 <div class="table--header--cell--content--sort"
-                  *ngIf="column !== '!'">
+                  *ngIf="column !== 'hasAlerts'">
                   <ng-container *ngIf="multiSortList && multiSortList.length > 0">
                     <ng-container *ngFor="let item of multiSortList; let i = index">
                       <!-- Display the array entry when it matches the column name -->
@@ -196,7 +196,7 @@ SPDX-License-Identifier: Apache-2.0
                   </ng-container>
                 </div>
               </div>
-              <div *ngIf="column !== '!'"
+              <div *ngIf="column !== 'hasAlerts'"
                 (click)="$event.stopPropagation()"
                 class="table--header--row__filter"
                 [matMenuTriggerFor]="selectMenu">
@@ -226,19 +226,11 @@ SPDX-License-Identifier: Apache-2.0
                       [filterColumn]="filter.filterKey"
                       [tableType]="tableType"
                       (triggerFilter)="triggerFilterAdding()"
+                      (onFilterValueChanged)="onFilterValueChanged($event)"
                       [placeholderMultiple]="('multiSelect.multipleResults' | i18n)"
                       ngDefaultControl
                       [formControl]="filterFormGroup.controls[filter.filterKey]">
                     </app-multiselect>
-
-                    <!--<app-multiselect [options]="filter.option"
-                      [multiple]="isMultipleSearch(filter)"
-                      [textSearch]="filter.isTextSearch"
-                      [isDate]="filter.isDate"
-                      [maxDate]="filter.maxDate"
-                      (triggerFilter)="triggerFilterAdding()"
-                      ngDefaultControl
-                      [formControl]="filterFormGroup.controls[filter.filterKey]"></app-multiselect>-->
                   </div>
                 </ng-container>
               </mat-menu>
@@ -257,15 +249,14 @@ SPDX-License-Identifier: Apache-2.0
 
               <ng-template #autoFormatRef>
                 <ng-container ng-container
-                  *ngIf="column !== '!'"
-                  ;
+                  *ngIf="column !== 'hasAlerts'"
                   [ngTemplateOutlet]="tableConfig?.cellRenderers?.[column] ? tableConfig?.cellRenderers?.[column] : autoFormat"
                   [ngTemplateOutletContext]="{ value: element[column], row: element }">
                 </ng-container>
               </ng-template>
             </span>
             <ng-container [ngSwitch]="column">
-              <ng-container *ngSwitchCase="'!'">
+              <ng-container *ngSwitchCase="'hasAlerts'">
                 <span class="hasQualityAlerts"
                   *ngIf="element['activeAlerts'] > 0">
                   <div class="alert-text">!</div>

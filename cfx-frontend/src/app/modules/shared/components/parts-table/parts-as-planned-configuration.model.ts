@@ -23,9 +23,10 @@ export class PartsAsPlannedConfigurationModel extends TableFilterConfiguration {
   constructor() {
     const sortableColumns = {
       select: false,
+      hasAlerts: true,
       id: true,
       idShort: true,
-      nameAtManufacturer: true,
+      name: true,
       businessPartner: true,
       manufacturerName: true,
       manufacturerPartId: true,
@@ -43,7 +44,7 @@ export class PartsAsPlannedConfigurationModel extends TableFilterConfiguration {
       menu: false,
     };
 
-    const dateFields = [ 'validityPeriodFrom', 'validityPeriodTo', 'functionValidFrom', 'functionValidUntil' ];
+    const dateFields = ['validityPeriodFrom', 'validityPeriodTo', 'functionValidFrom', 'functionValidUntil'];
     super(sortableColumns, dateFields);
   }
 }

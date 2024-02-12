@@ -26,7 +26,6 @@
   flex-direction: column;
   justify-content: center;
   padding: 10px 15px 15px 15px;
-  width: 250px;
   gap: 10px;
   border-radius: 10px;
   box-shadow: 0px 15px 25px 0px #3333330d, -10px -10px 15px 0px #ffffff1a, 0px 0px 25px 0px #33333308;
@@ -71,6 +70,24 @@
   }
 }
 
+.option {
+  display: flex;
+  flex-direction: row;
+}
+
+.option-container {
+  max-width: 250px;
+}
+
+.option-text {
+  line-height: 40px;
+}
+
+.option:hover {
+  cursor: pointer;
+  background-color: #33333308;
+}
+
 .box-search {
   margin: 8px;
   border-radius: 2px;
@@ -78,7 +95,6 @@
   transition: box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
-
 }
 
 .box-search,
@@ -89,6 +105,7 @@ input {
 }
 
 .box-select-all {
+  opacity: 1;
   width: 36px;
   line-height: 33px;
   color: #808080;
@@ -103,9 +120,26 @@ input {
   padding-left: 1rem;
 }
 
-.date-search {
+.date-box {
+  width: 275px;
+}
+
+.text-box {
+  width: 250px;
+}
+
+.search-wrapper {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  /* Add any other necessary styling for the date-search container */
+  flex-direction: row;
+  position: fixed;
+  bottom: 5px;
+}
+
+.hide-select-all {
+  opacity: 0;
+  width: 0;
+}
+
+.selected-values-text {
+  max-width: 230px;
 }

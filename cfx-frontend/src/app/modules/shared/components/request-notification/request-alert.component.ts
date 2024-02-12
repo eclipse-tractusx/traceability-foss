@@ -33,7 +33,7 @@ import {
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { NotificationStatusGroup } from '@shared/model/notification.model';
 import { Severity } from '@shared/model/severity.model';
-import { AlertsService } from '@shared/service/alerts.service';
+import { NotificationService } from '@shared/service/notification.service';
 
 @Component({
   selector: 'app-request-alert',
@@ -52,7 +52,7 @@ export class RequestAlertComponent extends RequestNotificationBase {
 
   public readonly context: RequestContext = RequestContext.REQUEST_ALERT;
 
-  constructor(toastService: ToastService, private readonly alertsService: AlertsService, public dialog: MatDialog) {
+  constructor(toastService: ToastService, private readonly alertsService: NotificationService, public dialog: MatDialog) {
     super(toastService, dialog);
   }
 
@@ -75,7 +75,7 @@ export class RequestAlertComponent extends RequestNotificationBase {
     const { description, bpn, severity } = this.formGroup.value;
     const { link, queryParams } = getRoute(ALERT_BASE_ROUTE, NotificationStatusGroup.QUEUED_AND_REQUESTED);
 
-    this.alertsService.postAlert(partIds, description, severity, bpn, isAsBuilt).subscribe({
+    this.alertsService.createAlert(partIds, description, severity, bpn, isAsBuilt).subscribe({
       next: () => this.onSuccessfulSubmit(link, queryParams),
       error: () => this.onUnsuccessfulSubmit(),
     });

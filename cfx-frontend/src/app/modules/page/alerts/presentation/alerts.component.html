@@ -36,6 +36,7 @@ SPDX-License-Identifier: Apache-2.0
           [prefixIconHover]="true"
           [onEnterActive]="true"
           [prefixIcon]="'search'"
+          (prefixIconClick)="triggerSearch()"
           formControlName="alertSearch"
           [isSearchBar]="true"
           [parentFormGroup]="searchFormGroup"
@@ -65,7 +66,8 @@ SPDX-License-Identifier: Apache-2.0
       [helperService]="helperService"
       [translationContext]="TranslationContext.COMMONALERT">
     </app-notification-common-modal>
-    <app-notification [queuedAndRequestedNotifications$]="alertsQueuedAndRequested$"
+    <app-notification [notificationType]="NotificationType.ALERT"
+      [queuedAndRequestedNotifications$]="alertsQueuedAndRequested$"
       [receivedNotifications$]="alertsReceived$"
       [tablesType]="[TableType.RECEIVED_ALERT, TableType.CREATED_ALERT]"
       [translationContext]="TranslationContext.COMMONALERT"
@@ -93,6 +95,7 @@ SPDX-License-Identifier: Apache-2.0
       (onReceivedTableConfigChanged)="onReceivedTableConfigChange($event)"
       (onQueuedAndRequestedTableConfigChanged)="onQueuedAndRequestedTableConfigChange($event)"
       (selected)="openDetailPage($event)"
+      (alertFilterChanged)="filterNotifications($event)"
       [menuActionsConfig]="menuActionsConfig">
       <div emptyContent>
         <img src="/assets/images/icons/noAlert.svg"

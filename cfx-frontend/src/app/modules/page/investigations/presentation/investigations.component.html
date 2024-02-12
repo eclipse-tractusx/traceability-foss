@@ -38,6 +38,7 @@ SPDX-License-Identifier: Apache-2.0
           [prefixIconHover]="true"
           [onEnterActive]="true"
           [prefixIcon]="'search'"
+          (prefixIconClick)="triggerSearch()"
           formControlName="investigationSearch"
           [isSearchBar]="true"
           [parentFormGroup]="searchFormGroup"
@@ -96,6 +97,7 @@ SPDX-License-Identifier: Apache-2.0
       (onReceivedTableConfigChanged)="onReceivedTableConfigChanged($event)"
       (onQueuedAndRequestedTableConfigChanged)="onQueuedAndRequestedTableConfigChanged($event)"
       (selected)="openDetailPage($event)"
+      (investigationFilterChanged)="filterNotifications($event)"
       [menuActionsConfig]="menuActionsConfig">
       <div emptyContent>
         <img src="/assets/images/icons/noQualityInvestigations.svg"

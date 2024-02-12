@@ -20,39 +20,27 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
-import { NotificationStatus, Notifications } from '@shared/model/notification.model';
+import { Notifications } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
-import { InvestigationsService } from '@shared/service/investigations.service';
-import { PartsService } from '@shared/service/parts.service';
 import { Observable, Subscription } from 'rxjs';
 import { DashboardService } from '../core/dashboard.service';
 import { DashboardState } from '../core/dashboard.state';
 import { DashboardStats } from '../model/dashboard.model';
-import { AlertsService } from '@shared/service/alerts.service';
-import { FilterMethod, TableFilter } from '@shared/components/table/table.model';
-import { FilterOperator } from '@page/parts/model/parts.model';
+import { FilterMethod } from '@shared/components/table/table.model';
+import { NotificationService } from '@shared/service/notification.service';
 
 @Injectable()
 export class DashboardFacade {
   private assetNumbersSubscription: Subscription;
   private investigationSubscription: Subscription;
   private alertSubscription: Subscription;
-  private filtering: TableFilter = {
-    filterMethod: FilterMethod.OR,
-    status: [
-      { filterValue: NotificationStatus.ACCEPTED.toString(), filterOperator: FilterOperator.EQUAL },
-      { filterValue: NotificationStatus.ACKNOWLEDGED.toString(), filterOperator: FilterOperator.EQUAL },
-      { filterValue: NotificationStatus.DECLINED.toString(), filterOperator: FilterOperator.EQUAL },
-      { filterValue: NotificationStatus.RECEIVED.toString(), filterOperator: FilterOperator.EQUAL },
-    ]
-  };
+
+  private filtering = { notificationIds: ['ACCEPTED', 'ACKNOWLEDGED', 'DECLINED', 'RECEIVED'] };
 
   constructor(
     private readonly dashboardService: DashboardService,
     private readonly dashboardState: DashboardState,
-    private readonly partsService: PartsService,
-    private readonly investigationsService: InvestigationsService,
-    private readonly alertsService: AlertsService,
+    private readonly notificationService: NotificationService,
   ) { }
 
   public get numberOfMyParts$(): Observable<View<number>> {
@@ -96,8 +84,8 @@ export class DashboardFacade {
       next: (dashboardStats: DashboardStats) => {
         this.dashboardState.setNumberOfMyParts({ data: dashboardStats.totalOwnParts });
         this.dashboardState.setNumberOfOtherParts({ data: dashboardStats.totalOtherParts });
-        this.dashboardState.setNumberOfInvestigations({ data: dashboardStats.investigationsReceived || 0 });
-        this.dashboardState.setNumberOfAlerts({ data: dashboardStats.alertsReceived || 0 });
+        this.dashboardState.setNumberOfInvestigations({ data: dashboardStats.receivedActiveInvestigations || 0 });
+        this.dashboardState.setNumberOfAlerts({ data: dashboardStats.receivedActiveAlerts || 0 });
       },
       error: error => {
         this.dashboardState.setNumberOfMyParts({ error });
@@ -114,9 +102,8 @@ export class DashboardFacade {
   }
 
   private setInvestigations(): void {
-
     this.investigationSubscription?.unsubscribe();
-    this.investigationSubscription = this.investigationsService.getReceivedInvestigations(0, 5, [], this.filtering).subscribe({
+    this.investigationSubscription = this.notificationService.getReceived(0, 5, [], this.filtering, null, true, FilterMethod.OR).subscribe({
       next: data => this.dashboardState.setInvestigation({ data }),
       error: (error: Error) => this.dashboardState.setInvestigation({ error }),
     });
@@ -124,7 +111,7 @@ export class DashboardFacade {
 
   private setAlerts(): void {
     this.alertSubscription?.unsubscribe();
-    this.alertSubscription = this.alertsService.getReceivedAlerts(0, 5, [], this.filtering).subscribe({
+    this.alertSubscription = this.notificationService.getReceived(0, 5, [], this.filtering, null, true, FilterMethod.OR).subscribe({
       next: data => this.dashboardState.setAlerts({ data }),
       error: (error: Error) => this.dashboardState.setAlerts({ error }),
     });

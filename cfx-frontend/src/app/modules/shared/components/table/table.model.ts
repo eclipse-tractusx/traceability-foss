@@ -81,6 +81,7 @@ export interface MenuActionConfig<T> {
   icon: string;
   action: (data: T) => void;
   condition?: (data: T) => boolean;
+  isAuthorized?: boolean;
 }
 
 

@@ -36,9 +36,9 @@ import {
 import { TableSortingUtil } from '@shared/components/table/tableSortingUtil';
 import { SearchHelper } from '@shared/helper/search-helper';
 import { ToastService } from '@shared/components/toasts/toast.service';
-import { FilterCongigOptions } from '@shared/model/filter-config';
+import { FilterConfigOptions } from '@shared/model/filter-config';
 import { NotificationTabInformation } from '@shared/model/notification-tab-information';
-import { Notification, NotificationStatusGroup } from '@shared/model/notification.model';
+import { Notification, NotificationFilter, NotificationStatusGroup, NotificationType } from '@shared/model/notification.model';
 import { TranslationContext } from '@shared/model/translation-context.model';
 import { NotificationComponent } from '@shared/modules/notification/presentation/notification.component';
 import { Subscription } from 'rxjs';
@@ -46,7 +46,9 @@ import { Role } from '@core/user/role.model';
 import { RequestContext } from '@shared/components/request-notification/request-notification.base';
 import { RequestStepperComponent } from '@shared/components/request-notification/request-stepper/request-stepper.component';
 import { MatDialog } from '@angular/material/dialog';
-import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
+import { NotificationChannel, TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
+import { createDeeplinkNotificationFilter } from '@shared/helper/notification-helper';
+import { NotificationActionHelperService } from '@shared/assembler/notification-action-helper.service';
 
 @Component({
   selector: 'app-alerts',
@@ -68,11 +70,14 @@ export class AlertsComponent {
   public alertQueuedAndRequestedSortList: TableHeaderSort[] = [];
   public filterReceived: TableFilter = { filterMethod: FilterMethod.AND };
   public filterQueuedAndRequested: TableFilter = { filterMethod: FilterMethod.AND };
-  public readonly filterConfigOptions = new FilterCongigOptions();
+  public readonly filterConfigOptions = new FilterConfigOptions();
 
   public alertsReceivedFilterConfiguration: any[];
 
   public alertsQueuedAndRequestedFilterConfiguration: any[];
+
+  public receivedFilter: NotificationFilter;
+  public requestedFilter: NotificationFilter;
 
   private ctrlKeyState = false;
   public DEFAULT_PAGE_SIZE = 50;
@@ -88,10 +93,12 @@ export class AlertsComponent {
 
   protected readonly TableType = TableType;
   protected readonly Role = Role;
+  protected readonly NotificationType = NotificationType;
 
   constructor(
     public readonly helperService: AlertHelperService,
     public readonly alertsFacade: AlertsFacade,
+    private readonly actionHelperService: NotificationActionHelperService,
     private readonly alertDetailFacade: AlertDetailFacade,
     public dialog: MatDialog,
     private readonly router: Router,
@@ -112,26 +119,20 @@ export class AlertsComponent {
 
   public ngOnInit(): void {
     this.paramSubscription = this.route.queryParams.subscribe(params => {
+      const deeplinkNotificationFilter = createDeeplinkNotificationFilter(params);
+      this.pagination.page = params?.pageNumber ? params.pageNumber : 0;
       this.pagination.page = params?.pageNumber;
-      this.alertsFacade.setReceivedAlerts(
-        this.pagination.page,
-        this.pagination.pageSize,
-        this.alertReceivedSortList
-      );
-      this.alertsFacade.setQueuedAndRequestedAlerts(
-        this.pagination.page,
-        this.pagination.pageSize,
-        this.alertQueuedAndRequestedSortList
-      );
+      this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize, this.alertReceivedSortList, deeplinkNotificationFilter?.receivedFilter, this.receivedFilter);
+      this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize, this.alertQueuedAndRequestedSortList, deeplinkNotificationFilter?.sentFilter, this.requestedFilter);
     });
-    this.setupFilterConfig();
+
     this.searchFormGroup.addControl('alertSearch', new FormControl([]));
     this.searchControl = this.searchFormGroup.get('alertSearch') as unknown as FormControl;
   }
 
   public ngAfterViewInit(): void {
     this.menuActionsConfig = NotificationMenuActionsAssembler.getMenuActions(
-      this.helperService,
+      this.actionHelperService,
       this.notificationCommonModalComponent,
     );
     this.cd.detectChanges();
@@ -140,25 +141,6 @@ export class AlertsComponent {
   public ngOnDestroy(): void {
     this.alertsFacade.stopAlerts();
     this.paramSubscription?.unsubscribe();
-  }
-
-  private setupFilterConfig() {
-    const { createdDate, description, status, severity, createdBy, sendTo } =
-      this.filterConfigOptions.filterKeyOptionsNotifications;
-    this.alertsReceivedFilterConfiguration = [
-      createdDate,
-      description,
-      status(TranslationContext.COMMONALERT, true),
-      severity,
-      createdBy,
-    ];
-    this.alertsQueuedAndRequestedFilterConfiguration = [
-      createdDate,
-      description,
-      status(TranslationContext.COMMONALERT, false),
-      severity,
-      sendTo,
-    ];
   }
 
   public onReceivedTableConfigChange(pagination: TableEventConfig) {
@@ -218,16 +200,30 @@ export class AlertsComponent {
     this.ngOnInit();
   }
 
-  // public triggerSearch(): void {
-  //   this.searchHelper.resetFilterAndShowToast(false, this.notificationComponent, this.toastService);
-  //   const searchValue = this.searchControl.value;
-  //   const filterInfo: FilterInfo = { filterValue: searchValue, filterOperator: FilterOperator.STARTS_WITH };
-  //   this.filterReceived = { filterMethod: FilterMethod.OR, description: filterInfo, createdBy: filterInfo };
-  //   this.filterQueuedAndRequested = { filterMethod: FilterMethod.OR, description: filterInfo, sendTo: filterInfo };
+  public triggerSearch(): void {
+    this.searchHelper.resetFilterAndShowToast(false, this.notificationComponent, this.toastService);
+    const searchValue = this.searchControl.value;
 
-  //   this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize, this.alertReceivedSortList, this.filterReceived);
-  //   this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize, this.alertQueuedAndRequestedSortList, this.filterQueuedAndRequested);
-  // }
+    const receivedFilter = { description: searchValue, createdBy: searchValue };
+    const queuedAndRequestedFilter = { description: searchValue, sendTo: searchValue };
+
+    this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize, this.alertReceivedSortList, null, receivedFilter, FilterMethod.OR);
+    this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize, this.alertQueuedAndRequestedSortList, null, queuedAndRequestedFilter, FilterMethod.OR);
+  }
+
+  public filterNotifications(filterContext: any) {
+    if (filterContext.channel === NotificationChannel.RECEIVER) {
+      this.receivedFilter = filterContext.filter;
+    } else {
+      this.requestedFilter = filterContext.filter;
+    }
+
+    if (filterContext.channel === NotificationChannel.RECEIVER) {
+      this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize, this.alertReceivedSortList, null, this.receivedFilter);
+    } else {
+      this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize, this.alertQueuedAndRequestedSortList, null, this.requestedFilter);
+    }
+  }
 
   private setTableSortingList(sorting: TableHeaderSort, notificationTable: NotificationStatusGroup): void {
     const tableSortList =

@@ -48,7 +48,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TableSettingsService } from '@core/user/table-settings.service';
 import { TableViewConfig } from './table-view-config.model';
 import { TableSettingsComponent } from '../table-settings/table-settings.component';
-import { FilterCongigOptions } from '@shared/model/filter-config';
+import { FilterConfigOptions } from '@shared/model/filter-config';
 import { RoleService } from '@core/user/role.service';
 import { Role } from '@core/user/role.model';
 import { DeeplinkService } from '@shared/service/deeplink.service';
@@ -137,7 +137,7 @@ export class PartsTableComponent implements OnInit {
 
   public readonly dataSource = new MatTableDataSource<unknown>();
   public readonly selection = new SelectionModel<unknown>(true, []);
-  public readonly filterConfigOptions = new FilterCongigOptions();
+  public readonly filterConfigOptions = new FilterConfigOptions();
   public semanticDataModelOptions = [...this.filterConfigOptions.filterKeyOptionsAssets.semanticDataModel.option];
   public totalItems: number;
   public pageIndex: number;
@@ -161,236 +161,6 @@ export class PartsTableComponent implements OnInit {
     return !(filter.isDate || filter.isTextSearch);
   }
 
-  private readonly displayedColumnsAsBuilt: string[] = [
-    'Filter',
-    'filterId',
-    'filterIdShort',
-    'filterName', // nameAtManufacturer
-    'filterManufacturer',
-    'filterManufacturerPartId',
-    'filterCustomerPartId', // --> semanticModel.customerPartId
-    'filterClassification',
-    'filterNameAtCustomer', // --> semanticModel.nameAtCustomer
-    'filterSemanticModelId',
-    'filterSemanticDataModel',
-    'filterManufacturingDate',
-    'filterManufacturingCountry',
-    'filterActiveAlerts',
-    'filterActiveInvestigations',
-  ];
-
-  private readonly displayedColumnsAsPlanned: string[] = [
-    'Filter',
-    'filterId',
-    'filterIdShort',
-    'filterName',
-    'filterManufacturer',
-    'filterManufacturerPartId',
-    'filterClassification',
-    'filterSemanticDataModel',
-    'filterSemanticModelId',
-    'filterValidityPeriodFrom',
-    'filterValidityPeriodTo',
-    'filterPsFunction',
-    'filterCatenaXSiteId',
-    'filterFunctionValidFrom',
-    'filterFunctionValidUntil',
-  ];
-
-  private readonly displayedColumnsAsBuiltForTable: string[] = [
-    '!',
-    'id',
-    'idShort',
-    'name',
-    'manufacturer',
-    'manufacturerPartId',
-    'customerPartId',
-    'classification',
-    'nameAtCustomer',
-    'semanticModelId',
-    'semanticDataModel',
-    'manufacturingDate',
-    'manufacturingCountry',
-    'activeAlerts',
-    'activeInvestigations',
-    'menu',
-  ];
-
-  private readonly displayedColumnsAsPlannedForTable: string[] = [
-    'id',
-    'idShort',
-    'name',
-    'manufacturer',
-    'manufacturerPartId',
-    'classification',
-    'semanticDataModel',
-    'semanticModelId',
-    'validityPeriodFrom',
-    'validityPeriodTo',
-    'psFunction',
-    'catenaXSiteId',
-    'functionValidFrom',
-    'functionValidUntil',
-    'menu',
-  ];
-
-  private readonly sortableColumnsAsBuilt: Record<string, boolean> = {
-    id: true,
-    idShort: true,
-    name: true,
-    manufacturer: true,
-    manufacturerPartId: true,
-    customerPartId: true,
-    classification: true,
-    nameAtCustomer: true,
-    semanticModelId: true,
-    semanticDataModel: true,
-    manufacturingDate: true,
-    manufacturingCountry: true,
-    activeAlerts: true,
-    activeInvestigations: true,
-  };
-
-  private readonly sortableColumnsAsPlanned: Record<string, boolean> = {
-    id: true,
-    idShort: true,
-    name: true,
-    manufacturer: true,
-    manufacturerPartId: true,
-    classification: true,
-    semanticDataModel: true,
-    semanticModelId: true,
-    validityPeriodFrom: true,
-    validityPeriodTo: true,
-    psFunction: true,
-    catenaXSiteId: true,
-    functionValidFrom: true,
-    functionValidUntil: true,
-  };
-
-  private readonly displayedColumnsAsPlannedCustomer: string[] = [
-    'Filter',
-    'filterSemanticDataModel',
-    'filterName',
-    'filterManufacturer',
-    'filterManufacturerPartId',
-    'filterSemanticModelId',
-  ];
-
-  private readonly displayedColumnsAsPlannedSupplier: string[] = [
-    'Filter',
-    'filterSemanticDataModel',
-    'filterName',
-    'filterManufacturer',
-    'filterManufacturerPartId',
-    'filterSemanticModelId',
-  ];
-
-  private readonly displayedColumnsAsBuiltCustomer: string[] = [
-    'Filter',
-    'filterSemanticDataModel',
-    'filterName',
-    'filterManufacturer',
-    'filterManufacturerPartId',
-    'filterSemanticModelId',
-    'filterManufacturingDate',
-    'filterActiveAlerts',
-    'filterActiveInvestigations',
-  ];
-
-  private readonly displayedColumnsAsBuiltSupplier: string[] = [
-    'Filter',
-    'filterSemanticDataModel',
-    'filterName',
-    'filterManufacturer',
-    'filterManufacturerPartId',
-    'filterSemanticModelId',
-    'filterManufacturingDate',
-    'filterActiveAlerts',
-    'filterActiveInvestigations',
-  ];
-
-  private readonly displayedColumnsAsBuiltCustomerForTable: string[] = [
-    'semanticDataModel',
-    'name',
-    'manufacturer',
-    'manufacturerPartId',
-    'semanticModelId',
-    'manufacturingDate',
-    'activeAlerts',
-    'activeInvestigations',
-    'menu'
-  ];
-
-  private readonly sortableColumnsAsBuiltCustomer: Record<string, boolean> = {
-    semanticDataModel: true,
-    name: true,
-    manufacturer: true,
-    manufacturerPartId: true,
-    semanticModelId: true,
-    manufacturingDate: true,
-    activeAlerts: true,
-    activeInvestigations: true,
-  };
-
-  private readonly displayedColumnsAsPlannedCustomerForTable: string[] = [
-    'semanticDataModel',
-    'name',
-    'manufacturer',
-    'manufacturerPartId',
-    'semanticModelId',
-    'menu'
-  ];
-
-  private readonly sortableColumnsAsPlannedCustomer: Record<string, boolean> = {
-    semanticDataModel: true,
-    name: true,
-    manufacturer: true,
-    manufacturerPartId: true,
-    semanticModelId: true,
-    manufacturingDate: true,
-  };
-
-  private readonly displayedColumnsAsBuiltSupplierForTable: string[] = [
-    'semanticDataModel',
-    'name',
-    'manufacturer',
-    'manufacturerPartId',
-    'semanticModelId',
-    'manufacturingDate',
-    'activeAlerts',
-    'activeInvestigations',
-    'menu'
-  ];
-
-  private readonly sortableColumnsAsBuiltSupplier: Record<string, boolean> = {
-    semanticDataModel: true,
-    name: true,
-    manufacturer: true,
-    manufacturerPartId: true,
-    semanticModelId: true,
-    manufacturingDate: true,
-    activeAlerts: true,
-    activeInvestigations: true,
-  };
-
-  private readonly displayedColumnsAsPlannedSupplierForTable: string[] = [
-    'semanticDataModel',
-    'name',
-    'manufacturer',
-    'manufacturerPartId',
-    'semanticModelId',
-    'menu'
-  ];
-
-  private readonly sortableColumnsAsPlannedSupplier: Record<string, boolean> = {
-    semanticDataModel: true,
-    name: true,
-    manufacturer: true,
-    manufacturerPartId: true,
-    semanticModelId: true,
-  };
-
   private sorting: TableHeaderSort;
 
   protected readonly Role = Role;
@@ -400,6 +170,8 @@ export class PartsTableComponent implements OnInit {
   }
 
   public triggerFilterAdding(): void {
+    // TODO: might need this
+
     // const filterValues: any = { ...this.filterFormGroup.value };
     // const selectedSemanticDataModelOptions: string[] = [];
     // for (const option of this.semanticDataModelOptions) {
@@ -431,16 +203,23 @@ export class PartsTableComponent implements OnInit {
     private toastService: ToastService,
   ) {
 
-    if (this.roleService.hasAccess([Role.USER])) {
-      const selectColumn = 'select';
-      this.displayedColumnsAsBuiltSupplierForTable.splice(0, 0, selectColumn);
-      this.displayedColumnsAsBuiltForTable.splice(0, 0, selectColumn);
-    }
+    //TODO: Need to update role based features 
+    // if (this.roleService.hasAccess([Role.USER])) {
+    //   const selectColumn = 'select';
+    //   this.displayedColumnsAsBuiltSupplierForTable.splice(0, 0, selectColumn);
+    //   this.displayedColumnsAsBuiltForTable.splice(0, 0, selectColumn);
+    // }
   }
 
   public defaultColumns: string[];
 
   public tableViewConfig: TableViewConfig;
+
+  public onFilterValueChanged(formValues: { filterKey: string, values: any[] }) {
+    const { filterKey, values } = formValues;
+    this.filterFormGroup.controls[filterKey].patchValue(values);
+    this.filterActivated.emit(this.filterFormGroup.value);
+  }
 
   ngOnInit() {
     this.initializeTableViewSettings();
@@ -448,11 +227,6 @@ export class PartsTableComponent implements OnInit {
       this.setupTableViewSettings();
     });
     this.setupTableViewSettings();
-    this.filterFormGroup.valueChanges.subscribe((formValues) => {
-      this.filterActivated.emit(formValues);
-    });
-
-    console.log(this.filterConfiguration);
   }
 
   private setupTableViewSettings() {

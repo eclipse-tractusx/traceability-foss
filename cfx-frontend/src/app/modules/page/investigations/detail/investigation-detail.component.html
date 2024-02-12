@@ -110,7 +110,7 @@ SPDX-License-Identifier: Apache-2.0
   </div>
 
   <div class="buttons-container">
-    <app-button *ngIf="helperService.showCancelButton(selectedInvestigation)"
+    <app-button *ngIf="actionHelperService.showCancelButton(selectedInvestigation)"
       class="action-button"
       (click)="notificationCommonModalComponent?.show('cancel')"
       [variant]="'flat'"
@@ -120,7 +120,7 @@ SPDX-License-Identifier: Apache-2.0
       </div>
     </app-button>
 
-    <app-button *ngIf="helperService.showCloseButton(selectedInvestigation)"
+    <app-button *ngIf="actionHelperService.showCloseButton(selectedInvestigation)"
       class="action-button"
       (click)="notificationCommonModalComponent?.show('close')"
       [variant]="'flat'"
@@ -130,7 +130,7 @@ SPDX-License-Identifier: Apache-2.0
       </div>
     </app-button>
 
-    <app-button *ngIf="helperService.showDeclineButton(selectedInvestigation)"
+    <app-button *ngIf="actionHelperService.showDeclineButton(selectedInvestigation)"
       class="action-button"
       (click)="notificationCommonModalComponent?.show('decline')"
       [variant]="'flat'"
@@ -140,7 +140,7 @@ SPDX-License-Identifier: Apache-2.0
       </div>
     </app-button>
 
-    <app-button *ngIf="helperService.showApproveButton(selectedInvestigation)"
+    <app-button *ngIf="actionHelperService.showApproveButton(selectedInvestigation)"
       class="action-button"
       (click)="notificationCommonModalComponent?.show('approve')"
       [variant]="'flat'"
@@ -150,7 +150,7 @@ SPDX-License-Identifier: Apache-2.0
       </div>
     </app-button>
 
-    <app-button *ngIf="helperService.showAcceptButton(selectedInvestigation)"
+    <app-button *ngIf="actionHelperService.showAcceptButton(selectedInvestigation)"
       class="action-button"
       (click)="notificationCommonModalComponent?.show('accept')"
       [variant]="'flat'"
@@ -160,7 +160,7 @@ SPDX-License-Identifier: Apache-2.0
       </div>
     </app-button>
 
-    <app-button *ngIf="helperService.showAcknowledgeButton(selectedInvestigation)"
+    <app-button *ngIf="actionHelperService.showAcknowledgeButton(selectedInvestigation)"
       class="action-button"
       (click)="notificationCommonModalComponent?.show('acknowledge')"
       [variant]="'flat'"

@@ -233,7 +233,8 @@ SPDX-License-Identifier: Apache-2.0
                   </ng-container>
                 </div>
               </div>
-              <!-- <div *ngIf="tableConfig.filterConfig && tableConfig.filterConfig.length > 0"
+              <div
+                *ngIf="autocompleteEnabled && tableViewConfig.displayFilterColumnMappings && tableViewConfig.displayFilterColumnMappings.length > 0"
                 (click)="$event.stopPropagation()"
                 class="notification-table--header--cell--filter"
                 [matMenuTriggerFor]="selectMenu"
@@ -253,22 +254,24 @@ SPDX-License-Identifier: Apache-2.0
                 <mat-menu #selectMenu="matMenu"
                   xPosition="before"
                   class="menu-input-field">
-                  <ng-container *ngFor="let filter of tableConfig.filterConfig">
+                  <ng-container *ngFor="let filter of tableViewConfig.displayFilterColumnMappings">
                     <div (click)="$event.stopPropagation()"
                       *ngIf="filter.filterKey === column">
-                      <app-multiselect *ngIf="filter.filterKey === column"
+                      <app-multiselect *ngIf="filter.headerKey!=='Filter' && filter.headerKey !== 'Menu'"
+                        [placeholder]="'multiSelect.placeholder' | i18n"
                         [options]="filter.option"
-                        [multiple]="isMultipleSearch(filter)"
-                        [textSearch]="filter.isTextSearch"
                         [isDate]="filter.isDate"
-                        [maxDate]="filter.maxDate"
-                        (triggerFilter)="triggerFilterAdding(filter.filterKey, filter.isDate)"
+                        [singleSearch]="filter.singleSearch"
+                        [filterColumn]="filter.filterKey"
+                        (onFilterValueChanged)="onFilterValueChanged($event)"
+                        [placeholderMultiple]="('multiSelect.multipleResults' | i18n)"
+                        [tableType]="tableType"
                         ngDefaultControl
                         [formControl]="filterFormGroup.controls[filter.filterKey]"></app-multiselect>
                     </div>
                   </ng-container>
                 </mat-menu>
-              </div> -->
+              </div>
             </div>
           </ng-container>
         </th>

@@ -30,6 +30,7 @@ SPDX-License-Identifier: Apache-2.0
       <div>({{ itemCount[0] }})</div>
     </ng-template>
     <app-notifications-tab *ngIf="menuActionsConfig"
+      [notificationType]="notificationType"
       [tableType]="tablesType[0]"
       [notificationsView$]="receivedNotifications$"
       [labelId]="receivedTabLabelId"
@@ -42,7 +43,9 @@ SPDX-License-Identifier: Apache-2.0
       (tableConfigChanged)="onReceivedTableConfigChanged.emit($event)"
       (itemCount)="onItemCountChanged($event, 0)"
       (selected)="selected.emit($event)"
-      (onPaginationPageSizeChange)="onPaginationPageSizeChange.emit($event)">
+      (onPaginationPageSizeChange)="onPaginationPageSizeChange.emit($event)"
+      (investigationsFilterChanged)="investigationFilterChanged.emit($event)"
+      (alertsFilterChanged)="alertFilterChanged.emit($event)">
       <ng-content></ng-content></app-notifications-tab>
   </mat-tab>
 
@@ -56,6 +59,7 @@ SPDX-License-Identifier: Apache-2.0
     <app-notifications-tab class="headerLine"
       *ngIf="menuActionsConfig"
       [tableType]="tablesType[1]"
+      [notificationType]="notificationType"
       [notificationsView$]="queuedAndRequestedNotifications$"
       [labelId]="queuedAndRequestedTabLabelId"
       [translationContext]="translationContext"
@@ -67,6 +71,8 @@ SPDX-License-Identifier: Apache-2.0
       (itemCount)="onItemCountChanged($event, 1)"
       (tableConfigChanged)="onQueuedAndRequestedTableConfigChanged.emit($event)"
       (selected)="selected.emit($event)"
+      (investigationsFilterChanged)="investigationFilterChanged.emit($event)"
+      (alertsFilterChanged)="alertFilterChanged.emit($event)"
       (onPaginationPageSizeChange)="onPaginationPageSizeChange.emit($event)"><ng-content></ng-content></app-notifications-tab>
   </mat-tab>
 </mat-tab-group>
