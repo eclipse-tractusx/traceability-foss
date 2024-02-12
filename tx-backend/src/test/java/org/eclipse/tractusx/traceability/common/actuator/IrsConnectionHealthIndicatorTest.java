@@ -19,21 +19,25 @@
 package org.eclipse.tractusx.traceability.common.actuator;
 
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.IRSApiClient;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.actuate.health.Health;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class IrsConnectionHealthIndicatorTest {
 
+    public static final String API_KEY = "test";
     @Mock
     private IRSApiClient apiClient;
 
@@ -41,21 +45,27 @@ class IrsConnectionHealthIndicatorTest {
     private IrsConnectionHealthIndicator testee;
 
 
-//    @Test
-//    void healthShouldReturnStatusUp() {
-//        when(apiClient.getPolicies()).thenReturn(List.of());
-//
-//        Health health = testee.health();
-//
-//        assertEquals(Health.up().build(), health, "Health should be UP");
-//    }
-//
-//    @Test
-//    void healthShouldReturnStatusOutOfService() {
-//        when(apiClient.getPolicies()).thenThrow(IllegalStateException.class);
-//
-//        Health health = testee.health();
-//
-//        assertEquals(Health.outOfService().build(), health, "Health should be OUT_OF_SERVICE");
-//    }
+    @BeforeEach
+    public void setUp() {
+        ReflectionTestUtils.setField(testee, "adminApiKey", API_KEY);
+    }
+
+
+    @Test
+    void healthShouldReturnStatusUp() {
+        when(apiClient.getPolicies(anyString())).thenReturn(List.of());
+
+        Health health = testee.health();
+
+        assertEquals(Health.up().build(), health, "Health should be UP");
+    }
+
+    @Test
+    void healthShouldReturnStatusOutOfService() {
+        when(apiClient.getPolicies(anyString())).thenThrow(IllegalStateException.class);
+
+        Health health = testee.health();
+
+        assertEquals(Health.outOfService().build(), health, "Health should be OUT_OF_SERVICE");
+    }
 }
