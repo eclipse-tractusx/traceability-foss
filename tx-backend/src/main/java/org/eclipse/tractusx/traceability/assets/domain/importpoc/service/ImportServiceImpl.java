@@ -70,10 +70,6 @@ public class ImportServiceImpl implements ImportService {
                             .map(assetImportItem -> strategyFactory.mapToAssetBase(assetImportItem, traceabilityProperties))
                             .filter(Optional::isPresent)
                             .map(Optional::get)
-                            .map(asset -> {
-                                asset.setImportJobs(List.of(importJob));
-                                return asset;
-                            })
                             .collect(Collectors.groupingBy(AssetBase::getBomLifecycle));
 
             assetToUploadByBomLifecycle.values().stream().flatMap(Collection::stream)
@@ -87,6 +83,10 @@ public class ImportServiceImpl implements ImportService {
             List<AssetBase> persistedAsBuilt = assetAsBuiltRepository.saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(assetToUploadByBomLifecycle.get(BomLifecycle.AS_BUILT));
             List<AssetBase> persistedAsPlanned = assetAsPlannedRepository.saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(assetToUploadByBomLifecycle.get(BomLifecycle.AS_PLANNED));
 
+            importJob.setAssetAsBuilt(persistedAsBuilt);
+            importJob.setAssetAsPlanned(persistedAsPlanned);
+            importJobRepository.save(ImportJobEntity.from(importJob));
+
             List<AssetBase> expectedAssetsToBePersisted = assetToUploadByBomLifecycle.values().stream().flatMap(Collection::stream).toList();
             List<AssetBase> persistedAssets = Stream.concat(persistedAsBuilt.stream(), persistedAsPlanned.stream()).toList();
 
@@ -94,7 +94,7 @@ public class ImportServiceImpl implements ImportService {
 
             return compareForUploadResult(expectedAssetsToBePersisted, persistedAssets);
         } catch (Exception e) {
-            throw new ImportException(e.getMessage());
+            throw new ImportException(e.getMessage(), e);
         }
     }
 

@@ -18,7 +18,6 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.infrastructure.importJob.model;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -27,12 +26,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportJob;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportJobStatus;
@@ -40,6 +39,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.Ass
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -47,12 +47,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @SuperBuilder
-@Table(name = "import_job")
+@Table(name = "import_job", schema = "public")
 public class ImportJobEntity {
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "asset_as_built_id")
-    @ToString.Exclude
-    public AssetAsBuiltEntity assetAsBuilt;
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
@@ -60,10 +56,14 @@ public class ImportJobEntity {
     private Instant completedOn;
     @Enumerated(EnumType.STRING)
     private ImportJobStatus importJobStatus;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "asset_as_planned_id")
-    @ToString.Exclude
-    private AssetAsPlannedEntity assetAsPlanned;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "import_job_assets_as_built", joinColumns = @JoinColumn(name = "import_job_id"), inverseJoinColumns = @JoinColumn(name = "asset_as_built_id"))
+    public List<AssetAsBuiltEntity> assetsAsBuilt;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "import_job_assets_as_planned", joinColumns = @JoinColumn(name = "import_job_id"), inverseJoinColumns = @JoinColumn(name = "asset_as_planned_id"))
+    private List<AssetAsPlannedEntity> assetsAsPlanned;
 
     public static ImportJobEntity from(ImportJob importJob) {
         return ImportJobEntity.builder()
@@ -71,6 +71,8 @@ public class ImportJobEntity {
                 .startedOn(importJob.getStartedOn())
                 .completedOn(importJob.getCompletedOn())
                 .importJobStatus(importJob.getStatus())
+                .assetsAsBuilt(importJob.getAssetAsBuilt().stream().map(AssetAsBuiltEntity::from).toList())
+                .assetsAsPlanned(importJob.getAssetAsPlanned().stream().map(AssetAsPlannedEntity::from).toList())
                 .build();
 
     }

@@ -23,8 +23,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -37,6 +39,14 @@ public class ImportJob {
     private Instant startedOn;
     private Instant completedOn;
     private ImportJobStatus status;
+    private List<AssetBase> assetAsBuilt;
+    private List<AssetBase> assetAsPlanned;
 
+    public List<AssetBase> getAssetAsBuilt() {
+        return assetAsBuilt == null ? List.of() : assetAsBuilt;
+    }
 
+    public List<AssetBase> getAssetAsPlanned() {
+        return assetAsPlanned == null ? List.of() : assetAsPlanned;
+    }
 }
