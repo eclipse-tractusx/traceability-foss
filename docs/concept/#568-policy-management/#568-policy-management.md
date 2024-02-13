@@ -36,12 +36,12 @@ It must be possible for an Administrator of Trace-X to create, read, update and 
 - [ ] Frontend UI is implemented (see https://miro.com/app/board/uXjVO5JVoho=/?moveToWidget=3458764577267183586&cot=14)
 - [ ] CRUD operations for policies are implemented
 - [ ] Communication to IRS policy store is implemented
+- [ ] Policies are used when sending notifications
 
 # NFR
 
 # Out of scope
-- Policies used for sending and receiving notifications
-- Policies used to define which assets to be consumed over the IRS
+- Policies used to define which assets to be consumed over the IRS -> IRS team
 
 # Assumptions
 
@@ -433,6 +433,41 @@ sequenceDiagram
     deactivate IRSPolicyStore
     BE->>DB: Delete policy
     BE-->>FE: 200 Success
+    deactivate BE
+```
+
+## Sending notifications
+
+```mermaid
+sequenceDiagram
+    participant FE
+    participant BE
+    participant EDCDiscoveryService
+    participant IRSPolicyStore
+    FE->>BE: Create notification
+    activate BE
+    BE-->>FE: Notification created
+    deactivate BE
+    FE->>BE: Send notification
+    activate BE
+    BE->>EDCDiscoveryService: GET BPN
+    activate EDCDiscoveryService
+    EDCDiscoveryService-->>BE: BPN
+    deactivate EDCDiscoveryService
+    BE->>IRSPolicyStore: GET /irs/policies (BPN)
+    activate IRSPolicyStore
+    IRSPolicyStore-->>BE: Policies
+    deactivate IRSPolicyStore
+    BE->>BE: Verify if notification may be sent
+    alt Notification may be sent
+        BE->>EDC: Send notification
+        activate EDC
+        EDC-->>BE: Notification sent
+        deactivate EDC
+        BE-->>FE: Notification sent (Status = "Sent")
+    else Notification may not be sent
+        BE-->>FE: PolicyException (Status = "Exception")
+    end
     deactivate BE
 ```
 
