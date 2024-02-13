@@ -20,6 +20,9 @@
 package org.eclipse.tractusx.traceability.integration.qualitynotification.investigation;
 
 import io.restassured.http.ContentType;
+import org.eclipse.tractusx.traceability.common.request.OwnPageable;
+import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
+import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.BpnSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationNotificationsSupport;
@@ -29,6 +32,8 @@ import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
@@ -42,22 +47,21 @@ class ReadReceivedInvestigationsInSortedOrderControllerIT extends IntegrationTes
 
     @Test
     void givenSortByCreatedDateProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
-        // given
+       // Given
+        String filterString = "channel,EQUAL,RECEIVER,AND";
         String sortString = "createdDate,desc";
         String testBpn = bpnSupport.testBpn();
 
         InvestigationNotificationEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createReceiverMajorityInvestigationNotificationEntitiesTestData(testBpn);
         investigationNotificationsSupport.storedNotifications(investigationNotificationEntities);
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("sort", sortString)
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/received")
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -72,21 +76,21 @@ class ReadReceivedInvestigationsInSortedOrderControllerIT extends IntegrationTes
 
     @Test
     void givenSortByDescriptionProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
-        // given
+       // Given
+        String filterString = "channel,EQUAL,RECEIVER,AND";
         String sortString = "description,desc";
         String testBpn = bpnSupport.testBpn();
 
         InvestigationNotificationEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createReceiverMajorityInvestigationNotificationEntitiesTestData(testBpn);
         investigationNotificationsSupport.storedNotifications(investigationNotificationEntities);
 
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("sort", sortString)
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/received")
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -100,70 +104,69 @@ class ReadReceivedInvestigationsInSortedOrderControllerIT extends IntegrationTes
 
     @Test
     void givenSortByStatusProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
-        // given
+       // Given
+        String filterString = "channel,EQUAL,RECEIVER,AND";
         String sortString = "status,asc";
         String testBpn = bpnSupport.testBpn();
 
         InvestigationNotificationEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createReceiverMajorityInvestigationNotificationEntitiesTestData(testBpn);
         investigationNotificationsSupport.storedNotifications(investigationNotificationEntities);
 
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("sort", sortString)
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/received")
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
                 .body("content", Matchers.hasSize(4))
                 .body("totalItems", Matchers.is(4))
-                .body("content.status", Matchers.containsInRelativeOrder("RECEIVED", "ACKNOWLEDGED", "ACCEPTED", "CLOSED"));
+                .body("content.status", Matchers.containsInRelativeOrder("ACCEPTED", "ACKNOWLEDGED", "CLOSED", "RECEIVED"));
     }
 
     @Test
     void givenSortBySeverityProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
-        // given
+       // Given
+        String filterString = "channel,EQUAL,RECEIVER,AND";
         String sortString = "severity,asc";
         String testBpn = bpnSupport.testBpn();
 
         InvestigationNotificationEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createReceiverMajorityInvestigationNotificationEntitiesTestData(testBpn);
         investigationNotificationsSupport.storedNotifications(investigationNotificationEntities);
 
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("sort", sortString)
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/received")
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
                 .body("content", Matchers.hasSize(4))
                 .body("totalItems", Matchers.is(4))
-                .body("content.severity", Matchers.containsInRelativeOrder("MINOR", "MAJOR", "CRITICAL", "LIFE-THREATENING"));
+                .body("content.severity", Matchers.containsInRelativeOrder("CRITICAL", "LIFE-THREATENING", "MAJOR", "MINOR"));
     }
 
     @Test
     void givenInvalidSort_whenGetCreated_thenBadRequest() throws JoseException {
-        // given
+       // Given
+        String filterString = "channel,EQUAL,RECEIVER,AND";
         String sortString = "createdDate,failure";
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("sort", sortString)
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/received")
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(400)
                 .body("message", Matchers.is(
@@ -173,21 +176,21 @@ class ReadReceivedInvestigationsInSortedOrderControllerIT extends IntegrationTes
 
     @Test
     void givenSortBySendToProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
-        // given
+       // Given
+        String filterString = "channel,EQUAL,RECEIVER,AND";
         String sortString = "sendTo,desc";
         String testBpn = bpnSupport.testBpn();
 
         InvestigationNotificationEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createReceiverMajorityInvestigationNotificationEntitiesTestData(testBpn);
         investigationNotificationsSupport.storedNotifications(investigationNotificationEntities);
 
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("sort", sortString)
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/received")
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -199,21 +202,21 @@ class ReadReceivedInvestigationsInSortedOrderControllerIT extends IntegrationTes
 
     @Test
     void givenSortByTargetDateProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
-        // given
+       // Given
+        String filterString = "channel,EQUAL,RECEIVER,AND";
         String sortString = "targetDate,asc";
         String testBpn = bpnSupport.testBpn();
 
         InvestigationNotificationEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createReceiverMajorityInvestigationNotificationEntitiesTestData(testBpn);
         investigationNotificationsSupport.storedNotifications(investigationNotificationEntities);
 
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("sort", sortString)
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/received")
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))

@@ -1,0 +1,7 @@
+node_modules
+dist
+mocks
+
+src/main.ts
+src/polyfills.ts
+*.spec.*

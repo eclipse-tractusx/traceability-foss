@@ -22,7 +22,12 @@ package org.eclipse.tractusx.traceability.common.request;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.eclipse.tractusx.traceability.common.model.BaseRequestFieldMapper;
+import org.eclipse.tractusx.traceability.common.model.UnsupportedSearchCriteriaFieldException;
+import org.eclipse.tractusx.traceability.common.request.exception.InvalidSortException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -32,6 +37,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@Builder
+@NoArgsConstructor
 @AllArgsConstructor
 public class OwnPageable {
     private Integer page;
@@ -39,7 +46,7 @@ public class OwnPageable {
     @ArraySchema(arraySchema = @Schema(description = "Content of Assets PageResults", additionalProperties = Schema.AdditionalPropertiesValue.FALSE, example = "manufacturerPartId,desc"), maxItems = Integer.MAX_VALUE)
     private List<String> sort;
 
-    public static Pageable toPageable(OwnPageable ownPageable) {
+    public static Pageable toPageable(OwnPageable ownPageable, BaseRequestFieldMapper fieldMapper) {
         int usedPage = 0;
         int usedPageSize = 50;
 
@@ -54,20 +61,22 @@ public class OwnPageable {
         Sort usedSort = Sort.unsorted();
 
         if (!CollectionUtils.isEmpty(ownPageable.getSort())) {
-            usedSort = toDomainSort(ownPageable.getSort());
+            usedSort = toDomainSort(ownPageable.getSort(), fieldMapper);
         }
 
         return PageRequest.of(usedPage, usedPageSize, usedSort);
     }
 
-    private static Sort toDomainSort(final List<String> sorts) {
+    private static Sort toDomainSort(final List<String> sorts, BaseRequestFieldMapper fieldMapper) {
         ArrayList<Sort.Order> orders = new ArrayList<>();
         for (String sort : sorts) {
 
             try {
                 String[] sortParams = sort.split(",");
                 orders.add(new Sort.Order(Sort.Direction.valueOf(sortParams[1].toUpperCase()),
-                        handleEnumColumns(sortParams[0])));
+                        fieldMapper.mapRequestFieldName(sortParams[0])));
+            } catch (UnsupportedSearchCriteriaFieldException exception) {
+                throw exception;
             } catch (Exception exception) {
                 throw new InvalidSortException(
                         "Invalid sort param provided sort={provided} expected format is following sort=parameter,order"
@@ -76,22 +85,5 @@ public class OwnPageable {
             }
         }
         return Sort.by(orders);
-    }
-
-    private static String handleEnumColumns(final String column) {
-        return switch (column) {
-            case "status" -> "statusrank";
-            case "notifications_status" -> "notifications_statusrank";
-            // Include the notification table based attributes
-            case "createdBy" -> "notifications.createdBy";
-            case "targetDate" -> "notifications.targetDate";
-            case "sendTo" -> "notifications.sendTo";
-            case "qualityAlertsInStatusActive" -> "noOfActiveAlerts";
-            case "qualityInvestigationsInStatusActive" -> "noOfActiveInvestigations";
-            // As long as no clear spelling is defined, be lax with it. https://github.com/eclipse-tractusx/sldt-semantic-models/issues/470
-            default -> column.equalsIgnoreCase("catenaxsiteid")
-                    ? "catenaXSiteId"
-                    : column;
-        };
     }
 }

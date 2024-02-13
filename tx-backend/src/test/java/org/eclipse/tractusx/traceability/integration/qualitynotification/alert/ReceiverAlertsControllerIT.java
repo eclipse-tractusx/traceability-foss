@@ -20,14 +20,11 @@
 package org.eclipse.tractusx.traceability.integration.qualitynotification.alert;
 
 import io.restassured.http.ContentType;
+import org.eclipse.tractusx.traceability.common.request.OwnPageable;
+import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
+import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
-import org.eclipse.tractusx.traceability.integration.common.support.AlertNotificationsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
-import org.eclipse.tractusx.traceability.integration.common.support.BpnSupport;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertNotificationEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationNotificationEntity;
-import org.eclipse.tractusx.traceability.testdata.AlertTestDataFactory;
-import org.eclipse.tractusx.traceability.testdata.InvestigationTestDataFactory;
 import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
@@ -37,7 +34,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import qualitynotification.base.request.UpdateQualityNotificationStatusRequest;
 
-import java.time.Instant;
+import java.util.List;
 import java.util.stream.Stream;
 
 import static io.restassured.RestAssured.given;
@@ -50,18 +47,13 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
     @Autowired
     AlertsSupport alertsSupport;
 
-    @Autowired
-    AlertNotificationsSupport alertNotificationsSupport;
-
-    @Autowired
-    BpnSupport bpnSupport;
-
     @Test
     void ShouldAcknowledgeReceivedAlert() throws JoseException {
-        // given
+       // Given
         var alertId = alertsSupport.defaultReceivedAlertStored();
+        String filterString = "channel,EQUAL,RECEIVER,AND";
 
-        // when
+        // When
         given()
                 .contentType(ContentType.JSON)
                 .body(
@@ -77,14 +69,13 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(204);
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/received")
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -94,10 +85,11 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
 
     @Test
     void shouldNotUpdateToAcknowledgedNonExistingAlert() throws JoseException {
-        // given
+       // Given
         final long notExistingAlertId = 1234L;
+        String filterString = "channel,EQUAL,RECEIVER,AND";
 
-        // when
+        // When
         given()
                 .contentType(ContentType.JSON)
                 .body("""
@@ -111,14 +103,13 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(404);
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "15")
+                .body(new PageableFilterRequest(new OwnPageable(0, 15, List.of()), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/received")
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -128,10 +119,11 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
 
     @Test
     void shouldNotUpdateToAcceptedNonExistingAlert() throws JoseException {
-        // given
+       // Given
         final long notExistingAlertId = 1234L;
+        String filterString = "channel,EQUAL,RECEIVER,AND";
 
-        // when
+        // When
         given()
                 .contentType(ContentType.JSON)
                 .body("""
@@ -146,14 +138,13 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(404);
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "15")
+                .body(new PageableFilterRequest(new OwnPageable(0, 15, List.of()), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/received")
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -163,10 +154,11 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
 
     @Test
     void shouldNotUpdateToDeclinedNonExistingAlert() throws JoseException {
-        // given
+       // Given
         final long notExistingAlertId = 1234L;
+        String filterString = "channel,EQUAL,RECEIVER,AND";
 
-        // when
+        // When
         given()
                 .contentType(ContentType.JSON)
                 .body("""
@@ -181,14 +173,13 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(404);
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "15")
+                .body(new PageableFilterRequest(new OwnPageable(0, 15, List.of()), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/received")
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -199,10 +190,11 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
     @ParameterizedTest
     @MethodSource("invalidRequest")
     void shouldNotUpdateWithInvalidRequest(final String request) throws JoseException {
-        // given
+       // Given
         final long notExistingAlertId = 1234L;
+        String filterString = "channel,EQUAL,SENDER,AND";
 
-        // when
+        // When
         given()
                 .contentType(ContentType.JSON)
                 .body(request)
@@ -212,14 +204,13 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(400);
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "15")
+                .body(new PageableFilterRequest(new OwnPageable(0, 15, List.of()), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/received")
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))

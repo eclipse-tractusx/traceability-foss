@@ -34,6 +34,7 @@ export class OtherPartsState {
 
   private readonly _supplierPartsAsBuilt$: State<View<Pagination<Part>>> = new State<View<Pagination<Part>>>({ loader: true });
   private readonly _supplierPartsAsPlanned$: State<View<Pagination<Part>>> = new State<View<Pagination<Part>>>({ loader: true });
+
   public get customerPartsAsBuilt$(): Observable<View<Pagination<Part>>> {
     return this._customerPartsAsBuilt$.observable;
   }
@@ -65,13 +66,13 @@ export class OtherPartsState {
     this._supplierPartsAsBuilt$.update(partsView);
   }
 
-  public get supplierPartsAsBuilt(): View<Pagination<Part>> {
-    return this._supplierPartsAsBuilt$.snapshot;
-  }
-
   public set supplierPartsAsPlanned({ data, loader, error }: View<Pagination<Part>>) {
     const partsView: View<Pagination<Part>> = { data, loader, error };
     this._supplierPartsAsPlanned$.update(partsView);
+  }
+
+  public get supplierPartsAsBuilt(): View<Pagination<Part>> {
+    return this._supplierPartsAsBuilt$.snapshot;
   }
 
   public get supplierPartsAsPlanned(): View<Pagination<Part>> {

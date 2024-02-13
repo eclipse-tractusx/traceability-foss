@@ -5,6 +5,242 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [UNRELEASED - DD.MM.YYYY]
+
+### Added
+
+### Changed
+- Merge from upstream to align with CofinityX
+
+### Removed
+
+## [10.2.1 - 23.01.2024]
+
+### Added
+- Test Release
+
+## [10.2.0 - 22.01.2024]
+
+### Added
+- Import Data Service for data provisioning
+- Added UI to publish own assets
+- Sequence Diagrams for Data Provisioning Flow
+- Added User Manual for Data import
+- Added github action to connect pull request with github issue
+- Added bpn validator to bpn edc mapping
+- Added new /irs/job/callback endpoint to handle irs job finished callback
+- Added Asset import info to parts table and parts detail view
+- SubmodelServerService for calling submodel server with feign client
+- Added GET /policies endpoint to retrieve accepted policies
+- Added POST assets/publish endpoint to publish transient assets
+
+### Changed
+- Fixed security findings
+- Rework GET alerts and investigations endpoint to POST to send a request body
+- Fixed deadline overlap issues for Q-investigations in update menu
+- Fixed sorting of asPlanned parts
+- Fixed unlimited filter parameter length by setting it to 1000 characters max
+- Adjusted cypress tests to new cancellation flow
+- Fixed bug where applying a filter in one table erroneously affected sorting in the other table
+- Moved UpdateAssetRequest to tx-models module
+- updated Compatibility Matrix
+- Irs Jobs are now created with callback parameter set to new /irs/job/callback endpoint
+- Upgraded irs version from 6.12.0 to 6.13.0
+- Switched from OAuth2.0 to API Key authentication for IRS API Requests
+- switched from json-schema-friend:0.12.3 to json-schema-validator:5.4.0 for import file validation
+- Moved logic for active notifications to frontend
+- Updated com.github.spotbugs:spotbugs-maven-plugin from 4.7.3.0 to 4.8.3.0
+- Updated actions/github-script from 5 to 7
+- Updated org.apache.maven.plugins:maven-surefire-plugin from 3.1.2 to 3.2.5
+- Updated org.apache.maven.plugins:maven-failsafe-plugin from 3.0.0-M8 to 3.2.5
+- Updated aquasecurity/trivy-action from 0.16.0 to 0.16.1
+- Updated actions/upload-artifact from 3 to 4
+- Updated github/codeql-action from 2 to 3
+- Updated actions/download-artifact from 3 to 4actions/download-artifact from 3 to 4
+- Updated com.nimbusds:nimbus-jose-jwt from 9.37.1 to 9.37.3
+
+### Removed
+- Shell descriptor entity with underlying logic
+
+## [10.1.0 - 22.12.2023]
+### Added
+- Added an option for testdata upload in Argo Workflow
+- Validation for import data
+- GitHub action that ensures an up-to-date CHANGELOG.md
+
+### Changed
+- Restricted datefield on investigation creation to be only clickable and not editable
+- Removed duplication of request notification component and combined it into a reusable component
+- bump aquasecurity/trivy-action from 0.14.0 to 0.16.0
+- bump actions/setup-python from 4 to 5
+- bump mikefarah/yq from 4.40.2 to 4.40.5
+- bump actions/setup-java from 3 to 4
+- bump org.apache.maven.plugins:maven-jxr-plugin from 3.3.0 to 3.3.1
+- bump org.apache.maven.plugins:maven-checkstyle-plugin from 3.3.0 to 3.3.1
+- bump schedlock.version from 5.9.1 to 5.10.0
+- fixed bug where filter was reset when sorting filtered notifications
+- redesigned notification status confirmation modal
+- bump irs version from 6.9.1 to 6.12.0
+- moved rights and roles matrix from arc42 doc to administration guide
+- Moved accepted policy to helm environments
+- Request IRS policy store to accept IRS policies in addition to our own policy
+
+### Removed
+- Removed registry lookups feature
+
+## [10.0.0 - 12.12.2023]
+### Added
+- new filtering capabilities ( receivedQualityAlertIdsInStatusActive, sentQualityAlertIdsInStatusActive, receivedQualityInvestigationIdsInStatusActive, sentQualityInvestigationIdsInStatusActive )
+- Validation check if table-settings correct and reset on invalid state
+- Added Api-Input in Argo Workflow to fix bugs
+- Added implementation for cucumber tests for quality investigations
+- Added implementation of cypress tests for quality alerts
+- Separation of auto complete mechanism (selected / searched elements)
+- Added new step definition for cucumber tests "I use assets with ids {string}" allowing to specify assets used for notification creation
+- Added autocomplete endpoints for notifications
+- Added BPN column to parts table
+- Emit change check to observables in frontend
+- Added an Entity Relationship Model (ERM) into the Architecture Documentation to visually represent our tables and their relationships.
+- Added a step for testing input and included an option for a hard refresh in Argo Workflow
+- Added manufacturer_id to assets_as_planned
+- Added local filtering and auto complete for notifications
+- Added a drag-and-drop option for JSON files and an endpoint to receive them
+
+### Changed
+- Filter configuration for tables to be resuable and easy to adapt
+- Realigned some mappings e.g. (manufacturer / manufacturerName) to be more clear
+- Updated mikefarah/yq from 4.35.2 to 4.40.2
+- Upgraded maven-checkstyle-plugin from 3.3.0 to 3.3.1
+- Upgraded nimbus-jose-jwt from 9.31 to 9.37.1
+- Upgraded maven-install-plugin from 3.0.1 to 3.1.1
+- Upgraded json-unit-assertj from 2.38.0 to 3.2.2
+- Upgraded asciidoctorj-diagram from 2.2.9 to 2.2.13
+- Cucumber test steps for creating notifications no longer support default assetId when no asset is provided with previous step
+- Upgraded the Upload_Testdata job in Argo Workflow to fix bugs
+- Auto format for frontend source code applied
+- Updated user-manual for Parts filtering autocomplete functionality
+- Fixed issue when requesting autocomplete api endpoints with no size provided
+- Default pagination size to 50.
+- Split up bpn column in notification table views to show bpn and name separately
+- Changed detailed part view action from clicking on list item to a menu action column
+- Changed FE fieldName mapping to fix bug for properties catenaxSiteId and function
+- Fix of global search field
+- Parts autocomplete API now is case insensitive when using "startWith" parameter
+- changed mapping for manufacturerName when syncing assets_as_planned so it is being resolved when assets are resolved
+- Behaviour of auto complete toggle selections
+- Updated springboot version from 3.1.3 to 3.1.6
+- updated spring core version from 6.0.13 to 6.0.14
+- Update tomcat-embed-websocket from 10.0.15 to 10.0.16
+- Update logback-classic and logback-core version to 1.4.14 to mitigate high finding
+- Fixed sorting on empty notification tables
+
+### Removed
+- removed asset filters ( qualityInvestigationIdsInStatusActive, qualityInvestigationIdsInStatusActive )
+- Removed Cucumber tests steps for creating alerts with two parts as new step definition is enough for the same feature
+
+## [9.0.0 - 05.12.2023]
+### Changed
+- Upgraded irs-client library from 1.4.1-SNAPSHOT to 1.4.1
+
+### Known knowns
+
+- Backend/Frontend [TRACEFOSS-2728]: Investigations / Alerts: Transition of the message status will take some time. If it fails the user will not be informed.
+
+## [9.0.0-rc3 - 27.11.2023]
+### Added
+- DEPENDENCIES_FRONTEND, SECURITY.md, NOTICE.md, LICENSE file to frontend docker image
+- Added a step-by-step guide to register a server in pgAdmin in the database dump README
+- Documentation about technical users
+- Added new dashboard layout and additional widgets
+
+### Changed
+- Fixed helm repository path for backend & frontend (wrong prefix)
+- Refactored dashboard response
+- Updated user manual
+- Autocomplete endpoints changed owner String type param to Owner for input validation and sql injection prevention
+- Autocomplete endpoints repository uses now criteria api rather than native query
+- Fixed several bugs in local filtering of the parts table
+
+### Removed
+- apk upgrade in docker image built as requested by TRG 4.02
+
+## [9.0.0-rc2 - 15.11.2023]
+### Added
+- Cypress Login to E2E Environment to enable cypress e2e tests.
+- Fixed bug in argo workflow which allows to successfully run on INT-A/INT-B
+- database dumps for environments A and B, along with a README guide for database recovery.
+- New job named 'print_environment' to the Argo-workflow that prints the selected environment to the GitHub Step Summary.
+- Added NOTIFICATION_COUNT_EQUAL filter strategy for Assets as built Specifications
+- Added new supported filter for notifications assetId that allows filtering alerts and investigations by assetId
+- Added autocompletion and local filter selection on parts table
+- Fixed bug in argo workflow which allows to successfully upload testdata
+- No logging option for cypress
+
+### Changed
+- Fixed table-settings reset bug
+- Changed datepicker in FE to date range picker
+- Fixed name of veracode backend job
+- Bump jetty-http from 11.0.15 to 11.0.17
+- Assets response have now list of notification ids rather than count of existing notifications
+- Frontend adapt to backend api changes for activeAlerts and activeInvestigations
+- Reconfigured all docker images user settings
+- Adapted memory / cpu requests and limits in default values helm file
+- Fixed textarea field for dialog.
+- Removed duplicated cancel buttons from investigation and alerts workflows
+
+- Migrate to not deprecated methods in HTTP security
+- Bump actions/setup-node@ from v3 to v4
+- Bump helm/chart-releaser-action from v1.5.0 to v1.6.0
+- Bump aquasecurity/trivy-action from 0.12.0 to 0.14.0
+- Bump cypress-io/github-action from v6.5.0 to v6.6.0
+- Bump spring-core version from 6.0.12 to 6.0.13
+- Bump compiler-plugin version 3.10.1 to 3.11.0
+- Bump commons-io version 2.13.0 to 2.15.0
+- Update IRS-helm version from 6.8.0 to 6.9.1
+- Update EDC from 0.5.0 to 0.5.3
+- Added owner param to distinctFilterValues endpoints
+
+### Removed
+
+## [9.0.0-rc1 - 03.11.2023]
+
+### Added
+- Added Table columns settings in part tables to show/hide/reorder table columns
+- new endpoints supporting filtering feature for investigations and alers api/investigations api/alerts
+- Added support for aspectmodel traction battery code
+- Added missing translations
+- support for date ranges BEFORE_LOCAL_DATE and AFTER_LOCAL_DATE providing both will cause filter result to return only relevant date ranges
+- added supported searchCriteriaFieldsMappers for investigations, alerts, assetsAsBuilt and assetAsPlanned related endpoints
+- added cache busting to build output of FE application
+- added Argo Github-Action
+- handling for invalid LocalDate string provided in filterCriteria for date related filtering
+- support for filtering join tables for Specification searchCriteria
+- added PR comment in case of HIGH/CRITICAL dependency check findings
+- Functionality to indicate that no Dependency Check findings occur in a PR
+- Badge to show successful Dependency Check status
+
+### Changed
+- Updated user manual to reflect the table column settings feature
+- Fixed a bug which removed all parts asBuilt selection at once when creating notifications
+- Changed Filter to support Logical operator (AND,OR) on searchCriteria
+- Adapt frontend to use the changed filter logic with the correct operator per use case
+- Reworked business logic of /registry/reload to always sync all assets
+- Only include configured severities into report
+- Shedlock version from 5.7.0 to 5.9.1
+- Swagger Annotation Version from 1.6.11 to 1.6.12
+- Testcontainer Postgresql Version from 1.19.0 to 1.19.1
+- Bump @babel/traverse from 7.20.13 to 7.23.2 in frontend
+- distinctFilterValues endpoints now support startWith parameter that will cause result to contain only suggestions starting with given string
+- changed qualityNotification filtering changed from side to channel as response field name
+- changed assetAsBuilt filtering manufacturerId to businessPartner
+- IRS-Client-Lib from 1.2.1-SNAPSHOT to 1.4.0
+- Decoupled dependency check in a separate GitHub action
+- Mitigated Dependency Check findings
+
+### Removed
+- Removed &filterOperator=AND from filtering requests
+- Removed no longer needed endpoints api/investigations/created, api/investigations/received, api/alerts/created, api/alerts/received
+
 ## [8.0.0 - 16.10.2023]
 
 ### Added
@@ -45,6 +281,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Changed date formats of assets to have offsetDateTime instead of Date or LocalDateTime
 - Aligned date formats in the rest api for assets
 - Increased version of jetty-http from 11.0.15 to 11.0.17 and excluded from edc package
+- Bump versions in frontend dependencies
 
 ### Removed
 
@@ -161,10 +398,32 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Environment [TRACEFOSS-2164]: HTTP Requests for syncing the submodel server inoperable~~
 
+## [6.0.1] - 2023-10-23
+### Added
+- All elements from 6.0.1-rc1,rc2,rc3,rc4
+
+
+## [6.0.1-rc4]
+### Added
+
+### Changed
+- updated IRS helm chart from 6.6.1 to 6.7.2
+- updated policy related logic to reflect IRS changes
+
+### Removed
+
+## [6.0.1-rc3] - 2023-08-31
+### Added
+
+
+### Changed
+
+- Updated irs-registry-client from 1.1.0-SNAPSHOT to 1.2.0-SNAPSHOT
+- Updated irs-helm from 6.4.1 to 6.5.0
+
 ### Removed
 
 ## [6.0.1-rc2]
-
 ### Added
 
 - OAuth2 client credentials rest template interceptor
@@ -176,12 +435,59 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Changed digitalTwinRegistryRestTemplate to use token in requests
 - Update asBuild test data to 1.5.3 and asPlanned to 1.5.1
-- Changed transfer notification logic not to break iteration loop when sending notifications to bpn with more than 1
-  connector endpoints
-- added handling for null manufacturerName in IrsJobResponse, if null is passed it is replaced with "
-  UNKNOWN_MANUFACTURER"
+- Changed transfer notification logic not to break iteration loop when sending notifications to bpn with more than 1 connector endpoints
+- added handling for null manufacturerName in IrsJobResponse, if null is passed it is replaced with "UNKNOWN_MANUFACTURER"
 
 ### Removed
+
+## [6.0.0 - 2023-07-21]
+
+### Added
+
+- Moved all parts of app config to helm charts to be fully configurable
+- Helmignore config params for wrong values.yaml files
+- Home / Source URL in Helm Chart
+- Name Overrides in Helmchart for pgadmin, irs-helm and tractusx-connector
+- Added decentral registry approach
+- Added discovery finder / edc discovery service for looking up edc urls of receiver of notifications
+- Added about component with additional Workflow to load repo info into the component
+- Add Transformer to support new EDC constraint operator format
+
+### Changed
+
+- Modified IRS Policies support to handle multiple policies
+- Readme titles to match TRGs
+- Updated Irs helm chart to 6.3.1
+- Update EDC dependencies to 0.1.3
+- Update implementation to use EDC 0.5.0
+- Spring Security Config Update from 6.0.3 to 6.0.5
+- Logic of commitId retrieval by frontend has changed
+- Readme / Docker Notice information as required in TRGs
+- Removed references to GitHub registry and added docker hub for tractusx instead
+- Spring Boot Update from: 3.0.7 to 3.1.2
+- Spring Core Update from: 6.0.8 to 6.0.11
+
+### Removed
+- unused classes and methods
+
+### Known knowns
+
+- Backend [TRACEFOSS-1458]: AdminView: No validation of BPN for BPN  EDC URL mapping
+- Backend [TRACEFOSS-589]: Backend API access without login returns incorrect HTTP status code (500 instead of 401)
+- Backend [TRACEFOSS-2148]: Endpoints for parts and notifications returns unsorted list
+---
+- Frontend [TRACEFOSS-2149]: Sorting on empty table causes unhandled error view
+---
+- Security [TRACEFOSS-829]: CVE Strict-Transport-Security header - The HSTS Warning and Error may allow attackers to bypass HSTS
+- Security [TRACEFOSS-830]: CVE one stack trace disclosure (Java) in the target web server's HTTP response
+- Security [TRACEFOSS-919]: Authorization Bypass Through User-Controlled SQL Primary Key CWE ID 566
+- Security [TRACEFOSS-984]: Improper Output Neutralization for Logs CWE ID 117
+- Security [TRACEFOSS-1313]: Using components with known vulnerabilities
+- Security [TRACEFOSS-1314]: Open Redirect - host header injection
+- Security [TRACEFOSS-1315]: No additional authentication component (MFA) during login process
+---
+- Environment [TRACEFOSS-2164]: HTTP Requests for syncing the submodel server inoperable~~
+
 
 ## [6.0.0 - 2023-07-21]
 

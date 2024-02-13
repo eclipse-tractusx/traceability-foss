@@ -28,22 +28,22 @@ class ContractNegotiationExceptionTest {
 
     @Test
     void givenContractNegotiationException_thenShouldHaveProperMessage() {
-        // given
+       // Given
         final String message = "message";
         ContractNegotiationException exception = new ContractNegotiationException(message);
 
-        // then
+       // Then
         assertThat(exception.getMessage()).isEqualTo(message);
     }
 
     @Test
     void givenContractNegotiationExceptionWithThrowable_thenShouldHaveProperMessageAndThrowable() {
-        // given
+       // Given
         final String message = "message";
         final Throwable exceptionParam = new RuntimeException("test");
         ContractNegotiationException exception = new ContractNegotiationException(message, exceptionParam);
 
-        // then
+       // Then
         assertThat(exception.getMessage()).isEqualTo(message);
         assertThat(exception.getCause()).isEqualTo(exceptionParam);
     }

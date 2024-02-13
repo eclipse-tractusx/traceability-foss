@@ -20,7 +20,6 @@ package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.rest;
 
 import org.eclipse.tractusx.irs.registryclient.decentral.DecentralDigitalTwinRegistryService;
 import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
-import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -43,25 +42,24 @@ class DecentralRegistryRepositoryImplTest {
 
     @Test
     void testRetrieveShellDescriptorsByBpnSuccess() throws RegistryServiceException {
-        // Given
+       // Given
         String bpn = "12345";
         List<String> globalAssetIds = Arrays.asList("asset1", "asset2");
-        List<ShellDescriptor> expectedDescriptors = ShellDescriptor.fromGlobalAssetIds(globalAssetIds);
 
         when(decentralDigitalTwinRegistryService.lookupGlobalAssetIds(bpn)).thenReturn(globalAssetIds);
 
         decentralRegistryRepository = new DecentralRegistryRepositoryImpl(decentralDigitalTwinRegistryService);
 
         // When
-        List<ShellDescriptor> actualDescriptors = decentralRegistryRepository.retrieveShellDescriptorsByBpn(bpn);
+        List<String> actualDescriptors = decentralRegistryRepository.retrieveShellDescriptorsByBpn(bpn);
 
-        // Then
-        assertThat(actualDescriptors).isEqualTo(expectedDescriptors);
+       // Then
+        assertThat(actualDescriptors).containsExactlyInAnyOrderElementsOf(List.of("asset1", "asset2"));
     }
 
     @Test
     void testRetrieveShellDescriptorsByBpnRegistryServiceException() throws RegistryServiceException {
-        // Given
+       // Given
         String bpn = "12345";
 
         when(decentralDigitalTwinRegistryService.lookupGlobalAssetIds(bpn)).thenThrow(new RegistryServiceException("Error"));
@@ -69,9 +67,9 @@ class DecentralRegistryRepositoryImplTest {
         decentralRegistryRepository = new DecentralRegistryRepositoryImpl(decentralDigitalTwinRegistryService);
 
         // When
-        List<ShellDescriptor> actualDescriptors = decentralRegistryRepository.retrieveShellDescriptorsByBpn(bpn);
+        List<String> actualDescriptors = decentralRegistryRepository.retrieveShellDescriptorsByBpn(bpn);
 
-        // Then
+       // Then
         assertThat(actualDescriptors).isEmpty();
     }
 }

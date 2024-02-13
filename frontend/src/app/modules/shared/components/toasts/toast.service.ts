@@ -36,7 +36,7 @@ export class ToastService {
   }
 
   public success(message: I18nMessage | string, timeout = 5000, actions?: CallAction[]): void {
-    if(actions) {
+    if (actions) {
       this.toastStore.next(new ToastMessage(this.idx++, message, ToastStatus.Success, timeout, actions));
     } else {
       this.toastStore.next(new ToastMessage(this.idx++, message, ToastStatus.Success, timeout));

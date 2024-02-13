@@ -23,6 +23,7 @@ import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBa
 import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel;
@@ -31,22 +32,18 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
 import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
-import org.eclipse.tractusx.traceability.common.model.PageResult;
-import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
-import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Async;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
 public abstract class AbstractAssetBaseService implements AssetBaseService {
 
-    private static List<String> SUPPORTED_ENUM_FIELDS = List.of("owner", "qualityType", "semanticDataModel");
+    private static final List<String> SUPPORTED_ENUM_FIELDS = List.of("owner", "qualityType", "semanticDataModel", "importState");
 
     protected abstract AssetRepository getAssetRepository();
 
@@ -64,23 +61,13 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
         log.info("Synchronizing assets for globalAssetId: {}", globalAssetId);
         try {
             if (!getDownwardAspects().isEmpty()) {
-                List<AssetBase> downwardAssets = getIrsRepository().findAssets(globalAssetId, Direction.DOWNWARD, getDownwardAspects(), getBomLifecycle());
-                getAssetRepository().saveAll(downwardAssets);
+                getIrsRepository().createJobToResolveAssets(globalAssetId, Direction.DOWNWARD, getDownwardAspects(), getBomLifecycle());
             }
 
             if (!getUpwardAspects().isEmpty()) {
 
                 // TODO: change BomLifecycle.AS_BUILT to getBomLifecycle()
-                List<AssetBase> upwardAssets = getIrsRepository().findAssets(globalAssetId, Direction.UPWARD, Aspect.upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
-
-                upwardAssets.forEach(asset -> {
-                    if (getAssetRepository().existsById(asset.getId())) {
-                        getAssetRepository().updateParentDescriptionsAndOwner(asset);
-                    } else {
-                        getAssetRepository().save(asset);
-                    }
-                });
-
+                getIrsRepository().createJobToResolveAssets(globalAssetId, Direction.UPWARD, Aspect.upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
             }
 
         } catch (Exception e) {
@@ -101,33 +88,10 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
     }
 
     @Override
-    public void setAssetsInvestigationStatus(QualityNotification investigation) {
-        getAssetRepository().getAssetsById(investigation.getAssetIds()).forEach(asset -> {
-            // Assets in status closed will be false, others true
-            asset.setUnderInvestigation(!investigation.getNotificationStatus().equals(QualityNotificationStatus.CLOSED));
-            getAssetRepository().save(asset);
-        });
-    }
-
-    @Override
-    public void setAssetsAlertStatus(QualityNotification alert) {
-        getAssetRepository().getAssetsById(alert.getAssetIds()).forEach(asset -> {
-            // Assets in status closed will be false, others true
-            asset.setActiveAlert(!alert.getNotificationStatus().equals(QualityNotificationStatus.CLOSED));
-            getAssetRepository().save(asset);
-        });
-    }
-
-    @Override
     public AssetBase updateQualityType(String assetId, QualityType qualityType) {
         AssetBase foundAsset = getAssetRepository().getAssetById(assetId);
         foundAsset.setQualityType(qualityType);
         return getAssetRepository().save(foundAsset);
-    }
-
-    @Override
-    public PageResult<AssetBase> getAssets(Pageable pageable, SearchCriteria searchCriteria) {
-        return getAssetRepository().getAssets(pageable, searchCriteria);
     }
 
     @Override
@@ -141,8 +105,8 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
     }
 
     @Override
-    public AssetBase getAssetByChildId(String assetId, String childId) {
-        return getAssetRepository().getAssetByChildId(assetId, childId);
+    public AssetBase getAssetByChildId(String childId) {
+        return getAssetRepository().getAssetByChildId(childId);
     }
 
     @Override
@@ -153,11 +117,13 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
     }
 
     @Override
-    public List<String> getDistinctFilterValues(String fieldName, Long size) {
+    public List<String> getDistinctFilterValues(String fieldName, String startWith, Integer size, Owner owner) {
+        final Integer resultSize = Objects.isNull(size) ? Integer.MAX_VALUE : size;
+
         if (isSupportedEnumType(fieldName)) {
             return getAssetEnumFieldValues(fieldName);
         }
-        return getAssetRepository().getFieldValues(fieldName, size);
+        return getAssetRepository().getFieldValues(fieldName, startWith, resultSize, owner);
     }
 
     private boolean isSupportedEnumType(String fieldName) {
@@ -169,6 +135,7 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
             case "owner" -> Arrays.stream(Owner.values()).map(Enum::name).toList();
             case "qualityType" -> Arrays.stream(QualityType.values()).map(Enum::name).toList();
             case "semanticDataModel" -> Arrays.stream(SemanticDataModel.values()).map(Enum::name).toList();
+            case "importState" -> Arrays.stream(ImportState.values()).map(Enum::name).toList();
             default -> null;
         };
     }

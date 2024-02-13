@@ -36,6 +36,7 @@ import java.util.List;
 import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitize;
 import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitizeHtml;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
@@ -45,11 +46,11 @@ public class EdcNotificationModelTest {
     @Test
     public void testSanitizeEDCNotification() {
 
-        //GIVEN
+       // Given
         EDCNotificationHeader header = new EDCNotificationHeader(
                 "12345", "SenderBPN", "Sender\nAddress", "RecipientBPN",
                 "QM-Investigation", "Severity", "Related\nNotificationId",
-                "CREATED", "2023-09-22T14:30:00Z", "MessageId"
+                "CREATED", null, "MessageId"
         );
 
         List<String> listOfAffectedItems = new ArrayList<>(Arrays.asList("Item1\nItem2", "Item3", "Item4\r\nItem5"));
@@ -61,24 +62,24 @@ public class EdcNotificationModelTest {
         EDCNotification edcNotification = new EDCNotification(header, content);
 
 
-        //WHEN
+       // When
         EDCNotification actual = sanitize(edcNotification);
 
-        //THEN
+       // Then
         assertEquals("Sender Address", actual.getSenderAddress());
         assertEquals("12345", actual.getNotificationId());
         assertEquals("Related NotificationId", actual.getRelatedNotificationId());
         assertEquals("Severity", actual.getSeverity());
         assertEquals("QM-Investigation", actual.convertNotificationType().getValue());
         assertEquals("CREATED", actual.convertNotificationStatus().name());
-        assertEquals(Instant.parse("2023-09-22T14:30:00Z"), actual.getTargetDate());
+        assertNull(actual.getTargetDate());
 
 
     }
 
     @Test
     public void testSanitizeStartQualityNotificationRequest() {
-        //GIVEN
+       // Given
         List<String> partIds = new ArrayList<>();
         partIds.add("urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978");
         partIds.add("urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca979\n");
@@ -87,10 +88,10 @@ public class EdcNotificationModelTest {
         StartQualityNotificationRequest request = new StartQualityNotificationRequest(partIds, "The description\n", targetDate, severity, true, "BPN00001123123AS\n");
 
 
-        //WHEN
+       // When
         StartQualityNotificationRequest cleanRequest = sanitize(request);
 
-        //THEN
+       // Then
         assertEquals("urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca979 ", cleanRequest.getPartIds().get(1));
         assertEquals("The description ", cleanRequest.getDescription());
         assertTrue(cleanRequest.isAsBuilt());
@@ -100,14 +101,14 @@ public class EdcNotificationModelTest {
 
     @Test
     public void testSanitizeCloseInvestigationRequest() {
-        //GIVEN
+       // Given
         CloseQualityNotificationRequest closeQualityNotificationRequest = new CloseQualityNotificationRequest();
         closeQualityNotificationRequest.setReason("Reason\n");
 
-        //WHEN
+       // When
         CloseQualityNotificationRequest cleanCloseQualityNotificationRequest = sanitize(closeQualityNotificationRequest);
 
-        //THEN
+       // Then
         assertEquals("Reason ", cleanCloseQualityNotificationRequest.getReason());
 
     }
@@ -115,28 +116,28 @@ public class EdcNotificationModelTest {
 
     @Test
     public void testSanitizeUpdateQualityNotificationRequest() {
-        //GIVEN
+       // Given
         UpdateQualityNotificationRequest updateQualityNotificationRequest = new UpdateQualityNotificationRequest();
         updateQualityNotificationRequest.setReason("Reason\n");
         updateQualityNotificationRequest.setStatus(UpdateQualityNotificationStatusRequest.ACCEPTED);
 
-        //WHEN
+       // When
         UpdateQualityNotificationRequest cleanUpdateQualityNotificationRequest = sanitize(updateQualityNotificationRequest);
 
-        //THEN
+       // Then
         assertEquals("Reason ", cleanUpdateQualityNotificationRequest.getReason());
     }
 
     @Test
     public void testSanitizeHtml() {
-        //GIVEN
+       // Given
         String html = "\n<oohlook&atme>";
 
-        //WHEN
+       // When
         String stringWithoutLineBreaks = sanitize(html);
         String cleanString = sanitizeHtml(stringWithoutLineBreaks);
 
-        //THEN
+       // Then
         assertEquals(" &lt;oohlook&amp;atme&gt;", cleanString);
     }
 }

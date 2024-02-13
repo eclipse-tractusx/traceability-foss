@@ -28,83 +28,93 @@ import { SupplierPartsComponent } from '@page/other-parts/presentation/supplier-
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { BomLifecycleSize } from '@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model';
 import { ToastService } from '@shared/components/toasts/toast.service';
-import { SearchHelper } from '@shared/helper/search-helper';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { BomLifecycleSettingsService, UserSettingView } from '@shared/service/bom-lifecycle-settings.service';
 import { StaticIdService } from '@shared/service/staticId.service';
+import { resetMultiSelectionAutoCompleteComponent } from '@page/parts/core/parts.helper';
 
 @Component({
-    selector: 'app-other-parts',
-    templateUrl: './other-parts.component.html',
-    styleUrls: ['./other-parts.component.scss'],
+  selector: 'app-other-parts',
+  templateUrl: './other-parts.component.html',
+  styleUrls: [ './other-parts.component.scss' ],
 })
 export class OtherPartsComponent implements OnDestroy, OnInit {
-    public selectedTab = 0;
-    public showStartInvestigationArray = [true, false];
 
-    public readonly supplierTabLabelId = this.staticIdService.generateId('OtherParts.supplierTabLabel');
-    public readonly customerTabLabelId = this.staticIdService.generateId('OtherParts.customerTabLabel');
-    public readonly searchHelper = new SearchHelper();
+  public selectedTab = 0;
+  public showStartInvestigationArray = [ true, false ];
 
-    public searchFormGroup = new FormGroup({});
-    public searchControl: FormControl;
-    @ViewChildren(SupplierPartsComponent) supplierPartsComponents: QueryList<SupplierPartsComponent>;
-    @ViewChildren(CustomerPartsComponent) customerPartsComponents: QueryList<CustomerPartsComponent>;
+  public readonly supplierTabLabelId = this.staticIdService.generateId('OtherParts.supplierTabLabel');
+  public readonly customerTabLabelId = this.staticIdService.generateId('OtherParts.customerTabLabel');
 
-    constructor(
-        private readonly otherPartsFacade: OtherPartsFacade,
-        private readonly partDetailsFacade: PartDetailsFacade,
-        private readonly staticIdService: StaticIdService,
-        public userSettings: BomLifecycleSettingsService,
-        public toastService: ToastService,
-    ) { }
+  public searchFormGroup = new FormGroup({});
+  public searchControl: FormControl;
+  @ViewChildren(SupplierPartsComponent) supplierPartsComponents: QueryList<SupplierPartsComponent>;
+  @ViewChildren(CustomerPartsComponent) customerPartsComponents: QueryList<CustomerPartsComponent>;
 
-    ngOnInit(): void {
-        this.searchFormGroup.addControl('partSearch', new FormControl([]));
-        this.searchControl = this.searchFormGroup.get('partSearch') as unknown as FormControl;
+  constructor(
+    private readonly otherPartsFacade: OtherPartsFacade,
+    private readonly partDetailsFacade: PartDetailsFacade,
+    private readonly staticIdService: StaticIdService,
+    public userSettings: BomLifecycleSettingsService,
+    public toastService: ToastService,
+  ) {
+  }
+
+  ngOnInit(): void {
+    this.searchFormGroup.addControl('partSearch', new FormControl([]));
+    this.searchControl = this.searchFormGroup.get('partSearch') as unknown as FormControl;
+  }
+
+
+  public bomLifecycleSize: BomLifecycleSize = this.userSettings.getSize(UserSettingView.OTHER_PARTS);
+
+  public ngOnDestroy(): void {
+    this.otherPartsFacade.unsubscribeParts();
+  }
+
+  triggerPartSearch() {
+
+    this.resetFilterAndShowToast();
+
+    const searchValue = this.searchFormGroup.get('partSearch').value;
+
+    for (const supplierPartsComponent of this.supplierPartsComponents) {
+      supplierPartsComponent.updateSupplierParts(searchValue);
     }
-
-    public bomLifecycleSize: BomLifecycleSize = this.userSettings.getSize(UserSettingView.OTHER_PARTS);
-
-    public ngOnDestroy(): void {
-        this.otherPartsFacade.unsubscribeParts();
+    for (const customerPartsComponent of this.customerPartsComponents) {
+      customerPartsComponent.updateCustomerParts(searchValue);
     }
+  }
 
-    triggerPartSearch() {
-        this.resetFilterAndShowToast();
 
-        const searchValue = this.searchFormGroup.get('partSearch').value;
+  private resetFilterAndShowToast() {
+    let oneFilterSet = false;
 
-        for (const supplierPartsComponent of this.supplierPartsComponents) {
-            supplierPartsComponent.updateSupplierParts(searchValue);
+    const resetComponents = (
+      components: QueryList<SupplierPartsComponent> | QueryList<CustomerPartsComponent>,
+    ) => {
+      for (const component of components) {
+        let filterIsSet = resetMultiSelectionAutoCompleteComponent(component.partsTableComponents, oneFilterSet);
+        if (filterIsSet) {
+          this.toastService.info('parts.input.global-search.toastInfo');
         }
-        for (const customerPartsComponent of this.customerPartsComponents) {
-            customerPartsComponent.updateCustomerParts(searchValue);
-        }
-    }
+      }
+    };
 
-    private resetFilterAndShowToast() {
-        const resetComponents = (components: QueryList<SupplierPartsComponent> | QueryList<CustomerPartsComponent>) => {
-            for (const component of components) {
-                const filterIsSet = this.searchHelper.resetFilterForAssetComponents(component.partsTableComponents, false);
-                if (filterIsSet) {
-                    this.toastService.info('parts.input.global-search.toastInfo');
-                }
-            }
-        };
-        resetComponents(this.supplierPartsComponents);
-        resetComponents(this.customerPartsComponents);
-    }
+    resetComponents(this.supplierPartsComponents);
+    resetComponents(this.customerPartsComponents);
+  }
 
-    public onTabChange({ index }: MatTabChangeEvent): void {
-        this.selectedTab = index;
-        this.partDetailsFacade.selectedPart = null;
-    }
 
-    public handleTableActivationEvent(bomLifecycleSize: BomLifecycleSize) {
-        this.bomLifecycleSize = bomLifecycleSize;
-    }
+  public onTabChange({ index }: MatTabChangeEvent): void {
+    this.selectedTab = index;
+    this.partDetailsFacade.selectedPart = null;
+  }
 
-    protected readonly MainAspectType = MainAspectType;
-    protected readonly UserSettingView = UserSettingView;
+  public handleTableActivationEvent(bomLifecycleSize: BomLifecycleSize) {
+    this.bomLifecycleSize = bomLifecycleSize;
+  }
+
+  protected readonly MainAspectType = MainAspectType;
+  protected readonly UserSettingView = UserSettingView;
 }

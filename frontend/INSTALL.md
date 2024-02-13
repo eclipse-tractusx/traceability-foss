@@ -1,4 +1,5 @@
 # Environment variables
+# Environment variables
 
 Support environment variables are:
 
@@ -74,13 +75,13 @@ ingress:
 
 Add the Trace-X frontend Helm repository:
 
-```shell
+```sh
 $ helm repo add traceability-foss-frontend https://github.com/eclipse-tractusx/traceability-foss
 ```
 
 Then install the Helm chart into your cluster:
 
-```shell
+```sh
 $ helm install -f your-values.yaml traceability-foss-frontend traceability-foss-frontend/traceability-foss-frontend
 ```
 

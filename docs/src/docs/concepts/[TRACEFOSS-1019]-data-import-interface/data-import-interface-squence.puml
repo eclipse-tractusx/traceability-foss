@@ -1,0 +1,98 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName "Architects daughter"
+
+autonumber "<b>[000]"
+
+actor Actor
+participant "ImportService" as Backend
+participant "DaoImportService" as Persistence
+participant "ImportProtocolService" as ImportProtocolService
+database "Database" as Database
+Actor -> Backend : POST /assets/import
+note left
+    request body {
+        callbackUrl: <callbackUrl>,
+        importFile: <urn> //file with assets
+            in Trace-X Import format
+     }
+
+end note
+
+alt invalid credentials
+    Actor <-- Backend : 401 No valid authentication credentials
+else  Bad request
+    Actor <-- Backend : 400 Import of file failed.
+else  Forbidden
+    Actor <-- Backend : 403 Authorization refused by server.
+else  check input
+    Backend -> Backend : validate file against trace-x import schema
+    alt not valid
+        Actor <-- Backend : 422 Unprocessable Entity
+    else
+        Actor <-- Backend : 201 Asset imported
+    end alt
+end alt
+
+ref over  ImportService
+    Validation of input file
+end ref
+
+Backend -> Persistence : Import assets to database
+
+    loop for each asset in file
+        Backend -> Backend : get user from OAuth access token.
+        note left
+              "resource_access": {
+                "Cl17-CX-Part": {
+                  "roles": [
+                    "Supervisor"
+                  ]
+                },
+        end note
+        alt asset does not exist
+            Persistence --> Database : save(asset) with  state TRANSIENT
+            Persistence <-- Database : success
+            Persistence --> ImportProtocolService : protocol(asset) with state CREATED + importNote
+            note right
+                importNote: Asset created successfully in transient state
+            end note
+        else asset in  state TRANSIENT
+            note right
+                (local asset)
+            end note
+            Persistence --> Database : update(asset) with  state TRANSIENT
+            Persistence <-- Database : success
+            Persistence --> ImportProtocolService : protocol(asset) with state UPDATED + importNote
+            note right
+                importNote: Asset updated successfully in transient state.
+            end note
+        else asset in  state PERSISTENT
+            Persistence --> ImportProtocolService : protocol(asset) with state REJECTED + importNote
+            note right
+                 importNote: Asset in sync with digital twin registry. Twin will not be updated.
+            end note
+            Persistence --> ImportProtocolService : add cxId to report
+        else asset in  state IN_SYNCHRONIZATION
+              Persistence --> ImportProtocolService : protocol(asset) with state REJECTED + importNote
+               note right
+                  importNote: Asset in sync with digital twin registry. Twin will not be updated.
+              end note
+        else asset in  state ERROR
+             Persistence --> ImportProtocolService : protocol(asset) with state ERROR + importNote
+             note right
+                  importNote: <Exception and cause of the error >
+              end note
+        end alt
+end loop
+
+
+Actor <-- Backend : Callback to callbackUrl
+Actor --> Backend : GET /assets/import/report/{id}
+Backend --> ImportProtocolService : get report for id
+Backend <-- ImportProtocolService : return import report
+Actor <-- Backend : Get a report and status of the import with {id}.
+Actor --> Actor : Check import report
+
+@enduml

@@ -21,6 +21,7 @@
 
 package org.eclipse.tractusx.traceability.common.config;
 
+import assets.importpoc.ErrorResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -28,11 +29,14 @@ import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.eclipse.tractusx.traceability.assets.application.importpoc.validation.exception.JsonFileProcessingException;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.ImportException;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnNotFoundException;
-import org.eclipse.tractusx.traceability.common.request.InvalidFilterException;
-import org.eclipse.tractusx.traceability.common.request.InvalidSortException;
-import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
+import org.eclipse.tractusx.traceability.common.domain.ParseLocalDateException;
+import org.eclipse.tractusx.traceability.common.model.UnsupportedSearchCriteriaFieldException;
+import org.eclipse.tractusx.traceability.common.request.exception.InvalidFilterException;
+import org.eclipse.tractusx.traceability.common.request.exception.InvalidSortException;
 import org.eclipse.tractusx.traceability.common.security.TechnicalUserAuthorizationException;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractException;
 import org.eclipse.tractusx.traceability.qualitynotification.application.validation.UpdateQualityNotificationValidationException;
@@ -55,6 +59,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.io.IOException;
 import java.util.NoSuchElementException;
@@ -105,6 +110,13 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
+    @ExceptionHandler(ImportException.class)
+    ResponseEntity<ErrorResponse> handleImportException(ImportException exception) {
+        log.warn("handleImportException", exception);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(exception.getMessage()));
+    }
+
     @ExceptionHandler(InvestigationNotFoundException.class)
     ResponseEntity<ErrorResponse> handleInvestigationNotFoundException(InvestigationNotFoundException exception) {
         log.warn("handleInvestigationNotFoundException", exception);
@@ -142,7 +154,7 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
 
     @ExceptionHandler(ValidationException.class)
     ResponseEntity<ErrorResponse> handleValidationException(ValidationException exception) {
-        log.warn("handleValidationExceptionexception", exception);
+        log.warn("handleValidationException", exception);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
@@ -157,6 +169,13 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
     @ExceptionHandler(IllegalArgumentException.class)
     ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException exception) {
         log.warn("handleIllegalArgumentException", exception);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(exception.getMessage()));
+    }
+
+    @ExceptionHandler(ParseLocalDateException.class)
+    ResponseEntity<ErrorResponse> handleParseLocalDateException(ParseLocalDateException exception) {
+        log.warn("handleParseLocalDateException", exception);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
@@ -203,6 +222,13 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
+    @ExceptionHandler(UnsupportedSearchCriteriaFieldException.class)
+    ResponseEntity<ErrorResponse> handleUnsupportedSearchCriteriaFieldException(UnsupportedSearchCriteriaFieldException exception) {
+        log.warn("handleInvalidFilterException", exception);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(exception.getMessage()));
+    }
+
     @ExceptionHandler(CreateNotificationContractException.class)
     ResponseEntity<ErrorResponse> handleCreateNotificationContractException(CreateNotificationContractException exception) {
         log.warn("handleCreateNotificationContractException", exception);
@@ -216,6 +242,14 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ErrorResponse("Please try again later."));
+    }
+
+    @ExceptionHandler(JsonFileProcessingException.class)
+    public ResponseEntity<ErrorResponse> handle(JsonFileProcessingException exception) {
+        log.error("JsonFileProcessingException", exception);
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ErrorResponse("Issue occurred while processing json file: %s".formatted(exception.getMessage())));
     }
 
     @Override
@@ -243,5 +277,13 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
         log.warn("handleSubmodelNotFoundException", exception);
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse(errorMessage));
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatchException(final MethodArgumentTypeMismatchException exception) {
+        log.error("MethodArgumentTypeMismatchException exception", exception);
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(exception.getMessage()));
     }
 }

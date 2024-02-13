@@ -24,15 +24,10 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.repository.AssetSpecificationUtil;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaFilter;
-import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
 import org.eclipse.tractusx.traceability.common.repository.BaseSpecification;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.domain.Specification;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class AssetAsPlannedSpecification extends BaseSpecification<AssetAsPlannedEntity> implements Specification<AssetAsPlannedEntity> {
@@ -45,14 +40,4 @@ public class AssetAsPlannedSpecification extends BaseSpecification<AssetAsPlanne
     public Predicate toPredicate(@NotNull Root<AssetAsPlannedEntity> root, @NotNull CriteriaQuery<?> query, @NotNull CriteriaBuilder builder) {
         return createPredicate(getSearchCriteriaFilter(), root, builder);
     }
-
-    public static Specification<AssetAsPlannedEntity> toSpecification(final List<AssetAsPlannedSpecification> allSpecifications, SearchCriteriaOperator searchCriteriaOperator) {
-        var specifications = new ArrayList<>(allSpecifications);
-        if (specifications.isEmpty()) {
-            return Specification.allOf();
-        }
-        return AssetSpecificationUtil.combineSpecifications(specifications, searchCriteriaOperator);
-
-    }
-
 }

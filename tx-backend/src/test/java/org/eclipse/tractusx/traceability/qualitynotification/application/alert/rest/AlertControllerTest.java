@@ -58,13 +58,12 @@ class AlertControllerTest {
     @Mock
     private QualityNotificationService alertService;
 
-
     @InjectMocks
     private AlertController controller;
 
     @Test
     void givenRequestBody_whenAlertAssets_thenResponse() {
-        // given
+       // Given
         final List<String> partIds = List.of("partId1", "partId2");
         final Instant targetDate = Instant.parse("2099-03-11T22:44:06.333826952Z");
         final QualityNotificationId notificationId = new QualityNotificationId(666L);
@@ -77,16 +76,16 @@ class AlertControllerTest {
                 .build();
         when(alertService.start(Mockito.eq(from(request)))).thenReturn(notificationId);
 
-        // when
+        // When
         final QualityNotificationIdResponse result = controller.alertAssets(request);
 
-        // then
+       // Then
         assertThat(result).hasFieldOrPropertyWithValue("id", notificationId.value());
     }
 
     @Test
     void givenRequest_whenGetAlert_thenProperResponse() {
-        // given
+       // Given
         final Long request = 69L;
         final QualityNotification notification = InvestigationTestDataFactory.createInvestigationTestData(
                 QualityNotificationStatus.ACCEPTED,
@@ -94,10 +93,10 @@ class AlertControllerTest {
         );
         when(alertService.find(request)).thenReturn(notification);
 
-        // when
+        // When
         final AlertResponse result = controller.getAlert(request);
 
-        // then
+       // Then
         assertThat(result)
                 .hasFieldOrPropertyWithValue("id", notification.getNotificationId().value())
                 .hasFieldOrPropertyWithValue("status", QualityNotificationStatusResponse.ACCEPTED)
@@ -125,54 +124,54 @@ class AlertControllerTest {
 
     @Test
     void givenRequest_whenApproveAlert_thenProcessCorrectly() {
-        // given
+       // Given
         final Long request = 1L;
 
-        // when
+        // When
         controller.approveAlert(request);
 
-        // then
+       // Then
         verify(alertService, times(1)).approve(request);
     }
 
     @Test
     void givenRequest_whenCancelAlert_thenProcessCorrectly() {
-        // given
+       // Given
         final Long request = 1L;
 
-        // when
+        // When
         controller.cancelAlert(request);
 
-        // then
+       // Then
         verify(alertService, times(1)).cancel(request);
     }
 
     @Test
     void givenRequest_whenCloseAlert_thenProcessCorrectly() {
-        // given
+       // Given
         final Long param = 1L;
         final CloseQualityNotificationRequest request = new CloseQualityNotificationRequest();
         request.setReason("just because");
 
-        // when
+        // When
         controller.closeAlert(param, request);
 
-        // then
+       // Then
         verify(alertService, times(1)).update(param, QualityNotificationStatus.CLOSED, "just because");
     }
 
     @Test
     void givenRequest_whenUpdateAlert_thenProcessCorrectly() {
-        // given
+       // Given
         final Long param = 1L;
         final UpdateQualityNotificationRequest request = new UpdateQualityNotificationRequest();
         request.setReason("just because I say so");
         request.setStatus(UpdateQualityNotificationStatusRequest.ACCEPTED);
 
-        // when
+        // When
         controller.updateAlert(param, request);
 
-        // then
+       // Then
         verify(alertService, times(1)).update(param, QualityNotificationStatus.ACCEPTED, "just because I say so");
     }
 

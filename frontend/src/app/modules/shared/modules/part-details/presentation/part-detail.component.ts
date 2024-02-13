@@ -19,19 +19,18 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { AfterViewInit, Component, Input, OnDestroy, inject } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { MatTabChangeEvent } from '@angular/material/tabs';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Role } from '@core/user/role.model';
-import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
+import { Router } from '@angular/router';
+import { RoleService } from '@core/user/role.service';
+import { TractionBatteryCode } from '@page/parts/model/aspectModels.model';
+import { Owner } from '@page/parts/model/owner.enum';
 import { Part, QualityType } from '@page/parts/model/parts.model';
-import { RelationComponent } from '@page/parts/presentation/relation/relation.component';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { SelectOption } from '@shared/components/select/select.component';
 import { State } from '@shared/model/state';
 import { View } from '@shared/model/view.model';
+import { NotificationAction } from '@shared/modules/notification/notification-action.enum';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { Observable, Subscription } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
@@ -39,88 +38,64 @@ import { filter, tap } from 'rxjs/operators';
 @Component({
   selector: 'app-part-detail',
   templateUrl: './part-detail.component.html',
-  styleUrls: ['../../../components/card-list/card-list.component.scss', './part-detail.component.scss'],
+  styleUrls: [ '../../../components/card-list/card-list.component.scss', './part-detail.component.scss' ],
 })
 export class PartDetailComponent implements AfterViewInit, OnDestroy {
   @Input() showRelation = true;
   @Input() showStartInvestigation = true;
-  @Input() mainAspectType: MainAspectType;
 
-  public selectedTab = 0;
-  public shortenPartDetails$: Observable<View<Part>>;
-  public selectedPartDetails$: Observable<View<Part>>;
-  public manufacturerDetails$: Observable<View<Part>>;
-  public manufacturerDetailsHeader$: Subscription;
+  public readonly shortenPartDetails$: Observable<View<Part>>;
+  public readonly selectedPartDetails$: Observable<View<Part>>;
+  public readonly manufacturerDetails$: Observable<View<Part>>;
+  public readonly customerOrPartSiteDetails$: Observable<View<Part>>;
+  public readonly tractionBatteryDetails$: Observable<View<Part>>;
+  public readonly importStateDetails$: Observable<View<Part>>;
+  public readonly tractionBatterySubcomponents$: Observable<View<TractionBatteryCode>>;
 
-  public customerOrPartSiteDetails$: Observable<View<Part>>;
+  public readonly displayedColumns: string[];
+
   public customerOrPartSiteDetailsHeader$: Subscription;
-
   public customerOrPartSiteHeader: string;
-  public manufacturerNameHeader: string;
 
   public showQualityTypeDropdown = false;
   public qualityTypeOptions: SelectOption[];
 
   public qualityTypeControl = new FormControl<QualityType>(null);
-  public context: string;
+  public readonly isOpen$: Observable<boolean>;
 
   private readonly isOpenState: State<boolean> = new State<boolean>(false);
-  private activatedRoute = inject(ActivatedRoute);
-  private readyPromise = Promise.resolve();
 
-  protected readonly MainAspectType = MainAspectType;
-  protected readonly Role = Role;
+  constructor(private readonly partDetailsFacade: PartDetailsFacade, private readonly router: Router, public roleService: RoleService) {
+    this.isOpen$ = this.isOpenState.observable;
 
-  constructor(private readonly partDetailsFacade: PartDetailsFacade, private readonly router: Router,
-    public dialog: MatDialog,
-  ) {
+    this.selectedPartDetails$ = this.partDetailsFacade.selectedPart$;
+    this.shortenPartDetails$ = this.partDetailsFacade.selectedPart$.pipe(
+      PartsAssembler.mapPartForView(),
+      tap(({ data }) => this.qualityTypeControl.patchValue(data.qualityType, { emitEvent: false, onlySelf: true })),
+    );
 
-    this.context = this.activatedRoute?.parent?.toString().split('\'')[1];
+    this.manufacturerDetails$ = this.partDetailsFacade.selectedPart$.pipe(PartsAssembler.mapPartForManufacturerView());
+    this.customerOrPartSiteDetails$ = this.partDetailsFacade.selectedPart$.pipe(PartsAssembler.mapPartForCustomerOrPartSiteView());
 
-    if (!this.partDetailsFacade.selectedPart) {
-      const partId = this.activatedRoute.snapshot.params['partId'];
-      const mainAspectType = this.activatedRoute.snapshot.queryParams?.type as MainAspectType;
-      this.readyPromise = new Promise((resolve) => {
-        this.partDetailsFacade.mainAspectType = mainAspectType;
-        this.partDetailsFacade.setPartFromTree(partId).subscribe(() => {
-          resolve();
-        });
-      });
-    }
+    this.tractionBatteryDetails$ = this.partDetailsFacade.selectedPart$.pipe(PartsAssembler.mapPartForTractionBatteryCodeDetailsView());
+    this.tractionBatterySubcomponents$ = this.partDetailsFacade.selectedPart$.pipe(PartsAssembler.mapPartForTractionBatteryCodeSubComponentsView()) as unknown as Observable<View<TractionBatteryCode>>;
 
-    this.readyPromise.then(() => {
+    this.importStateDetails$ = this.partDetailsFacade.selectedPart$.pipe(PartsAssembler.mapPartForAssetStateDetailsView());
 
-      this.selectedPartDetails$ = this.partDetailsFacade.selectedPart$;
-
-      this.shortenPartDetails$ = this.partDetailsFacade.selectedPart$.pipe(
-        PartsAssembler.mapPartForView(),
-        tap(({ data }) => {
-          if (data) {
-            this.qualityTypeControl.patchValue(data.qualityType, { emitEvent: false, onlySelf: true });
-          }
-        }),
-      );
-
-      this.manufacturerDetails$ = this.partDetailsFacade.selectedPart$.pipe(PartsAssembler.mapPartForManufacturerView());
-      this.manufacturerDetailsHeader$ = this.manufacturerDetails$?.subscribe(data => {
-        this.manufacturerNameHeader = data?.data?.nameAtManufacturer;
-      });
-
-      this.customerOrPartSiteDetails$ = this.partDetailsFacade.selectedPart$.pipe(PartsAssembler.mapPartForCustomerOrPartSiteView());
-
-      this.customerOrPartSiteDetailsHeader$ = this.customerOrPartSiteDetails$?.subscribe(data => {
-        if (data?.data?.functionValidFrom) {
-          this.customerOrPartSiteHeader = 'partDetail.partSiteInformationData';
-        } else {
-          this.customerOrPartSiteHeader = 'partDetail.customerData';
-        }
-      });
-
-      this.qualityTypeOptions = Object.values(QualityType).map(value => ({
-        label: value,
-        value: value,
-      }));
+    this.customerOrPartSiteDetailsHeader$ = this.customerOrPartSiteDetails$?.subscribe(data => {
+      if (data?.data?.functionValidFrom) {
+        this.customerOrPartSiteHeader = 'partDetail.partSiteInformationData';
+      } else {
+        this.customerOrPartSiteHeader = 'partDetail.customerData';
+      }
     });
+
+
+    this.qualityTypeOptions = Object.values(QualityType).map(value => ({
+      label: value,
+      value: value,
+    }));
+    this.displayedColumns = [ 'position', 'productType', 'tractionBatteryCode' ];
   }
 
   public ngOnDestroy(): void {
@@ -128,29 +103,22 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
   }
 
   public ngAfterViewInit(): void {
-    this.partDetailsFacade.selectedPart$.pipe(filter(({ data }) => !!data));
+    this.partDetailsFacade.selectedPart$.pipe(filter(({ data }) => !!data)).subscribe(_ => this.setIsOpen(true));
+  }
+
+  public setIsOpen(openState: boolean) {
+    this.isOpenState.update(openState);
+
+    if (!openState) {
+      this.partDetailsFacade.selectedPart = null;
+    }
   }
 
   public openRelationPage(part: Part): void {
-    this.dialog.open(RelationComponent, {
-      autoFocus: false,
-      width: '100%',
-      maxWidth: '85vw',
-      height: '80vh',
-      data: {
-        partId: part.id,
-        partName: part.name,
-        context: this.activatedRoute?.parent?.toString().split('\'')[1]
-      }
-    });
-  }
-
-  public onTabChange({ index }: MatTabChangeEvent): void {
-    this.selectedTab = index;
-  }
-
-  public navigateBackToParts(): void {
     this.partDetailsFacade.selectedPart = null;
-    this.router.navigate([`/${this.context}`]);
+    this.router.navigate([ `parts/relations/${ part.id }` ]).then(_ => window.location.reload());
   }
+
+  protected readonly NotificationAction = NotificationAction;
+  protected readonly Owner = Owner;
 }

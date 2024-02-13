@@ -51,6 +51,11 @@ irs-edc-client:
       secret: password
 
 IRS_URL: http://localhost:5001/irs
+SUBMODEL_URL: http://localhost:8082
+TRACEABILITY_OPERATOR_TYPE: eq
+TRACEABILITY_VALID_UNTIL: 2023-07-04T16:01:05.309Z
+IRS_ADMIN_API_KEY: test
+IRS_REGULAR_API_KEY: test
 
 digitalTwinRegistryClient:
   discoveryFinderUrl: http://localhost:5001/discoveryfinder/administration/connectors/discovery/search
@@ -58,7 +63,8 @@ digitalTwinRegistryClient:
 cors:
   origins: >
     http://localhost:4200,
-    http://localhost:4201
+    http://localhost:4201,
+    http://localhost:5200
 
 spring:
   main:

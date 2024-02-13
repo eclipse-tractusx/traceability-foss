@@ -19,31 +19,25 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<ng-container *viewContainer="notificationsView$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp">
-</ng-container>
+<ng-container
+  *viewContainer="notificationsView$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"
+></ng-container>
 <ng-template #mainTmp let-notifications="view">
-  {{ onItemCountChange(notifications.data.totalItems) }}
-  <div *ngIf="notifications.data.totalItems > 0 || filteredContent; else displayMessage">
-    <app-table
-      [tableType]="tableType"
-      class="notifications-tab"
-      [enableScroll]="enableScroll"
-      [paginationData]="notifications.data"
-      [tableConfig]="tableConfig"
-      [noShadow]="true"
-      [labelId]="labelId"
-      [showHover]="false"
-      [multiSortList]="multiSortList"
-      (selected)="selectNotification($event)"
-      (configChanged)="onTableConfigChange($event)"
-      (filterChange)="onFilterChange()"
-      (onPaginationPageSizeChange)="onPaginationPageSizeChange.emit($event)"
-    >
-    </app-table>
-  </div>
-  <ng-template #displayMessage>
-    <ng-content select="[emptyContent]"></ng-content>
-  </ng-template>
+  <app-table
+    [paginationData]="notifications.data"
+    [additionalTableHeader]="true"
+    [autocompleteEnabled]="autocompleteEnabled"
+    [tableHeader]="(notificationType === NotificationType.INVESTIGATION) ? ('pageTitle.investigations') : ('pageTitle.alerts')"
+    [tableConfig]="tableConfig"
+    [noShadow]="true"
+    [labelId]="labelId"
+    [showHover]="false"
+    [multiSortList]="multiSortList"
+    [tableType]="tableType"
+    (selected)="selectNotification($event)"
+    (configChanged)="onTableConfigChange($event)"
+    (filterActivated)="filterActivated($event)"
+  ></app-table>
 </ng-template>
 
 <ng-template #errorTmp let-notifications="view">
@@ -51,7 +45,7 @@ SPDX-License-Identifier: Apache-2.0
 </ng-template>
 
 <ng-template #loaderTmp>
-  <mat-spinner class="loader"></mat-spinner>
+  <mat-spinner></mat-spinner>
 </ng-template>
 
 <ng-template #statusTmp let-status="value">
@@ -61,25 +55,21 @@ SPDX-License-Identifier: Apache-2.0
 </ng-template>
 
 <ng-template #severityTmp let-severity="value">
-  <app-severity [alternativeTextStyle]="true" [severity]="severity"></app-severity>
-</ng-template>
-
-<ng-template #idTmp let-text="value">
-  <p class="notification--table__cell notification--table__description-text body-small">{{ text }}</p>
+  <app-severity [severity]="severity"></app-severity>
 </ng-template>
 
 <ng-template #descriptionTmp let-text="value">
-  <p class="notification--table__cell notification--table__description-text body-small">{{ text }}</p>
+  <p class="notification--table__description">{{ text }}</p>
 </ng-template>
 
 <ng-template #targetDateTmp let-text="value">
-  <p class="notification--table__cell body-small">
-    {{ text | formatDate : { dateStyle: 'short', timeStyle: 'short' } }}
-  </p>
+  <p class="notification--table__description">{{ text | formatDate : {dateStyle: 'short', timeStyle: 'short'} }}</p>
 </ng-template>
 
 <ng-template #userTmp let-text="value">
-  <p class="notification--table__cell body-small">
-    <app-notification-user [user]="text" mode="normal"></app-notification-user>
-  </p>
+  <p class="notification--table__description">{{ text }}</p>
+</ng-template>
+
+<ng-template #bpnTmp let-text="value">
+  <p class="notification--table__description">{{ text }}</p>
 </ng-template>

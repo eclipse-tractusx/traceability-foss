@@ -59,8 +59,9 @@ export class NotificationCommonModalComponent {
 
   public constructor(
     @Optional() private readonly investigationsFacade: InvestigationsFacade,
-    @Optional() private readonly alertsFacade: AlertsFacade
-  ) {}
+    @Optional() private readonly alertsFacade: AlertsFacade,
+  ) {
+  }
 
 
   public handleModalConfirmActionCompletedEvent(): void {
@@ -68,7 +69,7 @@ export class NotificationCommonModalComponent {
   }
 
   public show(modalContext: string, notification?: Notification) {
-    const notificationToShow = notification || this.selectedNotification;
+    let notificationToShow = notification || this.selectedNotification;
     switch (modalContext) {
       case 'approve': {
         this.approveModal.show(notificationToShow);

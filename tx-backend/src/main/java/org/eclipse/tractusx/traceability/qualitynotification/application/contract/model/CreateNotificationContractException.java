@@ -22,11 +22,11 @@ package org.eclipse.tractusx.traceability.qualitynotification.application.contra
 
 public class CreateNotificationContractException extends RuntimeException {
 
-	public CreateNotificationContractException(Throwable cause) {
-		super(cause);
-	}
+    public CreateNotificationContractException(Throwable cause) {
+        super(cause);
+    }
 
-	public CreateNotificationContractException(String message) {
-		super(message);
-	}
+    public CreateNotificationContractException(String message) {
+        super(message);
+    }
 }

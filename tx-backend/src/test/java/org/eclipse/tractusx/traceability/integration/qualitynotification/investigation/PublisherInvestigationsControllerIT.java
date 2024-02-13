@@ -24,6 +24,9 @@ import lombok.val;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.common.request.OwnPageable;
+import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
+import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.common.security.JwtRole;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
@@ -52,11 +55,11 @@ import qualitynotification.base.request.UpdateQualityNotificationRequest;
 import qualitynotification.base.request.UpdateQualityNotificationStatusRequest;
 
 import java.time.Instant;
+import java.util.Collections;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.SUPERVISOR;
 
 class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
@@ -82,7 +85,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     @Transactional
     @Test
     void shouldReceiveNotification() {
-        // given
+       // Given
         assetsSupport.defaultAssetsStored();
 
         QualityNotificationMessage notificationBuild = QualityNotificationMessage.builder()
@@ -103,17 +106,17 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         EDCNotification notification = EDCNotificationFactory.createEdcNotification(
                 "it", notificationBuild);
 
-        // when
+        // When
         investigationsReceiverService.handleNotificationReceive(notification);
 
-        // then
+       // Then
         investigationsSupport.assertInvestigationsSize(1);
         investigationNotificationsSupport.assertNotificationsSize(1);
     }
 
     @Test
     void shouldStartInvestigation() throws JsonProcessingException, JoseException {
-        // given
+       // Given
         List<String> partIds = List.of(
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
                 "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb", // BPN: BPNL00000003AYRE
@@ -130,7 +133,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .isAsBuilt(true)
                 .build();
 
-        // when
+        // When
         given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(request))
@@ -141,22 +144,20 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .statusCode(201)
                 .body("id", Matchers.isA(Number.class));
 
-        // then
+       // Then
         partIds.forEach(partId -> {
             AssetBase asset = assetAsBuiltRepository.getAssetById(partId);
             assertThat(asset).isNotNull();
-            assertThat(asset.isUnderInvestigation()).isTrue();
         });
 
         investigationNotificationsSupport.assertNotificationsSize(2);
 
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of("channel,EQUAL,SENDER,AND"))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -166,7 +167,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
 
     @Test
     void givenMissingSeverity_whenStartInvestigation_thenBadRequest() throws JsonProcessingException, JoseException {
-        // given
+       // Given
         List<String> partIds = List.of(
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
                 "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb", // BPN: BPNL00000003AYRE
@@ -178,11 +179,11 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .partIds(partIds)
                 .description(description)
                 .build();
-        // when/then
+        // Then
         given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(request))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/investigations")
                 .then()
@@ -191,7 +192,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
 
     @Test
     void givenDescriptionExceedsMaxLength_whenStartInvestigation_thenBadRequest() throws JsonProcessingException, JoseException {
-        // given
+       // Given
         List<String> partIds = List.of(
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
                 "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb", // BPN: BPNL00000003AYRE
@@ -206,11 +207,11 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .severity(QualityNotificationSeverityRequest.MINOR)
                 .build();
 
-        // when/then
+        // Then
         given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(request))
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
                 .post("/api/investigations")
                 .then()
@@ -220,13 +221,13 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
 
     @Test
     void givenInvestigationReasonTooLong_whenUpdate_thenBadRequest() throws JsonProcessingException, JoseException {
-        // given
+       // Given
         String description = RandomStringUtils.random(1001);
         val request = new UpdateQualityNotificationRequest();
         request.setReason(description);
         request.setStatus(UpdateQualityNotificationStatusRequest.ACCEPTED);
 
-        // when/then
+        // Then
         given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(request))
@@ -240,13 +241,13 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
 
     @Test
     void givenWrongStatus_whenUpdateInvestigation_thenBadRequest() throws JsonProcessingException, JoseException {
-        // given
+       // Given
         String description = RandomStringUtils.random(15);
         val request = new UpdateQualityNotificationRequest();
         request.setStatus(UpdateQualityNotificationStatusRequest.ACCEPTED);
         request.setReason(description);
 
-        // when/then
+        // Then
         given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(request)
@@ -261,7 +262,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
 
     @Test
     void shouldCancelInvestigation() throws JsonProcessingException, JoseException {
-        // given
+       // Given
         assetsSupport.defaultAssetsStored();
         val startInvestigationRequest = StartQualityNotificationRequest.builder()
                 .partIds(List.of("urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978"))
@@ -281,18 +282,17 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .extract().path("id");
 
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of("channel,EQUAL,SENDER,AND"))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
                 .body("content", Matchers.hasSize(1));
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .contentType(ContentType.JSON)
@@ -302,12 +302,11 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .statusCode(204);
 
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of("channel,EQUAL,SENDER,AND"))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -317,7 +316,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
 
     @Test
     void shouldApproveInvestigationStatus() throws JsonProcessingException, JoseException {
-        // given
+       // Given
         List<String> partIds = List.of(
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
                 "urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef"  // BPN: BPNL00000003AXS3
@@ -332,7 +331,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .isAsBuilt(true)
                 .build();
 
-        // when
+        // When
         val investigationId = given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(startInvestigationRequest))
@@ -353,14 +352,13 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(204);
 
-        // then
+       // Then
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of("channel,EQUAL,SENDER,AND"))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -371,11 +369,13 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
 
     @Test
     void shouldCloseInvestigationStatus() throws JsonProcessingException, JoseException {
-        // given
+       // Given
         List<String> partIds = List.of(
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978" // BPN: BPNL00000003AYRE
         );
         String description = "at least 15 characters long investigation description";
+        String filterString = "channel,EQUAL,SENDER,AND";
+        oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
 
         assetsSupport.defaultAssetsStored();
         val startInvestigationRequest = StartQualityNotificationRequest.builder()
@@ -385,7 +385,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .isAsBuilt(true)
                 .build();
 
-        // when
+        // When
         val investigationId = given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(startInvestigationRequest))
@@ -396,10 +396,10 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .statusCode(201)
                 .extract().path("id");
 
-        // then
+       // Then
         investigationsSupport.assertInvestigationsSize(1);
 
-        // when
+        // When
         given()
                 .contentType(ContentType.JSON)
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
@@ -407,14 +407,13 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .post("/api/investigations/{investigationId}/approve", investigationId)
                 .then()
                 .statusCode(204);
-        // then
+       // Then
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of("channel,EQUAL,SENDER,AND"))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -422,7 +421,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body("content", Matchers.hasSize(1))
                 .body("content[0].sendTo", Matchers.is(Matchers.not(Matchers.blankOrNullString())));
 
-        // when
+        // When
         val closeInvestigationRequest = new CloseQualityNotificationRequest();
         closeInvestigationRequest.setReason("this is the close reason for that investigation");
         given()
@@ -434,14 +433,13 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(204);
 
-        // then
+       // Then
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of("channel,EQUAL,SENDER,AND"))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -478,7 +476,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
 
     @Test
     void shouldBeCreatedBySender() throws JsonProcessingException, JoseException {
-        // given
+       // Given
         List<String> partIds = List.of(
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
                 "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb", // BPN: BPNL00000003AYRE
@@ -493,7 +491,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .isAsBuilt(true)
                 .build();
 
-        // when
+        // When
         given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(startInvestigationRequest))
@@ -504,26 +502,23 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .statusCode(201)
                 .body("id", Matchers.isA(Number.class));
 
-        // then
+       // Then
         partIds.forEach(partId -> {
             AssetBase asset = assetAsBuiltRepository.getAssetById(partId);
             assertThat(asset).isNotNull();
-            assertThat(asset.isUnderInvestigation()).isTrue();
         });
 
         investigationNotificationsSupport.assertNotificationsSize(2);
         given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of("channel,EQUAL,SENDER,AND"))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created")
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
                 .body("content", Matchers.hasSize(1));
     }
-
 }

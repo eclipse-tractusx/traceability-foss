@@ -19,55 +19,48 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
+<h2 class="mb-4 mt-4 normal-case text-center text-primary">{{ 'partDetail.investigation.headline' | i18n }}</h2>
 <div class="start-investigation--wrapper">
-  <div class="header-container">
-    <div class="pt-5">
-      <span class="header-text">{{ 'partDetail.investigation.headline' | i18n }}</span>
-    </div>
-    <div>
-      <app-button class="create-action-button"
-        (click)="openInvestigationDialog()"
-        [isDisabled]="(selectedChildParts$ | async)?.length === 0"
-        [color]="'primary'"
-        variant="flat">
-        <div class="flex justify-between items-center">
-          <img class="pr-2"
-            [src]="'/assets/images/icons/create_investigation_icon.svg'"
-            [alt]="'Create investigation icon'" />
-          <div class="buttonText">
-            {{ 'requestInvestigations.headline' | i18n }}
-          </div>
-        </div>
-      </app-button>
-    </div>
+  <ng-container *viewContainer="childParts$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
+
+  <app-notification-request
+    *ngIf="(selectedChildParts$ | async)?.length"
+    [notificationType]="NotificationType.INVESTIGATION"
+    (deselectPart)="removeChildPartFromSelection($event)"
+    (restorePart)="addChildPartToSelection($event)"
+    (clearSelected)="clearSelectedChildParts()"
+    (submitted)="submitted.emit()"
+    [selectedItems]="selectedChildParts$ | async"
+    [showHeadline]="false"
+    class="start-investigation start-investigation--data"
+  ></app-notification-request>
+
+  <div *ngIf="!(selectedChildParts$ | async)?.length" class="start-investigation start-investigation--no-data">
+    <mat-icon color="primary" class="scale-150">no_sim</mat-icon>
+    <h3 class="upper-case">{{ 'partDetail.investigation.noSelection.header' | i18n }}</h3>
+    <p>{{ 'partDetail.investigation.noSelection.text' | i18n }}</p>
   </div>
 </div>
 
-<div>
-  <ng-container *viewContainer="childParts$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
-</div>
-
-<ng-template #mainTmp
-  let-view="view">
-  <app-table [data]="view.data"
+<ng-template #mainTmp let-view="view">
+  <app-table
+    [data]="view.data"
     [labelId]="childPartsLabel"
     [tableConfig]="tableConfig"
     [showHover]="false"
-    [noShadow]="true"
     [deselectTrigger]="deselectPartTrigger$ | async"
     [addTrigger]="addPartTrigger$ | async"
     (multiSelect)="onMultiSelect($event)"
-    (configChanged)="onChildPartsSort($event)">
+    (configChanged)="onChildPartsSort($event)"
+  >
   </app-table>
 </ng-template>
 
-<ng-template #errorTmp
-  let-view="view">
+<ng-template #errorTmp let-view="view">
   <h1>{{ 'dataLoading.error' | i18n }}</h1>
   <p>{{ view.error }}</p>
 </ng-template>
 
-<ng-template #loaderTmp
-  let-view="view">
+<ng-template #loaderTmp let-view="view">
   <mat-spinner></mat-spinner>
 </ng-template>

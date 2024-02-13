@@ -20,6 +20,9 @@
 package org.eclipse.tractusx.traceability.integration.qualitynotification.alert;
 
 import io.restassured.http.ContentType;
+import org.eclipse.tractusx.traceability.common.request.OwnPageable;
+import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
+import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertNotificationsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
@@ -65,34 +68,23 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldNotReturnCreatedAlertWithoutAuthentication() {
+    void shouldNotReturnAlertsWithoutAuthentication() {
         given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/created")
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(401);
     }
 
     @Test
-    void shouldNotReturnReceivedAlertWithoutAuthentication() {
-        given()
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/api/alerts/received")
-                .then()
-                .statusCode(401);
-    }
-
-    @Test
-    void shouldReturnNoReceivedAlerts() throws JoseException {
+    void shouldReturnNoAlerts() throws JoseException {
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of())))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/received")
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -101,65 +93,127 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldReturnNoCreatedAlerts() throws JoseException {
+    void givenAlerts_whenGetSenderAlertsSortedAsc_thenReturnProperlySorted() throws JoseException {
+       // Given
+        String filterString = "channel,EQUAL,SENDER,AND";
+        String sortString = "createdDate,ASC";
+        alertNotificationsSupport.defaultAlertsStored();
+
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/created")
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
-                .body("content", Matchers.hasSize(0));
+                .body("totalItems", Matchers.is(8))
+                .body("content", Matchers.hasSize(8))
+                .body("content.description", Matchers.containsInRelativeOrder("1", "2", "3", "4", "5", "6", "7", "8"));
     }
 
     @Test
-    void shouldReturnPagedCreatedAlerts() throws JoseException {
-        // given
-        Instant now = Instant.now();
-        String testBpn = bpnSupport.testBpn();
+    void givenAlerts_whenGetSenderAlertsSortedDesc_thenReturnProperlySorted() throws JoseException {
+       // Given
+        String filterString = "channel,EQUAL,SENDER,AND";
+        String sortString = "createdDate,DESC";
+        alertNotificationsSupport.defaultAlertsStored();
 
-        IntStream.range(1, 101)
-                .forEach(
-                        number -> alertsSupport.storedAlert(
-                                AlertEntity.builder()
-                                        .assets(Collections.emptyList())
-                                        .bpn(testBpn)
-                                        .status(NotificationStatusBaseEntity.CREATED)
-                                        .side(NotificationSideBaseEntity.SENDER)
-                                        .createdDate(now)
-                                        .build()
-                        )
-                );
-
-        // when/then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "2")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/created")
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(200)
-                .body("page", Matchers.is(2))
+                .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
-                .body("content", Matchers.hasSize(10))
-                .body("totalItems", Matchers.is(100));
+                .body("totalItems", Matchers.is(8))
+                .body("content", Matchers.hasSize(8))
+                .body("content.description", Matchers.containsInRelativeOrder("8", "7", "6", "5", "4", "3", "2", "1"));
+    }
+
+
+    @Test
+    void givenSortByDescriptionProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
+       // Given
+        String filterString = "channel,EQUAL,SENDER,AND";
+        String sortString = "description,ASC";
+        alertNotificationsSupport.defaultAlertsStored();
+
+       // Then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/alerts/filter")
+                .then()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(10))
+                .body("totalItems", Matchers.is(8))
+                .body("content", Matchers.hasSize(8))
+                .body("content.description", Matchers.containsInRelativeOrder("1", "2", "3", "4", "5", "6", "7", "8"));
+    }
+
+    @Test
+    void givenSortByStatusProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
+       // Given
+        String filterString = "channel,EQUAL,SENDER,AND";
+        String sortString = "status,ASC";
+        alertNotificationsSupport.defaultAlertsStored();
+
+       // Then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/alerts/filter")
+                .then()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(10))
+                .body("totalItems", Matchers.is(8))
+                .body("content", Matchers.hasSize(8))
+                .body("content.status", Matchers.containsInRelativeOrder("ACCEPTED", "ACKNOWLEDGED", "CANCELED", "CLOSED", "CREATED", "DECLINED", "RECEIVED", "SENT"));
+    }
+
+    @Test
+    void givenInvalidSort_whenGet_thenBadRequest() throws JoseException {
+       // Given
+        String sortString = "createdDate,failure";
+
+        // Then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of())))
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/alerts/filter")
+                .then()
+                .statusCode(400)
+                .body("message", Matchers.is(
+                        "Invalid sort param provided sort=createdDate,failure expected format is following sort=parameter,order"
+                ));
     }
 
     @Test
     void shouldReturnProperlyPagedReceivedAlerts() throws JoseException {
-        // given
+       // Given
         Instant now = Instant.now();
         String testBpn = bpnSupport.testBpn();
         String senderBPN = "BPN0001";
         String senderName = "Sender name";
         String receiverBPN = "BPN0002";
         String receiverName = "Receiver name";
+        String filterString = "channel,EQUAL,RECEIVER,AND";
 
         IntStream.range(101, 201)
                 .forEach(number ->
@@ -192,14 +246,13 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                         }
                 );
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "2")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(2, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/received")
+                .post("/api/alerts/filter")
                 .then()
                 .statusCode(200)
                 .body("content.createdBy", Matchers.hasItems(senderBPN))
@@ -225,63 +278,43 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldReturnAlertById() throws JoseException {
-        // given
-        String testBpn = bpnSupport.testBpn();
-        String senderBPN = "BPN0001";
-        String senderName = "Sender name";
-        String receiverBPN = "BPN0002";
-        String receiverName = "Receiver name";
+    void shouldReturnInvestigationById() throws JoseException {
+       // Given
+        AlertNotificationEntity storedAlertNotification = alertNotificationsSupport.storeAlertNotification();
+        AlertEntity storedAlert = storedAlertNotification.getAlert();
 
-        AlertEntity alertEntity =
-                AlertEntity
-                        .builder()
-                        .id(1L)
-                        .assets(List.of())
-                        .bpn(testBpn)
-                        .description("1")
-                        .status(NotificationStatusBaseEntity.RECEIVED)
-                        .side(NotificationSideBaseEntity.SENDER)
-                        .createdDate(Instant.now())
-                        .build();
-
-        AlertEntity persistedAlert = alertsSupport.storedAlertFullObject(alertEntity);
-
-        AlertNotificationEntity notificationEntity = alertNotificationsSupport.storedAlertNotification(
-                AlertNotificationEntity
-                        .builder()
-                        .id("1")
-                        .alert(persistedAlert)
-                        .createdBy(senderBPN)
-                        .createdByName(senderName)
-                        .sendTo(receiverBPN)
-                        .status(NotificationStatusBaseEntity.CREATED)
-                        .sendToName(receiverName)
-                        .build());
-        notificationEntity.setAlert(persistedAlert);
-        alertNotificationsSupport.storedAlertNotification(notificationEntity);
-
-        final var alertId = persistedAlert.getId().intValue();
-
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
-                .log().all()
                 .when()
-                .pathParam("alertId", alertId)
-                .get("/api/alerts/{alertId}")
+                .get("/api/alerts/{alertId}", storedAlert.getId())
                 .then()
-                .log().all()
                 .statusCode(200)
-                .body("id", Matchers.is(alertId))
-                .body("status", Matchers.is("RECEIVED"))
-                .body("description", Matchers.is("1"))
+                .body("id", Matchers.is(storedAlert.getId().intValue()))
+                .body("status", Matchers.is(storedAlert.getStatus().name()))
+                .body("description", Matchers.is(storedAlert.getDescription()))
                 .body("assetIds", Matchers.empty())
-                .body("createdBy", Matchers.is(senderBPN))
-                .body("createdByName", Matchers.is(senderName))
-                .body("sendTo", Matchers.is(receiverBPN))
-                .body("sendToName", Matchers.is(receiverName))
+                .body("createdBy", Matchers.is(storedAlertNotification.getCreatedBy()))
+                .body("createdByName", Matchers.is(storedAlertNotification.getCreatedByName()))
+                .body("sendTo", Matchers.is(storedAlertNotification.getSendTo()))
+                .body("sendToName", Matchers.is(storedAlertNotification.getSendToName()))
                 .body("createdDate", isIso8601DateTime());
+    }
+
+    @Test
+    void givenNonExistingSortField_whenGetAlerts_thenBadRequest() throws JoseException {
+       // Given
+        String sortString = "nonExistingField,ASC";
+
+       // Then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of())))
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/alerts/filter")
+                .then()
+                .statusCode(400);
     }
 }

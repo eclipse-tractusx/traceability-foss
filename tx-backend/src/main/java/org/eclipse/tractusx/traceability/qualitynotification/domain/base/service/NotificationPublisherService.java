@@ -31,6 +31,7 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.SendNotificationException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationAffectedPart;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
@@ -48,8 +49,10 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 import static java.util.stream.Collectors.groupingBy;
 
@@ -90,7 +93,6 @@ public class NotificationPublisherService {
                     .stream()
                     .map(it -> createInvestigation(applicationBPN, receiverBpn, description, targetDate, severity, it))
                     .forEach(notification::addNotification);
-            assetAsBuiltService.setAssetsInvestigationStatus(notification);
             return notification;
         } else {
             Map<String, List<AssetBase>> assetsAsPlannedBPNMap = assetAsPlannedRepository.getAssetsById(assetIds).stream().collect(groupingBy(AssetBase::getManufacturerId));
@@ -100,7 +102,6 @@ public class NotificationPublisherService {
                     .stream()
                     .map(it -> createInvestigation(applicationBPN, receiverBpn, description, targetDate, severity, it))
                     .forEach(notification::addNotification);
-            assetAsPlannedService.setAssetsInvestigationStatus(notification);
             return notification;
         }
 
@@ -132,11 +133,6 @@ public class NotificationPublisherService {
         QualityNotificationMessage qualityNotificationMessage = createAlert(applicationBPN, description, targetDate, severity, assets, receiverBpn);
         notification.addNotification(qualityNotificationMessage);
 
-        if (isAsBuilt) {
-            assetAsBuiltService.setAssetsAlertStatus(notification);
-        } else {
-            assetAsPlannedService.setAssetsAlertStatus(notification);
-        }
         return notification;
     }
 
@@ -206,10 +202,18 @@ public class NotificationPublisherService {
     public QualityNotification approveNotification(QualityNotification notification) {
         BPN applicationBPN = traceabilityProperties.getBpn();
         notification.send(applicationBPN);
-
         // For each asset within investigation a notification was created before
-        notification.getNotifications().forEach(edcNotificationService::asyncNotificationExecutor);
-
+        List<CompletableFuture<QualityNotificationMessage>> futures = notification.getNotifications().stream()
+                .map(edcNotificationService::asyncNotificationMessageExecutor)
+                .filter(Objects::nonNull)
+                .toList();
+        List<QualityNotificationMessage> sentMessages = futures.stream()
+                .map(CompletableFuture::join)
+                .filter(Objects::nonNull)
+                .toList();
+        if (sentMessages.isEmpty()) {
+            throw new SendNotificationException("No Message was sent");
+        }
         return notification;
     }
 
@@ -241,7 +245,20 @@ public class NotificationPublisherService {
             notification.addNotification(notificationToSend);
             notificationsToSend.add(notificationToSend);
         });
-        notificationsToSend.forEach(edcNotificationService::asyncNotificationExecutor);
+
+        List<CompletableFuture<QualityNotificationMessage>> futures = notificationsToSend.stream()
+                .map(edcNotificationService::asyncNotificationMessageExecutor)
+                .filter(Objects::nonNull)
+                .toList();
+        List<QualityNotificationMessage> sentMessages = futures.stream()
+                .map(CompletableFuture::join)
+                .filter(Objects::nonNull)
+                .toList();
+
+        if (sentMessages.isEmpty()) {
+            throw new SendNotificationException("No Message was sent");
+        }
+
         return notification;
     }
 

@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { SelectionModel } from '@angular/cdk/collections';
+import {SelectionModel} from '@angular/cdk/collections';
 import {
   Component,
   ElementRef,
@@ -29,72 +29,79 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { Pagination } from '@core/model/pagination.model';
-import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
+import {FormGroup} from '@angular/forms';
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import {MatPaginator, PageEvent} from '@angular/material/paginator';
+import {MatSort, Sort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
+import {Router} from '@angular/router';
+import {EmptyPagination, Pagination} from '@core/model/pagination.model';
+import {RoleService} from '@core/user/role.service';
+import {TableSettingsService} from '@core/user/table-settings.service';
+import {
+  MultiSelectAutocompleteComponent
+} from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
+import {TableType} from '@shared/components/multi-select-autocomplete/table-type.model';
+import {PartsAsBuiltConfigurationModel} from '@shared/components/parts-table/parts-as-built-configuration.model';
+import {
+  PartsAsBuiltCustomerConfigurationModel
+} from '@shared/components/parts-table/parts-as-built-customer-configuration.model';
+import {
+  PartsAsBuiltSupplierConfigurationModel
+} from '@shared/components/parts-table/parts-as-built-supplier-configuration.model';
+import {PartsAsPlannedConfigurationModel} from '@shared/components/parts-table/parts-as-planned-configuration.model';
+import {
+  PartsAsPlannedCustomerConfigurationModel
+} from '@shared/components/parts-table/parts-as-planned-customer-configuration.model';
+import {
+  PartsAsPlannedSupplierConfigurationModel
+} from '@shared/components/parts-table/parts-as-planned-supplier-configuration.model';
+import {TableViewConfig} from '@shared/components/parts-table/table-view-config.model';
+import {TableSettingsComponent} from '@shared/components/table-settings/table-settings.component';
 import {
   CreateHeaderFromColumns,
-  FilterConfig,
-  PartTableType,
   TableConfig,
   TableEventConfig,
   TableHeaderSort,
 } from '@shared/components/table/table.model';
-import { addSelectedValues, removeSelectedValues } from '@shared/helper/table-helper';
-import { isDateFilter } from '@shared/helper/filter-helper';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { TableSettingsService } from '@core/user/table-settings.service';
-import { TableViewConfig } from './table-view-config.model';
-import { TableSettingsComponent } from '../table-settings/table-settings.component';
-import { FilterCongigOptions } from '@shared/model/filter-config';
-import { RoleService } from '@core/user/role.service';
-import { Role } from '@core/user/role.model';
+import {ToastService} from '@shared/components/toasts/toast.service';
+import {isDateFilter} from '@shared/helper/filter-helper';
+import {addSelectedValues, removeSelectedValues} from '@shared/helper/table-helper';
+import {NotificationColumn} from '@shared/model/notification.model';
+import {DeeplinkService} from '@shared/service/deeplink.service';
+
 
 @Component({
   selector: 'app-parts-table',
   templateUrl: './parts-table.component.html',
-  styleUrls: ['parts-table.component.scss'],
+  styleUrls: [ 'parts-table.component.scss' ],
 })
 export class PartsTableComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('tableElement', { read: ElementRef }) tableElementRef: ElementRef<HTMLElement>;
-  @ViewChildren(MultiSelectAutocompleteComponent)
-  multiSelectAutocompleteComponents: QueryList<MultiSelectAutocompleteComponent>;
-  @Input() multiSelectActive = false;
+  @ViewChildren(MultiSelectAutocompleteComponent) multiSelectAutocompleteComponents: QueryList<MultiSelectAutocompleteComponent>;
 
   @Input() labelId: string;
   @Input() noShadow = false;
   @Input() showHover = true;
-  @Input() canClickSelect = true;
-  @Input() actionIcon;
-  @Input() actionIconAlternative;
-  @Input() showActionButton = false;
 
   @Input() selectedPartsInfoLabel: string;
   @Input() selectedPartsActionLabel: string;
 
   @Input() tableHeader: string;
-  @Input() showHeader = true;
   @Input() multiSortList: TableHeaderSort[];
 
-  @Input() tableType: PartTableType;
+  @Input() tableType: TableType;
 
   public tableConfig: TableConfig;
 
-  filterKey = 'Filter';
-
-  @Input() set paginationData({ page, pageSize, totalItems, content, pageCount }: Pagination<unknown>) {
+  @Input() set paginationData({ page, pageSize, totalItems, content }: Pagination<unknown>) {
     this.totalItems = totalItems;
     this.pageSize = pageSize;
     this.dataSource.data = content;
     this.isDataLoading = false;
     this.pageIndex = page;
-    this.pageCount = pageCount;
-    this.onTotalItemsChanged.emit(totalItems);
   }
 
   @Input() set data(content: unknown[]) {
@@ -125,703 +132,163 @@ export class PartsTableComponent implements OnInit {
   @Output() multiSelect = new EventEmitter<any[]>();
   @Output() clickSelectAction = new EventEmitter<void>();
   @Output() filterActivated = new EventEmitter<any>();
-  @Output() onPaginationPageSizeChange = new EventEmitter<number>();
-  @Output() onTotalItemsChanged = new EventEmitter<number>();
+
+  constructor(
+    private readonly tableSettingsService: TableSettingsService,
+    private dialog: MatDialog,
+    private router: Router,
+    private toastService: ToastService,
+    private deeplinkService: DeeplinkService,
+    public roleService: RoleService
+    ) {
+  }
+
 
   public readonly dataSource = new MatTableDataSource<unknown>();
   public readonly selection = new SelectionModel<unknown>(true, []);
-  public readonly filterConfigOptions = new FilterCongigOptions();
-  public semanticDataModelOptions = [...this.filterConfigOptions.filterKeyOptionsAssets.semanticDataModel.option];
+
   public totalItems: number;
   public pageIndex: number;
   public isDataLoading: boolean;
-  public selectedRow: Record<string, unknown>;
   public isMenuOpen: boolean;
-  public displayedFilter: boolean;
-  public filterActive: any = {};
-  public filterConfiguration: FilterConfig[];
+
+  // TODO remove it and set only in tableViewConfig
   public displayedColumns: string[];
-  public pageSize: number;
-  public pageCount: number;
-
-
+  // TODO remove it and set only in tableViewConfig
+  public defaultColumns: string[];
+  // TODO remove it and set only in tableViewConfig
   filterFormGroup = new FormGroup({});
+
+  public tableViewConfig: TableViewConfig;
+
+
+  public deeplinkToNotification(column: any, notificationId: string[]) {
+    const deeplinkModel = this.deeplinkService.getDeeplink(column, notificationId);
+    this.router.navigate([ deeplinkModel.route ], {
+      queryParams: {
+        tabIndex: deeplinkModel.tabIndex,
+        deeplink: true,
+        received: deeplinkModel.received,
+        notificationIds: deeplinkModel.data,
+      },
+    });
+  }
+
+  public isNotificationCountColumn(column: NotificationColumn) {
+    return column === NotificationColumn.RECEIVED_ALERT || column === NotificationColumn.SENT_ALERT || column === NotificationColumn.RECEIVED_INVESTIGATION || column === NotificationColumn.SENT_INVESTIGATION;
+  }
 
   public isDateElement(key: string) {
     return isDateFilter(key);
   }
-  public isMultipleSearch(filter: any): boolean {
-    return !(filter.isDate || filter.isTextSearch);
+
+  private initializeTableViewSettings(): void {
+
+    switch (this.tableType) {
+      case TableType.AS_PLANNED_CUSTOMER:
+        this.tableViewConfig = new PartsAsPlannedCustomerConfigurationModel().filterConfiguration();
+        break;
+      case TableType.AS_PLANNED_OWN:
+        this.tableViewConfig = new PartsAsPlannedConfigurationModel().filterConfiguration();
+        break;
+      case TableType.AS_PLANNED_SUPPLIER:
+        this.tableViewConfig = new PartsAsPlannedSupplierConfigurationModel().filterConfiguration();
+        break;
+      case TableType.AS_BUILT_OWN:
+        this.tableViewConfig = new PartsAsBuiltConfigurationModel().filterConfiguration();
+        break;
+      case TableType.AS_BUILT_CUSTOMER:
+        this.tableViewConfig = new PartsAsBuiltCustomerConfigurationModel().filterConfiguration();
+        break;
+      case TableType.AS_BUILT_SUPPLIER:
+        this.tableViewConfig = new PartsAsBuiltSupplierConfigurationModel().filterConfiguration();
+        break;
+    }
   }
 
-  private readonly displayedColumnsAsBuilt: string[] = [
-    'Filter',
-    'filterId',
-    'filterIdShort',
-    'filterName', // nameAtManufacturer
-    'filterManufacturer',
-    'filterManufacturerPartId',
-    'filterCustomerPartId', // --> semanticModel.customerPartId
-    'filterClassification',
-    'filterNameAtCustomer', // --> semanticModel.nameAtCustomer
-    'filterSemanticModelId',
-    'filterSemanticDataModel',
-    'filterManufacturingDate',
-    'filterManufacturingCountry',
-    'filterActiveAlerts',
-    'filterActiveInvestigations',
-  ];
-
-  private readonly displayedColumnsAsPlanned: string[] = [
-    'Filter',
-    'filterId',
-    'filterIdShort',
-    'filterName',
-    'filterManufacturer',
-    'filterManufacturerPartId',
-    'filterClassification',
-    'filterSemanticDataModel',
-    'filterSemanticModelId',
-    'filterValidityPeriodFrom',
-    'filterValidityPeriodTo',
-    'filterPsFunction',
-    'filterCatenaXSiteId',
-    'filterFunctionValidFrom',
-    'filterFunctionValidUntil',
-  ];
-
-  private readonly displayedColumnsAsBuiltForTable: string[] = [
-    '!',
-    'id',
-    'idShort',
-    'name',
-    'manufacturer',
-    'manufacturerPartId',
-    'customerPartId',
-    'classification',
-    'nameAtCustomer',
-    'semanticModelId',
-    'semanticDataModel',
-    'manufacturingDate',
-    'manufacturingCountry',
-    'activeAlerts',
-    'activeInvestigations',
-    'menu',
-  ];
-
-  private readonly displayedColumnsAsPlannedForTable: string[] = [
-    'id',
-    'idShort',
-    'name',
-    'manufacturer',
-    'manufacturerPartId',
-    'classification',
-    'semanticDataModel',
-    'semanticModelId',
-    'validityPeriodFrom',
-    'validityPeriodTo',
-    'psFunction',
-    'catenaXSiteId',
-    'functionValidFrom',
-    'functionValidUntil',
-    'menu',
-  ];
-
-  private readonly sortableColumnsAsBuilt: Record<string, boolean> = {
-    id: true,
-    idShort: true,
-    name: true,
-    manufacturer: true,
-    manufacturerPartId: true,
-    customerPartId: true,
-    classification: true,
-    nameAtCustomer: true,
-    semanticModelId: true,
-    semanticDataModel: true,
-    manufacturingDate: true,
-    manufacturingCountry: true,
-    activeAlerts: true,
-    activeInvestigations: true,
-  };
-
-  private readonly sortableColumnsAsPlanned: Record<string, boolean> = {
-    id: true,
-    idShort: true,
-    name: true,
-    manufacturer: true,
-    manufacturerPartId: true,
-    classification: true,
-    semanticDataModel: true,
-    semanticModelId: true,
-    validityPeriodFrom: true,
-    validityPeriodTo: true,
-    psFunction: true,
-    catenaXSiteId: true,
-    functionValidFrom: true,
-    functionValidUntil: true,
-  };
-
-  private readonly displayedColumnsAsPlannedCustomer: string[] = [
-    'Filter',
-    'filterSemanticDataModel',
-    'filterName',
-    'filterManufacturer',
-    'filterManufacturerPartId',
-    'filterSemanticModelId',
-  ];
-
-  private readonly displayedColumnsAsPlannedSupplier: string[] = [
-    'Filter',
-    'filterSemanticDataModel',
-    'filterName',
-    'filterManufacturer',
-    'filterManufacturerPartId',
-    'filterSemanticModelId',
-  ];
-
-  private readonly displayedColumnsAsBuiltCustomer: string[] = [
-    'Filter',
-    'filterSemanticDataModel',
-    'filterName',
-    'filterManufacturer',
-    'filterManufacturerPartId',
-    'filterSemanticModelId',
-    'filterManufacturingDate',
-    'filterActiveAlerts',
-    'filterActiveInvestigations',
-  ];
-
-  private readonly displayedColumnsAsBuiltSupplier: string[] = [
-    'Filter',
-    'filterSemanticDataModel',
-    'filterName',
-    'filterManufacturer',
-    'filterManufacturerPartId',
-    'filterSemanticModelId',
-    'filterManufacturingDate',
-    'filterActiveAlerts',
-    'filterActiveInvestigations',
-  ];
-
-  private readonly displayedColumnsAsBuiltCustomerForTable: string[] = [
-    'semanticDataModel',
-    'name',
-    'manufacturer',
-    'manufacturerPartId',
-    'semanticModelId',
-    'manufacturingDate',
-    'activeAlerts',
-    'activeInvestigations',
-    'menu'
-  ];
-
-  private readonly sortableColumnsAsBuiltCustomer: Record<string, boolean> = {
-    semanticDataModel: true,
-    name: true,
-    manufacturer: true,
-    manufacturerPartId: true,
-    semanticModelId: true,
-    manufacturingDate: true,
-    activeAlerts: true,
-    activeInvestigations: true,
-  };
-
-  private readonly displayedColumnsAsPlannedCustomerForTable: string[] = [
-    'semanticDataModel',
-    'name',
-    'manufacturer',
-    'manufacturerPartId',
-    'semanticModelId',
-    'menu'
-  ];
-
-  private readonly sortableColumnsAsPlannedCustomer: Record<string, boolean> = {
-    semanticDataModel: true,
-    name: true,
-    manufacturer: true,
-    manufacturerPartId: true,
-    semanticModelId: true,
-    manufacturingDate: true,
-  };
-
-  private readonly displayedColumnsAsBuiltSupplierForTable: string[] = [
-    'semanticDataModel',
-    'name',
-    'manufacturer',
-    'manufacturerPartId',
-    'semanticModelId',
-    'manufacturingDate',
-    'activeAlerts',
-    'activeInvestigations',
-    'menu'
-  ];
-
-  private readonly sortableColumnsAsBuiltSupplier: Record<string, boolean> = {
-    semanticDataModel: true,
-    name: true,
-    manufacturer: true,
-    manufacturerPartId: true,
-    semanticModelId: true,
-    manufacturingDate: true,
-    activeAlerts: true,
-    activeInvestigations: true,
-  };
-
-  private readonly displayedColumnsAsPlannedSupplierForTable: string[] = [
-    'semanticDataModel',
-    'name',
-    'manufacturer',
-    'manufacturerPartId',
-    'semanticModelId',
-    'menu'
-  ];
-
-  private readonly sortableColumnsAsPlannedSupplier: Record<string, boolean> = {
-    semanticDataModel: true,
-    name: true,
-    manufacturer: true,
-    manufacturerPartId: true,
-    semanticModelId: true,
-  };
-
+  private pageSize: number;
   private sorting: TableHeaderSort;
 
-  protected readonly Role = Role;
-
-  ngAfterViewInit() {
-    this.paginator._intl.itemsPerPageLabel = 'Show';
-  }
-
-  public triggerFilterAdding(): void {
-    const filterValues: any = { ...this.filterFormGroup.value };
-    const selectedSemanticDataModelOptions: string[] = [];
-    for (const option of this.semanticDataModelOptions) {
-      if (option.checked) {
-        selectedSemanticDataModelOptions.push(option.value);
-      }
-    }
-    filterValues['semanticDataModel'] = selectedSemanticDataModelOptions;
-    this.filterConfiguration.forEach(filter => {
-      if (filter.filterKey !== 'Filter') {
-        let filterName: string;
-        if (filter.column) {
-          filterName = filter.column;
-        } else {
-          filterName = filter.filterKey;
-        }
-
-        this.filterActive[filterName] =
-          filterValues[filter.filterKey] !== null && filterValues[filter.filterKey].length !== 0;
-      }
-    });
-    this.filterActivated.emit(filterValues);
-  }
-
-  constructor(private readonly tableViewSettingsService: TableSettingsService,
-    private dialog: MatDialog,
-    private readonly roleService: RoleService,
-  ) {
-
-    if (this.roleService.hasAccess([Role.USER])) {
-      const selectColumn = 'select';
-      this.displayedColumnsAsBuiltSupplierForTable.splice(0, 0, selectColumn);
-      this.displayedColumnsAsBuiltForTable.splice(0, 0, selectColumn);
-    }
-  }
-
-  public defaultColumns: string[];
-
-  private tableViewConfig: TableViewConfig;
-
   ngOnInit() {
-    this.setupFilterConfig();
     this.initializeTableViewSettings();
-
-    this.tableViewSettingsService.getEvent().subscribe(() => {
+    this.tableSettingsService.getEvent().subscribe(() => {
       this.setupTableViewSettings();
     });
     this.setupTableViewSettings();
-  }
-
-  private setupTableConfigurations(
-    displayedColumnsForTable: string[],
-    displayedColumns: string[],
-    sortableColumns: Record<string, boolean>,
-    filterConfiguration: FilterConfig[],
-    filterFormGroup: any,
-  ): any {
-    const headerKey = 'table.column';
-    this.tableConfig = {
-      ...this.tableConfig,
-      displayedColumns: displayedColumnsForTable,
-      header: CreateHeaderFromColumns(displayedColumnsForTable, headerKey),
-      sortableColumns: sortableColumns,
-    };
-    this.filterConfiguration = filterConfiguration;
-    this.displayedColumns = displayedColumns;
-
-    for (const controlName in filterFormGroup) {
-      // eslint-disable-next-line no-prototype-builtins
-      if (filterFormGroup.hasOwnProperty(controlName)) {
-        this.filterFormGroup.addControl(controlName, filterFormGroup[controlName]);
-      }
-    }
-    this.filterConfiguration.forEach(filter => {
-      if (filter.column) {
-        this.filterActive[filter.column] = false;
-      } else {
-        this.filterActive[filter.filterKey] = false;
-      }
+    this.filterFormGroup.valueChanges.subscribe((formValues) => {
+      this.filterActivated.emit(formValues);
     });
+
   }
+
 
   private setupTableViewSettings() {
-    const settingsList = this.tableViewSettingsService.getStoredTableSettings();
+
+    if (this.tableSettingsService.storedTableSettingsInvalid(this.tableViewConfig, this.tableType)) {
+      this.toastService.warning('table.tableSettings.invalid', 10000);
+    }
+    const tableSettingsList = this.tableSettingsService.getStoredTableSettings();
     // check if there are table settings list
-    if (settingsList) {
+    if (tableSettingsList) {
       // if yes, check if there is a table-setting for this table type
-      if (settingsList[this.tableType]) {
+      if (tableSettingsList[this.tableType]) {
         // if yes, get the effective displayedcolumns from the settings and set the tableconfig after it.
-        this.setupTableConfigurations(
-          settingsList[this.tableType].columnsForTable,
-          settingsList[this.tableType].filterColumnsForTable,
-          this.tableViewConfig.sortableColumns,
-          this.tableViewConfig.filterConfiguration,
-          this.tableViewConfig.filterFormGroup,
-        );
+        this.setupTableConfigurations(tableSettingsList[this.tableType].columnsForTable, tableSettingsList[this.tableType].filterColumnsForTable, this.tableViewConfig.sortableColumns, this.tableViewConfig.displayFilterColumnMappings, this.tableViewConfig.filterFormGroup);
       } else {
         // if no, create new a table setting for this.tabletype and put it into the list. Additionally, intitialize default table configuration
-        settingsList[this.tableType] = this.getSettingsList();
-        this.tableViewSettingsService.storeTableSettings(this.tableType, settingsList);
-        this.setupTableConfigurations(
-          this.tableViewConfig.displayedColumnsForTable,
-          this.tableViewConfig.displayedColumns,
-          this.tableViewConfig.sortableColumns,
-          this.tableViewConfig.filterConfiguration,
-          this.tableViewConfig.filterFormGroup,
-        );
+        tableSettingsList[this.tableType] = {
+          columnsForDialog: this.tableViewConfig.displayedColumns,
+          columnSettingsOptions: this.getDefaultColumnVisibilityMap(),
+          columnsForTable: this.tableViewConfig.displayedColumns,
+          filterColumnsForTable: this.tableViewConfig.filterColumns,
+        };
+        this.tableSettingsService.storeTableSettings(tableSettingsList);
+        this.setupTableConfigurations(this.tableViewConfig.displayedColumns, this.tableViewConfig.filterColumns, this.tableViewConfig.sortableColumns, this.tableViewConfig.displayFilterColumnMappings, this.tableViewConfig.filterFormGroup);
       }
     } else {
       // if no, create new list and a settings entry for this.tabletype with default values and set correspondingly the tableconfig
       const newTableSettingsList = {
         [this.tableType]: {
-          columnsForDialog: this.tableViewConfig.displayedColumnsForTable,
+          columnsForDialog: this.tableViewConfig.displayedColumns,
           columnSettingsOptions: this.getDefaultColumnVisibilityMap(),
-          columnsForTable: this.tableViewConfig.displayedColumnsForTable,
-          filterColumnsForTable: this.tableViewConfig.displayedColumns,
+          columnsForTable: this.tableViewConfig.displayedColumns,
+          filterColumnsForTable: this.tableViewConfig.filterColumns,
         },
       };
-      this.tableViewSettingsService.storeTableSettings(this.tableType, newTableSettingsList);
-      this.setupTableConfigurations(
-        this.tableViewConfig.displayedColumnsForTable,
-        this.tableViewConfig.displayedColumns,
-        this.tableViewConfig.sortableColumns,
-        this.tableViewConfig.filterConfiguration,
-        this.tableViewConfig.filterFormGroup,
-      );
+      this.tableSettingsService.storeTableSettings(newTableSettingsList);
+      this.setupTableConfigurations(this.tableViewConfig.displayedColumns, this.tableViewConfig.filterColumns, this.tableViewConfig.sortableColumns, this.tableViewConfig.displayFilterColumnMappings, this.tableViewConfig.filterFormGroup);
     }
-  }
-
-  private setupFilterConfig() {
-    const {
-      filter,
-      id,
-      idShort,
-      nameAtManufacturer,
-      manufacturerName,
-      manufacturerPartId,
-      customerPartId,
-      classification,
-      nameAtCustomer,
-      semanticDataModel,
-      semanticModelId,
-      manufacturingDate,
-      manufacturingCountry,
-      activeAlerts,
-      activeInvestigations,
-      validityPeriodFrom,
-      validityPeriodTo,
-      psFunction,
-      catenaXSiteId,
-      functionValidFrom,
-      functionValidUntil,
-    } = this.filterConfigOptions.filterKeyOptionsAssets;
-
-    switch (this.tableType) {
-      case PartTableType.AS_PLANNED_CUSTOMER:
-        this.assetAsPlannedCustomerFilterConfiguration = [
-          filter,
-          semanticDataModel,
-          nameAtManufacturer,
-          manufacturerName,
-          manufacturerPartId,
-          semanticModelId,
-        ];
-        break;
-
-      // TODO add other table view configurations when they are implemented
-      case PartTableType.AS_ORDERED_OWN:
-      case PartTableType.AS_SUPPORTED_OWN:
-      case PartTableType.AS_RECYCLED_OWN:
-      case PartTableType.AS_DESIGNED_OWN:
-      case PartTableType.AS_PLANNED_OWN:
-        this.assetAsPlannedFilterConfiguration = [
-          filter,
-          id,
-          idShort,
-          nameAtManufacturer,
-          manufacturerName,
-          manufacturerPartId,
-          classification,
-          semanticDataModel,
-          semanticModelId,
-          validityPeriodFrom,
-          validityPeriodTo,
-          psFunction,
-          catenaXSiteId,
-          functionValidFrom,
-          functionValidUntil,
-        ];
-        break;
-      case PartTableType.AS_PLANNED_SUPPLIER:
-        this.assetAsPlannedSupplierFilterConfiguration = [
-          filter,
-          semanticDataModel,
-          nameAtManufacturer,
-          manufacturerName,
-          manufacturerPartId,
-          semanticModelId,
-        ];
-        break;
-      case PartTableType.AS_BUILT_OWN:
-        this.assetAsBuiltFilterConfiguration = [
-          filter,
-          id,
-          idShort,
-          nameAtManufacturer,
-          manufacturerName,
-          manufacturerPartId,
-          customerPartId,
-          classification,
-          nameAtCustomer,
-          semanticDataModel,
-          semanticModelId,
-          manufacturingDate,
-          manufacturingCountry,
-          activeAlerts,
-          activeInvestigations,
-        ];
-        break;
-      case PartTableType.AS_BUILT_CUSTOMER:
-        this.assetAsBuiltCustomerFilterConfiguration = [
-          filter,
-          semanticDataModel,
-          nameAtManufacturer,
-          manufacturerName,
-          manufacturerPartId,
-          semanticModelId,
-          manufacturingDate,
-          activeAlerts,
-          activeInvestigations,
-        ];
-        break;
-      case PartTableType.AS_BUILT_SUPPLIER:
-        this.assetAsBuiltSupplierFilterConfiguration = [
-          filter,
-          semanticDataModel,
-          nameAtManufacturer,
-          manufacturerName,
-          manufacturerPartId,
-          semanticModelId,
-          manufacturingDate,
-          activeAlerts,
-          activeInvestigations,
-        ];
-        break;
-    }
-  }
-
-  private getSettingsList(): any {
-    return {
-      columnsForDialog: this.tableViewConfig.displayedColumnsForTable,
-      columnSettingsOptions: this.getDefaultColumnVisibilityMap(),
-      columnsForTable: this.tableViewConfig.displayedColumnsForTable,
-      filterColumnsForTable: this.tableViewConfig.displayedColumns,
-    };
   }
 
   private getDefaultColumnVisibilityMap(): Map<string, boolean> {
     const initialColumnMap = new Map<string, boolean>();
-    for (const column of this.tableViewConfig.displayedColumnsForTable) {
+    for (const column of this.tableViewConfig.displayedColumns) {
       initialColumnMap.set(column, true);
     }
     return initialColumnMap;
   }
 
-  private initializeTableViewSettings(): void {
-    switch (this.tableType) {
-      case PartTableType.AS_PLANNED_CUSTOMER:
-        this.tableViewConfig = {
-          displayedColumns: this.displayedColumnsAsPlannedCustomer,
-          displayedColumnsForTable: this.displayedColumnsAsPlannedCustomerForTable,
-          filterConfiguration: this.assetAsPlannedCustomerFilterConfiguration,
-          filterFormGroup: this.assetAsPlannedCustomerFilterFormGroup,
-          sortableColumns: this.sortableColumnsAsPlannedCustomer,
-        };
-        break;
 
-      // TODO add other table view configurations when they are implemented
-      case PartTableType.AS_ORDERED_OWN:
-      case PartTableType.AS_SUPPORTED_OWN:
-      case PartTableType.AS_RECYCLED_OWN:
-      case PartTableType.AS_DESIGNED_OWN:
-      case PartTableType.AS_PLANNED_OWN:
-        this.tableViewConfig = {
-          displayedColumns: this.displayedColumnsAsPlanned,
-          displayedColumnsForTable: this.displayedColumnsAsPlannedForTable,
-          filterConfiguration: this.assetAsPlannedFilterConfiguration,
-          filterFormGroup: this.assetAsPlannedFilterFormGroup,
-          sortableColumns: this.sortableColumnsAsPlanned,
-        };
-        break;
-      case PartTableType.AS_PLANNED_SUPPLIER:
-        this.tableViewConfig = {
-          displayedColumns: this.displayedColumnsAsPlannedSupplier,
-          displayedColumnsForTable: this.displayedColumnsAsPlannedSupplierForTable,
-          filterConfiguration: this.assetAsPlannedSupplierFilterConfiguration,
-          filterFormGroup: this.assetAsPlannedSupplierFilterFormGroup,
-          sortableColumns: this.sortableColumnsAsPlannedSupplier,
-        };
-        break;
-      case PartTableType.AS_BUILT_OWN:
-        this.tableViewConfig = {
-          displayedColumns: this.displayedColumnsAsBuilt,
-          displayedColumnsForTable: this.displayedColumnsAsBuiltForTable,
-          filterConfiguration: this.assetAsBuiltFilterConfiguration,
-          filterFormGroup: this.assetAsBuiltFilterFormGroup,
-          sortableColumns: this.sortableColumnsAsBuilt,
-        };
-        break;
-      case PartTableType.AS_BUILT_CUSTOMER:
-        this.tableViewConfig = {
-          displayedColumns: this.displayedColumnsAsBuiltCustomer,
-          displayedColumnsForTable: this.displayedColumnsAsBuiltCustomerForTable,
-          filterConfiguration: this.assetAsBuiltCustomerFilterConfiguration,
-          filterFormGroup: this.assetAsBuiltCustomerFilterFormGroup,
-          sortableColumns: this.sortableColumnsAsBuiltCustomer,
-        };
-        break;
-      case PartTableType.AS_BUILT_SUPPLIER:
-        this.tableViewConfig = {
-          displayedColumns: this.displayedColumnsAsBuiltSupplier,
-          displayedColumnsForTable: this.displayedColumnsAsBuiltSupplierForTable,
-          filterConfiguration: this.assetAsBuiltSupplierFilterConfiguration,
-          filterFormGroup: this.assetAsBuiltSupplierFilterFormGroup,
-          sortableColumns: this.sortableColumnsAsBuiltSupplier,
-        };
-        break;
-    }
-  }
-
-  assetAsBuiltFilterFormGroup = {
-    id: new FormControl([]),
-    idShort: new FormControl([]),
-    nameAtManufacturer: new FormControl([]),
-    manufacturerName: new FormControl([]),
-    manufacturerPartId: new FormControl([]),
-    customerPartId: new FormControl([]),
-    classification: new FormControl([]),
-    nameAtCustomer: new FormControl([]),
-    semanticModelId: new FormControl([]),
-    semanticDataModel: new FormControl([]),
-    manufacturingDate: new FormControl([]),
-    manufacturingCountry: new FormControl([]),
-    qualityAlertsInStatusActive: new FormControl([]),
-    qualityInvestigationsInStatusActive: new FormControl([]),
-  };
-
-  assetAsPlannedFilterFormGroup = {
-    id: new FormControl([]),
-    idShort: new FormControl([]),
-    nameAtManufacturer: new FormControl([]),
-    manufacturerName: new FormControl([]),
-    manufacturerPartId: new FormControl([]),
-    classification: new FormControl([]),
-    semanticDataModel: new FormControl([]),
-    semanticModelId: new FormControl([]),
-    validityPeriodFrom: new FormControl([]),
-    validityPeriodTo: new FormControl([]),
-    function: new FormControl([]),
-    catenaXSiteId: new FormControl([]),
-    functionValidFrom: new FormControl([]),
-    functionValidUntil: new FormControl([]),
-  };
-
-  assetAsPlannedSupplierFilterFormGroup = {
-    select: new FormControl([]),
-    semanticDataModel: new FormControl([]),
-    nameAtManufacturer: new FormControl([]),
-    manufacturerName: new FormControl([]),
-    manufacturerPartId: new FormControl([]),
-    semanticModelId: new FormControl([]),
-  };
-
-  assetAsPlannedCustomerFilterFormGroup = {
-    select: new FormControl([]),
-    semanticDataModel: new FormControl([]),
-    nameAtManufacturer: new FormControl([]),
-    manufacturerName: new FormControl([]),
-    semanticModelId: new FormControl([]),
-    manufacturerPartId: new FormControl([]),
-  };
-
-  assetAsBuiltSupplierFilterFormGroup = {
-    select: new FormControl([]),
-    semanticDataModel: new FormControl([]),
-    nameAtManufacturer: new FormControl([]),
-    manufacturerName: new FormControl([]),
-    manufacturerPartId: new FormControl([]),
-    semanticModelId: new FormControl([]),
-    manufacturingDate: new FormControl([]),
-    qualityAlertsInStatusActive: new FormControl([]),
-    qualityInvestigationsInStatusActive: new FormControl([]),
-  };
-
-  assetAsBuiltCustomerFilterFormGroup = {
-    select: new FormControl([]),
-    semanticDataModel: new FormControl([]),
-    nameAtManufacturer: new FormControl([]),
-    manufacturerName: new FormControl([]),
-    manufacturerPartId: new FormControl([]),
-    semanticModelId: new FormControl([]),
-    manufacturingDate: new FormControl([]),
-    qualityAlertsInStatusActive: new FormControl([]),
-    qualityInvestigationsInStatusActive: new FormControl([]),
-  };
-
-  private assetAsBuiltFilterConfiguration: FilterConfig[];
-
-  private assetAsPlannedCustomerFilterConfiguration: FilterConfig[];
-
-  private assetAsPlannedSupplierFilterConfiguration: FilterConfig[];
-
-  private assetAsBuiltCustomerFilterConfiguration: FilterConfig[];
-
-  private assetAsBuiltSupplierFilterConfiguration: FilterConfig[];
-
-  private assetAsPlannedFilterConfiguration: FilterConfig[];
-
-  openDialog(): void {
-    const config = new MatDialogConfig();
-    config.autoFocus = false;
-    config.data = {
-      title: 'table.tableSettings.title',
-      panelClass: 'custom',
-      tableType: this.tableType,
-      defaultColumns: this.tableViewConfig.displayedColumnsForTable,
-      defaultFilterColumns: this.tableViewConfig.displayedColumns,
+  private setupTableConfigurations(displayedColumnsForTable: string[], displayedColumns: string[], sortableColumns: Record<string, boolean>, filterConfiguration: any[], filterFormGroup: any): any {
+    const headerKey = 'table.column';
+    this.tableConfig = {
+      displayedColumns: displayedColumnsForTable,
+      header: CreateHeaderFromColumns(displayedColumnsForTable, headerKey),
+      sortableColumns: sortableColumns,
+      menuActionsConfig: [ {
+        label: 'actions.viewDetails',
+        icon: 'remove_red_eye',
+        action: (data: Record<string, unknown>) => this.selected.emit(data),
+      } ],
     };
-    this.dialog.open(TableSettingsComponent, config);
+    this.displayedColumns = displayedColumns;
+
+    for (const controlName in filterFormGroup) {
+      if (filterFormGroup.hasOwnProperty(controlName)) {
+        this.filterFormGroup.addControl(controlName, filterFormGroup[controlName]);
+      }
+    }
+
   }
 
   public areAllRowsSelected(): boolean {
@@ -849,35 +316,25 @@ export class PartsTableComponent implements OnInit {
   public onPaginationChange({ pageIndex, pageSize }: PageEvent): void {
     this.pageIndex = pageIndex;
     this.isDataLoading = true;
-    this.onPaginationPageSizeChange.emit(pageSize);
     this.configChanged.emit({ page: pageIndex, pageSize: pageSize, sorting: this.sorting });
   }
 
   public updateSortingOfData({ active, direction }: Sort): void {
+    this.pageSize = this.pageSize === 0 ? EmptyPagination.pageSize : this.pageSize;
     this.selection.clear();
     this.emitMultiSelect();
-    this.sorting = !direction ? null : ([active, direction] as TableHeaderSort);
+    this.sorting = !direction ? null : ([ active, direction ] as TableHeaderSort);
     this.isDataLoading = true;
     this.configChanged.emit({ page: 0, pageSize: this.pageSize, sorting: this.sorting });
   }
 
   public toggleSelection(row: unknown): void {
-    this.isSelected(row) ? this.removeSelectedValues([row]) : this.addSelectedValues([row]);
+    this.isSelected(row) ? this.removeSelectedValues([ row ]) : this.addSelectedValues([ row ]);
     this.emitMultiSelect();
-  }
-
-  public selectElement(row: Record<string, unknown>) {
-    this.selectedRow = this.selectedRow === row ? null : row;
-
-    this.selected.emit(row);
   }
 
   private emitMultiSelect(): void {
     this.multiSelect.emit(this.selection.selected);
-  }
-
-  public toggleFilter(): void {
-    this.displayedFilter = !this.displayedFilter;
   }
 
   public isSelected(row: unknown): boolean {
@@ -892,13 +349,17 @@ export class PartsTableComponent implements OnInit {
     removeSelectedValues(this.selection, itemsToRemove);
   }
 
-  public resetFilterActive(): void {
-    this.filterConfiguration.forEach(filter => {
-      if (filter.column) {
-        this.filterActive[filter.column] = false;
-      } else {
-        this.filterActive[filter.filterKey] = false;
-      }
-    });
+  openDialog(): void {
+    const config = new MatDialogConfig();
+    config.data = {
+      title: 'table.tableSettings.title',
+      panelClass: 'custom',
+      tableType: this.tableType,
+      defaultColumns: this.tableViewConfig.displayedColumns,
+      defaultFilterColumns: this.tableViewConfig.filterColumns,
+    };
+    this.dialog.open(TableSettingsComponent, config);
   }
+
+  protected readonly TableType = TableType;
 }

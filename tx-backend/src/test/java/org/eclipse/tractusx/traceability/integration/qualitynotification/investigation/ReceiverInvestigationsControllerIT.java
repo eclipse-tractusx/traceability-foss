@@ -21,6 +21,9 @@ package org.eclipse.tractusx.traceability.integration.qualitynotification.invest
 
 import io.restassured.http.ContentType;
 import lombok.val;
+import org.eclipse.tractusx.traceability.common.request.OwnPageable;
+import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
+import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationsSupport;
 import org.hamcrest.Matchers;
@@ -32,6 +35,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import qualitynotification.base.request.UpdateQualityNotificationStatusRequest;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import static io.restassured.RestAssured.given;
@@ -46,10 +50,10 @@ class ReceiverInvestigationsControllerIT extends IntegrationTestSpecification {
 
     @Test
     void ShouldAcknowledgeReceivedInvestigation() throws JoseException {
-        // given
+       // Given
         val investigationId = investigationsSupport.defaultReceivedInvestigationStored();
 
-        // when
+        // When
         given()
                 .contentType(ContentType.JSON)
                 .body("""
@@ -63,27 +67,27 @@ class ReceiverInvestigationsControllerIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(204);
 
-        // then
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of())))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/received")
+                .post("/api/investigations/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
-                .body("content", Matchers.hasSize(1));
+                .body("content", Matchers.hasSize(1))
+                .body("content.status", Matchers.containsInRelativeOrder("RECEIVED"));
     }
 
     @Test
     void shouldNotUpdateToAcknowledgedNonExistingInvestigation() throws JoseException {
-        // given
+       // Given
         final long notExistingInvestigationId = 1234L;
 
-        // when
+        // Then
         given()
                 .contentType(ContentType.JSON)
                 .body("""
@@ -96,28 +100,14 @@ class ReceiverInvestigationsControllerIT extends IntegrationTestSpecification {
                 .post("/api/investigations/{notExistingInvestigationId}/update", notExistingInvestigationId)
                 .then()
                 .statusCode(404);
-
-        // then
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "15")
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/api/investigations/received")
-                .then()
-                .statusCode(200)
-                .body("page", Matchers.is(0))
-                .body("pageSize", Matchers.is(15))
-                .body("content", Matchers.hasSize(0));
     }
 
     @Test
     void shouldNotUpdateToAcceptedNonExistingInvestigation() throws JoseException {
-        // given
+       // Given
         final long notExistingInvestigationId = 1234L;
 
-        // when
+        // Then
         given()
                 .contentType(ContentType.JSON)
                 .body("""
@@ -131,28 +121,14 @@ class ReceiverInvestigationsControllerIT extends IntegrationTestSpecification {
                 .post("/api/investigations/{notExistingInvestigationId}/update", notExistingInvestigationId)
                 .then()
                 .statusCode(404);
-
-        // then
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "15")
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/api/investigations/received")
-                .then()
-                .statusCode(200)
-                .body("page", Matchers.is(0))
-                .body("pageSize", Matchers.is(15))
-                .body("content", Matchers.hasSize(0));
     }
 
     @Test
     void shouldNotUpdateToDeclinedNonExistingInvestigation() throws JoseException {
-        // given
+       // Given
         final long notExistingInvestigationId = 1234L;
 
-        // when
+        // Then
         given()
                 .contentType(ContentType.JSON)
                 .body("""
@@ -166,29 +142,15 @@ class ReceiverInvestigationsControllerIT extends IntegrationTestSpecification {
                 .post("/api/investigations/{notExistingInvestigationId}/update", notExistingInvestigationId)
                 .then()
                 .statusCode(404);
-
-        // then
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "15")
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/api/investigations/received")
-                .then()
-                .statusCode(200)
-                .body("page", Matchers.is(0))
-                .body("pageSize", Matchers.is(15))
-                .body("content", Matchers.hasSize(0));
     }
 
     @ParameterizedTest
     @MethodSource("invalidRequest")
     void shouldNotUpdateWithInvalidRequest(final String request) throws JoseException {
-        // given
+       // Given
         final long notExistingInvestigationId = 1234L;
 
-        // when
+        // Then
         given()
                 .contentType(ContentType.JSON)
                 .body(request)
@@ -197,22 +159,7 @@ class ReceiverInvestigationsControllerIT extends IntegrationTestSpecification {
                 .post("/api/investigations/{notExistingInvestigationId}/update", Long.toString(notExistingInvestigationId))
                 .then()
                 .statusCode(400);
-
-        // then
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "15")
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/api/investigations/received")
-                .then()
-                .statusCode(200)
-                .body("page", Matchers.is(0))
-                .body("pageSize", Matchers.is(15))
-                .body("content", Matchers.hasSize(0));
     }
-
 
     private static Stream<Arguments> invalidRequest() {
         return Stream.of(
@@ -248,5 +195,4 @@ class ReceiverInvestigationsControllerIT extends IntegrationTestSpecification {
                         """.replace("$status", UpdateQualityNotificationStatusRequest.DECLINED.name()))
         );
     }
-
 }

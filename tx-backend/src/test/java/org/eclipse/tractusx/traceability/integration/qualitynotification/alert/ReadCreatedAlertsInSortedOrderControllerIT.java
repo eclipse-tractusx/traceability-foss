@@ -20,6 +20,9 @@
 package org.eclipse.tractusx.traceability.integration.qualitynotification.alert;
 
 import io.restassured.http.ContentType;
+import org.eclipse.tractusx.traceability.common.request.OwnPageable;
+import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
+import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertNotificationsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.BpnSupport;
@@ -29,6 +32,8 @@ import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
@@ -43,22 +48,23 @@ class ReadCreatedAlertsInSortedOrderControllerIT extends IntegrationTestSpecific
 
     @Test
     void givenSortByCreatedDateProvided_whenGetAlerts_thenReturnAlertsProperlySorted() throws JoseException {
-        // given
+       // Given
         String sortString = "createdDate,desc";
+        String filterString = "channel,EQUAL,SENDER,AND";
         String testBpn = bpnSupport.testBpn();
 
-        AlertNotificationEntity[] alertNotificationEntities = AlertTestDataFactory.createSenderMajorityAlertNotificationEntitiesTestData(testBpn);
-        alertNotificationsSupport.storedAlertNotifications(alertNotificationEntities);
+        final AlertNotificationEntity[] testData = AlertTestDataFactory.createSenderMajorityAlertNotificationEntitiesTestData(testBpn);
+        alertNotificationsSupport.storedAlertNotifications(testData);
 
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("sort", sortString)
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/created")
+                .post("/api/alerts/filter")
                 .then()
+                .log().all()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
@@ -66,27 +72,28 @@ class ReadCreatedAlertsInSortedOrderControllerIT extends IntegrationTestSpecific
                 .body("totalItems", Matchers.is(4))
                 .body("content.description",
                         Matchers.containsInRelativeOrder("Second Alert on Asset2", "Fourth Alert on Asset4",
-                        "Third Alert on Asset3", "First Alert on Asset1"));
+                                "Third Alert on Asset3", "First Alert on Asset1"));
     }
 
     @Test
     void givenSortByDescriptionProvided_whenGetAlerts_thenReturnAlertsProperlySorted() throws JoseException {
-        // given
+       // Given
         String sortString = "description,desc";
+        String filterString = "channel,EQUAL,SENDER,AND";
         String testBpn = bpnSupport.testBpn();
 
-        AlertNotificationEntity[] alertNotificationEntities = AlertTestDataFactory.createSenderMajorityAlertNotificationEntitiesTestData(testBpn);
-        alertNotificationsSupport.storedAlertNotifications(alertNotificationEntities);
+        final AlertNotificationEntity[] testData = AlertTestDataFactory.createSenderMajorityAlertNotificationEntitiesTestData(testBpn);
+        alertNotificationsSupport.storedAlertNotifications(testData);
 
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("sort", sortString)
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/created")
+                .post("/api/alerts/filter")
                 .then()
+                .log().all()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
@@ -99,71 +106,73 @@ class ReadCreatedAlertsInSortedOrderControllerIT extends IntegrationTestSpecific
 
     @Test
     void givenSortByStatusProvided_whenGetAlerts_thenReturnAlertsProperlySorted() throws JoseException {
-        // given
+       // Given
         String sortString = "status,asc";
+        String filterString = "channel,EQUAL,SENDER,AND";
         String testBpn = bpnSupport.testBpn();
 
-        AlertNotificationEntity[] alertNotificationEntities = AlertTestDataFactory.createSenderMajorityAlertNotificationEntitiesTestData(testBpn);
-        alertNotificationsSupport.storedAlertNotifications(alertNotificationEntities);
+        final AlertNotificationEntity[] testData = AlertTestDataFactory.createSenderMajorityAlertNotificationEntitiesTestData(testBpn);
+        alertNotificationsSupport.storedAlertNotifications(testData);
 
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("sort", sortString)
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/created")
+                .post("/api/alerts/filter")
                 .then()
+                .log().all()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
                 .body("content", Matchers.hasSize(4))
                 .body("totalItems", Matchers.is(4))
-                .body("content.status", Matchers.containsInRelativeOrder("CREATED", "SENT", "ACCEPTED", "ACCEPTED"));
+                .body("content.status", Matchers.containsInRelativeOrder("ACCEPTED", "ACCEPTED", "CREATED", "SENT"));
     }
 
     @Test
     void givenSortBySeverityProvided_whenGetAlerts_thenReturnAlertsProperlySorted() throws JoseException {
-        // given
+       // Given
         String sortString = "severity,asc";
+        String filterString = "channel,EQUAL,SENDER,AND";
         String testBpn = bpnSupport.testBpn();
 
-        AlertNotificationEntity[] alertNotificationEntities = AlertTestDataFactory.createSenderMajorityAlertNotificationEntitiesTestData(testBpn);
-        alertNotificationsSupport.storedAlertNotifications(alertNotificationEntities);
+        final AlertNotificationEntity[] testData = AlertTestDataFactory.createSenderMajorityAlertNotificationEntitiesTestData(testBpn);
+        alertNotificationsSupport.storedAlertNotifications(testData);
 
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("sort", sortString)
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/created")
+                .post("/api/alerts/filter")
                 .then()
+                .log().all()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
                 .body("content", Matchers.hasSize(4))
                 .body("totalItems", Matchers.is(4))
-                .body("content.severity", Matchers.containsInRelativeOrder("MINOR", "MAJOR", "CRITICAL", "LIFE-THREATENING"));
+                .body("content.severity", Matchers.containsInRelativeOrder("CRITICAL", "LIFE-THREATENING", "MAJOR", "MINOR"));
     }
 
     @Test
     void givenInvalidSort_whenGetCreated_thenBadRequest() throws JoseException {
-        // given
+       // Given
         String sortString = "createdDate,failure";
+        String filterString = "channel,EQUAL,SENDER,AND";
 
-        // when/then
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("sort", sortString)
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/created")
+                .post("/api/alerts/filter")
                 .then()
+                .log().all()
                 .statusCode(400)
                 .body("message", Matchers.is(
                         "Invalid sort param provided sort=createdDate,failure expected format is following sort=parameter,order"
@@ -172,22 +181,23 @@ class ReadCreatedAlertsInSortedOrderControllerIT extends IntegrationTestSpecific
 
     @Test
     void givenSortBySendToProvided_whenGetAlerts_thenReturnAlertsProperlySorted() throws JoseException {
-        // given
+       // Given
         String sortString = "sendTo,desc";
+        String filterString = "channel,EQUAL,SENDER,AND";
         String testBpn = bpnSupport.testBpn();
 
-        AlertNotificationEntity[] alertNotificationEntities = AlertTestDataFactory.createSenderMajorityAlertNotificationEntitiesTestData(testBpn);
-        alertNotificationsSupport.storedAlertNotifications(alertNotificationEntities);
+        final AlertNotificationEntity[] testData = AlertTestDataFactory.createSenderMajorityAlertNotificationEntitiesTestData(testBpn);
+        alertNotificationsSupport.storedAlertNotifications(testData);
 
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("sort", sortString)
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/created")
+                .post("/api/alerts/filter")
                 .then()
+                .log().all()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
@@ -198,22 +208,23 @@ class ReadCreatedAlertsInSortedOrderControllerIT extends IntegrationTestSpecific
 
     @Test
     void givenSortByTargetDateProvided_whenGetAlerts_thenReturnAlertsProperlySorted() throws JoseException {
-        // given
+       // Given
         String sortString = "targetDate,asc";
+        String filterString = "channel,EQUAL,SENDER,AND";
         String testBpn = bpnSupport.testBpn();
 
-        AlertNotificationEntity[] alertNotificationEntities = AlertTestDataFactory.createSenderMajorityAlertNotificationEntitiesTestData(testBpn);
-        alertNotificationsSupport.storedAlertNotifications(alertNotificationEntities);
+        final AlertNotificationEntity[] testData = AlertTestDataFactory.createSenderMajorityAlertNotificationEntitiesTestData(testBpn);
+        alertNotificationsSupport.storedAlertNotifications(testData);
 
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .param("page", "0")
-                .param("size", "10")
-                .param("sort", sortString)
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/created")
+                .post("/api/alerts/filter")
                 .then()
+                .log().all()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))

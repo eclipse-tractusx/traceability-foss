@@ -23,7 +23,5 @@ import io.swagger.annotations.ApiModel;
 @ApiModel(description = "Describes the side of quality notification")
 public enum QualityNotificationSideResponse {
     SENDER,
-    RECEIVER;
-
-
+    RECEIVER
 }

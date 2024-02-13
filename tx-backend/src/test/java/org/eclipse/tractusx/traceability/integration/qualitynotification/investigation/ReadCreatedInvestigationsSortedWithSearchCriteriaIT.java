@@ -1,6 +1,9 @@
 package org.eclipse.tractusx.traceability.integration.qualitynotification.investigation;
 
 import io.restassured.http.ContentType;
+import org.eclipse.tractusx.traceability.common.request.OwnPageable;
+import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
+import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.BpnSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationNotificationsSupport;
@@ -14,6 +17,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import static io.restassured.RestAssured.given;
@@ -43,30 +47,27 @@ class ReadCreatedInvestigationsSortedWithSearchCriteriaIT extends IntegrationTes
                         0,
                         50,
                         "createdDate,desc",
-                        "status,EQUAL,SENT",
-                        "status,EQUAL,ACCEPTED",
-                        "severity,EQUAL,2",
-                        "AND",
+                        "status,EQUAL,SENT,AND",
+                        "status,EQUAL,ACCEPTED,AND",
+                        "severity,EQUAL,CRITICAL,AND",
                         new String[]{"SENT", "SENT"}
                 ),
                 Arguments.of(
                         0,
                         50,
                         "createdDate,desc",
-                        "status,EQUAL,ACKNOWLEDGED",
-                        "severity,EQUAL,1",
-                        "severity,EQUAL,3",
-                        "AND",
+                        "status,EQUAL,ACKNOWLEDGED,AND",
+                        "severity,EQUAL,MAJOR,AND",
+                        "severity,EQUAL,LIFE-THREATENING,AND",
                         new String[]{"ACKNOWLEDGED"}
                 ),
                 Arguments.of(
                         0,
                         5,
                         "createdDate,desc",
-                        "sendTo,STARTS_WITH,BPNL000000000001",
-                        "status,EQUAL,CREATED",
-                        "severity,EQUAL,1",
-                        "AND",
+                        "sendTo,STARTS_WITH,BPNL000000000001,AND",
+                        "status,EQUAL,CREATED,AND",
+                        "severity,EQUAL,MAJOR,AND",
                         new String[]{"CREATED"}
                 )
         );
@@ -75,31 +76,25 @@ class ReadCreatedInvestigationsSortedWithSearchCriteriaIT extends IntegrationTes
     @ParameterizedTest
     @MethodSource("sortAndFilterArguments")
     void givenSortAndTwoStatusFilters_whenCallSortAndFilterEndpoint_thenReturnExpectedResponse(
-            final long page,
-            final long size,
+            final int page,
+            final int size,
             final String sort,
             final String filter1,
             final String filter2,
             final String filter3,
-            final String filterOperator,
             final String[] expectedOrderOfIdShortItems
     ) throws JoseException {
+       // Given
+        String filterString = "channel,EQUAL,SENDER,AND";
 
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .body(new PageableFilterRequest(new OwnPageable(page, size, List.of(sort)), new SearchCriteriaRequestParam(List.of(filterString, filter1, filter2, filter3))))
                 .contentType(ContentType.JSON)
-                .param("page", page)
-                .param("size", size)
-                .param("filter", filter1)
-                .param("filter", filter2)
-                .param("filter", filter3)
-                .param("filterOperator", filterOperator)
-                .param("sort", sort)
-                .log().all()
                 .when()
-                .get("/api/investigations/created")
+                .post("/api/investigations/filter")
                 .then()
-                .log().all()
                 .statusCode(200)
                 .body("totalItems", equalTo(expectedOrderOfIdShortItems.length))
                 .body("content.status", Matchers.containsInRelativeOrder(expectedOrderOfIdShortItems));

@@ -19,63 +19,110 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ALERT_BASE_ROUTE, getRoute, INVESTIGATION_BASE_ROUTE } from '@core/known-route';
-import { Notification, Notifications, NotificationStatusGroup } from '@shared/model/notification.model';
+import { DashboardStats } from '@page/dashboard/model/dashboard.model';
+import { MetricData } from '@page/dashboard/presentation/dashboard.model';
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
+import {
+  Notification,
+  Notifications,
+  NotificationStatusGroup,
+  NotificationType,
+} from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
-import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { DashboardFacade } from '../abstraction/dashboard.facade';
-import { PartTableType } from '@shared/components/table/table.model';
-import { Role } from '@core/user/role.model';
-import { MatDialog } from '@angular/material/dialog';
-import { RequestStepperComponent } from '@shared/components/request-notification/request-stepper/request-stepper.component';
-import { RequestContext } from '@shared/components/request-notification/request-notification.base';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
+  styleUrls: [ './dashboard.component.scss' ],
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-  @ViewChild(CloseNotificationModalComponent) private closeModal: CloseNotificationModalComponent;
 
-  public readonly numberOfMyParts$: Observable<View<number>>;
-  public readonly numberOfOtherParts$: Observable<View<number>>;
-  public readonly numberOfInvestigations$: Observable<View<number>>;
-  public readonly numberOfAlerts$: Observable<View<number>>;
+  public readonly dashboardStats$: Observable<View<DashboardStats>>;
+  public readonly investigationsReceived$: Observable<View<Notifications>>;
+  public readonly investigationsCreated$: Observable<View<Notifications>>;
+  public readonly alertsReceived$: Observable<View<Notifications>>;
+  public readonly alertsCreated$: Observable<View<Notifications>>;
 
-  public readonly investigations$: Observable<View<Notifications>>;
   public readonly investigationLink: string;
   public readonly investigationParams: Record<string, string>;
 
-  public readonly alerts$: Observable<View<Notifications>>;
-  public readonly alertsLink: string;
-  public readonly alertsParams: Record<string, string>;
+  public readonly alertLink: string;
+  public readonly alertParams: Record<string, string>;
 
-  protected readonly PartTableType = PartTableType;
-  protected readonly Role = Role;
+  public partsMetricData: MetricData[];
+  public otherPartsMetricData: MetricData[];
+  public investigationsMetricData: MetricData[];
+  public alertsMetricData: MetricData[];
+  constructor(private readonly dashboardFacade: DashboardFacade, private readonly router: Router) {
+    this.dashboardStats$ = this.dashboardFacade.dashboardStats$;
+    this.investigationsReceived$ = this.dashboardFacade.recentReceivedInvestigations$;
+    this.investigationsCreated$ = this.dashboardFacade.recentCreatedInvestigations$;
+    this.alertsReceived$ = this.dashboardFacade.recentReceivedAlerts$;
+    this.alertsCreated$ = this.dashboardFacade.recentCreatedAlerts$;
 
-  constructor(private readonly dashboardFacade: DashboardFacade,
-    private readonly router: Router,
-    public dialog: MatDialog,
-  ) {
-    this.numberOfMyParts$ = this.dashboardFacade.numberOfMyParts$;
-    this.numberOfOtherParts$ = this.dashboardFacade.numberOfOtherParts$;
-    this.numberOfInvestigations$ = this.dashboardFacade.numberOfInvestigations$;
-    this.numberOfAlerts$ = this.dashboardFacade.numberOfAlerts$;
+    const {
+      link: investigationLink,
+      queryParams: investigationQueryParams,
+    } = getRoute(INVESTIGATION_BASE_ROUTE, NotificationStatusGroup.RECEIVED);
+    const {
+      link: alertLink,
+      queryParams: alertQueryParams,
+    } = getRoute(ALERT_BASE_ROUTE, NotificationStatusGroup.RECEIVED);
+    this.investigationLink = investigationLink;
+    this.investigationParams = investigationQueryParams;
+    this.alertLink = alertLink;
+    this.alertParams = alertQueryParams;
 
-    this.investigations$ = this.dashboardFacade.investigations$;
-    this.alerts$ = this.dashboardFacade.alerts$;
+    this.partsMetricData = [
+      {
+        metricName: 'totalAmount',
+        value: this.dashboardStats$.pipe(map(dashboardStats => dashboardStats.data.totalOwnParts)),
+        metricUnit: 'parts',
+      },
 
-    const investigationRoute = getRoute(INVESTIGATION_BASE_ROUTE, NotificationStatusGroup.RECEIVED);
-    this.investigationLink = investigationRoute.link;
-    this.investigationParams = investigationRoute.queryParams;
+    ];
 
-    const alertsRoute = getRoute(ALERT_BASE_ROUTE, NotificationStatusGroup.RECEIVED);
-    this.alertsLink = alertsRoute.link;
-    this.alertsParams = alertsRoute.queryParams;
+    this.otherPartsMetricData = [
+      {
+        metricName: 'totalAmount',
+        value: this.dashboardStats$.pipe(map(dashboardStats => dashboardStats.data.totalOtherParts)),
+        metricUnit: 'parts',
+      },
+    ];
+
+    this.investigationsMetricData = [
+      {
+        metricName: 'amountReceived',
+        value: this.dashboardStats$.pipe(map(dashboardStats => dashboardStats.data.receivedActiveInvestigations)),
+        metricUnit: 'investigations',
+      },
+      {
+        metricName: 'amountCreated',
+        value: this.dashboardStats$.pipe(map(dashboardStats => dashboardStats.data.sentActiveInvestigations)),
+        metricUnit: 'investigations',
+      },
+    ];
+
+
+    this.alertsMetricData = [
+      {
+        metricName: 'amountReceived',
+        value: this.dashboardStats$.pipe(map(dashboardStats => dashboardStats.data.receivedActiveAlerts)),
+        metricUnit: 'alerts',
+      },
+      {
+        metricName: 'amountCreated',
+        value: this.dashboardStats$.pipe(map(dashboardStats => dashboardStats.data.sentActiveAlerts)),
+        metricUnit: 'alerts',
+      },
+    ];
+
   }
 
   public ngOnInit(): void {
@@ -86,17 +133,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.dashboardFacade.stopDataLoading();
   }
 
-  public onNotificationSelected(notification: Notification, isInvestigation: boolean): void {
-    const { link } = getRoute(isInvestigation ? INVESTIGATION_BASE_ROUTE : ALERT_BASE_ROUTE);
-    this.router.navigate([`/${link}/${notification.id}`]).then();
+  public onInvestigationSelected(notification: Notification): void {
+    const { link } = getRoute(INVESTIGATION_BASE_ROUTE);
+    this.router.navigate([ `/${ link }/${ notification.id }` ]).then();
   }
 
-  public openRequestDialog(isInvestigation: boolean): void {
-    this.dialog.open(RequestStepperComponent, {
-      autoFocus: false,
-      data: {
-        context: isInvestigation ? RequestContext.REQUEST_INVESTIGATION : RequestContext.REQUEST_ALERT,
-      }
-    });
+  public onAlertSelected(notification: Notification): void {
+    const { link } = getRoute(ALERT_BASE_ROUTE);
+    this.router.navigate([ `/${ link }/${ notification.id }` ]).then();
   }
+
+  protected readonly NotificationType = NotificationType;
+  protected readonly TableType = TableType;
 }

@@ -22,8 +22,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'docs/**'
 
 jobs:
   publish:
@@ -42,13 +40,13 @@ jobs:
         uses: ts-graphviz/setup-graphviz@v1
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
 
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 16
 
@@ -99,7 +97,7 @@ jobs:
           node fix_relative_links.js https://$GITHUB_REPOSITORY_OWNER.github.io/$REPO/docs
       - name: MD linting
         run: |
-          npm install markdownlint-cli2
+          npm install markdownlint-cli2@0.11.0
           npx markdownlint-cli2-config docs/.markdownlint.yaml docs/target/generated-docs/adminguide.md
           npx markdownlint-cli2-config docs/.markdownlint.yaml docs/target/generated-docs/arc42.md
           npx markdownlint-cli2-config docs/.markdownlint.yaml docs/target/generated-docs/user-manual.md

@@ -99,6 +99,10 @@ public enum QualityNotificationStatus {
         return ACTIVE_STATES.contains(this);
     }
 
+    public static List<QualityNotificationStatus> getActiveStates() {
+        return ACTIVE_STATES;
+    }
+
     public static QualityNotificationStatus from(QualityNotificationStatusRequest qualityNotificationStatusRequest) {
         return QualityNotificationStatus.fromStringValue(qualityNotificationStatusRequest.name());
     }

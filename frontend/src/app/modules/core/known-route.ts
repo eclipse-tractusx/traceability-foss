@@ -43,18 +43,6 @@ export const NavigableUrls = [
 
 export type KnownUrl = (typeof NavigableUrls)[number];
 
-const getNotificationInboxRoute = (
-  urlType: KnownUrl,
-  investigationStatusGroup?: NotificationStatusGroup,
-): PageRoute => ({
-  link: urlType,
-  queryParams: investigationStatusGroup
-    ? {
-        tabIndex: String(Object.values(NotificationStatusGroup).indexOf(investigationStatusGroup)),
-      }
-    : undefined,
-});
-
 export const getRoute = (urlType: KnownUrl, ...args): PageRoute => {
   if (urlType === INVESTIGATION_BASE_ROUTE || urlType === ALERT_BASE_ROUTE) {
     return getNotificationInboxRoute(urlType, ...args);
@@ -62,3 +50,15 @@ export const getRoute = (urlType: KnownUrl, ...args): PageRoute => {
 
   return { link: urlType };
 };
+
+const getNotificationInboxRoute = (
+  urlType: KnownUrl,
+  investigationStatusGroup?: NotificationStatusGroup,
+): PageRoute => ({
+  link: urlType,
+  queryParams: investigationStatusGroup
+    ? {
+      tabIndex: String(Object.values(NotificationStatusGroup).indexOf(investigationStatusGroup)),
+    }
+    : undefined,
+});

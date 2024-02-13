@@ -20,10 +20,11 @@
 import { Component, ElementRef, HostBinding, Input, ViewChild } from '@angular/core';
 
 type ButtonVariant = 'button' | 'raised' | 'flat' | 'stroked' | 'icon' | 'fab' | 'miniFab';
+
 @Component({
   selector: 'app-view-selector',
   templateUrl: './view-selector.component.html',
-  styleUrls: ['./view-selector.component.scss']
+  styleUrls: [ './view-selector.component.scss' ],
 })
 export class ViewSelectorComponent {
 
@@ -35,7 +36,7 @@ export class ViewSelectorComponent {
   @Input() color: 'primary' | 'accent' | 'warn';
   @Input() variant: ButtonVariant = 'flat';
   @Input() label: string;
-  @Input() isDisabled = false;
+  @Input() isDisabled: boolean = false;
   @Input() isSelected: boolean;
 
 }

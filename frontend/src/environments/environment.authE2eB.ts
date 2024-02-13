@@ -27,5 +27,5 @@ export const environment = {
   keycloakUrl: 'https://centralidp.dev.demo.catena-x.net/auth',
   clientId: 'Cl17-CX-Part',
   api: '',
-  gitTag: "local"
+  gitTag: 'local',
 };

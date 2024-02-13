@@ -28,19 +28,17 @@ describe('AcknowledgeNotificationModalComponent', () => {
   it('should create acknowledge modal', async () => {
     await renderAcknowledgeModal(NotificationStatus.RECEIVED);
     const title = await waitFor(() => screen.getByText('commonInvestigation.modal.acknowledgeTitle'));
-    const buttonL = await waitFor(() => screen.getByText('actions.cancel'));
     const buttonR = await waitFor(() => screen.getByText('actions.acknowledge'));
 
     expect(title).toBeInTheDocument();
-    expect(buttonL).toBeInTheDocument();
     expect(buttonR).toBeInTheDocument();
   });
 
   it('should render investigation description', async () => {
     const { notification } = await renderAcknowledgeModal(NotificationStatus.RECEIVED);
-    const description = await waitFor(() => screen.getAllByText(notification.description));
+    const description = await waitFor(() => screen.getByText(notification.description));
 
-    expect(description[0]).toBeInTheDocument();
+    expect(description).toBeInTheDocument();
   });
 
   it('should call acknowledge function', async () => {

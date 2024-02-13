@@ -57,7 +57,6 @@ public class IntegrationTestSpecification {
     @Autowired
     DatabaseSupport databaseSupport;
 
-
     @BeforeEach
     void beforeEach() throws JoseException {
         oAuth2ApiSupport.oauth2ApiReturnsJwkCerts(oAuth2Support.jwk());
@@ -80,5 +79,4 @@ public class IntegrationTestSpecification {
         Awaitility.pollInSameThread();
         await().pollDelay(2, TimeUnit.SECONDS).until(conditions, Matchers.equalTo(true));
     }
-
 }

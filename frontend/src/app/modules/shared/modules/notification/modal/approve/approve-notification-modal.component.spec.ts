@@ -28,19 +28,17 @@ describe('ApproveNotificationModalComponent', () => {
   it('should create approve modal', async () => {
     await renderApproveModal(NotificationStatus.CREATED);
     const title = await waitFor(() => screen.getByText('commonInvestigation.modal.approvalTitle'));
-    const buttonL = await waitFor(() => screen.getByText('actions.cancel'));
     const buttonR = await waitFor(() => screen.getByText('actions.confirm'));
 
     expect(title).toBeInTheDocument();
-    expect(buttonL).toBeInTheDocument();
     expect(buttonR).toBeInTheDocument();
   });
 
   it('should render investigation description', async () => {
     const { notification } = await renderApproveModal(NotificationStatus.CREATED);
-    const description = await waitFor(() => screen.getAllByText(notification.description));
+    const description = await waitFor(() => screen.getByText(notification.description));
 
-    expect(description[0]).toBeInTheDocument();
+    expect(description).toBeInTheDocument();
   });
 
   it('should call approve function', async () => {

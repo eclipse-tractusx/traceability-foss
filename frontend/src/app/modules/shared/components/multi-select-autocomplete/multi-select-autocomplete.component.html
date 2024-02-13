@@ -16,90 +16,92 @@ under the License.
 
 SPDX-License-Identifier: Apache-2.0
 -->
-<div class="filter-input">
-  <mat-label class="label-medium">
-    <div class="filter-input__label">
-      {{ 'multiSelect.' + filterName | i18n }}
-      <button (click)="clickClear();">
-        <img src="/assets/images/icons/refresh_icon.svg"
-          alt="refresh" />
-      </button>
-    </div>
-  </mat-label>
-  <mat-form-field class="filter-input__textarea"
-    appearance="outline"
-    color="accent"
-    [floatLabel]="'auto'"
-    *ngIf="!isDate && !multiple">
-    <mat-label>{{ 'multiSelect.inputLabelText' | i18n }}</mat-label>
-    <input #searchInput
-      [formControl]="formControl"
-      matInput
-      class="filter-input__textarea-input"
-      data-testid="multi-select-autocomplete--text-search-input"
-      (blur)="onBlur('textFilter')" />
-    <mat-hint>{{ 'multiSelect.inputTextHint' | i18n }}</mat-hint>
-  </mat-form-field>
+<mat-form-field>
 
-  <button *ngIf="!isDate && !multiple && searched && (this.filterActive !== '' || this.theSearchElement !== '')"
-    type="button"
-    class="filter-input__textarea-button"
-    (click)="this.triggerFilter.emit(); setFilterActive()"
-    data-testid="multi-select-autocomplete--text-search-button">
-    <div class="body-large">{{ this.filterActive === '' ? this.theSearchElement : this.filterActive }}</div>
-    <img *ngIf="filterActive === theSearchElement"
-      src="\assets\images\icons\filerActiveIcon.svg"
-      alt="filter active icon" />
-  </button>
+  <mat-select *ngIf="!isDate" #selectElem [placeholder]="placeholder" [formControl]="formControl"
+              (click)="filterItem('')"
+              [multiple]="true"
+              (selectionChange)="onSelectionChange($event)" panelClass="app-multiselect-filter-dropdown">
 
-  <div class="filter-input__option-list"
-    *ngIf="!isDate && multiple">
-    <div class="filter-input__option-list-select-all-container">
-      <mat-checkbox color="accent"
-        class="body-large filter-input__option-list-select-all"
-        [(ngModel)]="selectAllChecked"
-        (change)="toggleSelect($event, true)"
-        [checked]="selectAllChecked"
-        [indeterminate]="someSelected()"
-        data-testid="multi-select-autocomplete--multi-option-search-selct-all">{{ 'multiSelect.selectAll' | i18n
-        }}</mat-checkbox>
+    <div class="box-search">
+      <mat-checkbox *ngIf="!singleSearch && !(!searchedOptions?.length && !optionsSelected?.length)" color="primary" class="box-select-all" [disabled]="!searchedOptions?.length && !optionsSelected?.length" [(ngModel)]="selectAllChecked"
+                    (change)="toggleSelectAll($event)"></mat-checkbox>
+      <input [disabled]="" #searchInput [(ngModel)]="searchElement" type="text"
+             [ngClass]="'pl-1'"
+             (keydown)="filterKeyCommands($event)"
+             (input)="filterItem(searchInput.value)"
+             [placeholder]="('multiSelect.searchPlaceholder' | i18n)">
+      <mat-spinner *ngIf="isLoadingSuggestions" [diameter]="20"></mat-spinner>
+      <div class="box-search-icon" (click)="filterItem(''); clickClear()">
+        <button mat-icon-button class="search-button">
+          <mat-icon class="mat-24" aria-label="Search icon">clear</mat-icon>
+        </button>
+      </div>
+
     </div>
-    <div *ngFor="let option of options">
-      <mat-checkbox color="accent"
-        [class]="optionClasses[option['display']]"
-        [(ngModel)]="option.checked"
-        (change)="toggleSelect($event, false)"
-        data-testid="multi-select-autocomplete--multi-option-search-selct-one"
-        (blur)="onBlur('selectionFilter')">
-        <img *ngIf="isSeverity"
-          [src]="option.iconURL"
-          alt="{{ option[display] | i18n}}"
-          class="pr-3.5">{{ option[display] | i18n
-        }}
-      </mat-checkbox>
-    </div>
+
+    <!-- hidden element just so that the mat-select dropdown opens -->
+    <mat-option [style.display]="'none'"></mat-option>
+
+    <div class="pl-1" *ngIf="suggestionError">{{'multiSelect.suggestionError' | i18n}}</div>
+    <ng-container *ngFor="let option of optionsSelected">
+      <mat-option *ngIf="containsIllegalCharactersForI18nKey(option.display); else i18nKeyDisplay" [disabled]="option.disabled" [value]="option.value">
+        {{ option.display }}
+      </mat-option>
+      <ng-template #i18nKeyDisplay>
+        <mat-option [disabled]="option.disabled" [value]="option.value">
+          {{ 'multiSelect.mappedText.' + option.display | i18n: {defaultValue: option.display} }}
+        </mat-option>
+      </ng-template>
+    </ng-container>
+
+    <mat-divider></mat-divider>
+    <ng-container *ngIf="options?.length">
+      <ng-container *ngFor="let option of options">
+        <mat-option *ngIf="containsIllegalCharactersForI18nKey(option.display); else i18nKeyDisplay" [disabled]="option.disabled" [value]="option.value">
+          {{ option.display }}
+        </mat-option>
+        <ng-template #i18nKeyDisplay>
+          <mat-option [disabled]="option.disabled" [value]="option.value">
+            {{ 'multiSelect.mappedText.' + option.display | i18n: {defaultValue: option.display} }}
+          </mat-option>
+        </ng-template>
+      </ng-container>
+    </ng-container>
+
+    <mat-option *ngIf="singleSearch" (click)="changeSearchTextOptionSingleSearch()" [value]=this.searchElement
+                [style.display]="this.shouldHideTextSearchOptionFieldSingleSearch() ? 'none': 'flex'">{{this.searchElement}}
+    </mat-option>
+    <mat-select-trigger *ngIf="selectedValue?.length > 1">
+      <div>
+        <ng-container *ngFor="let value of displayValue()">
+          <ng-container *ngIf="containsIllegalCharactersForI18nKey(value); else i18nKeyDisplay">
+            {{ value }}
+          </ng-container>
+          <ng-template #i18nKeyDisplay>
+            {{ 'multiSelect.mappedText.' + value | i18n: {defaultValue: value} }}
+          </ng-template>
+        </ng-container>
+      </div>
+    </mat-select-trigger>
+  </mat-select>
+
+
+  <div *ngIf="isDate" class="date-search">
+    <mat-date-range-input [rangePicker]="picker" disabled>
+      <input matStartDate [value]="startDate" [placeholder]="'datepicker.startDate' | i18n"
+             (dateChange)="startDateSelected($event)">
+      <input matEndDate [value]="endDate" [placeholder]="'datepicker.endDate' | i18n"
+             (dateChange)="endDateSelected($event)">
+    </mat-date-range-input>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker disabled="false">
+      <mat-datepicker-actions>
+        <button (click)="clickClear()" mat-button matDatepickerCancel>{{ 'datepicker.cancel' | i18n }}</button>
+        <button (click)="dateFilter()" mat-raised-button color="primary"
+                matDatepickerApply>{{ 'datepicker.apply' | i18n }}</button>
+      </mat-datepicker-actions>
+    </mat-date-range-picker>
   </div>
 
-  <mat-form-field color="accent"
-    appearance="outline"
-    [floatLabel]="'auto'"
-    *ngIf="isDate"
-    data-testid="multi-select-autocomplete--date-search-form">
-    <mat-label>{{ 'multiSelect.inputLabelDate' | i18n }}</mat-label>
-    <input matInput
-      [matDatepicker]="datepicker"
-      [formControl]="theSearchDate"
-      maxlength="10"
-      [max]="maxDate"
-      (dateInput)="triggerFilteringTimeout('date')"
-      (dateChange)="dateSelectionEvent($event)"
-      (blur)="onBlur('dateFilter')" />
-    <mat-datepicker-toggle matIconSuffix
-      [for]="datepicker"></mat-datepicker-toggle>
-    <mat-datepicker #datepicker
-      panelClass="input__datepicker"
-      color="primary">
-    </mat-datepicker>
-  </mat-form-field>
-
-</div>
+</mat-form-field>

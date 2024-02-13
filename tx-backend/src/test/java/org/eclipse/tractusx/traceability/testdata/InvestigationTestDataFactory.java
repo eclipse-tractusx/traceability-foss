@@ -43,31 +43,31 @@ import java.util.Locale;
 
 public class InvestigationTestDataFactory {
 
-    public static InvestigationNotificationEntity createInvestigationTestData(
-            final NotificationSideBaseEntity notificationSide,
-            final NotificationStatusBaseEntity investigationStatus,
-            final String receiverBpn) {
-
-        final InvestigationEntity investigation = InvestigationEntity.builder()
-                .assets(Collections.emptyList())
-                .bpn(receiverBpn)
-                .status(investigationStatus)
-                .description("This is a description")
-                .side(notificationSide)
-                .createdDate(Instant.now())
-                .build();
-
-        return InvestigationNotificationEntity.builder()
-                .id(UUID.randomUUID().toString())
-                .investigation(investigation)
-                .status(investigationStatus)
-                .edcNotificationId(UUID.randomUUID().toString())
-                .createdBy(investigation.getCreatedBy())
-                .sendTo(receiverBpn)
-                .targetDate(Instant.now())
-                .severity(QualityNotificationSeverity.MAJOR)
-                .build();
-    }
+//    public static InvestigationNotificationEntity createInvestigationTestData(
+//            final NotificationSideBaseEntity notificationSide,
+//            final NotificationStatusBaseEntity investigationStatus,
+//            final String receiverBpn) {
+//
+//        final InvestigationEntity investigation = InvestigationEntity.builder()
+//                .assets(Collections.emptyList())
+//                .bpn(receiverBpn)
+//                .status(investigationStatus)
+//                .description("This is a description")
+//                .side(notificationSide)
+//                .createdDate(Instant.now())
+//                .build();
+//
+//        return InvestigationNotificationEntity.builder()
+//                .id(UUID.randomUUID().toString())
+//                .investigation(investigation)
+//                .status(investigationStatus)
+//                .edcNotificationId(UUID.randomUUID().toString())
+//                .createdBy(investigation.getCreatedBy())
+//                .sendTo(receiverBpn)
+//                .targetDate(Instant.now())
+//                .severity(QualityNotificationSeverity.MAJOR)
+//                .build();
+//    }
 
     public static QualityNotification createInvestigationTestData(QualityNotificationStatus investigationStatus, final String bpnString) {
         QualityNotificationId investigationId = new QualityNotificationId(1L);
@@ -207,19 +207,19 @@ public class InvestigationTestDataFactory {
                 .build();
     }
 
-    public static SearchCriteria createSearchCriteria() {
-        SearchCriteriaFilter searchCriteriaFilter = SearchCriteriaFilter.builder()
-                                                    .key("sendToName")
-                                                    .strategy(SearchStrategy.EQUAL)
-                                                    .value("receiverManufacturerName")
-                                                    .build();
-        SearchCriteria searchCriteria = SearchCriteria.builder()
-                                        .searchCriteriaFilterList(List.of(searchCriteriaFilter))
-                                        .searchCriteriaOperator(SearchCriteriaOperator.AND)
-                                        .build();
-
-        return searchCriteria;
-    }
+//    public static SearchCriteria createSearchCriteria() {
+//        SearchCriteriaFilter searchCriteriaFilter = SearchCriteriaFilter.builder()
+//                                                    .key("sendToName")
+//                                                    .strategy(SearchStrategy.EQUAL)
+//                                                    .value("receiverManufacturerName")
+//                                                    .build();
+//        SearchCriteria searchCriteria = SearchCriteria.builder()
+//                                        .searchCriteriaFilterList(List.of(searchCriteriaFilter))
+//                                        .searchCriteriaOperator(SearchCriteriaOperator.AND)
+//                                        .build();
+//
+//        return searchCriteria;
+//    }
 
     private static InvestigationEntity[] createSenderMajorityInvestigationEntitiesTestData(String senderBpn) {
         Instant now = Instant.now();
@@ -731,7 +731,6 @@ public class InvestigationTestDataFactory {
                 .side(NotificationSideBaseEntity.RECEIVER)
                 .createdDate(now.plusSeconds(80L))
                 .build();
-
 
         return new InvestigationEntity[]{firstInvestigation, secondInvestigation, thirdInvestigation, fourthInvestigation, fifthInvestigation};
     }

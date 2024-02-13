@@ -44,16 +44,17 @@ class AssetAsBuiltRepositoryIT extends IntegrationTestSpecification {
     @MethodSource("fieldNameTestProvider")
     void givenIdField_whenGetFieldValues_thenSorted(
             String fieldName,
-            Long resultLimit,
+            String startWith,
+            Integer resultLimit,
             Integer expectedSize
     ) {
-        // given
+       // Given
         assetsSupport.defaultAssetsStored();
 
-        // when
-        List<String> result = assetAsBuiltRepository.getFieldValues(fieldName, resultLimit);
+        // When
+        List<String> result = assetAsBuiltRepository.getFieldValues(fieldName, startWith, resultLimit, null);
 
-        // then
+       // Then
         assertThat(result)
                 .isSortedAccordingTo(String::compareTo)
                 .hasSize(expectedSize);
@@ -61,10 +62,10 @@ class AssetAsBuiltRepositoryIT extends IntegrationTestSpecification {
 
     private static Stream<Arguments> fieldNameTestProvider() {
         return Stream.of(
-                Arguments.of("id", 10L, 10),
-                Arguments.of("id", 200L, 13),
-                Arguments.of("inInvestigation", 10L, 1),
-                Arguments.of("owner", 10L, 2)
+                Arguments.of("id", "urn:uuid:1", 10, 3),
+                Arguments.of("id", null, 10, 10),
+                Arguments.of("id", null, 200, 13),
+                Arguments.of("owner", null, 10, 2)
         );
     }
 }

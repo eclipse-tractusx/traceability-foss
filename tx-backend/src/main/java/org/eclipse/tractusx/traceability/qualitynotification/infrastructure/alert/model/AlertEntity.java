@@ -41,7 +41,6 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationBaseEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
-import org.hibernate.annotations.Formula;
 
 import java.util.List;
 
@@ -61,7 +60,7 @@ public class AlertEntity extends NotificationBaseEntity {
             joinColumns = @JoinColumn(name = "alert_id"),
             inverseJoinColumns = @JoinColumn(name = "asset_id")
     )
-    private List<AssetAsBuiltEntity> assets;
+    public List<AssetAsBuiltEntity> assets;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
@@ -73,18 +72,6 @@ public class AlertEntity extends NotificationBaseEntity {
 
     @OneToMany(mappedBy = "alert")
     private List<AlertNotificationEntity> notifications;
-
-    @Formula("(select A.severity from alert_notification A where A.alert_id=id limit 1)")
-    private Integer severity;
-
-    @Formula("(select A.created_by from alert_notification A where A.alert_id=id limit 1)")
-    private String createdBy;
-
-    @Formula("(select A.send_to_name from alert_notification A where A.alert_id=id limit 1)")
-    private String sendToName;
-
-    @Formula("(select A.send_to from alert_notification A where A.alert_id=id limit 1)")
-    private String sendTo;
 
     public static QualityNotification toDomain(AlertEntity alertNotificationEntity) {
         List<QualityNotificationMessage> notifications = emptyIfNull(alertNotificationEntity.getNotifications()).stream()

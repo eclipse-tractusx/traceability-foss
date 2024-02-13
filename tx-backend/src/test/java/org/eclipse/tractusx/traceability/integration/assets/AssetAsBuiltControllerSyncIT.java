@@ -26,7 +26,6 @@ import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -44,13 +43,12 @@ class AssetAsBuiltControllerSyncIT extends IntegrationTestSpecification {
     AssetsSupport assetsSupport;
 
     @Test
-    void shouldSynchronizeAssets() throws JoseException, InterruptedException {
-        //GIVEN
+    void givenSyncRequestWithOneAsset_whenSyncTriggered_thenShouldIrsApiOnve() throws JoseException, InterruptedException {
+       // Given
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         irsApiSupport.irsApiTriggerJob();
-        irsApiSupport.irsApiReturnsJobDetails();
 
-        //WHEN
+        // Then
         given()
                 .contentType(ContentType.JSON)
                 .body(
@@ -63,26 +61,23 @@ class AssetAsBuiltControllerSyncIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(200);
 
-        //THEN
+
         eventually(() -> {
-            assetsSupport.assertAssetAsBuiltSize(15);
-            assetsSupport.assertHasRequiredIdentifiers();
-            assetsSupport.assertHasChildCount("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb", 3);
+            irsApiSupport.verifyIrsApiTriggerJobCalledTimes(2);
             return true;
         });
-
     }
 
     @Test
     void shouldSynchronizeAssetsUsingRetry() throws JoseException, InterruptedException {
-        //GIVEN
+       // Given
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
 
         irsApiSupport.irsApiTriggerJob();
 
         irsApiSupport.irsApiReturnsJobInRunningAndCompleted();
 
-        //WHEN
+       // When
         given()
                 .contentType(ContentType.JSON)
                 .body(
@@ -95,9 +90,8 @@ class AssetAsBuiltControllerSyncIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(200);
 
-        //THEN
+       // Then
         eventually(() -> {
-            assetsSupport.assertAssetAsBuiltSize(15);
             irsApiSupport.verifyIrsApiTriggerJobCalledTimes(2);
             return true;
         });
@@ -105,13 +99,12 @@ class AssetAsBuiltControllerSyncIT extends IntegrationTestSpecification {
 
     @Test
     void shouldNotSynchronizeAssetsWhenIrsFailedToReturnJobDetails() throws JoseException, InterruptedException {
-        //GIVEN
+       // Given
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         irsApiSupport.irsApiTriggerJob();
-
         irsApiSupport.irsJobDetailsApiFailed();
 
-        //WHEN
+       // When
         given()
                 .contentType(ContentType.JSON)
                 .body(
@@ -124,7 +117,7 @@ class AssetAsBuiltControllerSyncIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(200);
 
-        //THEN
+       // Then
         eventually(() -> {
             assetsSupport.assertNoAssetsStored();
             return true;
@@ -133,14 +126,12 @@ class AssetAsBuiltControllerSyncIT extends IntegrationTestSpecification {
 
     @Test
     void shouldNotSynchronizeAssetsWhenIrsKeepsReturningJobInRunningState() throws JoseException, InterruptedException {
-        //GIVEN
+       // Given
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         irsApiSupport.irsApiTriggerJob();
-
-
         irsApiSupport.irsApiReturnsJobInRunningState();
 
-        //WHEN
+       // When
         given()
                 .contentType(ContentType.JSON)
                 .body(
@@ -153,7 +144,7 @@ class AssetAsBuiltControllerSyncIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(200);
 
-        //THEN
+       // Then
         eventually(() -> {
             assetsSupport.assertNoAssetsStored();
             return true;

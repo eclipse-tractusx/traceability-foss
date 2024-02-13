@@ -41,7 +41,6 @@ public class RestitoConfig {
 
     public static StubServer getStubServer() {
         assert STUB_SERVER != null;
-
         return STUB_SERVER;
     }
 

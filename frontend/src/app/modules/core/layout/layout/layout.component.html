@@ -19,15 +19,9 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<main class="layout-container"
-  [ngStyle]="{
-      backgroundImage: 'url(./assets/images/background.svg)',
-      backgroundRepeat: 'no-repeat',
-      backgroundPosition: 'bottom left',
-      backgroundSize: '100% auto'
-    }">
+<main class="layout-container">
   <div class="layout-content">
-    <app-header class="layout-header"></app-header>
+    <app-header></app-header>
     <div class="layout-content__box-modal relative">
       <div class="flex flex-col h-full">
         <router-outlet></router-outlet>
@@ -36,7 +30,6 @@ SPDX-License-Identifier: Apache-2.0
         </div>
       </div>
     </div>
-    <app-footer></app-footer>
   </div>
 
   <app-sidenav></app-sidenav>

@@ -20,7 +20,7 @@
 package org.eclipse.tractusx.traceability.assets.application.rest.response;
 
 
-import assets.response.base.DescriptionsResponse;
+import assets.response.base.response.DescriptionsResponse;
 import org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper.AssetAsBuiltResponseMapper;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.junit.jupiter.api.Test;
@@ -31,15 +31,15 @@ class DescriptionsResponseTest {
 
     @Test
     void givenDescriptionsResponse_whenFrom_thenMapCorrectly() {
-        // given
+      // Given
         final String id = "identifier";
         final String shortId = "shortIdentifier";
         final Descriptions response = new Descriptions(id, shortId);
 
-        // when
+        // When
         final DescriptionsResponse result = AssetAsBuiltResponseMapper.from(response);
 
-        // then
+       // Then
         assertThat(result).usingRecursiveComparison()
                 .isEqualTo(response);
     }

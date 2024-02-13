@@ -22,10 +22,11 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
-import { ToastService } from '@shared/components/toasts/toast.service';
+import { ToastService } from 'src/app/modules/shared/components/toasts/toast.service';
 
 export class HttpErrorInterceptor implements HttpInterceptor {
-  constructor(private readonly toastService: ToastService) { }
+  constructor(private readonly toastService: ToastService) {
+  }
 
   public intercept(
     request: HttpRequest<Record<string, unknown>>,
@@ -39,7 +40,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         // Add logging server to store errors from the FE
         // Intercept "console.error" and send to logging server for further analysis
         const { error, message } = errorResponse;
-        const errorMessage = !error.message ? message : `Backend returned code ${error.status}: ${error.message}`;
+        const errorMessage = !error.message ? message : `Backend returned code ${ error.status }: ${ error.message }`;
 
         this.toastService.error(errorMessage);
         return throwError(() => errorResponse);

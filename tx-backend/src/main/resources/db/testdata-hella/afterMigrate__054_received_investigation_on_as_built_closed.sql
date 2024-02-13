@@ -6,19 +6,19 @@
 
 ---
 insert into investigation
-    (id                         , bpn            , close_reason                                  , created                              , description                                          , status  , side      , accept_reason, decline_reason, updated                                , error_message)
+    (id                         , bpn            , close_reason                                 , created                              , description                                          , status  , side      , accept_reason, decline_reason, updated                               , error_message)
 values
-    (${investigationReceivedId5}, ${bpnCustomer3}, 'We confirm that the problem has been fixed.' , current_timestamp - interval '5 days', 'Investigation on H-LeftFogLight due to malfunction.', 'CLOSED', 'RECEIVER', null         , null           , current_timestamp - interval '1 hours', null);
+    (${investigationReceivedId5}, ${bpnCustomer3}, 'We confirm that the problem has been fixed.', current_timestamp - interval '5 days', 'Investigation on H-LeftFogLight due to malfunction.', 'CLOSED', 'RECEIVER', null         , null          , current_timestamp - interval '1 hours', null);
 
 ---
 -- reset sequence to highest next-val
-select setval('investigation_id_seq', (select max(i.id) from investigation i), true);
+select setval('investigation_id_seq1', (select max(i.id) from investigation i), true);
 
 ---
 insert into investigation_notification
-    (id                                      , contract_agreement_id, edc_url, notification_reference_id             , created_by     , send_to  , investigation_id           , target_date                           , severity, created_by_name, send_to_name, edc_notification_id                   , status, created                              , updated                               , message_id                            , is_initial)
+    (id                                      , contract_agreement_id, edc_url, notification_reference_id             , created_by     , send_to  , investigation_id           , target_date                           , severity, created_by_name, send_to_name, edc_notification_id                   , status  , created                              , updated                               , message_id                            , is_initial)
 values
-    (${investigationNotificationReceivedId5a}, null                 , null   , '8925f21f-09eb-4789-81fb-ec221e9e1561', ${bpnCustomer3}, ${bpnOwn}, ${investigationReceivedId5}, current_timestamp + interval '1 month', 0       , 'VW AG'        , 'Hella'     , '8925f21f-09eb-4789-81fb-ec221e9e1561', 7     , current_timestamp - interval '5 days', current_timestamp - interval '2 hours', 'e04f75e8-d37b-42e4-8cf7-6127f35f3ed5', false);
+    (${investigationNotificationReceivedId5a}, null                 , null   , '8925f21f-09eb-4789-81fb-ec221e9e1561', ${bpnCustomer3}, ${bpnOwn}, ${investigationReceivedId5}, current_timestamp + interval '1 month', 'MINOR' , 'VW AG'        , 'Hella'     , '8925f21f-09eb-4789-81fb-ec221e9e1561', 'CLOSED', current_timestamp - interval '5 days', current_timestamp - interval '2 hours', 'e04f75e8-d37b-42e4-8cf7-6127f35f3ed5', false);
 
 ---
 -- join investigation to asset
@@ -35,17 +35,12 @@ values
     (${investigationReceivedId5}, ${assetAsBuiltId15});
 
 ---
-update assets_as_built
-    set in_investigation = false
-    where id in (${assetAsBuiltId15});
-
----
 ---
 -- CLOSED by sender notification message
 insert into investigation_notification
-    (id                                      , contract_agreement_id, edc_url                                                 , notification_reference_id, created_by     , send_to  , investigation_id           , target_date                           , severity, created_by_name, send_to_name, edc_notification_id                   , status, created                               , updated                              , message_id                            , is_initial)
+    (id                                      , contract_agreement_id, edc_url                                                 , notification_reference_id, created_by     , send_to  , investigation_id           , target_date                           , severity, created_by_name, send_to_name, edc_notification_id                   , status  , created                               , updated                              , message_id                            , is_initial)
 values
-    (${investigationNotificationReceivedId5b}, 'contractAgreementId', 'http://localhost:8082/api/qualitynotifications/receive', null                     , ${bpnCustomer3}, ${bpnOwn}, ${investigationReceivedId5}, current_timestamp + interval '1 month', 0       , 'VW AG'        ,'Hella'      , '8925f21f-09eb-4789-81fb-ec221e9e1561', 7     , current_timestamp - interval '5 days ', current_timestamp - interval '1 hour', '207ba6cf-217b-401d-a5da-69cac8b154a5', false);
+    (${investigationNotificationReceivedId5b}, 'contractAgreementId', 'http://localhost:8082/api/qualitynotifications/receive', null                     , ${bpnCustomer3}, ${bpnOwn}, ${investigationReceivedId5}, current_timestamp + interval '1 month', 'MINOR' , 'VW AG'        , 'Hella'     , '8925f21f-09eb-4789-81fb-ec221e9e1561', 'CLOSED', current_timestamp - interval '5 days ', current_timestamp - interval '1 hour', '207ba6cf-217b-401d-a5da-69cac8b154a5', false);
 
 ---
 -- join CLOSED notification to asset

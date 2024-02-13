@@ -28,6 +28,7 @@ import java.util.List;
 @Component
 public class DatabaseSupport {
     private static final List<String> TABLES = List.of(new String[]{
+            "submodel_payload",
             "assets_as_built_childs",
             "assets_as_built_parents",
             "assets_as_built_notifications",
@@ -43,13 +44,11 @@ public class DatabaseSupport {
             "alert",
             "assets_as_built",
             "assets_as_planned",
-            "shell_descriptor",
             "bpn_storage",
             "investigation_notification",
             "investigation",
             "traction_battery_code_subcomponent"
     });
-
 
     @Autowired
     JdbcTemplate jdbcTemplate;

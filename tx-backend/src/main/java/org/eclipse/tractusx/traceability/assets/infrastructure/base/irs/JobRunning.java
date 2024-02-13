@@ -25,9 +25,10 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 
 import java.util.function.Predicate;
 
+// TODO is this still needed - as we have changed from async runner for IRS Jobs to callback approach this should be deprecated. (MW)
 public class JobRunning implements Predicate<JobDetailResponse> {
-	@Override
-	public boolean test(JobDetailResponse jobResponse) {
-		return jobResponse.isRunning();
-	}
+    @Override
+    public boolean test(JobDetailResponse jobResponse) {
+        return jobResponse.isRunning();
+    }
 }

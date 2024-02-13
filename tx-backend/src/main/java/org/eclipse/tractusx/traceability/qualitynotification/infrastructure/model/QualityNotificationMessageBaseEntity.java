@@ -18,6 +18,8 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PreUpdate;
@@ -25,7 +27,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
-import org.hibernate.annotations.Formula;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -45,26 +46,14 @@ public class QualityNotificationMessageBaseEntity {
     private String contractAgreementId;
     private String notificationReferenceId;
     private Instant targetDate;
+    @Enumerated(EnumType.STRING)
     private QualityNotificationSeverity severity;
     private String edcNotificationId;
     private LocalDateTime created;
     private LocalDateTime updated;
     private String messageId;
     private Boolean isInitial;
-
-    @Formula("case status "
-            + "when 'CREATED' then 0 "
-            + "when 'SENT' then 1 "
-            + "when 'RECEIVED' then 2 "
-            + "when 'ACKNOWLEDGED' then 3 "
-            + "when 'CANCELED' then 4 "
-            + "when 'ACCEPTED' then 5 "
-            + "when 'DECLINED' then 6 "
-            + "when 'CLOSED' then 7 "
-            + "else -1 "
-            + "end")
-    private Integer statusrank;
-
+    @Enumerated(EnumType.STRING)
     private NotificationStatusBaseEntity status;
 
     @PreUpdate

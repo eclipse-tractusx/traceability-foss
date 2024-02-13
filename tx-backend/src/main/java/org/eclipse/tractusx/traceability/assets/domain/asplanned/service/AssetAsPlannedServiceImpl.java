@@ -24,9 +24,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.service.AbstractAssetBaseService;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
+import org.eclipse.tractusx.traceability.common.model.PageResult;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -64,5 +68,10 @@ public class AssetAsPlannedServiceImpl extends AbstractAssetBaseService {
     @Override
     protected IrsRepository getIrsRepository() {
         return irsRepository;
+    }
+
+    @Override
+    public PageResult<AssetBase> getAssets(Pageable pageable, SearchCriteria searchCriteria) {
+        return assetAsPlannedRepository.getAssets(pageable, searchCriteria);
     }
 }

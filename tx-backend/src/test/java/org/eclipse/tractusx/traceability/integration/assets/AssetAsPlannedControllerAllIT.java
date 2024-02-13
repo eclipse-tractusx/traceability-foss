@@ -60,11 +60,11 @@ class AssetAsPlannedControllerAllIT extends IntegrationTestSpecification {
 
     @Test
     void shouldReturnAssetsWithManufacturerName() throws JoseException {
-        //GIVEN
+       // Given
         bpnSupport.cachedBpnsForAsPlannedAssets();
         assetsSupport.defaultAssetsAsPlannedStored();
 
-        //THEN
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -81,16 +81,16 @@ class AssetAsPlannedControllerAllIT extends IntegrationTestSpecification {
     @ParameterizedTest
     @MethodSource("owners")
     void shouldReturnAssetsByOwnerFiltering(String ownerValue, int totalItemsValue) throws JoseException {
-        //GIVEN
+       // Given
         assetsSupport.defaultAssetsAsPlannedStored();
+        final String filter = "owner,EQUAL," + ownerValue + ",AND";
+        //filter=owner,EQUAL,OWN
 
-        //THEN filter=owner,EQUAL,OWN
-        final String filterOperator = "AND";
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
-                .queryParam("filter", "owner,EQUAL," + ownerValue)
-                .queryParam("filterOperator", filterOperator)
+                .queryParam("filter", filter)
                 .when()
                 .get("/api/assets/as-planned")
                 .then()
@@ -100,10 +100,10 @@ class AssetAsPlannedControllerAllIT extends IntegrationTestSpecification {
 
     @Test
     void shouldGetPageOfAssets() throws JoseException {
-        //GIVEN
+       // Given
         assetsSupport.defaultAssetsAsPlannedStored();
 
-        //THEN
+       // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -117,4 +117,17 @@ class AssetAsPlannedControllerAllIT extends IntegrationTestSpecification {
                 .body("pageSize", Matchers.is(2));
     }
 
+    @Test
+    void givenNonExistingSortField_whenGetAssetsAsPlanned_thenBadRequest() throws JoseException {
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .param("page", "2")
+                .param("size", "2")
+                .param("sort", "nonExistingField,ASC")
+                .when()
+                .get("/api/assets/as-planned")
+                .then()
+                .statusCode(400);
+    }
 }

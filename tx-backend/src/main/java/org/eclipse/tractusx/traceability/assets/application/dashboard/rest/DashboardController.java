@@ -30,25 +30,20 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.application.dashboard.mapper.DashboardResponseMapper;
 import org.eclipse.tractusx.traceability.assets.application.dashboard.service.DashboardService;
-import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
-import org.springframework.security.access.prepost.PreAuthorize;
+import assets.importpoc.ErrorResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
 @Tag(name = "Dashboard")
 @RequestMapping(path = "/dashboard", produces = "application/json")
 @RequiredArgsConstructor
-@Slf4j
 public class DashboardController {
 
     private final DashboardService dashboardService;
-    private static final String API_LOG_START = "Received API call on /dashboard";
 
     @GetMapping("")
     @Operation(operationId = "dashboard",
@@ -101,7 +96,6 @@ public class DashboardController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     public DashboardResponse dashboard() {
-        log.info(API_LOG_START);
         return DashboardResponseMapper.from(dashboardService.getDashboard());
     }
 }

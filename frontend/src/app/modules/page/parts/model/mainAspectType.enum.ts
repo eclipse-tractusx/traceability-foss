@@ -17,12 +17,9 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 export enum MainAspectType {
-  AS_DESIGNED = "as_designed",
-  AS_BUILT = "as_built",
-  AS_ORDERED = "as_ordered",
-  AS_PLANNED = "as_planned",
-  AS_SUPPORTED = "as_supported",
-  AS_RECYCLED = "as_recycled"
+  AS_BUILT = 'as_built',
+  AS_PLANNED = 'as_planned'
 }
+
 
 

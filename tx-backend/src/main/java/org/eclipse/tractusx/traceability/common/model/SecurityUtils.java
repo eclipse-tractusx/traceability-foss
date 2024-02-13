@@ -29,14 +29,16 @@ import qualitynotification.base.request.StartQualityNotificationRequest;
 import qualitynotification.base.request.UpdateQualityNotificationRequest;
 
 import java.util.List;
-import java.util.Objects;
+
 
 public class SecurityUtils {
 
     public static String sanitizeHtml(String str) {
         return StringEscapeUtils.escapeHtml4(str);
     }
+
     private static final String UNWANTED_REGEX = "\r\n|\r|\n";
+
     public static String sanitize(String unSanitizedInput) {
         if (unSanitizedInput != null) {
             return unSanitizedInput.replaceAll(UNWANTED_REGEX, " ");
@@ -54,33 +56,33 @@ public class SecurityUtils {
     }
 
     public static StartQualityNotificationRequest sanitize(StartQualityNotificationRequest request) {
-            String cleanDescription = sanitize(request.getDescription());
-            String cleanReceiverBpn = sanitize(request.getReceiverBpn());
-            List<String> cleanPartIds = sanitize(request.getPartIds());
+        String cleanDescription = sanitize(request.getDescription());
+        String cleanReceiverBpn = sanitize(request.getReceiverBpn());
+        List<String> cleanPartIds = sanitize(request.getPartIds());
         return StartQualityNotificationRequest.builder()
-                    .description(cleanDescription)
-                    .targetDate(request.getTargetDate())
-                    .severity(request.getSeverity())
-                    .isAsBuilt(request.isAsBuilt())
-                    .receiverBpn(cleanReceiverBpn)
-                    .partIds(cleanPartIds)
-                    .build();
+                .description(cleanDescription)
+                .targetDate(request.getTargetDate())
+                .severity(request.getSeverity())
+                .isAsBuilt(request.isAsBuilt())
+                .receiverBpn(cleanReceiverBpn)
+                .partIds(cleanPartIds)
+                .build();
     }
 
 
     public static CloseQualityNotificationRequest sanitize(CloseQualityNotificationRequest closeInvestigationRequest) {
-            String cleanReason = sanitize(closeInvestigationRequest.getReason());
-            CloseQualityNotificationRequest cleanCloseInvestigationRequest = new CloseQualityNotificationRequest();
-            cleanCloseInvestigationRequest.setReason(cleanReason);
-            return cleanCloseInvestigationRequest;
+        String cleanReason = sanitize(closeInvestigationRequest.getReason());
+        CloseQualityNotificationRequest cleanCloseInvestigationRequest = new CloseQualityNotificationRequest();
+        cleanCloseInvestigationRequest.setReason(cleanReason);
+        return cleanCloseInvestigationRequest;
     }
 
     public static UpdateQualityNotificationRequest sanitize(UpdateQualityNotificationRequest updateInvestigationRequest) {
-            String cleanReason = sanitize(updateInvestigationRequest.getReason());
-            UpdateQualityNotificationRequest cleanUpdateInvestigationRequest = new UpdateQualityNotificationRequest();
-            cleanUpdateInvestigationRequest.setStatus(updateInvestigationRequest.getStatus());
-            cleanUpdateInvestigationRequest.setReason(cleanReason);
-            return cleanUpdateInvestigationRequest;
+        String cleanReason = sanitize(updateInvestigationRequest.getReason());
+        UpdateQualityNotificationRequest cleanUpdateInvestigationRequest = new UpdateQualityNotificationRequest();
+        cleanUpdateInvestigationRequest.setStatus(updateInvestigationRequest.getStatus());
+        cleanUpdateInvestigationRequest.setReason(cleanReason);
+        return cleanUpdateInvestigationRequest;
     }
 
     public static EDCNotification sanitize(EDCNotification edcNotification) {
@@ -91,12 +93,13 @@ public class SecurityUtils {
         }
         return null;
     }
+
     private static EDCNotificationHeader sanitize(EDCNotificationHeader edcNotificationHeader) {
         String cleanRecipientBPN = sanitize(edcNotificationHeader.recipientBPN());
         String cleanNotificationId = sanitize(edcNotificationHeader.notificationId());
         String cleanSenderBPN = sanitize(edcNotificationHeader.senderBPN());
         String cleanSenderAddress = sanitize(edcNotificationHeader.senderAddress());
-        String cleanTargetDate = sanitize(Objects.requireNonNull(edcNotificationHeader.targetDate()));
+        String cleanTargetDate = sanitize(edcNotificationHeader.targetDate());
         String cleanStatus = edcNotificationHeader.status();
         String cleanClassification = edcNotificationHeader.classification();
         String cleanSeverity = sanitize(edcNotificationHeader.severity());

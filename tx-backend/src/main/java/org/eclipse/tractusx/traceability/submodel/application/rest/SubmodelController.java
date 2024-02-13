@@ -19,6 +19,7 @@
 
 package org.eclipse.tractusx.traceability.submodel.application.rest;
 
+import assets.importpoc.ErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -27,7 +28,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.submodel.application.service.SubmodelService;
 import org.eclipse.tractusx.traceability.submodel.domain.model.Submodel;
 import org.springframework.http.HttpStatus;
@@ -41,6 +42,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 @Tag(name = "Submodel")
@@ -111,7 +113,9 @@ public class SubmodelController {
             tags = {"Submodel"},
             description = "This endpoint allows you to save a Submodel identified by its ID.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-    @ApiResponses(value = {@ApiResponse(responseCode = "204", description = "No Content."),
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok."),
+            @ApiResponse(responseCode = "204", description = "No Content."),
             @ApiResponse(
                     responseCode = "400",
                     description = "Bad request.",
@@ -168,7 +172,9 @@ public class SubmodelController {
             tags = {"Submodel"},
             description = "Deletes all submodels from the system.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-    @ApiResponses(value = {@ApiResponse(responseCode = "204", description = "No Content."),
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok."),
+            @ApiResponse(responseCode = "204", description = "No Content."),
             @ApiResponse(
                     responseCode = "400",
                     description = "Bad request.",
@@ -216,5 +222,4 @@ public class SubmodelController {
     public void deleteSubmodels() {
         submodelService.deleteAll();
     }
-
 }

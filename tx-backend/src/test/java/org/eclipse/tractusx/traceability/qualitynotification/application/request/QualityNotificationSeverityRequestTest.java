@@ -48,22 +48,22 @@ class QualityNotificationSeverityRequestTest {
     void givenValidSeverity_whenDeserialize_thenCreateProperValue(
             final String input, final QualityNotificationSeverityRequest output
     ) throws IOException {
-        // when
+        // When
         final QualityNotificationSeverityRequest result = objectMapper.readValue(input, QualityNotificationSeverityRequest.class);
 
-        // then
+       // Then
         assertThat(result).isEqualTo(output);
     }
 
     @Test
     void givenInvalidSeverity_whenDeserialize_thenThrowException() throws IOException {
-        // given
+       // Given
         final String input = "\"NON_EXISTENT\"";
 
-        // when/then
-        try{
+        // Then
+        try {
             objectMapper.readValue(input, QualityNotificationSeverityRequest.class);
-        } catch(ValueInstantiationException exception){
+        } catch (ValueInstantiationException exception) {
             assertThat(exception.getCause()).isExactlyInstanceOf(NoSuchElementException.class);
             assertThat(exception.getCause().getMessage())
                     .isEqualTo("Unsupported QualityNotificationSeverityRequest: NON_EXISTENT. Must be one of: MINOR, MAJOR, CRITICAL, LIFE-THREATENING");

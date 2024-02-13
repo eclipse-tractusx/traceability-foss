@@ -39,7 +39,7 @@ SPDX-License-Identifier: Apache-2.0
 
     <properties>
         <springboot.version>3.1.6</springboot.version>
-        <spring-core.version>6.0.15</spring-core.version>
+        <spring-core.version>6.0.16</spring-core.version>
         <spring-security-config.version>6.1.5</spring-security-config.version>
         <java.version>17</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -48,60 +48,61 @@ SPDX-License-Identifier: Apache-2.0
         <start-class>org.eclipse.tractusx.traceability.TraceabilityApplication</start-class>
 
         <!-- versions for Maven plugin -->
+        <maven-jxr-plugin.version>3.3.1</maven-jxr-plugin.version>
         <ascii-doctor.maven.plugin.version>2.2.4</ascii-doctor.maven.plugin.version>
-        <checkstyle-plugin.version>3.3.0</checkstyle-plugin.version>
-        <compiler-plugin.version>3.10.1</compiler-plugin.version>
+        <checkstyle-plugin.version>3.3.1</checkstyle-plugin.version>
+        <compiler-plugin.version>3.11.0</compiler-plugin.version>
         <findsecbugs-plugin.version>1.12.0</findsecbugs-plugin.version>
-        <install-plugin.version>3.0.1</install-plugin.version>
+        <install-plugin.version>3.1.1</install-plugin.version>
         <jacoco-plugin.version>0.8.8</jacoco-plugin.version>
         <jar-plugin.version>3.3.0</jar-plugin.version>
         <owasp-plugin.version>8.4.0</owasp-plugin.version>
-        <spotbugs-plugin.version>4.7.3.0</spotbugs-plugin.version>
+        <spotbugs-plugin.version>4.8.3.0</spotbugs-plugin.version>
         <spring-boot-maven-plugin.version>3.1.3</spring-boot-maven-plugin.version>
         <maven-project-info-reports-plugin.version>3.4.5</maven-project-info-reports-plugin.version>
         <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
-        <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
-        <maven-failsafe-plugin.version>3.0.0-M8</maven-failsafe-plugin.version>
-        <maven-site-plugin.version>4.0.0-M9</maven-site-plugin.version>
+        <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
+        <maven-failsafe-plugin.version>3.2.5</maven-failsafe-plugin.version>
+        <maven-site-plugin.version>4.0.0-M11</maven-site-plugin.version>
         <edc-library.version>0.1.3</edc-library.version>
         <!-- versions for 3rd party dependencies -->
         <eclipse-dash-ip.version>0.0.1-SNAPSHOT</eclipse-dash-ip.version>
-        <nimbus-jose-jwt.version>9.31</nimbus-jose-jwt.version>
-        <ascii-doctor-j-diagram.version>2.2.9</ascii-doctor-j-diagram.version>
+        <nimbus-jose-jwt.version>9.37.3</nimbus-jose-jwt.version>
+        <ascii-doctor-j-diagram.version>2.2.13</ascii-doctor-j-diagram.version>
         <ascii-dcotor-j.version>2.5.8</ascii-dcotor-j.version>
         <auth-0-java-jwt.version>4.4.0</auth-0-java-jwt.version>
         <feign.version>12.3</feign.version>
         <jakarta-ws-rs.version>3.1.0</jakarta-ws-rs.version>
         <jruby.version>9.4.3.0</jruby.version>
-        <resilience4j.version>2.1.0</resilience4j.version>
-        <schedlock.version>5.7.0</schedlock.version>
+        <resilience4j.version>2.0.2</resilience4j.version>
+        <schedlock.version>5.10.0</schedlock.version>
         <spring-cloud.version>2022.0.3</spring-cloud.version>
         <jetbrains-annotation.version>24.0.1</jetbrains-annotation.version>
         <feign-form.version>3.8.0</feign-form.version>
         <feign-slf4j.version>12.4</feign-slf4j.version>
         <scribe-java.version>8.3.3</scribe-java.version>
         <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
-        <swagger-annotation.version>1.6.11</swagger-annotation.version>
+        <swagger-annotation.version>1.6.12</swagger-annotation.version>
         <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
-        <commons-io.version>2.13.0</commons-io.version>
+        <commons-io.version>2.15.0</commons-io.version>
         <jose4j.version>0.9.3</jose4j.version>
         <restito.version>1.1.0</restito.version>
-        <testcontainer-postgresql.version>1.19.0</testcontainer-postgresql.version>
+        <testcontainer-postgresql.version>1.19.1</testcontainer-postgresql.version>
         <rest-assured.version>5.3.2</rest-assured.version>
 
         <springdoc.version>2.0.4</springdoc.version>
         <assertj.version>3.24.2</assertj.version>
         <commons-logging.version>1.2</commons-logging.version>
-        <logback.version>1.4.14</logback.version>
+        <commons-collections.version>4.4</commons-collections.version>
         <lombok.version>1.18.28</lombok.version>
-        <jetty.version>12.0.4</jetty.version>
-        <json-unit-assertj.version>2.38.0</json-unit-assertj.version>
+        <json-unit-assertj.version>3.2.2</json-unit-assertj.version>
         <cucumber.version>7.12.1</cucumber.version>
         <org-snakeyaml.version>2.2</org-snakeyaml.version>
-        <jackson.version>2.16.0</jackson.version>
+        <jackson.version>2.15.2</jackson.version>
         <junit-bom.version>5.9.3</junit-bom.version>
         <awaitility.version>3.0.0</awaitility.version>
         <irs-client-lib.version>1.4.1</irs-client-lib.version>
+        <json-schema-validator.version>5.4.0</json-schema-validator.version>
         <!-- Sonar related properties -->
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
@@ -121,33 +122,6 @@ SPDX-License-Identifier: Apache-2.0
 
     <dependencyManagement>
         <dependencies>
-            <!-- Update ch.qos.logback to avoid CVE-2023-6378, can be removed after org.eclipse.edc updates their dependency -->
-            <dependency>
-                <artifactId>logback-core</artifactId>
-                <groupId>ch.qos.logback</groupId>
-                <version>${logback.version}</version>
-            </dependency>
-            <dependency>
-                <artifactId>logback-classic</artifactId>
-                <groupId>ch.qos.logback</groupId>
-                <version>${logback.version}</version>
-            </dependency>
-            <!-- Update com.fasterxml.jackson.core to avoid CVE-2023-35116, can be removed after org.eclipse.edc updates their dependency -->
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-core</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-annotations</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
             <dependency>
                 <groupId>io.github.resilience4j</groupId>
                 <artifactId>resilience4j-bom</artifactId>
@@ -160,6 +134,11 @@ SPDX-License-Identifier: Apache-2.0
                 <groupId>org.yaml</groupId>
                 <artifactId>snakeyaml</artifactId>
                 <version>${org-snakeyaml.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>4.4</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -319,6 +298,7 @@ SPDX-License-Identifier: Apache-2.0
                         <version>${owasp-plugin.version}</version>
                         <configuration>
                             <suppressionFile>dependency_check/suppressions.xml</suppressionFile>
+                            <failBuildOnCVSS>7.0</failBuildOnCVSS>
                         </configuration>
                         <executions>
                             <execution>

@@ -51,7 +51,6 @@ public class InvestigationsReceiverService {
         QualityNotificationMessage notification = notificationMapper.toNotification(edcNotification);
         QualityNotification investigation = qualityNotificationMapper.toQualityNotification(investigationCreatorBPN, edcNotification.getInformation(), notification);
         QualityNotificationId investigationId = investigationsRepository.saveQualityNotificationEntity(investigation);
-        assetService.setAssetsInvestigationStatus(investigation);
         log.info("Stored received edcNotification in investigation with id {}", investigationId);
     }
 
@@ -65,10 +64,10 @@ public class InvestigationsReceiverService {
             case ACCEPTED -> investigation.accept(edcNotification.getInformation(), notification);
             case DECLINED -> investigation.decline(edcNotification.getInformation(), notification);
             case CLOSED -> investigation.close(BPN.of(investigation.getBpn()), edcNotification.getInformation());
-            default -> throw new InvestigationIllegalUpdate("Failed to handle notification due to unhandled %s status".formatted(edcNotification.convertNotificationStatus()));
+            default ->
+                    throw new InvestigationIllegalUpdate("Failed to handle notification due to unhandled %s status".formatted(edcNotification.convertNotificationStatus()));
         }
         investigation.addNotification(notification);
-        assetService.setAssetsInvestigationStatus(investigation);
         QualityNotificationId investigationId = investigationsRepository.updateQualityNotificationEntity(investigation);
         log.info("Stored update edcNotification in investigation with id {}", investigationId);
     }

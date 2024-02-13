@@ -18,8 +18,8 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.integration.assets;
 
+import assets.response.base.request.QualityTypeRequest;
 import io.restassured.http.ContentType;
-import org.eclipse.tractusx.traceability.assets.application.base.request.QualityTypeRequest;
 import org.eclipse.tractusx.traceability.common.security.JwtRole;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.ForbiddenMatcher;
@@ -46,12 +46,11 @@ class AssetAsPlannedControllerAuthorizationIT extends IntegrationTestSpecificati
         given()
                 .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
                 .contentType(ContentType.JSON)
-        .when()
+                .when()
                 .get(ROOT)
-        .then()
+                .then()
                 .assertThat()
                 .statusCode(new ForbiddenMatcher(isAllowed));
-
     }
 
     @ParameterizedTest
@@ -61,11 +60,10 @@ class AssetAsPlannedControllerAuthorizationIT extends IntegrationTestSpecificati
                 .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
                 .contentType(ContentType.JSON)
                 .body(asJson(Map.of("globalAssetIds", List.of("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb"))))
-        .when()
+                .when()
                 .post(ROOT + "/sync")
-        .then()
+                .then()
                 .statusCode(new ForbiddenMatcher(isAllowed));
-
     }
 
     @ParameterizedTest
@@ -74,11 +72,10 @@ class AssetAsPlannedControllerAuthorizationIT extends IntegrationTestSpecificati
         given()
                 .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
                 .contentType(ContentType.JSON)
-        .when()
+                .when()
                 .get(ROOT + "/distinctFilterValues")
-        .then()
+                .then()
                 .statusCode(new ForbiddenMatcher(isAllowed));
-
     }
 
     @ParameterizedTest
@@ -87,11 +84,10 @@ class AssetAsPlannedControllerAuthorizationIT extends IntegrationTestSpecificati
         given()
                 .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
                 .contentType(ContentType.JSON)
-        .when()
+                .when()
                 .get(ROOT + "/123")
-        .then()
+                .then()
                 .statusCode(new ForbiddenMatcher(isAllowed));
-
     }
 
     @ParameterizedTest
@@ -100,11 +96,10 @@ class AssetAsPlannedControllerAuthorizationIT extends IntegrationTestSpecificati
         given()
                 .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
                 .contentType(ContentType.JSON)
-        .when()
+                .when()
                 .get(ROOT + "/123/children/456")
-        .then()
+                .then()
                 .statusCode(new ForbiddenMatcher(isAllowed));
-
     }
 
     @ParameterizedTest
@@ -114,11 +109,10 @@ class AssetAsPlannedControllerAuthorizationIT extends IntegrationTestSpecificati
                 .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
                 .contentType(ContentType.JSON)
                 .body(asJson(Map.of("qualityType", QualityTypeRequest.OK.getDescription())))
-        .when()
+                .when()
                 .patch(ROOT + "/123")
-        .then()
+                .then()
                 .statusCode(new ForbiddenMatcher(isAllowed));
-
     }
 
     @ParameterizedTest
@@ -128,10 +122,9 @@ class AssetAsPlannedControllerAuthorizationIT extends IntegrationTestSpecificati
                 .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
                 .contentType(ContentType.JSON)
                 .body(asJson(Map.of("assetIds", List.of("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb"))))
-        .when()
+                .when()
                 .post(ROOT + "/detail-information")
-        .then()
+                .then()
                 .statusCode(new ForbiddenMatcher(isAllowed));
-
     }
 }

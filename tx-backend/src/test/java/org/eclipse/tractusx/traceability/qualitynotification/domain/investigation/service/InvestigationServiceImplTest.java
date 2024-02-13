@@ -18,12 +18,9 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.service;
 
-import org.eclipse.tractusx.traceability.common.model.PageResult;
-import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationNotFoundException;
 import org.eclipse.tractusx.traceability.testdata.InvestigationTestDataFactory;
@@ -32,10 +29,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -53,7 +47,7 @@ class InvestigationServiceImplTest {
 
     @Test
     void testFindNotPresentInvestigationThrowsException() {
-        // given
+       // Given
         when(investigationsRepositoryMock.findOptionalQualityNotificationById(any(QualityNotificationId.class))).thenReturn(Optional.empty());
 
         // expect
@@ -62,7 +56,7 @@ class InvestigationServiceImplTest {
 
     @Test
     void testFindExistingInvestigation() {
-        // given
+       // Given
         when(investigationsRepositoryMock.findOptionalQualityNotificationById(any(QualityNotificationId.class))).thenReturn(Optional.of(
                 InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationStatus.ACKNOWLEDGED, QualityNotificationStatus.ACKNOWLEDGED)
         ));
@@ -70,83 +64,13 @@ class InvestigationServiceImplTest {
         // expect
         QualityNotification investigation = investigationService.find(0L);
 
-        // then
+       // Then
         assertThat(investigation).isNotNull();
     }
 
     @Test
-    void testFindCreatedInvestigations() {
-        // given
-        when(investigationsRepositoryMock.findQualityNotificationsBySide(any(QualityNotificationSide.class), any(Pageable.class))).thenReturn(new PageResult<>(
-                List.of(
-                        InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationSide.SENDER),
-                        InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationSide.SENDER)
-                )));
-
-        // expect
-        PageResult<QualityNotification> result = investigationService.getCreated(PageRequest.of(0, 5));
-
-        // then
-        assertThat(result).isNotNull();
-        assertThat(result.content()).hasSize(2);
-    }
-
-    @Test
-    void testFindCreatedInvestigationsWithSearchCriteria() {
-        // given
-        when(investigationsRepositoryMock.findAll(any(Pageable.class), any(SearchCriteria.class))).thenReturn(new PageResult<>(
-                List.of(
-                        InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationSide.SENDER),
-                        InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationSide.SENDER)
-                )));
-        SearchCriteria searchCriteria = InvestigationTestDataFactory.createSearchCriteria();
-
-        // expect
-        PageResult<QualityNotification> result = investigationService.getCreated(PageRequest.of(0, 5), searchCriteria);
-
-        // then
-        assertThat(result).isNotNull();
-        assertThat(result.content()).hasSize(2);
-    }
-
-    @Test
-    void testFindReceivedInvestigations() {
-        // given
-        when(investigationsRepositoryMock.findQualityNotificationsBySide(any(QualityNotificationSide.class), any(Pageable.class))).thenReturn(new PageResult<>(
-                List.of(
-                        InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationSide.RECEIVER)
-                )));
-
-        // expect
-        PageResult<QualityNotification> result = investigationService.getReceived(PageRequest.of(0, 5));
-
-        // then
-        assertThat(result).isNotNull();
-        assertThat(result.content()).hasSize(1);
-    }
-
-    @Test
-    void testFindReceivedInvestigationsWithSearchCriteria() {
-        // given
-        when(investigationsRepositoryMock.findAll(any(Pageable.class), any(SearchCriteria.class))).thenReturn(new PageResult<>(
-                List.of(
-                        InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationSide.RECEIVER)
-                )));
-        SearchCriteria searchCriteria = InvestigationTestDataFactory.createSearchCriteria();
-
-        // expect
-        PageResult<QualityNotification> result = investigationService.getReceived(PageRequest.of(0, 5), searchCriteria);
-
-        // then
-        assertThat(result).isNotNull();
-        assertThat(result.content()).hasSize(1);
-    }
-
-
-
-    @Test
     void testLoadNotPresentInvestigationThrowsException() {
-        // given
+       // Given
         when(investigationsRepositoryMock.findOptionalQualityNotificationById(any(QualityNotificationId.class))).thenReturn(Optional.empty());
 
         // expect
@@ -156,7 +80,7 @@ class InvestigationServiceImplTest {
 
     @Test
     void testLoadExistingInvestigation() {
-        // given
+       // Given
         when(investigationsRepositoryMock.findOptionalQualityNotificationById(any(QualityNotificationId.class))).thenReturn(Optional.of(
                 InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationStatus.ACKNOWLEDGED, QualityNotificationStatus.ACKNOWLEDGED)
         ));
@@ -164,13 +88,13 @@ class InvestigationServiceImplTest {
         // expect
         QualityNotification investigation = investigationService.loadOrNotFoundException(new QualityNotificationId(0L));
 
-        // then
+       // Then
         assertThat(investigation).isNotNull();
     }
 
     @Test
     void testLoadNotPresentInvestigationByEdcNotificationIdThrowsException() {
-        // given
+       // Given
         when(investigationsRepositoryMock.findByEdcNotificationId(any())).thenReturn(Optional.empty());
 
         // expect
@@ -179,16 +103,16 @@ class InvestigationServiceImplTest {
 
     @Test
     void testLoadPresentInvestigationByEdcNotificationId() {
-        // given
+       // Given
         when(investigationsRepositoryMock.findByEdcNotificationId(any())).thenReturn(Optional.of(
                         InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationStatus.ACKNOWLEDGED, QualityNotificationStatus.ACKNOWLEDGED)
                 )
         );
 
-        // when
+        // When
         QualityNotification investigation = investigationService.loadByEdcNotificationIdOrNotFoundException("0");
 
-        // then
+       // Then
         assertThat(investigation).isNotNull();
     }
 }

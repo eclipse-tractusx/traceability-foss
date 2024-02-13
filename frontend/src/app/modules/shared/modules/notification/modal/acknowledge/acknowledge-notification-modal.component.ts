@@ -39,7 +39,8 @@ export class AcknowledgeNotificationModalComponent {
 
   public notification: Notification;
 
-  constructor(private readonly toastService: ToastService, private readonly confirmModalService: ModalService) {}
+  constructor(private readonly toastService: ToastService, private readonly confirmModalService: ModalService) {
+  }
 
   public show(notification: Notification): void {
     this.notification = notification;
@@ -60,7 +61,6 @@ export class AcknowledgeNotificationModalComponent {
     const options: ModalData = {
       title: this.translationContext + '.modal.acknowledgeTitle',
       buttonRight: 'actions.acknowledge',
-      buttonLeft: 'actions.cancel',
 
       template: this.modal,
       onConfirm,

@@ -1,6 +1,9 @@
 package org.eclipse.tractusx.traceability.integration.qualitynotification.investigation;
 
 import io.restassured.http.ContentType;
+import org.eclipse.tractusx.traceability.common.request.OwnPageable;
+import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
+import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.BpnSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationNotificationsSupport;
@@ -13,6 +16,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import static io.restassured.RestAssured.given;
@@ -47,9 +51,14 @@ class ReadInvestigationsAndTestAllPagesIT extends IntegrationTestSpecification {
     @ParameterizedTest
     @MethodSource("createdArguments")
     void givenSmallPageSize_whenCallCreatedEndpoint_thenReturnExpectedResponse(
-            final long page,
+            final int page,
             final String[] expectedOrderOfIdShortItems
     ) throws JoseException {
+       // Given
+        String filterString = "channel,EQUAL,SENDER,AND";
+        String filter1 = "status,EQUAL,SENT,AND";
+        String filter2 = "status,EQUAL,ACCEPTED,AND";
+        String sort = "createdDate,desc";
 
         final InvestigationNotificationEntity[] testData = InvestigationTestDataFactory.createSenderMajorityInvestigationNotificationEntitiesTestData(bpnSupport.testBpn());
         investigationNotificationsSupport.storedNotifications(testData);
@@ -57,18 +66,13 @@ class ReadInvestigationsAndTestAllPagesIT extends IntegrationTestSpecification {
         final InvestigationNotificationEntity[] extendedTestData = InvestigationTestDataFactory.createExtendedSenderInvestigationNotificationEntitiesTestData(bpnSupport.testBpn());
         investigationNotificationsSupport.storedNotifications(extendedTestData);
 
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .body(new PageableFilterRequest(new OwnPageable(page, 2, List.of(sort)), new SearchCriteriaRequestParam(List.of(filterString, filter1, filter2))))
                 .contentType(ContentType.JSON)
-                .param("page", page)
-                .param("size", 2)
-                .param("filter", "status,EQUAL,SENT")
-                .param("filter", "status,EQUAL,ACCEPTED")
-                .param("filterOperator", "AND")
-                .param("sort", "createdDate,desc")
-                .log().all()
                 .when()
-                .get("/api/investigations/created")
+                .post("/api/investigations/filter")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -96,9 +100,14 @@ class ReadInvestigationsAndTestAllPagesIT extends IntegrationTestSpecification {
     @ParameterizedTest
     @MethodSource("receivedArguments")
     void givenSmallPageSize_whenCallReceivedEndpoint_thenReturnExpectedResponse(
-            final long page,
+            final int page,
             final String[] expectedOrderOfIdShortItems
     ) throws JoseException {
+       // Given
+        String filterString = "channel,EQUAL,RECEIVER,AND";
+        String filter1 = "status,EQUAL,RECEIVED,AND";
+        String filter2 = "status,EQUAL,ACCEPTED,AND";
+        String sort = "createdDate,desc";
 
         final InvestigationNotificationEntity[] testData = InvestigationTestDataFactory.createReceiverMajorityInvestigationNotificationEntitiesTestData(bpnSupport.testBpn());
         investigationNotificationsSupport.storedNotifications(testData);
@@ -106,18 +115,13 @@ class ReadInvestigationsAndTestAllPagesIT extends IntegrationTestSpecification {
         final InvestigationNotificationEntity[] extendedTestData = InvestigationTestDataFactory.createExtendedReceiverInvestigationNotificationEntitiesTestData(bpnSupport.testBpn());
         investigationNotificationsSupport.storedNotifications(extendedTestData);
 
+        // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .body(new PageableFilterRequest(new OwnPageable(page, 2, List.of(sort)), new SearchCriteriaRequestParam(List.of(filterString, filter1, filter2))))
                 .contentType(ContentType.JSON)
-                .param("page", page)
-                .param("size", 2)
-                .param("filter", "status,EQUAL,RECEIVED")
-                .param("filter", "status,EQUAL,ACCEPTED")
-                .param("filterOperator", "AND")
-                .param("sort", "createdDate,desc")
-                .log().all()
                 .when()
-                .get("/api/investigations/received")
+                .post("/api/investigations/filter")
                 .then()
                 .log().all()
                 .statusCode(200)

@@ -28,5 +28,4 @@ import java.util.List;
 @Builder
 public class SearchCriteria {
     List<SearchCriteriaFilter> searchCriteriaFilterList;
-    SearchCriteriaOperator searchCriteriaOperator;
 }

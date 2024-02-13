@@ -54,23 +54,23 @@ class DiscoveryServiceImplTest {
     @Test
     void testGetDiscoveryByBPNSuccessfulBoth() {
 
-        // given
+      // Given
         Discovery discoveryByService = Discovery.builder().receiverUrls(List.of("receiver2.de")).senderUrl("sender2.de").build();
         BpnEdcMapping bpnEdcMapping = new BpnEdcMapping("bpn", "receiver.de");
         when(bpnRepository.existsWhereUrlNotNull(any())).thenReturn(true);
         when(bpnRepository.findByIdOrThrowNotFoundException(any())).thenReturn(bpnEdcMapping);
         when(discoveryRepository.retrieveDiscoveryByFinderAndEdcDiscoveryService(any())).thenReturn(Optional.of(discoveryByService));
         when(edcProperties.getProviderEdcUrl()).thenReturn("sender2.de");
-        // when
+        // When
         Discovery discoveryByBPN = discoveryService.getDiscoveryByBPN("bpn");
-        // then
+       // Then
         assertThat(discoveryByBPN.getReceiverUrls()).isEqualTo(List.of("receiver2.de", "receiver.de"));
         assertThat(discoveryByBPN.getSenderUrl()).isEqualTo("sender2.de");
     }
 
     @Test
     void givenTrailingUrl_whenTestGetDiscoveryByBPN_thenSuccessfulBoth() {
-        // given
+      // Given
         Discovery discoveryByService = Discovery.builder().receiverUrls(List.of("receiver2.de/")).senderUrl("sender2.de").build();
         BpnEdcMapping bpnEdcMapping = new BpnEdcMapping("bpn", "receiver.de");
         when(bpnRepository.existsWhereUrlNotNull(any())).thenReturn(true);
@@ -78,10 +78,10 @@ class DiscoveryServiceImplTest {
         when(discoveryRepository.retrieveDiscoveryByFinderAndEdcDiscoveryService(any())).thenReturn(Optional.of(discoveryByService));
         when(edcProperties.getProviderEdcUrl()).thenReturn("sender2.de");
 
-        // when
+        // When
         Discovery discoveryByBPN = discoveryService.getDiscoveryByBPN("bpn");
 
-        // then
+       // Then
         assertThat(discoveryByBPN.getReceiverUrls()).isEqualTo(List.of("receiver2.de", "receiver.de"));
         assertThat(discoveryByBPN.getSenderUrl()).isEqualTo("sender2.de");
     }
@@ -89,16 +89,16 @@ class DiscoveryServiceImplTest {
     @Test
     void testGetDiscoveryByBPNSuccessfulNoFallback() {
 
-        // given
+      // Given
         Discovery discoveryByService = Discovery.builder().receiverUrls(List.of("receiver2.de")).senderUrl("sender2.de").build();
 
         when(bpnRepository.existsWhereUrlNotNull(any())).thenReturn(false);
         when(discoveryRepository.retrieveDiscoveryByFinderAndEdcDiscoveryService(any())).thenReturn(Optional.of(discoveryByService));
 
-        // when
+        // When
         Discovery discoveryByBPN = discoveryService.getDiscoveryByBPN("bpn");
 
-        // then
+       // Then
         assertThat(discoveryByBPN.getReceiverUrls()).isEqualTo(List.of("receiver2.de"));
         assertThat(discoveryByBPN.getSenderUrl()).isEqualTo("sender2.de");
     }

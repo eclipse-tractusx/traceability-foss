@@ -19,45 +19,49 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { CalendarDateModel } from '@core/model/calendar-date.model';
+import {CalendarDateModel} from '@core/model/calendar-date.model';
 import {
   Notification,
   NotificationResponse,
   Notifications,
   NotificationStatus,
+  NotificationType,
 } from '@shared/model/notification.model';
-import { View } from '@shared/model/view.model';
-import { SharedModule } from '@shared/shared.module';
-import { TemplateModule } from '@shared/template.module';
-import { screen } from '@testing-library/angular';
-import { renderComponent } from '@tests/test-render.utils';
-import { Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
-import { buildMockInvestigations } from '../../../../../mocks/services/investigations-mock/investigations.test.model';
-import { NotificationModule } from '../notification.module';
-import { PartTableType } from '@shared/components/table/table.model';
+import {View} from '@shared/model/view.model';
+import {
+  FormatPartSemanticDataModelToCamelCasePipe
+} from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
+import {SharedModule} from '@shared/shared.module';
+import {TemplateModule} from '@shared/template.module';
+import {fireEvent, screen, within} from '@testing-library/angular';
+import {renderComponent} from '@tests/test-render.utils';
+import {Observable, of} from 'rxjs';
+import {delay} from 'rxjs/operators';
+import {buildMockInvestigations} from '../../../../../mocks/services/investigations-mock/investigations.test.model';
+import {NotificationModule} from '../notification.module';
+import {NotificationChannel} from "@shared/components/multi-select-autocomplete/table-type.model";
 
 describe('NotificationsInboxComponent', () => {
   let clickHandler;
 
-  beforeEach(() => {
-    clickHandler = jasmine.createSpy();
-  });
+  beforeEach(() => (clickHandler = jasmine.createSpy()));
 
   const mapNotificationResponse = (data: NotificationResponse): Notification => {
-    const isFromSender = data.channel === 'SENDER';
+    const isFromSender = data.channel === NotificationChannel.SENDER;
     const createdDate = new CalendarDateModel(data.createdDate);
     const targetDate = new CalendarDateModel(data.targetDate);
-    const createdBy = { bpn: data.createdBy, name: data.createdByName };
-    const sendTo = { bpn: data.createdBy, name: data.createdByName };
+    const createdBy = data.createdBy
+    const createdByName = data.createdByName
+    const sendTo = data.sendTo
+    const sendToName = data.sendToName;
     delete data.channel;
 
-    return { ...data, createdDate, targetDate, isFromSender, createdBy, sendTo };
+    return { ...data, createdDate, targetDate, isFromSender, createdBy, createdByName, sendTo, sendToName };
   };
 
   const renderNotificationsInbox = () => {
-    const qContent = buildMockInvestigations([NotificationStatus.CREATED], 'SENDER').map(mapNotificationResponse);
-    const qarContent = buildMockInvestigations([NotificationStatus.RECEIVED], 'RECEIVER').map(mapNotificationResponse);
+    const qContent = buildMockInvestigations([ NotificationStatus.CREATED ], 'SENDER').map(mapNotificationResponse);
+    const qarContent = buildMockInvestigations([ NotificationStatus.RECEIVED ], 'RECEIVER').map(mapNotificationResponse);
 
     const queuedAndRequestedNotifications$: Observable<View<Notifications>> = of({
       data: { content: qContent, page: 0, pageCount: 1, pageSize: 5, totalItems: 1 },
@@ -67,28 +71,34 @@ describe('NotificationsInboxComponent', () => {
       data: { content: qarContent, page: 0, pageCount: 1, pageSize: 5, totalItems: 1 },
     }).pipe(delay(0));
     const menuActionsConfig = [];
-    const multiSortList = ['description', 'asc'];
-
+    const notificationType = NotificationType.INVESTIGATION;
+    const isInvestigation = true;
     return renderComponent(
       `<app-notification
+          [notificationType]='notificationType'
           [queuedAndRequestedNotifications$]='queuedAndRequestedNotifications$'
           [receivedNotifications$]='receivedNotifications$'
           [translationContext]="'commonInvestigation'"
-          [menuActionsConfig]='menuActionsConfig'
+          [menuActionsConfig]="'menuActionsConfig'"
+          [isInvestigation]='isInvestigation'
+           [receivedOptionalColumns]="['severity', 'createdBy', 'createdByName', 'targetDate']"
+  [receivedSortableColumns]="{description: true, status: true, createdDate: true, severity: true, createdBy: true, createdByName: true, targetDate: true, menu: false}"
+  [queuedAndRequestedOptionalColumns]="['severity', 'sendTo', 'sendToName', 'targetDate']"
+  [queuedAndRequestedSortableColumns]="{description: true, status: true, createdDate: true, severity: true, sendTo: true, sendToName: true, targetDate: true, menu: false}"
           (onReceivedPagination)='clickHandler($event)'
-          [tablesType]='tablesType'
           (onQueuedAndRequestedPagination)='clickHandler($event)'
         ></app-notification>`,
       {
-        imports: [SharedModule, NotificationModule, TemplateModule],
-        translations: ['common'],
+        imports: [ SharedModule, NotificationModule, TemplateModule ],
+        providers: [FormatPartSemanticDataModelToCamelCasePipe],
+        translations: [ 'common' ],
         componentProperties: {
-          multiSortList,
           queuedAndRequestedNotifications$,
           receivedNotifications$,
           clickHandler,
           menuActionsConfig,
-          tablesType: [PartTableType.INVESTIGATIONS_RECEIVED, PartTableType.INVESTIGATIONS_SENT],
+          notificationType,
+          isInvestigation
         },
       },
     );
@@ -97,7 +107,30 @@ describe('NotificationsInboxComponent', () => {
   it('should render received notifications', async () => {
     const component = await renderNotificationsInbox();
     component.detectChanges();
-    expect(await screen.getByText('commonInvestigation.tabs.received')).toBeInTheDocument();
-    expect(await screen.getByText('commonInvestigation.tabs.queuedAndRequested')).toBeInTheDocument();
+    expect(await screen.findByText('Investigation No 1')).toBeInTheDocument();
+  });
+
+  it('should render received notifications with date and status', async () => {
+    await renderNotificationsInbox();
+
+    const descriptionEl = await screen.findByText('Investigation No 1');
+    const row = descriptionEl.closest('tr');
+
+    expect(within(row).getByText('commonInvestigation.status.RECEIVED')).toBeInTheDocument();
+  });
+
+  it('should be able to change notifications page', async () => {
+    await renderNotificationsInbox();
+
+    await screen.findByText('Investigation No 1');
+    fireEvent.click(screen.getByLabelText('pagination.nextPageLabel'));
+
+    expect(await screen.findByText('Investigation No 51')).toBeInTheDocument();
+  });
+
+  it('should render queued & requested notifications', async () => {
+    await renderNotificationsInbox();
+    fireEvent.click(screen.getByText('commonInvestigation.tabs.queuedAndRequested'));
+    expect(await screen.findByText('Investigation No 1')).toBeInTheDocument();
   });
 });

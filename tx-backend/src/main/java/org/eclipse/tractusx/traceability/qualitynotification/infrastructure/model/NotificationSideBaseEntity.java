@@ -21,5 +21,5 @@ package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.mod
 
 public enum NotificationSideBaseEntity {
     SENDER,
-    RECEIVER;
+    RECEIVER
 }

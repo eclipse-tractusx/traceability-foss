@@ -51,13 +51,13 @@ class EdcNotificationModelIT extends IntegrationTestSpecification {
 
     @Test
     void shouldBeAbleToDeserializeEdcNotificationObjectWithUnknownFields() throws IOException {
-        // given
+       // Given
         String notificationJson = readFile("/testdata/edc_notification_with_unknown_fields.json");
 
-        // when
+        // When
         EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
 
-        // then
+       // Then
         assertThat(edcNotification).isNotNull();
         assertThat(edcNotification.header().notificationId()).isEqualTo("cda2d956-fa91-4a75-bb4a-8e5ba39b268a");
         assertThat(edcNotification.header().senderBPN()).isEqualTo("BPNL00000003AXS3");
@@ -71,14 +71,13 @@ class EdcNotificationModelIT extends IntegrationTestSpecification {
         assertThat(edcNotification.content().information()).isEqualTo("Some long description");
         assertThat(edcNotification.content().listOfAffectedItems()).hasSize(1);
         assertThat(edcNotification.content().listOfAffectedItems().stream().findFirst().get()).contains("urn:uuid:171fed54-26aa-4848-a025-81aaca557f37");
-
         assertThat(edcNotification.convertNotificationStatus()).isEqualTo(QualityNotificationStatus.SENT);
         assertThat(edcNotification.convertNotificationType()).isEqualTo(NotificationType.QMINVESTIGATION);
     }
 
     @Test
     void shouldBeAbleToSerializeEdcNotificationObject() throws JsonProcessingException {
-        // given
+       // Given
         EDCNotificationHeader header = new EDCNotificationHeader(
                 "cda2d956-fa91-4a75-bb4a-8e5ba39b268a",
                 "BPNL00000003AXS3",
@@ -98,7 +97,7 @@ class EdcNotificationModelIT extends IntegrationTestSpecification {
 
         EDCNotification edcNotification = new EDCNotification(header, content);
 
-        // when
+        // When
         String edcNotificationJson = objectMapper.writeValueAsString(edcNotification);
         assertThat(jsonPathRead(edcNotificationJson, "$..header.notificationId"))
                 .isEqualTo(header.notificationId());

@@ -1,0 +1,17 @@
+{
+  "errorPage": {
+    "title": "Unerwarteter Fehler",
+    "message": "Etwas scheint schief gelaufen zu sein."
+  },
+  "pageNotFound": {
+    "title": "Die Seite wurde nicht gefunden",
+    "message": "Die von Ihnen aufgerufene Seite konnte nicht gefunden werden."
+  },
+  "noPermissions": {
+    "title": "Sie haben keinen Zugriff",
+    "message": "Sie haben keinen Zugriff auf diese Seite. Bitte wenden Sie sich an Ihren Administrator."
+  },
+  "actions": {
+    "homepage": "Dashboard"
+  }
+}

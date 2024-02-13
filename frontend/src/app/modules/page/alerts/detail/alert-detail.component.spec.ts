@@ -20,7 +20,7 @@
 import { ActivatedRoute } from '@angular/router';
 import { AlertsModule } from '@page/alerts/alerts.module';
 import { AlertDetailComponent } from '@page/alerts/detail/alert-detail.component';
-import { AlertsService } from '@shared/service/alerts.service';
+import { NotificationService } from '@shared/service/notification.service';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 import { of } from 'rxjs';
@@ -30,9 +30,9 @@ describe('AlertDetailComponent', () => {
 
   const renderAlertDetail = async (id?: string) => {
     return await renderComponent(AlertDetailComponent, {
-      imports: [AlertsModule],
+      imports: [ AlertsModule ],
       providers: [
-        AlertsService,
+        NotificationService,
         {
           provide: ActivatedRoute,
           useValue: {
@@ -41,7 +41,7 @@ describe('AlertDetailComponent', () => {
                 get: () => id || 'id-2',
               },
             },
-            queryParams: of({ pageNumber: 0, tabIndex: 0 })
+            queryParams: of({ pageNumber: 0, tabIndex: 0 }),
           },
         },
       ],
@@ -59,6 +59,11 @@ describe('AlertDetailComponent', () => {
     await waitFor(() => expect(screen.getByText('pageAlert.subHeadline.supplierParts')).toBeInTheDocument());
   });
 
+  it('should render specific text for back button', async () => {
+    await renderAlertDetail('id-1');
+    await waitFor(() => expect(screen.getByText('actions.goBack')).toBeInTheDocument());
+  });
+
   it('should render copy data to clipboard', async () => {
     await renderAlertDetail('id-1');
     await waitFor(() => expect(screen.getByText('pageAlert.subHeadline.supplierParts')).toBeInTheDocument());
@@ -66,6 +71,6 @@ describe('AlertDetailComponent', () => {
     const spy = spyOn(navigator.clipboard, 'writeText').and.returnValue(new Promise(null));
     fireEvent.click(await waitFor(() => screen.getByTestId('copy-button--' + MOCK_part_1.id)));
 
-    expect(spy).toHaveBeenCalledWith("NO-341449848714937445621543");
+    expect(spy).toHaveBeenCalledWith('NO-341449848714937445621543');
   });
 });

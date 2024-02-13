@@ -19,18 +19,45 @@
 
 package assets.response;
 
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-@ApiModel(description = "Dashboard Data")
 public record DashboardResponse(
-        @ApiModelProperty(value = "The total number of own parts of asBuilt and asPlanned", example = "5")
-        Long myParts,
-        @ApiModelProperty(value = "The total number of other parts (supplier and customer) of asBuilt and asPlanned", example = "10")
-        Long otherParts,
-        @ApiModelProperty(value = "The number of received open investigations", example = "2")
-        Long investigationsReceived,
-        @ApiModelProperty(value = "The number of received open quality alerts", example = "3")
-        Long alertsReceived) {
+        @ApiModelProperty(example = "5")
+        Long asBuiltCustomerParts,
+        @ApiModelProperty(example = "10")
+        Long asPlannedCustomerParts,
+        @ApiModelProperty(example = "2")
+        Long asBuiltSupplierParts,
+        @ApiModelProperty(example = "3")
+        Long asPlannedSupplierParts,
+        @ApiModelProperty(example = "1")
+        Long asBuiltOwnParts,
+        @ApiModelProperty(example = "1")
+        Long asPlannedOwnParts,
+        @ApiModelProperty(example = "1")
+        Long myPartsWithOpenAlerts,
+        @ApiModelProperty(example = "1")
+        Long myPartsWithOpenInvestigations,
+        @ApiModelProperty(example = "1")
+        Long supplierPartsWithOpenAlerts,
+        @ApiModelProperty(example = "1")
+        Long customerPartsWithOpenAlerts,
+        @ApiModelProperty(example = "2")
+        Long supplierPartsWithOpenInvestigations,
+        @ApiModelProperty(example = "2")
+        Long customerPartsWithOpenInvestigations,
+
+        @ApiModelProperty(example = "2")
+        Long receivedActiveAlerts,
+
+        @ApiModelProperty(example = "2")
+        Long receivedActiveInvestigations,
+
+        @ApiModelProperty(example = "2")
+        Long sentActiveAlerts,
+
+        @ApiModelProperty(example = "2")
+        Long sentActiveInvestigations) {
+
 
 }

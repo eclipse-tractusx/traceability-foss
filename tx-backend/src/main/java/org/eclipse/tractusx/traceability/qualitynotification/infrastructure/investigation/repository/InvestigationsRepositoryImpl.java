@@ -21,12 +21,16 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.repository;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
+import org.eclipse.tractusx.traceability.common.repository.CriteriaUtility;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationAffectedPart;
@@ -38,13 +42,17 @@ import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.inve
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationNotificationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import java.time.Clock;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
@@ -62,11 +70,27 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
 
     private final Clock clock;
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
     @Override
-    public void updateQualityNotificationMessageEntity(QualityNotificationMessage notification) {
-        InvestigationNotificationEntity entity = notificationRepository.findById(notification.getId())
-                .orElseThrow(() -> new IllegalArgumentException(String.format("Notification with id %s not found!", notification.getId())));
-        handleNotificationUpdate(entity, notification);
+    public PageResult<QualityNotification> getNotifications(Pageable pageable, SearchCriteria searchCriteria) {
+        List<InvestigationSpecification> investigationSpecifications = emptyIfNull(searchCriteria.getSearchCriteriaFilterList()).stream()
+                .map(InvestigationSpecification::new)
+                .toList();
+        Specification<InvestigationEntity> specification = InvestigationSpecification.toSpecification(investigationSpecifications);
+        return new PageResult<>(jpaInvestigationRepository.findAll(specification, pageable), InvestigationEntity::toDomain);
+    }
+
+    @Override
+    public long countOpenNotificationsByOwnership(List<Owner> owners) {
+        return jpaInvestigationRepository.findAllByStatusIn(NotificationStatusBaseEntity.from(QualityNotificationStatus.ACTIVE_STATES))
+                .stream()
+                .map(InvestigationEntity::getAssets)
+                .flatMap(Collection::stream)
+                .filter(assetAsBuiltEntity -> owners.contains(assetAsBuiltEntity.getOwner()))
+                .distinct()
+                .toList().size();
     }
 
     @Override
@@ -103,27 +127,6 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
         } else {
             throw new IllegalArgumentException("No assets found for %s asset ids".formatted(String.join(", ", investigation.getAssetIds())));
         }
-    }
-
-    @Override
-    public PageResult<QualityNotification> findQualityNotificationsBySide(QualityNotificationSide investigationSide, Pageable pageable) {
-        Page<InvestigationEntity> entities = jpaInvestigationRepository.findAllBySideEquals(NotificationSideBaseEntity.valueOf(investigationSide.name()), pageable);
-        return new PageResult<>(entities, InvestigationEntity::toDomain);
-    }
-
-    @Override
-    public PageResult<QualityNotification> findAll(Pageable pageable, SearchCriteria searchCriteria) {
-        List<InvestigationSpecification> investigationSpecifications = emptyIfNull(searchCriteria.getSearchCriteriaFilterList()).stream().map(InvestigationSpecification::new).toList();
-        Specification<InvestigationEntity> specification = InvestigationSpecification.toSpecification(investigationSpecifications, searchCriteria.getSearchCriteriaOperator());
-        Page<InvestigationEntity> investigationEntityPage = jpaInvestigationRepository.findAll(specification, pageable);
-        return new PageResult<>(investigationEntityPage, InvestigationEntity::toDomain);
-    }
-
-    @Override
-    public long countAll(SearchCriteria searchCriteria) {
-        List<InvestigationSpecification> investigationSpecifications = emptyIfNull(searchCriteria.getSearchCriteriaFilterList()).stream().map(InvestigationSpecification::new).toList();
-        Specification<InvestigationEntity> specification = InvestigationSpecification.toSpecification(investigationSpecifications, searchCriteria.getSearchCriteriaOperator());
-        return jpaInvestigationRepository.count(specification);
     }
 
     @Override
@@ -201,5 +204,10 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
         return assets.stream()
                 .filter(it -> notificationAffectedAssetIds.contains(it.getId()))
                 .toList();
+    }
+
+    @Override
+    public List<String> getDistinctFieldValues(String fieldName, String startWith, Integer resultLimit, QualityNotificationSide side) {
+        return CriteriaUtility.getDistinctNotificationFieldValues(fieldName, startWith, resultLimit, side, InvestigationEntity.class, entityManager);
     }
 }

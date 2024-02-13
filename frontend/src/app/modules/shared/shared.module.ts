@@ -23,38 +23,34 @@ import { DatePipe, TitleCasePipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { RouterModule } from '@angular/router';
+import { AssetPublisherComponent } from '@shared/components/asset-publisher/asset-publisher.component';
+import { BomLifecycleActivatorComponent } from '@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.component';
+import { CardMetricComponent } from '@shared/components/card-metric/card-metric.component';
+import { ChipComponent } from '@shared/components/chip/chip.component';
+import { CountryFlagGeneratorComponent } from '@shared/components/country-flag-generator/country-flag-generator.component';
 import { DateTimeComponent } from '@shared/components/dateTime/dateTime.component';
 import { FormErrorMessageComponent } from '@shared/components/formErrorMessage/formErrorMessage.component';
-import {
-  MultiSelectAutocompleteComponent
-} from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
+import { InputComponent } from '@shared/components/input/input.component';
+import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
 import { NotificationOverviewComponent } from '@shared/components/notification-overview/notification-overview.component';
 import { NotificationReasonComponent } from '@shared/components/notification-reason/notification-reason.component';
-import { NotificationUserComponent } from '@shared/components/notification-user/notification-user.component';
 import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
+import { RequestNotificationComponent } from '@shared/components/request-notification';
 import { SeveritySelectComponent } from '@shared/components/severity-select/severity-select.component';
 import { SeverityComponent } from '@shared/components/severity/severity.component';
 import { TableSettingsComponent } from '@shared/components/table-settings/table-settings.component';
 import { TextWithIconComponent } from '@shared/components/text-with-icon/text-with-icon.component';
-import {
-  NotificationModalContentComponent
-} from '@shared/modules/notification/modal/content/notification-modal-content.component';
+import { ViewSelectorComponent } from '@shared/components/view-selector/view-selector.component';
+import { NotificationModalContentComponent } from '@shared/modules/notification/modal/content/notification-modal-content.component';
+import { AbbreviateNumberPipe } from '@shared/pipes/abbreviate-number.pipe';
 import { FlattenObjectPipe } from '@shared/pipes/flatten-object.pipe';
-import {
-  FormatPaginationSemanticDataModelToCamelCasePipe
-} from '@shared/pipes/format-pagination-semantic-data-model-to-camelcase.pipe';
-import {
-  FormatPartSemanticDataModelToCamelCasePipe
-} from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
-import {
-  FormatPartlistSemanticDataModelToCamelCasePipe
-} from '@shared/pipes/format-partlist-semantic-data-model-to-camelcase.pipe';
+import { FormatPaginationSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-pagination-semantic-data-model-to-camelcase.pipe';
+import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
+import { FormatPartlistSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-partlist-semantic-data-model-to-camelcase.pipe';
 import { I18NextModule } from 'angular-i18next';
-import {
-  BomLifecycleActivatorComponent
-} from "@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.component";
 import { BaseInputComponent } from './abstraction/baseInput/baseInput.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
+import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
 import { ButtonComponent } from './components/button/button.component';
 import { CardIconComponent } from './components/card-icon/card-icon.component';
 import { CardListComponent } from './components/card-list/card-list.component';
@@ -63,8 +59,6 @@ import { DataLoadingErrorComponent } from './components/data-loading-error/data-
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
 import { PaginatorIntlService } from './components/pagination/paginator-intl.service';
 import { QualityTypeComponent } from './components/quality-type/quality-type.component';
-import { RequestInvestigationComponent } from '@shared/components/request-notification';
-import { ScrollWithShadowComponent } from './components/scroll-with-shadow/scroll-with-shadow.component';
 import { SelectComponent } from './components/select/select.component';
 import { ValueToLablePipe } from './components/select/valueToLable.pipe';
 import { SidenavWrapperComponent } from './components/sidenav/sidenav-wrapper.component';
@@ -83,26 +77,16 @@ import { I18nPipe } from './pipes/i18n.pipe';
 import { PartsService } from './service/parts.service';
 import { StaticIdService } from './service/staticId.service';
 import { TemplateModule } from './template.module';
-import { InputComponent } from '@shared/components/input/input.component';
-import { RequestAlertComponent } from '@shared/components/request-notification/request-alert.component';
-import { ViewSelectorComponent } from "@shared/components/view-selector/view-selector.component";
-import {
-  CountryFlagGeneratorComponent
-} from "@shared/components/country-flag-generator/country-flag-generator.component";
-import { DragDropModule } from '@angular/cdk/drag-drop';
-import { InfoListComponent } from './components/info-list/info-list.component';
-import { RequestStepperComponent } from './components/request-notification/request-stepper/request-stepper.component';
-import { SupplierPartsComponent } from '@page/other-parts/presentation/supplier-parts/supplier-parts.component';
-import { OwnPartsComponent } from '@page/parts/presentation/own-parts/own-parts.component';
+
 @NgModule({
   declarations: [
     ToastContainerComponent,
     PartsTableComponent,
     ToastMessageComponent,
+    BreadcrumbsComponent,
     ButtonComponent,
     TextWithIconComponent,
     TableComponent,
-    TableSettingsComponent,
     TooltipDirective,
     RoleDirective,
     I18nPipe,
@@ -117,7 +101,6 @@ import { OwnPartsComponent } from '@page/parts/presentation/own-parts/own-parts.
     LanguageSelectorComponent,
     CardIconComponent,
     CardListComponent,
-    InfoListComponent,
     ToKeyValuePipe,
     SelectComponent,
     DataLoadingErrorComponent,
@@ -125,12 +108,7 @@ import { OwnPartsComponent } from '@page/parts/presentation/own-parts/own-parts.
     SidenavWrapperComponent,
     TextareaComponent,
     ErrorMessagePipe,
-    OwnPartsComponent,
-    SupplierPartsComponent,
-    RequestStepperComponent,
-    RequestInvestigationComponent,
-    RequestAlertComponent,
-    ScrollWithShadowComponent,
+    RequestNotificationComponent,
     QualityTypeComponent,
     ValueToLablePipe,
     NotificationOverviewComponent,
@@ -141,17 +119,22 @@ import { OwnPartsComponent } from '@page/parts/presentation/own-parts/own-parts.
     FormErrorMessageComponent,
     SeverityComponent,
     SeveritySelectComponent,
-    NotificationUserComponent,
     InputComponent,
     BomLifecycleActivatorComponent,
     ViewSelectorComponent,
     MultiSelectAutocompleteComponent,
-    CountryFlagGeneratorComponent
+    CountryFlagGeneratorComponent,
+    TableSettingsComponent,
+    AbbreviateNumberPipe,
+    CardMetricComponent,
+    AssetPublisherComponent,
+    ChipComponent
   ],
-  imports: [TemplateModule, RouterModule, I18NextModule, DragDropModule],
+  imports: [ TemplateModule, RouterModule, I18NextModule ],
   exports: [
     ToastContainerComponent,
     ToastMessageComponent,
+    BreadcrumbsComponent,
     ButtonComponent,
     TextWithIconComponent,
     TableComponent,
@@ -166,7 +149,6 @@ import { OwnPartsComponent } from '@page/parts/presentation/own-parts/own-parts.
     LanguageSelectorComponent,
     CardIconComponent,
     CardListComponent,
-    InfoListComponent,
     ToKeyValuePipe,
     SelectComponent,
     DataLoadingErrorComponent,
@@ -174,11 +156,7 @@ import { OwnPartsComponent } from '@page/parts/presentation/own-parts/own-parts.
     SidenavWrapperComponent,
     TextareaComponent,
     ErrorMessagePipe,
-    OwnPartsComponent,
-    SupplierPartsComponent,
-    RequestStepperComponent,
-    RequestInvestigationComponent,
-    RequestAlertComponent,
+    RequestNotificationComponent,
     QualityTypeComponent,
     NotificationOverviewComponent,
     NotificationReasonComponent,
@@ -187,7 +165,6 @@ import { OwnPartsComponent } from '@page/parts/presentation/own-parts/own-parts.
     BaseInputComponent,
     SeverityComponent,
     SeveritySelectComponent,
-    NotificationUserComponent,
     InputComponent,
     FormatPaginationSemanticDataModelToCamelCasePipe,
     FlattenObjectPipe,
@@ -198,6 +175,10 @@ import { OwnPartsComponent } from '@page/parts/presentation/own-parts/own-parts.
     PartsTableComponent,
     MultiSelectAutocompleteComponent,
     CountryFlagGeneratorComponent,
+    AbbreviateNumberPipe,
+    CardMetricComponent,
+    AssetPublisherComponent,
+    ChipComponent
   ],
   providers: [
     FormatDatePipe,
@@ -212,4 +193,5 @@ import { OwnPartsComponent } from '@page/parts/presentation/own-parts/own-parts.
     },
   ],
 })
-export class SharedModule { }
+export class SharedModule {
+}
