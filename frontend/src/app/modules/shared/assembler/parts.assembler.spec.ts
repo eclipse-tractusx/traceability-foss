@@ -294,6 +294,7 @@ describe('PartsAssembler', () => {
   describe('mapForAssetStateView', () => {
     const importState = 'importState';
     const importNote = 'importNote';
+    const tombStoneErrorDetail = 'Error';
     it('should clean up data for asset state view', done => {
       const data = { importState, importNote, test: '' } as unknown as Part;
       of({ data })
@@ -309,6 +310,15 @@ describe('PartsAssembler', () => {
         .pipe(PartsAssembler.mapPartForAssetStateDetailsView())
         .subscribe(result => {
           expect(result).toEqual(undefined);
+          done();
+        });
+    });
+    it('should clean up data for asset state view with tombStoneErrorDetail', done => {
+      const data = { importState, importNote, tombStoneErrorDetail } as unknown as Part;
+      of({ data })
+        .pipe(PartsAssembler.mapPartForAssetStateDetailsView())
+        .subscribe(result => {
+          expect(result).toEqual({ data: { importState, importNote, tombStoneErrorDetail } as unknown as Part });
           done();
         });
     });
