@@ -130,6 +130,7 @@ describe('PartsAssembler', () => {
         nameAtCustomer: nameAtCustomer,
         manufacturingDate: manufacturingDate,
         manufacturingCountry: manufacturingCountry,
+        tombStoneErrorDetail: null,
 
       });
 

@@ -65,6 +65,7 @@
     "publish": "Publish"
   },
   "table": {
+    "tombStone": "Tombstone",
     "noResultFound": "NO RESULTS FOUND.",
     "tryAgain": "Please try again later.",
     "selectPageSize": "Select page of periodic elements",
