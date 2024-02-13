@@ -27,11 +27,17 @@ import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetA
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.ImportException;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportJob;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportJobStatus;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportRequest;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.repository.ImportJobRepository;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.repository.SubmodelPayloadRepository;
+import org.eclipse.tractusx.traceability.assets.infrastructure.importJob.model.ImportJobEntity;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.time.Instant;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -50,13 +56,13 @@ public class ImportServiceImpl implements ImportService {
     private final TraceabilityProperties traceabilityProperties;
     private final MappingStrategyFactory strategyFactory;
     private final SubmodelPayloadRepository submodelPayloadRepository;
+    private final ImportJobRepository importJobRepository;
 
 
     @Override
-    public Map<AssetBase, Boolean> importAssets(MultipartFile file) {
+    public Map<AssetBase, Boolean> importAssets(MultipartFile file, ImportJob importJob) {
         try {
             ImportRequest importRequest = objectMapper.readValue(file.getBytes(), ImportRequest.class);
-
 
             Map<BomLifecycle, List<AssetBase>> assetToUploadByBomLifecycle =
                     importRequest.assets()
@@ -64,6 +70,10 @@ public class ImportServiceImpl implements ImportService {
                             .map(assetImportItem -> strategyFactory.mapToAssetBase(assetImportItem, traceabilityProperties))
                             .filter(Optional::isPresent)
                             .map(Optional::get)
+                            .map(asset -> {
+                                asset.setImportJobs(List.of(importJob));
+                                return asset;
+                            })
                             .collect(Collectors.groupingBy(AssetBase::getBomLifecycle));
 
             assetToUploadByBomLifecycle.values().stream().flatMap(Collection::stream)
@@ -88,7 +98,28 @@ public class ImportServiceImpl implements ImportService {
         }
     }
 
+    @Override
+    public ImportJob createJob() {
+        return importJobRepository.createJob();
+    }
 
+    @Override
+    public void completeJob(ImportJob importJob) {
+        ImportJobEntity importJobEntity = ImportJobEntity.from(importJob);
+        importJobEntity.setCompletedOn(Instant.now());
+        importJobEntity.setImportJobStatus(ImportJobStatus.COMPLETED);
+        importJobRepository.save(importJobEntity);
+        log.info("Successfully completed import job {}", importJob.getId());
+    }
+
+    @Override
+    public void cancelJob(ImportJob importJob) {
+        ImportJobEntity importJobEntity = ImportJobEntity.from(importJob);
+        importJobEntity.setCompletedOn(Instant.now());
+        importJobEntity.setImportJobStatus(ImportJobStatus.CANCELLED);
+        importJobRepository.save(importJobEntity);
+        log.info("Cancelling import job {}", importJob.getId());
+    }
 
 
     private void saveRawDataForPersistedAssets(List<AssetBase> persistedAssets, ImportRequest importRequest) {

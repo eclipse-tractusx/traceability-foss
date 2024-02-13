@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,22 +16,27 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-// TODO package needs to be renamed (MW)
-package org.eclipse.tractusx.traceability.assets.application.importpoc;
+package org.eclipse.tractusx.traceability.assets.domain.importpoc.model;
 
 
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportJob;
-import org.springframework.web.multipart.MultipartFile;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
-import java.util.Map;
+import java.time.Instant;
+import java.util.UUID;
 
-public interface ImportService {
-    Map<AssetBase, Boolean> importAssets(MultipartFile file, ImportJob importJob);
+@Slf4j
+@AllArgsConstructor
+@Data
+@Builder
+public class ImportJob {
 
-    ImportJob createJob();
+    private UUID id;
+    private Instant startedOn;
+    private Instant completedOn;
+    private ImportJobStatus status;
 
-    void completeJob(ImportJob importJob);
 
-    void cancelJob(ImportJob importJob);
 }

@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,22 +16,14 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-// TODO package needs to be renamed (MW)
-package org.eclipse.tractusx.traceability.assets.application.importpoc;
+package org.eclipse.tractusx.traceability.assets.infrastructure.importJob.repository;
 
+import org.eclipse.tractusx.traceability.assets.infrastructure.importJob.model.ImportJobEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.stereotype.Repository;
 
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportJob;
-import org.springframework.web.multipart.MultipartFile;
+@Repository
+public interface JpaImportJobRepository extends JpaRepository<ImportJobEntity, String>, JpaSpecificationExecutor<ImportJobEntity> {
 
-import java.util.Map;
-
-public interface ImportService {
-    Map<AssetBase, Boolean> importAssets(MultipartFile file, ImportJob importJob);
-
-    ImportJob createJob();
-
-    void completeJob(ImportJob importJob);
-
-    void cancelJob(ImportJob importJob);
 }

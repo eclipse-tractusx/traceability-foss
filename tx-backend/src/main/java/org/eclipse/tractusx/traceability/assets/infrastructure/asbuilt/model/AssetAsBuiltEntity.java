@@ -42,6 +42,7 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.SemanticDataModelEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.importJob.model.ImportJobEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
@@ -91,6 +92,9 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
     @OneToMany(mappedBy = "assetAsBuilt", fetch = FetchType.EAGER)
     private List<SubmodelPayloadEntity> submodels;
 
+    @OneToMany(mappedBy = "assetAsBuilt", fetch = FetchType.EAGER)
+    private List<ImportJobEntity> importJobs;
+
     public static AssetAsBuiltEntity from(AssetBase asset) {
         ManufacturingInfo manufacturingInfo = ManufacturingInfo.from(asset.getDetailAspectModels());
         TractionBatteryCode tractionBatteryCodeObj = TractionBatteryCode.from(asset.getDetailAspectModels());
@@ -124,6 +128,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                 .importState(asset.getImportState())
                 .importNote(asset.getImportNote())
                 .policyId(asset.getPolicyId())
+                .importJobs(asset.getImportJobs().stream().map(ImportJobEntity::from).toList())
                 .build();
     }
 
@@ -155,6 +160,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                 .importState(this.getImportState())
                 .importNote(this.getImportNote())
                 .policyId(this.getPolicyId())
+                .importJobs(this.getImportJobs().stream().map(ImportJobEntity::toDomain).toList())
                 .build();
     }
 

@@ -39,6 +39,7 @@ import org.eclipse.tractusx.traceability.assets.application.importpoc.PublishSer
 import org.eclipse.tractusx.traceability.assets.application.importpoc.validation.JsonFileValidator;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.ImportException;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportJob;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -46,6 +47,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -128,6 +130,8 @@ public class ImportController {
     @PostMapping(value = "/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ImportResponse> importJson(@RequestPart("file") MultipartFile file) {
         log.info("Received request to import assets.");
+        ImportJob importJob = importService.createJob();
+
         List<String> jsonSchemaErrors = jsonFileValidator.isValid(file);
         ValidationResponse validationResponse = new ValidationResponse(jsonSchemaErrors);
 
@@ -135,20 +139,22 @@ public class ImportController {
             log.warn("Asset import request cannot be processed. Errors: {}", validationResponse);
             return ResponseEntity
                     .badRequest()
-                    .body(new ImportResponse(validationResponse));
+                    .body(new ImportResponse(importJob.getId().toString(), validationResponse));
         }
+
 
         Map<AssetBase, Boolean> resultMap = null;
         try {
-            resultMap = importService.importAssets(file);
+            resultMap = importService.importAssets(file, importJob);
         } catch (ImportException e) {
             log.info("Could not import data", e);
+            importService.cancelJob(importJob);
             List<String> validationErrors = new ArrayList<>();
             validationErrors.add(e.getMessage());
             ValidationResponse importErrorResponse = new ValidationResponse(validationErrors);
             return ResponseEntity
                     .badRequest()
-                    .body(new ImportResponse(importErrorResponse));
+                    .body(new ImportResponse(importJob.getId().toString(), importErrorResponse));
         }
 
         List<ImportStateMessage> importStateMessages = resultMap.entrySet().stream()
@@ -158,10 +164,78 @@ public class ImportController {
                 ).toList();
 
         log.info("Successfully imported {} assets.", importStateMessages.size());
-        ImportResponse importResponse = new ImportResponse(importStateMessages);
+        importService.completeJob(importJob);
+        ImportResponse importResponse = new ImportResponse(importJob.getId().toString(), importStateMessages);
 
         return ResponseEntity.ok(importResponse);
     }
+
+    @Operation(operationId = "importReport",
+            summary = "report of the imported assets",
+            tags = {"ImportReport"},
+            description = "This endpoint returns information about the imported assets to Trace-X.",
+            security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "OK.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema())),
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "No Content.",
+                    content = @Content()),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad request.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authorization failed.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Not found.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "415",
+                    description = "Unsupported media type",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "429",
+                    description = "Too many requests.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)))})
+
+    @PostMapping(value = "/report/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getImportReport(@RequestParam("id") String reportId) {
+
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+
+    }
+
     @Operation(operationId = "publishAssets",
             summary = "asset publish",
             tags = {"AssetsPublish"},

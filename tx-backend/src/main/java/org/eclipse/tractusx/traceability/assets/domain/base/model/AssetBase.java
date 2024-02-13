@@ -28,6 +28,7 @@ import lombok.Singular;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.component.enums.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportJob;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 
 import java.util.List;
@@ -65,15 +66,21 @@ public class AssetBase {
     private ImportState importState;
     private String importNote;
     private String policyId;
+    private List<ImportJob> importJobs;
 
     public BomLifecycle getBomLifecycle() {
-        if(semanticDataModel.equals(SERIALPART) || semanticDataModel.equals(BATCH) || semanticDataModel.equals(JUSTINSEQUENCE)){
+        if (semanticDataModel.equals(SERIALPART) || semanticDataModel.equals(BATCH) || semanticDataModel.equals(JUSTINSEQUENCE)) {
             return BomLifecycle.AS_BUILT;
         } else {
             return BomLifecycle.AS_PLANNED;
         }
     }
-    public boolean isOwnAsset(final String bpn){
+
+    public boolean isOwnAsset(final String bpn) {
         return bpn.equals(manufacturerId);
+    }
+
+    public List<ImportJob> getImportJobs() {
+        return importJobs == null ? List.of() : importJobs;
     }
 }

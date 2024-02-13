@@ -6,8 +6,8 @@
 
 CREATE TABLE public.submodel_payload
 (
-    id       varchar(255) NOT NULL,
-    json     varchar      NULL,
+    id   varchar(255) NOT NULL,
+    json varchar      NULL,
     CONSTRAINT submodel_payload_pkey PRIMARY KEY (id)
 );
 
