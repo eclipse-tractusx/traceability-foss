@@ -80,11 +80,12 @@ SPDX-License-Identifier: Apache-2.0
         <app-button [variant]="'stroked'"
           [isDisabled]="isLoading$ | async"
           (click)="onBack()"
-          class="button-large">
+          class="button-large request-action-button">
           <div class="cancel-button-text">{{ 'requestNotification.back' | i18n }}</div>
         </app-button>
 
-        <app-button class="button-large"
+        <app-button 
+        class="button-large request-action-button"
           [variant]="'flat'"
           [color]="'primary'"
           (click)="submit()">

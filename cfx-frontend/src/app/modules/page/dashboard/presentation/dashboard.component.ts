@@ -94,6 +94,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public openRequestDialog(isInvestigation: boolean): void {
     this.dialog.open(RequestStepperComponent, {
       autoFocus: false,
+      disableClose: true,
       data: {
         context: isInvestigation ? RequestContext.REQUEST_INVESTIGATION : RequestContext.REQUEST_ALERT,
       }
