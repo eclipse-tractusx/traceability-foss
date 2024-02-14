@@ -39,8 +39,10 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.Ass
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -57,11 +59,11 @@ public class ImportJobEntity {
     @Enumerated(EnumType.STRING)
     private ImportJobStatus importJobStatus;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "import_job_assets_as_built", joinColumns = @JoinColumn(name = "import_job_id"), inverseJoinColumns = @JoinColumn(name = "asset_as_built_id"))
-    public List<AssetAsBuiltEntity> assetsAsBuilt;
+    private List<AssetAsBuiltEntity> assetsAsBuilt;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "import_job_assets_as_planned", joinColumns = @JoinColumn(name = "import_job_id"), inverseJoinColumns = @JoinColumn(name = "asset_as_planned_id"))
     private List<AssetAsPlannedEntity> assetsAsPlanned;
 
@@ -71,8 +73,8 @@ public class ImportJobEntity {
                 .startedOn(importJob.getStartedOn())
                 .completedOn(importJob.getCompletedOn())
                 .importJobStatus(importJob.getStatus())
-                .assetsAsBuilt(importJob.getAssetAsBuilt().stream().map(AssetAsBuiltEntity::from).toList())
-                .assetsAsPlanned(importJob.getAssetAsPlanned().stream().map(AssetAsPlannedEntity::from).toList())
+                .assetsAsBuilt(importJob.getAssetAsBuilt().stream().map(AssetAsBuiltEntity::from).collect(Collectors.toCollection(ArrayList::new)))
+                .assetsAsPlanned(importJob.getAssetAsPlanned().stream().map(AssetAsPlannedEntity::from).collect(Collectors.toCollection(ArrayList::new)))
                 .build();
 
     }
@@ -83,6 +85,8 @@ public class ImportJobEntity {
                 .startedOn(startedOn)
                 .completedOn(completedOn)
                 .status(importJobStatus)
+                .assetAsBuilt(assetsAsBuilt.stream().map(AssetAsBuiltEntity::toDomain).toList())
+                .assetAsPlanned(assetsAsPlanned.stream().map(AssetAsPlannedEntity::toDomain).toList())
                 .build();
     }
 }

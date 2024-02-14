@@ -19,6 +19,7 @@
 
 package org.eclipse.tractusx.traceability.integration.importdata;
 
+import assets.importpoc.ImportReportResponse;
 import assets.importpoc.ImportResponse;
 import assets.importpoc.ImportStateMessage;
 import assets.importpoc.request.RegisterAssetRequest;
@@ -310,7 +311,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
         assertThat(result.validationResult().validationErrors())
                 .containsExactlyInAnyOrder(
                         "Could not find assets"
-                        );
+                );
     }
 
     @Test
@@ -443,4 +444,39 @@ class ImportControllerIT extends IntegrationTestSpecification {
         assertNull(asset.getPolicyId());
         assertEquals(asset.getImportState(), ImportState.TRANSIENT);
     }
+
+    @Test
+    void givenValidFile_whenImportData_thenReportShouldBeReturned() throws JoseException {
+
+        // given
+        String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
+        File file = new File(path);
+        ImportResponse result = given()
+                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .when()
+                .multiPart(file)
+                .post("/api/assets/import")
+                .then()
+                .statusCode(200)
+                .extract().as(ImportResponse.class);
+
+        // when
+        ImportReportResponse importReportResponse = given()
+                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .contentType(ContentType.JSON)
+                .when()
+                .pathParam("importJobId", result.jobId())
+                .get("/api/assets/report/{importJobId}")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .extract().as(ImportReportResponse.class);
+
+        // then
+        assertEquals(result.jobId(), importReportResponse.importJobResponse().importId());
+        assertEquals(18, importReportResponse.importedAssetResponse().size());
+
+    }
+
+
 }

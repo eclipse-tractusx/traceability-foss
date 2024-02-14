@@ -121,6 +121,11 @@ public class ImportServiceImpl implements ImportService {
         log.info("Cancelling import job {}", importJob.getId());
     }
 
+    @Override
+    public ImportJob getImportJob(String importJobId) {
+        return importJobRepository.getImportJob(importJobId);
+    }
+
 
     private void saveRawDataForPersistedAssets(List<AssetBase> persistedAssets, ImportRequest importRequest) {
         List<String> persistedAssetsIds = persistedAssets.stream().map(AssetBase::getId).toList();

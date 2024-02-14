@@ -26,4 +26,6 @@ public interface ImportJobRepository {
     ImportJob createJob();
 
     void save(ImportJobEntity importJobEntity);
+
+    ImportJob getImportJob(String importJobId);
 }

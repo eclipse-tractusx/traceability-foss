@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,24 +16,23 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-// TODO package needs to be renamed (MW)
-package org.eclipse.tractusx.traceability.assets.application.importpoc;
+package assets.importpoc;
 
+import assets.response.base.response.ImportStateResponse;
 
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportJob;
-import org.springframework.web.multipart.MultipartFile;
+import java.time.Instant;
+import java.util.List;
 
-import java.util.Map;
+public record ImportReportResponse(ImportJobResponse importJobResponse,
+                                   List<ImportedAssetResponse> importedAssetResponse) {
 
-public interface ImportService {
-    Map<AssetBase, Boolean> importAssets(MultipartFile file, ImportJob importJob);
+    public record ImportJobResponse(String importId, Instant startedOn, Instant completedOn,
+                                    ImportJobStatusResponse importJobStatusResponse) {
 
-    ImportJob createJob();
+    }
 
-    void completeJob(ImportJob importJob);
+    public record ImportedAssetResponse(String catenaxId, ImportStateResponse importStateResponse, Instant importedOn,
+                                        String importMessage) {
 
-    void cancelJob(ImportJob importJob);
-
-    ImportJob getImportJob(String importJobId);
+    }
 }

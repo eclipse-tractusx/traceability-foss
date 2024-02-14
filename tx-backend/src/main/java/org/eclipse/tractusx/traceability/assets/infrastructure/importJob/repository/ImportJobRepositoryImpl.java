@@ -27,6 +27,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.importJob.model.I
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import java.util.ArrayList;
 
 @RequiredArgsConstructor
 @Component
@@ -38,7 +39,13 @@ public class ImportJobRepositoryImpl implements ImportJobRepository {
     @Override
     public ImportJob createJob() {
         log.info("Creating importJob...");
-        ImportJobEntity importJob = ImportJobEntity.builder().startedOn(Instant.now()).importJobStatus(ImportJobStatus.RUNNING).build();
+        ImportJobEntity importJob = ImportJobEntity
+                .builder()
+                .startedOn(Instant.now())
+                .importJobStatus(ImportJobStatus.RUNNING)
+                .assetsAsBuilt(new ArrayList<>())
+                .assetsAsPlanned(new ArrayList<>())
+                .build();
         importJobRepository.save(importJob);
         log.info("Successfully created importJob {}", importJob.getId());
         return importJob.toDomain();
@@ -47,5 +54,11 @@ public class ImportJobRepositoryImpl implements ImportJobRepository {
     @Override
     public void save(ImportJobEntity importJobEntity) {
         importJobRepository.save(importJobEntity);
+    }
+
+    @Override
+    public ImportJob getImportJob(String importJobId) {
+        ImportJobEntity importJobEntity = importJobRepository.getReferenceById(importJobId);
+        return importJobEntity.toDomain();
     }
 }
