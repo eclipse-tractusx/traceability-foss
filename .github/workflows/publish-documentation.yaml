@@ -19,9 +19,7 @@ name: "[BE][FE][DOCUMENTATION] Publish documentation"
 
 on:
   workflow_dispatch: # Trigger manually
-  push:
-    branches:
-      - main
+
 
 jobs:
   publish:
@@ -48,7 +46,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
 
       - name: Cache maven packages
         uses: actions/cache@v3
