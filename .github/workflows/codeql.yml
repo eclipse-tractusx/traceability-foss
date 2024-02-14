@@ -64,7 +64,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'java' ]
+        language: [ 'java', 'javascript' ]
         # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python', 'ruby' ]
         # Learn more about CodeQL language support at https://git.io/codeql-language-support
 
@@ -72,7 +72,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
+      # If this step fails, then you should remove it and run the build manually (see below)
+      - name: Autobuild
+        if: ${{ matrix.language == 'javascript' }}
+        uses: github/codeql-action/autobuild@v3
+
+      # ℹ️ Command-line programs to run using the OS shell.
+      # 📚 https://git.io/JvXDl
+
+      # ✏️ If the Autobuild fails above, remove it and uncomment the following three lines
+      #    and modify them (or add more) to build your code if your project
+      #    uses a compiled language
+
       - name: Set up JDK 17
+        if: ${{ matrix.language == 'java' }}
         uses: actions/setup-java@v4
         with:
           java-version: '17'
@@ -80,6 +94,7 @@ jobs:
 
       # Initializes the CodeQL tools for scanning.
       - name: Initialize CodeQL
+        if: ${{ matrix.language == 'java' }}
         uses: github/codeql-action/init@v3
         with:
           languages: ${{ matrix.language }}
@@ -92,25 +107,15 @@ jobs:
           queries: +security-and-quality,security-extended
 
       - name: Cache maven packages
+        if: ${{ matrix.language == 'java' }}
         uses: actions/cache@v3
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
-      # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
-      # If this step fails, then you should remove it and run the build manually (see below)
-      #- name: Autobuild
-      #  uses: github/codeql-action/autobuild@v3
-
-      # ℹ️ Command-line programs to run using the OS shell.
-      # 📚 https://git.io/JvXDl
-
-      # ✏️ If the Autobuild fails above, remove it and uncomment the following three lines
-      #    and modify them (or add more) to build your code if your project
-      #    uses a compiled language
-
       - name: Build Package
+        if: ${{ matrix.language == 'java' }}
         run: |
           mvn clean package -pl tx-models,tx-backend --batch-mode -DskipTests
 
