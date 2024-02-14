@@ -77,6 +77,12 @@ jobs:
       # - name: Autobuild
       #   uses: github/codeql-action/autobuild@v3
 
+      - name: Install frontend dependencies
+        if: ${{ matrix.language == 'javascript' }}
+        run: |
+          cd frontend
+          npm install
+
       - name: Build frontend
         if: ${{ matrix.language == 'javascript' }}
         run: |
