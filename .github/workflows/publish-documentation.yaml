@@ -19,7 +19,9 @@ name: "[BE][FE][DOCUMENTATION] Publish documentation"
 
 on:
   workflow_dispatch: # Trigger manually
-
+  push:
+    branches:
+      - main
 
 jobs:
   publish:

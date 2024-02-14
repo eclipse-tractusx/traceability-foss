@@ -11,6 +11,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- updated publish-documentation workflow with two new steps
+
 ### Removed
 
 ## [10.3.0 - 05.02.2024]
