@@ -153,6 +153,7 @@ SPDX-License-Identifier: Apache-2.0
           </mat-menu>
         </th>
         <td *matCellDef="let row" mat-cell>
+          <div class="flex justify-start items-center">
           <mat-checkbox
             [checked]="isSelected(row)"
             (click)="$event.stopPropagation()"
@@ -161,6 +162,16 @@ SPDX-License-Identifier: Apache-2.0
             color="primary"
           >
           </mat-checkbox>
+          <ng-container *ngIf="row['tombStoneErrorDetail']">
+            <mat-icon          matTooltip="{{'table.tombStone' | i18n}}"
+                               matTooltipClass="table--header--tooltip"
+                               matTooltipPosition="above"
+                               [class.mdc-tooltip--multiline]="true"
+                               [matTooltipShowDelay]="1000"
+                               class="text-error"
+            >nearby_error</mat-icon>
+          </ng-container>
+          </div>
         </td>
       </ng-container>
     </ng-template>
