@@ -93,7 +93,7 @@ SPDX-License-Identifier: Apache-2.0
               <span class="pl-1 latestFiveLabel">{{ 'table.latestFive' | i18n }}</span>
             </h3>
             <div *appHasRole="[Role.USER]">
-              <app-button class="button-small"
+            <app-button class="button-small request-action-button"
                 (click)="openRequestDialog(true)"
                 [color]="'primary'"
                 variant="flat">
@@ -160,7 +160,7 @@ SPDX-License-Identifier: Apache-2.0
               <span class="pl-1 latestFiveLabel">{{ 'table.latestFive' | i18n }}</span>
             </h3>
             <div *appHasRole="[Role.USER]">
-              <app-button class="button-small"
+              <app-button class="button-small request-action-button"
                 (click)="openRequestDialog(false)"
                 [color]="'primary'"
                 variant="flat">

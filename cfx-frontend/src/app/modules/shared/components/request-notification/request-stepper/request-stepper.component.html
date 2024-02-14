@@ -100,13 +100,13 @@
     <app-button [variant]="'stroked'"
       [isDisabled]="isLoading$ | async"
       (click)="closeAction()"
-      class="button-large">
+      class="button-large request-action-button">
       <div class="cancel-button-text">{{ 'requestNotification.cancel' | i18n }}</div>
     </app-button>
     <app-button [isDisabled]="selectedParts.length === 0"
       [variant]="'flat'"
       [color]="'primary'"
-      class="button-large"
+      class="button-large request-action-button"
       (click)="onTabChange(1)">
       <div class="accept-button-text">{{ 'requestNotification.continue' | i18n }}</div>
     </app-button>

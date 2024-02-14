@@ -145,4 +145,30 @@ describe('RequestStepperComponent', () => {
     // Assert
     expect(updateSupplierPartsSpy).toHaveBeenCalledWith('testSearchValue');
   });
+
+  it('should close action on document click outside .container and .request-action-button', () => {
+    // Initial state: action not closed
+    expect(componentInstance.isOpen).toBeTruthy();
+
+    // Trigger document click event outside .container and .request-action-button
+    const mockEvent = new MouseEvent('click', { bubbles: true });
+    spyOnProperty(mockEvent, 'target').and.returnValue({ closest: () => null } as any);
+
+    document.dispatchEvent(mockEvent);
+
+    // After document click event, action should be closed
+    expect(componentInstance.isOpen).toBeFalsy();
+  });
+
+  it('should close action on Esc key press', () => {
+    // Initial state: action not closed
+    expect(componentInstance.isOpen).toBeTruthy();
+
+    // Trigger Esc key press event
+    const mockEvent = new KeyboardEvent('keydown', { key: 'Escape' });
+    document.dispatchEvent(mockEvent);
+
+    // After Esc key press event, action should be closed
+    expect(componentInstance.isOpen).toBeFalsy();
+  });
 });

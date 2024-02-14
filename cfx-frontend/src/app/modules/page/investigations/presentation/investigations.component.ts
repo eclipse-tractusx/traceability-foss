@@ -202,6 +202,7 @@ export class InvestigationsComponent {
   public openRequestDialog(): void {
     this.dialog.open(RequestStepperComponent, {
       autoFocus: false,
+      disableClose: true,
       data: {
         context: RequestContext.REQUEST_INVESTIGATION
       }

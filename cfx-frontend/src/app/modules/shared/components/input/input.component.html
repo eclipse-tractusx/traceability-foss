@@ -56,7 +56,7 @@ SPDX-License-Identifier: Apache-2.0
       (click)="suffixIconClick.emit()"
       matSuffix>{{ suffixIcon }}</mat-icon>
 
-    <mat-icon [ngClass]="shouldHideClearButton() ? 'hide-clear-button' : ''"
+    <mat-icon [ngClass]="shouldHideClearButton() ? 'hide-clear-button' : 'close-button'"
       *ngIf="!matcher.isErrorState(control) && displayClearButton"
       [color]="suffixIconColor"
       [class.cursor-pointer]="suffixIconHover"
