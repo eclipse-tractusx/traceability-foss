@@ -29,14 +29,14 @@ import java.util.stream.Stream;
 public class ImportJobResponseMapper {
     public static ImportReportResponse from(ImportJob importJob) {
 
-        ImportReportResponse.ImportJobResponse importJobResponse = new ImportReportResponse.ImportJobResponse(importJob.getId().toString(), importJob.getStartedOn(), importJob.getCompletedOn(), ImportJobStatusResponse.valueOf(importJob.getStatus().toString()));
+        ImportReportResponse.ImportJobResponse importJobResponse = new ImportReportResponse.ImportJobResponse(importJob.getId().toString(), importJob.getStartedOn().toString(), importJob.getCompletedOn().toString(), ImportJobStatusResponse.valueOf(importJob.getStatus().toString()));
         List<ImportReportResponse.ImportedAssetResponse> importedAssets =
                 Stream.concat(importJob.getAssetAsBuilt().stream(), importJob.getAssetAsPlanned().stream())
                         .map(
                                 asset -> new ImportReportResponse.ImportedAssetResponse(
                                         asset.getId(),
                                         ImportStateResponse.valueOf(asset.getImportState().toString()),
-                                        importJob.getStartedOn(),
+                                        importJob.getStartedOn().toString(),
                                         asset.getImportNote()
                                 )
                         ).toList();

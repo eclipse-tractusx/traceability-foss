@@ -19,20 +19,36 @@
 package assets.importpoc;
 
 import assets.response.base.response.ImportStateResponse;
+import io.swagger.v3.oas.annotations.media.Schema;
 
-import java.time.Instant;
 import java.util.List;
 
-public record ImportReportResponse(ImportJobResponse importJobResponse,
-                                   List<ImportedAssetResponse> importedAssetResponse) {
+@Schema
+public record ImportReportResponse(
+        ImportJobResponse importJobResponse,
+        List<ImportedAssetResponse> importedAssetResponse) {
 
-    public record ImportJobResponse(String importId, Instant startedOn, Instant completedOn,
-                                    ImportJobStatusResponse importJobStatusResponse) {
-
+    @Schema
+    public record ImportJobResponse(
+            @Schema(example = "456a952e-05eb-40dc-a6f2-9c2cb9c1387f")
+            String importId,
+            @Schema(example = "2099-02-21T21:27:10.734950Z", maxLength = 50)
+            String startedOn,
+            @Schema(example = "2099-02-21T21:27:10.734950Z", maxLength = 50)
+            String completedOn,
+            @Schema
+            ImportJobStatusResponse importJobStatusResponse) {
     }
 
-    public record ImportedAssetResponse(String catenaxId, ImportStateResponse importStateResponse, Instant importedOn,
-                                        String importMessage) {
-
+    @Schema
+    public record ImportedAssetResponse(
+            @Schema(example = "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd}")
+            String catenaxId,
+            @Schema
+            ImportStateResponse importStateResponse,
+            @Schema(example = "2099-02-21T21:27:10.734950Z", maxLength = 50)
+            String importedOn,
+            @Schema(example = "Asset created successfully in transient state.")
+            String importMessage) {
     }
 }

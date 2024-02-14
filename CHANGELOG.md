@@ -9,6 +9,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Endpoint (assets/import/report/{importJobId}) for retrieving import report
+
 ### Changed
 
 ### Removed

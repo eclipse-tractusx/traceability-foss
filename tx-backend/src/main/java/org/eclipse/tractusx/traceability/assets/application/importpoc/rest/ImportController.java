@@ -184,7 +184,7 @@ public class ImportController {
                     description = "OK.",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema())),
+                            schema = @Schema(implementation = ImportReportResponse.class))),
             @ApiResponse(
                     responseCode = "204",
                     description = "No Content.",
@@ -232,7 +232,7 @@ public class ImportController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
 
-    @GetMapping(value = "/report/{importJobId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/import/report/{importJobId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ImportReportResponse> getImportReport(@PathVariable("importJobId") String importJobId) {
         ImportJob importJob = importService.getImportJob(importJobId);
         ImportReportResponse importReportResponse = ImportJobResponseMapper.from(importJob);
