@@ -18,8 +18,10 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.infrastructure.importJob.repository;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.ImportJobNotFoundException;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportJob;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportJobStatus;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.repository.ImportJobRepository;
@@ -58,7 +60,11 @@ public class ImportJobRepositoryImpl implements ImportJobRepository {
 
     @Override
     public ImportJob getImportJob(String importJobId) {
-        ImportJobEntity importJobEntity = importJobRepository.getReferenceById(importJobId);
-        return importJobEntity.toDomain();
+        try {
+            ImportJobEntity importJobEntity = importJobRepository.getReferenceById(importJobId);
+            return importJobEntity.toDomain();
+        } catch (EntityNotFoundException entityNotFoundException) {
+            throw new ImportJobNotFoundException("Could not find import job with id " + importJobId, entityNotFoundException);
+        }
     }
 }

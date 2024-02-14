@@ -466,7 +466,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .when()
                 .pathParam("importJobId", result.jobId())
-                .get("/api/assets/report/{importJobId}")
+                .get("/api/assets/import/report/{importJobId}")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -476,6 +476,19 @@ class ImportControllerIT extends IntegrationTestSpecification {
         assertEquals(result.jobId(), importReportResponse.importJobResponse().importId());
         assertEquals(18, importReportResponse.importedAssetResponse().size());
 
+    }
+
+    @Test
+    void givenUnknownImportJobId_thenStatusCode404() throws JoseException {
+        // given/when/then
+        given().header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .contentType(ContentType.JSON)
+                .when()
+                .pathParam("importJobId", "I do not exist")
+                .get("/api/assets/import/report/{importJobId}")
+                .then()
+                .log().all()
+                .statusCode(404);
     }
 
 }

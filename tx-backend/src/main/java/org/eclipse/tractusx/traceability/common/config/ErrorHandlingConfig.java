@@ -32,6 +32,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.eclipse.tractusx.traceability.assets.application.importpoc.validation.exception.JsonFileProcessingException;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.ImportException;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.ImportJobNotFoundException;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.PublishAssetException;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnNotFoundException;
 import org.eclipse.tractusx.traceability.common.domain.ParseLocalDateException;
@@ -292,6 +293,14 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
         log.error("MethodArgumentTypeMismatchException exception", exception);
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(exception.getMessage()));
+    }
+
+    @ExceptionHandler(ImportJobNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleImportJobNotFoundException(final ImportJobNotFoundException exception) {
+        log.error("ImportJobNotFoundException exception", exception);
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 }
