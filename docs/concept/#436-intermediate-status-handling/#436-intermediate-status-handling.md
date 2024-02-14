@@ -1,0 +1,56 @@
+# #436 intermediate status transitions in Trace-X
+
+| Key           | Value                                                                    |
+|---------------|--------------------------------------------------------------------------|
+| Author        | @ds-crehm                                                                |
+| Creation date | 13.02.2024                                                               |
+| Ticket Id     | [#436](https://github.com/eclipse-tractusx/traceability-foss/issues/436) |
+| State         | WIP                                                                      |
+
+# Table of Contents
+1. [Overview](#overview)
+2. [Requirements](#requirements)
+3. [Concept](#concept)
+4. [Glossary](#glossary)
+5. [References](#references)
+
+# Overview
+The standard notification status flow must be used by all applications in the Catena-X network.
+For the Trace-X application there is a need to display more information to the user that cannot be conveyed using only the standard status flow.
+The frontend must be able to display more nuanced status information, while the actual status of the notification remains unchanged.
+
+# Requirements
+- [ ] Intermediate statuses for notifications can be stored in Trace-X without affecting the standard notification flow.
+- [ ] Intermediate statuses for notifications can be shown in Trace-X.
+- [ ] Status flow is implemented. The transitions between statuses work.
+
+# Concept
+State machine:
+
+| Step  | Description                                                                                                                                                                                                                                                                                                                                                                                                            | Resulting status shown to the user | Resulting internal status | Transition                                                                                                               |
+|-------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------|---------------------------|--------------------------------------------------------------------------------------------------------------------------|
+| 1     | Notification is created. This can be done by the User manually or by forwarding an existing notification.                                                                                                                                                                                                                                                                                                              | Queued                             | Created                   | **Manually:** Sender created a new notification <br/>**or**<br/>**Automatically:** Notification is automatically created |
+| 2     | Notification is approved.                                                                                                                                                                                                                                                                                                                                                                                              | Requested                          | Sent                      | **Manually:** Sender approves notification                                                                               |
+| X     | Sending of notification is cancelled. The notification is **not** synchronized with the receiver. Can be done by the sender at any time before the notification was successfully synchronized with the receiver.                                                                                                                                                                                                       | Cancelled                          | Closed                    | **Manually:** Sender cancels the notification before it is successfully synchronized with the receiver                   |
+| 3.1   | Notification successfully sent. The notification is synchronized with the receiver.                                                                                                                                                                                                                                                                                                                                    | Received                           | Received                  | **Automatically:** After the notification is sent and Trace-X received a 201 success response                            |
+| 3.2.1 | There was an exception during the send process. The notification is **not** synchronized with the receiver.                                                                                                                                                                                                                                                                                                            | Exception                          | Received                  | **Automatically:** After the notification is sent and there was any exception                                            |
+| 3.2.2 | Notification is resent.                                                                                                                                                                                                                                                                                                                                                                                                | Requested                          | Sent                      | **Manually:** Sender resends notification                                                                                |
+| 4     | Notification is acknowledged. Status update will be sent to the sender.                                                                                                                                                                                                                                                                                                                                                | Acknowledged                       | Acknowledged              | **Manually:** Receiver acknowledges notification                                                                         |
+| 5.1   | Notification is accepted. Status update will be sent to the sender.                                                                                                                                                                                                                                                                                                                                                    | Accepted                           | Accepted                  | **Manually:** Receiver accepts notification                                                                              |
+| 5.2   | Notification is declined. Status update will be sent to the sender.                                                                                                                                                                                                                                                                                                                                                    | Declined                           | Declined                  | **Manually:** Receiver declines notification                                                                             |
+| 5.3.1 | Notification is forwarded. Status update will be sent to the sender. From this status the notification can be accepted or declined at any time.                                                                                                                                                                                                                                                                        | Forwarded                          | Acknowledged              | **Manually:** Receiver forwards notification                                                                             |
+| 5.3.2 | The notification is duplicated. The duplicate is forwarded to a new receiver. The forwarded notification will use the same state machine. The receiver becomes sender for the forwarded notification and there is a new receiver. One notification can be forwarded to multiple receivers. It can be forwarded further by any receiver. The forwarded notification(s) is/are independent of the original notification. | Forwarded                          | Acknowledged              | **Automatically:** After the notification was duplicated                                                                 |
+| Y     | Notification is closed. Status update will be sent to the receiver. The sender can close the notification at any time after the notification was synchronized with the receiver.                                                                                                                                                                                                                                       | Closed                             | Closed                    | **Manually:** Sender closes notification                                                                                 |
+
+
+![Intermediate-status-handling.png](Intermediate-status-handling.png)
+
+
+# Glossary
+
+| Abbreviation | Name | Description |
+|--------------|------|-------------|
+|              |      |             |
+|              |      |             |
+
+# References
