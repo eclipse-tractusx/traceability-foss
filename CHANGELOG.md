@@ -8,7 +8,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [UNRELEASED - DD.MM.YYYY]
 
 ### Added
-
+- added tombstone icon to parts table and error description in parts detail view
 ### Changed
 
 - updated publish-documentation workflow with two new steps
