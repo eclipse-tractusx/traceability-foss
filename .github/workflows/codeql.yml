@@ -79,7 +79,9 @@ jobs:
 
       - name: Build frontend
         if: ${{ matrix.language == 'javascript' }}
-        run: npm run build:prod
+        run: |
+          cd path/to/your/project-directory
+          npm run build:prod
         env:
           baseHrefPlaceholder: placeholder
 
