@@ -29,6 +29,8 @@ import java.util.List;
 public class DatabaseSupport {
     private static final List<String> TABLES = List.of(new String[]{
             "submodel_payload",
+            "import_job_assets_as_built",
+            "import_job_assets_as_planned",
             "assets_as_built_childs",
             "assets_as_built_parents",
             "assets_as_built_notifications",
@@ -47,7 +49,8 @@ public class DatabaseSupport {
             "bpn_storage",
             "investigation_notification",
             "investigation",
-            "traction_battery_code_subcomponent"
+            "traction_battery_code_subcomponent",
+            "import_job"
     });
 
 
