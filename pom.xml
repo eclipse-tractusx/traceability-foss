@@ -60,7 +60,7 @@ SPDX-License-Identifier: Apache-2.0
         <spotbugs-plugin.version>4.8.3.0</spotbugs-plugin.version>
         <spring-boot-maven-plugin.version>3.1.3</spring-boot-maven-plugin.version>
         <maven-project-info-reports-plugin.version>3.4.5</maven-project-info-reports-plugin.version>
-        <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
+        <sonar-maven-plugin.version>3.10.0.2594</sonar-maven-plugin.version>
         <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
         <maven-failsafe-plugin.version>3.2.5</maven-failsafe-plugin.version>
         <maven-site-plugin.version>4.0.0-M11</maven-site-plugin.version>
@@ -100,7 +100,7 @@ SPDX-License-Identifier: Apache-2.0
         <cucumber.version>7.12.1</cucumber.version>
         <org-snakeyaml.version>2.2</org-snakeyaml.version>
         <jackson.version>2.15.2</jackson.version>
-        <junit-bom.version>5.10.2</junit-bom.version>
+        <junit-bom.version>5.9.3</junit-bom.version>
         <awaitility.version>3.0.0</awaitility.version>
         <irs-client-lib.version>1.5.1-SNAPSHOT</irs-client-lib.version>
         <json-schema-validator.version>5.4.0</json-schema-validator.version>
