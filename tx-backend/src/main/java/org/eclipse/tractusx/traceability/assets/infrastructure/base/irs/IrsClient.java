@@ -18,7 +18,6 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterJobRequest;
@@ -39,10 +38,8 @@ import java.util.List;
 @Component
 public class IrsClient {
 
-
     private final RestTemplate irsAdminTemplate;
 
-    private final ObjectMapper objectMapper;
     private final RestTemplate irsRegularTemplate;
 
     private final TraceabilityProperties traceabilityProperties;
@@ -51,11 +48,10 @@ public class IrsClient {
 
     public IrsClient(RestTemplate irsAdminTemplate,
                      RestTemplate irsRegularTemplate,
-                     TraceabilityProperties traceabilityProperties, ObjectMapper objectMapper) {
+                     TraceabilityProperties traceabilityProperties) {
         this.irsAdminTemplate = irsAdminTemplate;
         this.irsRegularTemplate = irsRegularTemplate;
         this.traceabilityProperties = traceabilityProperties;
-        this.objectMapper = objectMapper;
     }
 
     public List<PolicyResponse> getPolicies() {
@@ -83,4 +79,5 @@ public class IrsClient {
         return irsRegularTemplate.exchange("/irs/jobs/" + jobId, HttpMethod.GET, null, new ParameterizedTypeReference<JobDetailResponse>() {
         }).getBody();
     }
+
 }
