@@ -49,8 +49,6 @@ public class IrsClient {
 
     private static final String POLICY_PATH = "/irs/policies";
 
-    private static final String JOB_PATH = "/irs/jobs";
-
     public IrsClient(RestTemplate irsAdminTemplate,
                      RestTemplate irsRegularTemplate,
                      TraceabilityProperties traceabilityProperties, ObjectMapper objectMapper) {
@@ -76,7 +74,7 @@ public class IrsClient {
     }
 
     public void registerJob(RegisterJobRequest registerJobRequest) {
-        irsRegularTemplate.exchange(JOB_PATH, HttpMethod.POST, new HttpEntity<>(registerJobRequest), Void.class);
+        irsRegularTemplate.exchange("/irs/jobs", HttpMethod.POST, new HttpEntity<>(registerJobRequest), Void.class);
     }
 
 
@@ -88,6 +86,6 @@ public class IrsClient {
     }
 
     private String buildGetJobDetailUrl(String jobId) {
-        return JOB_PATH + "/" + jobId;
+        return "/irs/jobs/" + jobId;
     }
 }
