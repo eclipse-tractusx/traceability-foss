@@ -90,6 +90,7 @@ public class IrsService implements IrsRepository {
         }
         final JobDetailResponse jobResponse = this.irsClient.getJobDetailResponse(jobId);
 
+
         long runtime = (jobResponse.jobStatus().lastModifiedOn().getTime() - jobResponse.jobStatus().startedOn().getTime()) / 1000;
         log.info("IRS call for globalAssetId: {} finished with status: {}, runtime {} s.", jobResponse.jobStatus().globalAssetId(), jobResponse.jobStatus().state(), runtime);
 
