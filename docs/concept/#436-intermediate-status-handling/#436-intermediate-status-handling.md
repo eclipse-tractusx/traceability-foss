@@ -23,6 +23,8 @@ The frontend must be able to display more nuanced status information, while the 
 # Requirements
 - [ ] Intermediate statuses for notifications can be stored in Trace-X without affecting the standard notification flow.
 - [ ] Intermediate statuses for notifications can be shown in Trace-X.
+- [ ] After an exception has occurred during the sending of notifications, the status is updated to "Exception". And a message is shown with exception details (https://github.com/eclipse-tractusx/traceability-foss/issues/423)
+- [ ] When the notification is in status "Exception", the user must be able to "Resend" the notification.
 - [ ] Status flow is implemented. The transitions between statuses work.
 - [ ] User manual is updated.
 
