@@ -88,15 +88,11 @@ public class IrsService implements IrsRepository {
         if (!Objects.equals(state, JobDetailResponse.JOB_STATUS_COMPLETED)) {
             return;
         }
-        JobDetailResponse jobResponse = this.irsClient.getJobDetailResponse(jobId);
+        final JobDetailResponse jobResponse = this.irsClient.getJobDetailResponse(jobId);
 
         long runtime = (jobResponse.jobStatus().lastModifiedOn().getTime() - jobResponse.jobStatus().startedOn().getTime()) / 1000;
         log.info("IRS call for globalAssetId: {} finished with status: {}, runtime {} s.", jobResponse.jobStatus().globalAssetId(), jobResponse.jobStatus().state(), runtime);
-        try {
-            log.info("Received HTTP Response: {}", objectMapper.writeValueAsString(jobResponse));
-        } catch (Exception e) {
-            log.warn("Unable to log IRS Response", e);
-        }
+
         if (jobResponse.isCompleted()) {
             try {
                 // TODO exception will be often thrown probably because two transactions try to commit same primary key - check if we need to update it here
@@ -135,8 +131,9 @@ public class IrsService implements IrsRepository {
     @Override
     public void createIrsPolicyIfMissing() {
         log.info("Check if irs policy exists");
-        List<PolicyResponse> irsPolicies = this.irsClient.getPolicies();
-        log.info("Irs has following policies: {}", irsPolicies);
+        final List<PolicyResponse> irsPolicies = this.irsClient.getPolicies();
+        final List<String> irsPoliciesIds = irsPolicies.stream().map(PolicyResponse::policyId).toList();
+        log.info("Irs has following policies: {}", irsPoliciesIds);
 
         log.info("Required constraints from application yaml are : {}", traceabilityProperties.getRightOperand());
 
@@ -170,7 +167,7 @@ public class IrsService implements IrsRepository {
 
     private void checkAndUpdatePolicy(PolicyResponse requiredPolicy) {
         if (isPolicyExpired(requiredPolicy)) {
-            log.info("IRS Policy {} has outdated validity updating new ttl {}", traceabilityProperties.getRightOperand(), requiredPolicy);
+            log.info("IRS Policy {} has outdated validity updating new ttl", traceabilityProperties.getRightOperand());
             this.irsClient.deletePolicy();
             this.irsClient.registerPolicy();
         }

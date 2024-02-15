@@ -31,7 +31,6 @@ import org.springframework.web.client.RestTemplate;
 
 import static java.lang.String.format;
 
-// TODO - either refactor this class to use feignClient with a common httpClient or remove it once IRS-Lib is done
 @Slf4j
 @Component
 public class HttpCallService {
@@ -43,12 +42,12 @@ public class HttpCallService {
     }
 
 
-    public void sendRequest(EdcNotificationRequest request) {
+    public void sendRequest(final EdcNotificationRequest request) {
         HttpEntity<String> entity = new HttpEntity<>(request.getBody(), request.getHeaders());
         try {
             var response = edcNotificationTemplate.exchange(request.getUrl(), HttpMethod.POST, entity, new ParameterizedTypeReference<>() {
             });
-            log.info("Control plane responded with response: {}", response);
+            log.debug("Control plane responded with response: {}", response);
             log.info("Control plane responded with status: {}", response.getStatusCode());
             if (!response.getStatusCode().is2xxSuccessful()) {
                 throw new BadRequestException(format("Control plane responded with: %s", response.getStatusCode()));
