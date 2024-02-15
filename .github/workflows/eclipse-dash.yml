@@ -79,6 +79,6 @@ jobs:
 
       - name: upload results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           path: DEPENDENCIES_BACKEND
