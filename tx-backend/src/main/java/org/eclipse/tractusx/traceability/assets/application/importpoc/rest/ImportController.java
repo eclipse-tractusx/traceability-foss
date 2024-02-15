@@ -140,6 +140,7 @@ public class ImportController {
 
         if (!jsonSchemaErrors.isEmpty()) {
             log.warn("Asset import request cannot be processed. Errors: {}", validationResponse);
+            importService.cancelJob(importJob);
             return ResponseEntity
                     .badRequest()
                     .body(new ImportResponse(importJob.getId().toString(), validationResponse));
