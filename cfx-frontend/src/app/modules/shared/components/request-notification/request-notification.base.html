@@ -25,15 +25,12 @@ SPDX-License-Identifier: Apache-2.0
       <mat-chip-listbox class="chip-container"
         aria-label="Selected Parts">
         <mat-chip *ngFor="let part of selectedItems || []"
-          [attr.data-testid]="'mat-chip--' +part.id"
+          [attr.data-testid]="'mat-chip--' + part.id"
           (removed)="cancelAction(part)">
           <mat-icon *ngIf="part.error"
             [color]="'warn'"
             matChipAvatar>close</mat-icon>
-          <mat-spinner *ngIf="!part.error"
-            [diameter]="20"
-            class="mr-3"></mat-spinner>
-          {{ part.id }}
+          {{ part.nameAtManufacturer }}
           <button *ngIf="selectedItems.length > 1"
             matChipRemove>
             <img src="/assets/images/icons/closeChip.svg"
@@ -84,8 +81,7 @@ SPDX-License-Identifier: Apache-2.0
           <div class="cancel-button-text">{{ 'requestNotification.back' | i18n }}</div>
         </app-button>
 
-        <app-button 
-        class="button-large request-action-button"
+        <app-button class="button-large request-action-button"
           [variant]="'flat'"
           [color]="'primary'"
           (click)="submit()">

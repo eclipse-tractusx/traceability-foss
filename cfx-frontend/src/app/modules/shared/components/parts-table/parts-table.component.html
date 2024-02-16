@@ -25,7 +25,7 @@ SPDX-License-Identifier: Apache-2.0
       <span class="lifecycle-size-text"> ({{ totalItems }})</span>
     </div>
     <div>
-      <div *appHasRole="tableConfig.columnRoles?.['select'] ?? [Role.USER]">
+      <div *appHasRole="tableConfig?.columnRoles?.['select'] ?? [Role.USER]">
         <app-button *ngIf="showActionButton"
           class="create-action-button"
           (click)="clickSelectAction.emit()"
@@ -57,22 +57,22 @@ SPDX-License-Identifier: Apache-2.0
     matSortDisableClear
     multiTemplateDataRows
     data-testid="table-component--test-id"
-    [ngClass]="{ select: tableConfig.displayedColumns.includes('select') }">
+    [ngClass]="{ select: tableConfig?.displayedColumns.includes('select') }">
     <tr class="parts--table--header"
-      *matHeaderRowDef="tableConfig.displayedColumns; sticky: true"
+      *matHeaderRowDef="tableConfig?.displayedColumns; sticky: true"
       mat-header-row
       data-testid="table-component--head-row"
       class="table--header--row"></tr>
 
     <tr class="table--body--row"
-      *matRowDef="let row; columns: tableConfig.displayedColumns"
+      *matRowDef="let row; columns: tableConfig?.displayedColumns"
       [class.loading]="isDataLoading"
       [class.no-hover]="!showHover"
       (click)="canClickSelect && selectElement(row)"
       mat-row
       data-testid="table-component--body-row"></tr>
 
-    <!--<ng-container *ngIf="!!tableConfig.menuActionsConfig">
+    <!--<ng-container *ngIf="!!tableConfig?.menuActionsConfig">
       <tr *matRowDef="let row; columns: ['expandMenuActions']"
         class="expand-row no-hover table--menu__mobile"
         mat-row></tr>
@@ -163,8 +163,8 @@ SPDX-License-Identifier: Apache-2.0
           matTooltipPosition="above"
           [class.mdc-tooltip--multiline]="true"
           [matTooltipShowDelay]="1000"
-          [mat-sort-header]="tableConfig.sortableColumns?.[column] ? '' : null"
-          [disabled]="!tableConfig.sortableColumns?.[column]"
+          [mat-sort-header]="tableConfig?.sortableColumns?.[column] ? '' : null"
+          [disabled]="!tableConfig?.sortableColumns?.[column]"
           mat-header-cell
           [ngClass]="{ hasQualityAlertsHeader: column === 'hasAlerts' }"
           class="table--header--id: column === 'id'">

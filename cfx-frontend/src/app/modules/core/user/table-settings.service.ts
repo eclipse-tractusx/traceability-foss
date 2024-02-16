@@ -20,6 +20,7 @@
 import { Injectable } from '@angular/core';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { TableViewConfig } from '@shared/components/parts-table/table-view-config.model';
+import { KeycloakService } from 'keycloak-angular';
 import { Subject } from 'rxjs';
 
 @Injectable({
@@ -29,34 +30,41 @@ export class TableSettingsService {
   private settingsKey = 'TableViewSettings';
   private changeEvent = new Subject<void>();
 
-  storeTableSettings(tableSettingsList: any): void {
+  constructor(private keycloakService: KeycloakService) { }
+
+  async storeTableSettings(tableSettingsList: any): Promise<void> {
+    const profile = await this.keycloakService.loadUserProfile();
+
     // before setting anything, all maps in new tableSettingList should be stringified
     Object.keys(tableSettingsList).forEach(tableSetting => {
       const newMap = tableSettingsList[tableSetting].columnSettingsOptions;
       tableSettingsList[tableSetting].columnSettingsOptions = JSON.stringify(Array.from(newMap.entries()));
     });
-    localStorage.setItem(this.settingsKey, JSON.stringify(tableSettingsList));
+
+    localStorage.setItem(`${this.settingsKey}_${profile.username}`, JSON.stringify(tableSettingsList));
   }
 
   // this returns whole settings whether empty / not for part / etc.
-  getStoredTableSettings(): any {
-    const settingsJson = localStorage.getItem(this.settingsKey);
+  async getStoredTableSettings(): Promise<any> {
+    const profile = await this.keycloakService.loadUserProfile();
+    const settingsJson = localStorage.getItem(`${this.settingsKey}_${profile.username}`);
     const settingsObject = settingsJson ? JSON.parse(settingsJson) : null;
-    if (!settingsObject) return;
+    if (!settingsObject) {
+      return;
+    }
 
     // iterate through all tabletypes and parse columnSettingsOption to a map
     Object.keys(settingsObject).forEach(tableSetting => {
       settingsObject[tableSetting].columnSettingsOptions = new Map(JSON.parse(settingsObject[tableSetting].columnSettingsOptions));
-
     });
 
     return settingsObject;
   }
 
-  storedTableSettingsInvalid(tableViewConfig: TableViewConfig, tableType: TableType): boolean {
+  async storedTableSettingsInvalid(tableViewConfig: TableViewConfig, tableType: TableType): Promise<boolean> {
     let isInvalid = false;
 
-    const storage = this.getStoredTableSettings();
+    const storage = await this.getStoredTableSettings();
     if (!storage?.[tableType]) {
       return false;
     }

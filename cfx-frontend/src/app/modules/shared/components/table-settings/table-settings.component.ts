@@ -65,13 +65,7 @@ export class TableSettingsComponent {
     this.defaultColumns = data.defaultColumns;
     this.defaultFilterColumns = data.defaultFilterColumns;
 
-    // Storage Data
-    this.columnOptions = tableSettingsService.getStoredTableSettings()[this.tableType].columnSettingsOptions;
-    this.dialogColumns = tableSettingsService.getStoredTableSettings()[this.tableType].columnsForDialog;
-    this.tableColumns = tableSettingsService.getStoredTableSettings()[this.tableType].columnsForTable;
-    this.filterColumns = tableSettingsService.getStoredTableSettings()[this.tableType].filterColumnsForTable;
-
-    this.selectAllSelected = this.dialogColumns.length === this.tableColumns.length;
+    this.loadSettings(tableSettingsService, data);
 
     if (dialogRef?.afterClosed)
       dialogRef.afterClosed().subscribe(() => {
@@ -79,7 +73,26 @@ export class TableSettingsComponent {
       });
   }
 
-  save() {
+  async loadSettings(tableSettingsService: TableSettingsService, data: any) {
+    const storedSettings = await tableSettingsService.getStoredTableSettings()?.[this.tableType];
+    if (storedSettings) {
+      // Storage Data
+      this.columnOptions = storedSettings.columnSettingsOptions;
+      this.dialogColumns = storedSettings.columnsForDialog;
+      this.tableColumns = storedSettings.columnsForTable;
+      this.filterColumns = storedSettings.filterColumnsForTable;
+    } else {
+      this.dialogColumns = data.defaultColumns;
+      this.tableColumns = data.defaultColumns;
+      this.filterColumns = data.defaultColumns;
+      this.columnOptions = new Map<string, boolean>();
+      this.selectAll(true);
+    }
+
+    this.selectAllSelected = this.dialogColumns.length === this.tableColumns.length;
+  }
+
+  async save() {
     // build new tableColumns how they should be displayed
     const newTableColumns: string[] = [];
     const newTableFilterColumns: string[] = [];
@@ -98,7 +111,7 @@ export class TableSettingsComponent {
     }
 
     // get Settingslist
-    const tableSettingsList = this.tableSettingsService.getStoredTableSettings();
+    const tableSettingsList = await this.tableSettingsService.getStoredTableSettings();
 
     // set this tableType Settings from SettingsList to the new one
     tableSettingsList[this.tableType] = {

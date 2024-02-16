@@ -125,7 +125,9 @@ export class RequestStepperComponent {
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
-    if (!(event.target as HTMLElement).closest('.container') && !(event.target as HTMLElement).closest('.request-action-button')) {
+    if ((event.target as HTMLElement).classList.contains('cdk-overlay-backdrop') &&
+      (event.target as HTMLElement).classList.contains('cdk-overlay-dark-backdrop') &&
+      (event.target as HTMLElement).classList.contains('cdk-overlay-backdrop-showing')) {
       this.closeAction();
     }
   }
