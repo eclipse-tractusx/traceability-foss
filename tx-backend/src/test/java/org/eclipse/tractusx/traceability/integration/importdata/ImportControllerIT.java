@@ -19,6 +19,7 @@
 
 package org.eclipse.tractusx.traceability.integration.importdata;
 
+import assets.importpoc.ImportReportResponse;
 import assets.importpoc.ImportResponse;
 import assets.importpoc.ImportStateMessage;
 import assets.importpoc.request.RegisterAssetRequest;
@@ -75,6 +76,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .extract().as(ImportResponse.class);
 
         assertThat(result.validationResult().validationErrors()).isEmpty();
+        assertThat(result.jobId()).isNotEmpty();
         assertThat(result.importStateMessage()).containsExactlyInAnyOrder(
                 new ImportStateMessage("urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01", true),
                 new ImportStateMessage("urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4c79e", true),
@@ -117,6 +119,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .extract().as(ImportResponse.class);
 
         assertThat(result.validationResult().validationErrors()).isEmpty();
+        assertThat(result.jobId()).isNotEmpty();
         assertThat(result.importStateMessage()).containsExactlyInAnyOrder(
                 new ImportStateMessage("urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36111", true)
         );
@@ -142,6 +145,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .extract().as(ImportResponse.class);
 
         assertThat(result.validationResult().validationErrors()).isEmpty();
+        assertThat(result.jobId()).isNotEmpty();
         assertThat(result.importStateMessage()).containsExactlyInAnyOrder(
                 new ImportStateMessage("urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01", true)
         );
@@ -179,6 +183,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .extract().as(ImportResponse.class);
 
         assertThat(result.validationResult().validationErrors()).isEmpty();
+        assertThat(result.jobId()).isNotEmpty();
         assertThat(result.importStateMessage()).containsExactlyInAnyOrder(
                 new ImportStateMessage("urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01", true),
                 new ImportStateMessage("urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4c79e", true),
@@ -232,6 +237,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .extract().as(ImportResponse.class);
 
         assertThat(result.validationResult().validationErrors()).isEmpty();
+        assertThat(result.jobId()).isNotEmpty();
         assertThat(result.importStateMessage()).containsExactlyInAnyOrder(
                 new ImportStateMessage("urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01", true),
                 new ImportStateMessage("urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4c79e", true),
@@ -275,6 +281,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
 
         // then
         assertThat(result.importStateMessage()).isEmpty();
+        assertThat(result.jobId()).isNotEmpty();
         assertThat(result.validationResult().validationErrors())
                 .containsExactlyInAnyOrder(
                         "Missing property aspectType",
@@ -300,10 +307,11 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .extract().as(ImportResponse.class);
 
         assertThat(result.importStateMessage()).isEmpty();
+        assertThat(result.jobId()).isNotEmpty();
         assertThat(result.validationResult().validationErrors())
                 .containsExactlyInAnyOrder(
                         "Could not find assets"
-                        );
+                );
     }
 
     @Test
@@ -323,7 +331,8 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .body("validationResult.validationErrors", Matchers.contains(
                         List.of(
                                 "At least one asset does not match the application bpn BPNL00000003AXS3"
-                        ).toArray()));
+                        ).toArray()))
+                .body("jobId", Matchers.notNullValue());
     }
 
     @Test
@@ -343,7 +352,8 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .body("validationResult.validationErrors", Matchers.contains(
                         List.of(
                                 "Supported file is *.json"
-                        ).toArray()));
+                        ).toArray()))
+                .body("jobId", Matchers.notNullValue());
     }
 
     @Test
@@ -363,7 +373,8 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .body("validationResult.validationErrors", Matchers.contains(
                         List.of(
                                 "'urn:bamm:io.catenax.serial_part:1.1.1#NOT_SUPPORTED_NAME' is not supported"
-                        ).toArray()));
+                        ).toArray()))
+                .body("jobId", Matchers.notNullValue());
     }
 
     @Test
@@ -433,4 +444,51 @@ class ImportControllerIT extends IntegrationTestSpecification {
         assertNull(asset.getPolicyId());
         assertEquals(asset.getImportState(), ImportState.TRANSIENT);
     }
+
+    @Test
+    void givenValidFile_whenImportData_thenReportShouldBeReturned() throws JoseException {
+
+        // given
+        String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
+        File file = new File(path);
+        ImportResponse result = given()
+                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .when()
+                .multiPart(file)
+                .post("/api/assets/import")
+                .then()
+                .statusCode(200)
+                .extract().as(ImportResponse.class);
+
+        // when
+        ImportReportResponse importReportResponse = given()
+                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .contentType(ContentType.JSON)
+                .when()
+                .pathParam("importJobId", result.jobId())
+                .get("/api/assets/import/report/{importJobId}")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .extract().as(ImportReportResponse.class);
+
+        // then
+        assertEquals(result.jobId(), importReportResponse.importJobResponse().importId());
+        assertEquals(18, importReportResponse.importedAssetResponse().size());
+
+    }
+
+    @Test
+    void givenUnknownImportJobId_thenStatusCode404() throws JoseException {
+        // given/when/then
+        given().header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .contentType(ContentType.JSON)
+                .when()
+                .pathParam("importJobId", "I do not exist")
+                .get("/api/assets/import/report/{importJobId}")
+                .then()
+                .log().all()
+                .statusCode(404);
+    }
+
 }
