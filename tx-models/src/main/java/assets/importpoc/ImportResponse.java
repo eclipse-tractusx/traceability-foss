@@ -21,15 +21,16 @@ package assets.importpoc;
 import java.util.List;
 
 public record ImportResponse(
+        String jobId,
         List<ImportStateMessage> importStateMessage,
         ValidationResponse validationResult) {
 
-    public ImportResponse(List<ImportStateMessage> importStateMessages) {
-        this(importStateMessages, ValidationResponse.emptyValidationResult());
+    public ImportResponse(String jobId, List<ImportStateMessage> importStateMessages) {
+        this(jobId, importStateMessages, ValidationResponse.emptyValidationResult());
     }
 
-    public ImportResponse(ValidationResponse importStateMessages) {
-        this(List.of(), importStateMessages);
+    public ImportResponse(String jobId, ValidationResponse importStateMessages) {
+        this(jobId, List.of(), importStateMessages);
     }
 }
 
