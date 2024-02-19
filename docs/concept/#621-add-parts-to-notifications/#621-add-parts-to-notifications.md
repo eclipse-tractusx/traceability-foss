@@ -62,7 +62,7 @@ Existing APIs will be used: **/api/alerts/:id/update** Or **/api/investigations/
 - Notification exists (Otherwise 404 Not found)
 - notification is in status CREATED (Otherwise 400 Bad Request)
 - Notification is from owner (Otherwise status 403 Forbidden)
-
+- Only supervisor is allowed to update the partIds of notifications.
 - All partIds in request are:
     - Atleast one item in partlistId list (Otherwise 403 Forbidden)
     - Existing (Otherwise 404 Not found)
