@@ -18,10 +18,8 @@
  ********************************************************************************/
 package assets.response.base.response;
 
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -32,54 +30,59 @@ import java.util.List;
 @Data
 @SuperBuilder
 public class AssetBaseResponse {
-    @ApiModelProperty(example = "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd")
-    @Size(max = 255)
+    @Schema(example = "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd", maxLength = 255)
     private String id;
-    @ApiModelProperty(example = "assembly-part-relationship")
-    @Size(max = 255)
+    @Schema(example = "assembly-part-relationship", maxLength = 255)
     private String idShort;
-    @ApiModelProperty(example = "NO-246880451848384868750731")
-    @Size(max = 255)
+    @Schema(example = "NO-246880451848384868750731", maxLength = 255)
     private String semanticModelId;
-    @ApiModelProperty(example = "BPNL00000003CSGV")
-    @Size(max = 255)
+    @Schema(example = "BPNL00000003CSGV", maxLength = 255)
     private String businessPartner;
-    @ApiModelProperty(example = "Tier C")
-    @Size(max = 255)
+    @Schema(example = "Tier C", maxLength = 255)
     private String manufacturerName;
-    @ApiModelProperty(example = "Tier C")
-    @Size(max = 255)
+    @Schema(example = "Tier C", maxLength = 255)
     private String nameAtManufacturer;
-    @ApiModelProperty(example = "Tier C")
-    @Size(max = 255)
+    @Schema(example = "Tier C", maxLength = 255)
     private String manufacturerPartId;
-    @ApiModelProperty(example = "CUSTOMER")
+    @Schema(example = "CUSTOMER")
     private OwnerResponse owner;
     @ArraySchema(arraySchema = @Schema(description = "Child relationships", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
     private List<DescriptionsResponse> childRelations;
     @ArraySchema(arraySchema = @Schema(description = "Parent relationships", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
     private List<DescriptionsResponse> parentRelations;
-    @ApiModelProperty(example = "Ok")
+    @Schema(example = "Ok")
     private QualityTypeResponse qualityType;
-    @ApiModelProperty(example = "OMAYSKEITUGNVHKKX")
-    @Size(max = 255)
+    @Schema(example = "OMAYSKEITUGNVHKKX", maxLength = 255)
     private String van;
-    @ApiModelProperty(example = "BATCH")
+    @Schema(example = "BATCH")
     private SemanticDataModelResponse semanticDataModel;
-    @ApiModelProperty(example = "component")
-    @Size(max = 255)
+    @Schema(example = "component", maxLength = 255)
     private String classification;
     private List<DetailAspectModelResponse> detailAspectModels;
-    @ApiModelProperty(dataType = "List", example = "1")
+    @ArraySchema(arraySchema = @Schema(description = "List of sent active associated quality alerts", example = "1"))
     private List<Long> sentQualityAlertIdsInStatusActive;
-    @ApiModelProperty(dataType = "List", example = "1")
+    @ArraySchema(arraySchema = @Schema(description = "List of received active associated quality alerts", example = "1"))
     private List<Long> receivedQualityAlertIdsInStatusActive;
-    @ApiModelProperty(dataType = "List", example = "2")
+    @ArraySchema(arraySchema = @Schema(description = "List of sent active associated quality investigations", example = "1"))
     private List<Long> sentQualityInvestigationIdsInStatusActive;
-    @ApiModelProperty(dataType = "List", example = "2")
+    @ArraySchema(arraySchema = @Schema(description = "List of received active associated quality investigations", example = "1"))
     private List<Long> receivedQualityInvestigationIdsInStatusActive;
-    @ApiModelProperty(example = "TRANSIENT")
+    @Schema(example = "TRANSIENT")
     private ImportStateResponse importState;
-    @ApiModelProperty(example = "Asset created successfully in transient state")
+    @Schema(example = "Asset created successfully in transient state")
     private String importNote;
+    @Schema(example = """
+                    {
+                        "catenaXId": "urn:uuid:7e4541ea-bb0f-464c-8cb3-021abccbfaf5",
+                        "endpointURL": "https://irs-provider-dataplane3.dev.demo.catena-x.net/api/public/data/urn:uuid:c7b3ea3d-97ea-41e4-960d-12fb166e1da1",
+                        "processingError": {
+                            "processStep": "SubmodelRequest",
+                            "errorDetail": "org.springframework.web.client.HttpServerErrorException$InternalServerError: 500 : "{"errors":[]}"",
+                            "lastAttempt": "2024-02-07T12:06:34.400493282Z",
+                            "retryCounter": 0
+                        },
+                        "policy": null
+                    }
+            """)
+    private String tombstone;
 }

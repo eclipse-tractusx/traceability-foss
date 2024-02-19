@@ -25,11 +25,15 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.irs.component.Tombstone;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataTractionBatteryCode;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
@@ -38,6 +42,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -51,7 +56,8 @@ public record JobDetailResponse(
         List<Shell> shells,
         List<SemanticDataModel> semanticDataModels,
         List<Relationship> relationships,
-        Map<String, String> bpns
+        Map<String, String> bpns,
+        Map<String, String> tombstones
 ) {
 
     // TODO constants should be in a proper class which reflects the purpose of it (MW)
@@ -68,7 +74,9 @@ public record JobDetailResponse(
             @JsonProperty("relationships") List<Relationship> relationships,
             @JsonProperty("shells") @JsonSetter(nulls = Nulls.AS_EMPTY) List<Shell> shells,
             @JsonProperty("submodels") @JsonSetter(nulls = Nulls.AS_EMPTY) List<Submodel> submodels,
-            @JsonProperty("bpns") @JsonSetter(nulls = Nulls.AS_EMPTY) List<Bpn> bpns
+            @JsonProperty("bpns") @JsonSetter(nulls = Nulls.AS_EMPTY) List<Bpn> bpns,
+            @JsonProperty("tombstones") @JsonSetter(nulls = Nulls.AS_EMPTY) List<Tombstone> tombstones
+
     ) {
         Map<String, String> bpnsMap = bpns.stream()
                 .map(bpn -> new Bpn(
@@ -95,12 +103,24 @@ public record JobDetailResponse(
                     }
                 }).toList();
 
+        HashMap<String, String> tombstoneMessages = new HashMap<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        tombstones.forEach(tombstone -> {
+            try {
+                tombstoneMessages.put(tombstone.getCatenaXId(), objectMapper.writeValueAsString(tombstone));
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
         return new JobDetailResponse(
                 jobStatus,
                 shells,
                 semanticDataModels,
                 relationships,
-                bpnsMap
+                bpnsMap,
+                tombstoneMessages
         );
     }
 
@@ -148,9 +168,15 @@ public record JobDetailResponse(
             }
         }
 
+        List<AssetBase> tombstoneAssets = tombstones.entrySet()
+                .stream()
+                .map(entry -> AssetBase.builder().id(entry.getKey()).tombstone(entry.getValue()).build())
+                .toList();
+
         List<AssetBase> convertedAssets = new ArrayList<>();
         convertedAssets.addAll(ownParts);
         convertedAssets.addAll(otherParts);
+        convertedAssets.addAll(tombstoneAssets);
         return convertedAssets;
     }
 

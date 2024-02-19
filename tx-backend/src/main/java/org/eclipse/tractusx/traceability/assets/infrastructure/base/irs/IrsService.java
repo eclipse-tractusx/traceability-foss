@@ -23,6 +23,7 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.util.Strings;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
@@ -107,12 +108,27 @@ public class IrsService implements IrsRepository {
 
             // persist converted assets
             jobResponse.convertAssets().forEach(assetBase -> {
-                if (assetBase.getBomLifecycle() == org.eclipse.tractusx.irs.component.enums.BomLifecycle.AS_BUILT) {
+                if (Strings.isNotBlank(assetBase.getTombstone())) {
+                    // it is unclear whether the tombstone asset is asBuilt or asPlanned.
+                    // In case of an imported asset via Trace-X there should be an asset in state TRANSIENT, so we need
+                    // to set the tombstone information
+                    setTombstone(assetAsBuiltCallbackRepository, assetBase);
+                    setTombstone(assetAsPlannedCallbackRepository, assetBase);
+                } else if (assetBase.getBomLifecycle() == org.eclipse.tractusx.irs.component.enums.BomLifecycle.AS_BUILT) {
                     saveOrUpdateAssets(assetAsBuiltCallbackRepository, assetBase);
                 } else if (assetBase.getBomLifecycle() == org.eclipse.tractusx.irs.component.enums.BomLifecycle.AS_PLANNED) {
                     saveOrUpdateAssets(assetAsPlannedCallbackRepository, assetBase);
                 }
             });
+        }
+    }
+
+    void setTombstone(AssetCallbackRepository repository, AssetBase asset) {
+        Optional<AssetBase> existingAssetOptional = repository.findById(asset.getId());
+        if (existingAssetOptional.isPresent()) {
+            AssetBase existingAsset = existingAssetOptional.get();
+            existingAsset.setTombstone(asset.getTombstone());
+            repository.save(existingAsset);
         }
     }
 

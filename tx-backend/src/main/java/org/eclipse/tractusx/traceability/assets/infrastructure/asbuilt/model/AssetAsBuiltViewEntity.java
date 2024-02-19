@@ -69,6 +69,7 @@ public class AssetAsBuiltViewEntity extends AssetBaseEntity {
     private String sentActiveAlerts;
     private String receivedActiveInvestigations;
     private String sentActiveInvestigations;
+    private String tombstone;
 
     @ElementCollection
     @CollectionTable(name = "traction_battery_code_subcomponent", joinColumns = {@JoinColumn(name = "traction_battery_code")})
@@ -125,6 +126,7 @@ public class AssetAsBuiltViewEntity extends AssetBaseEntity {
                 .receivedQualityAlerts(emptyIfNull(this.alerts).stream().filter(alert -> NotificationSideBaseEntity.RECEIVER.equals(alert.getSide())).map(AlertEntity::toDomain).toList())
                 .sentQualityInvestigations(emptyIfNull(this.investigations).stream().filter(alert -> NotificationSideBaseEntity.SENDER.equals(alert.getSide())).map(InvestigationEntity::toDomain).toList())
                 .receivedQualityInvestigations(emptyIfNull(this.investigations).stream().filter(alert -> NotificationSideBaseEntity.RECEIVER.equals(alert.getSide())).map(InvestigationEntity::toDomain).toList())
+                .tombstone(this.getTombstone())
                 .build();
     }
 

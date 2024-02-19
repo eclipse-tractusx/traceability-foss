@@ -19,14 +19,19 @@
 
 package org.eclipse.tractusx.traceability.integration.assets.infrastructure.base;
 
+import assets.importpoc.ImportResponse;
 import io.restassured.http.ContentType;
+import org.eclipse.tractusx.traceability.common.security.JwtRole;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.IrsApiSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.repository.AssetAsBuiltSupportRepository;
 import org.eclipse.tractusx.traceability.integration.common.support.repository.BpnSupportRepository;
-import org.eclipse.tractusx.traceability.integration.common.support.IrsApiSupport;
+import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.File;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -134,4 +139,56 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
         assetsSupport.assertAssetAsBuiltSize(15);
         assetsSupport.assertAssetAsPlannedSize(0);
     }
+
+
+    @Test
+    void givenSuccessImportJob_whenCallbackReceivedWithTombsones_thenUpdateIt() throws JoseException {
+        // given
+        oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
+        irsApiSupport.irsApiReturnsJobDetails();
+        String jobId = "ebb79c45-7bba-4169-bf17-3e719989ab54";
+        String jobState = "COMPLETED";
+
+        String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
+        File file = new File(path);
+
+        ImportResponse result = given()
+                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .when()
+                .multiPart(file)
+                .post("/api/assets/import")
+                .then()
+                .statusCode(200)
+                .extract().as(ImportResponse.class);
+
+        // when
+        given()
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .param("id", jobId)
+                .param("state", jobState)
+                .get("/api/irs/job/callback")
+                .then()
+                .log().all()
+                .statusCode(200);
+
+        // then
+        String tombstone = given()
+                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .pathParam("assetId", "urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a")
+                .get("/api/assets/as-built/{assetId}")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .extract().path("tombstone");
+
+        assertThat(tombstone).isNotEmpty();
+
+
+    }
+
 }

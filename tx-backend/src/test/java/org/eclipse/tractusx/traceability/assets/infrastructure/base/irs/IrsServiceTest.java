@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs;
+package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.tractusx.irs.edc.client.policy.Constraint;
@@ -25,27 +25,11 @@ import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
 import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
 import org.eclipse.tractusx.irs.edc.client.policy.Permission;
 import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.AssetCallbackRepository;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.IrsClient;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.IrsService;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterJobRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobDetailResponse;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobStatus;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Parameter;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.PolicyResponse;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Shell;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.LinkedItem;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Relationship;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.ManufacturingInformation;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.MeasurementUnit;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.PartTypeInformation;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.Quantity;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.SemanticDataModel;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.Site;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.ValidityPeriod;
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
@@ -58,18 +42,11 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.Instant;
 import java.time.OffsetDateTime;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.eclipse.tractusx.traceability.common.date.DateUtil.toOffsetDateTime;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -169,62 +146,6 @@ class IrsServiceTest {
         );
     }
 
-    private JobDetailResponse provideTestJobResponse(String direction) {
-        JobStatus jobStatus = new JobStatus(
-                "id",
-                "COMPLETED",
-                new Date(),
-                new Date(),
-                "globalAsset123",
-                new Parameter(direction, "asBuilt", "BPN0000X")
-        );
-
-        List<Shell> shells = Arrays.asList(
-                new Shell("shell1", "Identification 1", "globalAssetId"),
-                new Shell("shell2", "Identification 2", "globalAssetId")
-        );
-
-        ValidityPeriod validityPeriod = new ValidityPeriod(null, toOffsetDateTime(Instant.now()));
-        Site site = new Site(toOffsetDateTime(Instant.now()), OffsetDateTime.now(), "function", "cxid");
-        List<SemanticDataModel> semanticDataModels = Collections.singletonList(
-                new SemanticDataModel(
-                        "catenaXId123",
-                        new PartTypeInformation("classification", "Name at Manufacturer", "Name at Customer",
-                                "ManufacturerPartId123", "CustomerPartId123"),
-                        new ManufacturingInformation("Country", toOffsetDateTime(Instant.now())),
-                        Collections.emptyList(), validityPeriod, List.of(site), "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart"
-
-                )
-        );
-        List<Relationship> relationships;
-
-        MeasurementUnit measurementUnit = new MeasurementUnit("uri", "unit:abc");
-        Quantity quantity = new Quantity(1.5, measurementUnit);
-        if (direction.equals(Direction.DOWNWARD.name())) {
-            relationships = Arrays.asList(
-                    new Relationship("catenaXId123", new LinkedItem("childCatenaXId123", new Date(), new Date(), validityPeriod, quantity), Aspect.SINGLE_LEVEL_BOM_AS_BUILT),
-                    new Relationship("catenaXId456", new LinkedItem("childCatenaXId456", new Date(), new Date(), validityPeriod, quantity), Aspect.SINGLE_LEVEL_BOM_AS_BUILT)
-            );
-        } else {
-            relationships = Arrays.asList(
-                    new Relationship("catenaXId123", new LinkedItem("childCatenaXId123", new Date(), new Date(), validityPeriod, quantity), Aspect.SINGLE_LEVEL_USAGE_AS_BUILT),
-                    new Relationship("catenaXId456", new LinkedItem("childCatenaXId456", new Date(), new Date(), validityPeriod, quantity), Aspect.SINGLE_LEVEL_USAGE_AS_BUILT)
-            );
-        }
-
-
-        Map<String, String> bpns = new HashMap<>();
-        bpns.put("key1", "value1");
-        bpns.put("key2", "value2");
-
-        return new JobDetailResponse(
-                jobStatus,
-                shells,
-                semanticDataModels,
-                relationships,
-                bpns
-        );
-    }
 
     @Test
     void test_getPolicyConstraints() {

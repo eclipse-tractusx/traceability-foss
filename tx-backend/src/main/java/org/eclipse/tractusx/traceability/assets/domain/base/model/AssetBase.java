@@ -30,7 +30,9 @@ import org.eclipse.tractusx.irs.component.enums.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import static org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.BATCH;
 import static org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.JUSTINSEQUENCE;
@@ -50,30 +52,32 @@ public class AssetBase {
     private String manufacturerPartId;
     private Owner owner;
     @Singular
-    private List<Descriptions> childRelations;
+    private List<Descriptions> childRelations = Collections.emptyList();
     @Singular
-    private List<Descriptions> parentRelations;
+    private List<Descriptions> parentRelations = Collections.emptyList();
     private QualityType qualityType;
     private String van;
     private SemanticDataModel semanticDataModel;
     private String classification;
-    private List<DetailAspectModel> detailAspectModels;
-    private List<QualityNotification> sentQualityAlerts;
-    private List<QualityNotification> receivedQualityAlerts;
-    private List<QualityNotification> sentQualityInvestigations;
-    private List<QualityNotification> receivedQualityInvestigations;
+    private List<DetailAspectModel> detailAspectModels = Collections.emptyList();
+    private List<QualityNotification> sentQualityAlerts = Collections.emptyList();
+    private List<QualityNotification> receivedQualityAlerts = Collections.emptyList();
+    private List<QualityNotification> sentQualityInvestigations = Collections.emptyList();
+    private List<QualityNotification> receivedQualityInvestigations = Collections.emptyList();
     private ImportState importState;
     private String importNote;
     private String policyId;
+    private String tombstone;
 
     public BomLifecycle getBomLifecycle() {
-        if(semanticDataModel.equals(SERIALPART) || semanticDataModel.equals(BATCH) || semanticDataModel.equals(JUSTINSEQUENCE)){
+        if (Objects.equals(semanticDataModel, SERIALPART) || Objects.equals(semanticDataModel, BATCH) || Objects.equals(semanticDataModel, JUSTINSEQUENCE)) {
             return BomLifecycle.AS_BUILT;
         } else {
             return BomLifecycle.AS_PLANNED;
         }
     }
-    public boolean isOwnAsset(final String bpn){
+
+    public boolean isOwnAsset(final String bpn) {
         return bpn.equals(manufacturerId);
     }
 }
