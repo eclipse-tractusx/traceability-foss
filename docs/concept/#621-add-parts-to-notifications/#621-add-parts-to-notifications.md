@@ -46,7 +46,7 @@ The Endpoint should replace the partIds of a notification by the provided partId
 
 ## Endpoint:
 
-New API **/api/alerts/:id** Or **/api/investigations/:id** or **/api/notifications/:id**
+Existing APIs will be used: **/api/alerts/:id/update** Or **/api/investigations/:id/update**
 - PUT Request Method
 - expected Request body:
   ```
