@@ -63,14 +63,6 @@ public class AlertNotificationEntity extends QualityNotificationMessageBaseEntit
     )
     private List<AssetAsBuiltEntity> assets;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "asset_as_planned_alert_notifications",
-            joinColumns = @JoinColumn(name = "alert_notification_id"),
-            inverseJoinColumns = @JoinColumn(name = "asset_id")
-    )
-    private List<AssetAsPlannedEntity> assetsAsPlanned;
-
     public static QualityNotificationMessage toDomain(AlertNotificationEntity alertNotificationEntity) {
         return QualityNotificationMessage.builder()
                 .id(alertNotificationEntity.getId())
@@ -111,7 +103,6 @@ public class AlertNotificationEntity extends QualityNotificationMessageBaseEntit
                 .sendTo(qualityNotificationMessage.getSendTo())
                 .sendToName(qualityNotificationMessage.getSendToName())
                 .assets(notificationAssets)
-                .assetsAsPlanned(assetAsPlannedEntitiesByAlert)
                 .notificationReferenceId(qualityNotificationMessage.getNotificationReferenceId())
                 .targetDate(qualityNotificationMessage.getTargetDate())
                 .severity(qualityNotificationMessage.getSeverity())

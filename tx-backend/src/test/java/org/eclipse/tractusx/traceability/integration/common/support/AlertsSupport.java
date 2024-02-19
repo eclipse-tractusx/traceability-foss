@@ -74,7 +74,6 @@ public class AlertsSupport {
         Long alertId = storedAlert(entity);
         AlertEntity savedAlert = jpaAlertRepository.findById(alertId).get();
         savedAlert.setAssets(assetsAsBuilt);
-        savedAlert.setAssetsAsPlanned(assetsAsPlanned);
         jpaAlertRepository.save(savedAlert);
         return alertId;
     }
