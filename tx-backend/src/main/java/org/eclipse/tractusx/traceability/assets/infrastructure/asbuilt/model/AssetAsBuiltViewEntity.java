@@ -69,7 +69,6 @@ public class AssetAsBuiltViewEntity extends AssetBaseEntity {
     private String sentActiveAlerts;
     private String receivedActiveInvestigations;
     private String sentActiveInvestigations;
-    private String tombstone;
 
     @ElementCollection
     @CollectionTable(name = "traction_battery_code_subcomponent", joinColumns = {@JoinColumn(name = "traction_battery_code")})

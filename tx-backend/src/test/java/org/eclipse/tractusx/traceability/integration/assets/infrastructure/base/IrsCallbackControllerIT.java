@@ -177,7 +177,7 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
         String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
         File file = new File(path);
 
-        ImportResponse result = given()
+        given()
                 .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
                 .when()
                 .multiPart(file)
@@ -226,7 +226,7 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
         String path = getClass().getResource("/testdata/importfiles/validImportFile-onlyAsPlannedAsset.json").getFile();
         File file = new File(path);
 
-        ImportResponse result = given()
+        given()
                 .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
                 .when()
                 .multiPart(file)
