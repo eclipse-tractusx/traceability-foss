@@ -11,6 +11,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - added tombstone icon to parts table and error description in parts detail view
 - Endpoint (assets/import/report/{importJobId}) for retrieving import report
 - Added error description and retry button to error toast when creating notifications
+- Added add Parts view concept
 
 ### Changed
 - actions/chache bumped from v3 to v4
@@ -25,6 +26,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - IrsCallbackController is now validating jobId to prevent log injections from unwanted usage
 
 ### Removed
+- Investigations/Alerts for assets_as_planned parts
 
 ## [10.3.0 - 05.02.2024]
 
