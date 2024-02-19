@@ -70,7 +70,6 @@ public class InvestigationsSupport {
         Long alertId = storedInvestigation(entity);
         InvestigationEntity savedInvestigation = jpaInvestigationRepository.findById(alertId).get();
         savedInvestigation.setAssets(assetsAsBuilt);
-        savedInvestigation.setAssetsAsPlanned(assetsAsPlanned);
         jpaInvestigationRepository.save(savedInvestigation);
         return alertId;
     }
