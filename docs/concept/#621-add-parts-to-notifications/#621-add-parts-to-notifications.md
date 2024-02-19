@@ -64,11 +64,11 @@ Existing APIs will be used: **/api/alerts/:id/update** Or **/api/investigations/
 - Notification is from owner (Otherwise status 403 Forbidden)
 - Only supervisor is allowed to update the partIds of notifications.
 - All partIds in request are:
-    - Atleast one item in partlistId list (Otherwise 403 Forbidden)
+    - Atleast one item in partlistId list (Otherwise 400 Bad Request)
+    - If at least one partId is missing (400 - bad request will be thrown).
     - Existing (Otherwise 404 Not found)
-    - unique (unique id, otherwise 403 Forbidden)
-    - in importState PERSISTENT (Otherwise 403 Forbidden)
-    - In bomLifeCycle asBuilt (Otherwise 403 Forbidden)
+    - in importState PERSISTENT (Otherwise 400 Bad Request)
+    - In bomLifeCycle asBuilt (Otherwise 400 Bad Request)
     - If alert -> only own Parts (Otherwise 403 Forbidden)
     - If investigation -> only other Parts (Otherwise 403 Forbidden)
 
