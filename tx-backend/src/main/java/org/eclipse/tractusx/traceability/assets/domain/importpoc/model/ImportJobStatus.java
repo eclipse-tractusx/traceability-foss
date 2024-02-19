@@ -20,6 +20,6 @@ package org.eclipse.tractusx.traceability.assets.domain.importpoc.model;
 
 public enum ImportJobStatus {
 
-    INITIALIZING, RUNNING, CANCELLED, COMPLETED
+    INITIALIZING, RUNNING, ERROR, COMPLETED
 
 }
