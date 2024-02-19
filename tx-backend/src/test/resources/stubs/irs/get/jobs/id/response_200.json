@@ -1141,7 +1141,18 @@
   "tombstones" : [
     {
       "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a",
-      "endpointURL" : "https://irs-provider-dataplane3.dev.demo.catena-x.net/api/public/data/urn:uuid:c7b3ea3d-97ea-41e4-960d-12fb166e1da1",
+      "endpointURL" : "https://irs-provider-dataplane3.dev.demo.catena-x.net/api/public/data/urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a",
+      "processingError" : {
+        "processStep" : "SubmodelRequest",
+        "errorDetail" : "org.springframework.web.client.HttpServerErrorException$InternalServerError: 500 : \"{\"errors\":[]}\"",
+        "lastAttempt" : "2024-02-07T12:06:34.400493282Z",
+        "retryCounter" : 0
+      },
+      "policy" : null
+    },
+    {
+      "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01",
+      "endpointURL" : "https://irs-provider-dataplane3.dev.demo.catena-x.net/api/public/data/urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01",
       "processingError" : {
         "processStep" : "SubmodelRequest",
         "errorDetail" : "org.springframework.web.client.HttpServerErrorException$InternalServerError: 500 : \"{\"errors\":[]}\"",

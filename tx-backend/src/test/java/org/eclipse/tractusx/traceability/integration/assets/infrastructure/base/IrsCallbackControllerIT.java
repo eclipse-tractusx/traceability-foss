@@ -140,9 +140,8 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
         assetsSupport.assertAssetAsPlannedSize(0);
     }
 
-
     @Test
-    void givenSuccessImportJob_whenCallbackReceivedWithTombsones_thenUpdateIt() throws JoseException {
+    void givenSuccessImportJob_whenCallbackReceivedWithTombsones_thenUpdateAsBuiltAsset() throws JoseException {
         // given
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         irsApiSupport.irsApiReturnsJobDetails();
@@ -174,7 +173,7 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
                 .statusCode(200);
 
         // then
-        String tombstone = given()
+        String tombstoneAsBuilt = given()
                 .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
                 .contentType(ContentType.JSON)
                 .log().all()
@@ -186,9 +185,56 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
                 .statusCode(200)
                 .extract().path("tombstone");
 
-        assertThat(tombstone).isNotEmpty();
+        assertThat(tombstoneAsBuilt).isNotEmpty();
 
+    }
 
+    @Test
+    void givenSuccessImportJob_whenCallbackReceivedWithTombsones_thenUpdateAsPlannedAsset() throws JoseException {
+        // given
+        oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
+        irsApiSupport.irsApiReturnsJobDetails();
+        String jobId = "ebb79c45-7bba-4169-bf17-3e719989ab54";
+        String jobState = "COMPLETED";
+
+        String path = getClass().getResource("/testdata/importfiles/validImportFile-onlyAsPlannedAsset.json").getFile();
+        File file = new File(path);
+
+        ImportResponse result = given()
+                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .when()
+                .multiPart(file)
+                .post("/api/assets/import")
+                .then()
+                .statusCode(200)
+                .extract().as(ImportResponse.class);
+
+        // when
+        given()
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .param("id", jobId)
+                .param("state", jobState)
+                .get("/api/irs/job/callback")
+                .then()
+                .log().all()
+                .statusCode(200);
+
+        // then
+        String tombstoneAsPlanned = given()
+                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .pathParam("assetId", "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01")
+                .get("/api/assets/as-planned/{assetId}")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .extract().path("tombstone");
+
+        assertThat(tombstoneAsPlanned).isNotEmpty();
     }
 
 }

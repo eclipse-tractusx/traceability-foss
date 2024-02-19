@@ -117,6 +117,7 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                 .importState(asset.getImportState())
                 .importNote(asset.getImportNote())
                 .policyId(asset.getPolicyId())
+                .tombstone(asset.getTombstone())
                 .build();
     }
 
@@ -145,6 +146,7 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                 .importState(entity.getImportState())
                 .importNote(entity.getImportNote())
                 .policyId(entity.getPolicyId())
+                .tombstone(entity.getTombstone())
                 .build();
     }
 
