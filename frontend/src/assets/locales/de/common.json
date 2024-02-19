@@ -65,6 +65,7 @@
     "publish": "Veröffentlichen"
   },
   "table": {
+    "tombStone": "Grabstein",
     "noResultFound": "KEINE ERGEBNISSE GEFUNDEN.",
     "tryAgain": "Bitte versuchen Sie es später noch einmal.",
     "selectPageSize": "Seite für segmentierte Elemente auswählen",

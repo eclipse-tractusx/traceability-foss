@@ -67,13 +67,15 @@ public class AssetBase {
     private String policyId;
 
     public BomLifecycle getBomLifecycle() {
-        if(semanticDataModel.equals(SERIALPART) || semanticDataModel.equals(BATCH) || semanticDataModel.equals(JUSTINSEQUENCE)){
+        if (semanticDataModel.equals(SERIALPART) || semanticDataModel.equals(BATCH) || semanticDataModel.equals(JUSTINSEQUENCE)) {
             return BomLifecycle.AS_BUILT;
         } else {
             return BomLifecycle.AS_PLANNED;
         }
     }
-    public boolean isOwnAsset(final String bpn){
+
+    public boolean isOwnAsset(final String bpn) {
         return bpn.equals(manufacturerId);
     }
+
 }

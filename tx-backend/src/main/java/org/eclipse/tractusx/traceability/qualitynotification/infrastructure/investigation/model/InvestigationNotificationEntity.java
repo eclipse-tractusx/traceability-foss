@@ -63,15 +63,6 @@ public class InvestigationNotificationEntity extends QualityNotificationMessageB
     )
     private List<AssetAsBuiltEntity> assets;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "assets_as_planned_notifications",
-            joinColumns = @JoinColumn(name = "notification_id"),
-            inverseJoinColumns = @JoinColumn(name = "asset_id")
-    )
-    private List<AssetAsPlannedEntity> assetsAsPlanned;
-
-
     public static QualityNotificationMessage toDomain(InvestigationNotificationEntity investigationNotificationEntity) {
         return QualityNotificationMessage.builder()
                 .id(investigationNotificationEntity.getId())
