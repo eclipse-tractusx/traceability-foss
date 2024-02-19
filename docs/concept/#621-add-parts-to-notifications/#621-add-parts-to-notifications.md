@@ -22,7 +22,7 @@
 
 
 # Overview
-Currently notifications cannot be edited when created and not sent
+The existing notification update API should allow to update partIds, as long as the status of the notification is within queued state.
 # Summary
 Notifications should be editable when they are not sent
 # Problem Statement
