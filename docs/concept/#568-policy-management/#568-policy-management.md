@@ -49,11 +49,48 @@ It must be possible for an Administrator of Trace-X to create, read, update and 
 
 ## CREATE policies
 
-|             |                  |
-|-------------|------------------|
-| HTTP method | POST             |
-| Endpoint    | /tracex/policies |
-| Parameters  | -                |
+|             |               |
+|-------------|---------------|
+| HTTP method | POST          |
+| Endpoint    | /api/policies |
+| Parameters  | -             |
+
+### Request body
+#### Example
+```json
+[
+    {
+        "createdOn": "2024-02-19T12:48:23.786Z",
+        "permissions": [
+            {
+                "action": "USE",
+                "constraint": {
+                    "and": [
+                        {
+                            "leftOperand": "string",
+                            "odrl:rightOperand": "string",
+                            "operator": {
+                                "@id": "odrl:eq"
+                            }
+                        }
+                    ],
+                    "or": [
+                        {
+                            "leftOperand": "string",
+                            "odrl:rightOperand": "string",
+                            "operator": {
+                                "@id": "odrl:eq"
+                            }
+                        }
+                    ]
+                }
+            }
+        ],
+        "policyId": "f253718e-a270-4367-901b-9d50d9bd8462",
+        "validUntil": "2024-02-19T12:48:23.786Z"
+    }
+]
+```
 
 ### Responses
 
@@ -73,31 +110,9 @@ It must be possible for an Administrator of Trace-X to create, read, update and 
 {
     "error": "Bad request",
     "messages": [
-        "BadRequestException"
+        "createdOn parameter value invalid"
     ],
     "statusCode": "400 BAD_REQUEST"
-}
-```
-___
-**401**
-```json
-{
-    "error": "Unauthorized",
-    "messages": [
-        "UnauthorizedException"
-    ],
-    "statusCode": "401 UNAUTHORIZED"
-}
-```
-___
-**403**
-```json
-{
-    "error": "Forbidden",
-    "messages": [
-        "ForbiddenException"
-    ],
-    "statusCode": "403 FORBIDDEN"
 }
 ```
 ___
@@ -106,27 +121,19 @@ ___
 sequenceDiagram
     participant FE
     participant BE
-    participant IRSLib
     participant IRSPolicyStore
     participant DB
-    FE->>BE: POST /tracex/policies
+    FE->>BE: POST /api/policies
     activate BE
+    BE->>BE: Verify policy
     alt Valid policy
-        BE->>IRSLib: Verify policy
-        activate IRSLib
-        IRSLib-->>BE: Success
-        deactivate IRSLib
         BE->>IRSPolicyStore: POST /irs/policies
         activate IRSPolicyStore
+        IRSPolicyStore->>DB: Save policy
         IRSPolicyStore-->>BE: Success
         deactivate IRSPolicyStore
-        BE->>DB: Save policy
         BE-->>FE: 200 Success
     else Invalid policy
-        BE->>IRSLib: Verify policy
-        activate IRSLib
-        IRSLib-->>BE: Error
-        deactivate IRSLib
         BE-->>FE: 400 Bad request
     deactivate BE
     end
@@ -134,11 +141,11 @@ sequenceDiagram
 
 ## GET policies
 
-|             |                  |
-|-------------|------------------|
-| HTTP method | GET              |
-| Endpoint    | /tracex/policies |
-| Parameters  | -                |
+|             |               |
+|-------------|---------------|
+| HTTP method | GET           |
+| Endpoint    | /api/policies |
+| Parameters  | -             |
 
 ### Responses
 
@@ -151,81 +158,38 @@ sequenceDiagram
 #### Examples
 **200**
 ```json
-{
-    "payload": [
-        {
-            "id": "8231-dfg-d234324-324-324",
-            "createdOn": "2023-05-17T16:42:00Z",
-            "validUntil": "2023-05-24T12:57:29Z",
-            "permissions": [
-                {
-                    policytype: "USE",
-                    "constraints": {
-                        or [
-                            {
-                                "leftOperand": "Membership",
-                                "operator: eq
-                                "rightOperand": "active"
-                            },
-                            {
-                                "leftOperand": "FrameworkAgreement.traceability",
-                                "operator: in
-                                "rightOperand": ["active"]
-                            },
-                            {
-
-                                "leftOperand": "PURPOSE",
-                                "operator: eq
-                                "rightOperand": "ID 3.1 Trace"
+[
+    {
+        "createdOn": "2024-02-19T12:48:23.786Z",
+        "permissions": [
+            {
+                "action": "USE",
+                "constraint": {
+                    "and": [
+                        {
+                            "leftOperand": "string",
+                            "odrl:rightOperand": "string",
+                            "operator": {
+                                "@id": "odrl:eq"
                             }
-                        ]
-                    }
+                        }
+                    ],
+                    "or": [
+                        {
+                            "leftOperand": "string",
+                            "odrl:rightOperand": "string",
+                            "operator": {
+                                "@id": "odrl:eq"
+                            }
+                        }
+                    ]
                 }
-            ]
-        },
-        {
-            "id": "9231-dfg-d2654324-764-544",
-            "createdOn": "2024-01-05T14:29:02Z",
-            "validUntil": "2024-04-29T09:34:44Z",
-            "permissions": [
-                {
-                    policytype: "USE",
-                    "constraints": {
-                        or [
-                    {
-                        "leftOperand": "Membership",
-                        "operator: eq
-                        "rightOperand": "active"
-                    }
-                ]
             }
-            }
-            ]
-        }
-    ]
-}
-```
-___
-**401**
-```json
-{
-    "error": "Unauthorized",
-    "messages": [
-        "UnauthorizedException"
-    ],
-    "statusCode": "401 UNAUTHORIZED"
-}
-```
-___
-**403**
-```json
-{
-    "error": "Forbidden",
-    "messages": [
-        "ForbiddenException"
-    ],
-    "statusCode": "403 FORBIDDEN"
-}
+        ],
+        "policyId": "f253718e-a270-4367-901b-9d50d9bd8462",
+        "validUntil": "2024-02-19T12:48:23.786Z"
+    }
+]
 ```
 ___
 **Getting policies:**
@@ -234,9 +198,9 @@ sequenceDiagram
     participant FE
     participant BE
     participant DB
-    FE->>BE: GET /tracex/policies
+    FE->>BE: GET /api/policies
     activate BE
-    BE->>DB: GET /tracex/policies
+    BE->>DB: GET /api/policies
     activate DB
     DB-->>BE: Policies (JSON)
     deactivate DB
@@ -246,45 +210,47 @@ sequenceDiagram
 
 ## UPDATE policies
 
-|             |                              |
-|-------------|------------------------------|
-| HTTP method | PUT                          |
-| Endpoint    | /tracex/policies/{policy_id} |
-| Parameters  | policy_id (required string)  |
+|             |                             |
+|-------------|-----------------------------|
+| HTTP method | PUT                         |
+| Endpoint    | /api/policies/{policy_id}   |
+| Parameters  | policy_id (required string) |
 
 ### Request body
 #### Example
 ```json
-{
-    "id": "8231-dfg-d234324-324-324",
-    "createdOn": "2023-05-17T16:42:00Z",
-    "validUntil": "2023-05-24T12:57:29Z",
-    "permissions": [
-        {
-            policytype: "USE",
-            "constraints": {
-                or [
-                    {
-                        "leftOperand": "Membership",
-                        "operator: eq
-                        "rightOperand": "active"
-                    },
-                    {
-                        "leftOperand": "FrameworkAgreement.traceability",
-                        "operator: in
-                        "rightOperand": ["active"]
-                    },
-                    {
-
-                        "leftOperand": "PURPOSE",
-                        "operator: eq
-                        "rightOperand": "ID 3.1 Trace"
-                    }
-                ]
+[
+    {
+        "createdOn": "2024-02-19T12:48:23.786Z",
+        "permissions": [
+            {
+                "action": "USE",
+                "constraint": {
+                    "and": [
+                        {
+                            "leftOperand": "string",
+                            "odrl:rightOperand": "string",
+                            "operator": {
+                                "@id": "odrl:eq"
+                            }
+                        }
+                    ],
+                    "or": [
+                        {
+                            "leftOperand": "string",
+                            "odrl:rightOperand": "string",
+                            "operator": {
+                                "@id": "odrl:eq"
+                            }
+                        }
+                    ]
+                }
             }
-        }
-    ]
-}
+        ],
+        "policyId": "f253718e-a270-4367-901b-9d50d9bd8462",
+        "validUntil": "2024-02-19T12:48:23.786Z"
+    }
+]
 ```
 
 ### Responses
@@ -305,31 +271,9 @@ sequenceDiagram
 {
     "error": "Bad request",
     "messages": [
-        "BadRequestException"
+        "policytype parameter value invalid"
     ],
     "statusCode": "400 BAD_REQUEST"
-}
-```
-___
-**401**
-```json
-{
-    "error": "Unauthorized",
-    "messages": [
-        "UnauthorizedException"
-    ],
-    "statusCode": "401 UNAUTHORIZED"
-}
-```
-___
-**403**
-```json
-{
-    "error": "Forbidden",
-    "messages": [
-        "ForbiddenException"
-    ],
-    "statusCode": "403 FORBIDDEN"
 }
 ```
 ___
@@ -338,27 +282,19 @@ ___
 sequenceDiagram
     participant FE
     participant BE
-    participant IRSLib
     participant IRSPolicyStore
     participant DB
     FE->>BE: PUT tracex/policy (&policy_id="ABC123")
+    BE->>BE: Verify policy
     activate BE
     alt Valid policy
-        BE->>IRSLib: Verify policy
-        activate IRSLib
-        IRSLib-->>BE: Success
-        deactivate IRSLib
         BE->>IRSPolicyStore: PUT /irs/policy (&policy_id="ABC123")
         activate IRSPolicyStore
+        IRSPolicyStore->>DB: Update policy
         IRSPolicyStore-->>BE: Success
         deactivate IRSPolicyStore
-        BE->>DB: Update policy
         BE-->>FE: 200 Success
     else Invalid policy
-        BE->>IRSLib: Verify policy
-        activate IRSLib
-        IRSLib-->>BE: Error
-        deactivate IRSLib
         BE-->>FE: 400 Bad request
     deactivate BE
     end
@@ -366,11 +302,11 @@ sequenceDiagram
 
 ## DELETE policies
 
-|             |                              |
-|-------------|------------------------------|
-| HTTP method | DELETE                       |
-| Endpoint    | /tracex/policies/{policy_id} |
-| Parameters  | policy_id (required string)  |
+|             |                             |
+|-------------|-----------------------------|
+| HTTP method | DELETE                      |
+| Endpoint    | /api/policies/{policy_id}   |
+| Parameters  | policy_id (required string) |
 
 ### Responses
 
@@ -396,28 +332,6 @@ sequenceDiagram
 }
 ```
 ___
-**401**
-```json
-{
-    "error": "Unauthorized",
-    "messages": [
-        "UnauthorizedException"
-    ],
-    "statusCode": "401 UNAUTHORIZED"
-}
-```
-___
-**403**
-```json
-{
-    "error": "Forbidden",
-    "messages": [
-        "ForbiddenException"
-    ],
-    "statusCode": "403 FORBIDDEN"
-}
-```
-___
 **Deleting policies:**
 ```mermaid
 sequenceDiagram
@@ -425,51 +339,20 @@ sequenceDiagram
     participant BE
     participant IRSPolicyStore
     participant DB
-    FE->>BE: DELETE /tracex/policy (&policy_id="ABC123")
+    FE->>BE: DELETE /api/policy (&policy_id="ABC123")
     activate BE
     BE->>IRSPolicyStore: DELETE /irs/policy (&policy_id="ABC123")
     activate IRSPolicyStore
+    IRSPolicyStore->>DB: Delete policy
     IRSPolicyStore-->>BE: Success
     deactivate IRSPolicyStore
-    BE->>DB: Delete policy
     BE-->>FE: 200 Success
     deactivate BE
 ```
 
 ## Sending notifications
 
-```mermaid
-sequenceDiagram
-    participant FE
-    participant BE
-    participant EDCDiscoveryService
-    participant IRSPolicyStore
-    FE->>BE: Create notification
-    activate BE
-    BE-->>FE: Notification created
-    deactivate BE
-    FE->>BE: Send notification
-    activate BE
-    BE->>EDCDiscoveryService: GET BPN
-    activate EDCDiscoveryService
-    EDCDiscoveryService-->>BE: BPN
-    deactivate EDCDiscoveryService
-    BE->>IRSPolicyStore: GET /irs/policies (BPN)
-    activate IRSPolicyStore
-    IRSPolicyStore-->>BE: Policies
-    deactivate IRSPolicyStore
-    BE->>BE: Verify if notification may be sent
-    alt Notification may be sent
-        BE->>EDC: Send notification
-        activate EDC
-        EDC-->>BE: Notification sent
-        deactivate EDC
-        BE-->>FE: Notification sent (Status = "Sent")
-    else Notification may not be sent
-        BE-->>FE: PolicyException (Status = "Exception")
-    end
-    deactivate BE
-```
+![send-notification-policy-verification.png](send-notification-policy-verification.png)
 
 # Glossary
 
@@ -479,6 +362,7 @@ sequenceDiagram
 |              |      |               |
 
 # References
+EDC policy definition: https://github.com/eclipse-tractusx/ssi-docu/blob/main/docs/architecture/cx-3-2/edc/policy.definitions.md
 
 # Additional Details
 Given the dynamic nature of ongoing development, there might be variations between the conceptualization and the current implementation. For the latest status, refer to the documentation.
