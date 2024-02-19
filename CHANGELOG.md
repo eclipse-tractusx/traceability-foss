@@ -8,8 +8,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [UNRELEASED - DD.MM.YYYY]
 
 ### Added
-- added tombstone icon to parts table and error description in parts detail view
+- Added tombstone icon to parts table and error description in parts detail view
 - Endpoint (assets/import/report/{importJobId}) for retrieving import report
+- Added concept #436: intermediate status handling
 
 ### Changed
 - actions/chache bumped from v3 to v4
