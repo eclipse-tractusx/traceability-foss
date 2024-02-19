@@ -116,7 +116,7 @@ public class ImportServiceImpl implements ImportService {
     public void cancelJob(ImportJob importJob) {
         ImportJobEntity importJobEntity = ImportJobEntity.from(importJob);
         importJobEntity.setCompletedOn(Instant.now());
-        importJobEntity.setImportJobStatus(ImportJobStatus.CANCELLED);
+        importJobEntity.setImportJobStatus(ImportJobStatus.ERROR);
         importJobRepository.save(importJobEntity);
         log.info("Cancelling import job {}", importJob.getId());
     }
