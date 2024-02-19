@@ -24,9 +24,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
-import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
-import org.eclipse.tractusx.traceability.assets.domain.asplanned.service.AssetAsPlannedServiceImpl;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
 import org.eclipse.tractusx.traceability.common.model.BPN;
@@ -39,6 +36,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.exception.QualityNotificationIllegalUpdate;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.NotificationNotSupportedException;
 import org.springframework.stereotype.Service;
 
 import java.time.Clock;
@@ -64,9 +62,6 @@ public class NotificationPublisherService {
     private final TraceabilityProperties traceabilityProperties;
     private final EdcNotificationService edcNotificationService;
     private final AssetAsBuiltRepository assetAsBuiltRepository;
-    private final AssetAsPlannedRepository assetAsPlannedRepository;
-    private final AssetAsBuiltServiceImpl assetAsBuiltService;
-    private final AssetAsPlannedServiceImpl assetAsPlannedService;
 
     private final BpnRepository bpnRepository;
     private final Clock clock;
@@ -87,7 +82,6 @@ public class NotificationPublisherService {
         QualityNotification notification = QualityNotification.startNotification(clock.instant(), applicationBPN, description);
         if (isAsBuilt) {
             Map<String, List<AssetBase>> assetsAsBuiltBPNMap = assetAsBuiltRepository.getAssetsById(assetIds).stream().collect(groupingBy(AssetBase::getManufacturerId));
-
             assetsAsBuiltBPNMap
                     .entrySet()
                     .stream()
@@ -95,17 +89,8 @@ public class NotificationPublisherService {
                     .forEach(notification::addNotification);
             return notification;
         } else {
-            Map<String, List<AssetBase>> assetsAsPlannedBPNMap = assetAsPlannedRepository.getAssetsById(assetIds).stream().collect(groupingBy(AssetBase::getManufacturerId));
-
-            assetsAsPlannedBPNMap
-                    .entrySet()
-                    .stream()
-                    .map(it -> createQualityNotificationMessage(applicationBPN, receiverBpn, description, targetDate, severity, it))
-                    .forEach(notification::addNotification);
-            return notification;
+            throw new NotificationNotSupportedException();
         }
-
-
     }
 
 
@@ -122,11 +107,11 @@ public class NotificationPublisherService {
     public QualityNotification startAlert(List<String> assetIds, String description, Instant targetDate, QualityNotificationSeverity severity, String receiverBpn, boolean isAsBuilt) {
         BPN applicationBPN = traceabilityProperties.getBpn();
         QualityNotification notification = QualityNotification.startNotification(clock.instant(), applicationBPN, description);
-        List<AssetBase> assets = new ArrayList<>();
+        List<AssetBase> assets;
         if (isAsBuilt) {
-            assets.addAll(assetAsBuiltRepository.getAssetsById(assetIds));
+            assets = new ArrayList<>(assetAsBuiltRepository.getAssetsById(assetIds));
         } else {
-            assets.addAll(assetAsPlannedRepository.getAssetsById(assetIds));
+            throw new NotificationNotSupportedException();
         }
 
 
