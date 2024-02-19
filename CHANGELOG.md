@@ -11,6 +11,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - added tombstone icon to parts table and error description in parts detail view
 ### Changed
 
+- added logic to consume tombstone information from IRS for assets
+
 ### Removed
 
 ## [10.3.0 - 05.02.2024]
