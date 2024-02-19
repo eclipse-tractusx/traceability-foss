@@ -209,12 +209,11 @@ public class AlertsRepositoryImpl implements AlertRepository {
 
     private AlertNotificationEntity toNotificationEntity(AlertEntity alertEntity, QualityNotificationMessage notification, List<AssetAsBuiltEntity> alertAssets, List<AssetAsPlannedEntity> assetAsPlannedEntitiesByAlert) {
         List<AssetAsBuiltEntity> filteredAsBuiltAssets = filterNotificationAssets(notification, alertAssets);
-        List<AssetAsPlannedEntity> filteredAsPlannedAssets = filterNotificationAssets(notification, assetAsPlannedEntitiesByAlert);
 
-        if (filteredAsBuiltAssets.isEmpty() && filteredAsPlannedAssets.isEmpty()) {
+        if (filteredAsBuiltAssets.isEmpty()) {
             throw new IllegalStateException(" with id %s has no notification assets".formatted(alertEntity.getId()));
         }
-        return AlertNotificationEntity.from(alertEntity, notification, filteredAsBuiltAssets, filteredAsPlannedAssets);
+        return AlertNotificationEntity.from(alertEntity, notification, filteredAsBuiltAssets);
     }
 
     private <T extends AssetBaseEntity> List<T> filterNotificationAssets(QualityNotificationMessage notification, List<T> assets) {
