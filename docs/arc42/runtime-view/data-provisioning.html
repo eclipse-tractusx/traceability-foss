@@ -437,11 +437,23 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body class="article">
+<body class="article toc2 toc-left">
 <div id="header">
 <h1>Data Provisioning</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_scenario_1_receive_import_report">Scenario 1: Receive import report</a>
+<ul class="sectlevel4">
+<li><a href="#_overview">Overview</a></li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 <div id="content">
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
 <p>This sequence diagrams describes the process of importing data from a Trace-X Dataformat</p>
 </div>
@@ -479,10 +491,39 @@ The raw data which is needed for the shared services (DTR / EDC) will be persist
 <img src="business-context_data_provisioning_3.svg" alt="business context data provisioning 3" width="581" height="551">
 </div>
 </div>
+<div class="paragraph">
+<p>TODO: Add all scenarios for data-provisioning</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_scenario_1_receive_import_report">Scenario 1: Receive import report</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section describes what happens when the user wants to get a report of the imported assets associated to a importJobId.
+In this example, the user requests an import report.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="import-report-receive.svg" alt="import report receive" width="1732" height="542">
+</div>
+</div>
+<div class="sect4">
+<h5 id="_overview">Overview</h5>
+<div class="paragraph">
+<p>When a user requests an import report, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR').
+If yes, then the endpoint returns an import report to the given importJobId.</p>
+</div>
+<div class="paragraph">
+<p>If the importJobId is not known to Trace-X, an HTTP 404 error is returned.</p>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-02-15 13:38:40 UTC
+Last updated 2024-02-19 09:57:06 UTC
 </div>
 </div>
 </body>

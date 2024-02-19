@@ -256,6 +256,7 @@ Component Diagram
 | **AssetsController** | The **AssetsController** provides a REST Interface for retrieving the parts/assets information. |
 | **DashboardController** | The **DashboardController** provides a REST Interface for retrieving overall statistics displayed on a dashboard screen. |
 | **RegistryController** | The **RegistryController** provides a REST Interface for retrieving the data from parts registry. |
+| **ImportController** | The **ImportController** provides a REST Interface for importing assets and publishing them in the Catena-X network. |
 | **AssetRepository** | The **AssetRepository** is a component responsible for storing and getting assets from database. |
 | **BPNRepository** | The **BPNRepository** is a component which stores BPN -> company name mappings. |
 | **NotificationsRepository** | The **NotificationsRepository** is a component responsible for storing and holding status of sent/received notifications |
@@ -380,6 +381,20 @@ The backend is able to persist the data in the DTR / EDC and allows to use IRS f
 ```bash
 
 ```
+
+TODO: Add all scenarios for data-provisioning
+
+## Scenario 1: Receive import report
+
+This section describes what happens when the user wants to get a report of the imported assets associated to a importJobId.
+In this example, the user requests an import report.
+
+##### Overview
+
+When a user requests an import report, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR').
+If yes, then the endpoint returns an import report to the given importJobId.
+
+If the importJobId is not known to Trace-X, an HTTP 404 error is returned.
 
 ## Deployment view
 

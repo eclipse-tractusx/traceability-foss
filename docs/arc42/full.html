@@ -1201,6 +1201,10 @@ It roughly can be broken down into the following parts:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The <strong>RegistryController</strong> provides a REST Interface for retrieving the data from parts registry.</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ImportController</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <strong>ImportController</strong> provides a REST Interface for importing assets and publishing them in the Catena-X network.</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>AssetRepository</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The <strong>AssetRepository</strong> is a component responsible for storing and getting assets from database.</p></td>
 </tr>
@@ -1414,6 +1418,31 @@ The raw data which is needed for the shared services (DTR / EDC) will be persist
 <div class="imageblock">
 <div class="content">
 <img src="architecture-constraints/business-context_data_provisioning_3.svg" alt="business context data provisioning 3" width="581" height="551">
+</div>
+</div>
+<div class="paragraph">
+<p>TODO: Add all scenarios for data-provisioning</p>
+</div>
+<div class="sect3">
+<h4 id="_scenario_1_receive_import_report">Scenario 1: Receive import report</h4>
+<div class="paragraph">
+<p>This section describes what happens when the user wants to get a report of the imported assets associated to a importJobId.
+In this example, the user requests an import report.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="architecture-constraints/import-report-receive.svg" alt="import report receive" width="1732" height="542">
+</div>
+</div>
+<div class="sect6">
+<h7 id="_overview_6">Overview</h7>
+<div class="paragraph">
+<p>When a user requests an import report, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR').
+If yes, then the endpoint returns an import report to the given importJobId.</p>
+</div>
+<div class="paragraph">
+<p>If the importJobId is not known to Trace-X, an HTTP 404 error is returned.</p>
+</div>
 </div>
 </div>
 </div>
@@ -2144,7 +2173,7 @@ Note: as soon as a resume feature is implemented, this needs to be addressed her
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-02-15 13:38:40 UTC
+Last updated 2024-02-19 09:57:06 UTC
 </div>
 </div>
 </body>
