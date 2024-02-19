@@ -65,4 +65,11 @@ describe('toasts', () => {
 
     expect(toast).toHaveClass('toast-icon-error');
   });
+
+  it('should emit click action on toast', async () => {
+    const toastService = await renderToastLayout();
+    const toastActionSpy = spyOn(toastService.toastAction, 'emit')
+    toastService.emitClick();
+    expect(toastActionSpy).toHaveBeenCalled();
+  });
 });
