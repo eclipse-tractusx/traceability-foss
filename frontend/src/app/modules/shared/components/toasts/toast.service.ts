@@ -19,7 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { I18nMessage } from '@shared/model/i18n-message';
 import { Observable, Subject } from 'rxjs';
 import { CallAction, ToastMessage, ToastStatus } from './toast-message/toast-message.model';
@@ -30,6 +30,7 @@ import { CallAction, ToastMessage, ToastStatus } from './toast-message/toast-mes
 export class ToastService {
   private toastStore = new Subject<ToastMessage>();
   private idx = 0;
+  toastAction = new EventEmitter<any>();
 
   public getCurrentToast$(): Observable<ToastMessage> {
     return this.toastStore.asObservable();
@@ -47,11 +48,15 @@ export class ToastService {
     this.toastStore.next(new ToastMessage(this.idx++, message, ToastStatus.Informative, timeout));
   }
 
-  public error(message: I18nMessage, timeout = 5000): void {
-    this.toastStore.next(new ToastMessage(this.idx++, message, ToastStatus.Error, timeout));
+  public error(message: I18nMessage, timeout = 5000, retryOption?: boolean, stringMessage?: string): void {
+    this.toastStore.next(new ToastMessage(this.idx++, message, ToastStatus.Error, timeout, null, retryOption, stringMessage));
   }
 
   public warning(message: I18nMessage, timeout = 5000): void {
     this.toastStore.next(new ToastMessage(this.idx++, message, ToastStatus.Warning, timeout));
   }
+
+  public emitClick(event?: any) {
+    this.toastAction.emit();
+  };
 }

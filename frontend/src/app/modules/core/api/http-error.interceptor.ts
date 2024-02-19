@@ -25,6 +25,9 @@ import { catchError, retry } from 'rxjs/operators';
 import { ToastService } from 'src/app/modules/shared/components/toasts/toast.service';
 
 export class HttpErrorInterceptor implements HttpInterceptor {
+
+  // List of request.url that should not automatically display a toast but are handled custom (Can be extended later by METHOD)
+  private avoidList = ['/api/alerts', '/api/investigations']
   constructor(private readonly toastService: ToastService) {
   }
 
@@ -42,7 +45,10 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         const { error, message } = errorResponse;
         const errorMessage = !error.message ? message : `Backend returned code ${ error.status }: ${ error.message }`;
 
-        this.toastService.error(errorMessage);
+        if(!this.avoidList.find(url => url === request.url)) {
+          this.toastService.error(errorMessage);
+        }
+
         return throwError(() => errorResponse);
       }),
     );
