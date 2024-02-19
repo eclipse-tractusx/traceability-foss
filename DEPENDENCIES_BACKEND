@@ -22,8 +22,6 @@ maven/mavencentral/com.fasterxml/classmate/1.5.1, Apache-2.0, approved, clearlyd
 maven/mavencentral/com.github.docker-java/docker-java-api/3.3.0, Apache-2.0, approved, #10346
 maven/mavencentral/com.github.docker-java/docker-java-transport-zerodep/3.3.0, Apache-2.0 AND (Apache-2.0 AND BSD-3-Clause), approved, #7946
 maven/mavencentral/com.github.docker-java/docker-java-transport/3.3.0, Apache-2.0, approved, #7942
-maven/mavencentral/com.github.java-json-tools.jackson-coreutils/jackson-coreutils-equivalence/2.0, , restricted, clearlydefined
-maven/mavencentral/com.github.java-json-tools.jackson-coreutils/jackson-coreutils/2.0, , restricted, clearlydefined
 maven/mavencentral/com.github.java-json-tools/btf/1.3, Apache-2.0 OR LGPL-3.0-or-later, approved, #2721
 maven/mavencentral/com.github.java-json-tools/jackson-coreutils-equivalence/1.0, LGPL-3.0 OR Apache-2.0, approved, clearlydefined
 maven/mavencentral/com.github.java-json-tools/jackson-coreutils/2.0, Apache-2.0 OR LGPL-3.0-or-later, approved, #2719
