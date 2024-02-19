@@ -104,6 +104,32 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
+    void givenInvalidJobId_whenCallbackReceivedForAsPlanned_thenNothingSynchronized() {
+        // given
+        oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
+        irsApiSupport.irsJobDetailsAsPlanned();
+        String invalidJobId = "irs/admin/test/ID";
+        String jobState = "COMPLETED";
+
+        // when
+        given()
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .param("id", invalidJobId)
+                .param("state", jobState)
+                .get("/api/irs/job/callback")
+                .then()
+                .log().all()
+                .statusCode(200);
+
+        // then
+        assertThat(bpnSupportRepository.findAll()).isEmpty();
+        assetsSupport.assertAssetAsBuiltSize(0);
+        assetsSupport.assertAssetAsPlannedSize(0);
+    }
+
+    @Test
     void givenAssetExist_whenCallbackReceived_thenUpdateIt() {
         // given
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();

@@ -52,7 +52,7 @@ jobs:
           node-version: 18.x
 
       - name: Run yarn install
-        uses: Borales/actions-yarn@v4.2.0
+        uses: Borales/actions-yarn@v5
         with:
           cmd: install # will run `yarn install` command
 

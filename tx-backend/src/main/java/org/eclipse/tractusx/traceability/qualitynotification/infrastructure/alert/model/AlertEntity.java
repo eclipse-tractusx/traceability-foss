@@ -62,13 +62,6 @@ public class AlertEntity extends NotificationBaseEntity {
     )
     public List<AssetAsBuiltEntity> assets;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "assets_as_planned_alerts",
-            joinColumns = @JoinColumn(name = "alert_id"),
-            inverseJoinColumns = @JoinColumn(name = "asset_id")
-    )
-    private List<AssetAsPlannedEntity> assetsAsPlanned;
 
     @OneToMany(mappedBy = "alert")
     private List<AlertNotificationEntity> notifications;

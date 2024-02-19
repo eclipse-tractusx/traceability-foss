@@ -22,4 +22,8 @@ public class ImportException extends RuntimeException{
     public ImportException(String message) {
         super(message);
     }
+
+    public ImportException(String message, Exception e) {
+        super(message, e);
+    }
 }

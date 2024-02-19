@@ -25,6 +25,7 @@ import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetA
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportNote;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.PublishAssetException;
 import org.springframework.stereotype.Service;
@@ -64,6 +65,7 @@ public class PublishServiceImpl implements PublishService {
                 .filter(this::validTransientState)
                 .map(asset -> {
                     asset.setImportState(ImportState.IN_SYNCHRONIZATION);
+                    asset.setImportNote(ImportNote.IN_SYNCHRONIZATION);
                     asset.setPolicyId(policyId);
                     return asset;
                 }).toList();

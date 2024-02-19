@@ -80,4 +80,5 @@ public class AssetBase {
     public boolean isOwnAsset(final String bpn) {
         return bpn.equals(manufacturerId);
     }
+
 }

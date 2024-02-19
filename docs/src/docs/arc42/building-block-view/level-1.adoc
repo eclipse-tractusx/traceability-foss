@@ -27,6 +27,9 @@ include::../../../uml-diagrams/arc42/building-block-view/building-block-view.pum
 |*RegistryController*
 |The *RegistryController* provides a REST Interface for retrieving the data from parts registry.
 
+|*ImportController*
+|The *ImportController* provides a REST Interface for importing assets and publishing them in the Catena-X network.
+
 |*AssetRepository*
 |The *AssetRepository* is a component responsible for storing and getting assets from database.
 
