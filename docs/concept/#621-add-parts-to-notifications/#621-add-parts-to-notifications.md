@@ -60,7 +60,7 @@ Existing APIs will be used: **/api/alerts/:id/update** Or **/api/investigations/
 
 - Correct request structure (otherwise 400 bad Request)
 - Notification exists (Otherwise 404 Not found)
-- notification is in status CREATED (Otherwise 403 Forbidden)
+- notification is in status CREATED (Otherwise 400 Bad Request)
 - Notification is from owner (Otherwise status 403 Forbidden)
 
 - All partIds in request are:
