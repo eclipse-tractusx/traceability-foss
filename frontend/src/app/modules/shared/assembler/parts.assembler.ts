@@ -121,8 +121,8 @@ export class PartsAssembler {
       receivedActiveInvestigations: partResponse.receivedQualityInvestigationIdsInStatusActive,
 
       importNote: partResponse.importNote,
-      importState: partResponse.importState
-
+      importState: partResponse.importState,
+      tombStoneErrorDetail: partResponse.tombstone ? JSON.parse(partResponse.tombstone)?.processingError?.errorDetail : null,
     };
   }
 
@@ -234,8 +234,13 @@ export class PartsAssembler {
         return;
       }
 
-      const { importNote, importState } = viewData.data;
-      return { data: {importNote, importState} as Part};
+      const { importNote, importState, tombStoneErrorDetail } = viewData.data;
+
+      if(!viewData.data.tombStoneErrorDetail) {
+        return {data: {importNote, importState} as Part};
+      } else {
+        return { data: {importNote, importState, tombStoneErrorDetail} as Part};
+      }
     })
   }
 

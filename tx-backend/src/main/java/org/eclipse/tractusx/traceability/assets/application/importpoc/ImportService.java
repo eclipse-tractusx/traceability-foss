@@ -21,11 +21,19 @@ package org.eclipse.tractusx.traceability.assets.application.importpoc;
 
 
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportJob;
 import org.springframework.web.multipart.MultipartFile;
-
 
 import java.util.Map;
 
 public interface ImportService {
-    Map<AssetBase, Boolean> importAssets(MultipartFile file);
+    Map<AssetBase, Boolean> importAssets(MultipartFile file, ImportJob importJob);
+
+    ImportJob createJob();
+
+    void completeJob(ImportJob importJob);
+
+    void cancelJob(ImportJob importJob);
+
+    ImportJob getImportJob(String importJobId);
 }
