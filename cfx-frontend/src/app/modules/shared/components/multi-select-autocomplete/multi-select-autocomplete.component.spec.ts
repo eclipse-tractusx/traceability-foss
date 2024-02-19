@@ -9,11 +9,11 @@ import { renderComponent } from '@tests/test-render.utils';
 describe('MultiSelectAutocompleteComponent', () => {
   const renderMultiSelectAutoCompleteComponent = (multiple = true) => {
     const placeholder = 'test';
-    const options = [SemanticDataModel.PARTASPLANNED, SemanticDataModel.BATCH];
+    const options = [ SemanticDataModel.PARTASPLANNED, SemanticDataModel.BATCH ];
 
     return renderComponent(MultiSelectAutocompleteComponent, {
-      imports: [SharedModule],
-      providers: [DatePipe, FormatPartSemanticDataModelToCamelCasePipe],
+      imports: [ SharedModule ],
+      providers: [ DatePipe, FormatPartSemanticDataModelToCamelCasePipe ],
       componentProperties: { placeholder: placeholder, options: options },
     });
   };
@@ -37,7 +37,7 @@ describe('MultiSelectAutocompleteComponent', () => {
 
     componentInstance.searchInput = { value: 'initialValue' };
     componentInstance.searchElement = 'initialValue';
-    componentInstance.selectedValue = ['initialValue'];
+    componentInstance.selectedValue = [ 'initialValue' ];
     componentInstance.startDate = new Date('2022-02-04');
     componentInstance.endDate = new Date('2022-02-04');
     componentInstance.searchedOptions = [];
@@ -55,18 +55,18 @@ describe('MultiSelectAutocompleteComponent', () => {
     const { fixture } = await renderMultiSelectAutoCompleteComponent();
     const { componentInstance } = fixture;
 
-    componentInstance.selectedValue = ['TestValue'];
+    componentInstance.selectedValue = [ 'TestValue' ];
     componentInstance.searchElement = 'TestValue';
     const result = componentInstance.displayValue();
 
-    expect(result).toEqual(['TestValue', '']);
+    expect(result).toEqual([ 'TestValue', '' ]);
   });
 
   it('should return correct display string when textSearch is false and multiple is true', async () => {
     const { fixture } = await renderMultiSelectAutoCompleteComponent();
     const { componentInstance } = fixture;
 
-    componentInstance.selectedValue = ['value1', 'value2', 'value3']; // Replace with your test values
+    componentInstance.selectedValue = [ 'value1', 'value2', 'value3' ]; // Replace with your test values
     componentInstance.labelCount = 2; // Replace with the number of labels you expect
 
     componentInstance.searchElement = 'v';
@@ -78,7 +78,7 @@ describe('MultiSelectAutocompleteComponent', () => {
 
     const result = componentInstance.displayValue();
 
-    expect(result).toEqual(['value1', ' + 2 undefined']);
+    expect(result).toEqual([ 'value1', ' + 2 undefined' ]);
   });
 
   it('should return correct display string when textSearch is false and multiple is false', async () => {
@@ -86,7 +86,7 @@ describe('MultiSelectAutocompleteComponent', () => {
     const { fixture } = await renderMultiSelectAutoCompleteComponent(false);
     const { componentInstance } = fixture;
 
-    componentInstance.selectedValue = ['value1']; // Replace with your test value
+    componentInstance.selectedValue = [ 'value1' ]; // Replace with your test value
 
     componentInstance.searchElement = 'v';
     componentInstance.options = [
@@ -97,22 +97,20 @@ describe('MultiSelectAutocompleteComponent', () => {
 
     const result = componentInstance.displayValue();
 
-    expect(result).toEqual(['value1', '']);
+    expect(result).toEqual([ 'value1', '' ]);
   });
 
-  // TODO: fix test
-  // it('should filter options based on value when textSearch is false', async () => {
-  //   const { fixture } = await renderMultiSelectAutoCompleteComponent();
-  //   const { componentInstance } = fixture;
+  it('should filter options based on value when textSearch is false', async () => {
+    const { fixture } = await renderMultiSelectAutoCompleteComponent();
+    const { componentInstance } = fixture;
 
-  //   componentInstance.filterColumn = 'semanticDataModel';
+    componentInstance.filterColumn = 'semanticDataModel';
 
 
-  //   componentInstance.filterItem('Display1'); // Filter based on 'Display1'
-
-  //   expect(componentInstance.options.length).toBe(2);
-  //   expect(componentInstance.options[0]).toBe('PARTASPLANNED');
-  // });
+    componentInstance.filterItem('Display1'); // Filter based on 'Display1'
+    expect(componentInstance.options.length).toBe(2);
+    expect(componentInstance.options[0]).toBe('PARTASPLANNED');
+  });
 
 
   it('should select all filtered options when val is true', async () => {
@@ -126,13 +124,13 @@ describe('MultiSelectAutocompleteComponent', () => {
       { value: 'value3', display: 'Display3' },
     ];
 
-    componentInstance.selectedValue = ['value1'];
+    componentInstance.selectedValue = [ 'value1' ];
 
     const val = { checked: true };
 
     componentInstance.toggleSelectAll(val);
 
-    expect(componentInstance.selectedValue).toEqual(['value1', 'value2', 'value3']);
+    expect(componentInstance.selectedValue).toEqual([ 'value1', 'value2', 'value3' ]);
   });
 
   it('should deselect options that are not in filteredOptions when val is false', async () => {
@@ -146,7 +144,7 @@ describe('MultiSelectAutocompleteComponent', () => {
       { value: 'value3', display: 'Display3' },
     ];
 
-    componentInstance.selectedValue = ['value1', 'value2'];
+    componentInstance.selectedValue = [ 'value1', 'value2' ];
     const val = { checked: false };
     componentInstance.toggleSelectAll(val);
 

@@ -33,9 +33,9 @@ import { renderComponent } from '@tests/test-render.utils';
 describe('InvestigationsComponent', () => {
   const renderInvestigations = async () => {
     return await renderComponent(InvestigationsComponent, {
-      imports: [InvestigationsModule],
+      imports: [ InvestigationsModule ],
       // providers: [InvestigationsService],
-      translations: ['page.investigation'],
+      translations: [ 'page.investigation' ],
     });
   };
 
@@ -49,13 +49,13 @@ describe('InvestigationsComponent', () => {
     const { fixture } = await renderInvestigations();
     const investigationsComponent = fixture.componentInstance;
 
-    const paginationOne: TableEventConfig = { page: 0, pageSize: 50, sorting: ['description', 'asc'] };
-    const paginationTwo: TableEventConfig = { page: 0, pageSize: 50, sorting: ['status', 'asc'] };
-    const paginationThree: TableEventConfig = { page: 0, pageSize: 50, sorting: ['status', 'desc'] };
+    const paginationOne: TableEventConfig = { page: 0, pageSize: 50, sorting: [ 'description', 'asc' ] };
+    const paginationTwo: TableEventConfig = { page: 0, pageSize: 50, sorting: [ 'status', 'asc' ] };
+    const paginationThree: TableEventConfig = { page: 0, pageSize: 50, sorting: [ 'status', 'desc' ] };
 
     investigationsComponent.onReceivedTableConfigChanged(paginationOne);
 
-    expect(investigationsComponent.investigationReceivedSortList).toEqual([['description', 'asc']]);
+    expect(investigationsComponent.investigationReceivedSortList).toEqual([ [ 'description', 'asc' ] ]);
 
     const investigationsHeader = screen.getByText('pageTitle.investigations');
     fireEvent.keyDown(investigationsHeader, {
@@ -66,27 +66,28 @@ describe('InvestigationsComponent', () => {
     investigationsComponent.onReceivedTableConfigChanged(paginationTwo);
 
     expect(investigationsComponent.investigationReceivedSortList).toEqual([
-      ['description', 'asc'],
-      ['status', 'asc'],
+      [ 'description', 'asc' ],
+      [ 'status', 'asc' ],
     ]);
 
     investigationsComponent.onReceivedTableConfigChanged(paginationThree);
 
     expect(investigationsComponent.investigationReceivedSortList).toEqual([
-      ['description', 'asc'],
-      ['status', 'desc'],
+      [ 'description', 'asc' ],
+      [ 'status', 'desc' ],
     ]);
   });
+
   it('should reset the multisortList if a selection is done and the ctrl key is not pressed.', async () => {
     const { fixture } = await renderInvestigations();
     const investigationsComponent = fixture.componentInstance;
 
-    const paginationOne: TableEventConfig = { page: 0, pageSize: 50, sorting: ['description', 'asc'] };
-    const paginationTwo: TableEventConfig = { page: 0, pageSize: 50, sorting: ['status', 'asc'] };
+    const paginationOne: TableEventConfig = { page: 0, pageSize: 50, sorting: [ 'description', 'asc' ] };
+    const paginationTwo: TableEventConfig = { page: 0, pageSize: 50, sorting: [ 'status', 'asc' ] };
 
     investigationsComponent.onReceivedTableConfigChanged(paginationOne);
 
-    expect(investigationsComponent.investigationReceivedSortList).toEqual([['description', 'asc']]);
+    expect(investigationsComponent.investigationReceivedSortList).toEqual([ [ 'description', 'asc' ] ]);
 
     const investigationsHeader = screen.getByText('pageTitle.investigations');
     fireEvent.keyDown(investigationsHeader, {
@@ -97,8 +98,8 @@ describe('InvestigationsComponent', () => {
     investigationsComponent.onReceivedTableConfigChanged(paginationTwo);
 
     expect(investigationsComponent.investigationReceivedSortList).toEqual([
-      ['description', 'asc'],
-      ['status', 'asc'],
+      [ 'description', 'asc' ],
+      [ 'status', 'asc' ],
     ]);
 
     fireEvent.keyUp(investigationsHeader, {
@@ -108,7 +109,7 @@ describe('InvestigationsComponent', () => {
 
     investigationsComponent.onReceivedTableConfigChanged(paginationOne);
 
-    expect(investigationsComponent.investigationReceivedSortList).toEqual([['description', 'asc']]);
+    expect(investigationsComponent.investigationReceivedSortList).toEqual([ [ 'description', 'asc' ] ]);
   });
 
   it('should set the default Pagination by recieving a size change event', async () => {
@@ -119,76 +120,78 @@ describe('InvestigationsComponent', () => {
     expect(investigationsComponent.DEFAULT_PAGE_SIZE).toEqual(100);
   });
 
-  // TODO: fix tests
-  // it('should use the default page size if the page size in the ReceivedConfig is given as 0', async () => {
-  //   const { fixture } = await renderInvestigations();
-  //   const investigationsComponent = fixture.componentInstance;
+  it('should use the default page size if the page size in the ReceivedConfig is given as 0', async () => {
+    const { fixture } = await renderInvestigations();
+    const investigationsComponent = fixture.componentInstance;
 
-  //   const pagination: TableEventConfig = { page: 0, pageSize: 0, sorting: ['description', 'asc'] };
-  //   spyOn(investigationsComponent.investigationsFacade, 'setReceivedInvestigations');
+    const pagination: TableEventConfig = { page: 0, pageSize: 0, sorting: [ 'description', 'asc' ] };
+    spyOn(investigationsComponent.investigationsFacade, 'setReceivedInvestigation');
 
-  //   investigationsComponent.onReceivedTableConfigChanged(pagination);
-  //   fixture.detectChanges();
-  //   expect(investigationsComponent.investigationsFacade.setReceivedInvestigations).toHaveBeenCalledWith(0, 50, [['description', 'asc']], Object({ filterMethod: 'AND' }));
-  // });
+    investigationsComponent.onReceivedTableConfigChanged(pagination);
+    fixture.detectChanges();
+    expect(investigationsComponent.investigationsFacade.setReceivedInvestigation).toHaveBeenCalledWith(0, 50, [ [ 'description', 'asc' ] ]);
+  });
 
-  // it('should use the default page size if the page size in the queuedAndRequestedConfig is given as 0', async () => {
-  //   const { fixture } = await renderInvestigations();
-  //   const investigationsComponent = fixture.componentInstance;
+  it('should use the default page size if the page size in the queuedAndRequestedConfig is given as 0', async () => {
+    const { fixture } = await renderInvestigations();
+    const investigationsComponent = fixture.componentInstance;
 
-  //   const pagination: TableEventConfig = { page: 0, pageSize: 0, sorting: ['description', 'asc'] };
-  //   spyOn(investigationsComponent.investigationsFacade, 'setQueuedAndRequestedInvestigations');
+    const pagination: TableEventConfig = { page: 0, pageSize: 0, sorting: [ 'description', 'asc' ] };
+    spyOn(investigationsComponent.investigationsFacade, 'setQueuedAndRequestedInvestigations');
 
-  //   investigationsComponent.onQueuedAndRequestedTableConfigChanged(pagination);
-  //   fixture.detectChanges();
-  //   expect(investigationsComponent.investigationsFacade.setQueuedAndRequestedInvestigations).toHaveBeenCalledWith(0, 50, [['description', 'asc']], Object({ filterMethod: 'AND' }));
-  // });
+    investigationsComponent.onQueuedAndRequestedTableConfigChanged(pagination);
+    fixture.detectChanges();
+    expect(investigationsComponent.investigationsFacade.setQueuedAndRequestedInvestigations).toHaveBeenCalledWith(0, 50, [ [ 'description', 'asc' ] ]);
+  });
 
-  // TODO: fix tests
-  // it('should pass on the filtering to the api services', async () => {
-  //   const { fixture } = await renderInvestigations();
-  //   const investigationsComponent = fixture.componentInstance;
+  it('should pass on the filtering to the api services', async () => {
+    const { fixture } = await renderInvestigations();
+    const investigationsComponent = fixture.componentInstance;
 
-  //   const pagination: TableEventConfig = { page: 0, pageSize: 50, sorting: ['description', 'asc'], filtering: { filterMethod: FilterMethod.AND, description: { filterOperator: FilterOperator.STARTS_WITH, filterValue: 'value1' } } };
-  //   spyOn(investigationsComponent.investigationsFacade, 'setQueuedAndRequestedInvestigations');
+    const pagination: TableEventConfig = {
+      page: 0,
+      pageSize: 50,
+      sorting: [ 'description', 'asc' ],
+      filtering: {
+        filterMethod: FilterMethod.AND,
+        description: { filterOperator: FilterOperator.STARTS_WITH, filterValue: 'value1' },
+      },
+    };
+    spyOn(investigationsComponent.investigationsFacade, 'setQueuedAndRequestedInvestigations');
 
-  //   investigationsComponent.onQueuedAndRequestedTableConfigChanged(pagination);
-  //   fixture.detectChanges();
-  //   expect(investigationsComponent.investigationsFacade.setQueuedAndRequestedInvestigations).toHaveBeenCalledWith(0, 50, [['description', 'asc']], Object({ filterMethod: 'AND', description: { filterOperator: FilterOperator.STARTS_WITH, filterValue: 'value1' } }));
+    investigationsComponent.onQueuedAndRequestedTableConfigChanged(pagination);
+    fixture.detectChanges();
+    expect(investigationsComponent.investigationsFacade.setQueuedAndRequestedInvestigations).toHaveBeenCalledWith(0, 50, [ [ 'description', 'asc' ] ]);
 
-  //   spyOn(investigationsComponent.investigationsFacade, 'setReceivedInvestigations');
+    spyOn(investigationsComponent.investigationsFacade, 'setReceivedInvestigation');
 
-  //   investigationsComponent.onReceivedTableConfigChanged(pagination);
-  //   fixture.detectChanges();
-  //   expect(investigationsComponent.investigationsFacade.setReceivedInvestigations).toHaveBeenCalledWith(0, 50, [['description', 'asc']], Object({ filterMethod: 'AND', description: { filterOperator: FilterOperator.STARTS_WITH, filterValue: 'value1' } }));
-  // });
+    investigationsComponent.onReceivedTableConfigChanged(pagination);
+    fixture.detectChanges();
+    expect(investigationsComponent.investigationsFacade.setReceivedInvestigation).toHaveBeenCalledWith(0, 50, [ [ 'description', 'asc' ] ]);
+  });
 
-  // it('should set the correct filters on triggering the global search', async () => {
-  //   const { fixture } = await renderInvestigations();
-  //   const investigationsComponent = fixture.componentInstance;
+  it('should set the correct filters on triggering the global search', async () => {
+    const { fixture } = await renderInvestigations();
+    const investigationsComponent = fixture.componentInstance;
 
-  //   const searchValue = 'value 1';
-  //   const filterInfo: FilterInfo = { filterValue: searchValue, filterOperator: FilterOperator.STARTS_WITH };
-  //   const investigationsReceivedFilters: TableFilter = {
-  //     filterMethod: FilterMethod.OR,
-  //     description: filterInfo,
-  //     createdBy: filterInfo
-  //   };
-  //   const investigationsCreatedFilters: TableFilter = {
-  //     filterMethod: FilterMethod.OR,
-  //     description: filterInfo,
-  //     sendTo: filterInfo
-  //   };
-  //   const spy1 = spyOn(investigationsComponent.investigationsFacade, 'setReceivedInvestigations');
-  //   const spy2 = spyOn(investigationsComponent.investigationsFacade, 'setQueuedAndRequestedInvestigations');
-  //   const spy3 = spyOn(investigationsComponent.searchHelper, 'resetFilterAndShowToast');
+    const searchValue = 'value 1';
+    spyOn(investigationsComponent.investigationsFacade, 'setReceivedInvestigation');
+    spyOn(investigationsComponent.investigationsFacade, 'setQueuedAndRequestedInvestigations');
+    spyOn(investigationsComponent.searchHelper, 'resetFilterAndShowToast');
 
-  //   investigationsComponent.searchControl.patchValue(searchValue);
-  //   investigationsComponent.triggerSearch();
+    investigationsComponent.searchControl.patchValue(searchValue);
+    investigationsComponent.triggerSearch();
 
-  //   expect(investigationsComponent.filterReceived).toEqual(investigationsReceivedFilters);
-  //   expect(investigationsComponent.filterQueuedAndRequested).toEqual(investigationsCreatedFilters);
-  // });
+    expect(investigationsComponent.searchHelper.resetFilterAndShowToast).toHaveBeenCalledOnceWith(false, investigationsComponent.notificationComponent, investigationsComponent.toastService);
+    expect(investigationsComponent.investigationsFacade.setReceivedInvestigation).toHaveBeenCalledOnceWith(0, 50, [], null, Object({
+      description: searchValue,
+      createdBy: searchValue,
+    }), FilterMethod.OR);
+    expect(investigationsComponent.investigationsFacade.setQueuedAndRequestedInvestigations).toHaveBeenCalledOnceWith(0, 50, [], null, Object({
+      description: searchValue,
+      sendTo: searchValue,
+    }), FilterMethod.OR);
+  });
 
   it('should open the RequestStepperComponent with RequestContext.REQUEST_INVESTIGATION', async () => {
     const component = (await renderInvestigations()).fixture.componentInstance;

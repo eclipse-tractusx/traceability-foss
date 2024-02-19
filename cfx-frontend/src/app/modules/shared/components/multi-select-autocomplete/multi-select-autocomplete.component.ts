@@ -20,13 +20,24 @@
 import { DatePipe, registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-import { Component, EventEmitter, Inject, Injector, Input, LOCALE_ID, OnChanges, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Inject,
+  Injector,
+  Input,
+  LOCALE_ID,
+  OnChanges,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MatSelectChange } from '@angular/material/select';
 import {
-  AutocompleteStrategy, AutocompleteStrategyMap,
+  AutocompleteStrategy,
+  AutocompleteStrategyMap,
 } from '@shared/components/multi-select-autocomplete/autocomplete-strategy';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
@@ -36,7 +47,7 @@ import { firstValueFrom } from 'rxjs';
 @Component({
   selector: 'app-multiselect',
   templateUrl: 'multi-select-autocomplete.component.html',
-  styleUrls: ['multi-select-autocomplete.component.scss'],
+  styleUrls: [ 'multi-select-autocomplete.component.scss' ],
 })
 
 export class MultiSelectAutocompleteComponent implements OnChanges {
@@ -110,9 +121,9 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   private cleared = false;
 
   constructor(public datePipe: DatePipe, public _adapter: DateAdapter<any>,
-    @Inject(MAT_DATE_LOCALE) public _locale: string, @Inject(LOCALE_ID) private locale: string, public partsService: PartsService,
-    private readonly formatPartSemanticDataModelToCamelCasePipe: FormatPartSemanticDataModelToCamelCasePipe,
-    private injector: Injector) {
+              @Inject(MAT_DATE_LOCALE) public _locale: string, @Inject(LOCALE_ID) private locale: string, public partsService: PartsService,
+              private readonly formatPartSemanticDataModelToCamelCasePipe: FormatPartSemanticDataModelToCamelCasePipe,
+              private injector: Injector) {
     registerLocaleData(localeDe, 'de', localeDeExtra);
     this._adapter.setLocale(locale);
   }
@@ -143,7 +154,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
       } else {
         this.searchedOptions.forEach(option => {
           if (!this.selectedValue.includes(option[this.value])) {
-            this.selectedValue = this.selectedValue.concat([option[this.value]]);
+            this.selectedValue = this.selectedValue.concat([ option[this.value] ]);
           }
         });
       }
@@ -175,21 +186,21 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
 
     // apply CamelCase to semanticDataModel labels
     if (this.filterColumn === 'semanticDataModel') {
-      displayValue = [this.formatPartSemanticDataModelToCamelCasePipe.transformModel(this.selectedValue[0]), suffix];
+      displayValue = [ this.formatPartSemanticDataModelToCamelCasePipe.transformModel(this.selectedValue[0]), suffix ];
     } else {
-      displayValue = [this.selectedValue[0], suffix];
+      displayValue = [ this.selectedValue[0], suffix ];
     }
 
     // if no value selected, return empty string
     if (!this.selectedValue.length) {
-      displayValue = [''];
+      displayValue = [ '' ];
     }
 
     return displayValue;
   }
 
   filterItem(value: any): void {
-    if (!this.searchElement.length || !value || value === '') {
+    if (!this.value.length || !value || value === '') {
       this.clickClear();
       return;
     }

@@ -19,25 +19,20 @@
 //  * SPDX-License-Identifier: Apache-2.0
 //  ********************************************************************************/
 
-// import { AdminModule } from '@page/admin/admin.module';
-// import { screen, waitFor } from '@testing-library/angular';
-// import { renderComponent } from '@tests/test-render.utils';
-// import { ScheduledRegistryProcessesComponent } from './scheduled-registry-processes.component';
+import { AdminModule } from '@page/admin/admin.module';
+import { screen } from '@testing-library/angular';
+import { renderComponent } from '@tests/test-render.utils';
+import { ScheduledRegistryProcessesComponent } from './scheduled-registry-processes.component';
 
-// TODO: fix test
-// describe('ScheduledRegistryProcessesComponent', () => {
-//   const renderRegistryProcessesComponent = () =>
-//     renderComponent(ScheduledRegistryProcessesComponent, { imports: [AdminModule] });
 
-//   it('should create', async () => {
-//     await renderRegistryProcessesComponent();
+describe('ScheduledRegistryProcessesComponent', () => {
+  const renderRegistryProcessesComponent = () =>
+    renderComponent(ScheduledRegistryProcessesComponent, { imports: [ AdminModule ] });
 
-//     expect(await screen.getByText('pageAdmin.scheduledRegistryProcesses.title')).toBeInTheDocument();
-//   });
+  it('should create', async () => {
+    await renderRegistryProcessesComponent();
 
-//   // it('should render data', async () => {
-//   //   await renderRegistryProcessesComponent();
-//   //   await waitFor(() => expect(screen.getByText('01/01/2000')).toBeInTheDocument());
-//   //   await waitFor(() => expect(screen.getByText('02/01/2000')).toBeInTheDocument());
-//   // });
-// });
+    expect(screen.getByText('pageAdmin.scheduledRegistryProcesses.title')).toBeInTheDocument();
+  });
+
+});

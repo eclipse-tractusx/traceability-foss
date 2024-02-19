@@ -19,41 +19,46 @@
 
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ALERT_BASE_ROUTE, getRoute } from '@core/known-route';
+import { Role } from '@core/user/role.model';
 import { AlertDetailFacade } from '@page/alerts/core/alert-detail.facade';
 import { AlertHelperService } from '@page/alerts/core/alert-helper.service';
 import { AlertsFacade } from '@page/alerts/core/alerts.facade';
+import { NotificationActionHelperService } from '@shared/assembler/notification-action-helper.service';
 import { NotificationMenuActionsAssembler } from '@shared/assembler/notificationMenuActions.assembler';
+import { NotificationChannel, TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
+import { RequestContext } from '@shared/components/request-notification/request-notification.base';
+import { RequestStepperComponent } from '@shared/components/request-notification/request-stepper/request-stepper.component';
 import {
+  FilterMethod,
   MenuActionConfig,
   TableEventConfig,
-  TableHeaderSort,
   TableFilter,
-  FilterMethod,
+  TableHeaderSort,
 } from '@shared/components/table/table.model';
 import { TableSortingUtil } from '@shared/components/table/tableSortingUtil';
-import { SearchHelper } from '@shared/helper/search-helper';
 import { ToastService } from '@shared/components/toasts/toast.service';
+import { createDeeplinkNotificationFilter } from '@shared/helper/notification-helper';
+import { SearchHelper } from '@shared/helper/search-helper';
 import { FilterConfigOptions } from '@shared/model/filter-config';
 import { NotificationTabInformation } from '@shared/model/notification-tab-information';
-import { Notification, NotificationFilter, NotificationStatusGroup, NotificationType } from '@shared/model/notification.model';
+import {
+  Notification,
+  NotificationFilter,
+  NotificationStatusGroup,
+  NotificationType,
+} from '@shared/model/notification.model';
 import { TranslationContext } from '@shared/model/translation-context.model';
 import { NotificationComponent } from '@shared/modules/notification/presentation/notification.component';
 import { Subscription } from 'rxjs';
-import { Role } from '@core/user/role.model';
-import { RequestContext } from '@shared/components/request-notification/request-notification.base';
-import { RequestStepperComponent } from '@shared/components/request-notification/request-stepper/request-stepper.component';
-import { MatDialog } from '@angular/material/dialog';
-import { NotificationChannel, TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
-import { createDeeplinkNotificationFilter } from '@shared/helper/notification-helper';
-import { NotificationActionHelperService } from '@shared/assembler/notification-action-helper.service';
 
 @Component({
   selector: 'app-alerts',
   templateUrl: './alerts.component.html',
-  styleUrls: ['./alerts.component.scss'],
+  styleUrls: [ './alerts.component.scss' ],
 })
 export class AlertsComponent {
   @ViewChild(NotificationCommonModalComponent) notificationCommonModalComponent: NotificationCommonModalComponent;
@@ -88,7 +93,7 @@ export class AlertsComponent {
   private pagination: TableEventConfig = {
     page: 0,
     pageSize: this.DEFAULT_PAGE_SIZE,
-    sorting: ['createdDate', 'desc'],
+    sorting: [ 'createdDate', 'desc' ],
   };
 
   protected readonly TableType = TableType;
@@ -121,7 +126,6 @@ export class AlertsComponent {
     this.paramSubscription = this.route.queryParams.subscribe(params => {
       const deeplinkNotificationFilter = createDeeplinkNotificationFilter(params);
       this.pagination.page = params?.pageNumber ? params.pageNumber : 0;
-      this.pagination.page = params?.pageNumber;
       this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize, this.alertReceivedSortList, deeplinkNotificationFilter?.receivedFilter, this.receivedFilter);
       this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize, this.alertQueuedAndRequestedSortList, deeplinkNotificationFilter?.sentFilter, this.requestedFilter);
     });
@@ -171,7 +175,7 @@ export class AlertsComponent {
     this.alertsFacade.setQueuedAndRequestedAlerts(
       this.pagination.page,
       this.pagination.pageSize,
-      this.alertQueuedAndRequestedSortList
+      this.alertQueuedAndRequestedSortList,
     );
   }
 
@@ -184,7 +188,7 @@ export class AlertsComponent {
     const { link } = getRoute(ALERT_BASE_ROUTE);
     const tabIndex = this.route.snapshot.queryParamMap.get('tabIndex');
     const tabInformation: NotificationTabInformation = { tabIndex: tabIndex, pageNumber: this.pagination.page };
-    this.router.navigate([`/${link}/${notification.id}`], { queryParams: tabInformation });
+    this.router.navigate([ `/${ link }/${ notification.id }` ], { queryParams: tabInformation });
   }
 
   public openRequestDialog(): void {
@@ -192,8 +196,8 @@ export class AlertsComponent {
       autoFocus: false,
       disableClose: true,
       data: {
-        context: RequestContext.REQUEST_ALERT
-      }
+        context: RequestContext.REQUEST_ALERT,
+      },
     });
   }
 
