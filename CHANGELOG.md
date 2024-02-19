@@ -7,6 +7,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [UNRELEASED - DD.MM.YYYY]
 
+## [10.4.0 - 19.02.2024]
+
 ### Added
 - added tombstone icon to parts table and error description in parts detail view
 - Endpoint (assets/import/report/{importJobId}) for retrieving import report
