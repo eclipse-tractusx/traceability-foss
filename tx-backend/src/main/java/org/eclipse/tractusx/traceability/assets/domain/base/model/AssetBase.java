@@ -30,7 +30,6 @@ import org.eclipse.tractusx.irs.component.enums.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -52,18 +51,18 @@ public class AssetBase {
     private String manufacturerPartId;
     private Owner owner;
     @Singular
-    private List<Descriptions> childRelations = Collections.emptyList();
+    private List<Descriptions> childRelations;
     @Singular
-    private List<Descriptions> parentRelations = Collections.emptyList();
+    private List<Descriptions> parentRelations;
     private QualityType qualityType;
     private String van;
     private SemanticDataModel semanticDataModel;
     private String classification;
-    private List<DetailAspectModel> detailAspectModels = Collections.emptyList();
-    private List<QualityNotification> sentQualityAlerts = Collections.emptyList();
-    private List<QualityNotification> receivedQualityAlerts = Collections.emptyList();
-    private List<QualityNotification> sentQualityInvestigations = Collections.emptyList();
-    private List<QualityNotification> receivedQualityInvestigations = Collections.emptyList();
+    private List<DetailAspectModel> detailAspectModels;
+    private List<QualityNotification> sentQualityAlerts;
+    private List<QualityNotification> receivedQualityAlerts;
+    private List<QualityNotification> sentQualityInvestigations;
+    private List<QualityNotification> receivedQualityInvestigations;
     private ImportState importState;
     private String importNote;
     private String policyId;

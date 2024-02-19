@@ -42,7 +42,6 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -103,16 +102,15 @@ public record JobDetailResponse(
                     }
                 }).toList();
 
-        HashMap<String, String> tombstoneMessages = new HashMap<>();
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
-        tombstones.forEach(tombstone -> {
+        Map<String, String> tombstoneMessages = tombstones.stream().collect(Collectors.toMap(Tombstone::getCatenaXId, value -> {
             try {
-                tombstoneMessages.put(tombstone.getCatenaXId(), objectMapper.writeValueAsString(tombstone));
+                return objectMapper.writeValueAsString(value);
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
             }
-        });
+        }));
 
         return new JobDetailResponse(
                 jobStatus,
