@@ -41,9 +41,9 @@ export class AboutComponent {
         this.name = "Traceability Foss";
         this.commitId = environment.gitTag;
         this.repositoryPath = "https://github.com/eclipse-tractusx/traceability-foss";
-        this.licensePath = this.repositoryPath + "/blob/" + this.commitId + "/LICENSE";
-        this.noticePath = this.repositoryPath + "/blob/" + this.commitId + "/NOTICE.md";
-        this.sourcePath = this.repositoryPath + "/tree/" + this.commitId;
+        this.licensePath = this.repositoryPath + "/blob/main/LICENSE";
+        this.noticePath = this.repositoryPath + "/blob/main/NOTICE.md";
+        this.sourcePath = this.repositoryPath;
     }
 
     openLink(url: string): void {
