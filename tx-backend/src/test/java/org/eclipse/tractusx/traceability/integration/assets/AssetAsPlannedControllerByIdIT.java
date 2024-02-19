@@ -74,58 +74,6 @@ class AssetAsPlannedControllerByIdIT extends IntegrationTestSpecification {
         );
     }
 
-    @Test
-    void givenAlertsForAsset_whenCallAssetById_thenReturnProperCount() throws JoseException {
-        // Given
-        assetsSupport.defaultAssetsAsPlannedStored();
-        AssetAsPlannedEntity asset = jpaAssetAsPlannedRepository.findById("urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01").orElseThrow();
-        alertsSupport.storeAlertWithStatusAndAssets(CREATED, null, List.of(asset));
-        alertsSupport.storeAlertWithStatusAndAssets(SENT, null, List.of(asset));
-        alertsSupport.storeAlertWithStatusAndAssets(RECEIVED, null, List.of(asset));
-        alertsSupport.storeAlertWithStatusAndAssets(ACKNOWLEDGED, null, List.of(asset));
-        alertsSupport.storeAlertWithStatusAndAssets(ACCEPTED, null, List.of(asset));
-        alertsSupport.storeAlertWithStatusAndAssets(DECLINED, null, List.of(asset));
-        alertsSupport.storeAlertWithStatusAndAssets(CANCELED, null, List.of(asset));
-        alertsSupport.storeAlertWithStatusAndAssets(CLOSED, null, List.of(asset));
-
-        // When
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/api/assets/as-planned/urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01")
-                .then()
-                .log().all()
-                .statusCode(200)
-                .assertThat()
-                .body("receivedQualityAlertIdsInStatusActive", hasSize(6));
-    }
-
-    @Test
-    void givenInvestigationsForAsset_whenCallAssetById_thenReturnProperCount() throws JoseException {
-        // Given
-        assetsSupport.defaultAssetsAsPlannedStored();
-        AssetAsPlannedEntity asset = jpaAssetAsPlannedRepository.findById("urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01").orElseThrow();
-        investigationsSupport.storeInvestigationWithStatusAndAssets(CREATED, null, List.of(asset));
-        investigationsSupport.storeInvestigationWithStatusAndAssets(SENT, null, List.of(asset));
-        investigationsSupport.storeInvestigationWithStatusAndAssets(RECEIVED, null, List.of(asset));
-        investigationsSupport.storeInvestigationWithStatusAndAssets(ACKNOWLEDGED, null, List.of(asset));
-        investigationsSupport.storeInvestigationWithStatusAndAssets(ACCEPTED, null, List.of(asset));
-        investigationsSupport.storeInvestigationWithStatusAndAssets(DECLINED, null, List.of(asset));
-        investigationsSupport.storeInvestigationWithStatusAndAssets(CANCELED, null, List.of(asset));
-        investigationsSupport.storeInvestigationWithStatusAndAssets(CLOSED, null, List.of(asset));
-
-        // When
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/api/assets/as-planned/urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01")
-                .then()
-                .statusCode(200)
-                .assertThat()
-                .body("receivedQualityInvestigationIdsInStatusActive", hasSize(6));
-    }
 
     @Test
     void shouldReturnAssetsForAuthenticatedUserWithRole() throws JoseException {

@@ -91,7 +91,7 @@ public class NotificationPublisherService {
             assetsAsBuiltBPNMap
                     .entrySet()
                     .stream()
-                    .map(it -> createInvestigation(applicationBPN, receiverBpn, description, targetDate, severity, it))
+                    .map(it -> createQualityNotificationMessage(applicationBPN, receiverBpn, description, targetDate, severity, it))
                     .forEach(notification::addNotification);
             return notification;
         } else {
@@ -100,7 +100,7 @@ public class NotificationPublisherService {
             assetsAsPlannedBPNMap
                     .entrySet()
                     .stream()
-                    .map(it -> createInvestigation(applicationBPN, receiverBpn, description, targetDate, severity, it))
+                    .map(it -> createQualityNotificationMessage(applicationBPN, receiverBpn, description, targetDate, severity, it))
                     .forEach(notification::addNotification);
             return notification;
         }
@@ -136,7 +136,7 @@ public class NotificationPublisherService {
         return notification;
     }
 
-    private QualityNotificationMessage createInvestigation(BPN applicationBpn, String receiverBpn, String description, Instant targetDate, QualityNotificationSeverity severity, Map.Entry<String, List<AssetBase>> asset) {
+    private QualityNotificationMessage createQualityNotificationMessage(BPN applicationBpn, String receiverBpn, String description, Instant targetDate, QualityNotificationSeverity severity, Map.Entry<String, List<AssetBase>> asset) {
         final String notificationId = UUID.randomUUID().toString();
         final String messageId = UUID.randomUUID().toString();
         return QualityNotificationMessage.builder()
