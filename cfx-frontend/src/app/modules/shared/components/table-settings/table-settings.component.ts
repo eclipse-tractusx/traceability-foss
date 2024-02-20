@@ -99,7 +99,7 @@ export class TableSettingsComponent {
     // iterate over dialogColumns
     for (const column of this.dialogColumns) {
       // if item in dialogColumns is true in columnOptions --> add to new tableColumns
-      if (this.columnOptions.get(column)) {
+      if (this.columnOptions.get(column) || column === 'select' || column === 'menu' || column === 'settings') {
         newTableColumns.push(column);
         // ignore select column in customertable
         if ((column === 'select') && !this.isCustomerTable) {
