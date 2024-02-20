@@ -7,11 +7,16 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [UNRELEASED - DD.MM.YYYY]
 
+## [10.4.0 - 19.02.2024]
+
 ### Added
-- added tombstone icon to parts table and error description in parts detail view
+- Added tombstone icon to parts table and error description in parts detail view
 - Endpoint (assets/import/report/{importJobId}) for retrieving import report
 - Added error description and retry button to error toast when creating notifications
+- Added concept #568: Policy management
+- Added concept #436: Intermediate status handling
 - Added add Parts view concept
+- Added separate Docker notices for both front- and backend
 
 ### Changed
 - actions/chache bumped from v3 to v4
@@ -24,6 +29,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - testcontainer-postgresql bumped from 1.19.1 to 1.19.4
 - tomcat-embed-websocket bumped from 10.1.16 to 10.1.18
 - IrsCallbackController is now validating jobId to prevent log injections from unwanted usage
+- Changed Add Parts concept to Edit Parts concept
 
 ### Removed
 - Investigations/Alerts for assets_as_planned parts
