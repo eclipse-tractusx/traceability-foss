@@ -23,6 +23,7 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
@@ -39,6 +40,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Slf4j
 @Service
@@ -150,10 +152,16 @@ public class IrsService implements IrsRepository {
     private PolicyResponse findMatchingPolicy(List<PolicyResponse> irsPolicies) {
         return irsPolicies.stream()
                 .filter(irsPolicy -> irsPolicy.permissions().stream()
-                        .flatMap(permission -> permission.getConstraint().getAnd().stream())
+                        .flatMap(permission -> {
+                            Constraints constraint = permission.getConstraint();
+                            return constraint != null ? constraint.getAnd().stream() : Stream.empty();
+                        })
                         .anyMatch(constraint -> constraint.getRightOperand().equals(traceabilityProperties.getRightOperand()))
                         || irsPolicy.permissions().stream()
-                        .flatMap(permission -> permission.getConstraint().getOr().stream())
+                        .flatMap(permission -> {
+                            Constraints constraint = permission.getConstraint();
+                            return constraint != null ? constraint.getOr().stream() : Stream.empty();
+                        })
                         .anyMatch(constraint -> constraint.getRightOperand().equals(traceabilityProperties.getRightOperand())))
                 .findFirst()
                 .orElse(null);
