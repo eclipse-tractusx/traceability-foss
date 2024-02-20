@@ -123,6 +123,7 @@ public class IrsService implements IrsRepository {
             if (!asset.getParentRelations().isEmpty()) {
                 existingAsset.setParentRelations(asset.getParentRelations());
             }
+            existingAsset.setTombstone(asset.getTombstone());
             repository.save(existingAsset);
         } else {
             repository.save(asset);

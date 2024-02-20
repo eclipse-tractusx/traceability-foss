@@ -147,10 +147,10 @@ class ImportControllerIT extends IntegrationTestSpecification {
         assertThat(result.validationResult().validationErrors()).isEmpty();
         assertThat(result.jobId()).isNotEmpty();
         assertThat(result.importStateMessage()).containsExactlyInAnyOrder(
-                new ImportStateMessage("urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01", true)
+                new ImportStateMessage("urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb02", true)
         );
 
-        AssetAsPlannedEntity entity = jpaAssetAsPlannedRepository.findById("urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01").get();
+        AssetAsPlannedEntity entity = jpaAssetAsPlannedRepository.findById("urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb02").get();
         assertThat(entity.getSubmodels()).isNotEmpty();
     }
 

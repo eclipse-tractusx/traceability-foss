@@ -19,6 +19,7 @@
 
 package org.eclipse.tractusx.traceability.integration.assets.infrastructure.base;
 
+import assets.importpoc.ImportResponse;
 import io.restassured.http.ContentType;
 import org.eclipse.tractusx.traceability.common.security.JwtRole;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
@@ -29,6 +30,8 @@ import org.eclipse.tractusx.traceability.integration.common.support.repository.B
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.File;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -220,17 +223,17 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
         String jobId = "ebb79c45-7bba-4169-bf17-SUCCESSFUL_AS_PLANNED";
         String jobState = "COMPLETED";
 
-//        String path = getClass().getResource("/testdata/importfiles/validImportFile-onlyAsPlannedAsset.json").getFile();
-//        File file = new File(path);
+        String path = getClass().getResource("/testdata/importfiles/validImportFile-onlyAsPlannedAsset.json").getFile();
+        File file = new File(path);
 
-//        given()
-//                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
-//                .when()
-//                .multiPart(file)
-//                .post("/api/assets/import")
-//                .then()
-//                .statusCode(200)
-//                .extract().as(ImportResponse.class);
+        given()
+                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .when()
+                .multiPart(file)
+                .post("/api/assets/import")
+                .then()
+                .statusCode(200)
+                .extract().as(ImportResponse.class);
 
         // when
         given()
