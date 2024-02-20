@@ -7,6 +7,14 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [UNRELEASED - DD.MM.YYYY]
 
+### Added
+
+### Changed
+
+- added logic to consume tombstone information from IRS for assets
+
+### Removed
+
 ## [10.4.0 - 19.02.2024]
 
 ### Added
@@ -25,8 +33,6 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - testcontainer-postgresql bumped from 1.19.1 to 1.19.4
 - tomcat-embed-websocket bumped from 10.1.16 to 10.1.18
 - IrsCallbackController is now validating jobId to prevent log injections from unwanted usage
-
-- added logic to consume tombstone information from IRS for assets
 
 ### Removed
 - Investigations/Alerts for assets_as_planned parts
