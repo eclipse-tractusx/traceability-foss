@@ -30,6 +30,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - IrsCallbackController is now validating jobId to prevent log injections from unwanted usage
 - Bump irs-helm version from 6.13.0 to 6.14.1
 - Bump irs-client-lib version from 1.5.1-SNAPSHOT to 1.6.0-SNAPSHOT
+- Changed Add Parts concept to Edit Parts concept
 
 ### Removed
 - Investigations/Alerts for assets_as_planned parts
