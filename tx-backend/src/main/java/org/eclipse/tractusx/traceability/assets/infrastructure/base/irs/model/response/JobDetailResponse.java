@@ -25,9 +25,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.component.Tombstone;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataTractionBatteryCode;
@@ -35,6 +33,7 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.mapper.TombstoneMapper;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Relationship;
@@ -56,7 +55,7 @@ public record JobDetailResponse(
         List<SemanticDataModel> semanticDataModels,
         List<Relationship> relationships,
         Map<String, String> bpns,
-        Map<String, String> tombstones
+        Map<String, Tombstone> tombstones
 ) {
 
     // TODO constants should be in a proper class which reflects the purpose of it (MW)
@@ -67,6 +66,7 @@ public record JobDetailResponse(
     public static final String JOB_STATUS_COMPLETED = "COMPLETED";
     private static final String JOB_STATUS_RUNNING = "RUNNING";
 
+    // TODO: Rework this whole class to use the classes from the IRS lib. Package: org.eclipse.tractusx.irs.component
     @JsonCreator
     static JobDetailResponse of(
             @JsonProperty("job") JobStatus jobStatus,
@@ -102,15 +102,7 @@ public record JobDetailResponse(
                     }
                 }).toList();
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-        Map<String, String> tombstoneMessages = tombstones.stream().collect(Collectors.toMap(Tombstone::getCatenaXId, value -> {
-            try {
-                return objectMapper.writeValueAsString(value);
-            } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
-            }
-        }));
+        Map<String, Tombstone> tombstoneMessages = tombstones.stream().collect(Collectors.toMap(Tombstone::getCatenaXId, tombstone -> tombstone));
 
         return new JobDetailResponse(
                 jobStatus,
@@ -132,11 +124,11 @@ public record JobDetailResponse(
         return JOB_STATUS_COMPLETED.equals(jobStatus.state());
     }
 
-    public List<AssetBase> convertAssets() {
-        return convertAssets(BomLifecycle.fromString(jobStatus().parameter().bomLifecycle()));
+    public List<AssetBase> convertAssets(ObjectMapper objectMapper) {
+        return convertAssets(BomLifecycle.fromString(jobStatus().parameter().bomLifecycle()), objectMapper);
     }
 
-    private List<AssetBase> convertAssets(BomLifecycle bomLifecycle) {
+    private List<AssetBase> convertAssets(BomLifecycle bomLifecycle, ObjectMapper objectMapper) {
 
         log.info(":: convertAssets(\"{}\")", bomLifecycle.getRealName());
         log.info(":: relationships: {}", relationships.toString());
@@ -166,10 +158,7 @@ public record JobDetailResponse(
             }
         }
 
-        List<AssetBase> tombstoneAssets = tombstones.entrySet()
-                .stream()
-                .map(entry -> AssetBase.builder().id(entry.getKey()).tombstone(entry.getValue()).build())
-                .toList();
+        List<AssetBase> tombstoneAssets = TombstoneMapper.mapTombstones(jobStatus(), tombstones(), objectMapper);
 
         List<AssetBase> convertedAssets = new ArrayList<>();
         convertedAssets.addAll(ownParts);

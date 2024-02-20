@@ -29,6 +29,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+
 @Getter
 @Builder
 public class TractionBatteryCode {
@@ -39,7 +41,7 @@ public class TractionBatteryCode {
 
 
     public static TractionBatteryCode from(List<DetailAspectModel> detailAspectModels) {
-        Optional<DetailAspectModel> tractionBatteryCodeAspectModel = detailAspectModels
+        Optional<DetailAspectModel> tractionBatteryCodeAspectModel = emptyIfNull(detailAspectModels)
                 .stream()
                 .filter(detailAspectModel -> DetailAspectType.TRACTION_BATTERY_CODE.equals(detailAspectModel.getType()))
                 .findFirst();

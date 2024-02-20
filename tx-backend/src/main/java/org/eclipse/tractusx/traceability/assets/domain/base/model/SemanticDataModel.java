@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum SemanticDataModel {
-    BATCH("Batch"), SERIALPART("SerialPart"), UNKNOWN(""), PARTASPLANNED("PartAsPlanned"), JUSTINSEQUENCE("JustInSequence");
+    BATCH("Batch"), SERIALPART("SerialPart"), UNKNOWN(""), PARTASPLANNED("PartAsPlanned"), JUSTINSEQUENCE("JustInSequence"), TOMBSTONEASBUILT("TombstoneAsBuilt"), TOMBSTONEASPLANNED("TombstoneAsPLANNED");
 
     private final String value;
 }

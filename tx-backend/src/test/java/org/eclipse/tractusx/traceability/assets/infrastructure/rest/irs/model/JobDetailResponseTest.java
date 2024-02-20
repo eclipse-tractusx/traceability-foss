@@ -46,7 +46,7 @@ class JobDetailResponseTest {
         InputStream file = JobDetailResponseTest.class.getResourceAsStream("/data/irs_assets_v3_singleUsageAsBuilt.json");
         JobDetailResponse response = mapper.readValue(file, JobDetailResponse.class);
         // when
-        List<AssetBase> assets = response.convertAssets();
+        List<AssetBase> assets = response.convertAssets(mapper);
         AssetBase ownAsset = assets.get(0);
         AssetBase parentAsset = assets.get(1);
 

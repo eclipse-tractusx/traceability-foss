@@ -36,6 +36,7 @@ import java.util.Objects;
 import static org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.BATCH;
 import static org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.JUSTINSEQUENCE;
 import static org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.SERIALPART;
+import static org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.TOMBSTONEASBUILT;
 
 @Slf4j
 @AllArgsConstructor
@@ -69,7 +70,7 @@ public class AssetBase {
     private String tombstone;
 
     public BomLifecycle getBomLifecycle() {
-        if (Objects.equals(semanticDataModel, SERIALPART) || Objects.equals(semanticDataModel, BATCH) || Objects.equals(semanticDataModel, JUSTINSEQUENCE)) {
+        if (Objects.equals(semanticDataModel, SERIALPART) || Objects.equals(semanticDataModel, BATCH) || Objects.equals(semanticDataModel, JUSTINSEQUENCE) || Objects.equals(semanticDataModel, TOMBSTONEASBUILT)) {
             return BomLifecycle.AS_BUILT;
         } else {
             return BomLifecycle.AS_PLANNED;

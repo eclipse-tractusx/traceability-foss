@@ -1149,17 +1149,6 @@
         "retryCounter" : 0
       },
       "policy" : null
-    },
-    {
-      "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01",
-      "endpointURL" : "https://irs-provider-dataplane3.dev.demo.catena-x.net/api/public/data/urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01",
-      "processingError" : {
-        "processStep" : "SubmodelRequest",
-        "errorDetail" : "org.springframework.web.client.HttpServerErrorException$InternalServerError: 500 : \"{\"errors\":[]}\"",
-        "lastAttempt" : "2024-02-07T12:06:34.400493282Z",
-        "retryCounter" : 0
-      },
-      "policy" : null
     }
   ],
   "submodels": [

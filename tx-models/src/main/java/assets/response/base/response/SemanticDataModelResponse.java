@@ -32,6 +32,10 @@ public enum SemanticDataModelResponse {
     @ApiModelProperty("PartAsPlanned")
     PARTASPLANNED,
     @ApiModelProperty("JustInSequence")
-    JUSTINSEQUENCE;
+    JUSTINSEQUENCE,
+    @ApiModelProperty("TombstoneAsBuilt")
+    TOMBSTONEASBUILT,
+    @ApiModelProperty("TombstoneAsPlanned")
+    TOMBSTONEASPLANNED;
 
 }

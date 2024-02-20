@@ -23,7 +23,6 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
@@ -104,14 +103,8 @@ public class IrsService implements IrsRepository {
             }
 
             // persist converted assets
-            jobResponse.convertAssets().forEach(assetBase -> {
-                if (StringUtils.isNotBlank(assetBase.getTombstone())) {
-                    // it is unclear whether the tombstone asset is asBuilt or asPlanned.
-                    // In case of an imported asset via Trace-X there should be an asset in state TRANSIENT, so we need
-                    // to set the tombstone information
-                    setTombstone(assetAsBuiltCallbackRepository, assetBase);
-                    setTombstone(assetAsPlannedCallbackRepository, assetBase);
-                } else if (assetBase.getBomLifecycle() == org.eclipse.tractusx.irs.component.enums.BomLifecycle.AS_BUILT) {
+            jobResponse.convertAssets(objectMapper).forEach(assetBase -> {
+                if (assetBase.getBomLifecycle() == org.eclipse.tractusx.irs.component.enums.BomLifecycle.AS_BUILT) {
                     saveOrUpdateAssets(assetAsBuiltCallbackRepository, assetBase);
                 } else if (assetBase.getBomLifecycle() == org.eclipse.tractusx.irs.component.enums.BomLifecycle.AS_PLANNED) {
                     saveOrUpdateAssets(assetAsPlannedCallbackRepository, assetBase);
