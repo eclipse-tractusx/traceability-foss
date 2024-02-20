@@ -30,18 +30,17 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobStatus;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class TombstoneMapper {
 
-    public static List<AssetBase> mapTombstones(JobStatus jobstatus, Map<String, Tombstone> tombstones, ObjectMapper objectMapper) {
-        return tombstones.entrySet().stream()
-                .map(entry -> {
-                    if (isOwnPart(entry.getKey(), jobstatus)) {
-                        return mapOwnPartsTombstone(jobstatus, entry.getValue(), objectMapper);
+    public static List<AssetBase> mapTombstones(JobStatus jobstatus, List<Tombstone> tombstones, ObjectMapper objectMapper) {
+        return tombstones.stream()
+                .map(tombstone -> {
+                    if (isOwnPart(tombstone.getCatenaXId(), jobstatus)) {
+                        return mapOwnPartsTombstone(jobstatus, tombstone, objectMapper);
                     } else {
-                        return mapOtherPartsTombstone(jobstatus, entry.getValue(), objectMapper);
+                        return mapOtherPartsTombstone(jobstatus, tombstone, objectMapper);
                     }
                 })
                 .collect(Collectors.toList());
@@ -78,7 +77,7 @@ public class TombstoneMapper {
         return AssetBase.builder()
                 .id(tombstone.getCatenaXId())
                 .tombstone(tombstoneString)
-                .owner(isSupplierDirection(jobstatus))
+                .owner(getOwnerFrom(jobstatus))
                 .semanticDataModel(getSemanticDataModel(jobstatus))
                 .importState(ImportState.ERROR)
                 .build();
@@ -88,7 +87,7 @@ public class TombstoneMapper {
         return catenaxId.equals(jobStatus.globalAssetId());
     }
 
-    private static Owner isSupplierDirection(JobStatus jobStatus) {
+    private static Owner getOwnerFrom(JobStatus jobStatus) {
         return jobStatus.parameter().direction().equalsIgnoreCase(Direction.DOWNWARD.name()) ? Owner.SUPPLIER : Owner.CUSTOMER;
     }
 

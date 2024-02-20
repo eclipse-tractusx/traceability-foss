@@ -113,15 +113,6 @@ public class IrsService implements IrsRepository {
         }
     }
 
-    void setTombstone(AssetCallbackRepository repository, AssetBase asset) {
-        Optional<AssetBase> existingAssetOptional = repository.findById(asset.getId());
-        if (existingAssetOptional.isPresent()) {
-            AssetBase existingAsset = existingAssetOptional.get();
-            existingAsset.setTombstone(asset.getTombstone());
-            repository.save(existingAsset);
-        }
-    }
-
     void saveOrUpdateAssets(AssetCallbackRepository repository, AssetBase asset) {
         Optional<AssetBase> existingAssetOptional = repository.findById(asset.getId());
         if (existingAssetOptional.isPresent()) {

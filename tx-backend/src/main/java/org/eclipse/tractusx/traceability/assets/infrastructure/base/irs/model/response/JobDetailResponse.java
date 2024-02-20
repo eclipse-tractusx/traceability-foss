@@ -55,7 +55,7 @@ public record JobDetailResponse(
         List<SemanticDataModel> semanticDataModels,
         List<Relationship> relationships,
         Map<String, String> bpns,
-        Map<String, Tombstone> tombstones
+        List<Tombstone> tombstones
 ) {
 
     // TODO constants should be in a proper class which reflects the purpose of it (MW)
@@ -102,7 +102,7 @@ public record JobDetailResponse(
                     }
                 }).toList();
 
-        Map<String, Tombstone> tombstoneMessages = tombstones.stream().collect(Collectors.toMap(Tombstone::getCatenaXId, tombstone -> tombstone));
+        List<Tombstone> tombstoneMessages = List.copyOf(tombstones);
 
         return new JobDetailResponse(
                 jobStatus,
