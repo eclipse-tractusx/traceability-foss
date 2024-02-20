@@ -43,6 +43,7 @@ import {
 import { OtherPartsModule } from '../other-parts.module';
 import { OtherPartsComponent } from './other-parts.component';
 import { Role } from '@core/user/role.model';
+import { RequestStepperComponent } from '@shared/components/request-notification/request-stepper/request-stepper.component';
 
 describe('Other Parts', () => {
   let otherPartsState: OtherPartsState;
@@ -52,10 +53,9 @@ describe('Other Parts', () => {
     formatPartSemanticToCamelCase = new FormatPartSemanticDataModelToCamelCasePipe();
   });
 
-
   const renderOtherParts = ({ roles = [] } = {}) =>
     renderComponent(OtherPartsComponent, {
-      declarations: [SupplierPartsComponent, CustomerPartsComponent],
+      declarations: [RequestStepperComponent, SupplierPartsComponent, CustomerPartsComponent],
       imports: [OtherPartsModule],
       providers: [{ provide: OtherPartsState, useFactory: () => otherPartsState }, { provide: PartsState }],
       roles,
@@ -68,14 +68,13 @@ describe('Other Parts', () => {
     expect(tableElements.length).toEqual(1);
   });
 
-  // TODO: fix test
-  // it('should render table and display correct amount of rows', async () => {
-  //   await renderOtherParts();
+  it('should render table and display correct amount of rows', async () => {
+    await renderOtherParts();
 
-  //   const tableElement = await waitFor(() => screen.getByTestId('table-component--test-id'));
-  //   expect(tableElement).toBeInTheDocument();
-  //   expect(tableElement.children[1].childElementCount).toEqual(4);
-  // });
+    const tableElement = await waitFor(() => screen.getByTestId('table-component--test-id'));
+    expect(tableElement).toBeInTheDocument();
+    expect(tableElement.children[1].childElementCount).toEqual(5);
+  });
 
   it('should render tabs', async () => {
     await renderOtherParts();
@@ -85,13 +84,12 @@ describe('Other Parts', () => {
   });
 
   // it('should render selected parts information', async () => {
-  //   await renderOtherParts({ roles: [ 'user' ] });
+  //   await renderOtherParts({ roles: ['user'] });
   //   await screen.findByTestId('table-component--test-id');
   //   const selectedPartsInfo = await screen.getByText('page.selectedParts.info');
 
   //   expect(selectedPartsInfo).toBeInTheDocument();
   // });
-
 
   it('should set selectedTab correctly', async () => {
     const { fixture } = await renderOtherParts();
@@ -106,70 +104,70 @@ describe('Other Parts', () => {
     expect(componentInstance.selectedTab).toEqual(0);
   });
 
-
   describe('onAsBuiltTableConfigChange', () => {
     let formatPartSemanticToCamelCase: FormatPartSemanticDataModelToCamelCasePipe;
     beforeEach(() => {
       formatPartSemanticToCamelCase = new FormatPartSemanticDataModelToCamelCasePipe();
     });
-    // TODO: fix tests
-    // it('should request supplier parts if first tab is selected', async () => {
-    //   await renderOtherParts({ roles: [Role.USER] });
-    //   fireEvent.click(screen.getAllByText('pageOtherParts.tab.supplier')[0]);
 
-    //   await waitFor(() => expect(screen.getByText('table.column.manufacturer')).toBeInTheDocument());
-    //   fireEvent.click(screen.getByText('table.column.manufacturer'));
+    it('should request supplier parts if first tab is selected', async () => {
+      await renderOtherParts({ roles: [Role.USER] });
+      fireEvent.click(screen.getAllByText('pageOtherParts.tab.supplier')[0]);
 
-    //   const supplierParts = await firstValueFrom(otherPartsState.supplierPartsAsBuilt$);
-    //   await waitFor(() =>
-    //     expect(supplierParts).toEqual({
-    //       data: {
-    //         content: [
-    //           formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_6, MainAspectType.AS_BUILT)),
-    //           formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_7, MainAspectType.AS_BUILT)),
-    //           formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_8, MainAspectType.AS_BUILT)),
-    //           formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_9, MainAspectType.AS_BUILT)),
-    //         ],
-    //         page: 0,
-    //         pageCount: 1,
-    //         pageSize: 10,
-    //         totalItems: 5,
-    //       },
-    //       error: undefined,
-    //       loader: undefined,
-    //     }),
-    //   );
-    // });
+      await waitFor(() => expect(screen.getByText('table.column.manufacturerName')).toBeInTheDocument());
+      fireEvent.click(screen.getByText('table.column.manufacturerName'));
 
-    // it('should request customer parts if second tab is selected', async () => {
-    //   const fixture = await renderOtherParts({ roles: [Role.USER] });
-    //   let tabs = screen.getAllByText('pageOtherParts.tab.customer');
-    //   fireEvent.click(tabs[0]);
+      const supplierParts = await firstValueFrom(otherPartsState.supplierPartsAsBuilt$);
+      await waitFor(() =>
+        expect(supplierParts).toEqual({
+          data: {
+            content: [
+              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_1, MainAspectType.AS_BUILT)),
+              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_2, MainAspectType.AS_BUILT)),
+              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_3, MainAspectType.AS_BUILT)),
+              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_4, MainAspectType.AS_BUILT)),
+              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_5, MainAspectType.AS_BUILT)),
+            ],
+            page: 0,
+            pageCount: 1,
+            pageSize: 10,
+            totalItems: 5,
+          },
+          error: undefined,
+          loader: undefined,
+        }),
+      );
+    });
 
-    //   await waitFor(() => expect(screen.getByText('table.column.manufacturer')).toBeInTheDocument());
-    //   fireEvent.click(screen.getByText('table.column.manufacturer'));
+    it('should request customer parts if second tab is selected', async () => {
+      const fixture = await renderOtherParts({ roles: [Role.USER] });
+      let tabs = screen.getAllByText('pageOtherParts.tab.customer');
+      fireEvent.click(tabs[0]);
 
-    //   const customerParts = await firstValueFrom(otherPartsState.customerPartsAsBuilt$);
-    //   await waitFor(() =>
-    //     expect(customerParts).toEqual({
-    //       data: {
-    //         content: [
-    //           formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_1, MainAspectType.AS_BUILT)),
-    //           formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_2, MainAspectType.AS_BUILT)),
-    //           formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_3, MainAspectType.AS_BUILT)),
-    //           formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_4, MainAspectType.AS_BUILT)),
-    //           formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_5, MainAspectType.AS_BUILT)),
-    //         ],
-    //         page: 0,
-    //         pageCount: 1,
-    //         pageSize: 10,
-    //         totalItems: 5,
-    //       },
-    //       error: undefined,
-    //       loader: undefined,
-    //     }),
-    //   );
-    // });
+      await waitFor(() => expect(screen.getByText('table.column.manufacturerName')).toBeInTheDocument());
+      fireEvent.click(screen.getByText('table.column.manufacturerName'));
+
+      const customerParts = await firstValueFrom(otherPartsState.customerPartsAsBuilt$);
+      await waitFor(() =>
+        expect(customerParts).toEqual({
+          data: {
+            content: [
+              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_1, MainAspectType.AS_BUILT)),
+              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_2, MainAspectType.AS_BUILT)),
+              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_3, MainAspectType.AS_BUILT)),
+              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_4, MainAspectType.AS_BUILT)),
+              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_5, MainAspectType.AS_BUILT)),
+            ],
+            page: 0,
+            pageCount: 1,
+            pageSize: 10,
+            totalItems: 5,
+          },
+          error: undefined,
+          loader: undefined,
+        }),
+      );
+    });
 
     it('should clear filters and call partsFacade methods with search value', async () => {
 

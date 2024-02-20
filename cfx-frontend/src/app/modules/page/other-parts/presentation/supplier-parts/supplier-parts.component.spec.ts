@@ -27,6 +27,7 @@ import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { getTableCheckbox, renderComponent } from '@tests/test-render.utils';
 
 import { SupplierPartsComponent } from './supplier-parts.component';
+import { Role } from '@core/user/role.model';
 
 describe('SupplierPartsComponent', () => {
   let otherPartsState: OtherPartsState;
@@ -49,31 +50,13 @@ describe('SupplierPartsComponent', () => {
     expect(tableElements.length).toEqual(1);
   });
 
-  // TODO: fix test
-  // it('should render table and display correct amount of rows', async () => {
-  //   await renderSupplierParts();
+  it('should render table and display correct amount of rows', async () => {
+    await renderSupplierParts();
 
-  //   const tableElement = await waitFor(() => screen.getByTestId('table-component--test-id'));
-  //   expect(tableElement).toBeInTheDocument();
-  //   expect(tableElement.children[1].childElementCount).toEqual(4);
-  // });
-
-  // TODO: fix test
-  // it('should add item to current list and then remove', async () => {
-  //   const { fixture } = await renderSupplierParts({ roles: ['user'] });
-
-  //   // first click to check checkbox
-  //   fireEvent.click(await getTableCheckbox(screen, 0));
-
-  //   const selectedText_1 = await waitFor(() => screen.getByText('page.selectedParts.info'));
-  //   expect(selectedText_1).toBeInTheDocument();
-
-  //   // second click to uncheck checkbox
-  //   fireEvent.click(await getTableCheckbox(screen, 0));
-
-  //   const selectedText_2 = await waitFor(() => screen.getByText('page.selectedParts.info'));
-  //   expect(selectedText_2).toBeInTheDocument();
-  // });
+    const tableElement = await waitFor(() => screen.getByTestId('table-component--test-id'));
+    expect(tableElement).toBeInTheDocument();
+    expect(tableElement.children[1].childElementCount).toEqual(5);
+  });
 
   it('sort supplier parts after name column', async () => {
     const { fixture } = await renderSupplierParts({ roles: ['admin'] });
@@ -152,6 +135,4 @@ describe('SupplierPartsComponent', () => {
     expect(updateSupplierPartAsPlannedSpy).toHaveBeenCalledWith(0, 50, [], toGlobalSearchAssetFilter(search, false), true);
 
   });
-
-
 });

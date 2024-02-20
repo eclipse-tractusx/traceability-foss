@@ -151,25 +151,6 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
   }
 
   updateSupplierParts(searchValue?: string): void {
-    // if (searchValue && searchValue !== '') {
-    //   this.globalSearchActive = true;
-    //   this.assetAsBuiltFilter = toGlobalSearchAssetFilter(searchValue, true, this.searchListAsBuilt, this.datePipe);
-    //   this.assetAsPlannedFilter = toGlobalSearchAssetFilter(searchValue, false, this.searchListAsPlanned, this.datePipe);
-    //   if (this.bomLifecycle === MainAspectType.AS_BUILT) {
-    //     this.otherPartsFacade.setSupplierPartsAsBuilt(0, this.DEFAULT_PAGE_SIZE, [], this.assetAsBuiltFilter, this.globalSearchActive);
-    //   } else {
-    //     this.otherPartsFacade.setSupplierPartsAsPlanned(0, this.DEFAULT_PAGE_SIZE, [], this.assetAsPlannedFilter, this.globalSearchActive);
-    //   }
-    // } else {
-    //   this.globalSearchActive = false;
-    //   this.assetAsBuiltFilter = {};
-    //   this.assetAsPlannedFilter = {};
-    //   if (this.bomLifecycle === MainAspectType.AS_BUILT) {
-    //     this.otherPartsFacade.setSupplierPartsAsBuilt(0, this.DEFAULT_PAGE_SIZE);
-    //   } else {
-    //     this.otherPartsFacade.setSupplierPartsAsPlanned(0, this.DEFAULT_PAGE_SIZE);
-    //   }
-    // }
     if (searchValue || searchValue === '') {
       this.otherPartsFacade.setSupplierPartsAsBuilt(0, 50, [], toGlobalSearchAssetFilter(searchValue, true), true);
       this.otherPartsFacade.setSupplierPartsAsPlanned(0, 50, [], toGlobalSearchAssetFilter(searchValue, false), true);
@@ -201,7 +182,6 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
         dialogRef.componentInstance.deselectPart.unsubscribe();
       });
     }
-
   }
 
   filterActivated(isAsBuilt: boolean, assetFilter: any): void {

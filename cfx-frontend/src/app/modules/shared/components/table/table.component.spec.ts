@@ -149,7 +149,7 @@ describe('TableComponent', () => {
       },
     );
 
-    expect(screen.getByText('Name for test')).toBeInTheDocument();
+    expect(screen.getByText('table.column.name')).toBeInTheDocument();
   });
 
   it('should render select column', async () => {
@@ -250,7 +250,7 @@ describe('TableComponent', () => {
       },
     );
 
-    const nameElement = screen.getByText('Name Sort');
+    const nameElement = screen.getByText('table.column.name');
     nameElement.click();
 
     expect(configChange).toHaveBeenCalledWith({ page: 0, pageSize: 10, sorting: ['name', 'asc'] });

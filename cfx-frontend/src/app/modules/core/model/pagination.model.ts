@@ -35,4 +35,4 @@ export interface PaginationResponse<T> {
   content: T[];
 }
 
-export const EmptyPagination = { page: 0, pageCount: 0, pageSize: 0, totalItems: 0, content: [] };
+export const EmptyPagination = { page: 0, pageCount: 0, pageSize: 50, totalItems: 0, content: [] };

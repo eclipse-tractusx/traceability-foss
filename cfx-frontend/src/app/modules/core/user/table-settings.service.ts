@@ -33,6 +33,10 @@ export class TableSettingsService {
   constructor(private keycloakService: KeycloakService) { }
 
   async storeTableSettings(tableSettingsList: any): Promise<void> {
+    if (this.keycloakService.getUserRoles().length === 0) {
+      return;
+    }
+
     const profile = await this.keycloakService.loadUserProfile();
 
     // before setting anything, all maps in new tableSettingList should be stringified
@@ -46,6 +50,10 @@ export class TableSettingsService {
 
   // this returns whole settings whether empty / not for part / etc.
   async getStoredTableSettings(): Promise<any> {
+    if (this.keycloakService.getUserRoles().length === 0) {
+      return;
+    }
+
     const profile = await this.keycloakService.loadUserProfile();
     const settingsJson = localStorage.getItem(`${this.settingsKey}_${profile.username}`);
     const settingsObject = settingsJson ? JSON.parse(settingsJson) : null;

@@ -74,76 +74,73 @@ describe('OwnPartsComponent', () => {
     expect(tableElement.children[1].childElementCount).toEqual(5);
   });
 
-  // TODO: fix test
-  // it('sort parts after name column', async () => {
-  //   const { fixture } = await renderOwnPartsAsBuilt({ roles: [Role.ADMIN] });
-  //   const ownPartsComponent = fixture.componentInstance;
+  it('sort parts after id column', async () => {
+    const { fixture } = await renderOwnPartsAsBuilt({ roles: [Role.ADMIN] });
+    const ownPartsComponent = fixture.componentInstance;
 
-  //   let nameHeader = await screen.findByText('table.column.name');
-  //   fireEvent.click(nameHeader);
+    let nameHeader = await screen.findByText('table.column.id');
+    fireEvent.click(nameHeader);
 
-  //   expect(ownPartsComponent['tableAsBuiltSortList']).toEqual([['name', 'asc']]);
-  // });
-
-  // TODO: fix test
-  // it('should multisort after column name and id', async () => {
-  //   const { fixture } = await renderOwnPartsAsBuilt({ roles: [Role.ADMIN] });
-  //   const ownPartsComponent = fixture.componentInstance;
-
-  //   let nameHeader = await screen.findByText('table.column.name');
-  //   fireEvent.click(nameHeader);
-  //   let idHeader = await screen.findByText('table.column.id');
-
-  //   await waitFor(() => {
-  //     fireEvent.keyDown(idHeader, {
-  //       ctrlKey: true,
-  //       charCode: 17,
-  //     });
-  //   });
-  //   expect(ownPartsComponent['ctrlKeyState']).toBeTruthy();
-  //   await waitFor(() => {
-  //     fireEvent.click(idHeader);
-  //   });
-
-  //   await waitFor(() => {
-  //     fireEvent.keyUp(idHeader, {
-  //       ctrlKey: true,
-  //       charCode: 17,
-  //     });
-  //   });
-
-  //   await waitFor(() => {
-  //     fireEvent.click(idHeader);
-  //   });
-  //   expect(ownPartsComponent['tableAsBuiltSortList']).toEqual([
-  //     ['name', 'asc'],
-  //     ['id', 'desc'],
-  //   ]);
-  // });
+    expect(ownPartsComponent['tableAsBuiltSortList']).toEqual([['id', 'asc']]);
+  });
 
   // TODO: fix test
-  // it('should handle updateOwnParts null for AsBuilt', async () => {
-  //   const { fixture } = await renderOwnPartsAsBuilt();
-  //   const ownPartsComponent = fixture.componentInstance;
+  it('should multisort after column name and id', async () => {
+    const { fixture } = await renderOwnPartsAsBuilt({ roles: [Role.ADMIN] });
+    const ownPartsComponent = fixture.componentInstance;
 
-  //   spyOn(ownPartsComponent.partsFacade, 'setPartsAsBuilt');
+    let nameHeader = await screen.findByText('table.column.nameAtManufacturer');
+    fireEvent.click(nameHeader);
+    let idHeader = await screen.findByText('table.column.id');
 
-  //   ownPartsComponent.updateOwnParts();
+    await waitFor(() => {
+      fireEvent.keyDown(idHeader, {
+        ctrlKey: true,
+        charCode: 17,
+      });
+    });
+    expect(ownPartsComponent['ctrlKeyState']).toBeTruthy();
+    await waitFor(() => {
+      fireEvent.click(idHeader);
+    });
 
-  //   expect(ownPartsComponent.partsFacade.setPartsAsBuilt).toHaveBeenCalledWith(0, 50);
-  // });
+    await waitFor(() => {
+      fireEvent.keyUp(idHeader, {
+        ctrlKey: true,
+        charCode: 17,
+      });
+    });
 
-  // TODO: fix test
-  // it('should handle updateOwnParts null for AsPlanned', async () => {
-  //   const { fixture } = await renderOwnPartsAsPlanned();
-  //   const ownPartsComponent = fixture.componentInstance;
+    await waitFor(() => {
+      fireEvent.click(idHeader);
+    });
+    expect(ownPartsComponent['tableAsBuiltSortList']).toEqual([
+      ['nameAtManufacturer', 'asc'],
+      ['id', 'desc'],
+    ]);
+  });
 
-  //   spyOn(ownPartsComponent.partsFacade, 'setPartsAsPlanned');
+  it('should handle updateOwnParts null for AsBuilt', async () => {
+    const { fixture } = await renderOwnPartsAsBuilt();
+    const ownPartsComponent = fixture.componentInstance;
 
-  //   ownPartsComponent.updateOwnParts();
+    spyOn(ownPartsComponent.partsFacade, 'setPartsAsBuilt');
 
-  //   expect(ownPartsComponent.partsFacade.setPartsAsPlanned).toHaveBeenCalledWith(0, 50);
-  // });
+    ownPartsComponent.updateOwnParts();
+
+    expect(ownPartsComponent.partsFacade.setPartsAsBuilt).toHaveBeenCalledWith();
+  });
+
+  it('should handle updateOwnParts null for AsPlanned', async () => {
+    const { fixture } = await renderOwnPartsAsPlanned();
+    const ownPartsComponent = fixture.componentInstance;
+
+    spyOn(ownPartsComponent.partsFacade, 'setPartsAsPlanned');
+
+    ownPartsComponent.updateOwnParts();
+
+    expect(ownPartsComponent.partsFacade.setPartsAsPlanned).toHaveBeenCalledWith();
+  });
 
   it('should handle updateOwnParts including search for AsBuilt', async () => {
     const { fixture } = await renderOwnPartsAsBuilt();
