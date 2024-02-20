@@ -69,15 +69,6 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
     @CollectionTable(name = "assets_as_planned_childs", joinColumns = {@JoinColumn(name = "asset_as_planned_id")})
     private List<AssetAsPlannedEntity.ChildDescription> childDescriptors;
 
-    @ManyToMany(mappedBy = "assetsAsPlanned")
-    private List<InvestigationEntity> investigations = new ArrayList<>();
-
-    @ManyToMany(mappedBy = "assetsAsPlanned")
-    private List<AlertEntity> alerts = new ArrayList<>();
-
-    @OneToMany(mappedBy = "assetAsPlanned", fetch = FetchType.EAGER)
-    private List<SubmodelPayloadEntity> submodels;
-
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
@@ -87,6 +78,11 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
         private String id;
         private String idShort;
     }
+
+    @OneToMany(mappedBy = "assetAsPlanned", fetch = FetchType.EAGER)
+    private List<SubmodelPayloadEntity> submodels;
+
+
 
     public static AssetAsPlannedEntity from(AssetBase asset) {
         List<DetailAspectModel> detailAspectModels = asset.getDetailAspectModels();
@@ -138,10 +134,6 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                         .toList())
                 .qualityType(entity.getQualityType())
                 .detailAspectModels(DetailAspectModel.from(entity))
-                .sentQualityAlerts(emptyIfNull(entity.alerts).stream().filter(alert -> NotificationSideBaseEntity.SENDER.equals(alert.getSide())).map(AlertEntity::toDomain).toList())
-                .receivedQualityAlerts(emptyIfNull(entity.alerts).stream().filter(alert -> NotificationSideBaseEntity.RECEIVER.equals(alert.getSide())).map(AlertEntity::toDomain).toList())
-                .sentQualityInvestigations(emptyIfNull(entity.investigations).stream().filter(alert -> NotificationSideBaseEntity.SENDER.equals(alert.getSide())).map(InvestigationEntity::toDomain).toList())
-                .receivedQualityInvestigations(emptyIfNull(entity.investigations).stream().filter(alert -> NotificationSideBaseEntity.RECEIVER.equals(alert.getSide())).map(InvestigationEntity::toDomain).toList())
                 .importState(entity.getImportState())
                 .importNote(entity.getImportNote())
                 .policyId(entity.getPolicyId())

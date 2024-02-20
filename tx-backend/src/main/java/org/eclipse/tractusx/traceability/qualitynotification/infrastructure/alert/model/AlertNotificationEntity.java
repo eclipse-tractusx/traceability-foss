@@ -32,7 +32,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
-import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationAffectedPart;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
@@ -63,14 +62,6 @@ public class AlertNotificationEntity extends QualityNotificationMessageBaseEntit
     )
     private List<AssetAsBuiltEntity> assets;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "asset_as_planned_alert_notifications",
-            joinColumns = @JoinColumn(name = "alert_notification_id"),
-            inverseJoinColumns = @JoinColumn(name = "asset_id")
-    )
-    private List<AssetAsPlannedEntity> assetsAsPlanned;
-
     public static QualityNotificationMessage toDomain(AlertNotificationEntity alertNotificationEntity) {
         return QualityNotificationMessage.builder()
                 .id(alertNotificationEntity.getId())
@@ -99,8 +90,7 @@ public class AlertNotificationEntity extends QualityNotificationMessageBaseEntit
 
     public static AlertNotificationEntity from(AlertEntity alertEntity,
                                                QualityNotificationMessage qualityNotificationMessage,
-                                               List<AssetAsBuiltEntity> notificationAssets,
-                                               List<AssetAsPlannedEntity> assetAsPlannedEntitiesByAlert) {
+                                               List<AssetAsBuiltEntity> notificationAssets) {
         return AlertNotificationEntity
                 .builder()
                 .id(qualityNotificationMessage.getId())
@@ -111,7 +101,6 @@ public class AlertNotificationEntity extends QualityNotificationMessageBaseEntit
                 .sendTo(qualityNotificationMessage.getSendTo())
                 .sendToName(qualityNotificationMessage.getSendToName())
                 .assets(notificationAssets)
-                .assetsAsPlanned(assetAsPlannedEntitiesByAlert)
                 .notificationReferenceId(qualityNotificationMessage.getNotificationReferenceId())
                 .targetDate(qualityNotificationMessage.getTargetDate())
                 .severity(qualityNotificationMessage.getSeverity())

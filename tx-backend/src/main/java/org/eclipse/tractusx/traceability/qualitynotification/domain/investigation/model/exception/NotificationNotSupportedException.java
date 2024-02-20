@@ -16,10 +16,12 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.domain.importpoc.model;
 
-public enum ImportJobStatus {
+package org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception;
 
-    INITIALIZING, RUNNING, ERROR, COMPLETED
+public class NotificationNotSupportedException extends RuntimeException {
 
+    public NotificationNotSupportedException() {
+        super("Notification not supported for parts as planned");
+    }
 }
