@@ -267,8 +267,15 @@ irs-helm:
   minioUrl: *irs_database_url
 
   oauth2:
-    clientId: *service_account_id
-    clientSecret: *service_account_password
+    semantics:
+      clientId: *service_account_id
+      clientSecret: *service_account_password
+    discovery:
+      clientId: *service_account_id
+      clientSecret: *service_account_password
+    bpdm:
+      clientId: *service_account_id
+      clientSecret: *service_account_password
     clientTokenUri: *central_idp_token_uri
 
   edc:
