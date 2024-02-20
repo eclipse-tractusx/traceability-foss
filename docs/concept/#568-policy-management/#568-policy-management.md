@@ -10,27 +10,20 @@
 # Table of Contents
 1. [Overview](#overview)
 2. [Summary](#summary)
-3. [Problem Statement](#problem-statement)
-4. [Requirements](#requirements)
-5. [NFR](#nfr)
-6. [Out of scope](#out-of-scope)
-7. [Assumptions](#assumptions)
-8. [Concept](#concept)
-9. [Glossary](#glossary)
-10. [References](#references)
-11. [Additional Details](#additional-details)
-
+3. [Requirements](#requirements)
+4. [Out of scope](#out-of-scope)
+5. [Concept](#concept)
+6. [Glossary](#glossary)
+7. [References](#references)
+8. [Additional Details](#additional-details)
 
 # Overview
 In the Catena-X ecosystem every partner can potentially communicate to every other connected partner.
 To remain in control of their own data, each partner can use policies to place conditions on the access of their data.
 In order to use these policies they must first be created and attached to the assets of a partner.
 
-
 # Summary
 It must be possible for an Administrator of Trace-X to create, read, update and delete policies, which are then stored in the IRS policy store.
-
-# Problem Statement
 
 # Requirements
 - [ ] Frontend UI is implemented (see https://miro.com/app/board/uXjVO5JVoho=/?moveToWidget=3458764577267183586&cot=14)
@@ -38,12 +31,8 @@ It must be possible for an Administrator of Trace-X to create, read, update and 
 - [ ] Communication to IRS policy store is implemented
 - [ ] Policies are used when sending notifications
 
-# NFR
-
 # Out of scope
 - Policies used to define which assets to be consumed over the IRS -> IRS team
-
-# Assumptions
 
 # Concept
 
@@ -60,7 +49,6 @@ It must be possible for an Administrator of Trace-X to create, read, update and 
 ```json
 [
     {
-        "createdOn": "2024-02-19T12:48:23.786Z",
         "permissions": [
             {
                 "action": "USE",
@@ -100,21 +88,8 @@ It must be possible for an Administrator of Trace-X to create, read, update and 
 | 400  | Policy registration failed                |
 | 401  | No valid authentication credentials found |
 | 403  | Authorization refused by server           |
+| 404  | Not found                                 |
 
-#### Examples
-**201**
-*No response body*
-
-**400**
-```json
-{
-    "error": "Bad request",
-    "messages": [
-        "createdOn parameter value invalid"
-    ],
-    "statusCode": "400 BAD_REQUEST"
-}
-```
 ___
 **Creation of policies:**
 ```mermaid
@@ -154,13 +129,13 @@ sequenceDiagram
 | 200  | Returns all policies                      |
 | 401  | No valid authentication credentials found |
 | 403  | Authorization refused by server           |
+| 404  | Not found                                 |
 
 #### Examples
 **200**
 ```json
 [
     {
-        "createdOn": "2024-02-19T12:48:23.786Z",
         "permissions": [
             {
                 "action": "USE",
@@ -221,7 +196,6 @@ sequenceDiagram
 ```json
 [
     {
-        "createdOn": "2024-02-19T12:48:23.786Z",
         "permissions": [
             {
                 "action": "USE",
@@ -261,21 +235,8 @@ sequenceDiagram
 | 400  | Policy update failed                      |
 | 401  | No valid authentication credentials found |
 | 403  | Authorization refused by server           |
+| 404  | Not found                                 |
 
-#### Examples
-**200**
-*No response body*
-
-**400**
-```json
-{
-    "error": "Bad request",
-    "messages": [
-        "policytype parameter value invalid"
-    ],
-    "statusCode": "400 BAD_REQUEST"
-}
-```
 ___
 **Updating policies:**
 ```mermaid
@@ -316,21 +277,8 @@ sequenceDiagram
 | 400  | Policy deletion failed                    |
 | 401  | No valid authentication credentials found |
 | 403  | Authorization refused by server           |
+| 404  | Not found                                 |
 
-#### Examples
-**200**
-*No response body*
-
-**400**
-```json
-{
-    "error": "Bad request",
-    "messages": [
-        "BadRequestException"
-    ],
-    "statusCode": "400 BAD_REQUEST"
-}
-```
 ___
 **Deleting policies:**
 ```mermaid
