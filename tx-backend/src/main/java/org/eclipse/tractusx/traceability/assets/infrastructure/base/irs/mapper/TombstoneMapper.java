@@ -58,12 +58,12 @@ public class TombstoneMapper {
                 .id(tombstone.getCatenaXId())
                 .tombstone(tombstoneString)
                 .owner(Owner.OWN)
-                .semanticDataModel(getSemanticDataModel(jobstatus))
+                .semanticDataModel(getSemanticDataModelFrom(jobstatus))
                 .importState(ImportState.ERROR)
                 .build();
     }
 
-    private static SemanticDataModel getSemanticDataModel(JobStatus jobstatus) {
+    private static SemanticDataModel getSemanticDataModelFrom(JobStatus jobstatus) {
         return jobstatus.parameter().bomLifecycle().equals(BomLifecycle.AS_BUILT.getRealName()) ? SemanticDataModel.TOMBSTONEASBUILT : SemanticDataModel.TOMBSTONEASPLANNED;
     }
 
@@ -78,7 +78,7 @@ public class TombstoneMapper {
                 .id(tombstone.getCatenaXId())
                 .tombstone(tombstoneString)
                 .owner(getOwnerFrom(jobstatus))
-                .semanticDataModel(getSemanticDataModel(jobstatus))
+                .semanticDataModel(getSemanticDataModelFrom(jobstatus))
                 .importState(ImportState.ERROR)
                 .build();
     }
