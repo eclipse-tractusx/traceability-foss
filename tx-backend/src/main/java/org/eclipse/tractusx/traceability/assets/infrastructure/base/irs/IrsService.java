@@ -138,28 +138,27 @@ public class IrsService implements IrsRepository {
 
         log.info("Required constraints from application yaml are : {}", traceabilityProperties.getRightOperand());
 
+        PolicyResponse matchingPolicy = findMatchingPolicy(irsPolicies);
 
-        PolicyResponse matchingIrsPolicy = irsPolicies.stream()
-                .filter(irsPolicy -> irsPolicy.permissions().stream()
-                        .flatMap(permission -> permission.getConstraints().stream())
-                        .anyMatch(constraint ->
-                                constraint.getOr().stream().anyMatch(rightO ->
-                                        rightO.getRightOperand().stream().anyMatch(value ->
-                                                value.equals(traceabilityProperties.getRightOperand())))
-                                        ||
-                                        constraint.getAnd().stream().allMatch(rightO ->
-                                                rightO.getRightOperand().stream().allMatch(value ->
-                                                        value.equals(traceabilityProperties.getRightOperand())))
-                        ))
-                .findFirst()
-                .orElse(null);
-
-        if (matchingIrsPolicy == null) {
+        if (matchingPolicy == null) {
             createMissingPolicies();
         } else {
-            checkAndUpdatePolicy(matchingIrsPolicy);
+            checkAndUpdatePolicy(matchingPolicy);
         }
     }
+
+    private PolicyResponse findMatchingPolicy(List<PolicyResponse> irsPolicies) {
+        return irsPolicies.stream()
+                .filter(irsPolicy -> irsPolicy.permissions().stream()
+                        .flatMap(permission -> permission.getConstraint().getAnd().stream())
+                        .anyMatch(constraint -> constraint.getRightOperand().equals(traceabilityProperties.getRightOperand()))
+                        || irsPolicy.permissions().stream()
+                        .flatMap(permission -> permission.getConstraint().getOr().stream())
+                        .anyMatch(constraint -> constraint.getRightOperand().equals(traceabilityProperties.getRightOperand())))
+                .findFirst()
+                .orElse(null);
+    }
+
 
     private void createMissingPolicies() {
         log.info("Irs policy does not exist creating {}", traceabilityProperties.getRightOperand());

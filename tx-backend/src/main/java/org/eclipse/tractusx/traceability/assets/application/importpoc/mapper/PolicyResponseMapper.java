@@ -25,15 +25,14 @@ import assets.importpoc.PermissionResponse;
 import assets.importpoc.PolicyResponse;
 import assets.importpoc.PolicyTypeResponse;
 import org.eclipse.tractusx.irs.edc.client.policy.Constraint;
-import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
 import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
 import org.eclipse.tractusx.irs.edc.client.policy.Permission;
 import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 
 
 public class PolicyResponseMapper {
@@ -44,6 +43,7 @@ public class PolicyResponseMapper {
                 .map(PolicyResponseMapper::from)
                 .collect(Collectors.toList());
     }
+
     public static PolicyResponse from(final Policy policy) {
         if (policy == null) {
             return null;
@@ -62,50 +62,39 @@ public class PolicyResponseMapper {
         );
     }
 
-    public static PermissionResponse from(final Permission permission){
-        List<ConstraintsResponse> list = permission.getConstraints()
-                .stream()
-                .map(PolicyResponseMapper::from)
-                .collect(Collectors.toList());
+    public static PermissionResponse from(final Permission permission) {
+        List<Constraint> or = permission.getConstraint().getOr();
+        List<Constraint> and = permission.getConstraint().getAnd();
+        List<ConstraintResponse> andResponse = and.stream()
+                .map(constraint -> new ConstraintResponse(constraint.getLeftOperand(), OperatorTypeResponse.valueOf(constraint.getOperator().getOperatorType().name()), List.of(constraint.getRightOperand()))
+                ).toList();
+
+        List<ConstraintResponse> orResponse = or.stream()
+                .map(constraint -> new ConstraintResponse(constraint.getLeftOperand(), OperatorTypeResponse.valueOf(constraint.getOperator().getOperatorType().name()), List.of(constraint.getRightOperand()))
+                ).toList();
+
+        ConstraintsResponse constraintsResponse = new ConstraintsResponse(andResponse, orResponse);
 
         PolicyTypeResponse policyTypeResponse = Optional.ofNullable(permission.getAction())
                 .map(PolicyResponseMapper::from)
                 .orElse(null);
 
-        return new PermissionResponse(policyTypeResponse, list);
+        return new PermissionResponse(policyTypeResponse, List.of(constraintsResponse));
     }
 
-    public static PolicyTypeResponse from(final PolicyType policyType){
+    public static PolicyTypeResponse from(final PolicyType policyType) {
         return PolicyTypeResponse.valueOf(policyType.name());
     }
 
-    public static ConstraintsResponse  from(final Constraints constraints) {
-        List<ConstraintResponse> getAnd = constraints.getAnd()
-                .stream()
-                .map(PolicyResponseMapper::from)
-                .collect(Collectors.toList());
-
-        List<ConstraintResponse> getOr = constraints.getOr()
-                .stream()
-                .map(PolicyResponseMapper::from)
-                .collect(Collectors.toList());
-
-        return new ConstraintsResponse(
-                getAnd,
-                getOr
-        );
-
-    }
-
-    public static ConstraintResponse from(final Constraint constraint){
-        return  new ConstraintResponse(
+    public static ConstraintResponse from(final Constraint constraint) {
+        return new ConstraintResponse(
                 constraint.getLeftOperand(),
-                from(constraint.getOperator()),
-                constraint.getRightOperand()
+                from(constraint.getOperator().getOperatorType()),
+                List.of(constraint.getRightOperand())
         );
     }
 
-    public static OperatorTypeResponse from(final OperatorType operatorType){
+    public static OperatorTypeResponse from(final OperatorType operatorType) {
         return OperatorTypeResponse.valueOf(operatorType.name());
     }
 

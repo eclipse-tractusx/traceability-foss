@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.r
 
 import org.eclipse.tractusx.irs.edc.client.policy.Constraint;
 import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
+import org.eclipse.tractusx.irs.edc.client.policy.Operator;
 import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
 import org.eclipse.tractusx.irs.edc.client.policy.Permission;
 import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
@@ -40,9 +41,9 @@ public record RegisterPolicyRequest(
                 ttl.toInstant(),
                 List.of(new Permission(
                         PolicyType.USE,
-                        List.of(new Constraints(
-                                List.of(new Constraint(leftOperand, operatorType, List.of(rightOperand))),
-                                List.of(new Constraint(leftOperand, operatorType, List.of(rightOperand)))))
-                )));
+                        new Constraints(
+                                List.of(new Constraint(leftOperand, new Operator(operatorType), rightOperand)),
+                                List.of(new Constraint(leftOperand, new Operator(operatorType), rightOperand))))
+                ));
     }
 }

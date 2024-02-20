@@ -89,7 +89,7 @@ class InvestigationsEDCFacadeTest {
         when(edcProperties.getIdsPath()).thenReturn(idsPath);
         when(edcCatalogFacade.fetchCatalogItems(any())).thenReturn(List.of(catalogItem));
         when(policyCheckerService.isValid(null)).thenReturn(true);
-        when(contractNegotiationService.negotiate(receiverEdcUrl + idsPath, catalogItem))
+        when(contractNegotiationService.negotiate(receiverEdcUrl + idsPath, catalogItem, null))
                 .thenReturn(NegotiationResponse.builder().contractAgreementId(agreementId).build());
         when(endpointDataReference.getEndpoint()).thenReturn("endpoint");
         when(endpointDataReference.getAuthCode()).thenReturn("authCode");
@@ -123,7 +123,7 @@ class InvestigationsEDCFacadeTest {
         when(edcProperties.getIdsPath()).thenReturn(idsPath);
         when(edcCatalogFacade.fetchCatalogItems(any())).thenReturn(List.of(catalogItem));
         when(policyCheckerService.isValid(null)).thenReturn(true);
-        when(contractNegotiationService.negotiate(receiverEdcUrl + idsPath, catalogItem))
+        when(contractNegotiationService.negotiate(receiverEdcUrl + idsPath, catalogItem, null))
                 .thenReturn(NegotiationResponse.builder().contractAgreementId(agreementId).build());
         when(endpointDataReference.getEndpoint()).thenReturn("endpoint");
         when(endpointDataReference.getAuthCode()).thenReturn("authCode");
@@ -153,7 +153,7 @@ class InvestigationsEDCFacadeTest {
         when(edcProperties.getIdsPath()).thenReturn(idsPath);
         when(edcCatalogFacade.fetchCatalogItems(any())).thenReturn(List.of(catalogItem));
         when(policyCheckerService.isValid(null)).thenReturn(true);
-        when(contractNegotiationService.negotiate(receiverEdcUrl + idsPath, catalogItem))
+        when(contractNegotiationService.negotiate(receiverEdcUrl + idsPath, catalogItem, null))
                 .thenReturn(null);
 
         // when/then
