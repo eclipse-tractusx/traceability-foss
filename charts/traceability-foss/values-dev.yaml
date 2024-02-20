@@ -252,9 +252,11 @@ irs-helm:
           - *irs_host_name
         secretName: tls-secret
   digitalTwinRegistry:
+    discovery:
+      discoveryFinderUrl: *discovery_finder_irs_url
     descriptorEndpoint: *dtr_shell_descriptor_url
     shellLookupEndpoint: *dtr_shell_lookup_url
-    discoveryFinderUrl: *discovery_finder_irs_url
+
   semanticshub:
     url: *semantichub_models_url
   bpdm:
