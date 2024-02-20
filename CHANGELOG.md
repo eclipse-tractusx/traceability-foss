@@ -10,7 +10,6 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 
 ### Changed
-
 - added logic to consume tombstone information from IRS for assets
 
 ### Removed
