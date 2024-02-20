@@ -248,7 +248,7 @@ class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecificatio
                 Arguments.of("id", 10L, 2),
                 Arguments.of("id", 1L, 1),
                 Arguments.of("owner", 10L, 4),
-                Arguments.of("semanticDataModel", 10L, 5),
+                Arguments.of("semanticDataModel", 10L, 7),
                 Arguments.of("qualityType", 10L, 5)
         );
     }
