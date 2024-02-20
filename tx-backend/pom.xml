@@ -37,20 +37,7 @@ SPDX-License-Identifier: Apache-2.0
 
     <name>TX Backend</name>
 
-    <repositories>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-        <repository>
-            <id>oss-sonatype</id>
-            <name>oss-sonatype</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
+
     <!-- https://mvnrepository.com/artifact/org.eclipse.jetty.websocket/websocket-parent -->
 
 
@@ -438,19 +425,18 @@ SPDX-License-Identifier: Apache-2.0
             <artifactId>logback-core</artifactId>
             <version>1.4.14</version>
         </dependency>
-        <dependency>
-            <groupId>com.github.java-json-tools</groupId>
-            <artifactId>jackson-coreutils</artifactId>
-            <version>2.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.java-json-tools</groupId>
-            <artifactId>jackson-coreutils-equivalence</artifactId>
-            <version>1.0</version>
-        </dependency>
 
     </dependencies>
 
+    <pluginRepositories>
+        <pluginRepository>
+            <id>dash-licenses-releases</id>
+            <url>https://repo.eclipse.org/content/repositories/dash-licenses-releases/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
 
     <build>
         <finalName>traceability-app-${project.version}</finalName>
