@@ -63,9 +63,3 @@ tslint-report.json
 
 #error
 yarn-error.log
-
-scripts/download/*
-/frontend/cypress/environment/cypress.local.config.ts
-/frontend/cypress/e2e/
-/cfx-frontend/cypress/environment/cypress.local.config.ts
-/cfx-frontend/cypress/e2e/

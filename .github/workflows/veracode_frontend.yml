@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: cfx-frontend
+        working-directory: frontend
     permissions:
       actions: read
       contents: read
@@ -53,6 +53,6 @@ jobs:
         with:
           appname: "Traceability-Foss-Frontend"
           createprofile: false
-          filepath: "./cfx-frontend/veracode-scan-target.zip"
+          filepath: "./frontend/veracode-scan-target.zip"
           vid: '${{ secrets.VERACODE_API_ID || secrets.ORG_VERACODE_API_ID }}'
           vkey: '${{ secrets.VERACODE_API_KEY || secrets.ORG_VERACODE_API_KEY }}'

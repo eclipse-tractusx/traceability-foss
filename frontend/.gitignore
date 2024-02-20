@@ -48,6 +48,8 @@ src/tests/test-report.xml
 cypress/videos
 cypress/screenshots
 cypress/reports/*
+cypress/environment/cypress.local.config.ts
+cypress/e2e/
 cucumber-messages.ndjson
 
 # System Files
