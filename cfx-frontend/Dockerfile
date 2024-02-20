@@ -20,14 +20,14 @@
 FROM node:18-alpine AS builder
 
 # Copy dependencies info
-COPY /package.json /yarn.lock ./
+COPY ./cfx-frontend/package.json ./cfx-frontend/yarn.lock ./
 
 # Storing node modules on a separate layer will prevent unnecessary npm installs at each build
 RUN yarn install && mkdir /ng-app && mv ./node_modules ./ng-app
 
 # Set workdir and copy
 WORKDIR /ng-app
-COPY ./ .
+COPY ./cfx-frontend .
 
 ## Build the angular app in production mode and store the artifacts in dist folder
 RUN yarn build:prod && mv /ng-app/dist/index.html /ng-app/dist/index.html.reference
@@ -57,15 +57,15 @@ COPY --from=builder /usr/local/include /usr/local/include
 COPY --from=builder /usr/local/bin /usr/local/bin
 
 # Copy NGINX server configuration
-COPY ./build/security-headers.conf ./build/nginx.conf /etc/nginx/
+COPY ./cfx-frontend/build/security-headers.conf ./cfx-frontend/build/nginx.conf /etc/nginx/
 
 # Copy custom script runner
-COPY scripts/custom-injector.sh /docker-entrypoint.d/00-custom-injector.sh
+COPY ./cfx-frontend/scripts/custom-injector.sh /docker-entrypoint.d/00-custom-injector.sh
 
 # Add env variables inject script
-COPY ./scripts/inject-dynamic-env.js /docker-entrypoint.d/
+COPY ./cfx-frontend/scripts/inject-dynamic-env.js /docker-entrypoint.d/
 # Add replace base url script
-COPY ./scripts/replace-base-href.js /docker-entrypoint.d/
+COPY ./cfx-frontend/scripts/replace-base-href.js /docker-entrypoint.d/
 
 USER root
 RUN chown nginx:nginx /etc/nginx/nginx.conf

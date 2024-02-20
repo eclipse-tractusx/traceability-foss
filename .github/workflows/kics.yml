@@ -54,7 +54,7 @@ jobs:
         uses: checkmarx/kics-github-action@master
         with:
           # Scanning directory .
-          path: "./frontend"
+          path: "./cfx-frontend"
           # Excluded paths:
           # - docker-compose.yml - used only on local env
           # - in cypress dir docker related files used only on local env
