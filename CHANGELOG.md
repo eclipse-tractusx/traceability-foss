@@ -28,6 +28,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - testcontainer-postgresql bumped from 1.19.1 to 1.19.4
 - tomcat-embed-websocket bumped from 10.1.16 to 10.1.18
 - IrsCallbackController is now validating jobId to prevent log injections from unwanted usage
+- Changed Add Parts concept to Edit Parts concept
 
 ### Removed
 - Investigations/Alerts for assets_as_planned parts
