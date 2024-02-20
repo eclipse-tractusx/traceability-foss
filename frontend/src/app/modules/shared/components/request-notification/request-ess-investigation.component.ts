@@ -29,7 +29,6 @@ import { CountryCodes, LegalEntity } from '@page/ess/model/bpdm.model';
 import { Ess } from '@page/ess/model/ess.model';
 import { Part } from '@page/parts/model/parts.model';
 import { BaseInputHelper } from '@shared/abstraction/baseInput/baseInput.helper';
-import { RequestContext, RequestNotificationBase } from '@shared/components/request-notification/request-notification.base';
 import { SelectOption } from '@shared/components/select/select.component';
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { View } from '@shared/model/view.model';
@@ -41,7 +40,7 @@ import { debounceTime } from 'rxjs/operators';
   selector: 'app-request-ess-investigation',
   templateUrl: './request-ess-investigation.html',
 })
-export class RequestEssInvestigationComponent extends RequestNotificationBase {
+export class RequestEssInvestigationComponent {
 
   @Input() selectedItems: Part[];
   @Input() selectedEssItems: Ess[];
@@ -56,18 +55,15 @@ export class RequestEssInvestigationComponent extends RequestNotificationBase {
   @Output() leavePage = new EventEmitter<boolean>();
 
   public readonly isLoading$ = new BehaviorSubject(false);
-  public readonly context: RequestContext = 'ess';
-  public readonly legalEntities$: Observable<View<PaginationBpdm<LegalEntity>>>;
 
   public readonly isSearching$ = new BehaviorSubject(false);
   public countryCodes: SelectOption[] = Object.values(CountryCodes).map(c=> ({ label: c.name, value: c.name }));
   public BPNSs: SelectOption[] = [];
   public readonly bpdmConnectionAvailable = environment.bpdmConnectionAvailable;
 
-  constructor(toastService: ToastService, public ts:ToastService,
+  constructor(private readonly toastService: ToastService,
               private readonly essService: EssService,
               private readonly bpdmFacade: BpdmFacade) {
-    super(toastService);
   }
 
   public readonly goBack = () => {
@@ -92,6 +88,8 @@ export class RequestEssInvestigationComponent extends RequestNotificationBase {
     bpns: new FormControl('', [ Validators.required, BaseInputHelper.getCustomPatternValidator(bpnRegex, 'bpns') ]),
     bpnss: new FormControl(''),
   });
+
+  public removedItemsHistory: Part[] = [];
 
   public ngOnInit(): void {
     if(!this.bpdmConnectionAvailable) {
@@ -161,5 +159,58 @@ export class RequestEssInvestigationComponent extends RequestNotificationBase {
       next: () => this.onSuccessfulSubmit(link, queryParams),
       error: () => this.onUnsuccessfulSubmit(),
     });
+  }
+
+  protected prepareSubmit(): void {
+    this.formGroup.markAllAsTouched();
+    this.formGroup.updateValueAndValidity();
+
+    if (this.formGroup.invalid) return;
+
+    this.isLoading$.next(true);
+    this.formGroup.disable();
+  }
+
+  protected onSuccessfulSubmit(link: string, linkQueryParams: Record<string, string>): void {
+    this.isLoading$.next(false);
+    const amountOfItems = this.selectedItems.length;
+    this.resetForm();
+
+    this.openToast(amountOfItems, link, linkQueryParams);
+  }
+
+  protected onUnsuccessfulSubmit(): void {
+    this.isLoading$.next(false);
+    this.formGroup.enable();
+  }
+
+  protected openToast(count: number, link: string, linkQueryParams: Record<string, string>): void {
+    this.toastService.success({
+        id: `ess.success`,
+        values: { count },
+      },
+      5000,
+      [
+        {
+          text: 'actions.goToQueue',
+          linkQueryParams,
+          link,
+        },
+      ],
+    );
+  }
+
+  public resetForm(): void {
+    this.formGroup.enable();
+    this.removedItemsHistory = [];
+
+    this.submitted.emit();
+    this.clearSelected.emit();
+
+    this.formGroup.markAsUntouched();
+    this.formGroup.reset();
+
+    this.formGroup.markAsUntouched();
+    this.formGroup.reset();
   }
 }

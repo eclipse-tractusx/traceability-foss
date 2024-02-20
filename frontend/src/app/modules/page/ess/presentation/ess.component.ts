@@ -25,7 +25,6 @@ import { Ess, EssFilter } from '@page/ess/model/ess.model';
 import { PartsFacade } from '@page/parts/core/parts.facade';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { AssetAsPlannedFilter, Part } from '@page/parts/model/parts.model';
-import { RequestContext } from '@shared/components/request-notification/request-notification.base';
 import { TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { View } from '@shared/model/view.model';
@@ -75,8 +74,6 @@ export class EssComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public DEFAULT_PAGE_SIZE = 50;
     public ctrlKeyState = false;
-
-    public readonly essContext: RequestContext = 'ess';
 
     @ViewChildren(EssTableComponent) partsTableComponents: QueryList<EssTableComponent>;
 

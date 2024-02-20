@@ -18,7 +18,7 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<h1 class="mb-4 normal-case" *ngIf="showHeadline">{{ this.context + '.headline' | i18n }}</h1>
+<h1 class="mb-4 normal-case" *ngIf="showHeadline">{{ 'ess.headline' | i18n }}</h1>
 
 <ng-container *ngIf="this.bpdmConnectionAvailable">
   <p>Please, define the company to be searched for in the product's supply chain.
@@ -31,7 +31,7 @@ SPDX-License-Identifier: Apache-2.0
   <p class="alert-text">The company search is currently deactivated due to a missing BPDM connection.</p>&nbsp;
 </ng-container>
 
-<h3 class="mb-4 normal-case" *ngIf="showHeadline">{{ this.context + '.headlineCompany' | i18n }}</h3>
+<h3 class="mb-4 normal-case" *ngIf="showHeadline">{{ 'ess.headlineCompany' | i18n }}</h3>
 
 <form [formGroup]="formGroup">
   <div class="flex flex-row justify-start mb-7">
