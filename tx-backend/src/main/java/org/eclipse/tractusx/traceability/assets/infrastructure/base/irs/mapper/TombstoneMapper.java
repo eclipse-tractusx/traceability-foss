@@ -47,7 +47,7 @@ public class TombstoneMapper {
 
     }
 
-    static AssetBase mapOwnPartsTombstone(JobStatus jobstatus, Tombstone tombstone, ObjectMapper objectMapper) {
+    private static AssetBase mapOwnPartsTombstone(JobStatus jobstatus, Tombstone tombstone, ObjectMapper objectMapper) {
         String tombstoneString;
         try {
             tombstoneString = objectMapper.writeValueAsString(tombstone);
@@ -67,7 +67,7 @@ public class TombstoneMapper {
         return jobstatus.parameter().bomLifecycle().equals(BomLifecycle.AS_BUILT.getRealName()) ? SemanticDataModel.TOMBSTONEASBUILT : SemanticDataModel.TOMBSTONEASPLANNED;
     }
 
-    static AssetBase mapOtherPartsTombstone(JobStatus jobstatus, Tombstone tombstone, ObjectMapper objectMapper) {
+    private static AssetBase mapOtherPartsTombstone(JobStatus jobstatus, Tombstone tombstone, ObjectMapper objectMapper) {
         String tombstoneString;
         try {
             tombstoneString = objectMapper.writeValueAsString(tombstone);

@@ -132,6 +132,8 @@ class ImportControllerIT extends IntegrationTestSpecification {
     void givenValidFileWithAsPlannedOnly_whenImportData_thenValidationShouldPass() throws JoseException {
         // given
         String path = getClass().getResource("/testdata/importfiles/validImportFile-onlyAsPlannedAsset.json").getFile();
+
+
         File file = new File(path);
 
         // when/then
