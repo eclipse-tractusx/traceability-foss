@@ -32,6 +32,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.Instant;
 import java.util.List;
 
 @Slf4j
@@ -65,8 +66,50 @@ public class IrsClient {
     }
 
     public void registerPolicy() {
-        RegisterPolicyRequest registerPolicyRequest = RegisterPolicyRequest.from(traceabilityProperties.getLeftOperand(), OperatorType.fromValue(traceabilityProperties.getOperatorType()), traceabilityProperties.getRightOperand(), traceabilityProperties.getValidUntil());
-        irsAdminTemplate.exchange(POLICY_PATH, HttpMethod.POST, new HttpEntity<>(registerPolicyRequest), Void.class);
+        Instant validUntil = traceabilityProperties.getValidUntil().toInstant();
+        String leftOperandMembership = "Membership";
+        String operatorEq = "odrl:" + traceabilityProperties.getOperatorType();
+        String rightOperandActive = "active";
+        String leftOperandPurpose = traceabilityProperties.getLeftOperand();
+        String rightOperandPurpose = traceabilityProperties.getRightOperand();
+
+        final String payload = """
+        {
+            "validUntil": "%s",
+            "payload": {
+                "@context": {
+                    "odrl": "http://www.w3.org/ns/odrl/2/"
+                },
+                "@id": "policy-id",
+                "policy": {
+                    "odrl:permission": [
+                        {
+                            "odrl:action": "USE",
+                            "odrl:constraint": {
+                                "odrl:and": [
+                                    {
+                                        "odrl:leftOperand": "%s",
+                                        "odrl:operator": {
+                                            "@id": "%s"
+                                        },
+                                        "odrl:rightOperand": "%s"
+                                    },
+                                    {
+                                        "odrl:leftOperand": "%s",
+                                        "odrl:operator": {
+                                            "@id": "%s"
+                                        },
+                                        "odrl:rightOperand": "%s"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+        """.formatted(validUntil, leftOperandMembership, operatorEq, rightOperandActive, leftOperandPurpose, operatorEq, rightOperandPurpose);
+        irsAdminTemplate.exchange(POLICY_PATH, HttpMethod.POST, new HttpEntity<>(payload), Void.class);
     }
 
     public void registerJob(RegisterJobRequest registerJobRequest) {
