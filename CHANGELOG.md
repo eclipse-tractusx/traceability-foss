@@ -11,6 +11,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Added tombstone icon to parts table and error description in parts detail view
 - Endpoint (assets/import/report/{importJobId}) for retrieving import report
 - Added concept #568: Policy management
+- Added add Parts view concept
 
 ### Changed
 - actions/chache bumped from v3 to v4
