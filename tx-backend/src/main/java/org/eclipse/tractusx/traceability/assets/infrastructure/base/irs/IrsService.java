@@ -42,6 +42,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+
 @Slf4j
 @Service
 public class IrsService implements IrsRepository {
@@ -151,13 +153,13 @@ public class IrsService implements IrsRepository {
 
     private PolicyResponse findMatchingPolicy(List<PolicyResponse> irsPolicies) {
         return irsPolicies.stream()
-                .filter(irsPolicy -> irsPolicy.permissions().stream()
+                .filter(irsPolicy -> emptyIfNull(irsPolicy.permissions()).stream()
                         .flatMap(permission -> {
                             Constraints constraint = permission.getConstraint();
                             return constraint != null ? constraint.getAnd().stream() : Stream.empty();
                         })
                         .anyMatch(constraint -> constraint.getRightOperand().equals(traceabilityProperties.getRightOperand()))
-                        || irsPolicy.permissions().stream()
+                        || emptyIfNull(irsPolicy.permissions()).stream()
                         .flatMap(permission -> {
                             Constraints constraint = permission.getConstraint();
                             return constraint != null ? constraint.getOr().stream() : Stream.empty();
