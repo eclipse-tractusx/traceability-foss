@@ -18,12 +18,11 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.rest;
 
-import org.eclipse.edc.spi.types.domain.asset.Asset;
+import org.eclipse.tractusx.irs.component.Shell;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.AssetAdministrationShellDescriptor;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.Reference;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.SemanticId;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.SubmodelDescriptor;
-import org.eclipse.tractusx.irs.registryclient.DigitalTwinRegistryKey;
 import org.eclipse.tractusx.irs.registryclient.decentral.DecentralDigitalTwinRegistryService;
 import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
 import org.junit.jupiter.api.Test;
@@ -32,8 +31,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -87,14 +84,23 @@ class DecentralRegistryRepositoryImplTest {
                                 .build()
                 ))
                 .build();
-        List<AssetAdministrationShellDescriptor> shells = List.of(asBuilt, asPlanned);
+
+        Shell asBuiltShell = Shell.builder()
+                .payload(asBuilt)
+                .build();
+
+        Shell asPlannedShell = Shell.builder()
+                .payload(asPlanned)
+                .build();
+
+        List<Shell> shells = List.of(asBuiltShell, asPlannedShell);
 
         when(decentralDigitalTwinRegistryService.lookupShellsByBPN(bpn)).thenReturn(shells);
 
         decentralRegistryRepository = new DecentralRegistryRepositoryImpl(decentralDigitalTwinRegistryService);
 
         // When
-        List<AssetAdministrationShellDescriptor> actualDescriptors = decentralRegistryRepository.retrieveShellDescriptorsByBpn(bpn);
+        List<Shell> actualDescriptors = decentralRegistryRepository.retrieveShellDescriptorsByBpn(bpn);
 
         // Then
         assertThat(actualDescriptors).containsExactlyInAnyOrderElementsOf(shells);
@@ -110,7 +116,7 @@ class DecentralRegistryRepositoryImplTest {
         decentralRegistryRepository = new DecentralRegistryRepositoryImpl(decentralDigitalTwinRegistryService);
 
         // When
-        List<AssetAdministrationShellDescriptor> actualDescriptors = decentralRegistryRepository.retrieveShellDescriptorsByBpn(bpn);
+        List<Shell> actualDescriptors = decentralRegistryRepository.retrieveShellDescriptorsByBpn(bpn);
 
         // Then
         assertThat(actualDescriptors).isEmpty();

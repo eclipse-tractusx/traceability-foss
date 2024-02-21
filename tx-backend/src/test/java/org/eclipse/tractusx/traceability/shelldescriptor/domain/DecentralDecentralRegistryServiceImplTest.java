@@ -18,6 +18,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.shelldescriptor.domain;
 
+import org.eclipse.tractusx.irs.component.Shell;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.AssetAdministrationShellDescriptor;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.Reference;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.SemanticId;
@@ -97,8 +98,14 @@ class DecentralRegistryServiceImplTest {
                                 .build()
                 ))
                 .build();
+
+        Shell asBuiltShell = Shell.builder()
+                .payload(asBuilt).build();
+
+        Shell asPlannedShell = Shell.builder()
+                .payload(asPlanned).build();
         when(traceabilityProperties.getBpn()).thenReturn(BPN.of("test"));
-        when(decentralRegistryRepository.retrieveShellDescriptorsByBpn(BPN.of("test").toString())).thenReturn(List.of(asBuilt, asPlanned));
+        when(decentralRegistryRepository.retrieveShellDescriptorsByBpn(BPN.of("test").toString())).thenReturn(List.of(asBuiltShell, asPlannedShell));
 
         // When
         registryFacade.synchronizeAssets();
