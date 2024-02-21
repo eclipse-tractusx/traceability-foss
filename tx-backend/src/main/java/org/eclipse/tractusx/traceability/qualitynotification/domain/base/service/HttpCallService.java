@@ -44,9 +44,13 @@ public class HttpCallService {
 
     public void sendRequest(final EdcNotificationRequest request) {
         HttpEntity<String> entity = new HttpEntity<>(request.getBody(), request.getHeaders());
+        log.info("****EDC Request******");
+        log.info(String.valueOf(request));
         try {
             var response = edcNotificationTemplate.exchange(request.getUrl(), HttpMethod.POST, entity, new ParameterizedTypeReference<>() {
             });
+            log.info("*********EDC Response******:");
+            log.info(String.valueOf(response));
             log.info("Control plane responded with status: {}", response.getStatusCode());
             if (!response.getStatusCode().is2xxSuccessful()) {
                 throw new BadRequestException(format("Control plane responded with: %s", response.getStatusCode()));
