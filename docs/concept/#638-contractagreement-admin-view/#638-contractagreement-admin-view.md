@@ -26,9 +26,9 @@
 The concept pertains to the development of a "Contract Management" section in the admin panel of Trace-X UI. It is based on the admin panel of the "Simple Data Exchanger". The new section in Trace-X UI will allow users to manage their data contracts.
 
 The following will be displayed:
-* Asset ID
+* Contract ID
 * Counterparty Address
-* Signing Date / Creation Date
+* Creation Date
 * End Date
 * State
 
@@ -51,7 +51,6 @@ The assets behind the contracts are not available for external auditors. Further
 
 # Out of scope
 Attribute EndDate: At the moment, the end date can't be taken from the edc, because the edc doesn't manage usage policies.
-Policy details: Only the policy id will be shown in the Contract Management admin view. Policy details can be seen in the policy management view instead.
 
 # Assumptions
 
@@ -125,6 +124,8 @@ User Journey Story:
 ## Frontend concept
 https://miro.com/app/board/uXjVOGBahIA=/?moveToWidget=3458764573051687012&cot=14
 ![contractagreement-admin-view-frontend.png](contractagreement-admin-view-frontend.png)
+
+Policy objects are shown as plain JSON.
 
 ## Backend concept
 Backend API of TraceX which provides the stored contract information for the frontend:
@@ -204,14 +205,14 @@ Response Sample:
 
 #### 3. Map payload of first request response into domain model
 
-| Domain model         | Response parameter      | Example                                |
-|----------------------|-------------------------|----------------------------------------|
-| Contract ID          | -                       |                                        |
-| Counterparty address | -                       |                                        |
-| **Creation date**    | edc:contractSigningDate | 22.11.2023 (converted from 1700664778) |
-| End date             | -                       |                                        |
-| State                | -                       |                                        |
-| **Policy**           | edc:policy.id           | 68d90fc3-5d8f-4cb5-b9db-ca72c82705e5   |
+| Domain model         | Response parameter      | Example                                                                                                                                                      |
+|----------------------|-------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Contract ID          | -                       |                                                                                                                                                              |
+| Counterparty address | -                       |                                                                                                                                                              |
+| **Creation date**    | edc:contractSigningDate | 22.11.2023 (converted from 1700664778)                                                                                                                       |
+| End date             | -                       |                                                                                                                                                              |
+| State                | -                       |                                                                                                                                                              |
+| **Policy**           | edc:policy              | "@id": "68d90fc3-5d8f-4cb5-b9db-ca72c82705e5","@type": "odrl:Set","odrl:permission": {"odrl:target": "registry-asset","odrl:action": {"odrl:type": "USE" ... |
 
 
 #### 4. Use the ContractAgreementId of first request for GET /management/v2/contractagreements/{ContractAgreementId}/negotiation
@@ -257,14 +258,14 @@ Response Sample:
 
 #### 5. Map payload of second request response into domain model:
 
-| Domain model             | Response parameter      | Example                                                                |
-|--------------------------|-------------------------|------------------------------------------------------------------------|
-| **Contract ID**          | id                      | 7ed070a1-85fb-4e17-bd04-1df512156ccc                                   |
-| **Counterparty address** | edc:counterPartyAddress | https://irs-ess-provider-controlplane.int.demo.catena-x.net/api/v1/dsp |
-| Creation date            | edc:contractSigningDate | 22.11.2023 (converted from 1700664778)                                 |
-| End date                 | -                       |                                                                        |
-| **State**                | edc:state               | FINALIZED                                                              |
-| Policy                   | edc:policy.id           | 68d90fc3-5d8f-4cb5-b9db-ca72c82705e5                                   |
+| Domain model             | Response parameter      | Example                                                                                                                                                      |
+|--------------------------|-------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Contract ID**          | id                      | 7ed070a1-85fb-4e17-bd04-1df512156ccc                                                                                                                         |
+| **Counterparty address** | edc:counterPartyAddress | https://irs-ess-provider-controlplane.int.demo.catena-x.net/api/v1/dsp                                                                                       |
+| Creation date            | edc:contractSigningDate | 22.11.2023 (converted from 1700664778)                                                                                                                       |
+| End date                 | -                       |                                                                                                                                                              |
+| **State**                | edc:state               | FINALIZED                                                                                                                                                    |
+| Policy                   | edc:policy              | "@id": "68d90fc3-5d8f-4cb5-b9db-ca72c82705e5","@type": "odrl:Set","odrl:permission": {"odrl:target": "registry-asset","odrl:action": {"odrl:type": "USE" ... |
 
 #### 6. Handle pagination in FE (if necessary repeat calls)
 
