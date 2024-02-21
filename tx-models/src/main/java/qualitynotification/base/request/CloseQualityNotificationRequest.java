@@ -32,7 +32,7 @@ import lombok.ToString;
 @Getter
 @ToString
 public class CloseQualityNotificationRequest {
-    @Schema(example = "The reason.", minLength = 15, maxLength = 1000, description = "Close reason should have at least 15 characters and at most 1000 characters")
+    @Schema(example = "The reason.", minLength = 15, maxLength = 1000)
     @Size(min = 15, max = 1000, message = "Close reason should have at least 15 characters and at most 1000 characters")
     private String reason;
 }
