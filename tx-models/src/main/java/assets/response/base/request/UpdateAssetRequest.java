@@ -26,6 +26,6 @@ import jakarta.validation.constraints.NotNull;
 
 public record UpdateAssetRequest(
         @NotNull(message = "qualityType must be present")
-        @Schema(example = "Ok", required = true)
+        @Schema(example = "Ok")
         QualityTypeRequest qualityType) {
 }
