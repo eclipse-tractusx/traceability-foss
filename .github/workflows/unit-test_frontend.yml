@@ -48,7 +48,6 @@ jobs:
       run: yarn install
     - name: Run yarn test:ci
       run: CHROMIUM_BIN=$(which chrome) yarn test:ci # will run `test:ci` command
-
     - name: Run SonarCloud check
       uses: SonarSource/sonarcloud-github-action@master
       env:
