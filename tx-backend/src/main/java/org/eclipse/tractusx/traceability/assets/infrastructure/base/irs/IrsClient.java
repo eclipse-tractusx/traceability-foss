@@ -102,12 +102,33 @@ public class IrsClient {
                                             }
                                         ]
                                     }
+                                },
+                                                                {
+                                    "odrl:action": "USE",
+                                    "odrl:constraint": {
+                                        "odrl:or": [
+                                            {
+                                                "odrl:leftOperand": "%s",
+                                                "odrl:operator": {
+                                                    "@id": "%s"
+                                                },
+                                                "odrl:rightOperand": "%s"
+                                            },
+                                            {
+                                                "odrl:leftOperand": "%s",
+                                                "odrl:operator": {
+                                                    "@id": "%s"
+                                                },
+                                                "odrl:rightOperand": "%s"
+                                            }
+                                        ]
+                                    }
                                 }
                             ]
                         }
                     }
                 }
-                """.formatted(validUntil, uuid, leftOperandMembership, operatorEq, rightOperandActive, leftOperandPurpose, operatorEq, rightOperandPurpose);
+                """.formatted(validUntil, uuid, leftOperandMembership, operatorEq, rightOperandActive, leftOperandPurpose, operatorEq, rightOperandPurpose,leftOperandMembership, operatorEq, rightOperandActive, leftOperandPurpose, operatorEq, rightOperandPurpose);
         irsAdminTemplate.exchange(POLICY_PATH, HttpMethod.POST, new HttpEntity<>(payload), Void.class);
     }
 
