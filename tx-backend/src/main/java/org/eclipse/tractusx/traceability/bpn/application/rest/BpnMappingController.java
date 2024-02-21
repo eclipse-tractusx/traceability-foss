@@ -19,6 +19,7 @@
 
 package org.eclipse.tractusx.traceability.bpn.application.rest;
 
+import assets.importpoc.ErrorResponse;
 import bpn.request.BpnMappingRequest;
 import bpn.response.BpnEdcMappingResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,11 +36,18 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.bpn.application.mapper.BpnMapper;
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnServiceImpl;
-import assets.importpoc.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -61,7 +69,7 @@ public class BpnMappingController {
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found", content = @Content(
             mediaType = "application/json",
-            array = @ArraySchema(arraySchema = @Schema(description = "BPN Mappings", implementation = BpnEdcMappingResponse.class, additionalProperties = Schema.AdditionalPropertiesValue.FALSE), minItems = 0, maxItems = Integer.MAX_VALUE)
+            array = @ArraySchema(schema = @Schema(description = "BPN Mappings", implementation = BpnEdcMappingResponse.class, additionalProperties = Schema.AdditionalPropertiesValue.FALSE), minItems = 0, maxItems = Integer.MAX_VALUE)
     )),
             @ApiResponse(
                     responseCode = "400",
@@ -117,7 +125,7 @@ public class BpnMappingController {
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found for BpnEdcMapping", content = @Content(
             mediaType = "application/json",
-            array = @ArraySchema(arraySchema = @Schema(description = "BpnEdcMapping", implementation = BpnEdcMappingResponse.class, additionalProperties = Schema.AdditionalPropertiesValue.FALSE), minItems = 0, maxItems = Integer.MAX_VALUE)
+            array = @ArraySchema(schema = @Schema(description = "BpnEdcMapping", implementation = BpnEdcMappingResponse.class, additionalProperties = Schema.AdditionalPropertiesValue.FALSE), minItems = 0, maxItems = Integer.MAX_VALUE)
     )),
             @ApiResponse(
                     responseCode = "400",
@@ -175,7 +183,7 @@ public class BpnMappingController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Returns the paged result found for BpnEdcMapping", content = @Content(
                     mediaType = "application/json",
-                    array = @ArraySchema(arraySchema = @Schema(description = "BpnEdcMapping", implementation = BpnEdcMappingResponse.class, additionalProperties = Schema.AdditionalPropertiesValue.FALSE), minItems = 0, maxItems = Integer.MAX_VALUE)
+                    array = @ArraySchema(schema = @Schema(description = "BpnEdcMapping", implementation = BpnEdcMappingResponse.class, additionalProperties = Schema.AdditionalPropertiesValue.FALSE), minItems = 0, maxItems = Integer.MAX_VALUE)
             )),
             @ApiResponse(
                     responseCode = "400",

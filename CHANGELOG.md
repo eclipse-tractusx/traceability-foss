@@ -10,9 +10,11 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 
 ### Changed
+- updated publish-documentation workflow with two new steps
 - added logic to consume tombstone information from IRS for assets
 
 ### Removed
+
 
 ## [10.4.0 - 19.02.2024]
 
