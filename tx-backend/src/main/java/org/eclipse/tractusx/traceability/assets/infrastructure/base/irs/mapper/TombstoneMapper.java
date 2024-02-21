@@ -50,11 +50,11 @@ public class TombstoneMapper {
     }
 
     private static AssetBase mapOwnPartsTombstone(JobStatus jobstatus, Tombstone tombstone, ObjectMapper objectMapper) {
-        String tombstoneString;
+        String tombstoneString = "";
         try {
             tombstoneString = objectMapper.writeValueAsString(tombstone);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            log.error("Could not process tombstone from IRS", e);
         }
         return AssetBase.builder()
                 .id(tombstone.getCatenaXId())
