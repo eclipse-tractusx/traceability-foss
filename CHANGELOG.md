@@ -8,7 +8,6 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [UNRELEASED - DD.MM.YYYY]
 
 ### Changed
-
 - updated publish-documentation workflow with two new steps
 
 ## [10.4.0 - 19.02.2024]
