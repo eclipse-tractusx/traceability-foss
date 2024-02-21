@@ -40,20 +40,18 @@ The product Trace-X MUST align with the Industry Code Standard CX-126 and CX-127
 
 ## Version matrix
 
-|Artefact| Version | Availability                                        | link                                                                                                                                              |
-|---|---------|-----------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
-| AAS |         |                                                     |                                                                                                                                                   |
-| PartAsPlanned | 1.0.1   | Mandatory                                           | [PartAsPlanned 1.0.1](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.part_as_planned/1.0.1)                        |
- |PartAsPlanned | 2.0.0   | Optional (Mandatory for next version of CX-0126)    | [PartAsPlanned 2.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.part_as_planned/2.0.0)                        |
-| SingleLevelBomAsPlanned| 1.1.0   | Mandatory                                           | [SingleLevelBomAsPlanned 1.1.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.single_level_bom_as_planned/1.1.0)] |
-| SingleLevelBomAsPlanned| 2.0.0   | Optional (Mandatory for next version of CX-0126)    | [SingleLevelBomAsPlanned 2.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.single_level_bom_as_planned/2.2.0) |
-| SerialPart| 1.0.1   | Mandatory                                           | [SerialPart 1.0.1](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.serial_part/1.0.1)                               |
-| SerialPart| 2.0.0   | Optional                                            | [SerialPart 2.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.serial_part/2.0.0)                               |
-| Batch| 2.0.0   | Mandatory                                           | [Batch 2.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.batch/2.0.0)                                          |
-| Batch| 2.0.1   | Optional                                            | [Batch 2.0.1](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.batch/2.0.1)                                          |
-| JustInSequencePart| 2.0.0   | Optional                                            | [JustInSequencePart 2.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.just_in_sequence_part/2.0.0)             |
-| SingleLevelBomAsBuilt| 2.0.0   | Mandatory                                           | [SingleLevelBomAsBuilt 2.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.single_level_bom_as_built/2.0.0)      |
-| PartSiteInformationAsBuilt| 1.0.0   | Integrated in Aspects JustInSequencePart / Batch / SerialPart | https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.shared.part_site_information_as_built/1.0.0                                                                                                                                               |
+|Artefact| Version | Availability                                                  | link                                                                                                                                              |
+|---|---------|---------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
+| AAS |         |                                                               |                                                                                                                                                   |
+| PartAsPlanned | 1.0.1   | Mandatory                                                     | [PartAsPlanned 1.0.1](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.part_as_planned/1.0.1)                        |
+ |PartAsPlanned | 2.0.0   | Optional (Mandatory for next version of CX-0126)              | [PartAsPlanned 2.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.part_as_planned/2.0.0)                        |
+| SingleLevelBomAsPlanned| 1.1.0   | Mandatory                                                     | [SingleLevelBomAsPlanned 1.1.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.single_level_bom_as_planned/1.1.0)] |
+| SingleLevelBomAsPlanned| 2.0.0   | Optional (Mandatory for next version of CX-0126)              | [SingleLevelBomAsPlanned 2.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.single_level_bom_as_planned/2.2.0)  |
+| SerialPart| 3.0.0   | Mandatory                                                     | [SerialPart 3.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.serial_part/3.0.0/gen)                           |
+| Batch| 3.0.0   | Mandatory                                                     | [Batch 3.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.batch/3.0.0)                                          |
+| JustInSequencePart| 3.0.0   | Mandatory                                                      | [JustInSequencePart 3.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.just_in_sequence_part/3.0.0)             |
+| SingleLevelBomAsBuilt| 2.0.0   | Mandatory                                                     | [SingleLevelBomAsBuilt 2.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.single_level_bom_as_built/2.0.0)      |
+| PartSiteInformationAsBuilt| 1.0.0   | Integrated in Aspects JustInSequencePart / Batch / SerialPart | https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.shared.part_site_information_as_built/1.0.0                         |
 
 
 - JustInSequencePart:  https://github.com/eclipse-tractusx/sldt-semantic-models/pull/563
@@ -101,14 +99,6 @@ alt aas contains 'digitalTwinType'
     else digitalTwinType any other value or null
        BOMLifecycleDetector -->>  IRS : throw Exception
     end
-else   aas contains 'assetLifecyclePhase'
-   alt assetLifecyclePhase="AsBuilt"
-        BOMLifecycleDetector -->>  IRS : return asBuilt
-   else assetLifecyclePhase="AsPlanned"
-        BOMLifecycleDetector -->>  IRS : return asPlanned
-   else assetLifecyclePhase any other value or null
-        BOMLifecycleDetector -->>  IRS :   throw Exception
-   end
 else
    IRS -->> BOMLifecycleDetector : throw Exception (BOMLifecylce could not be detected)
    BOMLifecycleDetector -->> IRS : retrun BOMLifecyle
@@ -118,9 +108,15 @@ end
 
 #### Configuration of parameter 'digitalTwinType'
 Parameter is configurable for dDTR instance and has to be configured for integration test.
+Setup dDTR registry on used environments. INT, DEV, PEN, STABLE
 
-[values.yaml](https://github.com/eclipse-tractusx/sldt-digital-twin-registry/blob/f438fe96a7ae1f1b920e8e4fb4114fb7af32643d/charts/registry/values.yaml#L51)
-- [externalSubjectIdWildcardAllowedTypes](https://github.com/eclipse-tractusx/sldt-digital-twin-registry/blob/f438fe96a7ae1f1b920e8e4fb4114fb7af32643d/charts/registry/README.md#:~:text=externalSubjectIdWildcardAllowedTypes)
+- [Values.yaml](https://github.com/eclipse-tractusx/sldt-digital-twin-registry/blob/f438fe96a7ae1f1b920e8e4fb4114fb7af32643d/charts/registry/values.yaml#L51)
+- [README.md](https://github.com/eclipse-tractusx/sldt-digital-twin-registry/blob/f438fe96a7ae1f1b920e8e4fb4114fb7af32643d/charts/registry/README.md#:~:text=externalSubjectIdWildcardAllowedTypes)
+
+values.yaml
+````json
+   registry.externalSubjectIdWildcardAllowedTypes = manufacturerPartId,digitalTwinType
+````
 
 ### Visbility of Specific Asset IDs in the DTR
 * Usage of parameter 'externalSubjectIds' which contains 'specificAssetIds'.  Parameter 'externalSubjectIds' restricts visibility exclusively to manufacturer.
@@ -182,7 +178,7 @@ Parameter is configurable for dDTR instance and has to be configured for integra
 |manufacturerId | Mandatory                                | The Business Partner Number (BPNL) of the manufacturer of the part.                                                                                                                                                                                   |
 |manufacturerPartId | Mandatory                                |                                                                                                                                                                                                                                                       |
 |customerPartId | Optional                                 |                                                                                                                                                                                                                                                       |
-|assetLifecyclePhase | asPlanned(Mandatory) / asBuilt(Optional) | @Deprecated For serialized parts, batches, and JIS parts, use the value AsBuilt. For catalog parts in a Digital Twin As-Planned lifecycle phase, use the value AsPlanned.                                                                             |
+|assetLifecyclePhase | asPlanned(Mandatory) / asBuilt(Optional) | @Deprecated Not used any more. For serialized parts, batches, and JIS parts, use the value AsBuilt. For catalog parts in a Digital Twin As-Planned lifecycle phase, use the value AsPlanned.                                                          |
 |digitalTwinType | Mandatory                                | digitalTwinType="PartType" OR digitalTwinType="PartInstance" For parts on an instance level (e.g. serialized parts, batches, and JIS parts), use the value PartInstance. For parts on a part type level (e.g. catalog parts), use the value PartType. |                                                                                                                                                                       | |
 
 # PartAsPlanned
