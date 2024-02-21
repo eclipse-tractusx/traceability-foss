@@ -23,15 +23,19 @@ package qualitynotification.base.response;
 
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Size;
 
 
 public record QualityNotificationReasonResponse(
         @Schema(example = "description of closing reason", maxLength = 1000)
+        @Size(max = 1000)
         String close,
 
         @Schema(example = "description of accepting reason", maxLength = 1000)
+        @Size(max = 1000)
         String accept,
 
         @Schema(example = "description of declining reason", maxLength = 1000)
+        @Size(max = 1000)
         String decline) {
 }

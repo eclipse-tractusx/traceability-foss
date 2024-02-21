@@ -20,6 +20,7 @@ package assets.response.base.response;
 
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -31,18 +32,25 @@ import java.util.List;
 @SuperBuilder
 public class AssetBaseResponse {
     @Schema(example = "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd", maxLength = 255)
+    @Size(max = 255)
     private String id;
     @Schema(example = "assembly-part-relationship", maxLength = 255)
+    @Size(max = 255)
     private String idShort;
     @Schema(example = "NO-246880451848384868750731", maxLength = 255)
+    @Size(max = 255)
     private String semanticModelId;
     @Schema(example = "BPNL00000003CSGV", maxLength = 255)
+    @Size(max = 255)
     private String businessPartner;
     @Schema(example = "Tier C", maxLength = 255)
+    @Size(max = 255)
     private String manufacturerName;
     @Schema(example = "Tier C", maxLength = 255)
+    @Size(max = 255)
     private String nameAtManufacturer;
     @Schema(example = "Tier C", maxLength = 255)
+    @Size(max = 255)
     private String manufacturerPartId;
     @Schema(example = "CUSTOMER")
     private OwnerResponse owner;
@@ -53,10 +61,12 @@ public class AssetBaseResponse {
     @Schema(example = "Ok")
     private QualityTypeResponse qualityType;
     @Schema(example = "OMAYSKEITUGNVHKKX", maxLength = 255)
+    @Size(max = 255)
     private String van;
     @Schema(example = "BATCH")
     private SemanticDataModelResponse semanticDataModel;
     @Schema(example = "component", maxLength = 255)
+    @Size(max = 255)
     private String classification;
     private List<DetailAspectModelResponse> detailAspectModels;
     @Schema(type = "List", example = "1")

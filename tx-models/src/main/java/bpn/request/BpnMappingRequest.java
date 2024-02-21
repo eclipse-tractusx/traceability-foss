@@ -28,6 +28,7 @@ public record BpnMappingRequest(
         @NotNull(message = "BPN must be present")
         @NotEmpty(message = "BPN must be present")
         @Schema(example = "BPNL00000003CSGV", maxLength = 255)
+        @Size(max = 255)
         @ValidBPN
         String bpn,
 

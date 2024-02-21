@@ -23,10 +23,12 @@ package org.eclipse.tractusx.traceability.assets.application.base.request;
 
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Size;
 
 import java.util.List;
 
 public record GetDetailInformationRequest(
+        @Size(min = 1, max = 50, message = "Specify at least 1 and at most 50 assetIds")
         @Schema(example = "[\"urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd\"]", minLength = 1, maxLength = 50, description = "Specify at least 1 and at most 50 assetIds")
         List<String> assetIds) {
 }

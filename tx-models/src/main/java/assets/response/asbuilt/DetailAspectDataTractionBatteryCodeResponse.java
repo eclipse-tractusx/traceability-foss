@@ -20,6 +20,7 @@ package assets.response.asbuilt;
 
 import assets.response.base.response.DetailAspectDataResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -29,7 +30,9 @@ import java.util.List;
 @Getter
 public class DetailAspectDataTractionBatteryCodeResponse implements DetailAspectDataResponse {
     @Schema(example = "pack", maxLength = 255)
+    @Size(max = 255)
     private String productType;
+    @Size(max = 255)
     @Schema(example = "X12MCPM27KLPCLX2M2382320", maxLength = 255)
     private String tractionBatteryCode;
     @Schema
@@ -39,8 +42,10 @@ public class DetailAspectDataTractionBatteryCodeResponse implements DetailAspect
     @Getter
     public static class DetailAspectDataTractionBatteryCodeSubcomponentResponse {
         @Schema(example = "pack", maxLength = 255)
+        @Size(max = 255)
         private String productType;
         @Schema(example = "X12MCPM27KLPCLX2M2382320", maxLength = 255)
+        @Size(max = 255)
         private String tractionBatteryCode;
     }
 }
