@@ -51,7 +51,6 @@ public class StartQualityNotificationRequest {
     private Instant targetDate;
 
     @NotNull
-    @Schema(example = "MINOR")
     private QualityNotificationSeverityRequest severity;
 
     @Schema(example = "true")

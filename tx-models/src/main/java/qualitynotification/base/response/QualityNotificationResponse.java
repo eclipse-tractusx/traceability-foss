@@ -56,6 +56,7 @@ public class QualityNotificationResponse {
 
     @ArraySchema(arraySchema = @Schema(description = "assetIds", example = "[\"urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd\"]", additionalProperties = Schema.AdditionalPropertiesValue.FALSE, maxLength = 1000), maxItems = Integer.MAX_VALUE)
     @Size(max = 1000)
+    @Schema(name = "assetIds", type = "array", example = "[\"urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd\",\"urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70529fcbd\",\"urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70530fcbd\"]")
     private List<String> assetIds;
 
     @Schema(example = "SENDER", maxLength = 255)

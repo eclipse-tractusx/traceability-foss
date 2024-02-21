@@ -29,7 +29,6 @@ import lombok.Data;
 @Data
 public class UpdateQualityNotificationRequest {
     @NotNull(message = "status must be present")
-    @Schema(example = "ACKNOWLEDGED")
     private UpdateQualityNotificationStatusRequest status;
     @Schema(example = "The reason.")
     private String reason;
