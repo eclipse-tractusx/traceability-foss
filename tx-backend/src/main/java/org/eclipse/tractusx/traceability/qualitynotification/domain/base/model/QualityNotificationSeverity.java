@@ -20,7 +20,6 @@
 package org.eclipse.tractusx.traceability.qualitynotification.domain.base.model;
 
 import io.swagger.annotations.ApiModel;
-import io.swagger.v3.oas.annotations.media.Schema;
 import qualitynotification.base.request.QualityNotificationSeverityRequest;
 
 @ApiModel(description = "Describes the criticality of a notification")
@@ -28,7 +27,6 @@ public enum QualityNotificationSeverity {
     MINOR("MINOR"),
     MAJOR("MAJOR"),
     CRITICAL("CRITICAL"),
-    @Schema(name = "LIFE-THREATENING")
     LIFE_THREATENING("LIFE-THREATENING");
 
     private final String realName;
