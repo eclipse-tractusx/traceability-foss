@@ -163,7 +163,7 @@ public class ApplicationConfig {
 
         List<PolicyResponse> policyResponse = irsService.getPolicies();
         List<AcceptedPolicy> irsPolicies = policyResponse.stream().map(response -> {
-            Policy policy = new Policy(response.policyId(), response.createdOn(), response.validUntil(), response.permissions());
+            Policy policy = new Policy(response.payload().policyId(), response.payload().policy().getCreatedOn(), response.validUntil(), response.payload().policy().getPermissions());
             return new AcceptedPolicy(policy, response.validUntil());
         }).toList();
 
