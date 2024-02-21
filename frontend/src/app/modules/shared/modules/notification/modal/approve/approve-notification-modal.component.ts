@@ -40,6 +40,7 @@ export class ApproveNotificationModalComponent {
   public notification: Notification;
 
   constructor(private readonly toastService: ToastService, private readonly confirmModalService: ModalService) {
+    this.toastService.retryAction.subscribe(() => this.show(this.notification))
   }
 
   public show(notification: Notification): void {
@@ -52,8 +53,9 @@ export class ApproveNotificationModalComponent {
           this.toastService.success(this.translationContext + '.modal.successfullyApproved');
           this.confirmActionCompleted.emit();
         },
-        error: () => {
-          this.toastService.error(this.translationContext + '.modal.failedApprove');
+        error: (err) => {
+          console.log(err.error.message);
+          this.toastService.error(this.translationContext + '.modal.failedApprove', 5000,true, err.error.message);
         },
       });
     };

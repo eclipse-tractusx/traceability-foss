@@ -36,7 +36,7 @@ const commonHandler = [
   }),
 
   rest.post(`*${ environment.apiUrl }/alerts/:alertId/approve`, (req, res, ctx) => {
-    return res(ctx.status(204));
+    return res(ctx.status(400), ctx.json({message: "Failed to send alert to EDC"}));
   }),
 
   rest.post(`*${ environment.apiUrl }/alerts/:alertId/cancel`, (req, res, ctx) => {
@@ -106,7 +106,7 @@ export const alertsHandlers = [
     return res(ctx.status(200), ctx.json({ ...randomNotification, id: alertId }));
   }),
   rest.post(`*${ environment.apiUrl }/alerts`, (_, res, ctx) => {
-    return res(ctx.status(400), ctx.json("Error while sending Alert to EDC" ));
+    return res(ctx.status(400), ctx.json({message: "Error while sending Alert to EDC"} ));
     //return res(ctx.status(200), ctx.json({ id: AlertIdPrefix + 1 }));
   }),
 

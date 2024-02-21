@@ -30,7 +30,7 @@ import { CallAction, ToastMessage, ToastStatus } from './toast-message/toast-mes
 export class ToastService {
   private toastStore = new Subject<ToastMessage>();
   private idx = 0;
-  toastAction = new EventEmitter<any>();
+  retryAction = new EventEmitter<any>();
 
   public getCurrentToast$(): Observable<ToastMessage> {
     return this.toastStore.asObservable();
@@ -57,6 +57,6 @@ export class ToastService {
   }
 
   public emitClick(event?: any) {
-    this.toastAction.emit();
+    this.retryAction.emit();
   };
 }

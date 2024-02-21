@@ -66,7 +66,7 @@ export class RequestNotificationComponent {
   public removedItemsHistory: Part[] = [];
 
   constructor(private readonly toastService: ToastService, private readonly notificationService: NotificationService) {
-    this.toastService.toastAction.subscribe((event: string) => this.submit());
+    this.toastService.retryAction.subscribe((event: string) => this.submit());
   }
 
   protected prepareSubmit(): void {
@@ -95,7 +95,7 @@ export class RequestNotificationComponent {
       const { link, queryParams } = getRoute(INVESTIGATION_BASE_ROUTE, NotificationStatusGroup.QUEUED_AND_REQUESTED);
       this.notificationService.createInvestigation(partIds, description, severity, targetDate).subscribe({
         next: () => this.onSuccessfulSubmit(link, queryParams),
-        error: (err) => this.onUnsuccessfulSubmit(err.error),
+        error: (err) => this.onUnsuccessfulSubmit(err.error.message),
       });
     } else {
 
@@ -108,7 +108,7 @@ export class RequestNotificationComponent {
 
       this.notificationService.createAlert(partIds, description, severity, bpn, isAsBuilt).subscribe({
         next: () => this.onSuccessfulSubmit(link, queryParams),
-        error: (err) => this.onUnsuccessfulSubmit(err.error),
+        error: (err) => this.onUnsuccessfulSubmit(err.error.message),
       });
     }
   }

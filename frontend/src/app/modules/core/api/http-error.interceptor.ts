@@ -27,7 +27,7 @@ import { ToastService } from 'src/app/modules/shared/components/toasts/toast.ser
 export class HttpErrorInterceptor implements HttpInterceptor {
 
   // List of request.url that should not automatically display a toast but are handled custom (Can be extended later by METHOD)
-  private avoidList = ['/api/alerts', '/api/investigations']
+  private avoidList = ['/api/alerts', '/api/investigations', '/api/alerts/*/approve', '/api/investigations/*/approve']
   constructor(private readonly toastService: ToastService) {
   }
 
@@ -44,8 +44,10 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         // Intercept "console.error" and send to logging server for further analysis
         const { error, message } = errorResponse;
         const errorMessage = !error.message ? message : `Backend returned code ${ error.status }: ${ error.message }`;
+        console.log(request.url);
 
-        if(!this.avoidList.find(url => url === request.url)) {
+        // Check if the request URL matches any pattern in the avoidList
+        if (this.shouldShowToast(request.url)) {
           this.toastService.error(errorMessage);
         }
 
@@ -53,4 +55,17 @@ export class HttpErrorInterceptor implements HttpInterceptor {
       }),
     );
   }
+
+// Helper method to check if the URL matches any pattern in the avoidList
+  private shouldShowToast(url: string): boolean {
+    return !this.avoidList.some(pattern => this.urlMatchesPattern(url, pattern));
+  }
+
+// Helper method to check if the URL matches a wildcard pattern
+  private urlMatchesPattern(url: string, pattern: string): boolean {
+    const regexPattern = pattern.replace(/\*/g, '.*');
+    const regex = new RegExp(`^${regexPattern}$`);
+    return regex.test(url);
+  }
+
 }
