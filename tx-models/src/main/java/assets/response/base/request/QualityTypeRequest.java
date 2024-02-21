@@ -22,19 +22,18 @@ package assets.response.base.request;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
-import io.swagger.v3.oas.annotations.media.Schema;
 
 @ApiModel(description = "Quality types")
 public enum QualityTypeRequest {
-    @Schema(example = "Ok")
+
     OK("Ok"),
-    @Schema(example = "Minor")
+
     MINOR("Minor"),
-    @Schema(example = "Major")
+
     MAJOR("Major"),
-    @Schema(example = "Critical")
+
     CRITICAL("Critical"),
-    @Schema(example = "Life-threatening")
+
     LIFE_THREATENING("LifeThreatening");
 
     private final String description;
