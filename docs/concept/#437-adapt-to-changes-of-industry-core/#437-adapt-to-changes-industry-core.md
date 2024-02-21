@@ -141,9 +141,26 @@ values.yaml
 |jisCallDate | Optional |
 |partInstanceId | Mandatory |
 
+### Changes in Domain Model
+
+https://github.com/catenax-ng/tx-traceability-foss/blob/5b07a12830d6ecf9f3d0141d49bb89825cc86cc3/docs/src/uml-diagrams/arc42/cross-cutting/domain-model/domain-model.puml
+
+### Changes in Detail View
+![DetailViewWithPartSiteInformation](DetailViewWithPartSiteInformation.png)
+
+
 # Definition of the Industry Core
 
 - [CX-0127-IndustryCorePartInstance#1.0.0](https://github.com/catenax-eV/product-standardization-prod/tree/CX-0127-IndustryCorePartInstance-v1.0.0/standards/CX-0127-IndustryCorePartInstance)
+
+* Table PartSite Information
+
+| Column            | Type | Specification                           |
+|-------------------|-----|-----------------------------------------|
+| SiteId            | String | BPNS business partner number site       |
+| Function          | String  | production                              |
+| functionValidFrom | Instance |(only for PartSiteInformationAsPlanned) |
+| functionValidTo   | Instance | (only for PartSiteInformationAsPlanned) |
 
 ## Standards to be complied with
 
