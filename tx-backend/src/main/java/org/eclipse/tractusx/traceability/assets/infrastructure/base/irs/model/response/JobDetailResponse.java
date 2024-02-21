@@ -122,12 +122,17 @@ public record JobDetailResponse(
 
         log.info(":: convertAssets(\"{}\")", bomLifecycle.getRealName());
         log.info(":: relationships: {}", relationships.toString());
+        log.info(":: shells: {}", shells());
+
+
 
         Map<String, String> shortIds = shells().stream()
+                .map(shell -> Map.entry(shell.payload().globalAssetId(), shell.payload().idShort()))
                 .collect(Collectors.toMap(
-                        Shell::globalAssetId,
-                        Shell::idShort,
-                        (existingValue, newValue) -> existingValue));
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (existingValue, newValue) -> existingValue
+                ));
 
         Map<String, String> bpnMapping = bpns();
 
