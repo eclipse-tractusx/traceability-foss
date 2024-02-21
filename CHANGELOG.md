@@ -7,6 +7,10 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [UNRELEASED - DD.MM.YYYY]
 
+### Changed
+
+- updated publish-documentation workflow with two new steps
+
 ## [10.4.0 - 19.02.2024]
 
 ### Added
@@ -29,8 +33,6 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - tomcat-embed-websocket bumped from 10.1.16 to 10.1.18
 - IrsCallbackController is now validating jobId to prevent log injections from unwanted usage
 - Changed Add Parts concept to Edit Parts concept
-
-- updated publish-documentation workflow with two new steps
 
 ### Removed
 - Investigations/Alerts for assets_as_planned parts
