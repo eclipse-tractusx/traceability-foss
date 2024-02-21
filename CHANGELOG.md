@@ -11,6 +11,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - updated publish-documentation workflow with two new steps
 - changed @ApiModelProperty annotation with @Schema
 
+### Removed
+- removed frontend/dist folder from codeQL scan
+
 ## [10.4.0 - 19.02.2024]
 
 ### Added
