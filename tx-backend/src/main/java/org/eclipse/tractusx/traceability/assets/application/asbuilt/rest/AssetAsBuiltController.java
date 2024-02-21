@@ -202,7 +202,7 @@ public class AssetAsBuiltController {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns a distinct filter values for given fieldName.", content = @Content(
             mediaType = "application/json",
             array = @ArraySchema(
-                    arraySchema = @Schema(
+                    schema = @Schema(
                             description = "FilterValues",
                             implementation = String.class,
                             additionalProperties = Schema.AdditionalPropertiesValue.FALSE
@@ -266,7 +266,7 @@ public class AssetAsBuiltController {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the assets found", content = @Content(
             mediaType = "application/json",
             array = @ArraySchema(
-                    arraySchema = @Schema(
+                    schema = @Schema(
                             description = "AssetMap",
                             implementation = Map.class,
                             additionalProperties = Schema.AdditionalPropertiesValue.FALSE
@@ -498,7 +498,7 @@ public class AssetAsBuiltController {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found for Asset", content = @Content(
             mediaType = "application/json",
             array = @ArraySchema(
-                    arraySchema = @Schema(
+                    schema = @Schema(
                             description = "Assets",
                             implementation = AssetAsBuiltResponse.class,
                             additionalProperties = Schema.AdditionalPropertiesValue.FALSE
