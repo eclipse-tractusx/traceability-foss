@@ -475,8 +475,8 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .extract().as(ImportReportResponse.class);
 
         // then
-        assertEquals(result.jobId(), importReportResponse.importJobResponse().importId());
-        assertEquals(18, importReportResponse.importedAssetResponse().size());
+        assertEquals(result.jobId(), importReportResponse.importJob().importId());
+        assertEquals(18, importReportResponse.importedAsset().size());
 
     }
 

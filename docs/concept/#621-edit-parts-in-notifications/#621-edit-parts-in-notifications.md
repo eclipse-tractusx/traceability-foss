@@ -1,4 +1,4 @@
-# Concept #621: Add Parts to notifications
+# Concept #621: Edit Parts to notifications
 
 | Key           | Value                                                                    |
 |---------------|--------------------------------------------------------------------------|
