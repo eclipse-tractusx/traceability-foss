@@ -27,7 +27,6 @@ public enum QualityNotificationSeverityResponse {
     MAJOR("MAJOR"),
     CRITICAL("CRITICAL"),
     LIFE_THREATENING("LIFE-THREATENING");
-
     private final String realName;
 
     QualityNotificationSeverityResponse(String realName) {
