@@ -20,6 +20,7 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.mapper;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.component.Tombstone;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
@@ -32,6 +33,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class TombstoneMapper {
 
     public static List<AssetBase> mapTombstones(JobStatus jobstatus, List<Tombstone> tombstones, ObjectMapper objectMapper) {
@@ -68,11 +70,11 @@ public class TombstoneMapper {
     }
 
     private static AssetBase mapOtherPartsTombstone(JobStatus jobstatus, Tombstone tombstone, ObjectMapper objectMapper) {
-        String tombstoneString;
+        String tombstoneString = "";
         try {
             tombstoneString = objectMapper.writeValueAsString(tombstone);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            log.error("Could not process tombstone from IRS", e);
         }
         return AssetBase.builder()
                 .id(tombstone.getCatenaXId())

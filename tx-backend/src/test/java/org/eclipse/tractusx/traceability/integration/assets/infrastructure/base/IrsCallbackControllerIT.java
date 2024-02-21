@@ -174,17 +174,17 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
         String jobId = "ebb79c45-7bba-4169-bf17-3e719989ab54";
         String jobState = "COMPLETED";
 
-//        String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
-//        File file = new File(path);
-//
-//        given()
-//                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
-//                .when()
-//                .multiPart(file)
-//                .post("/api/assets/import")
-//                .then()
-//                .statusCode(200)
-//                .extract().as(ImportResponse.class);
+        String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
+        File file = new File(path);
+
+        given()
+                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .when()
+                .multiPart(file)
+                .post("/api/assets/import")
+                .then()
+                .statusCode(200)
+                .extract().as(ImportResponse.class);
 
         // when
         given()

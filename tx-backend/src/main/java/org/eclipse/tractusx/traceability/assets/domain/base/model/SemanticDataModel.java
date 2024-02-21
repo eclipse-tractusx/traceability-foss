@@ -22,10 +22,19 @@ package org.eclipse.tractusx.traceability.assets.domain.base.model;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Objects;
+
 @Getter
 @RequiredArgsConstructor
 public enum SemanticDataModel {
     BATCH("Batch"), SERIALPART("SerialPart"), UNKNOWN(""), PARTASPLANNED("PartAsPlanned"), JUSTINSEQUENCE("JustInSequence"), TOMBSTONEASBUILT("TombstoneAsBuilt"), TOMBSTONEASPLANNED("TombstoneAsPLANNED");
 
     private final String value;
+
+    public boolean isAsBuilt() {
+        return Objects.equals(this.value, SERIALPART) ||
+                Objects.equals(this.value, BATCH) ||
+                Objects.equals(this.value, JUSTINSEQUENCE) ||
+                Objects.equals(this.value, TOMBSTONEASBUILT);
+    }
 }
