@@ -77,14 +77,6 @@ public class IrsClient {
     }
 
     public void registerPolicy() {
-/*        String leftOperandMembership = "Membership";
-        String operatorEq = "odrl:" + traceabilityProperties.getOperatorType();
-        String rightOperandActive = "active";
-        String leftOperandPurpose = traceabilityProperties.getLeftOperand();
-        String rightOperandPurpose = traceabilityProperties.getRightOperand();
-        String uuid = UUID.randomUUID().toString();*/
-
-
         OffsetDateTime validUntil = traceabilityProperties.getValidUntil();
         Context context = Context.getDefault();
         String policyId = UUID.randomUUID().toString();
@@ -105,63 +97,6 @@ public class IrsClient {
 
         Payload payload = new Payload(context, policyId, policy);
         RegisterPolicyRequest registerPolicyRequest = new RegisterPolicyRequest(validUntil.toInstant(), payload);
-       /* final String payload = """
-                {
-                    "validUntil": "%s",
-                    "payload": {
-                        "@context": {
-                            "odrl": "http://www.w3.org/ns/odrl/2/"
-                        },
-                        "@id": "%s",
-                        "policy": {
-                            "odrl:permission": [
-                                {
-                                    "odrl:action": "USE",
-                                    "odrl:constraint": {
-                                        "odrl:and": [
-                                            {
-                                                "odrl:leftOperand": "%s",
-                                                "odrl:operator": {
-                                                    "@id": "%s"
-                                                },
-                                                "odrl:rightOperand": "%s"
-                                            },
-                                            {
-                                                "odrl:leftOperand": "%s",
-                                                "odrl:operator": {
-                                                    "@id": "%s"
-                                                },
-                                                "odrl:rightOperand": "%s"
-                                            }
-                                        ]
-                                    }
-                                },
-                                                                {
-                                    "odrl:action": "USE",
-                                    "odrl:constraint": {
-                                        "odrl:or": [
-                                            {
-                                                "odrl:leftOperand": "%s",
-                                                "odrl:operator": {
-                                                    "@id": "%s"
-                                                },
-                                                "odrl:rightOperand": "%s"
-                                            },
-                                            {
-                                                "odrl:leftOperand": "%s",
-                                                "odrl:operator": {
-                                                    "@id": "%s"
-                                                },
-                                                "odrl:rightOperand": "%s"
-                                            }
-                                        ]
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-                """.formatted(validUntil, uuid, leftOperandMembership, operatorEq, rightOperandActive, leftOperandPurpose, operatorEq, rightOperandPurpose,leftOperandMembership, operatorEq, rightOperandActive, leftOperandPurpose, operatorEq, rightOperandPurpose);*/
         irsAdminTemplate.exchange(POLICY_PATH, HttpMethod.POST, new HttpEntity<>(registerPolicyRequest), Void.class);
     }
 
