@@ -19,6 +19,7 @@
 
 package org.eclipse.tractusx.traceability.integration.importdata;
 
+import assets.importpoc.ImportJobStatusResponse;
 import assets.importpoc.ImportReportResponse;
 import assets.importpoc.ImportResponse;
 import assets.importpoc.ImportStateMessage;
@@ -475,8 +476,42 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .extract().as(ImportReportResponse.class);
 
         // then
-        assertEquals(result.jobId(), importReportResponse.importJob().importId());
-        assertEquals(18, importReportResponse.importedAsset().size());
+        assertEquals(result.jobId(), importReportResponse.importJobResponse().importId());
+        assertEquals(18, importReportResponse.importedAssetResponse().size());
+
+    }
+
+    @Test
+    void givenInvalidFile_whenImportData_thenReportShouldBeReturned() throws JoseException {
+
+        // given
+        String path = getClass().getResource("/testdata/importfiles/invalidImportFile.json").getFile();
+        File file = new File(path);
+        ImportResponse result = given()
+                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .when()
+                .multiPart(file)
+                .post("/api/assets/import")
+                .then()
+                .statusCode(400)
+                .extract().as(ImportResponse.class);
+
+        // when
+        ImportReportResponse importReportResponse = given()
+                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .contentType(ContentType.JSON)
+                .when()
+                .pathParam("importJobId", result.jobId())
+                .get("/api/assets/import/report/{importJobId}")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .extract().as(ImportReportResponse.class);
+
+        // then
+        assertEquals(ImportJobStatusResponse.ERROR, importReportResponse.importJobResponse().importJobStatusResponse());
+        assertEquals(result.jobId(), importReportResponse.importJobResponse().importId());
+        assertEquals(0, importReportResponse.importedAssetResponse().size());
 
     }
 
