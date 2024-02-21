@@ -22,5 +22,5 @@ import io.swagger.annotations.ApiModel;
 
 @ApiModel
 public enum ImportJobStatusResponse {
-    INITIALIZING, RUNNING, CANCELLED, COMPLETED
+    INITIALIZING, RUNNING, ERROR, COMPLETED
 }

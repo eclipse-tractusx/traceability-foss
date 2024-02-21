@@ -28,6 +28,8 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+
 @Getter
 @Builder
 public class ManufacturingInfo {
@@ -41,7 +43,7 @@ public class ManufacturingInfo {
     private OffsetDateTime manufacturingDate;
 
     public static ManufacturingInfo from(List<DetailAspectModel> detailAspectModels) {
-        Optional<DetailAspectModel> detailAspectAsBuilt = detailAspectModels
+        Optional<DetailAspectModel> detailAspectAsBuilt = emptyIfNull(detailAspectModels)
                 .stream()
                 .filter(detailAspectModel -> detailAspectModel.getType().equals(DetailAspectType.AS_BUILT))
                 .findFirst();
