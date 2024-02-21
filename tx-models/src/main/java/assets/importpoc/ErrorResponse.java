@@ -19,12 +19,12 @@
 
 package assets.importpoc;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record ErrorResponse(
-        @ApiModelProperty(example = "Access Denied")
+        @Schema(example = "Access Denied")
         @Size(max = 1000)
         @Pattern(regexp = "^.*$", message = "Invalid message pattern")
         String message

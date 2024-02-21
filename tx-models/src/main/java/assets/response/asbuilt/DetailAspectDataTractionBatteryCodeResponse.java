@@ -19,7 +19,7 @@
 package assets.response.asbuilt;
 
 import assets.response.base.response.DetailAspectDataResponse;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,22 +29,22 @@ import java.util.List;
 @Builder
 @Getter
 public class DetailAspectDataTractionBatteryCodeResponse implements DetailAspectDataResponse {
-    @ApiModelProperty(example = "pack")
+    @Schema(example = "pack", maxLength = 255)
     @Size(max = 255)
     private String productType;
-    @ApiModelProperty(example = "X12MCPM27KLPCLX2M2382320")
     @Size(max = 255)
+    @Schema(example = "X12MCPM27KLPCLX2M2382320", maxLength = 255)
     private String tractionBatteryCode;
-    @ApiModelProperty
+    @Schema
     private List<DetailAspectDataTractionBatteryCodeSubcomponentResponse> subcomponents;
 
     @Builder
     @Getter
     public static class DetailAspectDataTractionBatteryCodeSubcomponentResponse {
-        @ApiModelProperty(example = "pack")
+        @Schema(example = "pack", maxLength = 255)
         @Size(max = 255)
         private String productType;
-        @ApiModelProperty(example = "X12MCPM27KLPCLX2M2382320")
+        @Schema(example = "X12MCPM27KLPCLX2M2382320", maxLength = 255)
         @Size(max = 255)
         private String tractionBatteryCode;
     }

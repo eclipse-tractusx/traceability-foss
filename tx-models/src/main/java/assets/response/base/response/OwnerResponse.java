@@ -20,17 +20,16 @@
 package assets.response.base.response;
 
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(description = "Owner Type")
 public enum OwnerResponse {
-    @ApiModelProperty("Supplier")
+
     SUPPLIER,
-    @ApiModelProperty("Customer")
+
     CUSTOMER,
-    @ApiModelProperty("Own")
+
     OWN,
-    @ApiModelProperty("Unknown")
+
     UNKNOWN;
 
 }

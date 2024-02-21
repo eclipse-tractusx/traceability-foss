@@ -18,7 +18,8 @@
  ********************************************************************************/
 package assets.importpoc.request;
 
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
@@ -26,7 +27,7 @@ import java.util.List;
 
 public record RegisterAssetRequest(
         @NotNull(message = "policyId must be present")
-        @ApiModelProperty(example = "a644a7cb-3de5-493b-9259-f01db315a46e", required = true)
+        @Schema(example = "a644a7cb-3de5-493b-9259-f01db315a46e")
         String policyId,
         @NotEmpty
         List<String> assetIds) {
