@@ -137,7 +137,7 @@ public class IrsService implements IrsRepository {
     public void createIrsPolicyIfMissing() {
         log.info("Check if irs policy exists");
         final List<PolicyResponse> irsPolicies = this.irsClient.getPolicies();
-        final List<String> irsPoliciesIds = irsPolicies.stream().map(PolicyResponse::policyId).toList();
+        final List<String> irsPoliciesIds = irsPolicies.stream().map(policyResponse -> policyResponse.payload().policyId()).toList();
         log.info("Irs has following policies: {}", irsPoliciesIds);
 
         log.info("Required constraints from application yaml are : {}", traceabilityProperties.getRightOperand());
@@ -153,13 +153,13 @@ public class IrsService implements IrsRepository {
 
     private PolicyResponse findMatchingPolicy(List<PolicyResponse> irsPolicies) {
         return irsPolicies.stream()
-                .filter(irsPolicy -> emptyIfNull(irsPolicy.permissions()).stream()
+                .filter(irsPolicy -> emptyIfNull(irsPolicy.payload().policy().getPermissions()).stream()
                         .flatMap(permission -> {
                             Constraints constraint = permission.getConstraint();
                             return constraint != null ? constraint.getAnd().stream() : Stream.empty();
                         })
                         .anyMatch(constraint -> constraint.getRightOperand().equals(traceabilityProperties.getRightOperand()))
-                        || emptyIfNull(irsPolicy.permissions()).stream()
+                        || emptyIfNull(irsPolicy.payload().policy().getPermissions()).stream()
                         .flatMap(permission -> {
                             Constraints constraint = permission.getConstraint();
                             return constraint != null ? constraint.getOr().stream() : Stream.empty();

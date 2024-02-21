@@ -19,9 +19,7 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterJobRequest;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterPolicyRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobDetailResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.PolicyResponse;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
@@ -34,6 +32,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Component
@@ -72,43 +71,43 @@ public class IrsClient {
         String rightOperandActive = "active";
         String leftOperandPurpose = traceabilityProperties.getLeftOperand();
         String rightOperandPurpose = traceabilityProperties.getRightOperand();
-
+        String uuid = UUID.randomUUID().toString();
         final String payload = """
-        {
-            "validUntil": "%s",
-            "payload": {
-                "@context": {
-                    "odrl": "http://www.w3.org/ns/odrl/2/"
-                },
-                "@id": "policy-id",
-                "policy": {
-                    "odrl:permission": [
-                        {
-                            "odrl:action": "USE",
-                            "odrl:constraint": {
-                                "odrl:and": [
-                                    {
-                                        "odrl:leftOperand": "%s",
-                                        "odrl:operator": {
-                                            "@id": "%s"
-                                        },
-                                        "odrl:rightOperand": "%s"
-                                    },
-                                    {
-                                        "odrl:leftOperand": "%s",
-                                        "odrl:operator": {
-                                            "@id": "%s"
-                                        },
-                                        "odrl:rightOperand": "%s"
+                {
+                    "validUntil": "%s",
+                    "payload": {
+                        "@context": {
+                            "odrl": "http://www.w3.org/ns/odrl/2/"
+                        },
+                        "@id": "%s",
+                        "policy": {
+                            "odrl:permission": [
+                                {
+                                    "odrl:action": "USE",
+                                    "odrl:constraint": {
+                                        "odrl:and": [
+                                            {
+                                                "odrl:leftOperand": "%s",
+                                                "odrl:operator": {
+                                                    "@id": "%s"
+                                                },
+                                                "odrl:rightOperand": "%s"
+                                            },
+                                            {
+                                                "odrl:leftOperand": "%s",
+                                                "odrl:operator": {
+                                                    "@id": "%s"
+                                                },
+                                                "odrl:rightOperand": "%s"
+                                            }
+                                        ]
                                     }
-                                ]
-                            }
+                                }
+                            ]
                         }
-                    ]
+                    }
                 }
-            }
-        }
-        """.formatted(validUntil, leftOperandMembership, operatorEq, rightOperandActive, leftOperandPurpose, operatorEq, rightOperandPurpose);
+                """.formatted(validUntil, uuid, leftOperandMembership, operatorEq, rightOperandActive, leftOperandPurpose, operatorEq, rightOperandPurpose);
         irsAdminTemplate.exchange(POLICY_PATH, HttpMethod.POST, new HttpEntity<>(payload), Void.class);
     }
 
