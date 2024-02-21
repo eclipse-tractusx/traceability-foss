@@ -192,9 +192,10 @@ class IrsServiceTest {
                 new Parameter(direction, "asBuilt", "BPN0000X")
         );
 
+
         List<Shell> shells = Arrays.asList(
-                new Shell("shell1", "Identification 1", "globalAssetId"),
-                new Shell("shell2", "Identification 2", "globalAssetId")
+                new Shell("shell1", new Shell.Payload("id", "idshort", "id")),
+                new Shell("shell2", new Shell.Payload("id2", "idshort2", "id2"))
         );
 
         ValidityPeriod validityPeriod = new ValidityPeriod(null, toOffsetDateTime(Instant.now()));
