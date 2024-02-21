@@ -25,3 +25,8 @@ query-filters:
 
 paths-ignore:
   - frontend/dist
+  - frontend/cypress
+  - frontend/src/app/mocks
+  - frontend/src/tests
+  - '**/*.spec.ts'
+  - frontend/src/mockServiceWorker.js
