@@ -33,7 +33,6 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - IrsCallbackController is now validating jobId to prevent log injections from unwanted usage
 - Changed Add Parts concept to Edit Parts concept
 
-- updated publish-documentation workflow with two new steps
 
 ### Removed
 - Investigations/Alerts for assets_as_planned parts
