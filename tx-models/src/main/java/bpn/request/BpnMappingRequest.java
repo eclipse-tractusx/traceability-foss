@@ -19,20 +19,19 @@
 
 package bpn.request;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record BpnMappingRequest(
-        @NotNull(message = "BPN must be present")
+
         @NotEmpty(message = "BPN must be present")
-        @ApiModelProperty(example = "BPNL00000003CSGV")
+        @Schema(example = "BPNL00000003CSGV", maxLength = 255)
         @Size(max = 255)
         @ValidBPN
         String bpn,
 
-        @NotNull(message = "A valid URL must be present")
+
         @NotEmpty(message = "A valid URL must be present")
         @Size(max = 255)
         String url

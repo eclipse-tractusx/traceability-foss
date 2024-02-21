@@ -90,9 +90,9 @@ jobs:
         env:
           DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
         if: env.DOCKER_HUB_USER != ''
-        uses: peter-evans/dockerhub-description@v3
+        uses: peter-evans/dockerhub-description@v4
         with:
           username: ${{ secrets.DOCKER_HUB_USER }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
           repository: ${{ env.DOCKER_HUB_REGISTRY_NAMESPACE }}/${{ env.BACKEND_IMAGE_DOCKER_HUB }}
-          readme-filepath: README.md
+          readme-filepath: ./DOCKER_NOTICE.md

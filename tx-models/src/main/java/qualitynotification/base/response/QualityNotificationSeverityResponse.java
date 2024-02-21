@@ -20,16 +20,13 @@ package qualitynotification.base.response;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(description = "Describes the criticality of a notification")
 public enum QualityNotificationSeverityResponse {
     MINOR("MINOR"),
     MAJOR("MAJOR"),
     CRITICAL("CRITICAL"),
-    @ApiModelProperty(name = "LIFE-THREATENING")
     LIFE_THREATENING("LIFE-THREATENING");
-
     private final String realName;
 
     QualityNotificationSeverityResponse(String realName) {

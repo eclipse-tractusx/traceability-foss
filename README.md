@@ -1,12 +1,10 @@
 <h1><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/frontend/src/assets/images/logo.svg" alt="Trace-X - Product Traceability FOSS Frontend (TRACE-FOSS)" style="width:200px;"/>Traceability FOSS</h1>
 
 [![Apache 2 License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/eclipse-tractusx/traceability-foss/LICENSE)
-[![Quality Gate Backend](https://sonarcloud.io/api/project_badges/measure?project=eclipse-tractusx_traceability-foss-backend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=eclipse-tractusx_traceability-foss-backend)
-[![Quality Gate Frontend](https://sonarcloud.io/api/project_badges/measure?project=eclipse-tractusx_traceability-foss-frontend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=eclipse-tractusx_traceability-foss-frontend)
+[![QG Backend](https://sonarcloud.io/api/project_badges/measure?project=eclipse-tractusx_traceability-foss-backend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=eclipse-tractusx_traceability-foss-backend)
+[![QG Frontend](https://sonarcloud.io/api/project_badges/measure?project=eclipse-tractusx_traceability-foss-frontend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=eclipse-tractusx_traceability-foss-frontend)
 [![Kics](https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/kics.yml/badge.svg)](https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/kics.yml)
 [![Trivy](https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/trivy.yml/badge.svg)](https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/trivy.yml)
-[![VeraCode Backend](https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/veracode_backend.yml/badge.svg)](https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/veracode_backend.yml)
-[![VeraCode Frontend](https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/veracode_frontend.yml/badge.svg)](https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/veracode_frontend.yml)
 [![Eclipse DASH IP Check](https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/eclipse-dash.yml/badge.svg)](https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/eclipse-dash.yml)
 [![[BE] Dependency check](https://github.com/catenax-ng/tx-traceability-foss/actions/workflows/dependency-check.yml/badge.svg)](https://github.com/catenax-ng/tx-traceability-foss/actions/workflows/dependency-check.yml)
 
@@ -158,28 +156,10 @@ or can be viewed in the Swagger UI accessing the url: `{projectBasePath}/api/swa
 
 ## Notice for Docker image
 
-This application provides container images for demonstration purposes.
+Below you can find the information regarding Docker Notice for this application.
 
-Eclipse Tractus-X product(s) installed within the image:
-
-DockerHub Backend: https://hub.docker.com/r/tractusx/traceability-foss
-DockerHub Frontend: https://hub.docker.com/r/tractusx/traceability-foss-frontend
-
-- GitHub: https://github.com/eclipse-tractusx/traceability-foss
-- Project home: https://projects.eclipse.org/projects/automotive.tractusx
-- Dockerfile Backend: https://github.com/eclipse-tractusx/traceability-foss/blob/main/Dockerfile
-- Dockerfile Frontend: https://github.com/eclipse-tractusx/traceability-foss/blob/main/frontend/Dockerfile
-- Project license: [Apache License, Version 2.0](https://github.com/eclipse-tractusx/traceability-foss/blob/main/LICENSE)
-
-**Used base image**
-- [eclipse-temurin:20-jre-alpine](https://github.com/adoptium/containers)
-- Official Eclipse Temurin DockerHub page: https://hub.docker.com/_/eclipse-temurin
-- Eclipse Temurin Project: https://projects.eclipse.org/projects/adoptium.temurin
-- Additional information about the Eclipse Temurin images: https://github.com/docker-library/repo-info/tree/master/repos/eclipse-temurin
-
-As with all Docker images, these likely also contain other software which may be under other licenses (such as Bash, etc from the base distribution, along with any direct or indirect dependencies of the primary software being contained).
-
-As for any pre-built image usage, it is the image user's responsibility to ensure that any use of this image complies with any relevant licenses for all software contained within.
+- [Traceability Backend Docker Notice](https://github.com/eclipse-tractusx/traceability-foss/blob/main/DOCKER_NOTICE.md)
+- [Traceability Frontend Docker Notice](https://github.com/eclipse-tractusx/traceability-foss/blob/main/frontend/DOCKER_NOTICE.md)
 
 ## Contact
 

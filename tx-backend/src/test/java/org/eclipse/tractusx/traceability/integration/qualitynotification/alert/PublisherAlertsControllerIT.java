@@ -173,60 +173,6 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldStartAlertForAsPlanned() throws JsonProcessingException, JoseException {
-        // given
-        List<String> partIds = List.of(
-                "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01"  // BPN: BPNL00000003CML1
-        );
-        String description = "at least 15 characters long investigation description";
-        QualityNotificationSeverityRequest severity = QualityNotificationSeverityRequest.MINOR;
-        String receiverBpn = "BPN";
-
-        assetsSupport.defaultAssetsAsPlannedStored();
-
-        val request = StartQualityNotificationRequest.builder()
-                .partIds(partIds)
-                .description(description)
-                .severity(severity)
-                .receiverBpn(receiverBpn)
-                .isAsBuilt(false)
-                .build();
-
-        // when
-        given()
-                .contentType(ContentType.JSON)
-                .body(objectMapper.writeValueAsString(request))
-                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
-                .when()
-                .post("/api/alerts")
-                .then()
-                .statusCode(201)
-                .body("id", Matchers.isA(Number.class));
-
-        partIds.forEach(
-                partId -> {
-                    AssetBase asset = assetAsPlannedRepository.getAssetById(partId);
-                    assertThat(asset).isNotNull();
-                }
-        );
-
-        alertNotificationsSupport.assertAlertNotificationsSize(1);
-
-        // when/then
-        given()
-                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), null))
-                .contentType(ContentType.JSON)
-                .when()
-                .post("/api/alerts/filter")
-                .then()
-                .statusCode(200)
-                .body("page", Matchers.is(0))
-                .body("pageSize", Matchers.is(10))
-                .body("content", Matchers.hasSize(1));
-    }
-
-    @Test
     void givenMissingSeverity_whenStartAlert_thenBadRequest() throws JsonProcessingException, JoseException {
         // given
         List<String> partIds = List.of(

@@ -182,7 +182,17 @@ export const mockBmwAssets = [
     'sentQualityInvestigationIdsInStatusActive': [],
     'receivedQualityInvestigationIdsInStatusActive': [],
     'importState': 'PERSISTENT',
-    'importNote': 'This is a test import note.'
+    'importNote': 'This is a test import note.',
+    'tombstone': `\t\t{
+\t\t\t"catenaXId": "urn:uuid:68c9b1bf-b2c1-456a-883c-2aac5f5cb5f4",
+\t\t\t"endpointURL": null,
+\t\t\t"processingError": {
+\t\t\t\t"processStep": "BpdmRequest",
+\t\t\t\t"errorDetail": "Cannot find ManufacturerId for CatenaXId: urn:uuid:68c9b1bf-b2c1-456a-883c-2aac5f5cb5f4",
+\t\t\t\t"lastAttempt": "2022-11-08T08:37:18.724609316Z",
+\t\t\t\t"retryCounter": 0
+\t\t\t}
+\t\t}`
   },
   {
     'id': 'urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa01',
@@ -216,7 +226,17 @@ export const mockBmwAssets = [
     'sentQualityInvestigationIdsInStatusActive': [],
     'receivedQualityInvestigationIdsInStatusActive': [],
     'importState': 'PERSISTENT',
-    'importNote': 'This is a test import note.'
+    'importNote': 'This is a test import note.',
+    'tombstone': `\t\t{
+\t\t\t"catenaXId": "urn:uuid:68c9b1bf-b2c1-456a-883c-2aac5f5cb5f4",
+\t\t\t"endpointURL": null,
+\t\t\t"processingError": {
+\t\t\t\t"processStep": "BpdmRequest",
+\t\t\t\t"errorDetail": "Cannot find ManufacturerId for CatenaXId: urn:uuid:68c9b1bf-b2c1-456a-883c-2aac5f5cb5f4",
+\t\t\t\t"lastAttempt": "2022-11-08T08:37:18.724609316Z",
+\t\t\t\t"retryCounter": 0
+\t\t\t}
+\t\t}`
   },
   {
     'id': 'urn:uuid:d8030bbf-a874-49fb-b2e1-7610f0ccad12',
