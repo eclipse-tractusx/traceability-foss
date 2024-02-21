@@ -26,6 +26,7 @@ public record ConstraintResponse(
         @Schema(example = "PURPOSE")
         String leftOperand,
 
+        @Schema
         OperatorTypeResponse operatorTypeResponse,
         @Schema(example = "ID Trace 3.1")
         List<String> rightOperands) {
