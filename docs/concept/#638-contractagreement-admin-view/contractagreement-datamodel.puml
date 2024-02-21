@@ -1,0 +1,29 @@
+@startuml
+!define ENTITY asset
+!define ENTITY contract
+!define ENTITY policy
+
+entity "EDCAssets" as asset {
++ EDCAssetID [PK]
+--
+AssetName
+}
+
+entity "Contracts" as contract {
++ ContractID [PK]
+--
+EDCAssetID [FK]
+PolicyID [FK]
+CounterPartyAddress
+CreationDate
+Enddate
+State
+}
+
+entity "Policy" as policy{
++ PolicyID [PK]
+}
+
+asset --o{ contract : ">1" to "n"
+contract--o{ policy: ">1" to "n"
+@enduml

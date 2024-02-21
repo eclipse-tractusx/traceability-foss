@@ -1,0 +1,37 @@
+@startuml
+title
+    ==Contract agreement sequence flow
+end title
+
+autonumber "<B>[00]"
+
+participant "Trace-X Frontend" as FE order 0
+participant "Trace-X Backend" as BE order 1
+participant "EDC" as EDC order 2
+
+FE -> BE: GET /contracts
+activate BE
+BE -> EDC: POST /management/v2/contractagreements/request
+activate EDC
+autonumber stop
+EDC --> BE: JSON response (incl. ContractAgreementId)
+autonumber resume
+deactivate EDC
+BE -> BE: First mapping
+activate BE
+deactivate BE
+loop for all ContractAgreementIds
+BE -> EDC: GET /management/v2/contractagreements/{ContractAgreementId}/negotiation
+activate EDC
+autonumber stop
+EDC --> BE: JSON response
+autonumber resume
+deactivate EDC
+BE -> BE: Second mapping
+activate BE
+deactivate BE
+end
+BE -> FE: JSON response
+deactivate BE
+
+@enduml
