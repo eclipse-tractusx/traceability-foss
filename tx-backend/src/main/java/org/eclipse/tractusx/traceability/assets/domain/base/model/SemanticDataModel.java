@@ -32,9 +32,9 @@ public enum SemanticDataModel {
     private final String value;
 
     public boolean isAsBuilt() {
-        return Objects.equals(this.value, SERIALPART) ||
-                Objects.equals(this.value, BATCH) ||
-                Objects.equals(this.value, JUSTINSEQUENCE) ||
-                Objects.equals(this.value, TOMBSTONEASBUILT);
+        return Objects.equals(this.value, SERIALPART.getValue()) ||
+                Objects.equals(this.value, BATCH.getValue()) ||
+                Objects.equals(this.value, JUSTINSEQUENCE.getValue()) ||
+                Objects.equals(this.value, TOMBSTONEASBUILT.getValue());
     }
 }
