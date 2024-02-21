@@ -19,6 +19,7 @@
 
 package org.eclipse.tractusx.traceability.integration.importdata;
 
+import assets.importpoc.ImportJobStatusResponse;
 import assets.importpoc.ImportReportResponse;
 import assets.importpoc.ImportResponse;
 import assets.importpoc.ImportStateMessage;
@@ -132,6 +133,8 @@ class ImportControllerIT extends IntegrationTestSpecification {
     void givenValidFileWithAsPlannedOnly_whenImportData_thenValidationShouldPass() throws JoseException {
         // given
         String path = getClass().getResource("/testdata/importfiles/validImportFile-onlyAsPlannedAsset.json").getFile();
+
+
         File file = new File(path);
 
         // when/then
@@ -147,10 +150,10 @@ class ImportControllerIT extends IntegrationTestSpecification {
         assertThat(result.validationResult().validationErrors()).isEmpty();
         assertThat(result.jobId()).isNotEmpty();
         assertThat(result.importStateMessage()).containsExactlyInAnyOrder(
-                new ImportStateMessage("urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01", true)
+                new ImportStateMessage("urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb02", true)
         );
 
-        AssetAsPlannedEntity entity = jpaAssetAsPlannedRepository.findById("urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01").get();
+        AssetAsPlannedEntity entity = jpaAssetAsPlannedRepository.findById("urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb02").get();
         assertThat(entity.getSubmodels()).isNotEmpty();
     }
 
@@ -473,8 +476,42 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .extract().as(ImportReportResponse.class);
 
         // then
-        assertEquals(result.jobId(), importReportResponse.importJob().importId());
-        assertEquals(18, importReportResponse.importedAsset().size());
+        assertEquals(result.jobId(), importReportResponse.importJobResponse().importId());
+        assertEquals(18, importReportResponse.importedAssetResponse().size());
+
+    }
+
+    @Test
+    void givenInvalidFile_whenImportData_thenReportShouldBeReturned() throws JoseException {
+
+        // given
+        String path = getClass().getResource("/testdata/importfiles/invalidImportFile.json").getFile();
+        File file = new File(path);
+        ImportResponse result = given()
+                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .when()
+                .multiPart(file)
+                .post("/api/assets/import")
+                .then()
+                .statusCode(400)
+                .extract().as(ImportResponse.class);
+
+        // when
+        ImportReportResponse importReportResponse = given()
+                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .contentType(ContentType.JSON)
+                .when()
+                .pathParam("importJobId", result.jobId())
+                .get("/api/assets/import/report/{importJobId}")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .extract().as(ImportReportResponse.class);
+
+        // then
+        assertEquals(ImportJobStatusResponse.ERROR, importReportResponse.importJobResponse().importJobStatusResponse());
+        assertEquals(result.jobId(), importReportResponse.importJobResponse().importId());
+        assertEquals(0, importReportResponse.importedAssetResponse().size());
 
     }
 

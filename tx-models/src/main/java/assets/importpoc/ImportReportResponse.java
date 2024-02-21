@@ -19,17 +19,19 @@
 package assets.importpoc;
 
 import assets.response.base.response.ImportStateResponse;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.List;
 
 @Schema
 public record ImportReportResponse(
-        ImportJob importJob,
-        List<ImportedAsset> importedAsset) {
+
+        @JsonProperty("importJob") ImportJobResponse importJobResponse,
+        @JsonProperty("importedAsset") List<ImportedAssetResponse> importedAssetResponse) {
 
     @Schema
-    public record ImportJob(
+    public record ImportJobResponse(
             @Schema(example = "456a952e-05eb-40dc-a6f2-9c2cb9c1387f")
             String importId,
             @Schema(example = "2099-02-21T21:27:10.734950Z", maxLength = 50)
@@ -37,14 +39,16 @@ public record ImportReportResponse(
             @Schema(example = "2099-02-21T21:27:10.734950Z", maxLength = 50)
             String completedOn,
             @Schema
+            @JsonProperty("importJobStatus")
             ImportJobStatusResponse importJobStatusResponse) {
     }
 
     @Schema
-    public record ImportedAsset(
+    public record ImportedAssetResponse(
             @Schema(example = "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd}")
             String catenaxId,
             @Schema
+            @JsonProperty("importState")
             ImportStateResponse importStateResponse,
             @Schema(example = "2099-02-21T21:27:10.734950Z", maxLength = 50)
             String importedOn,

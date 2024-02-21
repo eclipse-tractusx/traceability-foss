@@ -127,7 +127,7 @@ public class AssetBaseResponseMapper {
     }
 
     public static QualityTypeResponse from(final QualityType qualityType) {
-        return QualityTypeResponse.valueOf(qualityType.name());
+        return qualityType != null ? QualityTypeResponse.valueOf(qualityType.name()) : null;
     }
 
     public static SemanticDataModelResponse from(final SemanticDataModel semanticDataModel) {

@@ -125,6 +125,7 @@ public class AssetAsBuiltViewEntity extends AssetBaseEntity {
                 .receivedQualityAlerts(emptyIfNull(this.alerts).stream().filter(alert -> NotificationSideBaseEntity.RECEIVER.equals(alert.getSide())).map(AlertEntity::toDomain).toList())
                 .sentQualityInvestigations(emptyIfNull(this.investigations).stream().filter(alert -> NotificationSideBaseEntity.SENDER.equals(alert.getSide())).map(InvestigationEntity::toDomain).toList())
                 .receivedQualityInvestigations(emptyIfNull(this.investigations).stream().filter(alert -> NotificationSideBaseEntity.RECEIVER.equals(alert.getSide())).map(InvestigationEntity::toDomain).toList())
+                .tombstone(this.getTombstone())
                 .build();
     }
 
