@@ -19,8 +19,18 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.irs.edc.client.policy.Constraint;
+import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
+import org.eclipse.tractusx.irs.edc.client.policy.Operator;
+import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
+import org.eclipse.tractusx.irs.edc.client.policy.Permission;
+import org.eclipse.tractusx.irs.edc.client.policy.Policy;
+import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterJobRequest;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterPolicyRequest;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Context;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobDetailResponse;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Payload;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.PolicyResponse;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.jetbrains.annotations.Nullable;
@@ -31,6 +41,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.UUID;
 
@@ -65,14 +77,35 @@ public class IrsClient {
     }
 
     public void registerPolicy() {
-        Instant validUntil = traceabilityProperties.getValidUntil().toInstant();
-        String leftOperandMembership = "Membership";
+/*        String leftOperandMembership = "Membership";
         String operatorEq = "odrl:" + traceabilityProperties.getOperatorType();
         String rightOperandActive = "active";
         String leftOperandPurpose = traceabilityProperties.getLeftOperand();
         String rightOperandPurpose = traceabilityProperties.getRightOperand();
-        String uuid = UUID.randomUUID().toString();
-        final String payload = """
+        String uuid = UUID.randomUUID().toString();*/
+
+
+        OffsetDateTime validUntil = traceabilityProperties.getValidUntil();
+        Context context = Context.getDefault();
+        String policyId = UUID.randomUUID().toString();
+
+        Constraint constraint = new Constraint(traceabilityProperties.getLeftOperand(), new Operator(OperatorType.EQ), traceabilityProperties.getRightOperand());
+
+        Constraints constraints = Constraints.builder()
+                .and(List.of(constraint))
+                .or(List.of(constraint))
+                .build();
+
+        Permission permission = Permission.builder()
+                .action(PolicyType.USE)
+                .constraint(constraints)
+                .build();
+
+        Policy policy = new Policy(policyId, Instant.now().atOffset(ZoneOffset.UTC), validUntil, List.of(permission));
+
+        Payload payload = new Payload(context, policyId, policy);
+        RegisterPolicyRequest registerPolicyRequest = new RegisterPolicyRequest(validUntil.toInstant(), payload);
+       /* final String payload = """
                 {
                     "validUntil": "%s",
                     "payload": {
@@ -128,8 +161,8 @@ public class IrsClient {
                         }
                     }
                 }
-                """.formatted(validUntil, uuid, leftOperandMembership, operatorEq, rightOperandActive, leftOperandPurpose, operatorEq, rightOperandPurpose,leftOperandMembership, operatorEq, rightOperandActive, leftOperandPurpose, operatorEq, rightOperandPurpose);
-        irsAdminTemplate.exchange(POLICY_PATH, HttpMethod.POST, new HttpEntity<>(payload), Void.class);
+                """.formatted(validUntil, uuid, leftOperandMembership, operatorEq, rightOperandActive, leftOperandPurpose, operatorEq, rightOperandPurpose,leftOperandMembership, operatorEq, rightOperandActive, leftOperandPurpose, operatorEq, rightOperandPurpose);*/
+        irsAdminTemplate.exchange(POLICY_PATH, HttpMethod.POST, new HttpEntity<>(registerPolicyRequest), Void.class);
     }
 
     public void registerJob(RegisterJobRequest registerJobRequest) {
