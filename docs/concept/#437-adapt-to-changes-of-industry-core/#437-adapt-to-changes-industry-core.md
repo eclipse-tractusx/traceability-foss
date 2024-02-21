@@ -40,17 +40,15 @@ The product Trace-X MUST align with the Industry Code Standard CX-126 and CX-127
 
 ## Version matrix
 
-|Artefact| Version | Availability                                                  | link                                                                                                                                              |
-|---|---------|---------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
-| AAS |         |                                                               |                                                                                                                                                   |
-| PartAsPlanned | 1.0.1   | Mandatory                                                     | [PartAsPlanned 1.0.1](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.part_as_planned/1.0.1)                        |
- |PartAsPlanned | 2.0.0   | Optional (Mandatory for next version of CX-0126)              | [PartAsPlanned 2.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.part_as_planned/2.0.0)                        |
-| SingleLevelBomAsPlanned| 1.1.0   | Mandatory                                                     | [SingleLevelBomAsPlanned 1.1.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.single_level_bom_as_planned/1.1.0)] |
-| SingleLevelBomAsPlanned| 2.0.0   | Optional (Mandatory for next version of CX-0126)              | [SingleLevelBomAsPlanned 2.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.single_level_bom_as_planned/2.2.0)  |
-| SerialPart| 3.0.0   | Mandatory                                                     | [SerialPart 3.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.serial_part/3.0.0/gen)                           |
-| Batch| 3.0.0   | Mandatory                                                     | [Batch 3.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.batch/3.0.0)                                          |
-| JustInSequencePart| 3.0.0   | Mandatory                                                      | [JustInSequencePart 3.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.just_in_sequence_part/3.0.0)             |
-| SingleLevelBomAsBuilt| 2.0.0   | Mandatory                                                     | [SingleLevelBomAsBuilt 2.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.single_level_bom_as_built/2.0.0)      |
+|Artefact| Version | Availability                                                 | link                                                                                                                                              |
+|---|---------|--------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
+| AAS |         |                                                              |                                                                                                                                                   |
+|PartAsPlanned | 2.0.0   | Mandatory             | [PartAsPlanned 2.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.part_as_planned/2.0.0)                        |
+| SingleLevelBomAsPlanned| 2.0.0   | Mandatory              | [SingleLevelBomAsPlanned 2.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.single_level_bom_as_planned/2.2.0)  |
+| SerialPart| 3.0.0   | Mandatory                                                    | [SerialPart 3.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.serial_part/3.0.0/gen)                           |
+| Batch| 3.0.0   | Mandatory                                                    | [Batch 3.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.batch/3.0.0)                                          |
+| JustInSequencePart| 3.0.0   | Mandatory                                                     | [JustInSequencePart 3.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.just_in_sequence_part/3.0.0)             |
+| SingleLevelBomAsBuilt| 2.0.0   | Mandatory                                                    | [SingleLevelBomAsBuilt 2.0.0](https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.single_level_bom_as_built/2.0.0)      |
 | PartSiteInformationAsBuilt| 1.0.0   | Integrated in Aspects JustInSequencePart / Batch / SerialPart | https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.shared.part_site_information_as_built/1.0.0                         |
 
 
