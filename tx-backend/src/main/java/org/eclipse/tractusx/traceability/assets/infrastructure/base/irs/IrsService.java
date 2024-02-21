@@ -107,7 +107,7 @@ public class IrsService implements IrsRepository {
             }
 
             // persist converted assets
-            jobResponse.convertAssets().forEach(assetBase -> {
+            jobResponse.convertAssets(objectMapper).forEach(assetBase -> {
                 if (assetBase.getBomLifecycle() == org.eclipse.tractusx.irs.component.enums.BomLifecycle.AS_BUILT) {
                     saveOrUpdateAssets(assetAsBuiltCallbackRepository, assetBase);
                 } else if (assetBase.getBomLifecycle() == org.eclipse.tractusx.irs.component.enums.BomLifecycle.AS_PLANNED) {
@@ -127,6 +127,7 @@ public class IrsService implements IrsRepository {
             if (!asset.getParentRelations().isEmpty()) {
                 existingAsset.setParentRelations(asset.getParentRelations());
             }
+            existingAsset.setTombstone(asset.getTombstone());
             repository.save(existingAsset);
         } else {
             repository.save(asset);

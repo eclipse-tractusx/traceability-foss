@@ -360,6 +360,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .when()
                 .post("/api/investigations/filter")
                 .then()
+                .log().all()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))

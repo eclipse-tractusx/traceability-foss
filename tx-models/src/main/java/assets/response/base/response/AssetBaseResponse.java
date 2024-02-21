@@ -81,4 +81,18 @@ public class AssetBaseResponse {
     private ImportStateResponse importState;
     @Schema(example = "Asset created successfully in transient state")
     private String importNote;
+    @Schema(example = """
+                    {
+                        "catenaXId": "urn:uuid:7e4541ea-bb0f-464c-8cb3-021abccbfaf5",
+                        "endpointURL": "https://irs-provider-dataplane3.dev.demo.catena-x.net/api/public/data/urn:uuid:c7b3ea3d-97ea-41e4-960d-12fb166e1da1",
+                        "processingError": {
+                            "processStep": "SubmodelRequest",
+                            "errorDetail": "org.springframework.web.client.HttpServerErrorException$InternalServerError: 500 : "{"errors":[]}"",
+                            "lastAttempt": "2024-02-07T12:06:34.400493282Z",
+                            "retryCounter": 0
+                        },
+                        "policy": null
+                    }
+            """)
+    private String tombstone;
 }

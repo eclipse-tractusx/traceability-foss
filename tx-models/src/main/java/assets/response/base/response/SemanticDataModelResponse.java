@@ -19,18 +19,16 @@
 package assets.response.base.response;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(description = "Type of model")
 public enum SemanticDataModelResponse {
-
     BATCH,
-
     SERIALPART,
-
     UNKNOWN,
-
     PARTASPLANNED,
-
-    JUSTINSEQUENCE;
+    JUSTINSEQUENCE,
+    TOMBSTONEASBUILT,
+    TOMBSTONEASPLANNED;
 
 }

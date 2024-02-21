@@ -57,4 +57,5 @@ public class AssetBaseEntity {
     private ImportState importState;
     private String importNote;
     private String policyId;
+    private String tombstone;
 }
