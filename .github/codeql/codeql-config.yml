@@ -22,3 +22,6 @@ query-filters:
       id:
         - java/unused-reference-type
         - java/spring-disabled-csrf-protection
+
+paths-ignore:
+  - frontend/dist
