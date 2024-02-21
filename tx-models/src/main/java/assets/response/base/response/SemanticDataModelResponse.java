@@ -19,19 +19,18 @@
 package assets.response.base.response;
 
 import io.swagger.annotations.ApiModel;
-import io.swagger.v3.oas.annotations.media.Schema;
 
 @ApiModel(description = "Type of model")
 public enum SemanticDataModelResponse {
-    @Schema(description = "Batch")
+
     BATCH,
-    @Schema(description = "SerialPart")
+
     SERIALPART,
-    @Schema(description = "Unknown")
+
     UNKNOWN,
-    @Schema(description = "PartAsPlanned")
+
     PARTASPLANNED,
-    @Schema(description = "JustInSequence")
+
     JUSTINSEQUENCE;
 
 }

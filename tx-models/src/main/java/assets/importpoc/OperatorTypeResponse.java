@@ -21,38 +21,36 @@ package assets.importpoc;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import io.swagger.v3.oas.annotations.media.Schema;
 
 
 @JsonSerialize(
         using = ToStringSerializer.class
 )
 public enum OperatorTypeResponse {
-    @Schema(description = "eq")
     EQ("eq", "Equals to"),
-    @Schema(description = "neq")
+
     NEQ("neq", "Not equal to"),
-    @Schema(description = "lt")
+
     LT("lt", "Less than"),
-    @Schema(description = "gt")
+
     GT("gt", "Greater than"),
-    @Schema(description = "in")
+
     IN("in", "In"),
-    @Schema(description = "lteq")
+
     LTEQ("lteq", "Less than or equal to"),
-    @Schema(description = "gteq")
+
     GTEQ("gteq", "Greater than or equal to"),
-    @Schema(description = "isA")
+
     ISA("isA", "Is a"),
-    @Schema(description = "hasPart")
+
     HASPART("hasPart", "Has part"),
-    @Schema(description = "isPartOf")
+
     ISPARTOF("isPartOf", "Is part of"),
-    @Schema(description = "isOneOf")
+
     ISONEOF("isOneOf", "Is one of"),
-    @Schema(description = "isAllOf")
+
     ISALLOF("isAllOf", "Is all of"),
-    @Schema(description = "isNoneOf")
+
     ISNONEOF("isNoneOf", "Is none of");
 
     final String code;
