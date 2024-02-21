@@ -18,7 +18,7 @@
  ********************************************************************************/
 package assets.response.base.response;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -28,7 +28,7 @@ import lombok.ToString;
 @Builder
 public class DetailAspectModelResponse {
 
-    @ApiModelProperty(example = "PART_SITE_INFORMATION_AS_PLANNED")
+    @Schema(example = "PART_SITE_INFORMATION_AS_PLANNED")
     private DetailAspectTypeResponse type;
     private DetailAspectDataResponse data;
 }

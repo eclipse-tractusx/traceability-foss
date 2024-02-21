@@ -152,7 +152,7 @@ public class InvestigationsController {
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found for Asset", content = @Content(
             mediaType = "application/json",
-            array = @ArraySchema(arraySchema = @Schema(description = "InvestigationData", implementation = InvestigationResponse.class, additionalProperties = Schema.AdditionalPropertiesValue.FALSE), minItems = 0, maxItems = Integer.MAX_VALUE)
+            array = @ArraySchema(schema = @Schema(description = "InvestigationData", implementation = InvestigationResponse.class, additionalProperties = Schema.AdditionalPropertiesValue.FALSE), minItems = 0, maxItems = Integer.MAX_VALUE)
     )),
             @ApiResponse(
                     responseCode = "400",
@@ -523,7 +523,7 @@ public class InvestigationsController {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns a distinct filter values for given fieldName.", content = @Content(
             mediaType = "application/json",
             array = @ArraySchema(
-                    arraySchema = @Schema(
+                    schema = @Schema(
                             description = "FilterValues",
                             implementation = String.class,
                             additionalProperties = Schema.AdditionalPropertiesValue.FALSE

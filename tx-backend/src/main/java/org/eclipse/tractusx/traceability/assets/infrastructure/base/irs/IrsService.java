@@ -23,6 +23,7 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
@@ -39,6 +40,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
+
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 @Slf4j
 @Service
@@ -133,33 +137,38 @@ public class IrsService implements IrsRepository {
     public void createIrsPolicyIfMissing() {
         log.info("Check if irs policy exists");
         final List<PolicyResponse> irsPolicies = this.irsClient.getPolicies();
-        final List<String> irsPoliciesIds = irsPolicies.stream().map(PolicyResponse::policyId).toList();
+        final List<String> irsPoliciesIds = irsPolicies.stream().map(policyResponse -> policyResponse.payload().policyId()).toList();
         log.info("Irs has following policies: {}", irsPoliciesIds);
 
         log.info("Required constraints from application yaml are : {}", traceabilityProperties.getRightOperand());
 
+        PolicyResponse matchingPolicy = findMatchingPolicy(irsPolicies);
 
-        PolicyResponse matchingIrsPolicy = irsPolicies.stream()
-                .filter(irsPolicy -> irsPolicy.permissions().stream()
-                        .flatMap(permission -> permission.getConstraints().stream())
-                        .anyMatch(constraint ->
-                                constraint.getOr().stream().anyMatch(rightO ->
-                                        rightO.getRightOperand().stream().anyMatch(value ->
-                                                value.equals(traceabilityProperties.getRightOperand())))
-                                        ||
-                                        constraint.getAnd().stream().allMatch(rightO ->
-                                                rightO.getRightOperand().stream().allMatch(value ->
-                                                        value.equals(traceabilityProperties.getRightOperand())))
-                        ))
-                .findFirst()
-                .orElse(null);
-
-        if (matchingIrsPolicy == null) {
+        if (matchingPolicy == null) {
             createMissingPolicies();
         } else {
-            checkAndUpdatePolicy(matchingIrsPolicy);
+            checkAndUpdatePolicy(matchingPolicy);
         }
     }
+
+    private PolicyResponse findMatchingPolicy(List<PolicyResponse> irsPolicies) {
+        return irsPolicies.stream()
+                .filter(irsPolicy -> emptyIfNull(irsPolicy.payload().policy().getPermissions()).stream()
+                        .flatMap(permission -> {
+                            Constraints constraint = permission.getConstraint();
+                            return constraint != null ? constraint.getAnd().stream() : Stream.empty();
+                        })
+                        .anyMatch(constraint -> constraint.getRightOperand().equals(traceabilityProperties.getRightOperand()))
+                        || emptyIfNull(irsPolicy.payload().policy().getPermissions()).stream()
+                        .flatMap(permission -> {
+                            Constraints constraint = permission.getConstraint();
+                            return constraint != null ? constraint.getOr().stream() : Stream.empty();
+                        })
+                        .anyMatch(constraint -> constraint.getRightOperand().equals(traceabilityProperties.getRightOperand())))
+                .findFirst()
+                .orElse(null);
+    }
+
 
     private void createMissingPolicies() {
         log.info("Irs policy does not exist creating {}", traceabilityProperties.getRightOperand());

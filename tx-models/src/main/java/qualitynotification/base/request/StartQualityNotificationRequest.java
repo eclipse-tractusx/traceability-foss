@@ -21,7 +21,7 @@
 
 package qualitynotification.base.request;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -38,21 +38,25 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StartQualityNotificationRequest {
-    @Size(min = 1, max = 100, message = "Specify at least 1 and at most 100 partIds")
-    @ApiModelProperty(example = "[\"urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978\"]")
+    @Size(min = 1, max = 50, message = "Specify at least 1 and at most 50 assetIds")
+    @Schema(example = "[\"urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978\"]", minLength = 1, maxLength = 100)
     private List<String> partIds;
+
+    @Schema(example = "The description", minLength = 15, maxLength = 1000)
     @Size(min = 15, max = 1000, message = "Description should have at least 15 characters and at most 1000 characters")
-    @ApiModelProperty(example = "The description")
     private String description;
-    @ApiModelProperty(example = "2099-03-11T22:44:06.333826952Z")
+
+    @Schema(example = "2099-03-11T22:44:06.333826952Z")
     @Future(message = "Specify at least the current day or a date in future")
     private Instant targetDate;
+
     @NotNull
-    @ApiModelProperty(example = "MINOR")
     private QualityNotificationSeverityRequest severity;
-    @ApiModelProperty(example = "true")
+
+    @Schema(example = "true")
     private boolean isAsBuilt = true;
-    @ApiModelProperty(example = "BPN00001123123AS")
+
+    @Schema(example = "BPN00001123123AS")
     private String receiverBpn;
 
 }

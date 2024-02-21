@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -18,10 +16,15 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response;
 
-public record Shell(String contractAgreementId, Payload payload) {
-    public record Payload(String globalAssetId, String idShort, String id) {
+/**
+ * Context representation for get all policies response
+ */
+public record Context(String odrl) {
+    private static final String ODRL_VALUE = "http://www.w3.org/ns/odrl/2/";
+
+    public static Context getDefault() {
+        return new Context(ODRL_VALUE);
     }
 }
