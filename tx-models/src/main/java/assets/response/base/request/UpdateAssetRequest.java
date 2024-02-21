@@ -21,11 +21,11 @@
 
 package assets.response.base.request;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 
 public record UpdateAssetRequest(
         @NotNull(message = "qualityType must be present")
-        @ApiModelProperty(example = "Ok", required = true)
+        @Schema(example = "Ok", required = true)
         QualityTypeRequest qualityType) {
 }

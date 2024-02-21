@@ -21,38 +21,38 @@ package assets.importpoc;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 @JsonSerialize(
         using = ToStringSerializer.class
 )
 public enum OperatorTypeResponse {
-    @ApiModelProperty("eq")
+    @Schema(description = "eq")
     EQ("eq", "Equals to"),
-    @ApiModelProperty("neq")
+    @Schema(description = "neq")
     NEQ("neq", "Not equal to"),
-    @ApiModelProperty("lt")
+    @Schema(description = "lt")
     LT("lt", "Less than"),
-    @ApiModelProperty("gt")
+    @Schema(description = "gt")
     GT("gt", "Greater than"),
-    @ApiModelProperty("in")
+    @Schema(description = "in")
     IN("in", "In"),
-    @ApiModelProperty("lteq")
+    @Schema(description = "lteq")
     LTEQ("lteq", "Less than or equal to"),
-    @ApiModelProperty("gteq")
+    @Schema(description = "gteq")
     GTEQ("gteq", "Greater than or equal to"),
-    @ApiModelProperty("isA")
+    @Schema(description = "isA")
     ISA("isA", "Is a"),
-    @ApiModelProperty("hasPart")
+    @Schema(description = "hasPart")
     HASPART("hasPart", "Has part"),
-    @ApiModelProperty("isPartOf")
+    @Schema(description = "isPartOf")
     ISPARTOF("isPartOf", "Is part of"),
-    @ApiModelProperty("isOneOf")
+    @Schema(description = "isOneOf")
     ISONEOF("isOneOf", "Is one of"),
-    @ApiModelProperty("isAllOf")
+    @Schema(description = "isAllOf")
     ISALLOF("isAllOf", "Is all of"),
-    @ApiModelProperty("isNoneOf")
+    @Schema(description = "isNoneOf")
     ISNONEOF("isNoneOf", "Is none of");
 
     final String code;

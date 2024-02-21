@@ -21,17 +21,17 @@
 
 package qualitynotification.base.response;
 
-import io.swagger.annotations.ApiModelProperty;
-import jakarta.validation.constraints.Size;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+
 
 public record QualityNotificationReasonResponse(
-        @ApiModelProperty(example = "description of closing reason")
-        @Size(max = 1000)
+        @Schema(example = "description of closing reason", maxLength = 1000)
         String close,
-        @ApiModelProperty(example = "description of accepting reason")
-        @Size(max = 1000)
+
+        @Schema(example = "description of accepting reason", maxLength = 1000)
         String accept,
-        @ApiModelProperty(example = "description of declining reason")
-        @Size(max = 1000)
+
+        @Schema(example = "description of declining reason", maxLength = 1000)
         String decline) {
 }

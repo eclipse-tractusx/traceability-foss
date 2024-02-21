@@ -19,15 +19,13 @@
 
 package assets.response.base.response;
 
-import io.swagger.annotations.ApiModelProperty;
-import jakarta.validation.constraints.Size;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 public record DescriptionsResponse(
-        @ApiModelProperty(example = "urn:uuid:a4a26b9c-9460-4cc5-8645-85916b86adb0")
-        @Size(max = 255)
+        @Schema(example = "urn:uuid:a4a26b9c-9460-4cc5-8645-85916b86adb0", maxLength = 255)
         String id,
-        @ApiModelProperty(example = "assembly-part-relationship")
-        @Size(max = 255)
+        @Schema(example = "assembly-part-relationship", maxLength = 255)
         String idShort) {
 
 }
