@@ -18,10 +18,9 @@
  ********************************************************************************/
 package bpn.response;
 
-import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@ArraySchema(arraySchema = @Schema(description = "BPN Mappings", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
+
 public record BpnEdcMappingResponse(@Schema(example = "BPNL00000003CSGV") String bpn,
                                     @Schema(example = "https://trace-x-test-edc.dev.demo.catena-x.net/a1") String url) {
 
