@@ -19,10 +19,18 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.irs.edc.client.policy.Constraint;
+import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
+import org.eclipse.tractusx.irs.edc.client.policy.Operator;
 import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
+import org.eclipse.tractusx.irs.edc.client.policy.Permission;
+import org.eclipse.tractusx.irs.edc.client.policy.Policy;
+import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterJobRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterPolicyRequest;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Context;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobDetailResponse;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Payload;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.PolicyResponse;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.jetbrains.annotations.Nullable;
@@ -32,7 +40,11 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Component
@@ -65,7 +77,26 @@ public class IrsClient {
     }
 
     public void registerPolicy() {
-        RegisterPolicyRequest registerPolicyRequest = RegisterPolicyRequest.from(traceabilityProperties.getLeftOperand(), OperatorType.fromValue(traceabilityProperties.getOperatorType()), traceabilityProperties.getRightOperand(), traceabilityProperties.getValidUntil());
+        OffsetDateTime validUntil = traceabilityProperties.getValidUntil();
+        Context context = Context.getDefault();
+        String policyId = UUID.randomUUID().toString();
+
+        Constraint constraint = new Constraint(traceabilityProperties.getLeftOperand(), new Operator(OperatorType.EQ), traceabilityProperties.getRightOperand());
+
+        Constraints constraints = Constraints.builder()
+                .and(List.of(constraint))
+                .or(List.of(constraint))
+                .build();
+
+        Permission permission = Permission.builder()
+                .action(PolicyType.USE)
+                .constraint(constraints)
+                .build();
+
+        Policy policy = new Policy(policyId, Instant.now().atOffset(ZoneOffset.UTC), validUntil, List.of(permission));
+
+        Payload payload = new Payload(context, policyId, policy);
+        RegisterPolicyRequest registerPolicyRequest = new RegisterPolicyRequest(validUntil.toInstant(), payload);
         irsAdminTemplate.exchange(POLICY_PATH, HttpMethod.POST, new HttpEntity<>(registerPolicyRequest), Void.class);
     }
 

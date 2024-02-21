@@ -23,19 +23,12 @@ import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(description = "Type of model")
 public enum SemanticDataModelResponse {
-    @ApiModelProperty("Batch")
     BATCH,
-    @ApiModelProperty("SerialPart")
     SERIALPART,
-    @ApiModelProperty("Unknown")
     UNKNOWN,
-    @ApiModelProperty("PartAsPlanned")
     PARTASPLANNED,
-    @ApiModelProperty("JustInSequence")
     JUSTINSEQUENCE,
-    @ApiModelProperty("TombstoneAsBuilt")
     TOMBSTONEASBUILT,
-    @ApiModelProperty("TombstoneAsPlanned")
     TOMBSTONEASPLANNED;
 
 }

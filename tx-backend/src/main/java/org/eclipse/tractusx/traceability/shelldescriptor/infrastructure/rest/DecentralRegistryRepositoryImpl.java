@@ -21,7 +21,7 @@ package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.rest;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.irs.component.assetadministrationshell.AssetAdministrationShellDescriptor;
+import org.eclipse.tractusx.irs.component.Shell;
 import org.eclipse.tractusx.irs.registryclient.decentral.DecentralDigitalTwinRegistryService;
 import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.DecentralRegistryRepository;
@@ -38,7 +38,7 @@ public class DecentralRegistryRepositoryImpl implements DecentralRegistryReposit
     private final DecentralDigitalTwinRegistryService decentralDigitalTwinRegistryService;
 
     @Override
-    public List<AssetAdministrationShellDescriptor> retrieveShellDescriptorsByBpn(String bpn) {
+    public List<Shell> retrieveShellDescriptorsByBpn(String bpn) {
         try {
             return decentralDigitalTwinRegistryService.lookupShellsByBPN(bpn).stream().toList();
         } catch (RegistryServiceException exception) {

@@ -71,265 +71,274 @@
   ],
   "shells" : [
     {
-      "administration" : null,
-      "description" : [],
-      "globalAssetId" : "urn:uuid:8f9d8c7f-6d7a-48f1-9959-9fa3a1a7a891",
-      "idShort" : "DoorKey",
-      "identification" : "urn:uuid:c4b04dc9-2e11-41ab-9326-7941a0ac9f6d",
-      "specificAssetIds" : [
-        {
-          "key" : "partInstanceId",
-          "subjectId" : null,
-          "value" : "NO-175671273535589941197943",
-          "semanticId" : null
-        },
-        {
-          "key" : "manufacturerPartId",
-          "subjectId" : null,
-          "value" : "95657762-59",
-          "semanticId" : null
-        },
-        {
-          "key" : "manufacturerId",
-          "subjectId" : null,
-          "value" : "BPNL00000000BJTL",
-          "semanticId" : null
-        }
-      ],
-      "submodelDescriptors" : [
-        {
-          "administration" : null,
-          "description" : [],
-          "idShort" : "SerialPart",
-          "identification" : "urn:uuid:e3525d55-28fc-4a87-9b70-d79a0edb3818",
-          "semanticId" : {
-            "value" : [
-              "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart"
-            ]
+      "contractAgreementId": "abc",
+      "payload": {
+        "administration" : null,
+        "description" : [],
+        "globalAssetId" : "urn:uuid:8f9d8c7f-6d7a-48f1-9959-9fa3a1a7a891",
+        "idShort" : "DoorKey",
+        "identification" : "urn:uuid:c4b04dc9-2e11-41ab-9326-7941a0ac9f6d",
+        "specificAssetIds" : [
+          {
+            "key" : "partInstanceId",
+            "subjectId" : null,
+            "value" : "NO-175671273535589941197943",
+            "semanticId" : null
           },
-          "endpoints" : [
-            {
-              "protocolInformation" : {
-                "endpointAddress" : "https://trace-x-edc.dev.demo.catena-x.net/urn:uuid:8f9d8c7f-6d7a-48f1-9959-9fa3a1a7a891-urn:uuid:e3525d55-28fc-4a87-9b70-d79a0edb3818/submodel?content=value&extent=withBlobValue",
-                "endpointProtocol" : "HTTPS",
-                "endpointProtocolVersion" : "1.0",
-                "subprotocol" : null,
-                "subprotocolBody" : null,
-                "subprotocolBodyEncoding" : null
-              },
-              "interface" : "HTTP"
-            }
-          ]
-        }
-      ]
+          {
+            "key" : "manufacturerPartId",
+            "subjectId" : null,
+            "value" : "95657762-59",
+            "semanticId" : null
+          },
+          {
+            "key" : "manufacturerId",
+            "subjectId" : null,
+            "value" : "BPNL00000000BJTL",
+            "semanticId" : null
+          }
+        ],
+        "submodelDescriptors" : [
+          {
+            "administration" : null,
+            "description" : [],
+            "idShort" : "SerialPart",
+            "identification" : "urn:uuid:e3525d55-28fc-4a87-9b70-d79a0edb3818",
+            "semanticId" : {
+              "value" : [
+                "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart"
+              ]
+            },
+            "endpoints" : [
+              {
+                "protocolInformation" : {
+                  "endpointAddress" : "https://trace-x-edc.dev.demo.catena-x.net/urn:uuid:8f9d8c7f-6d7a-48f1-9959-9fa3a1a7a891-urn:uuid:e3525d55-28fc-4a87-9b70-d79a0edb3818/submodel?content=value&extent=withBlobValue",
+                  "endpointProtocol" : "HTTPS",
+                  "endpointProtocolVersion" : "1.0",
+                  "subprotocol" : null,
+                  "subprotocolBody" : null,
+                  "subprotocolBodyEncoding" : null
+                },
+                "interface" : "HTTP"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
-      "administration" : null,
-      "description" : [],
-      "globalAssetId" : "urn:uuid:3e300930-0e1c-459c-8914-1ac631176716",
-      "idShort" : "Doorf-l",
-      "identification" : "urn:uuid:5be294f7-3a77-4f99-be9b-259321064ab6",
-      "specificAssetIds" : [
-        {
-          "key" : "partInstanceId",
-          "subjectId" : null,
-          "value" : "NO-066856325264319536740496",
-          "semanticId" : null
-        },
-        {
-          "key" : "manufacturerPartId",
-          "subjectId" : null,
-          "value" : "22782277-50",
-          "semanticId" : null
-        },
-        {
-          "key" : "manufacturerId",
-          "subjectId" : null,
-          "value" : "BPNL00000003CSGV",
-          "semanticId" : null
-        }
-      ],
-      "submodelDescriptors" : [
-        {
-          "administration" : null,
-          "description" : [],
-          "idShort" : "SerialPart",
-          "identification" : "urn:uuid:467d5f3d-38aa-4633-b42c-d064c332139e",
-          "semanticId" : {
-            "value" : [
-              "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart"
-            ]
+      "contractAgreementId": "abc",
+      "payload": {
+        "administration" : null,
+        "description" : [],
+        "globalAssetId" : "urn:uuid:3e300930-0e1c-459c-8914-1ac631176716",
+        "idShort" : "Doorf-l",
+        "identification" : "urn:uuid:5be294f7-3a77-4f99-be9b-259321064ab6",
+        "specificAssetIds" : [
+          {
+            "key" : "partInstanceId",
+            "subjectId" : null,
+            "value" : "NO-066856325264319536740496",
+            "semanticId" : null
           },
-          "endpoints" : [
-            {
-              "protocolInformation" : {
-                "endpointAddress" : "https://trace-x-test-edc.dev.demo.catena-x.net/urn:uuid:3e300930-0e1c-459c-8914-1ac631176716-urn:uuid:467d5f3d-38aa-4633-b42c-d064c332139e/submodel?content=value&extent=withBlobValue",
-                "endpointProtocol" : "HTTPS",
-                "endpointProtocolVersion" : "1.0",
-                "subprotocol" : null,
-                "subprotocolBody" : null,
-                "subprotocolBodyEncoding" : null
-              },
-              "interface" : "HTTP"
-            }
-          ]
-        }
-      ]
+          {
+            "key" : "manufacturerPartId",
+            "subjectId" : null,
+            "value" : "22782277-50",
+            "semanticId" : null
+          },
+          {
+            "key" : "manufacturerId",
+            "subjectId" : null,
+            "value" : "BPNL00000003CSGV",
+            "semanticId" : null
+          }
+        ],
+        "submodelDescriptors" : [
+          {
+            "administration" : null,
+            "description" : [],
+            "idShort" : "SerialPart",
+            "identification" : "urn:uuid:467d5f3d-38aa-4633-b42c-d064c332139e",
+            "semanticId" : {
+              "value" : [
+                "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart"
+              ]
+            },
+            "endpoints" : [
+              {
+                "protocolInformation" : {
+                  "endpointAddress" : "https://trace-x-test-edc.dev.demo.catena-x.net/urn:uuid:3e300930-0e1c-459c-8914-1ac631176716-urn:uuid:467d5f3d-38aa-4633-b42c-d064c332139e/submodel?content=value&extent=withBlobValue",
+                  "endpointProtocol" : "HTTPS",
+                  "endpointProtocolVersion" : "1.0",
+                  "subprotocol" : null,
+                  "subprotocolBody" : null,
+                  "subprotocolBodyEncoding" : null
+                },
+                "interface" : "HTTP"
+              }
+            ]
+          }
+        ]
+      }
     },
     {
-      "administration" : null,
-      "description" : [],
-      "globalAssetId" : "urn:uuid:d3c0bf85-d44f-47c5-990d-fec8a36065c6",
-      "idShort" : "VehicleCombustion",
-      "identification" : "urn:uuid:99998358-e6fa-44b0-ae5c-50b443628b12",
-      "specificAssetIds" : [
-        {
-          "key" : "manufacturerId",
-          "subjectId" : null,
-          "value" : "BPNL00000003AYRE",
-          "semanticId" : null
-        },
-        {
-          "key" : "manufacturerPartId",
-          "subjectId" : null,
-          "value" : "XW-63",
-          "semanticId" : null
-        },
-        {
-          "key" : "partInstanceId",
-          "subjectId" : null,
-          "value" : "OMAPUHRUUEFIUYLEE",
-          "semanticId" : null
-        },
-        {
-          "key" : "van",
-          "subjectId" : null,
-          "value" : "OMAPUHRUUEFIUYLEE",
-          "semanticId" : null
-        }
-      ],
-      "submodelDescriptors" : [
-        {
-          "administration" : null,
-          "description" : [],
-          "idShort" : "CertificateOfDestruction",
-          "identification" : "urn:uuid:6b1dc6f6-16a6-4a92-9967-e306f1f225a1",
-          "semanticId" : {
-            "value" : [
-              "urn:bamm:io.catenax.certificate_of_destruction:1.0.0#CertificateOfDestruction"
+      "contractAgreementId": "abc",
+      "payload": {
+        "administration" : null,
+        "description" : [],
+        "globalAssetId" : "urn:uuid:d3c0bf85-d44f-47c5-990d-fec8a36065c6",
+        "idShort" : "VehicleCombustion",
+        "identification" : "urn:uuid:99998358-e6fa-44b0-ae5c-50b443628b12",
+        "specificAssetIds" : [
+          {
+            "key" : "manufacturerId",
+            "subjectId" : null,
+            "value" : "BPNL00000003AYRE",
+            "semanticId" : null
+          },
+          {
+            "key" : "manufacturerPartId",
+            "subjectId" : null,
+            "value" : "XW-63",
+            "semanticId" : null
+          },
+          {
+            "key" : "partInstanceId",
+            "subjectId" : null,
+            "value" : "OMAPUHRUUEFIUYLEE",
+            "semanticId" : null
+          },
+          {
+            "key" : "van",
+            "subjectId" : null,
+            "value" : "OMAPUHRUUEFIUYLEE",
+            "semanticId" : null
+          }
+        ],
+        "submodelDescriptors" : [
+          {
+            "administration" : null,
+            "description" : [],
+            "idShort" : "CertificateOfDestruction",
+            "identification" : "urn:uuid:6b1dc6f6-16a6-4a92-9967-e306f1f225a1",
+            "semanticId" : {
+              "value" : [
+                "urn:bamm:io.catenax.certificate_of_destruction:1.0.0#CertificateOfDestruction"
+              ]
+            },
+            "endpoints" : [
+              {
+                "protocolInformation" : {
+                  "endpointAddress" : "https://trace-x-test-edc.dev.demo.catena-x.net/urn:uuid:d3c0bf85-d44f-47c5-990d-fec8a36065c6-urn:uuid:6b1dc6f6-16a6-4a92-9967-e306f1f225a1/submodel?content=value&extent=withBlobValue",
+                  "endpointProtocol" : "HTTPS",
+                  "endpointProtocolVersion" : "1.0",
+                  "subprotocol" : null,
+                  "subprotocolBody" : null,
+                  "subprotocolBodyEncoding" : null
+                },
+                "interface" : "HTTP"
+              }
             ]
           },
-          "endpoints" : [
-            {
-              "protocolInformation" : {
-                "endpointAddress" : "https://trace-x-test-edc.dev.demo.catena-x.net/urn:uuid:d3c0bf85-d44f-47c5-990d-fec8a36065c6-urn:uuid:6b1dc6f6-16a6-4a92-9967-e306f1f225a1/submodel?content=value&extent=withBlobValue",
-                "endpointProtocol" : "HTTPS",
-                "endpointProtocolVersion" : "1.0",
-                "subprotocol" : null,
-                "subprotocolBody" : null,
-                "subprotocolBodyEncoding" : null
-              },
-              "interface" : "HTTP"
-            }
-          ]
-        },
-        {
-          "administration" : null,
-          "description" : [],
-          "idShort" : "ProductDescription",
-          "identification" : "urn:uuid:cc727e69-dc9e-4f09-9f85-77805c063f2f",
-          "semanticId" : {
-            "value" : [
-              "urn:bamm:io.catenax.vehicle.product_description:1.0.0#ProductDescription"
+          {
+            "administration" : null,
+            "description" : [],
+            "idShort" : "ProductDescription",
+            "identification" : "urn:uuid:cc727e69-dc9e-4f09-9f85-77805c063f2f",
+            "semanticId" : {
+              "value" : [
+                "urn:bamm:io.catenax.vehicle.product_description:1.0.0#ProductDescription"
+              ]
+            },
+            "endpoints" : [
+              {
+                "protocolInformation" : {
+                  "endpointAddress" : "https://trace-x-edc.dev.demo.catena-x.net/urn:uuid:d3c0bf85-d44f-47c5-990d-fec8a36065c6-urn:uuid:cc727e69-dc9e-4f09-9f85-77805c063f2f/submodel?content=value&extent=withBlobValue",
+                  "endpointProtocol" : "HTTPS",
+                  "endpointProtocolVersion" : "1.0",
+                  "subprotocol" : null,
+                  "subprotocolBody" : null,
+                  "subprotocolBodyEncoding" : null
+                },
+                "interface" : "HTTP"
+              }
             ]
           },
-          "endpoints" : [
-            {
-              "protocolInformation" : {
-                "endpointAddress" : "https://trace-x-edc.dev.demo.catena-x.net/urn:uuid:d3c0bf85-d44f-47c5-990d-fec8a36065c6-urn:uuid:cc727e69-dc9e-4f09-9f85-77805c063f2f/submodel?content=value&extent=withBlobValue",
-                "endpointProtocol" : "HTTPS",
-                "endpointProtocolVersion" : "1.0",
-                "subprotocol" : null,
-                "subprotocolBody" : null,
-                "subprotocolBodyEncoding" : null
-              },
-              "interface" : "HTTP"
-            }
-          ]
-        },
-        {
-          "administration" : null,
-          "description" : [],
-          "idShort" : "AssemblyPartRelationship",
-          "identification" : "urn:uuid:988f5748-e872-475b-a914-2e0b310deb7d",
-          "semanticId" : {
-            "value" : [
-              "urn:bamm:io.catenax.assembly_part_relationship:1.1.1#AssemblyPartRelationship"
+          {
+            "administration" : null,
+            "description" : [],
+            "idShort" : "AssemblyPartRelationship",
+            "identification" : "urn:uuid:988f5748-e872-475b-a914-2e0b310deb7d",
+            "semanticId" : {
+              "value" : [
+                "urn:bamm:io.catenax.assembly_part_relationship:1.1.1#AssemblyPartRelationship"
+              ]
+            },
+            "endpoints" : [
+              {
+                "protocolInformation" : {
+                  "endpointAddress" : "https://trace-x-edc.dev.demo.catena-x.net/urn:uuid:d3c0bf85-d44f-47c5-990d-fec8a36065c6-urn:uuid:988f5748-e872-475b-a914-2e0b310deb7d/submodel?content=value&extent=withBlobValue",
+                  "endpointProtocol" : "HTTPS",
+                  "endpointProtocolVersion" : "1.0",
+                  "subprotocol" : null,
+                  "subprotocolBody" : null,
+                  "subprotocolBodyEncoding" : null
+                },
+                "interface" : "HTTP"
+              }
             ]
           },
-          "endpoints" : [
-            {
-              "protocolInformation" : {
-                "endpointAddress" : "https://trace-x-edc.dev.demo.catena-x.net/urn:uuid:d3c0bf85-d44f-47c5-990d-fec8a36065c6-urn:uuid:988f5748-e872-475b-a914-2e0b310deb7d/submodel?content=value&extent=withBlobValue",
-                "endpointProtocol" : "HTTPS",
-                "endpointProtocolVersion" : "1.0",
-                "subprotocol" : null,
-                "subprotocolBody" : null,
-                "subprotocolBodyEncoding" : null
-              },
-              "interface" : "HTTP"
-            }
-          ]
-        },
-        {
-          "administration" : null,
-          "description" : [],
-          "idShort" : "SerialPart",
-          "identification" : "urn:uuid:52b66f78-5ac0-4a72-a039-40661b4662a4",
-          "semanticId" : {
-            "value" : [
-              "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart"
+          {
+            "administration" : null,
+            "description" : [],
+            "idShort" : "SerialPart",
+            "identification" : "urn:uuid:52b66f78-5ac0-4a72-a039-40661b4662a4",
+            "semanticId" : {
+              "value" : [
+                "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart"
+              ]
+            },
+            "endpoints" : [
+              {
+                "protocolInformation" : {
+                  "endpointAddress" : "https://trace-x-test-edc.dev.demo.catena-x.net/urn:uuid:d3c0bf85-d44f-47c5-990d-fec8a36065c6-urn:uuid:52b66f78-5ac0-4a72-a039-40661b4662a4/submodel?content=value&extent=withBlobValue",
+                  "endpointProtocol" : "HTTPS",
+                  "endpointProtocolVersion" : "1.0",
+                  "subprotocol" : null,
+                  "subprotocolBody" : null,
+                  "subprotocolBodyEncoding" : null
+                },
+                "interface" : "HTTP"
+              }
             ]
           },
-          "endpoints" : [
-            {
-              "protocolInformation" : {
-                "endpointAddress" : "https://trace-x-test-edc.dev.demo.catena-x.net/urn:uuid:d3c0bf85-d44f-47c5-990d-fec8a36065c6-urn:uuid:52b66f78-5ac0-4a72-a039-40661b4662a4/submodel?content=value&extent=withBlobValue",
-                "endpointProtocol" : "HTTPS",
-                "endpointProtocolVersion" : "1.0",
-                "subprotocol" : null,
-                "subprotocolBody" : null,
-                "subprotocolBodyEncoding" : null
-              },
-              "interface" : "HTTP"
-            }
-          ]
-        },
-        {
-          "administration" : null,
-          "description" : [],
-          "idShort" : "MaterialForRecycling",
-          "identification" : "urn:uuid:ecc6fe2c-92aa-4eaf-a35e-9ce3dc68d39b",
-          "semanticId" : {
-            "value" : [
-              "urn:bamm:io.catenax.material_for_recycling:1.1.0#MaterialForRecycling"
+          {
+            "administration" : null,
+            "description" : [],
+            "idShort" : "MaterialForRecycling",
+            "identification" : "urn:uuid:ecc6fe2c-92aa-4eaf-a35e-9ce3dc68d39b",
+            "semanticId" : {
+              "value" : [
+                "urn:bamm:io.catenax.material_for_recycling:1.1.0#MaterialForRecycling"
+              ]
+            },
+            "endpoints" : [
+              {
+                "protocolInformation" : {
+                  "endpointAddress" : "https://trace-x-edc.dev.demo.catena-x.net/urn:uuid:d3c0bf85-d44f-47c5-990d-fec8a36065c6-urn:uuid:ecc6fe2c-92aa-4eaf-a35e-9ce3dc68d39b/submodel?content=value&extent=withBlobValue",
+                  "endpointProtocol" : "HTTPS",
+                  "endpointProtocolVersion" : "1.0",
+                  "subprotocol" : null,
+                  "subprotocolBody" : null,
+                  "subprotocolBodyEncoding" : null
+                },
+                "interface" : "HTTP"
+              }
             ]
-          },
-          "endpoints" : [
-            {
-              "protocolInformation" : {
-                "endpointAddress" : "https://trace-x-edc.dev.demo.catena-x.net/urn:uuid:d3c0bf85-d44f-47c5-990d-fec8a36065c6-urn:uuid:ecc6fe2c-92aa-4eaf-a35e-9ce3dc68d39b/submodel?content=value&extent=withBlobValue",
-                "endpointProtocol" : "HTTPS",
-                "endpointProtocolVersion" : "1.0",
-                "subprotocol" : null,
-                "subprotocolBody" : null,
-                "subprotocolBodyEncoding" : null
-              },
-              "interface" : "HTTP"
-            }
-          ]
-        }
-      ]
+          }
+        ]
+      }
     }
   ],
   "tombstones" : [],
