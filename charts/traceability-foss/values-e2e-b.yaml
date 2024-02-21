@@ -251,10 +251,12 @@ irs-helm:
       - hosts:
           - *irs_host_name
         secretName: tls-secret
+  discovery:
+    discoveryFinderUrl: *discovery_finder_irs_url
   digitalTwinRegistry:
     descriptorEndpoint: *dtr_shell_descriptor_url
     shellLookupEndpoint: *dtr_shell_lookup_url
-    discoveryFinderUrl: *discovery_finder_irs_url
+
   semanticshub:
     url: *semantichub_models_url
   bpdm:
@@ -265,8 +267,15 @@ irs-helm:
   minioUrl: *irs_database_url
 
   oauth2:
-    clientId: *service_account_id
-    clientSecret: *service_account_password
+    semantics:
+      clientId: *service_account_id
+      clientSecret: *service_account_password
+    discovery:
+      clientId: *service_account_id
+      clientSecret: *service_account_password
+    bpdm:
+      clientId: *service_account_id
+      clientSecret: *service_account_password
     clientTokenUri: *central_idp_token_uri
 
   edc:

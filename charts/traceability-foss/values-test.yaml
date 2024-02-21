@@ -251,9 +251,9 @@ irs-helm:
       - hosts:
           - *irs_host_name
         secretName: tls-secret
+  discovery:
+    discoveryFinderUrl: *discovery_finder_irs_url
   digitalTwinRegistry:
-    discovery:
-      discoveryFinderUrl: *discovery_finder_irs_url
     descriptorEndpoint: *dtr_shell_descriptor_url
     shellLookupEndpoint: *dtr_shell_lookup_url
 
