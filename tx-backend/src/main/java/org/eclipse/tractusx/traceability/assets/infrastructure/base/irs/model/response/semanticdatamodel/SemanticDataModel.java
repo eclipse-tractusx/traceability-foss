@@ -101,7 +101,7 @@ public class SemanticDataModel {
 
     public AssetBase toDomainAsBuilt(List<LocalId> localIds, Map<String, String> shortIds, Owner owner, Map<String,
             String> bpns, List<Descriptions> parentRelations, List<Descriptions> childRelations,
-                                     Optional<DetailAspectDataTractionBatteryCode> tractionBatteryCodeOptional, ImportState assetImportState) {
+                                     Optional<DetailAspectDataTractionBatteryCode> tractionBatteryCodeOptional, ImportState assetImportState, Map<String, String> contractAgreementIds) {
         final String manufacturerName = bpns.get(manufacturerId());
         ArrayList<DetailAspectModel> detailAspectModels = new ArrayList<>();
 
@@ -148,6 +148,7 @@ public class SemanticDataModel {
                 .van(van())
                 .importState(assetImportState)
                 .importNote(ImportNote.PERSISTED)
+                .contractAgreementId(contractAgreementIds.get(catenaXId()))
                 .build();
     }
 
@@ -158,7 +159,7 @@ public class SemanticDataModel {
             List<Descriptions> parentRelations,
             List<Descriptions> childRelations,
             String ownerBpn,
-            ImportState assetImportState) {
+            ImportState assetImportState, Map<String, String> contractAgreementIds) {
         final String manufacturerName = bpns.get(ownerBpn);
 
         List<DetailAspectModel> partSiteInfoAsPlanned = extractDetailAspectModelsPartSiteInformationAsPlanned(sites());
@@ -184,6 +185,7 @@ public class SemanticDataModel {
                 .van(van())
                 .importState(assetImportState)
                 .importNote(ImportNote.PERSISTED)
+                .contractAgreementId(contractAgreementIds.get(catenaXId()))
                 .build();
     }
 
