@@ -282,6 +282,8 @@ Response Sample:
 
 #### 6. Handle pagination in FE (if necessary repeat calls)
 
+___
+
 ### GET api/contracts/{tx-assetId} sequence flow
 
 ![get-contract-sequenceflow.png](get-contract-sequenceflow.png)
