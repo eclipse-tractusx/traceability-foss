@@ -48,6 +48,7 @@ import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanit
 
 @Slf4j
 @Component
+// TODO remove
 public class EdcNotificationAssetService {
 
     private static final String DEFAULT_CONTENT_TYPE = "application/json";
@@ -71,14 +72,13 @@ public class EdcNotificationAssetService {
     public String createNotificationAsset(NotificationMethod notificationMethod, NotificationType notificationType) throws JsonProcessingException {
         String notificationMethodValue = notificationMethod.getValue();
 
-        final String template = notificationType.equals(NotificationType.QUALITY_ALERT) ? TRACE_FOSS_QUALITY_NOTIFICATION_ALERT_URL_TEMPLATE : TRACE_FOSS_QUALITY_NOTIFICATION_INVESTIGATION_URL_TEMPLATE;
 
         String notificationAssetId = UUID.randomUUID().toString();
 
         EdcDataAddress dataAddress = EdcDataAddress
                 .builder()
                 .type(DEFAULT_DATA_ADDRESS_PROPERTY_TYPE)
-                .baseUrl(traceabilityProperties.getUrl() + template.formatted(notificationMethodValue))
+//                .baseUrl(traceabilityProperties.getUrl() + template.formatted(notificationMethodValue))
                 .method(DEFAULT_METHOD)
                 .proxyBody("true")
                 .proxyMethod("true")

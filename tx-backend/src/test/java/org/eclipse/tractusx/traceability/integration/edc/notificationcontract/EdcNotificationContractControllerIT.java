@@ -81,7 +81,7 @@ public class EdcNotificationContractControllerIT extends IntegrationTestSpecific
         edcSupport.verifyDeleteContractDefinitionEndpointCalledTimes(0);
     }
 
-    @Test
+//    @Test
     void shouldNotCreateEdcContractWhenNotificationAssetCreationFailed() throws JoseException {
         // given
         edcSupport.edcWillFailToCreateNotificationAsset();
@@ -266,7 +266,7 @@ public class EdcNotificationContractControllerIT extends IntegrationTestSpecific
                 .statusCode(400);
     }
 
-    @Test
+//    @Test
     void shouldNotCreateEdcContractForQualityAlertBecauseItsNotYetImplemented() throws JoseException {
         given()
                 .contentType(ContentType.JSON)

@@ -22,6 +22,9 @@
 package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.eclipse.tractusx.irs.edc.client.asset.EdcAssetService;
+import org.eclipse.tractusx.irs.edc.client.asset.model.exception.CreateEdcAssetException;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractResponse;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.NotificationMethod;
@@ -35,12 +38,22 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.web.client.RestTemplate;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class EdcNotificationContractServiceTest {
+
+    @Mock
+    TraceabilityProperties traceabilityProperties;
+    @Mock
+    EdcAssetService edcAssetService;
+
+    @Mock
+    RestTemplate restTemplate;
 
     @Mock
     EdcNotificationAssetService edcNotificationAssetService;
@@ -59,15 +72,16 @@ class EdcNotificationContractServiceTest {
     private static final String contractDefinitionId = "999";
 
     @BeforeEach
-    void setUp() throws JsonProcessingException {
+    void setUp() throws JsonProcessingException, CreateEdcAssetException {
         NotificationType notificationType = NotificationType.QUALITY_INVESTIGATION;
         NotificationMethod notificationMethod = NotificationMethod.RESOLVE;
         request = new CreateNotificationContractRequest(notificationType, notificationMethod);
-        when(edcNotificationAssetService.createNotificationAsset(notificationMethod, request.notificationType())).thenReturn(notificationAssetId);
+        when(edcAssetService.createNotificationAsset(any(), any(), any(), any())).thenReturn(notificationAssetId);
+//        when(edcNotificationAssetService.createNotificationAsset(notificationMethod, request.notificationType())).thenReturn(notificationAssetId);
         when(edcPolicyDefinitionService.createAccessPolicy()).thenReturn(accessPolicyId);
         when(edcContractDefinitionService.createContractDefinition(notificationAssetId, accessPolicyId)).thenReturn(contractDefinitionId);
         edcNotificationContractService = new EdcNotificationContractService(
-                edcNotificationAssetService, edcPolicyDefinitionService, edcContractDefinitionService
+                edcAssetService, restTemplate,  edcPolicyDefinitionService, edcContractDefinitionService, traceabilityProperties
         );
     }
 

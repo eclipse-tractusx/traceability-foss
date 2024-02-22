@@ -23,26 +23,34 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.contract;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.irs.edc.client.asset.EdcAssetService;
+import org.eclipse.tractusx.irs.edc.client.asset.model.NotificationType;
+import org.eclipse.tractusx.irs.edc.client.asset.model.exception.DeleteEdcAssetException;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractException;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractResponse;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.NotificationMethod;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.asset.model.CreateEdcAssetException;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.asset.service.EdcNotificationAssetService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.contract.model.CreateEdcContractDefinitionException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.contract.service.EdcContractDefinitionService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.policy.model.CreateEdcPolicyDefinitionException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.policy.service.EdcPolicyDefinitionService;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 @Slf4j
 @Component
 @AllArgsConstructor
 public class EdcNotificationContractService {
 
-    private final EdcNotificationAssetService edcNotificationAssetService;
+    private final EdcAssetService edcAssetService; // TODO rename after testing and removing of EdcNotificationAssetService
+    private final RestTemplate edcRestTemplate; // TODO modify delete asset not to recieve rest template on method ( woooops ;O )
     private final EdcPolicyDefinitionService edcPolicyDefinitionService;
     private final EdcContractDefinitionService edcContractDefinitionService;
+    private final TraceabilityProperties traceabilityProperties;
+
+    private static final String TRACE_FOSS_QUALITY_NOTIFICATION_INVESTIGATION_URL_TEMPLATE = "/api/qualitynotifications/%s";
+    private static final String TRACE_FOSS_QUALITY_NOTIFICATION_ALERT_URL_TEMPLATE = "/api/qualityalerts/%s";
 
     public CreateNotificationContractResponse handle(CreateNotificationContractRequest request) {
 
@@ -50,13 +58,15 @@ public class EdcNotificationContractService {
 
         log.info("Creating EDC asset notification contract for {} method and {} notification type", notificationMethod.getValue(), request.notificationType().getValue());
 
-        String notificationAssetId = "";
+
+        String notificationAssetId;
         try {
-            notificationAssetId = edcNotificationAssetService.createNotificationAsset(notificationMethod, request.notificationType());
-        } catch (CreateEdcAssetException e) {
-            throw new CreateNotificationContractException(e);
-        } catch (JsonProcessingException e2) {
-            log.error(e2.toString());
+            notificationAssetId = edcAssetService.createNotificationAsset(createBaseUrl(request.notificationType(), request.notificationMethod()), request.notificationType().name()+ request.notificationMethod().name(), org.eclipse.tractusx.irs.edc.client.asset.model.NotificationMethod.valueOf(request.notificationMethod().name()), NotificationType.valueOf(request.notificationType().name()));
+//            notificationAssetId = edcNotificationAssetService.createNotificationAsset(notificationMethod, request.notificationType());
+//        } catch (CreateEdcAssetException e) {
+//            throw new CreateNotificationContractException(e);
+        } catch (org.eclipse.tractusx.irs.edc.client.asset.model.exception.CreateEdcAssetException e) {
+            throw new RuntimeException(e);
         }
 
 
@@ -100,6 +110,15 @@ public class EdcNotificationContractService {
     private void revertNotificationAsset(String notificationAssetId) {
         log.info("Removing {} notification asset", notificationAssetId);
 
-        edcNotificationAssetService.deleteNotificationAsset(notificationAssetId);
+        try {
+            edcAssetService.deleteAsset(notificationAssetId, edcRestTemplate);
+        } catch (DeleteEdcAssetException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private String createBaseUrl(org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.NotificationType notificationType, NotificationMethod notificationMethod) {
+        final String template = notificationType.equals(org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.NotificationType.QUALITY_ALERT) ? TRACE_FOSS_QUALITY_NOTIFICATION_ALERT_URL_TEMPLATE : TRACE_FOSS_QUALITY_NOTIFICATION_INVESTIGATION_URL_TEMPLATE;
+        return traceabilityProperties.getUrl() + template.formatted(notificationMethod.getValue());
     }
 }
