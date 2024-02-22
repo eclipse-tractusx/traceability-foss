@@ -24,6 +24,7 @@ on:
       - dev
     paths:
       - 'cfx-frontend/**'
+  workflow_dispatch:
 
 env:
   IMAGE_PREFIX: cfx

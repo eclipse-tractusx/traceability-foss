@@ -13,7 +13,7 @@ https://cofinity-x.atlassian.net/wiki/spaces/CXO/pages/156205057/Github+Advance+
 | [argo.yml](argo.yml)                                                                             | Tractus-X  | no              |
 | [codeql.yml](codeql.yml)                                                                         |            | yes             |
 | [cfx_image-backend-build_and_push.yml](cfx_image-backend-build_and_push.yml)                     | CFX        | yes             |
-| [cfx_image-cfx-frontend-main.yml](cfx_image-cfx-frontend-main.yml)                               | CFX        | yes             |
+| [cfx_image-cfx-frontend-main.yml](cfx_image-cfx-frontend-build-and-push.yml)                     | CFX        | yes             |
 | [cfx_image-tractusx-frontend-build-and-push.yml](cfx_image-tractusx-frontend-build-and-push.yml) | CFX        | yes             |
 | [cfx_sonar-scan-frontend.yml](cfx_sonar-scan-frontend.yml)                                       | CFX        | yes             |
 | [dependencies.yaml](dependencies.yaml)                                                           |            | yes             |
