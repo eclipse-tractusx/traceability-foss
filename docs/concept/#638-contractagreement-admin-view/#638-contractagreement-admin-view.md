@@ -37,10 +37,13 @@ The assets behind the contracts are not available for external auditors. Further
 
 # Requirements
 * [ ] The attributes contract ID, Counterparty address, creation date, state and policy are provided
-* [ ] The processed data of the management API can be accessed through a new API: GET/contracts/{assetID}
+* [ ] The processed data of the management API can be accessed through a new API: GET api/contracts and GET api/contracts/{tx-assetId}
 * [ ] The new API is documented
-* [ ] The new API makes 2 Requests to get attributes: POST/management/v2/contractagreements/request & GET /management/v2/contractagreements/{ContractAgreementId}/negotiation
-* [ ] Payload of the requests is mapped into a domain model
+* [ ] GET api/contracts makes 2 requests to get attributes: POST tx-edc/management/v2/contractagreements/request & GET tx-edc/management/v2/contractagreements/{contractAgreementId}/negotiation
+* [ ] GET api/contracts/{tx-assetId} fetches contractAgreementIds from the Trace-X database (they are regularly stored there by an IRS cron job)
+* [ ] GET api/contracts makes 2 requests to get attributes: POST tx-edc/management/v2/contractagreements/{contractAgreementId} & GET tx-edc/management/v2/contractagreements/{contractAgreementId}/negotiation
+* [ ] Payload of the requests are mapped into a domain model
+* [ ] Payload can be shown in the frontend
 
 # NFR
 * Security: Contract data must be securely stored and transmitted to ensure data confidentiality and integrity
@@ -52,7 +55,10 @@ The assets behind the contracts are not available for external auditors. Further
 # Out of scope
 Attribute EndDate: At the moment, the end date can't be taken from the edc, because the edc doesn't manage usage policies.
 
+Showing relations between assets and contract agreements in the frontend. In the backend, the request GET api/contracts/{tx-assetId} shall be implemented as preparation of this use case
+
 # Assumptions
+ContractAgreementIds are stored in relation to the assets in the Trace-X database. These are regularly updated by an IRS cron job.
 
 # Concept
 
@@ -125,24 +131,31 @@ User Journey Story:
 https://miro.com/app/board/uXjVOGBahIA=/?moveToWidget=3458764573051687012&cot=14
 ![contractagreement-admin-view-frontend.png](contractagreement-admin-view-frontend.png)
 
-Policy objects are shown as plain JSON.
+Policies are shown in plain json
 
 ## Backend concept
 Backend API of TraceX which provides the stored contract information for the frontend:
-GET /contracts
+
+GET api/contracts (all contractagreements for all assets)
+
+GET api/contracts/{tx-assetId} (contractagreements for asset with tx-assetId)
 
 Note: For the first step we will use the management API. If this is not working, we need to consider a new data model like below.
 
 This concept describes how the data received from the IRS will be stored in the new database.
 ![contractagreement-database-storage.png](contractagreement-database-storage.png)
+In that case a cron job can be implemented, that regularly fetches all contractAgreements and saves them to the database. Then there's no need to trigger requests every time the frontend is accessed.
 
-### Sequence flow
+Alternatively to improve scalability, there is a possibility to reduce the amount of calls needed by only showing the contractAgreementId in the frontend in an overview (no additional calls need to be made since that information is already stored in the database by the IRS cron job).
+Then the rest of the information can be shown in a separate detail view. Only then the API calls will be made to fetch the detailed data.
 
-![contractagreementview-sequenceflow.png](contractagreementview-sequenceflow.png)
+When using the management API without a new data model, API calls have to be repeated for each contract whenever the view is accessed.
+
+### GET api/contracts sequence flow
 
 #### 1. Frontend calls backend API to get contracts
 
-#### 2. Get contractAgreementId from POST /management/v2/contractagreements/request
+#### 2. Get contractAgreementId from POST tx-edc/management/v2/contractagreements/request
 
 Request:
 POST /management/v2/contractagreements/request
@@ -215,10 +228,10 @@ Response Sample:
 | **Policy**           | edc:policy              | "@id": "68d90fc3-5d8f-4cb5-b9db-ca72c82705e5","@type": "odrl:Set","odrl:permission": {"odrl:target": "registry-asset","odrl:action": {"odrl:type": "USE" ... |
 
 
-#### 4. Use the ContractAgreementId of first request for GET /management/v2/contractagreements/{ContractAgreementId}/negotiation
+#### 4. GET /management/v2/contractagreements/{contractAgreementId}/negotiation
 
 Request:
-GET /management/v2/contractagreements/{ContractAgreementId}/negotiation
+GET /management/v2/contractagreements/{contractAgreementId}/negotiation
 
 Response:
 
@@ -268,6 +281,141 @@ Response Sample:
 | Policy                   | edc:policy              | "@id": "68d90fc3-5d8f-4cb5-b9db-ca72c82705e5","@type": "odrl:Set","odrl:permission": {"odrl:target": "registry-asset","odrl:action": {"odrl:type": "USE" ... |
 
 #### 6. Handle pagination in FE (if necessary repeat calls)
+
+### GET api/contracts/{tx-assetId} sequence flow
+
+![get-contract-sequenceflow.png](get-contract-sequenceflow.png)
+
+#### 1. Cron job fetches Trace-X assets from IRS. They are saved in the Trace-X database.
+
+#### 2. Frontend calls backend API to get contract (GET api/contracts/{tx-assetId})
+
+#### 3. Backend gets contractAgreementId for requested Trace-X Asset from the database
+
+#### 4. GET /management/v2/contractagreements/{ContractAgreementId}
+
+Request:
+GET /management/v2/contractagreements/{ContractAgreementId}
+
+Response:
+
+| output                  | type           | example                                                                                                                                                      |
+|-------------------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| id                      | String         | ZDgzZjhjY2EtMGY2MC00OWMzLWJjNDYtMWE0OTY2MDdlMzhj:cmVnaXN0cnktYXNzZXQ=:NGM0YjM3OTgtZmU0YS00N2Q1LTg0MTctZTk3ZjdkYjgwOGQ4                                       |
+| type                    | String         | edc:ContractAgreement                                                                                                                                        |
+| edc:assetId             | String         | registry-asset                                                                                                                                               |
+| edc:providerId          | String         | BPNL00000001CRHK                                                                                                                                             |
+| edc:consumerId          | String         | BPNL00000001CRHK                                                                                                                                             |
+| edc:contractSigningDate | Unix timestamp | 1700664778                                                                                                                                                   |
+| edc:policy              | Object         | "@id": "68d90fc3-5d8f-4cb5-b9db-ca72c82705e5","@type": "odrl:Set","odrl:permission": {"odrl:target": "registry-asset","odrl:action": {"odrl:type": "USE" ... |
+
+Response Sample:
+```json
+[
+    {
+        "@type": "edc:ContractAgreement",
+        "@id": "ZDgzZjhjY2EtMGY2MC00OWMzLWJjNDYtMWE0OTY2MDdlMzhj:cmVnaXN0cnktYXNzZXQ=:NGM0YjM3OTgtZmU0YS00N2Q1LTg0MTctZTk3ZjdkYjgwOGQ4",
+        "edc:assetId": "registry-asset",
+        "edc:policy": {
+            "@id": "68d90fc3-5d8f-4cb5-b9db-ca72c82705e5",
+            "@type": "odrl:Set",
+            "odrl:permission": {
+                "odrl:target": "registry-asset",
+                "odrl:action": {
+                    "odrl:type": "USE"
+                },
+                "odrl:constraint": {
+                    "odrl:or": {
+                        "odrl:leftOperand": "PURPOSE",
+                        "odrl:operator": {
+                            "@id": "odrl:eq"
+                        },
+                        "odrl:rightOperand": "ID 3.0 Trace"
+                    }
+                }
+            },
+            "odrl:prohibition": [],
+            "odrl:obligation": [],
+            "odrl:target": "registry-asset"
+        },
+        "edc:contractSigningDate": 1700664778,
+        "edc:consumerId": "BPNL00000001CRHK",
+        "edc:providerId": "BPNL00000001CRHK",
+        "@context": {
+            "dct": "https://purl.org/dc/terms/",
+            "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
+            "edc": "https://w3id.org/edc/v0.0.1/ns/",
+            "dcat": "https://www.w3.org/ns/dcat/",
+            "odrl": "http://www.w3.org/ns/odrl/2/",
+            "dspace": "https://w3id.org/dspace/v0.8/"
+        }
+    }
+]
+```
+
+#### 5. Map payload of first request response into domain model:
+
+| Domain model         | Response parameter      | Example                                                                                                                                                      |
+|----------------------|-------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Contract ID          | -                       |                                                                                                                                                              |
+| Counterparty address | -                       |                                                                                                                                                              |
+| **Creation date**    | edc:contractSigningDate | 22.11.2023 (converted from 1700664778)                                                                                                                       |
+| End date             | -                       |                                                                                                                                                              |
+| State                | -                       |                                                                                                                                                              |
+| **Policy**           | edc:policy              | "@id": "68d90fc3-5d8f-4cb5-b9db-ca72c82705e5","@type": "odrl:Set","odrl:permission": {"odrl:target": "registry-asset","odrl:action": {"odrl:type": "USE" ... |
+
+
+#### 6. GET /management/v2/contractagreements/{ContractAgreementId}/negotiation
+
+Request:
+GET /management/v2/contractagreements/{ContractAgreementId}/negotiation
+
+Response:
+
+| output                  | type   | example                                                                                                                |
+|-------------------------|--------|------------------------------------------------------------------------------------------------------------------------|
+| id                      | String | 7ed070a1-85fb-4e17-bd04-1df512156ccc                                                                                   |
+| type                    | String | edc:ContractNegotiation                                                                                                |
+| edc:type                | String | CONSUMER                                                                                                               |
+| edc:protocol            | String | dataspace-protocol-http                                                                                                |
+| edc:state               | String | FINALIZED                                                                                                              |
+| edc:counterPartyAddress | String | https://irs-ess-provider-controlplane.int.demo.catena-x.net/api/v1/dsp                                                 |
+| edc:contractAgreementId | String | ZDgzZjhjY2EtMGY2MC00OWMzLWJjNDYtMWE0OTY2MDdlMzhj:cmVnaXN0cnktYXNzZXQ=:NGM0YjM3OTgtZmU0YS00N2Q1LTg0MTctZTk3ZjdkYjgwOGQ4 |
+
+Response Sample:
+```json
+{
+    "@type": "edc:ContractNegotiation",
+    "@id": "7ed070a1-85fb-4e17-bd04-1df512156ccc",
+    "edc:type": "CONSUMER",
+    "edc:protocol": "dataspace-protocol-http",
+    "edc:state": "FINALIZED",
+    "edc:counterPartyId": "BPNL00000001CRHK",
+    "edc:counterPartyAddress": "https://irs-ess-provider-controlplane.int.demo.catena-x.net/api/v1/dsp",
+    "edc:callbackAddresses": [],
+    "edc:createdAt": 1700664777339,
+    "edc:contractAgreementId": "ZDgzZjhjY2EtMGY2MC00OWMzLWJjNDYtMWE0OTY2MDdlMzhj:cmVnaXN0cnktYXNzZXQ=:NGM0YjM3OTgtZmU0YS00N2Q1LTg0MTctZTk3ZjdkYjgwOGQ4",
+    "@context": {
+        "dct": "https://purl.org/dc/terms/",
+        "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
+        "edc": "https://w3id.org/edc/v0.0.1/ns/",
+        "dcat": "https://www.w3.org/ns/dcat/",
+        "odrl": "http://www.w3.org/ns/odrl/2/",
+        "dspace": "https://w3id.org/dspace/v0.8/"
+    }
+}
+```
+
+#### 7. Map payload of second request response into domain model:
+
+| Domain model             | Response parameter      | Example                                                                                                                                                      |
+|--------------------------|-------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Contract ID**          | id                      | 7ed070a1-85fb-4e17-bd04-1df512156ccc                                                                                                                         |
+| **Counterparty address** | edc:counterPartyAddress | https://irs-ess-provider-controlplane.int.demo.catena-x.net/api/v1/dsp                                                                                       |
+| Creation date            | edc:contractSigningDate | 22.11.2023 (converted from 1700664778)                                                                                                                       |
+| End date                 | -                       |                                                                                                                                                              |
+| **State**                | edc:state               | FINALIZED                                                                                                                                                    |
+| Policy                   | edc:policy              | "@id": "68d90fc3-5d8f-4cb5-b9db-ca72c82705e5","@type": "odrl:Set","odrl:permission": {"odrl:target": "registry-asset","odrl:action": {"odrl:type": "USE" ... |
 
 # Glossary
 
