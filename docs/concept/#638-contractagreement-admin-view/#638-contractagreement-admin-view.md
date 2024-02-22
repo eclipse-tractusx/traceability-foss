@@ -53,9 +53,10 @@ The assets behind the contracts are not available for external auditors. Further
 * Scalability: The performance shouldn't suffer as the number of contracts increases
 
 # Out of scope
-Attribute EndDate: At the moment, the end date can't be taken from the edc, because the edc doesn't manage usage policies.
-
-Showing relations between assets and contract agreements in the frontend. In the backend, the request GET api/contracts/{tx-assetId} shall be implemented as preparation of this use case
+* Attribute EndDate: At the moment, the end date can't be taken from the edc, because the edc doesn't manage usage policies.
+* Showing relations between assets and contract agreements in the frontend. In the backend, the request GET api/contracts/{tx-assetId} shall be implemented as preparation of this use case
+* If dynamic calls to the management API are not working anymore, we need to consider a new data model. In that case a cron job can be implemented, that regularly fetches all contractAgreements and saves them to the database. Then there's no need to trigger requests every time the frontend is accessed.
+  * Alternatively, there is a possibility to reduce the amount of calls needed by only showing the contractAgreementId in the frontend in an overview (no additional calls need to be made since that information is already stored in the database by the IRS cron job).  Then the rest of the information can be shown in a separate detail view. Only then the API calls will be made to fetch the detailed data.
 
 # Assumptions
 ContractAgreementIds are stored in relation to the assets in the Trace-X database. These are regularly updated by an IRS cron job.
@@ -124,9 +125,6 @@ User Journey Story:
 ## BPMN
 ![contractagreement-admin-view-bpmn.png](contractagreement-admin-view-bpmn.png)
 
-## Data model
-![contractagreement-datamodel.png](contractagreement-datamodel.png)
-
 ## Frontend concept
 https://miro.com/app/board/uXjVOGBahIA=/?moveToWidget=3458764573051687012&cot=14
 ![contractagreement-admin-view-frontend.png](contractagreement-admin-view-frontend.png)
@@ -139,17 +137,6 @@ Backend API of TraceX which provides the stored contract information for the fro
 GET api/contracts (all contractagreements for all assets)
 
 GET api/contracts/{tx-assetId} (contractagreements for asset with tx-assetId)
-
-Note: For the first step we will use the management API. If this is not working, we need to consider a new data model like below.
-
-This concept describes how the data received from the IRS will be stored in the new database.
-![contractagreement-database-storage.png](contractagreement-database-storage.png)
-In that case a cron job can be implemented, that regularly fetches all contractAgreements and saves them to the database. Then there's no need to trigger requests every time the frontend is accessed.
-
-Alternatively to improve scalability, there is a possibility to reduce the amount of calls needed by only showing the contractAgreementId in the frontend in an overview (no additional calls need to be made since that information is already stored in the database by the IRS cron job).
-Then the rest of the information can be shown in a separate detail view. Only then the API calls will be made to fetch the detailed data.
-
-When using the management API without a new data model, API calls have to be repeated for each contract whenever the view is accessed.
 
 ### GET api/contracts sequence flow
 
