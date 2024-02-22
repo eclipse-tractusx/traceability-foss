@@ -101,6 +101,7 @@ class AsBuiltAspectModel {
     nameAtCustomer : String
     manufacturingCountry : String (iso-3)
     manufacturingDate : Instant
+    manufacturingSites : List<Site>
 }
 
 note left
@@ -120,19 +121,21 @@ class  AsPlannedAspectModel { /' PartAsPlanned '/
 /'
     1.0.0
 '/
-    validityPeriodFrom : Instance
-    validityPeriodTo: Instance
+    validityPeriodFrom : Instance(UTC)
+    validityPeriodTo: Instance(UTC)
 }
 
 class PartSiteInformationAsPlanned {
-/'
-    1.0.0
-    Currently this is not ready for implementing - there is no specification right now.
-'/
-    functionValidFrom : Instance
-    functionValidUntil : Instance
-
+    sites : List<Site>
 }
+
+class Site {
+    catenaXsiteId: String (max = 18) (BPNS number)
+    function: String
+    functionValidFrom : Instance(UTC) (only PartAsPlanned)
+    functionValidUntil : Instance(UTC) (only PartAsPlanned)
+}
+
 
 ImportedAsset ||---|| Asset
 ImportJobs ||---o{ ImportedAsset
@@ -144,6 +147,9 @@ AssetSyncStatus <-- Asset
 DetailSemanticDataModelType <-- DetailAspectModelModel
 Asset <|.. AsBuiltAspectModel
 Asset <|... AsPlannedAspectModel
+
+AsBuiltAspectModel ||---o{ Site
+PartSiteInformationAsPlanned ||---o{ Site
 
 Asset ||---o{ Relation : childRelations
 Asset ||--o{  Relation : parentRelations

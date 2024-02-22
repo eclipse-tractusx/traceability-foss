@@ -21,15 +21,15 @@
 
 package qualitynotification.base.request;
 
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
 public class UpdateQualityNotificationRequest {
     @NotNull(message = "status must be present")
-    @ApiModelProperty(example = "ACKNOWLEDGED")
     private UpdateQualityNotificationStatusRequest status;
-    @ApiModelProperty(example = "The reason.")
+    @Schema(example = "The reason.")
     private String reason;
 }

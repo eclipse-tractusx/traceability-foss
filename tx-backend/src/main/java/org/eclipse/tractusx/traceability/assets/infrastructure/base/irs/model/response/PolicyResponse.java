@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,25 +16,70 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response;
 
-import org.eclipse.tractusx.irs.edc.client.policy.Permission;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.IrsPolicy;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
+import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 
 import java.time.OffsetDateTime;
-import java.util.List;
 
-public record PolicyResponse(
-        String policyId,
-        OffsetDateTime createdOn,
-        OffsetDateTime validUntil,
-        List<Permission> permissions
-) {
-    public IrsPolicy toDomain() {
-        return IrsPolicy.builder()
-                .policyId(this.policyId)
-                .ttl(this.validUntil.toString())
+/**
+ * Policy representation for get all policies response
+ */
+@Builder
+@Schema(example = PolicyResponse.EXAMPLE_PAYLOAD)
+public record PolicyResponse(OffsetDateTime validUntil, Payload payload) {
+
+    @SuppressWarnings({"FileTabCharacter", "java:S2479"})
+    // required to show correctly example payload in open-api
+    public static final String EXAMPLE_PAYLOAD = """
+            [
+               {
+                	"validUntil": "2025-12-12T23:59:59.999Z",
+                	"payload": {
+                		"@context": {
+                			"odrl": "http://www.w3.org/ns/odrl/2/"
+                		},
+                		"@id": "policy-id",
+                		"policy": {
+                			"odrl:permission": [
+                				{
+                					"odrl:action": "USE",
+                					"odrl:constraint": {
+                						"odrl:and": [
+                							{
+                								"odrl:leftOperand": "Membership",
+                								"odrl:operator": {
+                									"@id": "odrl:eq"
+                								},
+                								"odrl:rightOperand": "active"
+                							},
+                							{
+                								"odrl:leftOperand": "PURPOSE",
+                								"odrl:operator": {
+                									"@id": "odrl:eq"
+                								},
+                								"odrl:rightOperand": "ID 3.1 Trace"
+                							}
+                						]
+                					}
+                				}
+                			]
+                		}
+                	}
+                }
+             ]
+               """;
+
+    public static PolicyResponse fromPolicy(final Policy policy) {
+        return PolicyResponse.builder()
+                .validUntil(policy.getValidUntil())
+                .payload(Payload.builder()
+                        .policyId(policy.getPolicyId())
+                        .context(Context.getDefault())
+                        .policy(policy)
+                        .build())
                 .build();
     }
 }

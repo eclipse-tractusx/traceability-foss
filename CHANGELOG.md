@@ -7,8 +7,15 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [UNRELEASED - DD.MM.YYYY]
 
+### Added
+
 ### Changed
 - updated publish-documentation workflow with two new steps
+- changed @ApiModelProperty annotation with @Schema
+- added logic to consume tombstone information from IRS for assets
+-
+### Removed
+- removed frontend/dist folder from codeQL scan
 
 ## [10.4.0 - 19.02.2024]
 
@@ -31,6 +38,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - testcontainer-postgresql bumped from 1.19.1 to 1.19.4
 - tomcat-embed-websocket bumped from 10.1.16 to 10.1.18
 - IrsCallbackController is now validating jobId to prevent log injections from unwanted usage
+- Bump irs-helm version from 6.13.0 to 6.14.1
+- Bump irs-client-lib version from 1.5.1-SNAPSHOT to 1.6.0-SNAPSHOT
 - Changed Add Parts concept to Edit Parts concept
 
 

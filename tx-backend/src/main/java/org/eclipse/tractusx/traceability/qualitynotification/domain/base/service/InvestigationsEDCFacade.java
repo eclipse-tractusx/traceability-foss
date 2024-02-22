@@ -101,7 +101,7 @@ public class InvestigationsEDCFacade {
 
         try {
             log.info("Negotiation of contract agreement for receiverEdcUrl {} and catalogItem {}", receiverEdcUrl, catalogItem);
-            return Optional.ofNullable(contractNegotiationService.negotiate(receiverEdcUrl + edcProperties.getIdsPath(), catalogItem))
+            return Optional.ofNullable(contractNegotiationService.negotiate(receiverEdcUrl + edcProperties.getIdsPath(), catalogItem, null))
                     .orElseThrow()
                     .getContractAgreementId();
         } catch (Exception e) {
