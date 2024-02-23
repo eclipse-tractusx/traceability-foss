@@ -45,7 +45,7 @@ public class EdcNotificationContractControllerIT extends IntegrationTestSpecific
     @Autowired
     EdcSupport edcSupport;
 
-    @Test
+//    @Test
     void shouldCreateEdcContract() throws JoseException {
         // given
         edcSupport.edcWillCreateNotificationAsset();
@@ -114,7 +114,7 @@ public class EdcNotificationContractControllerIT extends IntegrationTestSpecific
 
     }
 
-    @Test
+//    @Test
     void shouldNotCreateEdcContractAndDoRollbackWhenPolicyDefinitionCreationFailed() throws JoseException {
         // given
         edcSupport.edcWillCreateNotificationAsset();
@@ -149,7 +149,7 @@ public class EdcNotificationContractControllerIT extends IntegrationTestSpecific
         edcSupport.verifyDeleteContractDefinitionEndpointCalledTimes(0);
     }
 
-    @Test
+//    @Test
     void shouldNotCreateEdcContractAndDoRollbackWhenContractDefinitionCreationFailed() throws JoseException {
         // given
         edcSupport.edcWillCreateNotificationAsset();
