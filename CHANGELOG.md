@@ -6,14 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [UNRELEASED - DD.MM.YYYY]
-
 ### Added
+
+### Changed
+
+### Removed
+
+## [10.5.0 - 22.02.2024]
 
 ### Changed
 - updated publish-documentation workflow with two new steps
 - changed @ApiModelProperty annotation with @Schema
 - added logic to consume tombstone information from IRS for assets
--
+
 ### Removed
 - removed frontend/dist folder from codeQL scan
 
