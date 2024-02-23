@@ -89,14 +89,12 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
         this.tableAsPlannedSortList = [];
 
         window.addEventListener('keydown', (event) => {
-          console.log(event);
           if(event.metaKey || event.ctrlKey) {
             this.ctrlKeyState = true;
           }
         });
         window.addEventListener('keyup', (event) => {
-          console.log(event);
-          if(event.metaKey || event.ctrlKey) {
+          if(this.ctrlKeyState && (!event.metaKey || !event.ctrlKey)) {
             this.ctrlKeyState = false;
           }
 
