@@ -90,11 +90,16 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
         window.addEventListener('keydown', (event) => {
           console.log(event);
+          if(event.metaKey || event.ctrlKey) {
             this.ctrlKeyState = event.ctrlKey;
+          }
         });
         window.addEventListener('keyup', (event) => {
           console.log(event);
+          if(event.metaKey || event.ctrlKey) {
             this.ctrlKeyState = event.ctrlKey;
+          }
+
         });
     }
 
