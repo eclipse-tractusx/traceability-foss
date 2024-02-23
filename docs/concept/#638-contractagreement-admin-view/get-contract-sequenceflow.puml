@@ -7,61 +7,39 @@ autonumber "<B>[00]"
 
 participant "Trace-X Frontend" as FE order 0
 participant "Trace-X Backend" as BE order 1
-participant "Trace-X DB" as DB order 2
+participant "Trace-X Database" as DB order 2
 participant "Trace-X EDC Client Library" as TXEDC order 3
-participant "EDC" as EDC order 4
-participant "IRS" as IRS order 5
-
-group async
-BE -> IRS: Cron job: GET Trace-X assets
-activate BE
-activate IRS
-autonumber stop
-IRS --> BE: Trace-X assets (incl. contractAgreementId)
-deactivate IRS
-BE -> DB: Save Trace-X assets
-autonumber resume
-deactivate BE
-end
 
 FE -> BE: GET api/contracts/{tx-assetId}
+
 activate BE
-BE -> DB: Take contractAgreementIds for tx-assetId
+BE -> DB: Take contractAgreementId for tx-assetId
 activate DB
 autonumber stop
-DB --> BE: contractAgreementIds
+DB --> BE: contractAgreementId
 autonumber resume
 deactivate DB
 
-loop for all contractAgreementIds
 BE -> TXEDC: GET tx-edc/management/v2/contractagreements/{contractAgreementId}
 activate TXEDC
 autonumber stop
-TXEDC -> EDC: Get contractAgreement
-activate EDC
-EDC --> TXEDC: contractAgreement
-deactivate EDC
 TXEDC --> BE: JSON response
 autonumber resume
 deactivate TXEDC
-BE -> BE: First mapping
+BE -> BE: Extract contractSigningDate, policy
 activate BE
 deactivate BE
 
 BE -> TXEDC: GET tx-edc/management/v2/contractagreements/{contractAgreementId}/negotiation
 activate TXEDC
 autonumber stop
-TXEDC -> EDC: Get contractNegotiation
-activate EDC
-EDC --> TXEDC: contractNegotiation
-deactivate EDC
 TXEDC --> BE: JSON response
 autonumber resume
 deactivate TXEDC
-BE -> BE: Second mapping
+BE -> BE: Extract id, counterPartyAddress, state
 activate BE
 deactivate BE
-end
+
 autonumber stop
 BE --> FE: JSON response
 deactivate BE

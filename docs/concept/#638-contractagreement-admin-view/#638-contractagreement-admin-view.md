@@ -39,9 +39,8 @@ The assets behind the contracts are not available for external auditors. Further
 * [ ] The attributes contract ID, Counterparty address, creation date, state and policy are provided
 * [ ] The processed data of the management API can be accessed through a new API: GET api/contracts and GET api/contracts/{tx-assetId}
 * [ ] The new API is documented
-* [ ] GET api/contracts makes 2 requests to get attributes: POST tx-edc/management/v2/contractagreements/request & GET tx-edc/management/v2/contractagreements/{contractAgreementId}/negotiation
-* [ ] GET api/contracts/{tx-assetId} fetches contractAgreementIds from the Trace-X database (they are regularly stored there by an IRS cron job)
-* [ ] GET api/contracts makes 2 requests to get attributes: POST tx-edc/management/v2/contractagreements/{contractAgreementId} & GET tx-edc/management/v2/contractagreements/{contractAgreementId}/negotiation
+* [ ] POST api/contracts/request makes 2 requests to get attributes: POST tx-edc/management/v2/contractagreements/request & GET tx-edc/management/v2/contractagreements/{contractAgreementId}/negotiation
+* [ ] GET api/contracts makes 2 requests to get attributes: GET tx-edc/management/v2/contractagreements/{contractAgreementId} & GET tx-edc/management/v2/contractagreements/{contractAgreementId}/negotiation
 * [ ] Payload of the requests are mapped into a domain model
 * [ ] Payload can be shown in the frontend
 
@@ -54,9 +53,6 @@ The assets behind the contracts are not available for external auditors. Further
 
 # Out of scope
 * Attribute EndDate: At the moment, the end date can't be taken from the edc, because the edc doesn't manage usage policies.
-* Showing relations between assets and contract agreements in the frontend. In the backend, the request GET api/contracts/{tx-assetId} shall be implemented as preparation of this use case
-* If dynamic calls to the management API are not working anymore, we need to consider a new data model. In that case a cron job can be implemented, that regularly fetches all contractAgreements and saves them to the database. Then there's no need to trigger requests every time the frontend is accessed.
-  * Alternatively, there is a possibility to reduce the amount of calls needed by only showing the contractAgreementId in the frontend in an overview (no additional calls need to be made since that information is already stored in the database by the IRS cron job).  Then the rest of the information can be shown in a separate detail view. Only then the API calls will be made to fetch the detailed data.
 
 # Assumptions
 ContractAgreementIds are stored in relation to the assets in the Trace-X database. These are regularly updated by an IRS cron job.
@@ -129,23 +125,40 @@ User Journey Story:
 https://miro.com/app/board/uXjVOGBahIA=/?moveToWidget=3458764573051687012&cot=14
 ![contractagreement-admin-view-frontend.png](contractagreement-admin-view-frontend.png)
 
-Policies are shown in plain json
+Contract data is called from the backend on a page-by-page basis.
+
+Policies are shown in plain json.
 
 ## Backend concept
 Backend API of TraceX which provides the stored contract information for the frontend:
 
-GET api/contracts (all contractagreements for all assets)
+POST api/contracts/request
+(paginated, sortable, filterable)
 
-GET api/contracts/{tx-assetId} (contractagreements for asset with tx-assetId)
+GET api/contracts/{tx-assetId}
 
-### GET api/contracts sequence flow
+### POST api/contracts/request sequence flow
+![get-all-contracts-sequenceflow.png](get-all-contracts-sequenceflow.png)
 
-#### 1. Frontend calls backend API to get contracts
+#### 1. Frontend calls backend API to get contracts (paginated, sortable, filterable)
 
-#### 2. Get contractAgreementId from POST tx-edc/management/v2/contractagreements/request
+#### 2. Fetch contractAgreementIds from database
 
+#### 3. Get contractAgreementId from POST tx-edc/management/v2/contractagreements/request
 Request:
 POST /management/v2/contractagreements/request
+
+Request body sample:
+```json
+{
+    "filterExpression": {
+        "@type": "Criterion",
+        "operandLeft": "@id",
+        "operator": "IN",
+        "operatorRight": [contractAgreementId[0],contractAgeementId[1],...]
+    }
+}
+```
 
 Response:
 
@@ -203,7 +216,7 @@ Response Sample:
 ]
 ```
 
-#### 3. Map payload of first request response into domain model
+#### 4. Extract contractSigningDate, policy
 
 | Domain model         | Response parameter      | Example                                                                                                                                                      |
 |----------------------|-------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -215,7 +228,7 @@ Response Sample:
 | **Policy**           | edc:policy              | "@id": "68d90fc3-5d8f-4cb5-b9db-ca72c82705e5","@type": "odrl:Set","odrl:permission": {"odrl:target": "registry-asset","odrl:action": {"odrl:type": "USE" ... |
 
 
-#### 4. GET /management/v2/contractagreements/{contractAgreementId}/negotiation
+#### 5. GET /management/v2/contractagreements/{contractAgreementId}/negotiation
 
 Request:
 GET /management/v2/contractagreements/{contractAgreementId}/negotiation
@@ -256,7 +269,7 @@ Response Sample:
 }
 ```
 
-#### 5. Map payload of second request response into domain model:
+#### 6. Extract id, counterPartyAddress, state
 
 | Domain model             | Response parameter      | Example                                                                                                                                                      |
 |--------------------------|-------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -267,7 +280,7 @@ Response Sample:
 | **State**                | edc:state               | FINALIZED                                                                                                                                                    |
 | Policy                   | edc:policy              | "@id": "68d90fc3-5d8f-4cb5-b9db-ca72c82705e5","@type": "odrl:Set","odrl:permission": {"odrl:target": "registry-asset","odrl:action": {"odrl:type": "USE" ... |
 
-#### 6. Handle pagination in FE (if necessary repeat calls)
+#### 7. Handle pagination in FE (if necessary repeat calls)
 
 ___
 
@@ -275,13 +288,15 @@ ___
 
 ![get-contract-sequenceflow.png](get-contract-sequenceflow.png)
 
-#### 1. Cron job fetches Trace-X assets from IRS. They are saved in the Trace-X database.
+#### 1. Frontend calls backend API to get contract
+Input: tx-assetId
 
-#### 2. Frontend calls backend API to get contract (GET api/contracts/{tx-assetId})
+#### 2. Fetch contractAgreementIds from database
+Input: tx-assetId
 
-#### 3. Backend gets contractAgreementId for requested Trace-X Asset from the database
+Output: contractAgreementId
 
-#### 4. GET /management/v2/contractagreements/{ContractAgreementId}
+#### 3. GET /management/v2/contractagreements/{ContractAgreementId}
 
 Request:
 GET /management/v2/contractagreements/{ContractAgreementId}
@@ -342,7 +357,7 @@ Response Sample:
 ]
 ```
 
-#### 5. Map payload of first request response into domain model:
+#### 4. Extract contractSigningDate, policy
 
 | Domain model         | Response parameter      | Example                                                                                                                                                      |
 |----------------------|-------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -354,7 +369,7 @@ Response Sample:
 | **Policy**           | edc:policy              | "@id": "68d90fc3-5d8f-4cb5-b9db-ca72c82705e5","@type": "odrl:Set","odrl:permission": {"odrl:target": "registry-asset","odrl:action": {"odrl:type": "USE" ... |
 
 
-#### 6. GET /management/v2/contractagreements/{ContractAgreementId}/negotiation
+#### 5. GET /management/v2/contractagreements/{ContractAgreementId}/negotiation
 
 Request:
 GET /management/v2/contractagreements/{ContractAgreementId}/negotiation
@@ -395,7 +410,7 @@ Response Sample:
 }
 ```
 
-#### 7. Map payload of second request response into domain model:
+#### 6. Extract id, counterPartyAddress, state
 
 | Domain model             | Response parameter      | Example                                                                                                                                                      |
 |--------------------------|-------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|

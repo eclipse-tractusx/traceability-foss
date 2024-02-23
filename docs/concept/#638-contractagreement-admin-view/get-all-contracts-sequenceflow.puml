@@ -1,46 +1,50 @@
 @startuml
 title
-    ==GET api/contracts
+    ==POST api/contracts/request
 end title
 
 autonumber "<B>[00]"
 
 participant "Trace-X Frontend" as FE order 0
 participant "Trace-X Backend" as BE order 1
-participant "Trace-X EDC Client Library" as TXEDC order 2
-participant "EDC" as EDC order 3
+participant "Trace-X Database" as DB order 2
+participant "Trace-X EDC Client Library" as EDC order 3
 
-FE -> BE: GET api/contracts
+FE -> BE: POST api/contracts/request (limit, offset, sort, filter)
+
 activate BE
-BE -> TXEDC: POST tx-edc/management/v2/contractagreements/request
-activate TXEDC
+BE -> DB: Fetch requested distinct contractAgreementIds
+activate DB
 autonumber stop
-TXEDC -> EDC: Get contractAgreements
-activate EDC
-EDC --> TXEDC: contractAgreements
-deactivate EDC
-TXEDC --> BE: JSON response
+DB --> BE: List(contractAgreementIds)
 autonumber resume
-deactivate TXEDC
-BE -> BE: First mapping
+deactivate DB
+
+BE -> EDC: POST tx-edc/management/v2/contractagreements/request \nfiltered by contractAgreementIds
+activate EDC
+autonumber stop
+EDC --> BE: JSON response
+autonumber resume
+deactivate EDC
+BE -> BE: Extract contractSigningDate, policy
 activate BE
 deactivate BE
+
 loop for all contractAgreementIds
-BE -> TXEDC: GET tx-edc/management/v2/contractagreements/{contractAgreementId}/negotiation
-activate TXEDC
-autonumber stop
-TXEDC -> EDC: Get contractNegotiation
+BE -> EDC: GET tx-edc/management/v2/contractagreements/{contractAgreementId}/negotiation
 activate EDC
-EDC --> TXEDC: contractNegotiation
-deactivate EDC
-TXEDC --> BE: JSON response
+autonumber stop
+EDC --> BE: JSON response
 autonumber resume
-deactivate TXEDC
-BE -> BE: Second mapping
+deactivate EDC
+BE -> BE: Extract id, counterPartyAddress, state
 activate BE
 deactivate BE
 end
+
+autonumber stop
 BE --> FE: JSON response
+autonumber resume
 deactivate BE
 
 @enduml
