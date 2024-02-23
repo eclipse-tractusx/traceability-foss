@@ -91,7 +91,7 @@ irs-edc-client:
     request-ttl: PT10M # How long to wait for an async EDC negotiation request to finish, ISO 8601 Duration
     endpoint:
       data: ${EDC_DATA_ENDPOINT_URL}
-      asset: /management/v2/assets
+      asset: /management/v3/assets
       contract-definition: /management/v2/contractdefinitions
       policy-definition: /management/v2/policydefinitions
       catalog: /v2/catalog/request # EDC consumer controlplane catalog path
