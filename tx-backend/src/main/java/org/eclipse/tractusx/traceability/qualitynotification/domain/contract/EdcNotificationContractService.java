@@ -111,7 +111,7 @@ public class EdcNotificationContractService {
         log.info("Removing {} notification asset", notificationAssetId);
 
         try {
-            edcAssetService.deleteAsset(notificationAssetId, edcRestTemplate);
+            edcAssetService.deleteAsset(notificationAssetId);
         } catch (DeleteEdcAssetException e) {
             throw new RuntimeException(e);
         }
