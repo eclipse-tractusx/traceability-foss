@@ -24,6 +24,10 @@ package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontrac
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.eclipse.tractusx.irs.edc.client.asset.EdcAssetService;
 import org.eclipse.tractusx.irs.edc.client.asset.model.exception.CreateEdcAssetException;
+import org.eclipse.tractusx.irs.edc.client.contract.model.exception.CreateEdcContractDefinitionException;
+import org.eclipse.tractusx.irs.edc.client.contract.service.EdcContractDefinitionService;
+import org.eclipse.tractusx.irs.edc.client.policy.model.exception.CreateEdcPolicyDefinitionException;
+import org.eclipse.tractusx.irs.edc.client.policy.service.EdcPolicyDefinitionService;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractResponse;
@@ -31,8 +35,6 @@ import org.eclipse.tractusx.traceability.qualitynotification.application.contrac
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.NotificationType;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.EdcNotificationContractService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.asset.service.EdcNotificationAssetService;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.contract.service.EdcContractDefinitionService;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.policy.service.EdcPolicyDefinitionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -72,16 +74,18 @@ class EdcNotificationContractServiceTest {
     private static final String contractDefinitionId = "999";
 
     @BeforeEach
-    void setUp() throws JsonProcessingException, CreateEdcAssetException {
+    void setUp() throws JsonProcessingException, CreateEdcAssetException, CreateEdcPolicyDefinitionException, CreateEdcContractDefinitionException {
+        String rightOperand = "trace3";
         NotificationType notificationType = NotificationType.QUALITY_INVESTIGATION;
         NotificationMethod notificationMethod = NotificationMethod.RESOLVE;
         request = new CreateNotificationContractRequest(notificationType, notificationMethod);
         when(edcAssetService.createNotificationAsset(any(), any(), any(), any())).thenReturn(notificationAssetId);
+        when(traceabilityProperties.getRightOperand()).thenReturn(rightOperand);
 //        when(edcNotificationAssetService.createNotificationAsset(notificationMethod, request.notificationType())).thenReturn(notificationAssetId);
-        when(edcPolicyDefinitionService.createAccessPolicy()).thenReturn(accessPolicyId);
+        when(edcPolicyDefinitionService.createAccessPolicy(rightOperand)).thenReturn(accessPolicyId);
         when(edcContractDefinitionService.createContractDefinition(notificationAssetId, accessPolicyId)).thenReturn(contractDefinitionId);
         edcNotificationContractService = new EdcNotificationContractService(
-                edcAssetService, restTemplate,  edcPolicyDefinitionService, edcContractDefinitionService, traceabilityProperties
+                edcAssetService, edcPolicyDefinitionService, edcContractDefinitionService, traceabilityProperties
         );
     }
 
