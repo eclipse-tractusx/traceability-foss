@@ -20,23 +20,20 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.qualitynotification.domain.contract;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.edc.client.asset.EdcAssetService;
 import org.eclipse.tractusx.irs.edc.client.asset.model.NotificationType;
 import org.eclipse.tractusx.irs.edc.client.asset.model.exception.DeleteEdcAssetException;
+import org.eclipse.tractusx.irs.edc.client.contract.service.EdcContractDefinitionService;
+import org.eclipse.tractusx.irs.edc.client.policy.model.exception.DeleteEdcPolicyDefinitionException;
+import org.eclipse.tractusx.irs.edc.client.policy.service.EdcPolicyDefinitionService;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractException;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractResponse;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.NotificationMethod;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.contract.model.CreateEdcContractDefinitionException;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.contract.service.EdcContractDefinitionService;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.policy.model.CreateEdcPolicyDefinitionException;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.policy.service.EdcPolicyDefinitionService;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
 @Slf4j
 @Component
@@ -44,7 +41,7 @@ import org.springframework.web.client.RestTemplate;
 public class EdcNotificationContractService {
 
     private final EdcAssetService edcAssetService; // TODO rename after testing and removing of EdcNotificationAssetService
-    private final RestTemplate edcRestTemplate; // TODO modify delete asset not to recieve rest template on method ( woooops ;O )
+    //    private final EdcPolicyDefinitionService edcPolicyDefinitionService;
     private final EdcPolicyDefinitionService edcPolicyDefinitionService;
     private final EdcContractDefinitionService edcContractDefinitionService;
     private final TraceabilityProperties traceabilityProperties;
@@ -61,7 +58,7 @@ public class EdcNotificationContractService {
 
         String notificationAssetId;
         try {
-            notificationAssetId = edcAssetService.createNotificationAsset(createBaseUrl(request.notificationType(), request.notificationMethod()), request.notificationType().name()+ request.notificationMethod().name(), org.eclipse.tractusx.irs.edc.client.asset.model.NotificationMethod.valueOf(request.notificationMethod().name()), NotificationType.valueOf(request.notificationType().name()));
+            notificationAssetId = edcAssetService.createNotificationAsset(createBaseUrl(request.notificationType(), request.notificationMethod()), request.notificationType().name() + request.notificationMethod().name(), org.eclipse.tractusx.irs.edc.client.asset.model.NotificationMethod.valueOf(request.notificationMethod().name()), NotificationType.valueOf(request.notificationType().name()));
 //            notificationAssetId = edcNotificationAssetService.createNotificationAsset(notificationMethod, request.notificationType());
 //        } catch (CreateEdcAssetException e) {
 //            throw new CreateNotificationContractException(e);
@@ -72,24 +69,20 @@ public class EdcNotificationContractService {
 
         String accessPolicyId = "";
         try {
-            accessPolicyId = edcPolicyDefinitionService.createAccessPolicy();
-        } catch (CreateEdcPolicyDefinitionException e) {
+            accessPolicyId = edcPolicyDefinitionService.createAccessPolicy(traceabilityProperties.getRightOperand());
+        } catch (org.eclipse.tractusx.irs.edc.client.policy.model.exception.CreateEdcPolicyDefinitionException e) {
             revertNotificationAsset(notificationAssetId);
             throw new CreateNotificationContractException(e);
-        } catch (JsonProcessingException e2) {
-            log.error(e2.toString());
         }
 
         String contractDefinitionId = "";
         try {
             contractDefinitionId = edcContractDefinitionService.createContractDefinition(notificationAssetId, accessPolicyId);
-        } catch (CreateEdcContractDefinitionException e) {
+        } catch (org.eclipse.tractusx.irs.edc.client.contract.model.exception.CreateEdcContractDefinitionException e) {
             revertAccessPolicy(accessPolicyId);
             revertNotificationAsset(notificationAssetId);
 
             throw new CreateNotificationContractException(e);
-        } catch (JsonProcessingException e2) {
-            log.error(e2.toString());
         }
 
         log.info("Created notification contract for {} notification asset id, access policy id {} and contract definition id {}", notificationAssetId, accessPolicyId, contractDefinitionId);
@@ -104,7 +97,11 @@ public class EdcNotificationContractService {
     private void revertAccessPolicy(String accessPolicyId) {
         log.info("Removing {} access policy", accessPolicyId);
 
-        edcPolicyDefinitionService.deleteAccessPolicy(accessPolicyId);
+        try {
+            edcPolicyDefinitionService.deleteAccessPolicy(accessPolicyId);
+        } catch (DeleteEdcPolicyDefinitionException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void revertNotificationAsset(String notificationAssetId) {

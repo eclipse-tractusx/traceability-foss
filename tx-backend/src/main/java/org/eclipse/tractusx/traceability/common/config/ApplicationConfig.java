@@ -34,6 +34,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.edc.client.EdcConfiguration;
 import org.eclipse.tractusx.irs.edc.client.asset.EdcAssetService;
+import org.eclipse.tractusx.irs.edc.client.contract.service.EdcContractDefinitionService;
 import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPoliciesProvider;
 import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPolicy;
 import org.eclipse.tractusx.irs.edc.client.policy.Constraint;
@@ -43,6 +44,7 @@ import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
 import org.eclipse.tractusx.irs.edc.client.policy.Permission;
 import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
+import org.eclipse.tractusx.irs.edc.client.policy.service.EdcPolicyDefinitionService;
 import org.eclipse.tractusx.irs.edc.client.transformer.EdcTransformer;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.IrsService;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.PolicyResponse;
@@ -217,5 +219,15 @@ public class ApplicationConfig {
     @Bean
     public EdcAssetService edcAssetService(EdcConfiguration edcConfiguration, EdcTransformer edcTransformer, RestTemplate edcRestTemplate) {
         return new EdcAssetService(edcTransformer, edcConfiguration, edcRestTemplate);
+    }
+
+    @Bean
+    public EdcPolicyDefinitionService edcPolicyDefinitionService(EdcConfiguration edcConfiguration, RestTemplate edcRestTemplate) {
+        return new EdcPolicyDefinitionService(edcConfiguration, edcRestTemplate);
+    }
+
+    @Bean
+    public EdcContractDefinitionService edcContractDefinitionService(EdcConfiguration edcConfiguration, RestTemplate edcRestTemplate) {
+        return new EdcContractDefinitionService(edcConfiguration, edcRestTemplate);
     }
 }

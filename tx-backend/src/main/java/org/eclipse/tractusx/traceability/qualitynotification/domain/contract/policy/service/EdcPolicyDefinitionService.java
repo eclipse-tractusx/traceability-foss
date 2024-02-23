@@ -50,7 +50,7 @@ import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanit
 import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitizeHtml;
 
 @Slf4j
-@Component
+//@Component
 public class EdcPolicyDefinitionService {
 
     private static final String USE_ACTION = "USE";
@@ -64,7 +64,7 @@ public class EdcPolicyDefinitionService {
     private final EdcProperties edcProperties;
     private final TraceabilityProperties traceabilityProperties;
 
-    @Autowired
+//    @Autowired
     public EdcPolicyDefinitionService(ObjectMapper objectMapper, RestTemplate edcRestTemplate, EdcProperties edcProperties, TraceabilityProperties traceabilityProperties) {
         this.objectMapper = objectMapper;
         this.edcRestTemplate = edcRestTemplate;

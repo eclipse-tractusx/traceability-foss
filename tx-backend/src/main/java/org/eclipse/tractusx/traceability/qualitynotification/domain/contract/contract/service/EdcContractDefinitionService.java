@@ -41,7 +41,7 @@ import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanit
 import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitizeHtml;
 
 @Slf4j
-@Component
+//@Component
 public class EdcContractDefinitionService {
 
     private static final String ASSET_SELECTOR_ID = "https://w3id.org/edc/v0.0.1/ns/id";
@@ -53,7 +53,7 @@ public class EdcContractDefinitionService {
     private final EdcProperties edcProperties;
     private final ObjectMapper objectMapper;
 
-    @Autowired
+//    @Autowired
     public EdcContractDefinitionService(RestTemplate edcRestTemplate, EdcProperties edcProperties, ObjectMapper objectMapper) {
         this.edcRestTemplate = edcRestTemplate;
         this.edcProperties = edcProperties;
