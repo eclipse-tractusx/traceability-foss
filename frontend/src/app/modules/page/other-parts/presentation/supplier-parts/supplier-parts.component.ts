@@ -70,12 +70,14 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
 
     window.addEventListener('keydown', (event) => {
       if(event.metaKey || event.ctrlKey) {
+
         this.ctrlKeyState = true;
       }
     });
     window.addEventListener('keyup', (event) => {
       if(this.ctrlKeyState && (!event.metaKey || !event.ctrlKey)) {
         this.ctrlKeyState = false;
+
       }
 
     });
