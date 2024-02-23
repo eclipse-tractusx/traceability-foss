@@ -60,6 +60,7 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
     private readonly staticIdService: StaticIdService,
   ) {
 
+
     window.addEventListener('keydown', (event) => {
       if(event.metaKey || event.ctrlKey) {
         this.ctrlKeyState = true;
@@ -69,7 +70,6 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
       if(this.ctrlKeyState && (!event.metaKey || !event.ctrlKey)) {
         this.ctrlKeyState = false;
       }
-
     });
   }
 
