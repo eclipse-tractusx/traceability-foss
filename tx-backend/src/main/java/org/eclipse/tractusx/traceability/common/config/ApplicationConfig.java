@@ -217,17 +217,17 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public EdcAssetService edcAssetService(EdcConfiguration edcConfiguration, EdcTransformer edcTransformer, RestTemplate edcRestTemplate) {
-        return new EdcAssetService(edcTransformer, edcConfiguration, edcRestTemplate);
+    public EdcAssetService edcAssetService(EdcConfiguration edcConfiguration, EdcTransformer edcTransformer, RestTemplate edcNotificationAssetRestTemplate) {
+        return new EdcAssetService(edcTransformer, edcConfiguration, edcNotificationAssetRestTemplate);
     }
 
     @Bean
-    public EdcPolicyDefinitionService edcPolicyDefinitionService(EdcConfiguration edcConfiguration, RestTemplate edcRestTemplate) {
-        return new EdcPolicyDefinitionService(edcConfiguration, edcRestTemplate);
+    public EdcPolicyDefinitionService edcPolicyDefinitionService(EdcConfiguration edcConfiguration, RestTemplate edcNotificationAssetRestTemplate) {
+        return new EdcPolicyDefinitionService(edcConfiguration, edcNotificationAssetRestTemplate);
     }
 
     @Bean
-    public EdcContractDefinitionService edcContractDefinitionService(EdcConfiguration edcConfiguration, RestTemplate edcRestTemplate) {
-        return new EdcContractDefinitionService(edcConfiguration, edcRestTemplate);
+    public EdcContractDefinitionService edcContractDefinitionService(EdcConfiguration edcConfiguration, RestTemplate edcNotificationAssetRestTemplate) {
+        return new EdcContractDefinitionService(edcConfiguration, edcNotificationAssetRestTemplate);
     }
 }
