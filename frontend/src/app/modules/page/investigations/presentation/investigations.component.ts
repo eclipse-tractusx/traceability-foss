@@ -80,12 +80,16 @@ export class InvestigationsComponent {
     this.investigationsQueuedAndRequested$ = this.investigationsFacade.investigationsQueuedAndRequested$;
 
     window.addEventListener('keydown', (event) => {
-      this.ctrlKeyState = event.ctrlKey;
+      if(event.metaKey || event.ctrlKey) {
+        this.ctrlKeyState = true;
+      }
     });
     window.addEventListener('keyup', (event) => {
-      this.ctrlKeyState = event.ctrlKey;
-    });
+      if(this.ctrlKeyState && (!event.metaKey || !event.ctrlKey)) {
+        this.ctrlKeyState = false;
+      }
 
+    });
   }
 
   public ngOnInit(): void {

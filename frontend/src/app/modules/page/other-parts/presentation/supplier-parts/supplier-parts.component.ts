@@ -28,11 +28,11 @@ import { PartsTableComponent } from '@shared/components/parts-table/parts-table.
 import { TableSortingUtil } from '@shared/components/table/table-sorting.util';
 import { TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
 import { toAssetFilter, toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
+import { NotificationType } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import {NotificationType} from "@shared/model/notification.model";
 
 @Component({
   selector: 'app-supplier-parts',
@@ -69,10 +69,15 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
   ) {
 
     window.addEventListener('keydown', (event) => {
-      this.ctrlKeyState = event.ctrlKey;
+      if(event.metaKey || event.ctrlKey) {
+        this.ctrlKeyState = true;
+      }
     });
     window.addEventListener('keyup', (event) => {
-      this.ctrlKeyState = event.ctrlKey;
+      if(this.ctrlKeyState && (!event.metaKey || !event.ctrlKey)) {
+        this.ctrlKeyState = false;
+      }
+
     });
   }
 

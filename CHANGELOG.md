@@ -7,7 +7,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [UNRELEASED - DD.MM.YYYY]
 ### Added
-
+- Added support for meta key for multi sorting on tables
 ### Changed
 
 ### Removed
