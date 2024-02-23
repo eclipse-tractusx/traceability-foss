@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IRSResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobDetailResponse;
 
 import java.io.IOException;
@@ -48,6 +49,16 @@ public class AssetTestData {
             return response.convertAssets(mapper);
         } catch (IOException e) {
             return Collections.emptyList();
+        }
+    }
+
+    IRSResponse readAndConvertIrsResponseForTests() {
+        try {
+            InputStream file = AssetTestData.class.getResourceAsStream("/data/irs_assets_v4.json");
+            IRSResponse response = mapper.readValue(file, IRSResponse.class);
+            return response;
+        } catch (IOException e) {
+            return null;
         }
     }
 

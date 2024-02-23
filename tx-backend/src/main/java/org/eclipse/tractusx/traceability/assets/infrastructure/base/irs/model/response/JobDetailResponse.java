@@ -37,7 +37,13 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.mapper.T
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Relationship;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.LocalId;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.ManufacturingInformation;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.PartTypeInformation;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.SemanticDataModel;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.Site;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.ValidityPeriod;
+import org.eclipse.tractusx.traceability.generated.SerialPart101Schema;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -94,7 +100,8 @@ public record JobDetailResponse(
                     if (submodel.getPayload() instanceof DetailAspectDataTractionBatteryCode detailAspectDataTractionBatteryCode) {
                         detailAspectDataTractionBatteryCode.setAspectType(submodel.getAspectType());
                         return detailAspectDataTractionBatteryCode;
-                    } else {
+                    }
+                    else {
                         SemanticDataModel payload = (SemanticDataModel) submodel.getPayload();
                         payload.setAspectType(submodel.getAspectType());
                         payload.setIdentification(submodel.getIdentification());

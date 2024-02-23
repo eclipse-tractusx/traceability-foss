@@ -1,0 +1,31 @@
+{
+  "localIdentifiers" : [
+    {
+      "value" : "BPNL00000003CNKC",
+      "key" : "manufacturerId"
+    },
+    {
+      "value" : "IG-10",
+      "key" : "manufacturerPartId"
+    },
+    {
+      "value" : "OMCTFVAAAAOULLCDW",
+      "key" : "partInstanceId"
+    },
+    {
+      "value" : "OMCTFVAAAAOULLCDW",
+      "key" : "van"
+    }
+  ],
+  "manufacturingInformation" : {
+    "date" : "2020-03-23T08:58:30.000Z",
+    "country" : "DEU"
+  },
+  "catenaXId" : "urn:uuid:9068d4b8-b96e-4479-b0b5-a8be63e2143b",
+  "partTypeInformation" : {
+    "manufacturerPartId" : "IG-10",
+    "classification" : "product",
+    "nameAtManufacturer" : "TraceX B Door Front Right"
+  }
+}
+

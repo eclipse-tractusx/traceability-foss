@@ -25,6 +25,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobDetailResponse;
+import org.eclipse.tractusx.traceability.generated.SerialPart101Schema;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -79,5 +80,18 @@ class JobDetailResponseTest {
                 .containsEntry("BPNL50096894aNXY", "UNKNOWN_MANUFACTURER")
                 .containsEntry("BPNL00000003CML1", "TEST_BPN_DFT_1");
     }
+
+
+    @Test
+    void testSchemaMapper() throws IOException {
+        InputStream file = JobDetailResponseTest.class.getResourceAsStream("/data/serialpart.json");
+
+        // when
+        SerialPart101Schema response = mapper.readValue(file, SerialPart101Schema.class);
+
+        // then
+        assertThat(response.getCatenaXId()).isEqualTo("urn:uuid:9068d4b8-b96e-4479-b0b5-a8be63e2143b");
+    }
+
 
 }
