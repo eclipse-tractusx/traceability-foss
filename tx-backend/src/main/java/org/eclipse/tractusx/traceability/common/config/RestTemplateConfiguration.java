@@ -66,6 +66,7 @@ public class RestTemplateConfiguration {
     public RestTemplate edcRestTemplate(@Autowired EdcProperties edcProperties) {
         return new RestTemplateBuilder()
                 .rootUri(edcProperties.getProviderEdcUrl())
+                .defaultHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
                 .defaultHeader(EDC_API_KEY_HEADER_NAME, edcProperties.getApiAuthKey())
                 .setConnectTimeout(Duration.ofSeconds(10L))
                 .setReadTimeout(Duration.ofSeconds(25L))
