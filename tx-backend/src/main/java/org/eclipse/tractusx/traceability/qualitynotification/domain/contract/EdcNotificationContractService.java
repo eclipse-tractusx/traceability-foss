@@ -41,7 +41,6 @@ import org.springframework.stereotype.Component;
 public class EdcNotificationContractService {
 
     private final EdcAssetService edcAssetService; // TODO rename after testing and removing of EdcNotificationAssetService
-    //    private final EdcPolicyDefinitionService edcPolicyDefinitionService;
     private final EdcPolicyDefinitionService edcPolicyDefinitionService;
     private final EdcContractDefinitionService edcContractDefinitionService;
     private final TraceabilityProperties traceabilityProperties;
