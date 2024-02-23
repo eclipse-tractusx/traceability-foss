@@ -28,6 +28,7 @@ import { PartsTableComponent } from '@shared/components/parts-table/parts-table.
 import { TableSortingUtil } from '@shared/components/table/table-sorting.util';
 import { TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
 import { toAssetFilter, toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
+import { setMultiSorting } from '@shared/helper/table-helper';
 import { NotificationType } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
@@ -69,17 +70,10 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
   ) {
 
     window.addEventListener('keydown', (event) => {
-      if(event.metaKey || event.ctrlKey) {
-
-        this.ctrlKeyState = true;
-      }
+      this.ctrlKeyState = setMultiSorting(event);
     });
     window.addEventListener('keyup', (event) => {
-      if(this.ctrlKeyState && (!event.metaKey || !event.ctrlKey)) {
-        this.ctrlKeyState = false;
-
-      }
-
+      this.ctrlKeyState = setMultiSorting(event);
     });
   }
 

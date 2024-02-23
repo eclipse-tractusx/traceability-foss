@@ -31,6 +31,7 @@ import { NotificationCommonModalComponent } from '@shared/components/notificatio
 import { TableSortingUtil } from '@shared/components/table/table-sorting.util';
 import { MenuActionConfig, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
 import { createDeeplinkNotificationFilter } from '@shared/helper/notification-helper';
+import { setMultiSorting } from '@shared/helper/table-helper';
 import { NotificationTabInformation } from '@shared/model/notification-tab-information';
 import {
   Notification,
@@ -80,15 +81,10 @@ export class InvestigationsComponent {
     this.investigationsQueuedAndRequested$ = this.investigationsFacade.investigationsQueuedAndRequested$;
 
     window.addEventListener('keydown', (event) => {
-      if(event.metaKey || event.ctrlKey) {
-        this.ctrlKeyState = true;
-      }
+      this.ctrlKeyState = setMultiSorting(event);
     });
     window.addEventListener('keyup', (event) => {
-      if(this.ctrlKeyState && (!event.metaKey || !event.ctrlKey)) {
-        this.ctrlKeyState = false;
-      }
-
+      this.ctrlKeyState = setMultiSorting(event);
     });
   }
 
