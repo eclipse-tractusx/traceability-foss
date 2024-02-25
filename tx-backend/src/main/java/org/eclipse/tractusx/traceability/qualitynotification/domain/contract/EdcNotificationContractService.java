@@ -24,8 +24,11 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.edc.client.asset.EdcAssetService;
 import org.eclipse.tractusx.irs.edc.client.asset.model.NotificationType;
+import org.eclipse.tractusx.irs.edc.client.asset.model.exception.CreateEdcAssetException;
 import org.eclipse.tractusx.irs.edc.client.asset.model.exception.DeleteEdcAssetException;
+import org.eclipse.tractusx.irs.edc.client.contract.model.exception.CreateEdcContractDefinitionException;
 import org.eclipse.tractusx.irs.edc.client.contract.service.EdcContractDefinitionService;
+import org.eclipse.tractusx.irs.edc.client.policy.model.exception.CreateEdcPolicyDefinitionException;
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.DeleteEdcPolicyDefinitionException;
 import org.eclipse.tractusx.irs.edc.client.policy.service.EdcPolicyDefinitionService;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
@@ -40,7 +43,7 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class EdcNotificationContractService {
 
-    private final EdcAssetService edcNotificationAssetService; // TODO rename after testing and removing of EdcNotificationAssetService
+    private final EdcAssetService edcNotificationAssetService;
     private final EdcPolicyDefinitionService edcPolicyDefinitionService;
     private final EdcContractDefinitionService edcContractDefinitionService;
     private final TraceabilityProperties traceabilityProperties;
@@ -57,8 +60,12 @@ public class EdcNotificationContractService {
 
         String notificationAssetId;
         try {
-            notificationAssetId = edcNotificationAssetService.createNotificationAsset(createBaseUrl(request.notificationType(), request.notificationMethod()), request.notificationType().name() + request.notificationMethod().name(), org.eclipse.tractusx.irs.edc.client.asset.model.NotificationMethod.valueOf(request.notificationMethod().name()), NotificationType.valueOf(request.notificationType().name()));
-        } catch (org.eclipse.tractusx.irs.edc.client.asset.model.exception.CreateEdcAssetException e) {
+            notificationAssetId = edcNotificationAssetService.createNotificationAsset(
+                    createBaseUrl(request.notificationType(), request.notificationMethod()),
+                    request.notificationType().name() + " " + request.notificationMethod().name(),
+                    org.eclipse.tractusx.irs.edc.client.asset.model.NotificationMethod.valueOf(request.notificationMethod().name()),
+                    NotificationType.valueOf(request.notificationType().name()));
+        } catch (CreateEdcAssetException e) {
             throw new RuntimeException(e);
         }
 
@@ -66,7 +73,7 @@ public class EdcNotificationContractService {
         String accessPolicyId = "";
         try {
             accessPolicyId = edcPolicyDefinitionService.createAccessPolicy(traceabilityProperties.getRightOperand());
-        } catch (org.eclipse.tractusx.irs.edc.client.policy.model.exception.CreateEdcPolicyDefinitionException e) {
+        } catch (CreateEdcPolicyDefinitionException e) {
             revertNotificationAsset(notificationAssetId);
             throw new CreateNotificationContractException(e);
         }
@@ -74,7 +81,7 @@ public class EdcNotificationContractService {
         String contractDefinitionId = "";
         try {
             contractDefinitionId = edcContractDefinitionService.createContractDefinition(notificationAssetId, accessPolicyId);
-        } catch (org.eclipse.tractusx.irs.edc.client.contract.model.exception.CreateEdcContractDefinitionException e) {
+        } catch (CreateEdcContractDefinitionException e) {
             revertAccessPolicy(accessPolicyId);
             revertNotificationAsset(notificationAssetId);
 
