@@ -217,7 +217,7 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public EdcAssetService edcAssetService(EdcConfiguration edcConfiguration, EdcTransformer edcTransformer, RestTemplate edcNotificationAssetRestTemplate) {
+    public EdcAssetService edcNotificationAssetService(EdcConfiguration edcConfiguration, EdcTransformer edcTransformer, RestTemplate edcNotificationAssetRestTemplate) {
         return new EdcAssetService(edcTransformer, edcConfiguration, edcNotificationAssetRestTemplate);
     }
 

@@ -34,7 +34,6 @@ import org.eclipse.tractusx.traceability.qualitynotification.application.contrac
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.NotificationMethod;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.NotificationType;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.EdcNotificationContractService;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.asset.service.EdcNotificationAssetService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -56,9 +55,6 @@ class EdcNotificationContractServiceTest {
 
     @Mock
     RestTemplate restTemplate;
-
-    @Mock
-    EdcNotificationAssetService edcNotificationAssetService;
 
     @Mock
     EdcPolicyDefinitionService edcPolicyDefinitionService;
