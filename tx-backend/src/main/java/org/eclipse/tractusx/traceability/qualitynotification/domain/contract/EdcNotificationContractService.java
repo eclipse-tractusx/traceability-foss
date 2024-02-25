@@ -66,7 +66,7 @@ public class EdcNotificationContractService {
                     org.eclipse.tractusx.irs.edc.client.asset.model.NotificationMethod.valueOf(request.notificationMethod().name()),
                     NotificationType.valueOf(request.notificationType().name()));
         } catch (CreateEdcAssetException e) {
-            throw new RuntimeException(e);
+            throw new CreateNotificationContractException(e);
         }
 
 
@@ -103,7 +103,7 @@ public class EdcNotificationContractService {
         try {
             edcPolicyDefinitionService.deleteAccessPolicy(accessPolicyId);
         } catch (DeleteEdcPolicyDefinitionException e) {
-            throw new RuntimeException(e);
+            throw new CreateNotificationContractException(e);
         }
     }
 
@@ -113,7 +113,7 @@ public class EdcNotificationContractService {
         try {
             edcNotificationAssetService.deleteAsset(notificationAssetId);
         } catch (DeleteEdcAssetException e) {
-            throw new RuntimeException(e);
+            throw new CreateNotificationContractException(e);
         }
     }
 

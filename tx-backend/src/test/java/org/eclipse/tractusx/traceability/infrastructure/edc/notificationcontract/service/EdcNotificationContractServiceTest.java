@@ -30,6 +30,7 @@ import org.eclipse.tractusx.irs.edc.client.policy.model.exception.CreateEdcPolic
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.DeleteEdcPolicyDefinitionException;
 import org.eclipse.tractusx.irs.edc.client.policy.service.EdcPolicyDefinitionService;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
+import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractException;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractResponse;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.NotificationMethod;
@@ -113,7 +114,7 @@ class EdcNotificationContractServiceTest {
         doThrow(CreateEdcAssetException.class).when(edcNotificationAssetService).createNotificationAsset(any(), any(), any(), any());
 
         // when/then
-        assertThrows(RuntimeException.class, () -> edcNotificationContractService.handle(request));
+        assertThrows(CreateNotificationContractException.class, () -> edcNotificationContractService.handle(request));
     }
 
     @Test
@@ -129,7 +130,7 @@ class EdcNotificationContractServiceTest {
         doThrow(CreateEdcPolicyDefinitionException.class).when(edcPolicyDefinitionService).createAccessPolicy(any());
 
         // when/then
-        assertThrows(RuntimeException.class, () -> edcNotificationContractService.handle(request));
+        assertThrows(CreateNotificationContractException.class, () -> edcNotificationContractService.handle(request));
         verify(edcNotificationAssetService).deleteAsset(any());
     }
 
@@ -146,7 +147,7 @@ class EdcNotificationContractServiceTest {
         doThrow(CreateEdcContractDefinitionException.class).when(edcContractDefinitionService).createContractDefinition(any(), any());
 
         // when/then
-        assertThrows(RuntimeException.class, () -> edcNotificationContractService.handle(request));
+        assertThrows(CreateNotificationContractException.class, () -> edcNotificationContractService.handle(request));
         verify(edcPolicyDefinitionService).deleteAccessPolicy(any());
         verify(edcNotificationAssetService).deleteAsset(any());
     }
