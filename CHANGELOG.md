@@ -9,8 +9,10 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 
 ### Changed
+- sring-core bumped from 6.0.16 to 6.0.17
 
 ### Removed
+- removed EDC notification asset classes and replaced with IRS lib implementation
 
 ## [10.5.0 - 22.02.2024]
 
