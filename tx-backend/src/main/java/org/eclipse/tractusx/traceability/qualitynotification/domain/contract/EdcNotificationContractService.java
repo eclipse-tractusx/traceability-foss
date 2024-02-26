@@ -88,7 +88,11 @@ public class EdcNotificationContractService {
             throw new CreateNotificationContractException(e);
         }
 
-        log.info("Created notification contract for {} notification asset id, access policy id {} and contract definition id {}", notificationAssetId, accessPolicyId, contractDefinitionId);
+        log.info(
+                "Created notification contract for {} notification asset id, access policy id {} and contract definition id {}",
+                notificationAssetId,
+                accessPolicyId,
+                contractDefinitionId);
 
         return new CreateNotificationContractResponse(
                 notificationAssetId,
