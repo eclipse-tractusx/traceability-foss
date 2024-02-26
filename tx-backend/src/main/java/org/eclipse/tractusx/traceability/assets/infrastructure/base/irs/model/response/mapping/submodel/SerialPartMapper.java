@@ -16,7 +16,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping;
+package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel;
 
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsSubmodel;
@@ -24,14 +24,17 @@ import org.eclipse.tractusx.traceability.generated.SerialPart101Schema;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SerialPartMapper implements AssetBaseMapper {
+public class SerialPartMapper implements SubmodelMapper {
     @Override
-    public AssetBase toAssetBase(IrsSubmodel irsSubmodel) {
-        SerialPart101Schema serialPart =  (SerialPart101Schema) irsSubmodel.getPayload();
-
+    public AssetBase.AssetBaseBuilder extractSubmodel(IrsSubmodel irsSubmodel) {
+        SerialPart101Schema serialPart = (SerialPart101Schema) irsSubmodel.getPayload();
         return AssetBase
                 .builder()
-                .id(serialPart.getCatenaXId())
-                .build();
+                .id(serialPart.getCatenaXId());
+    }
+
+    @Override
+    public boolean validMapper(IrsSubmodel submodel) {
+        return submodel.getPayload() instanceof SerialPart101Schema;
     }
 }

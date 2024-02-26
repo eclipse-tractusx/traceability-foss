@@ -37,13 +37,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.mapper.T
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Relationship;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.LocalId;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.ManufacturingInformation;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.PartTypeInformation;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.SemanticDataModel;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.Site;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.ValidityPeriod;
-import org.eclipse.tractusx.traceability.generated.SerialPart101Schema;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -83,6 +77,7 @@ public record JobDetailResponse(
             @JsonProperty("tombstones") @JsonSetter(nulls = Nulls.AS_EMPTY) List<Tombstone> tombstones
 
     ) {
+        // now in BpnMapper
         Map<String, String> bpnsMap = bpns.stream()
                 .map(bpn -> new Bpn(
                         bpn.manufacturerId(),
@@ -94,14 +89,14 @@ public record JobDetailResponse(
         // importing the JSON schemas from the aspect types and generate the Java classes via Maven.
         // E.g. import the schema for JustInSequencePart https://github.com/eclipse-tractusx/sldt-semantic-models/blob/main/io.catenax.just_in_sequence_part/1.0.0/gen/JustInSequencePart-schema.json
         // and generate a Java class
+        // this should be handled by the submodel mapper
         List<SemanticDataModel> semanticDataModels = submodels.stream()
                 .filter(submodel -> submodel.getPayload() instanceof SemanticDataModel || submodel.getPayload() instanceof DetailAspectDataTractionBatteryCode)
                 .map(submodel -> {
                     if (submodel.getPayload() instanceof DetailAspectDataTractionBatteryCode detailAspectDataTractionBatteryCode) {
                         detailAspectDataTractionBatteryCode.setAspectType(submodel.getAspectType());
                         return detailAspectDataTractionBatteryCode;
-                    }
-                    else {
+                    } else {
                         SemanticDataModel payload = (SemanticDataModel) submodel.getPayload();
                         payload.setAspectType(submodel.getAspectType());
                         payload.setIdentification(submodel.getIdentification());
@@ -140,7 +135,6 @@ public record JobDetailResponse(
         log.info(":: convertAssets(\"{}\")", bomLifecycle.getRealName());
         log.info(":: relationships: {}", relationships.toString());
         log.info(":: shells: {}", shells());
-
 
 
         Map<String, String> shortIds = shells().stream()
@@ -315,7 +309,7 @@ public record JobDetailResponse(
         return Optional.ofNullable(relationships.get(catenaXId))
                 .orElse(Collections.emptyList())
                 .stream()
-                .map(child -> new Descriptions(child.childCatenaXId(), shortIds.get(child.childCatenaXId())))
+                .map(child -> new Descriptions(child.childCatenaXId(), shortIds.get(child.childCatenaXId()), null, null))
                 .toList();
     }
 
@@ -323,7 +317,7 @@ public record JobDetailResponse(
         return Optional.ofNullable(relationships.get(catenaXId))
                 .orElse(Collections.emptyList())
                 .stream()
-                .map(child -> new Descriptions(child.catenaXId(), shortIds.get(child.catenaXId())))
+                .map(child -> new Descriptions(child.catenaXId(), shortIds.get(child.catenaXId()), null, null))
                 .toList();
     }
 

@@ -16,13 +16,15 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping;
+package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel;
 
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsSubmodel;
 
-public interface AssetBaseMapper {
+public interface SubmodelMapper {
 
-    AssetBase toAssetBase(IrsSubmodel submodel);
+    AssetBase.AssetBaseBuilder extractSubmodel(IrsSubmodel irsSubmodel);
+
+    boolean validMapper(IrsSubmodel submodel);
 
 }

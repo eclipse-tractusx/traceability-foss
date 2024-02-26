@@ -38,7 +38,7 @@ import java.util.List;
 @Builder
 public class AssetBase {
     private final String id;
-    private final String idShort;
+    private String idShort;
     private String semanticModelId;
     private final String manufacturerId;
     private String manufacturerName;

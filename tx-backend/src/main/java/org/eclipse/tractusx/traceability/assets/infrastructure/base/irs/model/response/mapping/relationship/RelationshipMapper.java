@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,16 +16,18 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.relationship;
 
-package org.eclipse.tractusx.traceability.assets.domain.base.model;
-
-import lombok.Builder;
+import org.eclipse.tractusx.irs.component.Relationship;
 import org.eclipse.tractusx.irs.component.enums.Direction;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 
-@Builder
-public record Descriptions(
-        String id,
-        String idShort,
-        String parentId,
-        Direction direction) {
+public interface RelationshipMapper {
+
+    Descriptions extractDescription(Relationship relationship);
+
+    boolean validMapper(Relationship relationship);
+
+    Direction direction();
+
 }

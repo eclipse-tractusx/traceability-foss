@@ -16,17 +16,26 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping;
+package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel;
 
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsSubmodel;
+import org.eclipse.tractusx.traceability.generated.PartSiteInformationAsPlanned100Schema;
 import org.springframework.stereotype.Component;
 
 
 @Component
-public class BatchMapper implements AssetBaseMapper {
+public class PartSiteInformationAsPlannedMapper implements SubmodelMapper {
     @Override
-    public AssetBase toAssetBase(IrsSubmodel irsSubmodel) {
-        return AssetBase.builder().build();
+    public AssetBase.AssetBaseBuilder extractSubmodel(IrsSubmodel irsSubmodel) {
+        PartSiteInformationAsPlanned100Schema partSiteInformationAsPlanned = (PartSiteInformationAsPlanned100Schema) irsSubmodel.getPayload();
+        return AssetBase
+                .builder()
+                .id(partSiteInformationAsPlanned.getCatenaXId());
+    }
+
+    @Override
+    public boolean validMapper(IrsSubmodel submodel) {
+        return submodel.getPayload() instanceof PartSiteInformationAsPlanned100Schema;
     }
 }
