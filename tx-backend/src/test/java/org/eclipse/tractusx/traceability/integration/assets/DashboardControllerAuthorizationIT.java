@@ -23,6 +23,7 @@ import org.eclipse.tractusx.traceability.common.security.JwtRole;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.ForbiddenMatcher;
 import org.jose4j.lang.JoseException;
+import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 
@@ -43,7 +44,7 @@ class DashboardControllerAuthorizationIT extends IntegrationTestSpecification {
      * - According to Cofinity requirement, ADMIN, SUPERVISOR, USER have permission
      * - According to Upstream requirement, there should be no PreAuthorize
      */
-    //@ParameterizedTest
+    @ParameterizedTest
     @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#allRolesAllowed")
     void shouldAllowGetEndpointOnlyForSpecificRoles(JwtRole role, boolean isAllowed) throws JoseException {
 

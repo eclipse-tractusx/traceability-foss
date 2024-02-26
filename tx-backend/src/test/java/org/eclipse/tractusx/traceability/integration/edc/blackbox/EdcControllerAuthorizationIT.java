@@ -23,7 +23,7 @@ class EdcControllerAuthorizationIT extends IntegrationTestSpecification {
     ObjectMapper objectMapper = new ObjectMapper();
 
     @ParameterizedTest
-    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#noRoleRequired")
+    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#adminRoleAllowed")
     void shouldAllowQnReceiveEndpointRegardlessOfRole(JwtRole role, boolean isAllowed) throws JoseException, IOException {
         // Given
         String notificationJson = readFile("/testdata/edc_notification_okay.json");
@@ -42,7 +42,7 @@ class EdcControllerAuthorizationIT extends IntegrationTestSpecification {
     }
 
     @ParameterizedTest
-    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#noRoleRequired")
+    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#adminRoleAllowed")
     void shouldAllowQnUpdateEndpointRegardlessOfRole(JwtRole role, boolean isAllowed) throws JoseException, IOException {
         // Given
         String notificationJson = readFile("/testdata/edc_notification_okay_update.json");
@@ -61,7 +61,7 @@ class EdcControllerAuthorizationIT extends IntegrationTestSpecification {
     }
 
     @ParameterizedTest
-    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#noRoleRequired")
+    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#adminRoleAllowed")
     void shouldAllowAnReceiveEndpointRegardlessOfRole(JwtRole role, boolean isAllowed) throws JoseException, IOException {
         // Given
         String notificationJson = readFile("/testdata/edc_alert_okay.json");
@@ -80,7 +80,7 @@ class EdcControllerAuthorizationIT extends IntegrationTestSpecification {
     }
 
     @ParameterizedTest
-    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#noRoleRequired")
+    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#adminRoleAllowed")
     void shouldAllowAnUpdateEndpointRegardlessOfRole(JwtRole role, boolean isAllowed) throws JoseException, IOException {
         // Given
         String notificationJson = readFile("/testdata/edc_alert_okay_update.json");

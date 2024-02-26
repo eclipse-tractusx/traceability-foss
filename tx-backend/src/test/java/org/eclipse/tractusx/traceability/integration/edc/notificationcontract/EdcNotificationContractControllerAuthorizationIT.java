@@ -43,8 +43,8 @@ class EdcNotificationContractControllerAuthorizationIT extends IntegrationTestSp
      * - According to Cofinity requirement, only ADMIN has permission
      * - According to Upstream requirement, SUPERVISOR has permission
      */
-    //@ParameterizedTest
-    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#adminRoleAllowed")
+    @ParameterizedTest
+    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#supervisorRoleAllowed")
     void shouldAllowPostEndpointOnlyForSpecificRoles(JwtRole role, boolean isAllowed) throws JoseException {
 
         // Request class does not support JSON serialization

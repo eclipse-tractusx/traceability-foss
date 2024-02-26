@@ -43,7 +43,7 @@ class RegistryControllerAuthorizationIT extends IntegrationTestSpecification {
      * - According to Cofinity requirement, only ADMIN has permission
      * - According to Upstream requirement, ADMIN has permission but there should be no PreAuthorize
      */
-    //@ParameterizedTest
+    @ParameterizedTest
     @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#adminRoleAllowed")
     void shouldAllowGetEndpointOnlyForSpecificRoles(JwtRole role, boolean isAllowed) throws JoseException {
         given()

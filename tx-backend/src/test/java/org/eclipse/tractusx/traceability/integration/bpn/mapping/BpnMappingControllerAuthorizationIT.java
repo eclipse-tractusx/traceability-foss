@@ -50,8 +50,8 @@ class BpnMappingControllerAuthorizationIT extends IntegrationTestSpecification {
      * - According to Cofinity requirement, only ADMIN has permission
      * - According to Upstream requirement, ADMIN and SUPERVISOR have permission
      */
-    // @ParameterizedTest
-    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#adminRoleAllowed")
+    @ParameterizedTest
+    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#supervisorAndAdminRolesAllowed")
     void shouldAllowGetEndpointOnlyForSpecificRoles(JwtRole role, boolean isAllowed) throws JoseException {
         given()
                 .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
@@ -70,8 +70,8 @@ class BpnMappingControllerAuthorizationIT extends IntegrationTestSpecification {
      * - According to Cofinity requirement, only ADMIN has permission
      * - According to Upstream requirement, ADMIN and SUPERVISOR have permission
      */
-    //@ParameterizedTest
-    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#adminRoleAllowed")
+    @ParameterizedTest
+    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#supervisorAndAdminRolesAllowed")
     void shouldAllowPostEndpointOnlyForSpecificRoles(JwtRole role, boolean isAllowed) throws JoseException, JsonProcessingException {
         given()
                 .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
@@ -91,8 +91,8 @@ class BpnMappingControllerAuthorizationIT extends IntegrationTestSpecification {
      * - According to Cofinity requirement, only ADMIN has permission
      * - According to Upstream requirement, ADMIN and SUPERVISOR have permission
      */
-    //@ParameterizedTest
-    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#adminRoleAllowed")
+    @ParameterizedTest
+    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#supervisorAndAdminRolesAllowed")
     void shouldAllowPutEndpointOnlyForSpecificRoles(JwtRole role, boolean isAllowed) throws JoseException, JsonProcessingException {
         given()
                 .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
@@ -112,8 +112,8 @@ class BpnMappingControllerAuthorizationIT extends IntegrationTestSpecification {
      * - According to Cofinity requirement, only ADMIN has permission
      * - According to Upstream requirement, ADMIN and SUPERVISOR have permission
      */
-    //@ParameterizedTest
-    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#adminRoleAllowed")
+    @ParameterizedTest
+    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#supervisorAndAdminRolesAllowed")
     void shouldAllowDeleteEndpointOnlyForSpecificRoles(JwtRole role, boolean isAllowed) throws JoseException {
         given()
                 .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))

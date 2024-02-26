@@ -49,7 +49,7 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
      * - According to Cofinity requirement, only ADMIN has permission
      * - According to Upstream requirement, ADMIN and SUPERVISOR have permission
      */
-    //@Test
+    @Test
     void shouldCreateEdcContract() throws JoseException {
        // Given
         edcSupport.edcWillCreateNotificationAsset();
@@ -59,7 +59,7 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
        // Then
         given()
                 .contentType(ContentType.JSON)
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .body(
                         """
                                 {
@@ -91,7 +91,7 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
      * - According to Cofinity requirement, only ADMIN has permission
      * - According to Upstream requirement, ADMIN and SUPERVISOR have permission
      */
-    //@Test
+    @Test
     void shouldNotCreateEdcContractWhenNotificationAssetCreationFailed() throws JoseException {
        // Given
         edcSupport.edcWillFailToCreateNotificationAsset();
@@ -99,7 +99,7 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
        // Then
         given()
                 .contentType(ContentType.JSON)
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .body(
                         """
                                 {
@@ -129,7 +129,7 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
      * - According to Cofinity requirement, only ADMIN has permission
      * - According to Upstream requirement, ADMIN and SUPERVISOR have permission
      */
-    //@Test
+    @Test
     void shouldNotCreateEdcContractAndDoRollbackWhenPolicyDefinitionCreationFailed() throws JoseException {
        // Given
         edcSupport.edcWillCreateNotificationAsset();
@@ -140,7 +140,7 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
         // Then
         given()
                 .contentType(ContentType.JSON)
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .body(
                         """
                                 {
@@ -170,7 +170,7 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
      * - According to Cofinity requirement, only ADMIN has permission
      * - According to Upstream requirement, ADMIN and SUPERVISOR have permission
      */
-    //@Test
+    @Test
     void shouldNotCreateEdcContractAndDoRollbackWhenContractDefinitionCreationFailed() throws JoseException {
        // Given
         edcSupport.edcWillCreateNotificationAsset();
@@ -183,7 +183,7 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
        // Then
         given()
                 .contentType(ContentType.JSON)
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .body(
                         """
                                 {
@@ -213,7 +213,7 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
      * - According to Cofinity requirement, only ADMIN has permission
      * - According to Upstream requirement, ADMIN and SUPERVISOR have permission
      */
-    //@Test
+    @Test
     void shouldNotCreateEdcContractWithoutAuthentication() {
         given()
                 .contentType(ContentType.JSON)
@@ -237,11 +237,11 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
      * - According to Cofinity requirement, only ADMIN has permission
      * - According to Upstream requirement, ADMIN and SUPERVISOR have permission
      */
-    //@Test
+    @Test
     void shouldNotCreateEdcContractHavingSupervisorRole() throws JoseException {
         given()
                 .contentType(ContentType.JSON)
-                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .body(
                         """
                                 {
@@ -262,7 +262,7 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
      * - According to Cofinity requirement, only ADMIN has permission
      * - According to Upstream requirement, ADMIN and SUPERVISOR have permission
      */
-    //@Test
+    @Test
     void shouldNotCreateEdcContractHavingUserRole() throws JoseException {
         given()
                 .contentType(ContentType.JSON)
@@ -287,7 +287,7 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
      * - According to Cofinity requirement, only ADMIN has permission
      * - According to Upstream requirement, ADMIN and SUPERVISOR have permission
      */
-    //@ParameterizedTest
+    @ParameterizedTest
     @MethodSource("invalidRequests")
     void shouldNotCreateEdcContractWithInvalidRequest(
             final String notificationType,
@@ -295,7 +295,7 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
     ) throws JoseException {
         given()
                 .contentType(ContentType.JSON)
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .body(
 
                         """
@@ -317,11 +317,11 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
      * - According to Cofinity requirement, only ADMIN has permission
      * - According to Upstream requirement, ADMIN and SUPERVISOR have permission
      */
-    // @Test
+    @Test
     void shouldNotCreateEdcContractForQualityAlertBecauseItsNotYetImplemented() throws JoseException {
         given()
                 .contentType(ContentType.JSON)
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .body(
                         """
                                 {

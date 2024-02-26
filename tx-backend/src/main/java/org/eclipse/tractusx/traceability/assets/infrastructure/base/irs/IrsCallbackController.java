@@ -22,12 +22,14 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
+@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 @RequiredArgsConstructor
 public class IrsCallbackController {
 

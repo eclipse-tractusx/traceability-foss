@@ -25,11 +25,13 @@ import org.eclipse.tractusx.traceability.integration.common.support.AssetsSuppor
 import org.eclipse.tractusx.traceability.integration.common.support.repository.AssetAsBuiltSupportRepository;
 import org.eclipse.tractusx.traceability.integration.common.support.repository.BpnSupportRepository;
 import org.eclipse.tractusx.traceability.integration.common.support.IrsApiSupport;
+import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 
 class IrsCallbackControllerIT extends IntegrationTestSpecification {
 
@@ -47,7 +49,7 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
 
 
     @Test
-    void givenNoAssets_whenCallbackReceived_thenSaveThem() {
+    void givenNoAssets_whenCallbackReceived_thenSaveThem() throws JoseException {
        // Given
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         irsApiSupport.irsApiReturnsJobDetails();
@@ -57,6 +59,7 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
         // When
         given()
                 .contentType(ContentType.JSON)
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .log().all()
                 .when()
                 .param("id", jobId)
@@ -73,7 +76,7 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenNoAssets_whenCallbackReceivedForAsPlanned_thenSaveThem() {
+    void givenNoAssets_whenCallbackReceivedForAsPlanned_thenSaveThem() throws JoseException {
        // Given
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         irsApiSupport.irsJobDetailsAsPlanned();
@@ -83,6 +86,7 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
         // When
         given()
                 .contentType(ContentType.JSON)
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .log().all()
                 .when()
                 .param("id", jobId)
@@ -99,7 +103,7 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenAssetExist_whenCallbackReceived_thenUpdateIt() {
+    void givenAssetExist_whenCallbackReceived_thenUpdateIt() throws JoseException {
        // Given
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         irsApiSupport.irsApiReturnsJobDetails();
@@ -109,6 +113,7 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
         // When
         given()
                 .contentType(ContentType.JSON)
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .log().all()
                 .when()
                 .param("id", jobId)
@@ -120,6 +125,7 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
 
         given()
                 .contentType(ContentType.JSON)
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .log().all()
                 .when()
                 .param("id", jobId)
