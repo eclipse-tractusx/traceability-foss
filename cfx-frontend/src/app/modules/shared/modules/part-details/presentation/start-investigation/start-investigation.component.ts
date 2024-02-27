@@ -80,9 +80,9 @@ export class StartInvestigationComponent {
     this.childParts$ = this.childPartsState.observable;
     this.selectedChildParts$ = this.selectedChildPartsState.observable;
 
-    const displayedColumns: string[] = ['select', 'name', 'semanticModelId'];
+    const displayedColumns: string[] = ['select', 'nameAtManufacturer', 'semanticModelId'];
     const sortableColumns: Record<string, boolean> = {
-      name: true,
+      nameAtManufacturer: true,
       semanticModelId: true,
     };
 

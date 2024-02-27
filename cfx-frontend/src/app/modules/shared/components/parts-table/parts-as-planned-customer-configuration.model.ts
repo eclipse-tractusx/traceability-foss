@@ -22,7 +22,6 @@ export class PartsAsPlannedCustomerConfigurationModel extends TableFilterConfigu
 
   constructor() {
     const sortableColumns = {
-      select: false,
       semanticDataModel: true,
       nameAtManufacturer: true,
       businessPartner: true,
