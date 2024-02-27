@@ -4,6 +4,7 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.r
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IRSResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Shell;
@@ -57,5 +58,24 @@ public class MapperHelper {
                         Map.Entry::getValue,
                         (existingValue, newValue) -> existingValue
                 ));
+    }
+
+    public static void enrichAssetBase(List<DetailAspectModel> detailAspectModels, AssetBase assetBase) {
+        detailAspectModels.stream()
+                .filter(detailAspectModel -> detailAspectModel.getGlobalAssetId().equals(assetBase.getId()))
+                .findFirst()
+                .ifPresent(detailAspectModel -> assetBase.setDetailAspectModels(List.of(detailAspectModel)));
+    }
+    public static void enrichManufacturingInformation(IRSResponse irsResponse, Map<String, String> bpnMap, AssetBase assetBase) {
+        if (assetBase.getManufacturerId() == null && assetBase.getId().equals(irsResponse.jobStatus().globalAssetId())) {
+            String bpn = irsResponse.jobStatus().parameter().bpn();
+            assetBase.setManufacturerId(bpn);
+            assetBase.setManufacturerName(bpnMap.get(bpn));
+        } else {
+            String bpnName = bpnMap.get(assetBase.getManufacturerId());
+            if (bpnName != null) {
+                assetBase.setManufacturerName(bpnName);
+            }
+        }
     }
 }

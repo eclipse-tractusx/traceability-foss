@@ -44,6 +44,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.MapperHelper.enrichAssetBase;
+import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.MapperHelper.enrichManufacturingInformation;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.MapperHelper.getOwner;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.MapperHelper.getShortId;
 
@@ -97,21 +99,13 @@ public class MapperFactory {
                 .submodels()
                 .stream()
                 .map(irsSubmodel -> {
-                    Optional<SubmodelMapper> mapper = getMapper(irsSubmodel);
+                    Optional<SubmodelMapper> mapper = getSubmodelMapper(irsSubmodel);
                     if (mapper.isPresent()) {
                         AssetBase.AssetBaseBuilder submodel = mapper.get().extractSubmodel(irsSubmodel);
-                        AssetBase assetBase = createAssetBase(irsResponse, submodel, descriptionMap, irsSubmodel, bpnMap);
+                        AssetBase assetBase = createAssetBase(irsResponse, submodel, descriptionMap, bpnMap);
 
-                        // Enrich the assetBase with tractionBatteryCode if available
-                        tractionBatteryCode.stream()
-                                .filter(detailAspectModel -> detailAspectModel.getGlobalAssetId().equals(assetBase.getId()))
-                                .findFirst()
-                                .ifPresent(detailAspectModel -> assetBase.setDetailAspectModels(List.of(detailAspectModel)));
-
-                        partSiteInformationAsPlanned.stream()
-                                .filter(detailAspectModel -> detailAspectModel.getGlobalAssetId().equals(assetBase.getId()))
-                                .findFirst()
-                                .ifPresent(detailAspectModel -> assetBase.setDetailAspectModels(List.of(detailAspectModel)));
+                        enrichAssetBase(tractionBatteryCode, assetBase);
+                        enrichAssetBase(partSiteInformationAsPlanned, assetBase);
 
                         return assetBase;
                     }
@@ -121,19 +115,27 @@ public class MapperFactory {
                 .toList();
     }
 
+
     private AssetBase createAssetBase(
             IRSResponse irsResponse,
             AssetBase.AssetBaseBuilder assetBaseBuilder,
             Map<String, List<Descriptions>> descriptionsMap,
-            IrsSubmodel irsSubmodel,
             Map<String, String> bpnMap) {
         AssetBase assetBase = assetBaseBuilder.build();
+        assetBase.setOwner(getOwner(assetBase, irsResponse));
+        assetBase.setIdShort(getShortId(irsResponse.shells(), assetBase.getId()));
 
-        List<Descriptions> descriptions = descriptionsMap.get(assetBase.getId());
+        enrichUpwardAndDownwardDescriptions(descriptionsMap, assetBase);
+        enrichManufacturingInformation(irsResponse, bpnMap, assetBase);
 
+        return assetBase;
+    }
+
+    private static void enrichUpwardAndDownwardDescriptions(Map<String, List<Descriptions>> descriptionsMap, AssetBase assetBase) {
         List<Descriptions> upwardDescriptions = new ArrayList<>();
         List<Descriptions> downwardDescriptions = new ArrayList<>();
 
+        List<Descriptions> descriptions = descriptionsMap.get(assetBase.getId());
         for (Descriptions description : emptyIfNull(descriptions)) {
             if (description.direction() == Direction.UPWARD) {
                 upwardDescriptions.add(description);
@@ -144,21 +146,6 @@ public class MapperFactory {
 
         assetBase.setChildRelations(downwardDescriptions);
         assetBase.setParentRelations(upwardDescriptions);
-        assetBase.setOwner(getOwner(assetBase, irsResponse));
-        assetBase.setIdShort(getShortId(irsResponse.shells(), assetBase.getId()));
-
-
-        if (assetBase.getManufacturerId() == null && assetBase.getId().equals(irsResponse.jobStatus().globalAssetId())) {
-            String bpn = irsResponse.jobStatus().parameter().bpn();
-            assetBase.setManufacturerId(bpn);
-            assetBase.setManufacturerName(bpnMap.get(bpn));
-        } else {
-            String bpnName = bpnMap.get(assetBase.getManufacturerId());
-            if (bpnName != null) {
-                assetBase.setManufacturerName(bpnName);
-            }
-        }
-        return assetBase;
     }
 
     @NotNull
@@ -177,7 +164,7 @@ public class MapperFactory {
         return descriptionMap;
     }
 
-    private Optional<SubmodelMapper> getMapper(IrsSubmodel irsSubmodel) {
+    private Optional<SubmodelMapper> getSubmodelMapper(IrsSubmodel irsSubmodel) {
         return baseMappers.stream().filter(assetBaseMapper -> assetBaseMapper.validMapper(irsSubmodel)).findFirst();
     }
 
