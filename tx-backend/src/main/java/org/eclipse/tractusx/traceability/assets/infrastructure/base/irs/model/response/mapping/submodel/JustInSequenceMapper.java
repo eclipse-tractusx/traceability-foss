@@ -18,22 +18,85 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel;
 
+import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataAsBuilt;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportNote;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsSubmodel;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.LocalIdKey;
 import org.eclipse.tractusx.traceability.generated.JustInSequencePart100Schema;
+import org.eclipse.tractusx.traceability.generated.UrnBammIoCatenaxJustInSequencePart100KeyValueList;
+import org.eclipse.tractusx.traceability.generated.UrnBammIoCatenaxJustInSequencePart100ManufacturingCharacteristic;
+import org.eclipse.tractusx.traceability.generated.UrnBammIoCatenaxJustInSequencePart100PartTypeInformationCharacteristic;
 import org.springframework.stereotype.Component;
 
+import java.time.OffsetDateTime;
+import java.util.List;
+import java.util.Set;
 
+import static org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.JUSTINSEQUENCE;
+
+@Slf4j
 @Component
 public class JustInSequenceMapper implements SubmodelMapper {
     @Override
     public AssetBase.AssetBaseBuilder extractSubmodel(IrsSubmodel irsSubmodel) {
         JustInSequencePart100Schema justInSequencePart = (JustInSequencePart100Schema) irsSubmodel.getPayload();
-        return AssetBase.builder();
+
+        String justInSequenceId = getValue(justInSequencePart.getLocalIdentifiers(), LocalIdKey.JIS_NUMBER.getValue());
+        String manufacturerName = getValue(justInSequencePart.getLocalIdentifiers(), LocalIdKey.MANUFACTURER_ID.getValue());
+        String van = getValue(justInSequencePart.getLocalIdentifiers(), LocalIdKey.VAN.getValue());
+        DetailAspectModel detailAspectModel = extractDetailAspectModelsAsBuilt(justInSequencePart.getManufacturingInformation(), justInSequencePart.getPartTypeInformation());
+
+        return AssetBase.builder()
+                .id(justInSequencePart.getCatenaXId())
+                .semanticModelId(justInSequenceId)
+                .detailAspectModels(List.of(detailAspectModel))
+                .manufacturerId(manufacturerName)
+                .manufacturerName(manufacturerName)
+                .nameAtManufacturer(justInSequencePart.getPartTypeInformation().getNameAtManufacturer())
+                .manufacturerPartId(justInSequencePart.getPartTypeInformation().getManufacturerPartId())
+                .classification(justInSequencePart.getPartTypeInformation().getClassification().value())
+                .qualityType(QualityType.OK)
+                .semanticDataModel(JUSTINSEQUENCE)
+                .van(van)
+                .importState(ImportState.PERSISTENT)
+                .importNote(ImportNote.PERSISTED);
     }
 
     @Override
     public boolean validMapper(IrsSubmodel submodel) {
         return submodel.getPayload() instanceof JustInSequencePart100Schema;
+    }
+
+    private static DetailAspectModel extractDetailAspectModelsAsBuilt(UrnBammIoCatenaxJustInSequencePart100ManufacturingCharacteristic manufacturingInformation,
+                                                                      UrnBammIoCatenaxJustInSequencePart100PartTypeInformationCharacteristic partTypeInformation) {
+
+        OffsetDateTime offsetDateTime = MapperHelper.getOffsetDateTime(manufacturingInformation.getDate());
+
+        DetailAspectDataAsBuilt detailAspectDataAsBuilt = DetailAspectDataAsBuilt.builder()
+                .customerPartId(partTypeInformation.getCustomerPartId())
+                .manufacturingCountry(manufacturingInformation.getCountry())
+                .manufacturingDate(offsetDateTime)
+                .nameAtCustomer(partTypeInformation.getNameAtCustomer())
+                .partId(partTypeInformation.getManufacturerPartId())
+                .build();
+        return DetailAspectModel.builder().data(detailAspectDataAsBuilt).type(DetailAspectType.AS_BUILT).build();
+    }
+
+    private String getValue(Set<UrnBammIoCatenaxJustInSequencePart100KeyValueList> localIdentifiers, String key) {
+        UrnBammIoCatenaxJustInSequencePart100KeyValueList object = localIdentifiers.stream()
+                .filter(localId -> localId.getKey().equalsIgnoreCase(key))
+                .findFirst()
+                .orElseGet(() -> null);
+
+        if (object != null) {
+            return object.getValue();
+        }
+        return null;
     }
 }

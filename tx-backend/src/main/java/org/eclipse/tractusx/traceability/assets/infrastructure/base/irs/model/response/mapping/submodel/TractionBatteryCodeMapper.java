@@ -18,24 +18,46 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel;
 
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataTractionBatteryCode;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsSubmodel;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.asbuilt.AsBuiltDetailMapper;
 import org.eclipse.tractusx.traceability.generated.TractionBatteryCode100Schema;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 
 @Component
-public class TractionBatteryCodeMapper implements SubmodelMapper {
+public class TractionBatteryCodeMapper implements AsBuiltDetailMapper {
     @Override
-    public AssetBase.AssetBaseBuilder extractSubmodel(IrsSubmodel irsSubmodel) {
+    public List<DetailAspectModel> extractDetailAspectModel(IrsSubmodel irsSubmodel) {
         TractionBatteryCode100Schema tractionBatteryCode = (TractionBatteryCode100Schema) irsSubmodel.getPayload();
 
-        return AssetBase
-                .builder();
+        List<DetailAspectDataTractionBatteryCode.DetailAspectDataTractionBatteryCodeSubcomponent> subComponents = tractionBatteryCode.getSubcomponents().stream().map(tractionBatteryComponent -> DetailAspectDataTractionBatteryCode.DetailAspectDataTractionBatteryCodeSubcomponent
+                .builder()
+                .tractionBatteryCode(tractionBatteryComponent.getTractionBatteryCode())
+                .productType(tractionBatteryComponent.getProductType().value())
+                .build()).toList();
+
+        DetailAspectDataTractionBatteryCode detailAspectDataTractionBatteryCode =
+                DetailAspectDataTractionBatteryCode
+                        .builder()
+                        .tractionBatteryCode(tractionBatteryCode.getTractionBatteryCode())
+                        .productType(tractionBatteryCode.getProductType().value())
+                        .subcomponents(subComponents)
+                        .build();
+
+        return List.of(DetailAspectModel.builder().data(detailAspectDataTractionBatteryCode).type(DetailAspectType.TRACTION_BATTERY_CODE).build());
     }
 
     @Override
     public boolean validMapper(IrsSubmodel submodel) {
         return submodel.getPayload() instanceof TractionBatteryCode100Schema;
+    }
+
+    private static DetailAspectModel extractDetailAspectModelTractionBatteryCode(DetailAspectDataTractionBatteryCode detailAspectDataTractionBatteryCode) {
+        return DetailAspectModel.builder().data(detailAspectDataTractionBatteryCode).type(DetailAspectType.TRACTION_BATTERY_CODE).build();
     }
 }

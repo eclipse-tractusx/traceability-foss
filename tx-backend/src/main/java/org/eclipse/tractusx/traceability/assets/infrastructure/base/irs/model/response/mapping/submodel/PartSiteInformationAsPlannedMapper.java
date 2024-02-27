@@ -18,24 +18,52 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel;
 
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.irs.component.partsiteinformationasplanned.Site;
+import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataPartSiteInformationAsPlanned;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsSubmodel;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.asplanned.AsPlannedDetailMapper;
 import org.eclipse.tractusx.traceability.generated.PartSiteInformationAsPlanned100Schema;
 import org.springframework.stereotype.Component;
 
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 @Component
-public class PartSiteInformationAsPlannedMapper implements SubmodelMapper {
+public class PartSiteInformationAsPlannedMapper implements AsPlannedDetailMapper {
     @Override
-    public AssetBase.AssetBaseBuilder extractSubmodel(IrsSubmodel irsSubmodel) {
+    public List<DetailAspectModel> extractSubmodel(IrsSubmodel irsSubmodel) {
         PartSiteInformationAsPlanned100Schema partSiteInformationAsPlanned = (PartSiteInformationAsPlanned100Schema) irsSubmodel.getPayload();
-        return AssetBase
-                .builder()
-                .id(partSiteInformationAsPlanned.getCatenaXId());
+
+        List<Site> sites = partSiteInformationAsPlanned
+                .getSites()
+                .stream()
+                .map(asPlannedSite -> new Site(ZonedDateTime.parse(asPlannedSite.getFunctionValidUntil()), asPlannedSite.getFunction().toString(), ZonedDateTime.parse(asPlannedSite.getFunctionValidFrom()), asPlannedSite.getCatenaXSiteId())).toList();
+
+        return extractDetailAspectModelsPartSiteInformationAsPlanned(sites);
     }
 
     @Override
     public boolean validMapper(IrsSubmodel submodel) {
         return submodel.getPayload() instanceof PartSiteInformationAsPlanned100Schema;
+    }
+
+    private static List<DetailAspectModel> extractDetailAspectModelsPartSiteInformationAsPlanned(List<Site> sites) {
+        List<DetailAspectModel> detailAspectModels = new ArrayList<>();
+        emptyIfNull(sites).forEach(site -> {
+            DetailAspectDataPartSiteInformationAsPlanned detailAspectDataPartSiteInformationAsPlanned = DetailAspectDataPartSiteInformationAsPlanned.builder()
+                    .catenaXSiteId(site.catenaXSiteId())
+                    .functionValidFrom(site.functionValidFrom().toOffsetDateTime())
+                    .function(site.function())
+                    .functionValidUntil(site.functionValidUntil().toOffsetDateTime())
+                    .build();
+            detailAspectModels.add(DetailAspectModel.builder().data(detailAspectDataPartSiteInformationAsPlanned).type(DetailAspectType.PART_SITE_INFORMATION_AS_PLANNED).build());
+        });
+
+        return detailAspectModels;
     }
 }

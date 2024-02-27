@@ -1,16 +1,25 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel;
 
-import org.eclipse.tractusx.irs.component.Shell;
+
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IRSResponse;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Shell;
 
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class MapperHelper {
+    private MapperHelper() {
+
+    }
 
     public static Owner getOwner(AssetBase assetBase, IRSResponse irsResponse) {
         boolean isOwn = assetBase.getId().equals(irsResponse.jobStatus().globalAssetId());
@@ -27,9 +36,22 @@ public class MapperHelper {
         return getShortIds(shells).get(globalAssetId);
     }
 
+    public static OffsetDateTime getOffsetDateTime(String date) {
+        try {
+            return OffsetDateTime.parse(date);
+        } catch (Exception e) {
+            try {
+                return LocalDateTime.parse(date).atOffset(ZoneOffset.UTC);
+            } catch (Exception ex) {
+                log.warn("Neither OffsetDateTime nor LocalDateTime could be created from string: {} Fallback to null", date);
+                return null;
+            }
+        }
+    }
+
     private static Map<String, String> getShortIds(List<Shell> shells) {
         return shells.stream()
-                .map(shell -> Map.entry(shell.payload().getGlobalAssetId(), shell.payload().getIdShort()))
+                .map(shell -> Map.entry(shell.payload().globalAssetId(), shell.payload().idShort()))
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         Map.Entry::getValue,

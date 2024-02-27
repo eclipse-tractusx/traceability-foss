@@ -18,6 +18,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel;
 
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataAsBuilt;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportNote;
@@ -39,7 +40,7 @@ import java.util.Set;
 
 import static org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.BATCH;
 
-
+@Slf4j
 @Component
 public class BatchMapper implements SubmodelMapper {
     @Override
@@ -47,9 +48,9 @@ public class BatchMapper implements SubmodelMapper {
 
         Batch200Schema batch = (Batch200Schema) irsSubmodel.getPayload();
 
-        String batchId = getValue(batch.getLocalIdentifiers(), LocalIdKey.BATCH_ID.name());
-        String manufacturerName = getValue(batch.getLocalIdentifiers(), LocalIdKey.MANUFACTURER_ID.name());
-        String van = getValue(batch.getLocalIdentifiers(), LocalIdKey.VAN.name());
+        String batchId = getValue(batch.getLocalIdentifiers(), LocalIdKey.BATCH_ID.getValue());
+        String manufacturerName = getValue(batch.getLocalIdentifiers(), LocalIdKey.MANUFACTURER_ID.getValue());
+        String van = getValue(batch.getLocalIdentifiers(), LocalIdKey.VAN.getValue());
         DetailAspectModel detailAspectModel = extractDetailAspectModelsAsBuilt(batch.getManufacturingInformation(), batch.getPartTypeInformation());
 
 
@@ -77,10 +78,12 @@ public class BatchMapper implements SubmodelMapper {
     private static DetailAspectModel extractDetailAspectModelsAsBuilt(UrnSammIoCatenaxBatch200ManufacturingCharacteristic manufacturingInformation,
                                                                       UrnSammIoCatenaxBatch200PartTypeInformationCharacteristic partTypeInformation) {
 
+        OffsetDateTime offsetDateTime = MapperHelper.getOffsetDateTime(manufacturingInformation.getDate());
+
         DetailAspectDataAsBuilt detailAspectDataAsBuilt = DetailAspectDataAsBuilt.builder()
                 .customerPartId(null)
                 .manufacturingCountry(manufacturingInformation.getCountry())
-                .manufacturingDate(OffsetDateTime.parse(manufacturingInformation.getDate()))
+                .manufacturingDate(offsetDateTime)
                 .nameAtCustomer(null)
                 .partId(partTypeInformation.getManufacturerPartId())
                 .build();
@@ -89,7 +92,7 @@ public class BatchMapper implements SubmodelMapper {
 
     private String getValue(Set<UrnSammIoCatenaxBatch200KeyValueList> localIdentifiers, String key) {
         UrnSammIoCatenaxBatch200KeyValueList object = localIdentifiers.stream()
-                .filter(localId -> localId.getKey().equals(key))
+                .filter(localId -> localId.getKey().equalsIgnoreCase(key))
                 .findFirst()
                 .orElseGet(() -> null);
 

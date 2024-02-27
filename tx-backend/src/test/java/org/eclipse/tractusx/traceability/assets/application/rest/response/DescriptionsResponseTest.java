@@ -34,7 +34,7 @@ class DescriptionsResponseTest {
         // given
         final String id = "identifier";
         final String shortId = "shortIdentifier";
-        final Descriptions response = new Descriptions(id, shortId);
+        final Descriptions response = new Descriptions(id, shortId, null, null);
 
         // when
         final DescriptionsResponse result = AssetAsBuiltResponseMapper.from(response);

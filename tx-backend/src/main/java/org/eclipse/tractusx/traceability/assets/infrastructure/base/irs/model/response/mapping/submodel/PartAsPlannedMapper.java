@@ -19,9 +19,14 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel;
 
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportNote;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsSubmodel;
 import org.eclipse.tractusx.traceability.generated.PartAsPlanned101Schema;
 import org.springframework.stereotype.Component;
+
+import static org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.PARTASPLANNED;
 
 
 @Component
@@ -29,9 +34,17 @@ public class PartAsPlannedMapper implements SubmodelMapper {
     @Override
     public AssetBase.AssetBaseBuilder extractSubmodel(IrsSubmodel irsSubmodel) {
         PartAsPlanned101Schema partAsPlanned = (PartAsPlanned101Schema) irsSubmodel.getPayload();
-        return AssetBase
-                .builder();
 
+        return AssetBase
+                .builder()
+                .id(partAsPlanned.getCatenaXId())
+                .nameAtManufacturer(partAsPlanned.getPartTypeInformation().getNameAtManufacturer())
+                .manufacturerPartId(partAsPlanned.getPartTypeInformation().getManufacturerPartId())
+                .classification(partAsPlanned.getPartTypeInformation().getClassification().toString())
+                .qualityType(QualityType.OK)
+                .semanticDataModel(PARTASPLANNED)
+                .importState(ImportState.PERSISTENT)
+                .importNote(ImportNote.PERSISTED);
     }
 
     @Override

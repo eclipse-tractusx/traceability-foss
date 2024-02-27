@@ -16,15 +16,17 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.relationship;
+package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.asplanned;
 
-import org.eclipse.tractusx.irs.component.Relationship;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsSubmodel;
 
-public interface RelationshipMapper {
+import java.util.List;
 
-    Descriptions extractDescription(Relationship relationship);
+public interface AsPlannedDetailMapper {
 
-    boolean validMapper(Relationship relationship);
+    List<DetailAspectModel> extractSubmodel(IrsSubmodel irsSubmodel);
+
+    boolean validMapper(IrsSubmodel submodel);
 
 }

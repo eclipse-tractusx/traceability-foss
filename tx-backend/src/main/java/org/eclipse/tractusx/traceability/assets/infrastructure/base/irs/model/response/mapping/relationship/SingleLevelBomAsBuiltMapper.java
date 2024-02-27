@@ -27,6 +27,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SingleLevelBomAsBuiltMapper implements RelationshipMapper {
+    private static final String SINGLE_LEVEL_BOM_AS_BUILT = "SingleLevelBomAsBuilt";
+
     @Override
     public Descriptions extractDescription(Relationship relationship) {
         GlobalAssetIdentification childCatenaXId = relationship.getLinkedItem().getChildCatenaXId();
@@ -37,13 +39,7 @@ public class SingleLevelBomAsBuiltMapper implements RelationshipMapper {
 
     @Override
     public boolean validMapper(Relationship relationship) {
-        return relationship.getAspectType().equals("SingleLevelBomAsBuilt");
+        return relationship.getAspectType().equals(SINGLE_LEVEL_BOM_AS_BUILT);
     }
-
-    @Override
-    public Direction direction() {
-        return Direction.DOWNWARD;
-    }
-
 
 }

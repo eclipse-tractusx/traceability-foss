@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import lombok.Getter;
 import org.eclipse.tractusx.traceability.generated.Batch200Schema;
 import org.eclipse.tractusx.traceability.generated.JustInSequencePart100Schema;
 import org.eclipse.tractusx.traceability.generated.PartAsPlanned101Schema;
@@ -11,6 +12,7 @@ import org.eclipse.tractusx.traceability.generated.PartSiteInformationAsPlanned1
 import org.eclipse.tractusx.traceability.generated.SerialPart101Schema;
 import org.eclipse.tractusx.traceability.generated.TractionBatteryCode100Schema;
 
+@Getter
 public class IrsSubmodel {
     @JsonTypeInfo(
             use = JsonTypeInfo.Id.NAME,
@@ -59,15 +61,4 @@ public class IrsSubmodel {
         this.payload = payload;
     }
 
-    public Object getPayload() {
-        return payload;
-    }
-
-    public String getAspectType() {
-        return aspectType;
-    }
-
-    public String getIdentification() {
-        return identification;
-    }
 }

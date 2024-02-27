@@ -21,35 +21,24 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.r
 import org.eclipse.tractusx.irs.component.GlobalAssetIdentification;
 import org.eclipse.tractusx.irs.component.Relationship;
 import org.eclipse.tractusx.irs.component.enums.Direction;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 
 @Component
 public class SingleLevelBomAsPlannedMapper implements RelationshipMapper {
-    private static final String SINGLE_LEVEL_USAGE_AS_BUILT = "SingleLevelUsageAsBuilt";
-    private static final String SINGLE_LEVEL_BOM_AS_BUILT = "SingleLevelBomAsBuilt";
     private static final String SINGLE_LEVEL_BOM_AS_PLANNED = "SingleLevelBomAsPlanned";
 
     @Override
-    public AssetBase.AssetBaseBuilder extractRelationship(List<Relationship> relationships) {
-        // TODO
-        Map<GlobalAssetIdentification, List<Relationship>> relationShipMap = relationships.stream()
-                .collect(Collectors.groupingBy(Relationship::getCatenaXId, Collectors.toList()));
-        return AssetBase.builder();
+    public Descriptions extractDescription(Relationship relationship) {
+        GlobalAssetIdentification childCatenaXId = relationship.getLinkedItem().getChildCatenaXId();
+        String catenaXIdString = relationship.getCatenaXId().toString();
+        return new Descriptions(childCatenaXId.getGlobalAssetId(), null, catenaXIdString, Direction.DOWNWARD);
     }
 
     @Override
     public boolean validMapper(Relationship relationship) {
-        return relationship.getAspectType().equals("SingleLevelBomAsPlanned");
+        return relationship.getAspectType().equals(SINGLE_LEVEL_BOM_AS_PLANNED);
     }
 
-    @Override
-    public Direction direction() {
-        return Direction.DOWNWARD;
-    }
 }
