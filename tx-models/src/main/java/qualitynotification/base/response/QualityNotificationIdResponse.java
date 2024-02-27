@@ -21,10 +21,10 @@
 
 package qualitynotification.base.response;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 public record QualityNotificationIdResponse(
-        @ApiModelProperty(example = "1")
+        @Schema(example = "1")
         Long id
 ) {
 }

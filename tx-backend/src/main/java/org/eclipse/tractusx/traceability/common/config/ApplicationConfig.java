@@ -32,14 +32,20 @@ import io.github.resilience4j.retry.Retry;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.irs.edc.client.EdcConfiguration;
+import org.eclipse.tractusx.irs.edc.client.asset.EdcAssetService;
+import org.eclipse.tractusx.irs.edc.client.contract.service.EdcContractDefinitionService;
 import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPoliciesProvider;
 import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPolicy;
 import org.eclipse.tractusx.irs.edc.client.policy.Constraint;
 import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
+import org.eclipse.tractusx.irs.edc.client.policy.Operator;
 import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
 import org.eclipse.tractusx.irs.edc.client.policy.Permission;
 import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
+import org.eclipse.tractusx.irs.edc.client.policy.service.EdcPolicyDefinitionService;
+import org.eclipse.tractusx.irs.edc.client.transformer.EdcTransformer;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.IrsService;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.PolicyResponse;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
@@ -57,6 +63,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.security.task.DelegatingSecurityContextAsyncTaskExecutor;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.thymeleaf.spring6.SpringTemplateEngine;
@@ -162,7 +169,7 @@ public class ApplicationConfig {
 
         List<PolicyResponse> policyResponse = irsService.getPolicies();
         List<AcceptedPolicy> irsPolicies = policyResponse.stream().map(response -> {
-            Policy policy = new Policy(response.policyId(), response.createdOn(), response.validUntil(), response.permissions());
+            Policy policy = new Policy(response.payload().policyId(), response.payload().policy().getCreatedOn(), response.validUntil(), response.payload().policy().getPermissions());
             return new AcceptedPolicy(policy, response.validUntil());
         }).toList();
 
@@ -172,16 +179,16 @@ public class ApplicationConfig {
     private List<AcceptedPolicy> createOwnAcceptedPolicies(OffsetDateTime offsetDateTime) {
         List<Constraint> andConstraintList = new ArrayList<>();
         List<Constraint> orConstraintList = new ArrayList<>();
-        andConstraintList.add(new Constraint(traceabilityProperties.getLeftOperand(), OperatorType.fromValue(traceabilityProperties.getOperatorType()), List.of(traceabilityProperties.getRightOperand())));
-        andConstraintList.add(new Constraint(traceabilityProperties.getLeftOperand(), OperatorType.fromValue(traceabilityProperties.getOperatorType()), List.of(traceabilityProperties.getRightOperand())));
+        andConstraintList.add(new Constraint(traceabilityProperties.getLeftOperand(), new Operator(OperatorType.fromValue(traceabilityProperties.getOperatorType())), traceabilityProperties.getRightOperand()));
+        andConstraintList.add(new Constraint(traceabilityProperties.getLeftOperand(), new Operator(OperatorType.fromValue(traceabilityProperties.getOperatorType())), traceabilityProperties.getRightOperand()));
 
         List<Permission> permissions = List.of(
                 new Permission(
                         PolicyType.USE,
-                        List.of(new Constraints(
+                        new Constraints(
                                 andConstraintList,
                                 orConstraintList)
-                        )
+
                 ));
 
         Policy ownPolicy = new Policy(UUID.randomUUID().toString(), OffsetDateTime.now(), offsetDateTime, permissions);
@@ -207,5 +214,20 @@ public class ApplicationConfig {
             public void onEntryRemovedEvent(EntryRemovedEvent<Retry> entryRemoveEvent) {
             }
         };
+    }
+
+    @Bean
+    public EdcAssetService edcNotificationAssetService(EdcConfiguration edcConfiguration, EdcTransformer edcTransformer, RestTemplate edcNotificationAssetRestTemplate) {
+        return new EdcAssetService(edcTransformer, edcConfiguration, edcNotificationAssetRestTemplate);
+    }
+
+    @Bean
+    public EdcPolicyDefinitionService edcPolicyDefinitionService(EdcConfiguration edcConfiguration, RestTemplate edcNotificationAssetRestTemplate) {
+        return new EdcPolicyDefinitionService(edcConfiguration, edcNotificationAssetRestTemplate);
+    }
+
+    @Bean
+    public EdcContractDefinitionService edcContractDefinitionService(EdcConfiguration edcConfiguration, RestTemplate edcNotificationAssetRestTemplate) {
+        return new EdcContractDefinitionService(edcConfiguration, edcNotificationAssetRestTemplate);
     }
 }

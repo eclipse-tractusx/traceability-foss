@@ -2,7 +2,7 @@
   "assets" : [
     {
       "assetMetaInfo" : {
-        "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01"
+        "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb02"
       },
       "submodels" : [
         {
@@ -12,7 +12,7 @@
               "validFrom" : "2019-04-04T03:19:03.000Z",
               "validTo" : "2024-12-29T10:25:12.000Z"
             },
-            "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01",
+            "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb02",
             "partTypeInformation" : {
               "manufacturerPartId" : "7805659-25",
               "classification" : "product",
@@ -23,7 +23,7 @@
         {
           "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned",
           "payload" : {
-            "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01",
+            "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb02",
             "childItems" : [
               {
                 "validityPeriod" : {
@@ -45,7 +45,7 @@
         {
           "aspectType" : "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
           "payload" : {
-            "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01",
+            "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb02",
             "sites" : [
               {
                 "functionValidUntil" : "2025-02-08T04:30:48.000Z",

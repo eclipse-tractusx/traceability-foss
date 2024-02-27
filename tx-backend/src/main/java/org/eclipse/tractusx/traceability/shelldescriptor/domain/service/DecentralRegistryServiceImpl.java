@@ -23,6 +23,7 @@ package org.eclipse.tractusx.traceability.shelldescriptor.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.irs.component.Shell;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.AssetAdministrationShellDescriptor;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.service.AssetAsPlannedServiceImpl;
@@ -57,9 +58,9 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
     @Override
     @Async(value = AssetsAsyncConfig.LOAD_SHELL_DESCRIPTORS_EXECUTOR)
     public void synchronizeAssets() {
-        Collection<AssetAdministrationShellDescriptor> shellDescriptors = decentralRegistryRepository.retrieveShellDescriptorsByBpn(traceabilityProperties.getBpn().toString());
-        Collection<AssetAdministrationShellDescriptor> asBuiltShellDescriptors = shellDescriptors.stream().filter(this::isAsBuilt).toList();
-        Collection<AssetAdministrationShellDescriptor> asPlannedShellDescriptors = shellDescriptors.stream().filter(this::isAsPlanned).toList();
+        Collection<Shell> shellDescriptors = decentralRegistryRepository.retrieveShellDescriptorsByBpn(traceabilityProperties.getBpn().toString());
+        Collection<AssetAdministrationShellDescriptor> asBuiltShellDescriptors = shellDescriptors.stream().map(Shell::payload).filter(this::isAsBuilt).toList();
+        Collection<AssetAdministrationShellDescriptor> asPlannedShellDescriptors = shellDescriptors.stream().map(Shell::payload).filter(this::isAsPlanned).toList();
 
         asBuiltShellDescriptors.forEach(shellDescriptor -> assetAsBuiltService.synchronizeAssetsAsync(shellDescriptor.getGlobalAssetId()));
         asPlannedShellDescriptors.forEach(shellDescriptor -> assetAsPlannedService.synchronizeAssetsAsync(shellDescriptor.getGlobalAssetId()));

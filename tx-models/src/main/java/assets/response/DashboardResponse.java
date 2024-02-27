@@ -19,44 +19,44 @@
 
 package assets.response;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 public record DashboardResponse(
-        @ApiModelProperty(example = "5")
+        @Schema(example = "5")
         Long asBuiltCustomerParts,
-        @ApiModelProperty(example = "10")
+        @Schema(example = "10")
         Long asPlannedCustomerParts,
-        @ApiModelProperty(example = "2")
+        @Schema(example = "2")
         Long asBuiltSupplierParts,
-        @ApiModelProperty(example = "3")
+        @Schema(example = "3")
         Long asPlannedSupplierParts,
-        @ApiModelProperty(example = "1")
+        @Schema(example = "1")
         Long asBuiltOwnParts,
-        @ApiModelProperty(example = "1")
+        @Schema(example = "1")
         Long asPlannedOwnParts,
-        @ApiModelProperty(example = "1")
+        @Schema(example = "1")
         Long myPartsWithOpenAlerts,
-        @ApiModelProperty(example = "1")
+        @Schema(example = "1")
         Long myPartsWithOpenInvestigations,
-        @ApiModelProperty(example = "1")
+        @Schema(example = "1")
         Long supplierPartsWithOpenAlerts,
-        @ApiModelProperty(example = "1")
+        @Schema(example = "1")
         Long customerPartsWithOpenAlerts,
-        @ApiModelProperty(example = "2")
+        @Schema(example = "2")
         Long supplierPartsWithOpenInvestigations,
-        @ApiModelProperty(example = "2")
+        @Schema(example = "2")
         Long customerPartsWithOpenInvestigations,
 
-        @ApiModelProperty(example = "2")
+        @Schema(example = "2")
         Long receivedActiveAlerts,
 
-        @ApiModelProperty(example = "2")
+        @Schema(example = "2")
         Long receivedActiveInvestigations,
 
-        @ApiModelProperty(example = "2")
+        @Schema(example = "2")
         Long sentActiveAlerts,
 
-        @ApiModelProperty(example = "2")
+        @Schema(example = "2")
         Long sentActiveInvestigations) {
 
 

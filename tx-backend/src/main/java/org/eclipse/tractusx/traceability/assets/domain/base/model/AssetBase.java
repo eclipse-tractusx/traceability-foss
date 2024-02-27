@@ -32,10 +32,6 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 
 import java.util.List;
 
-import static org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.BATCH;
-import static org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.JUSTINSEQUENCE;
-import static org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.SERIALPART;
-
 @Slf4j
 @AllArgsConstructor
 @Data
@@ -65,9 +61,10 @@ public class AssetBase {
     private ImportState importState;
     private String importNote;
     private String policyId;
+    private String tombstone;
 
     public BomLifecycle getBomLifecycle() {
-        if (semanticDataModel.equals(SERIALPART) || semanticDataModel.equals(BATCH) || semanticDataModel.equals(JUSTINSEQUENCE)) {
+        if (semanticDataModel.isAsBuilt()) {
             return BomLifecycle.AS_BUILT;
         } else {
             return BomLifecycle.AS_PLANNED;

@@ -45,7 +45,7 @@ public class AssetTestData {
         try {
             InputStream file = AssetTestData.class.getResourceAsStream("/data/irs_assets_v4.json");
             JobDetailResponse response = mapper.readValue(file, JobDetailResponse.class);
-            return response.convertAssets();
+            return response.convertAssets(mapper);
         } catch (IOException e) {
             return Collections.emptyList();
         }
@@ -55,7 +55,7 @@ public class AssetTestData {
         try {
             InputStream file = AssetTestData.class.getResourceAsStream("/data/irs_assets_tractionbatterycode.json");
             JobDetailResponse response = mapper.readValue(file, JobDetailResponse.class);
-            return response.convertAssets();
+            return response.convertAssets(mapper);
         } catch (IOException e) {
             return Collections.emptyList();
         }
@@ -65,7 +65,7 @@ public class AssetTestData {
         try {
             InputStream file = AssetTestData.class.getResourceAsStream("/data/irs_assets_as_planned_v4.json");
             JobDetailResponse response = mapper.readValue(file, JobDetailResponse.class);
-            return response.convertAssets();
+            return response.convertAssets(mapper);
         } catch (IOException e) {
             e.printStackTrace();
             return Collections.emptyList();

@@ -19,7 +19,7 @@
 package assets.response.asplanned;
 
 import assets.response.base.response.DetailAspectDataResponse;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,11 +28,11 @@ import lombok.Getter;
 @Getter
 public class DetailAspectDataAsPlannedResponse implements DetailAspectDataResponse {
 
-    @ApiModelProperty(example = "2022-09-26T12:43:51.079Z")
+    @Schema(example = "2022-09-26T12:43:51.079Z", maxLength = 255)
     @Size(max = 255)
     private String validityPeriodFrom;
 
-    @ApiModelProperty(example = "20232-07-13T12:00:00.000Z")
+    @Schema(example = "20232-07-13T12:00:00.000Z", maxLength = 255)
     @Size(max = 255)
     private String validityPeriodTo;
 }
