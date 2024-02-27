@@ -44,7 +44,7 @@ import static org.eclipse.tractusx.traceability.assets.domain.base.model.Semanti
 @Component
 public class JustInSequenceMapper implements SubmodelMapper {
     @Override
-    public AssetBase.AssetBaseBuilder extractSubmodel(IrsSubmodel irsSubmodel) {
+    public AssetBase extractSubmodel(IrsSubmodel irsSubmodel) {
         JustInSequencePart100Schema justInSequencePart = (JustInSequencePart100Schema) irsSubmodel.getPayload();
 
         String justInSequenceId = getValue(justInSequencePart.getLocalIdentifiers(), LocalIdKey.JIS_NUMBER.getValue());
@@ -65,7 +65,8 @@ public class JustInSequenceMapper implements SubmodelMapper {
                 .semanticDataModel(JUSTINSEQUENCE)
                 .van(van)
                 .importState(ImportState.PERSISTENT)
-                .importNote(ImportNote.PERSISTED);
+                .importNote(ImportNote.PERSISTED)
+                .build();
     }
 
     @Override

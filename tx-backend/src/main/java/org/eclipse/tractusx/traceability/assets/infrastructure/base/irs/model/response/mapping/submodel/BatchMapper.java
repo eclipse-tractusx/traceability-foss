@@ -44,7 +44,7 @@ import static org.eclipse.tractusx.traceability.assets.domain.base.model.Semanti
 @Component
 public class BatchMapper implements SubmodelMapper {
     @Override
-    public AssetBase.AssetBaseBuilder extractSubmodel(IrsSubmodel irsSubmodel) {
+    public AssetBase extractSubmodel(IrsSubmodel irsSubmodel) {
 
         Batch200Schema batch = (Batch200Schema) irsSubmodel.getPayload();
 
@@ -52,7 +52,6 @@ public class BatchMapper implements SubmodelMapper {
         String manufacturerId = getValue(batch.getLocalIdentifiers(), LocalIdKey.MANUFACTURER_ID.getValue());
         String van = getValue(batch.getLocalIdentifiers(), LocalIdKey.VAN.getValue());
         DetailAspectModel detailAspectModel = extractDetailAspectModelsAsBuilt(batch.getManufacturingInformation(), batch.getPartTypeInformation());
-
 
         return AssetBase.builder()
                 .id(batch.getCatenaXId())
@@ -66,7 +65,8 @@ public class BatchMapper implements SubmodelMapper {
                 .semanticDataModel(BATCH)
                 .van(van)
                 .importState(ImportState.PERSISTENT)
-                .importNote(ImportNote.PERSISTED);
+                .importNote(ImportNote.PERSISTED)
+                .build();
     }
 
     @Override

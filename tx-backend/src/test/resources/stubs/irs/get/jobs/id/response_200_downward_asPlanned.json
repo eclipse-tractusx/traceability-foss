@@ -440,11 +440,11 @@
   "bpns" : [
     {
       "manufacturerId" : "BPNL00000003CML1",
-      "manufacturerName" : null
+      "manufacturerName" : "name a"
     },
     {
       "manufacturerId" : "BPNL00000003CNKC",
-      "manufacturerName" : null
+      "manufacturerName" : "name b"
     }
   ]
 }

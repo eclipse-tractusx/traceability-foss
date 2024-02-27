@@ -32,7 +32,7 @@ import static org.eclipse.tractusx.traceability.assets.domain.base.model.Semanti
 @Component
 public class PartAsPlannedMapper implements SubmodelMapper {
     @Override
-    public AssetBase.AssetBaseBuilder extractSubmodel(IrsSubmodel irsSubmodel) {
+    public AssetBase extractSubmodel(IrsSubmodel irsSubmodel) {
         PartAsPlanned101Schema partAsPlanned = (PartAsPlanned101Schema) irsSubmodel.getPayload();
 
         return AssetBase
@@ -44,7 +44,8 @@ public class PartAsPlannedMapper implements SubmodelMapper {
                 .qualityType(QualityType.OK)
                 .semanticDataModel(PARTASPLANNED)
                 .importState(ImportState.PERSISTENT)
-                .importNote(ImportNote.PERSISTED);
+                .importNote(ImportNote.PERSISTED)
+                .build();
     }
 
     @Override

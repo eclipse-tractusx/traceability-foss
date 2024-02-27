@@ -23,7 +23,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 
 public interface SubmodelMapper {
 
-    AssetBase.AssetBaseBuilder extractSubmodel(IrsSubmodel irsSubmodel);
+    AssetBase extractSubmodel(IrsSubmodel irsSubmodel);
 
     boolean validMapper(IrsSubmodel submodel);
 

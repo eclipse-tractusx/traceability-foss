@@ -44,7 +44,7 @@ import static org.eclipse.tractusx.traceability.assets.domain.base.model.Semanti
 @Component
 public class SerialPartMapper implements SubmodelMapper {
     @Override
-    public AssetBase.AssetBaseBuilder extractSubmodel(IrsSubmodel irsSubmodel) {
+    public AssetBase extractSubmodel(IrsSubmodel irsSubmodel) {
         SerialPart101Schema serialPart = (SerialPart101Schema) irsSubmodel.getPayload();
 
         String serialPartId = getValue(serialPart.getLocalIdentifiers(), LocalIdKey.PART_INSTANCE_ID.getValue());
@@ -65,7 +65,8 @@ public class SerialPartMapper implements SubmodelMapper {
                 .semanticDataModel(SERIALPART)
                 .van(van)
                 .importState(ImportState.PERSISTENT)
-                .importNote(ImportNote.PERSISTED);
+                .importNote(ImportNote.PERSISTED)
+                .build();
     }
 
 

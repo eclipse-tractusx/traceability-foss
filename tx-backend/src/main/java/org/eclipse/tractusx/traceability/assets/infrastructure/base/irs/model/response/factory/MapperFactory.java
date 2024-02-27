@@ -58,52 +58,33 @@ public class MapperFactory {
     private final List<AsPlannedDetailMapper> asPlannedDetailMappers;
     private final List<AsBuiltDetailMapper> asBuiltDetailMappers;
 
-
     public List<AssetBase> mapToAssetBaseList(IRSResponse irsResponse) {
 
         Map<String, List<Descriptions>> descriptionMap = extractRelationshipToDescriptionMap(irsResponse);
 
-        Map<String, String> bpnMap = irsResponse
-                .bpns()
-                .stream()
-                .map(bpn -> {
-                    Bpn bpn1 = Bpn.withManufacturerId(bpn.getManufacturerId());
-                    bpn1.updateManufacturerName(bpn.getManufacturerName());
-                    return bpn1;
-                }).filter(bpn -> bpn.getManufacturerName() != null)
-                .collect(Collectors.toMap(Bpn::getManufacturerId, Bpn::getManufacturerName));
+        Map<String, String> bpnMap = extractBpnMap(irsResponse);
 
+        List<DetailAspectModel> tractionBatteryCode = extractTractionBatteryCode(irsResponse);
 
-        List<DetailAspectModel> tractionBatteryCode = irsResponse
-                .submodels()
-                .stream()
-                .flatMap(irsSubmodel -> {
-                    Optional<AsBuiltDetailMapper> mapper = getAsBuiltDetailMapper(irsSubmodel);
-                    return mapper.map(asBuiltDetailMapper -> asBuiltDetailMapper.extractDetailAspectModel(irsSubmodel, irsResponse.jobStatus().globalAssetId()).stream()).orElseGet(Stream::empty);
-                })
-                .filter(Objects::nonNull)
-                .toList();
+        List<DetailAspectModel> partSiteInformationAsPlanned = extractPartSiteInformationAsPlanned(irsResponse);
 
-        List<DetailAspectModel> partSiteInformationAsPlanned = irsResponse
-                .submodels()
-                .stream()
-                .flatMap(irsSubmodel -> {
-                    Optional<AsPlannedDetailMapper> mapper = getAsPlannedDetailMapper(irsSubmodel);
-                    return mapper.map(asPlannedDetailMapper -> asPlannedDetailMapper.extractDetailAspectModel(irsSubmodel).stream()).orElseGet(Stream::empty);
-                })
-                .filter(Objects::nonNull)
-                .toList();
+        return toAssetBase(irsResponse, descriptionMap, bpnMap, tractionBatteryCode, partSiteInformationAsPlanned);
+    }
 
-
+    @NotNull
+    private List<AssetBase> toAssetBase(IRSResponse irsResponse, Map<String, List<Descriptions>> descriptionMap, Map<String, String> bpnMap, List<DetailAspectModel> tractionBatteryCode, List<DetailAspectModel> partSiteInformationAsPlanned) {
         return irsResponse
                 .submodels()
                 .stream()
                 .map(irsSubmodel -> {
                     Optional<SubmodelMapper> mapper = getSubmodelMapper(irsSubmodel);
                     if (mapper.isPresent()) {
-                        AssetBase.AssetBaseBuilder submodel = mapper.get().extractSubmodel(irsSubmodel);
-                        AssetBase assetBase = createAssetBase(irsResponse, submodel, descriptionMap, bpnMap);
+                        AssetBase assetBase = mapper.get().extractSubmodel(irsSubmodel);
+                        assetBase.setOwner(getOwner(assetBase, irsResponse));
+                        assetBase.setIdShort(getShortId(irsResponse.shells(), assetBase.getId()));
 
+                        enrichUpwardAndDownwardDescriptions(descriptionMap, assetBase);
+                        enrichManufacturingInformation(irsResponse, bpnMap, assetBase);
                         enrichAssetBase(tractionBatteryCode, assetBase);
                         enrichAssetBase(partSiteInformationAsPlanned, assetBase);
 
@@ -115,20 +96,44 @@ public class MapperFactory {
                 .toList();
     }
 
+    @NotNull
+    private List<DetailAspectModel> extractPartSiteInformationAsPlanned(IRSResponse irsResponse) {
+        return irsResponse
+                .submodels()
+                .stream()
+                .flatMap(irsSubmodel -> {
+                    Optional<AsPlannedDetailMapper> mapper = getAsPlannedDetailMapper(irsSubmodel);
+                    return mapper.map(asPlannedDetailMapper -> asPlannedDetailMapper.extractDetailAspectModel(irsSubmodel).stream()).orElseGet(Stream::empty);
+                })
+                .filter(Objects::nonNull)
+                .toList();
+    }
 
-    private AssetBase createAssetBase(
-            IRSResponse irsResponse,
-            AssetBase.AssetBaseBuilder assetBaseBuilder,
-            Map<String, List<Descriptions>> descriptionsMap,
-            Map<String, String> bpnMap) {
-        AssetBase assetBase = assetBaseBuilder.build();
-        assetBase.setOwner(getOwner(assetBase, irsResponse));
-        assetBase.setIdShort(getShortId(irsResponse.shells(), assetBase.getId()));
+    @NotNull
+    private List<DetailAspectModel> extractTractionBatteryCode(IRSResponse irsResponse) {
+        return irsResponse
+                .submodels()
+                .stream()
+                .flatMap(irsSubmodel -> {
+                    Optional<AsBuiltDetailMapper> mapper = getAsBuiltDetailMapper(irsSubmodel);
+                    return mapper.map(asBuiltDetailMapper -> asBuiltDetailMapper.extractDetailAspectModel(irsSubmodel, irsResponse.jobStatus().globalAssetId()).stream()).orElseGet(Stream::empty);
+                })
+                .filter(Objects::nonNull)
+                .toList();
+    }
 
-        enrichUpwardAndDownwardDescriptions(descriptionsMap, assetBase);
-        enrichManufacturingInformation(irsResponse, bpnMap, assetBase);
-
-        return assetBase;
+    @NotNull
+    public static Map<String, String> extractBpnMap(IRSResponse irsResponse) {
+        return irsResponse
+                .bpns()
+                .stream()
+                .map(bpn -> {
+                    Bpn bpn1 = Bpn.withManufacturerId(bpn.getManufacturerId());
+                    bpn1.updateManufacturerName(bpn.getManufacturerName());
+                    return bpn1;
+                }).filter(bpn -> bpn.getManufacturerName() == null)
+                .collect(Collectors.toMap(Bpn::getManufacturerId,
+                        Bpn::getManufacturerName));
     }
 
     private static void enrichUpwardAndDownwardDescriptions(Map<String, List<Descriptions>> descriptionsMap, AssetBase assetBase) {
