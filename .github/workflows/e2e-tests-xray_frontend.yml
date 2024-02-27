@@ -70,7 +70,7 @@ jobs:
         with:
           name: cypress - e2e
           if-no-files-found: error
-          path: frontend/cypress/support/e2e.ts
+          path: frontend/cypress/e2e.ts
 
   cypress-run-chrome:
     timeout-minutes: 15
