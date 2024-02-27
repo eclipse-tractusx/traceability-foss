@@ -71,6 +71,7 @@ jobs:
           name: cypress - e2e
           if-no-files-found: error
           path: frontend/cypress/e2e.ts
+          overwrite: true
 
   cypress-run-chrome:
     timeout-minutes: 15
