@@ -126,7 +126,7 @@ When("user navigate to {string} with button in popup", function(popupClick) {
 
 When("open details of created {string}", () => {
   cy.get('[data-testid="table-menu-button"]').first().click(); //the first investigation will be opened
-    if !(cy.get('[data-testid="table-menu-button--actions.viewDetails"]').should('exist')) { //this is necessary because sometimes the page reload and the first click disappear
+    if (!(cy.get('[data-testid="table-menu-button--actions.viewDetails"]').should('exist'))) { //this is necessary because sometimes the page reload and the first click disappear
             cy.get('[data-testid="table-menu-button"]').first().click();
             cy.get('[data-testid="table-menu-button--actions.viewDetails"]').first().click();
           } else {
