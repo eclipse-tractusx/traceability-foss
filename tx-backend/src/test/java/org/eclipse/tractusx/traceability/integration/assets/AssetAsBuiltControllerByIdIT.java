@@ -106,13 +106,6 @@ class AssetAsBuiltControllerByIdIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void parseIrsResponse() throws JoseException {
-        // Given
-        IRSResponse irsResponse = assetsSupport.getIrsResponse();
-        assertThat(irsResponse).isNotNull();
-    }
-
-    @Test
     void givenInvestigationsForAsset_whenCallAssetById_thenReturnProperCount() throws JoseException {
         // Given
         assetsSupport.defaultAssetsStored();

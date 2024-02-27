@@ -19,6 +19,7 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory;
 
 import lombok.RequiredArgsConstructor;
+import org.eclipse.tractusx.irs.component.Bpn;
 import org.eclipse.tractusx.irs.component.Relationship;
 import org.eclipse.tractusx.irs.component.enums.Direction;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
@@ -39,6 +40,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.MapperHelper.getOwner;
@@ -58,6 +61,27 @@ public class MapperFactory {
 
         Map<String, List<Descriptions>> descriptionMap = extractRelationshipToDescriptionMap(irsResponse);
 
+        Map<String, String> bpnMap = irsResponse
+                .bpns()
+                .stream()
+                .map(bpn -> {
+                    Bpn bpn1 = Bpn.withManufacturerId(bpn.getManufacturerId());
+                    bpn1.updateManufacturerName(bpn.getManufacturerName());
+                    return bpn1;
+                }).filter(bpn -> bpn.getManufacturerName() != null)
+                .collect(Collectors.toMap(Bpn::getManufacturerId, Bpn::getManufacturerName));
+
+
+        List<DetailAspectModel> tractionBatteryCode = irsResponse
+                .submodels()
+                .stream()
+                .flatMap(irsSubmodel -> {
+                    Optional<AsBuiltDetailMapper> mapper = getAsBuiltDetailMapper(irsSubmodel);
+                    return mapper.map(asBuiltDetailMapper -> asBuiltDetailMapper.extractDetailAspectModel(irsSubmodel, irsResponse.jobStatus().globalAssetId()).stream()).orElseGet(Stream::empty);
+                })
+                .filter(Objects::nonNull)
+                .toList();
+
         return irsResponse
                 .submodels()
                 .stream()
@@ -65,7 +89,14 @@ public class MapperFactory {
                     Optional<SubmodelMapper> mapper = getMapper(irsSubmodel);
                     if (mapper.isPresent()) {
                         AssetBase.AssetBaseBuilder submodel = mapper.get().extractSubmodel(irsSubmodel);
-                        return createAssetBase(irsResponse, submodel, descriptionMap, irsSubmodel);
+                        AssetBase assetBase = createAssetBase(irsResponse, submodel, descriptionMap, irsSubmodel, bpnMap);
+
+                        // Enrich the assetBase with tractionBatteryCode if available
+                        tractionBatteryCode.stream()
+                                .filter(detailAspectModel -> detailAspectModel.getGlobalAssetId().equals(assetBase.getId()))
+                                .findFirst()
+                                .ifPresent(detailAspectModel -> assetBase.setDetailAspectModels(List.of(detailAspectModel)));
+                        return assetBase;
                     }
                     return null;
                 })
@@ -73,7 +104,12 @@ public class MapperFactory {
                 .toList();
     }
 
-    private AssetBase createAssetBase(IRSResponse irsResponse, AssetBase.AssetBaseBuilder assetBaseBuilder, Map<String, List<Descriptions>> descriptionsMap, IrsSubmodel irsSubmodel) {
+    private AssetBase createAssetBase(
+            IRSResponse irsResponse,
+            AssetBase.AssetBaseBuilder assetBaseBuilder,
+            Map<String, List<Descriptions>> descriptionsMap,
+            IrsSubmodel irsSubmodel,
+            Map<String, String> bpnMap) {
         AssetBase assetBase = assetBaseBuilder.build();
 
         List<Descriptions> descriptions = descriptionsMap.get(assetBase.getId());
@@ -95,11 +131,15 @@ public class MapperFactory {
         assetBase.setIdShort(getShortId(irsResponse.shells(), assetBase.getId()));
 
 
-        // TODO used for asplanned mapper
-        if (assetBase.getManufacturerId() == null) {
+        if (assetBase.getManufacturerId() == null && assetBase.getId().equals(irsResponse.jobStatus().globalAssetId())) {
             String bpn = irsResponse.jobStatus().parameter().bpn();
             assetBase.setManufacturerId(bpn);
-            assetBase.setManufacturerName(bpn);
+            assetBase.setManufacturerName(bpnMap.get(bpn));
+        } else {
+            String bpnName = bpnMap.get(assetBase.getManufacturerId());
+            if (bpnName != null) {
+                assetBase.setManufacturerName(bpnName);
+            }
         }
 
         // TODO only partasplanned extended mapper
@@ -110,16 +150,6 @@ public class MapperFactory {
                 assetBase.setDetailAspectModels(detailAspectModels);
             }
         }
-
-        Optional<AsBuiltDetailMapper> asBuiltDetailMapper = getAsBuiltDetailMapper(irsSubmodel);
-
-        if (asBuiltDetailMapper.isPresent()) {
-            List<DetailAspectModel> detailAspectModelTractionBatteryCodes = asBuiltDetailMapper.get().extractDetailAspectModel(irsSubmodel);
-            if (!detailAspectModelTractionBatteryCodes.isEmpty()) {
-                assetBase.setDetailAspectModels(detailAspectModelTractionBatteryCodes);
-            }
-        }
-        // Only serial part
 
 
         return assetBase;

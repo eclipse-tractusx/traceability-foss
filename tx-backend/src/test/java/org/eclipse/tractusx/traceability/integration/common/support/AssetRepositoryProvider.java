@@ -20,6 +20,7 @@ package org.eclipse.tractusx.traceability.integration.common.support;
 
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.MapperFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -32,7 +33,12 @@ public class AssetRepositoryProvider {
     @Autowired
     AssetAsBuiltRepository assetAsBuiltRepository;
 
-    AssetTestData assetTestDataConverter = new AssetTestData();
+    @Autowired
+    MapperFactory mapperFactory;
+
+    @Autowired
+    AssetTestData assetTestData;
+
 
     public AssetAsBuiltRepository assetAsBuiltRepository() {
         return assetAsBuiltRepository;
@@ -41,8 +47,7 @@ public class AssetRepositoryProvider {
     public AssetAsPlannedRepository assetAsPlannedRepository() {
         return assetAsPlannedRepository;
     }
-
-    public AssetTestData assetsConverter() {
-        return assetTestDataConverter;
+        public AssetTestData testdataProvider() {
+        return assetTestData;
     }
 }

@@ -32,7 +32,7 @@ import java.util.List;
 @Component
 public class TractionBatteryCodeMapper implements AsBuiltDetailMapper {
     @Override
-    public List<DetailAspectModel> extractDetailAspectModel(IrsSubmodel irsSubmodel) {
+    public List<DetailAspectModel> extractDetailAspectModel(IrsSubmodel irsSubmodel, String globalAssetId) {
         TractionBatteryCode100Schema tractionBatteryCode = (TractionBatteryCode100Schema) irsSubmodel.getPayload();
 
         List<DetailAspectDataTractionBatteryCode.DetailAspectDataTractionBatteryCodeSubcomponent> subComponents = tractionBatteryCode.getSubcomponents().stream().map(tractionBatteryComponent -> DetailAspectDataTractionBatteryCode.DetailAspectDataTractionBatteryCodeSubcomponent
@@ -49,7 +49,7 @@ public class TractionBatteryCodeMapper implements AsBuiltDetailMapper {
                         .subcomponents(subComponents)
                         .build();
 
-        return List.of(DetailAspectModel.builder().data(detailAspectDataTractionBatteryCode).type(DetailAspectType.TRACTION_BATTERY_CODE).build());
+        return List.of(DetailAspectModel.builder().data(detailAspectDataTractionBatteryCode).type(DetailAspectType.TRACTION_BATTERY_CODE).globalAssetId(globalAssetId).build());
     }
 
     @Override
@@ -57,7 +57,4 @@ public class TractionBatteryCodeMapper implements AsBuiltDetailMapper {
         return submodel.getPayload() instanceof TractionBatteryCode100Schema;
     }
 
-    private static DetailAspectModel extractDetailAspectModelTractionBatteryCode(DetailAspectDataTractionBatteryCode detailAspectDataTractionBatteryCode) {
-        return DetailAspectModel.builder().data(detailAspectDataTractionBatteryCode).type(DetailAspectType.TRACTION_BATTERY_CODE).build();
-    }
 }

@@ -49,7 +49,7 @@ public class BatchMapper implements SubmodelMapper {
         Batch200Schema batch = (Batch200Schema) irsSubmodel.getPayload();
 
         String batchId = getValue(batch.getLocalIdentifiers(), LocalIdKey.BATCH_ID.getValue());
-        String manufacturerName = getValue(batch.getLocalIdentifiers(), LocalIdKey.MANUFACTURER_ID.getValue());
+        String manufacturerId = getValue(batch.getLocalIdentifiers(), LocalIdKey.MANUFACTURER_ID.getValue());
         String van = getValue(batch.getLocalIdentifiers(), LocalIdKey.VAN.getValue());
         DetailAspectModel detailAspectModel = extractDetailAspectModelsAsBuilt(batch.getManufacturingInformation(), batch.getPartTypeInformation());
 
@@ -58,8 +58,7 @@ public class BatchMapper implements SubmodelMapper {
                 .id(batch.getCatenaXId())
                 .semanticModelId(batchId)
                 .detailAspectModels(List.of(detailAspectModel))
-                .manufacturerId(manufacturerName)
-                .manufacturerName(manufacturerName)
+                .manufacturerId(manufacturerId)
                 .nameAtManufacturer(batch.getPartTypeInformation().getNameAtManufacturer())
                 .manufacturerPartId(batch.getPartTypeInformation().getManufacturerPartId())
                 .classification(batch.getPartTypeInformation().getClassification().value())

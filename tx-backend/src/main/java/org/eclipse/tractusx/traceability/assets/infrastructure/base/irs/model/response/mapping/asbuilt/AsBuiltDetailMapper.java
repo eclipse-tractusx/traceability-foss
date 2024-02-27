@@ -24,7 +24,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import java.util.List;
 
 public interface AsBuiltDetailMapper {
-    List<DetailAspectModel> extractDetailAspectModel(IrsSubmodel irsSubmodel);
+    List<DetailAspectModel> extractDetailAspectModel(IrsSubmodel irsSubmodel, String globalAssetId);
 
     boolean validMapper(IrsSubmodel submodel);
 
