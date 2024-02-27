@@ -25,7 +25,7 @@ import java.util.List;
 
 public interface AsPlannedDetailMapper {
 
-    List<DetailAspectModel> extractSubmodel(IrsSubmodel irsSubmodel);
+    List<DetailAspectModel> extractDetailAspectModel(IrsSubmodel irsSubmodel);
 
     boolean validMapper(IrsSubmodel submodel);
 

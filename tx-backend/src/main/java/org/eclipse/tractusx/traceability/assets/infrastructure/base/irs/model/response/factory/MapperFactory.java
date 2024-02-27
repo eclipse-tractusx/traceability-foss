@@ -82,6 +82,17 @@ public class MapperFactory {
                 .filter(Objects::nonNull)
                 .toList();
 
+        List<DetailAspectModel> partSiteInformationAsPlanned = irsResponse
+                .submodels()
+                .stream()
+                .flatMap(irsSubmodel -> {
+                    Optional<AsPlannedDetailMapper> mapper = getAsPlannedDetailMapper(irsSubmodel);
+                    return mapper.map(asPlannedDetailMapper -> asPlannedDetailMapper.extractDetailAspectModel(irsSubmodel).stream()).orElseGet(Stream::empty);
+                })
+                .filter(Objects::nonNull)
+                .toList();
+
+
         return irsResponse
                 .submodels()
                 .stream()
@@ -96,6 +107,12 @@ public class MapperFactory {
                                 .filter(detailAspectModel -> detailAspectModel.getGlobalAssetId().equals(assetBase.getId()))
                                 .findFirst()
                                 .ifPresent(detailAspectModel -> assetBase.setDetailAspectModels(List.of(detailAspectModel)));
+
+                        partSiteInformationAsPlanned.stream()
+                                .filter(detailAspectModel -> detailAspectModel.getGlobalAssetId().equals(assetBase.getId()))
+                                .findFirst()
+                                .ifPresent(detailAspectModel -> assetBase.setDetailAspectModels(List.of(detailAspectModel)));
+
                         return assetBase;
                     }
                     return null;
@@ -141,17 +158,6 @@ public class MapperFactory {
                 assetBase.setManufacturerName(bpnName);
             }
         }
-
-        // TODO only partasplanned extended mapper
-        Optional<AsPlannedDetailMapper> asPlannedDetailMapper = getAsPlannedDetailMapper(irsSubmodel);
-        if (asPlannedDetailMapper.isPresent()) {
-            List<DetailAspectModel> detailAspectModels = asPlannedDetailMapper.get().extractSubmodel(irsSubmodel);
-            if (!detailAspectModels.isEmpty()) {
-                assetBase.setDetailAspectModels(detailAspectModels);
-            }
-        }
-
-
         return assetBase;
     }
 

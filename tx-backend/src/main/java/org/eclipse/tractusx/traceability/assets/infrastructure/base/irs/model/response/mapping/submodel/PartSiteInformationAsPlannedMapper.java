@@ -36,15 +36,14 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 @Component
 public class PartSiteInformationAsPlannedMapper implements AsPlannedDetailMapper {
     @Override
-    public List<DetailAspectModel> extractSubmodel(IrsSubmodel irsSubmodel) {
+    public List<DetailAspectModel> extractDetailAspectModel(IrsSubmodel irsSubmodel) {
         PartSiteInformationAsPlanned100Schema partSiteInformationAsPlanned = (PartSiteInformationAsPlanned100Schema) irsSubmodel.getPayload();
-
         List<Site> sites = partSiteInformationAsPlanned
                 .getSites()
                 .stream()
                 .map(asPlannedSite -> new Site(ZonedDateTime.parse(asPlannedSite.getFunctionValidUntil()), asPlannedSite.getFunction().toString(), ZonedDateTime.parse(asPlannedSite.getFunctionValidFrom()), asPlannedSite.getCatenaXSiteId())).toList();
 
-        return extractDetailAspectModelsPartSiteInformationAsPlanned(sites);
+        return extractDetailAspectModelsPartSiteInformationAsPlanned(sites, partSiteInformationAsPlanned.getCatenaXId());
     }
 
     @Override
@@ -52,7 +51,7 @@ public class PartSiteInformationAsPlannedMapper implements AsPlannedDetailMapper
         return submodel.getPayload() instanceof PartSiteInformationAsPlanned100Schema;
     }
 
-    private static List<DetailAspectModel> extractDetailAspectModelsPartSiteInformationAsPlanned(List<Site> sites) {
+    private static List<DetailAspectModel> extractDetailAspectModelsPartSiteInformationAsPlanned(List<Site> sites, String globalAssetId) {
         List<DetailAspectModel> detailAspectModels = new ArrayList<>();
         emptyIfNull(sites).forEach(site -> {
             DetailAspectDataPartSiteInformationAsPlanned detailAspectDataPartSiteInformationAsPlanned = DetailAspectDataPartSiteInformationAsPlanned.builder()
@@ -61,7 +60,7 @@ public class PartSiteInformationAsPlannedMapper implements AsPlannedDetailMapper
                     .function(site.function())
                     .functionValidUntil(site.functionValidUntil().toOffsetDateTime())
                     .build();
-            detailAspectModels.add(DetailAspectModel.builder().data(detailAspectDataPartSiteInformationAsPlanned).type(DetailAspectType.PART_SITE_INFORMATION_AS_PLANNED).build());
+            detailAspectModels.add(DetailAspectModel.builder().data(detailAspectDataPartSiteInformationAsPlanned).type(DetailAspectType.PART_SITE_INFORMATION_AS_PLANNED).globalAssetId(globalAssetId).build());
         });
 
         return detailAspectModels;
