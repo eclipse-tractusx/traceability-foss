@@ -7,9 +7,11 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [UNRELEASED - DD.MM.YYYY]
 ### Added
+- JSON Schema generation for valid submodel mapping
 
 ### Changed
 - sring-core bumped from 6.0.16 to 6.0.17
+- IRS Response Mapper
 
 ### Removed
 - removed EDC notification asset classes and replaced with IRS lib implementation

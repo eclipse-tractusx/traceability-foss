@@ -131,7 +131,7 @@ public class MapperFactory {
                     Bpn bpn1 = Bpn.withManufacturerId(bpn.getManufacturerId());
                     bpn1.updateManufacturerName(bpn.getManufacturerName());
                     return bpn1;
-                }).filter(bpn -> bpn.getManufacturerName() == null)
+                }).filter(bpn -> bpn.getManufacturerName() != null)
                 .collect(Collectors.toMap(Bpn::getManufacturerId,
                         Bpn::getManufacturerName));
     }
