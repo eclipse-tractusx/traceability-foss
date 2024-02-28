@@ -21,21 +21,14 @@ public class IrsSubmodel {
             property = "aspectType")
     @JsonSubTypes({
             @JsonSubTypes.Type(value = SerialPart101Schema.class, names = {
-                    "urn:samm:io.catenax.serial_part:1.0.0#SerialPart",
-                    "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart",
-                    "urn:bamm:io.catenax.serial_part:1.1.0#SerialPart",
                     "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart"
 
             }),
             @JsonSubTypes.Type(value = Batch200Schema.class, names = {
-                    "urn:bamm:com.catenax.batch:1.0.0#Batch",
-                    "urn:bamm:io.catenax.batch:1.0.0#Batch",
-                    "urn:bamm:io.catenax.batch:1.0.2#Batch",
                     "urn:samm:io.catenax.batch:2.0.0#Batch"
             }),
             @JsonSubTypes.Type(value = PartAsPlanned101Schema.class, names = {
-                    "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
-                    "urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned"
+                    "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned"
             }),
             @JsonSubTypes.Type(value = PartSiteInformationAsPlanned100Schema.class, names = {
                     "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned"
