@@ -40,7 +40,7 @@ public class BpnSupport {
     String bpn = null;
 
     public void cachedBpnsForDefaultAssets() {
-        List<String> assetIds = assetRepositoryProvider.assetsConverter().readAndConvertAssetsForTests().stream().map(AssetBase::getManufacturerId).toList();
+        List<String> assetIds = assetRepositoryProvider.testdataProvider().readAndConvertAssetsForTests().stream().map(AssetBase::getManufacturerId).toList();
         Map<String, String> bpnMappings = new HashMap<>();
 
         for (String assetId : assetIds) {
@@ -51,7 +51,7 @@ public class BpnSupport {
     }
 
     public void cachedBpnsForAsPlannedAssets() {
-        List<String> assetIds = assetRepositoryProvider.assetsConverter().readAndConvertAssetsAsPlannedForTests().stream().map(AssetBase::getManufacturerId).toList();
+        List<String> assetIds = assetRepositoryProvider.testdataProvider().readAndConvertAssetsAsPlannedForTests().stream().map(AssetBase::getManufacturerId).toList();
         Map<String, String> bpnMappings = new HashMap<>();
 
         for (String assetId : assetIds) {
