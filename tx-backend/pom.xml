@@ -114,6 +114,7 @@ SPDX-License-Identifier: Apache-2.0
             <version>1.5</version>
         </dependency>
 
+
         <!-- EDC Client -->
         <dependency>
             <groupId>org.eclipse.edc</groupId>
@@ -174,12 +175,8 @@ SPDX-License-Identifier: Apache-2.0
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-text -->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-text</artifactId>
-            <version>${apache-commons-text.version}</version>
-        </dependency>
+
+
 
         <!-- Fixes CVE-2023-34035  -->
         <dependency>
