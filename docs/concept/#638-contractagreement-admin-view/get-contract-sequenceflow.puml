@@ -1,0 +1,47 @@
+@startuml
+title
+    ==GET api/contracts/{tx-assetId}
+end title
+
+autonumber "<B>[00]"
+
+participant "Trace-X Frontend" as FE order 0
+participant "Trace-X Backend" as BE order 1
+participant "Trace-X Database" as DB order 2
+participant "EDC" as TXEDC order 3
+
+FE -> BE: GET api/contracts/{tx-assetId}
+
+activate BE
+BE -> DB: Take contractAgreementId for tx-assetId
+activate DB
+autonumber stop
+DB --> BE: contractAgreementId
+autonumber resume
+deactivate DB
+
+BE -> TXEDC: GET tx-edc/management/v2/contractagreements/{contractAgreementId}
+activate TXEDC
+autonumber stop
+TXEDC --> BE: JSON response
+autonumber resume
+deactivate TXEDC
+BE -> BE: Extract contractSigningDate, policy
+activate BE
+deactivate BE
+
+BE -> TXEDC: GET tx-edc/management/v2/contractagreements/{contractAgreementId}/negotiation
+activate TXEDC
+autonumber stop
+TXEDC --> BE: JSON response
+autonumber resume
+deactivate TXEDC
+BE -> BE: Extract id, counterPartyAddress, state
+activate BE
+deactivate BE
+
+autonumber stop
+BE --> FE: JSON response
+deactivate BE
+
+@enduml

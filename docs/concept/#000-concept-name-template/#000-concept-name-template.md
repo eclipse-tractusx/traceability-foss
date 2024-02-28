@@ -2,7 +2,7 @@
 
 | Key           | Value             |
 |---------------|-------------------|
-| Autor         | <name>            |
+| Author        | <name>            |
 | Creation date | <DD.MM.YYYY>      |
 | Ticket Id     | <ID> <url>        |
 | State         | <DRAFT,WIP, DONE> |
