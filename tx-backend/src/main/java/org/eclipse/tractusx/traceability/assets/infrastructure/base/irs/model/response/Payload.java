@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,8 +16,20 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response;
 
-package org.eclipse.tractusx.traceability.qualitynotification.domain.contract.asset.model;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
+import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 
-public record OdrlContext(String odrl) {
+/**
+ * Payload representation for get all policies response
+ */
+@Builder
+public record Payload(
+        @JsonProperty("@context") Context context,
+        @JsonProperty("@id") String policyId,
+        Policy policy
+) {
+
 }

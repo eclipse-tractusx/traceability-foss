@@ -22,7 +22,6 @@ package qualitynotification.base.request;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -33,7 +32,6 @@ public enum QualityNotificationSeverityRequest {
     MINOR("MINOR"),
     MAJOR("MAJOR"),
     CRITICAL("CRITICAL"),
-    @ApiModelProperty(name = "LIFE-THREATENING")
     LIFE_THREATENING("LIFE-THREATENING");
 
     final String realName;

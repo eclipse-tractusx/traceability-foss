@@ -25,12 +25,15 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.irs.component.Tombstone;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataTractionBatteryCode;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.mapper.TombstoneMapper;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Relationship;
@@ -51,7 +54,8 @@ public record JobDetailResponse(
         List<Shell> shells,
         List<SemanticDataModel> semanticDataModels,
         List<Relationship> relationships,
-        Map<String, String> bpns
+        Map<String, String> bpns,
+        List<Tombstone> tombstones
 ) {
 
     // TODO constants should be in a proper class which reflects the purpose of it (MW)
@@ -62,13 +66,16 @@ public record JobDetailResponse(
     public static final String JOB_STATUS_COMPLETED = "COMPLETED";
     private static final String JOB_STATUS_RUNNING = "RUNNING";
 
+    // TODO: Rework this whole class to use the classes from the IRS lib. Package: org.eclipse.tractusx.irs.component
     @JsonCreator
     static JobDetailResponse of(
             @JsonProperty("job") JobStatus jobStatus,
             @JsonProperty("relationships") List<Relationship> relationships,
             @JsonProperty("shells") @JsonSetter(nulls = Nulls.AS_EMPTY) List<Shell> shells,
             @JsonProperty("submodels") @JsonSetter(nulls = Nulls.AS_EMPTY) List<Submodel> submodels,
-            @JsonProperty("bpns") @JsonSetter(nulls = Nulls.AS_EMPTY) List<Bpn> bpns
+            @JsonProperty("bpns") @JsonSetter(nulls = Nulls.AS_EMPTY) List<Bpn> bpns,
+            @JsonProperty("tombstones") @JsonSetter(nulls = Nulls.AS_EMPTY) List<Tombstone> tombstones
+
     ) {
         Map<String, String> bpnsMap = bpns.stream()
                 .map(bpn -> new Bpn(
@@ -95,12 +102,15 @@ public record JobDetailResponse(
                     }
                 }).toList();
 
+        List<Tombstone> tombstoneMessages = List.copyOf(tombstones);
+
         return new JobDetailResponse(
                 jobStatus,
                 shells,
                 semanticDataModels,
                 relationships,
-                bpnsMap
+                bpnsMap,
+                tombstoneMessages
         );
     }
 
@@ -114,20 +124,25 @@ public record JobDetailResponse(
         return JOB_STATUS_COMPLETED.equals(jobStatus.state());
     }
 
-    public List<AssetBase> convertAssets() {
-        return convertAssets(BomLifecycle.fromString(jobStatus().parameter().bomLifecycle()));
+    public List<AssetBase> convertAssets(ObjectMapper objectMapper) {
+        return convertAssets(BomLifecycle.fromString(jobStatus().parameter().bomLifecycle()), objectMapper);
     }
 
-    private List<AssetBase> convertAssets(BomLifecycle bomLifecycle) {
+    private List<AssetBase> convertAssets(BomLifecycle bomLifecycle, ObjectMapper objectMapper) {
 
         log.info(":: convertAssets(\"{}\")", bomLifecycle.getRealName());
         log.info(":: relationships: {}", relationships.toString());
+        log.info(":: shells: {}", shells());
+
+
 
         Map<String, String> shortIds = shells().stream()
+                .map(shell -> Map.entry(shell.payload().globalAssetId(), shell.payload().idShort()))
                 .collect(Collectors.toMap(
-                        Shell::globalAssetId,
-                        Shell::idShort,
-                        (existingValue, newValue) -> existingValue));
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (existingValue, newValue) -> existingValue
+                ));
 
         Map<String, String> bpnMapping = bpns();
 
@@ -148,9 +163,12 @@ public record JobDetailResponse(
             }
         }
 
+        List<AssetBase> tombstoneAssets = TombstoneMapper.mapTombstones(jobStatus(), tombstones(), objectMapper);
+
         List<AssetBase> convertedAssets = new ArrayList<>();
         convertedAssets.addAll(ownParts);
         convertedAssets.addAll(otherParts);
+        convertedAssets.addAll(tombstoneAssets);
         return convertedAssets;
     }
 

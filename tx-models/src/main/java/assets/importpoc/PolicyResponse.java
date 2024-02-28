@@ -19,13 +19,13 @@
 package assets.importpoc;
 
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.OffsetDateTime;
 import java.util.List;
 
 public record PolicyResponse(
-        @ApiModelProperty("5a00bb50-0253-405f-b9f1-1a3150b9d51d")
+        @Schema(example = "5a00bb50-0253-405f-b9f1-1a3150b9d51d")
         String policyId,
         OffsetDateTime createdOn,
         OffsetDateTime validUntil,

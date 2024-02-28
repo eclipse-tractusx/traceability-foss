@@ -2,6 +2,7 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model;
 
 import lombok.Builder;
 import lombok.Getter;
+import org.apache.commons.collections4.ListUtils;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataAsPlanned;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataPartSiteInformationAsPlanned;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
@@ -22,7 +23,7 @@ public class AsPlannedInfo {
     private String catenaxSiteId;
 
     public static AsPlannedInfo from(List<DetailAspectModel> detailAspectModels) {
-        Optional<DetailAspectModel> asPlannedInfo = detailAspectModels
+        Optional<DetailAspectModel> asPlannedInfo = ListUtils.emptyIfNull(detailAspectModels)
                 .stream()
                 .filter(detailAspectModel -> detailAspectModel.getType().equals(DetailAspectType.AS_PLANNED))
                 .findFirst();
@@ -35,7 +36,7 @@ public class AsPlannedInfo {
                 .map(org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataAsPlanned::getValidityPeriodTo)
                 .orElse(null);
 
-        Optional<DetailAspectModel> partSiteInfo = detailAspectModels
+        Optional<DetailAspectModel> partSiteInfo = ListUtils.emptyIfNull(detailAspectModels)
                 .stream()
                 .filter(detailAspectModel -> detailAspectModel.getType().equals(DetailAspectType.PART_SITE_INFORMATION_AS_PLANNED))
                 .findFirst();
