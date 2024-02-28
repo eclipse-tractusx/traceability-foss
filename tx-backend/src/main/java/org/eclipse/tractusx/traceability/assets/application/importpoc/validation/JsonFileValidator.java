@@ -50,16 +50,16 @@ import static java.util.Objects.isNull;
 public class JsonFileValidator {
 
     public static final Map<String, String> SUPPORTED_SCHEMA_VALIDATION = Map.ofEntries(
-            Map.entry("base", "/validation/schema_V1.json"),
-            Map.entry("urn:samm:io.catenax.batch:2.0.0#Batch", "/validation/Batch_2.0.0-schema.json"),
-            Map.entry("urn:bamm:io.catenax.just_in_sequence_part:1.0.0#JustInSequencePart", "/validation/JustInSequencePart_1.0.0-schema.json"),
-            Map.entry("urn:bamm:io.catenax.serial_part:1.0.1#SerialPart", "/validation/SerialPart_1.0.1-schema.json"),
-            Map.entry("urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned", "/validation/PartSiteInformationAsPlanned_1.0.0-schema.json"),
-            Map.entry("urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt", "/validation/SingleLevelBomAsBuilt_2.0.0-schema.json"),
-            Map.entry("urn:bamm:io.catenax.single_level_usage_as_built:2.0.0#SingleLevelUsageAsBuilt", "/validation/SingleLevelUsageAsBuilt_2.0.0-schema.json"),
-            Map.entry("urn:bamm:io.catenax.traction_battery_code:1.0.0#TractionBatteryCode", "/validation/TractionBatteryCode_1.0.0-schema.json"),
-            Map.entry("urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned", "/validation/PartAsPlanned_1.0.1-schema.json"),
-            Map.entry("urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned", "/validation/SingleLevelBomAsPlanned_2.0.0-schema.json")
+            Map.entry("base", "/schema/tracex/schema_V1.json"),
+            Map.entry("urn:samm:io.catenax.batch:2.0.0#Batch", "/schema/semantichub/Batch_2.0.0-schema.json"),
+            Map.entry("urn:bamm:io.catenax.just_in_sequence_part:1.0.0#JustInSequencePart", "/schema/semantichub/JustInSequencePart_1.0.0-schema.json"),
+            Map.entry("urn:bamm:io.catenax.serial_part:1.0.1#SerialPart", "/schema/semantichub/SerialPart_1.0.1-schema.json"),
+            Map.entry("urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned", "/schema/semantichub/PartSiteInformationAsPlanned_1.0.0-schema.json"),
+            Map.entry("urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt", "/schema/semantichub/SingleLevelBomAsBuilt_2.0.0-schema.json"),
+            Map.entry("urn:bamm:io.catenax.single_level_usage_as_built:2.0.0#SingleLevelUsageAsBuilt", "/schema/semantichub/SingleLevelUsageAsBuilt_2.0.0-schema.json"),
+            Map.entry("urn:bamm:io.catenax.traction_battery_code:1.0.0#TractionBatteryCode", "/schema/semantichub/TractionBatteryCode_1.0.0-schema.json"),
+            Map.entry("urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned", "/schema/semantichub/PartAsPlanned_1.0.1-schema.json"),
+            Map.entry("urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned", "/schema/semantichub/SingleLevelBomAsPlanned_2.0.0-schema.json")
     );
 
     private final JsonSchemaFactory factory = JsonSchemaFactory.byDefault();

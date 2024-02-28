@@ -151,10 +151,7 @@ public class ApplicationConfig {
 
     @NotNull
     private List<AcceptedPolicy> buildAcceptedPolicies() {
-        List<AcceptedPolicy> acceptedPolicies = new ArrayList<>();
-
-        //add own policy
-        acceptedPolicies.addAll(createOwnAcceptedPolicies(traceabilityProperties.getValidUntil()));
+        List<AcceptedPolicy> acceptedPolicies = new ArrayList<>(createOwnAcceptedPolicies(traceabilityProperties.getValidUntil()));
 
         //add IRS policies
         try {

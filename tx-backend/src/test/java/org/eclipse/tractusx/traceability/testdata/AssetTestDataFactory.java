@@ -95,15 +95,15 @@ public class AssetTestDataFactory {
 
     public static List<Descriptions> provideParentRelations() {
         List<Descriptions> parentDescriptions = new ArrayList<>();
-        parentDescriptions.add(new Descriptions("parent1", "desc1"));
-        parentDescriptions.add(new Descriptions("parent2", "desc2"));
+        parentDescriptions.add(new Descriptions("parent1", "desc1", null, null));
+        parentDescriptions.add(new Descriptions("parent2", "desc2", null, null));
         return parentDescriptions;
     }
 
     public static List<Descriptions> provideChildRelations() {
         List<Descriptions> childDescriptions = new ArrayList<>();
-        childDescriptions.add(new Descriptions("child1", "desc1"));
-        childDescriptions.add(new Descriptions("child2", "desc2"));
+        childDescriptions.add(new Descriptions("child1", "desc1", null, null));
+        childDescriptions.add(new Descriptions("child2", "desc2", null, null));
         return childDescriptions;
     }
 }
