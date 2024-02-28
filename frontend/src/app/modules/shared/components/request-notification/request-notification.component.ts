@@ -66,6 +66,7 @@ export class RequestNotificationComponent {
   public removedItemsHistory: Part[] = [];
 
   constructor(private readonly toastService: ToastService, private readonly notificationService: NotificationService) {
+    this.toastService.retryAction.subscribe((event: string) => this.submit());
   }
 
   protected prepareSubmit(): void {
@@ -78,9 +79,10 @@ export class RequestNotificationComponent {
     this.formGroup.disable();
   }
 
-  protected onUnsuccessfulSubmit(): void {
+  protected onUnsuccessfulSubmit(err: string): void {
     this.isLoading$.next(false);
     this.formGroup.enable();
+    this.openErrorToast(err);
   }
 
   public submit(): void {
@@ -93,7 +95,7 @@ export class RequestNotificationComponent {
       const { link, queryParams } = getRoute(INVESTIGATION_BASE_ROUTE, NotificationStatusGroup.QUEUED_AND_REQUESTED);
       this.notificationService.createInvestigation(partIds, description, severity, targetDate).subscribe({
         next: () => this.onSuccessfulSubmit(link, queryParams),
-        error: () => this.onUnsuccessfulSubmit(),
+        error: (err) => this.onUnsuccessfulSubmit(err.error.message),
       });
     } else {
 
@@ -106,7 +108,7 @@ export class RequestNotificationComponent {
 
       this.notificationService.createAlert(partIds, description, severity, bpn, isAsBuilt).subscribe({
         next: () => this.onSuccessfulSubmit(link, queryParams),
-        error: () => this.onUnsuccessfulSubmit(),
+        error: (err) => this.onUnsuccessfulSubmit(err.error.message),
       });
     }
   }
@@ -115,11 +117,11 @@ export class RequestNotificationComponent {
     this.isLoading$.next(false);
     const amountOfItems = this.selectedItems.length;
     this.resetForm();
-    this.openToast(amountOfItems, link, linkQueryParams);
+    this.openSuccessToast(amountOfItems, link, linkQueryParams);
   }
 
 
-  protected openToast(count: number, link: string, linkQueryParams: Record<string, string>): void {
+  protected openSuccessToast(count: number, link: string, linkQueryParams: Record<string, string>): void {
 
     this.toastService.success({
         id: `${ this.context }.success`,
@@ -134,6 +136,13 @@ export class RequestNotificationComponent {
         },
       ],
     );
+  }
+
+  protected  openErrorToast(errorMessage: string) {
+    this.toastService.error({
+      id:`${this.context}.serverError`
+    },
+      5000, true, errorMessage)
   }
 
   public resetForm(): void {

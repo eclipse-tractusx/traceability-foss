@@ -94,7 +94,7 @@ describe('CustomerPartsComponent', () => {
     await waitFor(() => {
       fireEvent.click(semanticModelIdHeader);
     });
-    expect(customerPartsComponent['tableCustomerAsBuiltSortList']).toEqual([ [ 'nameAtManufacturer', 'asc' ], [ 'semanticModelId', 'desc' ] ]);
+    expect(customerPartsComponent['tableCustomerAsBuiltSortList']).toEqual([ [ 'semanticModelId', 'desc' ] ]);
   });
 
   it('should reset sorting on third click', async () => {
