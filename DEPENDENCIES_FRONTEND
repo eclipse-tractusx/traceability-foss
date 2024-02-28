@@ -964,7 +964,7 @@ npm/npmjs/-/slice-ansi/3.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/slice-ansi/4.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/slice-ansi/5.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/smart-buffer/4.2.0, MIT, approved, clearlydefined
-npm/npmjs/-/socket.io-adapter/2.5.2, MIT, approved, clearlydefined
+npm/npmjs/-/socket.io-adapter/2.5.2, MIT, approved, #13465
 npm/npmjs/-/socket.io-parser/4.2.3, MIT, approved, #8535
 npm/npmjs/-/socket.io/4.6.1, MIT, approved, #7121
 npm/npmjs/-/sockjs/0.3.24, MIT, approved, #2985
