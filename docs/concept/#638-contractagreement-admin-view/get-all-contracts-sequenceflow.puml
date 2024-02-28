@@ -8,7 +8,7 @@ autonumber "<B>[00]"
 participant "Trace-X Frontend" as FE order 0
 participant "Trace-X Backend" as BE order 1
 participant "Trace-X Database" as DB order 2
-participant "Trace-X EDC Client Library" as EDC order 3
+participant "EDC" as EDC order 3
 
 FE -> BE: POST api/contracts/request (limit, offset, sort, filter)
 
