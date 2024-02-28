@@ -17,6 +17,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - JSON Schema generation for valid submodel mapping
 - Added support for meta key for multi sorting on tables
 - Added error description and retry button to error toast when creating notifications
+- updated yarn.lock file
 
 ### Removed
 - Removed EDC notification asset classes and replaced with IRS lib implementation
