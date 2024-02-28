@@ -10,6 +10,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Added support for meta key for multi sorting on tables
 ### Changed
 - sring-core bumped from 6.0.16 to 6.0.17
+- updated user manual
 
 ### Removed
 - removed EDC notification asset classes and replaced with IRS lib implementation
