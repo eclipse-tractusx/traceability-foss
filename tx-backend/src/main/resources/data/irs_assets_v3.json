@@ -271,7 +271,7 @@
           "identification" : "urn:uuid:781dabcb-93e7-442d-bc38-8ba1451c0218",
           "semanticId" : {
             "value" : [
-              "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart"
+              "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart"
             ]
           },
           "endpoints" : [
@@ -351,7 +351,7 @@
           "identification" : "urn:uuid:ff82a14d-8730-488f-b965-89eeb2010991",
           "semanticId" : {
             "value" : [
-              "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart"
+              "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart"
             ]
           },
           "endpoints" : [
@@ -431,7 +431,7 @@
           "identification" : "urn:uuid:82b89a4c-0e98-499e-ba21-c2a5aa38d70b",
           "semanticId" : {
             "value" : [
-              "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart"
+              "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart"
             ]
           },
           "endpoints" : [
@@ -535,7 +535,7 @@
           "identification" : "urn:uuid:20c37755-2cb1-4eaf-be09-b44c9b9031fe",
           "semanticId" : {
             "value" : [
-              "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart"
+              "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart"
             ]
           },
           "endpoints" : [
@@ -591,7 +591,7 @@
           "identification" : "urn:uuid:2f11ec59-b8e8-4494-b3d8-0bbb7d1517b5",
           "semanticId" : {
             "value" : [
-              "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart"
+              "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart"
             ]
           },
           "endpoints" : [
@@ -647,7 +647,7 @@
           "identification" : "urn:uuid:985ae9ac-e810-4b69-b3c1-23dfb1f057b6",
           "semanticId" : {
             "value" : [
-              "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart"
+              "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart"
             ]
           },
           "endpoints" : [
@@ -703,7 +703,7 @@
           "identification" : "urn:uuid:bc51058d-fc37-42e8-b7ce-3be50754124f",
           "semanticId" : {
             "value" : [
-              "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart"
+              "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart"
             ]
           },
           "endpoints" : [
@@ -783,7 +783,7 @@
           "identification" : "urn:uuid:cbc837f1-d369-4ff8-9539-42e7bd249204",
           "semanticId" : {
             "value" : [
-              "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart"
+              "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart"
             ]
           },
           "endpoints" : [
@@ -863,7 +863,7 @@
           "identification" : "urn:uuid:162535e9-7baa-47b4-b778-17bc45427546",
           "semanticId" : {
             "value" : [
-              "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart"
+              "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart"
             ]
           },
           "endpoints" : [
@@ -919,7 +919,7 @@
           "identification" : "urn:uuid:9aeaac21-7d98-44cc-813c-8ba8a6618564",
           "semanticId" : {
             "value" : [
-              "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart"
+              "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart"
             ]
           },
           "endpoints" : [
@@ -1023,7 +1023,7 @@
           "identification" : "urn:uuid:326acfa7-07d3-4ad0-bc91-67330c56071e",
           "semanticId" : {
             "value" : [
-              "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart"
+              "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart"
             ]
           },
           "endpoints" : [

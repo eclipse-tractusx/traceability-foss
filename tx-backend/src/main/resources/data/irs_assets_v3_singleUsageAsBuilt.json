@@ -106,7 +106,7 @@
             "identification" : "urn:uuid:e3525d55-28fc-4a87-9b70-d79a0edb3818",
             "semanticId" : {
               "value" : [
-                "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart"
+                "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart"
               ]
             },
             "endpoints" : [
@@ -162,7 +162,7 @@
             "identification" : "urn:uuid:467d5f3d-38aa-4633-b42c-d064c332139e",
             "semanticId" : {
               "value" : [
-                "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart"
+                "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart"
               ]
             },
             "endpoints" : [
@@ -296,7 +296,7 @@
             "identification" : "urn:uuid:52b66f78-5ac0-4a72-a039-40661b4662a4",
             "semanticId" : {
               "value" : [
-                "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart"
+                "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart"
               ]
             },
             "endpoints" : [
@@ -345,7 +345,7 @@
   "submodels" : [
     {
       "identification" : "urn:uuid:e3525d55-28fc-4a87-9b70-d79a0edb3818",
-      "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart",
+      "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
       "payload" : {
         "localIdentifiers" : [
           {
@@ -377,7 +377,7 @@
     },
     {
       "identification" : "urn:uuid:467d5f3d-38aa-4633-b42c-d064c332139e",
-      "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart",
+      "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
       "payload" : {
         "localIdentifiers" : [
           {
