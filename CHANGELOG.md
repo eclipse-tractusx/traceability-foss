@@ -7,6 +7,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [UNRELEASED - DD.MM.YYYY]
 ### Added
+- concept #638 Contract agreement admin view
 
 ### Changed
 - sring-core bumped from 6.0.16 to 6.0.17
