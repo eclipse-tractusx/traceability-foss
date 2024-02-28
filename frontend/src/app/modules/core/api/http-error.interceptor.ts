@@ -44,7 +44,6 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         // Intercept "console.error" and send to logging server for further analysis
         const { error, message } = errorResponse;
         const errorMessage = !error.message ? message : `Backend returned code ${ error.status }: ${ error.message }`;
-        console.log(request.url);
 
         // Check if the request URL matches any pattern in the avoidList
         if (this.shouldShowToast(request.url)) {
