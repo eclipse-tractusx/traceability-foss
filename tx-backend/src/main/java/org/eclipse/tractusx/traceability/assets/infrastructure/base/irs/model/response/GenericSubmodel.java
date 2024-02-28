@@ -75,7 +75,7 @@ public class GenericSubmodel {
                     "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned"
             })
     })
-    private Object payload;
+    private final Object payload;
 
     private String payloadRaw;
 

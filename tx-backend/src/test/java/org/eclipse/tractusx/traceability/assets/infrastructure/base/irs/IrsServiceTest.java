@@ -65,7 +65,7 @@ class IrsServiceTest {
     @Mock
     TraceabilityProperties traceabilityProperties;
 
-    ObjectMapper objectMapper = new ObjectMapper();
+    final ObjectMapper objectMapper = new ObjectMapper();
 
     @Mock
     AssetCallbackRepository assetAsBuiltCallbackRepository;
