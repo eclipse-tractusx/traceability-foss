@@ -27,20 +27,18 @@ import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.mapper.TombstoneMapper;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterJobRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IRSResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobStatus;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.PolicyResponse;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.MapperFactory;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.AssetMapperFactory;
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -50,7 +48,7 @@ import java.util.stream.Stream;
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 import static org.eclipse.tractusx.irs.component.enums.BomLifecycle.AS_BUILT;
 import static org.eclipse.tractusx.irs.component.enums.BomLifecycle.AS_PLANNED;
-import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.MapperFactory.extractBpnMap;
+import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.AssetMapperFactory.extractBpnMap;
 
 @Slf4j
 @Service
@@ -65,7 +63,7 @@ public class IrsService implements IrsRepository {
     private static final String JOB_STATUS_COMPLETED = "COMPLETED";
 
     private static final String JOB_STATUS_RUNNING = "RUNNING";
-    private final MapperFactory mapperFactory;
+    private final AssetMapperFactory assetMapperFactory;
 
     private final IrsClient irsClient;
 
@@ -77,14 +75,14 @@ public class IrsService implements IrsRepository {
             @Qualifier("assetAsBuiltRepositoryImpl")
             AssetCallbackRepository assetAsBuiltCallbackRepository,
             @Qualifier("assetAsPlannedRepositoryImpl")
-            AssetCallbackRepository assetAsPlannedCallbackRepository, MapperFactory mapperFactory) {
+            AssetCallbackRepository assetAsPlannedCallbackRepository, AssetMapperFactory assetMapperFactory) {
         this.bpnRepository = bpnRepository;
         this.traceabilityProperties = traceabilityProperties;
         this.objectMapper = objectMapper;
         this.assetAsBuiltCallbackRepository = assetAsBuiltCallbackRepository;
         this.assetAsPlannedCallbackRepository = assetAsPlannedCallbackRepository;
         this.irsClient = irsClient;
-        this.mapperFactory = mapperFactory;
+        this.assetMapperFactory = assetMapperFactory;
     }
 
     @Override
@@ -123,14 +121,9 @@ public class IrsService implements IrsRepository {
                 log.warn("BPN Mapping Exception", e);
             }
 
-            List<AssetBase> assetBases = mapperFactory.mapToAssetBaseList(jobResponseIRS);
-            List<AssetBase> tombstones = TombstoneMapper.mapTombstones(jobResponseIRS.jobStatus(), jobResponseIRS.tombstones(), objectMapper);
-            List<AssetBase> allAssets = new ArrayList<>();
-            allAssets.addAll(assetBases);
-            allAssets.addAll(tombstones);
+            List<AssetBase> assets = assetMapperFactory.mapToAssetBaseList(jobResponseIRS);
 
-
-            allAssets.forEach(assetBase -> {
+            assets.forEach(assetBase -> {
                 if (assetBase.getBomLifecycle() == AS_BUILT) {
                     saveOrUpdateAssets(assetAsBuiltCallbackRepository, assetBase);
                 } else if (assetBase.getBomLifecycle() == AS_PLANNED) {

@@ -1,6 +1,7 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel;
 
 
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
@@ -16,11 +17,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@UtilityClass
 @Slf4j
 public class MapperHelper {
-    private MapperHelper() {
-
-    }
 
     public static Owner getOwner(AssetBase assetBase, IRSResponse irsResponse) {
         boolean isOwn = assetBase.getId().equals(irsResponse.jobStatus().globalAssetId());
@@ -66,6 +65,7 @@ public class MapperHelper {
                 .findFirst()
                 .ifPresent(detailAspectModel -> assetBase.setDetailAspectModels(List.of(detailAspectModel)));
     }
+
     public static void enrichManufacturingInformation(IRSResponse irsResponse, Map<String, String> bpnMap, AssetBase assetBase) {
         if (assetBase.getManufacturerId() == null && assetBase.getId().equals(irsResponse.jobStatus().globalAssetId())) {
             String bpn = irsResponse.jobStatus().parameter().bpn();

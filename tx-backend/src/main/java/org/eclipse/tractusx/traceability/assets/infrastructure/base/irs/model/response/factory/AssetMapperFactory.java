@@ -18,6 +18,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.irs.component.Bpn;
 import org.eclipse.tractusx.irs.component.Relationship;
@@ -25,6 +26,7 @@ import org.eclipse.tractusx.irs.component.enums.Direction;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.mapper.TombstoneMapper;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IRSResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsSubmodel;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.asbuilt.AsBuiltDetailMapper;
@@ -51,12 +53,13 @@ import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.m
 
 @Component
 @RequiredArgsConstructor
-public class MapperFactory {
+public class AssetMapperFactory {
 
     private final List<SubmodelMapper> baseMappers;
     private final List<RelationshipMapper> relationshipMappers;
     private final List<AsPlannedDetailMapper> asPlannedDetailMappers;
     private final List<AsBuiltDetailMapper> asBuiltDetailMappers;
+    private final ObjectMapper objectMapper;
 
     public List<AssetBase> mapToAssetBaseList(IRSResponse irsResponse) {
 
@@ -67,13 +70,18 @@ public class MapperFactory {
         List<DetailAspectModel> tractionBatteryCode = extractTractionBatteryCode(irsResponse);
 
         List<DetailAspectModel> partSiteInformationAsPlanned = extractPartSiteInformationAsPlanned(irsResponse);
+        List<AssetBase> tombstones = TombstoneMapper.mapTombstones(irsResponse.jobStatus(), irsResponse.tombstones(), objectMapper);
 
-        return toAssetBase(irsResponse, descriptionMap, bpnMap, tractionBatteryCode, partSiteInformationAsPlanned);
+        return toAssetBase(irsResponse, descriptionMap, bpnMap, tractionBatteryCode, partSiteInformationAsPlanned, tombstones);
     }
 
     @NotNull
-    private List<AssetBase> toAssetBase(IRSResponse irsResponse, Map<String, List<Descriptions>> descriptionMap, Map<String, String> bpnMap, List<DetailAspectModel> tractionBatteryCode, List<DetailAspectModel> partSiteInformationAsPlanned) {
-        return irsResponse
+    private List<AssetBase> toAssetBase(IRSResponse irsResponse,
+                                        Map<String, List<Descriptions>> descriptionMap,
+                                        Map<String, String> bpnMap, List<DetailAspectModel> tractionBatteryCode,
+                                        List<DetailAspectModel> partSiteInformationAsPlanned,
+                                        List<AssetBase> tombstones) {
+        List<AssetBase> submodelAssets = new ArrayList<>(irsResponse
                 .submodels()
                 .stream()
                 .map(irsSubmodel -> {
@@ -93,7 +101,10 @@ public class MapperFactory {
                     return null;
                 })
                 .filter(Objects::nonNull)
-                .toList();
+                .toList());
+
+        submodelAssets.addAll(tombstones);
+        return submodelAssets;
     }
 
     @NotNull

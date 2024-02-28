@@ -32,7 +32,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Payload;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.PolicyResponse;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.MapperFactory;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.AssetMapperFactory;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
 import org.eclipse.tractusx.traceability.common.model.BPN;
@@ -80,12 +80,12 @@ class IrsServiceTest {
     private IrsClient irsClient;
 
     @Mock
-    private MapperFactory mapperFactory;
+    private AssetMapperFactory assetMapperFactory;
 
 
     @BeforeEach
     void setUp() {
-        irsService = new IrsService(irsClient, bpnRepository, traceabilityProperties, objectMapper, assetAsBuiltCallbackRepository, assetAsPlannedCallbackRepository, mapperFactory);
+        irsService = new IrsService(irsClient, bpnRepository, traceabilityProperties, objectMapper, assetAsBuiltCallbackRepository, assetAsPlannedCallbackRepository, assetMapperFactory);
     }
 
 
