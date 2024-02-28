@@ -28,7 +28,6 @@ import org.eclipse.tractusx.traceability.integration.common.support.AssetsSuppor
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.AlertRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.repository.JpaAlertRepository;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

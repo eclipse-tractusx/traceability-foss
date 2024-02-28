@@ -21,7 +21,6 @@ package org.eclipse.tractusx.traceability.integration.assets;
 import io.restassured.http.ContentType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IRSResponse;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
@@ -39,7 +38,6 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 import static io.restassured.RestAssured.given;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.ACCEPTED;
 import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.ACKNOWLEDGED;
