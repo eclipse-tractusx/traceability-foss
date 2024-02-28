@@ -8,6 +8,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [UNRELEASED - DD.MM.YYYY]
 ### Added
 - JSON Schema generation for valid submodel mapping
+- Added support for meta key for multi sorting on tables
+  Added error description and retry button to error toast when creating notifications
 
 ### Changed
 - sring-core bumped from 6.0.16 to 6.0.17

@@ -137,7 +137,7 @@ describe('InvestigationsComponent', () => {
 
     expect(setTableFunctionSpy).toHaveBeenCalledWith([ 'description', 'asc' ], 'received');
     expect(setTableFunctionSpy).toHaveBeenCalledWith([ 'status', 'asc' ], 'received');
-    expect(investigationsComponent['investigationReceivedSortList']).toEqual([ [ 'description', 'asc' ], [ 'status', 'desc' ] ]);
+    expect(investigationsComponent['investigationReceivedSortList']).toEqual([ [ 'status', 'desc' ]]);
   });
 
   it('should reset sorting after third click', async () => {

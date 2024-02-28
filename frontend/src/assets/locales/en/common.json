@@ -179,13 +179,16 @@
     "headline": "Create quality alert",
     "textAreaDescription": "Add a description about the alert.",
     "success_one": "You queued an alert for {{count}} part",
-    "success_other": "You queued an alert for {{count}} parts"
+    "success_other": "You queued an alert for {{count}} parts",
+    "serverError": "Server error:"
   },
   "requestInvestigations": {
     "headline": "Request quality investigation",
     "textAreaDescription": "Add a description about the investigation.",
     "success_one": "You queued an investigation for {{count}} part",
-    "success_other": "You queued an investigation for {{count}} parts"
+    "success_other": "You queued an investigation for {{count}} parts",
+    "serverError": "Server error:"
+
   },
   "requestNotification": {
     "partDescription": "You selected the following parts:",
@@ -198,7 +201,8 @@
     "cancel": "CANCEL",
     "submit": "ADD TO QUEUE",
     "severity": "Severity",
-    "severityDescription": "Select the severity for the problem at hand"
+    "severityDescription": "Select the severity for the problem at hand",
+    "serverError": "Server error:"
   },
   "requestPublishAssets": {
     "success": "Request to publish assets was successful",
@@ -348,5 +352,6 @@
     "cancel": "Reset",
     "startDate": "Start Date",
     "endDate": "End Date"
-  }
+  },
+  "retry": "Try again"
 }
