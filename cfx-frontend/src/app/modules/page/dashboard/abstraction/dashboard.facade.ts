@@ -111,7 +111,7 @@ export class DashboardFacade {
 
   private setAlerts(): void {
     this.alertSubscription?.unsubscribe();
-    this.alertSubscription = this.notificationService.getReceived(0, 5, [], this.filtering, null, true, FilterMethod.OR).subscribe({
+    this.alertSubscription = this.notificationService.getReceived(0, 5, [], this.filtering, null, false, FilterMethod.OR).subscribe({
       next: data => this.dashboardState.setAlerts({ data }),
       error: (error: Error) => this.dashboardState.setAlerts({ error }),
     });
