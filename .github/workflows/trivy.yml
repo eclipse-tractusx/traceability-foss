@@ -74,8 +74,9 @@ jobs:
         run: docker build -t localhost:5000/traceability-foss:fe_${{ github.sha }} -f ./frontend/Dockerfile .
 
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@0.16.1
+        uses: aquasecurity/trivy-action@0.17.0
         with:
+          trivyignores: "./.github/workflows/.trivyignore"
           image-ref: 'localhost:5000/traceability-foss:fe_${{ github.sha }}'
           format: "sarif"
           limit-severities-for-sarif: true
@@ -133,8 +134,9 @@ jobs:
           ref: ${{needs.prepare-env.outputs.check_sha}}
 
       - name: Run Trivy vulnerability scanner in repo mode
-        uses: aquasecurity/trivy-action@0.16.1
+        uses: aquasecurity/trivy-action@0.17.0
         with:
+          trivyignores: "./.github/workflows/.trivyignore"
           scan-type: "config"
           hide-progress: false
           format: "sarif"
@@ -178,7 +180,7 @@ jobs:
           tags: localhost:5000/traceability-foss:trivy
 
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@0.16.1
+        uses: aquasecurity/trivy-action@0.17.0
         with:
           image-ref: localhost:5000/traceability-foss:trivy
           trivyignores: "./.github/workflows/.trivyignore"

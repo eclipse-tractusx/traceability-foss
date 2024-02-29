@@ -30,80 +30,83 @@
   "relationships": [],
   "shells": [
     {
-      "administration": null,
-      "description": [
-        {
-          "language": "en",
-          "text": "Vehicle Hybrid"
-        }
-      ],
-      "globalAssetId": "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb",
-      "idShort": "vehicle_hybrid.asm",
-      "identification": "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb",
-      "specificAssetIds": [
-        {
-          "key": "http://pwc.t-systems.com/datamodel/common",
-          "subjectId": null,
-          "value": "OMA-TGFAYUHXFLHHUQQMPLTE",
-          "semanticId": null
-        },
-        {
-          "key": "urn:VR:wt.part.WTPart#",
-          "subjectId": null,
-          "value": "KR-09",
-          "semanticId": null
-        }
-      ],
-      "submodelDescriptors": [
-        {
-          "administration": null,
-          "description": [],
-          "idShort": "serial-part",
-          "identification": "urn:uuid:781dabcb-93e7-442d-bc38-8ba1451c0218",
-          "semanticId": {
-            "value": [
-              "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart"
+      "contractAgreementId": "abc",
+      "payload": {
+        "administration" : null,
+        "description" : [
+          {
+            "language" : "en",
+            "text" : "Vehicle Hybrid"
+          }
+        ],
+        "globalAssetId" : "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb",
+        "idShort" : "vehicle_hybrid.asm",
+        "identification" : "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb",
+        "specificAssetIds" : [
+          {
+            "key" : "http://pwc.t-systems.com/datamodel/common",
+            "subjectId" : null,
+            "value" : "OMA-TGFAYUHXFLHHUQQMPLTE",
+            "semanticId" : null
+          },
+          {
+            "key" : "urn:VR:wt.part.WTPart#",
+            "subjectId" : null,
+            "value" : "KR-09",
+            "semanticId" : null
+          }
+        ],
+        "submodelDescriptors" : [
+          {
+            "administration" : null,
+            "description" : [],
+            "idShort" : "serial-part",
+            "identification" : "urn:uuid:781dabcb-93e7-442d-bc38-8ba1451c0218",
+            "semanticId" : {
+              "value" : [
+                "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart"
+              ]
+            },
+            "endpoints" : [
+              {
+                "protocolInformation" : {
+                  "endpointAddress" : "http://irs-provider-controlplane:8282/urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb-urn:uuid:781dabcb-93e7-442d-bc38-8ba1451c0218/submodel?content=value&extent=withBlobValue",
+                  "endpointProtocol" : "AAS/SUBMODEL",
+                  "endpointProtocolVersion" : "1.0RC02",
+                  "subprotocol" : null,
+                  "subprotocolBody" : null,
+                  "subprotocolBodyEncoding" : null
+                },
+                "interface" : "https://BPNL00000003B2OM.connector"
+              }
             ]
           },
-          "endpoints": [
-            {
-              "protocolInformation": {
-                "endpointAddress": "http://irs-provider-controlplane:8282/urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb-urn:uuid:781dabcb-93e7-442d-bc38-8ba1451c0218/submodel?content=value&extent=withBlobValue",
-                "endpointProtocol": "AAS/SUBMODEL",
-                "endpointProtocolVersion": "1.0RC02",
-                "subprotocol": null,
-                "subprotocolBody": null,
-                "subprotocolBodyEncoding": null
-              },
-              "interface": "https://BPNL00000003B2OM.connector"
-            }
-          ]
-        },
-        {
-          "administration": null,
-          "description": [],
-          "idShort": "assembly-part-relationship",
-          "identification": "urn:uuid:50de024d-60b3-49cd-ac74-37d81ce4bb7b",
-          "semanticId": {
-            "value": [
-              "urn:bamm:com.catenax.single_level_bom_as_built:1.0.0#SingleLevelBomAsBuilt"
+          {
+            "administration" : null,
+            "description" : [],
+            "idShort" : "assembly-part-relationship",
+            "identification" : "urn:uuid:50de024d-60b3-49cd-ac74-37d81ce4bb7b",
+            "semanticId" : {
+              "value" : [
+                "urn:bamm:com.catenax.single_level_bom_as_built:1.0.0#SingleLevelBomAsBuilt"
+              ]
+            },
+            "endpoints" : [
+              {
+                "protocolInformation" : {
+                  "endpointAddress" : "http://irs-provider-controlplane:8282/urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb-urn:uuid:50de024d-60b3-49cd-ac74-37d81ce4bb7b/submodel?content=value&extent=withBlobValue",
+                  "endpointProtocol" : "AAS/SUBMODEL",
+                  "endpointProtocolVersion" : "1.0RC02",
+                  "subprotocol" : null,
+                  "subprotocolBody" : null,
+                  "subprotocolBodyEncoding" : null
+                },
+                "interface" : "https://BPNL00000003AYRE.connector"
+              }
             ]
-          },
-          "endpoints": [
-            {
-              "protocolInformation": {
-                "endpointAddress": "http://irs-provider-controlplane:8282/urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb-urn:uuid:50de024d-60b3-49cd-ac74-37d81ce4bb7b/submodel?content=value&extent=withBlobValue",
-                "endpointProtocol": "AAS/SUBMODEL",
-                "endpointProtocolVersion": "1.0RC02",
-                "subprotocol": null,
-                "subprotocolBody": null,
-                "subprotocolBodyEncoding": null
-              },
-              "interface": "https://BPNL00000003AYRE.connector"
-            }
-          ]
-        }
-      ]
+          }
+        ]
+      }
     }
   ],
   "tombstones": [],

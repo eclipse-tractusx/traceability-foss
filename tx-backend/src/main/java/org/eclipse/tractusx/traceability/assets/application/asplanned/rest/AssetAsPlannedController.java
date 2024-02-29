@@ -198,7 +198,7 @@ public class AssetAsPlannedController {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns a distinct filter values for given fieldName.", content = @Content(
             mediaType = "application/json",
             array = @ArraySchema(
-                    arraySchema = @Schema(
+                    schema = @Schema(
                             description = "FilterValues",
                             implementation = String.class,
                             additionalProperties = Schema.AdditionalPropertiesValue.FALSE
@@ -305,7 +305,7 @@ public class AssetAsPlannedController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/{assetId}")
-    public AssetAsPlannedResponse asset(@PathVariable String assetId) {
+    public AssetAsPlannedResponse getAssetById(@PathVariable String assetId) {
         return AssetAsPlannedResponseMapper.from(assetService.getAssetById(assetId));
     }
 
@@ -360,9 +360,8 @@ public class AssetAsPlannedController {
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
-    @GetMapping("/{assetId}/children/{childId}")
-    @SuppressWarnings("unused")
-    public AssetAsPlannedResponse asset(@PathVariable("assetId") String assetId, @PathVariable("childId") String childId) {
+    @GetMapping("/*/children/{childId}")
+    public AssetAsPlannedResponse getAssetByChildId(@PathVariable("childId") String childId) {
         return AssetAsPlannedResponseMapper.from(assetService.getAssetByChildId(childId));
     }
 
@@ -430,7 +429,7 @@ public class AssetAsPlannedController {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found for Asset", content = @Content(
             mediaType = "application/json",
             array = @ArraySchema(
-                    arraySchema = @Schema(
+                    schema = @Schema(
                             description = "AssetsAsPlanned",
                             implementation = AssetAsPlannedResponse.class,
                             additionalProperties = Schema.AdditionalPropertiesValue.FALSE

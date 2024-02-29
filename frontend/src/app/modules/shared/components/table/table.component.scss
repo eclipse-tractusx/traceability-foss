@@ -23,6 +23,19 @@ table {
   @apply font-light;
 }
 
+.mat-mdc-header-row {
+  font-family: inherit !important;
+}
+
+.mat-mdc-header-cell {
+  font-weight: bold !important;
+}
+
+
+.mat-mdc-row {
+  font-family: Catena-X Light, sans-serif !important;
+}
+
 .menu-column {
   position: sticky;
   right: 0;
@@ -177,6 +190,7 @@ tr.error {
 
 .table--header--row {
   white-space: nowrap;
+  font-weight: bold;
 }
 
 .table--header {

@@ -63,6 +63,12 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository, A
     }
 
     @Override
+    @Transactional
+    public boolean existsById(String assetId) {
+        return jpaAssetAsPlannedRepository.existsById(assetId);
+    }
+
+    @Override
     public List<AssetBase> getAssetsById(List<String> assetIds) {
         return jpaAssetAsPlannedRepository.findByIdIn(assetIds).stream().map(AssetAsPlannedEntity::toDomain)
                 .toList();
@@ -89,6 +95,7 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository, A
     }
 
     @Override
+    @Transactional
     public AssetBase save(AssetBase asset) {
         return AssetAsPlannedEntity.toDomain(jpaAssetAsPlannedRepository.save(AssetAsPlannedEntity.from(asset)));
     }

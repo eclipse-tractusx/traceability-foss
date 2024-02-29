@@ -45,6 +45,7 @@ SPDX-License-Identifier: Apache-2.0
                      [multiSortList]="tableSupplierAsBuiltSortList"
                      (filterActivated)="filterActivated(true, $event )"
                      [tableType]="TableType.AS_BUILT_SUPPLIER"
+                     [mainAspectType]="bomLifecycle"
     ></app-parts-table>
   </ng-template>
 </div>
@@ -75,6 +76,7 @@ SPDX-License-Identifier: Apache-2.0
                      [multiSortList]="tableSupplierAsPlannedSortList"
                      (filterActivated)="filterActivated(false, $event )"
                      [tableType]="TableType.AS_PLANNED_SUPPLIER"
+                     [mainAspectType]="bomLifecycle"
     ></app-parts-table>
   </ng-template>
 </div>

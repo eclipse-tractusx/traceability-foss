@@ -74,6 +74,7 @@ export interface Part {
 
   importNote?: string;
   importState?: ImportState;
+  tombStoneErrorDetail?: string;
 }
 
 export interface PartResponse {
@@ -98,7 +99,8 @@ export interface PartResponse {
   sentQualityInvestigationIdsInStatusActive: string[],
   receivedQualityInvestigationIdsInStatusActive: string[]
   importNote?: string,
-  importState?: ImportState
+  importState?: ImportState,
+  tombstone?: string,
 }
 
 export type PartsResponse = PaginationResponse<PartResponse>;

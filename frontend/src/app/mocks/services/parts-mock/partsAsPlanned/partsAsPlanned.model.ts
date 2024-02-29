@@ -1,7 +1,7 @@
 /********************************************************************************
  * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
  * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022, 2023, 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -21,7 +21,7 @@
 
 import { DetailAspectType } from '@page/parts/model/detailAspectModel.model';
 import { Owner } from '@page/parts/model/owner.enum';
-import { PartResponse, QualityType, SemanticDataModel } from '@page/parts/model/parts.model';
+import { ImportState, PartResponse, QualityType, SemanticDataModel } from '@page/parts/model/parts.model';
 import { otherPartsAssets } from '../../otherParts-mock/otherParts.model';
 
 export const mockBmwAsPlannedAssets = [
@@ -58,6 +58,8 @@ export const mockBmwAsPlannedAssets = [
         },
       },
     ],
+    'importState': 'PERSISTENT',
+    'importNote': 'This is a test import note.'
   },
   {
     'id': 'urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa03',
@@ -97,6 +99,18 @@ export const mockBmwAsPlannedAssets = [
         },
       },
     ],
+    'importState': 'PERSISTENT',
+    'importNote': 'This is a test import note.',
+    'tombstone': `\t\t{
+\t\t\t"catenaXId": "urn:uuid:68c9b1bf-b2c1-456a-883c-2aac5f5cb5f4",
+\t\t\t"endpointURL": null,
+\t\t\t"processingError": {
+\t\t\t\t"processStep": "BpdmRequest",
+\t\t\t\t"errorDetail": "Cannot find ManufacturerId for CatenaXId: urn:uuid:68c9b1bf-b2c1-456a-883c-2aac5f5cb5f4",
+\t\t\t\t"lastAttempt": "2022-11-08T08:37:18.724609316Z",
+\t\t\t\t"retryCounter": 0
+\t\t\t}
+\t\t}`
   },
   {
     'id': 'urn:uuid:4a5e9ff6-2d5c-4510-a90e-d55af3ba502f',
@@ -136,6 +150,8 @@ export const mockBmwAsPlannedAssets = [
         },
       },
     ],
+    'importState': 'PERSISTENT',
+    'importNote': 'This is a test import note.'
   },
   {
     'id': 'urn:uuid:0733946c-59c6-41ae-9570-cb43a6e43842',
@@ -170,6 +186,8 @@ export const mockBmwAsPlannedAssets = [
         },
       },
     ],
+    'importState': 'PERSISTENT',
+    'importNote': 'This is a test import note.'
   },
   {
     'id': 'urn:uuid:6ec3f1db-2798-454b-a73f-0d21a8966c74',
@@ -212,6 +230,8 @@ export const mockBmwAsPlannedAssets = [
         },
       },
     ],
+    'importState': 'PERSISTENT',
+    'importNote': 'This is a test import note.'
   },
 
   {
@@ -247,6 +267,8 @@ export const mockBmwAsPlannedAssets = [
         },
       },
     ],
+    'importState': 'PERSISTENT',
+    'importNote': 'This is a test import note.'
   },
 
   {
@@ -287,6 +309,8 @@ export const mockBmwAsPlannedAssets = [
         },
       },
     ],
+    'importState': 'PERSISTENT',
+    'importNote': 'This is a test import note.'
   },
 
   {
@@ -327,6 +351,8 @@ export const mockBmwAsPlannedAssets = [
         },
       },
     ],
+    'importState': 'PERSISTENT',
+    'importNote': 'This is a test import note.'
   },
   {
     'id': 'urn:uuid:d8030bbf-a874-49fb-b2e1-7610f0ccaf88',
@@ -366,6 +392,8 @@ export const mockBmwAsPlannedAssets = [
         },
       },
     ],
+    'importState': 'PERSISTENT',
+    'importNote': 'This is a test import note.'
   },
   {
     'id': 'urn:uuid:d8030bbf-a874-49fb-b2e1-7610f0ccav85',
@@ -405,6 +433,8 @@ export const mockBmwAsPlannedAssets = [
         },
       },
     ],
+    'importState': 'PERSISTENT',
+    'importNote': 'This is a test import note.'
   },
   {
     'id': 'urn:uuid:d8030bbf-a874-49fb-b2e1-7610f0ccag25',
@@ -444,6 +474,8 @@ export const mockBmwAsPlannedAssets = [
         },
       },
     ],
+    'importState': 'PERSISTENT',
+    'importNote': 'This is a test import note.'
   },
 ] as PartResponse[];
 
@@ -482,6 +514,8 @@ const MockEmptyPart: PartResponse = {
   receivedQualityAlertIdsInStatusActive: [],
   sentQualityInvestigationIdsInStatusActive: [],
   receivedQualityInvestigationIdsInStatusActive: [],
+  importState: ImportState.TRANSIENT,
+  importNote: 'This is a test import note.'
 };
 
 

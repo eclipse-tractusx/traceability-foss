@@ -29,12 +29,14 @@ import io.github.resilience4j.core.registry.EntryRemovedEvent;
 import io.github.resilience4j.core.registry.EntryReplacedEvent;
 import io.github.resilience4j.core.registry.RegistryEventConsumer;
 import io.github.resilience4j.retry.Retry;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPoliciesProvider;
 import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPolicy;
 import org.eclipse.tractusx.irs.edc.client.policy.Constraint;
 import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
+import org.eclipse.tractusx.irs.edc.client.policy.Operator;
 import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
 import org.eclipse.tractusx.irs.edc.client.policy.Permission;
 import org.eclipse.tractusx.irs.edc.client.policy.Policy;
@@ -85,6 +87,7 @@ public class ApplicationConfig {
     @Lazy
     IrsService irsService;
 
+
     private final AcceptedPoliciesProvider.DefaultAcceptedPoliciesProvider defaultAcceptedPoliciesProvider;
 
     @Bean
@@ -131,18 +134,18 @@ public class ApplicationConfig {
         return templateResolver;
     }
 
-    @Bean
+    @PostConstruct
     public void registerDecentralRegistryPermissions() throws JsonProcessingException {
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.registerModule(new JavaTimeModule());
-            List<AcceptedPolicy> acceptedPolicy = buildAcceptedPolicies();
-            defaultAcceptedPoliciesProvider.addAcceptedPolicies(acceptedPolicy);
-            log.info("Successfully added permission to irs client lib provider: {}", mapper.writeValueAsString(acceptedPolicy));
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        List<AcceptedPolicy> acceptedPolicy = buildAcceptedPolicies();
+        defaultAcceptedPoliciesProvider.addAcceptedPolicies(acceptedPolicy);
+        log.info("Successfully added permission to irs client lib provider: {}", mapper.writeValueAsString(acceptedPolicy));
     }
 
     @NotNull
     private List<AcceptedPolicy> buildAcceptedPolicies() {
-        List<AcceptedPolicy> acceptedPolicies= new ArrayList<>();
+        List<AcceptedPolicy> acceptedPolicies = new ArrayList<>();
 
         //add own policy
         acceptedPolicies.addAll(createOwnAcceptedPolicies(traceabilityProperties.getValidUntil()));
@@ -150,7 +153,7 @@ public class ApplicationConfig {
         //add IRS policies
         try {
             acceptedPolicies.addAll(createIrsAcceptedPolicies());
-        }catch (Exception exception){
+        } catch (Exception exception) {
             log.error("Failed to create Irs Policies : ", exception);
         }
         return acceptedPolicies;
@@ -160,7 +163,7 @@ public class ApplicationConfig {
 
         List<PolicyResponse> policyResponse = irsService.getPolicies();
         List<AcceptedPolicy> irsPolicies = policyResponse.stream().map(response -> {
-            Policy policy = new Policy(response.policyId(), response.createdOn(), response.validUntil(), response.permissions());
+            Policy policy = new Policy(response.payload().policyId(), response.payload().policy().getCreatedOn(), response.validUntil(), response.payload().policy().getPermissions());
             return new AcceptedPolicy(policy, response.validUntil());
         }).toList();
 
@@ -170,16 +173,16 @@ public class ApplicationConfig {
     private List<AcceptedPolicy> createOwnAcceptedPolicies(OffsetDateTime offsetDateTime) {
         List<Constraint> andConstraintList = new ArrayList<>();
         List<Constraint> orConstraintList = new ArrayList<>();
-        andConstraintList.add(new Constraint(traceabilityProperties.getLeftOperand(), OperatorType.fromValue(traceabilityProperties.getOperatorType()), List.of(traceabilityProperties.getRightOperand())));
-        andConstraintList.add(new Constraint(traceabilityProperties.getLeftOperand(), OperatorType.fromValue(traceabilityProperties.getOperatorType()), List.of(traceabilityProperties.getRightOperand())));
+        andConstraintList.add(new Constraint(traceabilityProperties.getLeftOperand(), new Operator(OperatorType.fromValue(traceabilityProperties.getOperatorType())), traceabilityProperties.getRightOperand()));
+        andConstraintList.add(new Constraint(traceabilityProperties.getLeftOperand(), new Operator(OperatorType.fromValue(traceabilityProperties.getOperatorType())), traceabilityProperties.getRightOperand()));
 
         List<Permission> permissions = List.of(
                 new Permission(
                         PolicyType.USE,
-                        List.of(new Constraints(
+                        new Constraints(
                                 andConstraintList,
                                 orConstraintList)
-                        )
+
                 ));
 
         Policy ownPolicy = new Policy(UUID.randomUUID().toString(), OffsetDateTime.now(), offsetDateTime, permissions);

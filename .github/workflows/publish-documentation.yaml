@@ -48,45 +48,64 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
 
       - name: Cache maven packages
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
+
+
+      - name: Build API documentation with Maven
+        run: |
+          mvn clean package -pl tx-backend,tx-models -DskipTests --batch-mode
+          cp tx-backend/target/generated-sources/openapi/index.html docs/src/docs/api-specification/index.html
 
       - name: Build with Maven
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         run: |
           mvn -f docs/pom.xml --batch-mode generate-resources
+
       - name: Install Asciidoctor Reducer
         run: |
           sudo gem install asciidoctor-reducer
+
       - name: Reduce docs
         run: |
           echo $LANG
           locale
           asciidoctor-reducer -o docs/target/adminguide.adoc docs/src/docs/administration/administration-guide.adoc
           asciidoctor-reducer -o docs/target/arc42.adoc docs/src/docs/arc42/full.adoc
+
+      - name: Cache plantuml jar
+        uses: actions/cache@v3
+        with:
+          path: plantuml.jar
+          key: ${{ runner.os }}-file-${{ hashFiles('plantuml.jar') }}
+
       - name: Download PlantUML jar
         run: |
           wget -O plantuml.jar https://sourceforge.net/projects/plantuml/files/plantuml.jar/download
+
       - name: Place PlantUML jar in specific path
         run: |
           mv plantuml.jar docs/src/diagram-replacer/
+
       - name: Extract PNG-Images with PlantUML and replace PlantUML Code inside docs with PNG-Images
         working-directory: docs/src/diagram-replacer/
         run: |
           node extract.js
           node replace.js
+
       - name: Convert to Markdown
         run: |
           npx downdoc -o docs/target/generated-docs/adminguide.md docs/src/diagram-replacer/generated-adocs/adminguide.adoc
           npx downdoc -o docs/target/generated-docs/arc42.md docs/src/diagram-replacer/generated-adocs/arc42.adoc
           npx downdoc -o docs/target/generated-docs/user-manual.md docs/src/docs/user/user-manual.adoc
+
       - name: MD files post-processing
         working-directory: docs/src/post-processing/
         run: |
@@ -95,15 +114,18 @@ jobs:
           node fix_no_emphasis.js
           node fix_https_links.js
           node fix_relative_links.js https://$GITHUB_REPOSITORY_OWNER.github.io/$REPO/docs
+
       - name: MD linting
         run: |
           npm install markdownlint-cli2@0.11.0
           npx markdownlint-cli2-config docs/.markdownlint.yaml docs/target/generated-docs/adminguide.md
           npx markdownlint-cli2-config docs/.markdownlint.yaml docs/target/generated-docs/arc42.md
           npx markdownlint-cli2-config docs/.markdownlint.yaml docs/target/generated-docs/user-manual.md
+
       - name: Move assets to target directory
         run: |
           mv docs/src/diagram-replacer/assets/ docs/target/generated-docs/assets/
+
       - name: GitHub Pages action
         uses: peaceiris/actions-gh-pages@v3.9.3
         with:

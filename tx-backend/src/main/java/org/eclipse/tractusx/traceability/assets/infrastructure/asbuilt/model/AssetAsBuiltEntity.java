@@ -91,6 +91,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
     @OneToMany(mappedBy = "assetAsBuilt", fetch = FetchType.EAGER)
     private List<SubmodelPayloadEntity> submodels;
 
+
     public static AssetAsBuiltEntity from(AssetBase asset) {
         ManufacturingInfo manufacturingInfo = ManufacturingInfo.from(asset.getDetailAspectModels());
         TractionBatteryCode tractionBatteryCodeObj = TractionBatteryCode.from(asset.getDetailAspectModels());
@@ -124,6 +125,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                 .importState(asset.getImportState())
                 .importNote(asset.getImportNote())
                 .policyId(asset.getPolicyId())
+                .tombstone(asset.getTombstone())
                 .build();
     }
 
@@ -155,6 +157,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                 .importState(this.getImportState())
                 .importNote(this.getImportNote())
                 .policyId(this.getPolicyId())
+                .tombstone(this.getTombstone())
                 .build();
     }
 

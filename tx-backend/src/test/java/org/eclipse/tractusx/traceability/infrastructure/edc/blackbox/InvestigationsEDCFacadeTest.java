@@ -89,13 +89,13 @@ class InvestigationsEDCFacadeTest {
         when(edcProperties.getIdsPath()).thenReturn(idsPath);
         when(edcCatalogFacade.fetchCatalogItems(any())).thenReturn(List.of(catalogItem));
         when(policyCheckerService.isValid(null)).thenReturn(true);
-        when(contractNegotiationService.negotiate(receiverEdcUrl + idsPath, catalogItem))
+        when(contractNegotiationService.negotiate(receiverEdcUrl + idsPath, catalogItem, null))
                 .thenReturn(NegotiationResponse.builder().contractAgreementId(agreementId).build());
         when(endpointDataReference.getEndpoint()).thenReturn("endpoint");
         when(endpointDataReference.getAuthCode()).thenReturn("authCode");
         when(endpointDataReference.getAuthKey()).thenReturn("authKey");
         when(endpointDataReference.getEndpoint()).thenReturn(dataReferenceEndpoint);
-        when(endpointDataReferenceStorage.remove(agreementId)).thenReturn(Optional.ofNullable(endpointDataReference));
+        when(endpointDataReferenceStorage.get(agreementId)).thenReturn(Optional.ofNullable(endpointDataReference));
         when(objectMapper.writeValueAsString(any())).thenReturn("{body}");
 
         // when
@@ -123,13 +123,13 @@ class InvestigationsEDCFacadeTest {
         when(edcProperties.getIdsPath()).thenReturn(idsPath);
         when(edcCatalogFacade.fetchCatalogItems(any())).thenReturn(List.of(catalogItem));
         when(policyCheckerService.isValid(null)).thenReturn(true);
-        when(contractNegotiationService.negotiate(receiverEdcUrl + idsPath, catalogItem))
+        when(contractNegotiationService.negotiate(receiverEdcUrl + idsPath, catalogItem, null))
                 .thenReturn(NegotiationResponse.builder().contractAgreementId(agreementId).build());
         when(endpointDataReference.getEndpoint()).thenReturn("endpoint");
         when(endpointDataReference.getAuthCode()).thenReturn("authCode");
         when(endpointDataReference.getAuthKey()).thenReturn("authKey");
         when(endpointDataReference.getEndpoint()).thenReturn(dataReferenceEndpoint);
-        when(endpointDataReferenceStorage.remove(agreementId)).thenReturn(Optional.ofNullable(endpointDataReference));
+        when(endpointDataReferenceStorage.get(agreementId)).thenReturn(Optional.ofNullable(endpointDataReference));
         when(objectMapper.writeValueAsString(any())).thenReturn("{body}");
         doThrow(new RuntimeException()).when(httpCallService).sendRequest(any());
 
@@ -153,7 +153,7 @@ class InvestigationsEDCFacadeTest {
         when(edcProperties.getIdsPath()).thenReturn(idsPath);
         when(edcCatalogFacade.fetchCatalogItems(any())).thenReturn(List.of(catalogItem));
         when(policyCheckerService.isValid(null)).thenReturn(true);
-        when(contractNegotiationService.negotiate(receiverEdcUrl + idsPath, catalogItem))
+        when(contractNegotiationService.negotiate(receiverEdcUrl + idsPath, catalogItem, null))
                 .thenReturn(null);
 
         // when/then

@@ -51,7 +51,7 @@ public class PolicyController {
     @Operation(operationId = "policy",
             summary = "Get all policies ",
             tags = {"Policies"},
-            description = "The endpoint returns all policies  .",
+            description = "The endpoint returns all policies .",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the policies",
             content = {@Content(schema = @Schema(implementation = PolicyResponse.class))}),

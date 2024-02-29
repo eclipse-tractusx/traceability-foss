@@ -1,0 +1,4 @@
+DROP TABLE public.asset_as_planned_alert_notifications;
+DROP TABLE public.assets_as_planned_alerts;
+DROP TABLE public.assets_as_planned_investigations;
+DROP TABLE public.assets_as_planned_notifications;

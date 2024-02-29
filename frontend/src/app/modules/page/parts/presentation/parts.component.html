@@ -47,14 +47,14 @@ SPDX-License-Identifier: Apache-2.0
          matTooltipPosition="above"
          [class.mdc-tooltip--multiline]="true"
          [matTooltipShowDelay]="1000"
-         [matTooltipDisabled]="roleService.hasAccess(['wip'])"
+         [matTooltipDisabled]="roleService.hasAccess(['admin'])"
     >
       <app-button
               *ngIf="(allSelectedItems$ | async).length"
               (click)="isPublisherOpen$.next(true)"
               [variant]="'raised'"
               [color]="'accent'"
-              [isDisabled]="!roleService.hasAccess(['wip'])"
+              [isDisabled]="!roleService.hasAccess(['admin'])"
       >
         <div class="flex justify-between items-center text-dark p-0.5">
           <mat-icon class="mr-2">published_with_changes</mat-icon>
@@ -89,6 +89,7 @@ SPDX-License-Identifier: Apache-2.0
                              [multiSortList]="tableAsBuiltSortList"
                              [tableHeader]='"page.asBuiltParts" | i18n'
                              [tableType]="TableType.AS_BUILT_OWN"
+                             [mainAspectType]="MainAspectType.AS_BUILT"
             ></app-parts-table>
           </ng-template>
         </div>
@@ -115,6 +116,7 @@ SPDX-License-Identifier: Apache-2.0
                              [multiSortList]="tableAsPlannedSortList"
                              [tableHeader]='"page.asPlannedParts" | i18n'
                              [tableType]="TableType.AS_PLANNED_OWN"
+                             [mainAspectType]="MainAspectType.AS_PLANNED"
             ></app-parts-table>
 
           </ng-template>
@@ -129,7 +131,8 @@ SPDX-License-Identifier: Apache-2.0
   <app-sidenav-wrapper [isOpen]="isPublisherOpen$ | async" (sidenavAction)="isPublisherOpen$.next($event)">
     <app-asset-publisher
     [selectedAssets] = "allSelectedItems$ | async"
-    (submitted)="isPublisherOpen$.next(false)"
+    [isOpen]="isPublisherOpen$"
+    (submitted)="isPublisherOpen$.next(false); refreshPartsOnPublish($event);"
     ></app-asset-publisher>
   </app-sidenav-wrapper>
 
