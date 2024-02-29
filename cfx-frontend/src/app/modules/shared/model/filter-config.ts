@@ -7,28 +7,28 @@ export class FilterConfigOptions {
   private severityOptions = [
     {
       display: 'severity.' + Severity.MINOR,
-      value: 0,
+      value: Severity.MINOR,
       checked: false,
       severity: Severity.MINOR,
       iconURL: './assets/images/icons/info.svg',
     },
     {
       display: 'severity.' + Severity.MAJOR,
-      value: 1,
+      value: Severity.MAJOR,
       checked: false,
       severity: Severity.MAJOR,
       iconURL: './assets/images/icons/warning.svg',
     },
     {
       display: 'severity.' + Severity.CRITICAL,
-      value: 2,
+      value: Severity.CRITICAL,
       checked: false,
       severity: Severity.CRITICAL,
       iconURL: './assets/images/icons/error_outline.svg',
     },
     {
       display: 'severity.' + Severity.LIFE_THREATENING,
-      value: 3,
+      value: 'LIFE_THREATENING',
       checked: false,
       severity: Severity.LIFE_THREATENING,
       iconURL: './assets/images/icons/error.svg',

@@ -44,6 +44,7 @@ import { Role } from '@core/user/role.model';
 import { TableType } from '../multi-select-autocomplete/table-type.model';
 import { PartsTableConfigUtils } from '../parts-table/parts-table-config.utils';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
+import { TranslationContext } from '@shared/model/translation-context.model';
 
 @Component({
   selector: 'app-table',
@@ -182,12 +183,15 @@ export class TableComponent {
   ) { }
 
   ngOnInit() {
+    const isReceivedTable = this.tableType === TableType.RECEIVED_ALERT || this.tableType === TableType.RECEIVED_INVESTIGATION;
+    const translationContext = this.tableType === TableType.RECEIVED_ALERT || this.tableType === TableType.CREATED_ALERT ? TranslationContext.COMMONALERT : TranslationContext.COMMONINVESTIGATION;
+
     this.tableViewConfig = {
       displayedColumns: this.tableConfig?.displayedColumns,
       filterFormGroup: PartsTableConfigUtils.createFormGroup(this.tableConfig?.displayedColumns),
       filterColumns: PartsTableConfigUtils.createFilterColumns(this.tableConfig?.displayedColumns, false, true),
       sortableColumns: this.tableConfig?.sortableColumns,
-      displayFilterColumnMappings: PartsTableConfigUtils.generateFilterColumnsMapping(this.tableConfig?.sortableColumns, ['createdDate', 'targetDate'], [], false, true),
+      displayFilterColumnMappings: PartsTableConfigUtils.generateFilterColumnsMapping(this.tableConfig?.sortableColumns, ['createdDate', 'targetDate'], [], false, true, isReceivedTable, translationContext),
     };
 
     for (const controlName in this.tableViewConfig.filterFormGroup) {
@@ -197,14 +201,11 @@ export class TableComponent {
       }
     }
 
-    this.filterFormGroup.valueChanges.subscribe((formValues) => {
-      this.filterActivated.emit(formValues);
-    });
-
     this.tableSettingsService.getEvent().subscribe(() => {
       this.setupTableViewSettings();
     });
     this.setupTableViewSettings();
+
   }
 
   private async setupTableViewSettings() {
@@ -339,6 +340,7 @@ export class TableComponent {
   public onFilterValueChanged(formValues: { filterKey: string, values: any[] }) {
     const { filterKey, values } = formValues;
     this.filterFormGroup.controls[filterKey].patchValue(values);
+
     this.filterActivated.emit(this.filterFormGroup.value);
   }
 
