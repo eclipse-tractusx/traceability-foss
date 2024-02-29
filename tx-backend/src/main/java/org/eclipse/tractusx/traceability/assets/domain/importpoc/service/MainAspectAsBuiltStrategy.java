@@ -100,8 +100,11 @@ public class MainAspectAsBuiltStrategy implements MappingStrategy {
         final AtomicReference<String> van = new AtomicReference<>();
 
         List<DetailAspectModel> detailAspectModels = new ArrayList<>();
-        DetailAspectModel asBuiltDetailAspect = extractDetailAspectModelsAsBuilt(asBuiltAspect.manufacturingInformation(), asBuiltAspect.partTypeInformation());
-        detailAspectModels.add(asBuiltDetailAspect);
+        if(asBuiltAspect != null) {
+            DetailAspectModel asBuiltDetailAspect = extractDetailAspectModelsAsBuilt(
+                    asBuiltAspect.manufacturingInformation(), asBuiltAspect.partTypeInformation());
+            detailAspectModels.add(asBuiltDetailAspect);
+        }
 
         asBuiltAspect.localIdentifiers().stream().filter(localIdentifier -> localIdentifier.key().equals("partInstanceId")).findFirst().ifPresent(s -> {
             semanticModelId.set(s.value());

@@ -140,7 +140,7 @@ traceability:
   leftOperand: "CHANGEME" #<traceability.leftOperand>
   operatorType: "CHANGEME" #<traceability.operatorType>
   rightOperand: "CHANGEME" #<traceability.rightOperand>
-  validUntil: "CHANGEME" #<traceability.validUntil>
+  validUntil: 2023-07-04T16:01:05.309Z #<traceability.validUntil>
 
 datasource:
   url: jdbc:postgresql://traceability-foss-backend-postgresql:5432/trace
