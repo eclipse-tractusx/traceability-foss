@@ -226,7 +226,6 @@ SPDX-License-Identifier: Apache-2.0
                       [singleSearch]="filter.singleSearch"
                       [filterColumn]="filter.filterKey"
                       [tableType]="tableType"
-                      (triggerFilter)="triggerFilterAdding()"
                       (onFilterValueChanged)="onFilterValueChanged($event)"
                       [placeholderMultiple]="('multiSelect.multipleResults' | i18n)"
                       ngDefaultControl
@@ -252,14 +251,17 @@ SPDX-License-Identifier: Apache-2.0
                 <ng-container ng-container
                   *ngIf="column !== 'hasAlerts'"
                   [ngTemplateOutlet]="tableConfig?.cellRenderers?.[column] ? tableConfig?.cellRenderers?.[column] : autoFormat"
-                  [ngTemplateOutletContext]="{ value: element[column], row: element }">
+                  [ngTemplateOutletContext]="column === 'receivedActiveAlerts' ||
+                   column === 'receivedActiveInvestigations' ||
+                   column === 'sentActiveAlerts' ||
+                   column === 'sentActiveInvestigations' ? { value: element[column].length, row: element } :{ value: element[column], row: element }">
                 </ng-container>
               </ng-template>
             </span>
             <ng-container [ngSwitch]="column">
               <ng-container *ngSwitchCase="'hasAlerts'">
                 <span class="hasQualityAlerts"
-                  *ngIf="element['activeAlerts'] > 0">
+                  *ngIf="element['receivedActiveAlerts'] > 0">
                   <div class="alert-text">!</div>
                 </span>
               </ng-container>
