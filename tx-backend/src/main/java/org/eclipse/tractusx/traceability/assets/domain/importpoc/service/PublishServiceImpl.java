@@ -20,6 +20,7 @@ package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.irs.registryclient.decentral.exception.CreateDtrShellException;
 import org.eclipse.tractusx.traceability.assets.application.importpoc.PublishService;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
@@ -41,17 +42,27 @@ public class PublishServiceImpl implements PublishService {
 
     private final AssetAsPlannedRepository assetAsPlannedRepository;
     private final AssetAsBuiltRepository assetAsBuiltRepository;
+    private final DtrService dtrService;
+    private final EdcAssetCreationService edcAssetCreationService;
 
     @Override
     public void publishAssets(String policyId, List<String> assetIds) {
         //Update assets with policy id
         assetIds.forEach(this::throwIfNotExists);
 
-        log.info("Updating status of asPlannedAssets.");
-        updateAssetWithStatusAndPolicy(policyId, assetIds, assetAsPlannedRepository);
-        log.info("Updating status of asBuiltAssets.");
-        updateAssetWithStatusAndPolicy(policyId, assetIds, assetAsBuiltRepository);
+        edcAssetCreationService.createDtrAndSubmodelAssets();
+        // TODO: rethink how to refactor updateAssetsAndPolicyMethod so steps will be more visibe
+        try {
+            log.info("Updating status of asPlannedAssets.");
+            updateAssetWithStatusAndPolicy(policyId, assetIds, assetAsPlannedRepository);
+            log.info("Updating status of asBuiltAssets.");
+            updateAssetWithStatusAndPolicy(policyId, assetIds, assetAsBuiltRepository);
+        } catch (CreateDtrShellException e) {
+            throw new RuntimeException(e);
+        }
+
     }
+
     private void throwIfNotExists(String assetId) {
         if (!(assetAsBuiltRepository.existsById(assetId) || assetAsPlannedRepository.existsById(assetId))) {
             throw new PublishAssetException("No asset found with the provided ID: " + assetId);
@@ -59,7 +70,7 @@ public class PublishServiceImpl implements PublishService {
     }
 
 
-    private void updateAssetWithStatusAndPolicy(String policyId, List<String> assetIds, AssetRepository repository) {
+    private void updateAssetWithStatusAndPolicy(String policyId, List<String> assetIds, AssetRepository repository) throws CreateDtrShellException {
         List<AssetBase> assetList = repository.getAssetsById(assetIds);
         List<AssetBase> saveList = assetList.stream()
                 .filter(this::validTransientState)
@@ -69,6 +80,10 @@ public class PublishServiceImpl implements PublishService {
                     asset.setPolicyId(policyId);
                     return asset;
                 }).toList();
+
+        for (AssetBase assetBase : saveList) {
+            dtrService.createShellInDtr(assetBase);
+        }
 
         List<AssetBase> assetBases = repository.saveAll(saveList);
 
@@ -81,5 +96,4 @@ public class PublishServiceImpl implements PublishService {
         }
         throw new PublishAssetException("Asset with ID " + assetBase.getId() + " is not in TRANSIENT state.");
     }
-
 }

@@ -22,9 +22,12 @@ package org.eclipse.tractusx.traceability.assets.domain.importpoc.repository;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.GenericSubmodel;
 
 import java.util.List;
+import java.util.Map;
 
 public interface SubmodelPayloadRepository {
     void savePayloadForAssetAsBuilt(String assetId, List<GenericSubmodel> submodels);
 
     void savePayloadForAssetAsPlanned(String assetId, List<GenericSubmodel> submodels);
+
+    Map<String, String> getTypesAndPayloadsByAssetId(String assetId);
 }

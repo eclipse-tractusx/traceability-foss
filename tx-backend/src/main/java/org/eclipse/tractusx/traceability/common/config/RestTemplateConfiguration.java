@@ -84,6 +84,28 @@ public class RestTemplateConfiguration {
                 .build();
     }
 
+    @Bean
+    public RestTemplate edcDtrAssetRestTemplate(@Autowired EdcProperties edcProperties) {
+        return new RestTemplateBuilder()
+                .rootUri(edcProperties.getPartsProviderEdcControlplaneUrl())
+                .defaultHeader("Accept", MediaType.APPLICATION_JSON_VALUE)
+                .defaultHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+                .defaultHeader(EDC_API_KEY_HEADER_NAME, edcProperties.getApiAuthKey())
+                .setConnectTimeout(Duration.ofSeconds(10L))
+                .setReadTimeout(Duration.ofSeconds(25L))
+                .build();
+    }
+
+    @Bean
+    public RestTemplate digitalTwinRegistryCreateShellRestTemplate(
+            final RestTemplateBuilder restTemplateBuilder,
+            @Value("${digitalTwinRegistryClient.oAuthClientId}") final String clientRegistrationId) {
+        oAuthRestTemplate(restTemplateBuilder,
+                clientRegistrationId).build();
+        return oAuthRestTemplate(restTemplateBuilder,
+                clientRegistrationId).build();
+    }
+
     /* RestTemplate used by trace x for the notification transfer to the edc controlplane including edc api key*/
     @Bean
     public RestTemplate edcNotificationTemplate(@Autowired EdcProperties edcProperties) {

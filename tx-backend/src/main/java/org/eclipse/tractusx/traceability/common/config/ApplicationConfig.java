@@ -46,6 +46,7 @@ import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
 import org.eclipse.tractusx.irs.edc.client.policy.service.EdcPolicyDefinitionService;
 import org.eclipse.tractusx.irs.edc.client.transformer.EdcTransformer;
+import org.eclipse.tractusx.irs.registryclient.decentral.DigitalTwinRegistryCreateShellService;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.IrsService;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.PolicyResponse;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
@@ -54,6 +55,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -92,6 +94,9 @@ public class ApplicationConfig {
     @Autowired
     @Lazy
     IrsService irsService;
+
+    @Value("${registry.urlWithPath}")
+    String registryUrlWithPath;
 
 
     private final AcceptedPoliciesProvider.DefaultAcceptedPoliciesProvider defaultAcceptedPoliciesProvider;
@@ -226,5 +231,25 @@ public class ApplicationConfig {
     @Bean
     public EdcContractDefinitionService edcContractDefinitionService(EdcConfiguration edcConfiguration, RestTemplate edcNotificationAssetRestTemplate) {
         return new EdcContractDefinitionService(edcConfiguration, edcNotificationAssetRestTemplate);
+    }
+
+    @Bean
+    public EdcAssetService edcDtrAssetService(EdcConfiguration edcConfiguration, EdcTransformer edcTransformer, RestTemplate edcDtrAssetRestTemplate) {
+        return new EdcAssetService(edcTransformer, edcConfiguration, edcDtrAssetRestTemplate);
+    }
+
+    @Bean
+    public EdcPolicyDefinitionService edcDtrPolicyDefinitionService(EdcConfiguration edcConfiguration, RestTemplate edcDtrAssetRestTemplate) {
+        return new EdcPolicyDefinitionService(edcConfiguration, edcDtrAssetRestTemplate);
+    }
+
+    @Bean
+    public EdcContractDefinitionService edcDtrContractDefinitionService(EdcConfiguration edcConfiguration, RestTemplate edcDtrAssetRestTemplate) {
+        return new EdcContractDefinitionService(edcConfiguration, edcDtrAssetRestTemplate);
+    }
+
+    @Bean
+    public DigitalTwinRegistryCreateShellService dtrCreateShellService(RestTemplate digitalTwinRegistryCreateShellRestTemplate) {
+        return new DigitalTwinRegistryCreateShellService(digitalTwinRegistryCreateShellRestTemplate, registryUrlWithPath);
     }
 }

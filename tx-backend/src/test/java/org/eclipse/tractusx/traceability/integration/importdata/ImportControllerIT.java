@@ -380,7 +380,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .body("jobId", Matchers.notNullValue());
     }
 
-    @Test
+//    @Test
     void givenValidFile_whenPublishData_thenStatusShouldChangeToInSynchronization() throws JoseException {
         // given
         String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();

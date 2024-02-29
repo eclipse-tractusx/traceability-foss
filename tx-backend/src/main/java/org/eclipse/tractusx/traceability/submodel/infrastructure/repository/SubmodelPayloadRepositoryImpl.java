@@ -31,6 +31,7 @@ import org.eclipse.tractusx.traceability.submodel.infrastructure.model.SubmodelP
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 @RequiredArgsConstructor
@@ -51,5 +52,10 @@ public class SubmodelPayloadRepositoryImpl implements SubmodelPayloadRepository 
     public void savePayloadForAssetAsPlanned(String assetId, List<GenericSubmodel> submodels) {
         AssetAsPlannedEntity asset = jpaAssetAsPlannedRepository.findById(assetId).orElseThrow(() -> new AssetNotFoundException(ASSET_NOT_FOUND_EXCEPTION_TEMPLATE.formatted(assetId)));
         jpaSubmodelPayloadRepository.saveAll(SubmodelPayloadEntity.from(asset, submodels));
+    }
+
+    @Override
+    public Map<String, String> getTypesAndPayloadsByAssetId(String assetId) {
+        return null; // TODO implement
     }
 }

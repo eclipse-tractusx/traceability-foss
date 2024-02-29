@@ -98,6 +98,10 @@ spec:
               value: {{ .Values.edc.apiKey | quote }}
             - name: EDC_PROVIDER_URL
               value: {{ .Values.edc.providerUrl | quote }}
+            - name: PARTS_EDC_PROVIDER_URL
+              value: {{ .Values.edc.partsProviderUrl | quote }}
+            - name: REGISTRY_URL_WITH_PATH
+              value: {{ .Values.registry.urlWithPath | quote }}
             - name: SUBMODEL_URL
               value: {{ .Values.submodel.baseUrl | quote }}
             - name: IRS_URL

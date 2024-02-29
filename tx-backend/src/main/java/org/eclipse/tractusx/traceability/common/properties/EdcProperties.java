@@ -52,6 +52,14 @@ public class EdcProperties {
     private String providerEdcUrl;
 
     @NotBlank
+    @Value("${edc.parts-provider-edc-controlplane-url}")
+    private String partsProviderEdcControlplaneUrl;
+
+    @NotBlank
+    @Value("${edc.parts-provider-edc-dataplane-url}")
+    private String partsProviderEdcDataplaneUrl;
+
+    @NotBlank
     @Value("${edc.api-auth-key}")
     private String apiAuthKey;
 }
