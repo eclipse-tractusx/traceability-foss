@@ -36,7 +36,6 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.investigatio
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.service.InvestigationsReceiverService;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.NotificationType;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,7 +46,6 @@ import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanit
 @Slf4j
 @Hidden
 @RestController
-@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 @Validated
 @RequiredArgsConstructor
 public class EdcController {

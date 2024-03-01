@@ -43,12 +43,6 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
     @Autowired
     EdcSupport edcSupport;
 
-    /*
-     * TODO (Pooja):
-     * - Review and update PreAuthorize condition in EDCNotificationContract Controller as per Cofinity requirement
-     * - According to Cofinity requirement, only ADMIN has permission
-     * - According to Upstream requirement, ADMIN and SUPERVISOR have permission
-     */
     @Test
     void shouldCreateEdcContract() throws JoseException {
        // Given
@@ -85,12 +79,6 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
         edcSupport.verifyDeleteContractDefinitionEndpointCalledTimes(0);
     }
 
-    /*
-     * TODO (Pooja):
-     * - Review and update PreAuthorize condition in EDCNotificationContract Controller as per Cofinity requirement
-     * - According to Cofinity requirement, only ADMIN has permission
-     * - According to Upstream requirement, ADMIN and SUPERVISOR have permission
-     */
     @Test
     void shouldNotCreateEdcContractWhenNotificationAssetCreationFailed() throws JoseException {
        // Given
@@ -123,12 +111,6 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
         edcSupport.verifyDeleteContractDefinitionEndpointCalledTimes(0);
     }
 
-    /*
-     * TODO (Pooja):
-     * - Review and update PreAuthorize condition in EDCNotificationContract Controller as per Cofinity requirement
-     * - According to Cofinity requirement, only ADMIN has permission
-     * - According to Upstream requirement, ADMIN and SUPERVISOR have permission
-     */
     @Test
     void shouldNotCreateEdcContractAndDoRollbackWhenPolicyDefinitionCreationFailed() throws JoseException {
        // Given
@@ -164,12 +146,6 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
         edcSupport.verifyDeleteContractDefinitionEndpointCalledTimes(0);
     }
 
-    /*
-     * TODO (Pooja):
-     * - Review and update PreAuthorize condition in EDCNotificationContract Controller as per Cofinity requirement
-     * - According to Cofinity requirement, only ADMIN has permission
-     * - According to Upstream requirement, ADMIN and SUPERVISOR have permission
-     */
     @Test
     void shouldNotCreateEdcContractAndDoRollbackWhenContractDefinitionCreationFailed() throws JoseException {
        // Given
@@ -207,12 +183,6 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
         edcSupport.verifyDeleteContractDefinitionEndpointCalledTimes(0);
     }
 
-    /*
-     * TODO (Pooja):
-     * - Review and update PreAuthorize condition in EDCNotificationContract Controller as per Cofinity requirement
-     * - According to Cofinity requirement, only ADMIN has permission
-     * - According to Upstream requirement, ADMIN and SUPERVISOR have permission
-     */
     @Test
     void shouldNotCreateEdcContractWithoutAuthentication() {
         given()
@@ -231,12 +201,6 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
                 .statusCode(401);
     }
 
-    /*
-     * TODO (Pooja):
-     * - Review and update PreAuthorize condition in EDCNotificationContract Controller as per Cofinity requirement
-     * - According to Cofinity requirement, only ADMIN has permission
-     * - According to Upstream requirement, ADMIN and SUPERVISOR have permission
-     */
     @Test
     void shouldNotCreateEdcContractHavingSupervisorRole() throws JoseException {
         given()
@@ -256,12 +220,6 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
                 .statusCode(403);
     }
 
-    /*
-     * TODO (Pooja):
-     * - Review and update PreAuthorize condition in EDCNotificationContract Controller as per Cofinity requirement
-     * - According to Cofinity requirement, only ADMIN has permission
-     * - According to Upstream requirement, ADMIN and SUPERVISOR have permission
-     */
     @Test
     void shouldNotCreateEdcContractHavingUserRole() throws JoseException {
         given()
@@ -281,12 +239,6 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
                 .statusCode(403);
     }
 
-    /*
-     * TODO (Pooja):
-     * - Review and update PreAuthorize condition in EDCNotificationContract Controller as per Cofinity requirement
-     * - According to Cofinity requirement, only ADMIN has permission
-     * - According to Upstream requirement, ADMIN and SUPERVISOR have permission
-     */
     @ParameterizedTest
     @MethodSource("invalidRequests")
     void shouldNotCreateEdcContractWithInvalidRequest(
@@ -311,12 +263,6 @@ class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
                 .statusCode(400);
     }
 
-    /*
-     * TODO (Pooja):
-     * - Review and update PreAuthorize condition in EDCNotificationContract Controller as per Cofinity requirement
-     * - According to Cofinity requirement, only ADMIN has permission
-     * - According to Upstream requirement, ADMIN and SUPERVISOR have permission
-     */
     @Test
     void shouldNotCreateEdcContractForQualityAlertBecauseItsNotYetImplemented() throws JoseException {
         given()

@@ -25,13 +25,11 @@ import org.eclipse.tractusx.traceability.integration.common.support.AssetsSuppor
 import org.eclipse.tractusx.traceability.integration.common.support.repository.AssetAsBuiltSupportRepository;
 import org.eclipse.tractusx.traceability.integration.common.support.repository.BpnSupportRepository;
 import org.eclipse.tractusx.traceability.integration.common.support.IrsApiSupport;
-import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 
 class IrsCallbackControllerIT extends IntegrationTestSpecification {
 
@@ -49,8 +47,8 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
 
 
     @Test
-    void givenNoAssets_whenCallbackReceived_thenSaveThem() throws JoseException {
-       // Given
+    void givenNoAssets_whenCallbackReceived_thenSaveThem() {
+        // Given
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         irsApiSupport.irsApiReturnsJobDetails();
         String jobId = "ebb79c45-7bba-4169-bf17-3e719989ab54";
@@ -59,7 +57,6 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
         // When
         given()
                 .contentType(ContentType.JSON)
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .log().all()
                 .when()
                 .param("id", jobId)
@@ -69,15 +66,15 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
                 .log().all()
                 .statusCode(200);
 
-       // Then
+        // Then
         assertThat(bpnSupportRepository.findAll()).hasSize(6);
         assetsSupport.assertAssetAsBuiltSize(15);
         assetsSupport.assertAssetAsPlannedSize(0);
     }
 
     @Test
-    void givenNoAssets_whenCallbackReceivedForAsPlanned_thenSaveThem() throws JoseException {
-       // Given
+    void givenNoAssets_whenCallbackReceivedForAsPlanned_thenSaveThem() {
+        // Given
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         irsApiSupport.irsJobDetailsAsPlanned();
         String jobId = "ebb79c45-7bba-4169-bf17-SUCCESSFUL_AS_PLANNED";
@@ -86,7 +83,6 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
         // When
         given()
                 .contentType(ContentType.JSON)
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .log().all()
                 .when()
                 .param("id", jobId)
@@ -96,15 +92,15 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
                 .log().all()
                 .statusCode(200);
 
-       // Then
+        // Then
         assertThat(bpnSupportRepository.findAll()).hasSize(2);
         assetsSupport.assertAssetAsBuiltSize(0);
         assetsSupport.assertAssetAsPlannedSize(2);
     }
 
     @Test
-    void givenAssetExist_whenCallbackReceived_thenUpdateIt() throws JoseException {
-       // Given
+    void givenAssetExist_whenCallbackReceived_thenUpdateIt() {
+        // Given
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         irsApiSupport.irsApiReturnsJobDetails();
         String jobId = "ebb79c45-7bba-4169-bf17-3e719989ab54";
@@ -113,7 +109,6 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
         // When
         given()
                 .contentType(ContentType.JSON)
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .log().all()
                 .when()
                 .param("id", jobId)
@@ -125,7 +120,6 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
 
         given()
                 .contentType(ContentType.JSON)
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .log().all()
                 .when()
                 .param("id", jobId)
@@ -135,7 +129,7 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
                 .log().all()
                 .statusCode(200);
 
-       // Then
+        // Then
         assertThat(bpnSupportRepository.findAll()).hasSize(6);
         assetsSupport.assertAssetAsBuiltSize(15);
         assetsSupport.assertAssetAsPlannedSize(0);
