@@ -31,7 +31,7 @@ abstract Asset {
         nameAtManufacturer : String  (max = 255) /' partTypeInformation.nameAtManufacturer '/
         manufacturerPartId : String (max = 255) /' partTypeInformation.manufacturerPartId '/
         version: String (max = 20)  /' semantic version String 1.1.1'/
-        semantic-model-id: String (max = 255) /' identification  random id of semantic model '/
+        semantic-model-id: String (max = 255) /' identification random id of semantic model '/
 
         assetSyncStatus : AssetSyncStatus /' Status of asset in database'/
         owner : OwnerResponse
