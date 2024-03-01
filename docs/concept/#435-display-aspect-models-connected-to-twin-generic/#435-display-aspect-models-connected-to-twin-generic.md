@@ -42,6 +42,7 @@ Trace-X will be developed to generically handle different existing and planned s
 - [ ] Display of digital twin connected semantic models payload as tree view in Trace-X FE
 - [ ] Semantic Model is displayed with version of semantic model
 - [ ] Line numbering for raw and tree viewer
+- [ ] API endpoints response bodies are extended with required attributes version and payload for Semantic Model Detail View Panel
 
 # NFR
 - [ ] Panel with consistent UUX according to C-X Style Guide
