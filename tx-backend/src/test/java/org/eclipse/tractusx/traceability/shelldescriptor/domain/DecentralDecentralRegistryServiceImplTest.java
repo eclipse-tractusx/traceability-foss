@@ -18,6 +18,11 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.shelldescriptor.domain;
 
+import org.eclipse.tractusx.irs.component.Shell;
+import org.eclipse.tractusx.irs.component.assetadministrationshell.AssetAdministrationShellDescriptor;
+import org.eclipse.tractusx.irs.component.assetadministrationshell.Reference;
+import org.eclipse.tractusx.irs.component.assetadministrationshell.SemanticId;
+import org.eclipse.tractusx.irs.component.assetadministrationshell.SubmodelDescriptor;
 import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.service.AssetAsPlannedServiceImpl;
@@ -58,15 +63,55 @@ class DecentralRegistryServiceImplTest {
 
     @Test
     void testUpdateShellDescriptorAndSynchronizeAssets() throws RegistryServiceException {
-       // Given
+        // Given
+        AssetAdministrationShellDescriptor asBuilt = AssetAdministrationShellDescriptor.builder()
+                .globalAssetId("id1")
+                .submodelDescriptors(List.of(
+                        SubmodelDescriptor.builder()
+                                .semanticId(
+                                        Reference.builder()
+                                                .keys(List.of(
+                                                                SemanticId.builder()
+                                                                        .type("GlobalReference")
+                                                                        .value("urn:bamm:io.catenax.single_level_usage_as_built:2.0.0#SerialPart").build()
+                                                        )
+                                                )
+                                                .build()
+                                )
+                                .build()
+                ))
+                .build();
+        AssetAdministrationShellDescriptor asPlanned = AssetAdministrationShellDescriptor.builder()
+                .globalAssetId("id2")
+                .submodelDescriptors(List.of(
+                        SubmodelDescriptor.builder()
+                                .semanticId(
+                                        Reference.builder()
+                                                .keys(List.of(
+                                                                SemanticId.builder()
+                                                                        .type("GlobalReference")
+                                                                        .value("urn:bamm:io.catenax.single_level_usage_as_built:2.0.0#PartAsPlanned").build()
+                                                        )
+                                                )
+                                                .build()
+                                )
+                                .build()
+                ))
+                .build();
+
+        Shell asBuiltShell = Shell.builder()
+                .payload(asBuilt).build();
+
+        Shell asPlannedShell = Shell.builder()
+                .payload(asPlanned).build();
         when(traceabilityProperties.getBpn()).thenReturn(BPN.of("test"));
-        when(decentralRegistryRepository.retrieveShellDescriptorsByBpn(BPN.of("test").toString())).thenReturn(List.of("id1","id2"));
+        when(decentralRegistryRepository.retrieveShellDescriptorsByBpn(BPN.of("test").toString())).thenReturn(List.of(asBuiltShell, asPlannedShell));
 
         // When
         registryFacade.synchronizeAssets();
 
-       // Then
-        verify(assetAsBuiltService, times(2)).synchronizeAssetsAsync(any(String.class));
-        verify(assetAsPlannedService, times(2)).synchronizeAssetsAsync(any(String.class));
+        // Then
+        verify(assetAsBuiltService, times(1)).synchronizeAssetsAsync(any(String.class));
+        verify(assetAsPlannedService, times(1)).synchronizeAssetsAsync(any(String.class));
     }
 }

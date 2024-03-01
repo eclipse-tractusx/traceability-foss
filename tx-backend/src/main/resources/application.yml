@@ -18,7 +18,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 ################################################################################
-
 traceability:
   bpn: ${TRACEABILITY_BPN}
   url: ${TRACEABILITY_URL}
@@ -26,6 +25,10 @@ traceability:
   operatorType: ${TRACEABILITY_OPERATOR_TYPE}
   rightOperand: ${TRACEABILITY_RIGHT_OPERAND}
   validUntil: ${TRACEABILITY_VALID_UNTIL}
+  adminApiKey: ${IRS_ADMIN_API_KEY}
+  regularApiKey: ${IRS_REGULAR_API_KEY}
+  irsBase: ${IRS_URL}
+  submodelBase: ${SUBMODEL_URL}
   supportedAspectTypes:
     asBuiltTypes:
         mainAsBuiltAspectType:
@@ -65,18 +68,18 @@ traceability:
             - "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned"
 edc:
   ids:
-    path: /api/v1/dsp
-  negotiation: /management/v2/contractnegotiations
-  contractdefinitions: /management/v2/contractdefinitions
-  transfer: /management/v2/transferprocesses
+    path: "/api/v1/dsp"
+  negotiation: "/management/v2/contractnegotiations"
+  contractdefinitions: "/management/v2/contractdefinitions"
+  transfer: "/management/v2/transferprocesses"
   catalog:
-    path: /management/v2/catalog/request
+    path: "/management/v2/catalog/request"
     cache:
       enabled: false # Set to false to disable caching
       ttl: P1D # Time after which a cached Item is no longer valid and the real catalog is called instead
       maxCachedItems: 64000 # Maximum amount of cached catalog items
-  policydefinitions: /management/v2/policydefinitions
-  assets: /management/v2/assets
+  policydefinitions: "/management/v2/policydefinitions"
+  assets: "/management/v2/assets"
   api-auth-key: ${EDC_API_KEY}
   bpn-provider-url-mappings: { }
   provider-edc-url: ${EDC_PROVIDER_URL}
@@ -109,6 +112,11 @@ irs-edc-client:
     timeout:
       read: PT90S # HTTP read timeout for the submodel client
       connect: PT90S # HTTP connect timeout for the submodel client
+  discoveryFinderClient:
+    cacheTTL: PT24H  # Time to live for DiscoveryFinderClient for findDiscoveryEndpoints method cache
+  connectorEndpointService:
+    cacheTTL: PT24H  # Time to live for ConnectorEndpointService for fetchConnectorEndpoints method cache
+
 
 server:
   servlet:
@@ -166,21 +174,7 @@ spring:
 
 jwt:
   resource-client: ${JWT_RESOURCE_CLIENT}
-
 feign:
-  submodelApi:
-    url: ${SUBMODEL_URL}
-  irsApi:
-    url: ${IRS_URL}
-    adminApiKey: ${IRS_ADMIN_API_KEY}
-    regularApiKey: ${IRS_REGULAR_API_KEY}
-
-  portalApi:
-    url: ${PORTAL_URL}
-  okhttp:
-    enabled: true
-  hystrix:
-    enabled: false
   default:
     connectionTimeoutMillis: 200
     readTimeoutMillis: 500
@@ -198,21 +192,6 @@ cors:
     ${ALLOWED_CORS_ORIGIN_FIRST},
     ${ALLOWED_CORS_ORIGIN_SECOND}
 
-resilience4j:
-  retry:
-    instances:
-      irs-get:
-        resultPredicate: 'org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.JobRunning'
-        maxAttempts: 10
-        waitDuration: 30s
-        enableExponentialBackoff: true
-        exponentialBackoffMultiplier: 2
-      registry:
-        maxAttempts: 20
-        waitDuration: 10s
-        enableExponentialBackoff: true
-        exponentialBackoffMultiplier: 1
-
 digitalTwinRegistryClient:
   shellDescriptorTemplate: /shell-descriptors/{aasIdentifier} # The path to retrieve AAS descriptors from the decentral DTR, must contain the placeholder {aasIdentifier}
   lookupShellsTemplate: /lookup/shells?assetIds={assetIds} # The path to lookup shells from the decentral DTR, must contain the placeholder {assetIds}
@@ -221,3 +200,4 @@ digitalTwinRegistryClient:
   discoveryFinderUrl: ${DISCOVERY_FINDER_URL_WITH_PATH}
   descriptorEndpoint: "" # required if type is "central", must contain the placeholder {aasIdentifier}
   shellLookupEndpoint: "" # required if type is "central", must contain the placeholder {assetIds}
+

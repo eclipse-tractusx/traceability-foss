@@ -202,7 +202,7 @@ public class AssetAsBuiltController {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns a distinct filter values for given fieldName.", content = @Content(
             mediaType = "application/json",
             array = @ArraySchema(
-                    arraySchema = @Schema(
+                    schema = @Schema(
                             description = "FilterValues",
                             implementation = String.class,
                             additionalProperties = Schema.AdditionalPropertiesValue.FALSE
@@ -266,7 +266,7 @@ public class AssetAsBuiltController {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the assets found", content = @Content(
             mediaType = "application/json",
             array = @ArraySchema(
-                    arraySchema = @Schema(
+                    schema = @Schema(
                             description = "AssetMap",
                             implementation = Map.class,
                             additionalProperties = Schema.AdditionalPropertiesValue.FALSE
@@ -374,7 +374,7 @@ public class AssetAsBuiltController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/{assetId}")
-    public AssetAsBuiltResponse asset(@PathVariable String assetId) {
+    public AssetAsBuiltResponse getAssetById(@PathVariable String assetId) {
         return AssetAsBuiltResponseMapper.from(assetBaseService.getAssetById(assetId));
     }
 
@@ -429,8 +429,8 @@ public class AssetAsBuiltController {
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
-    @GetMapping("/{assetId}/children/{childId}")
-    public AssetAsBuiltResponse asset(@PathVariable String assetId, @PathVariable String childId) {
+    @GetMapping("/*/children/{childId}")
+    public AssetAsBuiltResponse getAssetChildId(@PathVariable String childId) {
         return AssetAsBuiltResponseMapper.from(assetBaseService.getAssetByChildId(childId));
     }
 
@@ -498,7 +498,7 @@ public class AssetAsBuiltController {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found for Asset", content = @Content(
             mediaType = "application/json",
             array = @ArraySchema(
-                    arraySchema = @Schema(
+                    schema = @Schema(
                             description = "Assets",
                             implementation = AssetAsBuiltResponse.class,
                             additionalProperties = Schema.AdditionalPropertiesValue.FALSE

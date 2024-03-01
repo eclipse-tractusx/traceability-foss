@@ -29,17 +29,15 @@ import java.util.List;
 public class DatabaseSupport {
     private static final List<String> TABLES = List.of(new String[]{
             "submodel_payload",
+            "import_job_assets_as_built",
+            "import_job_assets_as_planned",
             "assets_as_built_childs",
             "assets_as_built_parents",
             "assets_as_built_notifications",
             "assets_as_built_investigations",
             "asset_as_built_alert_notifications",
-            "asset_as_planned_alert_notifications",
             "assets_as_built_alerts",
             "assets_as_planned_childs",
-            "assets_as_planned_notifications",
-            "assets_as_planned_investigations",
-            "assets_as_planned_alerts",
             "alert_notification",
             "alert",
             "assets_as_built",
@@ -47,7 +45,8 @@ public class DatabaseSupport {
             "bpn_storage",
             "investigation_notification",
             "investigation",
-            "traction_battery_code_subcomponent"
+            "traction_battery_code_subcomponent",
+            "import_job"
     });
 
     @Autowired

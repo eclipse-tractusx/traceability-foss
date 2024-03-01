@@ -51,7 +51,7 @@ public class RestitoConfig {
                     "spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://127.0.0.1:" + STUB_SERVER_PORT + OAUTH2_JWK_PATH,
                     "spring.security.oauth2.client.provider.OKTA.token-uri=http://127.0.0.1:" + STUB_SERVER_PORT + OAUTH2_TOKEN_PATH,
                     "feign.bpnApi.url=http://127.0.0.1:" + STUB_SERVER_PORT,
-                    "feign.irsApi.url=http://127.0.0.1:" + STUB_SERVER_PORT,
+                    "traceability.irsBase=http://127.0.0.1:" + STUB_SERVER_PORT,
                     "feign.portalApi.url=http://127.0.0.1:" + STUB_SERVER_PORT,
                     "feign.irsApi.globalAssetId=testAssetId",
                     "feign.registryApi.url=http://127.0.0.1:" + STUB_SERVER_PORT,

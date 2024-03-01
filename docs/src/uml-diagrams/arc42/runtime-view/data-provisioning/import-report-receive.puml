@@ -1,0 +1,39 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+autonumber "<b>[000]"
+
+actor TraceXApiConsumer
+activate TraceXApiConsumer
+
+box "Trace-X FOSS" #LightGrey
+participant TraceXAPI
+activate TraceXAPI
+participant ImportController
+activate ImportController
+participant ImportService
+activate ImportService
+participant ImportJobRepository
+activate ImportJobRepository
+participant JpaImportJobRepository
+activate JpaImportJobRepository
+database TracexDatabase
+
+TraceXApiConsumer -> TraceXAPI : GET /assets/import/report/{importJobId}
+TraceXAPI -> ImportController :  getImportReport
+ImportController -> ImportService :  getImportJob(importJobId)
+ImportService -> ImportJobRepository: getImportJob(importJobId)
+ImportJobRepository -> JpaImportJobRepository: getReferenceById(importJobId)
+JpaImportJobRepository -> TracexDatabase : find import job with associated assets
+
+JpaImportJobRepository <-- TracexDatabase
+ImportJobRepository <-- JpaImportJobRepository
+ImportService <-- ImportJobRepository
+ImportController <-- ImportService
+TraceXAPI <-- ImportController
+TraceXApiConsumer <-- TraceXAPI : map ImportJob to ImportReportResponse
+
+
+
+
+@enduml

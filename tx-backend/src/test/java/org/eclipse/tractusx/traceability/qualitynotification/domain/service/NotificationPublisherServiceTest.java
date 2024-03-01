@@ -35,6 +35,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.exception.QualityNotificationIllegalUpdate;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.EdcNotificationService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.NotificationPublisherService;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.NotificationNotSupportedException;
 import org.eclipse.tractusx.traceability.testdata.AssetTestDataFactory;
 import org.eclipse.tractusx.traceability.testdata.InvestigationTestDataFactory;
 import org.junit.jupiter.api.DisplayName;
@@ -102,6 +103,16 @@ class NotificationPublisherServiceTest {
         assertThat(result.getNotifications()).extracting("severity")
                 .containsExactly(QualityNotificationSeverity.MINOR);
         verify(assetRepository).getAssetsById(Arrays.asList("asset-1", "asset-2"));
+    }
+
+    @Test
+    void testThrowNotificationNotSupportedException() {
+        // Given
+        String description = "Test investigation";
+        String receiverBpn = "someReceiverBpn";
+
+        // Then
+        assertThrows(NotificationNotSupportedException.class, () -> notificationPublisherService.startInvestigation(Arrays.asList("asset-1", "asset-2"), description, Instant.parse("2022-03-01T12:00:00Z"), QualityNotificationSeverity.MINOR, receiverBpn, false));
     }
 
     @Test

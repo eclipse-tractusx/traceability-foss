@@ -20,16 +20,7 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  CanActivateChild,
-  CanDeactivate,
-  CanMatch,
-  Router,
-  RouterStateSnapshot,
-  UrlTree,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Role } from './role.model';
 import { RoleService } from './role.service';
@@ -39,7 +30,7 @@ type GuardValue = Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | b
 @Injectable({
   providedIn: 'root',
 })
-export class RoleGuard implements CanActivate, CanActivateChild, CanDeactivate<unknown>, CanMatch {
+export class RoleGuard  {
   constructor(private readonly roleService: RoleService, private readonly router: Router) {
   }
 

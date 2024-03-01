@@ -51,7 +51,7 @@ jobs:
 
       - name: upload results
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           path: DEPENDENCIES_FRONTEND
 
@@ -67,7 +67,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Cache maven packages
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
@@ -79,6 +79,7 @@ jobs:
 
       - name: upload results
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           path: DEPENDENCIES_BACKEND
+          overwrite: true

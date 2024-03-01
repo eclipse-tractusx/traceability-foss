@@ -25,10 +25,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.HttpUrl;
-import okhttp3.MediaType;
-import okhttp3.Request;
-import okhttp3.RequestBody;
 import org.eclipse.edc.catalog.spi.CatalogRequest;
 import org.eclipse.edc.spi.query.Criterion;
 import org.eclipse.edc.spi.query.QuerySpec;
@@ -38,8 +34,6 @@ import org.eclipse.tractusx.irs.edc.client.EDCCatalogFacade;
 import org.eclipse.tractusx.irs.edc.client.EndpointDataReferenceStorage;
 import org.eclipse.tractusx.irs.edc.client.model.CatalogItem;
 import org.eclipse.tractusx.irs.edc.client.policy.PolicyCheckerService;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotificationFactory;
 import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.ContractNegotiationException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.NoCatalogItemException;
@@ -47,10 +41,12 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.excepti
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.SendNotificationException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotificationFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 import static org.eclipse.tractusx.traceability.common.config.JsonLdConfigurationTraceX.NAMESPACE_EDC;
@@ -61,8 +57,6 @@ import static org.eclipse.tractusx.traceability.common.config.JsonLdConfiguratio
 public class InvestigationsEDCFacade {
 
     public static final String DEFAULT_PROTOCOL = "dataspace-protocol-http";
-
-    private static final MediaType JSON = MediaType.get("application/json");
 
     private final HttpCallService httpCallService;
 
@@ -89,14 +83,14 @@ public class InvestigationsEDCFacade {
 
         String contractAgreementId = negotiateContractAgreement(receiverEdcUrl, catalogItem);
 
-        final EndpointDataReference dataReference = endpointDataReferenceStorage.remove(contractAgreementId)
+        final EndpointDataReference dataReference = endpointDataReferenceStorage.get(contractAgreementId)
                 .orElseThrow(() -> new NoEndpointDataReferenceException("No EndpointDataReference was found"));
 
         notification.setContractAgreementId(contractAgreementId);
         notification.setEdcUrl(receiverEdcUrl);
 
         try {
-            Request notificationRequest = buildNotificationRequestNew(notification, senderEdcUrl, dataReference);
+            EdcNotificationRequest notificationRequest = buildNotificationRequestNew(notification, senderEdcUrl, dataReference);
             httpCallService.sendRequest(notificationRequest);
         } catch (Exception e) {
             throw new SendNotificationException("Failed to send notification.", e);
@@ -104,8 +98,10 @@ public class InvestigationsEDCFacade {
     }
 
     private String negotiateContractAgreement(final String receiverEdcUrl, final CatalogItem catalogItem) {
+
         try {
-            return Optional.ofNullable(contractNegotiationService.negotiate(receiverEdcUrl + edcProperties.getIdsPath(), catalogItem))
+            log.info("Negotiation of contract agreement for receiverEdcUrl {} and catalogItem {}", receiverEdcUrl, catalogItem);
+            return Optional.ofNullable(contractNegotiationService.negotiate(receiverEdcUrl + edcProperties.getIdsPath(), catalogItem, null))
                     .orElseThrow()
                     .getContractAgreementId();
         } catch (Exception e) {
@@ -120,7 +116,7 @@ public class InvestigationsEDCFacade {
             return edcCatalogFacade.fetchCatalogItems(
                             CatalogRequest.Builder.newInstance()
                                     .protocol(DEFAULT_PROTOCOL)
-                                    .providerUrl(receiverEdcUrl + edcProperties.getIdsPath())
+                                    .counterPartyAddress(receiverEdcUrl + edcProperties.getIdsPath())
                                     .querySpec(QuerySpec.Builder.newInstance()
                                             .filter(
                                                     List.of(new Criterion(NAMESPACE_EDC + "notificationtype", "=", propertyNotificationTypeValue),
@@ -138,8 +134,8 @@ public class InvestigationsEDCFacade {
         }
     }
 
-    // TODO this method should be completely handled by EDCNotificationFactory.createEdcNotification which is part of this method currently
-    private Request buildNotificationRequestNew(
+    // TODO this method should be completly handled by EDCNotificationFactory.createEdcNotification which is part of this method currently
+    private EdcNotificationRequest buildNotificationRequestNew(
             final QualityNotificationMessage notification,
             final String senderEdcUrl,
             final EndpointDataReference dataReference
@@ -148,14 +144,14 @@ public class InvestigationsEDCFacade {
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         String body = objectMapper.writeValueAsString(edcNotification);
 
-        HttpUrl url = Objects.requireNonNull(HttpUrl.parse(dataReference.getEndpoint())).newBuilder().build();
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(dataReference.getAuthKey(), dataReference.getAuthCode());
+        headers.set("Content-Type", "application/json");
         log.info(":::: Send notification Data  body :{}, dataReferenceEndpoint :{}", body, dataReference.getEndpoint());
-        return new Request.Builder()
-                .url(url)
-                .addHeader(dataReference.getAuthKey(), dataReference.getAuthCode())
-                .addHeader("Content-Type", JSON.type())
-                .post(RequestBody.create(body, JSON))
-                .build();
+        return EdcNotificationRequest.builder()
+                .url(dataReference.getEndpoint())
+                .body(body)
+                .headers(headers).build();
     }
 
 }

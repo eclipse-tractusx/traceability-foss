@@ -29,19 +29,19 @@ SPDX-License-Identifier: Apache-2.0
       <p
         class="regular-text table&#45;&#45;selected&#45;&#45;label">{{ selectedPartsInfoLabel | i18n : {count: selection?.selected?.length || 0} }}</p>
       <div class="table--header--select--button"
-           matTooltip="{{'routing.unauthorized' | i18n}}"
+           matTooltip="{{(mainAspectType === MainAspectType.AS_PLANNED ? 'routing.notAllowedForAsPlanned' : 'routing.unauthorized') | i18n}}"
            matTooltipClass="table--header--tooltip"
            matTooltipPosition="above"
            [class.mdc-tooltip--multiline]="true"
            [matTooltipShowDelay]="1000"
-           [matTooltipDisabled]="roleService.hasAccess(['user','supervisor'])"
+           [matTooltipDisabled]="roleService.hasAccess(['user','supervisor']) && mainAspectType === MainAspectType.AS_BUILT"
       >
         <app-button
-          *ngIf="selection?.selected?.length && (tableType !== TableType.AS_PLANNED_CUSTOMER && tableType !== TableType.AS_BUILT_CUSTOMER)"
+          *ngIf="selection?.selected?.length"
           (click)="clickSelectAction.emit()"
           [variant]="'raised'"
           [color]="'accent'"
-          [isDisabled]="!roleService.hasAccess(['user','supervisor'])"
+          [isDisabled]="!roleService.hasAccess(['user','supervisor']) || mainAspectType === MainAspectType.AS_PLANNED"
         >
           <div class="flex justify-between items-center text-dark p-0.5">
             <mat-icon class="mr-2">announcement</mat-icon>
@@ -153,6 +153,7 @@ SPDX-License-Identifier: Apache-2.0
           </mat-menu>
         </th>
         <td *matCellDef="let row" mat-cell>
+          <div class="flex justify-start items-center">
           <mat-checkbox
             [checked]="isSelected(row)"
             (click)="$event.stopPropagation()"
@@ -161,6 +162,16 @@ SPDX-License-Identifier: Apache-2.0
             color="primary"
           >
           </mat-checkbox>
+          <ng-container *ngIf="row['tombStoneErrorDetail']">
+            <mat-icon          matTooltip="{{'table.tombStone' | i18n}}"
+                               matTooltipClass="table--header--tooltip"
+                               matTooltipPosition="above"
+                               [class.mdc-tooltip--multiline]="true"
+                               [matTooltipShowDelay]="1000"
+                               class="text-error"
+            >nearby_error</mat-icon>
+          </ng-container>
+          </div>
         </td>
       </ng-container>
     </ng-template>

@@ -18,6 +18,11 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.rest;
 
+import org.eclipse.tractusx.irs.component.Shell;
+import org.eclipse.tractusx.irs.component.assetadministrationshell.AssetAdministrationShellDescriptor;
+import org.eclipse.tractusx.irs.component.assetadministrationshell.Reference;
+import org.eclipse.tractusx.irs.component.assetadministrationshell.SemanticId;
+import org.eclipse.tractusx.irs.component.assetadministrationshell.SubmodelDescriptor;
 import org.eclipse.tractusx.irs.registryclient.decentral.DecentralDigitalTwinRegistryService;
 import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
 import org.junit.jupiter.api.Test;
@@ -26,7 +31,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -42,34 +46,79 @@ class DecentralRegistryRepositoryImplTest {
 
     @Test
     void testRetrieveShellDescriptorsByBpnSuccess() throws RegistryServiceException {
-       // Given
+        // Given
         String bpn = "12345";
-        List<String> globalAssetIds = Arrays.asList("asset1", "asset2");
+        AssetAdministrationShellDescriptor asBuilt = AssetAdministrationShellDescriptor.builder()
+                .id("shellId1")
+                .globalAssetId("id1")
+                .submodelDescriptors(List.of(
+                        SubmodelDescriptor.builder()
+                                .semanticId(
+                                        Reference.builder()
+                                                .keys(List.of(
+                                                                SemanticId.builder()
+                                                                        .type("GlobalReference")
+                                                                        .value("urn:bamm:io.catenax.single_level_usage_as_built:2.0.0#SerialPart").build()
+                                                        )
+                                                )
+                                                .build()
+                                )
+                                .build()
+                ))
+                .build();
+        AssetAdministrationShellDescriptor asPlanned = AssetAdministrationShellDescriptor.builder()
+                .id("shellId2")
+                .globalAssetId("id2")
+                .submodelDescriptors(List.of(
+                        SubmodelDescriptor.builder()
+                                .semanticId(
+                                        Reference.builder()
+                                                .keys(List.of(
+                                                                SemanticId.builder()
+                                                                        .type("GlobalReference")
+                                                                        .value("urn:bamm:io.catenax.single_level_usage_as_built:2.0.0#PartAsPlanned").build()
+                                                        )
+                                                )
+                                                .build()
+                                )
+                                .build()
+                ))
+                .build();
 
-        when(decentralDigitalTwinRegistryService.lookupGlobalAssetIds(bpn)).thenReturn(globalAssetIds);
+        Shell asBuiltShell = Shell.builder()
+                .payload(asBuilt)
+                .build();
+
+        Shell asPlannedShell = Shell.builder()
+                .payload(asPlanned)
+                .build();
+
+        List<Shell> shells = List.of(asBuiltShell, asPlannedShell);
+
+        when(decentralDigitalTwinRegistryService.lookupShellsByBPN(bpn)).thenReturn(shells);
 
         decentralRegistryRepository = new DecentralRegistryRepositoryImpl(decentralDigitalTwinRegistryService);
 
         // When
-        List<String> actualDescriptors = decentralRegistryRepository.retrieveShellDescriptorsByBpn(bpn);
+        List<Shell> actualDescriptors = decentralRegistryRepository.retrieveShellDescriptorsByBpn(bpn);
 
-       // Then
-        assertThat(actualDescriptors).containsExactlyInAnyOrderElementsOf(List.of("asset1", "asset2"));
+        // Then
+        assertThat(actualDescriptors).containsExactlyInAnyOrderElementsOf(shells);
     }
 
     @Test
     void testRetrieveShellDescriptorsByBpnRegistryServiceException() throws RegistryServiceException {
-       // Given
+        // Given
         String bpn = "12345";
 
-        when(decentralDigitalTwinRegistryService.lookupGlobalAssetIds(bpn)).thenThrow(new RegistryServiceException("Error"));
+        when(decentralDigitalTwinRegistryService.lookupShellsByBPN(bpn)).thenThrow(new RegistryServiceException("Error"));
 
         decentralRegistryRepository = new DecentralRegistryRepositoryImpl(decentralDigitalTwinRegistryService);
 
         // When
-        List<String> actualDescriptors = decentralRegistryRepository.retrieveShellDescriptorsByBpn(bpn);
+        List<Shell> actualDescriptors = decentralRegistryRepository.retrieveShellDescriptorsByBpn(bpn);
 
-       // Then
+        // Then
         assertThat(actualDescriptors).isEmpty();
     }
 }

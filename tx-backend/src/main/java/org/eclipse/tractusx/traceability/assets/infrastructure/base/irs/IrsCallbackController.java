@@ -19,6 +19,14 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
+import assets.importpoc.ErrorResponse;
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
@@ -28,13 +36,66 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
+@Hidden
 @RequiredArgsConstructor
 public class IrsCallbackController {
 
     private final IrsRepository irsRepository;
 
+    @Operation(operationId = "irsCallback",
+            summary = "Callback of irs get job details",
+            tags = {"IRSCallback"},
+            description = "The endpoint retrieves the information about a job which has been completed recently.",
+            security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Retrieves job id in completed state."),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad request.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authorization failed.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Not found.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "415",
+                    description = "Unsupported media type",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "429",
+                    description = "Too many requests.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/irs/job/callback")
     void handleIrsJobCallback(@RequestParam("id") String jobId, @RequestParam("state") String jobState) {
-        irsRepository.handleJobFinishedCallback(jobId, jobState);
+        // Security measurment for injection
+        if (jobId.matches("^[a-zA-Z0-9_-]*$")) {
+            irsRepository.handleJobFinishedCallback(jobId, jobState);
+        }
     }
 }

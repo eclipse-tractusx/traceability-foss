@@ -6,11 +6,78 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [UNRELEASED - DD.MM.YYYY]
-
 ### Added
 
 ### Changed
 - Merge from upstream to align with CofinityX
+
+### Removed
+
+## [10.5.0 - 22.02.2024]
+
+### Changed
+- updated publish-documentation workflow with two new steps
+- changed @ApiModelProperty annotation with @Schema
+- added logic to consume tombstone information from IRS for assets
+
+### Removed
+- removed frontend/dist folder from codeQL scan
+
+## [10.4.0 - 19.02.2024]
+
+### Added
+- Added tombstone icon to parts table and error description in parts detail view
+- Endpoint (assets/import/report/{importJobId}) for retrieving import report
+- Added concept #568: Policy management
+- Added concept #436: Intermediate status handling
+- Added add Parts view concept
+- Added separate Docker notices for both front- and backend
+
+### Changed
+- actions/chache bumped from v3 to v4
+- borales/actions-yarn bumped from v4 to v5
+- peter-evans/create-pull-request bumped from v5 to v6
+- peter-evans/dockerhub-description bumped from v3 to v4
+- aquasecurity/trivy-action bumped from 0.16.1 to 0.17.0
+- sonar-maven-plugin bumped from 3.9.1.2184 to 3.10.0.2594
+- rest-assured bumped from 5.3.2 to 5.4.0
+- testcontainer-postgresql bumped from 1.19.1 to 1.19.4
+- tomcat-embed-websocket bumped from 10.1.16 to 10.1.18
+- IrsCallbackController is now validating jobId to prevent log injections from unwanted usage
+- Bump irs-helm version from 6.13.0 to 6.14.1
+- Bump irs-client-lib version from 1.5.1-SNAPSHOT to 1.6.0-SNAPSHOT
+- Changed Add Parts concept to Edit Parts concept
+
+
+### Removed
+- Investigations/Alerts for assets_as_planned parts
+
+## [10.3.0 - 05.02.2024]
+
+### Added
+- Added AVD-KSV-0014 to trivy ignore
+- Added tooltips on functionalities that are unauthorized or unavailable
+- Added concept for adaptions for IndustryCore Changes CX-0126 and CX-0127
+- Added concept #521 revoked notification handling
+- Added eclipse trace-x matrix channel to README.md and CONTRIBUTING.md
+
+### Changed
+- Updated Irs Library from 1.4.1-SNAPSHOT to 1.5.1-SNAPSHOT
+- Changed some java implementations according to security findings ( business logic unchanged )
+- Adjusted sync logic to create jobs only for related BomLifecycles
+- Spring core updated from 6.0.14 to 6.0.16
+- Springboot updated from 3.1.6 to 3.1.7
+- Updated Angular and its dependencies from 15.2.8 to latest version 16 release
+- Implemented asset publisher component functionality
+- Updated postgres to version 15.4
+- Update Spring version to 3.1.8
+- Migrated from okhttpclient (feign implementation) to resttemplate.
+- Refactored rest templates
+- Bumped jacoco-maven-plugin from 0.8.8 to 0.8.11
+- Bumped cypress-io/github-action from 6.6.0 to 6.6.1
+- Bumped tj-actions/changed-files from v41 to v42
+- Fixed some response type descriptions within swagger documentation
+- Error handling when publishing assets
 
 ### Removed
 
@@ -58,6 +125,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Updated github/codeql-action from 2 to 3
 - Updated actions/download-artifact from 3 to 4actions/download-artifact from 3 to 4
 - Updated com.nimbusds:nimbus-jose-jwt from 9.37.1 to 9.37.3
+- Changed some java implementations according to security findings ( business logic unchanged )
+- Updated createIrsPolicyIfMissing() method to validate policies based on rightOperand values rather than policyIDs
 
 ### Removed
 - Shell descriptor entity with underlying logic

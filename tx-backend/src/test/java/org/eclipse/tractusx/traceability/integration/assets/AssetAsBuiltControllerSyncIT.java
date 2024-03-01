@@ -99,12 +99,13 @@ class AssetAsBuiltControllerSyncIT extends IntegrationTestSpecification {
 
     @Test
     void shouldNotSynchronizeAssetsWhenIrsFailedToReturnJobDetails() throws JoseException, InterruptedException {
-       // Given
+        //GIVEN
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         irsApiSupport.irsApiTriggerJob();
+
         irsApiSupport.irsJobDetailsApiFailed();
 
-       // When
+        //WHEN
         given()
                 .contentType(ContentType.JSON)
                 .body(
@@ -117,7 +118,7 @@ class AssetAsBuiltControllerSyncIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(200);
 
-       // Then
+        //THEN
         eventually(() -> {
             assetsSupport.assertNoAssetsStored();
             return true;
@@ -126,12 +127,14 @@ class AssetAsBuiltControllerSyncIT extends IntegrationTestSpecification {
 
     @Test
     void shouldNotSynchronizeAssetsWhenIrsKeepsReturningJobInRunningState() throws JoseException, InterruptedException {
-       // Given
+        //GIVEN
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         irsApiSupport.irsApiTriggerJob();
+
+
         irsApiSupport.irsApiReturnsJobInRunningState();
 
-       // When
+        //WHEN
         given()
                 .contentType(ContentType.JSON)
                 .body(
@@ -144,7 +147,7 @@ class AssetAsBuiltControllerSyncIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(200);
 
-       // Then
+        //THEN
         eventually(() -> {
             assetsSupport.assertNoAssetsStored();
             return true;
