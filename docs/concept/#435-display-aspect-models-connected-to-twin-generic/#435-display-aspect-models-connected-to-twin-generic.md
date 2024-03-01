@@ -88,7 +88,7 @@ Source: https://miro.com/app/board/uXjVO5JVoho=/?moveToWidget=345876457235304953
 - [ ] Table contains columns "Semantic Model Id" of semantic model (de:ID Semantisches Modell) /== "Identification" of submodel in IRS response /
 - [ ] Table columns are sortable (Name alphanumeric, Version uses numeric, natural sorting!)
 - [ ] Table columns are NOT filterable
-- [ ] Table with vertical and horizontal scrollbar (No pagination)
+- [ ] Table with vertical scrollbar (No pagination)
 - [ ] Viewer Panel has fixed size.
 - [ ] User selected of Viewer Instance is stored in User Settings. Last selected Viewer Instance will be used for next semantic model selection.
 - [ ] User selected semantic model in table is highlighted in dark grey color
