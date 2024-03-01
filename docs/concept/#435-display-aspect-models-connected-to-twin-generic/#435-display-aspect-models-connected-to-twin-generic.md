@@ -2,7 +2,7 @@
 
 | Key           | Value                                                                                                                                                                                                                      |
 |---------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Autor         | @ds-mkanal                                                                                                                                                                                                                 |
+| Author         | @ds-mkanal                                                                                                                                                                                                                 |
 | Creation date | 28.02.2024                                                                                                                                                                                                                 |
 | Ticket Id     | [#435](https://github.com/eclipse-tractusx/traceability-foss/issues/435) [#710](https://github.com/eclipse-tractusx/traceability-foss/issues/710) [#711](https://github.com/eclipse-tractusx/traceability-foss/issues/711) |
 | State         | DRAFT                                                                                                                                                                                                                      |
