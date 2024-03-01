@@ -26,12 +26,12 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import lombok.SneakyThrows;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobDetailResponse;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import org.jetbrains.annotations.NotNull;
 
 public class AssetTestData {
 
@@ -72,6 +72,6 @@ public class AssetTestData {
     private List<AssetBase> getAssetBases(final String resourceName) {
         final var file = AssetTestData.class.getResourceAsStream(resourceName);
         final var response = mapper.readValue(file, JobDetailResponse.class);
-        return response.convertAssets();
+        return response.convertAssets(mapper);
     }
 }

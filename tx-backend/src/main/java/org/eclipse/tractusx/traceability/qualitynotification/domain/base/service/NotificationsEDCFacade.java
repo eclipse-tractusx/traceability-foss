@@ -25,10 +25,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.HttpUrl;
 import okhttp3.MediaType;
-import okhttp3.Request;
-import okhttp3.RequestBody;
 import org.eclipse.edc.catalog.spi.CatalogRequest;
 import org.eclipse.edc.spi.query.Criterion;
 import org.eclipse.edc.spi.query.QuerySpec;
@@ -47,6 +44,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotificationFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -89,14 +87,14 @@ public class NotificationsEDCFacade {
 
         String contractAgreementId = negotiateContractAgreement(receiverEdcUrl, catalogItem);
 
-        final EndpointDataReference dataReference = endpointDataReferenceStorage.remove(contractAgreementId)
+        final EndpointDataReference dataReference = endpointDataReferenceStorage.get(contractAgreementId)
                 .orElseThrow(() -> new NoEndpointDataReferenceException("No EndpointDataReference was found"));
 
         notification.setContractAgreementId(contractAgreementId);
         notification.setEdcUrl(receiverEdcUrl);
 
         try {
-            Request notificationRequest = buildNotificationRequestNew(notification, senderEdcUrl, dataReference);
+            EdcNotificationRequest notificationRequest = buildNotificationRequestNew(notification, senderEdcUrl, dataReference);
             httpCallService.sendRequest(notificationRequest);
         } catch (Exception e) {
             throw new SendNotificationException("Failed to send notification.", e);
@@ -105,7 +103,7 @@ public class NotificationsEDCFacade {
 
     private String negotiateContractAgreement(final String receiverEdcUrl, final CatalogItem catalogItem) {
         try {
-            return Optional.ofNullable(contractNegotiationService.negotiate(receiverEdcUrl + edcProperties.getIdsPath(), catalogItem))
+            return Optional.ofNullable(contractNegotiationService.negotiate(receiverEdcUrl + edcProperties.getIdsPath(), catalogItem, null))
                     .orElseThrow()
                     .getContractAgreementId();
         } catch (Exception e) {
@@ -120,7 +118,7 @@ public class NotificationsEDCFacade {
             return edcCatalogFacade.fetchCatalogItems(
                             CatalogRequest.Builder.newInstance()
                                     .protocol(DEFAULT_PROTOCOL)
-                                    .providerUrl(receiverEdcUrl + edcProperties.getIdsPath())
+                                    .counterPartyAddress(receiverEdcUrl + edcProperties.getIdsPath())
                                     .querySpec(QuerySpec.Builder.newInstance()
                                             .filter(
                                                     List.of(new Criterion(NAMESPACE_EDC + "notificationtype", "=", propertyNotificationTypeValue),
@@ -139,7 +137,7 @@ public class NotificationsEDCFacade {
     }
 
     // TODO this method should be completely handled by EDCNotificationFactory.createEdcNotification which is part of this method currently
-    private Request buildNotificationRequestNew(
+    private EdcNotificationRequest buildNotificationRequestNew(
             final QualityNotificationMessage notification,
             final String senderEdcUrl,
             final EndpointDataReference dataReference
@@ -148,13 +146,14 @@ public class NotificationsEDCFacade {
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         String body = objectMapper.writeValueAsString(edcNotification);
 
-        HttpUrl url = Objects.requireNonNull(HttpUrl.parse(dataReference.getEndpoint())).newBuilder().build();
         log.info(":::: Send notification Data  body :{}, dataReferenceEndpoint :{}", body, dataReference.getEndpoint());
-        return new Request.Builder()
-                .url(url)
-                .addHeader(dataReference.getAuthKey(), dataReference.getAuthCode())
-                .addHeader("Content-Type", JSON.type())
-                .post(RequestBody.create(body, JSON))
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set(Objects.requireNonNull(dataReference.getAuthKey()), dataReference.getAuthCode());
+        httpHeaders.set("Content-Type", JSON.type());
+        return new EdcNotificationRequest.EdcNotificationRequestBuilder()
+                .url(dataReference.getEndpoint())
+                .headers(httpHeaders)
+                .body(body)
                 .build();
     }
 

@@ -18,7 +18,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.common.actuator;
 
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.IRSApiClient;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.IrsClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,7 +31,6 @@ import org.springframework.test.util.ReflectionTestUtils;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -39,7 +38,7 @@ class IrsConnectionHealthIndicatorTest {
 
     public static final String API_KEY = "test";
     @Mock
-    private IRSApiClient apiClient;
+    private IrsClient apiClient;
 
     @InjectMocks
     private IrsConnectionHealthIndicator testee;
@@ -53,7 +52,7 @@ class IrsConnectionHealthIndicatorTest {
 
     @Test
     void healthShouldReturnStatusUp() {
-        when(apiClient.getPolicies(anyString())).thenReturn(List.of());
+        when(apiClient.getPolicies()).thenReturn(List.of());
 
         Health health = testee.health();
 
@@ -62,7 +61,7 @@ class IrsConnectionHealthIndicatorTest {
 
     @Test
     void healthShouldReturnStatusOutOfService() {
-        when(apiClient.getPolicies(anyString())).thenThrow(IllegalStateException.class);
+        when(apiClient.getPolicies()).thenThrow(IllegalStateException.class);
 
         Health health = testee.health();
 

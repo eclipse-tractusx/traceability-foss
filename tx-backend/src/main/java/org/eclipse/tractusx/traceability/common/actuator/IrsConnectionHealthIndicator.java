@@ -20,7 +20,7 @@ package org.eclipse.tractusx.traceability.common.actuator;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.IRSApiClient;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.IrsClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.health.ConditionalOnEnabledHealthIndicator;
 import org.springframework.boot.actuate.health.Health;
@@ -33,7 +33,7 @@ import org.springframework.stereotype.Component;
 @ConditionalOnEnabledHealthIndicator("irs-connection")
 public class IrsConnectionHealthIndicator implements HealthIndicator {
 
-    private final IRSApiClient irsClient;
+    private final IrsClient irsClient;
 
     @Value("${feign.irsApi.adminApiKey}")
     private String adminApiKey;
@@ -41,7 +41,7 @@ public class IrsConnectionHealthIndicator implements HealthIndicator {
     @Override
     public Health health() {
         try {
-            irsClient.getPolicies(adminApiKey);
+            irsClient.getPolicies();
             return Health.up().build();
         } catch (final Exception e) {
             log.warn("IRS connection health check failed, error: {}", e.getMessage());
