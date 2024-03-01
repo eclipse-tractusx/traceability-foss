@@ -90,7 +90,7 @@ Source: https://miro.com/app/board/uXjVO5JVoho=/?moveToWidget=345876457235304953
 - [ ] Table columns are NOT filterable
 - [ ] Table with vertical scrollbar (No pagination)
 - [ ] Viewer Panel has fixed size.
-- [ ] User selected of Viewer Instance is stored in User Settings. Last selected Viewer Instance will be used for next semantic model selection.
+- [ ] User selection of Viewer Instance is stored in User Settings. Last selected Viewer Instance will be used for next semantic model selection.
 - [ ] User selected semantic model in table is highlighted in dark grey color
 
 ![DetailView_With_Code_Viewer_Active.png](DetailView_With_Code_Viewer_Active.png)
