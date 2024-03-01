@@ -22,7 +22,7 @@ SPDX-License-Identifier: Apache-2.0
 <div *ngIf="this.toastMessages.length > 0" class="flex flex-col flex-wrap">
   <ng-container *ngFor="let toastMessage of this.toastMessages">
     <div
-      class="shadow-md"
+      class="shadow-md mt-1 mb-1"
       [class.slide-left]="toastMessage.isSliderON"
       [class.slide-right]="!toastMessage.isSliderON"
       [attr.data-testid]="this.toastMessages"

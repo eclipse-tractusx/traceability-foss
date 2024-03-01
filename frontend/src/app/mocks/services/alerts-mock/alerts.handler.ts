@@ -19,11 +19,11 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {environment} from '@env';
-import {NotificationStatus} from '@shared/model/notification.model';
-import {rest} from 'msw';
-import {applyPagination, extractPaginationOfNotifications} from '../pagination.helper';
-import {AlertIdPrefix, buildMockAlerts, getAlertById} from './alerts.model';
+import { environment } from '@env';
+import { NotificationStatus } from '@shared/model/notification.model';
+import { rest } from 'msw';
+import { applyPagination, extractPaginationOfNotifications } from '../pagination.helper';
+import { buildMockAlerts, getAlertById } from './alerts.model';
 import {
   AlertIdPrefix as testAlertIdPrefix,
   buildMockAlerts as testBuildMockAlerts,
@@ -36,7 +36,7 @@ const commonHandler = [
   }),
 
   rest.post(`*${ environment.apiUrl }/alerts/:alertId/approve`, (req, res, ctx) => {
-    return res(ctx.status(204));
+    return res(ctx.status(400), ctx.json({message: "Failed to send alert to EDC"}));
   }),
 
   rest.post(`*${ environment.apiUrl }/alerts/:alertId/cancel`, (req, res, ctx) => {
@@ -106,7 +106,8 @@ export const alertsHandlers = [
     return res(ctx.status(200), ctx.json({ ...randomNotification, id: alertId }));
   }),
   rest.post(`*${ environment.apiUrl }/alerts`, (_, res, ctx) => {
-    return res(ctx.status(200), ctx.json({ id: AlertIdPrefix + 1 }));
+    return res(ctx.status(400), ctx.json({message: "Error while sending Alert to EDC"} ));
+    //return res(ctx.status(200), ctx.json({ id: AlertIdPrefix + 1 }));
   }),
 
   rest.put(`*${ environment.apiUrl }/alerts/:alertId/status`, async (req, res, ctx) => {

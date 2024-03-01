@@ -41,3 +41,9 @@ export function clearCurrentRows(selection: any, dataSourceData: unknown[], mult
   multiSelect.emit(this.selection.selected);
 }
 
+export function setMultiSorting( event: KeyboardEvent): boolean  {
+  if(event.type === 'keydown') {
+    return event.metaKey || event.ctrlKey
+  }
+}
+

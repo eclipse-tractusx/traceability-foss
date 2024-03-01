@@ -125,7 +125,13 @@ public class InvestigationsEDCFacade {
                                             .build())
                                     .build()
                     ).stream()
-                    .filter(catalogItem -> policyCheckerService.isValid(catalogItem.getPolicy()))
+                    .filter(catalogItem -> {
+                        log.info("-- catalog item check --");
+                        log.info("Item {}: {}", catalogItem.getItemId(), catalogItem);
+                        boolean isValid = policyCheckerService.isValid(catalogItem.getPolicy());
+                        log.info("IsValid : {}", isValid);
+                        return isValid;
+                    })
                     .findFirst()
                     .orElseThrow();
         } catch (Exception e) {

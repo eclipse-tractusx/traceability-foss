@@ -177,13 +177,16 @@
     "headline": "Qualitätswarnung erstellen",
     "textAreaDescription": "Fügen sie eine Beschreibung hinzu.",
     "success_one": "Sie haben eine Qualitätswarnung für {{count}} Produkt erstellt.",
-    "success_other": "Sie haben eine Qualitätswarnung für {{count}} Produkte erstellt."
+    "success_other": "Sie haben eine Qualitätswarnung für {{count}} Produkte erstellt.",
+    "serverError": "Serverfehler:"
+
   },
   "requestInvestigations": {
     "headline": "Qualitätsprüfung anfordern",
     "textAreaDescription": "Fügen sie eine Beschreibung hinzu.",
     "success_one": "Sie haben eine Untersuchung für {{count}} Produkt gestartet.",
-    "success_other": "Sie haben eine Untersuchung für {{count}} Produkte gestartet."
+    "success_other": "Sie haben eine Untersuchung für {{count}} Produkte gestartet.",
+    "serverError": "Serverfehler:"
   },
   "requestNotification": {
     "partDescription": "Sie haben folgende Produkte ausgewählt:",
@@ -196,7 +199,8 @@
     "cancel": "ABBRUCH",
     "submit": "ZUR WARTESCHLANGE HINZUFÜGEN",
     "severity": "Gefahrenstufe",
-    "severityDescription": "Wählen Sie die Gefahrenstufe für das vorliegende Problem"
+    "severityDescription": "Wählen Sie die Gefahrenstufe für das vorliegende Problem",
+    "serverError": "Serverfehler:"
   },
   "requestPublishAssets": {
     "success": "Anfrage zur Veröffentlichung der Produkte war erfolgreich",
@@ -345,5 +349,6 @@
     "cancel": "Zurücksetzen",
     "startDate": "Startdatum",
     "endDate": "Enddatum"
-  }
+  },
+  "retry": "Erneut versuchen"
 }

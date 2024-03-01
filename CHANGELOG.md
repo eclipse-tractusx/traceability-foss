@@ -8,12 +8,31 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [UNRELEASED - DD.MM.YYYY]
 
 ### Added
+- Added concept #638: Contract agreement admin view
+- Added support for meta key for multi sorting on tables
+
+### Changed
+- Spring-core bumped from 6.0.16 to 6.0.17
+- Updated user manual
+- JSON Schema generation for valid submodel mapping
+- Added support for meta key for multi sorting on tables
+- Added error description and retry button to error toast when creating notifications
+- Bumped version mikefarah/yq@v4.40.5 to mikefarah/yq@v4.42.1
+- Bumped version lombok from 1.18.28 to 1.18.30
+- Bumped version ts-graphviz/setup-graphviz@v1 to ts-graphviz/setup-graphviz@v2
+- Bumped version Schedlock 5.10.0 to 5.11.0
+- updated yarn.lock file
+
+### Removed
+- Removed EDC notification asset classes and replaced with IRS lib implementation
+
+## [10.5.0 - 22.02.2024]
 
 ### Changed
 - updated publish-documentation workflow with two new steps
 - changed @ApiModelProperty annotation with @Schema
 - added logic to consume tombstone information from IRS for assets
--
+
 ### Removed
 - removed frontend/dist folder from codeQL scan
 
