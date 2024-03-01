@@ -34,7 +34,6 @@ import {
 import { FormControl } from '@angular/forms';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { MatSelectChange } from '@angular/material/select';
 import {
   AutocompleteStrategy,
   AutocompleteStrategyMap,
@@ -47,7 +46,7 @@ import { firstValueFrom } from 'rxjs';
 @Component({
   selector: 'app-multiselect',
   templateUrl: 'multi-select-autocomplete.component.html',
-  styleUrls: [ 'multi-select-autocomplete.component.scss' ],
+  styleUrls: ['multi-select-autocomplete.component.scss'],
 })
 
 export class MultiSelectAutocompleteComponent implements OnChanges {
@@ -95,6 +94,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   strategy: AutocompleteStrategy;
 
   public readonly minDate = new Date();
+  public optionClasses = {};
 
   @ViewChild('searchInput', { static: true }) searchInput: any;
 
@@ -121,9 +121,9 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   private cleared = false;
 
   constructor(public datePipe: DatePipe, public _adapter: DateAdapter<any>,
-              @Inject(MAT_DATE_LOCALE) public _locale: string, @Inject(LOCALE_ID) private locale: string, public partsService: PartsService,
-              private readonly formatPartSemanticDataModelToCamelCasePipe: FormatPartSemanticDataModelToCamelCasePipe,
-              private injector: Injector) {
+    @Inject(MAT_DATE_LOCALE) public _locale: string, @Inject(LOCALE_ID) private locale: string, public partsService: PartsService,
+    private readonly formatPartSemanticDataModelToCamelCasePipe: FormatPartSemanticDataModelToCamelCasePipe,
+    private injector: Injector) {
     registerLocaleData(localeDe, 'de', localeDeExtra);
     this._adapter.setLocale(locale);
   }
@@ -137,24 +137,29 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
         this.filterItem(value);
       }
     });
+
+    if (this.isDate) {
+      this.filterName = 'filterLabelDate';
+    } else if (this.filterColumn === 'semanticDataModel' || this.filterColumn === 'status' || this.filterColumn === 'severity') {
+      this.filterName = 'filterLabelSelect';
+      this.setColumnClass();
+      this.allOptions = [...this.options];
+    }
   }
 
   ngOnChanges(): void {
     this.selectedValue = this.formControl.value;
-    this.formControl.patchValue(this.selectedValue);
   }
 
   toggleSelectAll(selectCheckbox: any): void {
     if (selectCheckbox.checked) {
       // if there are no suggestion but the selectAll checkbox was checked
       if (!this.searchedOptions.length) {
-
-        this.formControl.patchValue(this.searchElement);
         this.selectedValue = this.searchElement as unknown as [];
       } else {
         this.searchedOptions.forEach(option => {
           if (!this.selectedValue.includes(option[this.value])) {
-            this.selectedValue = this.selectedValue.concat([ option[this.value] ]);
+            this.selectedValue = this.selectedValue.concat([option[this.value]]);
           }
         });
       }
@@ -164,7 +169,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
       this.selectedValue = [];
       this.updateOptionsAndSelections();
     }
-    this.formControl.patchValue(this.selectedValue);
     this.onFilterValueChanged.emit({ filterKey: this.filterColumn, values: this.selectedValue });
   };
 
@@ -186,14 +190,14 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
 
     // apply CamelCase to semanticDataModel labels
     if (this.filterColumn === 'semanticDataModel') {
-      displayValue = [ this.formatPartSemanticDataModelToCamelCasePipe.transformModel(this.selectedValue[0]), suffix ];
+      displayValue = [this.formatPartSemanticDataModelToCamelCasePipe.transformModel(this.selectedValue[0]), suffix];
     } else {
-      displayValue = [ this.selectedValue[0], suffix ];
+      displayValue = [this.selectedValue[0], suffix];
     }
 
     // if no value selected, return empty string
     if (!this.selectedValue.length) {
-      displayValue = [ '' ];
+      displayValue = [''];
     }
 
     return displayValue;
@@ -281,20 +285,29 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
 
   clickClear(): void {
     this.selectAllChecked = false;
-    this.formControl.patchValue('');
-    this.formControl.reset();
+
     this.searchElement = '';
 
     this.startDate = null;
     this.endDate = null;
     this.searchedOptions = [];
-    this.allOptions = [];
+
+    if (!this.singleSearch && this.allOptions?.length > 0) {
+      this.options?.forEach(option => {
+        option.checked = false;
+      });
+
+      this.options = [...this.allOptions];
+    } else {
+      this.options = [];
+      this.allOptions = [];
+    }
+
     this.optionsSelected = [];
-    this.options = [];
+
     this.selectedValue = [];
     this.suggestionError = false;
     this.cleared = true;
-    this.updateOptionsAndSelections();
 
     this.onFilterValueChanged.emit({ filterKey: this.filterColumn, values: [] });
   }
@@ -346,13 +359,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     this.onFilterValueChanged.emit({ filterKey: this.filterColumn, values: this.selectedValue });
   }
 
-  onSelectionChange(matSelectChange: MatSelectChange) {
-    this.selectedValue = matSelectChange.value;
-    this.formControl.patchValue(matSelectChange.value);
-    this.updateOptionsAndSelections();
-    this.onFilterValueChanged.emit(this.selectedValue);
-  }
-
   private handleAllSelectedCheckbox() {
     const noSelectedValues = this.selectedValue?.length === 0;
     const oneOptionSelected = this.optionsSelected?.length === 1 && this.allOptions?.length === 0;
@@ -369,4 +375,68 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     const allowedCharacters = /^\w+$/;
     return !allowedCharacters.test(text);
   }
+
+  private setColumnClass(): void {
+    for (const option of this.options) {
+      const optionClass = { 'body-large': true };
+      if (option['display'].includes('status')) {
+        optionClass['notification-display-status'] = true;
+        optionClass[option['displayClass']] = true;
+      } else if (option['display'].includes('severity')) {
+        optionClass['notification-display-severity'] = true;
+      }
+      this.optionClasses[option['display']] = optionClass;
+    }
+  }
+
+  public someSelected(): boolean {
+    return this.options.filter(option => option.checked).length > 0 && !this.selectAllChecked;
+  }
+
+  public toggleSelect = function (val: any, isSelectAll: boolean): void {
+    // if there is no timeout currently, start the delay
+    const timeoutCallback = async (): Promise<void> => {
+      try {
+        if (isSelectAll) {
+          if (val.checked) {
+            this.options.forEach(option => {
+              option.checked = true;
+            });
+          } else {
+            this.options.forEach(option => (option.checked = false));
+          }
+        } else if (!isSelectAll && !val.checked && this.selectAllChecked) {
+          this.selectAllChecked = false;
+        } else if (!isSelectAll && val.checked && !this.selectAllChecked && this.options.filter(option => !option.checked).length === 0) {
+          this.selectAllChecked = true;
+        }
+
+        this.selectedValue = [];
+
+        this.options.forEach(option => {
+          if (option.checked) {
+            if (!this.selectedValue.includes(option.value)) {
+              this.selectedValue = this.selectedValue.concat(option.value);
+            }
+          }
+        });
+
+        if (this.selectedValue.length === 0) {
+          setTimeout(() => {
+            this.clickClear();
+          }, 200);
+        } else {
+          this.onFilterValueChanged.emit({ filterKey: this.filterColumn, values: this.selectedValue });
+        }
+
+      } catch (error) {
+        console.error('Error in timeoutCallback: ', error);
+      }
+    };
+
+    // Start the delay with the callback
+    this.delayTimeoutId = setTimeout(() => {
+      Promise.resolve().then(() => timeoutCallback());
+    }, 100);
+  };
 }

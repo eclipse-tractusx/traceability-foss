@@ -41,9 +41,9 @@ describe('StartInvestigationComponent', () => {
 
   const renderStartInvestigation = async () => {
     const { fixture } = await renderComponent(StartInvestigationComponent, {
-      declarations: [ StartInvestigationComponent ],
-      imports: [ PartDetailsModule, PartsModule, OtherPartsModule, LayoutModule ],
-      providers: [ StaticIdService ],
+      declarations: [StartInvestigationComponent],
+      imports: [PartDetailsModule, PartsModule, OtherPartsModule, LayoutModule],
+      providers: [StaticIdService],
     });
 
     fixture.componentInstance.part = part;
@@ -66,32 +66,16 @@ describe('StartInvestigationComponent', () => {
     await sleepForTests(2000);
     expect(await waitFor(() => screen.getByText('requestNotification.partDescription'))).toBeInTheDocument();
   });
-  /*
-    it('should render selected items and remove them again', async function() {
-      await renderStartInvestigation();
 
-      fireEvent.click(await getTableCheckbox(screen, 0));
-      const matChipElement = await waitFor(() => screen.getByTestId('mat-chip--' + PartsAssembler.assemblePart(MOCK_part_2).name));
-      expect(matChipElement).toBeInTheDocument();
-      fireEvent.click(matChipElement.lastElementChild.firstChild);
-
-      const historyElement = await waitFor(() => screen.getByTestId('mat-chip-history--' + PartsAssembler.assemblePart(MOCK_part_2).name));
-      expect(historyElement).toBeInTheDocument();
-      fireEvent.click(historyElement);
-
-      const restoredElement = await waitFor(() => screen.getByTestId('mat-chip--' + PartsAssembler.assemblePart(MOCK_part_2).name));
-      expect(restoredElement).toBeInTheDocument();
-    });
-  */
   it('should sort table data', async () => {
     const fixture = await renderStartInvestigation();
     const spy = spyOn((fixture.componentInstance as any).childPartsState, 'update').and.callThrough();
     const nameHeader = await waitFor(() => screen.getByText('table.column.name'));
 
     fireEvent.click(nameHeader);
-    expect(spy).toHaveBeenCalledWith({ data: [ firstChild ] });
+    expect(spy).toHaveBeenCalledWith({ data: [firstChild] });
 
     fireEvent.click(nameHeader);
-    expect(spy).toHaveBeenCalledWith({ data: [ firstChild ] });
+    expect(spy).toHaveBeenCalledWith({ data: [firstChild] });
   });
 });

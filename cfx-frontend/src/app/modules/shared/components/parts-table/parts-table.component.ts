@@ -151,7 +151,6 @@ export class PartsTableComponent implements OnInit {
   public pageSize: number;
   public pageCount: number;
 
-
   filterFormGroup = new FormGroup({});
 
   public isDateElement(key: string) {
@@ -167,33 +166,6 @@ export class PartsTableComponent implements OnInit {
 
   ngAfterViewInit() {
     this.paginator._intl.itemsPerPageLabel = 'Show';
-  }
-
-  public triggerFilterAdding(): void {
-    // TODO: might need this
-
-    // const filterValues: any = { ...this.filterFormGroup.value };
-    // const selectedSemanticDataModelOptions: string[] = [];
-    // for (const option of this.semanticDataModelOptions) {
-    //   if (option.checked) {
-    //     selectedSemanticDataModelOptions.push(option.value);
-    //   }
-    // }
-    // filterValues['semanticDataModel'] = selectedSemanticDataModelOptions;
-    // this.filterConfiguration.forEach(filter => {
-    //   if (filter.filterKey !== 'Filter') {
-    //     let filterName: string;
-    //     if (filter.column) {
-    //       filterName = filter.column;
-    //     } else {
-    //       filterName = filter.filterKey;
-    //     }
-
-    //     this.filterActive[filterName] =
-    //       filterValues[filter.filterKey] !== null && filterValues[filter.filterKey].length !== 0;
-    //   }
-    // });
-    // this.filterActivated.emit(filterValues);
   }
 
   constructor(private readonly tableSettingsService: TableSettingsService,

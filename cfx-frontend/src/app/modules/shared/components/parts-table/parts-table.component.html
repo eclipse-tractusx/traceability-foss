@@ -177,14 +177,14 @@ SPDX-License-Identifier: Apache-2.0
                 </div>
                 <div class="table--header--cell--content--sort"
                   *ngIf="column !== 'hasAlerts'">
-                  <ng-container *ngIf="multiSortList && multiSortList.length > 0">
+                  <ng-container *ngIf="multiSortList && multiSortList.length > 0; else sortIcon">
                     <ng-container *ngFor="let item of multiSortList; let i = index">
                       <!-- Display the array entry when it matches the column name -->
                       <div *ngIf="item[0] === column && multiSortList.length > 1"
                         class="table--header--cell--content--sort--indicator">
                         {{ i + 1 + '.' }}
                       </div>
-                      <img *ngIf="item[0] === column"
+                      <img *ngIf="item[0] === column; else sortIcon"
                         src="/assets/images/icons/sortingArrowDown.svg"
                         alt="sorting arrow"
                         [ngClass]="
@@ -199,7 +199,8 @@ SPDX-License-Identifier: Apache-2.0
               <div *ngIf="column !== 'hasAlerts'"
                 (click)="$event.stopPropagation()"
                 class="table--header--row__filter"
-                [matMenuTriggerFor]="selectMenu">
+                [matMenuTriggerFor]="selectMenu"
+                [ngClass]="filterFormGroup.value[column].length > 0 ? 'filter-active' : 'filter-inactive'">
                 <div class="table--header--row__filter--border--top"></div>
                 <div class="table--header--row__filter--content">
                   <img src="\assets\images\icons\filterAltIcon.svg"
@@ -225,7 +226,6 @@ SPDX-License-Identifier: Apache-2.0
                       [singleSearch]="filter.singleSearch"
                       [filterColumn]="filter.filterKey"
                       [tableType]="tableType"
-                      (triggerFilter)="triggerFilterAdding()"
                       (onFilterValueChanged)="onFilterValueChanged($event)"
                       [placeholderMultiple]="('multiSelect.multipleResults' | i18n)"
                       ngDefaultControl
@@ -251,14 +251,17 @@ SPDX-License-Identifier: Apache-2.0
                 <ng-container ng-container
                   *ngIf="column !== 'hasAlerts'"
                   [ngTemplateOutlet]="tableConfig?.cellRenderers?.[column] ? tableConfig?.cellRenderers?.[column] : autoFormat"
-                  [ngTemplateOutletContext]="{ value: element[column], row: element }">
+                  [ngTemplateOutletContext]="column === 'receivedActiveAlerts' ||
+                   column === 'receivedActiveInvestigations' ||
+                   column === 'sentActiveAlerts' ||
+                   column === 'sentActiveInvestigations' ? { value: element[column].length, row: element } :{ value: element[column], row: element }">
                 </ng-container>
               </ng-template>
             </span>
             <ng-container [ngSwitch]="column">
               <ng-container *ngSwitchCase="'hasAlerts'">
                 <span class="hasQualityAlerts"
-                  *ngIf="element['activeAlerts'] > 0">
+                  *ngIf="element['receivedActiveAlerts'] > 0">
                   <div class="alert-text">!</div>
                 </span>
               </ng-container>
@@ -281,6 +284,12 @@ SPDX-License-Identifier: Apache-2.0
     showFirstLastButtons>
   </mat-paginator>
 </ng-container>
+
+<ng-template #sortIcon>
+  <img src="/assets/images/icons/sortingArrowDown.svg"
+    alt="sorting arrow"
+    [ngClass]="'table--header--cell--content--sort--asc sort-icon'" />
+</ng-template>
 
 <ng-template #pureColumn>
   {{ pureColumn }}

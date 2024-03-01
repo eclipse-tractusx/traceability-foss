@@ -214,14 +214,14 @@ SPDX-License-Identifier: Apache-2.0
                 {{ tableConfig?.header?.[column] | i18n
                 }}
                 <div class="notification-table--header--cell--content--sort">
-                  <ng-container *ngIf="multiSortList && multiSortList.length > 0">
+                  <ng-container *ngIf="multiSortList && multiSortList.length > 0; else sortIcon">
                     <ng-container *ngFor="let item of multiSortList; let i = index">
                       <!-- Display the array entry when it matches the column name -->
                       <div *ngIf="item[0] === column && multiSortList.length > 1"
                         class="notification-table--header--cell--content--sort--indicator">
                         {{ i + 1 + '.' }}
                       </div>
-                      <img *ngIf="item[0] === column"
+                      <img *ngIf="item[0] === column; else sortIcon"
                         src="/assets/images/icons/sortingArrowDown.svg"
                         alt="sorting arrow"
                         [ngClass]="
@@ -237,14 +237,14 @@ SPDX-License-Identifier: Apache-2.0
                 *ngIf="autocompleteEnabled && tableViewConfig.displayFilterColumnMappings && tableViewConfig.displayFilterColumnMappings.length > 0"
                 (click)="$event.stopPropagation()"
                 class="notification-table--header--cell--filter"
+                [ngClass]="filterFormGroup.value[column].length > 0 ? 'filter-active' : 'filter-inactive'"
                 [matMenuTriggerFor]="selectMenu"
                 (menuOpened)="isMenuOpen = true"
                 (menuClosed)="isMenuOpen = false">
                 <div class="notification-table--header--cell--filter--border--top"></div>
                 <div class="notification-table--header--cell--filter--content">
                   <img src="\assets\images\icons\filterAltIcon.svg"
-                    alt="filterIcon"
-                    class="notification-table--header--cell--filter--icon" />
+                    alt="filterIcon" />
                 </div>
                 <div [class]="
                     filterActive[column]
@@ -289,6 +289,13 @@ SPDX-License-Identifier: Apache-2.0
     </ng-template>
   </table>
 </div>
+
+<ng-template #sortIcon>
+  <img *ngIf="autocompleteEnabled"
+    src="/assets/images/icons/sortingArrowDown.svg"
+    alt="sorting arrow"
+    [ngClass]="'notification-table--header--cell--content--sort--asc sort-icon'" />
+</ng-template>
 
 <ng-container *ngIf="tableConfig?.hasPagination">
   <mat-paginator class="notification-table-paginator-menu"

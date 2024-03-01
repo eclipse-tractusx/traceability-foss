@@ -75,7 +75,6 @@ export class NotificationTabComponent implements AfterViewInit {
 
   public notificationFilter: NotificationFilter;
 
-
   protected readonly TableType = TableType;
 
   public ngAfterViewInit(): void {
@@ -138,5 +137,7 @@ export class NotificationTabComponent implements AfterViewInit {
         filter: notificationFilter,
       });
     }
+
+    this.filteredContent = true;
   }
 }

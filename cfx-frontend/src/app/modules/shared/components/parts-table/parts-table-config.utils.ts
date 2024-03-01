@@ -1,7 +1,12 @@
 import { FormControl } from '@angular/forms';
+import { FilterConfigOptions } from '@shared/model/filter-config';
+import { TranslationContext } from '@shared/model/translation-context.model';
 
 export class PartsTableConfigUtils {
   private static excludedColumns = ['select', 'menu', 'hasAlerts'];
+
+  private static filterConfigOptions = new FilterConfigOptions();
+
 
   public static createFormGroup(displayedColumns: any): Record<string, FormControl> {
     const formGroup: Record<string, FormControl> = {};
@@ -29,7 +34,9 @@ export class PartsTableConfigUtils {
     return [filter, ...array, menu].filter(value => value !== null);
   }
 
-  public static generateFilterColumnsMapping(sortableColumns: any, dateFields?: string[], singleSearchFields?: string[], hasFilterCol = true, hasMenuCol = true): any[] {
+  public static generateFilterColumnsMapping(sortableColumns: any, dateFields?: string[], singleSearchFields?: string[], hasFilterCol = true, hasMenuCol = true, isReceivedTable = true, translationContext?: TranslationContext): any[] {
+    const { status, severity } = this.filterConfigOptions.filterKeyOptionsNotifications;
+    const { semanticDataModel } = this.filterConfigOptions.filterKeyOptionsAssets;
 
     const filterColumnsMapping: any[] = [];
     for (const key in sortableColumns) {
@@ -38,14 +45,22 @@ export class PartsTableConfigUtils {
         // This key goes to the backend rest api
         const filterKey = key;
         const headerKey = 'filter' + key;
+        let option: any;
+        if (key === 'status') {
+          option = status(translationContext, isReceivedTable).option;
+        } else if (key === 'severity') {
+          option = severity.option;
+        } else if (key === 'semanticDataModel') {
+          option = semanticDataModel.option;
+        }
 
-        let columnMapping: { filterKey: string; headerKey: string; isDate?: boolean; singleSearch?: boolean; };
+        let columnMapping: { filterKey: string; headerKey: string; isDate?: boolean; singleSearch?: boolean, option?: any };
         if (dateFields?.includes(filterKey)) {
           columnMapping = { filterKey, headerKey, isDate: true };
         } else if (singleSearchFields?.includes(filterKey)) {
           columnMapping = { filterKey, headerKey, singleSearch: true };
         } else {
-          columnMapping = { filterKey, headerKey };
+          columnMapping = { filterKey, headerKey, option };
         }
 
         filterColumnsMapping.push(columnMapping);
