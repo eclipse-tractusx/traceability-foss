@@ -21,6 +21,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Bumped version lombok from 1.18.28 to 1.18.30
 - Bumped version ts-graphviz/setup-graphviz@v1 to ts-graphviz/setup-graphviz@v2
 - Bumped version Schedlock 5.10.0 to 5.11.0
+- updated yarn.lock file
 
 ### Removed
 - Removed EDC notification asset classes and replaced with IRS lib implementation
