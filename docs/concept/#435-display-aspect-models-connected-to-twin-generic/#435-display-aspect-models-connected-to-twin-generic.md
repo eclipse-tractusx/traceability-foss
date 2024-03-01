@@ -1,11 +1,11 @@
 # #435 Display-Aspect-Models-connected-to-twin-generic
 
-| Key           | Value                                                                  |
-|---------------|------------------------------------------------------------------------|
-| Autor         | @ds-mkanal                                                             |
-| Creation date | 28.02.2024                                                             |
-| Ticket Id     | [#435](https://github.com/eclipse-tractusx/traceability-foss/issues/435) |
-| State         | DRAFT                                                        |
+| Key           | Value                                                                                                                                                                                                                      |
+|---------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Autor         | @ds-mkanal                                                                                                                                                                                                                 |
+| Creation date | 28.02.2024                                                                                                                                                                                                                 |
+| Ticket Id     | [#435](https://github.com/eclipse-tractusx/traceability-foss/issues/435) [#710](https://github.com/eclipse-tractusx/traceability-foss/issues/710) [#711](https://github.com/eclipse-tractusx/traceability-foss/issues/711) |
+| State         | DRAFT                                                                                                                                                                                                                      |
 
 # Table of Contents
 1. [Overview](#overview)
@@ -44,33 +44,98 @@ Trace-X will be developed to generically handle different existing and planned s
 - [ ] Line numbering for raw and tree viewer
 
 # NFR
-- [ ]
+- [ ] Panel with consistent UUX according to C-X Style Guide
+- [ ] Panel with consistent UUX
 
 # Out of scope
--
+- Switching between viewer instances in full-screen-mode
+- Enabling and disabling of code highlighting (code highlighting is the default)
 
 # Assumptions
--
-
+There are further aspect models as the once currently known (SerialPart, Batch, JiS, PartAsPlanned, PartSiteInformation) in the two BomLifecycle asPlanned and asBuilt which are currently implemented and will be relevant in the future.
 
 # Concept
 
+## BE API Extensions
+- API GET /assets/as-planned/{assetId}
+    - add version attribute to detailAspectModels
+    - add payload (link) of semantic models to detailAspectModels
+    - add identification attribute to detailAspectModels
+- API GET /assets/as-planned/*/children/{childId}
+    - add version attribute to detailAspectModels
+    - add payload (link) of semantic models to detailAspectModels
+    - add identification attribute to detailAspectModels
+- API GET /assets/as-built/{assetId}
+    - add version attribute to detailAspectModels
+    - add identification attribute to detailAspectModels
+    - add payload (link) of semantic models to detailAspectModels
+- API GET /assets/as-built/*/children/{childId}
+    - add version attribute to detailAspectModels
+    - add identification attribute to detailAspectModels
+    - add payload (link) of semantic models to detailAspectModels
+
 ## UI Mocks
-### Changes in DetailView Overlay
-
-- Detail View must  be scrollable with vertical scrollbar
-- New Panel "Semantic Models" is added to Detail View (de: Semantische Modelle)
-- Panel "Semantic Models" contains table
-- Table contains all "Semantic Models" for selected asset
-- Table contains columns "Semantic Model Name" (de: refer to current translation
-- Table contains columns "Version" of semantic model (de:Version)
-
 Source: https://miro.com/app/board/uXjVO5JVoho=/?moveToWidget=3458764572353049533&cot=14
 
-![DetailView_With_Code_Viewer_Active.png](DetailView_With_Code_Viewer_Active.png.png)
+### Changes in DetailView Overlay
+
+- [ ] Detail View must  be scrollable with vertical scrollbar
+- [ ] New Panel "Semantic Models" is added to Detail View (de: Semantische Modelle)
+- [ ] Panel "Semantic Models" contains table
+- [ ] Table contains all "Semantic Models" for selected asset
+- [ ] Table contains columns "Semantic Model Name" (de: refer to current translation
+- [ ] Table contains columns "Version" of semantic model (de:Version)
+- [ ] Table contains columns "Semantic Model Id" of semantic model (de:ID Semantisches Modell) /== "Identification" of submodel in IRS response /
+- [ ] Table columns are sortable (Name alphanumeric, Version uses numeric, natural sorting!)
+- [ ] Table columns are NOT filterable
+- [ ] Table with vertical and horizontal scrollbar (No pagination)
+- [ ] Viewer Panel has fixed size.
+- [ ] User selected of Viewer Instance is stored in User Settings. Last selected Viewer Instance will be used for next semantic model selection.
+- [ ] User selected semantic model in table is highlighted in dark grey color
+
+![DetailView_With_Code_Viewer_Active.png](DetailView_With_Code_Viewer_Active.png)
 
 
+### Json Code Raw Viewer
+- Json Raw Viewer
+- Code Highlighting
+- Line Numbering
+- Vertical scrollbar
+- Extend Viewer Panel is extendable to full-screen
 
+![Detail_View_Json_Code_Viewer](Detail_View_Json_Code_Viewer.png)
+
+### Json Tree  Viewer
+
+Json Tree Viewer is the visualization of a JSON structure in a hierarchical tree format.
+
+- Json Tree Viewer
+- Json is visualized in tree view
+- Code Highlighting
+- Line Numbering
+- Extend Viewer Panel is extendable to full-screen
+ ![Detail_View_Json_Tree_Viewer](Detail_View_Json_Tree_Viewer.png)
+
+### Json Graph Viewer
+- Json Tree Viewer
+- Json is visualized in graph view
+- Code Highlighting
+- Extend Viewer Panel is extendable to full-screen
+![Detail_View_Json_Graph_Viewer](Detail_View_Json_Graph_Viewer.png)
+
+
+## Viewer in full-screen mode
+![Viewer Full Screen](Viewer_Full_screen_mode.png)
+- Any viewer instance could be extended to full-screen mode
+- Full-screen mode is disabled via X button on the right upper side.
+- After closing, full-screen former detail view is shown
+
+## Error View
+- Viewer shows error icon
+- Viewer show initial message Semantic model cannot be displayed.
+- Standard error message: Semantic model cannot be displayed. With detailed user readable message
+
+![Error View](Error_View.png)
 
 # Glossary
 
@@ -80,6 +145,7 @@ Source: https://miro.com/app/board/uXjVO5JVoho=/?moveToWidget=345876457235304953
 |              |      |               |
 
 # References
+- https://miro.com/app/board/uXjVO5JVoho=/?moveToWidget=3458764572353049533&cot=14
 
 # Additional Details
 Given the dynamic nature of ongoing development, there might be variations between the conceptualization and the current implementation. For the latest status, refer to the documentation.
