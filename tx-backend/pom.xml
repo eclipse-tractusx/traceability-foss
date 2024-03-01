@@ -100,6 +100,7 @@ SPDX-License-Identifier: Apache-2.0
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -112,6 +113,7 @@ SPDX-License-Identifier: Apache-2.0
             <artifactId>commons-fileupload</artifactId>
             <version>1.5</version>
         </dependency>
+
 
         <!-- EDC Client -->
         <dependency>
@@ -173,11 +175,13 @@ SPDX-License-Identifier: Apache-2.0
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
         </dependency>
+
+
+
         <!-- Fixes CVE-2023-34035  -->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
-            <version>${spring-security-config.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
