@@ -52,7 +52,7 @@ Trace-X will be developed to generically handle different existing and planned s
 - Enabling and disabling of code highlighting (code highlighting is the default)
 
 # Assumptions
-There are further aspect models as the once currently known (SerialPart, Batch, JiS, PartAsPlanned, PartSiteInformation) in the two BomLifecycle asPlanned and asBuilt which are currently implemented and will be relevant in the future.
+There are further aspect models as the ones currently known (SerialPart, Batch, JiS, PartAsPlanned, PartSiteInformation) in the two BomLifecycle asPlanned and asBuilt which are currently implemented and will be relevant in the future.
 
 # Concept
 
