@@ -31,3 +31,7 @@ Make sure eclipse / catena git repositories are in sync
 23) Repeat step 8 to 23 for tractus-x: [GitHub Releases page](https://github.com/eclipse-tractusx/traceability-foss/releases)
 24) Sync catena and eclipse main branch
 
+// TODO @Martin Maul:
+//1 We need to create a branch from the helm-environments branch which reflects the release state
+// Create /release/helm-environments-<app-version> not the helm version
+//2 Make sure that the merged release branch will not be deleted
