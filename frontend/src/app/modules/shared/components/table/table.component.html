@@ -234,7 +234,7 @@ SPDX-License-Identifier: Apache-2.0
           matTooltipPosition="above"
           [class.mdc-tooltip--multiline]="true"
           [matTooltipShowDelay]="1000"
-          matTooltipDisabled="{{labelId.startsWith('dashboard')}}"
+          matTooltipDisabled="{{labelId?.startsWith('dashboard')}}"
           [mat-sort-header]="tableConfig.sortableColumns?.[column] ? '' : null"
           [disabled]="!tableConfig.sortableColumns?.[column]"
           mat-header-cell
