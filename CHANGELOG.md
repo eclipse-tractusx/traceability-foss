@@ -22,6 +22,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Bumped version ts-graphviz/setup-graphviz@v1 to ts-graphviz/setup-graphviz@v2
 - Bumped version Schedlock 5.10.0 to 5.11.0
 - updated yarn.lock file
+- [#542](https://github.com/eclipse-tractusx/traceability-foss/issues/542) Fixed bug where it where filter was reset when sorting in other parts table
 
 ### Removed
 - Removed EDC notification asset classes and replaced with IRS lib implementation

@@ -22,7 +22,7 @@ import { Component, Input, OnDestroy, OnInit, QueryList, ViewChildren } from '@a
 import { Pagination } from '@core/model/pagination.model';
 import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import { Part } from '@page/parts/model/parts.model';
+import { AssetAsBuiltFilter, AssetAsPlannedFilter, Part } from '@page/parts/model/parts.model';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
 import { TableSortingUtil } from '@shared/components/table/table-sorting.util';
@@ -63,6 +63,9 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
 
   @ViewChildren(PartsTableComponent) partsTableComponents: QueryList<PartsTableComponent>;
 
+  assetAsBuiltFilter: AssetAsBuiltFilter;
+  assetsAsPlannedFilter: AssetAsPlannedFilter;
+
   constructor(
     private readonly otherPartsFacade: OtherPartsFacade,
     private readonly partDetailsFacade: PartDetailsFacade,
@@ -91,9 +94,11 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
 
   filterActivated(isAsBuilt: boolean, assetFilter: any): void {
     if (isAsBuilt) {
-      this.otherPartsFacade.setSupplierPartsAsBuilt(0, 50, [], toAssetFilter(assetFilter, true));
+      this.assetAsBuiltFilter = assetFilter;
+      this.otherPartsFacade.setSupplierPartsAsBuilt(0, 50, [], toAssetFilter(this.assetAsBuiltFilter, true));
     } else {
-      this.otherPartsFacade.setSupplierPartsAsPlanned(0, 50, [], toAssetFilter(assetFilter, false));
+      this.assetsAsPlannedFilter = assetFilter;
+      this.otherPartsFacade.setSupplierPartsAsPlanned(0, 50, [], toAssetFilter(this.assetsAsPlannedFilter, false));
     }
   }
 
@@ -116,13 +121,36 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
   }
 
   public onAsBuiltTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
+
     this.setTableSortingList(sorting, MainAspectType.AS_BUILT);
-    this.otherPartsFacade.setSupplierPartsAsBuilt(page, pageSize, this.tableSupplierAsBuiltSortList);
+
+    let pageSizeValue = 50;
+    if (pageSize !== 0) {
+      pageSizeValue = pageSize;
+    }
+
+    if (this.assetAsBuiltFilter) {
+      this.otherPartsFacade.setSupplierPartsAsBuilt(0, pageSizeValue, this.tableSupplierAsBuiltSortList, toAssetFilter(this.assetAsBuiltFilter, true));
+    } else {
+      this.otherPartsFacade.setSupplierPartsAsBuilt(page, pageSizeValue, this.tableSupplierAsBuiltSortList);
+    }
+
   }
 
   public onAsPlannedTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
     this.setTableSortingList(sorting, MainAspectType.AS_PLANNED);
-    this.otherPartsFacade.setSupplierPartsAsPlanned(page, pageSize, this.tableSupplierAsPlannedSortList);
+
+    let pageSizeValue = 50;
+    if (pageSize !== 0) {
+      pageSizeValue = pageSize;
+    }
+
+    if (this.assetsAsPlannedFilter) {
+      this.otherPartsFacade.setSupplierPartsAsPlanned(0, pageSizeValue, this.tableSupplierAsPlannedSortList, toAssetFilter(this.assetsAsPlannedFilter, true));
+    } else {
+      this.otherPartsFacade.setSupplierPartsAsPlanned(page, pageSizeValue, this.tableSupplierAsPlannedSortList);
+    }
+
   }
 
 
