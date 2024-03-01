@@ -85,7 +85,7 @@ Source: https://miro.com/app/board/uXjVO5JVoho=/?moveToWidget=345876457235304953
 - [ ] Table contains all "Semantic Models" for selected asset
 - [ ] Table contains columns "Semantic Model Name" (de: refer to current translation)
 - [ ] Table contains columns "Version" of semantic model (de: Version)
-- [ ] Table contains columns "Semantic Model Id" of semantic model (de:ID Semantisches Modell) /== "Identification" of submodel in IRS response /
+- [ ] Table contains columns "Semantic Model Id" of semantic model (de: ID Semantisches Modell) /== "Identification" of submodel in IRS response /
 - [ ] Table columns are sortable (Name alphanumeric, Version uses numeric, natural sorting!)
 - [ ] Table columns are NOT filterable
 - [ ] Table with vertical scrollbar (No pagination)
