@@ -46,7 +46,6 @@ Trace-X will be developed to generically handle different existing and planned s
 
 # NFR
 - [ ] Panel with consistent UUX according to C-X Style Guide
-- [ ] Panel with consistent UUX
 
 # Out of scope
 - Switching between viewer instances in full-screen-mode
