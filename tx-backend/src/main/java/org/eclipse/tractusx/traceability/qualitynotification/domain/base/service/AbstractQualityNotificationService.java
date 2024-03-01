@@ -57,8 +57,8 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
         try {
             updatedAlert = getNotificationPublisherService().updateNotificationPublisher(alert, notificationStatus, reason);
         } catch (SendNotificationException exception) {
-            log.warn("Notification status rollback", exception);
-            throw new SendNotificationException(exception.getMessage());
+            log.info("Notification status rollback", exception);
+            return;
         }
 
         getQualityNotificationRepository().updateQualityNotificationEntity(updatedAlert);
@@ -78,7 +78,7 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
             approvedInvestigation = getNotificationPublisherService().approveNotification(notification);
         } catch (SendNotificationException exception) {
             log.info("Notification status rollback", exception);
-            throw new SendNotificationException(exception.getMessage());
+            return;
         }
         getQualityNotificationRepository().updateQualityNotificationEntity(approvedInvestigation);
     }
