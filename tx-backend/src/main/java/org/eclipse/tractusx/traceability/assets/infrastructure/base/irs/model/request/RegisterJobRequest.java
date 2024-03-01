@@ -21,7 +21,6 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request;
 
-import lombok.ToString;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 
 import java.util.List;

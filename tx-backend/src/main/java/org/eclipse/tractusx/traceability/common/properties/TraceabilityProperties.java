@@ -45,8 +45,6 @@ public class TraceabilityProperties {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private OffsetDateTime validUntil;
 
-    private SupportedAspectTypes supportedAspectTypes;
-
     private String adminApiKey;
 
     private String regularApiKey;

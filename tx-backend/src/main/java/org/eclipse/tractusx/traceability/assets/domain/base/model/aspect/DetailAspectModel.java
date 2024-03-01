@@ -47,6 +47,7 @@ import static org.eclipse.tractusx.traceability.common.date.DateUtil.toOffsetDat
 public class DetailAspectModel {
     private DetailAspectType type;
     private DetailAspectData data;
+    private String globalAssetId;
 
     public static List<DetailAspectModel> from(AssetAsBuiltEntity entity) {
 

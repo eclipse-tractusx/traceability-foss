@@ -23,11 +23,21 @@ import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public enum LocalIdKey {
-    @JsonProperty("manufacturerId") MANUFACTURER_ID,
-    @JsonProperty("manufacturerPartId") MANUFACTURER_PART_ID,
-    @JsonProperty("partInstanceId") PART_INSTANCE_ID,
-    @JsonProperty("batchId") BATCH_ID,
-    @JsonEnumDefaultValue UNKNOWN,
-    @JsonProperty("van") VAN,
-    @JsonProperty("jisNumber") JIS_NUMBER,
+    @JsonProperty("manufacturerId") MANUFACTURER_ID("manufacturerId"),
+    @JsonProperty("manufacturerPartId") MANUFACTURER_PART_ID("manufacturerPartId"),
+    @JsonProperty("partInstanceId") PART_INSTANCE_ID("partInstanceId"),
+    @JsonProperty("batchId") BATCH_ID("batchId"),
+    @JsonEnumDefaultValue UNKNOWN("unknown"),
+    @JsonProperty("van") VAN("van"),
+    @JsonProperty("jisNumber") JIS_NUMBER("jisNumber");
+
+    private final String value;
+
+    LocalIdKey(String value) {
+        this.value = value;
+    }
+
+    public String getValue() {
+        return value;
+    }
 }
