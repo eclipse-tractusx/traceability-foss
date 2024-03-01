@@ -17,6 +17,10 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - JSON Schema generation for valid submodel mapping
 - Added support for meta key for multi sorting on tables
 - Added error description and retry button to error toast when creating notifications
+- Bumped version mikefarah/yq@v4.40.5 to mikefarah/yq@v4.42.1
+- Bumped version lombok from 1.18.28 to 1.18.30
+- Bumped version ts-graphviz/setup-graphviz@v1 to ts-graphviz/setup-graphviz@v2
+- Bumped version Schedlock 5.10.0 to 5.11.0
 
 ### Removed
 - Removed EDC notification asset classes and replaced with IRS lib implementation
