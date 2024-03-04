@@ -7,6 +7,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [UNRELEASED - DD.MM.YYYY]
 
+## [10.6.0 - 04.03.2024]
+
 ### Added
 - Added concept #638: Contract agreement admin view
 - Added support for meta key for multi sorting on tables
