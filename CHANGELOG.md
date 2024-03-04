@@ -10,6 +10,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 - Added concept #638: Contract agreement admin view
 - Added support for meta key for multi sorting on tables
+- Added concept #578: Consistent null values
 
 ### Changed
 - Spring-core bumped from 6.0.16 to 6.0.17
