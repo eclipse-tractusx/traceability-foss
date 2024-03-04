@@ -18,8 +18,11 @@
 
 # Overview
 In the frontend there are multiple versions of 'empty' values:
+
 ![example-values-frontend.png](example-values-frontend.png)
+
 In the backend those values are as follows:
+
 ![example-values-backend.png](example-values-backend.png)
 
 These should be consistent throughout Trace-X.
@@ -60,7 +63,7 @@ In order to reduce the amount of whitespace characters in the database, leading 
 In this example, the amount of counted characters should be 10 ("blank" + " " + "test") instead of 43.
 
 ![null-value-input-only-spaces.png](null-value-input-only-spaces.png)
-Here no characters should be counted and the input should not be accepted.
+Here, no characters should be counted and the input should not be accepted.
 
 # References
 https://miro.com/app/board/uXjVO5JVoho=/?moveToWidget=3458764580844404410&cot=10
