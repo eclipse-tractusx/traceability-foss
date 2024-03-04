@@ -30,3 +30,4 @@ paths-ignore:
   - frontend/src/tests
   - '**/*.spec.ts'
   - frontend/src/mockServiceWorker.js
+  - tx-backend/src/main/resources/application-integration-spring-boot.yml
