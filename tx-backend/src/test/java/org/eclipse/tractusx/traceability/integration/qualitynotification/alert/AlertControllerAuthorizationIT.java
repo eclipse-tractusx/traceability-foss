@@ -123,12 +123,6 @@ class AlertControllerAuthorizationIT extends IntegrationTestSpecification {
                 .statusCode(new ForbiddenMatcher(isAllowed));
     }
 
-    /*
-     * TODO (Pooja):
-     * Cofinity initially allowed both Supervisor and User roles to approve alerts.
-     * However, following Upstream's code changes and considering the logic, it now makes sense
-     * to restrict alert approval to only the Supervisor role, as per the updated requirements.
-     */
     @ParameterizedTest
     @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#supervisorRoleAllowed")
     void shouldAllowApproveEndpointOnlyForSpecificRoles(JwtRole role, boolean isAllowed) throws JoseException {
@@ -157,13 +151,6 @@ class AlertControllerAuthorizationIT extends IntegrationTestSpecification {
                 .statusCode(new ForbiddenMatcher(isAllowed));
     }
 
-    /*
-     * TODO (Pooja):
-     * Cofinity initially allowed both Supervisor and User roles to close alerts.
-     * However, following Upstream's code changes and considering the logic, it now makes sense
-     * to restrict alert close to only the Supervisor role, as per the updated requirements.
-     * Frontend need to change as well as
-     */
     @ParameterizedTest
     @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#supervisorRoleAllowed")
     void shouldAllowCloseEndpointOnlyForSpecificRoles(JwtRole role, boolean isAllowed) throws JoseException, JsonProcessingException {

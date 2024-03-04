@@ -125,13 +125,6 @@ class InvestigationsControllerAuthorizationIT extends IntegrationTestSpecificati
                 .statusCode(new ForbiddenMatcher(isAllowed));
     }
 
-    /*
-     * TODO (Pooja):
-     * Cofinity initially allowed both Supervisor and User roles to approve investigation.
-     * However, following Upstream's code changes and considering the logic, it now makes sense
-     * to restrict investigation approval to only the Supervisor role, as per the updated requirements.
-     * Frontend need to change as well as
-     */
     @ParameterizedTest
     @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#supervisorRoleAllowed")
     void shouldAllowApproveEndpointOnlyForSpecificRoles(JwtRole role, boolean isAllowed) throws JoseException {
@@ -157,14 +150,7 @@ class InvestigationsControllerAuthorizationIT extends IntegrationTestSpecificati
                 .assertThat()
                 .statusCode(new ForbiddenMatcher(isAllowed));
     }
-
-    /*
-     * TODO (Pooja):
-     * Cofinity initially allowed both Supervisor and User roles to close investigation.
-     * However, following Upstream's code changes and considering the logic, it now makes sense
-     * to restrict investigation close to only the Supervisor role, as per the updated requirements.
-     * Frontend need to change as well as
-     */
+    
     @ParameterizedTest
     @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#supervisorRoleAllowed")
     void shouldAllowCloseEndpointOnlyForSpecificRoles(JwtRole role, boolean isAllowed) throws JoseException, JsonProcessingException {
