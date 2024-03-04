@@ -45,14 +45,17 @@ Whenever a string is saved or updated in the database and during data consumptio
 
 ### Frontend
 Null values should be shown in the frontend as empty:
+
 ![null-value-display-empty.png](null-value-display-empty.png)
 
 When sorting the values, empty ones should be always shown at the bottom regardless of the sort order.
 Filtering and searching for empty values must be possible. In the filter box (Blank) (de: (Leer)) should be shown at the bottom.
 To search for it, the user must type in the term "(Blank)" (de: (Leer)).
+
 ![null-value-filter.png](null-value-filter.png)
 
 In order to reduce the amount of whitespace characters in the database, leading and trailing whitespaces should not be counted during user input.
+
 ![null-value-input-leading-and-trailing.png](null-value-input-leading-and-trailing.png)
 In this example, the amount of counted characters should be 10 ("blank" + " " + "test") instead of 43.
 
