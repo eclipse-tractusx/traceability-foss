@@ -71,7 +71,6 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
         // Result should be a list of globalAssetIds associcated with asBuilt and another list asPlanned
 
 
-
         List<String> globalAssetIdsForApplicationBpn = decentralRegistryRepository.retrieveShellDescriptorsByBpn(traceabilityProperties.getBpn().toString());
         globalAssetIdsForApplicationBpn
                 .forEach(globalAssetId -> {
