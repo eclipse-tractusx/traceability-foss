@@ -28,7 +28,9 @@ These should be consistent throughout Trace-X.
 - Whenever a string value is saved or updated in the database and during data consumption from IRS:
   - [ ] Leading and trailing whitespace characters are trimmed.
   - [ ] Empty strings ("") are all converted to null.
-- [ ] Decision taken on *how* to show the values & all null values are shown accordingly in the frontend.
+- [ ] Null values are shown *empty* in the frontend.
+- [ ] When sorting columns, empty values are shown all the way on the bottom regardless of the sort order.
+- [ ] Empty values can be filtered and searched for. They are shown as "(Blank)" (de: "(Leer)") when filtering for them and can be searched by inputting the same term.
 - [ ] Leading and trailing whitespace characters don't count as mandatory values during user input.
 
 # Out of scope
@@ -42,15 +44,20 @@ Whenever a string is saved or updated in the database and during data consumptio
 3. Save/update value in database
 
 ### Frontend
-There are multiple options on how to show null values in the frontend.
-1. Empty
+Null values should be shown in the frontend as empty:
 ![null-value-display-empty.png](null-value-display-empty.png)
-2. null
-![null-value-display-null.png](null-value-display-null.png)
-3. Placeholder character (for example "-") ideally in a different color
-![null-value-display-placeholder.png](null-value-display-placeholder.png)
 
-Once an option was chosen, the display of null values must be implemented accordingly.
+When sorting the values, empty ones should be always shown at the bottom regardless of the sort order.
+Filtering and searching for empty values must be possible. In the filter box (Blank) (de: (Leer)) should be shown at the bottom.
+To search for it, the user must type in the term "(Blank)" (de: (Leer)).
+![null-value-filter.png](null-value-filter.png)
+
+In order to reduce the amount of whitespace characters in the database, leading and trailing whitespaces should not be counted during user input.
+![null-value-input-leading-and-trailing.png](null-value-input-leading-and-trailing.png)
+In this example, the amount of counted characters should be 10 ("blank" + " " + "test") instead of 43.
+
+![null-value-input-only-spaces.png](null-value-input-only-spaces.png)
+Here no characters should be counted and the input should not be accepted.
 
 # References
 https://miro.com/app/board/uXjVO5JVoho=/?moveToWidget=3458764580844404410&cot=10
