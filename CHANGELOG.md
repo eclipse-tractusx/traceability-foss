@@ -7,6 +7,11 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [UNRELEASED - DD.MM.YYYY]
 
+### Added
+
+### Changed
+- Updated RELEASE.md to the latest release guide (added more steps)
+
 ## [10.6.0 - 04.03.2024]
 
 ### Added
