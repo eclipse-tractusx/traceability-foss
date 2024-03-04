@@ -25,6 +25,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Removed
 - Removed EDC notification asset classes and replaced with IRS lib implementation
+- [#528](https://github.com/eclipse-tractusx/traceability-foss/issues/528) Removed sorting tooltip on quality incidents tables on dashboard page
 
 ## [10.5.0 - 22.02.2024]
 
