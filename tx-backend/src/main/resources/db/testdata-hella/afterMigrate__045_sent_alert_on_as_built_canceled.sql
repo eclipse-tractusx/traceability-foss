@@ -2,7 +2,7 @@
 -- (see https://documentation.red-gate.com/fd/callback-concept-184127466.html).
 -- it is only intended for usage in local or test environments
 
--- This creates an alert in state CANCELED with Severity Minor for asBuilt asset Fog lights left which is sent from BPNL000000000001 to BPNL000CUSTOMER1
+-- This creates an alert in state CANCELED in Severity Minor for asBuilt asset Fog lights left which is sent from BPNL000000000001 to BPNL000CUSTOMER1
 
 ---
 insert into alert
@@ -17,9 +17,9 @@ select setval('alert_id_seq1', (select max(a.id) from alert a), true);
 ---
 -- initial message
 insert into alert_notification
-    (id                         , alert_id       , contract_agreement_id, edc_url                                                 , notification_reference_id, created_by, send_to        , target_date                           , severity, created_by_name, send_to_name, edc_notification_id        , status    , created                              , updated          , message_id                            , is_initial)
+    (id                         , alert_id       , contract_agreement_id, edc_url                    , notification_reference_id, created_by, send_to        , target_date                           , severity, created_by_name, send_to_name       , edc_notification_id        , status    , created                              , updated          , message_id                            , is_initial)
 values
-    (${alertNotificationSentId6}, ${alertSentId6}, 'contractAgreementId', 'http://localhost:8082/api/qualitynotifications/receive', 'null'                   , ${bpnOwn} , ${bpnCustomer1}, current_timestamp + interval '1 month', 'MINOR' , 'Hella'        , 'BMW AG'    , ${alertNotificationSentId6}, 'CANCELED', current_timestamp - interval '3 days', current_timestamp, '7e744fd6-26e8-44b8-9f70-0b788c35fac2', true);
+    (${alertNotificationSentId6}, ${alertSentId6}, 'contractAgreementId', 'http://localhost:5001/edc', 'null'                   , ${bpnOwn} , ${bpnCustomer1}, current_timestamp + interval '1 month', 'MINOR' , ${bpnOwnName}  , ${bpnCustomer1Name}, ${alertNotificationSentId6}, 'CANCELED', current_timestamp - interval '3 days', current_timestamp, 'bd6ca75b-9d1c-44bd-bc80-b3afca317daf', true);
 
 ---
 -- join initial notification to asset

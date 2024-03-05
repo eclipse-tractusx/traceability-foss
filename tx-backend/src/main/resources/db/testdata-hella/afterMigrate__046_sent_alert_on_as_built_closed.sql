@@ -2,7 +2,7 @@
 -- (see https://documentation.red-gate.com/fd/callback-concept-184127466.html).
 -- it is only intended for usage in local or test environments
 
--- This creates an alert in state CLOSED with Severity Critical for asBuilt asset Fog lights left which is sent from BPNL000000000001 to BPNL000CUSTOMER1
+-- This creates an alert in state CLOSED in Severity Critical for asBuilt asset Fog lights left which is sent from BPNL000000000001 to BPNL000CUSTOMER1
 
 ---
 insert into alert
@@ -17,9 +17,9 @@ select setval('alert_id_seq1', (select max(a.id) from alert a), true);
 ---
 -- initial message
 insert into alert_notification
-    (id                          , alert_id       , contract_agreement_id, edc_url                                                 , notification_reference_id, created_by, send_to        , target_date                           , severity  , created_by_name, send_to_name, edc_notification_id         , status  , created                              , updated          , message_id                            , is_initial)
+    (id                          , alert_id       , contract_agreement_id, edc_url                    , notification_reference_id, created_by, send_to        , target_date                           , severity  , created_by_name, send_to_name       , edc_notification_id         , status  , created                              , updated          , message_id                            , is_initial)
 values
-    (${alertNotificationSentId7a}, ${alertSentId7}, 'contractAgreementId', 'http://localhost:8082/api/qualitynotifications/receive', 'null'                   , ${bpnOwn} , ${bpnCustomer1}, current_timestamp + interval '1 month', 'CRITICAL', 'Hella'        , 'BMW AG'    , ${alertNotificationSentId7a}, 'CLOSED', current_timestamp - interval '2 days', current_timestamp, '7e744fd6-26e8-44b8-9f70-0b788c35fac2', true);
+    (${alertNotificationSentId7a}, ${alertSentId7}, 'contractAgreementId', 'http://localhost:5001/edc', 'null'                   , ${bpnOwn} , ${bpnCustomer1}, current_timestamp + interval '1 month', 'CRITICAL', ${bpnOwnName}  , ${bpnCustomer1Name}, ${alertNotificationSentId7a}, 'CLOSED', current_timestamp - interval '2 days', current_timestamp, '3ca2e271-bffb-4e34-83c5-13fc1c462062', true);
 
 ---
 -- join initial notification to asset
@@ -38,9 +38,9 @@ values
 ---
 -- CLOSED by sender notification message
 insert into alert_notification
-    (id                          , alert_id       , contract_agreement_id, edc_url                                                 , notification_reference_id             , created_by, send_to        , target_date                           , severity  , created_by_name, send_to_name, edc_notification_id                   , status  , created                              , updated                                , message_id                            , is_initial)
+    (id                          , alert_id       , contract_agreement_id, edc_url                    , notification_reference_id             , created_by, send_to        , target_date                           , severity  , created_by_name, send_to_name       , edc_notification_id                   , status  , created                              , updated                                , message_id, is_initial)
 values
-    (${alertNotificationSentId7b}, ${alertSentId7}, 'contractAgreementId', 'http://localhost:8082/api/qualitynotifications/receive', 'cc49777f-3c8b-47d6-b1cf-f51783737292', ${bpnOwn} , ${bpnCustomer1}, current_timestamp + interval '2 weeks', 'CRITICAL', 'Hella'        , 'BMW AG'    , 'cc49777f-3c8b-47d6-b1cf-f51783737292', 'CLOSED', current_timestamp - interval '2 days', current_timestamp - interval '12 hours', 'f305046d-333a-4d44-ba3e-9a4ef1337ba6', false);
+    (${alertNotificationSentId7b}, ${alertSentId7}, 'contractAgreementId', 'http://localhost:5001/edc', '04d9d9b0-26cc-4209-a039-825f43cca44e', ${bpnOwn} , ${bpnCustomer1}, current_timestamp + interval '2 weeks', 'CRITICAL', ${bpnOwnName}  , ${bpnCustomer1Name}, '6eb2499c-6ad0-426d-96d9-a723fab7da7b', 'CLOSED', current_timestamp - interval '2 days', current_timestamp - interval '12 hours', null      , false);
 
 ---
 -- join CLOSED notification to asset

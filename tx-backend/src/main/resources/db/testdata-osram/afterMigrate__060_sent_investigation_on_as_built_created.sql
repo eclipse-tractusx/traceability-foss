@@ -16,9 +16,9 @@ select setval('investigation_id_seq1', (select max(i.id) from investigation i), 
 
 ---
 insert into investigation_notification
-    (id                                 , contract_agreement_id, edc_url, notification_reference_id, created_by, send_to         , investigation_id       , target_date                          , severity  , created_by_name, send_to_name , edc_notification_id                   , status   , created                             , updated                              , message_id                            , is_initial)
+    (id                                 , contract_agreement_id, edc_url, notification_reference_id, created_by, send_to         , investigation_id       , target_date                          , severity  , created_by_name, send_to_name        , edc_notification_id                   , status   , created                             , updated                                  , message_id                            , is_initial)
 values
-    (${investigationNotificationSentId1}, null                 , null   , null                     , ${bpnOwn} , ${bpnSupplier22}, ${investigationSentId1}, current_timestamp + interval '1 week', 'CRITICAL', 'Osram'        , 'Petersmeier', 'c01353db-640a-44c4-9a87-28fa3a950a95', 'CREATED', current_timestamp - interval '1 day', current_timestamp - interval '1 hour', '71d7cb88-a208-434b-993e-74aeb331fd11', true);
+    (${investigationNotificationSentId1}, null                 , null   , null                     , ${bpnOwn} , ${bpnSupplier22}, ${investigationSentId1}, current_timestamp + interval '1 week', 'CRITICAL', ${bpnOwnName}  , ${bpnSupplier22Name}, 'c01353db-640a-44c4-9a87-28fa3a950a95', 'CREATED', current_timestamp - interval '1 day', current_timestamp - interval '3- minutes', 'edd50c79-ded1-4259-bc55-19f38d4e3291', true);
 
 ---
 -- join investigation to asset

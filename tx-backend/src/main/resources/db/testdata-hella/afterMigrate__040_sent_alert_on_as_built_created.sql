@@ -2,7 +2,7 @@
 -- (see https://documentation.red-gate.com/fd/callback-concept-184127466.html).
 -- it is only intended for usage in local or test environments
 
--- This creates an alert in state CREATED with Severity Minor for asBuilt asset Left Headlights which is sent from BPNL000000000001 to BPNL000CUSTOMER1
+-- This creates an alert in state CREATED in Severity Minor for asBuilt asset Left Headlights which is sent from BPNL000000000001 to BPNL000CUSTOMER1
 
 ---
 insert into alert
@@ -17,9 +17,9 @@ select setval('alert_id_seq1', (select max(a.id) from alert a), true);
 ---
 -- initial message
 insert into alert_notification
-    (id                         , alert_id       , contract_agreement_id, edc_url, notification_reference_id, created_by, send_to        , target_date                           , severity, created_by_name, send_to_name, edc_notification_id        , status   , created                                 , updated          , message_id                            , is_initial)
+    (id                         , alert_id       , contract_agreement_id, edc_url, notification_reference_id, created_by, send_to        , target_date                           , severity, created_by_name, send_to_name       , edc_notification_id        , status   , created                                 , updated          , message_id                            , is_initial)
 values
-    (${alertNotificationSentId1}, ${alertSentId1}, null                 , null   , 'null'                   , ${bpnOwn} , ${bpnCustomer1}, current_timestamp + interval '1 month', 'MINOR' , 'Hella'        , 'BMW AG'    , ${alertNotificationSentId1}, 'CREATED', current_timestamp - interval '1 seconds', current_timestamp, '42e28782-bf4c-45a2-82b7-1757aa4b8772', true);
+    (${alertNotificationSentId1}, ${alertSentId1}, null                 , null   , 'null'                   , ${bpnOwn} , ${bpnCustomer1}, current_timestamp + interval '1 month', 'MINOR' , ${bpnOwnName}  , ${bpnCustomer1Name}, ${alertNotificationSentId1}, 'CREATED', current_timestamp - interval '1 seconds', current_timestamp, '42e28782-bf4c-45a2-82b7-1757aa4b8772', true);
 
 ---
 -- join initial notification to asset

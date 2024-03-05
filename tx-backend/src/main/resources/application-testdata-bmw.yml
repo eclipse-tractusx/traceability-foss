@@ -19,12 +19,18 @@
 # SPDX-License-Identifier: Apache-2.0
 ################################################################################
 
+# own BPN
+traceability:
+  bpn: BPNL00000000GNDU
+
 spring:
   flyway:
     locations: /db/migration,/db/testdata-bmw
     placeholders:
-      bpnOwn:       "'BPNL00000000GNDU'"
-      bpnSupplier1: "'BPNL000000000001'"
+      bpnOwn          : "'BPNL00000000GNDU'"
+      bpnOwnName      : "'BMW AG'"
+      bpnSupplier1    : "'BPNL000000000001'"
+      bpnSupplier1Name: "'Hella'"
 
       assetAsBuiltId01: "'urn:uuid:6ec3f1db-2798-454b-a73f-0d21a8966c77'"
       assetAsBuiltId02: "'urn:uuid:132fd82b-caab-476b-b453-b7273a4c7c01'"
@@ -102,19 +108,19 @@ spring:
       alertReceivedId4: 14
       alertReceivedId5: 15
 
-      alertNotificationSentId1: "'4939c189-b75d-4647-94cb-a75b83a92313'"
-      alertNotificationSentId2: "'a15583ac-101e-44e0-9fba-33ceaa4d3540'"
+      alertNotificationSentId1 : "'4939c189-b75d-4647-94cb-a75b83a92313'"
+      alertNotificationSentId2 : "'a15583ac-101e-44e0-9fba-33ceaa4d3540'"
       alertNotificationSentId3a: "'8b1319a4-4ba8-46bc-a0b0-1c71d9186d25'"
       alertNotificationSentId3b: "'cab39b22-3938-4b27-9a78-68ef980147dc'"
       alertNotificationSentId4a: "'86ef99d6-15c9-4bb0-87ee-9828fe06a3d2'"
       alertNotificationSentId4b: "'c8216fd5-88cf-44eb-baa5-c942912cae7e'"
       alertNotificationSentId5a: "'3d5a6398-c807-4bb8-9a8c-7bc436988964'"
       alertNotificationSentId5b: "'35b7e479-7469-4b83-bfc1-0f0c13ad09f6'"
-      alertNotificationSentId6: "'0b2ee6b3-6bc8-487d-b8f2-75c027e51b26'"
+      alertNotificationSentId6 : "'0b2ee6b3-6bc8-487d-b8f2-75c027e51b26'"
       alertNotificationSentId7a: "'21bc7f55-59ae-4711-b961-6af1a7c25757'"
       alertNotificationSentId7b: "'f03a4de5-0820-45bb-828e-96e38d433c87'"
 
-      alertNotificationReceivedId1: "'e3de866d-044b-4db9-9349-841365189a9b'"
+      alertNotificationReceivedId1 : "'e3de866d-044b-4db9-9349-841365189a9b'"
       alertNotificationReceivedId2a: "'98d5107c-f11b-4a69-9207-906c660be7f6'"
       alertNotificationReceivedId2b: "'194b32b5-8b28-40d8-a29a-58a30a1ac2c5'"
       alertNotificationReceivedId3a: "'df5b7e53-5b5e-445b-adbe-0fe6dabc05e3'"
@@ -138,19 +144,19 @@ spring:
       investigationReceivedId4: 14
       investigationReceivedId5: 15
 
-      investigationNotificationSentId1: "'7486286d-a098-4617-81ea-3015bc866a7e'"
-      investigationNotificationSentId2: "'94032934-8ec8-4f97-a38d-6b16d448cbfb'"
+      investigationNotificationSentId1 : "'7486286d-a098-4617-81ea-3015bc866a7e'"
+      investigationNotificationSentId2 : "'94032934-8ec8-4f97-a38d-6b16d448cbfb'"
       investigationNotificationSentId3a: "'b5b4612e-6ed6-47c2-8f52-adefe3d5b99a'"
       investigationNotificationSentId3b: "'62eea0b3-c8b1-48d9-a220-cb01c3a3f4fe'"
       investigationNotificationSentId4a: "'36e270c0-4a40-4516-b2f0-c21f8c033f2b'"
       investigationNotificationSentId4b: "'317fa3d4-126a-424d-a030-aa53384573fd'"
       investigationNotificationSentId5a: "'531ca5d8-3634-4439-8090-743a7a63be75'"
       investigationNotificationSentId5b: "'a5444374-a0a6-452a-9d45-079930468800'"
-      investigationNotificationSentId6: "'54511ec0-304b-41ef-8426-6585a1ee1558'"
+      investigationNotificationSentId6 : "'54511ec0-304b-41ef-8426-6585a1ee1558'"
       investigationNotificationSentId7a: "'6adc3d93-7efb-4c2b-bd9d-bbb1b61549f0'"
       investigationNotificationSentId7b: "'8e866bf4-fa92-43fb-a012-a27556659579'"
 
-      investigationNotificationReceivedId1: "'0678b9c6-a9c4-4ff9-a5e2-c6cd19c5f8c6'"
+      investigationNotificationReceivedId1 : "'0678b9c6-a9c4-4ff9-a5e2-c6cd19c5f8c6'"
       investigationNotificationReceivedId2a: "'3fbd0206-2507-445c-aa6b-ec726d0eeae2'"
       investigationNotificationReceivedId2b: "'989ae19d-d682-4c1b-baaf-4bb779d91d8d'"
       investigationNotificationReceivedId3a: "'7561d71a-0706-4dd9-bf7e-29d8be482e19'"
