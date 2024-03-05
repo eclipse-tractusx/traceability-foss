@@ -139,3 +139,9 @@ feign:
 cors:
   origins: >
     "https://localhost:4200"
+
+
+irs-edc-client:
+  controlplane:
+    api-key:
+      secret: "integration-tests"
