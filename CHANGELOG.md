@@ -8,10 +8,18 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [UNRELEASED - DD.MM.YYYY]
 
 ### Added
-- Added concept #638: Contract agreement admin view
-- Added support for meta key for multi sorting on tables
 - #515 Service Unavailable Response on Notification failure
 
+### Changed
+- Updated RELEASE.md to the latest release guide (added more steps)
+
+## [10.6.0 - 04.03.2024]
+
+### Added
+- Added concept #638: Contract agreement admin view
+- Added support for meta key for multi sorting on tables
+
+- Added concept #578: Consistent null values
 ### Changed
 - Spring-core bumped from 6.0.16 to 6.0.17
 - Updated user manual
@@ -23,9 +31,11 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Bumped version ts-graphviz/setup-graphviz@v1 to ts-graphviz/setup-graphviz@v2
 - Bumped version Schedlock 5.10.0 to 5.11.0
 - updated yarn.lock file
+- [#542](https://github.com/eclipse-tractusx/traceability-foss/issues/542) Fixed bug where it where filter was reset when sorting in other parts table
 
 ### Removed
 - Removed EDC notification asset classes and replaced with IRS lib implementation
+- [#528](https://github.com/eclipse-tractusx/traceability-foss/issues/528) Removed sorting tooltip on quality incidents tables on dashboard page
 
 ## [10.5.0 - 22.02.2024]
 

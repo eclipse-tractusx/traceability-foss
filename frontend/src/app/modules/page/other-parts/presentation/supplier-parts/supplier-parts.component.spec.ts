@@ -22,7 +22,7 @@ import { OtherPartsState } from '@page/other-parts/core/other-parts.state';
 import { OtherPartsModule } from '@page/other-parts/other-parts.module';
 import { PartsState } from '@page/parts/core/parts.state';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import { toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
+import { toAssetFilter, toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { getTableCheckbox, renderComponent } from '@tests/test-render.utils';
 
@@ -32,7 +32,7 @@ describe('SupplierPartsComponent', () => {
   let otherPartsState: OtherPartsState;
   beforeEach(() => (otherPartsState = new OtherPartsState()));
 
-  const renderSupplierParts = ({ roles = [] } = {}) =>
+  const renderSupplierPartsAsBuilt = ({ roles = [] } = {}) =>
     renderComponent(SupplierPartsComponent, {
       imports: [ OtherPartsModule ],
       providers: [ { provide: OtherPartsState, useFactory: () => otherPartsState }, { provide: PartsState } ],
@@ -42,15 +42,25 @@ describe('SupplierPartsComponent', () => {
       },
     });
 
+  const renderSupplierPartsAsPlanned = ({ roles = [] } = {}) =>
+    renderComponent(SupplierPartsComponent, {
+      imports: [ OtherPartsModule ],
+      providers: [ { provide: OtherPartsState, useFactory: () => otherPartsState }, { provide: PartsState } ],
+      roles,
+      componentInputs: {
+        bomLifecycle: MainAspectType.AS_PLANNED,
+      },
+    });
+
   it('should render part table', async () => {
-    await renderSupplierParts();
+    await renderSupplierPartsAsBuilt();
 
     const tableElements = await waitFor(() => screen.getAllByTestId('table-component--test-id'));
     expect(tableElements.length).toEqual(1);
   });
 
   it('should render table and display correct amount of rows', async () => {
-    await renderSupplierParts();
+    await renderSupplierPartsAsBuilt();
 
     const tableElement = await waitFor(() => screen.getByTestId('table-component--test-id'));
     expect(tableElement).toBeInTheDocument();
@@ -58,7 +68,7 @@ describe('SupplierPartsComponent', () => {
   });
 
   it('should add item to current list and then remove', async () => {
-    const { fixture } = await renderSupplierParts({ roles: [ 'user' ] });
+    const { fixture } = await renderSupplierPartsAsBuilt({ roles: [ 'user' ] });
 
     // first click to check checkbox
     fireEvent.click(await getTableCheckbox(screen, 0));
@@ -74,7 +84,7 @@ describe('SupplierPartsComponent', () => {
   });
 
   it('sort supplier parts after name column', async () => {
-    const { fixture } = await renderSupplierParts({ roles: [ 'admin' ] });
+    const { fixture } = await renderSupplierPartsAsBuilt({ roles: [ 'admin' ] });
     const supplierPartsComponent = fixture.componentInstance;
 
     let nameHeader = await screen.findByText('table.column.nameAtManufacturer');
@@ -85,7 +95,7 @@ describe('SupplierPartsComponent', () => {
   });
 
   it('should multisort after column name and semanticModelId', async () => {
-    const { fixture } = await renderSupplierParts({ roles: [ 'admin' ] });
+    const { fixture } = await renderSupplierPartsAsBuilt({ roles: [ 'admin' ] });
     const supplierPartsComponent = fixture.componentInstance;
 
     let nameHeader = await screen.findByText('table.column.nameAtManufacturer');
@@ -117,7 +127,7 @@ describe('SupplierPartsComponent', () => {
   });
 
   it('should reset sorting on third click', async () => {
-    const { fixture } = await renderSupplierParts({ roles: [ 'admin' ] });
+    const { fixture } = await renderSupplierPartsAsBuilt({ roles: [ 'admin' ] });
     const supplierPartsComponent = fixture.componentInstance;
 
     let nameHeader = await screen.findByText('table.column.nameAtManufacturer');
@@ -153,7 +163,7 @@ describe('SupplierPartsComponent', () => {
 
 
   it('should handle updateSupplierParts null', async () => {
-    const { fixture } = await renderSupplierParts();
+    const { fixture } = await renderSupplierPartsAsBuilt();
     const supplierPartsComponent = fixture.componentInstance;
 
     const otherPartsFacade = (supplierPartsComponent as any)['otherPartsFacade'];
@@ -169,7 +179,7 @@ describe('SupplierPartsComponent', () => {
   });
 
   it('should handle updateCustomerParts including search', async () => {
-    const { fixture } = await renderSupplierParts();
+    const { fixture } = await renderSupplierPartsAsBuilt();
     const supplierPartsComponent = fixture.componentInstance;
 
     const otherPartsFacade = (supplierPartsComponent as any)['otherPartsFacade'];
@@ -185,6 +195,30 @@ describe('SupplierPartsComponent', () => {
     expect(updateSupplierPartAsPlannedSpy).toHaveBeenCalledWith(0, 50, [], toGlobalSearchAssetFilter(search, false), true);
 
   });
+
+  it('should correctly react to table config change', async function() {
+    const { fixture } = await renderSupplierPartsAsPlanned();
+    const supplierPartsComponent = fixture.componentInstance;
+    const otherPartsFacade = (supplierPartsComponent as any)['otherPartsFacade'];
+    const assetFilter = toAssetFilter({idShort: "test"}, false);
+    const tableSortingList = ["idShort","asc"];
+
+    supplierPartsComponent.assetsAsPlannedFilter = assetFilter;
+
+    let setSupplierPartsAsPlannedSpy = spyOn(otherPartsFacade,'setSupplierPartsAsPlanned');
+
+    supplierPartsComponent.onAsPlannedTableConfigChange({page: 0, pageSize: 50, sorting: ["idShort","asc"]});
+
+    expect(setSupplierPartsAsPlannedSpy).toHaveBeenCalled();
+    expect(setSupplierPartsAsPlannedSpy).toHaveBeenCalledWith(0,50, [tableSortingList], {idShort: 'test'});
+
+    supplierPartsComponent.assetsAsPlannedFilter = null;
+
+    supplierPartsComponent.onAsPlannedTableConfigChange({page: 0, pageSize: 50, sorting: ["idShort", "asc"]})
+    expect(setSupplierPartsAsPlannedSpy).toHaveBeenCalledWith(0,50,[tableSortingList])
+
+
+  })
 
 
 });
