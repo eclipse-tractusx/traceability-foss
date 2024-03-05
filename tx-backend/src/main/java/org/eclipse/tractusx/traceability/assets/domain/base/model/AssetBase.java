@@ -37,10 +37,10 @@ import java.util.List;
 @Data
 @Builder
 public class AssetBase {
-    private final String id;
-    private final String idShort;
+    private String id;
+    private String idShort;
     private String semanticModelId;
-    private final String manufacturerId;
+    private String manufacturerId;
     private String manufacturerName;
     private String nameAtManufacturer;
     private String manufacturerPartId;

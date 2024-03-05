@@ -52,11 +52,6 @@ public class InvestigationServiceImpl extends AbstractQualityNotificationService
     }
 
     @Override
-    protected AssetAsBuiltServiceImpl getAssetAsBuiltServiceImpl() {
-        return assetService;
-    }
-
-    @Override
     public QualityNotificationId start(StartQualityNotificationDomain startQualityAlertDomain) {
         QualityNotification notification = getNotificationPublisherService().startInvestigation(startQualityAlertDomain.getPartIds(), startQualityAlertDomain.getDescription(), startQualityAlertDomain.getTargetDate(), startQualityAlertDomain.getSeverity(), startQualityAlertDomain.getReceiverBpn(), startQualityAlertDomain.isAsBuilt());
 

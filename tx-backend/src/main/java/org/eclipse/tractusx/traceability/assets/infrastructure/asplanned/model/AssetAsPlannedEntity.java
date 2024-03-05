@@ -77,7 +77,6 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
     private List<SubmodelPayloadEntity> submodels;
 
 
-
     public static AssetAsPlannedEntity from(AssetBase asset) {
         List<DetailAspectModel> detailAspectModels = asset.getDetailAspectModels();
         AsPlannedInfo asPlannedInfo = AsPlannedInfo.from(detailAspectModels);
@@ -126,7 +125,7 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                 .semanticModelId(entity.getSemanticModelId())
                 .owner(entity.getOwner())
                 .childRelations(entity.getChildDescriptors().stream()
-                        .map(child -> new Descriptions(child.getId(), child.getIdShort()))
+                        .map(child -> new Descriptions(child.getId(), child.getIdShort(), null, null))
                         .toList())
                 .qualityType(entity.getQualityType())
                 .detailAspectModels(DetailAspectModel.from(entity))

@@ -20,9 +20,12 @@
 package org.eclipse.tractusx.traceability.assets.domain.base.model;
 
 import lombok.Builder;
+import org.eclipse.tractusx.irs.component.enums.Direction;
 
 @Builder
 public record Descriptions(
         String id,
-        String idShort) {
+        String idShort,
+        String parentId,
+        Direction direction) {
 }

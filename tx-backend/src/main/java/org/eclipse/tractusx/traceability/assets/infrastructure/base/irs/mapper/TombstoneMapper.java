@@ -44,8 +44,7 @@ public class TombstoneMapper {
                     } else {
                         return mapOtherPartsTombstone(jobstatus, tombstone, objectMapper);
                     }
-                })
-                .collect(Collectors.toList());
+                }).toList();
 
     }
 

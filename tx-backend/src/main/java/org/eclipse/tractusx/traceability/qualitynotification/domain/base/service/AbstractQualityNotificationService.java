@@ -45,8 +45,6 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
 
     protected abstract QualityNotificationRepository getQualityNotificationRepository();
 
-    protected abstract AssetAsBuiltServiceImpl getAssetAsBuiltServiceImpl();
-
     @Override
     public PageResult<QualityNotification> getNotifications(Pageable pageable, SearchCriteria searchCriteria) {
         return getQualityNotificationRepository().getNotifications(pageable, searchCriteria);

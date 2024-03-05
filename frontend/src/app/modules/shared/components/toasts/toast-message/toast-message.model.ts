@@ -45,6 +45,6 @@ export interface CallAction {
 export class ToastMessage {
   public isSliderON = true;
 
-  constructor(public id: number, public message: I18nMessage | string, public status: ToastStatus | null, public timeout: number, public actions: CallAction[] = null) {
+  constructor(public id: number, public message: I18nMessage | string, public status: ToastStatus | null, public timeout: number, public actions: CallAction[] = null, public retry: boolean = false, public stringMessage: string = "") {
   }
 }

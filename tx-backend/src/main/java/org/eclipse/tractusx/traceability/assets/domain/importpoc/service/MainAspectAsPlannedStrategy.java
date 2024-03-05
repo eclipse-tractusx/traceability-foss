@@ -80,7 +80,7 @@ public class MainAspectAsPlannedStrategy implements MappingStrategy {
                 .map(SingleLevelBomAsPlannedRequest::childItems)
                 .orElse(Collections.emptyList())
                 .stream()
-                .map(childItem -> new Descriptions(childItem.catenaXId(), null))
+                .map(childItem -> new Descriptions(childItem.catenaXId(), null, null, null))
                 .toList();
 
 
@@ -93,7 +93,7 @@ public class MainAspectAsPlannedStrategy implements MappingStrategy {
                 .map(SingleLevelUsageAsPlannedRequest::parentParts)
                 .orElse(Collections.emptyList())
                 .stream()
-                .map(parentPart -> new Descriptions(parentPart.parentCatenaXId(), null))
+                .map(parentPart -> new Descriptions(parentPart.parentCatenaXId(), null, null, null))
                 .toList();
 
         List<DetailAspectModel> detailAspectModels = new ArrayList<>();
