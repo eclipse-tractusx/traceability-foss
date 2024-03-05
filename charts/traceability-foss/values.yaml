@@ -293,7 +293,8 @@ backend:
     callbackUrl: "CHANGEME"  # example: http://<irs-helm.nameOverride>:8181/internal/endpoint-data-reference
     callbackUrlEdcClient: "CHANGEME"  # example: https://<backend.ingress.hosts>/api/internal/endpoint-data-reference
     dataEndpointUrl: "CHANGEME"  # example: https://<tractusx-connector.controlplane.ingress.hosts>/management"
-    partsProviderUrl: "CHANGEME"  # host of the parts provider EDC
+    partsProviderControlplaneUrl: "CHANGEME"  # host of the parts provider EDC
+    partsProviderDataplaneUrl: "CHANGEME"
 
   discoveryfinder:
     baseUrl: "CHANGEME"  # example: https://discoveryfinder.net/discoveryfinder/api/administration/connectors/discovery/search

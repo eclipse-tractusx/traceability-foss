@@ -46,6 +46,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class DtrService {
     private static final String GLOBAL_REFERENCE = "GlobalReference";
+    private static final String EXTERNAL_REFERENCE = "ExternalReference";
 
     private final DigitalTwinRegistryCreateShellService dtrCreateShellService;
     private final SubmodelPayloadRepository submodelPayloadRepository;
@@ -80,7 +81,7 @@ public class DtrService {
                 .id(submodelServerIdReference.toString())
                 .semanticId(
                         Reference.builder()
-                                .type("ExternalReference")
+                                .type(EXTERNAL_REFERENCE)
                                 .keys(
                                         List.of(SemanticId.builder()
                                                 .type(GLOBAL_REFERENCE)
@@ -93,7 +94,6 @@ public class DtrService {
                                         .interfaceInformation("SUBMODEL-3.0")
                                         .protocolInformation(
                                                 ProtocolInformation.builder()
-                                                        // TODO: Dataplane from application yaml config
                                                         .href(edcProperties.getPartsProviderEdcDataplaneUrl() + "/api/public/data/" + submodelServerIdReference)
                                                         .endpointProtocol("HTTP")
                                                         .endpointProtocolVersion(List.of("1.1"))
@@ -143,7 +143,7 @@ public class DtrService {
                         .value(assetBase.getManufacturerId())
                         .externalSubjectId(
                                 Reference.builder()
-                                        .type("ExternalReference")
+                                        .type(EXTERNAL_REFERENCE)
                                         .keys(getExternalSubjectIds())
                                         .build())
                         .build(),
@@ -152,7 +152,7 @@ public class DtrService {
                         .value(assetBase.getManufacturerPartId())
                         .externalSubjectId(
                                 Reference.builder()
-                                        .type("ExternalReference")
+                                        .type(EXTERNAL_REFERENCE)
                                         .keys(getExternalSubjectIds())
                                         .build())
                         .build()
