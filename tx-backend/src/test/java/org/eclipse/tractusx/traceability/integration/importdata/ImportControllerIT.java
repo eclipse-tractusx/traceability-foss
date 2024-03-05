@@ -426,7 +426,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .then()
                 .statusCode(201);
 
-        //then
+        // then
         AssetBase asset = assetAsBuiltRepository.getAssetById("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f");
         assertThat("Trace-X policy").isEqualTo(asset.getPolicyId());
         assertThat(ImportState.IN_SYNCHRONIZATION).isEqualTo(asset.getImportState());
