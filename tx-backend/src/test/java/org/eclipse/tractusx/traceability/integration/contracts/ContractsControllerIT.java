@@ -18,6 +18,8 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.integration.contracts;
 
+import contract.response.ContractResponse;
+import io.restassured.common.mapper.TypeRef;
 import io.restassured.http.ContentType;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
@@ -26,6 +28,9 @@ import org.eclipse.tractusx.traceability.integration.common.support.EdcSupport;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -69,7 +74,7 @@ public class ContractsControllerIT extends IntegrationTestSpecification {
         assetsSupport.defaultAssetsStored();
 
         //WHEN
-        PageResult contractResponsePage1Result = given()
+        PageResult<ContractResponse> contractResponsePage1Result = given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
                 .log().all()
@@ -78,10 +83,11 @@ public class ContractsControllerIT extends IntegrationTestSpecification {
                 .then()
                 .log().all()
                 .statusCode(200)
-                .extract().body().as(PageResult.class);
+                .extract().body().as(new TypeRef<PageResult<ContractResponse>>() {
+                });
 
 
-        PageResult contractResponsePage2Result = given()
+        PageResult<ContractResponse> contractResponsePage2Result = given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
                 .log().all()
@@ -90,10 +96,19 @@ public class ContractsControllerIT extends IntegrationTestSpecification {
                 .then()
                 .log().all()
                 .statusCode(200)
-                .extract().body().as(PageResult.class);
+                .extract().body().as(new TypeRef<PageResult<ContractResponse>>() {
+                });
         //THEN
+        List<String> firstContractagreementIds = List.of("abc1", "abc2", "abc3", "abc4", "abc5");
+        List<String> secondContractagreementIds = List.of("abc6", "abc7", "abc8", "abc9", "abc10");
+
         assertThat(contractResponsePage1Result.content()).isNotEmpty();
         assertThat(contractResponsePage2Result.content()).isNotEmpty();
+
+        assertThat(contractResponsePage1Result.content().stream().map(ContractResponse::getContractId).collect(Collectors.toList())).containsAll(firstContractagreementIds);
+        assertThat(contractResponsePage2Result.content().stream().map(ContractResponse::getContractId).toList()).containsAll(secondContractagreementIds);
+
+
     }
 
 }

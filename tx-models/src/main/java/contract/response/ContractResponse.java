@@ -19,12 +19,16 @@
 package contract.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.Instant;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @SuperBuilder
 public class ContractResponse {
     @Schema(example = "66", maxLength = 255)
