@@ -244,8 +244,8 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public EdcContractDefinitionService edcDtrContractDefinitionService(EdcConfiguration edcConfiguration, RestTemplate edcDtrAssetRestTemplate) {
-        return new EdcContractDefinitionService(edcConfiguration, edcDtrAssetRestTemplate);
+    public TestContractDefinitionService edcDtrContractDefinitionService(EdcConfiguration edcConfiguration, RestTemplate edcDtrAssetRestTemplate) {
+        return new TestContractDefinitionService(edcConfiguration, edcDtrAssetRestTemplate);
     }
 
     @Bean
