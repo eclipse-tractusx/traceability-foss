@@ -19,11 +19,11 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {environment} from '@env';
-import {NotificationStatus} from '@shared/model/notification.model';
-import {rest} from 'msw';
-import {applyPagination, extractPaginationOfNotifications} from '../pagination.helper';
-import {buildMockInvestigations, getInvestigationById, InvestigationIdPrefix} from './investigations.model';
+import { environment } from '@env';
+import { NotificationStatus } from '@shared/model/notification.model';
+import { rest } from 'msw';
+import { applyPagination, extractPaginationOfNotifications } from '../pagination.helper';
+import { buildMockInvestigations, getInvestigationById } from './investigations.model';
 import {
   buildMockInvestigations as testBuildMockInvestigations,
   getInvestigationById as testGetInvestigationById,
@@ -36,7 +36,7 @@ const commonHandler = [
   }),
 
   rest.post(`*${ environment.apiUrl }/investigations/:investigationId/approve`, (req, res, ctx) => {
-    return res(ctx.status(204));
+    return res(ctx.status(400), ctx.json({message: "Failed to send investigation to EDC"}));
   }),
 
   rest.post(`*${ environment.apiUrl }/investigations/:investigationId/cancel`, (req, res, ctx) => {
@@ -112,7 +112,8 @@ export const investigationsHandlers = [
     return res(ctx.status(200), ctx.json({ ...randomNotification, id: investigationId }));
   }),
   rest.post(`*${ environment.apiUrl }/investigations`, (_, res, ctx) => {
-    return res(ctx.status(200), ctx.json({ id: InvestigationIdPrefix + 1 }));
+    return res(ctx.status(400), ctx.json({message: "Error while sending investigation to EDC"}));
+    //return res(ctx.status(200), ctx.json({ id: InvestigationIdPrefix + 1 }));
   }),
 
   rest.put(`*${ environment.apiUrl }/investigations/:investigationId/status`, async (req, res, ctx) => {

@@ -137,7 +137,7 @@ describe('AlertsComponent', () => {
 
     expect(setTableFunctionSpy).toHaveBeenCalledWith([ 'description', 'asc' ], 'received');
     expect(setTableFunctionSpy).toHaveBeenCalledWith([ 'status', 'asc' ], 'received');
-    expect(alertsComponent['alertReceivedSortList']).toEqual([ [ 'description', 'asc' ], [ 'status', 'desc' ] ]);
+    expect(alertsComponent['alertReceivedSortList']).toEqual([ [ 'status', 'desc' ] ]);
   });
 
   it('should reset sorting after third click', async () => {

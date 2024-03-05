@@ -21,7 +21,7 @@ import { OtherPartsState } from '@page/other-parts/core/other-parts.state';
 import { OtherPartsModule } from '@page/other-parts/other-parts.module';
 import { PartsState } from '@page/parts/core/parts.state';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import { toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
+import { toAssetFilter, toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 
@@ -31,7 +31,7 @@ describe('CustomerPartsComponent', () => {
   let otherPartsState: OtherPartsState;
   beforeEach(() => (otherPartsState = new OtherPartsState()));
 
-  const renderCustomerParts = () =>
+  const renderCustomerPartsAsBuilt = () =>
     renderComponent(CustomerPartsComponent, {
       imports: [ OtherPartsModule ],
       providers: [ { provide: OtherPartsState, useFactory: () => otherPartsState }, { provide: PartsState } ],
@@ -41,21 +41,31 @@ describe('CustomerPartsComponent', () => {
       },
     });
 
+  const renderCustomerPartsAsPlanned = () =>
+    renderComponent(CustomerPartsComponent, {
+      imports: [ OtherPartsModule ],
+      providers: [ { provide: OtherPartsState, useFactory: () => otherPartsState }, { provide: PartsState } ],
+      roles: [ 'admin', 'wip' ],
+      componentInputs: {
+        bomLifecycle: MainAspectType.AS_PLANNED,
+      },
+    });
+
   it('should render part table', async () => {
-    await renderCustomerParts();
+    await renderCustomerPartsAsBuilt();
     const tableElements = await waitFor(() => screen.getAllByTestId('table-component--test-id'));
     expect(tableElements.length).toEqual(1);
   });
 
   it('should render table and display correct amount of rows', async () => {
-    await renderCustomerParts();
+    await renderCustomerPartsAsBuilt();
     const tableElement = await waitFor(() => screen.getByTestId('table-component--test-id'));
     expect(tableElement).toBeInTheDocument();
     expect(tableElement.children[1].childElementCount).toEqual(5);
   });
 
   it('sort customer parts after name column', async () => {
-    const { fixture } = await renderCustomerParts();
+    const { fixture } = await renderCustomerPartsAsBuilt();
     const customerPartsComponent = fixture.componentInstance;
 
     let nameHeader = await screen.findByText('table.column.nameAtManufacturer');
@@ -66,7 +76,7 @@ describe('CustomerPartsComponent', () => {
   });
 
   it('should multisort after column name and semanticModelId', async () => {
-    const { fixture } = await renderCustomerParts();
+    const { fixture } = await renderCustomerPartsAsBuilt();
     const customerPartsComponent = fixture.componentInstance;
 
     let nameHeader = await screen.findByText('table.column.nameAtManufacturer');
@@ -94,11 +104,11 @@ describe('CustomerPartsComponent', () => {
     await waitFor(() => {
       fireEvent.click(semanticModelIdHeader);
     });
-    expect(customerPartsComponent['tableCustomerAsBuiltSortList']).toEqual([ [ 'nameAtManufacturer', 'asc' ], [ 'semanticModelId', 'desc' ] ]);
+    expect(customerPartsComponent['tableCustomerAsBuiltSortList']).toEqual([ [ 'semanticModelId', 'desc' ] ]);
   });
 
   it('should reset sorting on third click', async () => {
-    const { fixture } = await renderCustomerParts();
+    const { fixture } = await renderCustomerPartsAsBuilt();
     const customerPartsComponent = fixture.componentInstance;
     customerPartsComponent.bomLifecycle = MainAspectType.AS_BUILT;
     fixture.detectChanges();
@@ -136,7 +146,7 @@ describe('CustomerPartsComponent', () => {
 
 
   it('should handle updateCustomerParts null', async () => {
-    const { fixture } = await renderCustomerParts();
+    const { fixture } = await renderCustomerPartsAsBuilt();
     const customerPartsComponent = fixture.componentInstance;
 
     const otherPartsFacade = (customerPartsComponent as any)['otherPartsFacade'];
@@ -152,7 +162,7 @@ describe('CustomerPartsComponent', () => {
   });
 
   it('should handle updateCustomerParts including search', async () => {
-    const { fixture } = await renderCustomerParts();
+    const { fixture } = await renderCustomerPartsAsBuilt();
     const customerPartsComponent = fixture.componentInstance;
 
     const otherPartsFacade = (customerPartsComponent as any)['otherPartsFacade'];
@@ -167,5 +177,29 @@ describe('CustomerPartsComponent', () => {
     expect(updateCustomerPartAsPlannedSpy).toHaveBeenCalledWith(0, 50, [], toGlobalSearchAssetFilter(search, false), true);
 
   });
+
+  it('should correctly react to table config change', async function() {
+    const { fixture } = await renderCustomerPartsAsPlanned();
+    const customerPartsComponent = fixture.componentInstance;
+    const otherPartsFacade = (customerPartsComponent as any)['otherPartsFacade'];
+    const assetFilter = toAssetFilter({idShort: "test"}, false);
+    const tableSortingList = ["idShort","asc"];
+
+    customerPartsComponent.assetsAsPlannedFilter = assetFilter;
+
+    let setCustomerPartsAsPlannedSpy = spyOn(otherPartsFacade,'setCustomerPartsAsPlanned');
+
+    customerPartsComponent.onAsPlannedTableConfigChange({page: 0, pageSize: 50, sorting: ["idShort","asc"]});
+
+    expect(setCustomerPartsAsPlannedSpy).toHaveBeenCalled();
+    expect(setCustomerPartsAsPlannedSpy).toHaveBeenCalledWith(0,50, [tableSortingList], {idShort: 'test'});
+
+    customerPartsComponent.assetsAsPlannedFilter = null;
+
+    customerPartsComponent.onAsPlannedTableConfigChange({page: 0, pageSize: 50, sorting: ["idShort", "asc"]})
+    expect(setCustomerPartsAsPlannedSpy).toHaveBeenCalledWith(0,50,[tableSortingList])
+
+
+  })
 
 });

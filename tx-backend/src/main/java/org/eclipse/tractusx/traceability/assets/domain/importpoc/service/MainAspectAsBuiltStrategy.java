@@ -77,7 +77,7 @@ public class MainAspectAsBuiltStrategy implements MappingStrategy {
                 .map(SingleLevelBomAsBuiltRequest::childItems)
                 .orElse(Collections.emptyList())
                 .stream()
-                .map(childItem -> new Descriptions(childItem.catenaXId(), null))
+                .map(childItem -> new Descriptions(childItem.catenaXId(), null, null, null))
                 .toList();
 
 
@@ -91,7 +91,7 @@ public class MainAspectAsBuiltStrategy implements MappingStrategy {
                 .orElse(Collections.emptyList())
                 .stream()
                 .map(SingleLevelUsageAsBuiltRequest.Customer::parentItems)
-                .flatMap(parentItems -> parentItems.stream().map(parentItem -> new Descriptions(parentItem.catenaXId(), null))).toList();
+                .flatMap(parentItems -> parentItems.stream().map(parentItem -> new Descriptions(parentItem.catenaXId(), null, null, null))).toList();
 
 
         final AtomicReference<String> semanticModelId = new AtomicReference<>();

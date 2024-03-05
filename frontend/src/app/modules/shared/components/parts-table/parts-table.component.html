@@ -34,14 +34,14 @@ SPDX-License-Identifier: Apache-2.0
            matTooltipPosition="above"
            [class.mdc-tooltip--multiline]="true"
            [matTooltipShowDelay]="1000"
-           [matTooltipDisabled]="roleService.hasAccess(['user','supervisor']) && mainAspectType === MainAspectType.AS_BUILT"
+           [matTooltipDisabled]="roleService.hasAccess(['user','supervisor']) && mainAspectType === MainAspectType.AS_BUILT && tableType != TableType.AS_BUILT_CUSTOMER"
       >
         <app-button
           *ngIf="selection?.selected?.length"
           (click)="clickSelectAction.emit()"
           [variant]="'raised'"
           [color]="'accent'"
-          [isDisabled]="!roleService.hasAccess(['user','supervisor']) || mainAspectType === MainAspectType.AS_PLANNED"
+          [isDisabled]="!roleService.hasAccess(['user','supervisor']) || mainAspectType === MainAspectType.AS_PLANNED || tableType === TableType.AS_BUILT_CUSTOMER"
         >
           <div class="flex justify-between items-center text-dark p-0.5">
             <mat-icon class="mr-2">announcement</mat-icon>
