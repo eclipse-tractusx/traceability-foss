@@ -58,6 +58,8 @@ public class RestitoConfig {
                     "feign.registryApi.url=http://127.0.0.1:" + STUB_SERVER_PORT,
                     "feign.registryApi.defaultBpn=BPNL00000003AYRE",
                     "edc.provider-edc-url=http://localhost:" + STUB_SERVER_PORT,
+                    "registry.urlWithPath=http://127.0.0.1:" + STUB_SERVER_PORT + "/semantics/registry/api/v3.0",
+                    "edc.parts-provider-edc-controlplane-url=http://localhost:" + STUB_SERVER_PORT,
                     "edc.callbackUrls=http://localhost:" + STUB_SERVER_PORT + "/callback/redirect"
             ).applyTo(configurableApplicationContext.getEnvironment());
         }

@@ -32,6 +32,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -56,6 +58,19 @@ public class SubmodelPayloadRepositoryImpl implements SubmodelPayloadRepository 
 
     @Override
     public Map<String, String> getTypesAndPayloadsByAssetId(String assetId) {
-        return null; // TODO implement
+        Optional<AssetAsBuiltEntity> assetAsBuilt = jpaAssetAsBuiltRepository.findById(assetId);
+        Optional<AssetAsPlannedEntity> assetAsPlanned = jpaAssetAsPlannedRepository.findById(assetId);
+
+        if(assetAsBuilt.isPresent()) {
+            return toTypesAndPayloadsMap(jpaSubmodelPayloadRepository.findByAssetAsBuilt(assetAsBuilt.get()));
+        } else if (assetAsPlanned.isPresent()) {
+            return toTypesAndPayloadsMap(jpaSubmodelPayloadRepository.findByAssetAsPlanned(assetAsPlanned.get()));
+        }
+        throw new AssetNotFoundException(ASSET_NOT_FOUND_EXCEPTION_TEMPLATE.formatted(assetId));
+    }
+
+    private Map<String, String> toTypesAndPayloadsMap(List<SubmodelPayloadEntity> entities) {
+        return entities.stream().map(entity -> Map.entry(entity.getAspectType(), entity.getJson()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 }

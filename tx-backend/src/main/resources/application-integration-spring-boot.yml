@@ -29,10 +29,14 @@ traceability:
   adminApiKey: testAdminKey
   regularApiKey: testRegularKey
   irsBase: "http://127.0.0.1"
-  submodelBase: "http://127.0.0.1"
+  submodelBase: http://localhost:${server.port}
+registry:
+  urlWithPath: "http://127.0.0.1"
 
 edc:
   api-auth-key: "integration-tests"
+  parts-provider-edc-controlplane-url: "http://127.0.0.1"
+  parts-provider-edc-dataplane-url: "http://127.0.0.1"
 
 spring:
   security:

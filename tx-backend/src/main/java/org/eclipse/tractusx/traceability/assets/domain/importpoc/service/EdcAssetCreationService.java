@@ -49,7 +49,7 @@ public class EdcAssetCreationService {
 
         String createdPolicyId = null;
         try {
-            createdPolicyId = edcDtrPolicyDefinitionService.createAccessPolicy("ID 3.0 Trace"); // which one and from where to use it ?
+            createdPolicyId = edcDtrPolicyDefinitionService.createAccessPolicy(traceabilityProperties.getRightOperand());
         } catch (CreateEdcPolicyDefinitionException e) {
             throw new RuntimeException(e);
         }
@@ -71,21 +71,21 @@ public class EdcAssetCreationService {
         }
         log.info("DTR Contract Id created :{}", dtrContractId);
 
-//        String submodelAssetId = null;
-        // TODO: IRS lib needs adjustments to support different protocol for submodel asset
-//        try {
-//            submodelAssetId = edcDtrAssetService.createSubmodelAssetRequest(traceabilityProperties.getSubmodelBase()+ "/api/submodel/data", SUBMODEL_ASSET_NAME);
-//        } catch (CreateEdcAssetException e) {
-//            throw new RuntimeException(e);
-//        }
-//        log.info("Submodel Asset Id created :{}", submodelAssetId);
+        String submodelAssetId = null;
 
-//        String submodelContractId = null;
-//        try {
-//            submodelContractId = edcDtrContractDefinitionService.createContractDefinition(submodelAssetId, createdPolicyId);
-//        } catch (CreateEdcContractDefinitionException e) {
-//            throw new RuntimeException(e);
-//        }
-//        log.info("Submodel Contract Id created :{}", submodelContractId);
+        try {
+            submodelAssetId = edcDtrAssetService.createSubmodelAsset(traceabilityProperties.getSubmodelBase()+ "/api/submodel/data", SUBMODEL_ASSET_NAME);
+        } catch (CreateEdcAssetException e) {
+            throw new RuntimeException(e);
+        }
+        log.info("Submodel Asset Id created :{}", submodelAssetId);
+
+        String submodelContractId = null;
+        try {
+            submodelContractId = edcDtrContractDefinitionService.createContractDefinition(submodelAssetId, createdPolicyId);
+        } catch (CreateEdcContractDefinitionException e) {
+            throw new RuntimeException(e);
+        }
+        log.info("Submodel Contract Id created :{}", submodelContractId);
     }
 }

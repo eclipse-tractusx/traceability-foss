@@ -26,6 +26,7 @@ import org.eclipse.tractusx.irs.edc.client.asset.model.exception.CreateEdcAssetE
 import org.eclipse.tractusx.irs.edc.client.asset.model.exception.DeleteEdcAssetException;
 import org.eclipse.tractusx.irs.edc.client.contract.model.exception.CreateEdcContractDefinitionException;
 import org.eclipse.tractusx.irs.edc.client.contract.service.EdcContractDefinitionService;
+import org.eclipse.tractusx.irs.edc.client.policy.model.EdcCreatePolicyDefinitionRequest;
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.CreateEdcPolicyDefinitionException;
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.DeleteEdcPolicyDefinitionException;
 import org.eclipse.tractusx.irs.edc.client.policy.service.EdcPolicyDefinitionService;
@@ -127,7 +128,7 @@ class EdcNotificationContractServiceTest {
         when(edcNotificationAssetService.createNotificationAsset(any(), any(), any(), any())).thenReturn(notificationAssetId);
         when(traceabilityProperties.getUrl()).thenReturn("https://test");
         when(traceabilityProperties.getRightOperand()).thenReturn(rightOperand);
-        doThrow(CreateEdcPolicyDefinitionException.class).when(edcPolicyDefinitionService).createAccessPolicy(any());
+        doThrow(CreateEdcPolicyDefinitionException.class).when(edcPolicyDefinitionService).createAccessPolicy(any(String.class));
 
         // when/then
         assertThrows(CreateNotificationContractException.class, () -> edcNotificationContractService.handle(request));

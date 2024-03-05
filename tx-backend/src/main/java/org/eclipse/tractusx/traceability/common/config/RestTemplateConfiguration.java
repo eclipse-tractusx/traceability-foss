@@ -97,13 +97,9 @@ public class RestTemplateConfiguration {
     }
 
     @Bean
-    public RestTemplate digitalTwinRegistryCreateShellRestTemplate(
-            final RestTemplateBuilder restTemplateBuilder,
-            @Value("${digitalTwinRegistryClient.oAuthClientId}") final String clientRegistrationId) {
-        oAuthRestTemplate(restTemplateBuilder,
-                clientRegistrationId).build();
-        return oAuthRestTemplate(restTemplateBuilder,
-                clientRegistrationId).build();
+    public RestTemplate digitalTwinRegistryCreateShellRestTemplate() {
+        return new RestTemplateBuilder()
+                .build();
     }
 
     /* RestTemplate used by trace x for the notification transfer to the edc controlplane including edc api key*/

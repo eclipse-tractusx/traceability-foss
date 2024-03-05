@@ -52,6 +52,15 @@ public class EdcSupport {
         );
     }
 
+    public void edcWillCreateAsset() {
+        whenHttp(restitoProvider.stubServer()).match(
+                post("/management/v3/assets"),
+                EDC_API_KEY_HEADER
+        ).then(
+                status(HttpStatus.OK_200)
+        );
+    }
+
     public void edcWillRemoveNotificationAsset() {
         whenHttp(restitoProvider.stubServer()).match(
                 method(DELETE),

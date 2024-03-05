@@ -141,7 +141,7 @@ public class DtrService {
                 IdentifierKeyValuePair.builder()
                         .name("manufacturerId")
                         .value(assetBase.getManufacturerId())
-                        .subjectId(// TODO: for now IRS lib does not support exterrnalSubjectId needs to be implemented
+                        .externalSubjectId(
                                 Reference.builder()
                                         .type("ExternalReference")
                                         .keys(getExternalSubjectIds())
@@ -150,7 +150,7 @@ public class DtrService {
                 IdentifierKeyValuePair.builder()
                         .name("manufacturerPartId")
                         .value(assetBase.getManufacturerPartId())
-                        .subjectId(// TODO: for now IRS lib does not support exterrnalSubjectId needs to be implemented
+                        .externalSubjectId(
                                 Reference.builder()
                                         .type("ExternalReference")
                                         .keys(getExternalSubjectIds())

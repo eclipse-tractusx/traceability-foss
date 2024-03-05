@@ -157,7 +157,8 @@ public class JsonFileValidator {
             throw new NotSupportedSchemaException(schemaName);
         }
 
-        return JsonFileValidator.class.getResource(schemaPath);
+        URL url = JsonFileValidator.class.getResource(schemaPath);
+        return url;
     }
 
 }

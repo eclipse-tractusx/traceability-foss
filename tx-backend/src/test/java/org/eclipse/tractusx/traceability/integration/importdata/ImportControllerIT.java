@@ -36,6 +36,9 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.A
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.repository.JpaAssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.common.security.JwtRole;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
+import org.eclipse.tractusx.traceability.integration.common.support.DtrApiSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.EdcSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.OAuth2ApiSupport;
 import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
@@ -59,6 +62,15 @@ class ImportControllerIT extends IntegrationTestSpecification {
 
     @Autowired
     JpaAssetAsPlannedRepository jpaAssetAsPlannedRepository;
+
+    @Autowired
+    EdcSupport edcApiSupport;
+
+    @Autowired
+    OAuth2ApiSupport oAuth2ApiSupport;
+
+    @Autowired
+    DtrApiSupport dtrApiSupport;
 
     @Test
     void givenValidFile_whenImportData_thenValidationShouldPass() throws JoseException {
@@ -380,7 +392,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .body("jobId", Matchers.notNullValue());
     }
 
-//    @Test
+    @Test
     void givenValidFile_whenPublishData_thenStatusShouldChangeToInSynchronization() throws JoseException {
         // given
         String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
@@ -397,6 +409,13 @@ class ImportControllerIT extends IntegrationTestSpecification {
 
         RegisterAssetRequest registerAssetRequest = new RegisterAssetRequest("Trace-X policy", List.of("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f"));
 
+        edcApiSupport.edcWillCreatePolicyDefinition();
+        edcApiSupport.edcWillCreateAsset();
+        edcApiSupport.edcWillCreateContractDefinition();
+        oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
+        oAuth2ApiSupport.oauth2ApiReturnsDtrToken();
+        dtrApiSupport.dtrWillCreateShell();
+
         // when
         given()
                 .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
@@ -411,7 +430,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
         AssetBase asset = assetAsBuiltRepository.getAssetById("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f");
         assertThat("Trace-X policy").isEqualTo(asset.getPolicyId());
         assertThat(ImportState.IN_SYNCHRONIZATION).isEqualTo(asset.getImportState());
-
+        dtrApiSupport.verityDtrCreateShellCalledTimes(1);
     }
 
     @Test

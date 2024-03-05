@@ -46,6 +46,17 @@ public class OAuth2ApiSupport {
                 );
     }
 
+    public void oauth2ApiReturnsDtrToken() {
+        whenHttp(restitoProvider.stubServer()).match(
+                        post(RestitoConfig.OAUTH2_TOKEN_PATH)
+                )
+                .then(
+                        ok(),
+                        header("Content-Type", "application/json"),
+                        restitoProvider.jsonResponseFromFile("./stubs/oauth/post/auth/realms/CX-Central/protocol/openid-connect/token/response_200.json")
+                );
+    }
+
     public void oauth2ApiReturnsJwkCerts(String jwk) {
         whenHttp(restitoProvider.stubServer()).match(
                         get(RestitoConfig.OAUTH2_JWK_PATH)
