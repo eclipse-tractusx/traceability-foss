@@ -19,11 +19,12 @@
 package org.eclipse.tractusx.traceability.contracts.domain.repository;
 
 import org.eclipse.tractusx.traceability.common.model.PageResult;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
 import org.springframework.data.domain.Pageable;
 
 public interface ContractsRepository {
 
-    PageResult<Contract> getContractsByPageable(Pageable pageable);
+    PageResult<Contract> getContractsByPageable(Pageable pageable, SearchCriteria searchCriteria);
 
 }

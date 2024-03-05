@@ -26,7 +26,8 @@ import java.util.Map;
 @Component
 public class ContractFieldMapper extends BaseRequestFieldMapper {
     private static final Map<String, String> SUPPORTED_ASSETS_AS_BUILT_FILTER_FIELDS = Map.ofEntries(
-            Map.entry("created", "created")
+            Map.entry("created", "created"),
+            Map.entry("id", "id")
     );
 
     @Override

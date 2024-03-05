@@ -22,6 +22,9 @@ import contract.response.ContractResponse;
 import io.restassured.common.mapper.TypeRef;
 import io.restassured.http.ContentType;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
+import org.eclipse.tractusx.traceability.common.request.OwnPageable;
+import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
+import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.EdcSupport;
@@ -52,16 +55,18 @@ public class ContractsControllerIT extends IntegrationTestSpecification {
         assetsSupport.defaultAssetsStored();
 
         //WHEN
-        PageResult contractResponsePageResult = given()
+        PageResult<ContractResponse> contractResponsePageResult = given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
                 .log().all()
                 .when()
-                .get("/api/contracts")
+                .body(new PageableFilterRequest())
+                .post("/api/contracts")
                 .then()
                 .log().all()
                 .statusCode(200)
-                .extract().body().as(PageResult.class);
+                .extract().body().as(new TypeRef<PageResult<ContractResponse>>() {
+                });
         //THEN
         assertThat(contractResponsePageResult.content()).isNotEmpty();
     }
@@ -79,7 +84,8 @@ public class ContractsControllerIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .log().all()
                 .when()
-                .get("/api/contracts?size=5&page=0")
+                .body(PageableFilterRequest.builder().ownPageable(OwnPageable.builder().size(5).build()).build())
+                .post("/api/contracts")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -92,7 +98,8 @@ public class ContractsControllerIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .log().all()
                 .when()
-                .get("/api/contracts?size=5&page=1")
+                .body(PageableFilterRequest.builder().ownPageable(OwnPageable.builder().size(5).page(1).build()).build())
+                .post("/api/contracts")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -107,8 +114,31 @@ public class ContractsControllerIT extends IntegrationTestSpecification {
 
         assertThat(contractResponsePage1Result.content().stream().map(ContractResponse::getContractId).collect(Collectors.toList())).containsAll(firstContractagreementIds);
         assertThat(contractResponsePage2Result.content().stream().map(ContractResponse::getContractId).toList()).containsAll(secondContractagreementIds);
+    }
 
 
+    @Test
+    void shouldReturnOnlyOneContract() throws JoseException {
+        //GIVEN
+        edcSupport.edcWillReturnOnlyOneContractAgreement();
+        edcSupport.edcWillReturnContractAgreementNegotiation();
+        assetsSupport.defaultAssetsStored();
+
+        //WHEN
+        PageResult<ContractResponse> contractResponsePageResult = given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .body(PageableFilterRequest.builder().searchCriteriaRequestParam(SearchCriteriaRequestParam.builder().filter(List.of("id,EQUAL,urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb,AND")).build()).build())
+                .post("/api/contracts")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .extract().body().as(new TypeRef<PageResult<ContractResponse>>() {
+                });
+        //THEN
+        assertThat(contractResponsePageResult.content()).isNotEmpty();
     }
 
 }

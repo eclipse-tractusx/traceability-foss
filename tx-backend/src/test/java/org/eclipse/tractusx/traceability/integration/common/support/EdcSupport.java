@@ -75,6 +75,16 @@ public class EdcSupport {
         );
     }
 
+    public void edcWillReturnOnlyOneContractAgreement() {
+        whenHttp(restitoProvider.stubServer()).match(
+                post("/management/v2/contractagreements/request"),
+                EDC_API_KEY_HEADER
+        ).then(
+                status(HttpStatus.OK_200),
+                restitoProvider.jsonResponseFromFile("stubs/edc/post/data/contractagreements/one_contractagreement_response_200.json")
+        );
+    }
+
     public void edcWillReturnPaginatedContractAgreements() {
         whenHttp(restitoProvider.stubServer()).match(
                 post("/management/v2/contractagreements/request"),

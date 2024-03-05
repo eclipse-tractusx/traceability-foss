@@ -26,12 +26,14 @@ import org.eclipse.tractusx.irs.edc.client.contract.model.EdcContractAgreementsR
 import org.eclipse.tractusx.irs.edc.client.contract.model.exception.ContractAgreementException;
 import org.eclipse.tractusx.irs.edc.client.contract.service.EdcContractAgreementService;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.contracts.domain.exception.ContractException;
 import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
 import org.eclipse.tractusx.traceability.contracts.domain.repository.ContractsRepository;
 import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementInfoView;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
@@ -42,6 +44,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -51,9 +55,13 @@ public class ContractsRepositoryImpl implements ContractsRepository {
     private final JpaContractAgreementInfoViewRepository contractAgreementInfoViewRepository;
 
     @Override
-    public PageResult<Contract> getContractsByPageable(Pageable pageable) {
+    public PageResult<Contract> getContractsByPageable(Pageable pageable, SearchCriteria searchCriteria) {
         try {
-            Page<ContractAgreementInfoView> contractAgreementInfoViews = contractAgreementInfoViewRepository.findAll(pageable);
+            List<ContractSpecification> contractAgreementSpecifications = emptyIfNull(searchCriteria.getSearchCriteriaFilterList()).stream()
+                    .map(ContractSpecification::new)
+                    .toList();
+            Specification<ContractAgreementInfoView> specification = ContractSpecification.toSpecification(contractAgreementSpecifications);
+            Page<ContractAgreementInfoView> contractAgreementInfoViews = contractAgreementInfoViewRepository.findAll(specification, pageable);
 
             return new PageResult<>(fetchEdcContractAgreements(contractAgreementInfoViews),
                     contractAgreementInfoViews.getPageable().getPageNumber(),

@@ -27,6 +27,8 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.Immutable;
 
+import java.time.Instant;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -40,5 +42,6 @@ public class ContractAgreementInfoView {
     private String id;
     private String contractAgreementId;
     private String assetType;
+    private Instant created;
 
 }

@@ -27,17 +27,23 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections.CollectionUtils;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
+import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
 import org.eclipse.tractusx.traceability.contracts.application.mapper.ContractFieldMapper;
 import org.eclipse.tractusx.traceability.contracts.application.mapper.ContractResponseMapper;
 import org.eclipse.tractusx.traceability.contracts.application.service.ContractsService;
 import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -97,9 +103,15 @@ public class ContractsController {
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
-    @GetMapping
-    public PageResult<ContractResponse> getContracts(OwnPageable pageable) {
-        PageResult<Contract> contracts = contractsService.getContracts(OwnPageable.toPageable(pageable, contractFieldMapper));
+    @PostMapping
+    public PageResult<ContractResponse> getContracts(@Valid @RequestBody PageableFilterRequest pageableFilterRequest) {
+
+        if (CollectionUtils.isEmpty(pageableFilterRequest.getOwnPageable().getSort())) {
+            pageableFilterRequest.getOwnPageable().setSort(List.of("created,desc"));
+        }
+
+        PageResult<Contract> contracts = contractsService.getContracts(OwnPageable.toPageable(pageableFilterRequest.getOwnPageable(), contractFieldMapper),
+                pageableFilterRequest.getSearchCriteriaRequestParam().toSearchCriteria(contractFieldMapper));
         return ContractResponseMapper.from(contracts);
     }
 

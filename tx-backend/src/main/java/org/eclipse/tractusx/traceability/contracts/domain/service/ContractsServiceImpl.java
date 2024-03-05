@@ -20,6 +20,7 @@ package org.eclipse.tractusx.traceability.contracts.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.contracts.application.service.ContractsService;
 import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
 import org.eclipse.tractusx.traceability.contracts.domain.repository.ContractsRepository;
@@ -33,7 +34,7 @@ public class ContractsServiceImpl implements ContractsService {
     private final ContractsRepository contractsRepository;
 
     @Override
-    public PageResult<Contract> getContracts(Pageable pageable) {
-        return contractsRepository.getContractsByPageable(pageable);
+    public PageResult<Contract> getContracts(Pageable pageable, SearchCriteria searchCriteria) {
+        return contractsRepository.getContractsByPageable(pageable, searchCriteria);
     }
 }
