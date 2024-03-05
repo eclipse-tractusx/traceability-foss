@@ -16,9 +16,9 @@ select setval('investigation_id_seq1', (select max(i.id) from investigation i), 
 
 ---
 insert into investigation_notification
-    (id                                  , contract_agreement_id, edc_url                                                 , notification_reference_id, created_by, send_to        , investigation_id       , target_date                           , severity, created_by_name, send_to_name, edc_notification_id                   , status    , created                              , updated                              , message_id                            , is_initial)
+    (id                                  , contract_agreement_id, edc_url, notification_reference_id, created_by, send_to        , investigation_id       , target_date                           , severity, created_by_name, send_to_name       , edc_notification_id                   , status    , created                              , updated                              , message_id, is_initial)
 values
-    (${investigationNotificationSentId4a}, 'contractAgreementId', 'http://localhost:8082/api/qualitynotifications/receive', null                     , ${bpnOwn} , ${bpnSupplier3}, ${investigationSentId4}, current_timestamp + interval '1 month', 'MINOR' , 'Hella'        , 'Würth'     , '3ac2239a-e63f-4c19-b3b3-e6a2e5a240da', 'ACCEPTED', current_timestamp - interval '4 days', current_timestamp - interval '1 hour', '749b31e9-9e73-4699-9470-dbee67ebc7a7', true);
+    (${investigationNotificationSentId4a}, 'contractAgreementId', null   , null                     , ${bpnOwn} , ${bpnSupplier3}, ${investigationSentId4}, current_timestamp + interval '1 month', 'MINOR' , ${bpnOwnName}  , ${bpnSupplier3Name}, '10454df4-c04d-4e48-ab86-6aeb568fe64a', 'ACCEPTED', current_timestamp - interval '4 days', current_timestamp - interval '1 hour', null      , true);
 
 ---
 -- join investigation to asset
@@ -37,9 +37,9 @@ values
 ---
 -- ACCEPTED by receiver notification message
 insert into investigation_notification
-    (id                                  , contract_agreement_id, edc_url                                                 , notification_reference_id, created_by     , send_to  , investigation_id       , target_date                          , severity, created_by_name, send_to_name, edc_notification_id                   , status    , created                              , updated                              , message_id                            , is_initial)
+    (id                                  , contract_agreement_id, edc_url, notification_reference_id             , created_by     , send_to  , investigation_id       , target_date                          , severity, created_by_name    , send_to_name , edc_notification_id                   , status    , created                              , updated, message_id, is_initial)
 values
-    (${investigationNotificationSentId4b}, 'contractAgreementId', 'http://localhost:8082/api/qualitynotifications/receive', null                     , ${bpnSupplier3}, ${bpnOwn}, ${investigationSentId4}, current_timestamp + interval '1 week', 'MINOR' , 'Würth'        , 'Hella'     , '8925f21f-09eb-4789-81fb-ec221e9e1561', 'ACCEPTED', current_timestamp - interval '4 days', current_timestamp - interval '1 hour', '207ba6cf-217b-401d-a5da-69cac8b154a5', false);
+    (${investigationNotificationSentId4b}, 'contractAgreementId', null   , '10454df4-c04d-4e48-ab86-6aeb568fe64a', ${bpnSupplier3}, ${bpnOwn}, ${investigationSentId4}, current_timestamp + interval '1 week', 'MINOR' , ${bpnSupplier3Name}, ${bpnOwnName}, '10454df4-c04d-4e48-ab86-6aeb568fe64a', 'ACCEPTED', current_timestamp - interval '2 days', null   , null      , false);
 
 ---
 -- join ACCEPTED notification to asset

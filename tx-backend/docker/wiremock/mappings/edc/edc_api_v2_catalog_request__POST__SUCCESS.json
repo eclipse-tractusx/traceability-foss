@@ -22,7 +22,7 @@
         "headers": {
           "Content-Type": "application/json"
         },
-        "body": "{ \"id\": \"callback-id\",  \"endpoint\": \"http://localhost:5001/dtr\", \"authKey\": \"auth-key\", \"authCode\": \"code.eyJleHAiOjE2OTg0MDUwODIyMTIxMSwiZGFkIjoiZGFkIiwiY2lkIjoiY29udHJhY3RBZ3JlZW1lbnRJZCJ9\"}"
+        "body": "{ \"id\": \"callback-id\",  \"endpoint\": \"http://localhost:5001/edc\", \"authKey\": \"auth-key\", \"authCode\": \"code.eyJleHAiOjE2OTg0MDUwODIyMTIxMSwiZGFkIjoiZGFkIiwiY2lkIjoiY29udHJhY3RBZ3JlZW1lbnRJZCJ9\"}"
       }
     }
   ]

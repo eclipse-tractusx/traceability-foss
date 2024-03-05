@@ -2,7 +2,7 @@
 -- (see https://documentation.red-gate.com/fd/callback-concept-184127466.html).
 -- it is only intended for usage in local or test environments
 
--- This creates an alert in state DECLINED with Severity Major for asBuilt asset Würth W-FogLight which is sent from BPNL000SUPPLIER3 to BPNL000000000001
+-- This creates an alert in state DECLINED in Severity Major for asBuilt asset Würth W-FogLight which is sent from BPNL000SUPPLIER3 to BPNL000000000001
 
 ---
 insert into alert
@@ -17,9 +17,9 @@ select setval('alert_id_seq1', (select max(a.id) from alert a), true);
 ---
 -- initial message
 insert into alert_notification
-    (id                              , alert_id           , contract_agreement_id, edc_url, notification_reference_id             , created_by     , send_to  , target_date                           , severity, created_by_name, send_to_name, edc_notification_id                   , status    , created                              , updated          , message_id                            , is_initial)
+    (id                              , alert_id           , contract_agreement_id, edc_url, notification_reference_id             , created_by     , send_to  , target_date                           , severity, created_by_name    , send_to_name , edc_notification_id                   , status    , created                              , updated          , message_id                            , is_initial)
 values
-    (${alertNotificationReceivedId4a}, ${alertReceivedId4}, null                 , null   , 'cc49777f-3c8b-47d6-b1cf-f51783737292', ${bpnSupplier3}, ${bpnOwn}, current_timestamp + interval '1 month', 'MAJOR' , 'Würth'        , 'Hella'     , 'cc49777f-3c8b-47d6-b1cf-f51783737292', 'RECEIVED', current_timestamp - interval '4 days', current_timestamp, '68ebeb5f-158d-480e-b466-24304842c22c', false);
+    (${alertNotificationReceivedId4a}, ${alertReceivedId4}, null                 , null   , '93ea7f66-8279-42cf-ad41-5e0a228412e6', ${bpnSupplier3}, ${bpnOwn}, current_timestamp + interval '1 month', 'MAJOR' , ${bpnSupplier3Name}, ${bpnOwnName}, 'de87af61-5eda-4f3f-a069-70d9ee60a05e', 'RECEIVED', current_timestamp - interval '4 days', current_timestamp, '68ebeb5f-158d-480e-b466-24304842c22c', false);
 
 ---
 -- join initial notification to asset
@@ -39,9 +39,9 @@ values
 ---
 -- DECLINED by receiver notification message
 insert into alert_notification
-    (id                              , alert_id           , contract_agreement_id, edc_url                                                 , notification_reference_id             , created_by, send_to        , target_date                           , severity, created_by_name, send_to_name, edc_notification_id                   , status    , created                                , updated                                , message_id                            , is_initial)
+    (id                              , alert_id           , contract_agreement_id, edc_url                    , notification_reference_id             , created_by, send_to        , target_date                           , severity, created_by_name, send_to_name       , edc_notification_id                   , status    , created                                , updated                                , message_id, is_initial)
 values
-    (${alertNotificationReceivedId4b}, ${alertReceivedId4}, 'contractAgreementId', 'http://localhost:8082/api/qualitynotifications/receive', 'cc49777f-3c8b-47d6-b1cf-f51783737292', ${bpnOwn} , ${bpnSupplier3}, current_timestamp + interval '1 month', 'MAJOR' , 'Hella'        , 'Würth'     , 'cc49777f-3c8b-47d6-b1cf-f51783737292', 'ACCEPTED', current_timestamp - interval '12 hours', current_timestamp - interval '12 hours', 'f305046d-333a-4d44-ba3e-9a4ef1337ba6', false);
+    (${alertNotificationReceivedId4b}, ${alertReceivedId4}, 'contractAgreementId', 'http://localhost:5001/edc', '1ceb2acc-0079-4ed1-bd7e-ea0aed0ae037', ${bpnOwn} , ${bpnSupplier3}, current_timestamp + interval '1 month', 'MAJOR' , ${bpnOwnName}  , ${bpnSupplier3Name}, 'f58c8357-6da6-45ee-b144-4da896224939', 'ACCEPTED', current_timestamp - interval '12 hours', current_timestamp - interval '12 hours', null      , false);
 
 ---
 -- join DECLINED notification to asset

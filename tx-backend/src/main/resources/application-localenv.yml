@@ -33,17 +33,17 @@ server:
 
 traceability:
   bpn: BPNL000000000001
-  url: http://localhost:8082/
+  url: http://localhost:8082
 
 edc:
   api-auth-key: api-key
   provider-edc-url: http://localhost:5001/edc
 
 irs-edc-client:
-  callback-url: http://localhost:8082/
+  callback-url: http://localhost:8082
   controlplane:
     endpoint:
-      data: http://localhost:5001/
+      data: http://localhost:5001
       catalog: /edc/api/v2/catalog/request # EDC consumer controlplane catalog path
       contract-negotiation: /edc/api/v2/contractnegotiations # EDC consumer controlplane contract negotiation path
       transfer-process: /edc/api/v2/transferprocesses # EDC consumer controlplane transfer process path
@@ -52,8 +52,10 @@ irs-edc-client:
 
 IRS_URL: http://localhost:5001/irs
 SUBMODEL_URL: http://localhost:8082
+TRACEABILITY_LEFT_OPERAND: "PURPOSE"
+TRACEABILITY_RIGHT_OPERAND: "ID 3.0 Trace"
 TRACEABILITY_OPERATOR_TYPE: eq
-TRACEABILITY_VALID_UNTIL: 2023-07-04T16:01:05.309Z
+TRACEABILITY_VALID_UNTIL: 2124-07-04T16:01:05.309Z
 IRS_ADMIN_API_KEY: test
 IRS_REGULAR_API_KEY: test
 
@@ -117,8 +119,5 @@ resilience4j:
 
 irs:
   policies:
-    #    -
-    #      policyId: "ID 3.0 Trace"
-    #      ttl: "2023-09-30T23:59:59.99Z"
-    - policyId: "ID 3.2 Trace"
-      ttl: "2023-09-30T23:59:59.99Z"
+    - policyId: "ID 3.0 Trace"
+      ttl: "2024-09-30T23:59:59.99Z"

@@ -12,7 +12,7 @@
       {
         "bpn": "{{jsonPath request.body '$.[0]'}}",
         "connectorEndpoint": [
-          "http://localhost:8082/edc"
+          "{{request.scheme}}://{{request.host}}:{{request.port}}/edc/"
         ]
       }
     ],

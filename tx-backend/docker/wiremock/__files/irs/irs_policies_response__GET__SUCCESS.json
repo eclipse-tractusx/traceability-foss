@@ -17,7 +17,15 @@
                 ]
               }
             ],
-            "or": []
+            "or": [
+              {
+                "leftOperand": "PURPOSE",
+                "operator": "eq",
+                "rightOperand": [
+                  "ID 3.0 Trace"
+                ]
+              }
+            ]
           }
         ]
       }

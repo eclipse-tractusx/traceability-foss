@@ -36,15 +36,8 @@ class EdcNotificationContractControllerAuthorizationIT extends IntegrationTestSp
 
     private static final String ROOT = "/api/edc/notification/contract";
 
-    /*
-     * TODO (Pooja):
-     * - Task DO-5327
-     * - Review and update PreAuthorize condition in EDCNotificationContract Controller
-     * - According to Cofinity requirement, only ADMIN has permission
-     * - According to Upstream requirement, SUPERVISOR has permission
-     */
-    //@ParameterizedTest
-    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#adminRoleAllowed")
+    @ParameterizedTest
+    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#supervisorRoleAllowed")
     void shouldAllowPostEndpointOnlyForSpecificRoles(JwtRole role, boolean isAllowed) throws JoseException {
 
         // Request class does not support JSON serialization

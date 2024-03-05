@@ -2,7 +2,7 @@
 -- (see https://documentation.red-gate.com/fd/callback-concept-184127466.html).
 -- it is only intended for usage in local or test environments
 
--- This creates an alert in state SENT with Severity Major for asBuilt asset Left Head Bulb which is sent from BPNL000SUPPLIER1 to BPNL000000000001
+-- This creates an alert in state SENT in Severity Major for asBuilt asset Left Head Bulb which is sent from BPNL000SUPPLIER1 to BPNL000000000001
 
 ---
 insert into alert
@@ -17,9 +17,9 @@ select setval('alert_id_seq1', (select max(a.id) from alert a), true);
 ---
 -- initial message
 insert into alert_notification
-    (id                         , alert_id       , contract_agreement_id, edc_url                                                 , notification_reference_id, created_by, send_to        , target_date                           , severity, created_by_name, send_to_name, edc_notification_id        , status, created                             , updated          , message_id                            , is_initial)
+    (id                         , alert_id       , contract_agreement_id, edc_url                    , notification_reference_id, created_by, send_to        , target_date                           , severity, created_by_name, send_to_name       , edc_notification_id        , status, created                             , updated          , message_id                            , is_initial)
 values
-    (${alertNotificationSentId2}, ${alertSentId2}, 'contractAgreementId', 'http://localhost:8082/api/qualitynotifications/receive', 'null'                   , ${bpnOwn} , ${bpnCustomer1}, current_timestamp + interval '1 month', 'MAJOR' , 'Osram'        , 'Hella'     , ${alertNotificationSentId2}, 'SENT', current_timestamp - interval '1 day', current_timestamp, '2cf84b7c-5e42-46f2-8869-12b053b9a276', true);
+    (${alertNotificationSentId2}, ${alertSentId2}, 'contractAgreementId', 'http://localhost:5001/edc', 'null'                   , ${bpnOwn} , ${bpnCustomer1}, current_timestamp + interval '1 month', 'MAJOR' , ${bpnOwnName}  , ${bpnCustomer1Name}, ${alertNotificationSentId2}, 'SENT', current_timestamp - interval '1 day', current_timestamp, '2cf84b7c-5e42-46f2-8869-12b053b9a276', true);
 
 ---
 -- join initial notification to asset

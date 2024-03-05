@@ -53,7 +53,7 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
 
     @Test
     void givenNoAssets_whenCallbackReceived_thenSaveThem() {
-       // Given
+        // Given
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         irsApiSupport.irsApiReturnsJobDetails();
         String jobId = "ebb79c45-7bba-4169-bf17-3e719989ab54";
@@ -71,7 +71,7 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
                 .log().all()
                 .statusCode(200);
 
-       // Then
+        // Then
         assertThat(bpnSupportRepository.findAll()).hasSize(6);
         assetsSupport.assertAssetAsBuiltSize(16);
         assetsSupport.assertAssetAsPlannedSize(0);
@@ -79,7 +79,7 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
 
     @Test
     void givenNoAssets_whenCallbackReceivedForAsPlanned_thenSaveThem() {
-       // Given
+        // Given
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         irsApiSupport.irsJobDetailsAsPlanned();
         String jobId = "ebb79c45-7bba-4169-bf17-SUCCESSFUL_AS_PLANNED";
@@ -97,7 +97,7 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
                 .log().all()
                 .statusCode(200);
 
-       // Then
+        // Then
         assertThat(bpnSupportRepository.findAll()).hasSize(2);
         assetsSupport.assertAssetAsBuiltSize(0);
         assetsSupport.assertAssetAsPlannedSize(3);
@@ -131,7 +131,7 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
 
     @Test
     void givenAssetExist_whenCallbackReceived_thenUpdateIt() {
-       // Given
+        // Given
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         irsApiSupport.irsApiReturnsJobDetails();
         String jobId = "ebb79c45-7bba-4169-bf17-3e719989ab54";
@@ -160,7 +160,7 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
                 .log().all()
                 .statusCode(200);
 
-       // Then
+        // Then
         assertThat(bpnSupportRepository.findAll()).hasSize(6);
         assetsSupport.assertAssetAsBuiltSize(16);
         assetsSupport.assertAssetAsPlannedSize(0);

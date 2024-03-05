@@ -50,7 +50,7 @@ services:
       - tracex-net
 
   wiremock:
-    image: wiremock/wiremock
+    image: wiremock/wiremock:3.4.2
     volumes:
       - ./wiremock:/home/wiremock
     ports:
