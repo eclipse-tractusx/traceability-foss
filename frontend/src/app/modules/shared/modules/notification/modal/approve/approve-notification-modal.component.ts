@@ -54,7 +54,7 @@ export class ApproveNotificationModalComponent {
           this.confirmActionCompleted.emit();
         },
         error: (err) => {
-          this.toastService.error(this.translationContext + '.modal.failedApprove', 5000,true, err.error.message);
+          this.toastService.error(this.translationContext + '.modal.failedApprove', 15000,true);
         },
       });
     };
