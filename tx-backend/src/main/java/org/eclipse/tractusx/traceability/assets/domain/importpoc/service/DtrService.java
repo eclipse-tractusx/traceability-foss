@@ -20,6 +20,7 @@
 package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.AssetAdministrationShellDescriptor;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.Endpoint;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.IdentifierKeyValuePair;
@@ -42,6 +43,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class DtrService {
@@ -122,6 +124,7 @@ public class DtrService {
     private Map.Entry<String, UUID> createSubmodel(Map.Entry<String, String> payloadByAspectType) {
         UUID submodelId = UUID.randomUUID();
         submodelServerRepository.saveSubmodel(submodelId.toString(), payloadByAspectType.getValue());
+        log.info("create submodelId {} for aspectType {} on submodelServer", submodelId, payloadByAspectType.getKey());
         return Map.entry(payloadByAspectType.getKey(), submodelId);
     }
 
