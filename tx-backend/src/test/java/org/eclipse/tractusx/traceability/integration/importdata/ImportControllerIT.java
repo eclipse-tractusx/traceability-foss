@@ -430,7 +430,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
         AssetBase asset = assetAsBuiltRepository.getAssetById("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f");
         assertThat("Trace-X policy").isEqualTo(asset.getPolicyId());
         assertThat(ImportState.IN_SYNCHRONIZATION).isEqualTo(asset.getImportState());
-        dtrApiSupport.verityDtrCreateShellCalledTimes(1);
+        dtrApiSupport.verifyDtrCreateShellCalledTimes(1);
     }
 
     @Test
@@ -471,7 +471,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
         AssetBase asset = assetAsBuiltRepository.getAssetById("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f");
         assertThat("Trace-X policy").isEqualTo(asset.getPolicyId());
         assertThat(ImportState.IN_SYNCHRONIZATION).isEqualTo(asset.getImportState());
-        dtrApiSupport.verityDtrCreateShellCalledTimes(1);
+        dtrApiSupport.verifyDtrCreateShellCalledTimes(1);
     }
 
     @Test

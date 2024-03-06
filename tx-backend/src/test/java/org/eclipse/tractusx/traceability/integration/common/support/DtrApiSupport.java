@@ -37,16 +37,16 @@ public class DtrApiSupport {
 
     public void dtrWillCreateShell() {
         whenHttp(restitoProvider.stubServer()).match(
-                post("/semantics/registry/api/v3.0")
+                post("/semantics/registry/api/v3.0/shell-descriptors")
         ).then(
                 status(HttpStatus.CREATED_201)
         );
     }
 
-    public void verityDtrCreateShellCalledTimes(int times) {
+    public void verifyDtrCreateShellCalledTimes(int times) {
         verifyHttp(restitoProvider.stubServer()).times(
                 times,
-                post("/semantics/registry/api/v3.0")
+                post("/semantics/registry/api/v3.0/shell-descriptors")
         );
     }
 }
