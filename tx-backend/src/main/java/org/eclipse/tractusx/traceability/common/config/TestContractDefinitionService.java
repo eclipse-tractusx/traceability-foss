@@ -48,30 +48,31 @@ public class TestContractDefinitionService {
     private final RestTemplate restTemplate;
 
     public String createContractDefinition(String assetId, String policyId) throws CreateEdcContractDefinitionException {
-        EdcCreateContractDefinitionRequest createContractDefinitionRequest = this.createContractDefinitionRequest(assetId, policyId);
+        final String contractId = UUID.randomUUID().toString();
+        EdcCreateContractDefinitionRequest createContractDefinitionRequest = this.createContractDefinitionRequest(assetId, policyId, contractId);
 
         try {
             ResponseEntity<String> createContractDefinitionResponse = this.restTemplate.postForEntity(this.config.getControlplane().getEndpoint().getContractDefinition(), createContractDefinitionRequest, String.class, new Object[0]);
             HttpStatusCode responseCode = createContractDefinitionResponse.getStatusCode();
              if (responseCode.value() == HttpStatus.OK.value()) {
-                return policyId;
+                return contractId;
             } else {
                 throw new CreateEdcContractDefinitionException("Failed to create EDC contract definition for %s notification asset id".formatted(assetId));
             }
         } catch (HttpClientErrorException var6) {
             if (var6.getStatusCode().value() == HttpStatus.CONFLICT.value()) {
                 log.info("{} contract definition already exists in the EDC", policyId);
-                return policyId;
+                return contractId;
             }
             log.error("Failed to create edc contract definition for {} notification asset and {} policy definition id. Reason: ", new Object[]{assetId, policyId, var6});
             throw new CreateEdcContractDefinitionException(var6);
         }
     }
 
-    public EdcCreateContractDefinitionRequest createContractDefinitionRequest(String assetId, String accessPolicyId) {
+    public EdcCreateContractDefinitionRequest createContractDefinitionRequest(String assetId, String accessPolicyId, String contractId) {
         EdcContractDefinitionCriteria edcContractDefinitionCriteria = EdcContractDefinitionCriteria.builder().type("CriterionDto").operandLeft("https://w3id.org/edc/v0.0.1/ns/id").operandRight(assetId).operator("=").build();
         EdcContext edcContext = EdcContext.builder().edc("https://w3id.org/edc/v0.0.1/ns/").build();
-        return EdcCreateContractDefinitionRequest.builder().contractPolicyId(accessPolicyId).edcContext(edcContext).type("ContractDefinition").accessPolicyId(accessPolicyId).contractDefinitionId(accessPolicyId).assetsSelector(edcContractDefinitionCriteria).build();
+        return EdcCreateContractDefinitionRequest.builder().contractPolicyId(accessPolicyId).edcContext(edcContext).type("ContractDefinition").accessPolicyId(accessPolicyId).contractDefinitionId(contractId).assetsSelector(edcContractDefinitionCriteria).build();
     }
 
     @Generated
