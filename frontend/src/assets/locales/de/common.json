@@ -252,7 +252,7 @@
       "successfullyDeclined": "Untersuchung wurde erfolgreich abgelehnt.",
       "failedAccept": "Untersuchung konnte nicht akzeptiert werden, bitte versuchen Sie es erneut.",
       "failedAcknowledge": "Untersuchung konnte nicht bestätigt werden, bitte versuchen Sie es erneut.",
-      "failedApprove": "Die Untersuchung konnte nicht genehmigt werden, bitte versuchen Sie es erneut.",
+      "failedApprove": "Die Qualitätsuntersuchung konnte nicht gesendet werden, bitte versuchen Sie es erneut.",
       "failedCancel": "Die Untersuchung konnte nicht gelöscht werden, bitte versuchen Sie es erneut.",
       "failedClose": "Die Untersuchung konnte nicht abgeschlossen werden, bitte versuchen Sie es erneut.",
       "failedDecline": "Untersuchung konnte nicht abgelehnt werden, bitte versuchen Sie es erneut."
@@ -294,7 +294,7 @@
       "successfullyDeclined": "Qualitätswarnung wurde erfolgreich abgelehnt.",
       "failedAccept": "Qualitätswarnung konnte nicht akzeptiert werden, bitte versuchen Sie es erneut.",
       "failedAcknowledge": "Qualitätswarnung konnte nicht bestätigt werden, bitte versuchen Sie es erneut.",
-      "failedApprove": "Die Qualitätswarnung konnte nicht genehmigt werden, bitte versuchen Sie es erneut.",
+      "failedApprove": "Die Qualitätswarnung konnte nicht gesendet werden, bitte versuchen Sie es erneut.",
       "failedCancel": "Die Qualitätswarnung konnte nicht gelöscht werden, bitte versuchen Sie es erneut.",
       "failedClose": "Die Qualitätswarnung konnte nicht abgeschlossen werden, bitte versuchen Sie es erneut.",
       "failedDecline": "Qualitätswarnung konnte nicht abgelehnt werden, bitte versuchen Sie es erneut."

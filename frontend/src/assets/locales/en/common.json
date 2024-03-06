@@ -254,7 +254,7 @@
       "successfullyDeclined": "Investigation was declined successfully.",
       "failedAccept": "Investigation failed to accept, please try again.",
       "failedAcknowledge": "Investigation failed to acknowledge, please try again.",
-      "failedApprove": "Investigation failed to approve, please try again.",
+      "failedApprove": "Investigation failed to send, please try again.",
       "failedCancel": "Investigation failed to cancel, please try again.",
       "failedClose": "Investigation failed to close, please try again.",
       "failedDecline": "Investigation failed to decline, please try again."
@@ -296,7 +296,7 @@
       "successfullyDeclined": "Alert was declined successfully.",
       "failedAccept": "Alert failed to accept, please try again.",
       "failedAcknowledge": "Alert failed to acknowledge, please try again.",
-      "failedApprove": "Alert failed to approve, please try again.",
+      "failedApprove": "Alert failed to send, please try again.",
       "failedCancel": "Alert failed to cancel, please try again.",
       "failedClose": "Alert failed to close, please try again.",
       "failedDecline": "Alert failed to decline, please try again."

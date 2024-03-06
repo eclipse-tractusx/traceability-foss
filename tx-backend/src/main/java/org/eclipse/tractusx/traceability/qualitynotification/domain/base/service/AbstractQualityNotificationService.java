@@ -19,7 +19,6 @@
 package org.eclipse.tractusx.traceability.qualitynotification.domain.base.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.service.QualityNotificationService;
@@ -58,7 +57,7 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
             updatedAlert = getNotificationPublisherService().updateNotificationPublisher(alert, notificationStatus, reason);
         } catch (SendNotificationException exception) {
             log.info("Notification status rollback", exception);
-            return;
+            throw new SendNotificationException(exception.getMessage());
         }
 
         getQualityNotificationRepository().updateQualityNotificationEntity(updatedAlert);
@@ -78,7 +77,7 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
             approvedInvestigation = getNotificationPublisherService().approveNotification(notification);
         } catch (SendNotificationException exception) {
             log.info("Notification status rollback", exception);
-            return;
+            throw new SendNotificationException(exception.getMessage());
         }
         getQualityNotificationRepository().updateQualityNotificationEntity(approvedInvestigation);
     }

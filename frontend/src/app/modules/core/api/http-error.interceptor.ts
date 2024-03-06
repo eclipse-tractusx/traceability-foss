@@ -19,10 +19,10 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
-import { ToastService } from 'src/app/modules/shared/components/toasts/toast.service';
+import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {Observable, throwError} from 'rxjs';
+import {catchError, retry} from 'rxjs/operators';
+import {ToastService} from 'src/app/modules/shared/components/toasts/toast.service';
 
 export class HttpErrorInterceptor implements HttpInterceptor {
 
@@ -46,7 +46,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         const errorMessage = !error.message ? message : `Backend returned code ${ error.status }: ${ error.message }`;
 
         // Check if the request URL matches any pattern in the avoidList
-        if (this.shouldShowToast(request.url)) {
+        if (!this.isOnAlreadyHandledUrlList(request.url)) {
           this.toastService.error(errorMessage);
         }
 
@@ -56,7 +56,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
   }
 
 // Helper method to check if the URL matches any pattern in the avoidList
-  private shouldShowToast(url: string): boolean {
+  private isOnAlreadyHandledUrlList(url: string): boolean {
     return !this.avoidList.some(pattern => this.urlMatchesPattern(url, pattern));
   }
 

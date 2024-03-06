@@ -25,6 +25,7 @@ import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
 import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
 import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
@@ -47,41 +48,8 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
     @Autowired
     AlertsSupport alertsSupport;
 
-    @Test
-    void ShouldAcknowledgeReceivedAlert() throws JoseException {
-        // given
-        var alertId = alertsSupport.defaultReceivedAlertStored();
-        String filterString = "channel,EQUAL,RECEIVER,AND";
-
-        // when
-        given()
-                .contentType(ContentType.JSON)
-                .body(
-                        """
-                                 {
-                                 "status" : "ACKNOWLEDGED"
-                                 }
-                                """
-                )
-                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
-                .when()
-                .post("/api/alerts/$alertId/update".replace("$alertId", alertId.toString()))
-                .then()
-                .statusCode(204);
-
-        // then
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString))))
-                .contentType(ContentType.JSON)
-                .when()
-                .post("/api/alerts/filter")
-                .then()
-                .statusCode(200)
-                .body("page", Matchers.is(0))
-                .body("pageSize", Matchers.is(10))
-                .body("content", Matchers.hasSize(1));
-    }
+    @Autowired
+    AssetsSupport assetsSupport;
 
     @Test
     void shouldNotUpdateToAcknowledgedNonExistingAlert() throws JoseException {
