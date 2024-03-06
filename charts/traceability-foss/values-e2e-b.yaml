@@ -179,6 +179,7 @@ backend:
   edc:
     apiKey: *edc_api_key
     providerUrl: *edc_controlplane_url
+    providerDataplaneUrl: *edc_provider_dataplane_url
     callbackUrl: *irs_callback_url
     callbackUrlEdcClient: *backend_edc_client_callback_url
     dataEndpointUrl: *edc_controlplane_management_url
