@@ -64,7 +64,6 @@ export class HttpErrorInterceptor implements HttpInterceptor {
   private urlMatchesPattern(url: string, pattern: string): boolean {
     const regexPattern = pattern.replace(/\*/g, '.*');
     const regex = new RegExp(`^${regexPattern}$`);
-    console.log(url, pattern, regex.test(url));
     return regex.test(url);
   }
 
