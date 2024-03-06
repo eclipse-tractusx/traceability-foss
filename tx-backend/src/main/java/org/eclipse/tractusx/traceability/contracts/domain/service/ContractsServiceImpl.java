@@ -21,6 +21,9 @@ package org.eclipse.tractusx.traceability.contracts.domain.service;
 import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
+import org.eclipse.tractusx.traceability.common.request.OwnPageable;
+import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
+import org.eclipse.tractusx.traceability.contracts.application.mapper.ContractFieldMapper;
 import org.eclipse.tractusx.traceability.contracts.application.service.ContractsService;
 import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
 import org.eclipse.tractusx.traceability.contracts.domain.repository.ContractsRepository;
@@ -33,8 +36,13 @@ public class ContractsServiceImpl implements ContractsService {
 
     private final ContractsRepository contractsRepository;
 
+    private final ContractFieldMapper contractFieldMapper;
+
     @Override
-    public PageResult<Contract> getContracts(Pageable pageable, SearchCriteria searchCriteria) {
+    public PageResult<Contract> getContracts(PageableFilterRequest pageableFilterRequest) {
+        Pageable pageable = OwnPageable.toPageable(pageableFilterRequest.getOwnPageable(), contractFieldMapper);
+        SearchCriteria searchCriteria = pageableFilterRequest.getSearchCriteriaRequestParam().toSearchCriteria(contractFieldMapper);
+
         return contractsRepository.getContractsByPageable(pageable, searchCriteria);
     }
 }

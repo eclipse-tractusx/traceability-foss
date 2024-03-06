@@ -41,7 +41,7 @@ public class MapperHelper {
                 .filter(shell -> shell.payload().globalAssetId().equals(globalAssetId))
                 .map(Shell::contractAgreementId)
                 .findFirst()
-                .orElse("");
+                .orElse(null);
     }
 
     public static OffsetDateTime getOffsetDateTime(String date) {
