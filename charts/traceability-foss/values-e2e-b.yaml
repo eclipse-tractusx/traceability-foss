@@ -35,7 +35,6 @@ configuration:
     hostName: &be_host_name 'traceability-e2e-b.dev.demo.catena-x.net'
     # -- backend host with https://
     url: &be_url 'https://traceability-e2e-b.dev.demo.catena-x.net'
-    callback: &backend_callback "https://traceability-e2e-b.dev.demo.catena-x.net/api/callback/endpoint-data-reference"
     edcClient:
       callbackUrl: &backend_edc_client_callback_url 'https://traceability-e2e-b.dev.demo.catena-x.net/api/internal/endpoint-data-reference'
     backendDatabase:
@@ -348,7 +347,7 @@ tractusx-connector:
   ## currently we need to provide a url but is not used anywhere
   # URL where the EndpointDataReference callback will be sent to
   backendService:
-    httpProxyTokenReceiverUrl: *backend_callback
+    httpProxyTokenReceiverUrl: *backend_edc_client_callback_url
 
   ################################
   # EDC Vault Configuration #
