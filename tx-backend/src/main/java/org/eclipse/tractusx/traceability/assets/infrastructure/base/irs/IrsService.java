@@ -88,12 +88,6 @@ public class IrsService implements IrsRepository {
     @Override
     public void createJobToResolveAssets(String globalAssetId, Direction direction, List<String> aspects, BomLifecycle bomLifecycle) {
         RegisterJobRequest registerJobRequest = RegisterJobRequest.buildJobRequest(globalAssetId, traceabilityProperties.getBpn().toString(), direction, aspects, bomLifecycle, traceabilityProperties.getUrl());
-        log.info("Build HTTP Request {}", registerJobRequest);
-        try {
-            log.info("Build HTTP Request as JSON {}", objectMapper.writeValueAsString(registerJobRequest));
-        } catch (Exception e) {
-            log.error("exception", e);
-        }
         this.irsClient.registerJob(registerJobRequest);
     }
 
