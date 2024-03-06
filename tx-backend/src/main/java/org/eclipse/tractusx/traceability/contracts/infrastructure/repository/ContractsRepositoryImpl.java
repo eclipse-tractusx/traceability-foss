@@ -27,6 +27,7 @@ import org.eclipse.tractusx.irs.edc.client.contract.model.exception.ContractAgre
 import org.eclipse.tractusx.irs.edc.client.contract.service.EdcContractAgreementService;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
+import org.eclipse.tractusx.traceability.common.repository.BaseSpecification;
 import org.eclipse.tractusx.traceability.contracts.domain.exception.ContractException;
 import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
 import org.eclipse.tractusx.traceability.contracts.domain.repository.ContractsRepository;
@@ -60,7 +61,7 @@ public class ContractsRepositoryImpl implements ContractsRepository {
             List<ContractSpecification> contractAgreementSpecifications = emptyIfNull(searchCriteria.getSearchCriteriaFilterList()).stream()
                     .map(ContractSpecification::new)
                     .toList();
-            Specification<ContractAgreementInfoView> specification = ContractSpecification.toSpecification(contractAgreementSpecifications);
+            Specification<ContractAgreementInfoView> specification = BaseSpecification.toSpecification(contractAgreementSpecifications);
             Page<ContractAgreementInfoView> contractAgreementInfoViews = contractAgreementInfoViewRepository.findAll(specification, pageable);
 
             return new PageResult<>(fetchEdcContractAgreements(contractAgreementInfoViews),

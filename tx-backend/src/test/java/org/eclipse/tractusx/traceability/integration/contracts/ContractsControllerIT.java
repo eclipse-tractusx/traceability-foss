@@ -39,7 +39,7 @@ import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 
-public class ContractsControllerIT extends IntegrationTestSpecification {
+class ContractsControllerIT extends IntegrationTestSpecification {
 
     @Autowired
     AssetsSupport assetsSupport;

@@ -23,6 +23,9 @@ import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
 
 public class ContractResponseMapper {
+
+    private ContractResponseMapper() {
+    }
     public static PageResult<ContractResponse> from(PageResult<Contract> contractPageResult) {
         return new PageResult<>(contractPageResult.content().stream().map(ContractResponseMapper::from).toList(),
                 contractPageResult.page(),
