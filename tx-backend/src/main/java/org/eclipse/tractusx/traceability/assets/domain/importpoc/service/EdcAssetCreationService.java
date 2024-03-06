@@ -28,6 +28,8 @@ import org.eclipse.tractusx.irs.edc.client.contract.service.EdcContractDefinitio
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.CreateEdcPolicyDefinitionException;
 import org.eclipse.tractusx.irs.edc.client.policy.service.EdcPolicyDefinitionService;
 import org.eclipse.tractusx.traceability.common.config.TestContractDefinitionService;
+import org.eclipse.tractusx.traceability.common.config.TestEdcAssetService;
+import org.eclipse.tractusx.traceability.common.config.TestPolicyDefinitionService;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -38,8 +40,8 @@ import org.springframework.stereotype.Service;
 public class EdcAssetCreationService {
     private static final String REGISTRY_ASSET_NAME = "registry-asset";
     private static final String SUBMODEL_ASSET_NAME = "submodel-asset";
-    private final EdcAssetService edcDtrAssetService;
-    private final EdcPolicyDefinitionService edcDtrPolicyDefinitionService;
+    private final TestEdcAssetService edcDtrAssetService;
+    private final TestPolicyDefinitionService edcDtrPolicyDefinitionService;
     private final TestContractDefinitionService edcDtrContractDefinitionService;
     private final TraceabilityProperties traceabilityProperties;
     @Value("${registry.urlWithPath}")

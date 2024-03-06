@@ -99,6 +99,15 @@ public class EdcSupport {
         );
     }
 
+    public void edcWillReturnConflictWhenCreatePolicyDefinition() {
+        whenHttp(restitoProvider.stubServer()).match(
+                post("/management/v2/policydefinitions"),
+                EDC_API_KEY_HEADER
+        ).then(
+                status(HttpStatus.CONFLICT_409)
+        );
+    }
+
     public void edcWillRemovePolicyDefinition() {
         whenHttp(restitoProvider.stubServer()).match(
                 composite(

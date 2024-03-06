@@ -234,13 +234,13 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public EdcAssetService edcDtrAssetService(EdcConfiguration edcConfiguration, EdcTransformer edcTransformer, RestTemplate edcDtrAssetRestTemplate) {
-        return new EdcAssetService(edcTransformer, edcConfiguration, edcDtrAssetRestTemplate);
+    public TestEdcAssetService edcDtrAssetService(EdcConfiguration edcConfiguration, EdcTransformer edcTransformer, RestTemplate edcDtrAssetRestTemplate) {
+        return new TestEdcAssetService(edcTransformer, edcConfiguration, edcDtrAssetRestTemplate);
     }
 
     @Bean
-    public EdcPolicyDefinitionService edcDtrPolicyDefinitionService(EdcConfiguration edcConfiguration, RestTemplate edcDtrAssetRestTemplate) {
-        return new EdcPolicyDefinitionService(edcConfiguration, edcDtrAssetRestTemplate);
+    public TestPolicyDefinitionService edcDtrPolicyDefinitionService(EdcConfiguration edcConfiguration, RestTemplate edcDtrAssetRestTemplate) {
+        return new TestPolicyDefinitionService(edcConfiguration, edcDtrAssetRestTemplate);
     }
 
     @Bean

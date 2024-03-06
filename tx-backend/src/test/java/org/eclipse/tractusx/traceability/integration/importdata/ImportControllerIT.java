@@ -434,6 +434,47 @@ class ImportControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
+    void givenValidFile2_whenPublishData_thenStatusShouldChangeToInSynchronization() throws JoseException {
+        // given
+        String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
+        File file = new File(path);
+
+        given()
+                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .when()
+                .multiPart(file)
+                .post("/api/assets/import")
+                .then()
+                .statusCode(200)
+                .extract().as(ImportResponse.class);
+
+        RegisterAssetRequest registerAssetRequest = new RegisterAssetRequest("Trace-X policy", List.of("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f"));
+
+        edcApiSupport.edcWillReturnConflictWhenCreatePolicyDefinition();
+        edcApiSupport.edcWillCreateAsset();
+        edcApiSupport.edcWillCreateContractDefinition();
+        oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
+        oAuth2ApiSupport.oauth2ApiReturnsDtrToken();
+        dtrApiSupport.dtrWillCreateShell();
+
+        // when
+        given()
+                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .contentType(ContentType.JSON)
+                .when()
+                .body(registerAssetRequest)
+                .post("/api/assets/publish")
+                .then()
+                .statusCode(201);
+
+        // then
+        AssetBase asset = assetAsBuiltRepository.getAssetById("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f");
+        assertThat("Trace-X policy").isEqualTo(asset.getPolicyId());
+        assertThat(ImportState.IN_SYNCHRONIZATION).isEqualTo(asset.getImportState());
+        dtrApiSupport.verityDtrCreateShellCalledTimes(1);
+    }
+
+    @Test
     void givenInvalidAssetID_whenPublishData_thenStatusCode404() throws JoseException {
         // given
         String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
