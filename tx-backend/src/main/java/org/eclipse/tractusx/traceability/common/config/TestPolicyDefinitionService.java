@@ -29,17 +29,13 @@ import org.eclipse.tractusx.irs.edc.client.policy.model.EdcPolicyPermission;
 import org.eclipse.tractusx.irs.edc.client.policy.model.EdcPolicyPermissionConstraint;
 import org.eclipse.tractusx.irs.edc.client.policy.model.EdcPolicyPermissionConstraintExpression;
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.CreateEdcPolicyDefinitionException;
-import org.eclipse.tractusx.irs.edc.client.policy.model.exception.DeleteEdcPolicyDefinitionException;
-import org.eclipse.tractusx.irs.edc.client.policy.service.EdcPolicyDefinitionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 import java.util.UUID;
@@ -80,7 +76,7 @@ public class TestPolicyDefinitionService {
         }
 
         HttpStatusCode responseCode = createPolicyDefinitionResponse.getStatusCode();
-         if (responseCode.value() == HttpStatus.OK.value()) {
+        if (responseCode.value() == HttpStatus.OK.value()) {
             return policyRequest.getPolicyDefinitionId();
         } else {
             throw new CreateEdcPolicyDefinitionException("Failed to create EDC policy definition for asset");
@@ -94,17 +90,6 @@ public class TestPolicyDefinitionService {
         EdcPolicy edcPolicy = EdcPolicy.builder().odrlPermissions(List.of(odrlPermissions)).type("Policy").build();
         OdrlContext odrlContext = OdrlContext.builder().odrl("http://www.w3.org/ns/odrl/2/").build();
         return EdcCreatePolicyDefinitionRequest.builder().policyDefinitionId(accessPolicyId).policy(edcPolicy).odrlContext(odrlContext).type("PolicyDefinitionRequestDto").build();
-    }
-
-    public void deleteAccessPolicy(String accessPolicyId) throws DeleteEdcPolicyDefinitionException {
-        String deleteUri = UriComponentsBuilder.fromPath(this.config.getControlplane().getEndpoint().getPolicyDefinition()).pathSegment(new String[]{"{accessPolicyId}"}).buildAndExpand(new Object[]{accessPolicyId}).toUriString();
-
-        try {
-            this.restTemplate.delete(deleteUri, new Object[0]);
-        } catch (RestClientException var4) {
-            log.error("Failed to delete EDC notification asset policy {}. Reason: ", accessPolicyId, var4);
-            throw new DeleteEdcPolicyDefinitionException(var4);
-        }
     }
 
     @Generated

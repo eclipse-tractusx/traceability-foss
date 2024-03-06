@@ -25,11 +25,7 @@ import lombok.RequiredArgsConstructor;
 import org.eclipse.edc.spi.types.domain.DataAddress;
 import org.eclipse.edc.spi.types.domain.asset.Asset;
 import org.eclipse.tractusx.irs.edc.client.EdcConfiguration;
-import org.eclipse.tractusx.irs.edc.client.asset.EdcAssetService;
-import org.eclipse.tractusx.irs.edc.client.asset.model.NotificationMethod;
-import org.eclipse.tractusx.irs.edc.client.asset.model.NotificationType;
 import org.eclipse.tractusx.irs.edc.client.asset.model.exception.CreateEdcAssetException;
-import org.eclipse.tractusx.irs.edc.client.asset.model.exception.DeleteEdcAssetException;
 import org.eclipse.tractusx.irs.edc.client.transformer.EdcTransformer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,15 +33,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Map;
-import java.util.UUID;
 
 @RequiredArgsConstructor
-public class TestEdcAssetService{
+public class TestEdcAssetService {
     @Generated
     private static final Logger log = LoggerFactory.getLogger(TestEdcAssetService.class);
     private static final String DEFAULT_CONTENT_TYPE = "application/json";
@@ -66,11 +59,6 @@ public class TestEdcAssetService{
     private final EdcTransformer edcTransformer;
     private final EdcConfiguration config;
     private final RestTemplate restTemplate;
-
-    public String createNotificationAsset(String baseUrl, String assetName, NotificationMethod notificationMethod, NotificationType notificationType) throws CreateEdcAssetException {
-        Asset request = this.createNotificationAssetRequest(assetName, baseUrl, notificationMethod, notificationType);
-        return this.sendRequest(request);
-    }
 
     public String createDtrAsset(String baseUrl, String assetId) throws CreateEdcAssetException {
         Asset request = this.createDtrAssetRequest(assetId, baseUrl);
@@ -93,31 +81,13 @@ public class TestEdcAssetService{
                 return request.getId();
             }
         } catch (HttpClientErrorException var5) {
-            if(var5.getStatusCode().value() == HttpStatus.CONFLICT.value()) {
+            if (var5.getStatusCode().value() == HttpStatus.CONFLICT.value()) {
                 return request.getId();
             }
             throw new CreateEdcAssetException(var5);
         }
 
         throw new CreateEdcAssetException("Failed to create asset %s".formatted(request.getId()));
-    }
-
-    public void deleteAsset(String assetId) throws DeleteEdcAssetException {
-        String deleteUri = UriComponentsBuilder.fromPath(this.config.getControlplane().getEndpoint().getAsset()).pathSegment(new String[]{"{notificationAssetId}"}).buildAndExpand(new Object[]{assetId}).toUriString();
-
-        try {
-            this.restTemplate.delete(deleteUri, new Object[0]);
-        } catch (RestClientException var4) {
-            log.error("Failed to delete EDC notification asset {}. Reason: ", assetId, var4);
-            throw new DeleteEdcAssetException(var4);
-        }
-    }
-
-    private Asset createNotificationAssetRequest(String assetName, String baseUrl, NotificationMethod notificationMethod, NotificationType notificationType) {
-        String assetId = UUID.randomUUID().toString();
-        Map<String, Object> properties = Map.of("https://w3id.org/edc/v0.0.1/ns/description", assetName, "https://w3id.org/edc/v0.0.1/ns/contenttype", "application/json", "https://w3id.org/edc/v0.0.1/ns/policy-id", "use-eu", "https://w3id.org/edc/v0.0.1/ns/type", notificationType.getValue(), "https://w3id.org/edc/v0.0.1/ns/notificationtype", notificationType.getValue(), "https://w3id.org/edc/v0.0.1/ns/notificationmethod", notificationMethod.getValue());
-        DataAddress dataAddress = DataAddress.Builder.newInstance().type("HttpData").property("https://w3id.org/edc/v0.0.1/ns/type", "HttpData").property("https://w3id.org/edc/v0.0.1/ns/baseUrl", baseUrl).property("https://w3id.org/edc/v0.0.1/ns/proxyMethod", Boolean.TRUE.toString()).property("https://w3id.org/edc/v0.0.1/ns/proxyBody", Boolean.TRUE.toString()).property("https://w3id.org/edc/v0.0.1/ns/method", "POST").build();
-        return org.eclipse.edc.spi.types.domain.asset.Asset.Builder.newInstance().id(assetId).contentType("Asset").properties(properties).dataAddress(dataAddress).build();
     }
 
     private Asset createDtrAssetRequest(String assetId, String baseUrl) {
