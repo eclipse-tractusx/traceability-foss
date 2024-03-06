@@ -20,6 +20,7 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.r
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.component.Bpn;
 import org.eclipse.tractusx.irs.component.Relationship;
 import org.eclipse.tractusx.irs.component.enums.Direction;
@@ -53,6 +54,7 @@ import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.m
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.MapperHelper.getShortId;
 
 @Component
+@Slf4j
 @RequiredArgsConstructor
 public class AssetMapperFactory {
 
@@ -72,7 +74,9 @@ public class AssetMapperFactory {
 
         List<DetailAspectModel> partSiteInformationAsPlanned = extractPartSiteInformationAsPlanned(irsResponse);
         List<AssetBase> tombstones = TombstoneMapper.mapTombstones(irsResponse.jobStatus(), irsResponse.tombstones(), objectMapper);
-
+        if (tombstones != null) {
+            log.info("Found {} tombstones", tombstones.size());
+        }
         return toAssetBase(irsResponse, descriptionMap, bpnMap, tractionBatteryCode, partSiteInformationAsPlanned, tombstones);
     }
 
