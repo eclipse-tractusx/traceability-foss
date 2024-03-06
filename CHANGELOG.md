@@ -9,6 +9,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- add /contracts api to fetch contract agreement information from EDC for assets
+
 ### Changed
 - Updated RELEASE.md to the latest release guide (added more steps)
 
