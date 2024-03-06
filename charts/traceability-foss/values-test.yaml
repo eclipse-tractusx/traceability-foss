@@ -67,9 +67,9 @@ configuration:
     name: &edc_name 'tx-edc-consumer-test'
     apiKey: &edc_api_key <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
     controlplane:
-      hostName: &edc_controlplane_hostname 'tx-edc-consumer-test-controlplane.dev.demo.catena-x.net'
-      url: &edc_controlplane_url 'https://tx-edc-consumer-test-controlplane.dev.demo.catena-x.net'
-      managementUrl: &edc_controlplane_management_url 'https://tx-edc-consumer-test-controlplane.dev.demo.catena-x.net/management'
+      hostName: &edc_controlplane_hostname 'trace-x-test-edc.dev.demo.catena-x.net'
+      url: &edc_controlplane_url 'https://trace-x-test-edc.dev.demo.catena-x.net'
+      managementUrl: &edc_controlplane_management_url 'https://trace-x-test-edc.dev.demo.catena-x.net/management'
     dataplane:
       hostName: &edc_dataplane_hostname 'tx-edc-consumer-test-dataplane.dev.demo.catena-x.net'
     edcDatabase:
@@ -91,7 +91,7 @@ configuration:
     url: &portal_url <path:traceability-foss/data/test/frontend#catenax_portal_url>
     backend:
       url: &portal_backend_url 'https://portal-backend.dev.demo.catena-x.net/api'
-    discoveryFinderUrl: &discovery_finder_url 'https://tracex-discovery-mock-test.dev.demo.catena-x.net/api/v1.0/administration/connectors/discovery/search'
+    discoveryFinderUrl: &discovery_finder_url 'https://tracex-discovery-mock-test.dev.demo.catena-x.net/irs/api/v1.0/administration/connectors/discovery/search'
     # -- remove irs url for environments that support official discovery finder ( not mock ) and replace alias with above one
     discoveryFinderIrsUrl: &discovery_finder_irs_url 'https://tracex-discovery-mock-test.dev.demo.catena-x.net/irs/api/v1.0/administration/connectors/discovery/search'
     serviceAccount:
