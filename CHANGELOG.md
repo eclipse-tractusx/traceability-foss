@@ -8,6 +8,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [UNRELEASED - DD.MM.YYYY]
 
 ### Added
+- #515 Service Unavailable Response on Notification failure
 
 ### Changed
 - Updated RELEASE.md to the latest release guide (added more steps)
@@ -17,8 +18,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 - Added concept #638: Contract agreement admin view
 - Added support for meta key for multi sorting on tables
-- Added concept #578: Consistent null values
 
+- Added concept #578: Consistent null values
 ### Changed
 - Spring-core bumped from 6.0.16 to 6.0.17
 - Updated user manual
