@@ -48,7 +48,9 @@
       "creationDate": "Creation date",
       "endDate": "End date",
       "state": "State",
-      "policies": "Policies"
+      "policies": "Policies",
+      "selectAtleastOne": "Select atleast one contract to use the export functionality.",
+      "exportAsCSV": ".CSV-File Export"
     }
   }
 }

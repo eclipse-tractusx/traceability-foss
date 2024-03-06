@@ -47,7 +47,7 @@ export const adminHandler = (_ => {
       return res(ctx.status(200), ctx.json(getImportReport()));
     }),
 
-    rest.get(`*${ environment.apiUrl }/contracts`, (req, res, ctx) => {
+    rest.post(`*${ environment.apiUrl }/contracts`, (req, res, ctx) => {
       return res(ctx.status(200), ctx.json(getContracts()));
     })
 

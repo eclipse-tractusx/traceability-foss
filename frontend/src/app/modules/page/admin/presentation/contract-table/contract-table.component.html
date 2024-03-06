@@ -5,11 +5,21 @@
 
   <mat-card-content>
     <div class="flex flex-row justify-end mb-2">
+      <div class="detail--action--button"
+           matTooltip="{{'pageAdmin.contracts.selectAtleastOne' | i18n}}"
+           matTooltipClass="table--header--tooltip"
+           matTooltipPosition="above"
+           [class.mdc-tooltip--multiline]="true"
+           [matTooltipShowDelay]="1000"
+           [matTooltipDisabled]="selectedContracts?.length > 0"
+      >
       <app-button variant="raised"
                   color="primary"
                   iconName="ios_share"
-                  (click)="exportContractsAsCsv()"
-      >Export</app-button>
+                  (click)="exportContractsAsCSV()"
+                  [isDisabled]="!selectedContracts?.length"
+      >{{'pageAdmin.contracts.exportAsCSV' | i18n}}</app-button>
+      </div>
     </div>
       <app-table
         [paginationData]="contracts | async"
@@ -18,6 +28,12 @@
         [noShadow]="true"
         [showHover]="false"
         [labelId]="'test'"
+        [autocompleteEnabled]="true"
+        (configChanged)="onTableConfigChange($event)"
+        (filterActivated)="filterActivated($event)"
+        (multiSelect)="multiSelection($event)"
+        [tableType]="TableType.CONTRACTS"
+
       >
       </app-table>
   </mat-card-content>

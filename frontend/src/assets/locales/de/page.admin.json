@@ -43,12 +43,14 @@
     },
     "contracts": {
       "contracts": "Verträge",
-      "contractId": "Vertrags ID",
+      "contractId": "Vertrags-ID",
       "counterpartyAddress": "Vertragspartner Adresse",
       "creationDate": "Erstelldatum",
       "endDate": "Ablaufdatum",
       "state": "Status",
-      "policies": "Richtlinien"
+      "policies": "Richtlinie",
+      "selectAtleastOne": "Selektieren Sie mindestens einen Vertrag um exportieren zu können.",
+      "exportAsCSV": ".CSV-Datei Export"
     }
   }
 }

@@ -86,7 +86,12 @@ export class TableComponent {
   @Input() tableHeader: string;
   @Input() multiSortList: TableHeaderSort[];
 
-  @Input() set paginationData({ page, pageSize, totalItems, content }: Pagination<unknown>) {
+  @Input() set paginationData(paginationData: Pagination<unknown>) {
+    if(!paginationData) {
+      return;
+    }
+
+    const { page, pageSize, totalItems, content } = paginationData;
     this.totalItems = totalItems;
     this.pageSize = pageSize;
     this.dataSource.data = content;

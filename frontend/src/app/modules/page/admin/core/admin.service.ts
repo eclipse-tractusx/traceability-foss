@@ -64,13 +64,33 @@ export class AdminService {
 
     public getContracts(page: number, pageSize: number, sorting?: TableHeaderSort[], filter?: any): Observable<Pagination<Contract>> {
 
+      const body = {
+        pageAble: {
+          page: page,
+          size: pageSize,
+          // sort: sorting[0].toString(),
+        },
+        searchCriteria: {
+          //filter: [ ...additionalFilters ],
+        },
+      };
+
       let params = new HttpParams()
         .set('page', page)
         .set('size', pageSize)
         //.set('filter', filter)
         //.set('sort', sorting[0].toString())
 
-      return this.apiService.getBy(`${this.url}/contracts`, params)
+      return this.apiService.post(`${this.url}/contracts`, body)
     }
 
+  getDistinctFilterValues(filterColumns: string, searchElement: string) {
+    let params = new HttpParams()
+      .set('fieldName', filterColumns)
+      .set('startWith', searchElement)
+      .set('size', 200)
+
+    return this.apiService.getBy<any>(`${this.url}/contracts/distinctFilterValues`, params);
+
+  }
 }
