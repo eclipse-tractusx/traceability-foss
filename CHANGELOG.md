@@ -14,6 +14,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 
 ### Changed
 - Updated RELEASE.md to the latest release guide (added more steps)
+- #515 Fixed notification toast click area
 
 ## [10.6.0 - 04.03.2024]
 
