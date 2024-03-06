@@ -95,7 +95,7 @@ SPDX-License-Identifier: Apache-2.0
         <commons-collections.version>4.4</commons-collections.version>
         <lombok.version>1.18.30</lombok.version>
         <json-unit-assertj.version>3.2.2</json-unit-assertj.version>
-        <cucumber.version>7.12.1</cucumber.version>
+        <cucumber.version>7.15.0</cucumber.version>
         <org-snakeyaml.version>2.2</org-snakeyaml.version>
         <jackson.version>2.15.2</jackson.version>
         <junit-bom.version>5.9.3</junit-bom.version>
