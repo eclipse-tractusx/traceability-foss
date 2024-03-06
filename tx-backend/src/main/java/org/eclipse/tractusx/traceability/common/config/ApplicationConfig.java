@@ -97,6 +97,8 @@ public class ApplicationConfig {
 
     @Value("${registry.urlWithPath}")
     String registryUrlWithPath;
+    @Value("${registry.shellDescriptorUrl}")
+    String shellDescriptorUrl;
 
 
     private final AcceptedPoliciesProvider.DefaultAcceptedPoliciesProvider defaultAcceptedPoliciesProvider;
@@ -250,6 +252,6 @@ public class ApplicationConfig {
 
     @Bean
     public DigitalTwinRegistryCreateShellService dtrCreateShellService(RestTemplate digitalTwinRegistryCreateShellRestTemplate) {
-        return new DigitalTwinRegistryCreateShellService(digitalTwinRegistryCreateShellRestTemplate, registryUrlWithPath);
+        return new DigitalTwinRegistryCreateShellService(digitalTwinRegistryCreateShellRestTemplate, registryUrlWithPath + shellDescriptorUrl);
     }
 }

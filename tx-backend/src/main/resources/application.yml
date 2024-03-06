@@ -159,6 +159,7 @@ cors:
 
 registry:
   urlWithPath: ${REGISTRY_URL_WITH_PATH:https://registry.net/semantics/registry/api/v3.0}
+  shellDescriptorUrl: /shell-descriptors
 
 digitalTwinRegistryClient:
   shellDescriptorTemplate: /shell-descriptors/{aasIdentifier} # The path to retrieve AAS descriptors from the decentral DTR, must contain the placeholder {aasIdentifier}
