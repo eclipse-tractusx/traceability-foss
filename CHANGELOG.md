@@ -8,6 +8,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [UNRELEASED - DD.MM.YYYY]
 
 ### Added
+- Added contract agreement view
 
 ### Changed
 - Updated RELEASE.md to the latest release guide (added more steps)
