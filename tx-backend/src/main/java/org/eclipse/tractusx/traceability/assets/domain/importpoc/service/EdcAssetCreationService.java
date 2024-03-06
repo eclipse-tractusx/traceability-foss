@@ -77,7 +77,7 @@ public class EdcAssetCreationService {
         String submodelAssetId = null;
 
         try {
-            submodelAssetId = edcDtrAssetService.createSubmodelAsset(traceabilityProperties.getSubmodelBase()+ "/api/submodel/data", SUBMODEL_ASSET_NAME);
+            submodelAssetId = edcDtrAssetService.createSubmodelAsset(traceabilityProperties.getSubmodelBase()+ "/api/submodel", SUBMODEL_ASSET_NAME);
         } catch (CreateEdcAssetException e) {
             throw new RuntimeException(e);
         }
