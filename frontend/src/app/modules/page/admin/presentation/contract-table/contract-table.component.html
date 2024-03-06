@@ -1,0 +1,25 @@
+<mat-card>
+  <mat-card-header class="flex-row">
+    <mat-card-title><h3>{{"pageAdmin.contracts.contracts" | i18n}}</h3></mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="flex flex-row justify-end mb-2">
+      <app-button variant="raised"
+                  color="primary"
+                  iconName="ios_share"
+                  (click)="exportContractsAsCsv()"
+      >Export</app-button>
+    </div>
+      <app-table
+        [paginationData]="contracts | async"
+        [tableConfig]="tableConfig"
+        [additionalTableHeader]="true"
+        [noShadow]="true"
+        [showHover]="false"
+        [labelId]="'test'"
+      >
+      </app-table>
+  </mat-card-content>
+
+</mat-card>

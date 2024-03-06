@@ -40,6 +40,15 @@
       "description": "Beschreibung",
       "uploadMore": "Mehr Hochladen",
       "noImportStateMessage": "Der Server hat keine weitere Information zurückgegeben."
+    },
+    "contracts": {
+      "contracts": "Verträge",
+      "contractId": "Vertrags ID",
+      "counterpartyAddress": "Vertragspartner Adresse",
+      "creationDate": "Erstelldatum",
+      "endDate": "Ablaufdatum",
+      "state": "Status",
+      "policies": "Richtlinien"
     }
   }
 }

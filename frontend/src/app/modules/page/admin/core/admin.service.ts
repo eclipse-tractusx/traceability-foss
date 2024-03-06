@@ -19,13 +19,16 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {Injectable} from '@angular/core';
-import {ApiService} from '@core/api/api.service';
-import {environment} from '@env';
-import {AdminAssembler} from '@page/admin/core/admin.assembler';
-import {BpnConfig, BpnConfigResponse} from '@page/admin/core/admin.model';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { ApiService } from '@core/api/api.service';
+import { Pagination } from '@core/model/pagination.model';
+import { environment } from '@env';
+import { AdminAssembler } from '@page/admin/core/admin.assembler';
+import { BpnConfig, BpnConfigResponse, Contract } from '@page/admin/core/admin.model';
+import { TableHeaderSort } from '@shared/components/table/table.model';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class AdminService {
@@ -57,6 +60,17 @@ export class AdminService {
         const formData = new FormData();
         formData.append('file', file);
         return this.apiService.postFile(`${this.url}/assets/import`, formData);
+    }
+
+    public getContracts(page: number, pageSize: number, sorting?: TableHeaderSort[], filter?: any): Observable<Pagination<Contract>> {
+
+      let params = new HttpParams()
+        .set('page', page)
+        .set('size', pageSize)
+        //.set('filter', filter)
+        //.set('sort', sorting[0].toString())
+
+      return this.apiService.getBy(`${this.url}/contracts`, params)
     }
 
 }

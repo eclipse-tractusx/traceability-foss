@@ -21,7 +21,7 @@
 
 import { environment } from '@env';
 import { rest } from 'msw';
-import { getBpnConfig, getImportReport } from './admin.model';
+import { getBpnConfig, getContracts, getImportReport } from './admin.model';
 
 export const adminHandler = (_ => {
 
@@ -45,6 +45,10 @@ export const adminHandler = (_ => {
 
     rest.post(`*${ environment.apiUrl }/assets/import`, (req, res, ctx) => {
       return res(ctx.status(200), ctx.json(getImportReport()));
+    }),
+
+    rest.get(`*${ environment.apiUrl }/contracts`, (req, res, ctx) => {
+      return res(ctx.status(200), ctx.json(getContracts()));
     })
 
   ];

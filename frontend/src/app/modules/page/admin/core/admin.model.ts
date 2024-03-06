@@ -24,7 +24,8 @@ import { FormArray, FormControl, FormGroup } from '@angular/forms';
 
 export enum KnownAdminRoutes {
   BPN = 'configure-bpn',
-  IMPORT = 'configure-import'
+  IMPORT = 'configure-import',
+  CONTRACT = 'contracts'
 }
 
 
@@ -43,3 +44,16 @@ export interface BpnConfig {
 }
 
 export type BpnConfigFormGroup = FormGroup<{ bpnConfig: FormArray<FormControl<BpnConfig>> }>;
+
+export interface Contract {
+  contractId: string,
+  counterpartyAddress: string,
+  creationDate: number,
+  endDate: number,
+  state: ContractState
+}
+
+export enum ContractState {
+  FINALIZED = "Finalized",
+  TERMINATED = "Terminated"
+}
