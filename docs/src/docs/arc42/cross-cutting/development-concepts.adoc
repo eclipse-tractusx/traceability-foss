@@ -34,8 +34,7 @@ The generated OpenAPI specification file is automatically compared to a fixed, s
 
 == Migration
 
-There currently is no data migration mechanism for TraceX.
-In case the model of the persisted data (Jobs) changes, data is dropped and Jobs will need to be recreated.
+Data Migration is handled by flyway.
 
 == Configurability
 
