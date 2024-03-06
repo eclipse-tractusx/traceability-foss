@@ -30,19 +30,25 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterJobRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobDetailResponse;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IRSResponse;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobStatus;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.PolicyResponse;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.AssetMapperFactory;
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+import static org.eclipse.tractusx.irs.component.enums.BomLifecycle.AS_BUILT;
+import static org.eclipse.tractusx.irs.component.enums.BomLifecycle.AS_PLANNED;
+import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.AssetMapperFactory.extractBpnMap;
 
 @Slf4j
 @Service
@@ -54,6 +60,11 @@ public class IrsService implements IrsRepository {
     private final AssetCallbackRepository assetAsBuiltCallbackRepository;
     private final AssetCallbackRepository assetAsPlannedCallbackRepository;
 
+    private static final String JOB_STATUS_COMPLETED = "COMPLETED";
+
+    private static final String JOB_STATUS_RUNNING = "RUNNING";
+    private final AssetMapperFactory assetMapperFactory;
+
     private final IrsClient irsClient;
 
     public IrsService(
@@ -64,14 +75,14 @@ public class IrsService implements IrsRepository {
             @Qualifier("assetAsBuiltRepositoryImpl")
             AssetCallbackRepository assetAsBuiltCallbackRepository,
             @Qualifier("assetAsPlannedRepositoryImpl")
-            AssetCallbackRepository assetAsPlannedCallbackRepository) {
+            AssetCallbackRepository assetAsPlannedCallbackRepository, AssetMapperFactory assetMapperFactory) {
         this.bpnRepository = bpnRepository;
         this.traceabilityProperties = traceabilityProperties;
         this.objectMapper = objectMapper;
         this.assetAsBuiltCallbackRepository = assetAsBuiltCallbackRepository;
         this.assetAsPlannedCallbackRepository = assetAsPlannedCallbackRepository;
         this.irsClient = irsClient;
-
+        this.assetMapperFactory = assetMapperFactory;
     }
 
     @Override
@@ -89,28 +100,33 @@ public class IrsService implements IrsRepository {
 
     @Override
     public void handleJobFinishedCallback(String jobId, String state) {
-        if (!Objects.equals(state, JobDetailResponse.JOB_STATUS_COMPLETED)) {
+        if (!Objects.equals(state, JOB_STATUS_COMPLETED)) {
             return;
         }
-        final JobDetailResponse jobResponse = this.irsClient.getJobDetailResponse(jobId);
 
+        final IRSResponse jobResponseIRS = this.irsClient.getIrsJobDetailResponse(jobId);
 
-        long runtime = (jobResponse.jobStatus().lastModifiedOn().getTime() - jobResponse.jobStatus().startedOn().getTime()) / 1000;
-        log.info("IRS call for globalAssetId: {} finished with status: {}, runtime {} s.", jobResponse.jobStatus().globalAssetId(), jobResponse.jobStatus().state(), runtime);
+        if (jobResponseIRS == null) {
+            return;
+        }
 
-        if (jobResponse.isCompleted()) {
+        long runtime = (jobResponseIRS.jobStatus().lastModifiedOn().getTime() - jobResponseIRS.jobStatus().startedOn().getTime()) / 1000;
+        log.info("IRS call for globalAssetId: {} finished with status: {}, runtime {} s.", jobResponseIRS.jobStatus().globalAssetId(), jobResponseIRS.jobStatus().state(), runtime);
+
+        if (jobCompleted(jobResponseIRS.jobStatus())) {
             try {
-                // TODO exception will be often thrown probably because two transactions try to commit same primary key - check if we need to update it here
-                bpnRepository.updateManufacturers(jobResponse.bpns());
+                Map<String, String> bpnMap = extractBpnMap(jobResponseIRS);
+                bpnRepository.updateManufacturers(bpnMap);
             } catch (Exception e) {
                 log.warn("BPN Mapping Exception", e);
             }
 
-            // persist converted assets
-            jobResponse.convertAssets(objectMapper).forEach(assetBase -> {
-                if (assetBase.getBomLifecycle() == org.eclipse.tractusx.irs.component.enums.BomLifecycle.AS_BUILT) {
+            List<AssetBase> assets = assetMapperFactory.mapToAssetBaseList(jobResponseIRS);
+
+            assets.forEach(assetBase -> {
+                if (assetBase.getBomLifecycle() == AS_BUILT) {
                     saveOrUpdateAssets(assetAsBuiltCallbackRepository, assetBase);
-                } else if (assetBase.getBomLifecycle() == org.eclipse.tractusx.irs.component.enums.BomLifecycle.AS_PLANNED) {
+                } else if (assetBase.getBomLifecycle() == AS_PLANNED) {
                     saveOrUpdateAssets(assetAsPlannedCallbackRepository, assetBase);
                 }
             });
@@ -127,7 +143,7 @@ public class IrsService implements IrsRepository {
             if (!asset.getParentRelations().isEmpty()) {
                 existingAsset.setParentRelations(asset.getParentRelations());
             }
-            existingAsset.setTombstone(asset.getTombstone());
+            existingAsset.setTombstone(asset.getTombstone() == null ? "" : asset.getTombstone());
             repository.save(existingAsset);
         } else {
             repository.save(asset);
@@ -190,6 +206,14 @@ public class IrsService implements IrsRepository {
 
     public List<PolicyResponse> getPolicies() {
         return irsClient.getPolicies();
+    }
+
+    public static boolean jobCompleted(JobStatus jobStatus) {
+        return JOB_STATUS_COMPLETED.equals(jobStatus.state());
+    }
+
+    public static boolean jobRunning(JobStatus jobStatus) {
+        return JOB_STATUS_RUNNING.equals(jobStatus.state());
     }
 
 }

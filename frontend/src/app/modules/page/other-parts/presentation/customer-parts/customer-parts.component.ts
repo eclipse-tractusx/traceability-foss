@@ -22,12 +22,13 @@ import { Component, Input, OnDestroy, OnInit, QueryList, ViewChildren } from '@a
 import { Pagination } from '@core/model/pagination.model';
 import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import { Part } from '@page/parts/model/parts.model';
+import { AssetAsBuiltFilter, AssetAsPlannedFilter, Part } from '@page/parts/model/parts.model';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
 import { TableSortingUtil } from '@shared/components/table/table-sorting.util';
 import { TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
 import { toAssetFilter, toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
+import { setMultiSorting } from '@shared/helper/table-helper';
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { StaticIdService } from '@shared/service/staticId.service';
@@ -54,18 +55,20 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
   @Input()
   public bomLifecycle: MainAspectType;
 
+  assetAsBuiltFilter: AssetAsBuiltFilter;
+  assetsAsPlannedFilter: AssetAsPlannedFilter;
+
   constructor(
     private readonly otherPartsFacade: OtherPartsFacade,
     private readonly partDetailsFacade: PartDetailsFacade,
     private readonly staticIdService: StaticIdService,
   ) {
 
-
     window.addEventListener('keydown', (event) => {
-      this.ctrlKeyState = event.ctrlKey;
+      this.ctrlKeyState = setMultiSorting(event);
     });
     window.addEventListener('keyup', (event) => {
-      this.ctrlKeyState = event.ctrlKey;
+      this.ctrlKeyState = setMultiSorting(event);
     });
   }
 
@@ -93,9 +96,11 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
 
   filterActivated(isAsBuilt: boolean, assetFilter: any): void {
     if (isAsBuilt) {
-      this.otherPartsFacade.setCustomerPartsAsBuilt(0, 50, [], toAssetFilter(assetFilter, true));
+      this.assetAsBuiltFilter = assetFilter;
+      this.otherPartsFacade.setCustomerPartsAsBuilt(0, 50, [], toAssetFilter(this.assetAsBuiltFilter, true));
     } else {
-      this.otherPartsFacade.setCustomerPartsAsPlanned(0, 50, [], toAssetFilter(assetFilter, false));
+      this.assetsAsPlannedFilter = assetFilter;
+      this.otherPartsFacade.setCustomerPartsAsPlanned(0, 50, [], toAssetFilter(this.assetsAsPlannedFilter, false));
     }
   }
 
@@ -109,12 +114,32 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
 
   public onAsBuiltTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
     this.setTableSortingList(sorting, MainAspectType.AS_BUILT);
-    this.otherPartsFacade.setCustomerPartsAsBuilt(page, pageSize, this.tableCustomerAsBuiltSortList);
+
+    let pageSizeValue = 50;
+    if (pageSize !== 0) {
+      pageSizeValue = pageSize;
+    }
+
+    if (this.assetAsBuiltFilter) {
+      this.otherPartsFacade.setCustomerPartsAsBuilt(0, pageSizeValue, this.tableCustomerAsBuiltSortList, toAssetFilter(this.assetAsBuiltFilter, true));
+    } else {
+      this.otherPartsFacade.setCustomerPartsAsBuilt(page, pageSizeValue, this.tableCustomerAsBuiltSortList);
+    }
   }
 
   public onAsPlannedTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
     this.setTableSortingList(sorting, MainAspectType.AS_PLANNED);
-    this.otherPartsFacade.setCustomerPartsAsPlanned(page, pageSize, this.tableCustomerAsPlannedSortList);
+
+    let pageSizeValue = 50;
+    if (pageSize !== 0) {
+      pageSizeValue = pageSize;
+    }
+
+    if (this.assetsAsPlannedFilter) {
+      this.otherPartsFacade.setCustomerPartsAsPlanned(0, pageSizeValue, this.tableCustomerAsPlannedSortList, toAssetFilter(this.assetsAsPlannedFilter, true));
+    } else {
+      this.otherPartsFacade.setCustomerPartsAsPlanned(page, pageSizeValue, this.tableCustomerAsPlannedSortList);
+    }
   }
 
   private setTableSortingList(sorting: TableHeaderSort, partTable: MainAspectType): void {

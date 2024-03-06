@@ -30,6 +30,8 @@ SPDX-License-Identifier: Apache-2.0
   <ng-template #mainTmp let-parts="view" let-customContext="customContext">
     <app-parts-table
       [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
+      [selectedPartsInfoLabel]="'page.selectedParts.info'"
+      [selectedPartsActionLabel]="'page.selectedParts.action'"
       [noShadow]="true"
       [labelId]="customContext.labelId"
       (selected)="onSelectItem($event)"
