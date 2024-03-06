@@ -67,16 +67,16 @@ configuration:
     name: &edc_name 'tx-edc-consumer-dev'
     apiKey: &edc_api_key <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
     controlplane:
-      hostName: &edc_controlplane_hostname 'trace-x-edc.dev.demo.catena-x.net'
-      url: &edc_controlplane_url 'https://trace-x-edc.dev.demo.catena-x.net'
-      managementUrl: &edc_controlplane_management_url 'https://trace-x-edc.dev.demo.catena-x.net/management'
+      hostName: &edc_consumer_controlplane_host 'tx-edc-consumer-dev-controlplane.dev.demo.catena-x.net'
+      url: &edc_provider_controlplane_url 'https://trace-x-edc.dev.demo.catena-x.net'
+      managementUrl: &edc_consumer_controlplane_management_url 'https://tx-edc-consumer-dev-controlplane.dev.demo.catena-x.net/management'
     dataplane:
-      hostName: &edc_dataplane_hostname 'tx-edc-consumer-dev-dataplane.dev.demo.catena-x.net'
+      hostName: &edc_consumer_dataplane_hostname 'tx-edc-consumer-dev-dataplane.dev.demo.catena-x.net'
     edcDatabase:
-      name: &edc_database_name 'tx-edc-consumer-postgresql-dev'
-      username: &edc_database_username <path:traceability-foss/data/dev/edc/database#user>
-      password: &edc_database_password <path:traceability-foss/data/dev/edc/database#password>
-      jdbcUrl: &edc_database_jdbc_url "jdbc:postgresql://tx-edc-consumer-postgresql-dev-hl:5432/edc"
+      name: &edc_consumer_database_name 'tx-edc-consumer-postgresql-dev'
+      username: &edc_consumer_database_username <path:traceability-foss/data/dev/edc/database#user>
+      password: &edc_consumer_database_password <path:traceability-foss/data/dev/edc/database#password>
+      jdbcUrl: &edc_consumer_database_jdbc_url "jdbc:postgresql://tx-edc-consumer-postgresql-dev-hl:5432/edc"
     vault:
       hashicorp:
         url: &vault_url 'https://vault.demo.catena-x.net'
@@ -178,10 +178,10 @@ backend:
 
   edc:
     apiKey: *edc_api_key
-    providerUrl: *edc_controlplane_url
+    providerUrl: *edc_provider_controlplane_url
     callbackUrl: *irs_callback_url
     callbackUrlEdcClient: *backend_edc_client_callback_url
-    dataEndpointUrl: *edc_controlplane_management_url
+    dataEndpointUrl: *edc_consumer_controlplane_management_url
 
   discoveryfinder:
     baseUrl: *discovery_finder_url
@@ -282,7 +282,7 @@ irs-helm:
     callbackurl: *irs_callback_url
     controlplane:
       endpoint:
-        data: *edc_controlplane_management_url
+        data: *edc_consumer_controlplane_management_url
       apikey:
         secret: *edc_api_key
 
@@ -305,7 +305,7 @@ tractusx-connector:
   controlplane:
     ingresses:
       - enabled: true
-        hostname: *edc_controlplane_hostname
+        hostname: *edc_consumer_controlplane_host
         annotations:
           nginx.ingress.kubernetes.io/ssl-passthrough: "false"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
@@ -332,7 +332,7 @@ tractusx-connector:
   dataplane:
     ingresses:
       - enabled: true
-        hostname: *edc_dataplane_hostname
+        hostname: *edc_consumer_dataplane_hostname
         annotations:
           nginx.ingress.kubernetes.io/ssl-passthrough: "false"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
@@ -366,19 +366,19 @@ tractusx-connector:
   ##################################
   postgresql:
     auth:
-      username: *edc_database_username
-      password: *edc_database_password
-    username: *edc_database_username
-    password: *edc_database_password
-    jdbcUrl: *edc_database_jdbc_url
+      username: *edc_consumer_database_username
+      password: *edc_consumer_database_password
+    username: *edc_consumer_database_username
+    password: *edc_consumer_database_password
+    jdbcUrl: *edc_consumer_database_jdbc_url
 
 ###################################
 # EDC Postgres Configuration #
 ###################################
 edc-postgresql:
-  nameOverride: *edc_database_name
-  fullnameOverride: *edc_database_name
+  nameOverride: *edc_consumer_database_name
+  fullnameOverride: *edc_consumer_database_name
   auth:
-    username: *edc_database_username
-    postgresPassword: *edc_database_password
-    password: *edc_database_password
+    username: *edc_consumer_database_username
+    postgresPassword: *edc_consumer_database_password
+    password: *edc_consumer_database_password
