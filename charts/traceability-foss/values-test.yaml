@@ -64,27 +64,30 @@ configuration:
       url: &irs_database_url 'http://tx-irs-minio-test:9000'
 
   edc:
-    name: &edc_name 'tx-edc-consumer-test'
-    apiKey: &edc_api_key <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
-    controlplane:
-      hostName: &edc_controlplane_hostname 'tx-edc-consumer-test-controlplane.dev.demo.catena-x.net'
-      url: &edc_controlplane_url 'https://tx-edc-consumer-test-controlplane.dev.demo.catena-x.net'
-      managementUrl: &edc_controlplane_management_url 'https://tx-edc-consumer-test-controlplane.dev.demo.catena-x.net/management'
-    dataplane:
-      hostName: &edc_dataplane_hostname 'tx-edc-consumer-test-dataplane.dev.demo.catena-x.net'
-    edcDatabase:
-      name: &edc_database_name 'tx-edc-consumer-postgresql-test'
-      username: &edc_database_username <path:traceability-foss/data/dev/edc/database#user>
-      password: &edc_database_password <path:traceability-foss/data/dev/edc/database#password>
-      jdbcUrl: &edc_database_jdbc_url "jdbc:postgresql://tx-edc-consumer-postgresql-test-hl:5432/edc"
-    vault:
-      hashicorp:
-        url: &vault_url 'https://vault.demo.catena-x.net'
-        token: &vault_token <path:traceability-foss/data/dev/edc#edc.vault.hashicorp.token>
-      secretNames:
-        transferProxyTokenSignerPrivateKey: &edc_private_key daps-cert-edc-test-consumer-private
-        transferProxyTokenSignerPublicKey: &edc_public_key daps-cert-edc-test-consumer-public
-        transferProxyTokenEncryptionAesKey: &edc_encryption_key token-signer-aes-key
+    provider:
+      controlPlaneHost: &edc_provider_controlplane_url 'https://trace-x-test-edc.dev.demo.catena-x.net'
+      dataPlaneHost: &edc_provider_dataplane_url 'https://trace-x-test-edc-dataplane.dev.demo.catena-x.net'
+    consumer:
+      name: &edc_name 'tx-edc-consumer-test'
+      apiKey: &edc_api_key <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
+      controlplane:
+        hostName: &edc_controlplane_hostname 'tx-edc-consumer-test-controlplane.dev.demo.catena-x.net'
+        managementUrl: &edc_controlplane_management_url 'https://tx-edc-consumer-test-controlplane.dev.demo.catena-x.net/management'
+      dataplane:
+        hostName: &edc_dataplane_hostname 'tx-edc-consumer-test-dataplane.dev.demo.catena-x.net'
+      edcDatabase:
+        name: &edc_database_name 'tx-edc-consumer-postgresql-test'
+        username: &edc_database_username <path:traceability-foss/data/dev/edc/database#user>
+        password: &edc_database_password <path:traceability-foss/data/dev/edc/database#password>
+        jdbcUrl: &edc_database_jdbc_url "jdbc:postgresql://tx-edc-consumer-postgresql-test-hl:5432/edc"
+      vault:
+        hashicorp:
+          url: &vault_url 'https://vault.demo.catena-x.net'
+          token: &vault_token <path:traceability-foss/data/dev/edc#edc.vault.hashicorp.token>
+        secretNames:
+          transferProxyTokenSignerPrivateKey: &edc_private_key daps-cert-edc-test-consumer-private
+          transferProxyTokenSignerPublicKey: &edc_public_key daps-cert-edc-test-consumer-public
+          transferProxyTokenEncryptionAesKey: &edc_encryption_key token-signer-aes-key
 
   portal:
     domain: &portal_domain <path:traceability-foss/data/test/frontend#catenax_portal_backend_domain>
@@ -93,14 +96,12 @@ configuration:
       url: &portal_backend_url 'https://portal-backend.dev.demo.catena-x.net/api'
     discoveryFinderUrl: &discovery_finder_url 'https://tracex-discovery-mock-test.dev.demo.catena-x.net/api/v1.0/administration/connectors/discovery/search'
     # -- remove irs url for environments that support official discovery finder ( not mock ) and replace alias with above one
-    discoveryFinderIrsUrl: &discovery_finder_irs_url 'https://tracex-discovery-mock-test.dev.demo.catena-x.net/irs/api/v1.0/administration/connectors/discovery/search'
     serviceAccount:
       clientId: &service_account_id <path:traceability-foss/data/dev-b/keycloak/oauth2#clientId> #sa267
       clientPassword: &service_account_password <path:traceability-foss/data/dev-b/keycloak/oauth2#clientSecret>
     auth:
       keycloakUrl: &portal_auth_keycloak_url <path:traceability-foss/data/test/frontend#catenax_portal_keycloak_url>
       tokenUri: &central_idp_token_uri 'https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token'
-      jwkUri: &central_idp_jwk_uri 'https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs'
       resourceClient: &central_idp_resource_client 'Cl17-CX-Part' # proposal for removing this from vault or changing path to oauth folder to reuse for both BE and FE preferable changing vault
     miw:
       url: &portal_miw_url <path:traceability-foss/data/dev-b/edc-consumer/wallet#ssi.miw.url>
@@ -178,7 +179,8 @@ backend:
 
   edc:
     apiKey: *edc_api_key
-    providerUrl: *edc_controlplane_url
+    providerUrl: *edc_provider_controlplane_url
+    providerDataplaneUrl: *edc_provider_dataplane_url
     callbackUrl: *irs_callback_url
     callbackUrlEdcClient: *backend_edc_client_callback_url
     dataEndpointUrl: *edc_controlplane_management_url
@@ -252,7 +254,7 @@ irs-helm:
           - *irs_host_name
         secretName: tls-secret
   discovery:
-    discoveryFinderUrl: *discovery_finder_irs_url
+    discoveryFinderUrl: *discovery_finder_url
   digitalTwinRegistry:
     descriptorEndpoint: *dtr_shell_descriptor_url
     shellLookupEndpoint: *dtr_shell_lookup_url

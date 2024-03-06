@@ -60,27 +60,30 @@ configuration:
       url: &irs_database_url 'http://tx-irs-minio-int-b:9000'
 
   edc:
-    name: &edc_name 'tx-edc-consumer-int-b'
-    apiKey: &edc_api_key <path:traceability-foss/data/int-b/edc/controlplane#edc.api.control.auth.apikey.value>
-    controlplane:
-      hostName: &edc_controlplane_hostname 'tx-edc-consumer-int-b-controlplane.int.demo.catena-x.net'
-      url: &edc_controlplane_url 'https://tx-edc-consumer-int-b-controlplane.int.demo.catena-x.net'
-      managementUrl: &edc_controlplane_management_url 'https://tx-edc-consumer-int-b-controlplane.int.demo.catena-x.net/management'
-    dataplane:
-      hostName: &edc_dataplane_hostname 'tx-edc-consumer-int-b-dataplane.int.demo.catena-x.net'
-    edcDatabase:
-      name: &edc_database_name 'tx-edc-consumer-postgresql-int-b'
-      username: &edc_database_username <path:traceability-foss/data/int-b/edc/database#user>
-      password: &edc_database_password <path:traceability-foss/data/int-b/edc/database#password>
-      jdbcUrl: &edc_database_jdbc_url "jdbc:postgresql://tx-edc-consumer-postgresql-int-b-hl:5432/edc"
-    vault:
-      hashicorp:
-        url: &vault_url 'https://vault.demo.catena-x.net'
-        token: &vault_token <path:traceability-foss/data/int-b/edc#edc.vault.hashicorp.token>
-      secretNames:
-        transferProxyTokenSignerPrivateKey: &edc_private_key daps-cert-key-int-b
-        transferProxyTokenSignerPublicKey: &edc_public_key daps-cert-int-b
-        transferProxyTokenEncryptionAesKey: &edc_encryption_key token-signer-aes-key
+    provider:
+      controlPlaneHost: &edc_provider_controlplane_url 'https://trace-x-edc-int-b.int.demo.catena-x.net'
+      dataPlaneHost: &edc_provider_dataplane_url 'https://trace-x-edc-int-b-dataplane.int.demo.catena-x.net'
+    consumer:
+      name: &edc_name 'tx-edc-consumer-int-b'
+      apiKey: &edc_api_key <path:traceability-foss/data/int-b/edc/controlplane#edc.api.control.auth.apikey.value>
+      controlplane:
+        hostName: &edc_controlplane_hostname 'tx-edc-consumer-int-b-controlplane.int.demo.catena-x.net'
+        managementUrl: &edc_controlplane_management_url 'https://tx-edc-consumer-int-b-controlplane.int.demo.catena-x.net/management'
+      dataplane:
+        hostName: &edc_dataplane_hostname 'tx-edc-consumer-int-b-dataplane.int.demo.catena-x.net'
+      edcDatabase:
+        name: &edc_database_name 'tx-edc-consumer-postgresql-int-b'
+        username: &edc_database_username <path:traceability-foss/data/int-b/edc/database#user>
+        password: &edc_database_password <path:traceability-foss/data/int-b/edc/database#password>
+        jdbcUrl: &edc_database_jdbc_url "jdbc:postgresql://tx-edc-consumer-postgresql-int-b-hl:5432/edc"
+      vault:
+        hashicorp:
+          url: &vault_url 'https://vault.demo.catena-x.net'
+          token: &vault_token <path:traceability-foss/data/int-b/edc#edc.vault.hashicorp.token>
+        secretNames:
+          transferProxyTokenSignerPrivateKey: &edc_private_key daps-cert-key-int-b
+          transferProxyTokenSignerPublicKey: &edc_public_key daps-cert-int-b
+          transferProxyTokenEncryptionAesKey: &edc_encryption_key token-signer-aes-key
 
   portal:
     domain: &portal_domain <path:traceability-foss/data/int-b/frontend#catenax_portal_backend_domain>
@@ -172,7 +175,8 @@ backend:
 
   edc:
     apiKey: *edc_api_key
-    providerUrl: *edc_controlplane_url
+    providerUrl: *edc_provider_controlplane_url
+    providerDataplaneUrl: *edc_provider_dataplane_url
     callbackUrl: *irs_callback_url
     callbackUrlEdcClient: *backend_edc_client_callback_url
     dataEndpointUrl: *edc_controlplane_management_url

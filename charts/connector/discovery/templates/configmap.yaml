@@ -42,101 +42,11 @@ data:
       }
     }
 
-  discovery_finder_response.json: |-
-    {
-      "endpoints": [
-        {
-          "type": "bpn",
-          "description": "Service to discover EDC to a particular BPN",
-          "endpointAddress": "https://{{ index .Values.ingress.hosts 0 "host" }}/api/administration/connectors/discovery",
-          "documentation": "http://.../swagger/index.html",
-          "resourceId": "316417cd-0fb5-4daf-8dfa-8f68125923f1"
-        }
-      ]
-    }
-
-  edc_discovery_request_registry_flow.json: |-
-    {
-      "request": {
-        "bodyPatterns": [
-          {
-            "equalToJson" : "[\"{{ .Values.wiremock.bpn.own }}\"]"
-          }
-        ],
-        "method": "POST",
-        "urlPath": "/api/administration/connectors/discovery"
-      },
-      "response": {
-        "status": 200,
-        "bodyFileName": "edc_discovery_response_registry_flow.json",
-        "headers": {
-          "Content-Type": "application/json"
-        },
-        "transformers": ["response-template"]
-      }
-    }
-
-  edc_discovery_response_registry_flow.json: |-
-    [
-      {
-        "bpn": "{{ printf "{{jsonPath request.body '$.[0]'}}" }}",
-        "connectorEndpoint": [
-          "{{ .Values.wiremock.provider }}"
-        ]
-      }
-    ]
-
-  edc_discovery_request_notification_flow.json: |-
-    {
-      "request": {
-        "bodyPatterns": [
-          {
-            "equalToJson" : "[\"{{ .Values.wiremock.bpn.other }}\"]"
-          }
-        ],
-        "method": "POST",
-        "urlPath": "/api/administration/connectors/discovery"
-      },
-      "response": {
-        "status": 200,
-        "bodyFileName": "edc_discovery_response_notification_flow.json",
-        "headers": {
-          "Content-Type": "application/json"
-        },
-        "transformers": ["response-template"]
-      }
-    }
-
-  edc_discovery_response_notification_flow.json: |-
-    [
-      {
-        "bpn": "{{ printf "{{jsonPath request.body '$.[0]'}}" }}",
-        "connectorEndpoint": [
-          "{{ .Values.wiremock.consumer }}"
-        ]
-      }
-    ]
-
   bpn_discovery_service_request.json: |-
     {
       "request": {
         "method": "POST",
         "urlPath": "/api/administration/connectors/bpnDiscovery/search"
-      },
-      "response": {
-        "status": 200,
-        "bodyFileName": "bpn_discovery_service_response.json",
-        "headers": {
-          "Content-Type": "application/json"
-        }
-      }
-    }
-
-  irs_bpn_discovery_service_request.json: |-
-    {
-      "request": {
-        "method": "POST",
-        "urlPath": "/irs/api/administration/connectors/bpnDiscovery/search"
       },
       "response": {
         "status": 200,
@@ -165,35 +75,21 @@ data:
       ]
     }
 
-  irs_discovery_finder_request.json: |-
-    {
-      "request": {
-      "method": "POST",
-      "urlPath": "/irs/api/v1.0/administration/connectors/discovery/search"
-      },
-      "response": {
-        "status": 200,
-        "bodyFileName": "irs_discovery_finder_response.json",
-        "headers": {
-          "Content-Type": "application/json"
-        }
-      }
-    }
 
-  irs_discovery_finder_response.json: |-
+  discovery_finder_response.json: |-
     {
       "endpoints": [
         {
           "type": "bpn",
           "description": "Service to discover EDC to a particular BPN",
-          "endpointAddress": "https://{{ index .Values.ingress.hosts 0 "host" }}/irs/api/administration/connectors/discovery",
+          "endpointAddress": "https://{{ index .Values.ingress.hosts 0 "host" }}/api/administration/connectors/discovery",
           "documentation": "http://.../swagger/index.html",
           "resourceId": "316417cd-0fb5-4daf-8dfa-8f68125923f1"
         }
       ]
     }
 
-  irs_own_edc_discovery_request.json: |-
+  own_edc_discovery_request.json: |-
     {
       "request": {
         "bodyPatterns": [
@@ -202,11 +98,11 @@ data:
           }
         ],
         "method": "POST",
-        "urlPath": "/irs/api/administration/connectors/discovery"
+        "urlPath": "/api/administration/connectors/discovery"
       },
       "response": {
         "status": 200,
-        "bodyFileName": "irs_own_edc_discovery_response.json",
+        "bodyFileName": "own_edc_discovery_response.json",
         "headers": {
           "Content-Type": "application/json"
         },
@@ -214,7 +110,7 @@ data:
       }
     }
 
-  irs_own_edc_discovery_response.json: |-
+  own_edc_discovery_response.json: |-
     [
       {
         "bpn": "{{ printf "{{jsonPath request.body '$.[0]'}}" }}",
@@ -224,7 +120,7 @@ data:
       }
     ]
 
-  irs_other_edc_discovery_request.json: |-
+  other_edc_discovery_request.json: |-
     {
       "request": {
         "bodyPatterns": [
@@ -233,11 +129,11 @@ data:
           }
         ],
         "method": "POST",
-        "urlPath": "/irs/api/administration/connectors/discovery"
+        "urlPath": "/api/administration/connectors/discovery"
       },
       "response": {
         "status": 200,
-        "bodyFileName": "irs_other_edc_discovery_response.json",
+        "bodyFileName": "other_edc_discovery_response.json",
         "headers": {
           "Content-Type": "application/json"
         },
@@ -245,7 +141,7 @@ data:
       }
     }
 
-  irs_other_edc_discovery_response.json: |-
+  other_edc_discovery_response.json: |-
     [
       {
         "bpn": "{{ printf "{{jsonPath request.body '$.[0]'}}" }}",
