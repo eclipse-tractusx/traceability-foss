@@ -27,6 +27,9 @@ enum QualityNotificationSide{
     SENDER;
     RECEIVER;
 }
+class BPN{
+bpn: String;
+}
 
 enum QualityNotificationStatus{
  CREATED(QualityNotificationSide.SENDER, emptySet()),
@@ -38,4 +41,10 @@ enum QualityNotificationStatus{
     CANCELED(QualityNotificationSide.SENDER, Set.of(QualityNotificationSide.SENDER)),
     CLOSED(QualityNotificationSide.SENDER, of(QualityNotificationSide.SENDER, QualityNotificationSide.RECEIVER));
  }
+
+QualityNotification *-- QualityNotificationId
+QualityNotification *-- BPN
+QualityNotification *-- QualityNotificationStatus
+QualityNotification *-- QualityNotificationSide
 @enduml
+
