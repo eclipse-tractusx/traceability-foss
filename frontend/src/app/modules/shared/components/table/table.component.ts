@@ -87,7 +87,7 @@ export class TableComponent {
   @Input() multiSortList: TableHeaderSort[];
 
   @Input() set paginationData(paginationData: Pagination<unknown>) {
-    if(!paginationData) {
+    if (!paginationData) {
       return;
     }
 
@@ -169,12 +169,21 @@ export class TableComponent {
   }
 
   ngOnInit(): void {
+
+    const displayFilterColumnMappings = this.tableType === TableType.CONTRACTS ?
+      PartsTableConfigUtils.generateFilterColumnsMapping(this.tableConfig?.sortableColumns, [ 'creationDate', 'endDate' ], [], true, false)
+      : PartsTableConfigUtils.generateFilterColumnsMapping(this.tableConfig?.sortableColumns, [ 'createdDate', 'targetDate' ], [], false, true);
+
+    const filterColumns = this.tableType === TableType.CONTRACTS ?
+      PartsTableConfigUtils.createFilterColumns(this.tableConfig?.displayedColumns, true, false)
+      : PartsTableConfigUtils.createFilterColumns(this.tableConfig?.displayedColumns, false, true);
+
     this.tableViewConfig = {
       displayedColumns: Object.keys(this.tableConfig.sortableColumns),
       filterFormGroup: PartsTableConfigUtils.createFormGroup(this.tableConfig?.displayedColumns),
-      filterColumns: PartsTableConfigUtils.createFilterColumns(this.tableConfig?.displayedColumns, false, true),
+      filterColumns: filterColumns,
       sortableColumns: this.tableConfig?.sortableColumns,
-      displayFilterColumnMappings: PartsTableConfigUtils.generateFilterColumnsMapping(this.tableConfig?.sortableColumns, [ 'createdDate', 'targetDate' ], [], false, true),
+      displayFilterColumnMappings: displayFilterColumnMappings,
     };
 
     for (const controlName in this.tableViewConfig.filterFormGroup) {
@@ -186,6 +195,8 @@ export class TableComponent {
     this.filterFormGroup.valueChanges.subscribe((formValues) => {
       this.filterActivated.emit(formValues);
     });
+    console.log(this.tableConfig);
+    console.log(this.tableViewConfig);
   }
 
   public areAllRowsSelected(): boolean {
@@ -219,7 +230,7 @@ export class TableComponent {
     this.emitMultiSelect();
     this.sorting = !direction ? null : ([ active, direction ] as TableHeaderSort);
     this.isDataLoading = true;
-    if (this.pageSize === 0){
+    if (this.pageSize === 0) {
       this.pageSize = EmptyPagination.pageSize;
     }
     this.configChanged.emit({ page: 0, pageSize: this.pageSize, sorting: this.sorting });

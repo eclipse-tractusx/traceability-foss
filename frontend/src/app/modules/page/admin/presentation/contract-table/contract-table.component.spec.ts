@@ -1,21 +1,25 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+import { AdminModule } from '@page/admin/admin.module';
+import { AdminFacade } from '@page/admin/core/admin.facade';
+import { AdminService } from '@page/admin/core/admin.service';
+import { renderComponent } from '@tests/test-render.utils';
 
 import { ContractTableComponent } from './contract-table.component';
 
 describe('ContractTableComponent', () => {
-  let component: ContractTableComponent;
-  let fixture: ComponentFixture<ContractTableComponent>;
+  const renderContractTableComponent = () => renderComponent(ContractTableComponent, { imports: [AdminModule]})
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ContractTableComponent]
+      declarations: [ContractTableComponent],
+      providers: [AdminFacade, AdminService]
     });
-    fixture = TestBed.createComponent(ContractTableComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should create', async() => {
+    const {fixture} = await renderContractTableComponent();
+    const {componentInstance} = fixture;
+    expect(componentInstance).toBeTruthy();
   });
 });

@@ -75,12 +75,6 @@ export class AdminService {
         },
       };
 
-      let params = new HttpParams()
-        .set('page', page)
-        .set('size', pageSize)
-        //.set('filter', filter)
-        //.set('sort', sorting[0].toString())
-
       return this.apiService.post(`${this.url}/contracts`, body)
     }
 

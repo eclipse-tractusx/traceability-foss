@@ -21,8 +21,11 @@
       >{{'pageAdmin.contracts.exportAsCSV' | i18n}}</app-button>
       </div>
     </div>
+
+    <ng-container *viewContainer="contractsView$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
+    <ng-template #mainTmp let-contracts="view">
       <app-table
-        [paginationData]="contracts | async"
+        [paginationData]="contracts.data"
         [tableConfig]="tableConfig"
         [additionalTableHeader]="true"
         [noShadow]="true"
@@ -36,6 +39,16 @@
 
       >
       </app-table>
+    </ng-template>
+
+    <ng-template #errorTmp let-contracts="view">
+      <app-data-loading-error [error]="contracts.error"></app-data-loading-error>
+    </ng-template>
+
+    <ng-template #loaderTmp>
+      <mat-spinner></mat-spinner>
+    </ng-template>
+
   </mat-card-content>
 
 </mat-card>
