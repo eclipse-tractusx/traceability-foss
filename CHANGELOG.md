@@ -16,6 +16,9 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - Updated RELEASE.md to the latest release guide (added more steps)
 - #515 Fixed notification toast click area
 
+### Removed
+- #625 Removed the header and breadcrumbs section from app layout
+
 ## [10.6.0 - 04.03.2024]
 
 ### Added
