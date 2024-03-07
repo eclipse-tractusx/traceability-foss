@@ -67,6 +67,8 @@
 - [ ] yes
 - [x] no
 
+### Helm Version [1.3.29](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/helm-charts-1.3.29)
+
 | Dependency       | Name of Service              | Version                         | Helm   | Comments                                                                          |
 |------------------|------------------------------|---------------------------------|--------|-----------------------------------------------------------------------------------|
 | EDC              | edc-postgresql               | 12.1.6                          | 2.0.0  | Enterprise Data Connector for PostgreSQL                                          |
