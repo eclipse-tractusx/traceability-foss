@@ -42,7 +42,6 @@ public class QualityNotification {
     private QualityNotificationId notificationId;
     private QualityNotificationStatus notificationStatus;
     private String description;
-    // TODO date
     private Instant createdAt;
     private QualityNotificationSide notificationSide;
     @Builder.Default

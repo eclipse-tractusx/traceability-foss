@@ -20,6 +20,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.qualitynotification.application.contract;
 
+import assets.importpoc.ErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -28,7 +29,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import assets.importpoc.ErrorResponse;
+import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractResponse;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.EdcNotificationContractService;
@@ -45,14 +46,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR')")
 @Tag(name = "Notifications")
+@RequiredArgsConstructor
 @RequestMapping(path = "/edc/notification", produces = "application/json", consumes = "application/json")
 public class EdcNotificationContractController {
 
     private final EdcNotificationContractService edcNotificationContractService;
-
-    public EdcNotificationContractController(EdcNotificationContractService edcNotificationContractService) {
-        this.edcNotificationContractService = edcNotificationContractService;
-    }
 
     @Operation(operationId = "createNotificationContract",
             summary = "Triggers EDC notification contract",
