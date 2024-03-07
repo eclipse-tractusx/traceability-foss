@@ -16,12 +16,32 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.contracts.application.service;
+package org.eclipse.tractusx.traceability.contracts.infrastructure.model;
 
-import org.eclipse.tractusx.traceability.common.model.PageResult;
-import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
-import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
+import org.springframework.data.annotation.Immutable;
 
-public interface ContractsService {
-    PageResult<Contract> getContracts(PageableFilterRequest pageableFilterRequest);
+import java.time.Instant;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@Entity
+@SuperBuilder
+@Table(name = "contract_agreement_view")
+@Immutable
+public class ContractAgreementView {
+
+    @Id
+    private String id;
+    private String contractAgreementId;
+    private String assetType;
+    private Instant created;
+
 }

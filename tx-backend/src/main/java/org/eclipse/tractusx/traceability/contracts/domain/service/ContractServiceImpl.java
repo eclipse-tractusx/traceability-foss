@@ -24,17 +24,17 @@ import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
 import org.eclipse.tractusx.traceability.contracts.application.mapper.ContractFieldMapper;
-import org.eclipse.tractusx.traceability.contracts.application.service.ContractsService;
+import org.eclipse.tractusx.traceability.contracts.application.service.ContractService;
 import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
-import org.eclipse.tractusx.traceability.contracts.domain.repository.ContractsRepository;
+import org.eclipse.tractusx.traceability.contracts.domain.repository.ContractRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class ContractsServiceImpl implements ContractsService {
+public class ContractServiceImpl implements ContractService {
 
-    private final ContractsRepository contractsRepository;
+    private final ContractRepository contractRepository;
 
     private final ContractFieldMapper contractFieldMapper;
 
@@ -43,6 +43,6 @@ public class ContractsServiceImpl implements ContractsService {
         Pageable pageable = OwnPageable.toPageable(pageableFilterRequest.getOwnPageable(), contractFieldMapper);
         SearchCriteria searchCriteria = pageableFilterRequest.getSearchCriteriaRequestParam().toSearchCriteria(contractFieldMapper);
 
-        return contractsRepository.getContractsByPageable(pageable, searchCriteria);
+        return contractRepository.getContractsByPageable(pageable, searchCriteria);
     }
 }

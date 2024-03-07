@@ -32,7 +32,7 @@ import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
 import org.eclipse.tractusx.traceability.contracts.application.mapper.ContractResponseMapper;
-import org.eclipse.tractusx.traceability.contracts.application.service.ContractsService;
+import org.eclipse.tractusx.traceability.contracts.application.service.ContractService;
 import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,8 +45,8 @@ import org.springframework.web.bind.annotation.RestController;
 @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
 @Tag(name = "Contracts")
 @RequestMapping(path = "/contracts", produces = "application/json", consumes = "application/json")
-public class ContractsController {
-    private final ContractsService contractsService;
+public class ContractController {
+    private final ContractService contractService;
 
     @Operation(operationId = "contracts",
             summary = "All contract agreements for all assets",
@@ -99,7 +99,7 @@ public class ContractsController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping
     public PageResult<ContractResponse> getContracts(@Valid @RequestBody PageableFilterRequest pageableFilterRequest) {
-        PageResult<Contract> contracts = contractsService.getContracts(pageableFilterRequest);
+        PageResult<Contract> contracts = contractService.getContracts(pageableFilterRequest);
         return ContractResponseMapper.from(contracts);
     }
 

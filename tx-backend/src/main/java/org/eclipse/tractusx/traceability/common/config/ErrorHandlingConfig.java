@@ -322,7 +322,7 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
     }
 
     @ExceptionHandler(ContractException.class)
-    public ResponseEntity<ErrorResponse> handleImportJobNotFoundException(final ContractException exception) {
+    public ResponseEntity<ErrorResponse> handleContractException(final ContractException exception) {
         log.error("Contract exception", exception);
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND)

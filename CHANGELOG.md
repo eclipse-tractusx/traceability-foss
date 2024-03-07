@@ -12,7 +12,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ### Added
 - #515 Service Unavailable Response on Notification failure
 
-- add /contracts api to fetch contract agreement information from EDC for assets
+- #420 add /contracts api to fetch contract agreement information from EDC for assets
 
 ### Changed
 - Updated RELEASE.md to the latest release guide (added more steps)

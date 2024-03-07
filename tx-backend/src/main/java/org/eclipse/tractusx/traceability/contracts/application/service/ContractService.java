@@ -16,15 +16,12 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.contracts.domain.repository;
+package org.eclipse.tractusx.traceability.contracts.application.service;
 
 import org.eclipse.tractusx.traceability.common.model.PageResult;
-import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
+import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
 import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
-import org.springframework.data.domain.Pageable;
 
-public interface ContractsRepository {
-
-    PageResult<Contract> getContractsByPageable(Pageable pageable, SearchCriteria searchCriteria);
-
+public interface ContractService {
+    PageResult<Contract> getContracts(PageableFilterRequest pageableFilterRequest);
 }

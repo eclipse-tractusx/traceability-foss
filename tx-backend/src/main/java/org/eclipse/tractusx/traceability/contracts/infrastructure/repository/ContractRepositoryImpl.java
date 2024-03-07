@@ -30,8 +30,8 @@ import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.common.repository.BaseSpecification;
 import org.eclipse.tractusx.traceability.contracts.domain.exception.ContractException;
 import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
-import org.eclipse.tractusx.traceability.contracts.domain.repository.ContractsRepository;
-import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementInfoView;
+import org.eclipse.tractusx.traceability.contracts.domain.repository.ContractRepository;
+import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementView;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -50,7 +50,7 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class ContractsRepositoryImpl implements ContractsRepository {
+public class ContractRepositoryImpl implements ContractRepository {
 
     private final EdcContractAgreementService edcContractAgreementService;
     private final JpaContractAgreementInfoViewRepository contractAgreementInfoViewRepository;
@@ -61,8 +61,8 @@ public class ContractsRepositoryImpl implements ContractsRepository {
             List<ContractSpecification> contractAgreementSpecifications = emptyIfNull(searchCriteria.getSearchCriteriaFilterList()).stream()
                     .map(ContractSpecification::new)
                     .toList();
-            Specification<ContractAgreementInfoView> specification = BaseSpecification.toSpecification(contractAgreementSpecifications);
-            Page<ContractAgreementInfoView> contractAgreementInfoViews = contractAgreementInfoViewRepository.findAll(specification, pageable);
+            Specification<ContractAgreementView> specification = BaseSpecification.toSpecification(contractAgreementSpecifications);
+            Page<ContractAgreementView> contractAgreementInfoViews = contractAgreementInfoViewRepository.findAll(specification, pageable);
 
             if (contractAgreementInfoViews.getContent().isEmpty()) {
                 throw new ContractException("Cannot find contract agreement Ids for asset ids in searchCriteria: " + searchCriteria.getSearchCriteriaFilterList());
@@ -80,13 +80,13 @@ public class ContractsRepositoryImpl implements ContractsRepository {
 
     }
 
-    private List<Contract> fetchEdcContractAgreements(Page<ContractAgreementInfoView> contractAgreementInfoViews) throws ContractAgreementException {
-        List<String> contractAgreementIds = contractAgreementInfoViews.getContent().stream().map(ContractAgreementInfoView::getContractAgreementId).toList();
+    private List<Contract> fetchEdcContractAgreements(Page<ContractAgreementView> contractAgreementInfoViews) throws ContractAgreementException {
+        List<String> contractAgreementIds = contractAgreementInfoViews.getContent().stream().map(ContractAgreementView::getContractAgreementId).toList();
         log.info("Trying to fetch contractAgreementIds from EDC: " + contractAgreementIds);
 
         List<EdcContractAgreementsResponse> contractAgreements = edcContractAgreementService.getContractAgreements(contractAgreementIds);
 
-        throwIfListDiverge(contractAgreementIds, contractAgreements);
+        validateContractAgreements(contractAgreementIds, contractAgreements);
 
         Map<String, EdcContractAgreementNegotiationResponse> contractNegotiations = contractAgreements.stream()
                 .map(agreement -> new ImmutablePair<>(agreement.contractAgreementId(),
@@ -104,7 +104,7 @@ public class ContractsRepositoryImpl implements ContractsRepository {
         ).toList();
     }
 
-    private void throwIfListDiverge(List<String> contractAgreementIds, List<EdcContractAgreementsResponse> contractAgreements) {
+    private void validateContractAgreements(List<String> contractAgreementIds, List<EdcContractAgreementsResponse> contractAgreements) {
         ArrayList<String> givenList = new ArrayList<>(contractAgreementIds);
         Collections.sort(givenList);
 
