@@ -64,8 +64,8 @@ configuration:
 
   edc:
     provider:
-      controlPlaneHost: &edc_provider_controlplane_url 'https://trace-x-edc-e2e-a.dev.demo.catena-x.net'
-      dataPlaneHost: &edc_provider_dataplane_url 'https://trace-x-edc-e2e-a-dataplane.dev.demo.catena-x.net'
+      controlPlaneHost: &edc_provider_controlplane_url 'https://trace-x-edc-e2e-b.dev.demo.catena-x.net'
+      dataPlaneHost: &edc_provider_dataplane_url 'https://trace-x-edc-e2e-b-dataplane.dev.demo.catena-x.net'
     consumer:
       name: &edc_name 'tx-edc-consumer-e2e-b'
       apiKey: &edc_api_key <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
