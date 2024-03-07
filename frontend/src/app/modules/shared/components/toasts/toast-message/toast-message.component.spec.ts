@@ -51,9 +51,9 @@ describe('ToastMessageComponent', () => {
   it('should call toastService.emitClick() when handleClick is called', () => {
     // Arrange
     component.toastMessage = new ToastMessage(1, 'test', ToastStatus.Informative, 500);
-
+    let event = new MouseEvent("");
     // Act
-    component.handleClick();
+    component.handleClick(event);
 
     // Assert
     expect(toastService.emitClick).toHaveBeenCalled();
