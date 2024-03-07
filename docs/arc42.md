@@ -143,7 +143,7 @@ In order to use Trace-X frontend with Trace-X backend, users need to authenticat
 By the frontend UI users provide valid credentials and the system generates a bearer token that it gets from Keycloak and attaches it to the HTTP header parameter Authorization.
 Then once a user is authorized and has proper role within Trace-X backend, the backend delegates HTTP calls to specific service in their behalf as technical user in order to fulfill specific functionality.
 
-#### Registry API
+#### [Outdated] Registry API
 
 ![arc42_001](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_001.png)
 
@@ -157,14 +157,14 @@ Requests contain "assetIds" provided by the component during assets synchronizat
 The Trace-X acts as a consumer of the IRS component. The Trace-X contains a Restful client (REST template) that build a REST call to the mentioned IRS API based on its known URL (the IRS URL is configurable in the Trace-X).
 Request contains details required to start IRS fetch job provided by the component during assets synchronization. Like described in the above section, the security aspect is required in order to achieve a REST call against the IRS. As a response, the Trace-X gets the created job id and periodically pulls for the job details that contains assets that will be uploaded to the system. And as mentioned above, the transport protocol HTTP(S) is used for the REST call communication.
 
-#### Portal API
+#### [Outdated] Portal API
 
 ![arc42_003](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_003.png)
 
 The Trace-X acts as a consumer of the Portal component. The Trace-X contains a Restful client (REST template) that build a REST call to the mentioned Portal API based on its known URL (the Portal URL is configurable in the Trace-X).
 Request contains "bpns" provided by the component during sending notifications. Like described in the above section, the security aspect is required in order to achieve a REST call against the Portal. As a response, the Trace-X gets the corresponding BPN mappings to EDC urls where a notification should be send over. And as mentioned above, the transport protocol HTTP(S) is used for the REST call communication.
 
-#### EDC API
+#### [Outdated] EDC API
 
 ![arc42_004](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_004.png)
 
@@ -204,8 +204,14 @@ It roughly can be broken down into the following parts:
 * Asset controllers to get the asset information
 * Dashboard controller to get dashboard related summed up information
 * Registry controller to fetch assets from the Digital Twin Registry
-* Notification controllers to get notification information
+* Notification controllers to get notification information and create EDC notification offers
 * Submodel controller for providing asset data functionality
+* Import controller for importing Trace-X data for data provisioning
+* Contract controller to get information about contract agreements
+* EDC controller to retrieve notifications
+* IRS callback controller to retrieve asynchronous jobs completed by IRS
+* Policy controller to retrieve information about policies
+* BPN controller to retrieve information about business partners
 
 The backend does a request to the Digital Twin Registry utilizing the Registry controller. Extracted data from the response is made available through the Asset controller and the Dashboard controller to the Frontend.
 
@@ -213,7 +219,7 @@ The backend does a request to the Digital Twin Registry utilizing the Registry c
 
 ## Whitebox overall system
 
-### Component diagram
+### [Outdated] Component diagram
 
 ![arc42_005](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_005.png)
 ```bash
@@ -223,23 +229,15 @@ Component Diagram
 
 ```
 
-### Component description
+### [Outdated] Component description
 
-|Components |Description
-|IRS
-|The IRS consumes relationship information across the CX-Network and builds the graph view. Within this Documentation, the focus lies on the IRS
-
-|EDC Consumer
-|The EDC Consumer Component is there to fulfill the GAIA-X and IDSA-data sovereignty principles. The EDC Consumer consists out of a control plane and a data plane.
-
-|EDC Provider
-|The EDC Provider Component connects with EDC Consumer component and  forms the end point for the actual exchange of data. It handles automatic contract negotiation and the subsequent exchange of data assets for connected applications.
-
-|Submodel Server
-|The Submodel Server offers endpoints for requesting the Submodel aspects.
-
-|IAM/DAPS
-|DAPS as central Identity Provider
+| Components | Description |
+| --- | --- |
+| IRS | The IRS consumes relationship information across the CX-Network and builds the graph view. Within this Documentation, the focus lies on the IRS |
+| EDC Consumer | The EDC Consumer Component is there to fulfill the GAIA-X and IDSA-data sovereignty principles. The EDC Consumer consists out of a control plane and a data plane. |
+| EDC Provider | The EDC Provider Component connects with EDC Consumer component and  forms the end point for the actual exchange of data. It handles automatic contract negotiation and the subsequent exchange of data assets for connected applications. |
+| Submodel Server | The Submodel Server offers endpoints for requesting the Submodel aspects. |
+| IAM/DAPS | DAPS as central Identity Provider |
 
 ## Level 1
 
@@ -408,6 +406,13 @@ Please be informed that the 'as-planned' version currently lacks the database re
 image::./assets/arc42/arc42_015.png[]
 ```
 
+#### Quality Notifications
+
+![arc42_016](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_016.png)
+```bash
+
+```
+
 ## Safety and security concepts
 
 ### Authentication / Authorization
@@ -539,8 +544,7 @@ The generated OpenAPI specification file is automatically compared to a fixed, s
 
 ### Migration
 
-There currently is no data migration mechanism for TraceX.
-In case the model of the persisted data (Jobs) changes, data is dropped and Jobs will need to be recreated.
+Data migration is handled by flyway.
 
 ### Configurability
 
@@ -689,7 +693,7 @@ This section includes concrete quality scenarios to better capture the key quali
 
 The tree structure provides an overview for a sometimes large number of quality requirements.
 
-![arc42_016](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_016.png)
+![arc42_017](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_017.png)
 
 ## Quality scenarios
 

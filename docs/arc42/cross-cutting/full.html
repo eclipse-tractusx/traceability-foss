@@ -447,7 +447,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_domain_concepts">Domain concepts</a>
 <ul class="sectlevel2">
 <li><a href="#_api_model">API Model</a></li>
-<li><a href="#_domain_model">Domain Model</a></li>
+<li><a href="#_domain_models">Domain Models</a></li>
 </ul>
 </li>
 <li><a href="#_safety_and_security_concepts">Safety and security concepts</a>
@@ -516,10 +516,21 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="_domain_model">Domain Model</h3>
+<h3 id="_domain_models">Domain Models</h3>
+<div class="sect3">
+<h4 id="_assets">Assets</h4>
 <div class="imageblock">
 <div class="content">
-<img src="level-1.svg" alt="level 1" width="1696" height="1795">
+<img src="level-1.svg" alt="level 1" width="1623" height="1827">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_quality_notifications">Quality Notifications</h4>
+<div class="imageblock">
+<div class="content">
+<img src="level-2.svg" alt="level 2" width="1439" height="516">
+</div>
 </div>
 </div>
 </div>
@@ -770,8 +781,7 @@ The annotations are then used to automatically generate the OpenAPI specificatio
 <div class="sect2">
 <h3 id="_migration">Migration</h3>
 <div class="paragraph">
-<p>There currently is no data migration mechanism for TraceX.
-In case the model of the persisted data (Jobs) changes, data is dropped and Jobs will need to be recreated.</p>
+<p>Data migration is handled by flyway.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1063,7 +1073,7 @@ Note: as soon as a resume feature is implemented, this needs to be addressed her
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-03-01 07:58:10 UTC
+Last updated 2024-03-07 14:30:22 UTC
 </div>
 </div>
 </body>
