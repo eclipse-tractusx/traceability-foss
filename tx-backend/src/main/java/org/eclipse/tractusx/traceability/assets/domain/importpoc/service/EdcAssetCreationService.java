@@ -52,7 +52,7 @@ public class EdcAssetCreationService {
 
         String createdPolicyId = null;
         try {
-            createdPolicyId = edcDtrPolicyDefinitionService.createAccessPolicy(traceabilityProperties.getRightOperand());
+            createdPolicyId = edcDtrPolicyDefinitionService.createAccessPolicy(traceabilityProperties.getRightOperand(), "id-3.0-trace");
         } catch (CreateEdcPolicyDefinitionException e) {
             throw new RuntimeException(e);
         }
