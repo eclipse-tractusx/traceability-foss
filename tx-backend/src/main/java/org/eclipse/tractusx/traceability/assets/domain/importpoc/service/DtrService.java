@@ -180,7 +180,13 @@ public class DtrService {
                         .build(),
                 SemanticId.builder()
                         .type(GLOBAL_REFERENCE)
-                        .value(traceabilityProperties.getBpn().toString())
+//                        .value(traceabilityProperties.getBpn().toString())
+                        .value("BPNL00000003CML1")
+                        .build(),
+                SemanticId.builder()
+                        .type(GLOBAL_REFERENCE)
+//                        .value(traceabilityProperties.getBpn().toString())
+                        .value("BPNL00000003CNKC")
                         .build()
                 // TODO: Test if it works python script creates GlobalReferences for both instances BPN
                 // TODO: Last time we used python script with only own bpn in global references other instance could not retrieve assets
