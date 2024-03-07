@@ -24,14 +24,11 @@ Make sure eclipse / catena git repositories are in sync
 16) Verify that an automatic pull request has been opened (Prepare Helm release for next version)
 17) Validate that the versions within that pull requests are correct
 18) Merge pull request (Prepare Helm release for next version)
-19) Merge release branch into main
+19) Merge release branch into main (when merging make sure to restore release branch since it should stay)
 20) Open the github action for helm release generation: https://github.com/catenax-ng/tx-traceability-foss/actions/workflows/helm-chart-release.yaml
 21) Execute it from main branch
 22) Validate that the helm charts release has been generated within the release page
-23) Repeat step 8 to 23 for tractus-x: [GitHub Releases page](https://github.com/eclipse-tractusx/traceability-foss/releases)
-24) Sync catena and eclipse main branch
-
-// TODO @Martin Maul:
-//1 We need to create a branch from the helm-environments branch which reflects the release state
-// Create /release/helm-environments-<app-version> not the helm version
-//2 Make sure that the merged release branch will not be deleted
+23) Create a new branch from release/1.0.0 and name it release/helm-environments-1.0.0 (helm app version not chart version)
+24) Repeat step 8 to 23 for tractus-x: [GitHub Releases page](https://github.com/eclipse-tractusx/traceability-foss/releases)
+25) Sync catena and eclipse main branch
+26) Create a message in the Trace-X channel of the Eclipse Foundation Chat to notify the community about the new release (add a link to the tractus-x release)

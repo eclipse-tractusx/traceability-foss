@@ -159,6 +159,7 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body("pageSize", Matchers.is(10))
                 .body("totalItems", Matchers.is(8))
                 .body("content", Matchers.hasSize(8))
+                .log().all()
                 .body("content.description", Matchers.containsInRelativeOrder("1", "2", "3", "4", "5", "6", "7", "8"));
     }
 

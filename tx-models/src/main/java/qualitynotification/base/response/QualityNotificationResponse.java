@@ -83,4 +83,7 @@ public class QualityNotificationResponse {
     @Schema(example = "EDC not reachable", maxLength = 255)
     @Size(max = 255)
     private String errorMessage;
+
+    private List<QualityNotificationMessageResponse> qualityNotificationMessageResponseList;
+
 }
