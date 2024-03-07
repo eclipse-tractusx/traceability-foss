@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception;
+package org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model;
 
 import lombok.Builder;
 import lombok.Data;
@@ -31,7 +31,7 @@ import java.util.List;
 @Builder
 @Getter
 @Data
-public class StartQualityNotificationDomain {
+public class StartQualityNotification {
 
     private List<String> partIds;
 
@@ -46,8 +46,8 @@ public class StartQualityNotificationDomain {
     private String receiverBpn;
 
 
-    public static StartQualityNotificationDomain from(StartQualityNotificationRequest startQualityNotificationRequest) {
-        return StartQualityNotificationDomain.builder()
+    public static StartQualityNotification from(StartQualityNotificationRequest startQualityNotificationRequest) {
+        return StartQualityNotification.builder()
                 .partIds(startQualityNotificationRequest.getPartIds())
                 .description(startQualityNotificationRequest.getDescription())
                 .targetDate(startQualityNotificationRequest.getTargetDate())

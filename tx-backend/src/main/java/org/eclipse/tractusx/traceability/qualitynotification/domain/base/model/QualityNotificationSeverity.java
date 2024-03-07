@@ -20,8 +20,10 @@
 package org.eclipse.tractusx.traceability.qualitynotification.domain.base.model;
 
 import io.swagger.annotations.ApiModel;
+import lombok.Getter;
 import qualitynotification.base.request.QualityNotificationSeverityRequest;
 
+@Getter
 @ApiModel(description = "Describes the criticality of a notification")
 public enum QualityNotificationSeverity {
     MINOR("MINOR"),
@@ -42,10 +44,6 @@ public enum QualityNotificationSeverity {
             }
         }
         throw new IllegalArgumentException("No enum constant " + QualityNotificationSeverity.class.getCanonicalName() + "." + str);
-    }
-
-    public String getRealName() {
-        return realName;
     }
 
     public static QualityNotificationSeverity from(QualityNotificationSeverityRequest qualityNotificationSeverityRequest) {
