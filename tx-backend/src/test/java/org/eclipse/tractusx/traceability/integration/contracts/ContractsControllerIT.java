@@ -116,7 +116,6 @@ class ContractsControllerIT extends IntegrationTestSpecification {
         assertThat(contractResponsePage2Result.content().stream().map(ContractResponse::getContractId).toList()).containsAll(secondContractagreementIds);
     }
 
-
     @Test
     void shouldReturnOnlyOneContract() throws JoseException {
         //GIVEN
@@ -139,6 +138,26 @@ class ContractsControllerIT extends IntegrationTestSpecification {
                 });
         //THEN
         assertThat(contractResponsePageResult.content()).isNotEmpty();
+    }
+
+    @Test
+    void shouldReturn404IfAssetIdIsUnknown() throws JoseException {
+        //GIVEN
+        edcSupport.edcWillReturnOnlyOneContractAgreement();
+        edcSupport.edcWillReturnContractAgreementNegotiation();
+        assetsSupport.defaultAssetsStored();
+
+        //WHEN//THEN
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .body(PageableFilterRequest.builder().searchCriteriaRequestParam(SearchCriteriaRequestParam.builder().filter(List.of("id,EQUAL,IdontExist,AND")).build()).build())
+                .post("/api/contracts")
+                .then()
+                .log().all()
+                .statusCode(404);
     }
 
 }
