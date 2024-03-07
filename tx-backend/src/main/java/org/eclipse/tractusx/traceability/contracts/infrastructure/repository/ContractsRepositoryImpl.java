@@ -101,15 +101,15 @@ public class ContractsRepositoryImpl implements ContractsRepository {
 
     private void throwIfListDiverge(List<String> contractAgreementIds, List<EdcContractAgreementsResponse> contractAgreements) {
         ArrayList<String> givenList = new ArrayList<>(contractAgreementIds);
-        Collections.sort(contractAgreementIds);
+        Collections.sort(givenList);
 
         List<String> expectedList = contractAgreements.stream()
                 .sorted(Comparator.comparing(EdcContractAgreementsResponse::contractAgreementId))
                 .map(EdcContractAgreementsResponse::contractAgreementId)
                 .toList();
 
-        if (!contractAgreementIds.equals(expectedList)) {
-            contractAgreementIds.removeAll(expectedList);
+        if (!givenList.equals(expectedList)) {
+            givenList.removeAll(expectedList);
             throw new ContractException("Can not find the following contract agreement Ids in EDC: " + givenList);
         }
     }
