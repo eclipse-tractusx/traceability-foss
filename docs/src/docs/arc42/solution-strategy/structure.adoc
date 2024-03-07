@@ -8,7 +8,7 @@ It roughly can be broken down into the following parts:
 * Registry controller to fetch assets from the Digital Twin Registry
 * Notification controllers to get notification information and create EDC notification offers
 * Submodel controller for providing asset data functionality
-* Import controller for importing trace-x data for data provisioning.
+* Import controller for importing Trace-X data for data provisioning
 * Contract controller to get information about contract agreements
 * EDC controller to retrieve notifications
 * IRS Callback controller to retrieve asynchronous jobs completed by IRS.
