@@ -89,7 +89,6 @@ public class InvestigationEntity extends NotificationBaseEntity {
                 .description(investigationEntity.getDescription())
                 .assetIds(assetIds)
                 .notifications(notifications)
-                .errorMessage(investigationEntity.getErrorMessage())
                 .build();
     }
 
@@ -101,7 +100,6 @@ public class InvestigationEntity extends NotificationBaseEntity {
                 .status(NotificationStatusBaseEntity.fromStringValue(qualityNotification.getNotificationStatus().name()))
                 .side(NotificationSideBaseEntity.valueOf(qualityNotification.getNotificationSide().name()))
                 .createdDate(qualityNotification.getCreatedAt())
-                .errorMessage(qualityNotification.getErrorMessage())
                 .build();
     }
 

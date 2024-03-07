@@ -3,7 +3,7 @@ skinparam monochrome true
 skinparam shadowing false
 skinparam defaultFontName "Architects daughter"
 skinparam linetype ortho
-title: Domain Model
+title: Asset Domain
 
 class ImportJobs {
     importId : String (max = 255)

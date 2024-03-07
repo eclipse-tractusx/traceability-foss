@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,27 +16,19 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model;
+package qualitynotification.base.response;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
-import jakarta.persistence.PreUpdate;
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
-
-@SuperBuilder
-@NoArgsConstructor
 @Data
-@MappedSuperclass
-public class QualityNotificationMessageBaseEntity {
-    @Id
+@Builder
+public class QualityNotificationMessageResponse {
+
     private String id;
     private String createdBy;
     private String createdByName;
@@ -47,18 +39,13 @@ public class QualityNotificationMessageBaseEntity {
     private String notificationReferenceId;
     private Instant targetDate;
     @Enumerated(EnumType.STRING)
-    private QualityNotificationSeverity severity;
+    private QualityNotificationSeverityResponse severity;
     private String edcNotificationId;
     private LocalDateTime created;
     private LocalDateTime updated;
     private String messageId;
     private Boolean isInitial;
     @Enumerated(EnumType.STRING)
-    private NotificationStatusBaseEntity status;
+    private QualityNotificationStatusResponse status;
     private String errorMessage;
-
-    @PreUpdate
-    public void preUpdate() {
-        this.updated = LocalDateTime.now();
-    }
 }
