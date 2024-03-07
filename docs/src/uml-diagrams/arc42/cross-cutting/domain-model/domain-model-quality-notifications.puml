@@ -1,0 +1,41 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName "Architects daughter"
+skinparam linetype ortho
+title: Quality Notification Domain
+
+class QualityNotification {
+    bpn : BPN;
+    notificationId : QualityNotificationId;
+    notificationStatus : QualityNotificationStatus;
+    description: String;
+    createdAt: Instant;
+    notificationSide: QualityNotificationSide;
+    assetIds: ArrayList<String>();
+    closeReason: String;
+    acceptReason: String;
+    declineReason: String;
+    notifications: Map<String, QualityNotificationMessage>;
+}
+
+class QualityNotificationId {
+id: Long;
+}
+
+enum QualityNotificationSide{
+    SENDER;
+    RECEIVER;
+}
+
+enum QualityNotificationStatus{
+ CREATED(QualityNotificationSide.SENDER, emptySet()),
+    SENT(QualityNotificationSide.SENDER, Set.of(QualityNotificationSide.SENDER)),
+    RECEIVED(QualityNotificationSide.RECEIVER, emptySet()),
+    ACKNOWLEDGED(QualityNotificationSide.RECEIVER, Set.of(QualityNotificationSide.RECEIVER, QualityNotificationSide.SENDER)),
+    ACCEPTED(QualityNotificationSide.RECEIVER, Set.of(QualityNotificationSide.RECEIVER)),
+    DECLINED(QualityNotificationSide.RECEIVER, Set.of(QualityNotificationSide.RECEIVER)),
+    CANCELED(QualityNotificationSide.SENDER, Set.of(QualityNotificationSide.SENDER)),
+    CLOSED(QualityNotificationSide.SENDER, of(QualityNotificationSide.SENDER, QualityNotificationSide.RECEIVER));
+ }
+@enduml
