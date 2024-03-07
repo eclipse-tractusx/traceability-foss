@@ -15,6 +15,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ### Changed
 - Updated RELEASE.md to the latest release guide (added more steps)
 - #515 Fixed notification toast click area
+- #423 Moved errorMessages from investigation/alert to notification list
 
 ### Removed
 - #625 Removed the header and breadcrumbs section from app layout
