@@ -78,6 +78,7 @@ public class ContractsRepositoryImpl implements ContractsRepository {
 
     private List<Contract> fetchEdcContractAgreements(Page<ContractAgreementInfoView> contractAgreementInfoViews) throws ContractAgreementException {
         List<String> contractAgreementIds = contractAgreementInfoViews.getContent().stream().map(ContractAgreementInfoView::getContractAgreementId).toList();
+        log.info("Trying to fetch contractAgreementIds from EDC: " + contractAgreementIds);
 
         List<EdcContractAgreementsResponse> contractAgreements = edcContractAgreementService.getContractAgreements(contractAgreementIds);
 
@@ -107,6 +108,7 @@ public class ContractsRepositoryImpl implements ContractsRepository {
                 .sorted(Comparator.comparing(EdcContractAgreementsResponse::contractAgreementId))
                 .map(EdcContractAgreementsResponse::contractAgreementId)
                 .toList();
+        log.info("EDC responded with the following contractAgreementIds: " + expectedList);
 
         if (!givenList.equals(expectedList)) {
             givenList.removeAll(expectedList);
