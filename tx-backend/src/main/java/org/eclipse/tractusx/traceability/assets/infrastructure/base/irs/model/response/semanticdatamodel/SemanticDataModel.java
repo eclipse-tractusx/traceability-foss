@@ -25,32 +25,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataTractionBatteryCode;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportNote;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
-import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
-
-import static org.apache.commons.collections4.ListUtils.emptyIfNull;
-import static org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.BATCH;
-import static org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.JUSTINSEQUENCE;
-import static org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.SERIALPART;
-import static org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel.extractDetailAspectModelTractionBatteryCode;
-import static org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel.extractDetailAspectModelsAsBuilt;
-import static org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel.extractDetailAspectModelsAsPlanned;
-import static org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel.extractDetailAspectModelsPartSiteInformationAsPlanned;
 
 @Setter
 @Getter
@@ -82,128 +60,6 @@ public class SemanticDataModel {
         this.validityPeriod = validityPeriod;
         this.sites = Objects.requireNonNullElse(sites, Collections.emptyList());
         this.aspectType = aspectType;
-    }
-
-    public Optional<String> getLocalId(LocalIdKey key) {
-        return emptyIfNull(localIdentifiers).stream()
-                .filter(localId -> localId.key() == key)
-                .findFirst()
-                .map(LocalId::value);
-    }
-
-
-    public Optional<String> getLocalIdByInput(LocalIdKey key, List<LocalId> localIds) {
-        return localIds.stream()
-                .filter(localId -> localId.key() == key)
-                .findFirst()
-                .map(LocalId::value);
-    }
-
-    public AssetBase toDomainAsBuilt(List<LocalId> localIds, Map<String, String> shortIds, Owner owner, Map<String,
-            String> bpns, List<Descriptions> parentRelations, List<Descriptions> childRelations,
-                                     Optional<DetailAspectDataTractionBatteryCode> tractionBatteryCodeOptional, ImportState assetImportState) {
-        final String manufacturerName = bpns.get(manufacturerId());
-        ArrayList<DetailAspectModel> detailAspectModels = new ArrayList<>();
-
-        final AtomicReference<String> semanticModelId = new AtomicReference<>();
-        final AtomicReference<org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel> semanticDataModel = new AtomicReference<>();
-
-        getLocalIdByInput(LocalIdKey.PART_INSTANCE_ID, localIds).ifPresent(s -> {
-            semanticModelId.set(s);
-            semanticDataModel.set(SERIALPART);
-            tractionBatteryCodeOptional.ifPresent(tbc -> detailAspectModels.add(extractDetailAspectModelTractionBatteryCode(tbc)));
-        });
-
-        getLocalIdByInput(LocalIdKey.BATCH_ID, localIds).ifPresent(s -> {
-            semanticModelId.set(s);
-            semanticDataModel.set(BATCH);
-        });
-
-        getLocalIdByInput(LocalIdKey.JIS_NUMBER, localIds).ifPresent(s -> {
-            semanticModelId.set(s);
-            semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.JUSTINSEQUENCE);
-        });
-
-        if (semanticDataModel.get() == null) {
-            semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.UNKNOWN);
-        }
-
-        detailAspectModels.add(extractDetailAspectModelsAsBuilt(manufacturingInformation, partTypeInformation));
-
-        return AssetBase.builder()
-                .id(catenaXId())
-                .idShort(defaultValue(shortIds.get(catenaXId())))
-                .semanticModelId(semanticModelId.get())
-                .detailAspectModels(detailAspectModels)
-                .manufacturerId(manufacturerId())
-                .manufacturerName(defaultValue(manufacturerName))
-                .nameAtManufacturer(partTypeInformation.nameAtManufacturer())
-                .manufacturerPartId(partTypeInformation.manufacturerPartId())
-                .parentRelations(parentRelations)
-                .childRelations(childRelations)
-                .owner(owner)
-                .classification(partTypeInformation.classification())
-                .qualityType(QualityType.OK)
-                .semanticDataModel(semanticDataModel.get())
-                .van(van())
-                .importState(assetImportState)
-                .importNote(ImportNote.PERSISTED)
-                .build();
-    }
-
-    public AssetBase toDomainAsPlanned(
-            Map<String, String> shortIds,
-            Owner owner,
-            Map<String, String> bpns,
-            List<Descriptions> parentRelations,
-            List<Descriptions> childRelations,
-            String ownerBpn,
-            ImportState assetImportState) {
-        final String manufacturerName = bpns.get(ownerBpn);
-
-        List<DetailAspectModel> partSiteInfoAsPlanned = extractDetailAspectModelsPartSiteInformationAsPlanned(sites());
-        DetailAspectModel asPlanned = extractDetailAspectModelsAsPlanned(validityPeriod);
-
-        final List<DetailAspectModel> aspectModels = new ArrayList<>(partSiteInfoAsPlanned);
-        aspectModels.add(asPlanned);
-
-        return AssetBase.builder()
-                .id(catenaXId())
-                .idShort(defaultValue(shortIds.get(catenaXId())))
-                .manufacturerId(ownerBpn)
-                .manufacturerName(defaultValue(manufacturerName))
-                .nameAtManufacturer(partTypeInformation.nameAtManufacturer())
-                .manufacturerPartId(partTypeInformation.manufacturerPartId())
-                .parentRelations(parentRelations)
-                .detailAspectModels(aspectModels)
-                .childRelations(childRelations)
-                .owner(owner)
-                .classification(partTypeInformation.classification())
-                .qualityType(QualityType.OK)
-                .semanticDataModel(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.PARTASPLANNED)
-                .van(van())
-                .importState(assetImportState)
-                .importNote(ImportNote.PERSISTED)
-                .build();
-    }
-
-    private String manufacturerId() {
-        return getLocalId(LocalIdKey.MANUFACTURER_ID)
-                .orElse("--");
-    }
-
-    private String defaultValue(String value) {
-        final String EMPTY_TEXT = "--";
-        if (!StringUtils.hasText(value)) {
-            return EMPTY_TEXT;
-        }
-        return value;
-    }
-
-    private String van() {
-        final String EMPTY_TEXT = "--";
-        return getLocalId(LocalIdKey.VAN)
-                .orElse(EMPTY_TEXT);
     }
 
     public String catenaXId() {
@@ -267,11 +123,6 @@ public class SemanticDataModel {
 
     public boolean isAsBuilt() {
         return !aspectType.contains("AsPlanned");
-    }
-
-
-    public static boolean isAsBuiltMainSemanticModel(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel semanticDataModel) {
-        return semanticDataModel.equals(SERIALPART) || semanticDataModel.equals(BATCH) || semanticDataModel.equals(JUSTINSEQUENCE);
     }
 
 }
