@@ -77,7 +77,7 @@ public class ContractsRepositoryImpl implements ContractsRepository {
     }
 
     private List<Contract> fetchEdcContractAgreements(Page<ContractAgreementInfoView> contractAgreementInfoViews) throws ContractAgreementException {
-        String[] contractAgreementIds = contractAgreementInfoViews.getContent().stream().map(ContractAgreementInfoView::getContractAgreementId).toArray(String[]::new);
+        List<String> contractAgreementIds = contractAgreementInfoViews.getContent().stream().map(ContractAgreementInfoView::getContractAgreementId).toList();
 
         List<EdcContractAgreementsResponse> contractAgreements = edcContractAgreementService.getContractAgreements(contractAgreementIds);
 
@@ -99,17 +99,17 @@ public class ContractsRepositoryImpl implements ContractsRepository {
         ).toList();
     }
 
-    private void throwIfListDiverge(String[] contractAgreementIds, List<EdcContractAgreementsResponse> contractAgreements) {
-        ArrayList<String> givenList = new ArrayList<>(List.of(contractAgreementIds));
-        Collections.sort(givenList);
+    private void throwIfListDiverge(List<String> contractAgreementIds, List<EdcContractAgreementsResponse> contractAgreements) {
+        ArrayList<String> givenList = new ArrayList<>(contractAgreementIds);
+        Collections.sort(contractAgreementIds);
 
         List<String> expectedList = contractAgreements.stream()
                 .sorted(Comparator.comparing(EdcContractAgreementsResponse::contractAgreementId))
                 .map(EdcContractAgreementsResponse::contractAgreementId)
                 .toList();
 
-        if (!givenList.equals(expectedList)) {
-            givenList.removeAll(expectedList);
+        if (!contractAgreementIds.equals(expectedList)) {
+            contractAgreementIds.removeAll(expectedList);
             throw new ContractException("Can not find the following contract agreement Ids in EDC: " + givenList);
         }
     }
