@@ -11,7 +11,7 @@ It roughly can be broken down into the following parts:
 * Import controller for importing Trace-X data for data provisioning
 * Contract controller to get information about contract agreements
 * EDC controller to retrieve notifications
-* IRS Callback controller to retrieve asynchronous jobs completed by IRS.
+* IRS callback controller to retrieve asynchronous jobs completed by IRS
 * Policy controller to retrieve information about policies
 * BPN controller to retrieve information about business partners
 
