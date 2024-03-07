@@ -34,7 +34,7 @@ The generated OpenAPI specification file is automatically compared to a fixed, s
 
 == Migration
 
-Data Migration is handled by flyway.
+Data migration is handled by flyway.
 
 == Configurability
 
