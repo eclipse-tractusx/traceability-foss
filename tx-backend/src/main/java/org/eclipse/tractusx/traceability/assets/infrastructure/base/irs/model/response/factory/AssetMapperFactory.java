@@ -20,6 +20,7 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.r
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.component.Bpn;
 import org.eclipse.tractusx.irs.component.Relationship;
 import org.eclipse.tractusx.irs.component.enums.Direction;
@@ -48,10 +49,12 @@ import java.util.stream.Stream;
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.MapperHelper.enrichAssetBase;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.MapperHelper.enrichManufacturingInformation;
+import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.MapperHelper.getContractAgreementId;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.MapperHelper.getOwner;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.MapperHelper.getShortId;
 
 @Component
+@Slf4j
 @RequiredArgsConstructor
 public class AssetMapperFactory {
 
@@ -71,7 +74,9 @@ public class AssetMapperFactory {
 
         List<DetailAspectModel> partSiteInformationAsPlanned = extractPartSiteInformationAsPlanned(irsResponse);
         List<AssetBase> tombstones = TombstoneMapper.mapTombstones(irsResponse.jobStatus(), irsResponse.tombstones(), objectMapper);
-
+        if (tombstones != null) {
+            log.info("Found {} tombstones", tombstones.size());
+        }
         return toAssetBase(irsResponse, descriptionMap, bpnMap, tractionBatteryCode, partSiteInformationAsPlanned, tombstones);
     }
 
@@ -90,6 +95,7 @@ public class AssetMapperFactory {
                         AssetBase assetBase = mapper.get().extractSubmodel(irsSubmodel);
                         assetBase.setOwner(getOwner(assetBase, irsResponse));
                         assetBase.setIdShort(getShortId(irsResponse.shells(), assetBase.getId()));
+                        assetBase.setContractAgreementId(getContractAgreementId(irsResponse.shells(), assetBase.getId()));
 
                         enrichUpwardAndDownwardDescriptions(descriptionMap, assetBase);
                         enrichManufacturingInformation(irsResponse, bpnMap, assetBase);
@@ -106,6 +112,7 @@ public class AssetMapperFactory {
         submodelAssets.addAll(tombstones);
         return submodelAssets;
     }
+
 
     @NotNull
     private List<DetailAspectModel> extractPartSiteInformationAsPlanned(IRSResponse irsResponse) {

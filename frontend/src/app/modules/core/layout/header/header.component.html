@@ -41,16 +41,6 @@ SPDX-License-Identifier: Apache-2.0
       <app-user-navigation></app-user-navigation>
     </div>
   </nav>
-
-  <div class="header--breadcrumb-container">
-    <app-breadcrumbs></app-breadcrumbs>
-  </div>
-
-  <div *ngIf="activeMenu" class="header--app-header">
-    <h3>{{ 'pageTitle.' + activeMenu | i18n }}</h3>
-  </div>
-
-  <img src="/assets/images/header-subtract.png" class="header--stylish-curve" alt="" />
 </div>
 
 <ng-template let-type="value" let-role="role" #menuItem>

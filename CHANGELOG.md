@@ -5,12 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+_**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
+
 ## [UNRELEASED - DD.MM.YYYY]
+
+### Added
+- #515 Service Unavailable Response on Notification failure
+
+- #420 add /contracts api to fetch contract agreement information from EDC for assets
+
+### Changed
+- Updated RELEASE.md to the latest release guide (added more steps)
+- #515 Fixed notification toast click area
+- #423 Moved errorMessages from investigation/alert to notification list
+
+### Removed
+- #625 Removed the header and breadcrumbs section from app layout
+
+## [10.6.0 - 04.03.2024]
 
 ### Added
 - Added concept #638: Contract agreement admin view
 - Added support for meta key for multi sorting on tables
 
+- Added concept #578: Consistent null values
 ### Changed
 - Spring-core bumped from 6.0.16 to 6.0.17
 - Updated user manual
@@ -22,6 +40,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Bumped version ts-graphviz/setup-graphviz@v1 to ts-graphviz/setup-graphviz@v2
 - Bumped version Schedlock 5.10.0 to 5.11.0
 - updated yarn.lock file
+- [#542](https://github.com/eclipse-tractusx/traceability-foss/issues/542) Fixed bug where it where filter was reset when sorting in other parts table
 
 ### Removed
 - Removed EDC notification asset classes and replaced with IRS lib implementation

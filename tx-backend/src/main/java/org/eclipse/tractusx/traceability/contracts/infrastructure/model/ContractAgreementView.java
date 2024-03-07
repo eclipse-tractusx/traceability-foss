@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -18,46 +16,32 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.contracts.infrastructure.model;
 
-.breadcrumb {
-  background: none;
-  font-size: 0.8em;
-  margin: 0;
-  cursor: default;
-  @apply font-light;
-  span {
-    @apply text-primary;
-  }
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
+import org.springframework.data.annotation.Immutable;
 
-  a:hover,
-  span:hover {
-    text-decoration: underline;
-    cursor: pointer;
-  }
+import java.time.Instant;
 
-  li {
-    list-style: none;
-    float: left;
-    margin: 5px 5px 5px 0;
-  }
+@Getter
+@Setter
+@NoArgsConstructor
+@Entity
+@SuperBuilder
+@Table(name = "contract_agreement_view")
+@Immutable
+public class ContractAgreementView {
 
-  li:last-child {
-    margin-right: 20px;
+    @Id
+    private String id;
+    private String contractAgreementId;
+    private String assetType;
+    private Instant created;
 
-    span {
-      @apply text-doveGray;
-      cursor: default;
-      text-decoration: none;
-    }
-  }
-
-  li::after {
-    content: '>';
-    color: darkgrey;
-    cursor: default;
-  }
-
-  li:last-child::after {
-    content: '';
-  }
 }

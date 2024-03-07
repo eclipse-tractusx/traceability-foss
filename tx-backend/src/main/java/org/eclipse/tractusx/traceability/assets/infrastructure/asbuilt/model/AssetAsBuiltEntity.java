@@ -126,6 +126,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                 .importNote(asset.getImportNote())
                 .policyId(asset.getPolicyId())
                 .tombstone(asset.getTombstone())
+                .contractAgreementId(asset.getContractAgreementId())
                 .build();
     }
 
@@ -158,6 +159,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                 .importNote(this.getImportNote())
                 .policyId(this.getPolicyId())
                 .tombstone(this.getTombstone())
+                .contractAgreementId(this.getContractAgreementId())
                 .build();
     }
 

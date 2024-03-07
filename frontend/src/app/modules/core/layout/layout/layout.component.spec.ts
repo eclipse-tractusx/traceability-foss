@@ -36,7 +36,7 @@ describe('LayoutComponent', () => {
       imports: [ LayoutModule ],
       providers: [ LayoutComponent ],
     });
-    let header = fixture.debugElement.query(By.css('.header--breadcrumb-container'));
+    let header = fixture.debugElement.query(By.css('.layout-content__box-modal'));
     expect(header).not.toBeNull();
     let toast = fixture.debugElement.query(By.css('.layout-toast-component'));
     let headerDistanceToTop = header.nativeElement.getBoundingClientRect().y + 'px';
