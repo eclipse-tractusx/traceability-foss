@@ -385,6 +385,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .isAsBuilt(true)
                 .build();
 
+
         // when
         val investigationId = given()
                 .contentType(ContentType.JSON)

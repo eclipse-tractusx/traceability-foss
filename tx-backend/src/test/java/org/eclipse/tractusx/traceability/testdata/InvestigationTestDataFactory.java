@@ -29,6 +29,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 public class InvestigationTestDataFactory {
@@ -118,7 +119,27 @@ public class InvestigationTestDataFactory {
                 .messageId("messageId")
                 .isInitial(true)
                 .build();
-        List<QualityNotificationMessage> notifications = List.of(notification);
+
+        QualityNotificationMessage notification2 = QualityNotificationMessage.builder()
+                .id("1")
+                .notificationReferenceId("notificationId")
+                .createdBy("senderBPN")
+                .createdByName("senderManufacturerName")
+                .sendTo("recipientBPN")
+                .sendToName("receiverManufacturerName")
+                .edcUrl("senderAddress")
+                .contractAgreementId("agreement")
+                .description(description)
+                .notificationStatus(QualityNotificationStatus.SENT)
+                .affectedParts(List.of(new QualityNotificationAffectedPart("part123")))
+                .severity(QualityNotificationSeverity.MINOR)
+                .edcNotificationId("123")
+                .messageId("messageId")
+                .isInitial(true)
+                .build();
+        List<QualityNotificationMessage> notifications = new ArrayList<>();
+        notifications.add(notification);
+        notifications.add(notification2);
 
         return QualityNotification.builder()
                 .notificationId(investigationId)

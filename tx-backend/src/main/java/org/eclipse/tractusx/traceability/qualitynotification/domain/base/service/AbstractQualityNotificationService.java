@@ -19,19 +19,20 @@
 package org.eclipse.tractusx.traceability.qualitynotification.domain.base.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.service.QualityNotificationService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.SendNotificationException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.repository.QualityNotificationRepository;
 import org.springframework.data.domain.Pageable;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -73,6 +74,16 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
     @Override
     public void approve(Long notificationId) {
         QualityNotification notification = loadOrNotFoundException(new QualityNotificationId(notificationId));
+        List<QualityNotificationMessage> createdNotifications = notification
+                .getNotifications()
+                .stream()
+                .filter(notificationMessage -> notificationMessage.getNotificationStatus().name().equals(QualityNotificationStatus.CREATED.name()))
+                .toList();
+
+        List<QualityNotificationMessage> approvedNotifications = new ArrayList<>(createdNotifications);
+        approvedNotifications.forEach(notificationMessage -> notificationMessage.changeStatusTo(QualityNotificationStatus.SENT));
+        notification.addNotifications(approvedNotifications);
+
         final QualityNotification approvedInvestigation;
         try {
             approvedInvestigation = getNotificationPublisherService().approveNotification(notification);

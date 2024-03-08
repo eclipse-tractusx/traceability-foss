@@ -47,10 +47,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import java.time.Clock;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -147,18 +145,9 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
     }
 
     private void handleNotificationUpdate(InvestigationEntity investigationEntity, QualityNotification investigation) {
-
-        List<InvestigationNotificationEntity> notificationEntities = new ArrayList<>(investigationEntity.getNotifications());
-        Map<String, InvestigationNotificationEntity> notificationEntityMap = notificationEntities.stream().collect(Collectors.toMap(InvestigationNotificationEntity::getId, notificationEntity -> notificationEntity));
         for (QualityNotificationMessage notification : investigation.getNotifications()) {
-            if (notificationExists(investigationEntity, notification.getId())) {
-                log.info("handleNotificationUpdate::notificationExists with id {} for investigation with id {}", notification.getId(), investigation.getNotificationId());
-                handleNotificationUpdate(notificationEntityMap.get(notification.getId()), notification);
-            } else {
-                log.info("handleNotificationUpdate::new notification with id {} for investigation with id {}", notification.getId(), investigation.getNotificationId());
-                List<AssetAsBuiltEntity> assetEntitiesByInvestigation = getAssetEntitiesByInvestigation(investigation);
-                handleNotificationCreate(investigationEntity, notification, assetEntitiesByInvestigation);
-            }
+            List<AssetAsBuiltEntity> assetEntitiesByInvestigation = getAssetEntitiesByInvestigation(investigation);
+            handleNotificationCreate(investigationEntity, notification, assetEntitiesByInvestigation);
         }
 
     }
@@ -169,23 +158,25 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
 
     private void handleNotificationCreate(InvestigationEntity investigationEntity, QualityNotificationMessage notificationDomain, List<AssetAsBuiltEntity> assetEntities) {
         InvestigationNotificationEntity notificationEntity = toNotificationEntity(investigationEntity, notificationDomain, assetEntities);
-        InvestigationNotificationEntity savedEntity = notificationRepository.save(notificationEntity);
-        log.info("Successfully persisted notification entity {}", savedEntity);
-    }
 
-    private boolean notificationExists(InvestigationEntity investigationEntity, String notificationId) {
-        List<InvestigationNotificationEntity> notificationEntities = new ArrayList<>(investigationEntity.getNotifications());
-        return notificationEntities.stream().anyMatch(notification -> notification.getId().equals(notificationId));
-    }
+        Optional<InvestigationNotificationEntity> optionalNotification = notificationRepository.findById(notificationEntity.getId());
 
-    private void handleNotificationUpdate(InvestigationNotificationEntity notificationEntity, QualityNotificationMessage notification) {
-        notificationEntity.setEdcUrl(notification.getEdcUrl());
-        notificationEntity.setContractAgreementId(notification.getContractAgreementId());
-        notificationEntity.setNotificationReferenceId(notification.getNotificationReferenceId());
-        notificationEntity.setTargetDate(notification.getTargetDate());
-        notificationRepository.save(notificationEntity);
-    }
+        optionalNotification.ifPresentOrElse(
+                // If present
+                investigationNotificationEntity -> {
+                    // Do not persist
+                    log.info("Investigation has the following old notification with id {} and status {}", investigationNotificationEntity.getId(), investigationNotificationEntity.getStatus().name());
+                },
+                // If not present
+                () -> {
+                    // Persist
+                    log.info("Investigation has the following new notification with id {} and status {}", notificationEntity.getId(), notificationEntity.getStatus().name());
+                    notificationRepository.save(notificationEntity);
+                    log.info("Successfully persisted notification entity {}", notificationEntity);
+                }
+        );
 
+    }
 
     private InvestigationNotificationEntity toNotificationEntity(InvestigationEntity investigationEntity, QualityNotificationMessage notification, List<AssetAsBuiltEntity> investigationAssets) {
         List<AssetAsBuiltEntity> notificationAssets = filterNotificationAssets(notification, investigationAssets);

@@ -58,7 +58,7 @@ public class QualityNotificationMessage {
     private QualityNotificationType type;
     private String errorMessage;
 
-    void changeStatusTo(QualityNotificationStatus to) {
+    public void changeStatusTo(QualityNotificationStatus to) {
         boolean transitionAllowed = notificationStatus.transitionAllowed(to);
 
         if (!transitionAllowed) {

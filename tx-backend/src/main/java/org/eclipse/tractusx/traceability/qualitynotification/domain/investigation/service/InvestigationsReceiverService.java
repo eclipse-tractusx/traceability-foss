@@ -50,6 +50,7 @@ public class InvestigationsReceiverService {
         BPN investigationCreatorBPN = BPN.of(edcNotification.getSenderBPN());
         QualityNotificationMessage notification = notificationMapper.toNotification(edcNotification);
         QualityNotification investigation = qualityNotificationMapper.toQualityNotification(investigationCreatorBPN, edcNotification.getInformation(), notification);
+        investigation.addNotification(notification);
         QualityNotificationId investigationId = investigationsRepository.saveQualityNotificationEntity(investigation);
         log.info("Stored received edcNotification in investigation with id {}", investigationId);
     }

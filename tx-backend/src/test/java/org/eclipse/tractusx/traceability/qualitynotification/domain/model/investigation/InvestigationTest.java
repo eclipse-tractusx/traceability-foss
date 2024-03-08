@@ -323,7 +323,6 @@ class InvestigationTest {
         investigation = receiverInvestigationWithStatus(ACKNOWLEDGED);
         investigation.accept("some reason", notification);
         assertEquals(ACCEPTED, investigation.getNotificationStatus());
-        assertEquals(ACCEPTED, notification.getNotificationStatus());
     }
 
     @Test
@@ -333,7 +332,6 @@ class InvestigationTest {
         investigation = receiverInvestigationWithStatus(ACKNOWLEDGED);
         investigation.decline("some reason", notification);
         assertEquals(DECLINED, investigation.getNotificationStatus());
-        assertEquals(DECLINED, notification.getNotificationStatus());
     }
 
     //util functions
@@ -349,8 +347,6 @@ class InvestigationTest {
                 .notificationStatus(status)
                 .notificationSide(side)
                 .build();
-        // todo check if we need empty lists
-        //   return new Investigation(new InvestigationId(1L), bpn, status, side, "", "", "", "", Instant.now(), new ArrayList<>(), new ArrayList<>());
     }
 
     private QualityNotificationMessage testNotification() {

@@ -89,7 +89,6 @@ class NotificationPublisherServiceTest {
         // Given
         String description = "Test investigation";
         when(assetRepository.getAssetsById(Arrays.asList("asset-1", "asset-2"))).thenReturn(List.of(AssetTestDataFactory.createAssetTestData()));
-        when(bpnRepository.findManufacturerName(anyString())).thenReturn(Optional.empty());
         when(traceabilityProperties.getBpn()).thenReturn(BPN.of("bpn-123"));
         String receiverBpn = "someReceiverBpn";
 

@@ -121,16 +121,16 @@ public class NotificationPublisherService {
         return notification;
     }
 
-    private QualityNotificationMessage createQualityNotificationMessage(BPN applicationBpn, String receiverBpn, String description, Instant targetDate, QualityNotificationSeverity severity, Map.Entry<String, List<AssetBase>> asset) {
+    public static QualityNotificationMessage createQualityNotificationMessage(BPN applicationBpn, String receiverBpn, String description, Instant targetDate, QualityNotificationSeverity severity, Map.Entry<String, List<AssetBase>> asset) {
         final String notificationId = UUID.randomUUID().toString();
         final String messageId = UUID.randomUUID().toString();
         return QualityNotificationMessage.builder()
                 .id(notificationId)
                 .created(LocalDateTime.now())
                 .createdBy(applicationBpn.value())
-                .createdByName(getManufacturerName(applicationBpn.value()))
+               // .createdByName(getManufacturerName(applicationBpn.value()))
                 .sendTo(StringUtils.isBlank(receiverBpn) ? asset.getKey() : receiverBpn)
-                .sendToName(getManufacturerName(asset.getKey()))
+                //.sendToName(getManufacturerName(asset.getKey()))
                 .description(description)
                 .notificationStatus(QualityNotificationStatus.CREATED)
                 .affectedParts(asset.getValue().stream().map(AssetBase::getId).map(QualityNotificationAffectedPart::new).toList())
@@ -187,8 +187,15 @@ public class NotificationPublisherService {
     public QualityNotification approveNotification(QualityNotification notification) {
         BPN applicationBPN = traceabilityProperties.getBpn();
         notification.send(applicationBPN);
+
         // For each asset within investigation a notification was created before
-        List<CompletableFuture<QualityNotificationMessage>> futures = notification.getNotifications().stream()
+        List<CompletableFuture<QualityNotificationMessage>> futures =
+                notification
+                        .getNotifications()
+                        .stream()
+                        .filter(notificationMessage ->
+                                notificationMessage.getNotificationStatus().name()
+                                        .equals(QualityNotificationStatus.SENT.name()))
                 .map(edcNotificationService::asyncNotificationMessageExecutor)
                 .filter(Objects::nonNull)
                 .toList();

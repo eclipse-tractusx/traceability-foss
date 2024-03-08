@@ -20,6 +20,7 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.base.model;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationIllegalUpdate;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationStatusTransitionNotAllowed;
@@ -27,13 +28,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.investigatio
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
-import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
 
 @Data
 @Builder
@@ -49,7 +44,9 @@ public class QualityNotification {
     private String closeReason;
     private String acceptReason;
     private String declineReason;
-    private Map<String, QualityNotificationMessage> notifications = new HashMap<>();
+    @Getter
+    @Builder.Default
+    private List<QualityNotificationMessage> notifications = Collections.unmodifiableList(new ArrayList<>());
 
 
     public static QualityNotification startNotification(Instant createDate, BPN bpn, String description) { // rename to generic
@@ -60,7 +57,7 @@ public class QualityNotification {
                 .description(description)
                 .createdAt(createDate)
                 .assetIds(Collections.emptyList())
-                .notifications(Collections.emptyList())
+                .notifications(new ArrayList<>())
                 .build();
     }
 
@@ -82,41 +79,37 @@ public class QualityNotification {
         validateBPN(applicationBpn);
         changeStatusTo(QualityNotificationStatus.CLOSED);
         this.closeReason = reason;
-        if (this.notifications != null) {
-            this.notifications.values()
-                    .forEach(notification -> notification.setDescription(reason));
-        }
-
+        this.notifications.forEach(notification -> notification.setDescription(reason));
     }
 
     public void acknowledge(QualityNotificationMessage notification) {
-        changeStatusToWithoutNotifications(QualityNotificationStatus.ACKNOWLEDGED);
-        setNotificationStatusAndReasonForNotification(notification, QualityNotificationStatus.ACKNOWLEDGED, null);
-        notification.setNotificationStatus(QualityNotificationStatus.ACKNOWLEDGED);
+        changeStatusTo(QualityNotificationStatus.ACKNOWLEDGED);
+        //setNotificationStatusAndReasonForNotification(notification, QualityNotificationStatus.ACKNOWLEDGED, null);
+        //notification.setNotificationStatus(QualityNotificationStatus.ACKNOWLEDGED);
     }
 
     public void accept(String reason, QualityNotificationMessage notification) {
-        changeStatusToWithoutNotifications(QualityNotificationStatus.ACCEPTED);
+        changeStatusTo(QualityNotificationStatus.ACCEPTED);
         this.acceptReason = reason;
-        setNotificationStatusAndReasonForNotification(notification, QualityNotificationStatus.ACCEPTED, reason);
+  /*      setNotificationStatusAndReasonForNotification(notification, QualityNotificationStatus.ACCEPTED, reason);
         notification.setNotificationStatus(QualityNotificationStatus.ACCEPTED);
-        notification.setDescription(reason);
+        notification.setDescription(reason);*/
     }
 
     public void decline(String reason, QualityNotificationMessage notification) {
-        changeStatusToWithoutNotifications(QualityNotificationStatus.DECLINED);
+        changeStatusTo(QualityNotificationStatus.DECLINED);
         this.declineReason = reason;
-        setNotificationStatusAndReasonForNotification(notification, QualityNotificationStatus.DECLINED, reason);
+   /*     setNotificationStatusAndReasonForNotification(notification, QualityNotificationStatus.DECLINED, reason);
         notification.setNotificationStatus(QualityNotificationStatus.DECLINED);
-        notification.setDescription(reason);
+        notification.setDescription(reason);*/
     }
 
     public void close(String reason, QualityNotificationMessage notification) {
-        changeStatusToWithoutNotifications(QualityNotificationStatus.CLOSED);
+        changeStatusTo(QualityNotificationStatus.CLOSED);
         this.closeReason = reason;
-        setNotificationStatusAndReasonForNotification(notification, QualityNotificationStatus.CLOSED, reason);
+/*        setNotificationStatusAndReasonForNotification(notification, QualityNotificationStatus.CLOSED, reason);
         notification.setNotificationStatus(QualityNotificationStatus.CLOSED);
-        notification.setDescription(reason);
+        notification.setDescription(reason);*/
     }
 
     public void send(BPN applicationBpn) {
@@ -125,15 +118,13 @@ public class QualityNotification {
     }
 
     private void setNotificationStatusAndReasonForNotification(QualityNotificationMessage notificationDomain, QualityNotificationStatus notificationStatus, String reason) {
-        if (this.notifications != null) {
-            for (QualityNotificationMessage notification : this.notifications.values()) {
-                if (notification.getId().equals(notificationDomain.getId())) {
-                    if (reason != null) {
-                        notification.setDescription(reason);
-                    }
-                    notification.setNotificationStatus(notificationStatus);
-                    break;
+        for (QualityNotificationMessage notification : this.notifications) {
+            if (notification.getId().equals(notificationDomain.getId())) {
+                if (reason != null) {
+                    notification.setDescription(reason);
                 }
+                notification.setNotificationStatus(notificationStatus);
+                break;
             }
         }
     }
@@ -150,31 +141,14 @@ public class QualityNotification {
         if (!transitionAllowed) {
             throw new InvestigationStatusTransitionNotAllowed(notificationId, notificationStatus, to);
         }
-
-        if (notifications != null) {
-            notifications.values()
-                    .forEach(notification -> notification.changeStatusTo(to));
-        }
-
         this.notificationStatus = to;
-    }
-
-    private void changeStatusToWithoutNotifications(QualityNotificationStatus to) {
-        boolean transitionAllowed = notificationStatus.transitionAllowed(to);
-
-        if (!transitionAllowed) {
-            throw new InvestigationStatusTransitionNotAllowed(notificationId, notificationStatus, to);
-        }
-
-        this.notificationStatus = to;
-    }
-
-    public List<QualityNotificationMessage> getNotifications() {
-        return new ArrayList<>(notifications.values());
     }
 
     public void addNotification(QualityNotificationMessage notification) {
-        notifications.put(notification.getId(), notification);
+
+        List<QualityNotificationMessage> updatedNotifications = new ArrayList<>(notifications);
+        updatedNotifications.add(notification);
+        notifications = Collections.unmodifiableList(updatedNotifications);
 
         List<String> newAssetIds = new ArrayList<>(assetIds); // create a mutable copy of assetIds
         notification.getAffectedParts().stream()
@@ -184,15 +158,12 @@ public class QualityNotification {
         assetIds = Collections.unmodifiableList(newAssetIds); //
     }
 
+    public void addNotifications(List<QualityNotificationMessage> notificationMessages) {
+        notificationMessages.forEach(this::addNotification);
+    }
+
     public boolean isActiveState() {
         return this.notificationStatus.isActiveState();
     }
 
-    public static class QualityNotificationBuilder {
-        public QualityNotificationBuilder notifications(List<QualityNotificationMessage> notifications) {
-            this.notifications = emptyIfNull(notifications).stream()
-                    .collect(Collectors.toMap(QualityNotificationMessage::getId, Function.identity()));
-            return this;
-        }
-    }
 }
