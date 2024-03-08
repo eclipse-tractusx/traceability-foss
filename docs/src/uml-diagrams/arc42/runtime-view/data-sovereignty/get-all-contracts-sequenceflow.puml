@@ -23,7 +23,7 @@ deactivate DB
 BE -> EDC: POST tx-edc/management/v2/contractagreements/request \nfiltered by contractAgreementIds
 activate EDC
 autonumber stop
-EDC --> BE: JSON response
+EDC --> BE: List of ContractAgreement objects
 autonumber resume
 deactivate EDC
 BE -> BE: Extract contractSigningDate, policy
@@ -34,16 +34,16 @@ loop for all contractAgreementIds
 BE -> EDC: GET tx-edc/management/v2/contractagreements/{contractAgreementId}/negotiation
 activate EDC
 autonumber stop
-EDC --> BE: JSON response
+EDC --> BE: ContractAgreementNegotiation object
 autonumber resume
 deactivate EDC
-BE -> BE: Extract id, counterPartyAddress, state
+BE -> BE: Extractattributes of response (id, counterPartyAddress, state)
 activate BE
 deactivate BE
 end
 
 autonumber stop
-BE --> FE: JSON response
+BE --> FE: Pageable Result of ContractResponse objects
 autonumber resume
 deactivate BE
 

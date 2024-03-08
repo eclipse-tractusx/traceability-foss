@@ -1,6 +1,6 @@
 = Scenario 1: Return Asset Contract Agreements
 
-This section describes what happens when a user requests contract agreements from Trace-X via the /contracts API.
+This section describes functionality and the behavior in case a user requests contract agreements from Trace-X via the Trace-X contracts API (/contracts).
 
 [plantuml,target=return-all-assets,format=svg]
 ....
@@ -9,9 +9,12 @@ include::../../../../uml-diagrams/arc42/runtime-view/data-sovereignty/get-all-co
 
 ==== Overview
 
-When a user requests contract agreements, TraceX checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR').
-If yes, then the requested assets will be mapped to their contract agreement id via a database view.
-These contract agreement ids will be then requested on EDC side via POST/management/v2/contractagreements/request and GET /management/v2/contractagreements/\{ContractAgreementId\}/negotiation to get the relevant information.
-The result is then returned by the endpoint as a pageable result.
+In case a user requests contract agreements, Trace-X checks if the user has required roles ('ROLE_ADMIN', 'ROLE_SUPERVISOR').
+If yes, then the requested assets will be mapped to the related contract agreement id.
+These contract agreement ids will be then requested on EDC side via POST (/management/v2/contractagreements/request) and GET (/management/v2/contractagreements/\{ContractAgreementId\}/negotiation) to get the relevant information.
 
-If no asset ids are provided in the request, the first 50 contract agreement ids in the database view will be returned.
+The request to POST (/management/v2/contractagreements/request) looks like this:
+
+The contract information is then returned by the endpoint as a pageable result.
+
+If no asset ids are provided in the request, 50 contract agreement ids are handled by default.
