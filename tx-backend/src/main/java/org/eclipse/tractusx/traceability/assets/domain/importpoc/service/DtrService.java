@@ -57,26 +57,26 @@ public class DtrService {
     private final TraceabilityProperties traceabilityProperties;
 
 
-    public void createShellInDtr(final AssetBase assetBase) throws CreateDtrShellException {
+    public void createShellInDtr(final AssetBase assetBase, String submodelServerAssetId) throws CreateDtrShellException {
         Map<String, String> payloadByAspectType = submodelPayloadRepository.getTypesAndPayloadsByAssetId(assetBase.getId());
         Map<String, UUID> createdSubmodelIdByAspectType = payloadByAspectType.entrySet().stream()
                 .map(this::createSubmodel)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
-        List<SubmodelDescriptor> descriptors = toSubmodelDescriptors(createdSubmodelIdByAspectType);
+        List<SubmodelDescriptor> descriptors = toSubmodelDescriptors(createdSubmodelIdByAspectType, submodelServerAssetId);
 
         dtrCreateShellService.createShell(aasFrom(assetBase, descriptors));
     }
 
-    private List<SubmodelDescriptor> toSubmodelDescriptors(Map<String, UUID> createdSubmodelIdByAspectType) {
+    private List<SubmodelDescriptor> toSubmodelDescriptors(Map<String, UUID> createdSubmodelIdByAspectType, String submodelServerAssetId) {
         return createdSubmodelIdByAspectType.entrySet()
                 .stream().map(entry ->
-                        toSubmodelDescriptor(entry.getKey(), entry.getValue())
+                        toSubmodelDescriptor(entry.getKey(), entry.getValue(), submodelServerAssetId)
 
                 ).toList();
     }
 
-    private SubmodelDescriptor toSubmodelDescriptor(String aspectType, UUID submodelServerIdReference) {
+    private SubmodelDescriptor toSubmodelDescriptor(String aspectType, UUID submodelServerIdReference, String submodelServerAssetId) {
         return SubmodelDescriptor.builder()
                 .description(List.of())
                 .idShort(aspectTypeToSimpleSubmodelName(aspectType)) // example SingleLevelUsageAsBuilt
@@ -101,7 +101,7 @@ public class DtrService {
                                                         .endpointProtocolVersion(List.of("1.1"))
                                                         .subprotocol("DSP")
                                                         .subprotocolBodyEncoding("plain")
-                                                        .subprotocolBody(getSubProtocol())
+                                                        .subprotocolBody(getSubProtocol(submodelServerAssetId))
                                                         .securityAttributes(
                                                                 List.of(SecurityAttribute.none())
                                                         ).build()
@@ -110,8 +110,7 @@ public class DtrService {
                 ).build();
     }
 
-    private String getSubProtocol() {
-        final String submodelServerAssetId = "submodel-asset";
+    private String getSubProtocol(String submodelServerAssetId) {
         final String edcProviderControlplaneUrl = edcProperties.getPartsProviderEdcControlplaneUrl();  // "https://trace-x-test-edc.dev.demo.catena-x.net"
         return "id=%s;dspEndpoint=%s".formatted(submodelServerAssetId, edcProviderControlplaneUrl);
     }

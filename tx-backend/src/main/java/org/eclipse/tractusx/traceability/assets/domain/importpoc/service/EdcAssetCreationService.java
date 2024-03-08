@@ -49,7 +49,7 @@ public class EdcAssetCreationService {
     @Value("${registry.urlWithPath}")
     String registryUrlWithPath = null;
 
-    public void createDtrAndSubmodelAssets() {
+    public String createDtrAndSubmodelAssets() {
         // TODO: check if exists ( query catalog of parts provider EDC ) ?
 
         String createdPolicyId = null;
@@ -92,5 +92,6 @@ public class EdcAssetCreationService {
             throw new RuntimeException(e);
         }
         log.info("Submodel Contract Id created :{}", submodelContractId);
+        return submodelAssetId;
     }
 }

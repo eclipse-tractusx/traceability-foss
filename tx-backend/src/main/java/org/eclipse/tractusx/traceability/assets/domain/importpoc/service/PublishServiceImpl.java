@@ -50,13 +50,13 @@ public class PublishServiceImpl implements PublishService {
         //Update assets with policy id
         assetIds.forEach(this::throwIfNotExists);
 
-        edcAssetCreationService.createDtrAndSubmodelAssets();
+        String submodelServerAssetId = edcAssetCreationService.createDtrAndSubmodelAssets();
         // TODO: rethink how to refactor updateAssetsAndPolicyMethod so steps will be more visibe
         try {
             log.info("Updating status of asPlannedAssets.");
-            updateAssetWithStatusAndPolicy(policyId, assetIds, assetAsPlannedRepository);
+            updateAssetWithStatusAndPolicy(policyId, assetIds, assetAsPlannedRepository, submodelServerAssetId);
             log.info("Updating status of asBuiltAssets.");
-            updateAssetWithStatusAndPolicy(policyId, assetIds, assetAsBuiltRepository);
+            updateAssetWithStatusAndPolicy(policyId, assetIds, assetAsBuiltRepository, submodelServerAssetId);
         } catch (CreateDtrShellException e) {
             throw new RuntimeException(e);
         }
@@ -70,7 +70,7 @@ public class PublishServiceImpl implements PublishService {
     }
 
 
-    private void updateAssetWithStatusAndPolicy(String policyId, List<String> assetIds, AssetRepository repository) throws CreateDtrShellException {
+    private void updateAssetWithStatusAndPolicy(String policyId, List<String> assetIds, AssetRepository repository, String submodelServerAssetId) throws CreateDtrShellException {
         List<AssetBase> assetList = repository.getAssetsById(assetIds);
         List<AssetBase> saveList = assetList.stream()
                 .filter(this::validTransientState)
@@ -82,7 +82,7 @@ public class PublishServiceImpl implements PublishService {
                 }).toList();
 
         for (AssetBase assetBase : saveList) {
-            dtrService.createShellInDtr(assetBase);
+            dtrService.createShellInDtr(assetBase, submodelServerAssetId);
         }
 
         List<AssetBase> assetBases = repository.saveAll(saveList);
