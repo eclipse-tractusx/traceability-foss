@@ -172,13 +172,60 @@ app-parts-table {
 }
 
 as-split {
-  height: 61vh !important;
+
+  @media screen and (max-height: 1049px) {
+    height: 66vh !important
+  }
+
+  @media screen and (min-height: 1050px) {
+    height: 75vh !important
+  }
+
+}
+
+app-parts, app-other-parts {
+  .table-wrapper {
+    @media screen and (max-height: 1049px) {
+      height: 52vh !important;
+      max-height: 52vh !important;
+    }
+
+    @media screen and (min-height: 1050px) {
+      height: 60vh !important;
+      max-height: 60vh !important;
+    }
+  }
+
+  .mat-mdc-paginator-page-size {
+    margin-bottom: 3px !important;
+  }
 }
 
 app-other-parts {
   .table-wrapper {
     background-color: white;
-    height: 40.5vh;
+    @media screen and (max-height: 1049px) {
+      height: 33vh !important;
+      max-height: 56vh !important
+    }
+
+    @media screen and (min-height: 1050px) {
+      height: 56vh !important;
+      max-height: 56vh !important;
+    }
+  }
+}
+
+app-notifications-tab {
+  .table-wrapper {
+    @media screen and (max-height: 1049px) {
+      height: 56vh ;
+    }
+
+    @media screen and (min-height: 1050px) {
+      height: 70vh ;
+      max-height: 70vh ;
+    }
   }
 }
 
@@ -239,7 +286,6 @@ app-parts, app-other-parts, app-notifications-tab {
   }
 
   .table-wrapper {
-    max-height: 52vh;
     overflow: auto;
   }
 
