@@ -31,7 +31,7 @@ describe('ContractTableComponent', () => {
     expect(componentInstance).toBeTruthy();
   });
 
-  it('should filter', async() => {
+  it('should filter and change table config', async() => {
     const {fixture} = await renderContractTableComponent();
     const {componentInstance} = fixture;
 
@@ -52,7 +52,30 @@ describe('ContractTableComponent', () => {
 
     expect(JSON.stringify(componentInstance.contractFilter)).toContain("hello");
 
+  });
 
+  it('select a contract', async() => {
+    const {fixture} = await renderContractTableComponent();
+    const {componentInstance} = fixture;
+    let mockSelectedContract = getContracts().content[0];
+    componentInstance.multiSelection([mockSelectedContract]);
+    expect(componentInstance.selectedContracts.length).toEqual(1);
+    expect(componentInstance.selectedContracts[0].contractId).toEqual(mockSelectedContract.contractId)
+  });
+
+  it('should export contracts as csv', async() => {
+    const {fixture} = await renderContractTableComponent();
+    const {componentInstance} = fixture;
+
+    let mockSelectedContract = getContracts().content[0];
+    componentInstance.multiSelection([mockSelectedContract]);
+
+    let convertSpy = spyOn(componentInstance, 'convertArrayOfObjectsToCSV');
+    let downloadSpy = spyOn(componentInstance,'downloadCSV')
+    componentInstance.exportContractsAsCSV();
+    expect(convertSpy).toHaveBeenCalledWith([getContracts().content[0]]);
+    expect(downloadSpy).toHaveBeenCalled();
 
   });
+
 });
