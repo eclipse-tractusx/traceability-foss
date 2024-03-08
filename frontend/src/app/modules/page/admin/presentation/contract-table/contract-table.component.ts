@@ -23,7 +23,7 @@ export class ContractTableComponent {
   pagination: TableEventConfig;
 
   constructor(private adminFacade: AdminFacade) {
-    this.pagination = { page: 0, pageSize: 10, sorting: null };
+    this.pagination = { page: 0, pageSize: 50, sorting: ['',null] };
     this.tableConfig = {
       displayedColumns: [ 'select', 'contractId', 'counterpartyAddress', 'creationDate', 'endDate', 'state' ],
       header: CreateHeaderFromColumns([ 'contractId', 'counterpartyAddress', 'creationDate', 'endDate', 'state' ], 'pageAdmin.contracts'),
@@ -42,20 +42,23 @@ export class ContractTableComponent {
   }
 
   public ngOnInit() {
-    this.contracts = this.adminFacade.getContracts(0, 10);
+    this.contracts = this.adminFacade.getContracts(0, 50, [null,null], null);
     this.contractsView$ = this.contracts.pipe(map(pagination => { return {data: pagination}}) )
   }
 
   filterActivated(contractFilter: any): void {
     console.log(contractFilter);
-    this.contracts = this.adminFacade.getContracts(0, 10, null, contractFilter);
     this.contractFilter = contractFilter;
+    this.contracts = this.adminFacade.getContracts(this.pagination.page, this.pagination.pageSize, [this.pagination.sorting], contractFilter);
+    this.contractsView$ = this.contracts.pipe(map(pagination => { return {data: pagination}}) )
   }
 
   public onTableConfigChange(pagination: TableEventConfig): void {
     console.log(pagination);
     this.pagination = pagination;
-    this.adminFacade.getContracts(pagination.page, pagination.pageSize, [ pagination.sorting ], this.contractFilter);
+    this.contracts = this.adminFacade.getContracts(pagination.page, pagination.pageSize, [ pagination.sorting ], this.contractFilter);
+    this.contractsView$ = this.contracts.pipe(map(pagination => { return {data: pagination}}) )
+
   }
   multiSelection(selectedContracts: Contract[]) {
     this.selectedContracts = selectedContracts;

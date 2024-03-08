@@ -32,59 +32,74 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class AdminService {
-    private readonly url = environment.apiUrl;
+  private readonly url = environment.apiUrl;
 
-    constructor(private readonly apiService: ApiService) {
+  constructor(private readonly apiService: ApiService) {
+  }
+
+
+  public createBpnFallbackConfig(bpnConfig: BpnConfig[]): Observable<BpnConfig[]> {
+    return this.apiService.post<BpnConfig[]>(`${ this.url }/bpn-config`, bpnConfig);
+  }
+
+  public readBpnFallbackConfig(): Observable<BpnConfig[]> {
+    return this.apiService
+      .get<BpnConfigResponse[]>(`${ this.url }/bpn-config`)
+      .pipe(map(data => AdminAssembler.assembleBpnConfig(data)));
+  }
+
+  public updateBpnFallbackConfig(bpnConfig: BpnConfig[]): Observable<BpnConfig[]> {
+    return this.apiService.put<BpnConfig[]>(`${ this.url }/bpn-config`, bpnConfig);
+  }
+
+  public deleteBpnFallbackConfig(bpn: string): Observable<void> {
+    return this.apiService.delete<void>(`${ this.url }/bpn-config/${ bpn }`);
+  }
+
+  public postJsonFile(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.apiService.postFile(`${ this.url }/assets/import`, formData);
+  }
+
+  public getContracts(page: number, pageSize: number, sorting?: TableHeaderSort[], filter?: Object): Observable<Pagination<Contract>> {
+    console.log(sorting);
+    console.log(filter);
+
+    const body = {
+      pageAble: {
+        page: page,
+        size: pageSize,
+        sorting: sorting,
+      },
+      searchCriteria: {},
+    };
+
+    if (filter) {
+      body.searchCriteria = { filter: this.createFilterList(filter) };
     }
 
-
-    public createBpnFallbackConfig(bpnConfig: BpnConfig[]): Observable<BpnConfig[]> {
-        return this.apiService.post<BpnConfig[]>(`${this.url}/bpn-config`, bpnConfig);
-    }
-
-    public readBpnFallbackConfig(): Observable<BpnConfig[]> {
-        return this.apiService
-            .get<BpnConfigResponse[]>(`${this.url}/bpn-config`)
-            .pipe(map(data => AdminAssembler.assembleBpnConfig(data)));
-    }
-
-    public updateBpnFallbackConfig(bpnConfig: BpnConfig[]): Observable<BpnConfig[]> {
-        return this.apiService.put<BpnConfig[]>(`${this.url}/bpn-config`, bpnConfig);
-    }
-
-    public deleteBpnFallbackConfig(bpn: string): Observable<void> {
-        return this.apiService.delete<void>(`${this.url}/bpn-config/${bpn}`);
-    }
-
-    public postJsonFile(file: File): Observable<any> {
-        const formData = new FormData();
-        formData.append('file', file);
-        return this.apiService.postFile(`${this.url}/assets/import`, formData);
-    }
-
-    public getContracts(page: number, pageSize: number, sorting?: TableHeaderSort[], filter?: any): Observable<Pagination<Contract>> {
-
-      const body = {
-        pageAble: {
-          page: page,
-          size: pageSize,
-          // sort: sorting[0].toString(),
-        },
-        searchCriteria: {
-          //filter: [ ...additionalFilters ],
-        },
-      };
-
-      return this.apiService.post(`${this.url}/contracts`, body)
-    }
+    return this.apiService.post(`${ this.url }/contracts`, body);
+  }
 
   getDistinctFilterValues(filterColumns: string, searchElement: string) {
     let params = new HttpParams()
       .set('fieldName', filterColumns)
       .set('startWith', searchElement)
-      .set('size', 200)
+      .set('size', 200);
 
-    return this.apiService.getBy<any>(`${this.url}/contracts/distinctFilterValues`, params);
+    return this.apiService.getBy<any>(`${ this.url }/contracts/distinctFilterValues`, params);
+  }
 
+  private createFilterList(filter: Object) {
+    let filterList = [];
+    Object.entries(filter).forEach(([ entry, values ]) => {
+      if (values.length) {
+        values.forEach(value => {
+          filterList.push(`${ entry },EQUAL,${ value },AND`);
+        });
+      }
+    });
+    return filterList;
   }
 }

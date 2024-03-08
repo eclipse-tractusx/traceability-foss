@@ -257,6 +257,22 @@ export class TableComponent {
     return !!this.selection.selected.find(data => JSON.stringify(data) === JSON.stringify(row));
   }
 
+  shouldDisplayFilter(filterKey: string) {
+    switch (filterKey) {
+      case 'filtercreationDate':
+      case 'filtercounterpartyAddress':
+      case 'filterendDate':
+      case 'filterstate':
+      case 'Menu':
+      case 'Filter':
+        return false;
+
+      default:
+        return true;
+
+    }
+  }
+
   private addSelectedValues(newData: unknown[]): void {
     addSelectedValues(this.selection, newData);
   }
