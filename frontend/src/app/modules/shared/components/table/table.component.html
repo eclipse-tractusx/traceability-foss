@@ -24,7 +24,7 @@ SPDX-License-Identifier: Apache-2.0
     <div class="large-text table--header--text">{{tableHeader | i18n}}</div>
   </div>
 </div>
-<div [class.mat-elevation-z8]="!noShadow" class="table-wrapper" [ngClass]="labelId.startsWith('dashboard') ? 'rows-dashboard' : ''">
+<div [class.mat-elevation-z8]="!noShadow" class="table-wrapper" [ngClass]="labelId?.startsWith('dashboard') ? 'rows-dashboard' : ''">
   <ng-container *ngIf="tableHeader && !additionalTableHeader"><p
     class="large-text table--header">{{tableHeader | i18n }}</p></ng-container>
   <ng-container *ngIf="selectedPartsInfoLabel">
