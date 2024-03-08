@@ -36,6 +36,14 @@ public class MapperHelper {
         return getShortIds(shells).get(globalAssetId);
     }
 
+    public static String getContractAgreementId(List<Shell> shells, String globalAssetId) {
+        return shells.stream()
+                .filter(shell -> shell.payload().globalAssetId().equals(globalAssetId))
+                .map(Shell::contractAgreementId)
+                .findFirst()
+                .orElse(null);
+    }
+
     public static OffsetDateTime getOffsetDateTime(String date) {
         try {
             return OffsetDateTime.parse(date);

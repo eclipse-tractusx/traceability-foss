@@ -1,14 +1,17 @@
 = Whitebox overall system
 
-== Component diagram
+== [Outdated] Component diagram
 
 [plantuml, target=whitebox-overview, format=svg]
 ....
 include::../../../uml-diagrams/arc42/building-block-view/whitebox_overall.puml[]
 ....
 
-== Component description
+== [Outdated] Component description
+
+|===
 |Components |Description
+
 |IRS
 |The IRS consumes relationship information across the CX-Network and builds the graph view. Within this Documentation, the focus lies on the IRS
 
@@ -23,3 +26,4 @@ include::../../../uml-diagrams/arc42/building-block-view/whitebox_overall.puml[]
 
 |IAM/DAPS
 |DAPS as central Identity Provider
+|===

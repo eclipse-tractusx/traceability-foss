@@ -51,6 +51,5 @@ public class NotificationBaseEntity {
     private NotificationSideBaseEntity side;
     @Enumerated(EnumType.STRING)
     private NotificationStatusBaseEntity status;
-    private String errorMessage;
 
 }

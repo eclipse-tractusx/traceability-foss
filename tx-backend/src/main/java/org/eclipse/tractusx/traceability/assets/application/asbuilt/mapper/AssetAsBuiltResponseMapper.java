@@ -59,6 +59,7 @@ public class AssetAsBuiltResponseMapper extends AssetBaseResponseMapper {
                 .importState(toImportStateResponse(asset.getImportState()))
                 .importNote(asset.getImportNote())
                 .tombstone(asset.getTombstone())
+                .contractAgreementId(asset.getContractAgreementId())
                 .build();
     }
 
