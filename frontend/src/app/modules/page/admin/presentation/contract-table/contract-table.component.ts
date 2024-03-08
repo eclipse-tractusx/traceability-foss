@@ -22,7 +22,7 @@ export class ContractTableComponent {
   contractFilter: any;
   pagination: TableEventConfig;
 
-  constructor(private adminFacade: AdminFacade) {
+  constructor(public readonly adminFacade: AdminFacade) {
     this.pagination = { page: 0, pageSize: 50, sorting: ['',null] };
     this.tableConfig = {
       displayedColumns: [ 'select', 'contractId', 'counterpartyAddress', 'creationDate', 'endDate', 'state' ],
@@ -47,14 +47,12 @@ export class ContractTableComponent {
   }
 
   filterActivated(contractFilter: any): void {
-    console.log(contractFilter);
     this.contractFilter = contractFilter;
     this.contracts = this.adminFacade.getContracts(this.pagination.page, this.pagination.pageSize, [this.pagination.sorting], contractFilter);
     this.contractsView$ = this.contracts.pipe(map(pagination => { return {data: pagination}}) )
   }
 
   public onTableConfigChange(pagination: TableEventConfig): void {
-    console.log(pagination);
     this.pagination = pagination;
     this.contracts = this.adminFacade.getContracts(pagination.page, pagination.pageSize, [ pagination.sorting ], this.contractFilter);
     this.contractsView$ = this.contracts.pipe(map(pagination => { return {data: pagination}}) )
@@ -62,7 +60,6 @@ export class ContractTableComponent {
   }
   multiSelection(selectedContracts: Contract[]) {
     this.selectedContracts = selectedContracts;
-    console.log(this.selectedContracts);
   }
 
   exportContractsAsCSV() {
