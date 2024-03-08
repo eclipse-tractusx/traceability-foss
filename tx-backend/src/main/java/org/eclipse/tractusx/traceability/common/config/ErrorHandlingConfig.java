@@ -40,6 +40,7 @@ import org.eclipse.tractusx.traceability.common.model.UnsupportedSearchCriteriaF
 import org.eclipse.tractusx.traceability.common.request.exception.InvalidFilterException;
 import org.eclipse.tractusx.traceability.common.request.exception.InvalidSortException;
 import org.eclipse.tractusx.traceability.common.security.TechnicalUserAuthorizationException;
+import org.eclipse.tractusx.traceability.contracts.domain.exception.ContractException;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractException;
 import org.eclipse.tractusx.traceability.qualitynotification.application.validation.UpdateQualityNotificationValidationException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.AlertNotFoundException;
@@ -315,6 +316,14 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
     @ExceptionHandler(ImportJobNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleImportJobNotFoundException(final ImportJobNotFoundException exception) {
         log.error("ImportJobNotFoundException exception", exception);
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ErrorResponse(exception.getMessage()));
+    }
+
+    @ExceptionHandler(ContractException.class)
+    public ResponseEntity<ErrorResponse> handleContractException(final ContractException exception) {
+        log.error("Contract exception", exception);
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse(exception.getMessage()));

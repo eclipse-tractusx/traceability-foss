@@ -231,3 +231,17 @@ tr.error {
   }
 }
 
+.rows-dashboard {
+
+  @media screen and (max-height: 1049px) {
+    height: 48vh !important;
+    max-height: 48vh !important;
+  }
+
+  @media screen and (min-height: 1050px) {
+    height: 30vh !important;
+    max-height: 30vh !important;
+  }
+
+}
+

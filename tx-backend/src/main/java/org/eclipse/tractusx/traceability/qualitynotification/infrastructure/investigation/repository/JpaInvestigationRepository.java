@@ -24,8 +24,6 @@ package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.inv
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -37,10 +35,6 @@ import java.util.Optional;
 
 @Repository
 public interface JpaInvestigationRepository extends JpaRepository<InvestigationEntity, Long>, JpaSpecificationExecutor<InvestigationEntity> {
-
-    Page<InvestigationEntity> findAllBySideEquals(NotificationSideBaseEntity investigationSide, Pageable pageable);
-
-    long countAllByStatusEquals(NotificationStatusBaseEntity status);
 
     long countAllBySideEquals(NotificationSideBaseEntity investigationSide);
 

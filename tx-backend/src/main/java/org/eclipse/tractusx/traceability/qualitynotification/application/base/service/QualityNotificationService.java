@@ -20,7 +20,7 @@ package org.eclipse.tractusx.traceability.qualitynotification.application.base.s
 
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.StartQualityNotificationDomain;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.StartQualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
@@ -31,7 +31,7 @@ import java.util.List;
 
 public interface QualityNotificationService {
 
-    QualityNotificationId start(StartQualityNotificationDomain startQualityAlertDomain);
+    QualityNotificationId start(StartQualityNotification startQualityAlertDomain);
 
     QualityNotification find(Long notificationId);
 

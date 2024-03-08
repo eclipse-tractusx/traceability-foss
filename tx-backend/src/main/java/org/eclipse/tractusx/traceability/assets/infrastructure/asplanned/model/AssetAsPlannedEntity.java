@@ -107,6 +107,7 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                 .importNote(asset.getImportNote())
                 .policyId(asset.getPolicyId())
                 .tombstone(asset.getTombstone())
+                .contractAgreementId(asset.getContractAgreementId())
                 .build();
     }
 
@@ -132,6 +133,7 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                 .importNote(entity.getImportNote())
                 .policyId(entity.getPolicyId())
                 .tombstone(entity.getTombstone())
+                .contractAgreementId(entity.getContractAgreementId())
                 .build();
     }
 

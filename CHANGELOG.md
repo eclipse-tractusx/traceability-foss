@@ -13,8 +13,17 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #421 Added contract agreement view
 - #515 Service Unavailable Response on Notification failure
 
+- #420 add /contracts api to fetch contract agreement information from EDC for assets
+
 ### Changed
 - Updated RELEASE.md to the latest release guide (added more steps)
+- #515 Fixed notification toast click area
+- #625 increased height of tables
+- #423 Moved errorMessages from investigation/alert to notification list
+- Updated COMPATIBILITY.md matrix adding release C-X 24.3 and 23.12
+
+### Removed
+- #625 Removed the header and breadcrumbs section from app layout
 
 ## [10.6.0 - 04.03.2024]
 
