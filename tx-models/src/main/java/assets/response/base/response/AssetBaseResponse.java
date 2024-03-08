@@ -95,4 +95,8 @@ public class AssetBaseResponse {
                     }
             """)
     private String tombstone;
+
+
+    @Schema(example = "TODO")
+    private String contractAgreementId;
 }

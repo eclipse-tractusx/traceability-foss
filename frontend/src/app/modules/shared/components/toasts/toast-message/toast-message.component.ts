@@ -34,7 +34,10 @@ export class ToastMessageComponent {
   constructor(private toastService: ToastService) {
   }
 
-  handleClick() {
-    this.toastService.emitClick();
+  handleClick(event: MouseEvent) {
+    event.stopPropagation();
+      this.toastService.emitClick();
+
+
   }
 }

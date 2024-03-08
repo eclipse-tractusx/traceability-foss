@@ -64,7 +64,7 @@ import java.util.List;
 
 import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitize;
 import static org.eclipse.tractusx.traceability.qualitynotification.application.validation.UpdateQualityNotificationValidator.validate;
-import static org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.StartQualityNotificationDomain.from;
+import static org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.StartQualityNotification.from;
 import static org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus.from;
 
 @RestController
@@ -76,6 +76,8 @@ import static org.eclipse.tractusx.traceability.qualitynotification.domain.base.
 public class InvestigationsController {
 
     private final QualityNotificationService investigationService;
+
+    // TODO move to QualityNotificationService
     private final BaseRequestFieldMapper fieldMapper;
 
     public InvestigationsController(

@@ -38,7 +38,6 @@ export { Tree } from './modules/relations/presentation/tree/tree.d3';
 export { CardIconComponent } from './components/card-icon/card-icon.component';
 export { CardListComponent } from './components/card-list/card-list.component';
 export { AvatarComponent } from './components/avatar/avatar.component';
-export { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
 export { ButtonComponent } from './components/button/button.component';
 export { ToastContainerComponent } from './components/toasts/toast-container/toast-container.component';
 export { ToastMessage } from './components/toasts/toast-message/toast-message.model';

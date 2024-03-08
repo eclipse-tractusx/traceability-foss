@@ -65,6 +65,7 @@ irs-edc-client:
       contract-negotiation: /v2/contractnegotiations # EDC consumer controlplane contract negotiation path
       transfer-process: /v2/transferprocesses # EDC consumer controlplane transfer process path
       state-suffix: /state # Path of the state suffix for contract negotiation and transfer process
+      contract-agreements: /v2/contractagreements # EDC consumer controlplane contract agreements path
     provider-suffix: /api/v1/dsp # Suffix to add to data requests to the EDC provider controlplane
     catalog-limit: 1000 # Max number of items to fetch from the EDC provider catalog
     catalog-page-size: 50 # Number of items to fetch at one page from the EDC provider catalog when using pagination

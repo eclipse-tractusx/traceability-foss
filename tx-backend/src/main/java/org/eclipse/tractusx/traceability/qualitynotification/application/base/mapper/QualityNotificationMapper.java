@@ -19,13 +19,19 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.application.base.mapper;
 
+import lombok.experimental.UtilityClass;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
+import qualitynotification.base.response.QualityNotificationMessageResponse;
 import qualitynotification.base.response.QualityNotificationSeverityResponse;
 import qualitynotification.base.response.QualityNotificationSideResponse;
 import qualitynotification.base.response.QualityNotificationStatusResponse;
 
+import java.util.List;
+
+@UtilityClass
 public class QualityNotificationMapper {
 
     public static QualityNotificationSeverityResponse from(QualityNotificationSeverity qualityNotificationSeverity) {
@@ -37,6 +43,33 @@ public class QualityNotificationMapper {
     }
 
     public static QualityNotificationStatusResponse from(QualityNotificationStatus qualityNotificationStatus) {
+        return QualityNotificationStatusResponse.fromStringValue(qualityNotificationStatus.name());
+    }
+
+    public static List<QualityNotificationMessageResponse> fromNotifications(List<QualityNotificationMessage> notificationMessages) {
+        return notificationMessages.stream().map(QualityNotificationMapper::fromNotification).toList();
+    }
+
+    public static QualityNotificationMessageResponse fromNotification(QualityNotificationMessage notificationMessage) {
+        return QualityNotificationMessageResponse
+                .builder()
+                .id(notificationMessage.getId())
+                .edcNotificationId(notificationMessage.getEdcNotificationId())
+                .contractAgreementId(notificationMessage.getContractAgreementId())
+                .notificationReferenceId(notificationMessage.getNotificationReferenceId())
+                .isInitial(notificationMessage.getIsInitial())
+                .messageId(notificationMessage.getMessageId())
+                .edcUrl(notificationMessage.getEdcUrl())
+                .updated(notificationMessage.getUpdated())
+                .sendToName(notificationMessage.getSendToName())
+                .status(fromStatus(notificationMessage.getNotificationStatus()))
+                .targetDate(notificationMessage.getTargetDate())
+                .created(notificationMessage.getCreated())
+                .errorMessage(notificationMessage.getErrorMessage())
+                .build();
+    }
+
+    public static QualityNotificationStatusResponse fromStatus(QualityNotificationStatus qualityNotificationStatus) {
         return QualityNotificationStatusResponse.fromStringValue(qualityNotificationStatus.name());
     }
 }
