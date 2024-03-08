@@ -19,6 +19,7 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.application.alert.mapper;
 
+import lombok.experimental.UtilityClass;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.mapper.QualityNotificationMapper;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
@@ -36,6 +37,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import static org.eclipse.tractusx.traceability.qualitynotification.application.base.mapper.QualityNotificationMapper.fromNotifications;
+
+@UtilityClass
 public class AlertResponseMapper {
 
     public static AlertResponse from(QualityNotification qualityNotification) {
@@ -58,7 +62,7 @@ public class AlertResponseMapper {
                 .sendToName(getReceiverName(qualityNotification.getNotifications()))
                 .severity(QualityNotificationMapper.from(qualityNotification.getNotifications().stream().findFirst().map(QualityNotificationMessage::getSeverity).orElse(QualityNotificationSeverity.MINOR)))
                 .targetDate(qualityNotification.getNotifications().stream().findFirst().map(QualityNotificationMessage::getTargetDate).map(Instant::toString).orElse(null))
-                .errorMessage(qualityNotification.getErrorMessage())
+                .qualityNotificationMessageResponseList(fromNotifications(qualityNotification.getNotifications()))
                 .build();
     }
 

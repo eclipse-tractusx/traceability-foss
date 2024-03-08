@@ -1,0 +1,496 @@
+[
+  {
+    "@type" : "edc:ContractAgreement",
+    "@id" : "abc1",
+    "edc:assetId" : "registry-asset",
+    "edc:policy" : {
+      "@id" : "eb0c8486-914a-4d36-84c0-b4971cbc52e4",
+      "@type" : "odrl:Set",
+      "odrl:permission" : {
+        "odrl:target" : "registry-asset",
+        "odrl:action" : {
+          "odrl:type" : "USE"
+        },
+        "odrl:constraint" : {
+          "odrl:or" : {
+            "odrl:leftOperand" : "PURPOSE",
+            "odrl:operator" : {
+              "@id" : "odrl:eq"
+            },
+            "odrl:rightOperand" : "ID 3.0 Trace"
+          }
+        }
+      },
+      "odrl:prohibition" : [],
+      "odrl:obligation" : [],
+      "odrl:target" : "registry-asset"
+    },
+    "edc:contractSigningDate" : 1708951087,
+    "edc:consumerId" : "BPNL00000003CML1",
+    "edc:providerId" : "BPNL00000003CML1",
+    "@context" : {
+      "dct" : "https://purl.org/dc/terms/",
+      "tx" : "https://w3id.org/tractusx/v0.0.1/ns/",
+      "edc" : "https://w3id.org/edc/v0.0.1/ns/",
+      "dcat" : "https://www.w3.org/ns/dcat/",
+      "odrl" : "http://www.w3.org/ns/odrl/2/",
+      "dspace" : "https://w3id.org/dspace/v0.8/"
+    }
+  },
+  {
+    "@type" : "edc:ContractAgreement",
+    "@id" : "abc2",
+    "edc:assetId" : "registry-asset",
+    "edc:policy" : {
+      "@id" : "eb0c8486-914a-4d36-84c0-b4971cbc52e4",
+      "@type" : "odrl:Set",
+      "odrl:permission" : {
+        "odrl:target" : "registry-asset",
+        "odrl:action" : {
+          "odrl:type" : "USE"
+        },
+        "odrl:constraint" : {
+          "odrl:or" : {
+            "odrl:leftOperand" : "PURPOSE",
+            "odrl:operator" : {
+              "@id" : "odrl:eq"
+            },
+            "odrl:rightOperand" : "ID 3.0 Trace"
+          }
+        }
+      },
+      "odrl:prohibition" : [],
+      "odrl:obligation" : [],
+      "odrl:target" : "registry-asset"
+    },
+    "edc:contractSigningDate" : 1708951087,
+    "edc:consumerId" : "BPNL00000003CML1",
+    "edc:providerId" : "BPNL00000003CML1",
+    "@context" : {
+      "dct" : "https://purl.org/dc/terms/",
+      "tx" : "https://w3id.org/tractusx/v0.0.1/ns/",
+      "edc" : "https://w3id.org/edc/v0.0.1/ns/",
+      "dcat" : "https://www.w3.org/ns/dcat/",
+      "odrl" : "http://www.w3.org/ns/odrl/2/",
+      "dspace" : "https://w3id.org/dspace/v0.8/"
+    }
+  },
+  {
+    "@type" : "edc:ContractAgreement",
+    "@id" : "abc3",
+    "edc:assetId" : "registry-asset",
+    "edc:policy" : {
+      "@id" : "eb0c8486-914a-4d36-84c0-b4971cbc52e4",
+      "@type" : "odrl:Set",
+      "odrl:permission" : {
+        "odrl:target" : "registry-asset",
+        "odrl:action" : {
+          "odrl:type" : "USE"
+        },
+        "odrl:constraint" : {
+          "odrl:or" : {
+            "odrl:leftOperand" : "PURPOSE",
+            "odrl:operator" : {
+              "@id" : "odrl:eq"
+            },
+            "odrl:rightOperand" : "ID 3.0 Trace"
+          }
+        }
+      },
+      "odrl:prohibition" : [],
+      "odrl:obligation" : [],
+      "odrl:target" : "registry-asset"
+    },
+    "edc:contractSigningDate" : 1708951087,
+    "edc:consumerId" : "BPNL00000003CML1",
+    "edc:providerId" : "BPNL00000003CML1",
+    "@context" : {
+      "dct" : "https://purl.org/dc/terms/",
+      "tx" : "https://w3id.org/tractusx/v0.0.1/ns/",
+      "edc" : "https://w3id.org/edc/v0.0.1/ns/",
+      "dcat" : "https://www.w3.org/ns/dcat/",
+      "odrl" : "http://www.w3.org/ns/odrl/2/",
+      "dspace" : "https://w3id.org/dspace/v0.8/"
+    }
+  },
+  {
+    "@type" : "edc:ContractAgreement",
+    "@id" : "abc4",
+    "edc:assetId" : "registry-asset",
+    "edc:policy" : {
+      "@id" : "eb0c8486-914a-4d36-84c0-b4971cbc52e4",
+      "@type" : "odrl:Set",
+      "odrl:permission" : {
+        "odrl:target" : "registry-asset",
+        "odrl:action" : {
+          "odrl:type" : "USE"
+        },
+        "odrl:constraint" : {
+          "odrl:or" : {
+            "odrl:leftOperand" : "PURPOSE",
+            "odrl:operator" : {
+              "@id" : "odrl:eq"
+            },
+            "odrl:rightOperand" : "ID 3.0 Trace"
+          }
+        }
+      },
+      "odrl:prohibition" : [],
+      "odrl:obligation" : [],
+      "odrl:target" : "registry-asset"
+    },
+    "edc:contractSigningDate" : 1708951087,
+    "edc:consumerId" : "BPNL00000003CML1",
+    "edc:providerId" : "BPNL00000003CML1",
+    "@context" : {
+      "dct" : "https://purl.org/dc/terms/",
+      "tx" : "https://w3id.org/tractusx/v0.0.1/ns/",
+      "edc" : "https://w3id.org/edc/v0.0.1/ns/",
+      "dcat" : "https://www.w3.org/ns/dcat/",
+      "odrl" : "http://www.w3.org/ns/odrl/2/",
+      "dspace" : "https://w3id.org/dspace/v0.8/"
+    }
+  },
+  {
+    "@type" : "edc:ContractAgreement",
+    "@id" : "abc5",
+    "edc:assetId" : "registry-asset",
+    "edc:policy" : {
+      "@id" : "eb0c8486-914a-4d36-84c0-b4971cbc52e4",
+      "@type" : "odrl:Set",
+      "odrl:permission" : {
+        "odrl:target" : "registry-asset",
+        "odrl:action" : {
+          "odrl:type" : "USE"
+        },
+        "odrl:constraint" : {
+          "odrl:or" : {
+            "odrl:leftOperand" : "PURPOSE",
+            "odrl:operator" : {
+              "@id" : "odrl:eq"
+            },
+            "odrl:rightOperand" : "ID 3.0 Trace"
+          }
+        }
+      },
+      "odrl:prohibition" : [],
+      "odrl:obligation" : [],
+      "odrl:target" : "registry-asset"
+    },
+    "edc:contractSigningDate" : 1708951087,
+    "edc:consumerId" : "BPNL00000003CML1",
+    "edc:providerId" : "BPNL00000003CML1",
+    "@context" : {
+      "dct" : "https://purl.org/dc/terms/",
+      "tx" : "https://w3id.org/tractusx/v0.0.1/ns/",
+      "edc" : "https://w3id.org/edc/v0.0.1/ns/",
+      "dcat" : "https://www.w3.org/ns/dcat/",
+      "odrl" : "http://www.w3.org/ns/odrl/2/",
+      "dspace" : "https://w3id.org/dspace/v0.8/"
+    }
+  },
+  {
+    "@type" : "edc:ContractAgreement",
+    "@id" : "abc6",
+    "edc:assetId" : "registry-asset",
+    "edc:policy" : {
+      "@id" : "eb0c8486-914a-4d36-84c0-b4971cbc52e4",
+      "@type" : "odrl:Set",
+      "odrl:permission" : {
+        "odrl:target" : "registry-asset",
+        "odrl:action" : {
+          "odrl:type" : "USE"
+        },
+        "odrl:constraint" : {
+          "odrl:or" : {
+            "odrl:leftOperand" : "PURPOSE",
+            "odrl:operator" : {
+              "@id" : "odrl:eq"
+            },
+            "odrl:rightOperand" : "ID 3.0 Trace"
+          }
+        }
+      },
+      "odrl:prohibition" : [],
+      "odrl:obligation" : [],
+      "odrl:target" : "registry-asset"
+    },
+    "edc:contractSigningDate" : 1708951087,
+    "edc:consumerId" : "BPNL00000003CML1",
+    "edc:providerId" : "BPNL00000003CML1",
+    "@context" : {
+      "dct" : "https://purl.org/dc/terms/",
+      "tx" : "https://w3id.org/tractusx/v0.0.1/ns/",
+      "edc" : "https://w3id.org/edc/v0.0.1/ns/",
+      "dcat" : "https://www.w3.org/ns/dcat/",
+      "odrl" : "http://www.w3.org/ns/odrl/2/",
+      "dspace" : "https://w3id.org/dspace/v0.8/"
+    }
+  },
+  {
+    "@type" : "edc:ContractAgreement",
+    "@id" : "abc7",
+    "edc:assetId" : "registry-asset",
+    "edc:policy" : {
+      "@id" : "eb0c8486-914a-4d36-84c0-b4971cbc52e4",
+      "@type" : "odrl:Set",
+      "odrl:permission" : {
+        "odrl:target" : "registry-asset",
+        "odrl:action" : {
+          "odrl:type" : "USE"
+        },
+        "odrl:constraint" : {
+          "odrl:or" : {
+            "odrl:leftOperand" : "PURPOSE",
+            "odrl:operator" : {
+              "@id" : "odrl:eq"
+            },
+            "odrl:rightOperand" : "ID 3.0 Trace"
+          }
+        }
+      },
+      "odrl:prohibition" : [],
+      "odrl:obligation" : [],
+      "odrl:target" : "registry-asset"
+    },
+    "edc:contractSigningDate" : 1708951087,
+    "edc:consumerId" : "BPNL00000003CML1",
+    "edc:providerId" : "BPNL00000003CML1",
+    "@context" : {
+      "dct" : "https://purl.org/dc/terms/",
+      "tx" : "https://w3id.org/tractusx/v0.0.1/ns/",
+      "edc" : "https://w3id.org/edc/v0.0.1/ns/",
+      "dcat" : "https://www.w3.org/ns/dcat/",
+      "odrl" : "http://www.w3.org/ns/odrl/2/",
+      "dspace" : "https://w3id.org/dspace/v0.8/"
+    }
+  },
+  {
+    "@type" : "edc:ContractAgreement",
+    "@id" : "abc8",
+    "edc:assetId" : "registry-asset",
+    "edc:policy" : {
+      "@id" : "eb0c8486-914a-4d36-84c0-b4971cbc52e4",
+      "@type" : "odrl:Set",
+      "odrl:permission" : {
+        "odrl:target" : "registry-asset",
+        "odrl:action" : {
+          "odrl:type" : "USE"
+        },
+        "odrl:constraint" : {
+          "odrl:or" : {
+            "odrl:leftOperand" : "PURPOSE",
+            "odrl:operator" : {
+              "@id" : "odrl:eq"
+            },
+            "odrl:rightOperand" : "ID 3.0 Trace"
+          }
+        }
+      },
+      "odrl:prohibition" : [],
+      "odrl:obligation" : [],
+      "odrl:target" : "registry-asset"
+    },
+    "edc:contractSigningDate" : 1708951087,
+    "edc:consumerId" : "BPNL00000003CML1",
+    "edc:providerId" : "BPNL00000003CML1",
+    "@context" : {
+      "dct" : "https://purl.org/dc/terms/",
+      "tx" : "https://w3id.org/tractusx/v0.0.1/ns/",
+      "edc" : "https://w3id.org/edc/v0.0.1/ns/",
+      "dcat" : "https://www.w3.org/ns/dcat/",
+      "odrl" : "http://www.w3.org/ns/odrl/2/",
+      "dspace" : "https://w3id.org/dspace/v0.8/"
+    }
+  },
+  {
+    "@type" : "edc:ContractAgreement",
+    "@id" : "abc9",
+    "edc:assetId" : "registry-asset",
+    "edc:policy" : {
+      "@id" : "eb0c8486-914a-4d36-84c0-b4971cbc52e4",
+      "@type" : "odrl:Set",
+      "odrl:permission" : {
+        "odrl:target" : "registry-asset",
+        "odrl:action" : {
+          "odrl:type" : "USE"
+        },
+        "odrl:constraint" : {
+          "odrl:or" : {
+            "odrl:leftOperand" : "PURPOSE",
+            "odrl:operator" : {
+              "@id" : "odrl:eq"
+            },
+            "odrl:rightOperand" : "ID 3.0 Trace"
+          }
+        }
+      },
+      "odrl:prohibition" : [],
+      "odrl:obligation" : [],
+      "odrl:target" : "registry-asset"
+    },
+    "edc:contractSigningDate" : 1708951087,
+    "edc:consumerId" : "BPNL00000003CML1",
+    "edc:providerId" : "BPNL00000003CML1",
+    "@context" : {
+      "dct" : "https://purl.org/dc/terms/",
+      "tx" : "https://w3id.org/tractusx/v0.0.1/ns/",
+      "edc" : "https://w3id.org/edc/v0.0.1/ns/",
+      "dcat" : "https://www.w3.org/ns/dcat/",
+      "odrl" : "http://www.w3.org/ns/odrl/2/",
+      "dspace" : "https://w3id.org/dspace/v0.8/"
+    }
+  },
+  {
+    "@type" : "edc:ContractAgreement",
+    "@id" : "abc10",
+    "edc:assetId" : "registry-asset",
+    "edc:policy" : {
+      "@id" : "eb0c8486-914a-4d36-84c0-b4971cbc52e4",
+      "@type" : "odrl:Set",
+      "odrl:permission" : {
+        "odrl:target" : "registry-asset",
+        "odrl:action" : {
+          "odrl:type" : "USE"
+        },
+        "odrl:constraint" : {
+          "odrl:or" : {
+            "odrl:leftOperand" : "PURPOSE",
+            "odrl:operator" : {
+              "@id" : "odrl:eq"
+            },
+            "odrl:rightOperand" : "ID 3.0 Trace"
+          }
+        }
+      },
+      "odrl:prohibition" : [],
+      "odrl:obligation" : [],
+      "odrl:target" : "registry-asset"
+    },
+    "edc:contractSigningDate" : 1708951087,
+    "edc:consumerId" : "BPNL00000003CML1",
+    "edc:providerId" : "BPNL00000003CML1",
+    "@context" : {
+      "dct" : "https://purl.org/dc/terms/",
+      "tx" : "https://w3id.org/tractusx/v0.0.1/ns/",
+      "edc" : "https://w3id.org/edc/v0.0.1/ns/",
+      "dcat" : "https://www.w3.org/ns/dcat/",
+      "odrl" : "http://www.w3.org/ns/odrl/2/",
+      "dspace" : "https://w3id.org/dspace/v0.8/"
+    }
+  },
+  {
+    "@type" : "edc:ContractAgreement",
+    "@id" : "abc11",
+    "edc:assetId" : "registry-asset",
+    "edc:policy" : {
+      "@id" : "eb0c8486-914a-4d36-84c0-b4971cbc52e4",
+      "@type" : "odrl:Set",
+      "odrl:permission" : {
+        "odrl:target" : "registry-asset",
+        "odrl:action" : {
+          "odrl:type" : "USE"
+        },
+        "odrl:constraint" : {
+          "odrl:or" : {
+            "odrl:leftOperand" : "PURPOSE",
+            "odrl:operator" : {
+              "@id" : "odrl:eq"
+            },
+            "odrl:rightOperand" : "ID 3.0 Trace"
+          }
+        }
+      },
+      "odrl:prohibition" : [],
+      "odrl:obligation" : [],
+      "odrl:target" : "registry-asset"
+    },
+    "edc:contractSigningDate" : 1708951087,
+    "edc:consumerId" : "BPNL00000003CML1",
+    "edc:providerId" : "BPNL00000003CML1",
+    "@context" : {
+      "dct" : "https://purl.org/dc/terms/",
+      "tx" : "https://w3id.org/tractusx/v0.0.1/ns/",
+      "edc" : "https://w3id.org/edc/v0.0.1/ns/",
+      "dcat" : "https://www.w3.org/ns/dcat/",
+      "odrl" : "http://www.w3.org/ns/odrl/2/",
+      "dspace" : "https://w3id.org/dspace/v0.8/"
+    }
+  },
+  {
+    "@type" : "edc:ContractAgreement",
+    "@id" : "abc12",
+    "edc:assetId" : "registry-asset",
+    "edc:policy" : {
+      "@id" : "eb0c8486-914a-4d36-84c0-b4971cbc52e4",
+      "@type" : "odrl:Set",
+      "odrl:permission" : {
+        "odrl:target" : "registry-asset",
+        "odrl:action" : {
+          "odrl:type" : "USE"
+        },
+        "odrl:constraint" : {
+          "odrl:or" : {
+            "odrl:leftOperand" : "PURPOSE",
+            "odrl:operator" : {
+              "@id" : "odrl:eq"
+            },
+            "odrl:rightOperand" : "ID 3.0 Trace"
+          }
+        }
+      },
+      "odrl:prohibition" : [],
+      "odrl:obligation" : [],
+      "odrl:target" : "registry-asset"
+    },
+    "edc:contractSigningDate" : 1708951087,
+    "edc:consumerId" : "BPNL00000003CML1",
+    "edc:providerId" : "BPNL00000003CML1",
+    "@context" : {
+      "dct" : "https://purl.org/dc/terms/",
+      "tx" : "https://w3id.org/tractusx/v0.0.1/ns/",
+      "edc" : "https://w3id.org/edc/v0.0.1/ns/",
+      "dcat" : "https://www.w3.org/ns/dcat/",
+      "odrl" : "http://www.w3.org/ns/odrl/2/",
+      "dspace" : "https://w3id.org/dspace/v0.8/"
+    }
+  },
+  {
+    "@type" : "edc:ContractAgreement",
+    "@id" : "abc13",
+    "edc:assetId" : "registry-asset",
+    "edc:policy" : {
+      "@id" : "eb0c8486-914a-4d36-84c0-b4971cbc52e4",
+      "@type" : "odrl:Set",
+      "odrl:permission" : {
+        "odrl:target" : "registry-asset",
+        "odrl:action" : {
+          "odrl:type" : "USE"
+        },
+        "odrl:constraint" : {
+          "odrl:or" : {
+            "odrl:leftOperand" : "PURPOSE",
+            "odrl:operator" : {
+              "@id" : "odrl:eq"
+            },
+            "odrl:rightOperand" : "ID 3.0 Trace"
+          }
+        }
+      },
+      "odrl:prohibition" : [],
+      "odrl:obligation" : [],
+      "odrl:target" : "registry-asset"
+    },
+    "edc:contractSigningDate" : 1708951087,
+    "edc:consumerId" : "BPNL00000003CML1",
+    "edc:providerId" : "BPNL00000003CML1",
+    "@context" : {
+      "dct" : "https://purl.org/dc/terms/",
+      "tx" : "https://w3id.org/tractusx/v0.0.1/ns/",
+      "edc" : "https://w3id.org/edc/v0.0.1/ns/",
+      "dcat" : "https://www.w3.org/ns/dcat/",
+      "odrl" : "http://www.w3.org/ns/odrl/2/",
+      "dspace" : "https://w3id.org/dspace/v0.8/"
+    }
+  }
+]

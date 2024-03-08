@@ -55,6 +55,7 @@ public class QualityNotificationMessageBaseEntity {
     private Boolean isInitial;
     @Enumerated(EnumType.STRING)
     private NotificationStatusBaseEntity status;
+    private String errorMessage;
 
     @PreUpdate
     public void preUpdate() {
