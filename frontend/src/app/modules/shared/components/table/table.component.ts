@@ -195,8 +195,6 @@ export class TableComponent {
     this.filterFormGroup.valueChanges.subscribe((formValues) => {
       this.filterActivated.emit(formValues);
     });
-    console.log(this.tableConfig);
-    console.log(this.tableViewConfig);
   }
 
   public areAllRowsSelected(): boolean {

@@ -63,8 +63,6 @@ export class AdminService {
   }
 
   public getContracts(page: number, pageSize: number, sorting?: TableHeaderSort[], filter?: Object): Observable<Pagination<Contract>> {
-    console.log(sorting);
-    console.log(filter);
 
     const body = {
       pageAble: {
