@@ -13,8 +13,6 @@ In case a user requests contract agreements, Trace-X checks if the user has requ
 If yes, then the requested assets will be mapped to the related contract agreement id.
 These contract agreement ids will be then requested on EDC side via POST (/management/v2/contractagreements/request) and GET (/management/v2/contractagreements/\{ContractAgreementId\}/negotiation) to get the relevant information.
 
-The request to POST (/management/v2/contractagreements/request) looks like this:
-
 The contract information is then returned by the endpoint as a pageable result.
 
 If no asset ids are provided in the request, 50 contract agreement ids are handled by default.
