@@ -34,6 +34,8 @@ import org.eclipse.tractusx.traceability.common.properties.TraceabilityPropertie
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -77,7 +79,7 @@ public class EdcAssetCreationService {
         String submodelAssetId = null;
 
         try {
-            submodelAssetId = edcDtrAssetService.createSubmodelAsset(traceabilityProperties.getSubmodelBase()+ "/api/submodel", SUBMODEL_ASSET_NAME);
+            submodelAssetId = edcDtrAssetService.createSubmodelAsset(traceabilityProperties.getSubmodelBase()+ "/api/submodel", "urn:uuid:"+UUID.randomUUID().toString());
         } catch (CreateEdcAssetException e) {
             throw new RuntimeException(e);
         }
