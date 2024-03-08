@@ -23,7 +23,7 @@ export class ContractTableComponent {
   pagination: TableEventConfig;
 
   constructor(public readonly adminFacade: AdminFacade) {
-    this.pagination = { page: 0, pageSize: 50, sorting: ['',null] };
+    this.pagination = { page: 0, pageSize: 50, sorting: [ '', null ] };
     this.tableConfig = {
       displayedColumns: [ 'select', 'contractId', 'counterpartyAddress', 'creationDate', 'endDate', 'state' ],
       header: CreateHeaderFromColumns([ 'contractId', 'counterpartyAddress', 'creationDate', 'endDate', 'state' ], 'pageAdmin.contracts'),
@@ -42,22 +42,29 @@ export class ContractTableComponent {
   }
 
   public ngOnInit() {
-    this.contracts = this.adminFacade.getContracts(0, 50, [null,null], null);
-    this.contractsView$ = this.contracts.pipe(map(pagination => { return {data: pagination}}) )
+    this.contracts = this.adminFacade.getContracts(0, 50, [ null, null ], null);
+    this.contractsView$ = this.contracts.pipe(map(pagination => {
+      return { data: pagination };
+    }));
   }
 
   filterActivated(contractFilter: any): void {
     this.contractFilter = contractFilter;
-    this.contracts = this.adminFacade.getContracts(this.pagination.page, this.pagination.pageSize, [this.pagination.sorting], contractFilter);
-    this.contractsView$ = this.contracts.pipe(map(pagination => { return {data: pagination}}) )
+    this.contracts = this.adminFacade.getContracts(this.pagination.page, this.pagination.pageSize, [ this.pagination.sorting ], contractFilter);
+    this.contractsView$ = this.contracts.pipe(map(pagination => {
+      return { data: pagination };
+    }));
   }
 
   public onTableConfigChange(pagination: TableEventConfig): void {
     this.pagination = pagination;
     this.contracts = this.adminFacade.getContracts(pagination.page, pagination.pageSize, [ pagination.sorting ], this.contractFilter);
-    this.contractsView$ = this.contracts.pipe(map(pagination => { return {data: pagination}}) )
+    this.contractsView$ = this.contracts.pipe(map(pagination => {
+      return { data: pagination };
+    }));
 
   }
+
   multiSelection(selectedContracts: Contract[]) {
     this.selectedContracts = selectedContracts;
   }
@@ -84,15 +91,14 @@ export class ContractTableComponent {
     const blob = new Blob([ csvContent ], { type: 'text/csv;charset=utf-8;' });
 
     const link = document.createElement('a');
-    if (link.download !== undefined) {
-      const url = URL.createObjectURL(blob);
-      link.setAttribute('href', url);
-      link.setAttribute('download', fileName);
-      link.style.visibility = 'hidden';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', fileName);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
 
   }
 

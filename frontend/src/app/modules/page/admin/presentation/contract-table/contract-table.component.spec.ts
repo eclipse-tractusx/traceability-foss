@@ -78,4 +78,43 @@ describe('ContractTableComponent', () => {
 
   });
 
+  it('should convert data to csv', async() => {
+    const {fixture} = await renderContractTableComponent();
+    const {componentInstance} = fixture;
+
+    let result = componentInstance.convertArrayOfObjectsToCSV([getContracts().content[0]])
+
+    expect(result).toEqual("contractId,counterpartyAddress,creationDate,endDate,state\n" +
+      "abc1,https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp,1708951.087,,Finalized");
+
+  });
+/*
+  it('should download csv', async() => {
+    const {fixture} = await renderContractTableComponent();
+    const {componentInstance} = fixture;
+    const csvContent = 'ID,Name\n1,abc\n2,def\n';
+    const fileName = 'export.csv';
+
+    // Create a spy object with a click() method
+    const spyObj = jasmine.createSpyObj('a', ['click', 'setAttribute'], ['style'] );
+    //TODOspyObj.style = {visibility: ''};
+
+    // Spy on document.createElement() and return the spy object
+    spyOn(document, 'createElement').and.returnValue(spyObj);
+
+    // Spy on URL.createObjectURL() to avoid actual Blob creation
+    spyOn(URL, 'createObjectURL').and.returnValue('blob:url');
+
+    // Call the downloadCSV method
+    componentInstance.downloadCSV(csvContent, fileName);
+
+    expect(document.createElement).toHaveBeenCalledTimes(1);
+    expect(document.createElement).toHaveBeenCalledWith('a');
+
+    expect(spyObj.href).toBe('blob:url');
+    expect(spyObj.download).toBe(fileName);
+    expect(spyObj.click).toHaveBeenCalledTimes(1);
+
+  });
+*/
 });

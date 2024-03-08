@@ -48,8 +48,8 @@ export type BpnConfigFormGroup = FormGroup<{ bpnConfig: FormArray<FormControl<Bp
 export interface Contract {
   contractId: string,
   counterpartyAddress: string,
-  creationDate: number,
-  endDate: number,
+  creationDate: number | string,
+  endDate: number | string,
   state: ContractState
 }
 
