@@ -34,7 +34,7 @@ jobs:
       - name: Check pom
         id: compare-version
         run: |
-          snapshot=$(grep -F '-SNAPSHOT' your_file.xml)
+          snapshot=$(grep -F '-SNAPSHOT' pom.xml)
 
           if [ "$snapshot" != null ]; then
             echo "IRS Client Lib Version has changed."
