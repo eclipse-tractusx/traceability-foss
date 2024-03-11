@@ -19,9 +19,10 @@
 package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
 
-import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPoliciesProvider;
-import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPolicy;
 import org.eclipse.tractusx.irs.edc.client.policy.Policy;
+import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Payload;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.PolicyResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,18 +36,18 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
+
 @ExtendWith(MockitoExtension.class)
 class PolicyServiceImplTest {
     @InjectMocks
     private PolicyServiceImpl policyService;
     @Mock
-    private AcceptedPoliciesProvider acceptedPoliciesProvider;
+    private IrsRepository irsRepository;
 
     @BeforeEach
     public void testSetup() {
-        policyService = new PolicyServiceImpl(acceptedPoliciesProvider);
+        policyService = new PolicyServiceImpl(irsRepository);
     }
-
 
 
     @Test
@@ -56,17 +57,27 @@ class PolicyServiceImplTest {
         // GIVEN
         String policyId = "policy123";
         OffsetDateTime createdOn = OffsetDateTime.parse("2023-07-03T16:01:05.309Z");
-        List<AcceptedPolicy> acceptedPolicies = List.of(
-                new AcceptedPolicy(new Policy("policy123", createdOn,null, null),null));
+        List<PolicyResponse> acceptedPolicies = List.of(
+                PolicyResponse.builder()
+                        .validUntil(OffsetDateTime.now())
+                        .payload(
+                                Payload.builder()
+                                        .policyId(policyId)
+                                        .policy(
+                                                Policy.builder()
+                                                        .createdOn(createdOn)
+                                                        .build())
+                                        .build())
+                        .build());
 
         // WHEN
-        when(acceptedPoliciesProvider.getAcceptedPolicies()).thenReturn(acceptedPolicies);
-        List<Policy> result = policyService.getAllPolicies();
+        when(irsRepository.getPolicies()).thenReturn(acceptedPolicies);
+        List<PolicyResponse> allPolicies = policyService.getAllPolicies();
 
         // THEN
-        assertNotNull(result);
-        assertEquals(policyId, result.get(0).getPolicyId());
-        assertEquals(createdOn, result.get(0).getCreatedOn());
+        assertNotNull(allPolicies);
+        assertEquals(policyId, allPolicies.get(0).payload().policyId());
+        assertEquals(createdOn, allPolicies.get(0).payload().policy().getCreatedOn());
     }
 
 }

@@ -20,17 +20,23 @@ package org.eclipse.tractusx.traceability.integration.policy;
 
 import io.restassured.http.ContentType;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
+import org.eclipse.tractusx.traceability.integration.common.support.IrsApiSupport;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 
 class PolicyControllerIT extends IntegrationTestSpecification {
-
+    @Autowired
+    IrsApiSupport irsApiSupport;
 
     @Test
     void shouldReturnPolicy() throws JoseException {
+        //GIVEN
+        irsApiSupport.irsApiReturnsPolicies();
+
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))

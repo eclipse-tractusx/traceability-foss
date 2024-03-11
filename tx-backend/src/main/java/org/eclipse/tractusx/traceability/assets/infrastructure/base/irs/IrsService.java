@@ -198,6 +198,7 @@ public class IrsService implements IrsRepository {
         return traceabilityProperties.getValidUntil().isAfter(requiredPolicy.validUntil());
     }
 
+    @Override
     public List<PolicyResponse> getPolicies() {
         return irsClient.getPolicies();
     }

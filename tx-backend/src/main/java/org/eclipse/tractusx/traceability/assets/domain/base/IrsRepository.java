@@ -23,6 +23,7 @@ package org.eclipse.tractusx.traceability.assets.domain.base;
 
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.PolicyResponse;
 
 import java.util.List;
 
@@ -39,4 +40,6 @@ public interface IrsRepository {
     void createIrsPolicyIfMissing();
 
     void handleJobFinishedCallback(String jobId, String jobState);
+
+    List<PolicyResponse> getPolicies();
 }
