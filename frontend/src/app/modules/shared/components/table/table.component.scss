@@ -245,3 +245,10 @@ tr.error {
 
 }
 
+.max-width-column {
+  max-width: 700px ;
+  overflow: hidden ;
+  text-overflow: ellipsis ;
+  white-space: nowrap ;
+}
+
