@@ -24,6 +24,8 @@ import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPoliciesProvider;
 import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPolicy;
 import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 import org.eclipse.tractusx.traceability.assets.application.importpoc.PolicyService;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.PolicyNotFoundException;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -39,11 +41,21 @@ public class PolicyServiceImpl implements PolicyService {
     private final AcceptedPoliciesProvider acceptedPoliciesProvider;
     @Override
     public List<Policy> getAllPolicies() {
-        List<AcceptedPolicy> acceptedPolicies = Optional.ofNullable(acceptedPoliciesProvider.getAcceptedPolicies())
-                .orElse(Collections.emptyList());
-
-        return acceptedPolicies.stream()
+        return getAcceptedPoliciesOrEmptyList().stream()
                 .map(AcceptedPolicy::policy)
-                .collect(Collectors.toList());
+                .toList();
+    }
+
+    @Override
+    public Policy getPolicyById(String id) {
+        return getAcceptedPoliciesOrEmptyList().stream().map(AcceptedPolicy::policy)
+                .filter(policy -> policy.getPolicyId().equals(id)).findFirst()
+                .orElseThrow(() ->new PolicyNotFoundException("Policy with id: %s not found.".formatted(id)));
+    }
+
+    @NotNull
+    private List<AcceptedPolicy> getAcceptedPoliciesOrEmptyList() {
+        return Optional.ofNullable(acceptedPoliciesProvider.getAcceptedPolicies())
+                .orElse(Collections.emptyList());
     }
 }

@@ -47,11 +47,11 @@ public class PublishServiceImpl implements PublishService {
 
     @Override
     public void publishAssets(String policyId, List<String> assetIds) {
-        //Update assets with policy id
         assetIds.forEach(this::throwIfNotExists);
 
-        String submodelServerAssetId = edcAssetCreationService.createDtrAndSubmodelAssets();
-        // TODO: rethink how to refactor updateAssetsAndPolicyMethod so steps will be more visibe
+        String submodelServerAssetId = edcAssetCreationService.createDtrAndSubmodelAssets(policyId);
+
+        //Update assets with policy id
         try {
             log.info("Updating status of asPlannedAssets.");
             updateAssetWithStatusAndPolicy(policyId, assetIds, assetAsPlannedRepository, submodelServerAssetId);

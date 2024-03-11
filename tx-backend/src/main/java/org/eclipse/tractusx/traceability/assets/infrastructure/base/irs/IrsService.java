@@ -26,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterJobRequest;
@@ -56,7 +57,6 @@ public class IrsService implements IrsRepository {
 
     private final BpnRepository bpnRepository;
     private final TraceabilityProperties traceabilityProperties;
-    private final ObjectMapper objectMapper;
     private final AssetCallbackRepository assetAsBuiltCallbackRepository;
     private final AssetCallbackRepository assetAsPlannedCallbackRepository;
 
@@ -78,7 +78,6 @@ public class IrsService implements IrsRepository {
             AssetCallbackRepository assetAsPlannedCallbackRepository, AssetMapperFactory assetMapperFactory) {
         this.bpnRepository = bpnRepository;
         this.traceabilityProperties = traceabilityProperties;
-        this.objectMapper = objectMapper;
         this.assetAsBuiltCallbackRepository = assetAsBuiltCallbackRepository;
         this.assetAsPlannedCallbackRepository = assetAsPlannedCallbackRepository;
         this.irsClient = irsClient;
@@ -138,6 +137,7 @@ public class IrsService implements IrsRepository {
                 existingAsset.setParentRelations(asset.getParentRelations());
             }
             existingAsset.setTombstone(asset.getTombstone() == null ? "" : asset.getTombstone());
+            existingAsset.setImportState(ImportState.PERSISTENT);
             repository.save(existingAsset);
         } else {
             repository.save(asset);

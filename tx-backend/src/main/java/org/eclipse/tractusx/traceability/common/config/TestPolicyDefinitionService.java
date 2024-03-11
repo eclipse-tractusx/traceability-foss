@@ -84,9 +84,18 @@ public class TestPolicyDefinitionService {
     }
 
     public EdcCreatePolicyDefinitionRequest createPolicyDefinition(String policyName, String accessPolicyId) {
-        EdcPolicyPermissionConstraintExpression constraint = EdcPolicyPermissionConstraintExpression.builder().leftOperand("PURPOSE").rightOperand(policyName).operator(new EdcOperator("odrl:eq")).type("Constraint").build();
-        EdcPolicyPermissionConstraint edcPolicyPermissionConstraint = EdcPolicyPermissionConstraint.builder().orExpressions(List.of(constraint)).type("AtomicConstraint").build();
-        EdcPolicyPermission odrlPermissions = EdcPolicyPermission.builder().action("USE").edcPolicyPermissionConstraints(edcPolicyPermissionConstraint).build();
+        EdcPolicyPermissionConstraintExpression constraint =
+                EdcPolicyPermissionConstraintExpression.builder()
+                        .leftOperand("PURPOSE")
+                        .rightOperand(policyName)
+                        .operator(new EdcOperator("odrl:eq"))
+                        .type("Constraint")
+                        .build();
+        EdcPolicyPermissionConstraint edcPolicyPermissionConstraint = EdcPolicyPermissionConstraint.builder()
+                .orExpressions(List.of(constraint))
+                .type("AtomicConstraint").build();
+        EdcPolicyPermission odrlPermissions = EdcPolicyPermission.builder().action("USE")
+                .edcPolicyPermissionConstraints(edcPolicyPermissionConstraint).build();
         EdcPolicy edcPolicy = EdcPolicy.builder().odrlPermissions(List.of(odrlPermissions)).type("Policy").build();
         OdrlContext odrlContext = OdrlContext.builder().odrl("http://www.w3.org/ns/odrl/2/").build();
         return EdcCreatePolicyDefinitionRequest.builder().policyDefinitionId(accessPolicyId).policy(edcPolicy).odrlContext(odrlContext).type("PolicyDefinitionRequestDto").build();
