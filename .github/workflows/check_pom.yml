@@ -42,19 +42,11 @@ jobs:
 
       - name: Compare IRS Client Lib Version
         id: compare-version
-        run: |
-          current_version=$(xmllint --xpath "string(//irs-client-lib.version)" pom.xml)
-          echo "$current_version"
-          main_version=$(git show main:pom.xml | xmllint --xpath "string(//irs-client-lib.version)" -)
-
-          if [ "$current_version" != "$main_version" ]; then
-            echo "IRS Client Lib Version has changed."
-            echo "::set-output name=version_changed::true"
-          else
-            echo "IRS Client Lib Version has not changed."
-            echo "::set-output name=version_changed::false"
-          fi
-        shell: bash
+        uses: tj-actions/changed-files@v42
+        with:
+          # Avoid using single or double quotes for multiline patterns
+          files: |
+            pom.xml
 
       - name: Create Review Comment
         uses: ntsd/auto-request-changes-action@v3
