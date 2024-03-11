@@ -40,6 +40,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -103,7 +105,7 @@ public class ContractRepositoryImpl implements ContractRepository {
                         return Contract.builder()
                                 .contractId(contractAgreement.contractAgreementId())
                                 .counterpartyAddress(contractNegotiations.get(contractAgreement.contractAgreementId()).counterPartyAddress())
-                                .creationDate(Instant.ofEpochMilli(contractAgreement.contractSigningDate()))
+                                .creationDate(OffsetDateTime.ofInstant(Instant.ofEpochSecond(contractAgreement.contractSigningDate()), ZoneId.systemDefault()))
                                 .state(contractNegotiations.get(contractAgreement.contractAgreementId()).state())
                                 .policy(objectMapper.writeValueAsString(contractAgreement.policy()))
                                 .build();

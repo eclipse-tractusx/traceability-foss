@@ -23,7 +23,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
-import java.time.Instant;
+import java.time.OffsetDateTime;
 
 @Slf4j
 @AllArgsConstructor
@@ -32,8 +32,8 @@ import java.time.Instant;
 public class Contract {
     private String contractId;
     private String counterpartyAddress;
-    private Instant creationDate;
-    private Instant endDate;
+    private OffsetDateTime creationDate;
+    private OffsetDateTime endDate;
     private String state;
     private String policy;
 
