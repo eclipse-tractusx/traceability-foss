@@ -46,13 +46,15 @@ jobs:
           git fetch origin
           current_version=$(xmllint --xpath "string(//irs-client-lib.version)" pom.xml)
           main_version=$(git show origin/main:pom.xml | xmllint --xpath "string(//irs-client-lib.version)" -)
+          echo "$current_version"
+          echo "$main_version"
 
           if [ "$current_version" != "$main_version" ]; then
             echo "IRS Client Lib Version has changed."
-            echo "::set-output name=version_changed::true"
+            echo "version_changed=true" >> $GITHUB_OUTPUT
           else
             echo "IRS Client Lib Version has not changed."
-            echo "::set-output name=version_changed::false"
+            echo "version_changed=false" >> $GITHUB_OUTPUT
           fi
           shell: bash
 
