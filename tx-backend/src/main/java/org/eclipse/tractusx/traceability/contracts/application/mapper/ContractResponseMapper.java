@@ -41,6 +41,7 @@ public class ContractResponseMapper {
                 .counterpartyAddress(contract.getCounterpartyAddress())
                 .endDate(contract.getEndDate())
                 .creationDate(contract.getCreationDate())
+                .policy(contract.getPolicy())
                 .build();
     }
 
