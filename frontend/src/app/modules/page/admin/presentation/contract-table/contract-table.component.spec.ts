@@ -1,13 +1,14 @@
-import { TestBed } from '@angular/core/testing';
-import { AdminModule } from '@page/admin/admin.module';
-import { AdminFacade } from '@page/admin/core/admin.facade';
-import { AdminService } from '@page/admin/core/admin.service';
-import { TableHeaderSort } from '@shared/components/table/table.model';
-import { renderComponent } from '@tests/test-render.utils';
-import { of } from 'rxjs';
-import { getContracts } from '../../../../../mocks/services/admin-mock/admin.model';
+import {TestBed} from '@angular/core/testing';
+import {AdminModule} from '@page/admin/admin.module';
+import {AdminFacade} from '@page/admin/core/admin.facade';
+import {AdminService} from '@page/admin/core/admin.service';
+import {TableHeaderSort} from '@shared/components/table/table.model';
+import {renderComponent} from '@tests/test-render.utils';
+import {of} from 'rxjs';
+import {getContracts} from '../../../../../mocks/services/admin-mock/admin.model';
 
-import { ContractTableComponent } from './contract-table.component';
+import {ContractTableComponent} from './contract-table.component';
+import {assembleContract} from "@page/admin/core/admin.model";
 
 describe('ContractTableComponent', () => {
 
@@ -57,7 +58,7 @@ describe('ContractTableComponent', () => {
   it('select a contract', async() => {
     const {fixture} = await renderContractTableComponent();
     const {componentInstance} = fixture;
-    let mockSelectedContract = getContracts().content[0];
+    let mockSelectedContract = assembleContract(getContracts().content[0]);
     componentInstance.multiSelection([mockSelectedContract]);
     expect(componentInstance.selectedContracts.length).toEqual(1);
     expect(componentInstance.selectedContracts[0].contractId).toEqual(mockSelectedContract.contractId)
@@ -67,7 +68,7 @@ describe('ContractTableComponent', () => {
     const {fixture} = await renderContractTableComponent();
     const {componentInstance} = fixture;
 
-    let mockSelectedContract = getContracts().content[0];
+    let mockSelectedContract = assembleContract(getContracts().content[0]);
     componentInstance.multiSelection([mockSelectedContract]);
 
     let convertSpy = spyOn(componentInstance, 'convertArrayOfObjectsToCSV');
