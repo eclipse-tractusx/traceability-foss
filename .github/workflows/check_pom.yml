@@ -30,8 +30,6 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Set up JDK 17
         uses: actions/setup-java@v2
@@ -44,11 +42,19 @@ jobs:
 
       - name: Compare IRS Client Lib Version
         id: compare-version
-        uses: tj-actions/changed-files@v42
-        with:
-          # Avoid using single or double quotes for multiline patterns
-          files: |
-            pom.xml
+        run: |
+          git fetch origin
+          current_version=$(xmllint --xpath "string(//irs-client-lib.version)" pom.xml)
+          main_version=$(git show origin/main:pom.xml | xmllint --xpath "string(//irs-client-lib.version)" -)
+
+          if [ "$current_version" != "$main_version" ]; then
+            echo "IRS Client Lib Version has changed."
+            echo "::set-output name=version_changed::true"
+          else
+            echo "IRS Client Lib Version has not changed."
+            echo "::set-output name=version_changed::false"
+          fi
+          shell: bash
 
       - name: Create Review Comment
         uses: ntsd/auto-request-changes-action@v3
