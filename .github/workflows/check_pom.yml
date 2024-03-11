@@ -31,25 +31,12 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'adopt'
-          java-version: 17
-
-      - name: Install xmllint
-        run: sudo apt-get install -y libxml2-utils
-
-      - name: Compare IRS Client Lib Version
+      - name: Check pom
         id: compare-version
         run: |
-          git fetch origin
-          current_version=$(xmllint --xpath "string(//irs-client-lib.version)" pom.xml)
-          main_version=$(git show origin/main:pom.xml | xmllint --xpath "string(//irs-client-lib.version)" -)
-          echo "$current_version"
-          echo "$main_version"
+          snapshot=$(grep -F '-SNAPSHOT' your_file.xml)
 
-          if [ "$current_version" != "$main_version" ]; then
+          if [ "$snapshot" != null ]; then
             echo "IRS Client Lib Version has changed."
             echo "version_changed=true" >> $GITHUB_OUTPUT
           else
