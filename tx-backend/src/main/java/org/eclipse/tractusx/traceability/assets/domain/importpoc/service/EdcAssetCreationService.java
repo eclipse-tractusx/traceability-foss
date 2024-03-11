@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.irs.edc.client.asset.EdcAssetService;
 import org.eclipse.tractusx.irs.edc.client.asset.model.exception.CreateEdcAssetException;
 import org.eclipse.tractusx.irs.edc.client.asset.model.exception.EdcAssetAlreadyExistsException;
 import org.eclipse.tractusx.irs.edc.client.contract.model.exception.CreateEdcContractDefinitionException;
@@ -28,8 +29,6 @@ import org.eclipse.tractusx.irs.edc.client.contract.service.EdcContractDefinitio
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.CreateEdcPolicyDefinitionException;
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.EdcPolicyDefinitionAlreadyExists;
 import org.eclipse.tractusx.irs.edc.client.policy.service.EdcPolicyDefinitionService;
-import org.eclipse.tractusx.traceability.assets.application.importpoc.PolicyService;
-import org.eclipse.tractusx.traceability.common.config.TestEdcAssetService;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -41,7 +40,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class EdcAssetCreationService {
     private static final String REGISTRY_ASSET_ID = "registry-asset";
-    private final TestEdcAssetService edcDtrAssetService;
+    private final EdcAssetService edcDtrAssetService;
     private final EdcPolicyDefinitionService edcDtrPolicyDefinitionService;
     private final EdcContractDefinitionService edcDtrContractDefinitionService;
     private final TraceabilityProperties traceabilityProperties;
