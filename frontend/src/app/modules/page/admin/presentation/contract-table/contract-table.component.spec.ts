@@ -74,7 +74,7 @@ describe('ContractTableComponent', () => {
     let convertSpy = spyOn(componentInstance, 'convertArrayOfObjectsToCSV');
     let downloadSpy = spyOn(componentInstance,'downloadCSV')
     componentInstance.exportContractsAsCSV();
-    expect(convertSpy).toHaveBeenCalledWith([getContracts().content[0]]);
+    expect(convertSpy).toHaveBeenCalledWith([assembleContract(getContracts().content[0])]);
     expect(downloadSpy).toHaveBeenCalled();
 
   });
@@ -86,7 +86,7 @@ describe('ContractTableComponent', () => {
     let result = componentInstance.convertArrayOfObjectsToCSV([getContracts().content[0]])
 
     expect(result).toEqual("contractId,counterpartyAddress,creationDate,endDate,state\n" +
-      "abc1,https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp,1708951.087,,Finalized");
+      "abc1,https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp,2024-02-26T13:38:07+01:00,,Finalized");
 
   });
 /*
