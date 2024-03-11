@@ -65,10 +65,11 @@ class ContractControllerIT extends IntegrationTestSpecification {
                 .then()
                 .log().all()
                 .statusCode(200)
-                .extract().body().as(new TypeRef<PageResult<ContractResponse>>() {
+                .extract().body().as(new TypeRef<>() {
                 });
         //THEN
         assertThat(contractResponsePageResult.content()).isNotEmpty();
+        assertThat(contractResponsePageResult.content().get(0).getPolicy()).isNotEmpty();
     }
 
     @Test
@@ -89,7 +90,7 @@ class ContractControllerIT extends IntegrationTestSpecification {
                 .then()
                 .log().all()
                 .statusCode(200)
-                .extract().body().as(new TypeRef<PageResult<ContractResponse>>() {
+                .extract().body().as(new TypeRef<>() {
                 });
 
 
@@ -103,7 +104,7 @@ class ContractControllerIT extends IntegrationTestSpecification {
                 .then()
                 .log().all()
                 .statusCode(200)
-                .extract().body().as(new TypeRef<PageResult<ContractResponse>>() {
+                .extract().body().as(new TypeRef<>() {
                 });
         //THEN
         List<String> firstContractagreementIds = List.of("abc1", "abc2", "abc3", "abc4", "abc5");
@@ -134,7 +135,7 @@ class ContractControllerIT extends IntegrationTestSpecification {
                 .then()
                 .log().all()
                 .statusCode(200)
-                .extract().body().as(new TypeRef<PageResult<ContractResponse>>() {
+                .extract().body().as(new TypeRef<>() {
                 });
         //THEN
         assertThat(contractResponsePageResult.content()).isNotEmpty();

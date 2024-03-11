@@ -35,4 +35,6 @@ public class Contract {
     private Instant creationDate;
     private Instant endDate;
     private String state;
+    private String policy;
+
 }
