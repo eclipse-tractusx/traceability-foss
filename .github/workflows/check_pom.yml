@@ -37,6 +37,9 @@ jobs:
           distribution: 'adopt'
           java-version: 17
 
+      - name: Install xmllint
+        run: sudo apt-get install -y libxml2-utils
+
       - name: Compare IRS Client Lib Version
         id: compare-version
         run: |
