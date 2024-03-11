@@ -11,7 +11,7 @@ Make sure eclipse / catena git repositories are in sync
 1) Decide which version will be incremented. Following shows example for 1.0.0
 2) Create a release branch in [IRS](https://github.com/eclipse-tractusx/item-relationship-service) named release/trace-x-irs-client-lib-release
 3) Click on the [Update irs-registry-client Version workflow](https://github.com/catenax-ng/tx-item-relationship-service/actions/workflows/update-registry-library.yaml).
-4) Select "Run workflow," choose the release branch, and provide the necessary details, such as version type. Don't forget to check the box to remove the snapshot.
+4) Select "Run workflow," choose the release branch and select the type of version increment major, minor or patch. Don't forget to check the box to remove the snapshot.
 5) Afterward, merge the created Pull Request and delete the release branch.
 6) In [IRS](https://github.com/eclipse-tractusx/item-relationship-service), the gitHub action [Upload to Central Maven Registry ](https://github.com/eclipse-tractusx/item-relationship-service/actions/workflows/maven-deploy.yaml) will release the irs-registry-client library with the version defined in step 3
 7) Create and Checkout release branch on catena /release/1.0.0
