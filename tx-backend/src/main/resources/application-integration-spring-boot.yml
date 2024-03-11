@@ -35,8 +35,8 @@ registry:
 
 edc:
   api-auth-key: "integration-tests"
-  parts-provider-edc-controlplane-url: "http://127.0.0.1"
-  parts-provider-edc-dataplane-url: "http://127.0.0.1"
+  provider-edc-url: "http://127.0.0.1"
+  provider-dataplane-edc-url: "http://127.0.0.1"
 
 spring:
   security:

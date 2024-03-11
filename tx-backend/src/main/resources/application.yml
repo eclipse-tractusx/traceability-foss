@@ -47,8 +47,7 @@ edc:
   api-auth-key: ${EDC_API_KEY}
   bpn-provider-url-mappings: { }
   provider-edc-url: ${EDC_PROVIDER_URL}
-  parts-provider-edc-controlplane-url: ${EDC_PARTS_PROVIDER_CONTROLPLANE_URL:https://provider-edc-controlplane.net}
-  parts-provider-edc-dataplane-url: ${EDC_PARTS_PROVIDER_DATAPLANE_URL:https://provider-edc-dataplane.net}
+  provider-dataplane-edc-url: ${EDC_PROVIDER_DATAPLANE_URL}
 
   callback-urls: ${EDC_CALLBACK_URL}
 

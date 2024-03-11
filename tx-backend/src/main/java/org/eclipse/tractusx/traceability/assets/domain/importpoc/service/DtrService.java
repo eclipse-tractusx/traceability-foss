@@ -96,7 +96,7 @@ public class DtrService {
                                         .interfaceInformation("SUBMODEL-3.0")
                                         .protocolInformation(
                                                 ProtocolInformation.builder()
-                                                        .href(edcProperties.getPartsProviderEdcDataplaneUrl() + "/api/public/data/" + submodelServerIdReference)
+                                                        .href(edcProperties.getProviderDataplaneEdcUrl() + "/api/public/data/" + submodelServerIdReference)
                                                         .endpointProtocol("HTTP")
                                                         .endpointProtocolVersion(List.of("1.1"))
                                                         .subprotocol("DSP")
@@ -111,7 +111,7 @@ public class DtrService {
     }
 
     private String getSubProtocol(String submodelServerAssetId) {
-        final String edcProviderControlplaneUrl = edcProperties.getPartsProviderEdcControlplaneUrl();  // "https://trace-x-test-edc.dev.demo.catena-x.net"
+        final String edcProviderControlplaneUrl = edcProperties.getProviderEdcUrl();  // "https://trace-x-test-edc.dev.demo.catena-x.net"
         return "id=%s;dspEndpoint=%s".formatted(submodelServerAssetId, edcProviderControlplaneUrl);
     }
 

@@ -87,7 +87,7 @@ public class RestTemplateConfiguration {
     @Bean
     public RestTemplate edcDtrAssetRestTemplate(@Autowired EdcProperties edcProperties) {
         return new RestTemplateBuilder()
-                .rootUri(edcProperties.getPartsProviderEdcControlplaneUrl())
+                .rootUri(edcProperties.getProviderEdcUrl())
                 .defaultHeader("Accept", MediaType.APPLICATION_JSON_VALUE)
                 .defaultHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
                 .defaultHeader(EDC_API_KEY_HEADER_NAME, edcProperties.getApiAuthKey())
