@@ -19,16 +19,22 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { ApiService } from '@core/api/api.service';
-import { Pagination } from '@core/model/pagination.model';
-import { environment } from '@env';
-import { AdminAssembler } from '@page/admin/core/admin.assembler';
-import { BpnConfig, BpnConfigResponse, Contract } from '@page/admin/core/admin.model';
-import { TableHeaderSort } from '@shared/components/table/table.model';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {HttpParams} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {ApiService} from '@core/api/api.service';
+import {Pagination} from '@core/model/pagination.model';
+import {environment} from '@env';
+import {AdminAssembler} from '@page/admin/core/admin.assembler';
+import {
+  assembleContract,
+  BpnConfig,
+  BpnConfigResponse,
+  Contract,
+  ContractResponse,
+} from '@page/admin/core/admin.model';
+import {TableHeaderSort} from '@shared/components/table/table.model';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Injectable()
 export class AdminService {
@@ -77,7 +83,12 @@ export class AdminService {
       body.searchCriteria = { filter: this.createFilterList(filter) };
     }
 
-    return this.apiService.post(`${ this.url }/contracts`, body);
+    return this.apiService.post<Pagination<ContractResponse>>(`${ this.url }/contracts`, body).pipe(
+      map(response => {
+        const assembled = response.content.map(contract => assembleContract(contract));
+        return {...response, content: assembled} as Pagination<Contract>;
+      })
+    )
   }
 
   getDistinctFilterValues(filterColumns: string, searchElement: string) {

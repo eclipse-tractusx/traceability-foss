@@ -238,7 +238,7 @@ SPDX-License-Identifier: Apache-2.0
           [mat-sort-header]="tableConfig.sortableColumns?.[column] ? '' : null"
           [disabled]="!tableConfig.sortableColumns?.[column]"
           mat-header-cell
-          class="table--cell"
+          class="table--cell normal--column"
         >
           <ng-container
             *ngIf="tableConfig?.header?.[column]; else pureColumn"
