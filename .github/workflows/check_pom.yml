@@ -44,6 +44,7 @@ jobs:
         id: compare-version
         run: |
           current_version=$(xmllint --xpath "string(//irs-client-lib.version)" pom.xml)
+          echo "$current_version"
           main_version=$(git show main:pom.xml | xmllint --xpath "string(//irs-client-lib.version)" -)
 
           if [ "$current_version" != "$main_version" ]; then
