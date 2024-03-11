@@ -19,6 +19,8 @@
 package assets.importpoc;
 
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import common.CustomOffsetDateTimeSerializer;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.OffsetDateTime;
@@ -27,7 +29,10 @@ import java.util.List;
 public record PolicyResponse(
         @Schema(example = "5a00bb50-0253-405f-b9f1-1a3150b9d51d")
         String policyId,
+
+        @JsonSerialize(using = CustomOffsetDateTimeSerializer.class)
         OffsetDateTime createdOn,
+        @JsonSerialize(using = CustomOffsetDateTimeSerializer.class)
         OffsetDateTime validUntil,
         List<PermissionResponse> permissions) {
 }
