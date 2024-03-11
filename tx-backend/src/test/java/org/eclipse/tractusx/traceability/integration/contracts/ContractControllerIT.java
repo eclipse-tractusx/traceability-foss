@@ -70,6 +70,7 @@ class ContractControllerIT extends IntegrationTestSpecification {
         //THEN
         assertThat(contractResponsePageResult.content()).isNotEmpty();
         assertThat(contractResponsePageResult.content().get(0).getPolicy()).isNotEmpty();
+        System.out.println(contractResponsePageResult.content().get(0).getCreationDate());
     }
 
     @Test

@@ -16,25 +16,22 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.contracts.domain.model;
+package common;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
 
+import java.io.IOException;
 import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 
-@Slf4j
-@AllArgsConstructor
-@Data
-@Builder
-public class Contract {
-    private String contractId;
-    private String counterpartyAddress;
-    private OffsetDateTime creationDate;
-    private OffsetDateTime endDate;
-    private String state;
-    private String policy;
+public class CustomOffsetDateTimeSerializer extends JsonSerializer<OffsetDateTime> {
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
 
+    @Override
+    public void serialize(OffsetDateTime offsetDateTime, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
+        String formattedDateTime = offsetDateTime.format(formatter);
+        jsonGenerator.writeString(formattedDateTime);
+    }
 }
