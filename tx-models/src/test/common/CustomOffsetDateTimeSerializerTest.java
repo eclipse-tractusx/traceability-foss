@@ -46,12 +46,14 @@ class CustomOffsetDateTimeSerializerTest {
 
     @Test
     public void test_serialize() throws IOException {
+        //GIVEN
         OffsetDateTime offsetDateTime = OffsetDateTime.of(2023, 10, 13, 14, 30, 45, 0, ZoneOffset.UTC);
         String expectedFormattedDateTime = "2023-10-13T14:30:45Z";
 
+        //WHEN
         serializer.serialize(offsetDateTime, jsonGenerator, serializerProvider);
 
-        // Verify that the custom serializer correctly formats the OffsetDateTime and writes it to the JsonGenerator
+        //THEN
         verify(jsonGenerator, times(1)).writeString(expectedFormattedDateTime);
     }
 
