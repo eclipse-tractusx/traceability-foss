@@ -205,6 +205,7 @@ class NotificationPublisherServiceTest {
                 .notificationReferenceId("id123")
                 .created(LocalDateTime.now().plusSeconds(10))
                 .targetDate(Instant.now())
+                .notificationStatus(QualityNotificationStatus.ACKNOWLEDGED)
                 .isInitial(false)
                 .build();
 
@@ -251,7 +252,7 @@ class NotificationPublisherServiceTest {
                 .notificationReferenceId("id123")
                 .created(LocalDateTime.now().plusSeconds(10))
                 .targetDate(Instant.now())
-                .notificationStatus(QualityNotificationStatus.CREATED)
+                .notificationStatus(QualityNotificationStatus.ACCEPTED)
                 .affectedParts(affectedParts)
                 .build();
 
@@ -287,14 +288,14 @@ class NotificationPublisherServiceTest {
                 .notificationReferenceId("id123")
                 .created(LocalDateTime.now())
                 .targetDate(Instant.now())
-                .notificationStatus(QualityNotificationStatus.CREATED)
+                .notificationStatus(QualityNotificationStatus.ACKNOWLEDGED)
                 .affectedParts(affectedParts)
                 .build();
 
         QualityNotificationMessage notification2 = QualityNotificationMessage.builder()
                 .id("456")
                 .notificationReferenceId("id123")
-                .notificationStatus(QualityNotificationStatus.CREATED)
+                .notificationStatus(QualityNotificationStatus.DECLINED)
                 .affectedParts(affectedParts)
                 .created(LocalDateTime.now().plusSeconds(10))
                 .targetDate(Instant.now())
@@ -339,7 +340,7 @@ class NotificationPublisherServiceTest {
                 .id("456")
                 .notificationReferenceId("id123")
                 .created(LocalDateTime.now().plusSeconds(10))
-                .notificationStatus(QualityNotificationStatus.CREATED)
+                .notificationStatus(QualityNotificationStatus.CLOSED)
                 .affectedParts(affectedParts)
                 .build();
 

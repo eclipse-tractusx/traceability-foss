@@ -36,7 +36,7 @@ import java.util.UUID;
 @Setter
 @Data
 public class QualityNotificationMessage {
-    private final String id;
+    private String id;
     private final String createdByName;
     private final String sendToName;
     @Builder.Default

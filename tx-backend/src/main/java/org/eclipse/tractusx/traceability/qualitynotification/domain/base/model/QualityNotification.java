@@ -57,7 +57,6 @@ public class QualityNotification {
                 .description(description)
                 .createdAt(createDate)
                 .assetIds(Collections.emptyList())
-                .notifications(new ArrayList<>())
                 .build();
     }
 

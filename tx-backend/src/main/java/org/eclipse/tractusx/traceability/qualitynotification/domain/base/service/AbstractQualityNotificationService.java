@@ -19,6 +19,8 @@
 package org.eclipse.tractusx.traceability.qualitynotification.domain.base.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.irs.component.Bpn;
+import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.service.QualityNotificationService;
@@ -36,11 +38,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @Slf4j
 public abstract class AbstractQualityNotificationService implements QualityNotificationService {
 
     private static final List<String> SUPPORTED_ENUM_FIELDS = List.of("status", "side", "notifications_severity");
+
 
     protected abstract NotificationPublisherService getNotificationPublisherService();
 
@@ -53,16 +57,50 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
 
     @Override
     public void update(Long notificationId, QualityNotificationStatus notificationStatus, String reason) {
-        QualityNotification alert = loadOrNotFoundException(new QualityNotificationId(notificationId));
-        QualityNotification updatedAlert;
+        QualityNotification qualityNotification = loadOrNotFoundException(new QualityNotificationId(notificationId));
+
+        List<QualityNotificationStatus> searchStatus = new ArrayList<>();
+
+        switch (notificationStatus) {
+            case ACKNOWLEDGED -> searchStatus.add(QualityNotificationStatus.SENT);
+            case ACCEPTED, DECLINED -> searchStatus.add(QualityNotificationStatus.ACKNOWLEDGED);
+            case CLOSED -> {
+                searchStatus.add(QualityNotificationStatus.SENT);
+                searchStatus.add(QualityNotificationStatus.ACCEPTED);
+                searchStatus.add(QualityNotificationStatus.DECLINED);
+            }
+            default ->
+                    throw new IllegalStateException("Unexpected status update: " + qualityNotification.getNotificationStatus());
+        }
+
+
+        List<QualityNotificationMessage> notifications = new ArrayList<>();
+        for (QualityNotificationStatus status : searchStatus) {
+
+            notifications.addAll(qualityNotification
+                            .getNotifications()
+                            .stream()
+                            .filter(notificationMessage -> notificationMessage.getNotificationStatus().equals(status))
+                            .map(notificationMessage -> notificationMessage.copyAndSwitchSenderAndReceiver(BPN.of("BPN ABC"))).toList());
+        }
+
+        notifications.forEach(notificationMessage -> {
+            notificationMessage.setId(UUID.randomUUID().toString());
+            notificationMessage.changeStatusTo(notificationStatus);
+            notificationMessage.setDescription(reason);
+        });
+
+        qualityNotification.addNotifications(notifications);
+
+        QualityNotification updatedQualityNotification;
         try {
-            updatedAlert = getNotificationPublisherService().updateNotificationPublisher(alert, notificationStatus, reason);
+            updatedQualityNotification = getNotificationPublisherService().updateNotificationPublisher(qualityNotification, notificationStatus, reason);
         } catch (SendNotificationException exception) {
             log.info("Notification status rollback", exception);
             throw new SendNotificationException(exception.getMessage());
         }
 
-        getQualityNotificationRepository().updateQualityNotificationEntity(updatedAlert);
+        getQualityNotificationRepository().updateQualityNotificationEntity(updatedQualityNotification);
     }
 
     @Override
@@ -81,7 +119,10 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
                 .toList();
 
         List<QualityNotificationMessage> approvedNotifications = new ArrayList<>(createdNotifications);
-        approvedNotifications.forEach(notificationMessage -> notificationMessage.changeStatusTo(QualityNotificationStatus.SENT));
+        approvedNotifications.forEach(notificationMessage -> {
+            notificationMessage.setId(UUID.randomUUID().toString());
+            notificationMessage.changeStatusTo(QualityNotificationStatus.SENT);
+        });
         notification.addNotifications(approvedNotifications);
 
         final QualityNotification approvedInvestigation;

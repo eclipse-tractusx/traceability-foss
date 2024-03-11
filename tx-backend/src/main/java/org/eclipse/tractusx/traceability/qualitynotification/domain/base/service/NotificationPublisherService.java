@@ -220,10 +220,10 @@ public class NotificationPublisherService {
         BPN applicationBPN = traceabilityProperties.getBpn();
         validate(applicationBPN, status, notification);
 
-        List<QualityNotificationMessage> allLatestNotificationForEdcNotificationId = getAllLatestNotificationForEdcNotificationId(notification);
-        List<QualityNotificationMessage> notificationsToSend = new ArrayList<>();
-        log.info("::updateNotificationPublisher::allLatestNotificationForEdcNotificationId {}", allLatestNotificationForEdcNotificationId);
-        allLatestNotificationForEdcNotificationId.forEach(qNotification -> {
+        List<QualityNotificationMessage> relevantNotifications = notification.getNotifications().stream().filter(notificationMessage -> status.equals(notificationMessage.getNotificationStatus())).toList();
+        List<String> notificationIds = relevantNotifications.stream().map(notificationMessage -> notificationMessage.getId() + " ").toList();
+        log.info("Determined relevant notifications for sending {}", notificationIds);
+        relevantNotifications.forEach(qNotification -> {
             QualityNotificationMessage notificationToSend = qNotification.copyAndSwitchSenderAndReceiver(applicationBPN);
             switch (status) {
                 case ACKNOWLEDGED -> notification.acknowledge(notificationToSend);
@@ -234,11 +234,10 @@ public class NotificationPublisherService {
                         throw new QualityNotificationIllegalUpdate("Transition from status '%s' to status '%s' is not allowed for notification with id '%s'".formatted(notification.getNotificationStatus().name(), status, notification.getNotificationId()));
             }
             log.info("::updateNotificationPublisher::notificationToSend {}", notificationToSend);
-            notification.addNotification(notificationToSend);
-            notificationsToSend.add(notificationToSend);
+            notification.addNotifications(relevantNotifications);
         });
 
-        List<CompletableFuture<QualityNotificationMessage>> futures = notificationsToSend.stream()
+        List<CompletableFuture<QualityNotificationMessage>> futures = relevantNotifications.stream()
                 .map(edcNotificationService::asyncNotificationMessageExecutor)
                 .filter(Objects::nonNull)
                 .toList();
