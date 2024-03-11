@@ -23,7 +23,7 @@ export class ContractTableComponent {
   pagination: TableEventConfig;
 
   constructor(public readonly adminFacade: AdminFacade) {
-    this.pagination = { page: 0, pageSize: 50, sorting: [ '', null ] };
+    this.pagination = { page: 0, pageSize: 10, sorting: [ '', null ] };
     this.tableConfig = {
       displayedColumns: [ 'select', 'contractId', 'counterpartyAddress', 'creationDate', 'endDate', 'state' ],
       header: CreateHeaderFromColumns([ 'contractId', 'counterpartyAddress', 'creationDate', 'endDate', 'state' ], 'pageAdmin.contracts'),
