@@ -173,6 +173,7 @@ public class DtrService {
                         .value("BPNL00000003CML1")
                         .build(),
                 // TODO: issue with resolving other assets with only one bpn set here !!
+
                 SemanticId.builder()
                         .type(GLOBAL_REFERENCE)
 //                        .value(traceabilityProperties.getBpn().toString())
