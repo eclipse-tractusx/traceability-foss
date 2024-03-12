@@ -57,8 +57,6 @@ jobs:
         id: pom-version
         run: |
           snapshot_count_root_pom=$(grep -o '\-SNAPSHOT' pom.xml | wc -l)
-          echo "Number of occurrences of '-SNAPSHOT' in pom.xml: $snapshot_count_root_pom"
-
           if [ "$snapshot_count_root_pom" > 1 ]; then
             echo "pom_changed=true" >> $GITHUB_OUTPUT
           else
