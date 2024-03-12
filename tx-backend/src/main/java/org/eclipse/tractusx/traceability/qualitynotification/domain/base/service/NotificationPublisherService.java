@@ -195,7 +195,7 @@ public class NotificationPublisherService {
                         .stream()
                         .filter(notificationMessage ->
                                 notificationMessage.getNotificationStatus().name()
-                                        .equals(QualityNotificationStatus.CREATED.name()))
+                                        .equals(QualityNotificationStatus.SENT.name()))
                 .map(edcNotificationService::asyncNotificationMessageExecutor)
                 .filter(Objects::nonNull)
                 .toList();

@@ -115,15 +115,20 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
         List<QualityNotificationMessage> createdNotifications = notification
                 .getNotifications()
                 .stream()
-                .filter(notificationMessage -> notificationMessage.getNotificationStatus().name().equals(QualityNotificationStatus.CREATED.name()))
+                .filter(notificationMessage -> notificationMessage.getNotificationStatus().equals(QualityNotificationStatus.CREATED))
                 .toList();
 
+        log.info("Found {} notification messages in status CREATED", createdNotifications.size());
         List<QualityNotificationMessage> approvedNotifications = new ArrayList<>(createdNotifications);
         approvedNotifications.forEach(notificationMessage -> {
             notificationMessage.setId(UUID.randomUUID().toString());
             notificationMessage.changeStatusTo(QualityNotificationStatus.SENT);
         });
+        log.info("Found {} notification messages in status SENT", approvedNotifications.size());
+
         notification.addNotifications(approvedNotifications);
+        log.info("Found {} notification messages at all", notification.getNotifications().size());
+
 
         final QualityNotification approvedInvestigation;
         try {
