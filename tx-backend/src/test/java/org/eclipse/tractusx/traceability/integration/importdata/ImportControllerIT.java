@@ -42,8 +42,8 @@ import org.eclipse.tractusx.traceability.integration.common.support.OAuth2ApiSup
 import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
+import org.opentest4j.AssertionFailedError;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.io.File;
 import java.util.List;
@@ -394,7 +394,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenValidFile_whenPublishData_thenStatusShouldChangeToInSynchronization() throws JoseException {
+    void givenValidFile_whenPublishData_thenStatusShouldChangeToInPublishedToCX() throws JoseException, InterruptedException {
         // given
         String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
         File file = new File(path);
@@ -427,14 +427,18 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .statusCode(201);
 
         // then
-        AssetBase asset = assetAsBuiltRepository.getAssetById("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f");
-        assertThat("Trace-X policy").isEqualTo(asset.getPolicyId());
-        assertThat(ImportState.IN_SYNCHRONIZATION).isEqualTo(asset.getImportState());
-        dtrApiSupport.verifyDtrCreateShellCalledTimes(1);
+        eventually(() -> {
+            AssetBase asset = assetAsBuiltRepository.getAssetById("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f");
+            assertThat(asset.getPolicyId()).isEqualTo("Trace-X policy");
+            assertThat(asset.getImportState()).isEqualTo(ImportState.PUBLISHED_TO_CX);
+            dtrApiSupport.verifyDtrCreateShellCalledTimes(1);
+            return true;
+        });
+
     }
 
     @Test
-    void givenValidFile2_whenPublishData_thenStatusShouldChangeToInSynchronization() throws JoseException {
+    void givenValidFile2_whenPublishData_thenStatusShouldChangeToPublishedToCx() throws JoseException, InterruptedException {
         // given
         String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
         File file = new File(path);
@@ -468,14 +472,21 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .statusCode(201);
 
         // then
-        AssetBase asset = assetAsBuiltRepository.getAssetById("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f");
-        assertThat("Trace-X policy").isEqualTo(asset.getPolicyId());
-        assertThat(ImportState.IN_SYNCHRONIZATION).isEqualTo(asset.getImportState());
-        dtrApiSupport.verifyDtrCreateShellCalledTimes(1);
+        eventually(() -> {
+            try {
+                AssetBase asset = assetAsBuiltRepository.getAssetById("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f");
+                assertThat(asset.getPolicyId()).isEqualTo("Trace-X policy");
+                assertThat(asset.getImportState()).isEqualTo(ImportState.PUBLISHED_TO_CX);
+                dtrApiSupport.verifyDtrCreateShellCalledTimes(1);
+            } catch (AssertionFailedError exception) {
+                return false;
+            }
+            return true;
+        });
     }
 
     @Test
-    void givenInvalidAssetID_whenPublishData_thenStatusCode404() throws JoseException {
+    void givenInvalidAssetID_whenPublishData_thenStatusCode404() throws JoseException, InterruptedException {
         // given
         String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
         File file = new File(path);
@@ -503,9 +514,13 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .statusCode(404);
 
         //then
-        AssetBase asset = assetAsBuiltRepository.getAssetById("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f");
-        assertNull(asset.getPolicyId());
-        assertEquals(asset.getImportState(), ImportState.TRANSIENT);
+        eventually(() -> {
+            AssetBase asset = assetAsBuiltRepository.getAssetById("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f");
+            assertNull(asset.getPolicyId());
+            assertEquals(asset.getImportState(), ImportState.TRANSIENT);
+            return true;
+        });
+
     }
 
     @Test

@@ -34,7 +34,6 @@ import org.eclipse.tractusx.irs.registryclient.decentral.exception.CreateDtrShel
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.repository.SubmodelPayloadRepository;
 import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
-import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.submodel.domain.repository.SubmodelServerRepository;
 import org.springframework.stereotype.Service;
 
@@ -54,10 +53,9 @@ public class DtrService {
     private final SubmodelPayloadRepository submodelPayloadRepository;
     private final SubmodelServerRepository submodelServerRepository;
     private final EdcProperties edcProperties;
-    private final TraceabilityProperties traceabilityProperties;
 
 
-    public void createShellInDtr(final AssetBase assetBase, String submodelServerAssetId) throws CreateDtrShellException {
+    public String createShellInDtr(final AssetBase assetBase, String submodelServerAssetId) throws CreateDtrShellException {
         Map<String, String> payloadByAspectType = submodelPayloadRepository.getTypesAndPayloadsByAssetId(assetBase.getId());
         Map<String, UUID> createdSubmodelIdByAspectType = payloadByAspectType.entrySet().stream()
                 .map(this::createSubmodel)
@@ -66,6 +64,7 @@ public class DtrService {
         List<SubmodelDescriptor> descriptors = toSubmodelDescriptors(createdSubmodelIdByAspectType, submodelServerAssetId);
 
         dtrCreateShellService.createShell(aasFrom(assetBase, descriptors));
+        return assetBase.getId();
     }
 
     private List<SubmodelDescriptor> toSubmodelDescriptors(Map<String, UUID> createdSubmodelIdByAspectType, String submodelServerAssetId) {

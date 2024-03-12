@@ -20,7 +20,6 @@ package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.irs.registryclient.decentral.exception.CreateDtrShellException;
 import org.eclipse.tractusx.traceability.assets.application.importpoc.PublishService;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
@@ -30,9 +29,11 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportNote;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.PublishAssetException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 @Slf4j
@@ -42,25 +43,26 @@ public class PublishServiceImpl implements PublishService {
 
     private final AssetAsPlannedRepository assetAsPlannedRepository;
     private final AssetAsBuiltRepository assetAsBuiltRepository;
-    private final DtrService dtrService;
-    private final EdcAssetCreationService edcAssetCreationService;
+    private final AsyncPublishService asyncPublishService;
 
     @Override
+    @Transactional
     public void publishAssets(String policyId, List<String> assetIds) {
         assetIds.forEach(this::throwIfNotExists);
 
-        String submodelServerAssetId = edcAssetCreationService.createDtrAndSubmodelAssets(policyId);
-
         //Update assets with policy id
-        try {
-            log.info("Updating status of asPlannedAssets.");
-            updateAssetWithStatusAndPolicy(policyId, assetIds, assetAsPlannedRepository, submodelServerAssetId);
-            log.info("Updating status of asBuiltAssets.");
-            updateAssetWithStatusAndPolicy(policyId, assetIds, assetAsBuiltRepository, submodelServerAssetId);
-        } catch (CreateDtrShellException e) {
-            throw new RuntimeException(e);
-        }
+        log.info("Updating status of asPlannedAssets.");
+        List<AssetBase> updatedAsPlannedAssets = updateAssetWithStatusAndPolicy(policyId, assetIds, assetAsPlannedRepository);
+        log.info("Updating status of asBuiltAssets.");
+        List<AssetBase> updatedAsBuiltAssets = updateAssetWithStatusAndPolicy(policyId, assetIds, assetAsBuiltRepository);
 
+        //Publish to CS network
+        publishAssetsToCx(Stream.concat(updatedAsPlannedAssets.stream(), updatedAsBuiltAssets.stream()).toList());
+    }
+
+    @Override
+    public void publishAssetsToCx(List<AssetBase> assets) {
+        asyncPublishService.publishAssetsToCx(assets);
     }
 
     private void throwIfNotExists(String assetId) {
@@ -69,8 +71,7 @@ public class PublishServiceImpl implements PublishService {
         }
     }
 
-
-    private void updateAssetWithStatusAndPolicy(String policyId, List<String> assetIds, AssetRepository repository, String submodelServerAssetId) throws CreateDtrShellException {
+    private List<AssetBase> updateAssetWithStatusAndPolicy(String policyId, List<String> assetIds, AssetRepository repository) {
         List<AssetBase> assetList = repository.getAssetsById(assetIds);
         List<AssetBase> saveList = assetList.stream()
                 .filter(this::validTransientState)
@@ -81,13 +82,10 @@ public class PublishServiceImpl implements PublishService {
                     return asset;
                 }).toList();
 
-        for (AssetBase assetBase : saveList) {
-            dtrService.createShellInDtr(assetBase, submodelServerAssetId);
-        }
-
         List<AssetBase> assetBases = repository.saveAll(saveList);
 
         log.info("Successfully set {} in status IN_SYNCHRONIZATION", assetBases.stream().map(AssetBase::getId).collect(Collectors.joining(", ")));
+        return assetBases;
     }
 
     private boolean validTransientState(AssetBase assetBase) {

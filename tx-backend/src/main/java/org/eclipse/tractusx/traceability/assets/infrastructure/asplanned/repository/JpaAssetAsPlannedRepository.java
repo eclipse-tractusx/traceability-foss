@@ -18,6 +18,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.repository;
 
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -32,4 +33,6 @@ public interface JpaAssetAsPlannedRepository extends JpaRepository<AssetAsPlanne
 
     @Query("SELECT COUNT(asset) FROM AssetAsPlannedEntity asset WHERE asset.owner = :owner")
     long countAssetsByOwner(@Param("owner") Owner owner);
+
+    List<AssetAsPlannedEntity> findByImportStateIn(ImportState... importState);
 }

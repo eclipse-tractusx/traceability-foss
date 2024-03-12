@@ -20,5 +20,10 @@ package org.eclipse.tractusx.traceability.assets.domain.base.model;
 
 
 public enum ImportState {
-    TRANSIENT, PERSISTENT, ERROR, IN_SYNCHRONIZATION, UNSET
+    TRANSIENT,
+    PERSISTENT,
+    ERROR,
+    IN_SYNCHRONIZATION,
+    PUBLISHED_TO_CX,
+    UNSET
 }

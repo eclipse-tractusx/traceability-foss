@@ -18,9 +18,13 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.application.importpoc;
 
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+
 import java.util.List;
 
 public interface PublishService {
 
     void publishAssets(String policyId, List<String> assetIds);
+
+    void publishAssetsToCx(List<AssetBase> assets);
 }
