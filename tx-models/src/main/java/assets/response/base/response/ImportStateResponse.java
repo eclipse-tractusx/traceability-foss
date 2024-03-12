@@ -22,6 +22,5 @@ import io.swagger.annotations.ApiModel;
 
 @ApiModel
 public enum ImportStateResponse {
-    TRANSIENT, PERSISTENT, ERROR, IN_SYNCHRONIZATION, UNSET;
-
+    TRANSIENT, PERSISTENT, ERROR, IN_SYNCHRONIZATION, PUBLISHED_TO_CX, UNSET
 }
