@@ -19,7 +19,6 @@
 package org.eclipse.tractusx.traceability.qualitynotification.domain.base.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.irs.component.Bpn;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
@@ -36,8 +35,10 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 @Slf4j
@@ -74,15 +75,7 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
         }
 
 
-        List<QualityNotificationMessage> notifications = new ArrayList<>();
-        for (QualityNotificationStatus status : searchStatus) {
-
-            notifications.addAll(qualityNotification
-                            .getNotifications()
-                            .stream()
-                            .filter(notificationMessage -> notificationMessage.getNotificationStatus().equals(status))
-                            .map(notificationMessage -> notificationMessage.copyAndSwitchSenderAndReceiver(BPN.of("BPN ABC"))).toList());
-        }
+        List<QualityNotificationMessage> notifications = new ArrayList<>(filterNotifications(searchStatus, qualityNotification));
 
         notifications.forEach(notificationMessage -> {
             notificationMessage.setId(UUID.randomUUID().toString());
@@ -102,6 +95,38 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
 
         getQualityNotificationRepository().updateQualityNotificationEntity(updatedQualityNotification);
     }
+
+    public List<QualityNotificationMessage> filterNotifications(List<QualityNotificationStatus> searchStatus, QualityNotification qualityNotification) {
+
+        return searchStatus.stream()
+                .flatMap(status -> {
+                    Set<QualityNotificationStatus> filterStatuses = getFilterStatuses(status);
+                    return qualityNotification.getNotifications().stream()
+                            .filter(notificationMessage -> {
+                                if (status == QualityNotificationStatus.CLOSED &&
+                                        (notificationMessage.getNotificationStatus() == QualityNotificationStatus.ACCEPTED ||
+                                                notificationMessage.getNotificationStatus() == QualityNotificationStatus.DECLINED)) {
+                                    return false; // Exclude SENT status if CLOSED and message contains ACCEPTED or DECLINED
+                                }
+                                return filterStatuses.contains(notificationMessage.getNotificationStatus());
+                            })
+                            .map(notificationMessage -> notificationMessage.copyAndSwitchSenderAndReceiver(BPN.of("BPN ABC")));
+                }).toList();
+    }
+
+    private Set<QualityNotificationStatus> getFilterStatuses(QualityNotificationStatus status) {
+        switch (status) {
+            case ACKNOWLEDGED:
+                return EnumSet.of(QualityNotificationStatus.SENT);
+            case ACCEPTED:
+                return EnumSet.of(QualityNotificationStatus.ACKNOWLEDGED);
+            case CLOSED:
+                return EnumSet.of(QualityNotificationStatus.ACCEPTED, QualityNotificationStatus.DECLINED);
+            default:
+                return EnumSet.noneOf(QualityNotificationStatus.class);
+        }
+    }
+
 
     @Override
     public QualityNotification find(Long id) {
