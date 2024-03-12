@@ -38,6 +38,7 @@ import org.eclipse.tractusx.traceability.common.security.JwtRole;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.DtrApiSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.EdcSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.IrsApiSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.OAuth2ApiSupport;
 import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
@@ -72,6 +73,9 @@ class ImportControllerIT extends IntegrationTestSpecification {
 
     @Autowired
     DtrApiSupport dtrApiSupport;
+
+    @Autowired
+    IrsApiSupport irsApiSupport;
 
     @Test
     void givenValidFile_whenImportData_thenValidationShouldPass() throws JoseException {
@@ -408,7 +412,8 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .statusCode(200)
                 .extract().as(ImportResponse.class);
 
-        RegisterAssetRequest registerAssetRequest = new RegisterAssetRequest("Trace-X policy", List.of("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f"));
+        RegisterAssetRequest registerAssetRequest = new RegisterAssetRequest("default-policy", List.of("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f"));
+        irsApiSupport.irsApiReturnsPolicies();
         edcApiSupport.edcWillCreatePolicyDefinition();
         edcApiSupport.edcWillCreateAsset();
         edcApiSupport.edcWillCreateContractDefinition();
@@ -429,7 +434,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
         // then
         eventually(() -> {
             AssetBase asset = assetAsBuiltRepository.getAssetById("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f");
-            assertThat(asset.getPolicyId()).isEqualTo("Trace-X policy");
+            assertThat(asset.getPolicyId()).isEqualTo("default-policy");
             assertThat(asset.getImportState()).isEqualTo(ImportState.PUBLISHED_TO_CX);
             dtrApiSupport.verifyDtrCreateShellCalledTimes(1);
             return true;
@@ -452,8 +457,8 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .statusCode(200)
                 .extract().as(ImportResponse.class);
 
-        RegisterAssetRequest registerAssetRequest = new RegisterAssetRequest("Trace-X policy", List.of("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f"));
-
+        RegisterAssetRequest registerAssetRequest = new RegisterAssetRequest("default-policy", List.of("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f"));
+        irsApiSupport.irsApiReturnsPolicies();
         edcApiSupport.edcWillReturnConflictWhenCreatePolicyDefinition();
         edcApiSupport.edcWillCreateAsset();
         edcApiSupport.edcWillCreateContractDefinition();
@@ -475,7 +480,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
         eventually(() -> {
             try {
                 AssetBase asset = assetAsBuiltRepository.getAssetById("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f");
-                assertThat(asset.getPolicyId()).isEqualTo("Trace-X policy");
+                assertThat(asset.getPolicyId()).isEqualTo("default-policy");
                 assertThat(asset.getImportState()).isEqualTo(ImportState.PUBLISHED_TO_CX);
                 dtrApiSupport.verifyDtrCreateShellCalledTimes(1);
             } catch (AssertionFailedError exception) {

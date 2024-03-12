@@ -140,9 +140,12 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository, Asset
     }
 
     @Override
-    public void updateImportStateForAssets(ImportState importState, List<String> assetIds) {
+    public void updateImportStateAndNoteForAssets(ImportState importState, String importNote, List<String> assetIds) {
         List<AssetAsBuiltEntity> foundAssets = jpaAssetAsBuiltRepository.findByIdIn(assetIds);
-        foundAssets.forEach(assetAsBuilt -> assetAsBuilt.setImportState(importState));
+        foundAssets.forEach(assetAsBuilt -> {
+            assetAsBuilt.setImportState(importState);
+            assetAsBuilt.setImportNote(importNote);
+        });
         jpaAssetAsBuiltRepository.saveAll(foundAssets);
     }
 

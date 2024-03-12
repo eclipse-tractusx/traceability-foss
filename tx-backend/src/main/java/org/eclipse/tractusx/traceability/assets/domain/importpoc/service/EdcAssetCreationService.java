@@ -19,20 +19,33 @@
 
 package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
+import assets.importpoc.ConstraintResponse;
+import assets.importpoc.ConstraintsResponse;
+import assets.importpoc.PermissionResponse;
+import assets.importpoc.PolicyResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.edc.client.asset.EdcAssetService;
+import org.eclipse.tractusx.irs.edc.client.asset.model.OdrlContext;
 import org.eclipse.tractusx.irs.edc.client.asset.model.exception.CreateEdcAssetException;
 import org.eclipse.tractusx.irs.edc.client.asset.model.exception.EdcAssetAlreadyExistsException;
+import org.eclipse.tractusx.irs.edc.client.contract.model.EdcOperator;
 import org.eclipse.tractusx.irs.edc.client.contract.model.exception.CreateEdcContractDefinitionException;
 import org.eclipse.tractusx.irs.edc.client.contract.service.EdcContractDefinitionService;
+import org.eclipse.tractusx.irs.edc.client.policy.model.EdcCreatePolicyDefinitionRequest;
+import org.eclipse.tractusx.irs.edc.client.policy.model.EdcPolicy;
+import org.eclipse.tractusx.irs.edc.client.policy.model.EdcPolicyPermission;
+import org.eclipse.tractusx.irs.edc.client.policy.model.EdcPolicyPermissionConstraint;
+import org.eclipse.tractusx.irs.edc.client.policy.model.EdcPolicyPermissionConstraintExpression;
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.CreateEdcPolicyDefinitionException;
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.EdcPolicyDefinitionAlreadyExists;
 import org.eclipse.tractusx.irs.edc.client.policy.service.EdcPolicyDefinitionService;
+import org.eclipse.tractusx.traceability.assets.application.importpoc.PolicyService;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -44,14 +57,15 @@ public class EdcAssetCreationService {
     private final EdcPolicyDefinitionService edcDtrPolicyDefinitionService;
     private final EdcContractDefinitionService edcDtrContractDefinitionService;
     private final TraceabilityProperties traceabilityProperties;
+    private final PolicyService policyService;
     @Value("${registry.urlWithPath}")
     String registryUrlWithPath = null;
 
     public String createDtrAndSubmodelAssets(String policyId) {
+        PolicyResponse policy = policyService.getPolicyById(policyId);
         String createdPolicyId;
         try {
-            // TODO: get policy from policyService ( IRS policy store ) and map it to request
-            createdPolicyId = edcDtrPolicyDefinitionService.createAccessPolicy(traceabilityProperties.getRightOperand(), policyId);
+            createdPolicyId = edcDtrPolicyDefinitionService.createAccessPolicy(mapToEdcPolicyRequest(policy));
             log.info("DTR Policy Id created :{}", createdPolicyId);
         } catch (CreateEdcPolicyDefinitionException e) {
             throw new RuntimeException(e);
@@ -100,5 +114,43 @@ public class EdcAssetCreationService {
         }
         log.info("Submodel Contract Id created :{}", submodelContractId);
         return submodelAssetId;
+    }
+
+    private EdcCreatePolicyDefinitionRequest mapToEdcPolicyRequest(PolicyResponse policy) {
+        OdrlContext odrlContext = OdrlContext.builder().odrl("http://www.w3.org/ns/odrl/2/").build();
+        EdcPolicy edcPolicy = EdcPolicy.builder().odrlPermissions(mapToPermissions(policy.permissions())).type("Policy").build();
+        return EdcCreatePolicyDefinitionRequest.builder()
+                .policyDefinitionId(policy.policyId())
+                .policy(edcPolicy)
+                .odrlContext(odrlContext)
+                .type("PolicyDefinitionRequestDto")
+                .build();
+    }
+
+    private List<EdcPolicyPermission> mapToPermissions(List<PermissionResponse> permissions) {
+        return permissions.stream().map(permission -> EdcPolicyPermission.builder()
+                .action(permission.action().name())
+                .edcPolicyPermissionConstraints(mapToConstraint(permission.constraints()))
+                .build()
+        ).toList();
+    }
+
+    private EdcPolicyPermissionConstraint mapToConstraint(ConstraintsResponse constraintsResponse) {
+        return EdcPolicyPermissionConstraint.builder()
+                .type("AtomicConstraint")
+                .orExpressions(mapToConstraintExpression(constraintsResponse.or()))
+                .build();
+    }
+
+    private List<EdcPolicyPermissionConstraintExpression> mapToConstraintExpression(List<ConstraintResponse> constraints) {
+        return constraints.stream().map(constraint -> EdcPolicyPermissionConstraintExpression.builder()
+                        .type("Constraint")
+                        .leftOperand(constraint.leftOperand())
+                        .rightOperand(constraint.rightOperand())
+                        .operator(EdcOperator.builder()
+                                .operatorId("odrl:" + constraint.operatorTypeResponse().getCode())
+                                .build())
+                        .build())
+                .toList();
     }
 }

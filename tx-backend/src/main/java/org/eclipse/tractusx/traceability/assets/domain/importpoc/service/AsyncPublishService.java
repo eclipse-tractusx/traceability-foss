@@ -25,6 +25,7 @@ import org.eclipse.tractusx.irs.registryclient.decentral.exception.CreateDtrShel
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportNote;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
 import org.springframework.scheduling.annotation.Async;
@@ -43,14 +44,15 @@ public class AsyncPublishService {
     private final AssetAsBuiltRepository assetAsBuiltRepository;
     private final EdcAssetCreationService edcAssetCreationService;
     private final DtrService dtrService;
+
     @Async(value = AssetsAsyncConfig.PUBLISH_ASSETS_EXECUTOR)
     public void publishAssetsToCx(List<AssetBase> assets) {
         Map<String, List<AssetBase>> assetsByPolicyId = assets.stream().collect(Collectors.groupingBy(AssetBase::getPolicyId));
 
         List<String> createdShellsAssetIds = new java.util.ArrayList<>(List.of());
-        assetsByPolicyId.forEach((key, value) -> {
-            String submodelServerAssetId = edcAssetCreationService.createDtrAndSubmodelAssets(key);
-            value.forEach(assetBase -> {
+        assetsByPolicyId.forEach((policyId, assetsForPolicy) -> {
+            String submodelServerAssetId = edcAssetCreationService.createDtrAndSubmodelAssets(policyId);
+            assetsForPolicy.forEach(assetBase -> {
                 try {
                     String assetId = dtrService.createShellInDtr(assetBase, submodelServerAssetId);
                     createdShellsAssetIds.add(assetId);
@@ -59,7 +61,7 @@ public class AsyncPublishService {
                 }
             });
         });
-        assetAsBuiltRepository.updateImportStateForAssets(ImportState.PUBLISHED_TO_CX, createdShellsAssetIds);
-        assetAsPlannedRepository.updateImportStateForAssets(ImportState.PUBLISHED_TO_CX, createdShellsAssetIds);
+        assetAsBuiltRepository.updateImportStateAndNoteForAssets(ImportState.PUBLISHED_TO_CX, ImportNote.PUBLISHED_TO_CX, createdShellsAssetIds);
+        assetAsPlannedRepository.updateImportStateAndNoteForAssets(ImportState.PUBLISHED_TO_CX, ImportNote.PUBLISHED_TO_CX, createdShellsAssetIds);
     }
 }

@@ -166,9 +166,12 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository, A
     }
 
     @Override
-    public void updateImportStateForAssets(ImportState importState, List<String> assetIds) {
+    public void updateImportStateAndNoteForAssets(ImportState importState, String importNote, List<String> assetIds) {
         List<AssetAsPlannedEntity> foundAssets = jpaAssetAsPlannedRepository.findByIdIn(assetIds);
-        foundAssets.forEach(assetAsPlanned -> assetAsPlanned.setImportState(importState));
+        foundAssets.forEach(assetAsPlanned -> {
+            assetAsPlanned.setImportState(importState);
+            assetAsPlanned.setImportNote(importNote);
+        });
         jpaAssetAsPlannedRepository.saveAll(foundAssets);
     }
 }

@@ -28,6 +28,7 @@ traceability:
   adminApiKey: ${IRS_ADMIN_API_KEY}
   regularApiKey: ${IRS_REGULAR_API_KEY}
   irsBase: ${IRS_URL}
+  irsPoliciesPath: "/irs/policies"
   submodelBase: ${SUBMODEL_URL}
 
 edc:
