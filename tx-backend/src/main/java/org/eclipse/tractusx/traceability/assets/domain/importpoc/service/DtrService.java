@@ -65,6 +65,7 @@ public class DtrService {
         List<SubmodelDescriptor> descriptors = toSubmodelDescriptors(createdSubmodelIdByAspectType, submodelServerAssetId);
 
         dtrCreateShellService.createShell(aasFrom(assetBase, descriptors));
+
         return assetBase.getId();
     }
 
