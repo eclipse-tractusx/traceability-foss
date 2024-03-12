@@ -18,13 +18,15 @@
  ********************************************************************************/
 package contract.response;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import common.CustomOffsetDateTimeSerializer;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import java.time.Instant;
+import java.time.OffsetDateTime;
 
 @Data
 @NoArgsConstructor
@@ -36,9 +38,11 @@ public class ContractResponse {
     @Schema(example = "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp", maxLength = 255)
     private String counterpartyAddress;
     @Schema(example = "2023-02-21T21:27:10.734950Z", maxLength = 255)
-    private Instant creationDate;
+    @JsonSerialize(using = CustomOffsetDateTimeSerializer.class)
+    private OffsetDateTime creationDate;
     @Schema(example = "2023-02-21T21:27:10.734950Z", maxLength = 255)
-    private Instant endDate;
+    @JsonSerialize(using = CustomOffsetDateTimeSerializer.class)
+    private OffsetDateTime endDate;
     @Schema(example = "FINALIZED", maxLength = 255)
     private String state;
     @Schema(example = "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}", maxLength = 255)
