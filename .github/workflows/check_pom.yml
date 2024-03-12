@@ -38,7 +38,7 @@ jobs:
           echo "Number of occurrences of '-SNAPSHOT' in pom.xml: $snapshot_count"
 
 
-          if [ "$ snapshot_count" > 3 ]; then
+          if [ "$snapshot_count" > 3 ]; then
             echo "IRS Client Lib Version has changed."
             echo "version_changed=true" >> $GITHUB_OUTPUT
           else
