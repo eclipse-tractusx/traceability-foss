@@ -22,10 +22,12 @@ package assets.importpoc;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import common.CustomOffsetDateTimeSerializer;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 
 import java.time.OffsetDateTime;
 import java.util.List;
 
+@Builder
 public record PolicyResponse(
         @Schema(example = "5a00bb50-0253-405f-b9f1-1a3150b9d51d")
         String policyId,

@@ -18,32 +18,29 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
+import assets.importpoc.PolicyResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPoliciesProvider;
-import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPolicy;
-import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 import org.eclipse.tractusx.traceability.assets.application.importpoc.PolicyService;
+import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsPolicyResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
 public class PolicyServiceImpl implements PolicyService {
 
-    private final AcceptedPoliciesProvider acceptedPoliciesProvider;
+    private final IrsRepository irsRepository;
     @Override
-    public List<Policy> getAllPolicies() {
-        List<AcceptedPolicy> acceptedPolicies = Optional.ofNullable(acceptedPoliciesProvider.getAcceptedPolicies())
+    public List<PolicyResponse> getAllPolicies() {
+        List<IrsPolicyResponse> allPolicies = Optional.ofNullable(irsRepository.getPolicies())
                 .orElse(Collections.emptyList());
 
-        return acceptedPolicies.stream()
-                .map(AcceptedPolicy::policy)
-                .collect(Collectors.toList());
+        return IrsPolicyResponse.toResponse(allPolicies);
     }
 }
