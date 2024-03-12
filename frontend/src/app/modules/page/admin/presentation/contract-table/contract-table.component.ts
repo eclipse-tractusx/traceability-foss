@@ -12,7 +12,7 @@ import {map} from 'rxjs/operators';
 @Component({
   selector: 'app-contract-table',
   templateUrl: './contract-table.component.html',
-  styleUrls: [ './contract-table.component.scss' ],
+  styleUrls: [],
 })
 export class ContractTableComponent {
   contracts: Observable<Pagination<Contract>>;
