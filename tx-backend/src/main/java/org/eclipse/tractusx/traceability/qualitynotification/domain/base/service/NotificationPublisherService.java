@@ -191,9 +191,7 @@ public class NotificationPublisherService {
         log.info("Quality Notification starts approval process with {} notifications", notification.getNotifications().size());
 
         List<String> notificationStatus = notification.getNotifications().stream().map(notificationMessage -> notificationMessage.getNotificationStatus().name()).toList();
-        notificationStatus.forEach(s -> {
-            log.info("Notification Status {}", s);
-        });
+        notificationStatus.forEach(s -> log.info("Notification Status {}", s));
 
         // For each asset within investigation a notification was created before
         List<CompletableFuture<QualityNotificationMessage>> futures =

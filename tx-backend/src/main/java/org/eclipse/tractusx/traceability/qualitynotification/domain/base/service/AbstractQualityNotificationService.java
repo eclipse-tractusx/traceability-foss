@@ -128,7 +128,7 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
 
         notification.addNotifications(approvedNotifications);
         log.info("Found {} notification messages at all", notification.getNotifications().size());
-
+        notification.getNotifications().stream().map(notificationMessage -> notificationMessage.getNotificationStatus().name()).forEach(s -> log.info("Notification Status {} ", s));
 
         final QualityNotification approvedInvestigation;
         try {
