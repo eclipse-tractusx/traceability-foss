@@ -11,8 +11,8 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 
 ### Added
 - #515 Service Unavailable Response on Notification failure
-
 - #420 add /contracts api to fetch contract agreement information from EDC for assets
+- Added a step to the pull-request-backend.yml which checks if the pom.xml(root) properties have some versions ending with -SNAPSHOT
 
 ### Changed
 - Updated RELEASE.md to the latest release guide (added more steps)
