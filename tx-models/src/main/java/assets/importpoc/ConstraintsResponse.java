@@ -18,8 +18,11 @@
  ********************************************************************************/
 package assets.importpoc;
 
+import lombok.Builder;
+
 import java.util.List;
 
+@Builder
 public record ConstraintsResponse(
         List<ConstraintResponse> and,
         List<ConstraintResponse> or
