@@ -51,6 +51,8 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
 
     protected abstract QualityNotificationRepository getQualityNotificationRepository();
 
+    protected abstract String getApplicationBpn();
+
     @Override
     public PageResult<QualityNotification> getNotifications(Pageable pageable, SearchCriteria searchCriteria) {
         return getQualityNotificationRepository().getNotifications(pageable, searchCriteria);
@@ -75,7 +77,7 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
         }
 
 
-        List<QualityNotificationMessage> notifications = new ArrayList<>(filterNotifications(searchStatus, qualityNotification));
+        List<QualityNotificationMessage> notifications = new ArrayList<>(filterNotifications(searchStatus, qualityNotification, getApplicationBpn()));
 
         notifications.forEach(notificationMessage -> {
             notificationMessage.setId(UUID.randomUUID().toString());
@@ -96,35 +98,39 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
         getQualityNotificationRepository().updateQualityNotificationEntity(updatedQualityNotification);
     }
 
-    public List<QualityNotificationMessage> filterNotifications(List<QualityNotificationStatus> searchStatus, QualityNotification qualityNotification) {
+    public List<QualityNotificationMessage> filterNotifications(List<QualityNotificationStatus> searchStatus, QualityNotification qualityNotification, String bpn) {
 
         return searchStatus.stream()
                 .flatMap(status -> {
                     Set<QualityNotificationStatus> filterStatuses = getFilterStatuses(status);
+
+                    qualityNotification.getNotifications().forEach(notificationMessage -> {
+                        log.info("Quality Notification message with id {} and status {}", notificationMessage.getId(), notificationMessage.getNotificationStatus().name());
+                    });
+
                     return qualityNotification.getNotifications().stream()
                             .filter(notificationMessage -> {
                                 if (status == QualityNotificationStatus.CLOSED &&
                                         (notificationMessage.getNotificationStatus() == QualityNotificationStatus.ACCEPTED ||
                                                 notificationMessage.getNotificationStatus() == QualityNotificationStatus.DECLINED)) {
+                                    log.info("Exclude SENT status if CLOSED and message contains ACCEPTED or DECLINED. Status {}", notificationMessage.getNotificationStatus().name());
                                     return false; // Exclude SENT status if CLOSED and message contains ACCEPTED or DECLINED
                                 }
+                                log.info("FilterStatuses contains status {} ?", notificationMessage.getNotificationStatus().name());
                                 return filterStatuses.contains(notificationMessage.getNotificationStatus());
                             })
-                            .map(notificationMessage -> notificationMessage.copyAndSwitchSenderAndReceiver(BPN.of("BPN ABC")));
+                            .map(notificationMessage -> notificationMessage.copyAndSwitchSenderAndReceiver(BPN.of(bpn)));
                 }).toList();
     }
 
     private Set<QualityNotificationStatus> getFilterStatuses(QualityNotificationStatus status) {
-        switch (status) {
-            case SENT, ACKNOWLEDGED:
-                return EnumSet.of(QualityNotificationStatus.SENT);
-            case ACCEPTED:
-                return EnumSet.of(QualityNotificationStatus.ACKNOWLEDGED);
-            case CLOSED:
-                return EnumSet.of(QualityNotificationStatus.ACCEPTED, QualityNotificationStatus.DECLINED);
-            default:
-                return EnumSet.noneOf(QualityNotificationStatus.class);
-        }
+        log.info("Get Filter Status {}", status.name());
+        return switch (status) {
+            case SENT, ACKNOWLEDGED -> EnumSet.of(QualityNotificationStatus.SENT);
+            case ACCEPTED -> EnumSet.of(QualityNotificationStatus.ACKNOWLEDGED);
+            case CLOSED -> EnumSet.of(QualityNotificationStatus.ACCEPTED, QualityNotificationStatus.DECLINED);
+            default -> EnumSet.noneOf(QualityNotificationStatus.class);
+        };
     }
 
 

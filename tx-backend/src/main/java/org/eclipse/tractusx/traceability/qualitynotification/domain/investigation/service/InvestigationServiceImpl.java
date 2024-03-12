@@ -22,6 +22,7 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.investigati
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.StartQualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
@@ -40,6 +41,12 @@ public class InvestigationServiceImpl extends AbstractQualityNotificationService
     private final NotificationPublisherService notificationPublisherService;
     private final InvestigationRepository investigationsRepository;
     private final AssetAsBuiltServiceImpl assetService;
+    private final TraceabilityProperties traceabilityProperties;
+
+    @Override
+    protected String getApplicationBpn() {
+        return traceabilityProperties.getBpn().value();
+    }
 
     @Override
     protected NotificationPublisherService getNotificationPublisherService() {
