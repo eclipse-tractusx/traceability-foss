@@ -11,8 +11,10 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 
 ### Added
 - #515 Service Unavailable Response on Notification failure
-
 - #420 add /contracts api to fetch contract agreement information from EDC for assets
+- #536 added new ImportState to asset PUBLISHED_TO_CX indicating edc assets and dtr shells were created for given asset
+- #536 added cron job responsible to publish assets in PUBLISHED_TO_CX import state to edc and dtr
+
 
 ### Changed
 - Updated RELEASE.md to the latest release guide (added more steps)
@@ -20,6 +22,8 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #625 increased height of tables
 - #423 Moved errorMessages from investigation/alert to notification list
 - Updated COMPATIBILITY.md matrix adding release C-X 24.3 and 23.12
+- #536 rework /policies to respond with policies from the IRS policy store
+- #536 sync assets logic was adjusted to create IRS jobs only for assets that are not in TRANSIENT or IN_SYNC states
 
 ### Removed
 - #625 Removed the header and breadcrumbs section from app layout

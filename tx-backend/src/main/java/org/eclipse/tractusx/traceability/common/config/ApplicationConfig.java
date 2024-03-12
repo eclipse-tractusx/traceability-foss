@@ -46,9 +46,9 @@ import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
 import org.eclipse.tractusx.irs.edc.client.policy.service.EdcPolicyDefinitionService;
 import org.eclipse.tractusx.irs.edc.client.transformer.EdcTransformer;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.IrsRepositoryImpl;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsPolicyResponse;
 import org.eclipse.tractusx.irs.registryclient.decentral.DigitalTwinRegistryCreateShellService;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.IrsService;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.PolicyResponse;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -93,7 +93,7 @@ public class ApplicationConfig {
 
     @Autowired
     @Lazy
-    IrsService irsService;
+    IrsRepositoryImpl irsRepositoryImpl;
 
     @Value("${registry.urlWithPath}")
     String registryUrlWithPath;
@@ -171,8 +171,8 @@ public class ApplicationConfig {
 
     private List<AcceptedPolicy> createIrsAcceptedPolicies() {
 
-        List<PolicyResponse> policyResponse = irsService.getPolicies();
-        List<AcceptedPolicy> irsPolicies = policyResponse.stream().map(response -> {
+        List<IrsPolicyResponse> irsPolicyResponse = irsRepositoryImpl.getPolicies();
+        List<AcceptedPolicy> irsPolicies = irsPolicyResponse.stream().map(response -> {
             Policy policy = new Policy(response.payload().policyId(), response.payload().policy().getCreatedOn(), response.validUntil(), response.payload().policy().getPermissions());
             return new AcceptedPolicy(policy, response.validUntil());
         }).toList();

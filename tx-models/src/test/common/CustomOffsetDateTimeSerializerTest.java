@@ -1,4 +1,4 @@
-/********************************************************************************
+package common; /********************************************************************************
  * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
@@ -16,7 +16,6 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.common.date;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
@@ -27,9 +26,12 @@ import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
-public class CustomOffsetDateTimeSerializerTest {
+class CustomOffsetDateTimeSerializerTest {
+
 
     private CustomOffsetDateTimeSerializer serializer;
     private JsonGenerator jsonGenerator;
@@ -43,13 +45,16 @@ public class CustomOffsetDateTimeSerializerTest {
     }
 
     @Test
-    public void testSerialize() throws IOException {
+    public void test_serialize() throws IOException {
+        //GIVEN
         OffsetDateTime offsetDateTime = OffsetDateTime.of(2023, 10, 13, 14, 30, 45, 0, ZoneOffset.UTC);
         String expectedFormattedDateTime = "2023-10-13T14:30:45Z";
 
+        //WHEN
         serializer.serialize(offsetDateTime, jsonGenerator, serializerProvider);
 
-        // Verify that the custom serializer correctly formats the OffsetDateTime and writes it to the JsonGenerator
+        //THEN
         verify(jsonGenerator, times(1)).writeString(expectedFormattedDateTime);
     }
+
 }

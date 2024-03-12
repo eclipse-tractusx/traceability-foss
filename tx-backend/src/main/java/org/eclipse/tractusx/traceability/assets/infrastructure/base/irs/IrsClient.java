@@ -30,8 +30,8 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterPolicyRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Context;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IRSResponse;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsPolicyResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Payload;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.PolicyResponse;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.core.ParameterizedTypeReference;
@@ -66,8 +66,8 @@ public class IrsClient {
         this.traceabilityProperties = traceabilityProperties;
     }
 
-    public List<PolicyResponse> getPolicies() {
-        return irsAdminTemplate.exchange(POLICY_PATH, HttpMethod.GET, null, new ParameterizedTypeReference<List<PolicyResponse>>() {
+    public List<IrsPolicyResponse> getPolicies() {
+        return irsAdminTemplate.exchange(POLICY_PATH, HttpMethod.GET, null, new ParameterizedTypeReference<List<IrsPolicyResponse>>() {
         }).getBody();
     }
 

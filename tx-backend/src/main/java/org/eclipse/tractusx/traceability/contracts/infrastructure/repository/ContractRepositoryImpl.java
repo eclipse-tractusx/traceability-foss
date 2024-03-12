@@ -18,6 +18,8 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.contracts.infrastructure.repository;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -38,6 +40,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -54,6 +58,7 @@ public class ContractRepositoryImpl implements ContractRepository {
 
     private final EdcContractAgreementService edcContractAgreementService;
     private final JpaContractAgreementInfoViewRepository contractAgreementInfoViewRepository;
+    private final ObjectMapper objectMapper;
 
     @Override
     public PageResult<Contract> getContractsByPageable(Pageable pageable, SearchCriteria searchCriteria) {
@@ -95,12 +100,19 @@ public class ContractRepositoryImpl implements ContractRepository {
 
 
         return contractAgreements.stream().map(contractAgreement ->
-                Contract.builder()
-                        .contractId(contractAgreement.contractAgreementId())
-                        .counterpartyAddress(contractNegotiations.get(contractAgreement.contractAgreementId()).counterPartyAddress())
-                        .creationDate(Instant.ofEpochMilli(contractAgreement.contractSigningDate()))
-                        .state(contractNegotiations.get(contractAgreement.contractAgreementId()).state())
-                        .build()
+                {
+                    try {
+                        return Contract.builder()
+                                .contractId(contractAgreement.contractAgreementId())
+                                .counterpartyAddress(contractNegotiations.get(contractAgreement.contractAgreementId()).counterPartyAddress())
+                                .creationDate(OffsetDateTime.ofInstant(Instant.ofEpochSecond(contractAgreement.contractSigningDate()), ZoneId.systemDefault()))
+                                .state(contractNegotiations.get(contractAgreement.contractAgreementId()).state())
+                                .policy(objectMapper.writeValueAsString(contractAgreement.policy()))
+                                .build();
+                    } catch (JsonProcessingException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
         ).toList();
     }
 

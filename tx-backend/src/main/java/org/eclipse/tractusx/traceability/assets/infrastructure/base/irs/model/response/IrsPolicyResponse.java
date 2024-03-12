@@ -18,18 +18,28 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response;
 
+import assets.importpoc.ConstraintResponse;
+import assets.importpoc.ConstraintsResponse;
+import assets.importpoc.OperatorTypeResponse;
+import assets.importpoc.PermissionResponse;
+import assets.importpoc.PolicyResponse;
+import assets.importpoc.PolicyTypeResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
+import org.apache.commons.lang3.StringUtils;
+import org.eclipse.tractusx.irs.edc.client.policy.Constraint;
+import org.eclipse.tractusx.irs.edc.client.policy.Permission;
 import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 /**
  * Policy representation for get all policies response
  */
 @Builder
-@Schema(example = PolicyResponse.EXAMPLE_PAYLOAD)
-public record PolicyResponse(OffsetDateTime validUntil, Payload payload) {
+@Schema(example = IrsPolicyResponse.EXAMPLE_PAYLOAD)
+public record IrsPolicyResponse(OffsetDateTime validUntil, Payload payload) {
 
     @SuppressWarnings({"FileTabCharacter", "java:S2479"})
     // required to show correctly example payload in open-api
@@ -72,14 +82,41 @@ public record PolicyResponse(OffsetDateTime validUntil, Payload payload) {
              ]
                """;
 
-    public static PolicyResponse fromPolicy(final Policy policy) {
+    public static List<PolicyResponse> toResponse(List<IrsPolicyResponse> allPolicies) {
+        return allPolicies.stream().map(IrsPolicyResponse::toResponse).toList();
+    }
+
+    public static PolicyResponse toResponse(IrsPolicyResponse policy) {
         return PolicyResponse.builder()
-                .validUntil(policy.getValidUntil())
-                .payload(Payload.builder()
-                        .policyId(policy.getPolicyId())
-                        .context(Context.getDefault())
-                        .policy(policy)
-                        .build())
+                .policyId(policy.payload().policyId())
+                .validUntil(policy.payload().policy().getValidUntil())
+                .createdOn(policy.payload().policy().getCreatedOn())
+                .permissions(map(policy.payload().policy()))
                 .build();
     }
+
+    private static List<PermissionResponse> map(Policy policy) {
+
+        return policy.getPermissions().stream().map(permission ->
+                        new PermissionResponse(PolicyTypeResponse.valueOf(permission.getAction().name()), map(permission)))
+                .toList();
+    }
+
+    private static ConstraintsResponse map(Permission permission) {
+        return ConstraintsResponse.builder()
+                .and(mapConstraints(permission.getConstraint().getAnd()))
+                .or(mapConstraints(permission.getConstraint().getOr()))
+                .build();
+
+    }
+
+    private static List<ConstraintResponse> mapConstraints(List<Constraint> constraints) {
+        return constraints.stream().map(constraint -> ConstraintResponse.builder()
+                        .leftOperand(constraint.getLeftOperand())
+                        .operatorTypeResponse(OperatorTypeResponse.valueOf(StringUtils.upperCase(constraint.getOperator().getOperatorType().getCode())))
+                        .rightOperand(constraint.getRightOperand())
+                        .build())
+                .toList();
+    }
+
 }
