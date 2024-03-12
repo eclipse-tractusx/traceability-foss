@@ -74,13 +74,17 @@ export class AdminService {
       pageAble: {
         page: page,
         size: pageSize,
-        sort: sorting,
+        sorting: undefined
       },
       searchCriteria: {},
     };
 
     if (filter) {
       body.searchCriteria = { filter: this.createFilterList(filter) };
+    }
+
+    if(sorting) {
+      body.pageAble.sorting = sorting;
     }
 
     return this.apiService.post<Pagination<ContractResponse>>(`${ this.url }/contracts`, body).pipe(

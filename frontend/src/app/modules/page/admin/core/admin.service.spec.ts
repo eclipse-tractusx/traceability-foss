@@ -53,7 +53,7 @@ describe('AdminService', () => {
     const requestBody = apiServiceMock.post.calls.mostRecent().args[1];
     expect(requestBody['pageAble'].page).toEqual(page);
     expect(requestBody['pageAble'].size).toEqual(pageSize);
-    expect(requestBody['pageAble'].sort).toEqual(sorting);
+    expect(requestBody['pageAble'].sorting).toEqual(sorting);
     expect(requestBody['searchCriteria'].filter).toEqual(adminService['createFilterList'](filter));
   });
 });

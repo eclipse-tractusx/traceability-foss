@@ -1,13 +1,13 @@
-import { Component } from '@angular/core';
-import { Pagination } from '@core/model/pagination.model';
-import { AdminFacade } from '@page/admin/core/admin.facade';
-import { Contract } from '@page/admin/core/admin.model';
-import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
-import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
-import { View } from '@shared/model/view.model';
-import { NotificationAction } from '@shared/modules/notification/notification-action.enum';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {Component} from '@angular/core';
+import {Pagination} from '@core/model/pagination.model';
+import {AdminFacade} from '@page/admin/core/admin.facade';
+import {Contract} from '@page/admin/core/admin.model';
+import {TableType} from '@shared/components/multi-select-autocomplete/table-type.model';
+import {CreateHeaderFromColumns, TableConfig, TableEventConfig} from '@shared/components/table/table.model';
+import {View} from '@shared/model/view.model';
+import {NotificationAction} from '@shared/modules/notification/notification-action.enum';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-contract-table',
@@ -42,7 +42,7 @@ export class ContractTableComponent {
   }
 
   public ngOnInit() {
-    this.contracts = this.adminFacade.getContracts(0, 50, [ null, null ], null);
+    this.contracts = this.adminFacade.getContracts(0, 50, null, null);
     this.contractsView$ = this.contracts.pipe(map(pagination => {
       return { data: pagination };
     }));
