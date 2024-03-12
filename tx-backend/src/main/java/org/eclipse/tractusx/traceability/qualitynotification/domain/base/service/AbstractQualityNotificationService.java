@@ -116,7 +116,7 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
 
     private Set<QualityNotificationStatus> getFilterStatuses(QualityNotificationStatus status) {
         switch (status) {
-            case ACKNOWLEDGED:
+            case SENT, ACKNOWLEDGED:
                 return EnumSet.of(QualityNotificationStatus.SENT);
             case ACCEPTED:
                 return EnumSet.of(QualityNotificationStatus.ACKNOWLEDGED);
