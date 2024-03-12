@@ -132,7 +132,6 @@ public class MainAspectAsBuiltStrategy implements MappingStrategy {
 
         return AssetBase.builder()
                 .id(assetImportRequestV2.assetMetaInfoRequest().catenaXId())
-                //TODO: ASK:  We need Id short for shell creation otherways we are not able to map it Back to system from IRS after creating shells with java
                 .semanticModelId(semanticModelId.get())
                 .detailAspectModels(detailAspectModels)
                 .manufacturerId(manufacturerId.get())

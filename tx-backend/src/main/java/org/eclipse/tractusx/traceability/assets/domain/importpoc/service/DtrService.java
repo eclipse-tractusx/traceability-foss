@@ -34,6 +34,7 @@ import org.eclipse.tractusx.irs.registryclient.decentral.exception.CreateDtrShel
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.repository.SubmodelPayloadRepository;
 import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.submodel.domain.repository.SubmodelServerRepository;
 import org.springframework.stereotype.Service;
 
@@ -53,7 +54,7 @@ public class DtrService {
     private final SubmodelPayloadRepository submodelPayloadRepository;
     private final SubmodelServerRepository submodelServerRepository;
     private final EdcProperties edcProperties;
-
+    private final TraceabilityProperties traceabilityProperties;
 
     public String createShellInDtr(final AssetBase assetBase, String submodelServerAssetId) throws CreateDtrShellException {
         Map<String, String> payloadByAspectType = submodelPayloadRepository.getTypesAndPayloadsByAssetId(assetBase.getId());
@@ -110,7 +111,7 @@ public class DtrService {
     }
 
     private String getSubProtocol(String submodelServerAssetId) {
-        final String edcProviderControlplaneUrl = edcProperties.getProviderEdcUrl();  // "https://trace-x-test-edc.dev.demo.catena-x.net"
+        final String edcProviderControlplaneUrl = edcProperties.getProviderEdcUrl();
         return "id=%s;dspEndpoint=%s".formatted(submodelServerAssetId, edcProviderControlplaneUrl);
     }
 
@@ -131,7 +132,7 @@ public class DtrService {
         return AssetAdministrationShellDescriptor.builder()
                 .globalAssetId(assetBase.getId())
                 .idShort(assetBase.getIdShort())
-                .id(UUID.randomUUID().toString()) // TODO: generated ? upon creation do we need it later on ?
+                .id(UUID.randomUUID().toString())
                 .specificAssetIds(aasIdentifiersFromAsset(assetBase))
                 .submodelDescriptors(descriptors)
                 .build();
@@ -157,16 +158,6 @@ public class DtrService {
                                         .keys(getExternalSubjectIds())
                                         .build())
                         .build()
-                // Python script creates also partInstanceId like below  where do I get partInstanceId information ??
-//                ,IdentifierKeyValuePair.builder()
-//                        .name("partInstanceId")
-//                        .value(assetBase.getManufacturerPartId())
-//                        .subjectId(// TODO: for now IRS lib does not support exterrnalSubjectId needs to be implemented
-//                                Reference.builder()
-//                                        .type("ExternalReference")
-//                                        .keys(getExternalSubjectIds())
-//                                        .build())
-//                        .build()
         );
     }
 
@@ -178,16 +169,14 @@ public class DtrService {
                         .build(),
                 SemanticId.builder()
                         .type(GLOBAL_REFERENCE)
-//                        .value(traceabilityProperties.getBpn().toString())
-                        .value("BPNL00000003CML1")
-                        .build(),
-                SemanticId.builder()
-                        .type(GLOBAL_REFERENCE)
-//                        .value(traceabilityProperties.getBpn().toString())
-                        .value("BPNL00000003CNKC")
+                        .value(traceabilityProperties.getBpn().toString())
+//                        .value("BPNL00000003CML1")
                         .build()
-                // TODO: Test if it works python script creates GlobalReferences for both instances BPN
-                // TODO: Last time we used python script with only own bpn in global references other instance could not retrieve assets
+//                SemanticId.builder()
+//                        .type(GLOBAL_REFERENCE)
+////                        .value(traceabilityProperties.getBpn().toString())
+//                        .value("BPNL00000003CNKC")
+//                        .build()
                 // our usage of python script generates following
 //        {
 //            "type": "GlobalReference",

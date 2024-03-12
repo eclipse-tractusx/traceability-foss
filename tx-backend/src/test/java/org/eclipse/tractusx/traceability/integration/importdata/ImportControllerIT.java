@@ -39,7 +39,6 @@ import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecificatio
 import org.eclipse.tractusx.traceability.integration.common.support.DtrApiSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.EdcSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.IrsApiSupport;
-import org.eclipse.tractusx.traceability.integration.common.support.OAuth2ApiSupport;
 import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
@@ -67,9 +66,6 @@ class ImportControllerIT extends IntegrationTestSpecification {
 
     @Autowired
     EdcSupport edcApiSupport;
-
-    @Autowired
-    OAuth2ApiSupport oAuth2ApiSupport;
 
     @Autowired
     DtrApiSupport dtrApiSupport;
