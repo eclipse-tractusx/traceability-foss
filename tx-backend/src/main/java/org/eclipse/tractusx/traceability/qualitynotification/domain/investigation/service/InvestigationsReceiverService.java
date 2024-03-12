@@ -43,7 +43,6 @@ public class InvestigationsReceiverService {
 
     private final InvestigationRepository investigationsRepository;
     private final NotificationMessageMapper notificationMapper;
-    private final AssetAsBuiltServiceImpl assetService;
     private final QualityNotificationMapper qualityNotificationMapper;
 
     public void handleNotificationReceive(EDCNotification edcNotification) {
