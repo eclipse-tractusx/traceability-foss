@@ -128,7 +128,7 @@ public class NotificationPublisherService {
                 .id(notificationId)
                 .created(LocalDateTime.now())
                 .createdBy(applicationBpn.value())
-               // .createdByName(getManufacturerName(applicationBpn.value()))
+                // .createdByName(getManufacturerName(applicationBpn.value()))
                 .sendTo(StringUtils.isBlank(receiverBpn) ? asset.getKey() : receiverBpn)
                 //.sendToName(getManufacturerName(asset.getKey()))
                 .description(description)
@@ -188,6 +188,13 @@ public class NotificationPublisherService {
         BPN applicationBPN = traceabilityProperties.getBpn();
         notification.send(applicationBPN);
 
+        log.info("Quality Notification starts approval process with {} notifications", notification.getNotifications().size());
+
+        List<String> notificationStatus = notification.getNotifications().stream().map(notificationMessage -> notificationMessage.getNotificationStatus().name()).toList();
+        notificationStatus.forEach(s -> {
+            log.info("Notification Status {}", s);
+        });
+
         // For each asset within investigation a notification was created before
         List<CompletableFuture<QualityNotificationMessage>> futures =
                 notification
@@ -196,9 +203,9 @@ public class NotificationPublisherService {
                         .filter(notificationMessage ->
                                 notificationMessage.getNotificationStatus().name()
                                         .equals(QualityNotificationStatus.SENT.name()))
-                .map(edcNotificationService::asyncNotificationMessageExecutor)
-                .filter(Objects::nonNull)
-                .toList();
+                        .map(edcNotificationService::asyncNotificationMessageExecutor)
+                        .filter(Objects::nonNull)
+                        .toList();
         List<QualityNotificationMessage> sentMessages = futures.stream()
                 .map(CompletableFuture::join)
                 .filter(Objects::nonNull)
