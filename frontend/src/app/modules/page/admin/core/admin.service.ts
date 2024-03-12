@@ -38,7 +38,7 @@ import {map} from 'rxjs/operators';
 
 @Injectable()
 export class AdminService {
-  private readonly url = environment.apiUrl;
+  public readonly url = environment.apiUrl;
 
   constructor(private readonly apiService: ApiService) {
   }
@@ -74,7 +74,7 @@ export class AdminService {
       pageAble: {
         page: page,
         size: pageSize,
-        sorting: sorting,
+        sort: sorting,
       },
       searchCriteria: {},
     };
