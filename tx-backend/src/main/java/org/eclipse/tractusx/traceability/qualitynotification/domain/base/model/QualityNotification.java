@@ -31,7 +31,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Data
-@Builder
+@Builder(toBuilder=true)
 public class QualityNotification {
     private BPN bpn;
     private QualityNotificationId notificationId;

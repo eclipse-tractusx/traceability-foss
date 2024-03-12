@@ -116,6 +116,7 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
                 .getNotifications()
                 .stream()
                 .filter(notificationMessage -> notificationMessage.getNotificationStatus().equals(QualityNotificationStatus.CREATED))
+                .map(notificationMessage -> notificationMessage.toBuilder().build())
                 .toList();
 
         log.info("Found {} notification messages in status CREATED", createdNotifications.size());
