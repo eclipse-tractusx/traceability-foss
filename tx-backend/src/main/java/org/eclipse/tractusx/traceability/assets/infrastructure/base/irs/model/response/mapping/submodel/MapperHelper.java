@@ -45,7 +45,7 @@ public class MapperHelper {
 
     public static String getContractAgreementId(List<Shell> shells, String globalAssetId) {
         return shells.stream()
-                .filter(shell -> shell.payload().globalAssetId().equals(globalAssetId))
+                .filter(shell -> globalAssetId.equals(shell.payload().globalAssetId()))
                 .map(Shell::contractAgreementId)
                 .findFirst()
                 .orElse(null);
