@@ -18,11 +18,12 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
+import assets.importpoc.PolicyResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.application.importpoc.PolicyService;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.PolicyResponse;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsPolicyResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -37,9 +38,9 @@ public class PolicyServiceImpl implements PolicyService {
     private final IrsRepository irsRepository;
     @Override
     public List<PolicyResponse> getAllPolicies() {
-        List<PolicyResponse> acceptedPolicies = Optional.ofNullable(irsRepository.getPolicies())
+        List<IrsPolicyResponse> allPolicies = Optional.ofNullable(irsRepository.getPolicies())
                 .orElse(Collections.emptyList());
 
-        return acceptedPolicies;
+        return IrsPolicyResponse.toResponse(allPolicies);
     }
 }

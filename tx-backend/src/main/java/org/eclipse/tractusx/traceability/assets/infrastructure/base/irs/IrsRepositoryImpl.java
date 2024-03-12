@@ -21,7 +21,6 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
@@ -31,8 +30,8 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterJobRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IRSResponse;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsPolicyResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobStatus;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.PolicyResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.AssetMapperFactory;
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
@@ -52,11 +51,10 @@ import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.m
 
 @Slf4j
 @Service
-public class IrsService implements IrsRepository {
+public class IrsRepositoryImpl implements IrsRepository {
 
     private final BpnRepository bpnRepository;
     private final TraceabilityProperties traceabilityProperties;
-    private final ObjectMapper objectMapper;
     private final AssetCallbackRepository assetAsBuiltCallbackRepository;
     private final AssetCallbackRepository assetAsPlannedCallbackRepository;
 
@@ -67,18 +65,16 @@ public class IrsService implements IrsRepository {
 
     private final IrsClient irsClient;
 
-    public IrsService(
+    public IrsRepositoryImpl(
             IrsClient irsClient,
             BpnRepository bpnRepository,
             TraceabilityProperties traceabilityProperties,
-            ObjectMapper objectMapper,
             @Qualifier("assetAsBuiltRepositoryImpl")
             AssetCallbackRepository assetAsBuiltCallbackRepository,
             @Qualifier("assetAsPlannedRepositoryImpl")
             AssetCallbackRepository assetAsPlannedCallbackRepository, AssetMapperFactory assetMapperFactory) {
         this.bpnRepository = bpnRepository;
         this.traceabilityProperties = traceabilityProperties;
-        this.objectMapper = objectMapper;
         this.assetAsBuiltCallbackRepository = assetAsBuiltCallbackRepository;
         this.assetAsPlannedCallbackRepository = assetAsPlannedCallbackRepository;
         this.irsClient = irsClient;
@@ -147,13 +143,13 @@ public class IrsService implements IrsRepository {
     @Override
     public void createIrsPolicyIfMissing() {
         log.info("Check if irs policy exists");
-        final List<PolicyResponse> irsPolicies = this.irsClient.getPolicies();
+        final List<IrsPolicyResponse> irsPolicies = this.irsClient.getPolicies();
         final List<String> irsPoliciesIds = irsPolicies.stream().map(policyResponse -> policyResponse.payload().policyId()).toList();
         log.info("Irs has following policies: {}", irsPoliciesIds);
 
         log.info("Required constraints from application yaml are : {}", traceabilityProperties.getRightOperand());
 
-        PolicyResponse matchingPolicy = findMatchingPolicy(irsPolicies);
+        IrsPolicyResponse matchingPolicy = findMatchingPolicy(irsPolicies);
 
         if (matchingPolicy == null) {
             createMissingPolicies();
@@ -162,7 +158,7 @@ public class IrsService implements IrsRepository {
         }
     }
 
-    private PolicyResponse findMatchingPolicy(List<PolicyResponse> irsPolicies) {
+    private IrsPolicyResponse findMatchingPolicy(List<IrsPolicyResponse> irsPolicies) {
         return irsPolicies.stream()
                 .filter(irsPolicy -> emptyIfNull(irsPolicy.payload().policy().getPermissions()).stream()
                         .flatMap(permission -> {
@@ -186,7 +182,7 @@ public class IrsService implements IrsRepository {
         this.irsClient.registerPolicy();
     }
 
-    private void checkAndUpdatePolicy(PolicyResponse requiredPolicy) {
+    private void checkAndUpdatePolicy(IrsPolicyResponse requiredPolicy) {
         if (isPolicyExpired(requiredPolicy)) {
             log.info("IRS Policy {} has outdated validity updating new ttl", traceabilityProperties.getRightOperand());
             this.irsClient.deletePolicy();
@@ -194,12 +190,12 @@ public class IrsService implements IrsRepository {
         }
     }
 
-    private boolean isPolicyExpired(PolicyResponse requiredPolicy) {
+    private boolean isPolicyExpired(IrsPolicyResponse requiredPolicy) {
         return traceabilityProperties.getValidUntil().isAfter(requiredPolicy.validUntil());
     }
 
     @Override
-    public List<PolicyResponse> getPolicies() {
+    public List<IrsPolicyResponse> getPolicies() {
         return irsClient.getPolicies();
     }
 

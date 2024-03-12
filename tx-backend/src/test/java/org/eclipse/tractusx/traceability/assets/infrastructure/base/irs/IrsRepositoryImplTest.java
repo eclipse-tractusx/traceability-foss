@@ -19,7 +19,6 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.tractusx.irs.edc.client.policy.Constraint;
 import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
 import org.eclipse.tractusx.irs.edc.client.policy.Operator;
@@ -30,8 +29,8 @@ import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterJobRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsPolicyResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Payload;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.PolicyResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.AssetMapperFactory;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
@@ -59,13 +58,11 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class IrsServiceTest {
-    private IrsService irsService;
+class IrsRepositoryImplTest {
+    private IrsRepositoryImpl irsRepositoryImpl;
 
     @Mock
     TraceabilityProperties traceabilityProperties;
-
-    final ObjectMapper objectMapper = new ObjectMapper();
 
     @Mock
     AssetCallbackRepository assetAsBuiltCallbackRepository;
@@ -85,7 +82,7 @@ class IrsServiceTest {
 
     @BeforeEach
     void setUp() {
-        irsService = new IrsService(irsClient, bpnRepository, traceabilityProperties, objectMapper, assetAsBuiltCallbackRepository, assetAsPlannedCallbackRepository, assetMapperFactory);
+        irsRepositoryImpl = new IrsRepositoryImpl(irsClient, bpnRepository, traceabilityProperties, assetAsBuiltCallbackRepository, assetAsPlannedCallbackRepository, assetMapperFactory);
     }
 
 
@@ -96,7 +93,7 @@ class IrsServiceTest {
         when(traceabilityProperties.getRightOperand()).thenReturn("test");
 
         // when
-        irsService.createIrsPolicyIfMissing();
+        irsRepositoryImpl.createIrsPolicyIfMissing();
 
         // then
         verify(irsClient, times(1))
@@ -110,13 +107,13 @@ class IrsServiceTest {
         OffsetDateTime createdOn = OffsetDateTime.now();
         Policy policy = new Policy("1", createdOn, validUntil, List.of(new Permission(PolicyType.USE, new Constraints(List.of(), List.of(new Constraint("leftOperand1", new Operator(OperatorType.EQ), "test"))))));
         Payload payload = new Payload(null, "1", policy);
-        final PolicyResponse existingPolicy = new PolicyResponse(validUntil, payload);
+        final IrsPolicyResponse existingPolicy = new IrsPolicyResponse(validUntil, payload);
         when(irsClient.getPolicies()).thenReturn(List.of(existingPolicy));
         when(traceabilityProperties.getRightOperand()).thenReturn("test");
         when(traceabilityProperties.getValidUntil()).thenReturn(OffsetDateTime.parse("2023-07-02T16:01:05.309Z"));
 
         // when
-        irsService.createIrsPolicyIfMissing();
+        irsRepositoryImpl.createIrsPolicyIfMissing();
 
         // then
         verifyNoMoreInteractions(irsClient);
@@ -131,13 +128,13 @@ class IrsServiceTest {
         Policy policy = new Policy("test", createdOn, validUntil, List.of(new Permission(PolicyType.USE, new Constraints(List.of(), List.of(new Constraint("leftOperand1", new Operator(OperatorType.EQ), "test"))))));
         Payload payload = new Payload(null, "test", policy);
 
-        final PolicyResponse existingPolicy = new PolicyResponse(validUntil, payload);
+        final IrsPolicyResponse existingPolicy = new IrsPolicyResponse(validUntil, payload);
         when(irsClient.getPolicies()).thenReturn(List.of(existingPolicy));
         when(traceabilityProperties.getRightOperand()).thenReturn("test");
         when(traceabilityProperties.getValidUntil()).thenReturn(OffsetDateTime.parse("2023-07-04T16:01:05.309Z"));
 
         // when
-        irsService.createIrsPolicyIfMissing();
+        irsRepositoryImpl.createIrsPolicyIfMissing();
 
         // then
         verify(irsClient, times(1)).deletePolicy();
@@ -151,7 +148,7 @@ class IrsServiceTest {
         when(traceabilityProperties.getBpn()).thenReturn(BPN.of("test"));
 
         // When
-        irsService.createJobToResolveAssets("1", direction, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
+        irsRepositoryImpl.createJobToResolveAssets("1", direction, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
 
         // Then
         verify(irsClient, times(1)).registerJob(any(RegisterJobRequest.class));
@@ -178,15 +175,15 @@ class IrsServiceTest {
         Policy policy = new Policy("test", createdOn, validUntil, List.of(new Permission(PolicyType.USE, constraints)));
         Payload payload = new Payload(null, "test", policy);
 
-        final PolicyResponse existingPolicy = new PolicyResponse(validUntil, payload);
+        final IrsPolicyResponse existingPolicy = new IrsPolicyResponse(validUntil, payload);
 
 
         when(irsClient.getPolicies()).thenReturn(List.of(existingPolicy));
 
         //WHEN
-        List<PolicyResponse> policyResponse = irsClient.getPolicies();
+        List<IrsPolicyResponse> irsPolicyResponse = irsClient.getPolicies();
 
         //THEN
-        assertThat(policyResponse).hasSize(1);
+        assertThat(irsPolicyResponse).hasSize(1);
     }
 }

@@ -20,11 +20,9 @@ package assets.importpoc;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import java.util.List;
-
 public record PermissionResponse(
         @Schema(example = "USE")
         PolicyTypeResponse action,
-        List<ConstraintsResponse> constraints
+        ConstraintsResponse constraints
 ) {
 }

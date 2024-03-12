@@ -19,10 +19,17 @@
 package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
 
+import assets.importpoc.PolicyResponse;
+import org.eclipse.tractusx.irs.edc.client.policy.Constraint;
+import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
+import org.eclipse.tractusx.irs.edc.client.policy.Operator;
+import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
+import org.eclipse.tractusx.irs.edc.client.policy.Permission;
 import org.eclipse.tractusx.irs.edc.client.policy.Policy;
+import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsPolicyResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Payload;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.PolicyResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -57,8 +64,8 @@ class PolicyServiceImplTest {
         // GIVEN
         String policyId = "policy123";
         OffsetDateTime createdOn = OffsetDateTime.parse("2023-07-03T16:01:05.309Z");
-        List<PolicyResponse> acceptedPolicies = List.of(
-                PolicyResponse.builder()
+        List<IrsPolicyResponse> acceptedPolicies = List.of(
+                IrsPolicyResponse.builder()
                         .validUntil(OffsetDateTime.now())
                         .payload(
                                 Payload.builder()
@@ -66,6 +73,14 @@ class PolicyServiceImplTest {
                                         .policy(
                                                 Policy.builder()
                                                         .createdOn(createdOn)
+                                                        .permissions(List.of(
+                                                                Permission.builder()
+                                                                        .action(PolicyType.USE)
+                                                                        .constraint(Constraints.builder()
+                                                                                .and(List.of(new Constraint("", new Operator(OperatorType.EQ), "")))
+                                                                                .or(List.of(new Constraint("", new Operator(OperatorType.EQ), "")))
+                                                                                .build())
+                                                                        .build()))
                                                         .build())
                                         .build())
                         .build());
@@ -76,8 +91,8 @@ class PolicyServiceImplTest {
 
         // THEN
         assertNotNull(allPolicies);
-        assertEquals(policyId, allPolicies.get(0).payload().policyId());
-        assertEquals(createdOn, allPolicies.get(0).payload().policy().getCreatedOn());
+        assertEquals(policyId, allPolicies.get(0).policyId());
+        assertEquals(createdOn, allPolicies.get(0).createdOn());
     }
 
 }

@@ -19,9 +19,9 @@
 package assets.importpoc;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 
-import java.util.List;
-
+@Builder
 public record ConstraintResponse(
         @Schema(example = "PURPOSE")
         String leftOperand,
@@ -29,5 +29,5 @@ public record ConstraintResponse(
         @Schema
         OperatorTypeResponse operatorTypeResponse,
         @Schema(example = "ID Trace 3.1")
-        List<String> rightOperands) {
+        String rightOperand) {
 }
