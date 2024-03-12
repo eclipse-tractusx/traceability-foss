@@ -79,7 +79,7 @@ public class DtrService {
     private SubmodelDescriptor toSubmodelDescriptor(String aspectType, UUID submodelServerIdReference, String submodelServerAssetId) {
         return SubmodelDescriptor.builder()
                 .description(List.of())
-                .idShort(aspectTypeToSimpleSubmodelName(aspectType)) // example SingleLevelUsageAsBuilt
+                .idShort(aspectTypeToSimpleSubmodelName(aspectType))
                 .id(submodelServerIdReference.toString())
                 .semanticId(
                         Reference.builder()
@@ -127,7 +127,6 @@ public class DtrService {
         return Map.entry(payloadByAspectType.getKey(), submodelId);
     }
 
-    // Do we have partInstanceId ? python script is generating specificAssetId with part instance id in it
     private AssetAdministrationShellDescriptor aasFrom(AssetBase assetBase, List<SubmodelDescriptor> descriptors) {
         return AssetAdministrationShellDescriptor.builder()
                 .globalAssetId(assetBase.getId())
