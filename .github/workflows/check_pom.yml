@@ -34,7 +34,7 @@ jobs:
       - name: Check pom
         id: compare-version
         run: |
-          snapshot_count=$(grep -o '\-SNAPSHOT' path/to/your/pom.xml | wc -l)
+          snapshot_count=$(grep -o '\-SNAPSHOT' pom.xml | wc -l)
           echo "Number of occurrences of '-SNAPSHOT' in pom.xml: $snapshot_count"
 
 
@@ -45,7 +45,6 @@ jobs:
             echo "IRS Client Lib Version has not changed."
             echo "version_changed=false" >> $GITHUB_OUTPUT
           fi
-          shell: bash
 
       - name: Create Review Comment
         uses: ntsd/auto-request-changes-action@v3
