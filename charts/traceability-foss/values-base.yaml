@@ -171,6 +171,7 @@ backend:
     baseUrl: 'CHANGE_ME'
   registry:
     urlWithPath: 'CHANGE_ME'
+    allowedBpns: 'CHANGE_ME'
   portal:
     baseUrl: 'CHANGE_ME'
 

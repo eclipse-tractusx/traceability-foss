@@ -109,6 +109,7 @@ configuration:
   partnersPool: &partners_pool_url 'https://partners-pool.int.demo.catena-x.net'
 
   digitalTwinRegistry:
+    allowedBpns: &allowed_bpns 'BPNL00000003CML1,BPNL00000003CNKC,BPNL00000007QIS1'
     url: &dtr_url 'https://trace-x-registry.int.demo.catena-x.net' # is it correct one ?
     descriptorEndpoint: &dtr_shell_descriptor_url 'https://trace-x-registry.int.demo.catena-x.net/semantics/registry/api/v3.0/shell-descriptors/{aasIdentifier}'
     shellLookupEndpoint: &dtr_shell_lookup_url 'https://trace-x-registry.int.demo.catena-x.net/semantics/registry/api/v3.0/lookup/shells?assetIds={assetIds}'
@@ -186,6 +187,7 @@ backend:
     baseUrl: *irs_url
   registry:
     urlWithPath: *dtr_url
+    allowedBpns: *allowed_bpns
   portal:
     baseUrl: *portal_backend_url
 
