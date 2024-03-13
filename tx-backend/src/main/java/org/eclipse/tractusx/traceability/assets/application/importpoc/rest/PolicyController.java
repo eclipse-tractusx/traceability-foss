@@ -54,7 +54,9 @@ public class PolicyController {
             description = "The endpoint returns all policies .",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the policies",
-            content = {@Content(schema = @Schema(implementation = PolicyResponse.class))}),
+            content = {@Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = PolicyResponse.class))}),
             @ApiResponse(
                     responseCode = "400",
                     description = "Bad request.",

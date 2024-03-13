@@ -14,9 +14,9 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #536 Added import state PUBLISHED_TO_CX in frontend
 - #420 add /contracts api to fetch contract agreement information from EDC for assets
 - Added a step to the pull-request-backend.yml which checks if the pom.xml(root) properties have some versions ending with -SNAPSHOT
+- Added a PostConstruct method in PolicyStartUpConfig to allow Integration tests to run without errors in stack traces.
 - #536 added new ImportState to asset PUBLISHED_TO_CX indicating edc assets and dtr shells were created for given asset
 - #536 added cron job responsible to publish assets in PUBLISHED_TO_CX import state to edc and dtr
-
 
 ### Changed
 - Updated RELEASE.md to the latest release guide (added more steps)
@@ -26,6 +26,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - Updated COMPATIBILITY.md matrix adding release C-X 24.3 and 23.12
 - #536 rework /policies to respond with policies from the IRS policy store
 - #536 sync assets logic was adjusted to create IRS jobs only for assets that are not in TRANSIENT or IN_SYNC states
+- Updated Arc42 documentation and user-manual with publish assets informations
 
 ### Removed
 - #625 Removed the header and breadcrumbs section from app layout
