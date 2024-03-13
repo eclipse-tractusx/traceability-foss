@@ -35,7 +35,6 @@ import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.Decen
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
 import java.util.List;
 
 import static org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.BATCH;
