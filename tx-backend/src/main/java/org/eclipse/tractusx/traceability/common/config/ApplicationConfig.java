@@ -21,44 +21,26 @@
 
 package org.eclipse.tractusx.traceability.common.config;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
 import io.github.resilience4j.core.registry.EntryAddedEvent;
 import io.github.resilience4j.core.registry.EntryRemovedEvent;
 import io.github.resilience4j.core.registry.EntryReplacedEvent;
 import io.github.resilience4j.core.registry.RegistryEventConsumer;
 import io.github.resilience4j.retry.Retry;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.edc.client.EdcConfiguration;
 import org.eclipse.tractusx.irs.edc.client.asset.EdcAssetService;
 import org.eclipse.tractusx.irs.edc.client.contract.service.EdcContractDefinitionService;
-import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPoliciesProvider;
-import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPolicy;
-import org.eclipse.tractusx.irs.edc.client.policy.Constraint;
-import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
-import org.eclipse.tractusx.irs.edc.client.policy.Operator;
-import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
-import org.eclipse.tractusx.irs.edc.client.policy.Permission;
-import org.eclipse.tractusx.irs.edc.client.policy.Policy;
-import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
 import org.eclipse.tractusx.irs.edc.client.policy.service.EdcPolicyDefinitionService;
 import org.eclipse.tractusx.irs.edc.client.transformer.EdcTransformer;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.IrsRepositoryImpl;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsPolicyResponse;
-import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -71,10 +53,6 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
-import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 @Configuration
 @ConfigurationPropertiesScan(basePackages = "org.eclipse.tractusx.traceability.*")
@@ -86,15 +64,6 @@ import java.util.UUID;
 @EnableJpaRepositories(basePackages = "org.eclipse.tractusx.traceability.*")
 public class ApplicationConfig {
 
-    @Autowired
-    TraceabilityProperties traceabilityProperties;
-
-    @Autowired
-    @Lazy
-    IrsRepositoryImpl irsRepositoryImpl;
-
-
-    private final AcceptedPoliciesProvider.DefaultAcceptedPoliciesProvider defaultAcceptedPoliciesProvider;
 
     @Bean
     public InternalResourceViewResolver defaultViewResolver() {
@@ -140,57 +109,7 @@ public class ApplicationConfig {
         return templateResolver;
     }
 
-    @PostConstruct
-    public void registerDecentralRegistryPermissions() throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.registerModule(new JavaTimeModule());
-        List<AcceptedPolicy> acceptedPolicy = buildAcceptedPolicies();
-        defaultAcceptedPoliciesProvider.addAcceptedPolicies(acceptedPolicy);
-        log.info("Successfully added permission to irs client lib provider: {}", mapper.writeValueAsString(acceptedPolicy));
-    }
 
-    @NotNull
-    private List<AcceptedPolicy> buildAcceptedPolicies() {
-        List<AcceptedPolicy> acceptedPolicies = new ArrayList<>(createOwnAcceptedPolicies(traceabilityProperties.getValidUntil()));
-
-        //add IRS policies
-        try {
-            acceptedPolicies.addAll(createIrsAcceptedPolicies());
-        } catch (Exception exception) {
-            log.error("Failed to create Irs Policies : ", exception);
-        }
-        return acceptedPolicies;
-    }
-
-    private List<AcceptedPolicy> createIrsAcceptedPolicies() {
-
-        List<IrsPolicyResponse> irsPolicyResponse = irsRepositoryImpl.getPolicies();
-        List<AcceptedPolicy> irsPolicies = irsPolicyResponse.stream().map(response -> {
-            Policy policy = new Policy(response.payload().policyId(), response.payload().policy().getCreatedOn(), response.validUntil(), response.payload().policy().getPermissions());
-            return new AcceptedPolicy(policy, response.validUntil());
-        }).toList();
-
-        return new ArrayList<>(irsPolicies);
-    }
-
-    private List<AcceptedPolicy> createOwnAcceptedPolicies(OffsetDateTime offsetDateTime) {
-        List<Constraint> andConstraintList = new ArrayList<>();
-        List<Constraint> orConstraintList = new ArrayList<>();
-        andConstraintList.add(new Constraint(traceabilityProperties.getLeftOperand(), new Operator(OperatorType.fromValue(traceabilityProperties.getOperatorType())), traceabilityProperties.getRightOperand()));
-        andConstraintList.add(new Constraint(traceabilityProperties.getLeftOperand(), new Operator(OperatorType.fromValue(traceabilityProperties.getOperatorType())), traceabilityProperties.getRightOperand()));
-
-        List<Permission> permissions = List.of(
-                new Permission(
-                        PolicyType.USE,
-                        new Constraints(
-                                andConstraintList,
-                                orConstraintList)
-
-                ));
-
-        Policy ownPolicy = new Policy(UUID.randomUUID().toString(), OffsetDateTime.now(), offsetDateTime, permissions);
-        return List.of(new AcceptedPolicy(ownPolicy, offsetDateTime));
-    }
 
     @Bean
     public RegistryEventConsumer<Retry> myRetryRegistryEventConsumer() {
