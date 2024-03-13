@@ -28,6 +28,7 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportNote;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
+import org.eclipse.tractusx.traceability.shelldescriptor.domain.service.DecentralRegistryServiceImpl;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +45,7 @@ public class AsyncPublishService {
     private final AssetAsBuiltRepository assetAsBuiltRepository;
     private final EdcAssetCreationService edcAssetCreationService;
     private final DtrService dtrService;
+    private final DecentralRegistryServiceImpl decentralRegistryService;
 
     @Async(value = AssetsAsyncConfig.PUBLISH_ASSETS_EXECUTOR)
     public void publishAssetsToCx(List<AssetBase> assets) {
@@ -63,5 +65,6 @@ public class AsyncPublishService {
         });
         assetAsBuiltRepository.updateImportStateAndNoteForAssets(ImportState.PUBLISHED_TO_CX, ImportNote.PUBLISHED_TO_CX, createdShellsAssetIds);
         assetAsPlannedRepository.updateImportStateAndNoteForAssets(ImportState.PUBLISHED_TO_CX, ImportNote.PUBLISHED_TO_CX, createdShellsAssetIds);
+        decentralRegistryService.synchronizeAssets();
     }
 }
