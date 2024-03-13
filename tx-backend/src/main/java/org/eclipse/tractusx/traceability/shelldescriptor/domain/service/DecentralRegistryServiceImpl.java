@@ -59,15 +59,15 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
     @Override
     @Async(value = AssetsAsyncConfig.LOAD_SHELL_DESCRIPTORS_EXECUTOR)
     public void synchronizeAssets() {
-        Collection<Shell> shellDescriptors = decentralRegistryRepository.retrieveShellDescriptorsByBpn(traceabilityProperties.getBpn().toString());
-        Collection<String> asBuiltAssetIds = shellDescriptors.stream().map(Shell::payload).filter(this::isAsBuilt).map(AssetAdministrationShellDescriptor::getGlobalAssetId).toList();
-        Collection<String> asPlannedAssetIds = shellDescriptors.stream().map(Shell::payload).filter(this::isAsPlanned).map(AssetAdministrationShellDescriptor::getGlobalAssetId).toList();
+        List<Shell> shellDescriptors = decentralRegistryRepository.retrieveShellDescriptorsByBpn(traceabilityProperties.getBpn().toString());
+        List<String> asBuiltAssetIds = shellDescriptors.stream().map(Shell::payload).filter(this::isAsBuilt).map(AssetAdministrationShellDescriptor::getGlobalAssetId).toList();
+        List<String> asPlannedAssetIds = shellDescriptors.stream().map(Shell::payload).filter(this::isAsPlanned).map(AssetAdministrationShellDescriptor::getGlobalAssetId).toList();
 
-        Collection<String> existingAsBuiltInSyncAndTransientStates = assetAsBuiltService.getAssetIdsInImportState(ImportState.TRANSIENT, ImportState.IN_SYNCHRONIZATION);
-        Collection<String> existingAsPlannedInSyncAndTransientStates = assetAsPlannedService.getAssetIdsInImportState(ImportState.TRANSIENT, ImportState.IN_SYNCHRONIZATION);
+        List<String> existingAsBuiltInSyncAndTransientStates = assetAsBuiltService.getAssetIdsInImportState(ImportState.TRANSIENT, ImportState.IN_SYNCHRONIZATION);
+        List<String> existingAsPlannedInSyncAndTransientStates = assetAsPlannedService.getAssetIdsInImportState(ImportState.TRANSIENT, ImportState.IN_SYNCHRONIZATION);
 
-        Collection<String> asBuiltAssetsToSync = asBuiltAssetIds.stream().filter(assetId -> !existingAsBuiltInSyncAndTransientStates.contains(assetId)).toList();
-        Collection<String> asPlannedAssetsToSync = asPlannedAssetIds.stream().filter(assetId -> !existingAsPlannedInSyncAndTransientStates.contains(assetId)).toList();
+        List<String> asBuiltAssetsToSync = asBuiltAssetIds.stream().filter(assetId -> !existingAsBuiltInSyncAndTransientStates.contains(assetId)).toList();
+        List<String> asPlannedAssetsToSync = asPlannedAssetIds.stream().filter(assetId -> !existingAsPlannedInSyncAndTransientStates.contains(assetId)).toList();
 
         asBuiltAssetsToSync.forEach(assetAsBuiltService::synchronizeAssetsAsync);
         asPlannedAssetsToSync.forEach(assetAsPlannedService::synchronizeAssetsAsync);

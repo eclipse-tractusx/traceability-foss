@@ -32,6 +32,7 @@ import org.eclipse.tractusx.traceability.shelldescriptor.domain.service.Decentra
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -48,10 +49,10 @@ public class AsyncPublishService {
     private final DecentralRegistryServiceImpl decentralRegistryService;
 
     @Async(value = AssetsAsyncConfig.PUBLISH_ASSETS_EXECUTOR)
-    public void publishAssetsToCx(List<AssetBase> assets, boolean triggerSynchronizeAssets) {
+    public void publishAssetsToCoreServices(List<AssetBase> assets, boolean triggerSynchronizeAssets) {
         Map<String, List<AssetBase>> assetsByPolicyId = assets.stream().collect(Collectors.groupingBy(AssetBase::getPolicyId));
 
-        List<String> createdShellsAssetIds = new java.util.ArrayList<>(List.of());
+        List<String> createdShellsAssetIds = new ArrayList<>(List.of());
         assetsByPolicyId.forEach((policyId, assetsForPolicy) -> {
             String submodelServerAssetId = edcAssetCreationService.createDtrAndSubmodelAssets(policyId);
             assetsForPolicy.forEach(assetBase -> {
@@ -63,8 +64,8 @@ public class AsyncPublishService {
                 }
             });
         });
-        assetAsBuiltRepository.updateImportStateAndNoteForAssets(ImportState.PUBLISHED_TO_CX, ImportNote.PUBLISHED_TO_CX, createdShellsAssetIds);
-        assetAsPlannedRepository.updateImportStateAndNoteForAssets(ImportState.PUBLISHED_TO_CX, ImportNote.PUBLISHED_TO_CX, createdShellsAssetIds);
+        assetAsBuiltRepository.updateImportStateAndNoteForAssets(ImportState.PUBLISHED_TO_CORE_SERVICES, ImportNote.PUBLISHED_TO_CORE_SERVICES, createdShellsAssetIds);
+        assetAsPlannedRepository.updateImportStateAndNoteForAssets(ImportState.PUBLISHED_TO_CORE_SERVICES, ImportNote.PUBLISHED_TO_CORE_SERVICES, createdShellsAssetIds);
         if(triggerSynchronizeAssets) {
             decentralRegistryService.synchronizeAssets();
         }

@@ -24,6 +24,6 @@ BE ->> Submodels: create submodel: POST/submodel
 Submodels -->> BE:
 BE ->> Registry: [017] register shell in registry: POST/semantics/registry
 Registry -->> BE:
-BE ->> BE: update asset state PUBLISHED_TO_CX
+BE ->> BE: update asset state PUBLISHED_TO_CORE_SERVICES
 BE ->> BE: trigger IRS sync
 @enduml

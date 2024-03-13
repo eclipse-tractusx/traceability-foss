@@ -61,7 +61,7 @@ public class DtrService {
     String allowedBpns;
 
     public String createShellInDtr(final AssetBase assetBase, String submodelServerAssetId) throws CreateDtrShellException {
-        Map<String, String> payloadByAspectType = submodelPayloadRepository.getTypesAndPayloadsByAssetId(assetBase.getId());
+        Map<String, String> payloadByAspectType = submodelPayloadRepository.getAspectTypesAndPayloadsByAssetId(assetBase.getId());
         Map<String, UUID> createdSubmodelIdByAspectType = payloadByAspectType.entrySet().stream()
                 .map(this::createSubmodel)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));

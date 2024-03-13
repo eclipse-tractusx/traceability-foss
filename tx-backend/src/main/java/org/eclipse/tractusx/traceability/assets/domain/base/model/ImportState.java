@@ -24,6 +24,6 @@ public enum ImportState {
     PERSISTENT,
     ERROR,
     IN_SYNCHRONIZATION,
-    PUBLISHED_TO_CX,
+    PUBLISHED_TO_CORE_SERVICES,
     UNSET
 }

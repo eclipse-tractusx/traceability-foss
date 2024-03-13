@@ -70,11 +70,6 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 @EnableJpaRepositories(basePackages = "org.eclipse.tractusx.traceability.*")
 public class ApplicationConfig {
 
-    @Value("${registry.urlWithPath}")
-    String registryUrlWithPath;
-    @Value("${registry.shellDescriptorUrl}")
-    String shellDescriptorUrl;
-
     @Bean
     public InternalResourceViewResolver defaultViewResolver() {
         return new InternalResourceViewResolver();
@@ -140,40 +135,5 @@ public class ApplicationConfig {
             public void onEntryRemovedEvent(EntryRemovedEvent<Retry> entryRemoveEvent) {
             }
         };
-    }
-
-    @Bean
-    public EdcAssetService edcNotificationAssetService(EdcConfiguration edcConfiguration, EdcTransformer edcTransformer, RestTemplate edcNotificationAssetRestTemplate) {
-        return new EdcAssetService(edcTransformer, edcConfiguration, edcNotificationAssetRestTemplate);
-    }
-
-    @Bean
-    public EdcPolicyDefinitionService edcPolicyDefinitionService(EdcConfiguration edcConfiguration, RestTemplate edcNotificationAssetRestTemplate) {
-        return new EdcPolicyDefinitionService(edcConfiguration, edcNotificationAssetRestTemplate);
-    }
-
-    @Bean
-    public EdcContractDefinitionService edcContractDefinitionService(EdcConfiguration edcConfiguration, RestTemplate edcNotificationAssetRestTemplate) {
-        return new EdcContractDefinitionService(edcConfiguration, edcNotificationAssetRestTemplate);
-    }
-
-    @Bean
-    public EdcAssetService edcDtrAssetService(EdcConfiguration edcConfiguration, EdcTransformer edcTransformer, RestTemplate edcDtrAssetRestTemplate) {
-        return new EdcAssetService(edcTransformer, edcConfiguration, edcDtrAssetRestTemplate);
-    }
-
-    @Bean
-    public EdcPolicyDefinitionService edcDtrPolicyDefinitionService(EdcConfiguration edcConfiguration, RestTemplate edcDtrAssetRestTemplate) {
-        return new EdcPolicyDefinitionService(edcConfiguration, edcDtrAssetRestTemplate);
-    }
-
-    @Bean
-    public EdcContractDefinitionService edcDtrContractDefinitionService(EdcConfiguration edcConfiguration, RestTemplate edcDtrAssetRestTemplate) {
-        return new EdcContractDefinitionService(edcConfiguration, edcDtrAssetRestTemplate);
-    }
-
-    @Bean
-    public DigitalTwinRegistryCreateShellService dtrCreateShellService(RestTemplate digitalTwinRegistryCreateShellRestTemplate) {
-        return new DigitalTwinRegistryCreateShellService(digitalTwinRegistryCreateShellRestTemplate, registryUrlWithPath + shellDescriptorUrl);
     }
 }

@@ -26,5 +26,5 @@ public interface PublishService {
 
     void publishAssets(String policyId, List<String> assetIds, boolean triggerSynchronizeAssets);
 
-    void publishAssetsToCx(List<AssetBase> assets, boolean triggerSynchronizeAssets);
+    void publishAssetsToCoreServices(List<AssetBase> assets, boolean triggerSynchronizeAssets);
 }

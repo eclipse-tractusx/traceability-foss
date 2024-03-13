@@ -303,6 +303,7 @@ backend:
     baseUrl: "https://replace.me"  # https://<irs-helm.ingress.host>
   registry:
     urlWithPath: "https://replace.me"  # digitalTwinRegistry /semantics/registry/api/v3.0
+    allowedBpns: "BPN1,BPN2"  # "," separated list of allowed bpns for creating shells
   portal:
     baseUrl: "https://replace.me"
 

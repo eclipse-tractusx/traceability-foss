@@ -57,7 +57,7 @@ public class SubmodelPayloadRepositoryImpl implements SubmodelPayloadRepository 
     }
 
     @Override
-    public Map<String, String> getTypesAndPayloadsByAssetId(String assetId) {
+    public Map<String, String> getAspectTypesAndPayloadsByAssetId(String assetId) {
         Optional<AssetAsBuiltEntity> assetAsBuilt = jpaAssetAsBuiltRepository.findById(assetId);
         Optional<AssetAsPlannedEntity> assetAsPlanned = jpaAssetAsPlannedRepository.findById(assetId);
 

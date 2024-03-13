@@ -24,5 +24,5 @@ public class ImportNote {
     public static final String PERSISTENT_NO_UPDATE = "Asset in sync with digital twin registry. Twin will not be updated.";
     public static final String PERSISTED = "Asset created/updated successfully in persistant state.";
     public static final String IN_SYNCHRONIZATION = "Twin in sync with digital twin registry. Twin will not be updated.";
-    public static final String PUBLISHED_TO_CX = "Assets Pubilshed to network";
+    public static final String PUBLISHED_TO_CORE_SERVICES = "Assets Published to core services";
 }

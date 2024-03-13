@@ -193,7 +193,7 @@ The following table explains the different import state an asset can have:
 |in_synchronization
 |Asset is ready to be published.
 
-|published_to_cx
+|published_to_core_services
 |Asset is published, EDC assets, DTR shell, Submodel are created
 
 |persistent

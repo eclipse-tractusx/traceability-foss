@@ -2,8 +2,6 @@ package org.eclipse.tractusx.traceability.assets.domain.importpoc.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.GenericSubmodel;
@@ -64,7 +62,7 @@ class SubmodelPayloadRepositoryIT extends IntegrationTestSpecification {
 
 
         // when
-        Map<String, String> result = submodelPayloadRepository.getTypesAndPayloadsByAssetId(assetId);
+        Map<String, String> result = submodelPayloadRepository.getAspectTypesAndPayloadsByAssetId(assetId);
 
         // then
         assertThat(result).isNotNull();

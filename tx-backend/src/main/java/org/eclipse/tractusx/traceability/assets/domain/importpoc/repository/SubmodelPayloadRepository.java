@@ -29,5 +29,5 @@ public interface SubmodelPayloadRepository {
 
     void savePayloadForAssetAsPlanned(String assetId, List<GenericSubmodel> submodels);
 
-    Map<String, String> getTypesAndPayloadsByAssetId(String assetId);
+    Map<String, String> getAspectTypesAndPayloadsByAssetId(String assetId);
 }

@@ -75,7 +75,7 @@ public class EdcAssetCreationService {
         }
 
 
-        String dtrAssetId = null;
+        String dtrAssetId;
         try {
             dtrAssetId = edcDtrAssetService.createDtrAsset(registryUrlWithPath, REGISTRY_ASSET_ID);
             log.info("DTR Asset Id created :{}", dtrAssetId);
@@ -86,7 +86,7 @@ public class EdcAssetCreationService {
         }
 
 
-        String dtrContractId = null;
+        String dtrContractId;
         try {
             dtrContractId = edcDtrContractDefinitionService.createContractDefinition(dtrAssetId, createdPolicyId);
             log.info("DTR Contract Id created :{}", dtrContractId);
@@ -95,7 +95,7 @@ public class EdcAssetCreationService {
         }
 
 
-        String submodelAssetId = null;
+        String submodelAssetId;
         String submodelAssetIdToCreate = "urn:uuid:" + UUID.randomUUID();
         try {
             submodelAssetId = edcDtrAssetService.createSubmodelAsset(traceabilityProperties.getSubmodelBase() + "/api/submodel", submodelAssetIdToCreate);
@@ -107,7 +107,7 @@ public class EdcAssetCreationService {
         }
 
 
-        String submodelContractId = null;
+        String submodelContractId;
         try {
             submodelContractId = edcDtrContractDefinitionService.createContractDefinition(submodelAssetId, createdPolicyId);
         } catch (CreateEdcContractDefinitionException e) {

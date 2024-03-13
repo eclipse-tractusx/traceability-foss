@@ -56,16 +56,15 @@ public class PublishServiceImpl implements PublishService {
         log.info("Updating status of asBuiltAssets.");
         List<AssetBase> updatedAsBuiltAssets = updateAssetWithStatusAndPolicy(policyId, assetIds, assetAsBuiltRepository);
 
-        //Publish to CS network
-        publishAssetsToCx(
+        publishAssetsToCoreServices(
                 Stream.concat(updatedAsPlannedAssets.stream(), updatedAsBuiltAssets.stream()).toList(),
                 triggerSynchronizeAssets
         );
     }
 
     @Override
-    public void publishAssetsToCx(List<AssetBase> assets, boolean triggerSynchronizeAssets) {
-        asyncPublishService.publishAssetsToCx(assets, triggerSynchronizeAssets);
+    public void publishAssetsToCoreServices(List<AssetBase> assets, boolean triggerSynchronizeAssets) {
+        asyncPublishService.publishAssetsToCoreServices(assets, triggerSynchronizeAssets);
     }
 
     private void throwIfNotExists(String assetId) {
