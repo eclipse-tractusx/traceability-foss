@@ -18,6 +18,7 @@
                   iconName="ios_share"
                   (click)="exportContractsAsCSV()"
                   [isDisabled]="!selectedContracts?.length"
+                  [attr.data-testid]="'export-contracts-button'"
       >{{'pageAdmin.contracts.exportAsCSV' | i18n}}</app-button>
       </div>
     </div>
