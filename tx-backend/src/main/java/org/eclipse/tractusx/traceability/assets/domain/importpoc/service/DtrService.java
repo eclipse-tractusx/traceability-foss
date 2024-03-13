@@ -58,7 +58,7 @@ public class DtrService {
     private final EdcProperties edcProperties;
 
     @Value("${registry.allowedBpns}")
-    private final String allowedBpns;
+    String allowedBpns;
 
     public String createShellInDtr(final AssetBase assetBase, String submodelServerAssetId) throws CreateDtrShellException {
         Map<String, String> payloadByAspectType = submodelPayloadRepository.getTypesAndPayloadsByAssetId(assetBase.getId());
