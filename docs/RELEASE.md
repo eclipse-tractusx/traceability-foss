@@ -10,32 +10,34 @@ Make sure eclipse / catena git repositories are in sync
 
 1) Decide which version will be incremented. Following shows example for 1.0.0
 2) Create a release branch in [IRS](https://github.com/eclipse-tractusx/item-relationship-service) named release/trace-x-irs-client-lib-release
-3) Remove the "-SNAPSHOT" suffix from <irs-registry-client.version> in the root pom.xml - if there is no snapshot version, you can skip the release of the irs-registry-client library
-4) Create a merge request to the [IRS](https://github.com/eclipse-tractusx/item-relationship-service) main branch with the above created release branch
-5) After merge, the release branch must be deleted
-6) In [IRS](https://github.com/eclipse-tractusx/item-relationship-service), the gitHub action [Upload to Central Maven Registry ](https://github.com/eclipse-tractusx/item-relationship-service/actions/workflows/maven-deploy.yaml) will release the irs-registry-client library with the version defined in step 3
-7) Create and Checkout release branch on catena /release/1.0.0
-8) Update <irs-client-lib.version> in the above created release branch to the created one in step 3.
-9) Edit changelog: Align the new version (1.0.0) with the changes and add new UNRELEASED section
-10) Edit /charts/traceability-foss/CHANGELOG.md
-11) Add an Entry for an incremented (patch) version (1.0.0 -> 1.0.1)
-12) Push onto /release/1.0.0 catena and eclipse
-13) Open Release App Page Catena: https://github.com/catenax-ng/tx-traceability-foss/releases
-14) Draft a new release
-15) On dropdown choose a tag - use the version 1.0.0 (Create new tag will appear - select it)
-16) On dropdown target use your /release/1.0.0
-17) Title = Version of app -> 1.0.0
-18) Description = Changelog Content of app
-19) Checkbox set as latest release
-20) Verify that github action [Release](https://github.com/catenax-ng/tx-traceability-foss/actions/workflows/release.yaml) generation has been triggered
-21) Verify that an automatic pull request has been opened (Prepare Helm release for next version)
-22) Validate that the versions within that pull requests are correct
-23) Merge pull request (Prepare Helm release for next version)
-24) Merge release branch into main (when merging make sure to restore release branch since it should stay)
-25) Open the github action for helm release generation: https://github.com/catenax-ng/tx-traceability-foss/actions/workflows/helm-chart-release.yaml
-26) Execute it from main branch
-27) Validate that the helm charts release has been generated within the release page
-28) Create a new branch from release/1.0.0 and name it release/helm-environments-1.0.0 (helm app version not chart version)
-29) Repeat step 8 to 23 for tractus-x: [GitHub Releases page](https://github.com/eclipse-tractusx/traceability-foss/releases)
-30) Sync catena and eclipse main branch
-31) Create a message in the Trace-X channel of the Eclipse Foundation Chat to notify the community about the new release (add a link to the tractus-x release)
+3) Click on the [Update irs-registry-client Version workflow](https://github.com/eclipse-tractusx/item-relationship-service/actions/workflows/update-registry-library.yaml).
+4) Select "Run workflow," choose the release branch and select the type of version increment major, minor or patch. Use the Semantic Versioning guidelines to accurately determine the specific type of version increment. [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Don't forget to check the box to remove the snapshot.
+5) The irs lib version in (irs)[https://github.com/eclipse-tractusx/item-relationship-service/blob/65a42336b7ec7ae50690ec7590d05d8e3b15555a/pom.xml#L76]  should align with the potential (newer one)[https://github.com/catenax-ng/tx-traceability-foss/blob/fb1130d4c1dd4f869e61d334310e99bc191fa0c7/pom.xml#L103]  in trace-x main
+6) A pull request (name: Update irs-registry-client to "Version") will be generated in which you have to make sure the irs lib version is now correct (change it manually if necessary). Check if Actions finish successfully. (If Dash IP Check fails, update the DEPENDENCIES file with the mvn command on the generated pull request branch)
+7) Merge the created Pull request and make sure the release branch is deleted afterward (default behaviour).
+8) In [IRS](https://github.com/eclipse-tractusx/item-relationship-service), the gitHub action [Upload to Central Maven Registry ](https://github.com/eclipse-tractusx/item-relationship-service/actions/workflows/maven-deploy.yaml) will release the irs-registry-client library with the version defined in step 3
+9) Create and Checkout release branch on catena /release/1.0.0
+10) Update <irs-client-lib.version> in the above created release branch to the created one in step 3.
+11) Edit changelog: Align the new version (1.0.0) with the changes and add new UNRELEASED section
+12) Edit /charts/traceability-foss/CHANGELOG.md
+13) Add an Entry for an incremented (patch) version (1.0.0 -> 1.0.1)
+14) Push onto /release/1.0.0 catena and eclipse
+15) Open Release App Page Catena: https://github.com/catenax-ng/tx-traceability-foss/releases
+16) Draft a new release
+17) On dropdown choose a tag - use the version 1.0.0 (Create new tag will appear - select it)
+18) On dropdown target use your /release/1.0.0
+19) Title = Version of app -> 1.0.0
+20) Description = Changelog Content of app
+21) Checkbox set as latest release
+22) Verify that github action [Release](https://github.com/catenax-ng/tx-traceability-foss/actions/workflows/release.yaml) generation has been triggered
+23) Verify that an automatic pull request has been opened (Prepare Helm release for next version)
+24) Validate that the versions within that pull requests are correct
+25) Merge pull request (Prepare Helm release for next version)
+26) Merge release branch into main (when merging make sure to restore release branch since it should stay)
+27) Open the github action for helm release generation: https://github.com/catenax-ng/tx-traceability-foss/actions/workflows/helm-chart-release.yaml
+28) Execute it from main branch
+29) Validate that the helm charts release has been generated within the release page
+30) Create a new branch from release/1.0.0 and name it release/helm-environments-1.0.0 (helm app version not chart version)
+31) Repeat step 8 to 23 for tractus-x: [GitHub Releases page](https://github.com/eclipse-tractusx/traceability-foss/releases)
+32) Sync catena and eclipse main branch
+33) Create a message in the Trace-X channel of the Eclipse Foundation Chat to notify the community about the new release (add a link to the tractus-x release)
