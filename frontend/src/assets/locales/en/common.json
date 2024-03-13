@@ -141,7 +141,8 @@
     "TRANSIENT": "TRANSIENT",
     "IN_SYNCHRONIZATION": "IN SYNCHRONIZATION",
     "ERROR": "ERROR",
-    "UNSET": "UNSET"
+    "UNSET": "UNSET",
+    "PUBLISHED_TO_CX": "PUBLISHED"
   },
   "severity": {
     "MINOR": "Minor",
@@ -335,7 +336,8 @@
       "PERSISTENT": "Persistent",
       "IN_SYNCHRONIZATION": "In Synchronization",
       "ERROR": "Error",
-      "UNSET": "Unset"
+      "UNSET": "Unset",
+      "PUBLISHED_TO_CX": "Veröffentlicht"
 
     }
   },
