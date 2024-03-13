@@ -27,7 +27,7 @@ When('select contract with contract-id {string}', function(contractId: string) {
   AdminPage.clickCheckBoxForContractId(contractId).should('have.class', 'mat-mdc-checkbox-checked');
 });
 
-When('click on contracts export button', function() {
+When('export selected contracts', function() {
   AdminPage.clickExportContractsButton().should('be.visible');
 });
 
