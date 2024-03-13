@@ -29,11 +29,11 @@ These should be consistent throughout Trace-X.
 
 # Requirements
 - Whenever a string value is saved or updated in the database and during data consumption from IRS:
-  - [ ] Leading and trailing whitespace characters are trimmed.
-  - [ ] Empty strings ("") are all converted to null.
-- [ ] Null values are shown *empty* in the frontend.
-- [ ] When sorting columns, empty values are shown all the way on the bottom regardless of the sort order.
-- [ ] Empty values can be filtered and searched for. They are shown as "(Blank)" (de: "(Leer)") when filtering for them and can be searched by inputting the same term.
+    - [ ] Leading and trailing whitespace characters are trimmed.
+    - [ ] Empty strings ("") are all converted to null.
+- [ ] Null values are shown as a hyphen "-" in the frontend.
+- [ ] When sorting columns, empty values are shown all the way at the top regardless of the sort order.
+- [ ] Empty values can be filtered for. They are shown as "*empty field*" when filtering for them. This option is always shown at the top of the filter/search box regardless of what the user is searching for.
 - [ ] Leading and trailing whitespace characters don't count as mandatory values during user input.
 
 # Out of scope
@@ -47,13 +47,12 @@ Whenever a string is saved or updated in the database and during data consumptio
 3. Save/update value in database
 
 ### Frontend
-Null values should be shown in the frontend as empty:
+Null values should be shown in the frontend as a hyphen:
 
-![null-value-display-empty.png](null-value-display-empty.png)
+![null-value-display.png](null-value-display.png)
 
-When sorting the values, empty ones should be always shown at the bottom regardless of the sort order.
-Filtering and searching for empty values must be possible. In the filter box (Blank) (de: (Leer)) should be shown at the bottom.
-To search for it, the user must type in the term "(Blank)" (de: (Leer)).
+When sorting the values, empty ones should be always shown at the top regardless of the sort order.
+Filtering for empty values must be possible. In the filter box "*empty field*" should always be shown at the top regardless of what the user is searching for.
 
 ![null-value-filter.png](null-value-filter.png)
 
