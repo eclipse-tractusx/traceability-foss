@@ -31,9 +31,9 @@ These should be consistent throughout Trace-X.
 - Whenever a string value is saved or updated in the database and during data consumption from IRS:
     - [ ] Leading and trailing whitespace characters are trimmed.
     - [ ] Empty strings ("") are all converted to null.
-- [ ] Null values are shown as a hyphen "-" in the frontend.
-- [ ] When sorting columns, empty values are shown all the way at the top regardless of the sort order.
-- [ ] Empty values can be filtered for. They are shown as "*empty field*" when filtering for them. This option is always shown at the top of the filter/search box regardless of what the user is searching for.
+- [ ] Null values are shown as a dash "-" in the frontend.
+- [ ] When sorting columns, null values are treated the default way of the database. (Shown at the end for ASC - shown at the beginning for DESC)
+- [ ] Null values can be filtered for. They are shown as "*empty field*" when filtering for them. This option is always shown at the top of the filter/search box regardless of what the user is searching for.
 - [ ] Leading and trailing whitespace characters don't count as mandatory values during user input.
 
 # Out of scope
@@ -47,11 +47,11 @@ Whenever a string is saved or updated in the database and during data consumptio
 3. Save/update value in database
 
 ### Frontend
-Null values should be shown in the frontend as a hyphen:
+Null values should be shown in the frontend as a dash:
 
 ![null-value-display.png](null-value-display.png)
 
-When sorting the values, empty ones should be always shown at the top regardless of the sort order.
+When sorting the values, null must be treated the default way of the database. When sorted ascending, they are at the end. When sorted descending, they are at the beginning.
 Filtering for empty values must be possible. In the filter box "*empty field*" should always be shown at the top regardless of what the user is searching for.
 
 ![null-value-filter.png](null-value-filter.png)
