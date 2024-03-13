@@ -20,6 +20,7 @@
  ********************************************************************************/
 
 import { When } from '@badeball/cypress-cucumber-preprocessor';
+import { AdminPage } from '../../integration/pages/AdminPage';
 
 
 When("user navigate to {string}", function(desiredMenu) {
@@ -49,8 +50,7 @@ When("user navigate to {string}", function(desiredMenu) {
         break;
       }
       case 'Administration': {
-        cy.get('[data-testid="user-menu"]').click();
-        cy.get('[data-testid="user-menu-administration-button"]').click();
+        AdminPage.visit();
         break;
       }
       default: {
