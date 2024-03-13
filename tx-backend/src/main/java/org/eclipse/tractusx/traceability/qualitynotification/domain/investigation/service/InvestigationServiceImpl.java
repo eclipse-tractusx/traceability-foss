@@ -59,8 +59,8 @@ public class InvestigationServiceImpl extends AbstractQualityNotificationService
     }
 
     @Override
-    public QualityNotificationId start(StartQualityNotification startQualityAlertDomain) {
-        QualityNotification notification = getNotificationPublisherService().startInvestigation(startQualityAlertDomain.getPartIds(), startQualityAlertDomain.getDescription(), startQualityAlertDomain.getTargetDate(), startQualityAlertDomain.getSeverity(), startQualityAlertDomain.getReceiverBpn(), startQualityAlertDomain.isAsBuilt());
+    public QualityNotificationId start(StartQualityNotification startQualityNotification) {
+        QualityNotification notification = getNotificationPublisherService().startInvestigation(startQualityNotification.getPartIds(), startQualityNotification.getDescription(), startQualityNotification.getTargetDate(), startQualityNotification.getSeverity(), startQualityNotification.getReceiverBpn(), startQualityNotification.isAsBuilt());
         QualityNotificationId createdInvestigationId = getQualityNotificationRepository().saveQualityNotificationEntity(notification);
         log.info("Start Investigation {}", notification);
         return createdInvestigationId;

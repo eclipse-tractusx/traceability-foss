@@ -229,17 +229,15 @@ public class NotificationPublisherService {
         List<String> notificationIds = relevantNotifications.stream().map(notificationMessage -> notificationMessage.getId() + " ").toList();
         log.info("Determined relevant notifications for sending {}", notificationIds);
         relevantNotifications.forEach(qNotification -> {
-            QualityNotificationMessage notificationToSend = qNotification.copyAndSwitchSenderAndReceiver(applicationBPN);
             switch (status) {
-                case ACKNOWLEDGED -> notification.acknowledge(notificationToSend);
-                case ACCEPTED -> notification.accept(reason, notificationToSend);
-                case DECLINED -> notification.decline(reason, notificationToSend);
-                case CLOSED -> notification.close(reason, notificationToSend);
+                case ACKNOWLEDGED -> notification.acknowledge(qNotification);
+                case ACCEPTED -> notification.accept(reason, qNotification);
+                case DECLINED -> notification.decline(reason, qNotification);
+                case CLOSED -> notification.close(reason, qNotification);
                 default ->
                         throw new QualityNotificationIllegalUpdate("Transition from status '%s' to status '%s' is not allowed for notification with id '%s'".formatted(notification.getNotificationStatus().name(), status, notification.getNotificationId()));
             }
-            log.info("::updateNotificationPublisher::notificationToSend {}", notificationToSend);
-            notification.addNotifications(relevantNotifications);
+            log.info("::updateNotificationPublisher::notificationToSend {}", qNotification);
         });
 
         List<CompletableFuture<QualityNotificationMessage>> futures = relevantNotifications.stream()

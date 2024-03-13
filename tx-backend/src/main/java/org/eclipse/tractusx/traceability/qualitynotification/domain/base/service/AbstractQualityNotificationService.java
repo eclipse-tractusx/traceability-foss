@@ -35,10 +35,8 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.UUID;
 
 @Slf4j
@@ -62,30 +60,20 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
     public void update(Long notificationId, QualityNotificationStatus notificationStatus, String reason) {
         QualityNotification qualityNotification = loadOrNotFoundException(new QualityNotificationId(notificationId));
 
-        List<QualityNotificationStatus> searchStatus = new ArrayList<>();
+        QualityNotificationStatus previousStatus = QualityNotificationStatus.getPreviousStatus(notificationStatus);
 
-        switch (notificationStatus) {
-            case ACKNOWLEDGED -> searchStatus.add(QualityNotificationStatus.SENT);
-            case ACCEPTED, DECLINED -> searchStatus.add(QualityNotificationStatus.ACKNOWLEDGED);
-            case CLOSED -> {
-                searchStatus.add(QualityNotificationStatus.SENT);
-                searchStatus.add(QualityNotificationStatus.ACCEPTED);
-                searchStatus.add(QualityNotificationStatus.DECLINED);
-            }
-            default ->
-                    throw new IllegalStateException("Unexpected status update: " + qualityNotification.getNotificationStatus());
-        }
-
-
-        List<QualityNotificationMessage> notifications = new ArrayList<>(filterNotifications(searchStatus, qualityNotification, getApplicationBpn()));
-
-        notifications.forEach(notificationMessage -> {
-            notificationMessage.setId(UUID.randomUUID().toString());
-            notificationMessage.changeStatusTo(notificationStatus);
-            notificationMessage.setDescription(reason);
-        });
-
-        qualityNotification.addNotifications(notifications);
+        /* Create a copy of the latest notifications.
+        As per asset there will be a notification created on start
+        it is possible that several elements with the same previous state are returned.*/
+        qualityNotification.getNotifications().stream()
+                .filter(notificationMessage -> notificationMessage.getNotificationStatus().equals(previousStatus))
+                .forEach(notificationMessage -> {
+                    QualityNotificationMessage qualityNotificationMessage = notificationMessage.copyAndSwitchSenderAndReceiver(BPN.of(getApplicationBpn()));
+                    qualityNotificationMessage.setId(UUID.randomUUID().toString());
+                    qualityNotificationMessage.changeStatusTo(notificationStatus);
+                    qualityNotificationMessage.setDescription(reason);
+                    qualityNotification.addNotification(qualityNotificationMessage);
+                });
 
         QualityNotification updatedQualityNotification;
         try {
@@ -97,42 +85,6 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
 
         getQualityNotificationRepository().updateQualityNotificationEntity(updatedQualityNotification);
     }
-
-    public List<QualityNotificationMessage> filterNotifications(List<QualityNotificationStatus> searchStatus, QualityNotification qualityNotification, String bpn) {
-
-        return searchStatus.stream()
-                .flatMap(status -> {
-                    Set<QualityNotificationStatus> filterStatuses = getFilterStatuses(status);
-
-                    qualityNotification.getNotifications().forEach(notificationMessage -> {
-                        log.info("Quality Notification message with id {} and status {}", notificationMessage.getId(), notificationMessage.getNotificationStatus().name());
-                    });
-
-                    return qualityNotification.getNotifications().stream()
-                            .filter(notificationMessage -> {
-                                if (status == QualityNotificationStatus.CLOSED &&
-                                        (notificationMessage.getNotificationStatus() == QualityNotificationStatus.ACCEPTED ||
-                                                notificationMessage.getNotificationStatus() == QualityNotificationStatus.DECLINED)) {
-                                    log.info("Exclude SENT status if CLOSED and message contains ACCEPTED or DECLINED. Status {}", notificationMessage.getNotificationStatus().name());
-                                    return false; // Exclude SENT status if CLOSED and message contains ACCEPTED or DECLINED
-                                }
-                                log.info("FilterStatuses contains status {} ?", notificationMessage.getNotificationStatus().name());
-                                return filterStatuses.contains(notificationMessage.getNotificationStatus());
-                            })
-                            .map(notificationMessage -> notificationMessage.copyAndSwitchSenderAndReceiver(BPN.of(bpn)));
-                }).toList();
-    }
-
-    private Set<QualityNotificationStatus> getFilterStatuses(QualityNotificationStatus status) {
-        log.info("Get Filter Status {}", status.name());
-        return switch (status) {
-            case SENT, ACKNOWLEDGED -> EnumSet.of(QualityNotificationStatus.SENT);
-            case ACCEPTED -> EnumSet.of(QualityNotificationStatus.ACKNOWLEDGED);
-            case CLOSED -> EnumSet.of(QualityNotificationStatus.ACCEPTED, QualityNotificationStatus.DECLINED);
-            default -> EnumSet.noneOf(QualityNotificationStatus.class);
-        };
-    }
-
 
     @Override
     public QualityNotification find(Long id) {

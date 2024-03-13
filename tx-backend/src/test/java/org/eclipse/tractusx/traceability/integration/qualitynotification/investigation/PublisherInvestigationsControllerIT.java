@@ -366,6 +366,8 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body("pageSize", Matchers.is(10))
                 .body("content", Matchers.hasSize(1))
                 .body("content[0].sendTo", Matchers.is(Matchers.not(Matchers.blankOrNullString())));
+
+        investigationNotificationsSupport.assertNotificationsSize(4);
     }
 
     @Test
@@ -447,6 +449,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body("pageSize", Matchers.is(10))
                 .body("content", Matchers.hasSize(1));
 
+        investigationNotificationsSupport.assertNotificationsSize(3);
         investigationsSupport.assertInvestigationsSize(1);
         investigationsSupport.assertInvestigationStatus(QualityNotificationStatus.CLOSED);
     }
