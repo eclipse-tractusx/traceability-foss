@@ -46,11 +46,13 @@ public class PublishAssetsJob {
     private final AssetAsPlannedRepository assetAsPlannedRepository;
     private final PublishService publishService;
 
-    @Scheduled(cron = "0 30 1 * * ?", zone = "Europe/Berlin")
+    @Scheduled(cron = "* 30 */1 * * ?", zone = "Europe/Berlin")
     public void publishAssets() {
+        log.info("Start publish assets cron job");
         List<AssetBase> assetsAsBuiltInSync = assetAsBuiltRepository.findByImportStateIn(ImportState.IN_SYNCHRONIZATION);
         List<AssetBase> assetsAsPlannedInSync = assetAsPlannedRepository.findByImportStateIn(ImportState.IN_SYNCHRONIZATION);
         List<AssetBase> allInSyncAssets = Stream.concat(assetsAsPlannedInSync.stream(), assetsAsBuiltInSync.stream()).toList();
+        log.info("Found following assets in state IN_SYNCHRONIZATION to publish {}", allInSyncAssets.stream().map(AssetBase::getId).toList());
         publishService.publishAssetsToCx(allInSyncAssets);
     }
 }
