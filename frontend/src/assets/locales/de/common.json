@@ -143,7 +143,8 @@
     "TRANSIENT": "TRANSIENT",
     "IN_SYNCHRONIZATION": "IN SYNCHRONISATION",
     "ERROR": "FEHLER",
-    "UNSET": "UNDEFINIERT"
+    "UNSET": "UNDEFINIERT",
+    "PUBLISHED_TO_CX": "VERÖFFENTLICHT"
   },
   "severity": {
     "MINOR": "Gering",
@@ -333,7 +334,8 @@
       "PERSISTENT": "Persistent",
       "IN_SYNCHRONIZATION": "In Synchronisation",
       "ERROR": "Fehler",
-      "UNSET": "Undefiniert"
+      "UNSET": "Undefiniert",
+      "PUBLISHED_TO_CX": "Veröffentlicht"
     }
   },
   "parts": {
