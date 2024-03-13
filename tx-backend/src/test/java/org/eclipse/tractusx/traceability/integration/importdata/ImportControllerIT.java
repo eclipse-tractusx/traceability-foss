@@ -423,7 +423,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .when()
                 .body(registerAssetRequest)
-                .post("/api/assets/publish")
+                .post("/api/assets/publish?triggerSynchronizeAssets=false")
                 .then()
                 .statusCode(201);
 

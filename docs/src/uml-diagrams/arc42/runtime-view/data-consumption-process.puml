@@ -24,7 +24,7 @@ TraceX -> TraceX: Extract globalAssetId as CatenaX UUID
 TraceX -> TraceX: Filter for new CX UUIDs
 
 	loop for each new CX_UUID
-        TraceX -> IRS: Register job to get submodel data
+        TraceX -> IRS: Register job for assets not in TRANSIENT or IN_SYNC import states to get submodel data
             rnote right TraceX
                 aspects, globalAssetId, bomLifecycle, collectAspects, direction, depth
             end rnote

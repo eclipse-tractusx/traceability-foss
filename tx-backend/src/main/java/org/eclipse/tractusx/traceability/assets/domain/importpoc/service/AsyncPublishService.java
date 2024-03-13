@@ -48,7 +48,7 @@ public class AsyncPublishService {
     private final DecentralRegistryServiceImpl decentralRegistryService;
 
     @Async(value = AssetsAsyncConfig.PUBLISH_ASSETS_EXECUTOR)
-    public void publishAssetsToCx(List<AssetBase> assets) {
+    public void publishAssetsToCx(List<AssetBase> assets, boolean triggerSynchronizeAssets) {
         Map<String, List<AssetBase>> assetsByPolicyId = assets.stream().collect(Collectors.groupingBy(AssetBase::getPolicyId));
 
         List<String> createdShellsAssetIds = new java.util.ArrayList<>(List.of());
@@ -65,6 +65,8 @@ public class AsyncPublishService {
         });
         assetAsBuiltRepository.updateImportStateAndNoteForAssets(ImportState.PUBLISHED_TO_CX, ImportNote.PUBLISHED_TO_CX, createdShellsAssetIds);
         assetAsPlannedRepository.updateImportStateAndNoteForAssets(ImportState.PUBLISHED_TO_CX, ImportNote.PUBLISHED_TO_CX, createdShellsAssetIds);
-        decentralRegistryService.synchronizeAssets();
+        if(triggerSynchronizeAssets) {
+            decentralRegistryService.synchronizeAssets();
+        }
     }
 }

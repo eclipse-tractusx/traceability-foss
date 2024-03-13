@@ -47,7 +47,7 @@ public class PublishServiceImpl implements PublishService {
 
     @Override
     @Transactional
-    public void publishAssets(String policyId, List<String> assetIds) {
+    public void publishAssets(String policyId, List<String> assetIds, boolean triggerSynchronizeAssets) {
         assetIds.forEach(this::throwIfNotExists);
 
         //Update assets with policy id
@@ -57,12 +57,15 @@ public class PublishServiceImpl implements PublishService {
         List<AssetBase> updatedAsBuiltAssets = updateAssetWithStatusAndPolicy(policyId, assetIds, assetAsBuiltRepository);
 
         //Publish to CS network
-        publishAssetsToCx(Stream.concat(updatedAsPlannedAssets.stream(), updatedAsBuiltAssets.stream()).toList());
+        publishAssetsToCx(
+                Stream.concat(updatedAsPlannedAssets.stream(), updatedAsBuiltAssets.stream()).toList(),
+                triggerSynchronizeAssets
+        );
     }
 
     @Override
-    public void publishAssetsToCx(List<AssetBase> assets) {
-        asyncPublishService.publishAssetsToCx(assets);
+    public void publishAssetsToCx(List<AssetBase> assets, boolean triggerSynchronizeAssets) {
+        asyncPublishService.publishAssetsToCx(assets, triggerSynchronizeAssets);
     }
 
     private void throwIfNotExists(String assetId) {

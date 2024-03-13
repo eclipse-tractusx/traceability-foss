@@ -53,6 +53,7 @@ public class PublishAssetsJob {
         List<AssetBase> assetsAsPlannedInSync = assetAsPlannedRepository.findByImportStateIn(ImportState.IN_SYNCHRONIZATION);
         List<AssetBase> allInSyncAssets = Stream.concat(assetsAsPlannedInSync.stream(), assetsAsBuiltInSync.stream()).toList();
         log.info("Found following assets in state IN_SYNCHRONIZATION to publish {}", allInSyncAssets.stream().map(AssetBase::getId).toList());
-        publishService.publishAssetsToCx(allInSyncAssets);
+        boolean triggerSynchronizeAssets = true;
+        publishService.publishAssetsToCx(allInSyncAssets, triggerSynchronizeAssets);
     }
 }
