@@ -49,8 +49,8 @@ public class ContractController {
 
     @Operation(operationId = "contracts",
             summary = "All contract agreements for all assets",
-            tags = {"getContracts"},
-            description = "This endpoint returns all contract agreements for alls assets in Trace-X",
+            tags = {"Contracts"},
+            description = "This endpoint returns all contract agreements for all assets in Trace-X",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Ok."),
             @ApiResponse(
