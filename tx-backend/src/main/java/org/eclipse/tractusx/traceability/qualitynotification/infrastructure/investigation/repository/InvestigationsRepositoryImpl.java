@@ -163,10 +163,7 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
 
         optionalNotification.ifPresentOrElse(
                 // If present
-                investigationNotificationEntity -> {
-                    // Do not persist
-                    log.info("Investigation has the following old notification with id {} and status {}", investigationNotificationEntity.getId(), investigationNotificationEntity.getStatus().name());
-                },
+                investigationNotificationEntity -> log.info("Investigation has the following old notification with id {} and status {}", investigationNotificationEntity.getId(), investigationNotificationEntity.getStatus().name()),
                 // If not present
                 () -> {
                     // Persist
