@@ -19,7 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Given, Then, When } from '@badeball/cypress-cucumber-preprocessor';
+import { When } from '@badeball/cypress-cucumber-preprocessor';
 
 
 When("user navigate to {string}", function(desiredMenu) {
@@ -48,9 +48,13 @@ When("user navigate to {string}", function(desiredMenu) {
         cy.get('[href="/about"]').click();
         break;
       }
-      default: {
-        throw new Error("Set header menu '" + desiredMenu + "' is not one of valid status [Dashboard, Parts, Other parts, Quality investigations, Quality alerts, About].");
+      case 'Administration': {
+        cy.get('[data-testid="user-menu"]').click();
+        cy.get('[data-testid="user-menu-administration-button"]').click();
         break;
+      }
+      default: {
+        throw new Error("Set header menu '" + desiredMenu + "' is not one of valid status [Dashboard, Parts, Other parts, Quality investigations, Quality alerts, About, Administration].");
       }
     }
 });
