@@ -18,7 +18,6 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.contracts.application.rest;
 
-import assets.importpoc.ErrorResponse;
 import contract.response.ContractResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -58,45 +57,37 @@ public class ContractController {
                     responseCode = "400",
                     description = "Bad request.",
                     content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class))),
+                            mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Bad request.\"}"))),
             @ApiResponse(
                     responseCode = "401",
                     description = "Authorization failed.",
                     content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class))),
+                            mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Authorization failed.\"}"))),
 
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
                     content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class))),
+                            mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Forbidden.\"}"))),
             @ApiResponse(
                     responseCode = "404",
                     description = "Not found.",
                     content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class))),
+                            mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Not found.\"}"))),
             @ApiResponse(
-                    responseCode = "415",
-                    description = "Unsupported media type",
+                    responseCode = "415", description = "Unsupported media type.",
                     content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class))),
+                            mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Unsupported media type.\"}"))),
             @ApiResponse(
                     responseCode = "429",
                     description = "Too many requests.",
                     content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class))),
+                            mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Too many requests.\"}"))),
             @ApiResponse(
                     responseCode = "500",
                     description = "Internal server error.",
                     content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class)))})
+                            mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Internal server error.\"}")))})
     @PostMapping
     public PageResult<ContractResponse> getContracts(@Valid @RequestBody PageableFilterRequest pageableFilterRequest) {
         PageResult<Contract> contracts = contractService.getContracts(pageableFilterRequest);
