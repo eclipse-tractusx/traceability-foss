@@ -18,7 +18,6 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.contracts.application.rest;
 
-import assets.importpoc.ErrorResponse;
 import contract.response.ContractResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -51,52 +50,44 @@ public class ContractController {
     @Operation(operationId = "contracts",
             summary = "All contract agreements for all assets",
             tags = {"Contracts"},
-            description = "This endpoint returns all contract agreements for alls assets in Trace-X",
+            description = "This endpoint returns all contract agreements for all assets in Trace-X",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Ok."),
             @ApiResponse(
                     responseCode = "400",
                     description = "Bad request.",
                     content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class, example = "Bad request."))),
+                            mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Bad request.\"}"))),
             @ApiResponse(
                     responseCode = "401",
                     description = "Authorization failed.",
                     content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class, example = "Authorization failed."))),
+                            mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Authorization failed.\"}"))),
 
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
                     content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class, example = "Forbidden."))),
+                            mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Forbidden.\"}"))),
             @ApiResponse(
                     responseCode = "404",
                     description = "Not found.",
                     content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class, example = "Not found."))),
+                            mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Not found.\"}"))),
             @ApiResponse(
-                    responseCode = "415",
-                    description = "Unsupported media type.",
+                    responseCode = "415", description = "Unsupported media type.",
                     content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class, example = "Unsupported media type."))),
+                            mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Unsupported media type.\"}"))),
             @ApiResponse(
                     responseCode = "429",
                     description = "Too many requests.",
                     content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class, example = "Too many requests."))),
+                            mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Too many requests.\"}"))),
             @ApiResponse(
                     responseCode = "500",
                     description = "Internal server error.",
                     content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class, example = "Internal server error.")))})
+                            mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Internal server error.\"}")))})
     @PostMapping
     public PageResult<ContractResponse> getContracts(@Valid @RequestBody PageableFilterRequest pageableFilterRequest) {
         PageResult<Contract> contracts = contractService.getContracts(pageableFilterRequest);
