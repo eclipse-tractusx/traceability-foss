@@ -16,26 +16,13 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-
 package org.eclipse.tractusx.traceability.qualitynotification.domain.base.service;
 
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
 
-import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Service;
+public interface QualityNotificationReceiverService {
 
-import java.util.concurrent.CompletableFuture;
+    void handleReceive(EDCNotification edcNotification);
 
-import static org.eclipse.tractusx.traceability.common.config.ApplicationProfiles.INTEGRATION_SPRING_BOOT;
-
-@Slf4j
-@Service
-@Profile(INTEGRATION_SPRING_BOOT)
-public class EdcNotificationMockServiceImpl implements EdcNotificationService {
-    @Override
-    public CompletableFuture<QualityNotificationMessage> asyncNotificationMessageExecutor(QualityNotificationMessage message) {
-        log.info("EdcNotificationMockServiceImpl: {}", message);
-        return CompletableFuture.completedFuture(message);
-    }
+    void handleUpdate(EDCNotification edcNotification);
 }

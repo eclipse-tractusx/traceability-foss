@@ -107,7 +107,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 "it", notificationBuild);
 
         // when
-        investigationsReceiverService.handleNotificationReceive(notification);
+        investigationsReceiverService.handleReceive(notification);
 
         // then
         investigationsSupport.assertInvestigationsSize(1);

@@ -72,8 +72,8 @@ class InvestigationsReceiverServiceTest {
 
 
     @Test
-    @DisplayName("Test testHandleNotificationReceiveValidSentNotification sent is valid")
-    void testHandleNotificationReceiveValidSentNotification() {
+    @DisplayName("Test testhandleReceiveValidSentNotification sent is valid")
+    void testhandleReceiveValidSentNotification() {
 
         // Given
         List<QualityNotificationAffectedPart> affectedParts = List.of(new QualityNotificationAffectedPart("partId"));
@@ -107,7 +107,7 @@ class InvestigationsReceiverServiceTest {
         when(mockQualityNotificationMapper.toQualityNotification(any(BPN.class), anyString(), any(QualityNotificationMessage.class))).thenReturn(investigationTestData);
 
         // When
-        service.handleNotificationReceive(edcNotification);
+        service.handleReceive(edcNotification);
         // Then
         Mockito.verify(mockRepository).saveQualityNotificationEntity(investigationTestData);
     }
@@ -150,14 +150,14 @@ class InvestigationsReceiverServiceTest {
         when(mockRepository.findByEdcNotificationId(edcNotification.getNotificationId())).thenReturn(Optional.of(investigationTestData));
 
         // When
-        service.handleNotificationUpdate(edcNotification);
+        service.handleUpdate(edcNotification);
         // Then
         Mockito.verify(mockRepository).updateQualityNotificationEntity(investigationTestData);
     }
 
     @Test
-    @DisplayName("Test testHandleNotificationUpdateValidDeclineNotificationTransition is valid")
-    void testHandleNotificationUpdateValidDeclineNotificationTransition() {
+    @DisplayName("Test testhandleUpdateValidDeclineNotificationTransition is valid")
+    void testhandleUpdateValidDeclineNotificationTransition() {
 
         // Given
         List<QualityNotificationAffectedPart> affectedParts = List.of(new QualityNotificationAffectedPart("partId"));
@@ -191,14 +191,14 @@ class InvestigationsReceiverServiceTest {
         when(mockRepository.findByEdcNotificationId(edcNotification.getNotificationId())).thenReturn(Optional.of(investigationTestData));
 
         // When
-        service.handleNotificationUpdate(edcNotification);
+        service.handleUpdate(edcNotification);
         // Then
         Mockito.verify(mockRepository).updateQualityNotificationEntity(investigationTestData);
     }
 
     @Test
-    @DisplayName("Test testHandleNotificationUpdateValidAcknowledgeNotification is valid")
-    void testHandleNotificationUpdateValidAcceptedNotificationTransition() {
+    @DisplayName("Test testhandleUpdateValidAcknowledgeNotification is valid")
+    void testhandleUpdateValidAcceptedNotificationTransition() {
 
         // Given
         List<QualityNotificationAffectedPart> affectedParts = List.of(new QualityNotificationAffectedPart("partId"));
@@ -232,14 +232,14 @@ class InvestigationsReceiverServiceTest {
         when(mockRepository.findByEdcNotificationId(edcNotification.getNotificationId())).thenReturn(Optional.of(investigationTestData));
 
         // When
-        service.handleNotificationUpdate(edcNotification);
+        service.handleUpdate(edcNotification);
         // Then
         Mockito.verify(mockRepository).updateQualityNotificationEntity(investigationTestData);
     }
 
     @Test
-    @DisplayName("Test testHandleNotificationUpdateValidAcknowledgeNotification is valid")
-    void testHandleNotificationUpdateValidCloseNotificationTransition() {
+    @DisplayName("Test testhandleUpdateValidAcknowledgeNotification is valid")
+    void testhandleUpdateValidCloseNotificationTransition() {
 
         // Given
         List<QualityNotificationAffectedPart> affectedParts = List.of(new QualityNotificationAffectedPart("partId"));
@@ -273,7 +273,7 @@ class InvestigationsReceiverServiceTest {
         when(mockRepository.findByEdcNotificationId(edcNotification.getNotificationId())).thenReturn(Optional.of(investigationTestData));
 
         // When
-        service.handleNotificationUpdate(edcNotification);
+        service.handleUpdate(edcNotification);
         // Then
         Mockito.verify(mockRepository).updateQualityNotificationEntity(investigationTestData);
     }

@@ -108,7 +108,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 "it", notificationBuild);
 
         // when
-        alertsReceiverService.handleNotificationReceive(notification);
+        alertsReceiverService.handleReceive(notification);
 
         // then
         alertsSupport.assertAlertsSize(1);

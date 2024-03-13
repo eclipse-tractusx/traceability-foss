@@ -21,6 +21,8 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.service;
 
 import org.eclipse.tractusx.traceability.discovery.domain.model.Discovery;
 import org.eclipse.tractusx.traceability.discovery.domain.service.DiscoveryService;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.AlertRepository;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.ContractNegotiationException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.NoCatalogItemException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.NoEndpointDataReferenceException;
@@ -56,6 +58,12 @@ class EdcNotificationServiceImplTest {
 
     @Mock
     private DiscoveryService discoveryService;
+
+    @Mock
+    private InvestigationRepository investigationRepository;
+
+    @Mock
+    private AlertRepository alertRepository;
 
     @Test
     void testNotificationsServiceUpdateAsync() {

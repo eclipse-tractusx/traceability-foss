@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-@Builder(toBuilder=true)
+@Builder(toBuilder = true)
 @Getter
 @Setter
 @Data
@@ -95,6 +95,7 @@ public class QualityNotificationMessage {
     // Important - receiver and sender will be saved in switched order
     public QualityNotificationMessage copyAndSwitchSenderAndReceiver(BPN applicationBpn) {
         final String notificationId = UUID.randomUUID().toString();
+        final String messageUUID = UUID.randomUUID().toString();
         String receiverBPN = sendTo;
         String senderBPN = createdBy;
         String receiverName;
@@ -125,7 +126,7 @@ public class QualityNotificationMessage {
                 .targetDate(targetDate)
                 .severity(severity)
                 .edcNotificationId(edcNotificationId)
-                .messageId(UUID.randomUUID().toString())
+                .messageId(messageUUID)
                 .isInitial(false)
                 .type(type)
                 .errorMessage(errorMessage)

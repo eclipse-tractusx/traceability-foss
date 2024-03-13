@@ -31,7 +31,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Data
-@Builder(toBuilder=true)
+@Builder(toBuilder = true)
 public class QualityNotification {
     private BPN bpn;
     private QualityNotificationId notificationId;
@@ -81,51 +81,28 @@ public class QualityNotification {
         this.notifications.forEach(notification -> notification.setDescription(reason));
     }
 
-    public void acknowledge(QualityNotificationMessage notification) {
+    public void acknowledge() {
         changeStatusTo(QualityNotificationStatus.ACKNOWLEDGED);
-        //setNotificationStatusAndReasonForNotification(notification, QualityNotificationStatus.ACKNOWLEDGED, null);
-        //notification.setNotificationStatus(QualityNotificationStatus.ACKNOWLEDGED);
     }
 
-    public void accept(String reason, QualityNotificationMessage notification) {
+    public void accept(String reason) {
         changeStatusTo(QualityNotificationStatus.ACCEPTED);
         this.acceptReason = reason;
-  /*      setNotificationStatusAndReasonForNotification(notification, QualityNotificationStatus.ACCEPTED, reason);
-        notification.setNotificationStatus(QualityNotificationStatus.ACCEPTED);
-        notification.setDescription(reason);*/
     }
 
-    public void decline(String reason, QualityNotificationMessage notification) {
+    public void decline(String reason) {
         changeStatusTo(QualityNotificationStatus.DECLINED);
         this.declineReason = reason;
-   /*     setNotificationStatusAndReasonForNotification(notification, QualityNotificationStatus.DECLINED, reason);
-        notification.setNotificationStatus(QualityNotificationStatus.DECLINED);
-        notification.setDescription(reason);*/
     }
 
-    public void close(String reason, QualityNotificationMessage notification) {
+    public void close(String reason) {
         changeStatusTo(QualityNotificationStatus.CLOSED);
         this.closeReason = reason;
-/*        setNotificationStatusAndReasonForNotification(notification, QualityNotificationStatus.CLOSED, reason);
-        notification.setNotificationStatus(QualityNotificationStatus.CLOSED);
-        notification.setDescription(reason);*/
     }
 
     public void send(BPN applicationBpn) {
         validateBPN(applicationBpn);
         changeStatusTo(QualityNotificationStatus.SENT);
-    }
-
-    private void setNotificationStatusAndReasonForNotification(QualityNotificationMessage notificationDomain, QualityNotificationStatus notificationStatus, String reason) {
-        for (QualityNotificationMessage notification : this.notifications) {
-            if (notification.getId().equals(notificationDomain.getId())) {
-                if (reason != null) {
-                    notification.setDescription(reason);
-                }
-                notification.setNotificationStatus(notificationStatus);
-                break;
-            }
-        }
     }
 
     private void validateBPN(BPN applicationBpn) {

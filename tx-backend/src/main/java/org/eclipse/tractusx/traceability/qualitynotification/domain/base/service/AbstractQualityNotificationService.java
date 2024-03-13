@@ -45,7 +45,6 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
 
     private static final List<String> SUPPORTED_ENUM_FIELDS = List.of("status", "side", "notifications_severity");
 
-
     protected abstract NotificationPublisherService getNotificationPublisherService();
 
     protected abstract QualityNotificationRepository getQualityNotificationRepository();

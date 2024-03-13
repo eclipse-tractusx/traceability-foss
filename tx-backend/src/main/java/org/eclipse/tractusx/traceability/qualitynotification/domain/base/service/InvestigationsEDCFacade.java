@@ -64,6 +64,7 @@ public class InvestigationsEDCFacade {
 
     private final EdcProperties edcProperties;
 
+
     private final EDCCatalogFacade edcCatalogFacade;
     private final ContractNegotiationService contractNegotiationService;
     private final EndpointDataReferenceStorage endpointDataReferenceStorage;

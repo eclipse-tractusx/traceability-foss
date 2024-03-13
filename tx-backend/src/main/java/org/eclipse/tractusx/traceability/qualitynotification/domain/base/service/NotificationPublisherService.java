@@ -39,13 +39,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.Clock;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 import static java.util.stream.Collectors.groupingBy;
@@ -60,6 +56,7 @@ public class NotificationPublisherService {
     private final AssetAsBuiltRepository assetAsBuiltRepository;
     private final BpnRepository bpnRepository;
     private final Clock clock;
+
     /**
      * Starts a new investigation with the given BPN, asset IDs and description.
      *
@@ -151,15 +148,19 @@ public class NotificationPublisherService {
         BPN applicationBPN = traceabilityProperties.getBpn();
         validate(applicationBPN, status, notification);
 
-        List<QualityNotificationMessage> relevantNotifications = notification.getNotifications().stream().filter(notificationMessage -> status.equals(notificationMessage.getNotificationStatus())).toList();
-        List<String> notificationIds = relevantNotifications.stream().map(notificationMessage -> notificationMessage.getId() + " ").toList();
-        log.info("Determined relevant notifications for sending {}", notificationIds);
+        List<QualityNotificationMessage> relevantNotifications =
+                notification
+                        .getNotifications()
+                        .stream()
+                        .filter(notificationMessage -> status.equals(notificationMessage.getNotificationStatus()))
+                        .toList();
+
         relevantNotifications.forEach(qNotification -> {
             switch (status) {
-                case ACKNOWLEDGED -> notification.acknowledge(qNotification);
-                case ACCEPTED -> notification.accept(reason, qNotification);
-                case DECLINED -> notification.decline(reason, qNotification);
-                case CLOSED -> notification.close(reason, qNotification);
+                case ACKNOWLEDGED -> notification.acknowledge();
+                case ACCEPTED -> notification.accept(reason);
+                case DECLINED -> notification.decline(reason);
+                case CLOSED -> notification.close(reason);
                 default ->
                         throw new QualityNotificationIllegalUpdate("Transition from status '%s' to status '%s' is not allowed for notification with id '%s'".formatted(notification.getNotificationStatus().name(), status, notification.getNotificationId()));
             }
@@ -200,33 +201,6 @@ public class NotificationPublisherService {
             default ->
                     throw new QualityNotificationIllegalUpdate("Unknown Transition from status '%s' to status '%s' is not allowed for notification with id '%s'".formatted(notification.getNotificationStatus().name(), status, notification.getNotificationId()));
         }
-    }
-
-    private List<QualityNotificationMessage> getAllLatestNotificationForEdcNotificationId(QualityNotification notification) {
-        Map<String, List<QualityNotificationMessage>> notificationMap = new HashMap<>();
-
-        for (QualityNotificationMessage notificationMessage : notification.getNotifications()) {
-            String edcNotificationId = notificationMessage.getEdcNotificationId();
-            List<QualityNotificationMessage> notificationGroup = notificationMap.getOrDefault(edcNotificationId, new ArrayList<>());
-            if (notificationGroup.isEmpty()) {
-                notificationGroup.add(notificationMessage);
-            } else {
-                Optional<QualityNotificationMessage> latestNotification = notificationGroup.stream().max(Comparator.comparing(QualityNotificationMessage::getCreated));
-                if (latestNotification.isEmpty() || notificationMessage.getCreated().isAfter(latestNotification.get().getCreated())) {
-                    notificationGroup.clear();
-                    notificationGroup.add(notificationMessage);
-                } else if (notificationMessage.getCreated().isEqual(latestNotification.get().getCreated())) {
-                    throw new IllegalArgumentException("Two notifications with the same edcNotificationId have the same status. This can happen on old datasets.");
-                }
-            }
-            notificationMap.put(edcNotificationId, notificationGroup);
-        }
-
-        List<QualityNotificationMessage> latestNotificationElements = new ArrayList<>();
-        for (List<QualityNotificationMessage> notificationGroup : notificationMap.values()) {
-            latestNotificationElements.addAll(notificationGroup);
-        }
-        return latestNotificationElements;
     }
 }
 
