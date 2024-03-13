@@ -102,6 +102,8 @@ spec:
               value: {{ .Values.edc.providerDataplaneUrl | quote }}
             - name: REGISTRY_URL_WITH_PATH
               value: {{ .Values.registry.urlWithPath | quote }}
+            - name: REGISTRY_ALLOWED_BPNS
+              value: { { .Values.registry.allowedBpns | quote } }
             - name: SUBMODEL_URL
               value: {{ .Values.submodel.baseUrl | quote }}
             - name: IRS_URL
