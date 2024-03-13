@@ -72,6 +72,7 @@ configuration:
       resourceClient: &central_idp_resource_client 'Cl17-CX-Part'
 
   digitalTwinRegistry:
+    allowedBpns: &allowed_bpns 'BPNL00000003CML1,BPNL00000003CNKC'
     url: &dtr_url ''
 
 #########################
@@ -222,6 +223,7 @@ backend:
     baseUrl: *irs_url
   registry:
     urlWithPath: *dtr_url
+    allowedBpns: *allowed_bpns
   portal:
     baseUrl: *portal_backend_url
 

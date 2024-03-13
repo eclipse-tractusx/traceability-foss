@@ -103,6 +103,7 @@ source:
             irs:
               baseUrl: "https://tx-irs-stable-a.stable.demo.catena-x.net"
             registry:
+              allowedBpns: "BPNL00000003CML1,BPNL00000003CNKC"
               urlWithPath: "https://trace-x-registry-stable-a.stable.demo.catena-x.net/semantics/registry/api/v3.0"
             portal:
               baseUrl: "https://portal-backend.stable.demo.catena-x.net/api"
