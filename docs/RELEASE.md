@@ -14,7 +14,7 @@ Make sure eclipse / catena git repositories are in sync
 4) The irs lib version in (irs)[https://github.com/eclipse-tractusx/item-relationship-service/blob/65a42336b7ec7ae50690ec7590d05d8e3b15555a/pom.xml#L76]  should align with the potential (newer one)[https://github.com/catenax-ng/tx-traceability-foss/blob/fb1130d4c1dd4f869e61d334310e99bc191fa0c7/pom.xml#L103]  in trace-x main
 5) Select "Run workflow," choose the release branch and select the type of version increment major, minor or patch. Use the Semantic Versioning guidelines to accurately determine the specific type of version increment. [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Don't forget to check the box to remove the snapshot.
 6) A pull request (name: Update irs-registry-client to "Version") will be generated in which you have to make sure the irs lib version is now correct (change it manually if necessary). Check if Actions finish successfully. (If Dash IP Check fails, update the DEPENDENCIES file with the mvn command on the generated pull request branch)
-7) Afterward, merge the created Pull Request and delete the release branch.
+7) Merge the created Pull request and make sure the release branch is deleted afterward (default behaviour).
 8) In [IRS](https://github.com/eclipse-tractusx/item-relationship-service), the gitHub action [Upload to Central Maven Registry ](https://github.com/eclipse-tractusx/item-relationship-service/actions/workflows/maven-deploy.yaml) will release the irs-registry-client library with the version defined in step 3
 9) Create and Checkout release branch on catena /release/1.0.0
 10) Update <irs-client-lib.version> in the above created release branch to the created one in step 3.
