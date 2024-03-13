@@ -47,6 +47,29 @@ jobs:
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
           review-message: "Please add a short description of the feature/fix to the Changelog.md."
+  Check-Pom-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Check pom for -SNAPSHOT
+        id: pom-version
+        run: |
+          snapshot_count_root_pom=$(grep -o '\-SNAPSHOT' pom.xml | wc -l)
+          if [ "$snapshot_count_root_pom" > 1 ]; then
+            echo "pom_changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "pom_changed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create Review Comment
+        uses: ntsd/auto-request-changes-action@v3
+        if: steps.pom-version.outputs.pom_changed == 'true'
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          review-message: "Please remove -SNAPSHOT from property versions "
+
 
   Test-and-Sonar:
     permissions:
