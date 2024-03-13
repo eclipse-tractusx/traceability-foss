@@ -26,7 +26,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - Updated COMPATIBILITY.md matrix adding release C-X 24.3 and 23.12
 - #536 rework /policies to respond with policies from the IRS policy store
 - #536 sync assets logic was adjusted to create IRS jobs only for assets that are not in TRANSIENT or IN_SYNC states
-- Updated Arc42 documentation and user-manual with publish assets informations
+- #536 Updated Arc42 documentation and user-manual with publish assets informations
 
 ### Removed
 - #625 Removed the header and breadcrumbs section from app layout
