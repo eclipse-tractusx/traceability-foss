@@ -22,6 +22,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.NotificationStatusTransitionNotAllowed;
 
@@ -29,6 +31,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Builder(toBuilder=true)
@@ -67,6 +70,27 @@ public class QualityNotificationMessage {
         this.notificationStatus = to;
     }
 
+
+    public static QualityNotificationMessage create(BPN applicationBpn, String receiverBpn, String description, Instant targetDate, QualityNotificationSeverity severity, Map.Entry<String, List<AssetBase>> asset, String creator, String sendToName) {
+        final String notificationId = UUID.randomUUID().toString();
+        final String messageId = UUID.randomUUID().toString();
+        return QualityNotificationMessage.builder()
+                .id(notificationId)
+                .created(LocalDateTime.now())
+                .createdBy(applicationBpn.value())
+                .createdByName(creator)
+                .sendTo(StringUtils.isBlank(receiverBpn) ? asset.getKey() : receiverBpn)
+                .sendToName(sendToName)
+                .description(description)
+                .notificationStatus(QualityNotificationStatus.CREATED)
+                .affectedParts(asset.getValue().stream().map(AssetBase::getId).map(QualityNotificationAffectedPart::new).toList())
+                .targetDate(targetDate)
+                .severity(severity)
+                .edcNotificationId(notificationId)
+                .messageId(messageId)
+                .isInitial(true)
+                .build();
+    }
 
     // Important - receiver and sender will be saved in switched order
     public QualityNotificationMessage copyAndSwitchSenderAndReceiver(BPN applicationBpn) {

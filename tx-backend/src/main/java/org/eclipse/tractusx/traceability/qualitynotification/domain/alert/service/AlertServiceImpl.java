@@ -21,10 +21,9 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.alert.servi
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.AlertNotFoundException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.StartQualityNotification;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.AlertNotFoundException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.AlertRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
@@ -40,7 +39,6 @@ public class AlertServiceImpl extends AbstractQualityNotificationService {
 
     private final NotificationPublisherService notificationPublisherService;
     private final AlertRepository alertRepository;
-    private final AssetAsBuiltServiceImpl assetService;
     private final TraceabilityProperties traceabilityProperties;
 
 
@@ -48,6 +46,7 @@ public class AlertServiceImpl extends AbstractQualityNotificationService {
     protected String getApplicationBpn() {
         return traceabilityProperties.getBpn().value();
     }
+
     @Override
     protected NotificationPublisherService getNotificationPublisherService() {
         return notificationPublisherService;
@@ -56,15 +55,6 @@ public class AlertServiceImpl extends AbstractQualityNotificationService {
     @Override
     protected QualityNotificationRepository getQualityNotificationRepository() {
         return alertRepository;
-    }
-
-    @Override
-    public QualityNotificationId start(StartQualityNotification startQualityAlertDomain) {
-        QualityNotification notification = notificationPublisherService.startAlert(startQualityAlertDomain.getPartIds(), startQualityAlertDomain.getDescription(), startQualityAlertDomain.getTargetDate(), startQualityAlertDomain.getSeverity(), startQualityAlertDomain.getReceiverBpn(), startQualityAlertDomain.isAsBuilt());
-
-        QualityNotificationId createdAlertId = alertRepository.saveQualityNotificationEntity(notification);
-        log.info("Start Alert {}", notification);
-        return createdAlertId;
     }
 
     @Override

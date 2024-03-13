@@ -23,7 +23,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.StartQualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
@@ -56,14 +55,6 @@ public class InvestigationServiceImpl extends AbstractQualityNotificationService
     @Override
     protected QualityNotificationRepository getQualityNotificationRepository() {
         return investigationsRepository;
-    }
-
-    @Override
-    public QualityNotificationId start(StartQualityNotification startQualityNotification) {
-        QualityNotification notification = getNotificationPublisherService().startInvestigation(startQualityNotification.getPartIds(), startQualityNotification.getDescription(), startQualityNotification.getTargetDate(), startQualityNotification.getSeverity(), startQualityNotification.getReceiverBpn(), startQualityNotification.isAsBuilt());
-        QualityNotificationId createdInvestigationId = getQualityNotificationRepository().saveQualityNotificationEntity(notification);
-        log.info("Start Investigation {}", notification);
-        return createdInvestigationId;
     }
 
     @Override

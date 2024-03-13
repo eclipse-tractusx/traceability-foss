@@ -23,6 +23,7 @@ import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.service.QualityNotificationService;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.StartQualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.SendNotificationException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
@@ -54,6 +55,14 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
     @Override
     public PageResult<QualityNotification> getNotifications(Pageable pageable, SearchCriteria searchCriteria) {
         return getQualityNotificationRepository().getNotifications(pageable, searchCriteria);
+    }
+
+    @Override
+    public QualityNotificationId start(StartQualityNotification startQualityNotification) {
+        QualityNotification notification = getNotificationPublisherService().startQualityNotification(startQualityNotification.getPartIds(), startQualityNotification.getDescription(), startQualityNotification.getTargetDate(), startQualityNotification.getSeverity(), startQualityNotification.getReceiverBpn(), startQualityNotification.isAsBuilt());
+        QualityNotificationId createdAlertId = getQualityNotificationRepository().saveQualityNotificationEntity(notification);
+        log.info("Start Quality Notification {}", notification);
+        return createdAlertId;
     }
 
     @Override

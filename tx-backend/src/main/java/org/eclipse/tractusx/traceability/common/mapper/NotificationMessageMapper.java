@@ -66,7 +66,6 @@ public class NotificationMessageMapper { // rename to QualityNotificationMessage
     }
 
     private String getManufacturerName(String senderBPN) {
-        return bpnRepository.findManufacturerName(senderBPN)
-                .orElse(null);
+        return bpnRepository.findManufacturerName(senderBPN);
     }
 }
