@@ -1,6 +1,16 @@
-## E2E tests
+# Frontend Testing Strategy
 
-We use Cypress as e2e testing framework (https://www.cypress.io/) + https://www.npmjs.com/package/@cypress/schematic.
+## Unit Tests
+Unit tests are executed automatically during the GitHub workflow
+[Unit Tests Frontend](.github/workflows/unit-test_frontend.yml)
+
+#### Test Reports
+https://sonarcloud.io/project/overview?id=eclipse-tractusx_traceability-foss-frontend
+[sonar-scan-frontenc.yml](./workflows/sonar-scan-frontenc.yml)
+
+## E2E tests with Cypress
+
+We use Cypress as e2e testing framework [Cypress](https://www.cypress.io/) and  [npmjs](https://www.npmjs.com/package/@cypress/schematic).
 
 To be able to use Behavior-driven development (BDD) approach we have configured additional lib: https://github.com/badeball/cypress-cucumber-preprocessor
 

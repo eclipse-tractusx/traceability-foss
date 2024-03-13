@@ -23,7 +23,8 @@
     - [Getting started](https://github.com/eclipse-tractusx/traceability-foss/#getting-started)
     - [Application authentication](https://github.com/eclipse-tractusx/traceability-foss/#application-authentication)
     - [Application architecture & patterns](https://github.com/eclipse-tractusx/traceability-foss/#application-architecture--patterns)
-    - [User guide](https://github.com/eclipse-tractusx/traceability-foss/#user-guide)
+    - [User guide](#user-guide)
+    - [Frontend Testing strategy](#frontend-testing-strategy)
   - [The backend application](https://github.com/eclipse-tractusx/traceability-foss/#the-backend-application)
     - [Prerequisites](https://github.com/eclipse-tractusx/traceability-foss/#backend-prerequisites)
     - [Installation](https://github.com/eclipse-tractusx/traceability-foss/#backend-installation)
@@ -103,6 +104,10 @@ so that you end up with a well-structured app.
 ### User guide
 
 A detailed [explanation](https://github.com/eclipse-tractusx/traceability-foss/blob/main/docs/src/docs/user/user-manual.adoc) of how to use the application.
+
+### Frontend Testing Strategy
+
+See [TESTING](TESTING.md).
 
 ## The backend application
 
