@@ -14,7 +14,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #536 Added import state PUBLISHED_TO_CX in frontend
 - #420 add /contracts api to fetch contract agreement information from EDC for assets
 - Added a step to the pull-request-backend.yml which checks if the pom.xml(root) properties have some versions ending with -SNAPSHOT
-
+- Added a PostConstruct method in PolicyStartUpConfig to allow Integration tests to run without errors in stack traces.
 ### Changed
 - Updated RELEASE.md to the latest release guide (added more steps)
 - #515 Fixed notification toast click area

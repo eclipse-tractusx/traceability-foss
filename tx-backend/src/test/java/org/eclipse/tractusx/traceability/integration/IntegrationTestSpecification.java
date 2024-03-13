@@ -41,7 +41,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
 import static org.awaitility.Awaitility.await;
-
 @ActiveProfiles("integration-spring-boot")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @AutoConfigureMockMvc
