@@ -34,14 +34,16 @@ import org.eclipse.tractusx.irs.registryclient.decentral.exception.CreateDtrShel
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.repository.SubmodelPayloadRepository;
 import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
-import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.submodel.domain.repository.SubmodelServerRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 @Service
@@ -54,7 +56,9 @@ public class DtrService {
     private final SubmodelPayloadRepository submodelPayloadRepository;
     private final SubmodelServerRepository submodelServerRepository;
     private final EdcProperties edcProperties;
-    private final TraceabilityProperties traceabilityProperties;
+
+    @Value("${registry.allowedBpns}")
+    private final String allowedBpns;
 
     public String createShellInDtr(final AssetBase assetBase, String submodelServerAssetId) throws CreateDtrShellException {
         Map<String, String> payloadByAspectType = submodelPayloadRepository.getTypesAndPayloadsByAssetId(assetBase.getId());
@@ -162,36 +166,24 @@ public class DtrService {
     }
 
     private List<SemanticId> getExternalSubjectIds() {
-        return List.of(
-                SemanticId.builder()
-                        .type(GLOBAL_REFERENCE)
-                        .value("PUBLIC_READABLE")
-                        .build(),
-                SemanticId.builder()
-                        .type(GLOBAL_REFERENCE)
-//                        .value(traceabilityProperties.getBpn().toString())
-                        .value("BPNL00000003CML1")
-                        .build(),
-                // TODO: issue with resolving other assets with only one bpn set here !!
+        List<SemanticId> externalSubjectIds = List.of(SemanticId.builder()
+                .type(GLOBAL_REFERENCE)
+                .value("PUBLIC_READABLE")
+                .build());
+        List<SemanticId> configurationExternalSubjectIds = getAllowedBpns().stream()
+                .map(allowedBpn ->
+                        SemanticId.builder()
+                                .type(GLOBAL_REFERENCE)
+                                .value(allowedBpn)
+                                .build()
+                )
+                .toList();
 
-                SemanticId.builder()
-                        .type(GLOBAL_REFERENCE)
-//                        .value(traceabilityProperties.getBpn().toString())
-                        .value("BPNL00000003CNKC")
-                        .build()
-                // our usage of python script generates following
-//        {
-//            "type": "GlobalReference",
-//                "value": "PUBLIC_READABLE"
-//        },
-//        {
-//            "type": "GlobalReference",
-//                "value": "BPNL00000003CML1"
-//        },
-//        {
-//            "type": "GlobalReference",
-//                "value": "BPNL00000003CNKC"
-//        }
-        );
+        return Stream.concat(externalSubjectIds.stream(), configurationExternalSubjectIds.stream()).toList();
+    }
+
+    // TODO: Issue #740 will handle and decide how to avoid having allowed bpns in config ( should be managed by policy to access data ) needs investigation
+    public List<String> getAllowedBpns() {
+        return Arrays.stream(allowedBpns.split(",")).toList();
     }
 }
