@@ -143,7 +143,7 @@
     "IN_SYNCHRONIZATION": "IN SYNCHRONIZATION",
     "ERROR": "ERROR",
     "UNSET": "UNSET",
-    "PUBLISHED_TO_CX": "PUBLISHED"
+    "PUBLISHED_TO_CORE_SERVICES": "PUBLISHED"
   },
   "severity": {
     "MINOR": "Minor",
@@ -338,7 +338,7 @@
       "IN_SYNCHRONIZATION": "In Synchronization",
       "ERROR": "Error",
       "UNSET": "Unset",
-      "PUBLISHED_TO_CX": "Veröffentlicht"
+      "PUBLISHED_TO_CORE_SERVICES": "Veröffentlicht"
 
     }
   },

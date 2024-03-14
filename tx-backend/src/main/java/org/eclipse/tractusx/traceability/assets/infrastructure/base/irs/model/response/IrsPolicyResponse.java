@@ -83,13 +83,16 @@ public record IrsPolicyResponse(OffsetDateTime validUntil, Payload payload) {
                """;
 
     public static List<PolicyResponse> toResponse(List<IrsPolicyResponse> allPolicies) {
+        return allPolicies.stream().map(IrsPolicyResponse::toResponse).toList();
+    }
 
-        return allPolicies.stream().map(pol -> PolicyResponse.builder()
-                .policyId(pol.payload().policyId())
-                .validUntil(pol.payload().policy().getValidUntil())
-                .createdOn(pol.payload().policy().getCreatedOn())
-                .permissions(map(pol.payload().policy()))
-                .build()).toList();
+    public static PolicyResponse toResponse(IrsPolicyResponse policy) {
+        return PolicyResponse.builder()
+                .policyId(policy.payload().policyId())
+                .validUntil(policy.payload().policy().getValidUntil())
+                .createdOn(policy.payload().policy().getCreatedOn())
+                .permissions(map(policy.payload().policy()))
+                .build();
     }
 
     private static List<PermissionResponse> map(Policy policy) {
