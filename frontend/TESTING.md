@@ -6,7 +6,7 @@ Unit tests are executed automatically during the GitHub workflow
 
 #### Test Reports
 https://sonarcloud.io/project/overview?id=eclipse-tractusx_traceability-foss-frontend
-[sonar-scan-frontenc.yml](./workflows/sonar-scan-frontenc.yml)
+[sonar-scan-frontend.yml](./workflows/sonar-scan-frontend.yml)
 
 ## E2E tests with Cypress
 
