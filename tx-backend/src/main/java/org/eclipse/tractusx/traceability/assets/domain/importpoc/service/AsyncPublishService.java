@@ -61,7 +61,7 @@ public class AsyncPublishService {
             String submodelServerAssetId = null;
 
             try {
-                submodelServerAssetId = edcAssetCreationService.createDtrAndSubmodelAssets(policyId);
+                submodelServerAssetId = edcAssetCreationService.createEdcContractDefinitionsForDtrAndSubmodel(policyId);
             } catch (CreateEdcPolicyDefinitionException e) {
                 log.error("Failed to create EDC Policy.", e);
                 updateAssetStates(ImportState.ERROR, ImportNote.ERROR_EDC_POLICY_CREATION_FAILED, assetsForPolicy.stream().map(AssetBase::getId).toList());
@@ -72,7 +72,6 @@ public class AsyncPublishService {
                 log.error("Failed to create EDC Contract.", e);
                 updateAssetStates(ImportState.ERROR, ImportNote.ERROR_EDC_CONTRACT_CREATION_FAILED, assetsForPolicy.stream().map(AssetBase::getId).toList());
             }
-
 
             if (Objects.nonNull(submodelServerAssetId)) {
                 String tempSubmodelServerAssetId = submodelServerAssetId;

@@ -53,19 +53,19 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class EdcAssetCreationService {
     private static final String REGISTRY_ASSET_ID = "registry-asset";
-    private final EdcAssetService edcDtrAssetService;
-    private final EdcPolicyDefinitionService edcDtrPolicyDefinitionService;
-    private final EdcContractDefinitionService edcDtrContractDefinitionService;
+    private final EdcAssetService edcAssetService;
+    private final EdcPolicyDefinitionService edcPolicyDefinitionService;
+    private final EdcContractDefinitionService edcContractDefinitionService;
     private final TraceabilityProperties traceabilityProperties;
     private final PolicyService policyService;
     @Value("${registry.urlWithPath}")
     String registryUrlWithPath = null;
 
-    public String createDtrAndSubmodelAssets(String policyId) throws CreateEdcPolicyDefinitionException, CreateEdcAssetException, CreateEdcContractDefinitionException {
+    public String createEdcContractDefinitionsForDtrAndSubmodel(String policyId) throws CreateEdcPolicyDefinitionException, CreateEdcAssetException, CreateEdcContractDefinitionException {
         PolicyResponse policy = policyService.getPolicyById(policyId);
         String createdPolicyId;
         try {
-            createdPolicyId = edcDtrPolicyDefinitionService.createAccessPolicy(mapToEdcPolicyRequest(policy));
+            createdPolicyId = edcPolicyDefinitionService.createAccessPolicy(mapToEdcPolicyRequest(policy));
             log.info("DTR Policy Id created :{}", createdPolicyId);
         } catch (EdcPolicyDefinitionAlreadyExists e) {
             createdPolicyId = policyId;
@@ -75,7 +75,7 @@ public class EdcAssetCreationService {
 
         String dtrAssetId;
         try {
-            dtrAssetId = edcDtrAssetService.createDtrAsset(registryUrlWithPath, REGISTRY_ASSET_ID);
+            dtrAssetId = edcAssetService.createDtrAsset(registryUrlWithPath, REGISTRY_ASSET_ID);
             log.info("DTR Asset Id created :{}", dtrAssetId);
         } catch (EdcAssetAlreadyExistsException e) {
             dtrAssetId = REGISTRY_ASSET_ID;
@@ -84,7 +84,7 @@ public class EdcAssetCreationService {
         }
 
         try {
-            String dtrContractId = edcDtrContractDefinitionService.createContractDefinition(dtrAssetId, createdPolicyId);
+            String dtrContractId = edcContractDefinitionService.createContractDefinition(dtrAssetId, createdPolicyId);
             log.info("DTR Contract Id created :{}", dtrContractId);
         } catch (Exception e) {
             throw new CreateEdcContractDefinitionException(e);
@@ -93,7 +93,7 @@ public class EdcAssetCreationService {
         String submodelAssetId;
         String submodelAssetIdToCreate = "urn:uuid:" + UUID.randomUUID();
         try {
-            submodelAssetId = edcDtrAssetService.createSubmodelAsset(traceabilityProperties.getSubmodelBase() + "/api/submodel", submodelAssetIdToCreate);
+            submodelAssetId = edcAssetService.createSubmodelAsset(traceabilityProperties.getSubmodelBase() + "/api/submodel", submodelAssetIdToCreate);
             log.info("Submodel Asset Id created :{}", submodelAssetId);
         } catch (EdcAssetAlreadyExistsException e) {
             submodelAssetId = submodelAssetIdToCreate;
@@ -102,7 +102,7 @@ public class EdcAssetCreationService {
         }
 
         try {
-            String submodelContractId = edcDtrContractDefinitionService.createContractDefinition(submodelAssetId, createdPolicyId);
+            String submodelContractId = edcContractDefinitionService.createContractDefinition(submodelAssetId, createdPolicyId);
             log.info("Submodel Contract Id created :{}", submodelContractId);
         } catch (Exception e) {
             throw new CreateEdcContractDefinitionException(e);

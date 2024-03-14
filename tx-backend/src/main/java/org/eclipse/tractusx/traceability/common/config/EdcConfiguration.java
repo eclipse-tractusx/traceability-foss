@@ -52,32 +52,17 @@ public class EdcConfiguration {
     String shellDescriptorUrl;
 
     @Bean
-    public EdcAssetService edcNotificationAssetService(org.eclipse.tractusx.irs.edc.client.EdcConfiguration edcConfiguration, EdcTransformer edcTransformer, RestTemplate edcNotificationAssetRestTemplate) {
-        return new EdcAssetService(edcTransformer, edcConfiguration, edcNotificationAssetRestTemplate);
-    }
-
-    @Bean
-    public EdcPolicyDefinitionService edcPolicyDefinitionService(org.eclipse.tractusx.irs.edc.client.EdcConfiguration edcConfiguration, RestTemplate edcNotificationAssetRestTemplate) {
-        return new EdcPolicyDefinitionService(edcConfiguration, edcNotificationAssetRestTemplate);
-    }
-
-    @Bean
-    public EdcContractDefinitionService edcContractDefinitionService(org.eclipse.tractusx.irs.edc.client.EdcConfiguration edcConfiguration, RestTemplate edcNotificationAssetRestTemplate) {
-        return new EdcContractDefinitionService(edcConfiguration, edcNotificationAssetRestTemplate);
-    }
-
-    @Bean
-    public EdcAssetService edcDtrAssetService(org.eclipse.tractusx.irs.edc.client.EdcConfiguration edcConfiguration, EdcTransformer edcTransformer, RestTemplate edcDtrAssetRestTemplate) {
+    public EdcAssetService edcAssetService(org.eclipse.tractusx.irs.edc.client.EdcConfiguration edcConfiguration, EdcTransformer edcTransformer, RestTemplate edcDtrAssetRestTemplate) {
         return new EdcAssetService(edcTransformer, edcConfiguration, edcDtrAssetRestTemplate);
     }
 
     @Bean
-    public EdcPolicyDefinitionService edcDtrPolicyDefinitionService(org.eclipse.tractusx.irs.edc.client.EdcConfiguration edcConfiguration, RestTemplate edcDtrAssetRestTemplate) {
+    public EdcPolicyDefinitionService edcPolicyDefinitionService(org.eclipse.tractusx.irs.edc.client.EdcConfiguration edcConfiguration, RestTemplate edcDtrAssetRestTemplate) {
         return new EdcPolicyDefinitionService(edcConfiguration, edcDtrAssetRestTemplate);
     }
 
     @Bean
-    public EdcContractDefinitionService edcDtrContractDefinitionService(org.eclipse.tractusx.irs.edc.client.EdcConfiguration edcConfiguration, RestTemplate edcDtrAssetRestTemplate) {
+    public EdcContractDefinitionService edcContractDefinitionService(org.eclipse.tractusx.irs.edc.client.EdcConfiguration edcConfiguration, RestTemplate edcDtrAssetRestTemplate) {
         return new EdcContractDefinitionService(edcConfiguration, edcDtrAssetRestTemplate);
     }
 
