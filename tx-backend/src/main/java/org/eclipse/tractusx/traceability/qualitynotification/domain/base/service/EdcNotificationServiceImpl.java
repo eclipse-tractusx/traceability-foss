@@ -52,9 +52,6 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
 
     private final InvestigationsEDCFacade edcFacade;
     private final DiscoveryService discoveryService;
-    private final AlertRepository alertRepository;
-    private final InvestigationRepository investigationRepository;
-
 
     @Override
     @Async(value = AssetsAsyncConfig.UPDATE_NOTIFICATION_EXECUTOR)

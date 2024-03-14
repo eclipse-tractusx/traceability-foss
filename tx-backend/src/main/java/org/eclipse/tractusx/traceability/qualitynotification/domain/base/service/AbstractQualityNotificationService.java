@@ -117,7 +117,6 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
         approvedNotifications.forEach(notificationMessage -> {
             notificationMessage.setId(UUID.randomUUID().toString());
             notificationMessage.changeStatusTo(QualityNotificationStatus.SENT);
-            notificationMessage.setIsInitial(false);
         });
         log.info("Found {} notification messages in status SENT", approvedNotifications.size());
 
