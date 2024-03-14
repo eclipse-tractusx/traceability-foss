@@ -28,9 +28,9 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
+
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -54,7 +54,6 @@ public class PolicyServiceImpl implements PolicyService {
 
     @NotNull
     private List<IrsPolicyResponse> getAcceptedPoliciesOrEmptyList() {
-        return Optional.ofNullable(irsRepository.getPolicies())
-                .orElse(Collections.emptyList());
+        return emptyIfNull(irsRepository.getPolicies());
     }
 }

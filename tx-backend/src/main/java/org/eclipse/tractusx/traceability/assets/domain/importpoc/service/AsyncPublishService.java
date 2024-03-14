@@ -52,7 +52,7 @@ public class AsyncPublishService {
     public void publishAssetsToCoreServices(List<AssetBase> assets, boolean triggerSynchronizeAssets) {
         Map<String, List<AssetBase>> assetsByPolicyId = assets.stream().collect(Collectors.groupingBy(AssetBase::getPolicyId));
 
-        List<String> createdShellsAssetIds = new ArrayList<>(List.of());
+        List<String> createdShellsAssetIds = new ArrayList<>();
         assetsByPolicyId.forEach((policyId, assetsForPolicy) -> {
             String submodelServerAssetId = edcAssetCreationService.createDtrAndSubmodelAssets(policyId);
             assetsForPolicy.forEach(assetBase -> {
@@ -61,13 +61,18 @@ public class AsyncPublishService {
                     createdShellsAssetIds.add(assetId);
                 } catch (CreateDtrShellException e) {
                     log.error("Failed to create shell in dtr for asset with id %s".formatted(assetBase.getId()), e);
+                    updateAssetStates(ImportState.ERROR, "Failed to create shell in DTR", List.of(assetBase.getId()));
                 }
             });
         });
-        assetAsBuiltRepository.updateImportStateAndNoteForAssets(ImportState.PUBLISHED_TO_CORE_SERVICES, ImportNote.PUBLISHED_TO_CORE_SERVICES, createdShellsAssetIds);
-        assetAsPlannedRepository.updateImportStateAndNoteForAssets(ImportState.PUBLISHED_TO_CORE_SERVICES, ImportNote.PUBLISHED_TO_CORE_SERVICES, createdShellsAssetIds);
-        if(triggerSynchronizeAssets) {
+        updateAssetStates(ImportState.PUBLISHED_TO_CORE_SERVICES, ImportNote.PUBLISHED_TO_CORE_SERVICES, createdShellsAssetIds);
+        if (triggerSynchronizeAssets) {
             decentralRegistryService.synchronizeAssets();
         }
+    }
+
+    private void updateAssetStates(ImportState importState, String importNote, List<String> assetIds) {
+        assetAsBuiltRepository.updateImportStateAndNoteForAssets(importState, importNote, assetIds);
+        assetAsPlannedRepository.updateImportStateAndNoteForAssets(importState, importNote, assetIds);
     }
 }

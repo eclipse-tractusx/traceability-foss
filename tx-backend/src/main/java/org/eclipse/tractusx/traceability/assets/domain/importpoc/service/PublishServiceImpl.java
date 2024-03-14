@@ -35,6 +35,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState.ERROR;
+import static org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState.TRANSIENT;
+
 
 @Slf4j
 @RequiredArgsConstructor
@@ -76,7 +79,7 @@ public class PublishServiceImpl implements PublishService {
     private List<AssetBase> updateAssetWithStatusAndPolicy(String policyId, List<String> assetIds, AssetRepository repository) {
         List<AssetBase> assetList = repository.getAssetsById(assetIds);
         List<AssetBase> saveList = assetList.stream()
-                .filter(this::validTransientState)
+                .filter(this::validTransientOrErrorState)
                 .map(asset -> {
                     asset.setImportState(ImportState.IN_SYNCHRONIZATION);
                     asset.setImportNote(ImportNote.IN_SYNCHRONIZATION);
@@ -90,8 +93,8 @@ public class PublishServiceImpl implements PublishService {
         return assetBases;
     }
 
-    private boolean validTransientState(AssetBase assetBase) {
-        if (ImportState.TRANSIENT.equals(assetBase.getImportState())) {
+    private boolean validTransientOrErrorState(AssetBase assetBase) {
+        if (TRANSIENT.equals(assetBase.getImportState()) || ERROR.equals(assetBase.getImportState())) {
             return true;
         }
         throw new PublishAssetException("Asset with ID " + assetBase.getId() + " is not in TRANSIENT state.");

@@ -8,7 +8,7 @@ autonumber "<b>[000]"
 
 BE ->> BE: scheduler job
 BE ->> BE: receive list of IN_SYNC assets
-BE ->> Irs: get policy for assets from policy store : GET/irs/policies
+BE ->> Irs: get policy for assets from policy store: GET/irs/policies
 Irs -->> BE: response
 BE ->> EDC: create policy in EDC: POST/create/policy
 EDC -->> BE: response
@@ -23,7 +23,12 @@ EDC -->> BE: response
 BE ->> Submodels: create submodel: POST/submodel
 Submodels -->> BE:
 BE ->> Registry: [017] register shell in registry: POST/semantics/registry
-Registry -->> BE:
+alt Successful DTR shell creation
+Registry -->> BE: shell created
 BE ->> BE: update asset state PUBLISHED_TO_CORE_SERVICES
 BE ->> BE: trigger IRS sync
+else DTR shell was not created
+Registry -->> BE: create shell not successful or service unavailable
+BE ->> BE: update asset state ERROR
+end
 @enduml

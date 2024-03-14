@@ -28,7 +28,6 @@ import static com.xebialabs.restito.builder.verify.VerifyHttp.verifyHttp;
 import static com.xebialabs.restito.semantics.Action.status;
 import static com.xebialabs.restito.semantics.Condition.post;
 
-//https://registry.net/semantics/registry/api/v3.0
 @Component
 public class DtrApiSupport {
 
@@ -40,6 +39,14 @@ public class DtrApiSupport {
                 post("/semantics/registry/api/v3.0/shell-descriptors")
         ).then(
                 status(HttpStatus.CREATED_201)
+        );
+    }
+
+    public void dtrWillFailToCreateShell() {
+        whenHttp(restitoProvider.stubServer()).match(
+                post("/semantics/registry/api/v3.0/shell-descriptors")
+        ).then(
+                status(HttpStatus.SERVICE_UNAVAILABLE_503)
         );
     }
 
