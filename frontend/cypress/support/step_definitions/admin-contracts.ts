@@ -1,5 +1,5 @@
-import { Then, When } from '@badeball/cypress-cucumber-preprocessor';
-import { AdminPage, AdminViewTab } from '../../integration/pages/AdminPage';
+import {Then, When} from '@badeball/cypress-cucumber-preprocessor';
+import {AdminPage, AdminViewTab} from '../../integration/pages/AdminPage';
 
 let currentContractId: string;
 
@@ -8,13 +8,13 @@ When('navigate to administration view tab {string}', (tabName: AdminViewTab) => 
   const header = AdminPage.getHeaderOfTabView(tabName);
   switch (tabName) {
     case AdminViewTab.BPN_CONFIGURATION_VIEW:
-      header.contains('BPN - EDC Konfiguration').should('be.visible');
+      header.contains('BPN - EDC Konfiguration').should('be.visible') || header.contains('BPN - EDC configuration').should('be.visible');
       break;
     case AdminViewTab.IMPORT_VIEW:
-      header.contains('Trace-X Datenimport').should('be.visible');
+      header.contains('Trace-X Datenimport').should('be.visible') || header.contains('Trace-X Data import').should('be.visible');
       break;
     case AdminViewTab.CONTRACT_VIEW:
-      header.contains('Verträge').should('be.visible');
+      header.contains('Verträge').should('be.visible') || header.contains('Contracts').should('be.visible');
       break;
     default: {
       throw new Error(`The View Tab header ${ tabName } did not load or is not existing`);

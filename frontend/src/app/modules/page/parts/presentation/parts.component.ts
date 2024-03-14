@@ -19,28 +19,29 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { Pagination } from '@core/model/pagination.model';
-import { RoleService } from '@core/user/role.service';
-import { PartsFacade } from '@page/parts/core/parts.facade';
-import { resetMultiSelectionAutoCompleteComponent } from '@page/parts/core/parts.helper';
-import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import { AssetAsBuiltFilter, AssetAsPlannedFilter, Part } from '@page/parts/model/parts.model';
-import { BomLifecycleSize } from '@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model';
-import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
-import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
-import { TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
-import { ToastService } from '@shared/components/toasts/toast.service';
-import { toAssetFilter, toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
-import { setMultiSorting } from '@shared/helper/table-helper';
-import { NotificationType } from '@shared/model/notification.model';
-import { View } from '@shared/model/view.model';
-import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
-import { BomLifecycleSettingsService, UserSettingView } from '@shared/service/bom-lifecycle-settings.service';
-import { StaticIdService } from '@shared/service/staticId.service';
-import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {FormControl, FormGroup} from '@angular/forms';
+import {Router} from '@angular/router';
+import {Pagination} from '@core/model/pagination.model';
+import {RoleService} from '@core/user/role.service';
+import {PartsFacade} from '@page/parts/core/parts.facade';
+import {resetMultiSelectionAutoCompleteComponent} from '@page/parts/core/parts.helper';
+import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
+import {AssetAsBuiltFilter, AssetAsPlannedFilter, Part} from '@page/parts/model/parts.model';
+import {BomLifecycleSize} from '@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model';
+import {TableType} from '@shared/components/multi-select-autocomplete/table-type.model';
+import {PartsTableComponent} from '@shared/components/parts-table/parts-table.component';
+import {TableEventConfig, TableHeaderSort} from '@shared/components/table/table.model';
+import {ToastService} from '@shared/components/toasts/toast.service';
+import {toAssetFilter, toGlobalSearchAssetFilter} from '@shared/helper/filter-helper';
+import {setMultiSorting} from '@shared/helper/table-helper';
+import {NotificationType} from '@shared/model/notification.model';
+import {View} from '@shared/model/view.model';
+import {PartDetailsFacade} from '@shared/modules/part-details/core/partDetails.facade';
+import {BomLifecycleSettingsService, UserSettingView} from '@shared/service/bom-lifecycle-settings.service';
+import {StaticIdService} from '@shared/service/staticId.service';
+import {BehaviorSubject, combineLatest, Observable, Subject} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 
 @Component({
@@ -82,7 +83,8 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
         private readonly staticIdService: StaticIdService,
         private readonly userSettingService: BomLifecycleSettingsService,
         public toastService: ToastService,
-        public roleService: RoleService
+        public roleService: RoleService,
+        public router: Router
     ) {
         this.partsAsBuilt$ = this.partsFacade.partsAsBuilt$;
         this.partsAsPlanned$ = this.partsFacade.partsAsPlanned$;
@@ -165,6 +167,13 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public onSelectItem($event: Record<string, unknown>): void {
         this.partDetailsFacade.selectedPart = $event as unknown as Part;
+        const currentUrlPath = this.router.routerState.snapshot.url;
+        let tableData = {};
+        for(let component of this.partsTableComponents) {
+          tableData[component.tableType+"_PAGE"] = component.pageIndex;
+        }
+        this.router.navigate([`${currentUrlPath}/${$event?.id}`], {queryParams: tableData})
+        //this.router.navigate([])
     }
 
     public onAsBuiltTableConfigChange({page, pageSize, sorting}: TableEventConfig): void {
