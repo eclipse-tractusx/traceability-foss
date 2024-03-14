@@ -195,7 +195,8 @@ The following table explains the different import state an asset can have:
 |     |     |
 | --- | --- |
 | transient | Asset is uploaded but not synchronized with the Item Relationship Service (IRS). |
-| in_synchronization | Asset is in the process of synchronizing with the IRS. |
+| in_synchronization | Asset is ready to be published. |
+| published_to_core_services | Asset is published, EDC assets, DTR shell, Submodel are created |
 | persistent | Asset is successfully synchronized with the IRS. |
 | unset | The import state of the asset was not set |
 | error | An error occurred along the import state transition. |

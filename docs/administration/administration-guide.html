@@ -1285,6 +1285,8 @@ You can define the URLs as well as most of the secrets yourself.</p>
     <span class="na">callbackUrl</span><span class="pi">:</span> <span class="s2">"</span><span class="s">CHANGEME"</span>  <span class="c1"># example: http://&lt;irs-helm.nameOverride&gt;:8181/internal/endpoint-data-reference</span>
     <span class="na">callbackUrlEdcClient</span><span class="pi">:</span> <span class="s2">"</span><span class="s">CHANGEME"</span>  <span class="c1"># example: https://&lt;backend.ingress.hosts&gt;/api/internal/endpoint-data-reference</span>
     <span class="na">dataEndpointUrl</span><span class="pi">:</span> <span class="s2">"</span><span class="s">CHANGEME"</span>  <span class="c1"># example: https://&lt;tractusx-connector.controlplane.ingress.hosts&gt;/management"</span>
+    <span class="na">partsProviderControlplaneUrl</span><span class="pi">:</span> <span class="s2">"</span><span class="s">CHANGEME"</span>  <span class="c1"># host of the parts provider EDC</span>
+    <span class="na">partsProviderDataplaneUrl</span><span class="pi">:</span> <span class="s2">"</span><span class="s">CHANGEME"</span>
 
   <span class="na">discoveryfinder</span><span class="pi">:</span>
     <span class="na">baseUrl</span><span class="pi">:</span> <span class="s2">"</span><span class="s">CHANGEME"</span>  <span class="c1"># example: https://discoveryfinder.net/discoveryfinder/api/administration/connectors/discovery/search</span>
@@ -1293,6 +1295,7 @@ You can define the URLs as well as most of the secrets yourself.</p>
     <span class="na">baseUrl</span><span class="pi">:</span> <span class="s2">"</span><span class="s">https://replace.me"</span>  <span class="c1"># https://&lt;irs-helm.ingress.host&gt;</span>
   <span class="na">registry</span><span class="pi">:</span>
     <span class="na">urlWithPath</span><span class="pi">:</span> <span class="s2">"</span><span class="s">https://replace.me"</span>  <span class="c1"># digitalTwinRegistry /semantics/registry/api/v3.0</span>
+    <span class="na">allowedBpns</span><span class="pi">:</span> <span class="s2">"</span><span class="s">BPN1,BPN2"</span>  <span class="c1"># "," separated list of allowed bpns for creating shells</span>
   <span class="na">portal</span><span class="pi">:</span>
     <span class="na">baseUrl</span><span class="pi">:</span> <span class="s2">"</span><span class="s">https://replace.me"</span>
 
@@ -1679,7 +1682,7 @@ and <a href="https://cloud.google.com/blog/products/containers-kubernetes/kubern
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-03-14 13:57:37 UTC
+Last updated 2024-03-14 14:00:53 UTC
 </div>
 </div>
 </body>

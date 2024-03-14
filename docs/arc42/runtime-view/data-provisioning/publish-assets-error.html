@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.18">
-<title>Quality scenarios</title>
+<title>Scenario 3: Publish assets Error on EDC or DTR</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -437,68 +437,39 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body class="article">
+<body class="article toc2 toc-left">
 <div id="header">
-<h1>Quality scenarios</h1>
+<h1>Scenario 3: Publish assets Error on EDC or DTR</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_overview">Overview</a></li>
+</ul>
+</div>
 </div>
 <div id="content">
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
-<p>The initial letters of the scenario identifiers (IDs) in the following table each stand for the higher-level quality characteristic. For example M for maintainability. These identifiers are also used in the quality tree. The scenarios cannot always be clearly assigned to a characteristic. Therefore, they sometimes appear more than once in the quality tree.</p>
+<p>This section describes user interaction when publishing assets fails due to EDC or DTR error ( for example services are unavailable )</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">ID</th>
-<th class="tableblock halign-left valign-top">Scenario</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">M01</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A developer with basic knowledge of the Traceability Use Case looks for an introduction to the Traceability architecture. He or she gets the idea of essential design very fast.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">M02</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A senior developer looks for a reference implementation of the Traceability Use case functionalities. He or she gets it within the source code.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">M03</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A developer wants to implement new features. He or she is able to add it to the source code easily.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">M04</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A developer wants to implement a new Frontend or change some components. The efforts can be reduced by using the standardized API endpoints to do so.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">I01</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">An user wants to switch from FOSS application to a COTS application or the other way round. This is possible since the application is interoperable with other applications within the CX network.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">F01</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The application uses the Catena-X standards to ensure the correct interoperability and exchange with other participants.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">F02</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">An OEM or Tier n supplier needs more information regarding specific parts. He can mark the parts in question and send a top-down notification (Quality Investigation) to the next entity / the partner.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">F03</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A company wants to have more transparency and a visualized status of the supply / value chain. By using the application they are enabled to work with the structures and enable new features / functionalities.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">F04</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Notifications are sent using the EDC to ensure interoperability and reliability to the CX network.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">E01</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Notifications between traceability apps need to be send out and received within a specified timeframe to minimize the negative impact of e.g. recalled serialized products/batches on the value chain.</p></td>
-</tr>
-</tbody>
-</table>
+<div class="imageblock">
+<div class="content">
+<img src="import-report-receive.svg" alt="import report receive" width="680" height="413">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_overview">Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When a user publishes assets, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN').
+If yes, then endpoint starts to publish assets to network.
+If any of required Services are not available or returns Error response upon executing flow assets are set to ERROR state and user can retry publishing them at any time when services are available</p>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">

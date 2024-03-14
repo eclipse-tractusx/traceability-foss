@@ -352,7 +352,7 @@ For digital twins the Asset Administration Shell (AAS) standard is used. For fet
 
 This sequence diagrams describes the process of importing data from a Trace-X Dataformat
 
-Modul 1
+### Modul 1
 
 Data will be imported by the Trace-X Frontend into Trace-X backend and will be persisted as asset by a Trace-X instance in a transient state.
 The raw data which is needed for the shared services (DTR / EDC) will be persisted as well.
@@ -362,7 +362,7 @@ The raw data which is needed for the shared services (DTR / EDC) will be persist
 
 ```
 
-Modul 2 - DRAFT
+### Modul 2
 
 The frontend is able to select assets and publish / syncronize them with the shared services. DTR / EDC / Submodel API.
 
@@ -371,7 +371,7 @@ The frontend is able to select assets and publish / syncronize them with the sha
 
 ```
 
-Modul 3 - DRAFT
+### Modul 3
 
 The backend is able to persist the data in the DTR / EDC and allows to use IRS for resolving assets.
 
@@ -379,8 +379,6 @@ The backend is able to persist the data in the DTR / EDC and allows to use IRS f
 ```bash
 
 ```
-
-TODO: Add all scenarios for data-provisioning
 
 ## Scenario 1: Receive import report
 
@@ -393,6 +391,25 @@ When a user requests an import report, TraceX-FOSS checks if the user has an ade
 If yes, then the endpoint returns an import report to the given importJobId.
 
 If the importJobId is not known to Trace-X, an HTTP 404 error is returned.
+
+## Scenario 2: Publish assets
+
+This section describes user interaction when publishing assets
+
+### Overview
+
+When a user publishes assets, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN').
+If yes, then endpoint starts to publish assets to network.
+
+## Scenario 3: Publish assets Error on EDC or DTR
+
+This section describes user interaction when publishing assets fails due to EDC or DTR error ( for example services are unavailable )
+
+### Overview
+
+When a user publishes assets, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN').
+If yes, then endpoint starts to publish assets to network.
+If any of required Services are not available or returns Error response upon executing flow assets are set to ERROR state and user can retry publishing them at any time when services are available
 
 ## Data Souvereignty
 

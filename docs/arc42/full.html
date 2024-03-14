@@ -1418,9 +1418,8 @@ For digital twins the Asset Administration Shell (AAS) standard is used. For fet
 <div class="paragraph">
 <p>This sequence diagrams describes the process of importing data from a Trace-X Dataformat</p>
 </div>
-<div class="paragraph">
-<p>Modul 1</p>
-</div>
+<div class="sect3">
+<h4 id="_modul_1">Modul 1</h4>
 <div class="paragraph">
 <p>Data will be imported by the Trace-X Frontend into Trace-X backend and will be persisted as asset by a Trace-X instance in a transient state.
 The raw data which is needed for the shared services (DTR / EDC) will be persisted as well.</p>
@@ -1430,30 +1429,28 @@ The raw data which is needed for the shared services (DTR / EDC) will be persist
 <img src="architecture-constraints/business-context_data_provisioning_1.svg" alt="business context data provisioning 1" width="707" height="612">
 </div>
 </div>
-<div class="paragraph">
-<p>Modul 2 - DRAFT</p>
 </div>
+<div class="sect3">
+<h4 id="_modul_2">Modul 2</h4>
 <div class="paragraph">
 <p>The frontend is able to select assets and publish / syncronize them with the shared services. DTR / EDC / Submodel API.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="architecture-constraints/business-context_data_provisioning_2.svg" alt="business context data provisioning 2" width="725" height="434">
+<img src="architecture-constraints/business-context_data_provisioning_2.svg" alt="business context data provisioning 2" width="751" height="490">
 </div>
 </div>
-<div class="paragraph">
-<p>Modul 3 - DRAFT</p>
 </div>
+<div class="sect3">
+<h4 id="_modul_3">Modul 3</h4>
 <div class="paragraph">
 <p>The backend is able to persist the data in the DTR / EDC and allows to use IRS for resolving assets.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="architecture-constraints/business-context_data_provisioning_3.svg" alt="business context data provisioning 3" width="581" height="551">
+<img src="architecture-constraints/business-context_data_provisioning_3.svg" alt="business context data provisioning 3" width="710" height="843">
 </div>
 </div>
-<div class="paragraph">
-<p>TODO: Add all scenarios for data-provisioning</p>
 </div>
 <div class="sect3">
 <h4 id="_scenario_1_receive_import_report">Scenario 1: Receive import report</h4>
@@ -1477,6 +1474,43 @@ If yes, then the endpoint returns an import report to the given importJobId.</p>
 </div>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_scenario_2_publish_assets">Scenario 2: Publish assets</h4>
+<div class="paragraph">
+<p>This section describes user interaction when publishing assets</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="architecture-constraints/import-report-receive.svg" alt="import report receive" width="425" height="299">
+</div>
+</div>
+<div class="sect4">
+<h5 id="_overview_7">Overview</h5>
+<div class="paragraph">
+<p>When a user publishes assets, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN').
+If yes, then endpoint starts to publish assets to network.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_scenario_3_publish_assets_error_on_edc_or_dtr">Scenario 3: Publish assets Error on EDC or DTR</h4>
+<div class="paragraph">
+<p>This section describes user interaction when publishing assets fails due to EDC or DTR error ( for example services are unavailable )</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="architecture-constraints/import-report-receive.svg" alt="import report receive" width="680" height="413">
+</div>
+</div>
+<div class="sect4">
+<h5 id="_overview_8">Overview</h5>
+<div class="paragraph">
+<p>When a user publishes assets, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN').
+If yes, then endpoint starts to publish assets to network.
+If any of required Services are not available or returns Error response upon executing flow assets are set to ERROR state and user can retry publishing them at any time when services are available</p>
+</div>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_data_souvereignty">Data Souvereignty</h3>
@@ -1491,7 +1525,7 @@ If yes, then the endpoint returns an import report to the given importJobId.</p>
 </div>
 </div>
 <div class="sect6">
-<h7 id="_overview_7">Overview</h7>
+<h7 id="_overview_9">Overview</h7>
 <div class="paragraph">
 <p>In case a user requests contract agreements, Trace-X checks if the user has required roles ('ROLE_ADMIN', 'ROLE_SUPERVISOR').
 If yes, then the requested assets will be mapped to the related contract agreement id.
@@ -2243,7 +2277,7 @@ Note: as soon as a resume feature is implemented, this needs to be addressed her
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-03-14 13:57:37 UTC
+Last updated 2024-03-14 14:00:53 UTC
 </div>
 </div>
 </body>

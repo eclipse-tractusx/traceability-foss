@@ -337,6 +337,8 @@ backend:
     callbackUrl: "CHANGEME"  # example: http://<irs-helm.nameOverride>:8181/internal/endpoint-data-reference
     callbackUrlEdcClient: "CHANGEME"  # example: https://<backend.ingress.hosts>/api/internal/endpoint-data-reference
     dataEndpointUrl: "CHANGEME"  # example: https://<tractusx-connector.controlplane.ingress.hosts>/management"
+    partsProviderControlplaneUrl: "CHANGEME"  # host of the parts provider EDC
+    partsProviderDataplaneUrl: "CHANGEME"
 
   discoveryfinder:
     baseUrl: "CHANGEME"  # example: https://discoveryfinder.net/discoveryfinder/api/administration/connectors/discovery/search
@@ -345,6 +347,7 @@ backend:
     baseUrl: "<https://replace.me">  # https://<irs-helm.ingress.host>
   registry:
     urlWithPath: "<https://replace.me">  # digitalTwinRegistry /semantics/registry/api/v3.0
+    allowedBpns: "BPN1,BPN2"  # "," separated list of allowed bpns for creating shells
   portal:
     baseUrl: "<https://replace.me">
 
