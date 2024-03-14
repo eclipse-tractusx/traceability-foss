@@ -68,7 +68,6 @@ public class QualityNotificationMessage {
         this.notificationStatus = to;
     }
 
-
     public static QualityNotificationMessage create(BPN applicationBpn, String receiverBpn, String description, Instant targetDate, QualityNotificationSeverity severity, Map.Entry<String, List<AssetBase>> asset, String creator, String sendToName) {
         final String notificationId = UUID.randomUUID().toString();
         final String messageId = UUID.randomUUID().toString();

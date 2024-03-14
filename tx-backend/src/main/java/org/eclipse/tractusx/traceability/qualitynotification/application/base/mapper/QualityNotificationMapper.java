@@ -54,6 +54,8 @@ public class QualityNotificationMapper {
         return QualityNotificationMessageResponse
                 .builder()
                 .id(notificationMessage.getId())
+                .severity(QualityNotificationSeverityResponse.fromString(notificationMessage.getSeverity().getRealName()))
+                .notificationReferenceId(notificationMessage.getNotificationReferenceId())
                 .edcNotificationId(notificationMessage.getEdcNotificationId())
                 .contractAgreementId(notificationMessage.getContractAgreementId())
                 .notificationReferenceId(notificationMessage.getNotificationReferenceId())
@@ -63,6 +65,10 @@ public class QualityNotificationMapper {
                 .status(fromStatus(notificationMessage.getNotificationStatus()))
                 .targetDate(notificationMessage.getTargetDate())
                 .created(notificationMessage.getCreated())
+                .createdBy(notificationMessage.getCreatedBy())
+                .createdByName(notificationMessage.getCreatedByName())
+                .sendTo(notificationMessage.getSendTo())
+                .sendToName(notificationMessage.getSendToName())
                 .errorMessage(notificationMessage.getErrorMessage())
                 .build();
     }
