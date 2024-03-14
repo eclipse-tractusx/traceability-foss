@@ -1,4 +1,4 @@
-= Scenario 2: Publish assets Error on EDC or DTR
+= Scenario 3: Publish assets Error on EDC or DTR
 
 This section describes user interaction when publishing assets fails due to EDC or DTR error ( for example services are unavailable )
 
