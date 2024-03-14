@@ -84,9 +84,9 @@ SPDX-License-Identifier: Apache-2.0
         <swagger-annotation.version>1.6.12</swagger-annotation.version>
         <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
         <commons-io.version>2.15.0</commons-io.version>
-        <jose4j.version>0.9.3</jose4j.version>
+        <jose4j.version>0.9.4</jose4j.version>
         <restito.version>1.1.0</restito.version>
-        <testcontainer-postgresql.version>1.19.6</testcontainer-postgresql.version>
+        <testcontainer-postgresql.version>1.19.7</testcontainer-postgresql.version>
         <rest-assured.version>5.4.0</rest-assured.version>
         <postgresql.version>42.6.1</postgresql.version>
         <springdoc.version>2.0.4</springdoc.version>
@@ -163,6 +163,13 @@ SPDX-License-Identifier: Apache-2.0
             <version>${rest-assured.version}</version>
             <scope>test</scope>
         </dependency>
+<!-- Fix Vulnerability CVE-2024-26308-->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.16.1</version>
+        </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
