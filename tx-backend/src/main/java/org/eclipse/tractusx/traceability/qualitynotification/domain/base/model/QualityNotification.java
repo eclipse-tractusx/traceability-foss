@@ -46,7 +46,7 @@ public class QualityNotification {
     private String declineReason;
     @Getter
     @Builder.Default
-    private List<QualityNotificationMessage> notifications = Collections.unmodifiableList(new ArrayList<>());
+    private List<QualityNotificationMessage> notifications = List.of();
 
 
     public static QualityNotification startNotification(Instant createDate, BPN bpn, String description) { // rename to generic
