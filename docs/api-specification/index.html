@@ -253,9 +253,17 @@ font-style: italic;
   <li><a href="#getBpnEdcs"><code><span class="http-method">get</span> /bpn-config</code></a></li>
   <li><a href="#updateBpnEdcMappings"><code><span class="http-method">put</span> /bpn-config</code></a></li>
   </ul>
+  <h4><a href="#Contracts">Contracts</a></h4>
+  <ul>
+  <li><a href="#contracts"><code><span class="http-method">post</span> /contracts</code></a></li>
+  </ul>
   <h4><a href="#Dashboard">Dashboard</a></h4>
   <ul>
   <li><a href="#dashboard"><code><span class="http-method">get</span> /dashboard</code></a></li>
+  </ul>
+  <h4><a href="#GetContracts">GetContracts</a></h4>
+  <ul>
+  <li><a href="#contracts"><code><span class="http-method">post</span> /contracts</code></a></li>
   </ul>
   <h4><a href="#ImportReport">ImportReport</a></h4>
   <ul>
@@ -339,29 +347,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">429</h4>
+    Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">400</h4>
     Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">429</h4>
-    Too many requests.
+    <h4 class="field-label">403</h4>
+    Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">201</h4>
     Created.
         <a href="#QualityNotificationIdResponse">QualityNotificationIdResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -396,20 +404,17 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">500</h4>
-    Internal server error.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     Ok.
         <a href="#"></a>
-    <h4 class="field-label">400</h4>
-    Bad request.
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
+    <h4 class="field-label">500</h4>
+    Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
@@ -417,11 +422,14 @@ font-style: italic;
     <h4 class="field-label">204</h4>
     No content.
         <a href="#"></a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -456,20 +464,17 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">500</h4>
-    Internal server error.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     Ok.
         <a href="#"></a>
-    <h4 class="field-label">400</h4>
-    Bad request.
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
+    <h4 class="field-label">500</h4>
+    Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
@@ -477,11 +482,14 @@ font-style: italic;
     <h4 class="field-label">204</h4>
     No content.
         <a href="#"></a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -528,32 +536,32 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">204</h4>
-    No content.
-        <a href="#"></a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">500</h4>
-    Internal server error.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     Ok.
         <a href="#"></a>
-    <h4 class="field-label">400</h4>
-    Bad request.
+    <h4 class="field-label">204</h4>
+    No content.
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
+    <h4 class="field-label">500</h4>
+    Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -602,29 +610,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">200</h4>
-    Returns a distinct filter values for given fieldName.
-        
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">200</h4>
+    Returns a distinct filter values for given fieldName.
+        
     <h4 class="field-label">429</h4>
     Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -953,8 +961,11 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
@@ -962,20 +973,17 @@ font-style: italic;
     <h4 class="field-label">200</h4>
     Returns the paged result found for Asset
         
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -1298,29 +1306,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">500</h4>
-    Internal server error.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     OK.
         
-    <h4 class="field-label">400</h4>
-    Bad request.
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
+    <h4 class="field-label">500</h4>
+    Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -1367,29 +1375,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">204</h4>
     No content.
         <a href="#"></a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -1439,29 +1447,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">200</h4>
-    Returns a distinct filter values for given fieldName.
-        
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">200</h4>
+    Returns a distinct filter values for given fieldName.
+        
     <h4 class="field-label">429</h4>
     Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -1510,29 +1518,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">200</h4>
-    Returns a distinct filter values for given fieldName.
-        
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">200</h4>
+    Returns a distinct filter values for given fieldName.
+        
     <h4 class="field-label">429</h4>
     Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -1581,29 +1589,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">200</h4>
-    Returns a distinct filter values for given fieldName.
-        
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">200</h4>
+    Returns a distinct filter values for given fieldName.
+        
     <h4 class="field-label">429</h4>
     Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -1652,29 +1660,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">200</h4>
-    Returns a distinct filter values for given fieldName.
-        
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">200</h4>
+    Returns a distinct filter values for given fieldName.
+        
     <h4 class="field-label">429</h4>
     Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -1744,6 +1752,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -1801,6 +1810,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -1858,6 +1868,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -1915,6 +1926,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -1972,6 +1984,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -2003,30 +2016,30 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">500</h4>
-    Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">404</h4>
     Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">429</h4>
-    Too many requests.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">200</h4>
-    Returns the asset by childId
-        
-    <h4 class="field-label">403</h4>
-    Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">401</h4>
     Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">500</h4>
+    Internal server error.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">429</h4>
+    Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">200</h4>
+    Returns the asset by childId
+        
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="assetById1"/>
@@ -2094,6 +2107,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -2151,6 +2165,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -2208,6 +2223,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -2265,6 +2281,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -2322,6 +2339,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -2353,29 +2371,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">200</h4>
+    Returns the assets found
+        
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">200</h4>
-    Returns the assets found
-        
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -2446,6 +2464,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -2503,6 +2522,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -2560,6 +2580,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -2617,6 +2638,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -2674,6 +2696,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -2731,6 +2754,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -2788,6 +2812,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -2845,6 +2870,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -2902,6 +2928,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -2959,6 +2986,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -3016,6 +3044,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -3073,6 +3102,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -3130,6 +3160,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -3187,6 +3218,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -3244,6 +3276,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -3301,6 +3334,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -3358,6 +3392,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -3415,6 +3450,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -3472,6 +3508,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -3529,6 +3566,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -3586,6 +3624,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -3643,6 +3682,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -3700,6 +3740,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -3757,6 +3798,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -3814,6 +3856,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -3845,29 +3888,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">200</h4>
+    Returns the paged result found for Asset
+        
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">200</h4>
-    Returns the paged result found for Asset
-        
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -3904,30 +3947,30 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">500</h4>
-    Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">404</h4>
     Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">429</h4>
-    Too many requests.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">200</h4>
-    Returns the assets found
-        
-    <h4 class="field-label">403</h4>
-    Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">401</h4>
     Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">500</h4>
+    Internal server error.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">429</h4>
+    Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">200</h4>
+    Returns the assets found
+        
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="distinctFilterValues2"/>
@@ -3975,29 +4018,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">200</h4>
-    Returns a distinct filter values for given fieldName.
-        
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">200</h4>
+    Returns a distinct filter values for given fieldName.
+        
     <h4 class="field-label">429</h4>
     Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -4072,6 +4115,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -4129,6 +4173,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -4186,6 +4231,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -4243,6 +4289,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -4300,6 +4347,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -4357,6 +4405,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -4414,6 +4463,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -4471,6 +4521,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -4528,6 +4579,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -4585,6 +4637,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -4642,6 +4695,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -4699,6 +4753,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -4756,6 +4811,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -4813,6 +4869,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -4870,6 +4927,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -4927,6 +4985,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -4984,6 +5043,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -5041,6 +5101,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -5098,6 +5159,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -5155,6 +5217,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -5212,6 +5275,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -5269,6 +5333,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -5326,6 +5391,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -5383,6 +5449,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -5440,6 +5507,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -5471,30 +5539,30 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">500</h4>
-    Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">200</h4>
-    Returns the paged result found for Asset
-        
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">404</h4>
     Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">429</h4>
-    Too many requests.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">401</h4>
     Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">500</h4>
+    Internal server error.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">429</h4>
+    Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">200</h4>
+    Returns the paged result found for Asset
+        
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="sync1"/>
@@ -5534,29 +5602,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">429</h4>
+    Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">400</h4>
     Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">429</h4>
-    Too many requests.
+    <h4 class="field-label">403</h4>
+    Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">201</h4>
     Created.
         <a href="#"></a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -5637,6 +5705,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -5694,6 +5763,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -5751,6 +5821,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -5808,6 +5879,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -5865,6 +5937,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -5896,17 +5969,14 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
@@ -5914,11 +5984,14 @@ font-style: italic;
     <h4 class="field-label">200</h4>
     Returns the updated asset
         
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -5988,6 +6061,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -6045,6 +6119,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -6102,6 +6177,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -6159,6 +6235,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -6216,6 +6293,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -6247,29 +6325,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">429</h4>
+    Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">400</h4>
     Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">429</h4>
-    Too many requests.
+    <h4 class="field-label">403</h4>
+    Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     Returns the asset by childId
         
-    <h4 class="field-label">403</h4>
-    Forbidden.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -6338,6 +6416,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -6395,6 +6474,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -6452,6 +6532,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -6509,6 +6590,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -6566,6 +6648,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -6597,11 +6680,17 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">429</h4>
+    Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     Returns the assets found
@@ -6609,17 +6698,11 @@ font-style: italic;
     <h4 class="field-label">400</h4>
     Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">429</h4>
-    Too many requests.
-        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -6690,6 +6773,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -6747,6 +6831,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -6804,6 +6889,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -6861,6 +6947,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -6918,6 +7005,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -6975,6 +7063,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -7032,6 +7121,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -7089,6 +7179,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -7146,6 +7237,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -7203,6 +7295,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -7260,6 +7353,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -7317,6 +7411,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -7374,6 +7469,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -7431,6 +7527,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -7488,6 +7585,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -7545,6 +7643,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -7602,6 +7701,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -7659,6 +7759,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -7716,6 +7817,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -7773,6 +7875,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -7830,6 +7933,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -7887,6 +7991,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -7944,6 +8049,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -8001,6 +8107,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -8058,6 +8165,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -8089,29 +8197,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">200</h4>
-    Returns the paged result found for Asset
-        
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">200</h4>
+    Returns the paged result found for Asset
+        
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -8160,29 +8268,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">200</h4>
-    Returns a distinct filter values for given fieldName.
-        
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">200</h4>
+    Returns a distinct filter values for given fieldName.
+        
     <h4 class="field-label">429</h4>
     Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -8257,6 +8365,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -8314,6 +8423,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -8371,6 +8481,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -8428,6 +8539,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -8485,6 +8597,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -8542,6 +8655,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -8599,6 +8713,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -8656,6 +8771,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -8713,6 +8829,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -8770,6 +8887,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -8827,6 +8945,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -8884,6 +9003,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -8941,6 +9061,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -8998,6 +9119,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -9055,6 +9177,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -9112,6 +9235,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -9169,6 +9293,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -9226,6 +9351,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -9283,6 +9409,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -9340,6 +9467,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -9397,6 +9525,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -9454,6 +9583,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -9511,6 +9641,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -9568,6 +9699,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -9625,6 +9757,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -9656,17 +9789,14 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
@@ -9674,11 +9804,14 @@ font-style: italic;
     <h4 class="field-label">200</h4>
     Returns the paged result found for Asset
         
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -9719,29 +9852,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">429</h4>
+    Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">400</h4>
     Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">429</h4>
-    Too many requests.
+    <h4 class="field-label">403</h4>
+    Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">201</h4>
     Created.
         <a href="#"></a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -9822,6 +9955,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -9879,6 +10013,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -9936,6 +10071,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -9993,6 +10129,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -10050,6 +10187,7 @@ font-style: italic;
   }, {
     "type" : "PART_SITE_INFORMATION_AS_PLANNED"
   } ],
+  "contractAgreementId" : "TODO",
   "id" : "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd",
   "qualityType" : "Ok",
   "importNote" : "Asset created successfully in transient state",
@@ -10081,29 +10219,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">200</h4>
-    Returns the updated asset
-        
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">200</h4>
+    Returns the updated asset
+        
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -10147,30 +10285,30 @@ font-style: italic;
     <h4 class="field-label">204</h4>
     No Content.
         <a href="#"></a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">500</h4>
-    Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">200</h4>
-    OK.
-        <a href="#"></a>
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">404</h4>
     Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">429</h4>
-    Too many requests.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">401</h4>
     Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">500</h4>
+    Internal server error.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">429</h4>
+    Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">200</h4>
+    OK.
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="importReport"/>
@@ -10233,29 +10371,29 @@ font-style: italic;
     <h4 class="field-label">204</h4>
     No Content.
         <a href="#"></a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">500</h4>
-    Internal server error.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     OK.
         <a href="#ImportReportResponse">ImportReportResponse</a>
-    <h4 class="field-label">400</h4>
-    Bad request.
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
+    <h4 class="field-label">500</h4>
+    Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -10299,30 +10437,30 @@ font-style: italic;
     <h4 class="field-label">204</h4>
     No Content.
         <a href="#"></a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">500</h4>
-    Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">200</h4>
-    OK.
-        <a href="#"></a>
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">404</h4>
     Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">429</h4>
-    Too many requests.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">401</h4>
     Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">500</h4>
+    Internal server error.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">429</h4>
+    Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">200</h4>
+    OK.
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <h1><a name="AssetsPublish">AssetsPublish</a></h1>
@@ -10366,30 +10504,30 @@ font-style: italic;
     <h4 class="field-label">204</h4>
     No Content.
         <a href="#"></a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">500</h4>
-    Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">200</h4>
-    OK.
-        <a href="#"></a>
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">404</h4>
     Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">429</h4>
-    Too many requests.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">401</h4>
     Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">500</h4>
+    Internal server error.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">429</h4>
+    Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">200</h4>
+    OK.
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <h1><a name="BpnEdcMapping">BpnEdcMapping</a></h1>
@@ -10453,29 +10591,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">200</h4>
+    Returns the paged result found for BpnEdcMapping
+        
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">200</h4>
-    Returns the paged result found for BpnEdcMapping
-        
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -10510,11 +10648,17 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">429</h4>
+    Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">204</h4>
     Deleted.
@@ -10522,21 +10666,15 @@ font-style: italic;
     <h4 class="field-label">400</h4>
     Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
+    <h4 class="field-label">403</h4>
+    Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">429</h4>
-    Too many requests.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     Okay
         <a href="#"></a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
-        <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="getBpnEdcs"/>
@@ -10587,29 +10725,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">500</h4>
+    Internal server error.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">429</h4>
+    Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     Returns the paged result found
         
     <h4 class="field-label">415</h4>
     Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">500</h4>
-    Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">429</h4>
-    Too many requests.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -10673,30 +10811,307 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">500</h4>
-    Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     Returns the paged result found for BpnEdcMapping
         
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">404</h4>
     Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">429</h4>
-    Too many requests.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">401</h4>
     Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">500</h4>
+    Internal server error.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">429</h4>
+    Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
+  </div> <!-- method -->
+  <hr/>
+  <h1><a name="Contracts">Contracts</a></h1>
+  <div class="method"><a name="contracts"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /contracts</code></pre></div>
+    <div class="method-summary">All contract agreements for all assets (<span class="nickname">contracts</span>)</div>
+    <div class="method-notes">This endpoint returns all contract agreements for alls assets in Trace-X</div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">PageableFilterRequest <a href="#PageableFilterRequest">PageableFilterRequest</a> (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+
+    </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      array[<a href="#PageResultContractResponse">PageResultContractResponse</a>]
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>[ {
+  "pageCount" : 15,
+  "totalItems" : 2,
+  "pageSize" : 10,
+  "page" : 1,
+  "content" : [ {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  } ]
+}, {
+  "pageCount" : 15,
+  "totalItems" : 2,
+  "pageSize" : 10,
+  "page" : 1,
+  "content" : [ {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  } ]
+}, {
+  "pageCount" : 15,
+  "totalItems" : 2,
+  "pageSize" : 10,
+  "page" : 1,
+  "content" : [ {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  } ]
+}, {
+  "pageCount" : 15,
+  "totalItems" : 2,
+  "pageSize" : 10,
+  "page" : 1,
+  "content" : [ {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  } ]
+}, {
+  "pageCount" : 15,
+  "totalItems" : 2,
+  "pageSize" : 10,
+  "page" : 1,
+  "content" : [ {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  } ]
+} ]</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">429</h4>
+    Too many requests.
+        <a href="#String">String</a>
+    <h4 class="field-label">500</h4>
+    Internal server error.
+        <a href="#String">String</a>
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#String">String</a>
+    <h4 class="field-label">200</h4>
+    Ok.
+        
+    <h4 class="field-label">401</h4>
+    Authorization failed.
+        <a href="#String">String</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#String">String</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#String">String</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type.
+        <a href="#String">String</a>
   </div> <!-- method -->
   <hr/>
   <h1><a name="Dashboard">Dashboard</a></h1>
@@ -10750,30 +11165,307 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">500</h4>
-    Internal server error.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     Returns dashboard data
         <a href="#DashboardResponse">DashboardResponse</a>
-    <h4 class="field-label">400</h4>
-    Bad request.
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
+    <h4 class="field-label">500</h4>
+    Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
+  </div> <!-- method -->
+  <hr/>
+  <h1><a name="GetContracts">GetContracts</a></h1>
+  <div class="method"><a name="contracts"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /contracts</code></pre></div>
+    <div class="method-summary">All contract agreements for all assets (<span class="nickname">contracts</span>)</div>
+    <div class="method-notes">This endpoint returns all contract agreements for alls assets in Trace-X</div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">PageableFilterRequest <a href="#PageableFilterRequest">PageableFilterRequest</a> (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+
+    </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      array[<a href="#PageResultContractResponse">PageResultContractResponse</a>]
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>[ {
+  "pageCount" : 15,
+  "totalItems" : 2,
+  "pageSize" : 10,
+  "page" : 1,
+  "content" : [ {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  } ]
+}, {
+  "pageCount" : 15,
+  "totalItems" : 2,
+  "pageSize" : 10,
+  "page" : 1,
+  "content" : [ {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  } ]
+}, {
+  "pageCount" : 15,
+  "totalItems" : 2,
+  "pageSize" : 10,
+  "page" : 1,
+  "content" : [ {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  } ]
+}, {
+  "pageCount" : 15,
+  "totalItems" : 2,
+  "pageSize" : 10,
+  "page" : 1,
+  "content" : [ {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  } ]
+}, {
+  "pageCount" : 15,
+  "totalItems" : 2,
+  "pageSize" : 10,
+  "page" : 1,
+  "content" : [ {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  }, {
+    "counterpartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
+    "endDate" : "2023-02-21T21:27:10.73495Z",
+    "contractId" : "66",
+    "state" : "FINALIZED",
+    "creationDate" : "2023-02-21T21:27:10.73495Z",
+    "policy" : "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}"
+  } ]
+} ]</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">429</h4>
+    Too many requests.
+        <a href="#String">String</a>
+    <h4 class="field-label">500</h4>
+    Internal server error.
+        <a href="#String">String</a>
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#String">String</a>
+    <h4 class="field-label">200</h4>
+    Ok.
+        
     <h4 class="field-label">401</h4>
     Authorization failed.
-        <a href="#ErrorResponse">ErrorResponse</a>
+        <a href="#String">String</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#String">String</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#String">String</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type.
+        <a href="#String">String</a>
   </div> <!-- method -->
   <hr/>
   <h1><a name="ImportReport">ImportReport</a></h1>
@@ -10837,29 +11529,29 @@ font-style: italic;
     <h4 class="field-label">204</h4>
     No Content.
         <a href="#"></a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">500</h4>
-    Internal server error.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     OK.
         <a href="#ImportReportResponse">ImportReportResponse</a>
-    <h4 class="field-label">400</h4>
-    Bad request.
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
+    <h4 class="field-label">500</h4>
+    Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -10895,20 +11587,17 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">500</h4>
-    Internal server error.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     Ok.
         <a href="#"></a>
-    <h4 class="field-label">400</h4>
-    Bad request.
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
+    <h4 class="field-label">500</h4>
+    Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
@@ -10916,11 +11605,14 @@ font-style: italic;
     <h4 class="field-label">204</h4>
     No content.
         <a href="#"></a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -10955,20 +11647,17 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">500</h4>
-    Internal server error.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     Ok.
         <a href="#"></a>
-    <h4 class="field-label">400</h4>
-    Bad request.
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
+    <h4 class="field-label">500</h4>
+    Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
@@ -10976,11 +11665,14 @@ font-style: italic;
     <h4 class="field-label">204</h4>
     No content.
         <a href="#"></a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -11027,32 +11719,32 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">204</h4>
-    No content.
-        <a href="#"></a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">500</h4>
-    Internal server error.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     Ok.
         <a href="#"></a>
-    <h4 class="field-label">400</h4>
-    Bad request.
+    <h4 class="field-label">204</h4>
+    No content.
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
+    <h4 class="field-label">500</h4>
+    Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -11101,29 +11793,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">200</h4>
-    Returns a distinct filter values for given fieldName.
-        
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">200</h4>
+    Returns a distinct filter values for given fieldName.
+        
     <h4 class="field-label">429</h4>
     Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -12572,29 +13264,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">200</h4>
+    Returns the paged result found for Asset
+        
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">200</h4>
-    Returns the paged result found for Asset
-        
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -12917,29 +13609,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">500</h4>
-    Internal server error.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     OK.
         
-    <h4 class="field-label">400</h4>
-    Bad request.
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
+    <h4 class="field-label">500</h4>
+    Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -12990,29 +13682,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">429</h4>
+    Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">400</h4>
     Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">429</h4>
-    Too many requests.
+    <h4 class="field-label">403</h4>
+    Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">201</h4>
     Created.
         <a href="#QualityNotificationIdResponse">QualityNotificationIdResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -13059,32 +13751,32 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">204</h4>
-    No content.
-        <a href="#"></a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">500</h4>
-    Internal server error.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     Ok.
         <a href="#"></a>
-    <h4 class="field-label">400</h4>
-    Bad request.
+    <h4 class="field-label">204</h4>
+    No content.
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
+    <h4 class="field-label">500</h4>
+    Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -13138,29 +13830,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">429</h4>
+    Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">400</h4>
     Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">429</h4>
-    Too many requests.
+    <h4 class="field-label">403</h4>
+    Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">201</h4>
     Created.
         <a href="#CreateNotificationContractResponse">CreateNotificationContractResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -13192,86 +13884,48 @@ font-style: italic;
   "policyId" : "5a00bb50-0253-405f-b9f1-1a3150b9d51d",
   "permissions" : [ {
     "action" : "USE",
-    "constraints" : [ {
+    "constraints" : {
       "or" : [ {
-        "rightOperands" : "ID Trace 3.1",
         "leftOperand" : "PURPOSE",
+        "rightOperand" : "ID Trace 3.1",
         "operatorTypeResponse" : "EQ"
       }, {
-        "rightOperands" : "ID Trace 3.1",
         "leftOperand" : "PURPOSE",
+        "rightOperand" : "ID Trace 3.1",
         "operatorTypeResponse" : "EQ"
       } ],
       "and" : [ {
-        "rightOperands" : "ID Trace 3.1",
         "leftOperand" : "PURPOSE",
+        "rightOperand" : "ID Trace 3.1",
         "operatorTypeResponse" : "EQ"
       }, {
-        "rightOperands" : "ID Trace 3.1",
         "leftOperand" : "PURPOSE",
+        "rightOperand" : "ID Trace 3.1",
         "operatorTypeResponse" : "EQ"
       } ]
-    }, {
-      "or" : [ {
-        "rightOperands" : "ID Trace 3.1",
-        "leftOperand" : "PURPOSE",
-        "operatorTypeResponse" : "EQ"
-      }, {
-        "rightOperands" : "ID Trace 3.1",
-        "leftOperand" : "PURPOSE",
-        "operatorTypeResponse" : "EQ"
-      } ],
-      "and" : [ {
-        "rightOperands" : "ID Trace 3.1",
-        "leftOperand" : "PURPOSE",
-        "operatorTypeResponse" : "EQ"
-      }, {
-        "rightOperands" : "ID Trace 3.1",
-        "leftOperand" : "PURPOSE",
-        "operatorTypeResponse" : "EQ"
-      } ]
-    } ]
+    }
   }, {
     "action" : "USE",
-    "constraints" : [ {
+    "constraints" : {
       "or" : [ {
-        "rightOperands" : "ID Trace 3.1",
         "leftOperand" : "PURPOSE",
+        "rightOperand" : "ID Trace 3.1",
         "operatorTypeResponse" : "EQ"
       }, {
-        "rightOperands" : "ID Trace 3.1",
         "leftOperand" : "PURPOSE",
+        "rightOperand" : "ID Trace 3.1",
         "operatorTypeResponse" : "EQ"
       } ],
       "and" : [ {
-        "rightOperands" : "ID Trace 3.1",
         "leftOperand" : "PURPOSE",
+        "rightOperand" : "ID Trace 3.1",
         "operatorTypeResponse" : "EQ"
       }, {
-        "rightOperands" : "ID Trace 3.1",
         "leftOperand" : "PURPOSE",
+        "rightOperand" : "ID Trace 3.1",
         "operatorTypeResponse" : "EQ"
       } ]
-    }, {
-      "or" : [ {
-        "rightOperands" : "ID Trace 3.1",
-        "leftOperand" : "PURPOSE",
-        "operatorTypeResponse" : "EQ"
-      }, {
-        "rightOperands" : "ID Trace 3.1",
-        "leftOperand" : "PURPOSE",
-        "operatorTypeResponse" : "EQ"
-      } ],
-      "and" : [ {
-        "rightOperands" : "ID Trace 3.1",
-        "leftOperand" : "PURPOSE",
-        "operatorTypeResponse" : "EQ"
-      }, {
-        "rightOperands" : "ID Trace 3.1",
-        "leftOperand" : "PURPOSE",
-        "operatorTypeResponse" : "EQ"
-      } ]
-    } ]
+    }
   } ],
   "validUntil" : "2000-01-23T04:56:07.000+00:00",
   "createdOn" : "2000-01-23T04:56:07.000+00:00"
@@ -13282,86 +13936,48 @@ font-style: italic;
   "policyId" : "5a00bb50-0253-405f-b9f1-1a3150b9d51d",
   "permissions" : [ {
     "action" : "USE",
-    "constraints" : [ {
+    "constraints" : {
       "or" : [ {
-        "rightOperands" : "ID Trace 3.1",
         "leftOperand" : "PURPOSE",
+        "rightOperand" : "ID Trace 3.1",
         "operatorTypeResponse" : "EQ"
       }, {
-        "rightOperands" : "ID Trace 3.1",
         "leftOperand" : "PURPOSE",
+        "rightOperand" : "ID Trace 3.1",
         "operatorTypeResponse" : "EQ"
       } ],
       "and" : [ {
-        "rightOperands" : "ID Trace 3.1",
         "leftOperand" : "PURPOSE",
+        "rightOperand" : "ID Trace 3.1",
         "operatorTypeResponse" : "EQ"
       }, {
-        "rightOperands" : "ID Trace 3.1",
         "leftOperand" : "PURPOSE",
+        "rightOperand" : "ID Trace 3.1",
         "operatorTypeResponse" : "EQ"
       } ]
-    }, {
-      "or" : [ {
-        "rightOperands" : "ID Trace 3.1",
-        "leftOperand" : "PURPOSE",
-        "operatorTypeResponse" : "EQ"
-      }, {
-        "rightOperands" : "ID Trace 3.1",
-        "leftOperand" : "PURPOSE",
-        "operatorTypeResponse" : "EQ"
-      } ],
-      "and" : [ {
-        "rightOperands" : "ID Trace 3.1",
-        "leftOperand" : "PURPOSE",
-        "operatorTypeResponse" : "EQ"
-      }, {
-        "rightOperands" : "ID Trace 3.1",
-        "leftOperand" : "PURPOSE",
-        "operatorTypeResponse" : "EQ"
-      } ]
-    } ]
+    }
   }, {
     "action" : "USE",
-    "constraints" : [ {
+    "constraints" : {
       "or" : [ {
-        "rightOperands" : "ID Trace 3.1",
         "leftOperand" : "PURPOSE",
+        "rightOperand" : "ID Trace 3.1",
         "operatorTypeResponse" : "EQ"
       }, {
-        "rightOperands" : "ID Trace 3.1",
         "leftOperand" : "PURPOSE",
+        "rightOperand" : "ID Trace 3.1",
         "operatorTypeResponse" : "EQ"
       } ],
       "and" : [ {
-        "rightOperands" : "ID Trace 3.1",
         "leftOperand" : "PURPOSE",
+        "rightOperand" : "ID Trace 3.1",
         "operatorTypeResponse" : "EQ"
       }, {
-        "rightOperands" : "ID Trace 3.1",
         "leftOperand" : "PURPOSE",
+        "rightOperand" : "ID Trace 3.1",
         "operatorTypeResponse" : "EQ"
       } ]
-    }, {
-      "or" : [ {
-        "rightOperands" : "ID Trace 3.1",
-        "leftOperand" : "PURPOSE",
-        "operatorTypeResponse" : "EQ"
-      }, {
-        "rightOperands" : "ID Trace 3.1",
-        "leftOperand" : "PURPOSE",
-        "operatorTypeResponse" : "EQ"
-      } ],
-      "and" : [ {
-        "rightOperands" : "ID Trace 3.1",
-        "leftOperand" : "PURPOSE",
-        "operatorTypeResponse" : "EQ"
-      }, {
-        "rightOperands" : "ID Trace 3.1",
-        "leftOperand" : "PURPOSE",
-        "operatorTypeResponse" : "EQ"
-      } ]
-    } ]
+    }
   } ],
   "validUntil" : "2000-01-23T04:56:07.000+00:00",
   "createdOn" : "2000-01-23T04:56:07.000+00:00"
@@ -13376,29 +13992,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">429</h4>
+    Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">400</h4>
     Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">429</h4>
-    Too many requests.
+    <h4 class="field-label">403</h4>
+    Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     Returns the policies
         <a href="#PolicyResponse">PolicyResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -13428,11 +14044,17 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">429</h4>
+    Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">202</h4>
     Created registry reload job.
@@ -13440,17 +14062,11 @@ font-style: italic;
     <h4 class="field-label">400</h4>
     Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">429</h4>
-    Too many requests.
-        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -13480,32 +14096,32 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">500</h4>
-    Internal server error.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     Ok.
         <a href="#"></a>
-    <h4 class="field-label">400</h4>
-    Bad request.
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
+    <h4 class="field-label">500</h4>
+    Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">204</h4>
-    No Content.
-        <a href="#"></a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">204</h4>
+    No Content.
+        <a href="#"></a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -13540,17 +14156,14 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
@@ -13558,11 +14171,14 @@ font-style: italic;
     <h4 class="field-label">200</h4>
     Returns the paged result found
         <a href="#"></a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -13612,30 +14228,30 @@ font-style: italic;
     <h4 class="field-label">204</h4>
     No Content.
         <a href="#"></a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">500</h4>
-    Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">200</h4>
-    Ok.
-        <a href="#"></a>
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">404</h4>
     Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">429</h4>
-    Too many requests.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">401</h4>
     Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">500</h4>
+    Internal server error.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">429</h4>
+    Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">200</h4>
+    Ok.
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
 
@@ -13650,6 +14266,7 @@ font-style: italic;
     <li><a href="#CloseQualityNotificationRequest"><code>CloseQualityNotificationRequest</code> - </a></li>
     <li><a href="#ConstraintResponse"><code>ConstraintResponse</code> - </a></li>
     <li><a href="#ConstraintsResponse"><code>ConstraintsResponse</code> - </a></li>
+    <li><a href="#ContractResponse"><code>ContractResponse</code> - </a></li>
     <li><a href="#CreateNotificationContractRequest"><code>CreateNotificationContractRequest</code> - </a></li>
     <li><a href="#CreateNotificationContractResponse"><code>CreateNotificationContractResponse</code> - </a></li>
     <li><a href="#DashboardResponse"><code>DashboardResponse</code> - </a></li>
@@ -13667,6 +14284,7 @@ font-style: italic;
     <li><a href="#ImportedAssetResponse"><code>ImportedAssetResponse</code> - </a></li>
     <li><a href="#InvestigationResponse"><code>InvestigationResponse</code> - </a></li>
     <li><a href="#OwnPageable"><code>OwnPageable</code> - </a></li>
+    <li><a href="#PageResultContractResponse"><code>PageResultContractResponse</code> - </a></li>
     <li><a href="#PageableFilterRequest"><code>PageableFilterRequest</code> - </a></li>
     <li><a href="#PartSiteInformationAsPlannedResponse"><code>PartSiteInformationAsPlannedResponse</code> - </a></li>
     <li><a href="#PermissionResponse"><code>PermissionResponse</code> - </a></li>
@@ -13742,7 +14360,7 @@ font-style: italic;
 <div class="param">operatorTypeResponse (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
         <div class="param-enum-header">Enum:</div>
         <div class="param-enum">EQ</div><div class="param-enum">NEQ</div><div class="param-enum">LT</div><div class="param-enum">GT</div><div class="param-enum">IN</div><div class="param-enum">LTEQ</div><div class="param-enum">GTEQ</div><div class="param-enum">ISA</div><div class="param-enum">HASPART</div><div class="param-enum">ISPARTOF</div><div class="param-enum">ISONEOF</div><div class="param-enum">ISALLOF</div><div class="param-enum">ISNONEOF</div>
-<div class="param">rightOperands (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span>  </div>
+<div class="param">rightOperand (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -13751,6 +14369,18 @@ font-style: italic;
     <div class="field-items">
       <div class="param">and (optional)</div><div class="param-desc"><span class="param-type"><a href="#ConstraintResponse">array[ConstraintResponse]</a></span>  </div>
 <div class="param">or (optional)</div><div class="param-desc"><span class="param-type"><a href="#ConstraintResponse">array[ConstraintResponse]</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="ContractResponse"><code>ContractResponse</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">contractId (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">counterpartyAddress (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">creationDate (optional)</div><div class="param-desc"><span class="param-type"><a href="#DateTime">Date</a></span>  format: date-time</div>
+<div class="param">endDate (optional)</div><div class="param-desc"><span class="param-type"><a href="#DateTime">Date</a></span>  format: date-time</div>
+<div class="param">state (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -13953,6 +14583,17 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3><a name="PageResultContractResponse"><code>PageResultContractResponse</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">content (optional)</div><div class="param-desc"><span class="param-type"><a href="#ContractResponse">array[ContractResponse]</a></span> Content of PageResults </div>
+<div class="param">page (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">pageCount (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">pageSize (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">totalItems (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3><a name="PageableFilterRequest"><code>PageableFilterRequest</code> - </a> <a class="up" href="#__Models">Up</a></h3>
     <div class='model-description'></div>
     <div class="field-items">
@@ -13977,7 +14618,7 @@ font-style: italic;
       <div class="param">action (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
         <div class="param-enum-header">Enum:</div>
         <div class="param-enum">ACCESS</div><div class="param-enum">USE</div>
-<div class="param">constraints (optional)</div><div class="param-desc"><span class="param-type"><a href="#ConstraintsResponse">array[ConstraintsResponse]</a></span>  </div>
+<div class="param">constraints (optional)</div><div class="param-desc"><span class="param-type"><a href="#ConstraintsResponse">ConstraintsResponse</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -14149,6 +14790,7 @@ font-style: italic;
         <div class="param-enum">TRANSIENT</div><div class="param-enum">PERSISTENT</div><div class="param-enum">ERROR</div><div class="param-enum">IN_SYNCHRONIZATION</div><div class="param-enum">UNSET</div>
 <div class="param">importNote (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
 <div class="param">tombstone (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">contractAgreementId (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   </body>

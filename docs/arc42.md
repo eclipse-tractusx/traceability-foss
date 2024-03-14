@@ -394,6 +394,22 @@ If yes, then the endpoint returns an import report to the given importJobId.
 
 If the importJobId is not known to Trace-X, an HTTP 404 error is returned.
 
+## Data Souvereignty
+
+## Scenario 1: Return Asset Contract Agreements
+
+This section describes functionality and the behavior in case a user requests contract agreements from Trace-X via the Trace-X contracts API (/contracts).
+
+##### Overview
+
+In case a user requests contract agreements, Trace-X checks if the user has required roles ('ROLE_ADMIN', 'ROLE_SUPERVISOR').
+If yes, then the requested assets will be mapped to the related contract agreement id.
+These contract agreement ids will be then requested on EDC side via POST (/management/v2/contractagreements/request) and GET (/management/v2/contractagreements/\{ContractAgreementId\}/negotiation) to get the relevant information.
+
+The contract information is then returned by the endpoint as a pageable result.
+
+If no asset ids are provided in the request, 50 contract agreement ids are handled by default.
+
 ## Deployment view
 
 ## Cross-cutting concepts
