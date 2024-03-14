@@ -21,11 +21,13 @@ package assets.importpoc;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import lombok.Getter;
 
 
 @JsonSerialize(
         using = ToStringSerializer.class
 )
+@Getter
 public enum OperatorTypeResponse {
     EQ("eq", "Equals to"),
 

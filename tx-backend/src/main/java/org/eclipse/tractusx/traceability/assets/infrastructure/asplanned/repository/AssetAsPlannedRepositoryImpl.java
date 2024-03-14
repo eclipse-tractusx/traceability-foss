@@ -109,7 +109,7 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository, A
     @Override
     @Transactional
     public List<AssetBase> saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(List<AssetBase> assets) {
-        if(Objects.isNull(assets)) {
+        if (Objects.isNull(assets)) {
             return List.of();
         }
         List<AssetAsPlannedEntity> toPersist = assets.stream().map(assetToPersist ->
@@ -156,5 +156,22 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository, A
     @Override
     public List<String> getFieldValues(String fieldName, String startWith, Integer resultLimit, Owner owner) {
         return CriteriaUtility.getDistinctAssetFieldValues(fieldName, startWith, resultLimit, owner, AssetAsPlannedEntity.class, entityManager);
+    }
+
+    @Transactional
+    @Override
+    public List<AssetBase> findByImportStateIn(ImportState... importStates) {
+        return jpaAssetAsPlannedRepository.findByImportStateIn(importStates).stream()
+                .map(AssetAsPlannedEntity::toDomain).toList();
+    }
+
+    @Override
+    public void updateImportStateAndNoteForAssets(ImportState importState, String importNote, List<String> assetIds) {
+        List<AssetAsPlannedEntity> foundAssets = jpaAssetAsPlannedRepository.findByIdIn(assetIds);
+        foundAssets.forEach(assetAsPlanned -> {
+            assetAsPlanned.setImportState(importState);
+            assetAsPlanned.setImportNote(importNote);
+        });
+        jpaAssetAsPlannedRepository.saveAll(foundAssets);
     }
 }
