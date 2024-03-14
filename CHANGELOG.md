@@ -16,6 +16,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #420 add /contracts api to fetch contract agreement information from EDC for assets
 - Added a step to the pull-request-backend.yml which checks if the pom.xml(root) properties have some versions ending with -SNAPSHOT
 - Added a PostConstruct method in PolicyStartUpConfig to allow Integration tests to run without errors in stack traces.
+
 ### Changed
 - Updated RELEASE.md to the latest release guide (added more steps)
 - #515 Fixed notification toast click area
@@ -23,6 +24,13 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #423 Moved errorMessages from investigation/alert to notification list
 - Updated COMPATIBILITY.md matrix adding release C-X 24.3 and 23.12
 - #536 rework /policies to respond with policies from the IRS policy store
+- Bumped softprops/action-gh-release from v1 to v2
+- Bumped azure/setup-helm from v3 to v4
+- Bumped aquasecurity/trivy-action from 0.17.0 to 0.18.0
+- Bupped cucumber-bom from 7.12.1 to 7.15.0
+- Bumped jetbrains-annotation from 24.0.1 to 24.1.0
+- Bumped commons-logging from 1.2 to 1.3.0
+- Bumped shedlock from 5.11.0 to 5.12.0
 
 ### Removed
 - #625 Removed the header and breadcrumbs section from app layout
