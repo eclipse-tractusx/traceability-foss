@@ -28,10 +28,7 @@
   - [The backend application](https://github.com/eclipse-tractusx/traceability-foss/#the-backend-application)
     - [Prerequisites](https://github.com/eclipse-tractusx/traceability-foss/#backend-prerequisites)
     - [Installation](https://github.com/eclipse-tractusx/traceability-foss/#backend-installation)
-    - [Running tests](https://github.com/eclipse-tractusx/traceability-foss/#running-tests)
-      - [Unit tests](https://github.com/eclipse-tractusx/traceability-foss/#unit-tests)
-      - [Integration tests](https://github.com/eclipse-tractusx/traceability-foss/#integration-tests)
-      - [Running all tests](https://github.com/eclipse-tractusx/traceability-foss/#running-all-tests)
+    - [Backend Testing strategy](#backend-testing-strategy)
   - [API documentation](https://github.com/eclipse-tractusx/traceability-foss/#api-documentation)
   - [Container Image](https://github.com/eclipse-tractusx/traceability-foss/#container-image)
   - [License](https://github.com/eclipse-tractusx/traceability-foss/#license)
@@ -119,7 +116,7 @@ See [TESTING](frontend/TESTING.md).
 
 * see [Installation guide](https://github.com/eclipse-tractusx/traceability-foss/blob/main/tx-backend/INSTALL.md)
 
-## Backend Testing Strategy
+### Backend Testing Strategy
 See [TESTING](tx-backend/TESTING.md).
 
 ## API documentation
