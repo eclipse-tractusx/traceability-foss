@@ -56,7 +56,7 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 @Table(name = "investigation")
 public class InvestigationEntity extends NotificationBaseEntity {
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "assets_as_built_investigations",
             joinColumns = @JoinColumn(name = "investigation_id"),
