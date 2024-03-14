@@ -250,7 +250,7 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
                 .get("/api/investigations/1234")
                 .then()
                 .statusCode(404)
-                .body("message", Matchers.is("Investigation not found for 1234 id"));
+                .body("message", Matchers.is("Investigation not found for 1234 notification id"));
     }
 
     @Test

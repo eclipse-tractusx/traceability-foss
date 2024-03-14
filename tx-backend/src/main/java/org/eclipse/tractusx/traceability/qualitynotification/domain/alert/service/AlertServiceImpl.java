@@ -19,14 +19,10 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.domain.alert.service;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.AlertNotFoundException;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.StartQualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.AlertRepository;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.AbstractQualityNotificationService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.NotificationPublisherService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.repository.QualityNotificationRepository;
@@ -34,16 +30,14 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service("alertServiceImpl")
-@RequiredArgsConstructor
 public class AlertServiceImpl extends AbstractQualityNotificationService {
 
-    private final NotificationPublisherService notificationPublisherService;
-    private final AlertRepository alertRepository;
-    private final AssetAsBuiltServiceImpl assetService;
 
-    @Override
-    protected NotificationPublisherService getNotificationPublisherService() {
-        return notificationPublisherService;
+    private final AlertRepository alertRepository;
+
+    public AlertServiceImpl(TraceabilityProperties traceabilityProperties, AlertRepository alertRepository, NotificationPublisherService notificationPublisherService) {
+        super(traceabilityProperties, notificationPublisherService);
+        this.alertRepository = alertRepository;
     }
 
     @Override
@@ -52,31 +46,7 @@ public class AlertServiceImpl extends AbstractQualityNotificationService {
     }
 
     @Override
-    public QualityNotificationId start(StartQualityNotification startQualityAlertDomain) {
-        QualityNotification notification = notificationPublisherService.startAlert(startQualityAlertDomain.getPartIds(), startQualityAlertDomain.getDescription(), startQualityAlertDomain.getTargetDate(), startQualityAlertDomain.getSeverity(), startQualityAlertDomain.getReceiverBpn(), startQualityAlertDomain.isAsBuilt());
-
-        QualityNotificationId createdAlertId = alertRepository.saveQualityNotificationEntity(notification);
-        log.info("Start Alert {}", notification);
-        return createdAlertId;
-    }
-
-    @Override
-    public QualityNotification loadOrNotFoundException(QualityNotificationId notificationId) {
-        return alertRepository.findOptionalQualityNotificationById(notificationId)
-                .orElseThrow(() -> new AlertNotFoundException(notificationId));
-    }
-
-    @Override
-    public QualityNotification loadByEdcNotificationIdOrNotFoundException(String edcNotificationId) {
-        return alertRepository.findByEdcNotificationId(edcNotificationId)
-                .orElseThrow(() -> new AlertNotFoundException(edcNotificationId));
-    }
-
-    @Override
-    public void cancel(Long notificationId) {
-        QualityNotification alert = loadOrNotFoundException(new QualityNotificationId(notificationId));
-        QualityNotification canceledAlert = notificationPublisherService.cancelNotification(alert);
-
-        alertRepository.updateQualityNotificationEntity(canceledAlert);
+    public RuntimeException getNotFoundException(String message) {
+        return new AlertNotFoundException(message);
     }
 }

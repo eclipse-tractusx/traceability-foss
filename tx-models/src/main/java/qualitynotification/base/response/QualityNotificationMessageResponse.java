@@ -34,7 +34,6 @@ public class QualityNotificationMessageResponse {
     private String createdByName;
     private String sendTo;
     private String sendToName;
-    private String edcUrl;
     private String contractAgreementId;
     private String notificationReferenceId;
     private Instant targetDate;
@@ -44,7 +43,6 @@ public class QualityNotificationMessageResponse {
     private LocalDateTime created;
     private LocalDateTime updated;
     private String messageId;
-    private Boolean isInitial;
     @Enumerated(EnumType.STRING)
     private QualityNotificationStatusResponse status;
     private String errorMessage;

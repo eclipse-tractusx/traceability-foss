@@ -21,52 +21,49 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.alert.servi
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
 import org.eclipse.tractusx.traceability.common.mapper.NotificationMessageMapper;
 import org.eclipse.tractusx.traceability.common.mapper.QualityNotificationMapper;
-import org.eclipse.tractusx.traceability.common.model.BPN;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.AlertIllegalUpdate;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.AlertNotFoundException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.AlertRepository;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationIllegalUpdate;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.AbstractQualityNotificationReceiverService;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.repository.QualityNotificationRepository;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class AlertsReceiverService {
+public class AlertsReceiverService extends AbstractQualityNotificationReceiverService {
 
     private final AlertRepository alertRepository;
     private final NotificationMessageMapper notificationMapper;
-    private final AssetAsBuiltServiceImpl assetService;
     private final QualityNotificationMapper qualityNotificationMapper;
 
-    public void handleNotificationReceive(EDCNotification edcNotification) {
-        BPN investigationCreatorBPN = BPN.of(edcNotification.getSenderBPN());
-        QualityNotificationMessage notification = notificationMapper.toNotification(edcNotification);
-        QualityNotification investigation = qualityNotificationMapper.toQualityNotification(investigationCreatorBPN, edcNotification.getInformation(), notification);
-        QualityNotificationId investigationId = alertRepository.saveQualityNotificationEntity(investigation);
-        log.info("Stored received edcNotification in alert with id {}", investigationId);
+
+    @Override
+    protected QualityNotificationRepository getRepository() {
+        return alertRepository;
     }
 
-    public void handleNotificationUpdate(EDCNotification edcNotification) {
-        QualityNotificationMessage notification = notificationMapper.toNotification(edcNotification);
-        QualityNotification alert = alertRepository.findByEdcNotificationId(edcNotification.getNotificationId())
-                .orElseThrow(() -> new AlertNotFoundException(edcNotification.getNotificationId()));
-
-        switch (edcNotification.convertNotificationStatus()) {
-            case ACKNOWLEDGED -> alert.acknowledge(notification);
-            case ACCEPTED -> alert.accept(edcNotification.getInformation(), notification);
-            case DECLINED -> alert.decline(edcNotification.getInformation(), notification);
-            case CLOSED -> alert.close(BPN.of(alert.getBpn()), edcNotification.getInformation());
-            default ->
-                    throw new InvestigationIllegalUpdate("Failed to handle notification due to unhandled %s status".formatted(edcNotification.convertNotificationStatus()));
-        }
-        alert.addNotification(notification);
-        QualityNotificationId notificationId = alertRepository.updateQualityNotificationEntity(alert);
-        log.info("Stored update edcNotification in investigation with id {}", notificationId);
+    @Override
+    protected NotificationMessageMapper getNotificationMessageMapper() {
+        return notificationMapper;
     }
+
+    @Override
+    protected QualityNotificationMapper getQualityNotificationMapper() {
+        return qualityNotificationMapper;
+    }
+
+    @Override
+    protected RuntimeException getNotFoundException(String message) {
+        return new AlertNotFoundException(message);
+    }
+
+    @Override
+    protected RuntimeException getIllegalUpdateException(String message) {
+        return new AlertIllegalUpdate(message);
+    }
+
 }
+

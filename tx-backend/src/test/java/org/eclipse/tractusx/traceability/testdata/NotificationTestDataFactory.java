@@ -40,7 +40,6 @@ public class NotificationTestDataFactory {
                 .createdByName("senderManufacturerName")
                 .sendTo("recipientBPN")
                 .sendToName("receiverManufacturerName")
-                .edcUrl("senderAddress")
                 .contractAgreementId("agreement")
                 .description("123")
                 .notificationStatus(QualityNotificationStatus.ACKNOWLEDGED)
@@ -49,7 +48,6 @@ public class NotificationTestDataFactory {
                 .edcNotificationId("123")
                 .targetDate(Instant.parse("2022-03-01T12:00:00Z"))
                 .messageId("messageId")
-                .isInitial(true)
                 .build();
     }
 
@@ -63,7 +61,6 @@ public class NotificationTestDataFactory {
                 .createdByName("senderManufacturerName")
                 .sendTo("recipientBPN")
                 .sendToName("receiverManufacturerName")
-                .edcUrl("senderAddress")
                 .contractAgreementId("agreement")
                 .description("123")
                 .notificationStatus(QualityNotificationStatus.ACKNOWLEDGED)
@@ -72,7 +69,6 @@ public class NotificationTestDataFactory {
                 .edcNotificationId("123")
                 .targetDate(Instant.parse("2022-03-01T12:00:00Z"))
                 .messageId("messageId")
-                .isInitial(true)
                 .type(qualityNotificationType)
                 .build();
     }

@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -17,30 +17,11 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.bpn.domain.service;
+package org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception;
 
+public class AlertIllegalUpdate extends IllegalArgumentException {
 
-import bpn.request.BpnMappingRequest;
-import org.eclipse.tractusx.traceability.bpn.domain.model.BpnEdcMapping;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
-public interface BpnRepository {
-
-    BpnEdcMapping findByIdOrThrowNotFoundException(String bpn);
-
-    List<BpnEdcMapping> findAllWhereUrlNotNull();
-
-    boolean existsWhereUrlNotNull(String bpn);
-
-    List<BpnEdcMapping> saveAll(List<BpnMappingRequest> bpnEdcMappings);
-
-    void deleteById(String bpn);
-
-    String findManufacturerName(String manufacturerId);
-
-    void updateManufacturers(Map<String, String> bpns);
-
+    public AlertIllegalUpdate(String message) {
+        super(message);
+    }
 }

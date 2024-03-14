@@ -60,8 +60,8 @@ class NotificationMapperTest {
 
         QualityNotificationMessage expectedNotification = NotificationTestDataFactory.createNotificationTestData();
 
-        when(bpnRepository.findManufacturerName(eq(expectedNotification.getCreatedBy()))).thenReturn(Optional.of(expectedNotification.getCreatedByName()));
-        when(bpnRepository.findManufacturerName(eq(expectedNotification.getSendTo()))).thenReturn(Optional.of(expectedNotification.getSendToName()));
+        when(bpnRepository.findManufacturerName(eq(expectedNotification.getCreatedBy()))).thenReturn(expectedNotification.getCreatedByName());
+        when(bpnRepository.findManufacturerName(eq(expectedNotification.getSendTo()))).thenReturn(expectedNotification.getSendToName());
 
 
         QualityNotificationMessage actualNotification = notificationMapper.toNotification(edcNotification);
@@ -71,7 +71,6 @@ class NotificationMapperTest {
         assertEquals(expectedNotification.getCreatedByName(), actualNotification.getCreatedByName());
         assertEquals(expectedNotification.getSendTo(), actualNotification.getSendTo());
         assertEquals(expectedNotification.getSendToName(), actualNotification.getSendToName());
-        assertEquals(expectedNotification.getEdcUrl(), actualNotification.getEdcUrl());
         assertNull(actualNotification.getContractAgreementId());
         assertEquals("information", actualNotification.getDescription());
         assertEquals(expectedNotification.getNotificationStatus(), actualNotification.getNotificationStatus());

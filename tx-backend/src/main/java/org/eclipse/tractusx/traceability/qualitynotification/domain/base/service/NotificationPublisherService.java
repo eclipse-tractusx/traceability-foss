@@ -22,7 +22,6 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.base.servic
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
@@ -30,7 +29,6 @@ import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.SendNotificationException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationAffectedPart;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
@@ -41,15 +39,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.Clock;
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 import static java.util.stream.Collectors.groupingBy;
@@ -62,10 +54,8 @@ public class NotificationPublisherService {
     private final TraceabilityProperties traceabilityProperties;
     private final EdcNotificationService edcNotificationService;
     private final AssetAsBuiltRepository assetAsBuiltRepository;
-
     private final BpnRepository bpnRepository;
     private final Clock clock;
-
 
     /**
      * Starts a new investigation with the given BPN, asset IDs and description.
@@ -77,7 +67,7 @@ public class NotificationPublisherService {
      * @param isAsBuilt   the isAsBuilt of the investigation
      * @return the ID of the newly created investigation
      */
-    public QualityNotification startInvestigation(List<String> assetIds, String description, Instant targetDate, QualityNotificationSeverity severity, String receiverBpn, boolean isAsBuilt) {
+    public QualityNotification startQualityNotification(List<String> assetIds, String description, Instant targetDate, QualityNotificationSeverity severity, String receiverBpn, boolean isAsBuilt) {
         BPN applicationBPN = traceabilityProperties.getBpn();
         QualityNotification notification = QualityNotification.startNotification(clock.instant(), applicationBPN, description);
         if (isAsBuilt) {
@@ -85,7 +75,11 @@ public class NotificationPublisherService {
             assetsAsBuiltBPNMap
                     .entrySet()
                     .stream()
-                    .map(it -> createQualityNotificationMessage(applicationBPN, receiverBpn, description, targetDate, severity, it))
+                    .map(it -> {
+                        String creator = getManufacturerNameByBpn(traceabilityProperties.getBpn().value());
+                        String sendToName = getManufacturerNameByBpn(receiverBpn);
+                        return QualityNotificationMessage.create(applicationBPN, receiverBpn, description, targetDate, severity, it, creator, sendToName);
+                    })
                     .forEach(notification::addNotification);
             return notification;
         } else {
@@ -93,79 +87,8 @@ public class NotificationPublisherService {
         }
     }
 
-
-    /**
-     * Starts a new alert with the given BPN, asset IDs and description.
-     *
-     * @param assetIds    the IDs of the assets to create alert for
-     * @param description the description of the alert
-     * @param targetDate  the targetDate of the alert
-     * @param severity    the severity of the alert
-     * @param receiverBpn the bpn of the receiver
-     * @return the ID of the newly created alert
-     */
-    public QualityNotification startAlert(List<String> assetIds, String description, Instant targetDate, QualityNotificationSeverity severity, String receiverBpn, boolean isAsBuilt) {
-        BPN applicationBPN = traceabilityProperties.getBpn();
-        QualityNotification notification = QualityNotification.startNotification(clock.instant(), applicationBPN, description);
-        List<AssetBase> assets;
-        if (isAsBuilt) {
-            assets = new ArrayList<>(assetAsBuiltRepository.getAssetsById(assetIds));
-        } else {
-            throw new NotificationNotSupportedException();
-        }
-
-
-        QualityNotificationMessage qualityNotificationMessage = createAlert(applicationBPN, description, targetDate, severity, assets, receiverBpn);
-        notification.addNotification(qualityNotificationMessage);
-
-        return notification;
-    }
-
-    private QualityNotificationMessage createQualityNotificationMessage(BPN applicationBpn, String receiverBpn, String description, Instant targetDate, QualityNotificationSeverity severity, Map.Entry<String, List<AssetBase>> asset) {
-        final String notificationId = UUID.randomUUID().toString();
-        final String messageId = UUID.randomUUID().toString();
-        return QualityNotificationMessage.builder()
-                .id(notificationId)
-                .created(LocalDateTime.now())
-                .createdBy(applicationBpn.value())
-                .createdByName(getManufacturerName(applicationBpn.value()))
-                .sendTo(StringUtils.isBlank(receiverBpn) ? asset.getKey() : receiverBpn)
-                .sendToName(getManufacturerName(asset.getKey()))
-                .description(description)
-                .notificationStatus(QualityNotificationStatus.CREATED)
-                .affectedParts(asset.getValue().stream().map(AssetBase::getId).map(QualityNotificationAffectedPart::new).toList())
-                .targetDate(targetDate)
-                .severity(severity)
-                .edcNotificationId(notificationId)
-                .messageId(messageId)
-                .isInitial(true)
-                .build();
-    }
-
-    private QualityNotificationMessage createAlert(BPN applicationBpn, String description, Instant targetDate, QualityNotificationSeverity severity, List<AssetBase> affectedAssets, String targetBpn) {
-        final String notificationId = UUID.randomUUID().toString();
-        final String messageId = UUID.randomUUID().toString();
-        return QualityNotificationMessage.builder()
-                .id(notificationId)
-                .created(LocalDateTime.now())
-                .createdBy(applicationBpn.value())
-                .createdByName(getManufacturerName(applicationBpn.value()))
-                .sendTo(targetBpn)
-                .sendToName(getManufacturerName(targetBpn))
-                .description(description)
-                .notificationStatus(QualityNotificationStatus.CREATED)
-                .affectedParts(affectedAssets.stream().map(AssetBase::getId).map(QualityNotificationAffectedPart::new).toList())
-                .targetDate(targetDate)
-                .severity(severity)
-                .edcNotificationId(notificationId)
-                .messageId(messageId)
-                .isInitial(true)
-                .build();
-    }
-
-    private String getManufacturerName(String bpn) {
-        return bpnRepository.findManufacturerName(bpn)
-                .orElse(null);
+    private String getManufacturerNameByBpn(String bpn) {
+        return bpnRepository.findManufacturerName(bpn);
     }
 
     /**
@@ -187,11 +110,23 @@ public class NotificationPublisherService {
     public QualityNotification approveNotification(QualityNotification notification) {
         BPN applicationBPN = traceabilityProperties.getBpn();
         notification.send(applicationBPN);
+
+        log.info("Quality Notification starts approval process with {} notifications", notification.getNotifications().size());
+
+        List<String> notificationStatus = notification.getNotifications().stream().map(notificationMessage -> notificationMessage.getNotificationStatus().name()).toList();
+        notificationStatus.forEach(s -> log.info("Notification Status {}", s));
+
         // For each asset within investigation a notification was created before
-        List<CompletableFuture<QualityNotificationMessage>> futures = notification.getNotifications().stream()
-                .map(edcNotificationService::asyncNotificationMessageExecutor)
-                .filter(Objects::nonNull)
-                .toList();
+        List<CompletableFuture<QualityNotificationMessage>> futures =
+                notification
+                        .getNotifications()
+                        .stream()
+                        .filter(notificationMessage ->
+                                notificationMessage.getNotificationStatus().name()
+                                        .equals(QualityNotificationStatus.SENT.name()))
+                        .map(edcNotificationService::asyncNotificationMessageExecutor)
+                        .filter(Objects::nonNull)
+                        .toList();
         List<QualityNotificationMessage> sentMessages = futures.stream()
                 .map(CompletableFuture::join)
                 .filter(Objects::nonNull)
@@ -213,25 +148,26 @@ public class NotificationPublisherService {
         BPN applicationBPN = traceabilityProperties.getBpn();
         validate(applicationBPN, status, notification);
 
-        List<QualityNotificationMessage> allLatestNotificationForEdcNotificationId = getAllLatestNotificationForEdcNotificationId(notification);
-        List<QualityNotificationMessage> notificationsToSend = new ArrayList<>();
-        log.info("::updateNotificationPublisher::allLatestNotificationForEdcNotificationId {}", allLatestNotificationForEdcNotificationId);
-        allLatestNotificationForEdcNotificationId.forEach(qNotification -> {
-            QualityNotificationMessage notificationToSend = qNotification.copyAndSwitchSenderAndReceiver(applicationBPN);
+        List<QualityNotificationMessage> relevantNotifications =
+                notification
+                        .getNotifications()
+                        .stream()
+                        .filter(notificationMessage -> status.equals(notificationMessage.getNotificationStatus()))
+                        .toList();
+
+        relevantNotifications.forEach(qNotification -> {
             switch (status) {
-                case ACKNOWLEDGED -> notification.acknowledge(notificationToSend);
-                case ACCEPTED -> notification.accept(reason, notificationToSend);
-                case DECLINED -> notification.decline(reason, notificationToSend);
-                case CLOSED -> notification.close(reason, notificationToSend);
+                case ACKNOWLEDGED -> notification.acknowledge();
+                case ACCEPTED -> notification.accept(reason);
+                case DECLINED -> notification.decline(reason);
+                case CLOSED -> notification.close(reason);
                 default ->
                         throw new QualityNotificationIllegalUpdate("Transition from status '%s' to status '%s' is not allowed for notification with id '%s'".formatted(notification.getNotificationStatus().name(), status, notification.getNotificationId()));
             }
-            log.info("::updateNotificationPublisher::notificationToSend {}", notificationToSend);
-            notification.addNotification(notificationToSend);
-            notificationsToSend.add(notificationToSend);
+            log.info("::updateNotificationPublisher::notificationToSend {}", qNotification);
         });
 
-        List<CompletableFuture<QualityNotificationMessage>> futures = notificationsToSend.stream()
+        List<CompletableFuture<QualityNotificationMessage>> futures = relevantNotifications.stream()
                 .map(edcNotificationService::asyncNotificationMessageExecutor)
                 .filter(Objects::nonNull)
                 .toList();
@@ -265,33 +201,6 @@ public class NotificationPublisherService {
             default ->
                     throw new QualityNotificationIllegalUpdate("Unknown Transition from status '%s' to status '%s' is not allowed for notification with id '%s'".formatted(notification.getNotificationStatus().name(), status, notification.getNotificationId()));
         }
-    }
-
-    private List<QualityNotificationMessage> getAllLatestNotificationForEdcNotificationId(QualityNotification notification) {
-        Map<String, List<QualityNotificationMessage>> notificationMap = new HashMap<>();
-
-        for (QualityNotificationMessage notificationMessage : notification.getNotifications()) {
-            String edcNotificationId = notificationMessage.getEdcNotificationId();
-            List<QualityNotificationMessage> notificationGroup = notificationMap.getOrDefault(edcNotificationId, new ArrayList<>());
-            if (notificationGroup.isEmpty()) {
-                notificationGroup.add(notificationMessage);
-            } else {
-                Optional<QualityNotificationMessage> latestNotification = notificationGroup.stream().max(Comparator.comparing(QualityNotificationMessage::getCreated));
-                if (latestNotification.isEmpty() || notificationMessage.getCreated().isAfter(latestNotification.get().getCreated())) {
-                    notificationGroup.clear();
-                    notificationGroup.add(notificationMessage);
-                } else if (notificationMessage.getCreated().isEqual(latestNotification.get().getCreated())) {
-                    throw new IllegalArgumentException("Two notifications with the same edcNotificationId have the same status. This can happen on old datasets.");
-                }
-            }
-            notificationMap.put(edcNotificationId, notificationGroup);
-        }
-
-        List<QualityNotificationMessage> latestNotificationElements = new ArrayList<>();
-        for (List<QualityNotificationMessage> notificationGroup : notificationMap.values()) {
-            latestNotificationElements.addAll(notificationGroup);
-        }
-        return latestNotificationElements;
     }
 }
 

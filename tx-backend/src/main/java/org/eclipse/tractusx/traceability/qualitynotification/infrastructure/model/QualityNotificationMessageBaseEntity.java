@@ -42,7 +42,6 @@ public class QualityNotificationMessageBaseEntity {
     private String createdByName;
     private String sendTo;
     private String sendToName;
-    private String edcUrl;
     private String contractAgreementId;
     private String notificationReferenceId;
     private Instant targetDate;
@@ -52,7 +51,6 @@ public class QualityNotificationMessageBaseEntity {
     private LocalDateTime created;
     private LocalDateTime updated;
     private String messageId;
-    private Boolean isInitial;
     @Enumerated(EnumType.STRING)
     private NotificationStatusBaseEntity status;
     private String errorMessage;

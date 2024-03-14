@@ -59,6 +59,7 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 @Component
 public class AlertsRepositoryImpl implements AlertRepository {
 
@@ -83,7 +84,7 @@ public class AlertsRepositoryImpl implements AlertRepository {
     }
 
     @Override
-    public QualityNotificationId updateQualityNotificationEntity(QualityNotification alert) {
+    public void updateQualityNotificationEntity(QualityNotification alert) {
         AlertEntity alertEntity = jpaAlertRepository.findById(alert.getNotificationId().value())
                 .orElseThrow(() -> new IllegalArgumentException(String.format("Alert with id %s not found!", alert.getNotificationId().value())));
 
@@ -95,8 +96,6 @@ public class AlertsRepositoryImpl implements AlertRepository {
 
         handleNotificationUpdate(alertEntity, alert);
         jpaAlertRepository.save(alertEntity);
-
-        return alert.getNotificationId();
     }
 
     @Override
@@ -189,7 +188,6 @@ public class AlertsRepositoryImpl implements AlertRepository {
     }
 
     private void handleNotificationUpdate(AlertNotificationEntity notificationEntity, QualityNotificationMessage notification) {
-        notificationEntity.setEdcUrl(notification.getEdcUrl());
         notificationEntity.setContractAgreementId(notification.getContractAgreementId());
         notificationEntity.setNotificationReferenceId(notification.getNotificationReferenceId());
         notificationEntity.setTargetDate(notification.getTargetDate());
