@@ -23,6 +23,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.mapper.NotificationMessageMapper;
 import org.eclipse.tractusx.traceability.common.mapper.QualityNotificationMapper;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.AlertIllegalUpdate;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.AlertNotFoundException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.AlertRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.AbstractQualityNotificationReceiverService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.repository.QualityNotificationRepository;
@@ -52,4 +54,16 @@ public class AlertsReceiverService extends AbstractQualityNotificationReceiverSe
     protected QualityNotificationMapper getQualityNotificationMapper() {
         return qualityNotificationMapper;
     }
+
+    @Override
+    protected RuntimeException getNotFoundException(String message) {
+        return new AlertNotFoundException(message);
+    }
+
+    @Override
+    protected RuntimeException getIllegalUpdateException(String message) {
+        return new AlertIllegalUpdate(message);
+    }
+
 }
+

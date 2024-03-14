@@ -275,7 +275,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .get("/api/alerts/1234")
                 .then()
                 .statusCode(404)
-                .body("message", Matchers.is("Alert not found for 1234 id"));
+                .body("message", Matchers.is("Alert not found for 1234 notification id"));
     }
 
     @Test

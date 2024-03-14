@@ -92,7 +92,7 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
     }
 
     @Override
-    public QualityNotificationId updateQualityNotificationEntity(QualityNotification investigation) {
+    public void updateQualityNotificationEntity(QualityNotification investigation) {
         InvestigationEntity investigationEntity = jpaInvestigationRepository.findById(investigation.getNotificationId().value())
                 .orElseThrow(() -> new IllegalArgumentException(String.format("Investigation with id %s not found!", investigation.getNotificationId().value())));
 
@@ -104,8 +104,6 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
 
         handleNotificationUpdate(investigationEntity, investigation);
         jpaInvestigationRepository.save(investigationEntity);
-
-        return investigation.getNotificationId();
     }
 
     @Override

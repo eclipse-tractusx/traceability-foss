@@ -25,8 +25,6 @@ import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationIllegalUpdate;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationNotFoundException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.repository.QualityNotificationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
 
@@ -38,6 +36,10 @@ public abstract class AbstractQualityNotificationReceiverService implements Qual
     protected abstract NotificationMessageMapper getNotificationMessageMapper();
 
     protected abstract QualityNotificationMapper getQualityNotificationMapper();
+
+    protected abstract RuntimeException getNotFoundException(String message);
+
+    protected abstract RuntimeException getIllegalUpdateException(String message);
 
     @Override
     public void handleReceive(EDCNotification edcNotification) {
@@ -52,22 +54,18 @@ public abstract class AbstractQualityNotificationReceiverService implements Qual
     public void handleUpdate(EDCNotification edcNotification) {
         QualityNotificationMessage notification = getNotificationMessageMapper().toNotification(edcNotification);
         QualityNotification qualityNotification = getRepository().findByEdcNotificationId(edcNotification.getNotificationId())
-                .orElseThrow(() -> new InvestigationNotFoundException(edcNotification.getNotificationId()));
+                .orElseThrow(() -> getNotFoundException(edcNotification.getNotificationId()));
 
-        handleNotificationStatusUpdate(edcNotification, notification, qualityNotification);
-        getRepository().updateQualityNotificationEntity(qualityNotification);
-    }
-
-    public static void handleNotificationStatusUpdate(EDCNotification edcNotification, QualityNotificationMessage notification, QualityNotification alert) {
         switch (edcNotification.convertNotificationStatus()) {
-            case ACKNOWLEDGED -> alert.acknowledge();
-            case ACCEPTED -> alert.accept(edcNotification.getInformation());
-            case DECLINED -> alert.decline(edcNotification.getInformation());
-            case CLOSED -> alert.close(BPN.of(alert.getBpn()), edcNotification.getInformation());
+            case ACKNOWLEDGED -> qualityNotification.acknowledge();
+            case ACCEPTED -> qualityNotification.accept(edcNotification.getInformation());
+            case DECLINED -> qualityNotification.decline(edcNotification.getInformation());
+            case CLOSED ->
+                    qualityNotification.close(BPN.of(qualityNotification.getBpn()), edcNotification.getInformation());
             default ->
-                    throw new InvestigationIllegalUpdate("Failed to handle notification due to unhandled %s status".formatted(edcNotification.convertNotificationStatus()));
+                    throw getIllegalUpdateException("Failed to handle notification due to unhandled %s status".formatted(edcNotification.convertNotificationStatus()));
         }
-        alert.addNotification(notification);
-
+        qualityNotification.addNotification(notification);
+        getRepository().updateQualityNotificationEntity(qualityNotification);
     }
 }

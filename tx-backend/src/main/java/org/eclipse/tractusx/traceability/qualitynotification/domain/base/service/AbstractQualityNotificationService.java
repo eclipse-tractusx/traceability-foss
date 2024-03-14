@@ -18,10 +18,13 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.qualitynotification.domain.base.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.service.QualityNotificationService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.StartQualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.SendNotificationException;
@@ -40,16 +43,17 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+@RequiredArgsConstructor
 @Slf4j
 public abstract class AbstractQualityNotificationService implements QualityNotificationService {
 
+    private final TraceabilityProperties traceabilityProperties;
+    private final NotificationPublisherService notificationPublisherService;
     private static final List<String> SUPPORTED_ENUM_FIELDS = List.of("status", "side", "notifications_severity");
-
-    protected abstract NotificationPublisherService getNotificationPublisherService();
 
     protected abstract QualityNotificationRepository getQualityNotificationRepository();
 
-    protected abstract String getApplicationBpn();
+    protected abstract RuntimeException getNotFoundException(String message);
 
     @Override
     public PageResult<QualityNotification> getNotifications(Pageable pageable, SearchCriteria searchCriteria) {
@@ -58,7 +62,7 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
 
     @Override
     public QualityNotificationId start(StartQualityNotification startQualityNotification) {
-        QualityNotification notification = getNotificationPublisherService().startQualityNotification(startQualityNotification.getPartIds(), startQualityNotification.getDescription(), startQualityNotification.getTargetDate(), startQualityNotification.getSeverity(), startQualityNotification.getReceiverBpn(), startQualityNotification.isAsBuilt());
+        QualityNotification notification = notificationPublisherService.startQualityNotification(startQualityNotification.getPartIds(), startQualityNotification.getDescription(), startQualityNotification.getTargetDate(), startQualityNotification.getSeverity(), startQualityNotification.getReceiverBpn(), startQualityNotification.isAsBuilt());
         QualityNotificationId createdAlertId = getQualityNotificationRepository().saveQualityNotificationEntity(notification);
         log.info("Start Quality Notification {}", notification);
         return createdAlertId;
@@ -76,7 +80,7 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
         qualityNotification.getNotifications().stream()
                 .filter(notificationMessage -> notificationMessage.getNotificationStatus().equals(previousStatus))
                 .forEach(notificationMessage -> {
-                    QualityNotificationMessage qualityNotificationMessage = notificationMessage.copyAndSwitchSenderAndReceiver(BPN.of(getApplicationBpn()));
+                    QualityNotificationMessage qualityNotificationMessage = notificationMessage.copyAndSwitchSenderAndReceiver(traceabilityProperties.getBpn());
                     qualityNotificationMessage.setId(UUID.randomUUID().toString());
                     qualityNotificationMessage.changeStatusTo(notificationStatus);
                     qualityNotificationMessage.setDescription(reason);
@@ -85,7 +89,7 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
 
         QualityNotification updatedQualityNotification;
         try {
-            updatedQualityNotification = getNotificationPublisherService().updateNotificationPublisher(qualityNotification, notificationStatus, reason);
+            updatedQualityNotification = notificationPublisherService.updateNotificationPublisher(qualityNotification, notificationStatus, reason);
         } catch (SendNotificationException exception) {
             log.info("Notification status rollback", exception);
             throw new SendNotificationException(exception.getMessage());
@@ -124,7 +128,7 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
 
         final QualityNotification approvedInvestigation;
         try {
-            approvedInvestigation = getNotificationPublisherService().approveNotification(notification);
+            approvedInvestigation = notificationPublisherService.approveNotification(notification);
         } catch (SendNotificationException exception) {
             log.info("Notification status rollback", exception);
             throw new SendNotificationException(exception.getMessage());
@@ -135,7 +139,7 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
     @Override
     public void cancel(Long notificationId) {
         QualityNotification qualityNotification = loadOrNotFoundException(new QualityNotificationId(notificationId));
-        QualityNotification canceledQualityNotification = getNotificationPublisherService().cancelNotification(qualityNotification);
+        QualityNotification canceledQualityNotification = notificationPublisherService.cancelNotification(qualityNotification);
 
         getQualityNotificationRepository().updateQualityNotificationEntity(canceledQualityNotification);
     }
@@ -148,6 +152,18 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
             return getAssetEnumFieldValues(fieldName);
         }
         return getQualityNotificationRepository().getDistinctFieldValues(fieldName, startWith, resultSize, side);
+    }
+
+    @Override
+    public QualityNotification loadOrNotFoundException(QualityNotificationId investigationId) {
+        return getQualityNotificationRepository().findOptionalQualityNotificationById(investigationId)
+                .orElseThrow(() -> getNotFoundException(investigationId.value().toString()));
+    }
+
+    @Override
+    public QualityNotification loadByEdcNotificationIdOrNotFoundException(String edcNotificationId) {
+        return getQualityNotificationRepository().findByEdcNotificationId(edcNotificationId)
+                .orElseThrow(() -> getNotFoundException(edcNotificationId));
     }
 
     private boolean isSupportedEnumType(String fieldName) {

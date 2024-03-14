@@ -477,7 +477,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .post("/api/alerts/1/cancel")
                 .then()
                 .statusCode(404)
-                .body("message", Matchers.is("Alert not found for 1 id"));
+                .body("message", Matchers.is("Alert not found for 1 notification id"));
     }
 
     @Test

@@ -83,7 +83,7 @@ public class AlertsRepositoryImpl implements AlertRepository {
     }
 
     @Override
-    public QualityNotificationId updateQualityNotificationEntity(QualityNotification alert) {
+    public void updateQualityNotificationEntity(QualityNotification alert) {
         AlertEntity alertEntity = jpaAlertRepository.findById(alert.getNotificationId().value())
                 .orElseThrow(() -> new IllegalArgumentException(String.format("Alert with id %s not found!", alert.getNotificationId().value())));
 
@@ -95,8 +95,6 @@ public class AlertsRepositoryImpl implements AlertRepository {
 
         handleNotificationUpdate(alertEntity, alert);
         jpaAlertRepository.save(alertEntity);
-
-        return alert.getNotificationId();
     }
 
     @Override

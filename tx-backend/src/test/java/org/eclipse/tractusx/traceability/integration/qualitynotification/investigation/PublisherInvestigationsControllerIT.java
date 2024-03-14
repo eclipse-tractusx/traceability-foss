@@ -455,7 +455,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenNonExistingAlert_whenCancel_thenReturnNotFound() throws JoseException {
+    void givenNonExistingInvestigation_whenCancel_thenReturnNotFound() throws JoseException {
         given()
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .contentType(ContentType.JSON)
@@ -463,7 +463,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .post("/api/investigations/1/cancel")
                 .then()
                 .statusCode(404)
-                .body("message", Matchers.is("Investigation not found for 1 id"));
+                .body("message", Matchers.is("Investigation not found for 1 notification id"));
     }
 
     @Test

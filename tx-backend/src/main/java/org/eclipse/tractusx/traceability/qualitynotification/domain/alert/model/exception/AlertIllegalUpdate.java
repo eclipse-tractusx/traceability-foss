@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,11 +17,11 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception;
+package org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception;
 
-public class InvestigationNotFoundException extends RuntimeException {
+public class AlertIllegalUpdate extends IllegalArgumentException {
 
-    public InvestigationNotFoundException(String notificationId) {
-        super("Investigation not found for %s notification id".formatted(notificationId));
+    public AlertIllegalUpdate(String message) {
+        super(message);
     }
 }
