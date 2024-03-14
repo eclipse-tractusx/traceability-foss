@@ -4,7 +4,6 @@
 </div>
 
 ## Release an app
-
 Prerequisite:
 Make sure eclipse / catena git repositories are in sync
 

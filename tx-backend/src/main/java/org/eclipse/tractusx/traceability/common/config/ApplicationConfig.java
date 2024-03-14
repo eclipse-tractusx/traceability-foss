@@ -29,11 +29,6 @@ import io.github.resilience4j.core.registry.RegistryEventConsumer;
 import io.github.resilience4j.retry.Retry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.irs.edc.client.EdcConfiguration;
-import org.eclipse.tractusx.irs.edc.client.asset.EdcAssetService;
-import org.eclipse.tractusx.irs.edc.client.contract.service.EdcContractDefinitionService;
-import org.eclipse.tractusx.irs.edc.client.policy.service.EdcPolicyDefinitionService;
-import org.eclipse.tractusx.irs.edc.client.transformer.EdcTransformer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -45,7 +40,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.security.task.DelegatingSecurityContextAsyncTaskExecutor;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.thymeleaf.spring6.SpringTemplateEngine;
@@ -63,7 +57,6 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 @Slf4j
 @EnableJpaRepositories(basePackages = "org.eclipse.tractusx.traceability.*")
 public class ApplicationConfig {
-
 
     @Bean
     public InternalResourceViewResolver defaultViewResolver() {
@@ -110,7 +103,6 @@ public class ApplicationConfig {
     }
 
 
-
     @Bean
     public RegistryEventConsumer<Retry> myRetryRegistryEventConsumer() {
         final Logger logger = LoggerFactory.getLogger("RetryLogger");
@@ -130,20 +122,5 @@ public class ApplicationConfig {
             public void onEntryRemovedEvent(EntryRemovedEvent<Retry> entryRemoveEvent) {
             }
         };
-    }
-
-    @Bean
-    public EdcAssetService edcNotificationAssetService(EdcConfiguration edcConfiguration, EdcTransformer edcTransformer, RestTemplate edcNotificationAssetRestTemplate) {
-        return new EdcAssetService(edcTransformer, edcConfiguration, edcNotificationAssetRestTemplate);
-    }
-
-    @Bean
-    public EdcPolicyDefinitionService edcPolicyDefinitionService(EdcConfiguration edcConfiguration, RestTemplate edcNotificationAssetRestTemplate) {
-        return new EdcPolicyDefinitionService(edcConfiguration, edcNotificationAssetRestTemplate);
-    }
-
-    @Bean
-    public EdcContractDefinitionService edcContractDefinitionService(EdcConfiguration edcConfiguration, RestTemplate edcNotificationAssetRestTemplate) {
-        return new EdcContractDefinitionService(edcConfiguration, edcNotificationAssetRestTemplate);
     }
 }

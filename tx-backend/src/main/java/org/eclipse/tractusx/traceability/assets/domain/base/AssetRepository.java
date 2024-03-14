@@ -20,6 +20,7 @@
 package org.eclipse.tractusx.traceability.assets.domain.base;
 
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 
 import java.util.List;
@@ -46,4 +47,8 @@ public interface AssetRepository {
     long countAssetsByOwner(Owner owner);
 
     List<String> getFieldValues(String fieldName, String startWith, Integer resultLimit, Owner owner);
+
+    List<AssetBase> findByImportStateIn(ImportState... importStates);
+
+    void updateImportStateAndNoteForAssets(ImportState importState, String importNote, List<String> assetIds);
 }

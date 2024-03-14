@@ -27,6 +27,7 @@ import org.eclipse.tractusx.irs.component.Shell;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.AssetAdministrationShellDescriptor;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.service.AssetAsPlannedServiceImpl;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.shelldescriptor.application.DecentralRegistryService;
@@ -34,7 +35,6 @@ import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.Decen
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
 import java.util.List;
 
 import static org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.BATCH;
@@ -58,12 +58,18 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
     @Override
     @Async(value = AssetsAsyncConfig.LOAD_SHELL_DESCRIPTORS_EXECUTOR)
     public void synchronizeAssets() {
-        Collection<Shell> shellDescriptors = decentralRegistryRepository.retrieveShellDescriptorsByBpn(traceabilityProperties.getBpn().toString());
-        Collection<AssetAdministrationShellDescriptor> asBuiltShellDescriptors = shellDescriptors.stream().map(Shell::payload).filter(this::isAsBuilt).toList();
-        Collection<AssetAdministrationShellDescriptor> asPlannedShellDescriptors = shellDescriptors.stream().map(Shell::payload).filter(this::isAsPlanned).toList();
+        List<Shell> shellDescriptors = decentralRegistryRepository.retrieveShellDescriptorsByBpn(traceabilityProperties.getBpn().toString());
+        List<String> asBuiltAssetIds = shellDescriptors.stream().map(Shell::payload).filter(this::isAsBuilt).map(AssetAdministrationShellDescriptor::getGlobalAssetId).toList();
+        List<String> asPlannedAssetIds = shellDescriptors.stream().map(Shell::payload).filter(this::isAsPlanned).map(AssetAdministrationShellDescriptor::getGlobalAssetId).toList();
 
-        asBuiltShellDescriptors.forEach(shellDescriptor -> assetAsBuiltService.synchronizeAssetsAsync(shellDescriptor.getGlobalAssetId()));
-        asPlannedShellDescriptors.forEach(shellDescriptor -> assetAsPlannedService.synchronizeAssetsAsync(shellDescriptor.getGlobalAssetId()));
+        List<String> existingAsBuiltInSyncAndTransientStates = assetAsBuiltService.getAssetIdsInImportState(ImportState.TRANSIENT, ImportState.IN_SYNCHRONIZATION);
+        List<String> existingAsPlannedInSyncAndTransientStates = assetAsPlannedService.getAssetIdsInImportState(ImportState.TRANSIENT, ImportState.IN_SYNCHRONIZATION);
+
+        List<String> asBuiltAssetsToSync = asBuiltAssetIds.stream().filter(assetId -> !existingAsBuiltInSyncAndTransientStates.contains(assetId)).toList();
+        List<String> asPlannedAssetsToSync = asPlannedAssetIds.stream().filter(assetId -> !existingAsPlannedInSyncAndTransientStates.contains(assetId)).toList();
+
+        asBuiltAssetsToSync.forEach(assetAsBuiltService::synchronizeAssetsAsync);
+        asPlannedAssetsToSync.forEach(assetAsPlannedService::synchronizeAssetsAsync);
     }
 
 

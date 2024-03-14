@@ -1,0 +1,13 @@
+= Scenario 2: Publish assets
+
+This section describes user interaction when publishing assets
+
+[plantuml,target=import-report-receive,format=svg]
+....
+include::../../../../uml-diagrams/arc42/runtime-view/data-provisioning/publish-assets.puml[]
+....
+
+== Overview
+
+When a user publishes assets, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN').
+If yes, then endpoint starts to publish assets to network.

@@ -28,9 +28,20 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 @Configuration
 public class AssetsAsyncConfig {
 
-    public static final String SYNCHRONIZE_ASSETS_EXECUTOR = "synchronize-assets-executor";
-    public static final String LOAD_SHELL_DESCRIPTORS_EXECUTOR = "load-shell-descriptors-executor";
-    public static final String UPDATE_NOTIFICATION_EXECUTOR = "update-notification-executor";
+    public static final String SYNCHRONIZE_ASSETS_EXECUTOR = "synchronizeAssetsExecutor";
+    public static final String LOAD_SHELL_DESCRIPTORS_EXECUTOR = "loadShellDescriptorsExecutor";
+    public static final String UPDATE_NOTIFICATION_EXECUTOR = "updateNotificationExecutor";
+
+    public static final String PUBLISH_ASSETS_EXECUTOR = "publishAssetsExecutor";
+
+    @Bean(name = PUBLISH_ASSETS_EXECUTOR)
+    public ThreadPoolTaskExecutor publishAssetsExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(10);
+        executor.setMaxPoolSize(100);
+        executor.setThreadNamePrefix("%s-".formatted(PUBLISH_ASSETS_EXECUTOR));
+        return executor;
+    }
 
     @Bean(name = SYNCHRONIZE_ASSETS_EXECUTOR)
     public ThreadPoolTaskExecutor synchronizeAssetsExecutor() {
